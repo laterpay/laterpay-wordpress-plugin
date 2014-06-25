@@ -6,9 +6,6 @@
  */
 class LaterPay {
 
-    const REPOSITORY_PROJECT_NAME   = 'wordpress-plugin';
-    const REPOSITORY_USER_NAME      = 'laterpay';
-
     /**
      *
      *
@@ -68,8 +65,8 @@ class LaterPay {
         if ( empty($this->_gitHubPluginUpdater) ) {
             $this->_gitHubPluginUpdater = new GitHubPluginUpdater();
             $this->_gitHubPluginUpdater->init(  $this->_pluginFile,
-                                                self::REPOSITORY_USER_NAME,
-                                                self::REPOSITORY_PROJECT_NAME,
+                                                LATERPAY_GITHUB_USER_NAME,
+                                                LATERPAY_GITHUB_PROJECT_NAME,
                                                 LATERPAY_GITHUB_TOKEN
                                             );
         }

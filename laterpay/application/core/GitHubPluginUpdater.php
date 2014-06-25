@@ -193,7 +193,7 @@ class GitHubPluginUpdater {
         // reponame-tagname, so we have to change it to our original one:
         $pluginFolder = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . dirname( $this->slug );
 
-        $wp_filesystem->move( $result['destination'] . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . dirname( $this->slug ), $pluginFolder );
+        $wp_filesystem->move( $result['destination'] . DIRECTORY_SEPARATOR . dirname( $this->slug ), $pluginFolder );
         $wp_filesystem->delete( $result['destination'], true );
         $result['destination'] = $pluginFolder;
         // restore config file
