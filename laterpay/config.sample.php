@@ -34,8 +34,10 @@ define('LATERPAY_RESOURCE_ENCRYPTION_KEY',  '{LATERPAY_RESOURCE_ENCRYPTION_KEY}'
 // Path to images, CSS, JS, and font files
 define('LATERPAY_ASSET_PATH',               WP_PLUGIN_URL . '/' . LATERPAY_BASE_NAME);
 
-// Access token for plugin auto-update functionality
-define('LATERPAY_GITHUB_TOKEN',             '53d5c6ed887efaa03fe02c0a8877c8410fa22bea');
+// Parameters for plugin auto-update functionality
+define('LATERPAY_GITHUB_PROJECT_NAME',      'laterpay-wordpress-plugin');
+define('LATERPAY_GITHUB_USER_NAME',         'laterpay');
+define('LATERPAY_GITHUB_TOKEN',             '');
 
 // LaterPay URLs
 define('LATERPAY_SANDBOX_API_URL',          'https://api.sandbox.laterpaytest.net');
