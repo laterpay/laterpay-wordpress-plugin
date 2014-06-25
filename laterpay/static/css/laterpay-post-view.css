@@ -1,0 +1,319 @@
+h3 > a.lp_purchase,
+h5 > a.lp_purchase {
+    color:red;
+}
+
+.clearfix:before,
+.clearfix:after {content:''; display:table;}
+.clearfix:after {clear:both;}
+
+/* Purchase button */
+.laterpay-purchase-link {
+    display:block !important;
+    font-family:Arial, sans-serif;
+    font-weight:400 !important;
+    margin:1em 0 0 !important;
+    text-decoration:none !important;
+    white-space:nowrap !important;
+}
+.laterpay-purchase-link[data-icon]:before {
+    font-size:2em !important;
+    left:-0.25em !important;
+    line-height:0 !important;
+    margin:0 -0.15em 0 0 !important;
+    position:relative !important;
+    top:.35em !important;
+}
+.laterpay-purchase-link small {
+    bottom:.45em !important;
+    font-size:.6em !important;
+    padding:0 1px 0 2px !important;
+    position:relative !important;
+}
+.laterpay-purchase-link.laterpay-purchase-button {
+    background:#54cc76 !important;
+    background:-webkit-linear-gradient(top, #54cc76 0, #4fc270 100%) !important;
+    background:linear-gradient(to bottom, #54cc76 0, #4fc270 100%) !important;
+    border-color:#1c8069 #20947a !important;
+    border-radius:5px !important;
+    border:1px solid #20947a !important;
+    border-width:0 1px 2px 0 !important;
+    cursor:pointer !important;
+    float:right !important;
+    font-size:28px !important;
+    line-height:1.1 !important;
+    margin:0 !important;
+    padding:.2em 0.2em 0.1em 0 !important;
+    text-shadow:0 -1px 0 #22a280 !important;
+}
+.laterpay-purchase-link.laterpay-purchase-button small {
+    bottom:.7em !important;
+    font-size:.5em !important;
+    padding-left:4px !important;
+    position:relative !important;
+}
+.laterpay-purchase-link.laterpay-purchase-button[data-icon]:before {
+    font-size:1.5em !important;
+    left:-2px !important;
+    line-height:0 !important;
+    margin:0 0.2em 0 0 !important;
+    position:relative !important;
+    top:.25em !important;
+}
+.laterpay-purchase-link.laterpay-purchase-button,
+.laterpay-purchase-link.laterpay-purchase-button small,
+.laterpay-purchase-link.laterpay-purchase-button:hover,
+.laterpay-purchase-link.laterpay-purchase-button:focus,
+.laterpay-purchase-link.laterpay-purchase-button:active {color:#fff !important; text-decoration:none !important;}
+.laterpay-purchase-link.laterpay-purchase-button:hover {
+    background:#58d67c !important;
+    background:-webkit-linear-gradient(top, #58d67c 0, #54cc76 100%) !important;
+    background:linear-gradient(to bottom, #58d67c 0, #54cc76 100%) !important;
+}
+.laterpay-purchase-link.laterpay-purchase-button:focus,
+.laterpay-purchase-link.laterpay-purchase-button:active {
+    background:#58d67c !important;
+    background:-webkit-linear-gradient(top, #58d67c 0, #54cc76 100%) !important;
+    background:linear-gradient(to bottom, #58d67c 0, #54cc76 100%) !important;
+    border-top-color:transparent !important;
+    border-width:2px 1px 0 0 !important;
+}
+
+/* hide LaterPay purchase buttons from all places other than within h1 */
+.laterpay-purchase-button {display:none !important;}
+h1 > .laterpay-purchase-button {display:block !important;}
+.laterpay-benefits .laterpay-purchase-button {display:inline-block !important;}
+
+
+/* Content overlay */
+.laterpay-iframe iframe {border:0 none;}
+.laterpay-iframe {height:100%; left:0; padding-top:30px; position:fixed; top:0; width:100%; z-index:999999;}
+.laterpay-iframe .laterpay-dialog-close-button {
+    color:#555;
+    padding:1em 1em 1em 2em;
+    position:absolute;
+    right:0;
+    text-decoration:none;
+    top:0;
+}
+.laterpay-iframe .laterpay-dialog-close-button[data-icon]:before {
+    background-color:#555;
+    border-radius:1em;
+    color:#000;
+    margin-right:.4em;
+    padding:.1em;
+    position:relative;
+    top:.15em;
+}
+.laterpay-iframe .laterpay-dialog-close-button:hover {color:#999; text-decoration:none;}
+.laterpay-iframe .laterpay-dialog-close-button[data-icon]:hover:before {background-color:#999;}
+
+.laterpay-paid-content {bottom:1em; margin-bottom:2em; min-height:400px; position:relative; top:0;}
+.laterpay-overlay {
+    background-color:#000 !important;
+    height:100%;
+    left:0;
+    opacity:.89;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:999998;
+}
+.laterpay-paid-content .laterpay-overlay-text {
+    background-color:rgba(255, 255, 255, 0.89);
+    height:100%;
+    left:0;
+    position:absolute;
+    top:0;
+    width:100%;
+}
+
+.laterpay-full-content {color:transparent; padding:.25em; text-shadow:0 0 4px #000;}
+
+.laterpay-overlay-text .laterpay-benefits {
+    background-clip:padding-box !important;
+    background:#e5e5e5 !important;
+    background:-webkit-radial-gradient(center, ellipse, #fcfcfc 34%, #e1e1e1 89%) !important;
+    background:radial-gradient(ellipse at center, #fcfcfc 34%, #e1e1e1 89%) !important;
+    border-radius:5px !important;
+    box-shadow:2px 2px 6px rgba(0, 0, 0, 0.34) !important;
+    font:normal normal 14px/1.3 Arial, sans-serif !important;
+    margin:1.5em auto 0 !important;
+    max-width:500px !important;
+    padding:1em !important;
+    position:relative !important;
+}
+.laterpay-overlay-text .laterpay-benefits h2,
+.laterpay-overlay-text .laterpay-benefits h3 {
+    color:#4fc270 !important;
+    text-align:center !important;
+}
+.laterpay-overlay-text .laterpay-benefits h2 {
+    line-height:1.05 !important;
+    margin:.5em 0 0.25em !important;
+}
+.laterpay-benefits h2 + p {
+    color:#999 !important;
+    margin:0 0 1.5em !important;
+    text-align:center !important;
+}
+.laterpay-overlay-text .laterpay-benefits h3 {
+    font-size:1.25em !important;
+    line-height:1.3 !important;
+    margin:.5em 0 0.25em !important;
+}
+.laterpay-benefits h3[data-icon]:before {
+    color:#4fc270;
+    display:block;
+    font-size:100px;
+    height:80px;
+    line-height:80px;
+    text-align:center;
+}
+.laterpay-benefits h3.logo-laterpay-icon:before {}
+.laterpay-benefits h3.icon-no-subscription:before {font-size:60px;}
+.laterpay-benefits h3.icon-register-later:before {}
+.laterpay-benefits ul,
+.laterpay-benefits li {
+    margin:0 !important;
+    padding:0 !important;
+}
+.laterpay-benefits li {
+    float:left !important;
+    list-style:none !important;
+     margin-right:3% !important;
+     width:31% !important;
+ }
+.laterpay-benefits li:last-child {margin-right:0 !important;}
+.laterpay-benefits li p {color:#999 !important; line-height:1.3 !important;}
+.laterpay-benefits .laterpay-purchase-button {
+    display:inline-block !important;
+    float:none !important;
+    margin-top:1em !important;
+}
+.laterpay-benefits .powered-by {color:#bbb; font-size:16px; left:50%; margin:-.75em 0 0 -5em; position:absolute;}
+
+.laterpay-benefits .powered-by span[data-icon]:before {
+    color:#c5c5c5;
+    font-size:6em;
+    line-height:0;
+    padding-left:.05em;
+    position:relative;
+    top:.43em;
+}
+/* Chrome browser hacks */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .laterpay-benefits .powered-by {margin-top:1.5em;}
+    .laterpay-benefits .powered-by span[data-icon]:before {top:.08em;}
+}
+
+
+/* Post statistics */
+#statistics,
+#statistics h2 {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;}
+
+#statistics {
+    background-color:#e5e5e5;
+    border-radius:3px 0 0 3px;
+    box-shadow:-1px 1px 6px rgba(0, 0, 0, 0.34);
+    color:#555;
+    font-size:14px;
+    line-height:1.5;
+    padding:7px 0;
+    position:fixed;
+    right:0;
+    top:8em;
+    width:333px;
+    z-index:111;
+}
+
+#statistics small,
+.separator p {color:#999;}
+
+#statistics h2 {font-size:1.25em; font-weight:400; line-height:1; margin:.4em 0 0.8em 6.75em;}
+@charset 'UTF-8';
+@font-face {
+    font-family:'laterpay-wordpress-icons';
+    font-style:normal;
+    font-weight:normal;
+    src:url(../fonts/laterpay-wordpress-icons.eot);
+    src:url(../fonts/laterpay-wordpress-icons.eot?#iefix)                     format('embedded-opentype'),
+        url(../fonts/laterpay-wordpress-icons.woff)                           format('woff'),
+        url(../fonts/laterpay-wordpress-icons.ttf)                            format('truetype'),
+        url(../fonts/laterpay-wordpress-icons.svg#laterpay-wordpress-icons)   format('svg');
+}
+[data-icon]:before {
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-font-smoothing:antialiased;
+    content:attr(data-icon);
+    font-family:'laterpay-wordpress-icons' !important;
+    font-style:normal !important;
+    font-variant:normal !important;
+    font-weight:normal !important;
+    line-height:1;
+    speak:none;
+    text-transform:none !important;
+}
+#statistics h2[data-icon]:before {
+    display:block;
+    font-size:6em;
+    height:0;
+    left:-1.03em;
+    line-height:0;
+    position:relative;
+    top:.075em;
+}
+
+#statistics .totals {background-color:#fff;}
+#statistics .details {margin:0 0 0 0.75em;}
+#statistics .totals ul,
+#statistics .details ul {list-style-type:none; margin:0; padding:0;}
+#statistics .totals li,
+#statistics .details li,
+#statistics .separator li {display:inline-block; font-size:1em; margin:0; padding:0; text-align:right;}
+#statistics .details li:first-child,
+#statistics .separator li:first-child {margin-left:0; width:60%;}
+#statistics .totals li {padding:.65em 0 0.75em; width:44%;}
+#statistics .totals li:first-child {width:52%;}
+#statistics .details li:first-child {width:59%;}
+#statistics .details li {margin-top:1em; padding:.5em 0; width:37%;}
+#statistics .details svg.peity {border-bottom:1px solid #999; padding:0 3px;}
+
+#statistics big {color:#555; font-size:2em; line-height:1;}
+#statistics small {display:block; font-size:.75em; line-height:1;}
+#statistics big small {display:inline; font-size:.375em; padding-left:2px;}
+#statistics .details big {font-size:1.5em;}
+#statistics .details big small {font-size:.5em;}
+
+#statistics .separator {margin:1em 0 -2em 0.75em;}
+#statistics .separator ul {list-style-type:none; margin:0; padding:0;}
+#statistics .separator li {margin-left:2%; text-align:center; width:34%;}
+#statistics .separator p {
+    background-color:#e5e5e5;
+    display:inline;
+    font-size:.75em;
+    margin:0;
+    padding:0 0.5em;
+    position:relative;
+    z-index:112;
+}
+#statistics .separator hr {
+    background-color:#bbb;
+    border:0 none;
+    height:1px;
+    margin:1em 0 0.5em;
+    position:relative;
+    top:-1.66em;
+    z-index:111;
+}
+
+
+/* #### Responsiveness ##################################################################### */
+/* iPhone5 */
+@media (max-width:568px) {
+    .laterpay-iframe .laterpay-dialog-close-button {padding:.2em 0.5em 1em 2em;}
+    .laterpay-benefits li {margin:0; width:100%;}
+    .laterpay-benefits h3[data-icon]:before,
+    .laterpay-benefits h3 br {display:none;}
+    .laterpay-overlay-text .laterpay-benefits h3 {margin: 0 0 0.1em; text-align:left;}
+}

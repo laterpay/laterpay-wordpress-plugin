@@ -1,0 +1,131 @@
+#container2 p {margin-bottom:0;}
+#container2 a {
+    background:url(../img/dynamic-pricing-presets-sprite.png) no-repeat;
+    display:block;
+    height:48px;
+    margin:.5em 0 0;
+    outline:0 none;
+    padding:0 0 0 60px;
+}
+#container2 .blockbuster {background-position:0 0;}
+#container2 .breaking-news {background-position:0 -48px;}
+#container2 .teaser {background-position:0 -96px;}
+#container2 .long-tail {background-position:0 -144px;}
+#container2 .flat {background-position:0 -192px;}
+
+input[type=text].lp-input {
+    background-color:#fff;
+    border-radius:4px;
+    border:2px solid #ddd;
+    box-shadow:none;
+    margin:0;
+    padding:.5em;
+}
+
+.lp-input::-webkit-input-placeholder {color:#a5a5a5; line-height:1.4;}
+.lp-input::-moz-placeholder {color:#a5a5a5; line-height:1.4;}
+.lp-input:-ms-input-placeholder {color:#a5a5a5; line-height:1.4;}
+
+input[type=text].lp-input:focus {-moz-appearance:none; -webkit-appearance:none; border-color:#0074a2;}
+input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
+
+
+#laterpay_post_standard {margin-top:20px;}
+#laterpay_post_standard p:last-child {margin-bottom:0;}
+
+#laterpay_teaser_content dfn {color:#999; display:block; font-style:italic; margin:1em 0;}
+
+/* add LaterPay logo to heading of postbox */
+@charset 'UTF-8';
+@font-face {
+    font-family:'laterpay-wordpress-icons';
+    font-style:normal;
+    font-weight:normal;
+    src:url('../fonts/laterpay-wordpress-icons.eot');
+    src:url('../fonts/laterpay-wordpress-icons.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/laterpay-wordpress-icons.woff') format('woff'),
+        url('../fonts/laterpay-wordpress-icons.ttf') format('truetype'),
+        url('../fonts/laterpay-wordpress-icons.svg#laterpay-wordpress-icons') format('svg');
+}
+#laterpay_pricing_post_content h3 span {left:6.25em; position:relative;}
+#laterpay_pricing_post_content h3 span:before {
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-font-smoothing:antialiased;
+    content:'a';
+    font-family:'laterpay-wordpress-icons' !important;
+    font-size:6em;
+    font-style:normal !important;
+    font-variant:normal !important;
+    font-weight:normal !important;
+    left:-1.05em;
+    line-height:0;
+    position:absolute;
+    speak:none;
+    text-transform:none !important;
+    top:.106em;
+}
+
+
+/* dynamic pricing widget */
+svg text {-webkit-user-select:none;}
+
+#container {height:240px; width:254px;}
+
+.axis path {fill:none;}
+.tick line,
+.x.axis path {stroke:#666; stroke-width:0.1px;}
+.x.axis path.domain,
+.y.axis path.domain {stroke-dasharray:none; stroke-width:1.5px; stroke:#aaa;}
+
+.arrowhead {fill:#aaa;}
+
+.tick text {display:none;}
+
+circle {fill:#222; stroke:#f1f1f1; stroke-width:2px; -webkit-transition:all .5s;}
+circle.circle-hidden {display:none;}
+
+.line {fill:none; stroke:#222; stroke-width:3px;}
+
+rect.start-price,
+rect.end-price,
+rect.x-drag-square,
+.x-triangle-bottom,
+path.start-price-triangle,
+path.end-price-triangle {fill:#0073a4; opacity:.85;}
+
+rect.background {fill:#f1f1f1;}
+
+.dragging .tooltip,
+.dragging .pointer {opacity:0;}
+
+.line-price {cursor:col-resize; opacity:.01; stroke:#fff; stroke-width:8px;}
+
+.line-price-visible {stroke:#555; stroke-dasharray:5; stroke-width:1.5px;}
+
+#container.ew-resize,
+rect.x-drag-square,
+.x-triangle-bottom {cursor:col-resize;}
+
+.x-text,
+.x-text-days,
+text.start-price,
+text.start-price-currency,
+text.end-price,
+text.end-price-currency {cursor:col-resize; fill:#fff;}
+
+text.start-price,
+text.start-price-currency,
+text.end-price,
+text.end-price-currency,
+rect.end-price,
+rect.start-price {cursor:row-resize;}
+
+text.x-text,
+text.start-price,
+text.end-price {font-size:12px; font-weight:600;}
+
+text.x-text-days,
+text.start-price-currency,
+text.end-price-currency {font-size:9px; font-weight:400;}
+
+text.default-price {fill:#aaa; font-size:10px;}
