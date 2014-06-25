@@ -147,7 +147,6 @@ if ( !empty($lptoken) ) {
 
     // change URL
     $client->setToken($lptoken);
-    // FixMe: make redirect within library
     $params = array(
         'aid'   => $aid,
         'file'  => $file,
