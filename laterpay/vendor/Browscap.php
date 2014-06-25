@@ -292,8 +292,6 @@ class Browscap
     }
 
     /**
-     * XXX parse
-     *
      * Gets the information about the browser by User Agent
      *
      * @param string $user_agent   the user agent string
@@ -543,8 +541,6 @@ class Browscap
     }
 
     /**
-     * XXX save
-     *
      * Parses the ini file and updates the cache files
      *
      * @return bool whether the file was correctly written to the disk

@@ -344,7 +344,6 @@ class LaterPayClient {
             return array();
         }
         if ( isset( $data['status'] ) && $data['status'] != 'ok' ) {
-            // TODO: process exception
             return array();
         }
         if ( isset( $data['exceeded'] ) ) {$exceeded = $data['exceeded'] ;} else { $exceeded = false; }

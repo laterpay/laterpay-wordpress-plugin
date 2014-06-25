@@ -133,36 +133,4 @@ class Auth_Hmac {
 
         return self::$_instance;
     }
-
-    /**
-     * Preprocess parameters
-     *
-     * @param array   $params array params
-     * @return string query params
-     */
-    public static function getQuery( $params ) {
-        unset( $params['hmac'] );
-
-        // get the keys in alphabetical order
-        $keys = array_keys( $params );
-        sort( $keys );
-        $query_pairs = array( );
-        foreach ( $keys as $key ) {
-            $aux = $params[$key];
-            // FIXME: LaterPay API expect article_id=123&article_id=124, why do not use HTTP format: article_id[0]=123&article_id[1]=124?
-            if ( !is_array( $aux ) ) {
-                $aux = array( $aux );
-            }
-            sort( $aux );
-            foreach ( $aux as $value ) {
-                $query_pairs[] = urlencode( $key ) . '=' . urlencode( $value );
-            }
-        }
-
-        // build the querystring
-        $querystr = join( '&', $query_pairs );
-
-        return $querystr;
-    }
-
 }
