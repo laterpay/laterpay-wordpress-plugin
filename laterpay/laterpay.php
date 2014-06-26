@@ -26,10 +26,6 @@ set_include_path(
     )
 );
 
-if ( file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) {
-  require_once(LATERPAY_GLOBAL_PATH . 'config.php');
-}
-
 require_once(LATERPAY_GLOBAL_PATH . 'loader.php');
 
 AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'controllers');
@@ -37,6 +33,17 @@ AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_S
 AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'helpers');
 AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'models');
 AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'vendor');
+
+if ( file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) {
+    $laterpay_config = require(LATERPAY_GLOBAL_PATH . 'config.php');
+    if ( is_array($laterpay_config) ) {
+        foreach ( $laterpay_config as $option => $value ) {
+            if ( !defined($option) ) {
+                define($option, $value);
+            }
+        }
+    }
+}
 
 $laterpay = new LaterPay(__FILE__);
 $laterpay->run();
