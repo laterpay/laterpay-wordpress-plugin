@@ -295,11 +295,11 @@ APPEARANCE
 .preview-mode-1,
 .preview-mode-2 {
     background:url(../img/preview-modes-sprite.png) no-repeat;
-    height:200px;
+    height:208px;
     margin:.5em 4em 0 1.75em;
     width:300px;
 }
-.preview-mode-2 {background-position:0 -200px;}
+.preview-mode-2 {background-position:0 -208px;}
 
 .invoice-indicator-preview {float:left; height:29px; margin:.75em 0 0; width:110px;}
 .invoice-snippet {
