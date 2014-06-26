@@ -8,7 +8,7 @@ class PricingController extends AbstractController {
         // load page-specific CSS
         wp_register_style(
             'laterpay-select2',
-            LATERPAY_ASSET_PATH . '/static/css/vendor/select2.min.css',
+            LATERPAY_ASSET_PATH . '/css/vendor/select2.min.css',
             array(),
             $laterpay_version
         );
@@ -17,15 +17,15 @@ class PricingController extends AbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-select2',
-            LATERPAY_ASSET_PATH . '/static/js/vendor/select2.min.js',
-            array( 'jquery' ),
+            LATERPAY_ASSET_PATH . '/js/vendor/select2.min.js',
+            array('jquery'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-backend-pricing',
-            LATERPAY_ASSET_PATH . '/static/js/laterpay-backend-pricing.js',
-            array( 'jquery', 'laterpay-select2' ),
+            LATERPAY_ASSET_PATH . '/js/laterpay-backend-pricing.js',
+            array('jquery', 'laterpay-select2'),
             $laterpay_version,
             true
         );
@@ -220,7 +220,7 @@ class PricingController extends AbstractController {
         $LaterPayModelCategory = new LaterPayModelCategory();
         $id_category = $LaterPayModelCategory->getCategoryIdByName($_POST['category']);
         $id = $LaterPayModelCategory->getPriceIdsByCategoryId($id_category);
-        
+
         $Currency = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
         $delocalized_category_price = (double)str_replace(',', '.', $_POST['price']);
@@ -309,7 +309,7 @@ class PricingController extends AbstractController {
             );
             die;
         }
-        
+
         $delocalized_category_price = (double)str_replace(',', '.', $_POST['price']);
         $Currency = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));

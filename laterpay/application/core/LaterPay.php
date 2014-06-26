@@ -326,7 +326,7 @@ class LaterPay {
         global $laterpay_version;
         wp_register_style(
             'laterpay-admin',
-            LATERPAY_ASSET_PATH . '/static/css/laterpay-admin.css',
+            LATERPAY_ASSET_PATH . '/css/laterpay-admin.css',
             array(),
             $laterpay_version
         );
@@ -402,7 +402,7 @@ class LaterPay {
         global $laterpay_version;
         wp_register_style(
             'laterpay-post-view',
-            LATERPAY_ASSET_PATH . '/static/css/laterpay-post-view.css',
+            LATERPAY_ASSET_PATH . '/css/laterpay-post-view.css',
             array(),
             $laterpay_version
         );
@@ -442,14 +442,14 @@ class LaterPay {
         );
         wp_register_script(
             'laterpay-peity',
-            LATERPAY_ASSET_PATH . '/static/js/vendor/jquery.peity.min.js',
+            LATERPAY_ASSET_PATH . '/js/vendor/jquery.peity.min.js',
             array('jquery'),
             $laterpay_version,
             false
         );
         wp_register_script(
             'laterpay-post-view',
-            LATERPAY_ASSET_PATH . '/static/js/laterpay-post-view.js',
+            LATERPAY_ASSET_PATH . '/js/laterpay-post-view.js',
             array('jquery', 'laterpay-peity'),
             $laterpay_version,
             false

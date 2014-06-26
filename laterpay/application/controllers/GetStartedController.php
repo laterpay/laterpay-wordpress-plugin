@@ -9,7 +9,7 @@ class GetStartedController extends AbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-getstarted',
-            LATERPAY_ASSET_PATH . '/static/js/laterpay-backend-getStarted.js',
+            LATERPAY_ASSET_PATH . '/js/laterpay-backend-getStarted.js',
             array('jquery'),
             $laterpay_version,
             true

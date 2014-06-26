@@ -9,8 +9,8 @@ class AccountController extends AbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-account',
-            LATERPAY_ASSET_PATH . '/static/js/laterpay-backend-account.js',
-            array( 'jquery' ),
+            LATERPAY_ASSET_PATH . '/js/laterpay-backend-account.js',
+            array('jquery'),
             $laterpay_version,
             true
         );
@@ -217,7 +217,7 @@ class AccountController extends AbstractController {
 
     /**
      * Update LaterPay Plugin Mode
-     * 
+     *
      * @access protected
      */
     protected static function _updatePluginMode() {

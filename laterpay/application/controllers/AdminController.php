@@ -12,7 +12,7 @@ class AdminController extends AbstractController {
         // load LaterPay-specific CSS
         wp_register_style(
             'laterpay-backend',
-            LATERPAY_ASSET_PATH . '/static/css/laterpay-backend.css',
+            LATERPAY_ASSET_PATH . '/css/laterpay-backend.css',
             array(),
             $laterpay_version
         );
@@ -26,8 +26,8 @@ class AdminController extends AbstractController {
         // load LaterPay-specific JS
         wp_register_script(
             'laterpay-backend',
-            LATERPAY_ASSET_PATH . '/static/js/laterpay-backend.js',
-            array( 'jquery' ),
+            LATERPAY_ASSET_PATH . '/js/laterpay-backend.js',
+            array('jquery'),
             $laterpay_version,
             true
         );

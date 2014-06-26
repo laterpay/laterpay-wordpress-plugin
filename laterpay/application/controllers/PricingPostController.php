@@ -16,7 +16,7 @@ class PricingPostController extends AbstractController {
 
         wp_register_style(
             'laterpay-post-edit',
-            LATERPAY_ASSET_PATH . '/static/css/laterpay-post-edit.css',
+            LATERPAY_ASSET_PATH . '/css/laterpay-post-edit.css',
             array(),
             $laterpay_version
         );
@@ -31,22 +31,22 @@ class PricingPostController extends AbstractController {
 
         wp_register_script(
             'laterpay-d3',
-            LATERPAY_ASSET_PATH . '/static/js/vendor/d3.min.js',
+            LATERPAY_ASSET_PATH . '/js/vendor/d3.min.js',
             array(),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-d3-dynamic-pricing-widget',
-            LATERPAY_ASSET_PATH . '/static/js/d3.dynamic.widget.js',
-            array( 'laterpay-d3' ),
+            LATERPAY_ASSET_PATH . '/js/d3.dynamic.widget.js',
+            array('laterpay-d3'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-post-edit',
-            LATERPAY_ASSET_PATH . '/static/js/laterpay-post-edit.js',
-            array( 'laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'jquery' ),
+            LATERPAY_ASSET_PATH . '/js/laterpay-post-edit.js',
+            array('laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'jquery'),
             $laterpay_version,
             true
         );

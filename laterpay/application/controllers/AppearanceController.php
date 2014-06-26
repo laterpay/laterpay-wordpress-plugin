@@ -9,15 +9,15 @@ class AppearanceController extends AbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-ezmark',
-            LATERPAY_ASSET_PATH . '/static/js/vendor/jquery.ezmark.min.js',
-            array( 'jquery' ),
+            LATERPAY_ASSET_PATH . '/js/vendor/jquery.ezmark.min.js',
+            array('jquery'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-backend-appearance',
-            LATERPAY_ASSET_PATH . '/static/js/laterpay-backend-appearance.js',
-            array( 'jquery', 'laterpay-ezmark' ),
+            LATERPAY_ASSET_PATH . '/js/laterpay-backend-appearance.js',
+            array('jquery', 'laterpay-ezmark'),
             $laterpay_version,
             true
         );

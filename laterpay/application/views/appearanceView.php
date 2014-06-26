@@ -55,7 +55,7 @@
                 <?php _e('Insert this HTML snippet into your theme to show your users their LaterPay invoice balance.', 'laterpay'); ?><br>
                 <?php _e('The LaterPay invoice indicator is served by LaterPay. Its styling can not be changed.', 'laterpay'); ?>
             </dfn>
-            <img src="<?php echo LATERPAY_ASSET_PATH; ?>/static/img/invoice-indicator.png" class="invoice-indicator-preview">
+            <img src="<?php echo LATERPAY_ASSET_PATH; ?>/img/invoice-indicator.png" class="invoice-indicator-preview">
             <code class="invoice-snippet">
                 <div class="triangle outer-triangle"><div class="triangle"></div></div>
                 <?php echo htmlspecialchars("<iframe id='laterpay-invoice-indicator' width='110' height='30' frameborder='0' scrolling='no' src='$balance_url'></iframe>"); ?>
