@@ -122,16 +122,4 @@
 
     <?php endif; ?>
 
-    <script>
-        YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
-            var ppuContext  = {
-                                showCloseBtn: true,
-                                canSkipAddToInvoice: false
-                            },
-                dm          = new Y.LaterPay.DialogManager();
-
-            dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
-        });
-    </script>
-
 <?php endif; ?>
