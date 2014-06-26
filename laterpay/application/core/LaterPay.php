@@ -110,7 +110,8 @@ class LaterPay {
                 $config = file_get_contents(LATERPAY_GLOBAL_PATH . 'config.sample.php');
                 $config = str_replace(
                     array('{LATERPAY_SALT}', '{LATERPAY_RESOURCE_ENCRYPTION_KEY}'),
-                    array(md5(uniqid('salt')), md5(uniqid('key'))), $config
+                    array(md5(uniqid('salt')), md5(uniqid('key'))),
+                    $config
                 );
                 file_put_contents(LATERPAY_GLOBAL_PATH . 'config.php', $config);
                 require_once(LATERPAY_GLOBAL_PATH . 'config.php');
@@ -119,43 +120,54 @@ class LaterPay {
             // do nothing
         }
     }
-    
+
     protected function updateConfigurationFile() {
-        if ( !file_exists( LATERPAY_GLOBAL_PATH . 'config.php' ) ) {
+        if ( !file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) {
             $this->createConfigurationFile();
             return;
         }
+
         try {
-            $config = require(LATERPAY_GLOBAL_PATH . 'config.php');
+            $config         = require(LATERPAY_GLOBAL_PATH . 'config.php');
             $default_config = require(LATERPAY_GLOBAL_PATH . 'config.sample.php');
             $updated_config = array();
-            if ( !is_array( $config ) ) { // get config settings from old format file
+
+            // backwards compatibility: get configuration from old format file
+            if ( !is_array($config) ) {
                 $config = array();
                 foreach ( $default_config as $option => $value ) {
-                    if ( defined( $option ) ) {
-                        $config[$option] = constant( $option );
+                    if ( defined($option) ) {
+                        $config[$option] = constant($option);
                     }
                 }
             }
             $changed = false;
+
             foreach ( $config as $option => $value ) {
-                if ( in_array( $option, $default_config ) && $default_config[$option] != $value ) {
-                    $updated_config[$option] = $value; // use manully updated option, instead of default
+                // use manually updated option instead of default
+                if ( in_array($option, $default_config) && $default_config[$option] != $value ) {
+                    $updated_config[$option] = $value;
                     $changed = true;
                 }
             }
+
             if ( $changed ) {
-                $config_file = file_get_contents( LATERPAY_GLOBAL_PATH . 'config.sample.php' );
+                $config_file = file_get_contents(LATERPAY_GLOBAL_PATH . 'config.sample.php');
+
                 foreach ( $updated_config as $option => $value ) {
-                    if ( is_string( $value )){
+                    if ( is_string($value) ) {
                         $value = "'$value'";
-                    }elseif (  is_bool( $value )){
+                    } elseif ( is_bool($value) ) {
                         $value = $value ? 'true' : 'false';
                     }
-                    
-                    $config_file = preg_replace( "#(.*)" . $option . "(.*)(\s*=>\s*)(.*)(,?)#i", '${1}' . $option . '${2}${3}' . $value . ',', $config_file );
+                    $config_file = preg_replace(
+                                        "#(.*)" . $option . "(.*)(\s*=>\s*)(.*)(,?)#i",
+                                        '${1}' . $option . '${2}${3}' . $value . ',',
+                                        $config_file
+                                    );
                 }
-                file_put_contents( LATERPAY_GLOBAL_PATH . 'config.php', $config_file );
+
+                file_put_contents(LATERPAY_GLOBAL_PATH . 'config.php', $config_file);
             }
         } catch ( Exception $e ) {
             // do nothing

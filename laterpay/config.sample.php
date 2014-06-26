@@ -33,7 +33,7 @@ return array (
     'LATERPAY_RESOURCE_ENCRYPTION_KEY' =>  '{LATERPAY_RESOURCE_ENCRYPTION_KEY}',
 
     // Path to images, CSS, JS, and font files
-    'LATERPAY_ASSET_PATH' =>               WP_PLUGIN_URL . '/' . LATERPAY_BASE_NAME,
+    'LATERPAY_ASSET_PATH' =>               WP_PLUGIN_URL . '/' . LATERPAY_BASE_NAME . '/static',
 
     // Parameters for plugin auto-update functionality
     'LATERPAY_GITHUB_PROJECT_NAME' =>      'laterpay-wordpress-plugin',
