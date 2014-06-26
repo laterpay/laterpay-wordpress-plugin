@@ -119,6 +119,48 @@ class LaterPay {
             // do nothing
         }
     }
+    
+    protected function updateConfigurationFile() {
+        if ( !file_exists( LATERPAY_GLOBAL_PATH . 'config.php' ) ) {
+            $this->createConfigurationFile();
+            return;
+        }
+        try {
+            $config = require(LATERPAY_GLOBAL_PATH . 'config.php');
+            $default_config = require(LATERPAY_GLOBAL_PATH . 'config.sample.php');
+            $updated_config = array();
+            if ( !is_array( $config ) ) { // get config settings from old format file
+                $config = array();
+                foreach ( $default_config as $option => $value ) {
+                    if ( defined( $option ) ) {
+                        $config[$option] = constant( $option );
+                    }
+                }
+            }
+            $changed = false;
+            foreach ( $config as $option => $value ) {
+                if ( in_array( $option, $default_config ) && $default_config[$option] != $value ) {
+                    $updated_config[$option] = $value; // use manully updated option, instead of default
+                    $changed = true;
+                }
+            }
+            if ( $changed ) {
+                $config_file = file_get_contents( LATERPAY_GLOBAL_PATH . 'config.sample.php' );
+                foreach ( $updated_config as $option => $value ) {
+                    if ( is_string( $value )){
+                        $value = "'$value'";
+                    }elseif (  is_bool( $value )){
+                        $value = $value ? 'true' : 'false';
+                    }
+                    
+                    $config_file = preg_replace( "#(.*)" . $option . "(.*)(\s*=>\s*)(.*)(,?)#i", '${1}' . $option . '${2}${3}' . $value . ',', $config_file );
+                }
+                file_put_contents( LATERPAY_GLOBAL_PATH . 'config.php', $config_file );
+            }
+        } catch ( Exception $e ) {
+            // do nothing
+        }
+    }
 
     /**
      * Plugin activation hook
@@ -130,7 +172,7 @@ class LaterPay {
         global $wpdb,
         $laterpay_version;
 
-        $this->createConfigurationFile();
+        $this->updateConfigurationFile();
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
         $table_currency     = $wpdb->prefix . 'laterpay_currency';
