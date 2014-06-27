@@ -1,4 +1,6 @@
 0.9.4 (June 27, 2014): Production-readiness release ================================================
+    - Modified behaviour of plugin to be not visible to visitors in test mode
+    - Added switch to post page, to allow admin users to preview their settings like a visitor
     - Added mechanism to ensure that configurations are properly migrated on plugin updates
     - Updated price validation to comply with the LaterPay terms and conditions for Pay-per-Use (0.05 - 5.00 Euro)
     - Applied a few visual fixes

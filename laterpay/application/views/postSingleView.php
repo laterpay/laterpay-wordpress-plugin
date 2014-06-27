@@ -52,6 +52,30 @@
                 </li>
             </ul>
         </div>
+        <div id="plugin-visibility">
+            <?php _e('Preview post as', 'laterpay'); ?> <strong><?php _e('Admin', 'laterpay'); ?></strong>
+            <div class="switch">
+                <form id="plugin_mode" method="post">
+                    <input type="hidden" name="form"    value="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                    <input type="hidden" name="action"  value="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                    <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
+                    <label class="switch-label">
+                        <input type="checkbox"
+                                name="preview_post_checkbox"
+                                id="preview-post-toggle"
+                                class="switch-input"
+                                <?php if ( get_option('laterpay_preview_post_as_visitor') == 1 ): ?>checked<?php endif; ?>>
+                        <input type="hidden"
+                                name="preview_post"
+                                id="preview_post_hidden_input"
+                                value="<?php if ( get_option('laterpay_preview_post_as_visitor') == 1 ) { echo 1; } else { echo 0; } ?>">
+                        <span class="switch-text" data-on="" data-off=""></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </form>
+            </div>
+            <strong><?php _e('Visitor', 'laterpay'); ?></strong>
+        </div>
     </div>
 <?php endif; ?>
 
