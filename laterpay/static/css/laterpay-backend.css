@@ -462,3 +462,6 @@ label.switch-label {
     width:1.1em;
 }
 .switch-input:checked ~ .switch-handle {box-shadow:-1px 1px 5px rgba(0, 0, 0, 0.2); left:auto; right:.4em;}
+
+#plugin_mode_live_text,
+#plugin_mode_test_text {display:block;}

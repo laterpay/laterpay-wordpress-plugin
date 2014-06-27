@@ -169,12 +169,14 @@
                 </form>
             </div><?php _e('mode.', 'laterpay'); ?>
 
-            <span id="plugin_mode_live_text"<?php if ( get_option('laterpay_plugin_mode_is_live') != 1 ) echo " style='display:none;'"; ?>>
-                <?php _e('All financial transactions are booked and credited to your account.', 'laterpay'); ?>
-            </span>
-            <span id="plugin_mode_test_text"<?php if ( get_option('laterpay_plugin_mode_is_live') == 1 ) echo " style='display:none;'"; ?>>
-                <?php _e('Financial transactions are only simulated in test mode and <strong>not actually booked</strong>.', 'laterpay'); ?>
-            </span>
+            <dfn id="plugin_mode_live_text"<?php if ( get_option('laterpay_plugin_mode_is_live') != 1 ) echo " style='display:none;'"; ?>>
+                <?php _e('Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay'); ?><br>
+                <?php _e('All payments are booked and credited to your account.', 'laterpay'); ?>
+            </dfn>
+            <dfn id="plugin_mode_test_text"<?php if ( get_option('laterpay_plugin_mode_is_live') == 1 ) echo " style='display:none;'"; ?>>
+                <?php _e('Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay'); ?><br>
+                <?php _e('LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay'); ?>
+            </dfn>
         </div>
 
     </div>
