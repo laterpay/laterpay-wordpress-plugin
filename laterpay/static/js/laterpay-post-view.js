@@ -19,6 +19,13 @@
                             return color;
                         }
         });
+        $('#statistics .background-bar').peity('bar', {
+            delimiter   : ';',
+            width       : 182,
+            height      : 42,
+            gap         : 1,
+            fill        : function() { return '#ddd'; }
+        });
 
 });}(jQuery));
 
