@@ -26,14 +26,6 @@
         </ul>
     </div>
 
-    <div class="qwestion">
-        <h3><?php _e('Questions about LaterPay?', 'laterpay'); ?></h3>
-        <a href="https://support.laterpay.net"><?php _e('Frequently Asked Questions', 'laterpay'); ?></a>
-        <a href="https://laterpay.net/developers"><?php _e('Developer section', 'laterpay'); ?></a>
-        <a href="https://laterpay.net/about#contact"><?php _e('Contact us', 'laterpay'); ?></a>
-        <a href="https://laterpay.net"><?php _e('Visit our website', 'laterpay'); ?></a>
-    </div>
-
     <div class="lp-wrap">
         <div class="lp-form-row clearfix">
             <h2><?php _e('LaterPay API Credentials', 'laterpay'); ?></h2>

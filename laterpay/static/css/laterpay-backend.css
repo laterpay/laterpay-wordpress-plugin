@@ -330,27 +330,6 @@ APPEARANCE
 /* ==============================
 ACCOUNT
 ============================ */
-.qwestion {
-    background-color:#e4e4e4;
-    border-radius:5px;
-    padding:1rem 1rem 0.5rem;
-    position:absolute;
-    right:3rem;
-    top:7.5rem;
-}
-.qwestion:after {
-    border:20px solid transparent;
-    border-color:#e4e4e4 #e4e4e4 transparent transparent;
-    content:' ';
-    height:0;
-    left:50%;
-    position:absolute;
-    top:100%;
-    width:0;
-}
-.qwestion h3 {margin:0 0 0.5rem;}
-.qwestion a {display:block; padding:.25rem 0;}
-
 .w2-5 h3 {margin:1em 0 0;}
 .w2-5 ul.clearfix {margin:.5em 0;}
 .w2-5 strong {cursor:default; line-height:2.5em;}
