@@ -20,7 +20,6 @@ class AbstractController {
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
-        require_once LATERPAY_GLOBAL_PATH . 'config.php';
         require_once LATERPAY_GLOBAL_PATH . "application/views/$file.php";
     }
 

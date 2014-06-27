@@ -34,14 +34,10 @@ AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_S
 AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'models');
 AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'vendor');
 
-if ( file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) {
-    $laterpay_config = require(LATERPAY_GLOBAL_PATH . 'config.php');
-    if ( is_array($laterpay_config) ) {
-        foreach ( $laterpay_config as $option => $value ) {
-            if ( !defined($option) ) {
-                define($option, $value);
-            }
-        }
+$laterpay_config = require_once(LATERPAY_GLOBAL_PATH . 'laterpay-config.php');
+foreach ( $laterpay_config as $option => $value ) {
+    if ( !defined($option) ) {
+        define($option, $value);
     }
 }
 
