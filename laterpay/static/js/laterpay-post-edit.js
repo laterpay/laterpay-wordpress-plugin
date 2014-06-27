@@ -1,55 +1,53 @@
 jQuery.noConflict();
 (function($) { $(function() {
 
-    function localizePriceFormat(price, locale) {
-        if (locale == 'de_DE') {
-            price = parseFloat(price).toFixed(2).replace('.', ',');
+    function validatePrice(price) {
+        // convert price to proper float value
+        if (price.indexOf(',') > -1) {
+            price = parseFloat(price.replace(',', '.')).toFixed(2);
         } else {
             price = parseFloat(price).toFixed(2);
+        }
+        // prevent negative prices
+        price = Math.abs(price);
+        // correct prices outside the allowed range of 0.05 - 5.00
+        if (price > 5) {
+            price = 5;
+        } else if (price > 0 && price < 0.05) {
+            price = 0.05;
         }
 
         return price;
     }
 
     function laterpaySetPrice(price) {
-        $('#post-price').val(localizePriceFormat(price, locale));
+        var validatedPrice = validatePrice(price, locale);
+        // localize price
+        if (locale == 'de_DE') {
+            validatedPrice = validatedPrice.replace('.', ',');
+        }
+        $('#post-price').val(validatedPrice);
     }
 
     function requiredTeaserContentNotEntered() {
         return (
-            $('textarea[name="teaser-content"]').val().length === 0 &&
+            $('textarea[name=teaser-content]').val().length === 0 &&
                 (
-                    $('input[name="pricing-post"]').val() > 0 ||
-                    $('input[name="price_post_type"]').val() === 1
+                    $('input[name=pricing-post]').val() > 0 ||
+                    $('input[name=price_post_type]').val() === 1
                 )
             );
     }
 
     $('#post-price').blur(function() {
-        var enteredPrice = $(this).val();
-
-        // convert value to proper float
-        if (enteredPrice.indexOf(',') > -1) {
-            enteredPrice = parseFloat(enteredPrice.replace(',', '.')).toFixed(2);
-        } else {
-            enteredPrice = parseFloat(enteredPrice).toFixed(2);
-        }
-
-        // correct invalid values
-        if (enteredPrice > 5) {
-            laterpaySetPrice(5);
-        } else if (enteredPrice < 0) {
-            laterpaySetPrice(0);
-        } else {
-            laterpaySetPrice(enteredPrice);
-        }
+        laterpaySetPrice($(this).val());
     });
 
     $('#show-advanced')
     .mousedown(function() {
         $('#laterpay_post_advanced').show();
         $('#laterpay_post_standard').hide();
-        $('input[name="price_post_type"]').val(1);
+        $('input[name=price_post_type]').val(1);
     })
     .click(function(e) {e.preventDefault();});
 
@@ -57,7 +55,7 @@ jQuery.noConflict();
     .mousedown(function() {
         $('#laterpay_post_advanced').hide();
         $('#laterpay_post_standard').show();
-        $('input[name="price_post_type"]').val(0);
+        $('input[name=price_post_type]').val(0);
     })
     .click(function(e) {e.preventDefault();});
 
@@ -84,17 +82,17 @@ jQuery.noConflict();
         } else {
             var data = window.lpc.getData();
             if (window.lpc.getData().length === 4) {
-                $('input[name="laterpay_start_price"]').val(data[0].y);
-                $('input[name="laterpay_end_price"]').val(data[3].y);
-                $('input[name="laterpay_change_start_price_after_days"]').val(data[1].x);
-                $('input[name="laterpay_transitional_period_end_after_days"]').val(data[2].x);
-                $('input[name="laterpay_reach_end_price_after_days"]').val(data[3].x);
+                $('input[name=laterpay_start_price]').val(data[0].y);
+                $('input[name=laterpay_end_price]').val(data[3].y);
+                $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+                $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
+                $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
             } else if (window.lpc.getData().length === 3) {
-                $('input[name="laterpay_start_price"]').val(data[0].y);
-                $('input[name="laterpay_end_price"]').val(data[2].y);
-                $('input[name="laterpay_change_start_price_after_days"]').val(data[1].x);
-                $('input[name="laterpay_transitional_period_end_after_days"]').val(0);
-                $('input[name="laterpay_reach_end_price_after_days"]').val(data[2].x);
+                $('input[name=laterpay_start_price]').val(data[0].y);
+                $('input[name=laterpay_end_price]').val(data[2].y);
+                $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+                $('input[name=laterpay_transitional_period_end_after_days]').val(0);
+                $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
             }
 
             return true;
