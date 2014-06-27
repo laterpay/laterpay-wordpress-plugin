@@ -206,11 +206,11 @@ class GitHubPluginUpdater {
         return $result;
     }
 
-    private function backupConfig( $restore = false ) {
+    private function backupConfig( $restore = false, $file = 'settings' ) {
         global $wp_filesystem;
         // back up config file if exists
         $pluginFolder   = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . dirname( $this->slug );
-        $configName     = 'config.php';
+        $configName     = $file . '.php';
         $configFile     = $pluginFolder . DIRECTORY_SEPARATOR . $configName;
         $backup         = $pluginFolder . '_' . $configName . '.backup';
 

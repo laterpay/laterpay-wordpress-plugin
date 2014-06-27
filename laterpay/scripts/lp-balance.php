@@ -8,8 +8,8 @@ if ( !defined('ABSPATH') ) {
     require_once(APP_ROOT . '/../../../wp-load.php');
 }
 
-if ( file_exists(APP_ROOT . '/config.php') ) {
-    require_once(APP_ROOT . '/config.php');
+if ( file_exists(APP_ROOT . '/laterpay-config.php') ) {
+    require_once(APP_ROOT . '/laterpay-config.php');
 } else {
     exit();
 }

@@ -106,40 +106,42 @@ class LaterPay {
 
     protected function createConfigurationFile() {
         try {
-            if ( !file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) {
-                $config = file_get_contents(LATERPAY_GLOBAL_PATH . 'config.sample.php');
+            if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
+                $config = file_get_contents(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
                 $config = str_replace(
                     array('{LATERPAY_SALT}', '{LATERPAY_RESOURCE_ENCRYPTION_KEY}'),
                     array(md5(uniqid('salt')), md5(uniqid('key'))),
                     $config
                 );
-                file_put_contents(LATERPAY_GLOBAL_PATH . 'config.php', $config);
-                require_once(LATERPAY_GLOBAL_PATH . 'config.php');
+                file_put_contents(LATERPAY_GLOBAL_PATH . 'settings.php', $config);
             }
         } catch ( Exception $e ) {
             // do nothing
         }
     }
 
-    protected function updateConfigurationFile() {
-        if ( !file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) {
+    protected function updateConfigurationFile() {        
+        if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') && !file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) { // TODO: remove old one config file
             $this->createConfigurationFile();
             return;
         }
 
         try {
-            $config         = require(LATERPAY_GLOBAL_PATH . 'config.php');
-            $default_config = require(LATERPAY_GLOBAL_PATH . 'config.sample.php');
+            $default_config = require(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
             $updated_config = array();
 
-            // backwards compatibility: get configuration from old format file
-            if ( !is_array($config) ) {
+            // backwards compatibility: get configuration from old formated file, TODO: remove after updating to the new one
+            if ( file_exists( LATERPAY_GLOBAL_PATH . 'config.php' ) ) {
+                require_once( LATERPAY_GLOBAL_PATH . 'config.php' );
                 $config = array();
                 foreach ( $default_config as $option => $value ) {
                     if ( defined($option) ) {
                         $config[$option] = constant($option);
                     }
                 }
+                @unlink( LATERPAY_GLOBAL_PATH . 'config.php' );
+            } else {
+                $config = require(LATERPAY_GLOBAL_PATH . 'settings.php');
             }
             $changed = false;
 
@@ -152,7 +154,7 @@ class LaterPay {
             }
 
             if ( $changed ) {
-                $config_file = file_get_contents(LATERPAY_GLOBAL_PATH . 'config.sample.php');
+                $config_file = file_get_contents(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
 
                 foreach ( $updated_config as $option => $value ) {
                     if ( is_string($value) ) {
@@ -167,7 +169,7 @@ class LaterPay {
                                     );
                 }
 
-                file_put_contents(LATERPAY_GLOBAL_PATH . 'config.php', $config_file);
+                file_put_contents(LATERPAY_GLOBAL_PATH . 'settings.php', $config_file);
             }
         } catch ( Exception $e ) {
             // do nothing
@@ -606,7 +608,7 @@ class LaterPay {
     public function addPluginSettingsLink( $links ) {
         return array_merge(
             array(
-                'settings' => '<a href="' . admin_url('plugin-editor.php?file=laterpay%2Fconfig.php') . '">' . __('Settings', 'laterpay') . '</a>'
+                'settings' => '<a href="' . admin_url('plugin-editor.php?file=laterpay%2Fsettings.php') . '">' . __('Settings', 'laterpay') . '</a>'
             ),
             $links
         );

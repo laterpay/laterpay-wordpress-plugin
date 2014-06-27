@@ -1,0 +1,27 @@
+<?php
+if ( file_exists( LATERPAY_GLOBAL_PATH . 'settings.php' ) ) {
+    $user_settings = include( LATERPAY_GLOBAL_PATH . 'settings.php' );
+} else {
+    $user_settings = array();
+}
+
+return array_merge( array (
+    // #############################################################################
+    // THESE PARAMETERS WILL BE OVERWRITTEN AFTER PLUGIN UPDATE, USE "settings.php" FILE INSTEAD
+    // #############################################################################
+
+    // Path to images, CSS, JS, and font files
+    'LATERPAY_ASSET_PATH' =>               WP_PLUGIN_URL . '/' . LATERPAY_BASE_NAME . '/static',
+
+    // Parameters for plugin auto-update functionality
+    'LATERPAY_GITHUB_PROJECT_NAME' =>      'laterpay-wordpress-plugin',
+    'LATERPAY_GITHUB_USER_NAME' =>         'laterpay',
+    'LATERPAY_GITHUB_TOKEN' =>             '',
+
+    // LaterPay URLs
+    'LATERPAY_SANDBOX_API_URL' =>          'https://api.sandbox.laterpaytest.net',
+    'LATERPAY_SANDBOX_WEB_URL' =>          'https://web.sandbox.laterpaytest.net',
+    'LATERPAY_LIVE_API_URL' =>             'https://api.laterpay.net',
+    'LATERPAY_LIVE_WEB_URL' =>             'https://web.laterpay.net',
+    'LATERPAY_MERCHANTBACKEND_URL' =>      'https://merchant.laterpay.net/',
+), $user_settings);
