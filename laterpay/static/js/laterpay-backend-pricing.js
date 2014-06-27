@@ -1,6 +1,25 @@
 jQuery.noConflict();
 (function($) {$(function() {
 
+    function validatePrice(price) {
+        // convert price to proper float value
+        if (price.indexOf(',') > -1) {
+            price = parseFloat(price.replace(',', '.')).toFixed(2);
+        } else {
+            price = parseFloat(price).toFixed(2);
+        }
+        // prevent negative prices
+        price = Math.abs(price);
+        // correct prices outside the allowed range of 0.05 - 5.00
+        if (price > 5) {
+            price = 5.00;
+        } else if (price > 0 && price < 0.05) {
+            price = 0.05;
+        }
+
+        return price;
+    }
+
     // #####################################################################
     // Edit Global Default Price
     // #####################################################################
@@ -31,6 +50,7 @@ jQuery.noConflict();
 
     // save global default price
     $('#global-price-form .laterpay-save-link').mousedown(function() {
+        $('#global-default-price').val(validatePrice($('#global-default-price').val()));
         $.post(
             ajaxurl,
             $('#global-price-form').serializeArray(),
@@ -67,7 +87,7 @@ jQuery.noConflict();
                                                 return {
                                                     term        : term,
                                                     action      : 'pricing',
-                                                    category    : $(this).parent().find('input[name="category_id"]').val()
+                                                    category    : $(this).parent().find('input[name=category_id]').val()
                                                 };
                                             },
                                 results     : function(data) { return { results: data }; },
@@ -112,6 +132,7 @@ jQuery.noConflict();
         // save category default price
         $form
         .on('mousedown', '.laterpay-save-link', function() {
+            $('.lp-input.number', $form).val(validatePrice($('.lp-input.number', $form).val()));
             $form.removeClass('unsaved');
             $.post(
                 ajaxurl,

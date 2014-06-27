@@ -57,7 +57,8 @@
                                         class="lp-input number"
                                         value="<?php echo $global_price; ?>"
                                         style="display:none;"
-                                        placeholder="<?php _e('0.00', 'laterpay'); ?>">
+                                        placeholder="<?php _e('0.00', 'laterpay'); ?>"
+                                        autocomplete="off">
                                 <span id="laterpay-global-price-text"><?php echo $global_price; ?></span>
                                 <span class="laterpay_currency"><?php echo get_option('laterpay_currency'); ?></span>
                             </strong>

@@ -35,17 +35,19 @@ jQuery.noConflict();
         // validate price
         var $defaultPrice   = $('#global-default-price'),
             defaultPrice    = $defaultPrice.val();
-        // convert value to proper float
+        // convert price to proper float value
         if (defaultPrice.indexOf(',') > -1) {
             defaultPrice = parseFloat(defaultPrice.replace(',', '.')).toFixed(2);
         } else {
             defaultPrice = parseFloat(defaultPrice).toFixed(2);
         }
-        // correct invalid values
+        // prevent negative prices
+        defaultPrice = Math.abs(defaultPrice);
+        // correct prices outside the allowed range of 0.05 - 5.00
         if (defaultPrice > 5) {
             $defaultPrice.val(5);
-        } else if (defaultPrice < 0) {
-            $defaultPrice.val(0);
+        } else if (defaultPrice > 0 && defaultPrice < 0.05) {
+            $defaultPrice.val(0.05);
         }
 
         $('.progress-line .todo').removeClass('todo').addClass('done');

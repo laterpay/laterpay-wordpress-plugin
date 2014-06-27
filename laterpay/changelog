@@ -1,3 +1,9 @@
+0.9.4 (June 27, 2014): Production-readiness release ================================================
+    - Added mechanism to ensure that configurations are properly migrated on plugin updates
+    - Updated price validation to comply with the LaterPay terms and conditions for Pay-per-Use (0.05 - 5.00 Euro)
+    - Applied a few visual fixes
+
+
 0.9.3.3 (June 26, 2014): Post-migration release ====================================================
     - Updated LATERPAY_ASSET_PATH constant to include '/static'
 
