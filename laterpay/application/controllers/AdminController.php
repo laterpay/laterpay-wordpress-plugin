@@ -124,5 +124,64 @@ class AdminController extends AbstractController {
 
         echo $this->getTextView('adminFooter');
     }
+    
+    /**
+     * Process Ajax requests
+     *  
+     * @access public
+     */
+    public static function pageAjax() {
+        if ( isset( $_POST['form'] ) ) {
+            // check for required privileges to perform action
+            if ( function_exists('current_user_can') && !current_user_can('manage_options') ) {
+                echo Zend_Json::encode(
+                    array(
+                        'success' => false,
+                        'message' => __('You don´t have sufficient user privileges to do this.', 'laterpay')
+                    )
+                );
+                die;
+            }
+
+            if ( function_exists('check_admin_referer') ) {
+                check_admin_referer('laterpay_form');
+            }
+
+            switch ( $_POST['form'] ) {
+                case 'post_page_preview':
+                    $current_user = wp_get_current_user();
+                    if ( !($current_user instanceof WP_User) ) {
+                        echo Zend_Json::encode(
+                            array(
+                                'success' => false,
+                                'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                            )
+                        );
+                        die;
+                    }
+                    $result = add_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'], true) 
+                            || update_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post']);
+                    echo Zend_Json::encode(
+                        array(
+                            'success' => true,
+                            'message' => __('Updated.', 'laterpay')
+                        )
+                    );
+                    
+                    die;
+                    break;
+
+                default:
+                    echo Zend_Json::encode(
+                        array(
+                            'success' => false,
+                            'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                        )
+                    );
+                    die;
+                    break;
+            }
+        }
+    }
 
 }

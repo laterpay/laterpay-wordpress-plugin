@@ -56,19 +56,19 @@
             <?php _e('Preview post as', 'laterpay'); ?> <strong><?php _e('Admin', 'laterpay'); ?></strong>
             <div class="switch">
                 <form id="plugin_mode" method="post">
-                    <input type="hidden" name="form"    value="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-                    <input type="hidden" name="action"  value="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                    <input type="hidden" name="form"    value="post_page_preview">
+                    <input type="hidden" name="action"  value="admin">
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <label class="switch-label">
                         <input type="checkbox"
                                 name="preview_post_checkbox"
                                 id="preview-post-toggle"
                                 class="switch-input"
-                                <?php if ( get_option('laterpay_preview_post_as_visitor') == 1 ): ?>checked<?php endif; ?>>
+                                <?php if ( $preview_post_as_visitor == 1 ): ?>checked<?php endif; ?>>
                         <input type="hidden"
                                 name="preview_post"
                                 id="preview_post_hidden_input"
-                                value="<?php if ( get_option('laterpay_preview_post_as_visitor') == 1 ) { echo 1; } else { echo 0; } ?>">
+                                value="<?php if ( $preview_post_as_visitor == 1 ) { echo 1; } else { echo 0; } ?>">
                         <span class="switch-text" data-on="" data-off=""></span>
                         <span class="switch-handle"></span>
                     </label>
@@ -80,7 +80,7 @@
 <?php endif; ?>
 
 <?php // post is free or was already bought by user: ?>
-<?php if ( !$is_premium_content || $access == true ): ?>
+<?php if ( (!$is_premium_content || $access == true) && !$preview_post_as_visitor ): ?>
 
     <?php echo $content; ?>
 
@@ -92,7 +92,7 @@
     <?php // preview only the teaser content -> add purchase link after teaser content ?>
     <?php if ( $teaser_content_only ): ?>
 
-        <a class="laterpay-purchase-link" href="<?php echo $link; ?>" data-icon="b" post-id="<?php echo $post_id; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
+        <a class="laterpay-purchase-link" href="<?php echo $link; ?>" data-icon="b" post-id="<?php echo $post_id; ?>" data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
 
     <?php // preview the teaser content plus real content, covered by overlay -> add concealed real content and purchase button ?>
     <?php else: ?>
@@ -136,6 +136,7 @@
                         class="laterpay-purchase-link laterpay-purchase-button"
                         data-icon="b"
                         post-id="<?php echo $post_id; ?>"
+                        data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"
                         title="<?php _e('Buy now with LaterPay', 'laterpay'); ?>"><?php echo sprintf(__('%s<small>%s</small>', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
                     <div class="powered-by">
                         powered by<span data-icon="a"></span>
