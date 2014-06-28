@@ -200,6 +200,8 @@ h1 > .laterpay-purchase-button {display:block !important;}
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .laterpay-benefits .powered-by {margin-top:1.5em;}
     .laterpay-benefits .powered-by span[data-icon]:before {top:.08em;}
+
+    #statistics .details .background-bar + svg.peity {margin-top:-48px;}
 }
 
 
