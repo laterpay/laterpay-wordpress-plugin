@@ -1,3 +1,7 @@
+0.9.4.1 (June 28, 2014): Bugfix release ============================================================
+    - Fixed visibility of plugin to visitors in test mode
+
+
 0.9.4 (June 27, 2014): Production-readiness release ================================================
     - Modified behaviour of plugin to be not visible to visitors in test mode
     - Added switch to post page, to allow admin users to preview their settings like a visitor
