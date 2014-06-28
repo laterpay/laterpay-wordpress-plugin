@@ -67,15 +67,15 @@ class ViewHelper {
      * @return boolean
      */
     public static function isPluginAvailable() {
-        if ( get_option( 'laterpay_activate' ) != 1 ) {
+        if ( get_option('laterpay_activate') != 1 ) {
             return false;
         }
 
-        $modeIsLive = get_option( 'laterpay_plugin_mode_is_live' );
-        $sandboxKey = get_option( 'laterpay_sandbox_api_key' );
-        $liveKey    = get_option( 'laterpay_live_api_key' );
-        if(!function_exists('wp_get_current_user')) {
-            include_once(ABSPATH . "wp-includes/pluggable.php"); 
+        $modeIsLive = get_option('laterpay_plugin_mode_is_live');
+        $sandboxKey = get_option('laterpay_sandbox_api_key');
+        $liveKey    = get_option('laterpay_live_api_key');
+        if ( !function_exists('wp_get_current_user')) {
+            include_once(ABSPATH . 'wp-includes/pluggable.php');
         }
         if ( ($modeIsLive && empty($liveKey)) || (!$modeIsLive && empty($sandboxKey)) || (!$modeIsLive && !current_user_can('manage_options')) ) {
             return false;
