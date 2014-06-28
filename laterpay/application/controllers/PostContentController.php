@@ -62,6 +62,14 @@ class PostContentController extends AbstractController {
                 } else if ( UserHelper::user_has_full_access() ) {
                     $access = true;
                 }
+                $current_user            = wp_get_current_user();
+                $preview_post_as_visitor = 0;
+                if ( $current_user instanceof WP_User ) {
+                    $preview_post_as_visitor = get_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor');
+                    if ( !empty($preview_post_as_visitor) ) {
+                       $preview_post_as_visitor = $preview_post_as_visitor[0]; 
+                    }
+                }
 
                 // encrypt content for premium content
                 $content = FileHelper::getEncryptedContent($post_id, $content, $access);
@@ -75,6 +83,8 @@ class PostContentController extends AbstractController {
                 $this->assign('is_premium_content',    $price > 0);
                 $this->assign('access',                $access);
                 $this->assign('link',                  $link);
+                $this->assign('preview_post_as_visitor', $preview_post_as_visitor && current_user_can('manage_options'));
+                
 
                 $html = $this->getTextView('postSingleView');
             } else {

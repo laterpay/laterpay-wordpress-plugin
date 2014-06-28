@@ -14,13 +14,13 @@ jQuery.noConflict();
             if ($('#plugin-mode-toggle').prop('checked')) {
                 $('#plugin_mode_live_hint').fadeIn(400);
                 $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeOut(400);
-                $('#plugin_mode_test_text').fadeOut(400);
-                $('#plugin_mode_live_text').fadeIn(400);
+                $('#plugin_mode_test_text').hide();
+                $('#plugin_mode_live_text').show();
             } else {
-                $('#plugin_mode_test_hint, #plugin-mode-indicator, #plugin_mode_test_text').fadeIn(400);
-                $('#plugin_mode_live_hint, #plugin_mode_live_text').fadeOut(400);
-                $('#plugin_mode_live_text').fadeOut(400);
-                $('#plugin_mode_test_text').fadeIn(400);
+                $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeIn(400);
+                $('#plugin_mode_live_hint').fadeOut(400);
+                $('#plugin_mode_live_text').hide();
+                $('#plugin_mode_test_text').show();
             }
         },
         togglePluginMode = function() {

@@ -334,6 +334,10 @@ class LaterPay {
             add_action('wp_ajax_account',           'AccountController::pageAjax');
             add_action('wp_ajax_nopriv_account',    'AccountController::pageAjax');
         }
+        if ( class_exists('AdminController') ) {
+            add_action('wp_ajax_admin',           'AdminController::pageAjax');
+            add_action('wp_ajax_nopriv_admin',    'AdminController::pageAjax');
+        }
     }
 
     /**
@@ -514,6 +518,10 @@ class LaterPay {
         wp_enqueue_script('laterpay-config');
         wp_enqueue_script('laterpay-peity');
         wp_enqueue_script('laterpay-post-view');
+        wp_localize_script( 'laterpay-post-view', 'ajax_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+        wp_localize_script( 'laterpay-post-view', 'post_preview',
+            array( 'alert_message' => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ) ) );
     }
 
     protected function setupPluginFrontendResources() {
