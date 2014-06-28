@@ -62,14 +62,6 @@ class PostContentController extends AbstractController {
                 } else if ( UserHelper::user_has_full_access() ) {
                     $access = true;
                 }
-                $current_user            = wp_get_current_user();
-                $preview_post_as_visitor = 0;
-                if ( $current_user instanceof WP_User ) {
-                    $preview_post_as_visitor = get_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor');
-                    if ( !empty($preview_post_as_visitor) ) {
-                       $preview_post_as_visitor = $preview_post_as_visitor[0]; 
-                    }
-                }
 
                 // encrypt content for premium content
                 $content = FileHelper::getEncryptedContent($post_id, $content, $access);
@@ -83,7 +75,7 @@ class PostContentController extends AbstractController {
                 $this->assign('is_premium_content',    $price > 0);
                 $this->assign('access',                $access);
                 $this->assign('link',                  $link);
-                $this->assign('preview_post_as_visitor', $preview_post_as_visitor && current_user_can('manage_options'));
+                $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
                 
 
                 $html = $this->getTextView('postSingleView');
@@ -525,11 +517,13 @@ class PostContentController extends AbstractController {
             $is_premium_content = $float_price > 0;
             $access             = $GLOBALS['laterpay_access'] || current_user_can('manage_options') || UserHelper::user_has_full_access();
             $link               = self::getLPLink($post_id);
+            $preview_post_as_visitor = UserHelper::previewPostAsVisitor(); 
 
-            if ( $is_premium_content && is_single() && !is_page() && !$access ) {
+            if ( ($is_premium_content && is_single() && !is_page() && !$access) || $preview_post_as_visitor) {
                 $currency           = get_option('laterpay_currency');
                 $purchase_button    = '<a href="' . $link . '" class="laterpay-purchase-link laterpay-purchase-button" data-icon="b" post-id="';
-                $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '">';
+                $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
+                $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
                 $purchase_button   .= sprintf(
                                             __('%s<small>%s</small>', 'laterpay'),
                                             ViewHelper::formatNumber($price, 2),
