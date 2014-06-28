@@ -120,7 +120,7 @@ class LaterPay {
         }
     }
 
-    protected function updateConfigurationFile() {        
+    protected function updateConfigurationFile() {
         if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') && !file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) { // TODO: remove old one config file
             $this->createConfigurationFile();
             return;
@@ -518,10 +518,18 @@ class LaterPay {
         wp_enqueue_script('laterpay-config');
         wp_enqueue_script('laterpay-peity');
         wp_enqueue_script('laterpay-post-view');
-        wp_localize_script( 'laterpay-post-view', 'ajax_object',
-            array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-        wp_localize_script( 'laterpay-post-view', 'post_preview',
-            array( 'alert_message' => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ) ) );
+
+        // localize strings in scripts
+        wp_localize_script(
+            'laterpay-post-view',
+            'ajax_object',
+            array('ajax_url' => admin_url('admin-ajax.php'))
+        );
+        wp_localize_script(
+            'laterpay-post-view',
+            'post_preview',
+            array('alert_message' => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'))
+        );
     }
 
     protected function setupPluginFrontendResources() {

@@ -49,14 +49,14 @@ class AdminController extends AbstractController {
     public function run() {
         $this->loadAssets();
 
-        if ( ( isset( $_GET['tab'] ) ) ) {
+        if ( (isset($_GET['tab'])) ) {
             $tab = $_GET['tab'];
         } else {
             $tab = '';
         }
 
         // return default tab, if no specific tab is requested
-        if ( empty( $tab ) ) {
+        if ( empty($tab) ) {
             if ( get_option('laterpay_activate') == '0' ) {
                 $tab            = 'get_started';
                 $_GET['tab']    = 'get_started';
@@ -106,7 +106,7 @@ class AdminController extends AbstractController {
      * @access public
      */
     public function modifyFooter() {
-        $dismissed_pointers = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
+        $dismissed_pointers = explode(',', (string)get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
         $pointers = array();
         // add pointer to LaterPay plugin in admin menu
         if ( !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
@@ -124,14 +124,14 @@ class AdminController extends AbstractController {
 
         echo $this->getTextView('adminFooter');
     }
-    
+
     /**
      * Process Ajax requests
-     *  
+     *
      * @access public
      */
     public static function pageAjax() {
-        if ( isset( $_POST['form'] ) ) {
+        if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
             if ( function_exists('current_user_can') && !current_user_can('manage_options') ) {
                 echo Zend_Json::encode(
@@ -159,7 +159,7 @@ class AdminController extends AbstractController {
                         );
                         die;
                     }
-                    $result = add_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'], true) 
+                    $result = add_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'], true)
                             || update_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post']);
                     echo Zend_Json::encode(
                         array(
@@ -167,7 +167,6 @@ class AdminController extends AbstractController {
                             'message' => __('Updated.', 'laterpay')
                         )
                     );
-                    
                     die;
                     break;
 
