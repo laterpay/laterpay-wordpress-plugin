@@ -80,8 +80,8 @@
     </div>
 <?php endif; ?>
 
-<?php // post is free or was already bought by user: ?>
-<?php if ( (!$is_premium_content || $access == true) && !$preview_post_as_visitor ): ?>
+<?php // post is free or was already bought by user or plugin is in test mode and user is visitor: ?>
+<?php if ( (!$is_premium_content || $access == true || ($is_premium_content && !get_option('laterpay_plugin_mode_is_live') && !current_user_can('manage_options'))) && !$preview_post_as_visitor ): ?>
 
     <?php echo $content; ?>
 
