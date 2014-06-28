@@ -65,7 +65,7 @@ The LaterPay WordPress plugin offers the following features:
     to access that file, unless they've already bought the post.
     By default, the plugin protects the most common filetypes, not including audio or video files.
     If you want to protect additional filetypes, you can modify the list of protected filetypes in the settings.php
-    of the LaterPay WordPress plugin (/wp-admin/plugin-editor.php?file=laterpay%2Fsettings.php).
+    of the LaterPay WordPress plugin (/wp-admin/plugin-editor.php?file=laterpay%2Flaterpay-config.php).
 
 - CRAWLER FRIENDLINESS
     - Social media: The plugin supports Facebook, Twitter, and Google+ crawlers, so it won't hurt your social media reach.

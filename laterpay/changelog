@@ -1,3 +1,7 @@
+0.9.5 (July 4, 2014): XXX release ==================================================================
+    - Fixed broken links for editing config file
+
+
 0.9.4.1 (June 28, 2014): Bugfix release ============================================================
     - Fixed visibility of plugin to visitors in test mode
 
