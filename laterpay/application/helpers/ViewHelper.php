@@ -74,8 +74,10 @@ class ViewHelper {
         $modeIsLive = get_option( 'laterpay_plugin_mode_is_live' );
         $sandboxKey = get_option( 'laterpay_sandbox_api_key' );
         $liveKey    = get_option( 'laterpay_live_api_key' );
-
-        if ( ($modeIsLive && empty($liveKey)) || (!$modeIsLive && empty($sandboxKey)) ) {
+        if(!function_exists('wp_get_current_user')) {
+            include_once(ABSPATH . "wp-includes/pluggable.php"); 
+        }
+        if ( ($modeIsLive && empty($liveKey)) || (!$modeIsLive && empty($sandboxKey)) || (!$modeIsLive && !current_user_can('manage_options')) ) {
             return false;
         }
 
