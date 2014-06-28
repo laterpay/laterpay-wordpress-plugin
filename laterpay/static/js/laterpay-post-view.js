@@ -51,7 +51,7 @@
         $('#preview-post-toggle').click(function(e) {
             togglePreviewMode();
         });
-        $('.laterpay-purchase-link').mousedown(function(e) {
+        $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
             if( $(this).data('preview-as-visitor') ) {
                 e.preventDefault();
                 alert(post_preview.alert_message);
