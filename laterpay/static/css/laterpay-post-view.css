@@ -272,7 +272,8 @@ h1 > .laterpay-purchase-button {display:block !important;}
 #statistics .totals li:first-child {width:52%;}
 #statistics .details li:first-child {width:59%;}
 #statistics .details li {margin-top:1em; padding:.5em 0; width:37%;}
-#statistics .details svg.peity {border-bottom:1px solid #999; padding:0 3px;}
+#statistics .details svg.peity {border-bottom:1px solid #999; padding:0 3px; position:relative; z-index:1;}
+#statistics .details .background-bar + svg.peity {border:0 none; left:.92em; position:absolute; z-index:0;}
 
 #statistics big {color:#555; font-size:2em; line-height:1;}
 #statistics small {display:block; font-size:.75em; line-height:1;}

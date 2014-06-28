@@ -34,6 +34,7 @@
             <ul>
                 <li>
                     <span class="bar"><?php echo ViewHelper::getDaysStatisticAsString($last30DaysBuyers, 'percentage', ';'); ?></span>
+                    <span class="background-bar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
                 </li>
                 <li>
                     <big><?php echo ViewHelper::formatNumber($todayBuyers, 1); ?><small>%</small></big>
