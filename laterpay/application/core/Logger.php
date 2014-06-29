@@ -34,7 +34,7 @@ class Logger {
 
     public static function init( $name, array $params ) {
         self::$_name = $name;
-        if ( isset( $params[$name] ) ) {
+        if ( isset($params[$name]) ) {
             self::$_options = $params[$name];
         } else {
             self::$_options = array();
@@ -46,10 +46,10 @@ class Logger {
     }
 
     public static function getInstance() {
-        if ( empty( self::$_instance ) ) {
+        if ( empty(self::$_instance) ) {
             try {
                 if ( LATERPAY_LOGGER_ENABLED ) {
-                    self::$_instance = new Logger_Handler_Stream( LATERPAY_LOGGER_FILE );
+                    self::$_instance = new Logger_Handler_Stream(LATERPAY_LOGGER_FILE);
                 } else {
                     self::$_instance = new Logger_Handler_Null();
                 }
@@ -64,42 +64,44 @@ class Logger {
     /**
      * Adds a log record at the DEBUG level.
      *
-     * @param string  $message The log message
-     * @param array   $context The log context
+     * @param string $message The log message
+     * @param array  $context The log context
+     *
      * @return Boolean Whether the record has been processed
      */
     public static function debug( $message, array $context = array() ) {
-        return self::log( self::DEBUG, $message, $context );
+        return self::log(self::DEBUG, $message, $context);
     }
 
     /**
      * Adds a log record at the ERROR level.
      *
-     * @param string  $message The log message
-     * @param array   $context The log context
+     * @param string $message The log message
+     * @param array  $context The log context
+     *
      * @return Boolean Whether the record has been processed
      */
     public static function error( $message, array $context = array() ) {
-        return self::log( self::ERROR, $message, $context );
+        return self::log(self::ERROR, $message, $context);
     }
 
     public static function log( $level, $message, array $context = array() ) {
         if ( !self::$_uniqid ) {
-            self::$_uniqid = uniqid( getmypid() . '_' );
+            self::$_uniqid = uniqid(getmypid() . '_');
         }
         $date = new DateTime();
         $record = array(
-            'message'       => (string) $message,
+            'message'       => (string)$message,
             'pid'           => self::$_uniqid,
             'context'       => $context,
             'level'         => $level,
-            'level_name'    => self::getLevelName( $level ),
+            'level_name'    => self::getLevelName($level),
             'channel'       => self::$_name,
             'datetime'      => $date,
             'extra'         => array(),
         );
         try {
-            $result = self::getInstance()->handle( $record );
+            $result = self::getInstance()->handle($record);
         } catch ( Exception $e ) {
             return false;
         }

@@ -46,11 +46,11 @@ class Request extends Entity {
 
     public function _construct() {
         parent::_construct();
-        $this->setData( 'get', $_GET );
-        $this->setData( 'post', $_POST );
-        $this->setData( 'cookie', $_COOKIE );
-        $this->setData( 'server', $_SERVER );
-        $this->setData( 'env', $_ENV );
+        $this->setData('get', $_GET);
+        $this->setData('post', $_POST);
+        $this->setData('cookie', $_COOKIE);
+        $this->setData('server', $_SERVER);
+        $this->setData('env', $_ENV);
     }
 
     /**
@@ -60,16 +60,17 @@ class Request extends Entity {
      * userland parameters $_GET, $_POST. If a
      * parameter matching the $key is not found, null is returned.
      *
-     * @param mixed   $key
-     * @param mixed   $default Default value to use if key not found
+     * @param mixed $key
+     * @param mixed $default Default value to use if key not found
+     *
      * @return mixed
      */
     public function getParam( $key, $default = null ) {
-        if ( isset( $this->_data[$key] ) ) {
+        if ( isset($this->_data[$key]) ) {
             return $this->_data[$key];
-        } elseif ( isset( $this->_data['get'] ) && ( isset( $this->_data['get'][$key] ) ) ) {
+        } elseif ( isset($this->_data['get']) && isset($this->_data['get'][$key]) ) {
             return $this->_data['get'][$key];
-        } elseif ( isset( $this->_data['post'] ) && ( isset( $this->_data['post'][$key] ) ) ) {
+        } elseif ( isset($this->_data['post']) &&  isset($this->_data['post'][$key]) ) {
             return $this->_data['get'][$key];
         }
 
