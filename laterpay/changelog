@@ -1,5 +1,5 @@
-0.9.5 (July 4, 2014): XXX release ==================================================================
-    - Fixed broken links for editing config file
+0.9.4.2 (June 29, 2014): Bugfix release ============================================================
+    - Removed superfluous function argument for saving the teaser content that caused a warning
 
 
 0.9.4.1 (June 28, 2014): Bugfix release ============================================================
