@@ -16,18 +16,13 @@ return array (
     // Access logging for generating sales statistics within the plugin;
     // Sets a cookie and logs all requests from visitors to your blog, if enabled
     'LATERPAY_ACCESS_LOGGING_ENABLED' =>   true,
-    
+
+    // Debugging
+    'LATERPAY_LOGGER_ENABLED' =>           false,
+    'LATERPAY_LOGGER_FILE' =>              '/var/log/laterpay_api.log',
+
     // Encryption parameters
     'LATERPAY_SALT' =>                     '{LATERPAY_SALT}',
     'LATERPAY_COOKIE_TOKEN_NAME' =>        'token',
     'LATERPAY_RESOURCE_ENCRYPTION_KEY' =>  '{LATERPAY_RESOURCE_ENCRYPTION_KEY}',
-
-    // Initial values for currency, price, and tax
-    'LATERPAY_CURRENCY_DEFAULT' =>         'EUR',
-    'LATERPAY_GLOBAL_PRICE_DEFAULT' =>     0.29,
-    'LATERPAY_VAT' =>                      'DE19',
-    
-    // Debugging
-    'LATERPAY_LOGGER_ENABLED' =>           false,
-    'LATERPAY_LOGGER_FILE' =>              '/var/log/laterpay_api.log',
 );

@@ -24,4 +24,9 @@ return array_merge( array (
     'LATERPAY_LIVE_API_URL' =>             'https://api.laterpay.net',
     'LATERPAY_LIVE_WEB_URL' =>             'https://web.laterpay.net',
     'LATERPAY_MERCHANTBACKEND_URL' =>      'https://merchant.laterpay.net/',
+
+    // Initial values for currency, price, and tax
+    'LATERPAY_CURRENCY_DEFAULT' =>         'EUR',
+    'LATERPAY_GLOBAL_PRICE_DEFAULT' =>     0.29,
+    'LATERPAY_VAT' =>                      'DE19',
 ), $user_settings);
