@@ -91,11 +91,10 @@ class PricingPostController extends AbstractController {
      * Save teaser content
      *
      * @param integer $post_id post id
-     * @param object  $post    post
      *
      * @access public
      */
-    public function saveTeaserContentBox( $post_id, $post ) {
+    public function saveTeaserContentBox( $post_id ) {
         if ( !isset($_POST['laterpay_teaser_content_box_nonce']) || !wp_verify_nonce($_POST['laterpay_teaser_content_box_nonce'], plugin_basename(__FILE__)) ) {
             return $post_id;
         }
@@ -191,11 +190,10 @@ class PricingPostController extends AbstractController {
      * Save post-specific pricing
      *
      * @param integer $post_id post id
-     * @param object  $post    post
      *
      * @access public
      */
-    public function savePricingPostContentBox( $post_id, $post ) {
+    public function savePricingPostContentBox( $post_id ) {
         if ( !isset($_POST['laterpay_pricing_post_content_box_nonce']) || !wp_verify_nonce($_POST['laterpay_pricing_post_content_box_nonce'], plugin_basename(__FILE__)) ) {
             return $post_id;
         }
