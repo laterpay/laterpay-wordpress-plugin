@@ -121,7 +121,7 @@ class LaterPay {
     }
 
     protected function updateConfigurationFile() {
-        if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') && !file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) { // TODO: remove old one config file
+        if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') && !file_exists(LATERPAY_GLOBAL_PATH . 'config.php') ) {
             $this->createConfigurationFile();
             return;
         }
@@ -130,9 +130,9 @@ class LaterPay {
             $default_config = require(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
             $updated_config = array();
 
-            // backwards compatibility: get configuration from old formated file, TODO: remove after updating to the new one
-            if ( file_exists( LATERPAY_GLOBAL_PATH . 'config.php' ) ) {
-                require_once( LATERPAY_GLOBAL_PATH . 'config.php' );
+            // backwards compatibility: get configuration from old formated file
+            if ( file_exists(LATERPAY_GLOBAL_PATH . 'config.php')) {
+                require_once(LATERPAY_GLOBAL_PATH . 'config.php');
                 $config = array();
                 foreach ( $default_config as $option => $value ) {
                     if ( defined($option) ) {
@@ -195,56 +195,64 @@ class LaterPay {
         $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
 
         $sql = "
-                     CREATE TABLE `$table_currency` (
-                       `id` int(10) NOT NULL AUTO_INCREMENT,
-                       `short_name` varchar(64) NOT NULL,
-                       `full_name` varchar(64) NOT NULL,
-                       PRIMARY KEY (`id`)
-                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-                 ";
+                CREATE TABLE `$table_currency` (
+                    `id`            INT(10)         NOT NULL AUTO_INCREMENT,
+                    `short_name`    VARCHAR(64)     NOT NULL,
+                    `full_name`     VARCHAR(64)     NOT NULL,
+                    PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+                ;
+        ";
         dbDelta($sql);
 
         $sql = "
-                     CREATE TABLE `$table_terms_price` (
-                     `id` int(11) NOT NULL AUTO_INCREMENT,
-                     `term_id` int(11) NOT NULL,
-                     `price` double NOT NULL DEFAULT '0',
-                     PRIMARY KEY (`id`)
-                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-                 ";
+            CREATE TABLE `$table_terms_price` (
+                `id`                INT(11)         NOT NULL AUTO_INCREMENT,
+                `term_id`           INT(11)         NOT NULL,
+                `price`             DOUBLE          NOT NULL DEFAULT '0',
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+            ;
+        ";
         dbDelta($sql);
 
         $sql = "
-                     INSERT INTO `$table_currency` (`id`, `short_name`, `full_name`) VALUES
-                     (1, 'USD', 'U.S. dollar'),
-                     (2, 'EUR', 'Euro');
-                 ";
+            INSERT INTO
+                `$table_currency` (`id`, `short_name`, `full_name`)
+            VALUES
+                (1, 'USD', 'U.S. dollar'),
+                (2, 'EUR', 'Euro')
+            ;
+        ";
         dbDelta($sql);
 
         $sql = "
-                     CREATE TABLE `$table_history` (
-                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                         `mode` enum('test','live') NOT NULL DEFAULT 'test',
-                         `post_id` int(11) NOT NULL,
-                         `currency_id` int(11) NOT NULL,
-                         `price` float NOT NULL,
-                         `date` datetime NOT NULL,
-                         `ip` int NOT NULL,
-                         `hash` varchar(32) NOT NULL,
-                         PRIMARY KEY (`id`)
-                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-                 ";
+            CREATE TABLE `$table_history` (
+                `id`                INT(11)         NOT NULL AUTO_INCREMENT,
+                `mode`              ENUM('test', 'live') NOT NULL DEFAULT 'test',
+                `post_id`           INT(11)         NOT NULL,
+                `currency_id`       INT(11)         NOT NULL,
+                `price`             FLOAT           NOT NULL,
+                `date`              DATETIME        NOT NULL,
+                `ip`                INT             NOT NULL,
+                `hash`              VARCHAR(32)     NOT NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+            ;
+        ";
         dbDelta($sql);
 
         $sql = "
-                 CREATE TABLE `$table_post_views`  (
-                     `post_id` int(11) NOT NULL,
-                     `date` datetime NOT NULL,
-                     `user_id` VARCHAR(32) NOT NULL,
-                     `count` BIGINT UNSIGNED NOT NULL DEFAULT 1,
-                     `ip` VARBINARY(16) NOT NULL,
-                     UNIQUE KEY `uk_view` (`post_id` ASC, `user_id` ASC)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+            CREATE TABLE `$table_post_views` (
+                `post_id`           INT(11)         NOT NULL,
+                `date`              DATETIME        NOT NULL,
+                `user_id`           VARCHAR(32)     NOT NULL,
+                `count`             BIGINT UNSIGNED NOT NULL DEFAULT 1,
+                `ip`                VARBINARY(16)   NOT NULL,
+                UNIQUE KEY `uk_view` (`post_id` ASC, `user_id` ASC)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
+            ;
+        ";
         dbDelta($sql);
 
         add_option('laterpay_activate',             '0');
@@ -256,7 +264,7 @@ class LaterPay {
         add_option('laterpay_live_api_key',         '');
         add_option('laterpay_global_price',         LATERPAY_GLOBAL_PRICE_DEFAULT);
         add_option('laterpay_currency',             LATERPAY_CURRENCY_DEFAULT);
-        add_option('laterpay_version',              $laterpay_version ) || update_option( 'laterpay_version', $laterpay_version);
+        add_option('laterpay_version',              $laterpay_version) || update_option('laterpay_version', $laterpay_version);
 
         // clear opcode cache
         CacheHelper::resetOpcodeCache();
@@ -454,12 +462,13 @@ class LaterPay {
     }
 
     /**
-     * Load LaterPay stylesheets on all pages where a post title is visible
+     * Load LaterPay stylesheets on all post pages
      *
      * @global string $laterpay_version
      */
     public function addPluginFrontendStylesheets() {
         global $laterpay_version;
+
         wp_register_style(
             'laterpay-post-view',
             LATERPAY_ASSET_PATH . '/css/laterpay-post-view.css',
