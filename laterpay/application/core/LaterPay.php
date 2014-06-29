@@ -624,7 +624,7 @@ class LaterPay {
     public function addPluginSettingsLink( $links ) {
         return array_merge(
             array(
-                'settings' => '<a href="' . admin_url('plugin-editor.php?file=laterpay%2Flaterpay-config.php') . '">' . __('Settings', 'laterpay') . '</a>'
+                'settings' => '<a href="' . admin_url('plugin-editor.php?file=laterpay%2Fsettings.php') . '">' . __('Settings', 'laterpay') . '</a>'
             ),
             $links
         );
