@@ -199,7 +199,7 @@ class LaterPay {
                     `id`            INT(10)         NOT NULL AUTO_INCREMENT,
                     `short_name`    VARCHAR(3)      NOT NULL,
                     `full_name`     VARCHAR(64)     NOT NULL,
-                    PRIMARY KEY (`id`)
+                    PRIMARY KEY  (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
                 ;
         ";
@@ -210,7 +210,7 @@ class LaterPay {
                 `id`                INT(11)         NOT NULL AUTO_INCREMENT,
                 `term_id`           INT(11)         NOT NULL,
                 `price`             DOUBLE          NOT NULL DEFAULT '0',
-                PRIMARY KEY (`id`)
+                PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8
             ;
         ";
@@ -236,7 +236,7 @@ class LaterPay {
                 `date`              DATETIME        NOT NULL,
                 `ip`                INT             NOT NULL,
                 `hash`              VARCHAR(32)     NOT NULL,
-                PRIMARY KEY (`id`)
+                PRIMARY KEY  (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
             ;
         ";
