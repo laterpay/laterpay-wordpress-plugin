@@ -95,6 +95,7 @@ ul.lp-toggle .selected:hover a {color:#444; cursor:default;}
 
 
 /* dynamic pricing widget */
+#container {margin-top:.5em;}
 #container2 p {margin-bottom:0;}
 #container2 a {
     background:url(../img/dynamic-pricing-presets-sprite.png) no-repeat;

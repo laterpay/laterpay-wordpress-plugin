@@ -39,23 +39,21 @@
         <?php endif; ?>
     </ul>
     <div id="laterpay-price-type-details">
-        <div class="use-individual-price details-section" style="display:none;">
-            <div id="laterpay-dynamic-pricing" style="display:none;">
-                <input type="hidden" name="laterpay_start_price">
-                <input type="hidden" name="laterpay_end_price">
-                <input type="hidden" name="laterpay_change_start_price_after_days">
-                <input type="hidden" name="laterpay_transitional_period_end_after_days">
-                <input type="hidden" name="laterpay_reach_end_price_after_days">
-                <div id="container"></div>
+        <div id="laterpay-dynamic-pricing" class="use-individual-price details-section" style="display:none;">
+            <input type="hidden" name="laterpay_start_price">
+            <input type="hidden" name="laterpay_end_price">
+            <input type="hidden" name="laterpay_change_start_price_after_days">
+            <input type="hidden" name="laterpay_transitional_period_end_after_days">
+            <input type="hidden" name="laterpay_reach_end_price_after_days">
+            <div id="container"></div>
 <!--                 <div id="container2">
-                    <p><?php _e('Dynamic pricing presets', 'laterpay'); ?></p>
-                    <a href="#" class="blockbuster"><?php _e('Blockbuster', 'laterpay'); ?></a>
-                    <a href="#" class="breaking-news"><?php _e('Breaking News', 'laterpay'); ?></a>
-                    <a href="#" class="teaser"><?php _e('Teaser', 'laterpay'); ?></a>
-                    <a href="#" class="long-tail"><?php _e('Long-tail', 'laterpay'); ?></a>
-                    <a href="#" class="flat"><?php _e('Flat (default)', 'laterpay'); ?></a>
-                </div> -->
-            </div>
+                <p><?php _e('Dynamic pricing presets', 'laterpay'); ?></p>
+                <a href="#" class="blockbuster"><?php _e('Blockbuster', 'laterpay'); ?></a>
+                <a href="#" class="breaking-news"><?php _e('Breaking News', 'laterpay'); ?></a>
+                <a href="#" class="teaser"><?php _e('Teaser', 'laterpay'); ?></a>
+                <a href="#" class="long-tail"><?php _e('Long-tail', 'laterpay'); ?></a>
+                <a href="#" class="flat"><?php _e('Flat (default)', 'laterpay'); ?></a>
+            </div> -->
         </div>
         <div class="use-category-default-price details-section" style="display:none;">
             <ul>
