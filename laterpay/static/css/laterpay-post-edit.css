@@ -56,11 +56,11 @@ ul.lp-toggle .selected:hover a {color:#444; cursor:default;}
 #laterpay-price-type-details .use-category-default-price li:hover,
 #laterpay-price-type.expanded .use-category-default-price li.selected-category {background-color:#feec88;}
 #laterpay-price-type-details .use-category-default-price li.selected-category {background-color:transparent;}
-#laterpay-price-type-details .use-category-default-price li.selected-category a {color:#444;}
+#laterpay-price-type-details .use-category-default-price li.selected-category a {color:#444; cursor:default;}
 #laterpay-price-type-details .use-category-default-price a {display:block; padding:.5em 0.75em; text-decoration:none;}
 #laterpay-price-type-details a span {color:#888; float:right;}
 
-#use-dynamic-pricing {display:block; padding:.75em 0.25em 0;}
+#use-dynamic-pricing {display:block; padding:.75em 0.25em 0; text-decoration:none;}
 
 
 /* add LaterPay logo to heading of postbox */
