@@ -1,3 +1,10 @@
+<script>
+    var locale                          = "<?php echo get_locale(); ?>",
+        i18n_outsideAllowedPriceRange   = "<?php _e('The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay'); ?>",
+        i18n_invalidMerchantId          = "<?php _e('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay'); ?>",
+        i18n_invalidApiKey              = "<?php _e('The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay'); ?>";
+</script>
+
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">
@@ -7,9 +14,9 @@
     <div class="tabs-area">
         <ul class="tabs getstarted">
             <li class="current"><a href="#"><?php _e('Get Started', 'laterpay'); ?></a></li>
-            <li><a href="#pricing"><?php _e('Pricing', 'laterpay'); ?></a></li>
-            <li><a href="#appearance"><?php _e('Appearance', 'laterpay'); ?></a></li>
-            <li><a href="#account"><?php _e('Account', 'laterpay'); ?></a></li>
+            <li><a href="#"><?php _e('Pricing', 'laterpay'); ?></a></li>
+            <li><a href="#"><?php _e('Appearance', 'laterpay'); ?></a></li>
+            <li><a href="#"><?php _e('Account', 'laterpay'); ?></a></li>
         </ul>
     </div>
 
