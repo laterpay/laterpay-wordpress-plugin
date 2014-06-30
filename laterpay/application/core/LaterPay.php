@@ -234,7 +234,7 @@ class LaterPay {
                 `currency_id`       INT(11)         NOT NULL,
                 `price`             FLOAT           NOT NULL,
                 `date`              DATETIME        NOT NULL,
-                `ip`                VARBINARY(16)   NOT NULL,
+                `ip`                INT             NOT NULL,
                 `hash`              VARCHAR(32)     NOT NULL,
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
