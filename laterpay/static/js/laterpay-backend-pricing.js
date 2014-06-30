@@ -2,23 +2,37 @@ jQuery.noConflict();
 (function($) {$(function() {
 
     function validatePrice(price) {
+        // strip non-number characters
+        price = price.replace(/[^0-9\,\.]/g, '');
         // convert price to proper float value
         if (price.indexOf(',') > -1) {
             price = parseFloat(price.replace(',', '.')).toFixed(2);
         } else {
             price = parseFloat(price).toFixed(2);
         }
+        // prevent non-number prices
+        if (isNaN(price)) {
+            price = 0;
+        }
         // prevent negative prices
         price = Math.abs(price);
         // correct prices outside the allowed range of 0.05 - 5.00
         if (price > 5) {
-            price = 5.00;
+            price = 5;
         } else if (price > 0 && price < 0.05) {
             price = 0.05;
+        }
+        // format price with two digits
+        price = price.toFixed(2);
+
+        // localize price
+        if (locale == 'de_DE') {
+            price = price.replace('.', ',');
         }
 
         return price;
     }
+
 
     // #####################################################################
     // Edit Global Default Price

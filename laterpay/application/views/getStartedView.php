@@ -1,3 +1,8 @@
+<script>
+    var locale = "<?php echo get_locale(); ?>";
+</script>
+
+
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">
@@ -59,7 +64,7 @@
                                     value="<?php echo LATERPAY_GLOBAL_PRICE_DEFAULT; ?>"
                                     placeholder="<?php _e('0.00' ,'laterpay'); ?>">
                             <select name="get_started[laterpay_currency]" class="lp-input">
-                                <?php foreach ($Currency->getCurrencies() as $item): ?>
+                                <?php foreach ( $Currency->getCurrencies() as $item ): ?>
                                     <option value="<?php echo $item->short_name; ?>"<?php if ( $item->short_name == LATERPAY_CURRENCY_DEFAULT ): ?> selected<?php endif; ?>>
                                         <?php echo $item->short_name; ?>
                                     </option>

@@ -299,7 +299,7 @@ APPEARANCE
 
 .invoice-indicator-preview {float:left; height:29px; margin:.75em 0 0; width:110px;}
 .invoice-snippet {
-    background-color:#dfdfdf;
+    background-color:#fff;
     border:1px solid #ccc;
     border-radius:2px;
     display:block;
@@ -309,8 +309,8 @@ APPEARANCE
     position:relative;
 }
 .triangle {
-    border:9px solid #dfdfdf;
-    border-color:transparent #dfdfdf transparent transparent;
+    border:9px solid #fff;
+    border-color:transparent #fff transparent transparent;
     height:0;
     left:-8px;
     position:absolute;

@@ -23,6 +23,42 @@ jQuery.noConflict();
         return false;
     }
 
+    function validatePrice(price) {
+        // strip non-number characters
+        price = price.replace(/[^0-9\,\.]/g, '');
+        // convert price to proper float value
+        if (price.indexOf(',') > -1) {
+            price = parseFloat(price.replace(',', '.')).toFixed(2);
+        } else {
+            price = parseFloat(price).toFixed(2);
+        }
+        // prevent non-number prices
+        if (isNaN(price)) {
+            price = 0;
+        }
+        // prevent negative prices
+        price = Math.abs(price);
+        // correct prices outside the allowed range of 0.05 - 5.00
+        if (price > 5) {
+            price = 5;
+        } else if (price > 0 && price < 0.05) {
+            price = 0.05;
+        }
+
+        return price.toFixed(2);
+    }
+
+    $('#global-default-price').blur(function() {
+        // validate price
+        var $defaultPrice   = $('#global-default-price'),
+            defaultPrice    = $defaultPrice.val(),
+            validatedPrice  = validatePrice(defaultPrice);
+        if (locale == 'de_DE') {
+            validatedPrice = validatedPrice.replace('.', ',');
+        }
+        $defaultPrice.val(validatedPrice);
+    });
+
     $('.activate-lp').click(function(e) {
         if (!validateAPIKey()) {
             setMessage({
@@ -34,21 +70,12 @@ jQuery.noConflict();
 
         // validate price
         var $defaultPrice   = $('#global-default-price'),
-            defaultPrice    = $defaultPrice.val();
-        // convert price to proper float value
-        if (defaultPrice.indexOf(',') > -1) {
-            defaultPrice = parseFloat(defaultPrice.replace(',', '.')).toFixed(2);
-        } else {
-            defaultPrice = parseFloat(defaultPrice).toFixed(2);
+            defaultPrice    = $defaultPrice.val(),
+            validatedPrice  = validatePrice(defaultPrice);
+        if (locale == 'de_DE') {
+            validatedPrice = validatedPrice.replace('.', ',');
         }
-        // prevent negative prices
-        defaultPrice = Math.abs(defaultPrice);
-        // correct prices outside the allowed range of 0.05 - 5.00
-        if (defaultPrice > 5) {
-            $defaultPrice.val(5);
-        } else if (defaultPrice > 0 && defaultPrice < 0.05) {
-            $defaultPrice.val(0.05);
-        }
+        $defaultPrice.val(validatedPrice);
 
         $('.progress-line .todo').removeClass('todo').addClass('done');
 
