@@ -30,8 +30,6 @@ jQuery.noConflict();
         return false;
     }
 
-<<<<<<< HEAD
-=======
     function validatePrice(price) {
         var corrected;
 
@@ -78,7 +76,6 @@ jQuery.noConflict();
         $defaultPrice.val(validatedPrice);
     });
 
->>>>>>> d9e26cb... #13 Added flash messages to getStarted tab; also made other tabs slightly visible
     $('.activate-lp').click(function(e) {
         if (!validateAPIKey()) {
             setMessage({
