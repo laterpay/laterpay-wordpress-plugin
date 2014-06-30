@@ -50,11 +50,13 @@ class Browscap
      * UPDATE_FSOCKOPEN: Uses the socket functions (fsockopen).
      * UPDATE_CURL: Uses the cURL extension.
      * UPDATE_LOCAL: Updates from a local file (file_get_contents).
+     * UPDATE_WP_REMOTE: Uses WP_remote functions
      */
     const UPDATE_FOPEN = 'URL-wrapper';
     const UPDATE_FSOCKOPEN = 'socket';
     const UPDATE_CURL = 'cURL';
     const UPDATE_LOCAL = 'local';
+    const UPDATE_WP_REMOTE = 'wp_remote';
 
     /**
      * Options for regex patterns.
@@ -581,7 +583,7 @@ class Browscap
         $user_agents_keys = array_flip($tmp_user_agents);
 
         // convert to SplFixedArray (requires less memory)
-        $tmp_user_agents       = \SplFixedArray::fromArray($tmp_user_agents);
+        $tmp_user_agents       = SplFixedArray::fromArray($tmp_user_agents);
         $tmp_user_agents_count = $tmp_user_agents->count();
 
         // get user agent data
@@ -1066,6 +1068,8 @@ class Browscap
         if ($this->updateMethod === null) {
             if ($this->localFile !== null) {
                 $this->updateMethod = self::UPDATE_LOCAL;
+            } elseif ( function_exists('wp_remote_get') ) {
+                $this->updateMethod = self::UPDATE_WP_REMOTE;
             } elseif (ini_get('allow_url_fopen') && function_exists('file_get_contents')) {
                 $this->updateMethod = self::UPDATE_FOPEN;
             } elseif (function_exists('fsockopen')) {
@@ -1101,6 +1105,20 @@ class Browscap
                 } else {
                     throw new Exception('Cannot open the local file');
                 }
+            case self::UPDATE_WP_REMOTE:
+                $headers    = array(
+                    'User-Agent' => $this->_getUserAgent(),
+                );
+                $file = wp_remote_retrieve_body(
+                            wp_remote_get(
+                                $url,
+                                array(
+                                    'headers' => $headers,
+                                    'timeout' => 30,
+                                )
+                            )
+                        );
+                return $file;
             case self::UPDATE_FOPEN:
                 if (ini_get('allow_url_fopen') && function_exists('file_get_contents')) {
                     // include proxy settings in the file_get_contents() call
