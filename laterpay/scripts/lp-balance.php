@@ -25,8 +25,16 @@ $client     = new LaterPayClient();
 // request parameters
 $hmac   = $request->getParam('hmac'); // required, token to validate request
 $ts     = $request->getParam('ts');   // required, timestamp
+$isLive = get_option('laterpay_plugin_mode_is_live');
 
-// variables
-$response->setHeader('Location', $client->getIframeApiBalanceUrl());
-$response->setHttpResponseCode(302);
-$response->sendResponse();
+if ( !function_exists('wp_get_current_user')) {
+    include_once(ABSPATH . 'wp-includes/pluggable.php');
+}
+
+if ( $isLive || (!$isLive && current_user_can('manage_options')) ) {
+    $response->setHeader('Location', $client->getIframeApiBalanceUrl());
+    $response->setHttpResponseCode(302);
+    $response->sendResponse();
+} else {
+    $response->sendResponse();
+}
