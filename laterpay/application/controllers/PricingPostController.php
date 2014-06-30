@@ -178,12 +178,13 @@ class PricingPostController extends AbstractController {
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 
+        $this->assign('global_price',      (double)get_option('laterpay_global_price'));
         $this->assign('price',             (double)$post_specific_price);
         $this->assign('price_category',    (double)$category_default_price);
         $this->assign('price_post_type',   $price_post_type);
         $this->assign('data',              Zend_Json::encode($data));
 
-        $this->render('pricingPostFormView');
+        $this->render('postPricingForm');
     }
 
     /**

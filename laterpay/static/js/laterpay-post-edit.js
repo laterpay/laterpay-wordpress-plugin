@@ -2,11 +2,17 @@ jQuery.noConflict();
 (function($) { $(function() {
 
     function validatePrice(price) {
+        // strip non-number characters
+        price = price.replace(/[^0-9\,\.]/g, '');
         // convert price to proper float value
         if (price.indexOf(',') > -1) {
             price = parseFloat(price.replace(',', '.')).toFixed(2);
         } else {
             price = parseFloat(price).toFixed(2);
+        }
+        // prevent non-number prices
+        if (isNaN(price)) {
+            price = 0;
         }
         // prevent negative prices
         price = Math.abs(price);
@@ -17,11 +23,11 @@ jQuery.noConflict();
             price = 0.05;
         }
 
-        return price;
+        return price.toFixed(2);
     }
 
     function laterpaySetPrice(price) {
-        var validatedPrice = validatePrice(price, locale);
+        var validatedPrice = validatePrice(price);
         // localize price
         if (locale == 'de_DE') {
             validatedPrice = validatedPrice.replace('.', ',');
@@ -43,33 +49,73 @@ jQuery.noConflict();
         laterpaySetPrice($(this).val());
     });
 
-    $('#show-advanced')
+    $('#laterpay-price-type .lp-toggle a')
     .mousedown(function() {
-        $('#laterpay_post_advanced').show();
-        $('#laterpay_post_standard').hide();
+        var $this                   = $(this),
+            $priceSection           = $('#laterpay-price-type'),
+            $toggle                 = $this.parents('.lp-toggle'),
+            $details                = $('#laterpay-price-type-details'),
+            priceType               = $this.attr('class'),
+            $categories             = $('#laterpay-price-type-details .use-category-default-price li'),
+            $dynamicPricingToggle   = $('#use-dynamic-pricing');
+
+        // set state of toggle
+        $('.selected', $toggle).removeClass('selected');
+        $this.parent('li').addClass('selected');
+        $priceSection.removeClass('expanded');
+
+        // hide show details sections
+        $('.details-section', $details).hide();
+        if (priceType === 'use-individual-price') {
+            $priceSection.addClass('expanded');
+            $('.' + priceType, $details).show();
+            $dynamicPricingToggle.show();
+        } else if (priceType === 'use-category-default-price') {
+            // select the first category in the list, if none is selected yet
+            if ($('#laterpay-price-type-details .selected-category').length === 0) {
+                $categories.first().addClass('selected-category');
+            }
+            // set the price of the selected category
+            laterpaySetPrice($('#laterpay-price-type-details .selected-category a').attr('data-price'));
+            // show / hide stuff
+            $priceSection.addClass('expanded');
+            $('.' + priceType, $details).show();
+            $categories.slideDown(250);
+            $dynamicPricingToggle.hide();
+        } else if (priceType === 'use-global-default-price') {
+            laterpaySetPrice($this.attr('data-price'));
+            $dynamicPricingToggle.hide();
+        }
+
+        // disable price input for all scenarios other than static individual price
+        if (priceType === 'use-individual-price') {
+            $('#post-price').removeAttr('disabled');
+            setTimeout(function() { $('#post-price').focus(); }, 50);
+        } else {
+            $('#post-price').attr('disabled', 'disabled');
+        }
+    })
+    .click(function(e) {e.preventDefault();});
+
+    $('#laterpay-price-type-details .use-category-default-price a').click(function(e) {
+        var $this       = $(this),
+            $categories = $('#laterpay-price-type-details .use-category-default-price li'),
+            category    = $this.parent().attr('data-category');
+
+        $categories.removeClass('selected-category');
+        laterpaySetPrice($this.attr('data-price'));
+        $this.parent('li').addClass('selected-category');
+        e.preventDefault();
+    });
+
+    $('#use-dynamic-pricing')
+    .mousedown(function() {
+        $(this).fadeOut(200);
+        $('#post-price').attr('disabled', 'disabled');
+        $('#laterpay-dynamic-pricing').slideDown(250);
         $('input[name=price_post_type]').val(1);
     })
     .click(function(e) {e.preventDefault();});
-
-    $('#show-standard')
-    .mousedown(function() {
-        $('#laterpay_post_advanced').hide();
-        $('#laterpay_post_standard').show();
-        $('input[name=price_post_type]').val(0);
-    })
-    .click(function(e) {e.preventDefault();});
-
-    $('#set_price_category').click(function(e) {
-        laterpaySetPrice(price_category);
-        $(this).fadeOut(400);
-        e.preventDefault();
-    });
-
-    $('#set_price_global').click(function(e) {
-        laterpaySetPrice(price_global);
-        $(this).fadeOut(400);
-        e.preventDefault();
-    });
 
     $('#post').submit(function() {
         if (requiredTeaserContentNotEntered()) {
@@ -182,10 +228,10 @@ jQuery.noConflict();
     });
 
     if (is_standard_post === '1') {
-        $('#laterpay_post_standard').hide();
+        $('#laterpay-post-standard').hide();
         $('#laterpay_post_advanced').show();
     } else {
-        $('#laterpay_post_standard').show();
+        $('#laterpay-post-standard').show();
         $('#laterpay_post_advanced').hide();
     }
 

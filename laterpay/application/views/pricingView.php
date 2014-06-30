@@ -8,6 +8,7 @@
         i18n_selectCategory = '<?php _e("Select Category", 'laterpay'); ?>',
         default_price       = '<?php echo get_option("laterpay_global_price"); ?>',
         currency            = '<?php echo get_option("laterpay_currency"); ?>',
+        locale              = '<?php echo get_locale(); ?>',
         category, category_id, price;
 </script>
 
