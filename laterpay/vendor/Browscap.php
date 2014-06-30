@@ -50,7 +50,7 @@ class Browscap
      * UPDATE_FSOCKOPEN: Uses the socket functions (fsockopen).
      * UPDATE_CURL: Uses the cURL extension.
      * UPDATE_LOCAL: Updates from a local file (file_get_contents).
-     * UPDATE_WP_REMOTE: Uses W_remote functions
+     * UPDATE_WP_REMOTE: Uses WP_remote functions
      */
     const UPDATE_FOPEN = 'URL-wrapper';
     const UPDATE_FSOCKOPEN = 'socket';
