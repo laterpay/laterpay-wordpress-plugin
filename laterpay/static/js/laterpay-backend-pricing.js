@@ -2,6 +2,8 @@ jQuery.noConflict();
 (function($) {$(function() {
 
     function validatePrice(price) {
+        var corrected;
+
         // strip non-number characters
         price = price.replace(/[^0-9\,\.]/g, '');
         // convert price to proper float value
@@ -13,14 +15,17 @@ jQuery.noConflict();
         // prevent non-number prices
         if (isNaN(price)) {
             price = 0;
+            corrected = true;
         }
         // prevent negative prices
         price = Math.abs(price);
         // correct prices outside the allowed range of 0.05 - 5.00
         if (price > 5) {
             price = 5;
+            corrected = true;
         } else if (price > 0 && price < 0.05) {
             price = 0.05;
+            corrected = true;
         }
         // format price with two digits
         price = price.toFixed(2);
@@ -28,6 +33,11 @@ jQuery.noConflict();
         // localize price
         if (locale == 'de_DE') {
             price = price.replace('.', ',');
+        }
+
+        // show flash message when correcting an invalid price
+        if (corrected) {
+            setMessage(i18n_outsideAllowedPriceRange, false);
         }
 
         return price;
