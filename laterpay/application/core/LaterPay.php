@@ -197,7 +197,7 @@ class LaterPay {
         $sql = "
                 CREATE TABLE `$table_currency` (
                     `id`            INT(10)         NOT NULL AUTO_INCREMENT,
-                    `short_name`    VARCHAR(64)     NOT NULL,
+                    `short_name`    VARCHAR(3)      NOT NULL,
                     `full_name`     VARCHAR(64)     NOT NULL,
                     PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
