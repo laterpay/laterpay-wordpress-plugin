@@ -1,17 +1,6 @@
-#container2 p {margin-bottom:0;}
-#container2 a {
-    background:url(../img/dynamic-pricing-presets-sprite.png) no-repeat;
-    display:block;
-    height:48px;
-    margin:.5em 0 0;
-    outline:0 none;
-    padding:0 0 0 60px;
-}
-#container2 .blockbuster {background-position:0 0;}
-#container2 .breaking-news {background-position:0 -48px;}
-#container2 .teaser {background-position:0 -96px;}
-#container2 .long-tail {background-position:0 -144px;}
-#container2 .flat {background-position:0 -192px;}
+/* general utility styles */
+.clearfix:before,
+.clearfix:after {clear:both; content:''; display:table;}
 
 input[type=text].lp-input {
     background-color:#fff;
@@ -21,19 +10,37 @@ input[type=text].lp-input {
     margin:0;
     padding:.5em;
 }
-
 .lp-input::-webkit-input-placeholder {color:#a5a5a5; line-height:1.4;}
 .lp-input::-moz-placeholder {color:#a5a5a5; line-height:1.4;}
 .lp-input:-ms-input-placeholder {color:#a5a5a5; line-height:1.4;}
-
 input[type=text].lp-input:focus {-moz-appearance:none; -webkit-appearance:none; border-color:#0074a2;}
-input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
+input.lp-input.number {padding:.15em; text-align:right; width:3.5em;}
 
 
-#laterpay_post_standard {margin-top:20px;}
-#laterpay_post_standard p:last-child {margin-bottom:0;}
+/* post pricing form */
+.post-price-wrapper {margin:0 0 0.5em; text-align:right;}
+#post-price {font-size:3em; -webkit-transition-duration:.4s; transition-duration:.4s;}
+#post-price:disabled {
+    border-color:transparent;
+    color:#333;
+    -webkit-transition-duration:.4s;
+    transition-duration:.4s;
+}
+.lp-currency {bottom:.75em; color:#ccc; font-size:1.5em; padding-right:.1em; position:relative;}
 
-#laterpay_teaser_content dfn {color:#999; display:block; font-style:italic; margin:1em 0;}
+
+/* price type section */
+#laterpay-price-type {border:1px solid #ccc; border-radius:3px;}
+
+ul.lp-toggle {background-color:#eee; margin:0; padding:0;}
+ul.lp-toggle li {border-right:1px solid #ccc; float:left; line-height:1.2; margin:0; padding:.5em 0; text-align:center; width:33%;}
+ul.lp-toggle li:first-child {border-radius:3px 0 0 0;}
+ul.lp-toggle li:last-child {border-radius:0 3px 0 0; border-right:0 none;}
+ul.lp-toggle li.selected,
+ul.lp-toggle li:hover {box-shadow:0 0 5px rgba(0, 0, 0, 0.34) inset;}
+ul.lp-toggle li.selected:hover a {cursor:default;}
+ul.lp-toggle a {text-decoration:none; text-shadow:0 1px 0 #fff;}
+
 
 /* add LaterPay logo to heading of postbox */
 @charset 'UTF-8';
@@ -67,6 +74,21 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
 
 
 /* dynamic pricing widget */
+#container2 p {margin-bottom:0;}
+#container2 a {
+    background:url(../img/dynamic-pricing-presets-sprite.png) no-repeat;
+    display:block;
+    height:48px;
+    margin:.5em 0 0;
+    outline:0 none;
+    padding:0 0 0 60px;
+}
+#container2 .blockbuster {background-position:0 0;}
+#container2 .breaking-news {background-position:0 -48px;}
+#container2 .teaser {background-position:0 -96px;}
+#container2 .long-tail {background-position:0 -144px;}
+#container2 .flat {background-position:0 -192px;}
+
 svg text {-webkit-user-select:none;}
 
 #container {height:240px; width:254px;}
@@ -129,3 +151,7 @@ text.start-price-currency,
 text.end-price-currency {font-size:9px; font-weight:400;}
 
 text.default-price {fill:#aaa; font-size:10px;}
+
+
+/* teaser content */
+#laterpay_teaser_content dfn {color:#999; display:block; font-style:italic; margin:1em 0;}

@@ -43,33 +43,33 @@ jQuery.noConflict();
         laterpaySetPrice($(this).val());
     });
 
-    $('#show-advanced')
-    .mousedown(function() {
-        $('#laterpay_post_advanced').show();
-        $('#laterpay_post_standard').hide();
-        $('input[name=price_post_type]').val(1);
-    })
-    .click(function(e) {e.preventDefault();});
+    // $('#show-advanced')
+    // .mousedown(function() {
+    //     $('#laterpay_post_advanced').show();
+    //     $('#laterpay-post-standard').hide();
+    //     $('input[name=price_post_type]').val(1);
+    // })
+    // .click(function(e) {e.preventDefault();});
 
-    $('#show-standard')
-    .mousedown(function() {
-        $('#laterpay_post_advanced').hide();
-        $('#laterpay_post_standard').show();
-        $('input[name=price_post_type]').val(0);
-    })
-    .click(function(e) {e.preventDefault();});
+    // $('#show-standard')
+    // .mousedown(function() {
+    //     $('#laterpay_post_advanced').hide();
+    //     $('#laterpay-post-standard').show();
+    //     $('input[name=price_post_type]').val(0);
+    // })
+    // .click(function(e) {e.preventDefault();});
 
-    $('#set_price_category').click(function(e) {
-        laterpaySetPrice(price_category);
-        $(this).fadeOut(400);
-        e.preventDefault();
-    });
+    // $('#set_price_category').click(function(e) {
+    //     laterpaySetPrice(price_category);
+    //     $(this).fadeOut(400);
+    //     e.preventDefault();
+    // });
 
-    $('#set_price_global').click(function(e) {
-        laterpaySetPrice(price_global);
-        $(this).fadeOut(400);
-        e.preventDefault();
-    });
+    // $('#set_price_global').click(function(e) {
+    //     laterpaySetPrice(price_global);
+    //     $(this).fadeOut(400);
+    //     e.preventDefault();
+    // });
 
     $('#post').submit(function() {
         if (requiredTeaserContentNotEntered()) {
@@ -182,10 +182,10 @@ jQuery.noConflict();
     });
 
     if (is_standard_post === '1') {
-        $('#laterpay_post_standard').hide();
+        $('#laterpay-post-standard').hide();
         $('#laterpay_post_advanced').show();
     } else {
-        $('#laterpay_post_standard').show();
+        $('#laterpay-post-standard').show();
         $('#laterpay_post_advanced').hide();
     }
 

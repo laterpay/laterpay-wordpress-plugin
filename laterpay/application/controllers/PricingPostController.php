@@ -183,7 +183,7 @@ class PricingPostController extends AbstractController {
         $this->assign('price_post_type',   $price_post_type);
         $this->assign('data',              Zend_Json::encode($data));
 
-        $this->render('pricingPostFormView');
+        $this->render('postPricingForm');
     }
 
     /**
