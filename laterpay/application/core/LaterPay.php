@@ -200,9 +200,7 @@ class LaterPay {
                     short_name    VARCHAR(3)      NOT NULL,
                     full_name     VARCHAR(64)     NOT NULL,
                     PRIMARY KEY  (id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8
-                ;
-        ";
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta($sql);
 
         $sql = "
@@ -211,19 +209,14 @@ class LaterPay {
                 term_id           INT(11)         NOT NULL,
                 price             DOUBLE          NOT NULL DEFAULT '0',
                 PRIMARY KEY  (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8
-            ;
-        ";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta($sql);
 
         $sql = "
-            INSERT INTO
-                $table_currency (id, short_name, full_name)
+            INSERT INTO $table_currency (id, short_name, full_name)
             VALUES
                 (1, 'USD', 'U.S. dollar'),
-                (2, 'EUR', 'Euro')
-            ;
-        ";
+                (2, 'EUR', 'Euro');";
         dbDelta($sql);
 
         $sql = "
@@ -237,9 +230,7 @@ class LaterPay {
                 ip                INT             NOT NULL,
                 hash              VARCHAR(32)     NOT NULL,
                 PRIMARY KEY  (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
-            ;
-        ";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta($sql);
 
         $sql = "
@@ -250,9 +241,7 @@ class LaterPay {
                 count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)   NOT NULL,
                 UNIQUE KEY  uk_view (post_id, user_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1
-            ;
-        ";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta($sql);
 
         add_option('laterpay_activate',             '0');
