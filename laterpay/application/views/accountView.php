@@ -42,7 +42,7 @@
                             <strong><?php _e('Merchant ID', 'laterpay'); ?></strong>
                         </li>
                         <li class="left">
-                            <span class="input-icon merchant-id-icon" data-icon="k"></span>
+                            <span class="input-icon merchant-id-icon" data-icon="i"></span>
                             <input type="text"
                                 maxlength="22"
                                 id="laterpay_sandbox_merchant_id"
@@ -62,7 +62,7 @@
                             <strong><?php _e('API Key', 'laterpay'); ?></strong>
                         </li>
                         <li class="left">
-                            <span class="input-icon api-key-icon" data-icon="l"></span>
+                            <span class="input-icon api-key-icon" data-icon="j"></span>
                             <input type="text"
                                 maxlength="32"
                                 id="laterpay_sandbox_api_key"
@@ -87,7 +87,7 @@
                             <strong class="live"><?php _e('Merchant ID', 'laterpay'); ?></strong>
                         </li>
                         <li class="left">
-                            <span class="input-icon merchant-id-icon live" data-icon="k"></span>
+                            <span class="input-icon merchant-id-icon live" data-icon="i"></span>
                             <input type="text"
                                 maxlength="22"
                                 id="laterpay_live_merchant_id"
@@ -107,7 +107,7 @@
                             <strong class="live"><?php _e('API Key', 'laterpay'); ?></strong>
                         </li>
                         <li class="left">
-                            <span class="input-icon api-key-icon live" data-icon="l"></span>
+                            <span class="input-icon api-key-icon live" data-icon="j"></span>
                             <input type="text"
                                 maxlength="32"
                                 name="laterpay_live_api_key"

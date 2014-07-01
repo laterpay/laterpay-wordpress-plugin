@@ -1,7 +1,9 @@
 <script>
-    var locale = "<?php echo get_locale(); ?>";
+    var locale                          = "<?php echo get_locale(); ?>",
+        i18n_outsideAllowedPriceRange   = "<?php _e('The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay'); ?>",
+        i18n_invalidMerchantId          = "<?php _e('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay'); ?>",
+        i18n_invalidApiKey              = "<?php _e('The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay'); ?>";
 </script>
-
 
 <div class="lp-page wp-core-ui">
 
@@ -12,9 +14,9 @@
     <div class="tabs-area">
         <ul class="tabs getstarted">
             <li class="current"><a href="#"><?php _e('Get Started', 'laterpay'); ?></a></li>
-            <li><a href="#pricing"><?php _e('Pricing', 'laterpay'); ?></a></li>
-            <li><a href="#appearance"><?php _e('Appearance', 'laterpay'); ?></a></li>
-            <li><a href="#account"><?php _e('Account', 'laterpay'); ?></a></li>
+            <li><a href="#"><?php _e('Pricing', 'laterpay'); ?></a></li>
+            <li><a href="#"><?php _e('Appearance', 'laterpay'); ?></a></li>
+            <li><a href="#"><?php _e('Account', 'laterpay'); ?></a></li>
         </ul>
     </div>
 
@@ -34,14 +36,14 @@
             <ul class="step-row clearfix">
                 <li>
                     <div class="progress-step first">
-                        <span class="input-icon merchant-id-icon" data-icon="k"></span>
+                        <span class="input-icon merchant-id-icon" data-icon="i"></span>
                         <input type="text"
                                 maxlength="22"
                                 name="get_started[laterpay_sandbox_merchant_id]"
                                 class="lp-input merchant-id-input"
                                 value=""
                                 placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>"><br>
-                        <span class="input-icon api-key-icon" data-icon="l"></span>
+                        <span class="input-icon api-key-icon" data-icon="j"></span>
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"

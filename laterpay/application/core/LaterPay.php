@@ -486,7 +486,7 @@ class LaterPay {
         );
         wp_register_script(
             'laterpay-yui',
-            'https://static.laterpay.net/yui/3.13.0/build/yui/yui.js',
+            'https://static.laterpay.net/yui/3.13.0/build/yui/yui-min.js',
             array(),
             $laterpay_version,
             false
