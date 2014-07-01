@@ -36,14 +36,14 @@
             <ul class="step-row clearfix">
                 <li>
                     <div class="progress-step first">
-                        <span class="input-icon merchant-id-icon" data-icon="k"></span>
+                        <span class="input-icon merchant-id-icon" data-icon="i"></span>
                         <input type="text"
                                 maxlength="22"
                                 name="get_started[laterpay_sandbox_merchant_id]"
                                 class="lp-input merchant-id-input"
                                 value=""
                                 placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>"><br>
-                        <span class="input-icon api-key-icon" data-icon="l"></span>
+                        <span class="input-icon api-key-icon" data-icon="j"></span>
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
