@@ -1,17 +1,3 @@
-<script>
-    var wp_nonce_field      = '<?php if ( function_exists("wp_nonce_field") ) wp_nonce_field("laterpay_form"); ?>',
-        i18n_cost           = '<?php _e("costs", 'laterpay'); ?>',
-        i18n_change         = '<?php _e("Change", 'laterpay'); ?>',
-        i18n_cancel         = '<?php _e("Cancel", 'laterpay'); ?>',
-        i18n_delete         = '<?php _e("Delete", 'laterpay'); ?>',
-        i18n_save           = '<?php _e("Save", 'laterpay'); ?>',
-        i18n_selectCategory = '<?php _e("Select Category", 'laterpay'); ?>',
-        default_price       = '<?php echo get_option("laterpay_global_price"); ?>',
-        currency            = '<?php echo get_option("laterpay_currency"); ?>',
-        category, category_id, price;
-</script>
-
-
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">

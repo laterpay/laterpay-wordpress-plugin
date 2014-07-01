@@ -53,6 +53,28 @@ class PricingPostController extends AbstractController {
         wp_enqueue_script('laterpay-d3');
         wp_enqueue_script('laterpay-d3-dynamic-pricing-widget');
         wp_enqueue_script('laterpay-post-edit');
+
+        // pass localized strings and variables to scripts
+        wp_localize_script(
+            'laterpay-post-edit',
+            'lpVars',
+            array(
+                'categoryDefaultPrice'  => $price_category,
+                'GlobalDefaultPrice'    => get_option('laterpay_global_price'),
+                'dataStart'             => $data,
+                'isStandardPost'        => $price_post_type ? 1 : 0,
+                'locale'                => get_locale(),
+                'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
+            )
+        );
+        wp_localize_script(
+            'laterpay-d3-dynamic-pricing-widget',
+            'lpVars',
+            array(
+                'currency'          => get_option('laterpay_currency'),
+                'i18nDefaultPrice'  => __('default price', 'laterpay'),
+            )
+        );
     }
 
     /**

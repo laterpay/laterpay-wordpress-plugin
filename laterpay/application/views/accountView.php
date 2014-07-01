@@ -1,10 +1,3 @@
-<script>
-    var i18n_api_updated            = "<?php _e('The API key you entered is a valid LaterPay API key', 'laterpay'); ?>",
-        i18n_api_invalid            = "<?php _e('The API key you entered is not a valid LaterPay API key!', 'laterpay'); ?>",
-        i18n_merchant_id_updated    = "<?php _e('The Merchant ID you entered is a valid LaterPay Merchant ID.', 'laterpay'); ?>",
-        i18n_merchant_id_invalid    = "<?php _e('The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay'); ?>";
-</script>
-
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">
@@ -149,7 +142,6 @@
                                 name="plugin_mode_is_live_checkbox"
                                 id="plugin-mode-toggle"
                                 class="switch-input"
-                                data-error="<?php _e('Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay'); ?>"
                                 <?php if ( get_option('laterpay_plugin_mode_is_live') == 1 ): ?>checked<?php endif; ?>>
                         <input type="hidden"
                                 name="plugin_mode_is_live"

@@ -1,15 +1,3 @@
-<script>
-    var price_category      = "<?php echo $price_category; ?>",
-        price_global        = "<?php echo get_option('laterpay_global_price'); ?>",
-        data_start          = <?php echo $data; ?>,
-        is_standard_post    = "<?php if ( $price_post_type ): ?>1<?php else: ?>0<?php endif; ?>",
-        price_currency      = "<?php echo get_option('laterpay_currency'); ?>",
-        locale              = "<?php echo get_locale(); ?>",
-        i18nDefaultPrice    = "<?php _e('default price', 'laterpay'); ?>",
-        i18nTeaserError     = "<?php _e('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'); ?>";
-</script>
-
-
 <input type="hidden" name="price_post_type" value="<?php echo $price_post_type ?>">
 
 <div id="laterpay_post_standard"<?php if ( $price_post_type ): ?> style="display:none;"<?php endif; ?>>
@@ -49,7 +37,7 @@
     <input type="hidden" name="laterpay_change_start_price_after_days">
     <input type="hidden" name="laterpay_transitional_period_end_after_days">
     <input type="hidden" name="laterpay_reach_end_price_after_days">
-    <div id="container"></div>
+    <div id="laterpay-widget-container"></div>
     <div id="container2">
         <p><?php _e('Dynamic pricing presets', 'laterpay'); ?></p>
         <a href="#" class="blockbuster"><?php _e('Blockbuster', 'laterpay'); ?></a>

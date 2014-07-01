@@ -21,9 +21,9 @@ jQuery.noConflict();
     }
 
     function laterpaySetPrice(price) {
-        var validatedPrice = validatePrice(price, locale);
+        var validatedPrice = validatePrice(price);
         // localize price
-        if (locale == 'de_DE') {
+        if (lpVars.locale == 'de_DE') {
             validatedPrice = validatedPrice.replace('.', ',');
         }
         $('#post-price').val(validatedPrice);
@@ -60,20 +60,20 @@ jQuery.noConflict();
     .click(function(e) {e.preventDefault();});
 
     $('#set_price_category').click(function(e) {
-        laterpaySetPrice(price_category);
+        laterpaySetPrice(lpVars.categoryDefaultPrice);
         $(this).fadeOut(400);
         e.preventDefault();
     });
 
     $('#set_price_global').click(function(e) {
-        laterpaySetPrice(price_global);
+        laterpaySetPrice(lpVars.globalDefaultPrice);
         $(this).fadeOut(400);
         e.preventDefault();
     });
 
     $('#post').submit(function() {
         if (requiredTeaserContentNotEntered()) {
-            setMessage(i18nTeaserError, false);
+            setMessage(lpVars.i18nTeaserError, false);
             $('#timestampdiv').show();
             $('#publishing-action .spinner').hide();
             $('#publish').prop('disabled', false).removeClass('button-primary-disabled');
@@ -101,8 +101,8 @@ jQuery.noConflict();
 
 
     // dynamic pricing widget
-    var data    = data_start,
-        lpc     = new LPCurve('#container');
+    var data    = lpVars.dataStart,
+        lpc     = new LPCurve('#laterpay-widget-container');
     window.lpc = lpc;
 
     if (data.length === 4)
@@ -181,13 +181,12 @@ jQuery.noConflict();
         return false;
     });
 
-    if (is_standard_post === '1') {
+    if (lpVars.isStandardPost === '1') {
         $('#laterpay_post_standard').hide();
         $('#laterpay_post_advanced').show();
     } else {
         $('#laterpay_post_standard').show();
         $('#laterpay_post_advanced').hide();
     }
-
 
 });})(jQuery);

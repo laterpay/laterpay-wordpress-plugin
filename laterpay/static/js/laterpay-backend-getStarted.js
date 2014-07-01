@@ -21,10 +21,10 @@ jQuery.noConflict();
         }
 
         if (idValue.length !== 22) {
-            setMessage(i18n_invalidMerchantId, false);
+            setMessage(lpVars.i18nInvalidMerchantId, false);
         }
         if (keyValue.length !== 32) {
-            setMessage(i18n_invalidApiKey, false);
+            setMessage(lpVars.i18nInvalidApiKey, false);
         }
 
         return false;
@@ -59,7 +59,7 @@ jQuery.noConflict();
 
         // show flash message when correcting an invalid price
         if (corrected) {
-            setMessage(i18n_outsideAllowedPriceRange, false);
+            setMessage(lpVars.i18nOutsideAllowedPriceRange, false);
         }
 
         return price.toFixed(2);
@@ -70,7 +70,7 @@ jQuery.noConflict();
         var $defaultPrice   = $('#global-default-price'),
             defaultPrice    = $defaultPrice.val(),
             validatedPrice  = validatePrice(defaultPrice);
-        if (locale == 'de_DE') {
+        if (lpVars.locale == 'de_DE') {
             validatedPrice = validatedPrice.replace('.', ',');
         }
         $defaultPrice.val(validatedPrice);
