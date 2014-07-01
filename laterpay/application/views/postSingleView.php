@@ -111,25 +111,29 @@
             </div>
             <div class="laterpay-overlay-text">
                 <div class="laterpay-benefits">
-                    <h2><?php _e('Read Now, Pay Later', 'laterpay'); ?></h2>
-                    <p><?php _e('Just agree to pay later and read instantly.', 'laterpay'); ?></p>
+                    <header>
+                        <h2>
+                            <span data-icon="a"></span>
+                            <?php _e('Read Now, Pay Later', 'laterpay'); ?>
+                        </h2>
+                    </header>
                     <ul class="clearfix">
                         <li>
-                            <h3 class="logo-laterpay-icon" data-icon="b"><?php _e('Just pay later', 'laterpay'); ?></h3>
+                            <h3 class="laterpay-buy-now"><?php _e('Buy Now', 'laterpay'); ?></h3>
                             <p>
-                                <?php _e('We ask you to pay only once all your LaterPay purchases reach 5 €.', 'laterpay'); ?>
+                                <?php _e('Just agree to pay later.<br>No upfront registration and payment.', 'laterpay'); ?>
                             </p>
                         </li>
                         <li>
-                            <h3 class="icon-no-subscription" data-icon="i"><?php _e('No subscription', 'laterpay'); ?></h3>
+                            <h3 class="laterpay-use-immediately"><?php _e('Read Immediately', 'laterpay'); ?></h3>
                             <p>
-                                <?php _e('There is no subscription or additional fee. You buy only this article.', 'laterpay'); ?>
+                                <?php _e('Get immediate access to your purchase.<br>You only buy this article, not a subscription.', 'laterpay'); ?>
                             </p>
                         </li>
                         <li>
-                            <h3 class="icon-register-later" data-icon="j"><?php _e('No upfront<br>registration', 'laterpay'); ?></h3>
+                            <h3 class="laterpay-pay-later"><?php _e('Pay Later', 'laterpay'); ?></h3>
                             <p>
-                                <?php _e('You get instant access to your purchase. Just register when you pay for the first time.', 'laterpay'); ?>
+                                <?php _e('Buy with LaterPay until you reach a total of 5 Euro.<br>Only then do you have to register and pay.', 'laterpay'); ?>
                             </p>
                         </li>
                     </ul>
