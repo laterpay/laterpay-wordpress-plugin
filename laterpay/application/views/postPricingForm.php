@@ -12,7 +12,6 @@
 
 <input type="hidden" name="price_post_type" value="<?php echo $price_post_type ?>">
 
-
 <div class="post-price-wrapper">
     <input type="text"
             id="post-price"
