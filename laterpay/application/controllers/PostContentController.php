@@ -38,6 +38,7 @@ class PostContentController extends AbstractController {
      * @access public
      */
     public function view( $content ) {
+        global $laterpay_show_statistic;
         if ( is_page() ) {
             return $content;
         }
@@ -75,6 +76,8 @@ class PostContentController extends AbstractController {
                 $this->assign('is_premium_content',    $price > 0);
                 $this->assign('access',                $access);
                 $this->assign('link',                  $link);
+                $this->assign('can_show_statistic',    $laterpay_show_statistic ? true: false);
+                $this->assign('post_content_cached',   CacheHelper::isWPSuperCacheActive());
                 $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
 
 
@@ -104,7 +107,9 @@ class PostContentController extends AbstractController {
                 $LaterPayClient = new LaterPayClient();
                 $identify_link = $LaterPayClient->getIdentifyUrl();
 
-                $this->assign('identify_link', $identify_link);
+                $this->assign('post_id',               $postid);
+                $this->assign('identify_link',         $identify_link);
+                $this->assign('post_content_cached',   CacheHelper::isWPSuperCacheActive());
 
                 echo $this->getTextView('identifyIframe');
             }
@@ -508,7 +513,7 @@ class PostContentController extends AbstractController {
      *
      * @return object
      */
-    public static function modifyPostTitle( $title ) {
+    public function modifyPostTitle( $title ) {
         if ( in_the_loop() ) {
             $post               = get_post();
             $post_id            = $post->ID;
@@ -518,19 +523,28 @@ class PostContentController extends AbstractController {
             $access             = $GLOBALS['laterpay_access'] || current_user_can('manage_options') || UserHelper::user_has_full_access();
             $link               = self::getLPLink($post_id);
             $preview_post_as_visitor = UserHelper::previewPostAsVisitor();
+            $post_content_cached = CacheHelper::isWPSuperCacheActive();
+            
+            if ( $is_premium_content && is_single() && !is_page() ) {
+                if ( $post_content_cached && !RequestHelper::isAjax() ) {
+                    $this->assign('post_id',    $post_id);
 
-            if ( $is_premium_content && is_single() && !is_page() && (!$access || $preview_post_as_visitor) ) {
-                $currency           = get_option('laterpay_currency');
-                $purchase_button    = '<a href="' . $link . '" class="laterpay-purchase-link laterpay-purchase-button" data-icon="b" post-id="';
-                $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
-                $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
-                $purchase_button   .= sprintf(
-                                            __('%s<small>%s</small>', 'laterpay'),
-                                            ViewHelper::formatNumber($price, 2),
-                                            $currency
-                                        );
-                $purchase_button   .= '</a>';
-                $title              = $purchase_button . $title;
+                    $title = $this->getTextView('postTitle');
+                } else {
+                    if ( (!$access || $preview_post_as_visitor) ) {
+                        $currency           = get_option('laterpay_currency');
+                        $purchase_button    = '<a href="' . $link . '" class="laterpay-purchase-link laterpay-purchase-button" data-icon="b" post-id="';
+                        $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
+                        $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
+                        $purchase_button   .= sprintf(
+                                                    __('%s<small>%s</small>', 'laterpay'),
+                                                    ViewHelper::formatNumber($price, 2),
+                                                    $currency
+                                                );
+                        $purchase_button   .= '</a>';
+                        $title              = $purchase_button . $title;
+                    }
+                }
             }
         }
 

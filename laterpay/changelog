@@ -1,9 +1,11 @@
-0.9.5 (July 4, 2014): XXXXXXXXX release ============================================================
+0.9.5 (July 4, 2014): Production-readiness release II ==============================================
+    - Made plugin compatible with page caching solutions like WP Super Cache
     - Redesigned overlay for previewing paid content
     - Bugfix for auto-updating of browser detection library
     - Improved internal use of standard WP APIs (transport, wp_localize_script)
     - Added more flash messages for system feedback
     - Switched to loading minified version of YUI
+    - Renamed views and several variables to be more self-explanatory
 
 
 0.9.4.2 (June 29, 2014): Bugfix release ============================================================
