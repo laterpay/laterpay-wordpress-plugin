@@ -108,6 +108,9 @@
                             'words' => true
                         )
                     ); ?>
+                <br>
+                <br>
+                <?php _e('This is only an excerpt from the paid post. Please buy the post to view all of it.', 'laterpay'); ?>
             </div>
             <div class="laterpay-overlay-text">
                 <div class="laterpay-benefits">

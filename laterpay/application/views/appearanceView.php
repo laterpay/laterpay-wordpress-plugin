@@ -5,16 +5,13 @@
     </div>
 
     <div class="tabs-area">
-        <?php if ( get_option('laterpay_plugin_mode_is_live') == 0 ): ?>
+        <?php if ( !$plugin_is_in_live_mode ): ?>
             <a href="#account" id="plugin-mode-indicator" data-icon="h">
                 <h2><?php _e('<strong>Test</strong> mode', 'laterpay'); ?></h2>
                 <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
             </a>
         <?php endif; ?>
         <ul class="tabs">
-            <?php if ( get_option('laterpay_activate') == '0' ): ?>
-                <li id="get-started-tab"><a href="#get_started"><?php _e('Get Started', 'laterpay'); ?></a></li>
-            <?php endif; ?>
             <li><a href="#pricing"><?php _e('Pricing', 'laterpay'); ?></a></li>
             <li class="current"><a href="#appearance"><?php _e('Appearance', 'laterpay'); ?></a></li>
             <li><a href="#account"><?php _e('Account', 'laterpay'); ?></a></li>
@@ -33,7 +30,7 @@
                             name="teaser_content_only"
                             value="1"
                             class="styled"
-                            <?php if ( get_option('laterpay_teaser_content_only') == 1 ): ?>checked<?php endif; ?>/>
+                            <?php if ( $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e('Teaser content only', 'laterpay'); ?>
                     <div class="preview-mode-1"></div>
                 </label>
@@ -42,7 +39,7 @@
                             name="teaser_content_only"
                             value="0"
                             class="styled"
-                            <?php if ( get_option('laterpay_teaser_content_only') == 0 ): ?>checked<?php endif; ?>/>
+                            <?php if ( !$show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e('Teaser content + full content, covered by overlay', 'laterpay'); ?>
                     <div class="preview-mode-2"></div>
                 </label>

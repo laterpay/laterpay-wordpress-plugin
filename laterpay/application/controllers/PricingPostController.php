@@ -57,22 +57,21 @@ class PricingPostController extends AbstractController {
         // pass localized strings and variables to scripts
         wp_localize_script(
             'laterpay-post-edit',
-            'lpVars',
+            'laterpay_post_edit',
             array(
-                'categoryDefaultPrice'  => $price_category,
-                'GlobalDefaultPrice'    => get_option('laterpay_global_price'),
-                'dataStart'             => $data,
-                'isStandardPost'        => $price_post_type ? 1 : 0,
+                'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
                 'locale'                => get_locale(),
                 'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
+                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_post_edit);',
             )
         );
         wp_localize_script(
             'laterpay-d3-dynamic-pricing-widget',
-            'lpVars',
+            'laterpay_d3_dynamic_pricing_widget',
             array(
                 'currency'          => get_option('laterpay_currency'),
                 'i18nDefaultPrice'  => __('default price', 'laterpay'),
+                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget);',
             )
         );
     }
@@ -156,14 +155,14 @@ class PricingPostController extends AbstractController {
 
         // return dynamic pricing widget start values
         if ( !get_post_meta($object->ID, 'laterpay_start_price', true) ) {
-            $data = array(
+            $dynamic_pricing_data = array(
                 array( 'x' => 0,  'y' => 1.8 ),
                 array( 'x' => 13, 'y' => 1.8 ),
                 array( 'x' => 18, 'y' => 0.2 ),
                 array( 'x' => 30, 'y' => 0.2 )
             );
         } elseif ( get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true) == 0 ) {
-            $data = array(
+            $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
                     'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
@@ -178,7 +177,7 @@ class PricingPostController extends AbstractController {
                 )
             );
         } else {
-            $data = array(
+            $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
                     'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
@@ -200,10 +199,12 @@ class PricingPostController extends AbstractController {
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 
-        $this->assign('price',             (double)$post_specific_price);
-        $this->assign('price_category',    (double)$category_default_price);
-        $this->assign('price_post_type',   $price_post_type);
-        $this->assign('data',              Zend_Json::encode($data));
+        $this->assign('price',                  (float)$post_specific_price);
+        $this->assign('category_default_price', (float)$category_default_price);
+        $this->assign('global_default_price',   (float)get_option('laterpay_global_price'));
+        $this->assign('currency',               get_option('laterpay_currency'));
+        $this->assign('price_post_type',        $price_post_type);
+        $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
 
         $this->render('pricingPostFormView');
     }
@@ -225,7 +226,7 @@ class PricingPostController extends AbstractController {
             return $post_id;
         }
 
-        $delocalized_price = (double)str_replace(',', '.', $_POST['pricing-post']);
+        $delocalized_price = (float)str_replace(',', '.', $_POST['pricing-post']);
 
         if ( $delocalized_price > 5 || $delocalized_price < 0 ) {
             $category               = get_the_category($post_id);

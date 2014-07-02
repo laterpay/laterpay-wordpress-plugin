@@ -39,7 +39,7 @@ class LaterPayModelHistory {
     public function setPaymentHistory( $data ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -83,7 +83,7 @@ class LaterPayModelHistory {
     public function getTotalHistoryByIdPost( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -124,7 +124,7 @@ class LaterPayModelHistory {
     public function getTodayHistoryByIdPost( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -168,7 +168,7 @@ class LaterPayModelHistory {
     public function getLast30DaysHistoryByIdPost( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';

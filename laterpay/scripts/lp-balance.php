@@ -25,7 +25,7 @@ $client     = new LaterPayClient();
 // request parameters
 $hmac   = $request->getParam('hmac'); // required, token to validate request
 $ts     = $request->getParam('ts');   // required, timestamp
-$isLive = get_option('laterpay_plugin_mode_is_live');
+$isLive = get_option('laterpay_plugin_is_in_live_mode');
 
 if ( !function_exists('wp_get_current_user')) {
     include_once(ABSPATH . 'wp-includes/pluggable.php');

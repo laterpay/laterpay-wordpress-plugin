@@ -36,6 +36,12 @@ class AccountController extends AbstractController {
     public function page() {
         $this->loadAssets();
 
+        $this->assign('sandbox_merchant_id',    get_option('laterpay_sandbox_merchant_id'));
+        $this->assign('sandbox_api_key',        get_option('laterpay_sandbox_api_key'));
+        $this->assign('live_merchant_id',       get_option('laterpay_live_merchant_id'));
+        $this->assign('live_api_key',           get_option('laterpay_live_api_key'));
+        $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
+
         $this->render('accountView');
     }
 
@@ -78,7 +84,7 @@ class AccountController extends AbstractController {
                     self::_updateLiveApiKey();
                     break;
 
-                case 'plugin_mode_is_live':
+                case 'plugin_is_in_live_mode':
                     self::_updatePluginMode();
                     break;
 
@@ -232,9 +238,9 @@ class AccountController extends AbstractController {
      * @access protected
      */
     protected static function _updatePluginMode() {
-        $result = update_option('laterpay_plugin_mode_is_live', $_POST['plugin_mode_is_live']);
+        $result = update_option('laterpay_plugin_is_in_live_mode', $_POST['plugin_is_in_live_mode']);
         if ( $result ) {
-            if ( get_option('laterpay_plugin_mode_is_live') ) {
+            if ( get_option('laterpay_plugin_is_in_live_mode') ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => true,

@@ -16,7 +16,7 @@ class LaterPayClient {
      * Constructor for class LaterPayAPICore
      */
     public function __construct( $_args = array() ) {
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $this->cp_key   = get_option('laterpay_live_merchant_id');
             $this->api_key  = get_option('laterpay_live_api_key');
             $this->api_root = LATERPAY_LIVE_API_URL;
