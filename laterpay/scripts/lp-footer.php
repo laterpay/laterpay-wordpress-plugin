@@ -28,13 +28,13 @@ $response->setHeader('Content-Type', 'text/html');
 
 if ( RequestHelper::isAjax() && !empty($post_id) ) {
     $controller = new PostContentController();
-    
+
     ob_start();
     $controller->modifyFooter();
     $html = ob_get_contents();
     ob_end_clean();
-    
-    $response->setBody($html); 
+
+    $response->setBody($html);
 } else {
     $response->setBody('');
 }

@@ -31,13 +31,13 @@ if ( RequestHelper::isAjax() && !empty($post_id) ) {
     setup_postdata($post);
     $wp_query->is_single = true;
     $wp_query->in_the_loop = true;
-    
+
     ob_start();
     the_title();
     $html = ob_get_contents();
     ob_end_clean();
-    
-    $response->setBody($html); 
+
+    $response->setBody($html);
 } else {
     $response->setBody('');
 }

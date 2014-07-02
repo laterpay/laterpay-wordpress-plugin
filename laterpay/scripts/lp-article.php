@@ -32,14 +32,14 @@ if ( RequestHelper::isAjax() && !empty($post_id) ) {
     $wp_query->is_single = true;
     $wp_query->in_the_loop = true;
     $laterpay_show_statistic = true;
-    
+
     ob_start();
     the_content();
     $html = ob_get_contents();
     ob_end_clean();
-    
+
     $response->setBody($html);
-    
+
 } else {
     $response->setBody('');
 }
