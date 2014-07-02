@@ -244,16 +244,16 @@ class LaterPay {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta($sql);
 
-        add_option('laterpay_activate',             '0');
-        add_option('laterpay_teaser_content_only',  '');
-        add_option('laterpay_plugin_mode_is_live',  '');
-        add_option('laterpay_sandbox_merchant_id',  '');
-        add_option('laterpay_sandbox_api_key',      '');
-        add_option('laterpay_live_merchant_id',     '');
-        add_option('laterpay_live_api_key',         '');
-        add_option('laterpay_global_price',         LATERPAY_GLOBAL_PRICE_DEFAULT);
-        add_option('laterpay_currency',             LATERPAY_CURRENCY_DEFAULT);
-        add_option('laterpay_version',              $laterpay_version) || update_option('laterpay_version', $laterpay_version);
+        add_option('laterpay_plugin_is_activated',      '0');
+        add_option('laterpay_teaser_content_only',      '');
+        add_option('laterpay_plugin_is_in_live_mode',   '');
+        add_option('laterpay_sandbox_merchant_id',      '');
+        add_option('laterpay_sandbox_api_key',          '');
+        add_option('laterpay_live_merchant_id',         '');
+        add_option('laterpay_live_api_key',             '');
+        add_option('laterpay_global_price',             LATERPAY_GLOBAL_PRICE_DEFAULT);
+        add_option('laterpay_currency',                 LATERPAY_CURRENCY_DEFAULT);
+        add_option('laterpay_version',                  $laterpay_version) || update_option('laterpay_version', $laterpay_version);
 
         // clear opcode cache
         CacheHelper::resetOpcodeCache();
@@ -280,9 +280,9 @@ class LaterPay {
         $sql = "DROP TABLE `" . $table_post_views . "`;";
         $wpdb->query($sql);
 
-        delete_option('laterpay_activate');
+        delete_option('laterpay_plugin_is_activated');
         delete_option('laterpay_teaser_content_only');
-        delete_option('laterpay_plugin_mode_is_live');
+        delete_option('laterpay_plugin_is_in_live_mode');
         delete_option('laterpay_sandbox_merchant_id');
         delete_option('laterpay_sandbox_api_key');
         delete_option('laterpay_live_merchant_id');

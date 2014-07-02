@@ -5,16 +5,13 @@
     </div>
 
     <div class="tabs-area">
-        <?php if ( get_option('laterpay_plugin_mode_is_live') == 0 ): ?>
+        <?php if ( !plugin_is_in_live_mode ): ?>
             <a href="#account" id="plugin-mode-indicator" data-icon="h">
                 <h2><?php _e('<strong>Test</strong> mode', 'laterpay'); ?></h2>
                 <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
             </a>
         <?php endif; ?>
         <ul class="tabs">
-            <?php if ( get_option('laterpay_activate') == '0' ): ?>
-                <li id="get-started-tab"><a href="#get_started"><?php _e('Get Started', 'laterpay'); ?></a></li>
-            <?php endif; ?>
             <li class="current"><a href="#pricing"><?php _e('Pricing', 'laterpay'); ?></a></li>
             <li><a href="#appearance"><?php _e('Appearance', 'laterpay'); ?></a></li>
             <li><a href="#account"><?php _e('Account', 'laterpay'); ?></a></li>
@@ -36,21 +33,20 @@
                         <p>
                             <?php _e('<strong>Every post</strong> costs', 'laterpay'); ?>
                             <strong>
-                                <?php $global_price = ViewHelper::formatNumber((double)get_option('laterpay_global_price'), 2); ?>
                                 <input  type="text"
                                         name="laterpay_global_price"
                                         id="global-default-price"
                                         class="lp-input number"
-                                        value="<?php echo $global_price; ?>"
+                                        value="<?php echo $global_default_price; ?>"
                                         style="display:none;"
                                         placeholder="<?php _e('0.00', 'laterpay'); ?>"
                                         autocomplete="off">
-                                <span id="laterpay-global-price-text"><?php echo $global_price; ?></span>
-                                <span class="laterpay_currency"><?php echo get_option('laterpay_currency'); ?></span>
+                                <span id="laterpay-global-price-text"><?php echo $global_default_price; ?></span>
+                                <span class="laterpay_currency"><?php echo $currency; ?></span>
                             </strong>
-                            <a href="#" class="edit-link laterpay-change-link"  data-icon="d"><?php _e('Change', 'laterpay'); ?></a>
-                            <a href="#" class="edit-link laterpay-save-link" style="display:none;" data-icon="f"><?php _e('Save', 'laterpay'); ?></a>
-                            <a href="#" class="edit-link laterpay-cancel-link" style="display:none;" data-icon="e"><?php _e('Cancel', 'laterpay'); ?></a>
+                            <a href="#" class="edit-link laterpay-change-link" data-icon="d"><?php _e('Change', 'laterpay'); ?></a>
+                            <a href="#" class="edit-link laterpay-save-link"   data-icon="f" style="display:none;"><?php _e('Save', 'laterpay'); ?></a>
+                            <a href="#" class="edit-link laterpay-cancel-link" data-icon="e" style="display:none;"><?php _e('Cancel', 'laterpay'); ?></a>
                         </p>
                     </form>
 
@@ -86,7 +82,7 @@
                                                 style="display:none;"
                                                 placeholder="<?php _e('0.00', 'laterpay'); ?>">
                                         <span class="category-price"><?php echo $category_price; ?></span>
-                                        <span class="laterpay_currency"><?php echo get_option('laterpay_currency'); ?></span>
+                                        <span class="laterpay_currency"><?php echo $currency; ?></span>
                                     </strong>
 
                                     <a href="#" class="edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e('Save', 'laterpay'); ?></a>
@@ -101,10 +97,11 @@
                         <a href="#" id="add_category_button" data-icon="c"><?php _e('Set default price for another category', 'laterpay'); ?></a>
                     </p>
                     <form method="post" id="category-price-form-template" class="category-price-form unsaved" style="display:none;">
+                        <input type="hidden" name="form"        value="price_category_form">
+                        <input type="hidden" name="action"      value="pricing">
+                        <input type="hidden" name="category_id" value="">
+
                         <p>
-                            <input type="hidden" name="form"        value="price_category_form">
-                            <input type="hidden" name="action"      value="pricing">
-                            <input type="hidden" name="category_id" value="">
                             <?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('laterpay_form'); } ?>
 
                             <strong>
@@ -116,11 +113,11 @@
                                 <input  type="text"
                                         name="price"
                                         class="lp-input number"
-                                        value="<?php echo $global_price; ?>"
+                                        value="<?php echo $global_default_price; ?>"
                                         style="display:none;"
                                         placeholder="<?php _e('0.00', 'laterpay'); ?>">
-                                <span class="category-price"><?php echo $global_price; ?></span>
-                                <span class="laterpay_currency"><?php echo get_option('laterpay_currency'); ?></span>
+                                <span class="category-price"><?php echo $global_default_price; ?></span>
+                                <span class="laterpay_currency"><?php echo $currency; ?></span>
                             </strong>
 
                             <a href="#" class="edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e('Save', 'laterpay'); ?></a>
@@ -147,7 +144,6 @@
         <div class="pr-type4">
             <h2><?php _e('Currency', 'laterpay'); ?></h2>
             <form id="currency_form" method="post">
-
                 <input type="hidden" name="form"    value="currency_form">
                 <input type="hidden" name="action"  value="pricing">
                 <?php if ( function_exists('wp_nonce_field') ) { wp_nonce_field('laterpay_form'); } ?>
@@ -157,7 +153,7 @@
                         <span class="currency-dd">
                             <select name="laterpay_currency" id="laterpay_currency" class="lp-input">
                                 <?php foreach ( $Currencies as $item ): ?>
-                                    <option<?php if ( $item->short_name == get_option('laterpay_currency') ): ?> selected<?php endif; ?> value="<?php echo $item->short_name; ?>">
+                                    <option<?php if ( $item->short_name == $currency ): ?> selected<?php endif; ?> value="<?php echo $item->short_name; ?>">
                                         <?php echo $item->full_name . ' (' . $item->short_name . ')'; ?>
                                     </option>
                                 <?php endforeach; ?>

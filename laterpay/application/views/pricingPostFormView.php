@@ -9,17 +9,17 @@
                 name="pricing-post"
                 value="<?php echo ViewHelper::formatNumber($price, 2); ?>"
                 placeholder="<?php _e('0.00', 'laterpay'); ?>">
-        <?php echo get_option('laterpay_currency'); ?>
+        <?php echo $currency; ?>
     </p>
     <p>
-        <?php if ( !is_null($price_category) ): ?>
+        <?php if ( !is_null($category_default_price) ): ?>
             <a href="#" id="set_price_category">
-                <?php _e('Apply category default price', 'laterpay'); ?> (<?php echo $price_category; ?> <?php echo get_option('laterpay_currency'); ?>)
+                <?php _e('Apply category default price', 'laterpay'); ?> (<?php echo $category_default_price; ?> <?php echo $currency; ?>)
             </a>
         <?php endif; ?>
-        <?php if ( !is_null(get_option('laterpay_global_price')) ): ?>
-            <a href="#" id="set_price_global"<?php if ( !is_null($price_category) ): ?> style="display:none;"<?php endif; ?>>
-                <?php _e('Apply global default price', 'laterpay'); ?> (<?php echo get_option('laterpay_global_price'); ?> <?php echo get_option('laterpay_currency'); ?>)
+        <?php if ( !is_null($global_default_price) ): ?>
+            <a href="#" id="set_price_global"<?php if ( !is_null($category_default_price) ): ?> style="display:none;"<?php endif; ?>>
+                <?php _e('Apply global default price', 'laterpay'); ?> (<?php echo $global_default_price; ?> <?php echo $currency; ?>)
             </a>
         <?php endif; ?>
     </p>

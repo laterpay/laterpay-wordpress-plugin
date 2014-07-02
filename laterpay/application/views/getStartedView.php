@@ -40,7 +40,7 @@
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
-                                value="<?php echo get_option('laterpay_sandbox_api_key'); ?>"
+                                value=""
                                 class="lp-input api-key-input"
                                 placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>">
                     </div>
