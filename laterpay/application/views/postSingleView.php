@@ -130,7 +130,7 @@
                         <li class="laterpay-use-immediately">
                             <h3><?php _e('Read Immediately', 'laterpay'); ?></h3>
                             <p>
-                                <?php _e('Get immediate access to your purchase.<br>You only buy this article, not a subscription.', 'laterpay'); ?>
+                                <?php _e('Get immediate access to your purchase.<br>You are only buying this article, not a subscription.', 'laterpay'); ?>
                             </p>
                         </li>
                         <li class="laterpay-pay-later">
@@ -147,7 +147,7 @@
                         data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"
                         title="<?php _e('Buy now with LaterPay', 'laterpay'); ?>"><?php echo sprintf(__('%s<small>%s</small>', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
                     <div class="powered-by">
-                        powered by<span data-icon="a"></span>
+                        powered by<span data-icon="a"></span>beta
                     </div>
                 </div>
             </div>
