@@ -3,7 +3,7 @@ jQuery.noConflict();
 
     function validatePrice(price) {
         // convert price to proper float value
-        if (price.indexOf(',') > -1) {
+        if (typeof price === 'string' && price.indexOf(',') > -1) {
             price = parseFloat(price.replace(',', '.')).toFixed(2);
         } else {
             price = parseFloat(price).toFixed(2);
@@ -106,9 +106,9 @@ jQuery.noConflict();
     window.lpc = lpc;
 
     if (data.length === 4)
-        lpc.setData(data).setPrice(0, 5, price_global).plot();
+        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
     else
-        lpc.setData(data).setPrice(0, 5, price_global).interpolate('step-before').plot();
+        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
 
     $('.blockbuster').click(function() {
         lpc.setData([
