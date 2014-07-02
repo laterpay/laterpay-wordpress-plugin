@@ -38,7 +38,7 @@
         makeAjaxRequest = function(form_id) {
             // plugin mode Ajax form
             $.post(
-                ajax_object.ajax_url,
+                lpVars.ajaxUrl,
                 $('#' + form_id).serializeArray(),
                 function(data) {
                     if(data && data.success) {
@@ -54,7 +54,7 @@
         $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
             if( $(this).data('preview-as-visitor') ) {
                 e.preventDefault();
-                alert(post_preview.alert_message);
+                alert(lpVars.i18nAlert);
             }
         });
 

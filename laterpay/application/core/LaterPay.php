@@ -517,16 +517,14 @@ class LaterPay {
         wp_enqueue_script('laterpay-peity');
         wp_enqueue_script('laterpay-post-view');
 
-        // localize strings in scripts
+        // pass localized strings and variables to script
         wp_localize_script(
             'laterpay-post-view',
-            'ajax_object',
-            array('ajax_url' => admin_url('admin-ajax.php'))
-        );
-        wp_localize_script(
-            'laterpay-post-view',
-            'post_preview',
-            array('alert_message' => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'))
+            'lpVars',
+            array(
+                'ajaxUrl'      => admin_url('admin-ajax.php'),
+                'i18nAlert'    => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'),
+            )
         );
     }
 

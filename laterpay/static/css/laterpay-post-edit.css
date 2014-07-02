@@ -69,7 +69,7 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
 /* dynamic pricing widget */
 svg text {-webkit-user-select:none;}
 
-#container {height:240px; width:254px;}
+#laterpay-widget-container {height:240px; width:254px;}
 
 .axis path {fill:none;}
 .tick line,
@@ -102,7 +102,7 @@ rect.background {fill:#f1f1f1;}
 
 .line-price-visible {stroke:#555; stroke-dasharray:5; stroke-width:1.5px;}
 
-#container.ew-resize,
+#laterpay-widget-container.ew-resize,
 rect.x-drag-square,
 .x-triangle-bottom {cursor:col-resize;}
 

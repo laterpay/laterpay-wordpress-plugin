@@ -15,6 +15,17 @@ class AccountController extends AbstractController {
             true
         );
         wp_enqueue_script('laterpay-backend-account');
+
+        // pass localized strings and variables to script
+        wp_localize_script(
+            'laterpay-backend-account',
+            'lpVars',
+            array(
+                'i18nApiKeyInvalid'         => __('The API key you entered is not a valid LaterPay API key!', 'laterpay'),
+                'i18nMerchantIdInvalid'     => __('The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay'),
+                'i18nLiveApiDataRequired'   => __('Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay'),
+            )
+        );
     }
 
     /**
