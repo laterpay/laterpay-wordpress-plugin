@@ -101,7 +101,7 @@ jQuery.noConflict();
 
 
     // dynamic pricing widget
-    var data    = lpVars.dataStart,
+    var data    = lpVars.dynamicPricingData,
         lpc     = new LPCurve('#laterpay-widget-container');
     window.lpc = lpc;
 

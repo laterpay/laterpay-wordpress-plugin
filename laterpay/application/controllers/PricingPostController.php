@@ -61,7 +61,7 @@ class PricingPostController extends AbstractController {
             array(
                 'categoryDefaultPrice'  => $price_category,
                 'GlobalDefaultPrice'    => get_option('laterpay_global_price'),
-                'dataStart'             => $data,
+                'dynamicPricingData'    => $dynamic_pricing_data,
                 'isStandardPost'        => $price_post_type ? 1 : 0,
                 'locale'                => get_locale(),
                 'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
@@ -156,14 +156,14 @@ class PricingPostController extends AbstractController {
 
         // return dynamic pricing widget start values
         if ( !get_post_meta($object->ID, 'laterpay_start_price', true) ) {
-            $data = array(
+            $dynamic_pricing_data = array(
                 array( 'x' => 0,  'y' => 1.8 ),
                 array( 'x' => 13, 'y' => 1.8 ),
                 array( 'x' => 18, 'y' => 0.2 ),
                 array( 'x' => 30, 'y' => 0.2 )
             );
         } elseif ( get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true) == 0 ) {
-            $data = array(
+            $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
                     'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
@@ -178,7 +178,7 @@ class PricingPostController extends AbstractController {
                 )
             );
         } else {
-            $data = array(
+            $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
                     'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
@@ -205,7 +205,7 @@ class PricingPostController extends AbstractController {
         $this->assign('global_default_price',   (float)get_option('laterpay_global_price'));
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('price_post_type',        $price_post_type);
-        $this->assign('data',                   Zend_Json::encode($data));
+        $this->assign('data',                   Zend_Json::encode($dynamic_pricing_data));
 
         $this->render('pricingPostFormView');
     }
