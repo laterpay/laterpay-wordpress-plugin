@@ -10,8 +10,8 @@ return array (
     'LATERPAY_PROTECTED_FILE_TYPES' =>    'docx|doc|gif|jpeg|jpg|pdf|png|pptx|ppt|rar|rtf|tiff|tif|txt|xlsx|xls|zip',
 
     // Settings for generating excerpts of paid content shown to visitors
-    'LATERPAY_AUTO_GENERATED_TEASER_CONTENT_WORD_COUNT' => 120,
-    'LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT' =>          400,
+    'LATERPAY_AUTO_GENERATED_TEASER_CONTENT_WORD_COUNT' => 60,
+    'LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT' =>          130,
 
     // Access logging for generating sales statistics within the plugin;
     // Sets a cookie and logs all requests from visitors to your blog, if enabled
