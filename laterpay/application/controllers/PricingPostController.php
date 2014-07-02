@@ -60,7 +60,7 @@ class PricingPostController extends AbstractController {
             'lpVars',
             array(
                 'categoryDefaultPrice'  => $price_category,
-                'GlobalDefaultPrice'    => get_option('laterpay_global_price'),
+                'globalDefaultPrice'    => get_option('laterpay_global_price'),
                 'dynamicPricingData'    => $dynamic_pricing_data,
                 'isStandardPost'        => $price_post_type ? 1 : 0,
                 'locale'                => get_locale(),
