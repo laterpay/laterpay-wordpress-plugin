@@ -59,8 +59,8 @@ class PricingPostController extends AbstractController {
             'laterpay-post-edit',
             'lpVars',
             array(
-                'categoryDefaultPrice'  => $price_category,
-                'globalDefaultPrice'    => get_option('laterpay_global_price'),
+                'categoryDefaultPrice'  => $category_default_price,
+                'globalDefaultPrice'    => $global_default_price,
                 'dynamicPricingData'    => $dynamic_pricing_data,
                 'isStandardPost'        => $price_post_type ? 1 : 0,
                 'locale'                => get_locale(),
@@ -205,7 +205,7 @@ class PricingPostController extends AbstractController {
         $this->assign('global_default_price',   (float)get_option('laterpay_global_price'));
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('price_post_type',        $price_post_type);
-        $this->assign('data',                   Zend_Json::encode($dynamic_pricing_data));
+        $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
 
         $this->render('pricingPostFormView');
     }
