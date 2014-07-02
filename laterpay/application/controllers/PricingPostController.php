@@ -203,7 +203,7 @@ class PricingPostController extends AbstractController {
         $this->assign('price',                  (double)$post_specific_price);
         $this->assign('category_default_price', (double)$category_default_price);
         $this->assign('global_default_price',   (double)get_option('laterpay_global_price'));
-        $this->assign('currency',               (double)get_option('laterpay_currency'));
+        $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('price_post_type',        $price_post_type);
         $this->assign('data',                   Zend_Json::encode($data));
 

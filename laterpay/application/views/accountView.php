@@ -143,7 +143,7 @@
                         <input type="hidden"
                                 name="plugin_is_in_live_mode"
                                 id="plugin_mode_hidden_input"
-                                value="<?php ( $plugin_is_in_live_mode ) { echo 1; } else { echo 0; } ?>">
+                                value="<?php if ( $plugin_is_in_live_mode ) { echo 1; } else { echo 0; } ?>">
                         <span class="switch-text" data-on="LIVE" data-off="TEST"></span>
                         <span class="switch-handle"></span>
                     </label>
