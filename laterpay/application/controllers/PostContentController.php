@@ -76,7 +76,7 @@ class PostContentController extends AbstractController {
                 $this->assign('access',                $access);
                 $this->assign('link',                  $link);
                 $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
-                
+
 
                 $html = $this->getTextView('postSingleView');
             } else {
@@ -517,9 +517,9 @@ class PostContentController extends AbstractController {
             $is_premium_content = $float_price > 0;
             $access             = $GLOBALS['laterpay_access'] || current_user_can('manage_options') || UserHelper::user_has_full_access();
             $link               = self::getLPLink($post_id);
-            $preview_post_as_visitor = UserHelper::previewPostAsVisitor(); 
+            $preview_post_as_visitor = UserHelper::previewPostAsVisitor();
 
-            if ( ($is_premium_content && is_single() && !is_page() && !$access) || $preview_post_as_visitor) {
+            if ( $is_premium_content && is_single() && !is_page() && (!$access || $preview_post_as_visitor) ) {
                 $currency           = get_option('laterpay_currency');
                 $purchase_button    = '<a href="' . $link . '" class="laterpay-purchase-link laterpay-purchase-button" data-icon="b" post-id="';
                 $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
