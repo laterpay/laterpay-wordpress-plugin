@@ -78,11 +78,11 @@ class PostContentController extends AbstractController {
                 $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
 
 
-                $html = $this->getTextView('postSingleView');
+                $html = $this->getTextView('singlePost');
             } else {
                 $this->assign('teaser_content', $teaser_content);
 
-                $html = $this->getTextView('postView');
+                $html = $this->getTextView('post');
             }
             return $html;
         }
@@ -95,7 +95,7 @@ class PostContentController extends AbstractController {
         if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
             $postid = $_GET['id'];
         } else {
-            $url = StatisticHelper::getFullUrl($_SERVER);
+            $url = StatisticsHelper::getFullUrl($_SERVER);
             $postid = url_to_postid($url);
         }
         if ( !empty($postid) ) {
@@ -312,7 +312,7 @@ class PostContentController extends AbstractController {
             if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
                 $postid = $_GET['id'];
             } else {
-                $url = StatisticHelper::getFullUrl($_SERVER);
+                $url = StatisticsHelper::getFullUrl($_SERVER);
                 $postid = url_to_postid($url);
             }
             if ( !empty($postid) ) {

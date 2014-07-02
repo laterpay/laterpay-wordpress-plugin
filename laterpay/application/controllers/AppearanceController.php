@@ -37,7 +37,7 @@ class AppearanceController extends AbstractController {
         $this->assign('show_teaser_content_only',   get_option('laterpay_teaser_content_only') == 1);
         $this->assign('balance_url',                plugins_url('laterpay/scripts/lp-balance.php'));
 
-        $this->render('appearanceView');
+        $this->render('pluginBackendAppearanceTab');
     }
 
     /**

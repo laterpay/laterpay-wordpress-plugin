@@ -41,7 +41,7 @@ class GetStartedController extends AbstractController {
 
         $this->assign('Currency', $Currency);
 
-        $this->render('getStartedView');
+        $this->render('pluginBackendGetStartedTab');
     }
 
     /**

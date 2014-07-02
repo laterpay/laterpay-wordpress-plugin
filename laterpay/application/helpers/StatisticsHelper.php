@@ -1,6 +1,6 @@
 <?php
 
-class StatisticHelper {
+class StatisticsHelper {
 
     public static $wpdb = '';
     protected static $stat = array();

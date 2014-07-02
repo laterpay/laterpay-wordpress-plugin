@@ -42,7 +42,7 @@ class AccountController extends AbstractController {
         $this->assign('live_api_key',           get_option('laterpay_live_api_key'));
         $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
 
-        $this->render('accountView');
+        $this->render('pluginBackendAccountTab');
     }
 
     /**

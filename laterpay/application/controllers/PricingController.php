@@ -52,7 +52,7 @@ class PricingController extends AbstractController {
         $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
         $this->assign('global_default_price',   ViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2));
 
-        $this->render('pricingView');
+        $this->render('pluginBackendPricingTab');
     }
 
     /**
