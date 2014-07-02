@@ -97,7 +97,7 @@ jQuery.noConflict();
 
     function formatSelection(data, container) {
         var $form = $(container).parent().parent().parent();
-        $form.find('input[name="category"]').val(data.text);
+        $form.find('input[name=category]').val(data.text);
 
         return data.text;
     }
@@ -150,6 +150,7 @@ jQuery.noConflict();
         // initialize edit mode
         $form.addClass('editing');
         $('.category-title, .category-price, .laterpay-change-link, .laterpay-delete-link', $form).hide();
+        $('#add_category_button').fadeOut(250);
         $('.number, .laterpay-save-link, .laterpay-cancel-link', $form).show();
         renderCategorySelect($form);
 
