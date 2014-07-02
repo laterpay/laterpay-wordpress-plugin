@@ -5,7 +5,7 @@
     </div>
 
     <div class="tabs-area">
-        <?php if ( !plugin_is_in_live_mode ): ?>
+        <?php if ( !$plugin_is_in_live_mode ): ?>
             <a href="#account" id="plugin-mode-indicator" data-icon="h">
                 <h2><?php _e('<strong>Test</strong> mode', 'laterpay'); ?></h2>
                 <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
