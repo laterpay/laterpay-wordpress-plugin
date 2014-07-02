@@ -1,3 +1,11 @@
+0.9.5 (July 4, 2014): XXXXXXXXX release ============================================================
+    - Redesigned overlay for previewing paid content
+    - Bugfix for auto-updating of browser detection library
+    - Improved internal use of standard WP APIs (transport, wp_localize_script)
+    - Added more flash messages for system feedback
+    - Switched to loading minified version of YUI
+
+
 0.9.4.2 (June 29, 2014): Bugfix release ============================================================
     - Removed superfluous function argument for saving the teaser content that caused a warning
 
