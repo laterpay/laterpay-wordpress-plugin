@@ -50,7 +50,7 @@ class PricingController extends AbstractController {
         $this->assign('Currencies',             $Currencies);
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
-        $this->assign('global_default_price',   ViewHelper::formatNumber((double)get_option('laterpay_global_price'), 2));
+        $this->assign('global_default_price',   ViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2));
 
         $this->render('pricingView');
     }
@@ -155,7 +155,7 @@ class PricingController extends AbstractController {
      * @access protected
      */
     protected static function _updateGlobalDefaultPrice() {
-        $delocalized_global_price = (double)str_replace(',', '.', $_POST['laterpay_global_price']);
+        $delocalized_global_price = (float)str_replace(',', '.', $_POST['laterpay_global_price']);
 
         if ($delocalized_global_price > 5 || $delocalized_global_price < 0) {
             echo Zend_Json::encode(
@@ -169,7 +169,7 @@ class PricingController extends AbstractController {
         }
 
         update_option('laterpay_global_price', $delocalized_global_price);
-        $global_price       = ViewHelper::formatNumber((double)get_option('laterpay_global_price'), 2);
+        $global_price       = ViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2);
         $Currency           = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
 
@@ -194,7 +194,7 @@ class PricingController extends AbstractController {
      */
     protected static function _updateCategoryDefaultPrice() {
 
-        $delocalized_category_price = (double)str_replace(',', '.', $_POST['price']);
+        $delocalized_category_price = (float)str_replace(',', '.', $_POST['price']);
         if ( $delocalized_category_price > 5 || $delocalized_category_price < 0 ) {
             echo Zend_Json::encode(
                 array(
@@ -226,7 +226,7 @@ class PricingController extends AbstractController {
 
         $Currency = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
-        $delocalized_category_price = (double)str_replace(',', '.', $_POST['price']);
+        $delocalized_category_price = (float)str_replace(',', '.', $_POST['price']);
 
         if ( empty($id) && empty($id_category) ) {
             echo Zend_Json::encode(
@@ -251,7 +251,7 @@ class PricingController extends AbstractController {
                 $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price);
 
                 $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-                $formatted_category_price   = ViewHelper::formatNumber((double)$category_price, 2);
+                $formatted_category_price   = ViewHelper::formatNumber((float)$category_price, 2);
 
                 echo Zend_Json::encode(
                     array(
@@ -275,7 +275,7 @@ class PricingController extends AbstractController {
         $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price, $id);
 
         $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-        $formatted_category_price   = ViewHelper::formatNumber((double)$category_price, 2);
+        $formatted_category_price   = ViewHelper::formatNumber((float)$category_price, 2);
 
         echo Zend_Json::encode(
             array(
@@ -313,14 +313,14 @@ class PricingController extends AbstractController {
             die;
         }
 
-        $delocalized_category_price = (double)str_replace(',', '.', $_POST['price']);
+        $delocalized_category_price = (float)str_replace(',', '.', $_POST['price']);
         $Currency = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
 
         $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price);
 
         $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-        $formatted_category_price   = ViewHelper::formatNumber((double)$category_price, 2);
+        $formatted_category_price   = ViewHelper::formatNumber((float)$category_price, 2);
 
         echo Zend_Json::encode(
             array(

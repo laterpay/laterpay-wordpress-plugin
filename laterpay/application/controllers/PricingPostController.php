@@ -200,9 +200,9 @@ class PricingPostController extends AbstractController {
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 
-        $this->assign('price',                  (double)$post_specific_price);
-        $this->assign('category_default_price', (double)$category_default_price);
-        $this->assign('global_default_price',   (double)get_option('laterpay_global_price'));
+        $this->assign('price',                  (float)$post_specific_price);
+        $this->assign('category_default_price', (float)$category_default_price);
+        $this->assign('global_default_price',   (float)get_option('laterpay_global_price'));
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('price_post_type',        $price_post_type);
         $this->assign('data',                   Zend_Json::encode($data));
@@ -227,7 +227,7 @@ class PricingPostController extends AbstractController {
             return $post_id;
         }
 
-        $delocalized_price = (double)str_replace(',', '.', $_POST['pricing-post']);
+        $delocalized_price = (float)str_replace(',', '.', $_POST['pricing-post']);
 
         if ( $delocalized_price > 5 || $delocalized_price < 0 ) {
             $category               = get_the_category($post_id);

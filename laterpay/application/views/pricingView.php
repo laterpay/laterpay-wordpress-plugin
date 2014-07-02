@@ -74,7 +74,7 @@
                                     </strong>
                                     <?php echo _e('costs', 'laterpay'); ?>
                                     <strong>
-                                        <?php $category_price = ViewHelper::formatNumber((double)$item->category_price, 2); ?>
+                                        <?php $category_price = ViewHelper::formatNumber((float)$item->category_price, 2); ?>
                                         <input  type="text"
                                                 name="price"
                                                 class="lp-input number"
