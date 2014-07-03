@@ -77,7 +77,7 @@ class PostContentController extends AbstractController {
                 $this->assign('access',                $access);
                 $this->assign('link',                  $link);
                 $this->assign('can_show_statistic',    $laterpay_show_statistic ? true: false);
-                $this->assign('post_content_cached',   CacheHelper::isWPSuperCacheActive());
+                $this->assign('post_content_cached',   CacheHelper::isPageCachingPluginActive());
                 $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
 
 
@@ -98,7 +98,7 @@ class PostContentController extends AbstractController {
         if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
             $postid = $_GET['id'];
         } else {
-            $url = StatisticHelper::getFullUrl($_SERVER);
+            $url = StatisticsHelper::getFullUrl($_SERVER);
             $postid = url_to_postid($url);
         }
         if ( !empty($postid) ) {
@@ -109,7 +109,7 @@ class PostContentController extends AbstractController {
 
                 $this->assign('post_id',               $postid);
                 $this->assign('identify_link',         $identify_link);
-                $this->assign('post_content_cached',   CacheHelper::isWPSuperCacheActive());
+                $this->assign('post_content_cached',   CacheHelper::isPageCachingPluginActive());
 
                 echo $this->getTextView('identifyIframe');
             }
@@ -317,7 +317,7 @@ class PostContentController extends AbstractController {
             if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
                 $postid = $_GET['id'];
             } else {
-                $url = StatisticHelper::getFullUrl($_SERVER);
+                $url = StatisticsHelper::getFullUrl($_SERVER);
                 $postid = url_to_postid($url);
             }
             if ( !empty($postid) ) {
@@ -523,8 +523,8 @@ class PostContentController extends AbstractController {
             $access             = $GLOBALS['laterpay_access'] || current_user_can('manage_options') || UserHelper::user_has_full_access();
             $link               = self::getLPLink($post_id);
             $preview_post_as_visitor = UserHelper::previewPostAsVisitor();
-            $post_content_cached = CacheHelper::isWPSuperCacheActive();
-            
+            $post_content_cached = CacheHelper::isPageCachingPluginActive();
+
             if ( $is_premium_content && is_single() && !is_page() ) {
                 if ( $post_content_cached && !RequestHelper::isAjax() ) {
                     $this->assign('post_id',    $post_id);

@@ -422,9 +422,9 @@ class LaterPay {
         if ( !LATERPAY_ACCESS_LOGGING_ENABLED || is_admin() ) {
             return;
         }
-        $url = StatisticHelper::getFullUrl($_SERVER);
+        $url = StatisticsHelper::getFullUrl($_SERVER);
         $postid = url_to_postid($url);
-        StatisticHelper::track($postid);
+        StatisticsHelper::track($postid);
     }
 
     protected function setupUniqueVisitorsTracking() {
