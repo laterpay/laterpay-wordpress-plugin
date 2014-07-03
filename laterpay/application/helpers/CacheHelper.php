@@ -25,13 +25,13 @@ class CacheHelper {
 
 
     /**
-     * Check if a known page caching plugin is active
+     * Checks if a known page caching plugin is active
      *
      * @return boolean
      *
      * @access public
      */
-    public static function isPageCachingPluginActive() {
+    public static function siteUsesPageCaching() {
         if ( !function_exists('is_plugin_active') ) {
             include_once(ABSPATH . 'wp-admin/includes/plugin.php');
         }

@@ -108,8 +108,16 @@ class LaterPay {
             if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
                 $config = file_get_contents(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
                 $config = str_replace(
-                    array('{LATERPAY_SALT}', '{LATERPAY_RESOURCE_ENCRYPTION_KEY}'),
-                    array(md5(uniqid('salt')), md5(uniqid('key'))),
+                    array(
+                        '{salt}',
+                        '{resource_encryption_key}',
+                        '{run_in_page_caching_compatible_mode}'
+                    ),
+                    array(
+                        md5(uniqid('salt')),
+                        md5(uniqid('key')),
+                        CacheHelper::siteUsesPageCaching()
+                    ),
                     $config
                 );
                 file_put_contents(LATERPAY_GLOBAL_PATH . 'settings.php', $config);
