@@ -212,13 +212,6 @@ class LaterPay {
         dbDelta($sql);
 
         $sql = "
-            INSERT INTO $table_currency (id, short_name, full_name)
-            VALUES
-                (1, 'USD', 'U.S. dollar'),
-                (2, 'EUR', 'Euro');";
-        dbDelta($sql);
-
-        $sql = "
             CREATE TABLE $table_history (
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
                 mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
@@ -242,6 +235,24 @@ class LaterPay {
                 UNIQUE KEY  (post_id, user_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta($sql);
+
+        // seed currency table
+        $wpdb->replace(
+            $table_currency,
+            array(
+                'id'            => 1,
+                'short_name'    => 'USD',
+                'full_name'     => 'U.S. dollar'
+            )
+        );
+        $wpdb->replace(
+            $table_currency,
+            array(
+                'id'            => 2,
+                'short_name'    => 'EUR',
+                'full_name'     => 'Euro'
+            )
+        );
 
         add_option('laterpay_plugin_is_activated',      '0');
         add_option('laterpay_teaser_content_only',      '');
