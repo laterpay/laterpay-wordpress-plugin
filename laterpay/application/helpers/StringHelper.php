@@ -15,6 +15,27 @@ class StringHelper {
 	}
 
 	/**
+	 * determines the number of words to be shown behind overlay according to the settings supplied by the blog owner
+	 *
+	 * @param string $content
+	 *
+	 * @return int number_of_words
+	 */
+	public static function determine_number_of_words( $content ) {
+		$content 		= preg_replace('/\s+/', ' ', $content);
+		$total_words 	= count(explode(' ', $content));
+		$percent 		= (int)LATERPAY_PAID_CONTENT_PREVIEW_PERCENTAGE_OF_CONTENT;
+		$percent 		= max(min($percent, 100), 1);
+		$min 			= (int)LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MIN;
+		$max 			= (int)LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MAX;
+
+		$number_of_words = $total_words * ($percent / 100);
+		$number_of_words = max(min($number_of_words, $max), $min);
+
+		return $number_of_words;
+	}
+
+	/**
 	 * Truncate text
 	 *
 	 * Cuts a string to the length of $length and replaces the last characters
