@@ -53,7 +53,7 @@ class CacheHelper {
                 break;
             }
         }
-print_r($caching_plugin_is_active);
+
         return $caching_plugin_is_active;
     }
 

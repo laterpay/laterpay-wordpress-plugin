@@ -81,11 +81,11 @@ class PostContentController extends AbstractController {
                 $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
 
 
-                $html = $this->getTextView('postSingleView');
+                $html = $this->getTextView('singlePost');
             } else {
                 $this->assign('teaser_content', $teaser_content);
 
-                $html = $this->getTextView('postView');
+                $html = $this->getTextView('post');
             }
             return $html;
         }

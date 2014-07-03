@@ -9,9 +9,9 @@ class LaterPay {
     /**
      *
      *
-     * @var PricingPostController
+     * @var PostPricingController
      */
-    private $_pricingPostController;
+    private $_postPricingController;
     /**
      *
      *
@@ -37,12 +37,12 @@ class LaterPay {
         $this->_pluginFile = $file;
     }
 
-    protected function getPricingPostController() {
-        if ( empty($this->_pricingPostController) ) {
-            $this->_pricingPostController = new PricingPostController();
+    protected function getPostPricingController() {
+        if ( empty($this->_postPricingController) ) {
+            $this->_postPricingController = new PostPricingController();
         }
 
-        return $this->_pricingPostController;
+        return $this->_postPricingController;
     }
 
     protected function getAdminController() {
@@ -239,7 +239,7 @@ class LaterPay {
                 user_id           VARCHAR(32)     NOT NULL,
                 count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)   NOT NULL,
-                UNIQUE KEY  uk_view (post_id, user_id)
+                UNIQUE KEY  (post_id, user_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta($sql);
 
@@ -342,7 +342,7 @@ class LaterPay {
     public function addTeaserContentBox() {
         add_meta_box('laterpay_teaser_content',
             __('Teaser Content', 'laterpay'),
-            array($this->getPricingPostController(), 'teaserContentBox'),
+            array($this->getPostPricingController(), 'teaserContentBox'),
             'post',
             'normal',
             'high'
@@ -350,7 +350,7 @@ class LaterPay {
     }
 
     protected function setupTeaserContentBox() {
-        add_action('save_post', array ($this->getPricingPostController(), 'saveTeaserContentBox'));
+        add_action('save_post', array ($this->getPostPricingController(), 'saveTeaserContentBox'));
         add_action('admin_menu', array ($this, 'addTeaserContentBox'));
     }
 
@@ -360,7 +360,7 @@ class LaterPay {
     public function addPricingPostContentBox() {
         add_meta_box('laterpay_pricing_post_content',
             __('Pricing for this Post', 'laterpay'),
-            array($this->getPricingPostController(), 'pricingPostContentBox'),
+            array($this->getPostPricingController(), 'pricingPostContentBox'),
             'post',
             'side',
             'high'  // show as high as possible in sidebar (priority 'high')
@@ -368,7 +368,7 @@ class LaterPay {
     }
 
     protected function setupPricingPostContentBox() {
-        add_action('save_post', array($this->getPricingPostController(), 'savePricingPostContentBox'));
+        add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
     }
 
@@ -394,7 +394,7 @@ class LaterPay {
         );
 
         if ( $page == 'post.php' || $page == 'post-new.php' ) {
-            $this->getPricingPostController()->loadAssets();
+            $this->getPostPricingController()->loadAssets();
         }
     }
 
@@ -521,11 +521,11 @@ class LaterPay {
             'laterpay-post-view',
             'lpVars',
             array(
-                'ajaxUrl'      => admin_url('admin-ajax.php'),
-                'getArticleUrl'=> plugins_url('laterpay/scripts/lp-article.php'),
-                'getFooterUrl' => plugins_url('laterpay/scripts/lp-footer.php'),
-                'getTitleUrl' => plugins_url('laterpay/scripts/lp-title.php'),
-                'i18nAlert'    => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'),
+                'ajaxUrl'       => admin_url('admin-ajax.php'),
+                'getArticleUrl' => plugins_url('laterpay/scripts/lp-article.php'),
+                'getFooterUrl'  => plugins_url('laterpay/scripts/lp-footer.php'),
+                'getTitleUrl'   => plugins_url('laterpay/scripts/lp-title.php'),
+                'i18nAlert'     => __('In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'),
             )
         );
     }

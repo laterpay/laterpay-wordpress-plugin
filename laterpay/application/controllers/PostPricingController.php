@@ -1,6 +1,6 @@
 <?php
 
-class PricingPostController extends AbstractController {
+class PostPricingController extends AbstractController {
 
     public function loadAssets() {
         parent::loadAssets();
@@ -206,7 +206,7 @@ class PricingPostController extends AbstractController {
         $this->assign('price_post_type',        $price_post_type);
         $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
 
-        $this->render('pricingPostFormView');
+        $this->render('postPricingForm');
     }
 
     /**

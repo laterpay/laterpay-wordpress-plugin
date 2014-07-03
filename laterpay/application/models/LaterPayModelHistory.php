@@ -97,11 +97,11 @@ class LaterPayModelHistory {
             FROM
                 {$this->table} AS wlph
                 LEFT JOIN
-                    `{$this->table_currency}` AS wlc
+                    {$this->table_currency} AS wlc
                 ON
                     wlph.currency_id = wlc.id
             WHERE
-                wlph.mode = '" . $mode . "
+                wlph.mode = '" . $mode . "'
                 AND wlph.post_id = " . (int)$post_id . "
             GROUP BY
                 wlph.currency_id
@@ -138,7 +138,7 @@ class LaterPayModelHistory {
             FROM
                 {$this->table} AS wlph
                 LEFT JOIN
-                    `{$this->table_currency}` AS wlc
+                    {$this->table_currency} AS wlc
                 ON
                     wlph.currency_id = wlc.id
             WHERE
@@ -183,7 +183,7 @@ class LaterPayModelHistory {
             FROM
                 {$this->table} AS wlph
                 LEFT JOIN
-                    `{$this->table_currency}` AS wlc
+                    {$this->table_currency} AS wlc
                 ON
                     wlph.currency_id = wlc.id
             WHERE
