@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-03 09:29:09+00:00\n"
-"PO-Revision-Date: 2014-07-03 12:57+0100\n"
+"PO-Revision-Date: 2014-07-03 17:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
@@ -214,7 +214,7 @@ msgstr "LaterPay-Plugin-Einstellungen"
 
 #: application/core/LaterPay.php:344
 msgid "Teaser Content"
-msgstr "Teaser"
+msgstr "Teaser für den Beitrag"
 
 #: application/core/LaterPay.php:362
 msgid "Pricing for this Post"
@@ -439,7 +439,7 @@ msgid ""
 "strong><br>from your"
 msgstr ""
 "Kopieren Sie Ihre <strong>Sandbox Merchant ID</strong> und Ihren "
-"<strong>Sandbox API Key</strong>aus Ihrem"
+"<strong>Sandbox API Key</strong> aus Ihrem"
 
 #: application/views/pluginBackendGetStartedTab.php:48
 msgid "LaterPay Merchantbackend"
@@ -463,7 +463,7 @@ msgid ""
 "<br>You can set more advanced prices later."
 msgstr ""
 "Setzen Sie einen <strong>Standardpreis</strong> für alle Beiträge (bei 0 "
-"sind alle Beiträge kostenlos).<br>Sie können die Preise später im Detail "
+"sind alle Beiträge kostenlos). Sie können die Preise später im Detail "
 "anpassen."
 
 #: application/views/pluginBackendGetStartedTab.php:76
@@ -683,7 +683,7 @@ msgstr "Jetzt kaufen"
 msgid "Just agree to pay later.<br>No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br>Keine Vorabregistrierung. Keine "
-"Zahlung im Voraus."
+"Vorauszahlung."
 
 #: application/views/singlePost.php:150
 msgid "Read Immediately"
