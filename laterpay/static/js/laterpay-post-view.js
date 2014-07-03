@@ -1,5 +1,6 @@
 (function($) {$(document).ready(function() {
-        lpShowStatistic = function() {
+
+    var lpShowStatistic = function() {
             $('#statistics .bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
@@ -26,9 +27,8 @@
                 gap         : 1,
                 fill        : function() { return '#ddd'; }
             });
-        }
-        lpShowStatistic();
-        var togglePreviewMode = function() {
+        },
+        togglePreviewMode = function() {
             var $toggle = $('#preview-post-toggle');
             if ($toggle.prop('checked')) {
                 $('#preview_post_hidden_input').val(1);
@@ -50,9 +50,13 @@
                 'json'
             );
         };
-        $('body').on('click', '#preview-post-toggle', function(e) {
+
+        lpShowStatistic();
+
+        $('body').on('mousedown', '#preview-post-toggle', function(e) {
             togglePreviewMode();
         });
+
         $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
             if( $(this).data('preview-as-visitor') ) {
                 e.preventDefault();

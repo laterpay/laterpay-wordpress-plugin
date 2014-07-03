@@ -64,6 +64,7 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
     text-transform:none !important;
     top:.106em;
 }
+#laterpay_teaser_content h3 span:before {top:.11em;}
 
 
 /* dynamic pricing widget */
