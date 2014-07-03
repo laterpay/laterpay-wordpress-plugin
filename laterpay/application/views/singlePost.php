@@ -5,8 +5,8 @@
         $('#laterpay-post-content').hide();
         var post_id = $('#laterpay-post-content').attr('post-id');
         $.get(
-            lpVars.getArticleUrl, 
-            {id: post_id, show_statistic: true}, 
+            lpVars.getArticleUrl,
+            {id: post_id, show_statistic: true},
             function(html) {
                 $('#laterpay-post-content').before(html);
                 $('#laterpay-post-content').remove();
@@ -118,6 +118,7 @@
 
             <div id="laterpay-paid-content" class="laterpay-paid-content">
                 <div id="laterpay-full-content" class="laterpay-full-content">
+                    <!-- <?php _e('Preview a short excerpt from the paid post:', 'laterpay'); ?> -->
                     <?php echo StringHelper::truncate(
                             $content,
                             LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT,
@@ -128,7 +129,7 @@
                         ); ?>
                     <br>
                     <br>
-                    <?php _e('This is only an excerpt from the paid post. Please buy the post to view all of it.', 'laterpay'); ?>
+                    <?php _e('Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay'); ?>
                 </div>
                 <div class="laterpay-overlay-text">
                     <div class="laterpay-benefits">
