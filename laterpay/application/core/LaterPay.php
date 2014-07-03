@@ -350,8 +350,8 @@ class LaterPay {
     }
 
     protected function setupTeaserContentBox() {
-        add_action('save_post', array ($this->getPostPricingController(), 'saveTeaserContentBox'));
-        add_action('admin_menu', array ($this, 'addTeaserContentBox'));
+        add_action('save_post', array($this->getPostPricingController(), 'saveTeaserContentBox'));
+        add_action('admin_menu', array($this, 'addTeaserContentBox'));
     }
 
     /**
