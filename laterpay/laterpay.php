@@ -37,7 +37,7 @@ AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'vendor');
 $laterpay_config = require_once(LATERPAY_GLOBAL_PATH . 'laterpay-config.php');
 foreach ( $laterpay_config as $option => $value ) {
     if ( !defined($option) ) {
-        define($option, $value);
+        define("$option", $value);
     }
 }
 
