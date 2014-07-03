@@ -5,14 +5,14 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-03 09:29:09+00:00\n"
-"PO-Revision-Date: 2014-07-03 11:40+0100\n"
+"PO-Revision-Date: 2014-07-03 12:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: application/controllers/AccountController.php:24
@@ -660,7 +660,7 @@ msgstr "Jetzt kaufen für %s<small>%s</small> und später zahlen"
 
 #: application/views/singlePost.php:121
 msgid "Preview a short excerpt from the paid post:"
-msgstr "Einen kurzen Auszug aus dem kostenpflichtigen Beitrag anzeigen:"
+msgstr "Zeige einen kurzen Auszug aus dem kostenpflichtigen Beitrag:"
 
 #: application/views/singlePost.php:132
 msgid ""
@@ -668,7 +668,8 @@ msgid ""
 "read all of it?"
 msgstr ""
 "Danke, dass Sie diesen Auszug aus dem kostenpflichtigen Beitrag gelesen "
-"haben. Kaufen Sie ihn, um den vollständigen Beitrag zu lesen."
+"haben. Sie können den vollständigen Beitrag lesen, nachdem Sie ihn gekauft "
+"haben."
 
 #: application/views/singlePost.php:139
 msgid "Read Now, Pay Later"

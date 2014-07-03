@@ -187,7 +187,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
     color:#bbb !important;
     font-size:16px !important;
     left:50% !important;
-    margin:-1.5em 0 0 -5em !important;
+    margin:-1.5em 0 0 -7em !important;
     position:absolute !important;
 }
 .laterpay-benefits .powered-by span[data-icon]:before {
@@ -252,6 +252,8 @@ h1 > .laterpay-purchase-button {display:block !important;}
 #statistics .totals li:first-child {width:52%;}
 #statistics .details li:first-child {width:59%;}
 #statistics .details li {margin-top:1em; padding:.5em 0; width:37%;}
+#statistics .details .bar,
+#statistics .details .background-bar {color:transparent;}
 #statistics .details svg.peity {border-bottom:1px solid #999; padding:0 3px; position:relative; z-index:1;}
 #statistics .details .background-bar + svg.peity {border:0 none; left:.92em; position:absolute; z-index:0;}
 

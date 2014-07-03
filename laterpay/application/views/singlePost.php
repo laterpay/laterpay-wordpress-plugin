@@ -128,7 +128,6 @@
                             )
                         ); ?>
                     <br>
-                    <br>
                     <?php _e('Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay'); ?>
                 </div>
                 <div class="laterpay-overlay-text">
@@ -166,7 +165,7 @@
                             data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"
                             title="<?php _e('Buy now with LaterPay', 'laterpay'); ?>"><?php echo sprintf(__('%s<small>%s</small>', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
                         <div class="powered-by">
-                            powered by<span data-icon="a"></span>beta
+                            powered by<span data-icon="a"></span> beta
                         </div>
                     </div>
                 </div>
