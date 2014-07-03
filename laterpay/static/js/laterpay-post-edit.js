@@ -24,7 +24,7 @@ jQuery.noConflict();
         var validatedPrice = validatePrice(price);
         // localize price
         if (lpVars.locale == 'de_DE') {
-            validatedPrice = validatedPrice.replace('.', ',');
+            validatedPrice = validatedPrice.toFixed(2).replace('.', ',');
         }
         $('#post-price').val(validatedPrice);
     }
