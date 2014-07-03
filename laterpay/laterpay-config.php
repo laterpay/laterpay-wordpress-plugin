@@ -1,6 +1,6 @@
 <?php
-if ( file_exists( LATERPAY_GLOBAL_PATH . 'settings.php' ) ) {
-    $user_settings = include( LATERPAY_GLOBAL_PATH . 'settings.php' );
+if ( file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
+    $user_settings = include(LATERPAY_GLOBAL_PATH . 'settings.php');
 } else {
     $user_settings = array();
 }
