@@ -239,7 +239,7 @@ class LaterPay {
                 user_id           VARCHAR(32)     NOT NULL,
                 count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)   NOT NULL,
-                UNIQUE KEY  uk_view (post_id, user_id)
+                UNIQUE KEY  (post_id, user_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta($sql);
 
@@ -521,11 +521,11 @@ class LaterPay {
             'laterpay-post-view',
             'lpVars',
             array(
-                'ajaxUrl'      => admin_url('admin-ajax.php'),
-                'getArticleUrl'=> plugins_url('laterpay/scripts/lp-article.php'),
-                'getFooterUrl' => plugins_url('laterpay/scripts/lp-footer.php'),
-                'getTitleUrl' => plugins_url('laterpay/scripts/lp-title.php'),
-                'i18nAlert'    => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'),
+                'ajaxUrl'       => admin_url('admin-ajax.php'),
+                'getArticleUrl' => plugins_url('laterpay/scripts/lp-article.php'),
+                'getFooterUrl'  => plugins_url('laterpay/scripts/lp-footer.php'),
+                'getTitleUrl'   => plugins_url('laterpay/scripts/lp-title.php'),
+                'i18nAlert'     => __('In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'),
             )
         );
     }
