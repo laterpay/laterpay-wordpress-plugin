@@ -121,7 +121,7 @@
                     <!-- <?php _e('Preview a short excerpt from the paid post:', 'laterpay'); ?> -->
                     <?php echo StringHelper::truncate(
                             $content,
-                            LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT,
+                            StringHelper::determine_number_of_words($content),
                             array(
                                 'html'  => true,
                                 'words' => true
