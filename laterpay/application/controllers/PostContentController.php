@@ -67,19 +67,18 @@ class PostContentController extends AbstractController {
                 // encrypt content for premium content
                 $content = FileHelper::getEncryptedContent($post_id, $content, $access);
 
-                $this->assign('post_id',               $post_id);
-                $this->assign('content',               $content);
-                $this->assign('teaser_content',        $teaser_content);
-                $this->assign('teaser_content_only',   $teaser_content_only);
-                $this->assign('currency',              $currency);
-                $this->assign('price',                 $price);
-                $this->assign('is_premium_content',    $price > 0);
-                $this->assign('access',                $access);
-                $this->assign('link',                  $link);
-                $this->assign('can_show_statistic',    $laterpay_show_statistic ? true: false);
-                $this->assign('post_content_cached',   CacheHelper::isPageCachingPluginActive());
-                $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
-
+                $this->assign('post_id',                    $post_id);
+                $this->assign('content',                    $content);
+                $this->assign('teaser_content',             $teaser_content);
+                $this->assign('teaser_content_only',        $teaser_content_only);
+                $this->assign('currency',                   $currency);
+                $this->assign('price',                      $price);
+                $this->assign('is_premium_content',         $price > 0);
+                $this->assign('access',                     $access);
+                $this->assign('link',                       $link);
+                $this->assign('can_show_statistic',         $laterpay_show_statistic ? true: false);
+                $this->assign('post_content_cached',        CacheHelper::isPageCachingPluginActive());
+                $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor());
 
                 $html = $this->getTextView('singlePost');
             } else {

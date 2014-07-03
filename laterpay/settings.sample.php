@@ -9,9 +9,16 @@ return array (
     // File types protected against direct download from paid posts without purchasing
     'LATERPAY_PROTECTED_FILE_TYPES' =>    'docx|doc|gif|jpeg|jpg|pdf|png|pptx|ppt|rar|rtf|tiff|tif|txt|xlsx|xls|zip',
 
-    // Settings for generating excerpts of paid content shown to visitors
+    // Number of words used for automatically extracting teaser content for paid posts
     'LATERPAY_AUTO_GENERATED_TEASER_CONTENT_WORD_COUNT' => 60,
-    'LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT' =>          130,
+    // Number of words of actual paid content displayed under semitransparent overlay in preview mode "teaser + overlay"
+    // Three parameters can be defined:
+    // - percentage of content to be extracted (values: 1-100); 20 means extract 20% of the total number of words
+    // - MINimum number of words; applied if percentage of words is less than this value
+    // - MAXimum number of words; applied if percentage of words exceeds this value
+    'LATERPAY_PAID_CONTENT_PREVIEW_PERCENTAGE_OF_CONTENT' => 20,
+    'LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MIN' =>        26,
+    'LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MAX' =>        200,
 
     // Access logging for generating sales statistics within the plugin;
     // Sets a cookie and logs all requests from visitors to your blog, if enabled

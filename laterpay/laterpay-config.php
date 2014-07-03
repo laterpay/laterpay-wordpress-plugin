@@ -5,7 +5,7 @@ if ( file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
     $user_settings = array();
 }
 
-return array_merge( array (
+return array_merge(array(
     // #############################################################################
     // THESE PARAMETERS WILL BE OVERWRITTEN AFTER PLUGIN UPDATE, USE "settings.php" FILE INSTEAD
     // #############################################################################

@@ -35,7 +35,7 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
 
 #laterpay_teaser_content dfn {color:#999; display:block; font-style:italic; margin:1em 0;}
 
-/* add LaterPay logo to heading of postbox */
+/* add LaterPay logo to heading of postbox and teaser content editor */
 @charset 'UTF-8';
 @font-face {
     font-family:'laterpay-wordpress-icons';
@@ -47,8 +47,10 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
         url('../fonts/laterpay-wordpress-icons.ttf') format('truetype'),
         url('../fonts/laterpay-wordpress-icons.svg#laterpay-wordpress-icons') format('svg');
 }
-#laterpay_pricing_post_content h3 span {left:6.25em; position:relative;}
-#laterpay_pricing_post_content h3 span:before {
+#laterpay_pricing_post_content h3 span,
+#laterpay_teaser_content h3 span {left:6.25em; position:relative;}
+#laterpay_pricing_post_content h3 span:before,
+#laterpay_teaser_content h3 span:before {
     -moz-osx-font-smoothing:grayscale;
     -webkit-font-smoothing:antialiased;
     content:'a';
