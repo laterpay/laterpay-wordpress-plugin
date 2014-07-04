@@ -7,6 +7,8 @@
     - Added more flash messages for system feedback
     - Switched to loading minified version of YUI
     - Renamed views and several variables to be more self-explanatory
+    - Fixed bug in getStarted tab that showed an error message that Merchant ID or API Key is not
+      valid, if it was not entered yet
 
 
 0.9.4.2 (June 29, 2014): Bugfix release ============================================================
