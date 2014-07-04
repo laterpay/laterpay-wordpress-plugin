@@ -206,7 +206,7 @@ class PostPricingController extends AbstractController {
         $this->assign('price_post_type',        $price_post_type);
         $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
 
-        $this->render('postPricingForm');
+        $this->render('partials/postPricingForm');
     }
 
     /**

@@ -109,7 +109,7 @@ class PostContentController extends AbstractController {
                 $this->assign('post_id',               $postid);
                 $this->assign('identify_link',         $identify_link);
 
-                echo $this->getTextView('identifyIframe');
+                echo $this->getTextView('partials/identifyIframe');
             }
         }
     }
@@ -527,7 +527,7 @@ class PostContentController extends AbstractController {
                 if ( $post_content_cached && !RequestHelper::isAjax() ) {
                     $this->assign('post_id',    $post_id);
 
-                    $title = $this->getTextView('postTitle');
+                    $title = $this->getTextView('partials/postTitle');
                 } else {
                     if ( (!$access || $preview_post_as_visitor) ) {
                         $currency           = get_option('laterpay_currency');
