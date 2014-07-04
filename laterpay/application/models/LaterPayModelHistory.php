@@ -80,7 +80,7 @@ class LaterPayModelHistory {
      *
      * @return array history
      */
-    public function getTotalHistoryByIdPost( $post_id ) {
+    public function getTotalHistoryByPostId( $post_id ) {
         global $wpdb;
 
         if ( get_option('laterpay_plugin_is_in_live_mode') ) {
@@ -121,7 +121,7 @@ class LaterPayModelHistory {
      *
      * @return array history
      */
-    public function getTodayHistoryByIdPost( $post_id ) {
+    public function getTodayHistoryByPostId( $post_id ) {
         global $wpdb;
 
         if ( get_option('laterpay_plugin_is_in_live_mode') ) {
@@ -165,7 +165,7 @@ class LaterPayModelHistory {
      *
      * @return array history
      */
-    public function getLast30DaysHistoryByIdPost( $post_id ) {
+    public function getLast30DaysHistoryByPostId( $post_id ) {
         global $wpdb;
 
         if ( get_option('laterpay_plugin_is_in_live_mode') ) {
@@ -197,7 +197,7 @@ class LaterPayModelHistory {
                 DATE(wlph.date)
             ORDER BY
                 wlph.currency_id,
-                DATE(wlph.date) ASC
+                DATE(wlph.date)
             ;
         ";
         $history = $wpdb->get_results($sql);
