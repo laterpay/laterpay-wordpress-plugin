@@ -64,11 +64,12 @@ class LaterPay {
     protected function getGitHubPluginUpdater() {
         if ( empty($this->_gitHubPluginUpdater) ) {
             $this->_gitHubPluginUpdater = new GitHubPluginUpdater();
-            $this->_gitHubPluginUpdater->init(  $this->_pluginFile,
-                                                LATERPAY_GITHUB_USER_NAME,
-                                                LATERPAY_GITHUB_PROJECT_NAME,
-                                                LATERPAY_GITHUB_TOKEN
-                                            );
+            $this->_gitHubPluginUpdater->init(
+                $this->_pluginFile,
+                LATERPAY_GITHUB_USER_NAME,
+                LATERPAY_GITHUB_PROJECT_NAME,
+                LATERPAY_GITHUB_TOKEN
+            );
         }
 
         return $this->_gitHubPluginUpdater;
@@ -111,12 +112,12 @@ class LaterPay {
                     array(
                         '{salt}',
                         '{resource_encryption_key}',
-                        '{run_in_page_caching_compatible_mode}'
+                        'SITE_USES_PAGE_CACHING'
                     ),
                     array(
                         md5(uniqid('salt')),
                         md5(uniqid('key')),
-                        CacheHelper::siteUsesPageCaching() ? true : false
+                        CacheHelper::siteUsesPageCaching() ? 'true' : 'false'
                     ),
                     $config
                 );
