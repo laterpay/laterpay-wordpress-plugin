@@ -31,6 +31,13 @@ class PricingController extends AbstractController {
         );
         wp_enqueue_script('laterpay-select2');
         wp_enqueue_script('laterpay-backend-pricing');
+
+        // pass localized strings and variables to script
+        wp_localize_script(
+            'laterpay-backend-pricing',
+            'lpVars',
+            array('locale' => get_locale())
+        );
     }
 
     /**

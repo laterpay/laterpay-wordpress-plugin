@@ -17,8 +17,8 @@ var LPCurve = function(container) {
     this.minPrice           = 0;
     this.maxPrice           = 2;
     this.defaultPrice       = 1;
-    this.i18nDefaultPrice   = lpVars.i18nDefaultPrice;
-    this.currency           = lpVars.currency;
+    this.i18nDefaultPrice   = lpVars2.i18nDefaultPrice;
+    this.currency           = lpVars2.currency;
     this.dragging           = false;
 
     svg = d3.select(container).append('svg').append('g');

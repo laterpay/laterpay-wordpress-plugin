@@ -29,8 +29,8 @@ jQuery.noConflict();
     function laterpaySetPrice(price) {
         var validatedPrice = validatePrice(price);
         // localize price
-        if (lpVars.locale == 'de_DE') {
-            validatedPrice = validatedPrice.toFixed(2).replace('.', ',');
+        if (lpVars1.locale == 'de_DE') {
+            validatedPrice = validatedPrice.replace('.', ',');
         }
         $('#post-price').val(validatedPrice);
     }
@@ -44,6 +44,29 @@ jQuery.noConflict();
                 )
             );
     }
+
+    function updateSelectedCategoriesList() {
+        var $selectedCategories = $('#categorychecklist :checkbox:checked'),
+            categoryIds         = [],
+            categoryId;
+
+        for (var i = 0, l = $selectedCategories.length; i < l; i++) {
+            categoryId = parseInt($selectedCategories.eq(i).val(), 10);
+            // ignore category 1, as it stands for 'uncategorized'
+            if (categoryId !== 1) {
+                categoryIds.push(categoryId);
+            }
+        }
+
+        // TODO:
+        // make Ajax request for prices and names of categories
+        // rebuild list of categories in category default pricing tab
+    }
+
+    $('.categorychecklist :checkbox').on('change', function() {
+        updateSelectedCategoriesList();
+    });
+
 
     $('#post-price').blur(function() {
         laterpaySetPrice($(this).val());
@@ -71,6 +94,16 @@ jQuery.noConflict();
             $('.' + priceType, $details).show();
             $dynamicPricingToggle.show();
         } else if (priceType === 'use-category-default-price') {
+
+            getSelectedCategoryPrices();
+
+
+
+
+
+
+
+
             // select the first category in the list, if none is selected yet
             if ($('#laterpay-price-type-details .selected-category').length === 0) {
                 $categories.first().addClass('selected-category');
@@ -119,7 +152,7 @@ jQuery.noConflict();
 
     $('#post').submit(function() {
         if (requiredTeaserContentNotEntered()) {
-            setMessage(lpVars.i18nTeaserError, false);
+            setMessage(lpVars1.i18nTeaserError, false);
             $('#timestampdiv').show();
             $('#publishing-action .spinner').hide();
             $('#publish').prop('disabled', false).removeClass('button-primary-disabled');
@@ -147,14 +180,14 @@ jQuery.noConflict();
 
 
     // dynamic pricing widget
-    var data    = lpVars.dynamicPricingData,
+    var data    = lpVars1.dynamicPricingData,
         lpc     = new LPCurve('#laterpay-widget-container');
     window.lpc = lpc;
 
     if (data.length === 4)
-        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
+        lpc.setData(data).setPrice(0, 5, lpVars1.globalDefaultPrice).plot();
     else
-        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
+        lpc.setData(data).setPrice(0, 5, lpVars1.globalDefaultPrice).interpolate('step-before').plot();
 
     $('.blockbuster').click(function() {
         lpc.setData([

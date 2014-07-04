@@ -31,7 +31,7 @@ jQuery.noConflict();
         price = price.toFixed(2);
 
         // localize price
-        if (locale == 'de_DE') {
+        if (lpVars.locale == 'de_DE') {
             price = price.replace('.', ',');
         }
 

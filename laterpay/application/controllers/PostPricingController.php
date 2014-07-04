@@ -57,7 +57,7 @@ class PostPricingController extends AbstractController {
         // pass localized strings and variables to scripts
         wp_localize_script(
             'laterpay-post-edit',
-            'laterpay_post_edit',
+            'lpVars1',
             array(
                 'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
                 'locale'                => get_locale(),
@@ -67,11 +67,11 @@ class PostPricingController extends AbstractController {
         );
         wp_localize_script(
             'laterpay-d3-dynamic-pricing-widget',
-            'laterpay_d3_dynamic_pricing_widget',
+            'lpVars2',
             array(
                 'currency'          => get_option('laterpay_currency'),
                 'i18nDefaultPrice'  => __('default price', 'laterpay'),
-                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget);',
+                'l10n_print_after'  => 'jQuery.extend(lpVars1, lpVars2);',
             )
         );
     }
@@ -142,12 +142,11 @@ class PostPricingController extends AbstractController {
     public function pricingPostContentBox( $object, $box ) {
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
 
-        $category = get_the_category($object->ID);
         $category_default_price = null;
-        if ( !empty($category) ) {
-            $id = $category[0]->term_id;
-            $LaterPayModelCategory = new LaterPayModelCategory();
-
+        $categories_of_post     = wp_get_post_categories($object->ID);
+        if ( !empty($categories_of_post) ) {
+            $id                     = $categories_of_post[0]->term_id;
+            $LaterPayModelCategory  = new LaterPayModelCategory();
             $category_default_price = $LaterPayModelCategory->getPriceByCategoryId($id);
         }
 
@@ -199,6 +198,7 @@ class PostPricingController extends AbstractController {
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 
+        $this->assign('categories',             $categories_of_post);
         $this->assign('price',                  (float)$post_specific_price);
         $this->assign('category_default_price', (float)$category_default_price);
         $this->assign('global_default_price',   (float)get_option('laterpay_global_price'));
