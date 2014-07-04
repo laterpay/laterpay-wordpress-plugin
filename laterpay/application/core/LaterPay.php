@@ -116,7 +116,7 @@ class LaterPay {
                     array(
                         md5(uniqid('salt')),
                         md5(uniqid('key')),
-                        CacheHelper::siteUsesPageCaching()
+                        CacheHelper::siteUsesPageCaching() ? true : false
                     ),
                     $config
                 );
