@@ -1,10 +1,3 @@
-<script>
-    var locale                          = "<?php echo get_locale(); ?>",
-        i18n_outsideAllowedPriceRange   = "<?php _e('The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay'); ?>",
-        i18n_invalidMerchantId          = "<?php _e('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay'); ?>",
-        i18n_invalidApiKey              = "<?php _e('The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay'); ?>";
-</script>
-
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">
@@ -47,7 +40,7 @@
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
-                                value="<?php echo get_option('laterpay_sandbox_api_key'); ?>"
+                                value=""
                                 class="lp-input api-key-input"
                                 placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>">
                     </div>

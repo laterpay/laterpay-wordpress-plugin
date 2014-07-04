@@ -15,6 +15,18 @@ class GetStartedController extends AbstractController {
             true
         );
         wp_enqueue_script('laterpay-backend-getstarted');
+
+        // pass localized strings and variables to script
+        wp_localize_script(
+            'laterpay-backend-getstarted',
+            'lpVars',
+            array(
+                'locale'                        => get_locale(),
+                'i18nOutsideAllowedPriceRange'  => __('The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay'),
+                'i18nInvalidMerchantId'         => __('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay'),
+                'i18nInvalidApiKey'             => __('The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay'),
+            )
+        );
     }
 
     /**
@@ -29,7 +41,7 @@ class GetStartedController extends AbstractController {
 
         $this->assign('Currency', $Currency);
 
-        $this->render('getStartedView');
+        $this->render('pluginBackendGetStartedTab');
     }
 
     /**
@@ -54,7 +66,7 @@ class GetStartedController extends AbstractController {
             update_option('laterpay_sandbox_merchant_id',  $_POST['get_started']['laterpay_sandbox_merchant_id']);
             update_option('laterpay_global_price',         $_POST['get_started']['laterpay_global_price']);
             update_option('laterpay_currency',             $_POST['get_started']['laterpay_currency']);
-            update_option('laterpay_activate',             '1');
+            update_option('laterpay_plugin_is_activated',             '1');
 
             // automatically dismiss pointer to LaterPay plugin after saving the initial settings
             $current_user_id    = get_current_user_id();

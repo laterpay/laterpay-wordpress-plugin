@@ -38,6 +38,7 @@ class PostContentController extends AbstractController {
      * @access public
      */
     public function view( $content ) {
+        global $laterpay_show_statistic;
         if ( is_page() ) {
             return $content;
         }
@@ -66,23 +67,24 @@ class PostContentController extends AbstractController {
                 // encrypt content for premium content
                 $content = FileHelper::getEncryptedContent($post_id, $content, $access);
 
-                $this->assign('post_id',               $post_id);
-                $this->assign('content',               $content);
-                $this->assign('teaser_content',        $teaser_content);
-                $this->assign('teaser_content_only',   $teaser_content_only);
-                $this->assign('currency',              $currency);
-                $this->assign('price',                 $price);
-                $this->assign('is_premium_content',    $price > 0);
-                $this->assign('access',                $access);
-                $this->assign('link',                  $link);
-                $this->assign('preview_post_as_visitor', UserHelper::previewPostAsVisitor());
-                
+                $this->assign('post_id',                    $post_id);
+                $this->assign('content',                    $content);
+                $this->assign('teaser_content',             $teaser_content);
+                $this->assign('teaser_content_only',        $teaser_content_only);
+                $this->assign('currency',                   $currency);
+                $this->assign('price',                      $price);
+                $this->assign('is_premium_content',         $price > 0);
+                $this->assign('access',                     $access);
+                $this->assign('link',                       $link);
+                $this->assign('can_show_statistic',         $laterpay_show_statistic ? true: false);
+                $this->assign('post_content_cached',        CacheHelper::siteUsesPageCaching());
+                $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor());
 
-                $html = $this->getTextView('postSingleView');
+                $html = $this->getTextView('singlePost');
             } else {
                 $this->assign('teaser_content', $teaser_content);
 
-                $html = $this->getTextView('postView');
+                $html = $this->getTextView('post');
             }
             return $html;
         }
@@ -95,7 +97,7 @@ class PostContentController extends AbstractController {
         if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
             $postid = $_GET['id'];
         } else {
-            $url = StatisticHelper::getFullUrl($_SERVER);
+            $url = StatisticsHelper::getFullUrl($_SERVER);
             $postid = url_to_postid($url);
         }
         if ( !empty($postid) ) {
@@ -104,9 +106,10 @@ class PostContentController extends AbstractController {
                 $LaterPayClient = new LaterPayClient();
                 $identify_link = $LaterPayClient->getIdentifyUrl();
 
-                $this->assign('identify_link', $identify_link);
+                $this->assign('post_id',               $postid);
+                $this->assign('identify_link',         $identify_link);
 
-                echo $this->getTextView('identifyIframe');
+                echo $this->getTextView('partials/identifyIframe');
             }
         }
     }
@@ -312,7 +315,7 @@ class PostContentController extends AbstractController {
             if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
                 $postid = $_GET['id'];
             } else {
-                $url = StatisticHelper::getFullUrl($_SERVER);
+                $url = StatisticsHelper::getFullUrl($_SERVER);
                 $postid = url_to_postid($url);
             }
             if ( !empty($postid) ) {
@@ -508,7 +511,7 @@ class PostContentController extends AbstractController {
      *
      * @return object
      */
-    public static function modifyPostTitle( $title ) {
+    public function modifyPostTitle( $title ) {
         if ( in_the_loop() ) {
             $post               = get_post();
             $post_id            = $post->ID;
@@ -517,20 +520,29 @@ class PostContentController extends AbstractController {
             $is_premium_content = $float_price > 0;
             $access             = $GLOBALS['laterpay_access'] || current_user_can('manage_options') || UserHelper::user_has_full_access();
             $link               = self::getLPLink($post_id);
-            $preview_post_as_visitor = UserHelper::previewPostAsVisitor(); 
+            $preview_post_as_visitor = UserHelper::previewPostAsVisitor();
+            $post_content_cached = CacheHelper::siteUsesPageCaching();
 
-            if ( ($is_premium_content && is_single() && !is_page() && !$access) || $preview_post_as_visitor) {
-                $currency           = get_option('laterpay_currency');
-                $purchase_button    = '<a href="' . $link . '" class="laterpay-purchase-link laterpay-purchase-button" data-icon="b" post-id="';
-                $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
-                $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
-                $purchase_button   .= sprintf(
-                                            __('%s<small>%s</small>', 'laterpay'),
-                                            ViewHelper::formatNumber($price, 2),
-                                            $currency
-                                        );
-                $purchase_button   .= '</a>';
-                $title              = $purchase_button . $title;
+            if ( $is_premium_content && is_single() && !is_page() ) {
+                if ( $post_content_cached && !RequestHelper::isAjax() ) {
+                    $this->assign('post_id',    $post_id);
+
+                    $title = $this->getTextView('partials/postTitle');
+                } else {
+                    if ( (!$access || $preview_post_as_visitor) ) {
+                        $currency           = get_option('laterpay_currency');
+                        $purchase_button    = '<a href="' . $link . '" class="laterpay-purchase-link laterpay-purchase-button" data-icon="b" post-id="';
+                        $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
+                        $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
+                        $purchase_button   .= sprintf(
+                                                    __('%s<small>%s</small>', 'laterpay'),
+                                                    ViewHelper::formatNumber($price, 2),
+                                                    $currency
+                                                );
+                        $purchase_button   .= '</a>';
+                        $title              = $purchase_button . $title;
+                    }
+                }
             }
         }
 

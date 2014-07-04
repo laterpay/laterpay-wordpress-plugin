@@ -39,7 +39,7 @@ class LaterPayModelHistory {
     public function setPaymentHistory( $data ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -83,7 +83,7 @@ class LaterPayModelHistory {
     public function getTotalHistoryByIdPost( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -97,11 +97,11 @@ class LaterPayModelHistory {
             FROM
                 {$this->table} AS wlph
                 LEFT JOIN
-                    `{$this->table_currency}` AS wlc
+                    {$this->table_currency} AS wlc
                 ON
                     wlph.currency_id = wlc.id
             WHERE
-                wlph.mode = '" . $mode . "
+                wlph.mode = '" . $mode . "'
                 AND wlph.post_id = " . (int)$post_id . "
             GROUP BY
                 wlph.currency_id
@@ -124,7 +124,7 @@ class LaterPayModelHistory {
     public function getTodayHistoryByIdPost( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -138,7 +138,7 @@ class LaterPayModelHistory {
             FROM
                 {$this->table} AS wlph
                 LEFT JOIN
-                    `{$this->table_currency}` AS wlc
+                    {$this->table_currency} AS wlc
                 ON
                     wlph.currency_id = wlc.id
             WHERE
@@ -168,7 +168,7 @@ class LaterPayModelHistory {
     public function getLast30DaysHistoryByIdPost( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_mode_is_live') ) {
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -183,7 +183,7 @@ class LaterPayModelHistory {
             FROM
                 {$this->table} AS wlph
                 LEFT JOIN
-                    `{$this->table_currency}` AS wlc
+                    {$this->table_currency} AS wlc
                 ON
                     wlph.currency_id = wlc.id
             WHERE

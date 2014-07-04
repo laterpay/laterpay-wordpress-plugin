@@ -9,9 +9,9 @@ class LaterPay {
     /**
      *
      *
-     * @var PricingPostController
+     * @var PostPricingController
      */
-    private $_pricingPostController;
+    private $_postPricingController;
     /**
      *
      *
@@ -37,12 +37,12 @@ class LaterPay {
         $this->_pluginFile = $file;
     }
 
-    protected function getPricingPostController() {
-        if ( empty($this->_pricingPostController) ) {
-            $this->_pricingPostController = new PricingPostController();
+    protected function getPostPricingController() {
+        if ( empty($this->_postPricingController) ) {
+            $this->_postPricingController = new PostPricingController();
         }
 
-        return $this->_pricingPostController;
+        return $this->_postPricingController;
     }
 
     protected function getAdminController() {
@@ -64,11 +64,12 @@ class LaterPay {
     protected function getGitHubPluginUpdater() {
         if ( empty($this->_gitHubPluginUpdater) ) {
             $this->_gitHubPluginUpdater = new GitHubPluginUpdater();
-            $this->_gitHubPluginUpdater->init(  $this->_pluginFile,
-                                                LATERPAY_GITHUB_USER_NAME,
-                                                LATERPAY_GITHUB_PROJECT_NAME,
-                                                LATERPAY_GITHUB_TOKEN
-                                            );
+            $this->_gitHubPluginUpdater->init(
+                $this->_pluginFile,
+                LATERPAY_GITHUB_USER_NAME,
+                LATERPAY_GITHUB_PROJECT_NAME,
+                LATERPAY_GITHUB_TOKEN
+            );
         }
 
         return $this->_gitHubPluginUpdater;
@@ -81,11 +82,10 @@ class LaterPay {
 
         $this->setupPluginAdminResources();
         $this->setupAdminPointersScript();
+        $this->setupTeaserContentBox();
+        $this->setupPricingPostContentBox();
 
         if ( ViewHelper::isPluginAvailable() ) {
-            $this->setupTeaserContentBox();
-            $this->setupPricingPostContentBox();
-
             $this->setupPurchases();
 
             $this->setupUniqueVisitorsTracking();
@@ -109,8 +109,16 @@ class LaterPay {
             if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
                 $config = file_get_contents(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
                 $config = str_replace(
-                    array('{LATERPAY_SALT}', '{LATERPAY_RESOURCE_ENCRYPTION_KEY}'),
-                    array(md5(uniqid('salt')), md5(uniqid('key'))),
+                    array(
+                        '{salt}',
+                        '{resource_encryption_key}',
+                        'SITE_USES_PAGE_CACHING'
+                    ),
+                    array(
+                        md5(uniqid('salt')),
+                        md5(uniqid('key')),
+                        CacheHelper::siteUsesPageCaching() ? 'true' : 'false'
+                    ),
                     $config
                 );
                 file_put_contents(LATERPAY_GLOBAL_PATH . 'settings.php', $config);
@@ -213,13 +221,6 @@ class LaterPay {
         dbDelta($sql);
 
         $sql = "
-            INSERT INTO $table_currency (id, short_name, full_name)
-            VALUES
-                (1, 'USD', 'U.S. dollar'),
-                (2, 'EUR', 'Euro');";
-        dbDelta($sql);
-
-        $sql = "
             CREATE TABLE $table_history (
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
                 mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
@@ -240,20 +241,38 @@ class LaterPay {
                 user_id           VARCHAR(32)     NOT NULL,
                 count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)   NOT NULL,
-                UNIQUE KEY  uk_view (post_id, user_id)
+                UNIQUE KEY  (post_id, user_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta($sql);
 
-        add_option('laterpay_activate',             '0');
-        add_option('laterpay_teaser_content_only',  '');
-        add_option('laterpay_plugin_mode_is_live',  '');
-        add_option('laterpay_sandbox_merchant_id',  '');
-        add_option('laterpay_sandbox_api_key',      '');
-        add_option('laterpay_live_merchant_id',     '');
-        add_option('laterpay_live_api_key',         '');
-        add_option('laterpay_global_price',         LATERPAY_GLOBAL_PRICE_DEFAULT);
-        add_option('laterpay_currency',             LATERPAY_CURRENCY_DEFAULT);
-        add_option('laterpay_version',              $laterpay_version) || update_option('laterpay_version', $laterpay_version);
+        // seed currency table
+        $wpdb->replace(
+            $table_currency,
+            array(
+                'id'            => 1,
+                'short_name'    => 'USD',
+                'full_name'     => 'U.S. dollar'
+            )
+        );
+        $wpdb->replace(
+            $table_currency,
+            array(
+                'id'            => 2,
+                'short_name'    => 'EUR',
+                'full_name'     => 'Euro'
+            )
+        );
+
+        add_option('laterpay_plugin_is_activated',      '0');
+        add_option('laterpay_teaser_content_only',      '');
+        add_option('laterpay_plugin_is_in_live_mode',   '');
+        add_option('laterpay_sandbox_merchant_id',      '');
+        add_option('laterpay_sandbox_api_key',          '');
+        add_option('laterpay_live_merchant_id',         '');
+        add_option('laterpay_live_api_key',             '');
+        add_option('laterpay_global_price',             LATERPAY_GLOBAL_PRICE_DEFAULT);
+        add_option('laterpay_currency',                 LATERPAY_CURRENCY_DEFAULT);
+        add_option('laterpay_version',                  $laterpay_version) || update_option('laterpay_version', $laterpay_version);
 
         // clear opcode cache
         CacheHelper::resetOpcodeCache();
@@ -280,9 +299,9 @@ class LaterPay {
         $sql = "DROP TABLE `" . $table_post_views . "`;";
         $wpdb->query($sql);
 
-        delete_option('laterpay_activate');
+        delete_option('laterpay_plugin_is_activated');
         delete_option('laterpay_teaser_content_only');
-        delete_option('laterpay_plugin_mode_is_live');
+        delete_option('laterpay_plugin_is_in_live_mode');
         delete_option('laterpay_sandbox_merchant_id');
         delete_option('laterpay_sandbox_api_key');
         delete_option('laterpay_live_merchant_id');
@@ -343,7 +362,7 @@ class LaterPay {
     public function addTeaserContentBox() {
         add_meta_box('laterpay_teaser_content',
             __('Teaser Content', 'laterpay'),
-            array($this->getPricingPostController(), 'teaserContentBox'),
+            array($this->getPostPricingController(), 'teaserContentBox'),
             'post',
             'normal',
             'high'
@@ -351,8 +370,8 @@ class LaterPay {
     }
 
     protected function setupTeaserContentBox() {
-        add_action('save_post', array ($this->getPricingPostController(), 'saveTeaserContentBox'));
-        add_action('admin_menu', array ($this, 'addTeaserContentBox'));
+        add_action('save_post', array($this->getPostPricingController(), 'saveTeaserContentBox'));
+        add_action('admin_menu', array($this, 'addTeaserContentBox'));
     }
 
     /**
@@ -361,7 +380,7 @@ class LaterPay {
     public function addPricingPostContentBox() {
         add_meta_box('laterpay_pricing_post_content',
             __('Pricing for this Post', 'laterpay'),
-            array($this->getPricingPostController(), 'pricingPostContentBox'),
+            array($this->getPostPricingController(), 'pricingPostContentBox'),
             'post',
             'side',
             'high'  // show as high as possible in sidebar (priority 'high')
@@ -369,7 +388,7 @@ class LaterPay {
     }
 
     protected function setupPricingPostContentBox() {
-        add_action('save_post', array($this->getPricingPostController(), 'savePricingPostContentBox'));
+        add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
     }
 
@@ -395,7 +414,7 @@ class LaterPay {
         );
 
         if ( $page == 'post.php' || $page == 'post-new.php' ) {
-            $this->getPricingPostController()->loadAssets();
+            $this->getPostPricingController()->loadAssets();
         }
     }
 
@@ -423,9 +442,9 @@ class LaterPay {
         if ( !LATERPAY_ACCESS_LOGGING_ENABLED || is_admin() ) {
             return;
         }
-        $url = StatisticHelper::getFullUrl($_SERVER);
+        $url = StatisticsHelper::getFullUrl($_SERVER);
         $postid = url_to_postid($url);
-        StatisticHelper::track($postid);
+        StatisticsHelper::track($postid);
     }
 
     protected function setupUniqueVisitorsTracking() {
@@ -517,16 +536,17 @@ class LaterPay {
         wp_enqueue_script('laterpay-peity');
         wp_enqueue_script('laterpay-post-view');
 
-        // localize strings in scripts
+        // pass localized strings and variables to script
         wp_localize_script(
             'laterpay-post-view',
-            'ajax_object',
-            array('ajax_url' => admin_url('admin-ajax.php'))
-        );
-        wp_localize_script(
-            'laterpay-post-view',
-            'post_preview',
-            array('alert_message' => __('In live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'))
+            'lpVars',
+            array(
+                'ajaxUrl'       => admin_url('admin-ajax.php'),
+                'getArticleUrl' => plugins_url('laterpay/scripts/lp-article.php'),
+                'getFooterUrl'  => plugins_url('laterpay/scripts/lp-footer.php'),
+                'getTitleUrl'   => plugins_url('laterpay/scripts/lp-title.php'),
+                'i18nAlert'     => __('In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'),
+            )
         );
     }
 

@@ -57,7 +57,7 @@ class AdminController extends AbstractController {
 
         // return default tab, if no specific tab is requested
         if ( empty($tab) ) {
-            if ( get_option('laterpay_activate') == '0' ) {
+            if ( get_option('laterpay_plugin_is_activated') == '0' ) {
                 $tab            = 'get_started';
                 $_GET['tab']    = 'get_started';
             } else {
@@ -66,7 +66,7 @@ class AdminController extends AbstractController {
             }
         }
         // return default tab, if plugin is already activated and get started tab is requested
-        if ( get_option('laterpay_activate') == '1' && $tab == 'get_started' ) {
+        if ( get_option('laterpay_plugin_is_activated') == '1' && $tab == 'get_started' ) {
             $tab                = 'pricing';
             $_GET['tab']        = 'pricing';
         }
@@ -122,7 +122,7 @@ class AdminController extends AbstractController {
 
         $this->assign('pointers', $pointers);
 
-        echo $this->getTextView('adminFooter');
+        echo $this->getTextView('partials/adminFooter');
     }
 
     /**

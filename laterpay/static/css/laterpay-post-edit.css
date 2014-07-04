@@ -63,7 +63,7 @@ ul.lp-toggle .selected:hover a {color:#444; cursor:default;}
 #use-dynamic-pricing {display:block; padding:.75em 0.25em 0; text-decoration:none;}
 
 
-/* add LaterPay logo to heading of postbox */
+/* add LaterPay logo to heading of postbox and teaser content editor */
 @charset 'UTF-8';
 @font-face {
     font-family:'laterpay-wordpress-icons';
@@ -75,8 +75,10 @@ ul.lp-toggle .selected:hover a {color:#444; cursor:default;}
         url(../fonts/laterpay-wordpress-icons.ttf) format('truetype'),
         url(../fonts/laterpay-wordpress-icons.svg#laterpay-wordpress-icons) format('svg');
 }
-#laterpay_pricing_post_content h3 span {left:6.25em; position:relative;}
-#laterpay_pricing_post_content h3 span:before {
+#laterpay_pricing_post_content h3 span,
+#laterpay_teaser_content h3 span {left:6.25em; position:relative;}
+#laterpay_pricing_post_content h3 span:before,
+#laterpay_teaser_content h3 span:before {
     -moz-osx-font-smoothing:grayscale;
     -webkit-font-smoothing:antialiased;
     content:'a';
@@ -92,6 +94,7 @@ ul.lp-toggle .selected:hover a {color:#444; cursor:default;}
     text-transform:none !important;
     top:.106em;
 }
+#laterpay_teaser_content h3 span:before {top:.11em;}
 
 
 /* dynamic pricing widget */
@@ -113,7 +116,7 @@ ul.lp-toggle .selected:hover a {color:#444; cursor:default;}
 
 svg text {-webkit-user-select:none;}
 
-#container {height:240px; width:254px;}
+#laterpay-widget-container {height:240px; width:254px;}
 
 .axis path {fill:none;}
 .tick line,
@@ -146,7 +149,7 @@ rect.background {fill:#f1f1f1;}
 
 .line-price-visible {stroke:#555; stroke-dasharray:5; stroke-width:1.5px;}
 
-#container.ew-resize,
+#laterpay-widget-container.ew-resize,
 rect.x-drag-square,
 .x-triangle-bottom {cursor:col-resize;}
 

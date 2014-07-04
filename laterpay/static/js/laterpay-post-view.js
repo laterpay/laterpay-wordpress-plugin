@@ -1,32 +1,34 @@
 (function($) {$(document).ready(function() {
 
-        $('#statistics .bar').peity('bar', {
-            delimiter   : ';',
-            width       : 182,
-            height      : 42,
-            gap         : 1,
-            fill        : function(value, index, array) {
-                            var date        = new Date(),
-                                daysCount   = array.length,
-                                color       = '#999';
-                            date.setDate(date.getDate() - (daysCount - index));
-                            // highlight the last (current) day
-                            if (index === (daysCount - 1))
-                                color = '#555';
-                            // highlight Saturdays and Sundays
-                            if (date.getDay() === 0 || date.getDay() === 6)
-                                color = '#c1c1c1';
-                            return color;
-                        }
-        });
-        $('#statistics .background-bar').peity('bar', {
-            delimiter   : ';',
-            width       : 182,
-            height      : 42,
-            gap         : 1,
-            fill        : function() { return '#ddd'; }
-        });
-        var togglePreviewMode = function() {
+    var lpShowStatistic = function() {
+            $('#statistics .bar').peity('bar', {
+                delimiter   : ';',
+                width       : 182,
+                height      : 42,
+                gap         : 1,
+                fill        : function(value, index, array) {
+                                var date        = new Date(),
+                                    daysCount   = array.length,
+                                    color       = '#999';
+                                date.setDate(date.getDate() - (daysCount - index));
+                                // highlight the last (current) day
+                                if (index === (daysCount - 1))
+                                    color = '#555';
+                                // highlight Saturdays and Sundays
+                                if (date.getDay() === 0 || date.getDay() === 6)
+                                    color = '#c1c1c1';
+                                return color;
+                            }
+            });
+            $('#statistics .background-bar').peity('bar', {
+                delimiter   : ';',
+                width       : 182,
+                height      : 42,
+                gap         : 1,
+                fill        : function() { return '#ddd'; }
+            });
+        },
+        togglePreviewMode = function() {
             var $toggle = $('#preview-post-toggle');
             if ($toggle.prop('checked')) {
                 $('#preview_post_hidden_input').val(1);
@@ -38,7 +40,7 @@
         makeAjaxRequest = function(form_id) {
             // plugin mode Ajax form
             $.post(
-                ajax_object.ajax_url,
+                lpVars.ajaxUrl,
                 $('#' + form_id).serializeArray(),
                 function(data) {
                     if(data && data.success) {
@@ -48,15 +50,36 @@
                 'json'
             );
         };
-        $('#preview-post-toggle').click(function(e) {
+
+        lpShowStatistic();
+
+        $('body').on('mousedown', '#preview-post-toggle', function(e) {
             togglePreviewMode();
         });
+
         $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
             if( $(this).data('preview-as-visitor') ) {
                 e.preventDefault();
-                alert(post_preview.alert_message);
+                alert(lpVars.i18nAlert);
             }
         });
+
+        // load content via Ajax, if plugin is in page caching compatible mode
+        // (recognizable by the presence of $('#laterpay-page-caching-mode'))
+        var $pageCachingAnchor = $('#laterpay-page-caching-mode');
+        if ($pageCachingAnchor.length == 1) {
+            $.get(
+                lpVars.getArticleUrl,
+                {
+                    id              : $pageCachingAnchor.attr('data-post-id'),
+                    show_statistic  : true
+                },
+                function(html) {
+                    $pageCachingAnchor.before(html).remove();
+                    lpShowStatistic();
+                }
+            );
+        }
 
 });}(jQuery));
 

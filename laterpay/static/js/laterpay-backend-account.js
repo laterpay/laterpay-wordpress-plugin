@@ -29,7 +29,7 @@ jQuery.noConflict();
             if ($toggle.prop('checked')) {
                 if ($('#laterpay_live_api_key').val().length !== 32 || $('#laterpay_live_merchant_id').val().length !== 22) {
                     setMessage({
-                        message: $toggle.attr('data-error'),
+                        message: lpVars.i18nLiveApiDataRequired,
                         success: false
                     });
                     $('#plugin_mode_hidden_input').val(0);
@@ -77,7 +77,7 @@ jQuery.noConflict();
                 togglePluginMode();
             } else {
                 setMessage({
-                    message: i18n_api_invalid,
+                    message: lpVars.i18nApiKeyInvalid,
                     success: false
                 });
             }
@@ -98,7 +98,7 @@ jQuery.noConflict();
                 togglePluginMode();
             } else {
                 setMessage({
-                    message: i18n_merchant_id_invalid,
+                    message: lpVars.i18nMerchantIdInvalid,
                     success: false
                 });
             }

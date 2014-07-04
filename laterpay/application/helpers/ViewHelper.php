@@ -67,11 +67,11 @@ class ViewHelper {
      * @return boolean
      */
     public static function isPluginAvailable() {
-        if ( get_option('laterpay_activate') != 1 ) {
+        if ( get_option('laterpay_plugin_is_activated') != 1 ) {
             return false;
         }
 
-        $modeIsLive = get_option('laterpay_plugin_mode_is_live');
+        $modeIsLive = get_option('laterpay_plugin_is_in_live_mode');
         $sandboxKey = get_option('laterpay_sandbox_api_key');
         $liveKey    = get_option('laterpay_live_api_key');
         if ( !function_exists('wp_get_current_user')) {

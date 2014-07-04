@@ -5,7 +5,7 @@ jQuery.noConflict();
         // strip non-number characters
         price = price.replace(/[^0-9\,\.]/g, '');
         // convert price to proper float value
-        if (price.indexOf(',') > -1) {
+        if (typeof price === 'string' && price.indexOf(',') > -1) {
             price = parseFloat(price.replace(',', '.')).toFixed(2);
         } else {
             price = parseFloat(price).toFixed(2);
@@ -29,8 +29,8 @@ jQuery.noConflict();
     function laterpaySetPrice(price) {
         var validatedPrice = validatePrice(price);
         // localize price
-        if (locale == 'de_DE') {
-            validatedPrice = validatedPrice.replace('.', ',');
+        if (lpVars.locale == 'de_DE') {
+            validatedPrice = validatedPrice.toFixed(2).replace('.', ',');
         }
         $('#post-price').val(validatedPrice);
     }
@@ -119,7 +119,7 @@ jQuery.noConflict();
 
     $('#post').submit(function() {
         if (requiredTeaserContentNotEntered()) {
-            setMessage(i18nTeaserError, false);
+            setMessage(lpVars.i18nTeaserError, false);
             $('#timestampdiv').show();
             $('#publishing-action .spinner').hide();
             $('#publish').prop('disabled', false).removeClass('button-primary-disabled');
@@ -147,14 +147,14 @@ jQuery.noConflict();
 
 
     // dynamic pricing widget
-    var data    = data_start,
-        lpc     = new LPCurve('#container');
+    var data    = lpVars.dynamicPricingData,
+        lpc     = new LPCurve('#laterpay-widget-container');
     window.lpc = lpc;
 
     if (data.length === 4)
-        lpc.setData(data).setPrice(0, 5, price_global).plot();
+        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
     else
-        lpc.setData(data).setPrice(0, 5, price_global).interpolate('step-before').plot();
+        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
 
     $('.blockbuster').click(function() {
         lpc.setData([
@@ -226,14 +226,5 @@ jQuery.noConflict();
 
         return false;
     });
-
-    if (is_standard_post === '1') {
-        $('#laterpay-post-standard').hide();
-        $('#laterpay_post_advanced').show();
-    } else {
-        $('#laterpay-post-standard').show();
-        $('#laterpay_post_advanced').hide();
-    }
-
 
 });})(jQuery);

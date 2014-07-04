@@ -1,10 +1,3 @@
-<script>
-    var i18n_api_updated            = "<?php _e('The API key you entered is a valid LaterPay API key', 'laterpay'); ?>",
-        i18n_api_invalid            = "<?php _e('The API key you entered is not a valid LaterPay API key!', 'laterpay'); ?>",
-        i18n_merchant_id_updated    = "<?php _e('The Merchant ID you entered is a valid LaterPay Merchant ID.', 'laterpay'); ?>",
-        i18n_merchant_id_invalid    = "<?php _e('The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay'); ?>";
-</script>
-
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">
@@ -12,14 +5,11 @@
     </div>
 
     <div class="tabs-area">
-        <a href="#account" id="plugin-mode-indicator" data-icon="h" <?php if ( get_option('laterpay_plugin_mode_is_live') != 0 ) echo "style='display:none'"; ?>>
+        <a href="#account" id="plugin-mode-indicator" data-icon="h" <?php if ( $plugin_is_in_live_mode ) echo "style='display:none'"; ?>>
             <h2><?php _e('<strong>Test</strong> mode', 'laterpay'); ?></h2>
             <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
         </a>
         <ul class="tabs">
-            <?php if ( get_option('laterpay_activate') == '0' ): ?>
-                <li id="get-started-tab"><a href="#get_started"><?php _e('Get Started', 'laterpay'); ?></a></li>
-            <?php endif; ?>
             <li><a href="#pricing"><?php _e('Pricing', 'laterpay'); ?></a></li>
             <li><a href="#appearance"><?php _e('Appearance', 'laterpay'); ?></a></li>
             <li class="current"><a href="#account"><?php _e('Account', 'laterpay'); ?></a></li>
@@ -48,7 +38,7 @@
                                 id="laterpay_sandbox_merchant_id"
                                 name="laterpay_sandbox_merchant_id"
                                 class="lp-input merchant-id-input"
-                                value="<?php echo get_option('laterpay_sandbox_merchant_id'); ?>"
+                                value="<?php echo $sandbox_merchant_id; ?>"
                                 placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>"/>
                         </li>
                     </ul>
@@ -68,7 +58,7 @@
                                 id="laterpay_sandbox_api_key"
                                 name="laterpay_sandbox_api_key"
                                 class="lp-input api-key-input"
-                                value="<?php echo get_option('laterpay_sandbox_api_key'); ?>"
+                                value="<?php echo $sandbox_api_key; ?>"
                                 placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>"/>
                         </li>
                     </ul>
@@ -93,7 +83,7 @@
                                 id="laterpay_live_merchant_id"
                                 name="laterpay_live_merchant_id"
                                 class="lp-input merchant-id-input"
-                                value="<?php echo get_option('laterpay_live_merchant_id'); ?>"
+                                value="<?php echo $live_merchant_id; ?>"
                                 placeholder="<?php _e('Paste Live Merchant ID here', 'laterpay'); ?>"/>
                         </li>
                     </ul>
@@ -113,13 +103,13 @@
                                 name="laterpay_live_api_key"
                                 id="laterpay_live_api_key"
                                 class="lp-input api-key-input"
-                                value="<?php echo get_option('laterpay_live_api_key'); ?>"
+                                value="<?php echo $live_api_key; ?>"
                                 placeholder="<?php _e('Paste Live API Key here', 'laterpay'); ?>"/>
                         </li>
                     </ul>
                     <ul id="request-live-credentials"
                         class="clearfix"
-                        <?php if ( get_option('laterpay_live_api_key') && get_option('laterpay_sandbox_api_key') ) echo ' style="display:none;"'; ?>>
+                        <?php if ( $live_api_key ) echo ' style="display:none;"'; ?>>
                         <li class="left w1-5">
                             &nbsp;
                         </li>
@@ -141,31 +131,30 @@
             <h2><?php _e('Plugin Mode', 'laterpay'); ?></h2>
             <?php _e('This site is in', 'laterpay'); ?><div class="switch">
                 <form id="plugin_mode" method="post">
-                    <input type="hidden" name="form"    value="plugin_mode_is_live">
+                    <input type="hidden" name="form"    value="plugin_is_in_live_mode">
                     <input type="hidden" name="action"  value="account">
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <label class="switch-label">
                         <input type="checkbox"
-                                name="plugin_mode_is_live_checkbox"
+                                name="plugin_is_in_live_mode_checkbox"
                                 id="plugin-mode-toggle"
                                 class="switch-input"
-                                data-error="<?php _e('Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay'); ?>"
-                                <?php if ( get_option('laterpay_plugin_mode_is_live') == 1 ): ?>checked<?php endif; ?>>
+                                <?php if ( $plugin_is_in_live_mode ): ?>checked<?php endif; ?>>
                         <input type="hidden"
-                                name="plugin_mode_is_live"
+                                name="plugin_is_in_live_mode"
                                 id="plugin_mode_hidden_input"
-                                value="<?php if ( get_option('laterpay_plugin_mode_is_live') == 1 ) { echo 1; } else { echo 0; } ?>">
+                                value="<?php if ( $plugin_is_in_live_mode ) { echo 1; } else { echo 0; } ?>">
                         <span class="switch-text" data-on="LIVE" data-off="TEST"></span>
                         <span class="switch-handle"></span>
                     </label>
                 </form>
             </div><?php _e('mode.', 'laterpay'); ?>
 
-            <dfn id="plugin_mode_live_text"<?php if ( get_option('laterpay_plugin_mode_is_live') != 1 ) echo " style='display:none;'"; ?>>
+            <dfn id="plugin_mode_live_text"<?php if ( !$plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
                 <?php _e('Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay'); ?><br>
                 <?php _e('All payments are booked and credited to your account.', 'laterpay'); ?>
             </dfn>
-            <dfn id="plugin_mode_test_text"<?php if ( get_option('laterpay_plugin_mode_is_live') == 1 ) echo " style='display:none;'"; ?>>
+            <dfn id="plugin_mode_test_text"<?php if ( $plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
                 <?php _e('Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay'); ?><br>
                 <?php _e('LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay'); ?>
             </dfn>

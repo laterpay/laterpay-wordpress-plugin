@@ -231,7 +231,6 @@ jQuery.noConflict();
     // #############################################################################################
 
     function updateCurrency(currency) {
-        currency = currency;
         $('.laterpay_currency').html(currency);
     }
 

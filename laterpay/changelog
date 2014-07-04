@@ -1,3 +1,14 @@
+0.9.5 (July 4, 2014): Production-readiness release II ==============================================
+    - Made plugin compatible with page caching solutions like WP Super Cache
+    - Redesigned overlay for previewing paid content
+    - Added more fine grained over amount of text previewed behind overlay
+    - Bugfix for auto-updating of browser detection library
+    - Improved internal use of standard WP APIs (transport, wp_localize_script)
+    - Added more flash messages for system feedback
+    - Switched to loading minified version of YUI
+    - Renamed views and several variables to be more self-explanatory
+
+
 0.9.4.2 (June 29, 2014): Bugfix release ============================================================
     - Removed superfluous function argument for saving the teaser content that caused a warning
 
@@ -65,7 +76,7 @@
 0.8.2 (June 5, 2014): Bugfix release ===============================================================
     - Extended truncate function to remove HTML comments when auto-generating teaser content
     - Made sure flash message warning about missing teaser content is visible
-    - Removed useless wrapper div#post-wrapper in postSingleView
+    - Removed useless wrapper div#post-wrapper in singlePost
     - Added functionality to generate config.php with unique salt and resource encryption key
       from config.sample.php on setup
     - Fixed database error in statistics logging that occurs if one user visits a post multiple

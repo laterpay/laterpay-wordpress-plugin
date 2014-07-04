@@ -95,7 +95,7 @@ Logger::debug(
 $access     = false;
 $upload_dir = wp_upload_dir();
 $basedir    = $upload_dir['basedir'];
-if ( get_option('laterpay_plugin_mode_is_live') ) {
+if ( get_option('laterpay_plugin_is_in_live_mode') ) {
     $api_key = get_option('laterpay_live_api_key');
 } else {
     $api_key = get_option('laterpay_sandbox_api_key');
