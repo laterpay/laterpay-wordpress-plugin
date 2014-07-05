@@ -49,13 +49,13 @@
                 <a href="#" class="flat"><?php _e('Flat (default)', 'laterpay'); ?></a>
             </div> -->
         </div>
-        <div class="use-category-default-price details-section" style="display:none;" data="">
+        <div class="use-category-default-price details-section" style="display:none;">
             <ul>
-                <li data-category="aaa"><a href="#" data-price="0.29"><span>0.29 EUR</span>Category 1</a></li>
-                <li data-category="bbb"><a href="#" data-price="0.49"><span>0.49 EUR</span>Category 2</a></li>
-                <li data-category="ccc"><a href="#" data-price="0.09"><span>0.09 EUR</span>Category 3</a></li>
-                <li data-category="ddd"><a href="#" data-price="0.29"><span>0.29 EUR</span>Category 4</a></li>
-                <li data-category="eee"><a href="#" data-price="0.99"><span>0.99 EUR</span>Category 5</a></li>
+                <li class="selected-category" data-category="8"><a href="#" data-price="0.29"><span>0.29 EUR</span>Category 1</a></li>
+                <li data-category="5"><a href="#" data-price="0.49"><span>0.49 EUR</span>Category 2</a></li>
+                <li data-category="3"><a href="#" data-price="0.09"><span>0.09 EUR</span>Category 3</a></li>
+                <li data-category="1"><a href="#" data-price="0.29"><span>0.29 EUR</span>Category 4</a></li>
+                <li data-category="7"><a href="#" data-price="0.99"><span>0.99 EUR</span>Category 5</a></li>
             </ul>
         </div>
     </div>

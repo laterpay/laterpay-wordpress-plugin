@@ -59,10 +59,11 @@ class PostPricingController extends AbstractController {
             'laterpay-post-edit',
             'lpVars1',
             array(
+                'ajaxUrl'               => admin_url('admin-ajax.php'),
                 'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
                 'locale'                => get_locale(),
                 'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
-                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_post_edit);',
+                // 'l10n_print_after'      => 'jQuery.extend(lpVars1, lpVars2)',
             )
         );
         wp_localize_script(
@@ -71,7 +72,7 @@ class PostPricingController extends AbstractController {
             array(
                 'currency'          => get_option('laterpay_currency'),
                 'i18nDefaultPrice'  => __('default price', 'laterpay'),
-                'l10n_print_after'  => 'jQuery.extend(lpVars1, lpVars2);',
+                // 'l10n_print_after'  => 'jQuery.extend(lpVars1, lpVars2)',
             )
         );
     }
@@ -207,6 +208,16 @@ class PostPricingController extends AbstractController {
         $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
 
         $this->render('partials/postPricingForm');
+    }
+
+    /**
+     * Process Ajax request for prices of applied categories
+     *
+     * @access public
+     */
+    public static function getCategoryPrices( $category_ids ) {
+        echo Zend_Json::encode($category_ids);
+        die();
     }
 
     /**

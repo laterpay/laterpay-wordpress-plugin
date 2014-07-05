@@ -47,10 +47,14 @@ jQuery.noConflict();
 
     function updateSelectedCategoriesList() {
         var $selectedCategories = $('#categorychecklist :checkbox:checked'),
+            l                   = $selectedCategories.length,
+            $categoriesList     = $('.use-category-default-price.details-section UL'),
             categoryIds         = [],
-            categoryId;
+            categoriesList      = '',
+            selectedCategoryId  = $('#laterpay-price-type-details .use-category-default-price .selected-category').attr('data-category'),
+            i, categoryId;
 
-        for (var i = 0, l = $selectedCategories.length; i < l; i++) {
+        for (i = 0; i < l; i++) {
             categoryId = parseInt($selectedCategories.eq(i).val(), 10);
             // ignore category 1, as it stands for 'uncategorized'
             if (categoryId !== 1) {
@@ -58,9 +62,39 @@ jQuery.noConflict();
             }
         }
 
-        // TODO:
-        // make Ajax request for prices and names of categories
-        // rebuild list of categories in category default pricing tab
+        if (categoryIds.length > 0) {
+            // make Ajax request for prices and names of categories
+            $.get(
+                lpVars1.ajaxUrl,
+                {
+                    action          : 'wp_ajax_get_category_prices',
+                    category_ids    : categoryIds
+                },
+                function(data) {
+console.log(data + '; 0 means function get_category_prices not found :-(');
+                    // rebuild list of categories in category default pricing tab
+                    // data.each(function() {
+                    //     categoriesList += '<li data-category="' + 'abc' + '"><a href="#" data-price="' + 1 + '"><span>' + 1.29 + ' ' + 'EUR' + '</span>' + 'ABC' + '</a></li>';
+                    // });
+                }
+            );
+                        // some fake data for development
+                        categoriesList += '<li data-category="' + '8' + '"><a href="#" data-price="' + 1.29 + '"><span>' + 1.29 + ' ' + 'EUR' + '</span>' + 'ABC' + '</a></li>';
+                        categoriesList += '<li data-category="' + '5' + '"><a href="#" data-price="' + 1.99 + '"><span>' + 1.99 + ' ' + 'EUR' + '</span>' + 'DEF' + '</a></li>';
+
+            $categoriesList.html(categoriesList);
+
+            var $categories = $('#laterpay-price-type-details .use-category-default-price li');
+
+            if (typeof(selectedCategoryId) !== 'undefined') {
+                $('[data-price=' + selectedCategoryId + ']', $categories).addClass('selected-category');
+            } else {
+                // select the first category in the list, if none is selected
+                $categories.first().addClass('selected-category');
+            }
+        } else {
+            // what should we do, if there is no valid category applied?
+        }
     }
 
     $('.categorychecklist :checkbox').on('change', function() {
@@ -79,7 +113,6 @@ jQuery.noConflict();
             $toggle                 = $this.parents('.lp-toggle'),
             $details                = $('#laterpay-price-type-details'),
             priceType               = $this.attr('class'),
-            $categories             = $('#laterpay-price-type-details .use-category-default-price li'),
             $dynamicPricingToggle   = $('#use-dynamic-pricing');
 
         // set state of toggle
@@ -94,22 +127,11 @@ jQuery.noConflict();
             $('.' + priceType, $details).show();
             $dynamicPricingToggle.show();
         } else if (priceType === 'use-category-default-price') {
-
-            getSelectedCategoryPrices();
-
-
-
-
-
-
-
-
-            // select the first category in the list, if none is selected yet
-            if ($('#laterpay-price-type-details .selected-category').length === 0) {
-                $categories.first().addClass('selected-category');
-            }
+            updateSelectedCategoriesList();
+            var $categories = $('#laterpay-price-type-details .use-category-default-price li'),
+                price       = $('#laterpay-price-type-details .selected-category a').attr('data-price');
             // set the price of the selected category
-            laterpaySetPrice($('#laterpay-price-type-details .selected-category a').attr('data-price'));
+            laterpaySetPrice(price);
             // show / hide stuff
             $priceSection.addClass('expanded');
             $('.' + priceType, $details).show();
@@ -130,7 +152,8 @@ jQuery.noConflict();
     })
     .click(function(e) {e.preventDefault();});
 
-    $('#laterpay-price-type-details .use-category-default-price a').click(function(e) {
+    $('#laterpay-price-type-details .use-category-default-price')
+    .on('mousedown', 'a', function() {
         var $this       = $(this),
             $categories = $('#laterpay-price-type-details .use-category-default-price li'),
             category    = $this.parent().attr('data-category');
@@ -138,8 +161,8 @@ jQuery.noConflict();
         $categories.removeClass('selected-category');
         laterpaySetPrice($this.attr('data-price'));
         $this.parent('li').addClass('selected-category');
-        e.preventDefault();
-    });
+    })
+    .on('click', 'a', function(e) {e.preventDefault();});
 
     $('#use-dynamic-pricing')
     .mousedown(function() {

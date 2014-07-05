@@ -390,6 +390,10 @@ class LaterPay {
     protected function setupPricingPostContentBox() {
         add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
+
+        // Ajax actions for pricing box
+        add_action('wp_ajax_get_category_prices', 'PostPricingController::getCategoryPrices');
+        add_action('wp_ajax_nopriv_get_category_prices', 'PostPricingController::getCategoryPrices');
     }
 
     /**
