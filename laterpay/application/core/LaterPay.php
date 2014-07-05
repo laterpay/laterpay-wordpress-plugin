@@ -289,13 +289,12 @@ class LaterPay {
         $table_history      = $wpdb->prefix . 'laterpay_payment_history';
         $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
 
-        $sql = "DROP TABLE `" . $table_currency . "`;";
-        $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_terms_price . "`;";
-        $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_history . "`;";
-        $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_post_views . "`;";
+        $sql = "DROP TABLE IF EXISTS
+                    $table_currency,
+                    $table_terms_price,
+                    $table_history,
+                    $table_post_views;
+                ";
         $wpdb->query($sql);
 
         delete_option('laterpay_plugin_is_activated');
