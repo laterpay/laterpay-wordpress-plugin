@@ -81,11 +81,11 @@ class LaterPay {
 
         $this->setupPluginAdminResources();
         $this->setupAdminPointersScript();
-        $this->setupTeaserContentBox();
-        $this->setupPricingPostContentBox();
 
         if ( ViewHelper::isPluginAvailable() ) {
             $this->setupPurchases();
+            $this->setupTeaserContentBox();
+            $this->setupPricingPostContentBox();
 
             $this->setupUniqueVisitorsTracking();
             $this->setupPostContentFilter();
