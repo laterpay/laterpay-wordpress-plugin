@@ -1,4 +1,5 @@
 (function($) {$(document).ready(function() {
+
         lpShowStatistic = function() {
             $('#statistics .bar').peity('bar', {
                 delimiter   : ';',
@@ -26,35 +27,39 @@
                 gap         : 1,
                 fill        : function() { return '#ddd'; }
             });
-        }
-        lpShowStatistic();
-        var togglePreviewMode = function() {
-            var $toggle = $('#preview-post-toggle');
-            if ($toggle.prop('checked')) {
-                $('#preview_post_hidden_input').val(1);
-            } else {
-                $('#preview_post_hidden_input').val(0);
-            }
-            makeAjaxRequest('plugin_mode');
-        },
-        makeAjaxRequest = function(form_id) {
-            // plugin mode Ajax form
-            $.post(
-                lpVars.ajaxUrl,
-                $('#' + form_id).serializeArray(),
-                function(data) {
-                    if(data && data.success) {
-                        location.reload();
-                    }
-                },
-                'json'
-            );
         };
+        lpShowStatistic();
+
+        var togglePreviewMode = function() {
+                var $toggle = $('#preview-post-toggle');
+
+                if ($toggle.prop('checked')) {
+                    $('#preview_post_hidden_input').val(1);
+                } else {
+                    $('#preview_post_hidden_input').val(0);
+                }
+                makeAjaxRequest('plugin_mode');
+            },
+            makeAjaxRequest = function(form_id) {
+                // plugin mode Ajax form
+                $.post(
+                    lpVars.ajaxUrl,
+                    $('#' + form_id).serializeArray(),
+                    function(data) {
+                        if (data && data.success) {
+                            location.reload();
+                        }
+                    },
+                    'json'
+                );
+            };
+
         $('body').on('click', '#preview-post-toggle', function(e) {
             togglePreviewMode();
         });
+
         $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
-            if( $(this).data('preview-as-visitor') ) {
+            if ($(this).data('preview-as-visitor')) {
                 e.preventDefault();
                 alert(lpVars.i18nAlert);
             }
