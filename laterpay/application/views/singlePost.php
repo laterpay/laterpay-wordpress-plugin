@@ -6,14 +6,17 @@
         var post_id = $('#laterpay-post-content').attr('post-id');
         $.get(
             lpVars.getArticleUrl,
-            {id: post_id, show_statistic: true},
+            {
+                id              : post_id,
+                show_statistic  : true
+            },
             function(html) {
                 $('#laterpay-post-content').before(html);
                 $('#laterpay-post-content').remove();
                 lpShowStatistic();
             }
         );
-    })(jQuery)
+    })(jQuery);
     </script>
 <?php else: ?>
     <?php if ( current_user_can('manage_options') && (!RequestHelper::isAjax() || $can_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content ): ?>
@@ -51,7 +54,7 @@
             <div class="details">
                 <ul>
                     <li>
-                        <span class="percentage-bar"><?php echo ViewHelper::getDaysStatisticAsString($last30DaysBuyers, 'percentage', ';'); ?></span>
+                        <span class="bar" data-max="1"><?php echo ViewHelper::getDaysStatisticAsString($last30DaysBuyers, 'percentage', ';'); ?></span>
                         <span class="background-bar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
                     </li>
                     <li>
