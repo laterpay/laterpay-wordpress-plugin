@@ -82,11 +82,13 @@ class LaterPay {
 
         $this->setupPluginAdminResources();
         $this->setupAdminPointersScript();
-        $this->setupTeaserContentBox();
-        $this->setupPricingPostContentBox();
 
         if ( ViewHelper::isPluginAvailable() ) {
             $this->setupPurchases();
+            $this->setupTeaserContentBox();
+            $this->setupPricingPostContentBox();
+
+            $this->setupCustomDataInPostsTable();
 
             $this->setupUniqueVisitorsTracking();
             $this->setupPostContentFilter();
@@ -427,6 +429,41 @@ class LaterPay {
     }
 
     /**
+     * Add custom columns to posts table
+     */
+    public function addColumnsToPostsTable( $columns ) {
+        $insert_after = 'title';
+
+        foreach ( $columns as $key => $val ) {
+            $extended_columns[$key] = $val;
+            if ($key == $insert_after) {
+                $extended_columns['post_price'] = __('Price', 'laterpay');
+            }
+        }
+
+        return $extended_columns;
+    }
+
+    public function addDataToPostsTable( $column_name, $post_id ) {
+        if ($column_name == 'post_price') {
+            $price      = number_format((float)PostContentController::getPostPrice($post_id), 2);
+            $currency   = get_option('laterpay_currency');
+
+            if ( $price > 0 ) {
+                echo "<strong>$price</strong> <span>$currency</span>";
+            } else {
+                echo '&mdash;';
+            }
+
+        }
+    }
+
+    protected function setupCustomDataInPostsTable() {
+        add_filter('manage_post_posts_columns',         array($this, 'addColumnsToPostsTable'));
+        add_action('manage_post_posts_custom_column',   array($this, 'addDataToPostsTable'), 10, 2);
+    }
+
+    /**
      * Hint at the newly installed plugin using WP pointers
      */
     public function addAdminPointersScript() {
@@ -436,7 +473,7 @@ class LaterPay {
     }
 
     protected function setupAdminPointersScript() {
-        add_action('admin_enqueue_scripts', array($this,'addAdminPointersScript'));
+        add_action('admin_enqueue_scripts', array($this, 'addAdminPointersScript'));
     }
 
     /**
@@ -456,9 +493,7 @@ class LaterPay {
     }
 
     protected function setupPurchases() {
-        // add token hook
         add_action('init', 'PostContentController::tokenHook');
-        // add purchase hook
         add_action('init', 'PostContentController::buyPost');
     }
 

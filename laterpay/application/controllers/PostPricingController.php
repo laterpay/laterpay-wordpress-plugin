@@ -217,7 +217,6 @@ class PostPricingController extends AbstractController {
      */
     public static function getCategoryPrices( $category_ids ) {
         echo Zend_Json::encode($category_ids);
-        die();
     }
 
     /**
