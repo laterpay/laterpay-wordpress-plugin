@@ -21,6 +21,7 @@
 <?php else: ?>
     <?php if ( current_user_can('manage_options') && (!RequestHelper::isAjax() || $can_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content ): ?>
         <div id="statistics">
+            <a href="#" id="toggle-laterpay-statistics-pane" data-icon="e"></a>
             <h2 data-icon="a"><?php _e('Statistics for this Post', 'laterpay'); ?></h2>
             <div class="totals">
                 <ul>

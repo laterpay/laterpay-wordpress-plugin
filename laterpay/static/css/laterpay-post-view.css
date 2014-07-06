@@ -213,7 +213,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
 #statistics h2 {font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;}
 #statistics {
     background-color:#e5e5e5;
-    border-radius:3px 0 0 3px;
+    border-radius:0 0 0 3px;
     box-shadow:-1px 1px 6px rgba(0, 0, 0, 0.34);
     color:#555;
     font-size:14px;
@@ -235,6 +235,19 @@ h1 > .laterpay-purchase-button {display:block !important;}
     position:relative;
     top:.075em;
 }
+#toggle-laterpay-statistics-pane {
+    background-color:#e5e5e5;
+    border-radius:50%;
+    height:34px;
+    left:-15px;
+    position:absolute;
+    text-align:center;
+    text-decoration:none;
+    top:-15px;
+    width:34px;
+}
+#toggle-laterpay-statistics-pane[data-icon]:before {color:#bbb; font-size:23px; line-height:34px;}
+#toggle-laterpay-statistics-pane[data-icon]:hover:before {color:#2ea2cc;}
 
 #statistics small,
 .separator p {color:#999;}
