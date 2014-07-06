@@ -67,7 +67,7 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
 }
 .ez-mark svg {height:1.5em; position:absolute;}
 .ez-mark svg .frame {fill:#ccc;}
-.ez-mark:hover svg .frame {fill:#54cc76;}
+.ez-mark:hover svg .frame {fill:#2ea2cc;}
 .ez-mark svg .frameBack {fill:#f7f7f7;}
 .ez-checkbox svg .check {display:none;}
 .ez-checkbox.ez-checked svg .check {display:block; fill:#666;}
@@ -329,6 +329,7 @@ APPEARANCE
 /* ==============================
 ACCOUNT
 ============================ */
+.w2-5 div.left[data-icon]:before {color:red; font-size:2em;}
 .w2-5 h3 {margin:1em 0 0;}
 .w2-5 ul.clearfix {margin:.5em 0;}
 .w2-5 strong {cursor:default; line-height:2.5em;}
