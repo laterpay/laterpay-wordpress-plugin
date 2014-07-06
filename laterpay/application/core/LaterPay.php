@@ -101,6 +101,36 @@ class LaterPay {
         }
 
         $this->setupPluginSettingsLink();
+
+        // add custom columns to posts table
+        function lpColumnsHead( $columns ) {
+            $insert_after = 'title';
+
+            foreach ( $columns as $key => $val ) {
+                $extended_columns[$key] = $val;
+                if ($key == $insert_after) {
+                    $extended_columns['post_price'] = __('Price', 'laterpay');
+                }
+            }
+
+            return $extended_columns;
+        }
+        function lpColumnsContent( $column_name, $post_id ) {
+            if ($column_name == 'post_price') {
+                $price      = number_format((float)PostContentController::getPostPrice($post_id), 2);
+                $currency   = get_option('laterpay_currency');
+
+                if ( $price > 0 ) {
+                    echo "$price $currency";
+                } else {
+                    echo '&mdash;';
+                }
+
+            }
+        }
+
+        add_filter('manage_post_posts_columns',          'lpColumnsHead');
+        add_action('manage_post_posts_custom_column',    'lpColumnsContent', 10, 2);
     }
 
     protected function createConfigurationFile() {
