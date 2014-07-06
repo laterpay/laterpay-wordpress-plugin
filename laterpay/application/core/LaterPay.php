@@ -121,7 +121,7 @@ class LaterPay {
                 $currency   = get_option('laterpay_currency');
 
                 if ( $price > 0 ) {
-                    echo "$price $currency";
+                    echo "<strong>$price</strong> <span>$currency</span>";
                 } else {
                     echo '&mdash;';
                 }
