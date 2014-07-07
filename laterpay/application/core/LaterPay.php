@@ -265,7 +265,6 @@ class LaterPay {
         add_option('laterpay_live_api_key',             '');
         add_option('laterpay_global_price',             LATERPAY_GLOBAL_PRICE_DEFAULT);
         add_option('laterpay_currency',                 LATERPAY_CURRENCY_DEFAULT);
-        add_option('laterpay_hide_statistics_pane',     '0');
         add_option('laterpay_version',                  $laterpay_version) || update_option('laterpay_version', $laterpay_version);
 
         // clear opcode cache
@@ -302,7 +301,6 @@ class LaterPay {
         delete_option('laterpay_live_api_key');
         delete_option('laterpay_global_price');
         delete_option('laterpay_currency');
-        delete_option('laterpay_hide_statistics_pane');
         delete_option('laterpay_version');
     }
 
