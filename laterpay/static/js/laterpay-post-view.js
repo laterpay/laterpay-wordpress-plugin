@@ -31,19 +31,10 @@
         lpShowStatistic();
 
         // show / hide statistics pane on click
-        $.extend($.easing, {
-            easeInOutExpo: function (x, t, b, c, d) {
-                if (t===0) return b;
-                if (t==d) return b+c;
-                if ((t/=d/2) < 1) return c/2 * Math.pow(2, 10 * (t - 1)) + b;
-                return c/2 * (-Math.pow(2, -10 * --t) + 2) + b;
-            }
-        });
         var toggleStatisticsPane = function() {
-            var $trigger    = $('#toggle-laterpay-statistics-pane'),
-                $pane       = $trigger.parent();
+            var $pane = $('#statistics');
 
-            if ($pane.hasClass('hidden') ) {
+            if ($pane.hasClass('hidden')) {
                 $.post(
                     lpVars.ajaxUrl,
                     { action: 'admin', laterpay_hide_statistics_pane: '0' },
@@ -52,8 +43,7 @@
                     },
                     'json'
                 );
-                $trigger.animate({ left: '-15px' }, 250, 'easeInOutExpo');
-                $pane.animate({ right: '0' }, 250, 'easeInOutExpo', function() { $pane.removeClass('hidden'); });
+                $pane.removeClass('hidden');
             } else {
                 $.post(
                     lpVars.ajaxUrl,
@@ -63,8 +53,7 @@
                     },
                     'json'
                 );
-                $pane.animate({ right: '-340px' }, 250, 'easeInOutExpo', function() { $pane.addClass('hidden'); });
-                $trigger.animate({ left: '-34px' }, 250, 'easeInOutExpo');
+                $pane.addClass('hidden');
             }
         };
 
