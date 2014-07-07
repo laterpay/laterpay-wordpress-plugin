@@ -54,7 +54,7 @@
             <div class="details">
                 <ul>
                     <li>
-                        <span class="bar" data-max="1"><?php echo ViewHelper::getDaysStatisticAsString($last30DaysBuyers, 'percentage', ';'); ?></span>
+                        <span class="bar" data-max="0.5"><?php echo ViewHelper::getDaysStatisticAsString($last30DaysBuyers, 'percentage', ';'); ?></span>
                         <span class="background-bar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
                     </li>
                     <li>
