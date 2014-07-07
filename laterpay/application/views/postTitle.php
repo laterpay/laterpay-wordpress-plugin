@@ -1,9 +1,9 @@
-<span id="laterpay-post-title" post-id="<?php echo $post_id; ?>"></span>
+<span id="laterpay-post-title" data-post-id="<?php echo $post_id; ?>"></span>
 
 <script>
     (function($){
         var $title = $('#laterpay-post-title'),
-            postId = $title.attr('post-id');
+            postId = $title.attr('data-post-id');
 
         $title.hide();
         $.get(
