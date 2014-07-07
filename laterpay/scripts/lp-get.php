@@ -45,7 +45,7 @@ function getDecryptedFileName( $file ) {
     return $file;
 }
 
-function sendResponse( $file, $mt = null ) {
+function sendResponse( $file ) {
     global $response;
     $file = getDecryptedFileName($file);
     if ( !file_exists($file) ) {
