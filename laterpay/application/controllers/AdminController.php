@@ -169,7 +169,27 @@ class AdminController extends AbstractController {
                     );
                     die;
                     break;
-
+                case 'hide_statistics_pane':
+                    $current_user = wp_get_current_user();
+                    if ( !($current_user instanceof WP_User) ) {
+                        echo Zend_Json::encode(
+                            array(
+                                'success' => false,
+                                'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                            )
+                        );
+                        die;
+                    }
+                    $result = add_user_meta($current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'], true)
+                            || update_user_meta($current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane']);
+                    echo Zend_Json::encode(
+                        array(
+                            'success' => true,
+                            'message' => __('Updated.', 'laterpay')
+                        )
+                    );
+                    die;
+                    break;
                 default:
                     echo Zend_Json::encode(
                         array(

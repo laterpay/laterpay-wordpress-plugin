@@ -21,6 +21,12 @@
 <?php else: ?>
     <?php if ( current_user_can('manage_options') && (!RequestHelper::isAjax() || $can_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content ): ?>
         <div id="statistics"<?php if ( $hide_statistics_pane ) echo ' class="hidden"'; ?>>
+            <form id="laterpay_hide_statistics_form" method="post">
+                <input type="hidden" name="form"    value="hide_statistics_pane">
+                <input type="hidden" name="action"  value="admin">
+                <input type="hidden" name="hide_statistics_pane"  value="<?php echo $hide_statistics_pane;?>">
+                <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
+            </form>
             <a href="#" id="toggle-laterpay-statistics-pane" data-icon="l"></a>
             <h2 data-icon="a"><?php _e('Statistics for this Post', 'laterpay'); ?></h2>
             <div class="totals">

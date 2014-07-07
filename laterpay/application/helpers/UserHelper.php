@@ -2,6 +2,7 @@
 
 class UserHelper {
     protected static $_preview_post_as_visitor = null;
+    protected static $_hide_statistics_pane = null;
 
     /**
      * Checks if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.
@@ -61,6 +62,27 @@ class UserHelper {
         }
 
         return self::$_preview_post_as_visitor;
+    }
+    
+    /**
+     * Get post preview mode
+     *
+     * @return bool
+     */
+    public static function isHiddenStatisticsPane() {
+        if ( is_null(self::$_hide_statistics_pane) ) {
+            $hide_statistics_pane = 0;
+            $current_user            = wp_get_current_user();
+            if ( $current_user instanceof WP_User ) {
+                $hide_statistics_pane = get_user_meta($current_user->ID, 'laterpay_hide_statistics_pane');
+                if ( !empty($hide_statistics_pane) ) {
+                   $hide_statistics_pane = $hide_statistics_pane[0];
+                }
+            }
+            self::$_hide_statistics_pane = $hide_statistics_pane;
+        }
+
+        return self::$_hide_statistics_pane;
     }
 
 }
