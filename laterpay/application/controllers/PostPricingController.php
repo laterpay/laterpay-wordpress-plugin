@@ -225,16 +225,6 @@ class PostPricingController extends AbstractController {
 
         $delocalized_price = (float)str_replace(',', '.', $_POST['pricing-post']);
 
-        if ( $delocalized_price > 5 || $delocalized_price < 0 ) {
-            $category               = get_the_category($post_id);
-            $category_default_price = null;
-            if ( !empty($category) ) {
-                $id = $category[0]->term_id;
-                $LaterPayModelCategory = new LaterPayModelCategory();
-                $category_default_price = $LaterPayModelCategory->getPriceByCategoryId($id);
-            }
-        }
-
         $this->setPostMeta(
             get_post_meta($post_id, 'Pricing Post', true),
             $delocalized_price,
