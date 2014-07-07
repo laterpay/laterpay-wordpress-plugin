@@ -34,13 +34,15 @@
         var toggleStatisticsPane = function() {
             var $pane = $('#statistics'),
                 value = $pane.hasClass('hidden') ? '0' : '1';
-            $('#laterpay_hide_statistics_form input[name="hide_statistics_pane"]').val(value);
+            $('#laterpay_hide_statistics_form input[name=hide_statistics_pane]').val(value);
             $.post(
                 lpVars.ajaxUrl,
                 $('#laterpay_hide_statistics_form').serializeArray()
             );
             $pane.toggleClass('hidden');
-            if (value) {lpShowStatistic();}
+            if (value) {
+                lpShowStatistic();
+            }
         };
 
         $('body')
