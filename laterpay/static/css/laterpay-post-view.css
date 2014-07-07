@@ -1,3 +1,8 @@
+a,
+a:hover,
+a:focus,
+a:active {outline:0 none;} /* remove dotted line around links */
+
 .clearfix:before,
 .clearfix:after {content:''; display:table;}
 .clearfix:after {clear:both;}

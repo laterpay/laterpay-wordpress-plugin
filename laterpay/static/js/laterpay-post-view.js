@@ -40,14 +40,31 @@
             }
         });
         var toggleStatisticsPane = function() {
-            var $trigger = $('#toggle-laterpay-statistics-pane');
+            var $trigger    = $('#toggle-laterpay-statistics-pane'),
+                $pane       = $trigger.parent();
 
             if ($trigger.hasClass('hidden') ) {
-                $trigger.animate({ left: '-15px' }, 250, 'easeInOutExpo', function() { $trigger.removeClass('hidden'); });
-                $('#statistics').animate({ right: '0' }, 250, 'easeInOutExpo');
+                $.post(
+                    lpVars.ajaxUrl,
+                    { action: 'admin', laterpay_hide_statistics_pane: '0' },
+                    function(data) {
+                        console.log(data);
+                    },
+                    'json'
+                );
+                $trigger.animate({ left: '-15px' }, 250, 'easeInOutExpo');
+                $pane.animate({ right: '0' }, 250, 'easeInOutExpo', function() { $pane.removeClass('hidden'); });
             } else {
-                $('#statistics').animate({ right: '-340px' }, 250, 'easeInOutExpo');
-                $trigger.animate({ left: '-34px' }, 250, 'easeInOutExpo', function() { $trigger.addClass('hidden'); });
+                $.post(
+                    lpVars.ajaxUrl,
+                    { action: 'admin', laterpay_hide_statistics_pane: '1' },
+                    function(data) {
+                        console.log(data);
+                    },
+                    'json'
+                );
+                $pane.animate({ right: '-340px' }, 250, 'easeInOutExpo', function() { $pane.addClass('hidden'); });
+                $trigger.animate({ left: '-34px' }, 250, 'easeInOutExpo');
             }
         };
 
