@@ -253,8 +253,8 @@ h1 > .laterpay-purchase-button {display:block !important;}
     transition:.25s ease-in-out;
 }
 #toggle-laterpay-statistics-pane[data-icon]:before {
-    font-size:30px;
-    line-height:45px;
+    font-size:25px;
+    line-height:47px;
     opacity:0;
     position:relative;
     -webkit-transition:.1s ease-in-out;
@@ -279,6 +279,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
 #statistics.hidden #toggle-laterpay-statistics-pane[data-icon]:before {
     content:'b';
     font-size:45px;
+    line-height:45px;
     opacity:1;
     top:2px;
 }
