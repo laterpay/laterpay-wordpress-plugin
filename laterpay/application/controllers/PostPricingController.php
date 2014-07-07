@@ -80,11 +80,10 @@ class PostPricingController extends AbstractController {
      * Render editor for teaser content
      *
      * @param object $object post object
-     * @param object $box    post box
      *
      * @access public
      */
-    public function teaserContentBox( $object, $box ) {
+    public function teaserContentBox( $object ) {
         $settings = array(
             'wpautop'         => 1,
             'media_buttons'   => 1,
@@ -135,11 +134,9 @@ class PostPricingController extends AbstractController {
      * Render form for post-specific pricing
      *
      * @param object $object post object
-     * @param object $box    post box
      *
      * @access public
      */
-    public function pricingPostContentBox( $object, $box ) {
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
 
         $category = get_the_category($object->ID);
