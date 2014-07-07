@@ -1,7 +1,7 @@
 (function($) {$(document).ready(function() {
 
         lpShowStatistic = function() {
-            $('#statistics .bar').peity('bar', {
+            $('#statistics:visible .bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -20,7 +20,7 @@
                                 return color;
                             }
             });
-            $('#statistics .background-bar').peity('bar', {
+            $('#statistics:visible .background-bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -40,6 +40,7 @@
                 $('#laterpay_hide_statistics_form').serializeArray()
             );
             $pane.toggleClass('hidden');
+            if (value) {lpShowStatistic();}
         };
 
         $('body')
