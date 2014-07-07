@@ -107,7 +107,7 @@ LPCurve.prototype.setPrice = function(min, max, defaultPrice) {
     return this;
 };
 
-LPCurve.prototype.setData = function(data, parsingFormat) {
+LPCurve.prototype.setData = function(data) {
     this.data = data;
     return this;
 };
@@ -191,11 +191,10 @@ LPCurve.prototype.plot = function() {
     // PRICE CURVE
     // -------------------------------------------------------------------------------------------------------
     // D3.js provides us with a Path Data Generator Function for lines
-    var pathEl  = svg.select('path.line').node(),
-        line    = d3.svg.line()
-                  .interpolate(this.interpolation)
-                  .x(function(d) { return xScale(d.x); })
-                  .y(function(d) { return yScale(d.y); });
+    var line =  d3.svg.line()
+                .interpolate(this.interpolation)
+                .x(function(d) { return xScale(d.x); })
+                .y(function(d) { return yScale(d.y); });
 
     // .attr('d', lineFunction(lineData)) is where the magic happens.
     // This is where we send the data to the accessor function which returns the SVG Path Commands.
@@ -235,7 +234,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function(d) { return -40; },
+            x: function()  { return -40; },
             y: function(d) { return yScale(d.y) - 14.5; },
         });
 
@@ -245,7 +244,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function(d) { return -12; },
+            x: function()  { return -12; },
             y: function(d) { return yScale(d.y) - 0.5; },
         })
         .text(function(d) { return d.y.toFixed(2); });
@@ -256,7 +255,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function(d) { return -13; },
+            x: function()  { return -13; },
             y: function(d) { return yScale(d.y) + 9.5; },
         });
 
@@ -279,7 +278,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function(d) { return width + 18; },
+            x: function()  { return width + 18; },
             y: function(d) { return yScale(d.y) - 15; },
         });
 
@@ -289,7 +288,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function(d) { return width + 46; },
+            x: function()  { return width + 46; },
             y: function(d) { return yScale(d.y) - 1; },
         })
         .text(function(d) { return d.y.toFixed(2); });
@@ -300,7 +299,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function(d) { return width + 46; },
+            x: function()  { return width + 46; },
             y: function(d) { return yScale(d.y) + 9; },
         });
 
@@ -324,7 +323,7 @@ LPCurve.prototype.plot = function() {
     xDragSquare.transition().duration(dragging ? 0 : 250)
         .attr({
             x       : function(d) { return xScale(d.x) - 15; },
-            y       : function(d) { return -40; },
+            y       : function()  { return -40; },
             width   : 30,
             rx      : 3,
             height  : 30,
@@ -350,7 +349,7 @@ LPCurve.prototype.plot = function() {
         .text('days')
         .attr({
             x               : function(d) { return xScale(d.x); },
-            y               : function(d) { return -16; },
+            y               : function()  { return -16; },
             height          : 30,
             'text-anchor'   : 'middle',
         });
@@ -363,7 +362,7 @@ LPCurve.prototype.plot = function() {
         .text(function(d) { return Math.round(d.x); })
         .attr({
             x               : function(d) { return xScale(d.x); },
-            y               : function(d) { return -26; },
+            y               : function()  { return -26; },
             height          : 30,
             'text-anchor'   : 'middle',
         });
@@ -378,7 +377,7 @@ LPCurve.prototype.plot = function() {
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x1: function(d) { return xScale(d.x); },
-            y1: function(d) { return 0; },
+            y1: function()  { return 0; },
             x2: function(d) { return xScale(d.x); },
             y2: function(d) { return yScale(d.y); },
         });
@@ -389,7 +388,7 @@ LPCurve.prototype.plot = function() {
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x1: function(d) { return xScale(d.x); },
-            y1: function(d) { return 0; },
+            y1: function()  { return 0; },
             x2: function(d) { return xScale(d.x); },
             y2: function(d) { return yScale(d.y); },
         });
@@ -449,8 +448,7 @@ LPCurve.prototype.plot = function() {
 
     // DRAG AXIS X 'days' FUNCTIONS
     // -------------------------------------------------------------------------------------------------------
-    var lastDrag    = 0,
-        fps         = 60,
+    var fps = 60,
         dragInterval;
 
     function dragendDays() {
