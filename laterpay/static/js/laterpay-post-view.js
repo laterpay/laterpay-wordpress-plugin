@@ -43,7 +43,7 @@
             var $trigger    = $('#toggle-laterpay-statistics-pane'),
                 $pane       = $trigger.parent();
 
-            if ($trigger.hasClass('hidden') ) {
+            if ($pane.hasClass('hidden') ) {
                 $.post(
                     lpVars.ajaxUrl,
                     { action: 'admin', laterpay_hide_statistics_pane: '0' },
