@@ -35,7 +35,7 @@ class Logger_Handler_Stream extends Logger_Abstract
         $this->stream = null;
     }
 
-    public static function errorHandler( $code, $msg ) {
+    public static function errorHandler( $msg ) {
         self::$errorMessage = preg_replace('{^fopen\(.*?\): }', '', $msg);
     }
 
