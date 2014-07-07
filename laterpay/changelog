@@ -7,6 +7,7 @@
     - Added price of posts to posts table in admin backend
     - Added more flash messages for system feedback
     - Ensured the Buyers bar chart properly scales to 1 (100%)
+    - Added possibility to hide / show the statistics pane on the view post page
     - Switched to loading minified version of YUI
     - Renamed views and several variables to be more self-explanatory
     - Fixed bug in getStarted tab that showed an error message that Merchant ID or API Key is not
