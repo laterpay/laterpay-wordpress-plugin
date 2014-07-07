@@ -123,7 +123,8 @@ LPCurve.prototype.plot = function() {
         width       = jQuery(this.container).width() - margin.xAxis,
         height      = jQuery(this.container).height() - margin.yAxis,
         xScale      = d3.scale.linear().range([0, width + 10]),
-        yScale      = d3.scale.linear().range([height, 0]);
+        yScale      = d3.scale.linear().range([height, 0]),
+        x, y;
 
     d3.select(this.container).select('svg')
         .attr({
