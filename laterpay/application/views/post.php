@@ -1,2 +1,3 @@
 <?php
-    echo $teaser_content;
+
+echo $teaser_content;
