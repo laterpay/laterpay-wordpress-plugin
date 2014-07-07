@@ -83,10 +83,7 @@
             );
         };
 
-        $('#preview-post-toggle')
-        .on('mousedown', function() {togglePreviewMode();})
-        .on('click', function(e) {e.preventDefault();});
-
+        $('#preview-post-toggle').click(function() {togglePreviewMode();});
 
         // handle clicks on purchase buttons in test mode
         $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
