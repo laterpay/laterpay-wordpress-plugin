@@ -76,7 +76,7 @@ jQuery.noConflict();
         $defaultPrice.val(validatedPrice);
     });
 
-    $('.activate-lp').click(function(e) {
+    $('.activate-lp').click(function() {
         if (!validateAPIKey()) {
             setMessage({
                 'message': $(this).data().error,

@@ -121,7 +121,7 @@ jQuery.noConflict();
     });
 
     // plugin mode Ajax form
-    $('#plugin-mode-toggle').click(function(e) {
+    $('#plugin-mode-toggle').click(function() {
         return togglePluginMode();
     });
 
