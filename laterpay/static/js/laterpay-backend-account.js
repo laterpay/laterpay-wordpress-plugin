@@ -129,23 +129,24 @@ jQuery.noConflict();
     // show merchant contracts
     $('#request-live-credentials a')
     .mousedown(function() {
-        var $button         = $(this),
-            src             = 'https://laterpay.net/terms/index.html?group=merchant-contract',
-            viewportHeight  = parseInt($(window).height(), 10),
-            topMargin       = parseInt($('#wpadminbar').height(), 10) + 26,
-            iframeHeight    = viewportHeight - topMargin,
-            $iframeWrapper  = $('<div id="legal-docs-frame" style="height:' + iframeHeight + 'px;"></div>'),
+        var $button                 = $(this),
+            src                     = 'https://laterpay.net/terms/index.html?group=merchant-contract',
+            viewportHeight          = parseInt($(window).height(), 10),
+            topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
+            iframeHeight            = viewportHeight - topMargin,
+            $iframeWrapperObject    = $('<div id="legal-docs-frame" style="height:' + iframeHeight + 'px;"></div>'),
+            $iframeWrapper          = $('#legal-docs-frame'),
             iframeOffset,
             scrollPosition;
 
         $button.fadeOut(400);
 
         // remove possibly existing iframe and insert a wrapper to display the iframe in
-        if ($('#legal-docs-frame iframe').length !== 0) {
-            $('#legal-docs-frame iframe').remove();
+        if ($('iframe', $iframeWrapper).length !== 0) {
+            $('iframe', $iframeWrapper).remove();
         }
-        if ($('#legal-docs-frame').length === 0) {
-            $('.credentials-hint').after($iframeWrapper.slideDown(400, function() {
+        if ($iframeWrapper.length === 0) {
+            $('.credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
                 // scroll document so that iframe fills viewport
                 iframeOffset = $('#legal-docs-frame').offset();
                 scrollPosition = iframeOffset.top - topMargin;
@@ -155,8 +156,11 @@ jQuery.noConflict();
             }));
         }
 
+        // cache object again after replacing it
+        $iframeWrapper = $('#legal-docs-frame');
+
         // inject a new iframe with the requested src parameter into the wrapper
-        $('#legal-docs-frame')
+        $iframeWrapper
         .html(
             '<a href="#" class="close-iframe">x</a>' +
             '<iframe ' +
@@ -166,7 +170,7 @@ jQuery.noConflict();
                 'width="100%">' +
             '</iframe>'
         );
-        $('#legal-docs-frame .close-iframe').bind('click', function(e) {
+        $('.close-iframe', $iframeWrapper).bind('click', function(e) {
             $(this).fadeOut(400)
                 .parent('#legal-docs-frame').slideUp(400, function() {
                     $(this).remove();
