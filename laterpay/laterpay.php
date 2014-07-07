@@ -11,8 +11,6 @@
 
 $laterpay_version = '0.9.5';
 
-ini_set('display_errors', 0);
-
 define('LATERPAY_GLOBAL_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 define('LATERPAY_BASE_NAME', plugin_basename(dirname(__FILE__)));
 
