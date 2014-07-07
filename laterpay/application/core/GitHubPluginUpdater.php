@@ -16,10 +16,10 @@ class GitHubPluginUpdater {
     /**
      * GitHubPluginUpdater
      *
-     * @param type    $pluginFile
-     * @param type    $gitHubUsername
-     * @param type    $gitHubProjectName
-     * @param type    $accessToken
+     * @param type $pluginFile
+     * @param type $gitHubUsername
+     * @param type $gitHubProjectName
+     * @param type $accessToken
      */
     public function init( $pluginFile, $gitHubUsername, $gitHubProjectName, $accessToken = '' ) {
         $this->pluginFile   = $pluginFile;
@@ -70,7 +70,8 @@ class GitHubPluginUpdater {
     /**
      * Push in plugin version information to get the update notification
      *
-     * @param type    $transient
+     * @param type $transient
+     *
      * @return type
      */
     public function setTransient( $transient ) {
@@ -110,9 +111,10 @@ class GitHubPluginUpdater {
     /**
      * Push in plugin version information to display in the details lightbox
      *
-     * @param type    $false
-     * @param type    $action
-     * @param type    $response
+     * @param type $false
+     * @param type $action
+     * @param type $response
+     *
      * @return type
      */
     public function setPluginInfo( $false, $action, $response ) {
@@ -181,9 +183,10 @@ class GitHubPluginUpdater {
     /**
      * Perform additional actions to successfully install our plugin
      *
-     * @param type    $true
-     * @param type    $hook_extra
-     * @param type    $result
+     * @param type $true
+     * @param type $hook_extra
+     * @param type $result
+     *
      * @return type
      */
     public function postInstall( $true, $hook_extra, $result ) {
@@ -208,7 +211,8 @@ class GitHubPluginUpdater {
 
     private function backupConfig( $restore = false, $file = 'settings' ) {
         global $wp_filesystem;
-        // back up config file if exists
+
+        // back up config file, if it exists
         $pluginFolder   = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . dirname($this->slug);
         $configName     = $file . '.php';
         $configFile     = $pluginFolder . DIRECTORY_SEPARATOR . $configName;
@@ -231,7 +235,6 @@ class GitHubPluginUpdater {
      * @return type
      */
     public function preInstall( $return, $plugin ) {
-        // get plugin information
         $this->initPluginData();
 
         $plugin = isset($plugin['plugin']) ? $plugin['plugin'] : '';
@@ -243,7 +246,6 @@ class GitHubPluginUpdater {
         // remember if our plugin was previously activated
         $this->wasActivated = is_plugin_active($this->slug);
 
-        // back up config file, if it exists
         $this->backupConfig();
     }
 
