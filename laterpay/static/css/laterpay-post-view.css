@@ -103,7 +103,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
 .laterpay-iframe .laterpay-dialog-close-button:hover {color:#999; text-decoration:none;}
 .laterpay-iframe .laterpay-dialog-close-button[data-icon]:hover:before {background-color:#999;}
 
-.laterpay-paid-content {bottom:1em; margin-bottom:2em; min-height:400px; position:relative; top:0;}
+.laterpay-paid-content {bottom:1em; margin-bottom:5em; min-height:400px; position:relative; top:0;}
 .laterpay-overlay {
     background-color:#000 !important;
     height:100%;
