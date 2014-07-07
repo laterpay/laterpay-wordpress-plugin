@@ -1,1 +1,2 @@
-<?php echo $teaser_content; ?>
+<?php
+    echo $teaser_content;
