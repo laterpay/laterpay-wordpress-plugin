@@ -32,29 +32,18 @@
 
         // show / hide statistics pane on click
         var toggleStatisticsPane = function() {
-            var $pane = $('#statistics');
+            var $pane = $('#statistics'),
+                value = $pane.hasClass('hidden') ? '0' : '1';
 
-            if ($pane.hasClass('hidden')) {
-                $.post(
-                    lpVars.ajaxUrl,
-                    { action: 'admin', laterpay_hide_statistics_pane: '0' },
-                    function(data) {
-                        console.log(data);
-                    },
-                    'json'
-                );
-                $pane.removeClass('hidden');
-            } else {
-                $.post(
-                    lpVars.ajaxUrl,
-                    { action: 'admin', laterpay_hide_statistics_pane: '1' },
-                    function(data) {
-                        console.log(data);
-                    },
-                    'json'
-                );
-                $pane.addClass('hidden');
-            }
+            $.post(
+                lpVars.ajaxUrl,
+                {
+                    // TODO: issue #36
+                    action: 'admin',
+                    laterpay_hide_statistics_pane: value
+                }
+            );
+            $pane.toggleClass('hidden');
         };
 
         $('#toggle-laterpay-statistics-pane')
