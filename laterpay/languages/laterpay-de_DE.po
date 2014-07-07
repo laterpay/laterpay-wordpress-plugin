@@ -5,14 +5,14 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-03 09:29:09+00:00\n"
-"PO-Revision-Date: 2014-07-03 17:34+0100\n"
+"PO-Revision-Date: 2014-07-07 11:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: application/controllers/AccountController.php:24
@@ -313,11 +313,11 @@ msgstr "LaterPay API Zugangsdaten"
 
 #: application/views/pluginBackendAccountTab.php:24
 msgid "Sandbox Environment"
-msgstr "Sandbox (Testumgebung)"
+msgstr "Sandbox"
 
 #: application/views/pluginBackendAccountTab.php:25
 msgid "for testing purposes"
-msgstr "zu Testzwecken"
+msgstr "Testumgebung für die Integration und Konfiguration des Plugins"
 
 #: application/views/pluginBackendAccountTab.php:32
 #: application/views/pluginBackendAccountTab.php:77
@@ -341,11 +341,11 @@ msgstr "Sandbox API Key hier einfügen"
 
 #: application/views/pluginBackendAccountTab.php:69
 msgid "Live Environment"
-msgstr "Live (Produktivumgebung)"
+msgstr "Live"
 
 #: application/views/pluginBackendAccountTab.php:70
 msgid "for processing real financial transactions"
-msgstr "zur Verarbeitung echter Zahlungen"
+msgstr "Produktivumgebung für echte Käufe und Zahlungen"
 
 #: application/views/pluginBackendAccountTab.php:87
 msgid "Paste Live Merchant ID here"
@@ -364,8 +364,8 @@ msgid ""
 "Go to your <a href=\"%s\">LaterPay Merchantbackend</a> to get your LaterPay "
 "API credentials."
 msgstr ""
-"Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>,<br>um Ihre "
-"LaterPay API Zugangsdaten abzurufen."
+"Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
+"API Zugangsdaten abzurufen."
 
 #: application/views/pluginBackendAccountTab.php:131
 msgid "Plugin Mode"

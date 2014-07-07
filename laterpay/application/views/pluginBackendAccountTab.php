@@ -20,7 +20,7 @@
         <div class="lp-form-row clearfix">
             <h2><?php _e('LaterPay API Credentials', 'laterpay'); ?></h2>
 
-            <div class="w2-5 left">
+            <div class="w2-5 left sandbox-credentials" data-icon="h">
                 <h3><?php _e('Sandbox Environment', 'laterpay'); ?></h3>
                 <dfn><?php _e('for testing purposes' , 'laterpay'); ?></dfn>
                 <form id="laterpay_sandbox_merchant_id_form" method="post">
@@ -65,7 +65,7 @@
                 </form>
             </div>
 
-            <div class="w2-5 left">
+            <div class="w2-5 left live-credentials" data-icon="k">
                 <h3><?php _e('Live Environment', 'laterpay'); ?></h3>
                 <dfn><?php _e('for processing real financial transactions', 'laterpay'); ?></dfn>
                 <form id="laterpay_live_merchant_id_form" method="post">
@@ -74,7 +74,7 @@
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <ul class="clearfix">
                         <li class="left w1-5">
-                            <strong class="live"><?php _e('Merchant ID', 'laterpay'); ?></strong>
+                            <strong><?php _e('Merchant ID', 'laterpay'); ?></strong>
                         </li>
                         <li class="left">
                             <span class="input-icon merchant-id-icon live" data-icon="i"></span>
@@ -94,7 +94,7 @@
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <ul class="clearfix">
                         <li class="left w1-5">
-                            <strong class="live"><?php _e('API Key', 'laterpay'); ?></strong>
+                            <strong><?php _e('API Key', 'laterpay'); ?></strong>
                         </li>
                         <li class="left">
                             <span class="input-icon api-key-icon live" data-icon="j"></span>
