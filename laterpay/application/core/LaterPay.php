@@ -577,11 +577,14 @@ class LaterPay {
         wp_enqueue_script('laterpay-post-view');
 
         // pass localized strings and variables to script
+        $client = new LaterPayClient();
+        $balance_url = $client->getControlsBalanceUrl();
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
             array(
                 'ajaxUrl'       => admin_url('admin-ajax.php'),
+                'lpBalanceUrl'  => $balance_url,
                 'getArticleUrl' => plugins_url('laterpay/scripts/lp-article.php'),
                 'getFooterUrl'  => plugins_url('laterpay/scripts/lp-footer.php'),
                 'getTitleUrl'   => plugins_url('laterpay/scripts/lp-title.php'),
