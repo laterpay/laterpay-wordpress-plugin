@@ -216,6 +216,7 @@ class PostContentController extends AbstractController {
         // get category default price
         $category = get_the_category($post_id);
         $LaterPayModelCategory = new LaterPayModelCategory();
+        // FIXME: this just takes the price of an arbitrary category #46
         $price_post_category = $LaterPayModelCategory->getPriceByCategoryId($category[0]->term_id);
 
         // get global default price
