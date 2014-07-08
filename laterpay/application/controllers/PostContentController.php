@@ -79,6 +79,7 @@ class PostContentController extends AbstractController {
                 $this->assign('can_show_statistic',         $laterpay_show_statistic ? true: false);
                 $this->assign('post_content_cached',        CacheHelper::siteUsesPageCaching());
                 $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor());
+                $this->assign('hide_statistics_pane',       UserHelper::isHiddenStatisticsPane());
 
                 $html = $this->getTextView('singlePost');
             } else {
@@ -127,12 +128,12 @@ class PostContentController extends AbstractController {
         $currency = get_option('laterpay_currency');
 
         // get historical performance data for post
-        $LaterPayModelHistory = new LaterPayModelHistory();
+        $LaterPayModelHistory   = new LaterPayModelHistory();
         $LaterPayModelPostViews = new LaterPayModelPostViews();
 
         // get total revenue and total sales
         $total = array();
-        $history_total = (array)$LaterPayModelHistory->getTotalHistoryByIdPost($post_id);
+        $history_total = (array)$LaterPayModelHistory->getTotalHistoryByPostId($post_id);
         foreach ( $history_total as $key => $item ) {
             $total[$item->currency]['sum']      = round($item->sum, 2);
             $total[$item->currency]['quantity'] = $item->quantity;
@@ -140,7 +141,7 @@ class PostContentController extends AbstractController {
 
         // get revenue
         $last30DaysRevenue = array();
-        $history_last30DaysRevenue = (array)$LaterPayModelHistory->getLast30DaysHistoryByIdPost($post_id);
+        $history_last30DaysRevenue = (array)$LaterPayModelHistory->getLast30DaysHistoryByPostId($post_id);
         foreach ( $history_last30DaysRevenue as $item ) {
             $last30DaysRevenue[$item->currency][$item->date] = array(
                 'sum'       => round($item->sum, 2),
@@ -149,7 +150,7 @@ class PostContentController extends AbstractController {
         }
 
         $todayRevenue = array();
-        $history_todayRevenue = (array)$LaterPayModelHistory->getTodayHistoryByIdPost($post_id);
+        $history_todayRevenue = (array)$LaterPayModelHistory->getTodayHistoryByPostId($post_id);
         foreach ( $history_todayRevenue as $item ) {
             $todayRevenue[$item->currency]['sum']       = round($item->sum, 2);
             $todayRevenue[$item->currency]['quantity']  = $item->quantity;
@@ -247,7 +248,6 @@ class PostContentController extends AbstractController {
     public static function buyPost() {
         if ( 'index.php' == $GLOBALS['pagenow'] ) {
             if ( isset($_GET['buy']) && $_GET['buy'] ) {
-                $LaterPayClient = new LaterPayClient();
                 $data['post_id']        = $_GET['post_id'];
                 $data['id_currency']    = $_GET['id_currency'];
                 $data['price']          = $_GET['price'];

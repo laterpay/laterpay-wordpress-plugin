@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 @font-face {
     font-family:'laterpay-wordpress-icons';
     font-style:normal;
@@ -15,3 +15,6 @@
     left:-5px;
     position:relative;
 }
+
+.column-post_price {text-align:right; width:75px;}
+.column-post_price span {color:#aaa;}

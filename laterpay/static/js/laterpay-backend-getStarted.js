@@ -20,10 +20,10 @@ jQuery.noConflict();
             $('.progress-line .st-1').removeClass('done').addClass('todo');
         }
 
-        if (idValue.length !== 22) {
+        if (idValue.length > 0 && idValue.length !== 22) {
             setMessage(lpVars.i18nInvalidMerchantId, false);
         }
-        if (keyValue.length !== 32) {
+        if (keyValue.length > 0 && keyValue.length !== 32) {
             setMessage(lpVars.i18nInvalidApiKey, false);
         }
 
@@ -76,7 +76,7 @@ jQuery.noConflict();
         $defaultPrice.val(validatedPrice);
     });
 
-    $('.activate-lp').click(function(e) {
+    $('.activate-lp').click(function() {
         if (!validateAPIKey()) {
             setMessage({
                 'message': $(this).data().error,

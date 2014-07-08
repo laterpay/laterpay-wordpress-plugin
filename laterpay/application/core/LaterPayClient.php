@@ -186,35 +186,25 @@ class LaterPayClient {
             $data['jsevents'] = '1';
         }
         if ( $show_long_greeting ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'gg';
             }
         } elseif ( $show_greeting ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'g';
             }
         }
         if ( $show_login ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'l';
             }
         }
         if ( $show_long_signup ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'ss';
             }
         } elseif ( $show_signup ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 's';
             }
         }
