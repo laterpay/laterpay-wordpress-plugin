@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-03 09:29:09+00:00\n"
-"PO-Revision-Date: 2014-07-07 11:55+0100\n"
+"PO-Revision-Date: 2014-07-08 08:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
@@ -175,7 +175,7 @@ msgid ""
 "excerpt of the article that makes them want to buy the whole thing!"
 msgstr ""
 "Dies wird Besuchern angezeigt, die den Beitrag noch nicht gekauft haben. "
-"Verwenden Sie einen Teaser, das Lust auf den gesamten Beitrag macht."
+"Schreiben Sie einen Teaser, der Lust auf den gesamten Beitrag macht."
 
 #: application/controllers/PricingController.php:144
 msgid "The currency for this website is %s now."
@@ -239,17 +239,17 @@ msgstr "Einstellungen"
 
 #: application/views/adminFooter.php:4
 msgid "Welcome to LaterPay!"
-msgstr "Willkommen bei LaterPay!"
+msgstr "LaterPay Plugin aktivieren"
 
 #: application/views/adminFooter.php:5
 msgid "Enter your LaterPay credentials here to activate your plugin now."
 msgstr ""
-"Geben Sie Ihre LaterPay API Zugangsdaten hier ein, um das Plugin jetzt zu "
-"aktivieren."
+"Willkommen bei LaterPay!Geben Sie hier Ihre LaterPay API Zugangsdaten ein, "
+"um das Plugin zu aktivieren."
 
 #: application/views/adminFooter.php:32
 msgid "Set a Price for this Post"
-msgstr "Setzen Sie einen Preis für diesen Beitrag"
+msgstr "Preis für den Beitrag setzen"
 
 #: application/views/adminFooter.php:33
 msgid ""
@@ -257,9 +257,12 @@ msgid ""
 "apply <strong>advanced pricing</strong> by defining how the price changes "
 "over time."
 msgstr ""
-"Setzen Sie hier einen <strong>individuellen Preis</strong> für diesen "
-"Beitrag.<br>Sie können auch <strong>erweiterte Preise</strong> setzen, indem "
-"Sie festlegen, wie sich der Preis über die Zeit verändern soll."
+"Neben einem <strong>individuellen Preis</strong> kann der Beitrag auch "
+"&ndash; soweit im Plugin Backend vordefiniert &ndash; den "
+"<strong>Standardpreis</strong> oder einen <strong>Kategorie-Standardpreis</"
+"strong> verwenden.<br>Bei individuellen Preisen kann zusätzlich eine "
+"Preiskurve festgelegt werden, so dass der Preis nach Ihren Vorgaben jeden "
+"Tag um 0 Uhr automatisch aktualisiert wird."
 
 #: application/views/adminFooter.php:60
 msgid "Add Teaser Content"
@@ -270,9 +273,8 @@ msgid ""
 "You´ll give your users a better impression of what they´ll buy, if you "
 "preview some text, images, or video from the actual post."
 msgstr ""
-"Sie werden Ihren Nutzer eine bessere Vorstellung davon geben, was sie "
-"kaufen, wenn Sie Text, Bilder oder Videos aus dem Beitrag als Vorschau "
-"anzeigen."
+"Um Ihren Nutzer eine bessere Vorstellung davon zu geben, was sie kaufen, "
+"sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
 
 #: application/views/pluginBackendAccountTab.php:9
 #: application/views/pluginBackendAppearanceTab.php:10

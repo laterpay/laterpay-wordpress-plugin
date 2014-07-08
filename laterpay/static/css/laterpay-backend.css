@@ -337,7 +337,7 @@ ACCOUNT
 .w2-5.sandbox-credentials,
 .w2-5.live-credentials {position:relative;}
 .w2-5.sandbox-credentials[data-icon]:before,
-.w2-5.live-credentials[data-icon]:before {color:#e5e5e5; font-size:140px; position:absolute; z-index:-1;}
+.w2-5.live-credentials[data-icon]:before {color:#e7e7e7; font-size:140px; position:absolute; z-index:-1;}
 .w2-5.sandbox-credentials[data-icon]:before {left:9px; top:10px;}
 .w2-5.live-credentials[data-icon]:before {font-size:118px; left:4px; top:34px;}
 
