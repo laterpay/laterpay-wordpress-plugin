@@ -1,8 +1,8 @@
 <script>
-    var lpVars = window.lpVars || {},
-        lpVars.categoryDefaultPrice = <?php echo $category_default_price; ?>,
-        lpVars.dynamicPricingData   = <?php echo $dynamic_pricing_data; ?>,
-        lpVars.isStandardPost       = <?php echo $price_post_type ? 1 : 0; ?>;
+    var lpVars = window.lpVars || {};
+    lpVars.categoryDefaultPrice = <?php echo $category_default_price; ?>;
+    lpVars.dynamicPricingData   = <?php echo $dynamic_pricing_data; ?>;
+    lpVars.isStandardPost       = <?php echo $price_post_type ? 1 : 0; ?>;
 </script>
 
 <input type="hidden" name="price_post_type" value="<?php echo $price_post_type ?>">
