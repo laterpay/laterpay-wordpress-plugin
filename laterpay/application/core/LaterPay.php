@@ -567,11 +567,16 @@ class LaterPay {
         wp_enqueue_script('laterpay-post-view');
 
         // pass localized strings and variables to script
+        $web_root = LATERPAY_SANDBOX_WEB_URL;
+        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
+            $web_root = LATERPAY_LIVE_WEB_URL;
+        }
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
             array(
                 'ajaxUrl'       => admin_url('admin-ajax.php'),
+                'lpWebUrl'      => $web_root,
                 'getArticleUrl' => plugins_url('laterpay/scripts/lp-article.php'),
                 'getFooterUrl'  => plugins_url('laterpay/scripts/lp-footer.php'),
                 'getTitleUrl'   => plugins_url('laterpay/scripts/lp-title.php'),
