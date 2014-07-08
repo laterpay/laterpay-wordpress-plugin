@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 .clearfix:before,
 .clearfix:after {content:''; display:table;}
 .clearfix:after {clear:both;}
@@ -415,7 +417,6 @@ label.switch-label {
 
 
 /* icon font */
-@charset 'UTF-8';
 @font-face {
     font-family:'laterpay-wordpress-icons';
     font-style:normal;

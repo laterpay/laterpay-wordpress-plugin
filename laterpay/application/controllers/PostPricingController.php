@@ -80,11 +80,10 @@ class PostPricingController extends AbstractController {
      * Render editor for teaser content
      *
      * @param object $object post object
-     * @param object $box    post box
      *
      * @access public
      */
-    public function teaserContentBox( $object, $box ) {
+    public function teaserContentBox( $object ) {
         $settings = array(
             'wpautop'         => 1,
             'media_buttons'   => 1,
@@ -135,11 +134,10 @@ class PostPricingController extends AbstractController {
      * Render form for post-specific pricing
      *
      * @param object $object post object
-     * @param object $box    post box
      *
      * @access public
      */
-    public function pricingPostContentBox( $object, $box ) {
+    public function pricingPostContentBox( $object ) {
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
 
         $category = get_the_category($object->ID);
@@ -227,16 +225,6 @@ class PostPricingController extends AbstractController {
         }
 
         $delocalized_price = (float)str_replace(',', '.', $_POST['pricing-post']);
-
-        if ( $delocalized_price > 5 || $delocalized_price < 0 ) {
-            $category               = get_the_category($post_id);
-            $category_default_price = null;
-            if ( !empty($category) ) {
-                $id = $category[0]->term_id;
-                $LaterPayModelCategory = new LaterPayModelCategory();
-                $category_default_price = $LaterPayModelCategory->getPriceByCategoryId($id);
-            }
-        }
 
         $this->setPostMeta(
             get_post_meta($post_id, 'Pricing Post', true),

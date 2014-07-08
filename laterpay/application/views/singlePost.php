@@ -1,9 +1,9 @@
 <?php if ( $post_content_cached && !RequestHelper::isAjax() ): ?>
-    <span id="laterpay-post-content" post-id="<?php echo $post_id; ?>"></span>
+    <span id="laterpay-post-content" data-post-id="<?php echo $post_id; ?>"></span>
     <script type="text/javascript">
     (function($){
         $('#laterpay-post-content').hide();
-        var post_id = $('#laterpay-post-content').attr('post-id');
+        var post_id = $('#laterpay-post-content').data('post-id');
         $.get(
             lpVars.getArticleUrl,
             {
@@ -121,7 +121,7 @@
         <?php // preview only the teaser content -> add purchase link after teaser content ?>
         <?php if ( $teaser_content_only ): ?>
 
-            <a class="laterpay-purchase-link" href="<?php echo $link; ?>" data-icon="b" post-id="<?php echo $post_id; ?>" data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
+            <a class="laterpay-purchase-link" href="<?php echo $link; ?>" data-icon="b" data-post-id="<?php echo $post_id; ?>" data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
 
         <?php // preview the teaser content plus real content, covered by overlay -> add concealed real content and purchase button ?>
         <?php else: ?>
@@ -171,7 +171,7 @@
                         <a href="<?php echo $link; ?>"
                             class="laterpay-purchase-link laterpay-purchase-button"
                             data-icon="b"
-                            post-id="<?php echo $post_id; ?>"
+                            data-post-id="<?php echo $post_id; ?>"
                             data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"
                             title="<?php _e('Buy now with LaterPay', 'laterpay'); ?>"><?php echo sprintf(__('%s<small>%s</small>', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
                         <div class="powered-by">

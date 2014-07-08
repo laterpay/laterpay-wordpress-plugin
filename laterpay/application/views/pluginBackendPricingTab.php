@@ -59,7 +59,7 @@
                     <hr>
                     <dfn class="spacer"><?php _e('Category default prices overwrite global default prices.', 'laterpay'); ?></dfn>
                     <div id="category-prices">
-                        <p><strong><?php echo _e('Every post in category', 'laterpay'); ?> &hellip;</strong></p>
+                        <p><strong><?php _e('Every post in category', 'laterpay'); ?> &hellip;</strong></p>
                         <?php foreach ( $Categories as $item ): ?>
                             <form method="post" class="category-price-form">
                                 <p>
@@ -72,7 +72,7 @@
                                         <input type="hidden" name="category" value="<?php echo $item->category_name; ?>" class="category-select">
                                         <span class="category-title"><?php echo $item->category_name; ?></span>
                                     </strong>
-                                    <?php echo _e('costs', 'laterpay'); ?>
+                                    <?php _e('costs', 'laterpay'); ?>
                                     <strong>
                                         <?php $category_price = ViewHelper::formatNumber((float)$item->category_price, 2); ?>
                                         <input  type="text"
@@ -108,7 +108,7 @@
                                 <input type="hidden" name="category" value="" class="category-select">
                                 <span class="category-title"></span>
                             </strong>
-                            <?php echo _e('costs', 'laterpay'); ?>
+                            <?php _e('costs', 'laterpay'); ?>
                             <strong>
                                 <input  type="text"
                                         name="price"

@@ -1,6 +1,6 @@
 (function($) {$(document).ready(function() {
 
-        lpShowStatistic = function() {
+        window.lpShowStatistic = function() {
             $('#statistics:visible .bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,

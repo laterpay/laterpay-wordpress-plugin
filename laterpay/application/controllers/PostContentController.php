@@ -249,7 +249,6 @@ class PostContentController extends AbstractController {
     public static function buyPost() {
         if ( 'index.php' == $GLOBALS['pagenow'] ) {
             if ( isset($_GET['buy']) && $_GET['buy'] ) {
-                $LaterPayClient = new LaterPayClient();
                 $data['post_id']        = $_GET['post_id'];
                 $data['id_currency']    = $_GET['id_currency'];
                 $data['price']          = $_GET['price'];
