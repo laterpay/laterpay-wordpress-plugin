@@ -25,7 +25,7 @@ return array (
     // In compatibility mode the plugin renders paid posts without the actual content so they can be cached as static
     // files and then uses an Ajax request to load either the preview content or the full content,
     // depending on the current visitor
-    'LATERPAY_PAGE_CACHING_COMPATIBLE_MODE'                 => SITE_USES_PAGE_CACHING,
+    'LATERPAY_PAGE_CACHING_COMPATIBLE_MODE'                 => '{SITE_USES_PAGE_CACHING}',
 
     // Access logging for generating sales statistics within the plugin;
     // Sets a cookie and logs all requests from visitors to your blog, if enabled
