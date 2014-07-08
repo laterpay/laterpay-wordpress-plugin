@@ -3,7 +3,7 @@
 <script>
     (function($){
         var $title = $('#laterpay-post-title'),
-            postId = $title.attr('data-post-id');
+            postId = $title.data('post-id');
 
         $title.hide();
         $.get(

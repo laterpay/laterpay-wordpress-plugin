@@ -3,7 +3,7 @@
     <script type="text/javascript">
     (function($){
         $('#laterpay-post-content').hide();
-        var post_id = $('#laterpay-post-content').attr('data-post-id');
+        var post_id = $('#laterpay-post-content').data('post-id');
         $.get(
             lpVars.getArticleUrl,
             {

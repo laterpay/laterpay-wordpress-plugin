@@ -16,10 +16,10 @@ class GitHubPluginUpdater {
     /**
      * GitHubPluginUpdater
      *
-     * @param type $pluginFile
-     * @param type $gitHubUsername
-     * @param type $gitHubProjectName
-     * @param type $accessToken
+     * @param string $pluginFile
+     * @param string $gitHubUsername
+     * @param string $gitHubProjectName
+     * @param string $accessToken
      */
     public function init( $pluginFile, $gitHubUsername, $gitHubProjectName, $accessToken = '' ) {
         $this->pluginFile   = $pluginFile;
@@ -70,9 +70,9 @@ class GitHubPluginUpdater {
     /**
      * Push in plugin version information to get the update notification
      *
-     * @param type $transient
+     * @param object $transient
      *
-     * @return type
+     * @return object
      */
     public function setTransient( $transient ) {
 
@@ -111,9 +111,9 @@ class GitHubPluginUpdater {
     /**
      * Push in plugin version information to display in the details lightbox
      *
-     * @param type $false
-     * @param type $action
-     * @param type $response
+     * @param bool   $false
+     * @param string $action
+     * @param object $response
      *
      * @return type
      */
@@ -183,11 +183,11 @@ class GitHubPluginUpdater {
     /**
      * Perform additional actions to successfully install our plugin
      *
-     * @param type $true
-     * @param type $hook_extra
-     * @param type $result
+     * @param bool   $true
+     * @param string $hook_extra
+     * @param array  $result
      *
-     * @return type
+     * @return array
      */
     public function postInstall( $true, $hook_extra, $result ) {
         global $wp_filesystem;
@@ -228,11 +228,11 @@ class GitHubPluginUpdater {
     /**
      * Perform additional actions to successfully install our plugin
      *
-     * @param type $true
-     * @param type $hook_extra
-     * @param type $result
+     * @param bool   $true
+     * @param string $hook_extra
+     * @param array  $result
      *
-     * @return type
+     * @return array
      */
     public function preInstall( $return, $plugin ) {
         $this->initPluginData();

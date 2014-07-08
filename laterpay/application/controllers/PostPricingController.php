@@ -137,6 +137,7 @@ class PostPricingController extends AbstractController {
      *
      * @access public
      */
+    public function pricingPostContentBox( $object ) {
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
 
         $category = get_the_category($object->ID);

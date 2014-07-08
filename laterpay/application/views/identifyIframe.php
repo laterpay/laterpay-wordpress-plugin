@@ -3,7 +3,7 @@
     <script type="text/javascript">
     (function($) {
         $('#laterpay-post-footer').hide();
-        var post_id = $('#laterpay-post-footer').attr('data-post-id');
+        var post_id = $('#laterpay-post-footer').data('post-id');
         $.get(
             lpVars.getFooterUrl,
             {id: post_id, show_statistic: true},
