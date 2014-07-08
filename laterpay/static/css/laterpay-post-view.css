@@ -166,6 +166,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
 }
 .laterpay-benefits ul {margin:.5em 1em 0 !important; padding:0 !important;}
 .laterpay-benefits li {list-style:none !important; margin:0 !important; padding:0 0 0 80px !important;}
+.laterpay-benefits svg.laterpay-teaser-overlay-icons {fill:#4dac64;}
 .laterpay-benefits li.laterpay-buy-now {background:url(../img/laterpay-icon-buy.svg) 6px 0 no-repeat !important;}
 .laterpay-benefits li.laterpay-use-immediately {background:url(../img/laterpay-icon-read.svg) 6px 0 no-repeat !important;}
 .laterpay-benefits li.laterpay-pay-later {background:url(../img/laterpay-icon-pay.svg) 6px 0 no-repeat !important;}
