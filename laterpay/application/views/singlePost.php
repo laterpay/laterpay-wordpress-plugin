@@ -1,23 +1,5 @@
-<?php if ( $post_content_cached && !RequestHelper::isAjax() ): ?>
-    <span id="laterpay-post-content" data-post-id="<?php echo $post_id; ?>"></span>
-    <script type="text/javascript">
-    (function($){
-        $('#laterpay-post-content').hide();
-        var post_id = $('#laterpay-post-content').data('post-id');
-        $.get(
-            lpVars.getArticleUrl,
-            {
-                id              : post_id,
-                show_statistic  : true
-            },
-            function(html) {
-                $('#laterpay-post-content').before(html);
-                $('#laterpay-post-content').remove();
-                lpShowStatistic();
-            }
-        );
-    })(jQuery);
-    </script>
+<?php if ( LATERPAY_PAGE_CACHING_COMPATIBLE_MODE && !RequestHelper::isAjax() ): ?>
+    <span id="laterpay-page-caching-mode" data-post-id="<?php echo $post_id; ?>"></span>
 <?php else: ?>
     <?php if ( current_user_can('manage_options') && (!RequestHelper::isAjax() || $can_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content ): ?>
         <div id="statistics"<?php if ( $hide_statistics_pane ) echo ' class="hidden"'; ?>>

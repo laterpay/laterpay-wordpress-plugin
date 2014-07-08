@@ -122,7 +122,7 @@ class AdminController extends AbstractController {
 
         $this->assign('pointers', $pointers);
 
-        echo $this->getTextView('adminFooter');
+        echo $this->getTextView('partials/adminFooter');
     }
 
     /**

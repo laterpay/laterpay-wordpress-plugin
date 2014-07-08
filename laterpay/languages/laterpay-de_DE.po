@@ -237,21 +237,21 @@ msgstr ""
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: application/views/adminFooter.php:4
+#: application/views/partials/adminFooter.php:4
 msgid "Welcome to LaterPay!"
 msgstr "LaterPay Plugin aktivieren"
 
-#: application/views/adminFooter.php:5
+#: application/views/partials/adminFooter.php:5
 msgid "Enter your LaterPay credentials here to activate your plugin now."
 msgstr ""
 "Willkommen bei LaterPay!Geben Sie hier Ihre LaterPay API Zugangsdaten ein, "
 "um das Plugin zu aktivieren."
 
-#: application/views/adminFooter.php:32
+#: application/views/partials/adminFooter.php:32
 msgid "Set a Price for this Post"
 msgstr "Preis für den Beitrag setzen"
 
-#: application/views/adminFooter.php:33
+#: application/views/partials/adminFooter.php:33
 msgid ""
 "Set an <strong>individual price</strong> for this post here.<br>You can also "
 "apply <strong>advanced pricing</strong> by defining how the price changes "
@@ -264,11 +264,11 @@ msgstr ""
 "Preiskurve festgelegt werden, so dass der Preis nach Ihren Vorgaben jeden "
 "Tag um 0 Uhr automatisch aktualisiert wird."
 
-#: application/views/adminFooter.php:60
+#: application/views/partials/adminFooter.php:60
 msgid "Add Teaser Content"
 msgstr "Teaser zum Beitrag hinzufügen"
 
-#: application/views/adminFooter.php:61
+#: application/views/partials/adminFooter.php:61
 msgid ""
 "You´ll give your users a better impression of what they´ll buy, if you "
 "preview some text, images, or video from the actual post."
@@ -455,7 +455,7 @@ msgstr "Der Standardpreis für Beiträge ist"
 #: application/views/pluginBackendPricingTab.php:42
 #: application/views/pluginBackendPricingTab.php:83
 #: application/views/pluginBackendPricingTab.php:118
-#: application/views/postPricingForm.php:18
+#: application/views/partials/postPricingForm.php:18
 msgid "0.00"
 msgstr "0,00"
 
@@ -563,52 +563,52 @@ msgstr "Währung"
 msgid "All prices are given in"
 msgstr "Alle Preise sind festgelegt in"
 
-#: application/views/postPricingForm.php:12
+#: application/views/partials/postPricingForm.php:12
 msgid "This post costs"
 msgstr "Dieser Beitrag kostet"
 
-#: application/views/postPricingForm.php:24
+#: application/views/partials/postPricingForm.php:24
 msgid "Apply category default price"
 msgstr "Kategorie-Standardpreis übernehmen"
 
-#: application/views/postPricingForm.php:29
+#: application/views/partials/postPricingForm.php:29
 msgid "Apply global default price"
 msgstr "Standardpreis übernehmen"
 
-#: application/views/postPricingForm.php:34
-#: application/views/postPricingForm.php:40
+#: application/views/partials/postPricingForm.php:34
+#: application/views/partials/postPricingForm.php:40
 msgid "Advanced pricing options"
 msgstr "Erweiterte Preissetzung"
 
-#: application/views/postPricingForm.php:35
+#: application/views/partials/postPricingForm.php:35
 msgid "Show"
 msgstr "Einblenden"
 
-#: application/views/postPricingForm.php:41
+#: application/views/partials/postPricingForm.php:41
 msgid "Hide"
 msgstr "Ausblenden"
 
-#: application/views/postPricingForm.php:49
+#: application/views/partials/postPricingForm.php:49
 msgid "Dynamic pricing presets"
 msgstr "Voreinstellungen"
 
-#: application/views/postPricingForm.php:50
+#: application/views/partials/postPricingForm.php:50
 msgid "Blockbuster"
 msgstr "Blockbuster"
 
-#: application/views/postPricingForm.php:51
+#: application/views/partials/postPricingForm.php:51
 msgid "Breaking News"
 msgstr "Breaking News"
 
-#: application/views/postPricingForm.php:52
+#: application/views/partials/postPricingForm.php:52
 msgid "Teaser"
 msgstr "Teaser"
 
-#: application/views/postPricingForm.php:53
+#: application/views/partials/postPricingForm.php:53
 msgid "Long-tail"
 msgstr "Long-tail"
 
-#: application/views/postPricingForm.php:54
+#: application/views/partials/postPricingForm.php:54
 msgid "Flat (default)"
 msgstr "Flat (Standard)"
 

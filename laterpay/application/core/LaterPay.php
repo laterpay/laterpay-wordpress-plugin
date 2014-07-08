@@ -64,11 +64,12 @@ class LaterPay {
     protected function getGitHubPluginUpdater() {
         if ( empty($this->_gitHubPluginUpdater) ) {
             $this->_gitHubPluginUpdater = new GitHubPluginUpdater();
-            $this->_gitHubPluginUpdater->init(  $this->_pluginFile,
-                                                LATERPAY_GITHUB_USER_NAME,
-                                                LATERPAY_GITHUB_PROJECT_NAME,
-                                                LATERPAY_GITHUB_TOKEN
-                                            );
+            $this->_gitHubPluginUpdater->init(
+                $this->_pluginFile,
+                LATERPAY_GITHUB_USER_NAME,
+                LATERPAY_GITHUB_PROJECT_NAME,
+                LATERPAY_GITHUB_TOKEN
+            );
         }
 
         return $this->_gitHubPluginUpdater;
@@ -110,8 +111,16 @@ class LaterPay {
             if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
                 $config = file_get_contents(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
                 $config = str_replace(
-                    array('{LATERPAY_SALT}', '{LATERPAY_RESOURCE_ENCRYPTION_KEY}'),
-                    array(md5(uniqid('salt')), md5(uniqid('key'))),
+                    array(
+                        '{salt}',
+                        '{resource_encryption_key}',
+                        'SITE_USES_PAGE_CACHING'
+                    ),
+                    array(
+                        md5(uniqid('salt')),
+                        md5(uniqid('key')),
+                        CacheHelper::siteUsesPageCaching() ? 'true' : 'false'
+                    ),
                     $config
                 );
                 file_put_contents(LATERPAY_GLOBAL_PATH . 'settings.php', $config);

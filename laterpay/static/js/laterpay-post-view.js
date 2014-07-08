@@ -81,6 +81,23 @@
             }
         });
 
+        // load content via Ajax, if plugin is in page caching compatible mode
+        // (recognizable by the presence of $('#laterpay-page-caching-mode'))
+        var $pageCachingAnchor = $('#laterpay-page-caching-mode');
+        if ($pageCachingAnchor.length == 1) {
+            $.get(
+                lpVars.getArticleUrl,
+                {
+                    id              : $pageCachingAnchor.attr('data-post-id'),
+                    show_statistic  : true
+                },
+                function(html) {
+                    $pageCachingAnchor.before(html).remove();
+                    lpShowStatistic();
+                }
+            );
+        }
+
 });}(jQuery));
 
 // show LaterPay dialogs using the LaterPay dialog manager library

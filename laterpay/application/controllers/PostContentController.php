@@ -77,7 +77,7 @@ class PostContentController extends AbstractController {
                 $this->assign('access',                     $access);
                 $this->assign('link',                       $link);
                 $this->assign('can_show_statistic',         $laterpay_show_statistic ? true: false);
-                $this->assign('post_content_cached',        CacheHelper::isWPSuperCacheActive());
+                $this->assign('post_content_cached',        CacheHelper::siteUsesPageCaching());
                 $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor());
                 $this->assign('hide_statistics_pane',       UserHelper::isHiddenStatisticsPane());
 
@@ -109,9 +109,8 @@ class PostContentController extends AbstractController {
 
                 $this->assign('post_id',               $postid);
                 $this->assign('identify_link',         $identify_link);
-                $this->assign('post_content_cached',   CacheHelper::isWPSuperCacheActive());
 
-                echo $this->getTextView('identifyIframe');
+                echo $this->getTextView('partials/identifyIframe');
             }
         }
     }
@@ -522,13 +521,13 @@ class PostContentController extends AbstractController {
             $access             = $GLOBALS['laterpay_access'] || current_user_can('manage_options') || UserHelper::user_has_full_access();
             $link               = self::getLPLink($post_id);
             $preview_post_as_visitor = UserHelper::previewPostAsVisitor();
-            $post_content_cached = CacheHelper::isWPSuperCacheActive();
+            $post_content_cached = CacheHelper::siteUsesPageCaching();
 
             if ( $is_premium_content && is_single() && !is_page() ) {
                 if ( $post_content_cached && !RequestHelper::isAjax() ) {
                     $this->assign('post_id',    $post_id);
 
-                    $title = $this->getTextView('postTitle');
+                    $title = $this->getTextView('partials/postTitle');
                 } else {
                     if ( (!$access || $preview_post_as_visitor) ) {
                         $currency           = get_option('laterpay_currency');
