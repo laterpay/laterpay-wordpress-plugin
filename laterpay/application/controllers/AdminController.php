@@ -109,7 +109,7 @@ class AdminController extends AbstractController {
         $dismissed_pointers = explode(',', (string)get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
         $pointers = array();
         // add pointer to LaterPay plugin in admin menu
-        if ( !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
+        if ( get_option('laterpay_plugin_is_activated') == '0' && !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
             $pointers[] = self::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page
