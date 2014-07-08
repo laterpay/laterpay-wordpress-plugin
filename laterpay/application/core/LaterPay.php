@@ -568,7 +568,7 @@ class LaterPay {
 
         // pass localized strings and variables to script
         $client = new LaterPayClient();
-        $balance_url = $client->getIframeApiBalanceUrl();
+        $balance_url = $client->getControlsBalanceUrl();
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
