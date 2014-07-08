@@ -337,24 +337,19 @@ class LaterPay {
      */
     protected function setupAdminRoutes() {
         if ( class_exists('GetStartedController') ) {
-            add_action('wp_ajax_getstarted',        'GetStartedController::pageAjax');
-            add_action('wp_ajax_nopriv_getstarted', 'GetStartedController::pageAjax');
+            add_action('wp_ajax_getstarted',    'GetStartedController::pageAjax');
         }
         if ( class_exists('PricingController') ) {
-            add_action('wp_ajax_pricing',           'PricingController::pageAjax');
-            add_action('wp_ajax_nopriv_pricing',    'PricingController::pageAjax');
+            add_action('wp_ajax_pricing',       'PricingController::pageAjax');
         }
         if ( class_exists('AppearanceController') ) {
-            add_action('wp_ajax_appearance',        'AppearanceController::pageAjax');
-            add_action('wp_ajax_nopriv_appearance', 'AppearanceController::pageAjax');
+            add_action('wp_ajax_appearance',    'AppearanceController::pageAjax');
         }
         if ( class_exists('AccountController') ) {
-            add_action('wp_ajax_account',           'AccountController::pageAjax');
-            add_action('wp_ajax_nopriv_account',    'AccountController::pageAjax');
+            add_action('wp_ajax_account',       'AccountController::pageAjax');
         }
         if ( class_exists('AdminController') ) {
-            add_action('wp_ajax_admin',           'AdminController::pageAjax');
-            add_action('wp_ajax_nopriv_admin',    'AdminController::pageAjax');
+            add_action('wp_ajax_admin',         'AdminController::pageAjax');
         }
     }
 

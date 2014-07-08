@@ -79,6 +79,7 @@ class PostContentController extends AbstractController {
                 $this->assign('can_show_statistic',         $laterpay_show_statistic ? true: false);
                 $this->assign('post_content_cached',        CacheHelper::siteUsesPageCaching());
                 $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor());
+                $this->assign('hide_statistics_pane',       UserHelper::isHiddenStatisticsPane());
 
                 $html = $this->getTextView('singlePost');
             } else {

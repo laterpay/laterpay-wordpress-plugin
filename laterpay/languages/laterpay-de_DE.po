@@ -5,14 +5,14 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-03 09:29:09+00:00\n"
-"PO-Revision-Date: 2014-07-03 17:34+0100\n"
+"PO-Revision-Date: 2014-07-08 08:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Poedit 1.6.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: application/controllers/AccountController.php:24
@@ -175,7 +175,7 @@ msgid ""
 "excerpt of the article that makes them want to buy the whole thing!"
 msgstr ""
 "Dies wird Besuchern angezeigt, die den Beitrag noch nicht gekauft haben. "
-"Verwenden Sie einen Teaser, das Lust auf den gesamten Beitrag macht."
+"Schreiben Sie einen Teaser, der Lust auf den gesamten Beitrag macht."
 
 #: application/controllers/PricingController.php:144
 msgid "The currency for this website is %s now."
@@ -239,17 +239,17 @@ msgstr "Einstellungen"
 
 #: application/views/partials/adminFooter.php:4
 msgid "Welcome to LaterPay!"
-msgstr "Willkommen bei LaterPay!"
+msgstr "LaterPay Plugin aktivieren"
 
 #: application/views/partials/adminFooter.php:5
 msgid "Enter your LaterPay credentials here to activate your plugin now."
 msgstr ""
-"Geben Sie Ihre LaterPay API Zugangsdaten hier ein, um das Plugin jetzt zu "
-"aktivieren."
+"Willkommen bei LaterPay!Geben Sie hier Ihre LaterPay API Zugangsdaten ein, "
+"um das Plugin zu aktivieren."
 
 #: application/views/partials/adminFooter.php:32
 msgid "Set a Price for this Post"
-msgstr "Setzen Sie einen Preis für diesen Beitrag"
+msgstr "Preis für den Beitrag setzen"
 
 #: application/views/partials/adminFooter.php:33
 msgid ""
@@ -257,9 +257,12 @@ msgid ""
 "apply <strong>advanced pricing</strong> by defining how the price changes "
 "over time."
 msgstr ""
-"Setzen Sie hier einen <strong>individuellen Preis</strong> für diesen "
-"Beitrag.<br>Sie können auch <strong>erweiterte Preise</strong> setzen, indem "
-"Sie festlegen, wie sich der Preis über die Zeit verändern soll."
+"Neben einem <strong>individuellen Preis</strong> kann der Beitrag auch "
+"&ndash; soweit im Plugin Backend vordefiniert &ndash; den "
+"<strong>Standardpreis</strong> oder einen <strong>Kategorie-Standardpreis</"
+"strong> verwenden.<br>Bei individuellen Preisen kann zusätzlich eine "
+"Preiskurve festgelegt werden, so dass der Preis nach Ihren Vorgaben jeden "
+"Tag um 0 Uhr automatisch aktualisiert wird."
 
 #: application/views/partials/adminFooter.php:60
 msgid "Add Teaser Content"
@@ -270,9 +273,8 @@ msgid ""
 "You´ll give your users a better impression of what they´ll buy, if you "
 "preview some text, images, or video from the actual post."
 msgstr ""
-"Sie werden Ihren Nutzer eine bessere Vorstellung davon geben, was sie "
-"kaufen, wenn Sie Text, Bilder oder Videos aus dem Beitrag als Vorschau "
-"anzeigen."
+"Um Ihren Nutzer eine bessere Vorstellung davon zu geben, was sie kaufen, "
+"sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
 
 #: application/views/pluginBackendAccountTab.php:9
 #: application/views/pluginBackendAppearanceTab.php:10
@@ -313,11 +315,11 @@ msgstr "LaterPay API Zugangsdaten"
 
 #: application/views/pluginBackendAccountTab.php:24
 msgid "Sandbox Environment"
-msgstr "Sandbox (Testumgebung)"
+msgstr "Sandbox"
 
 #: application/views/pluginBackendAccountTab.php:25
 msgid "for testing purposes"
-msgstr "zu Testzwecken"
+msgstr "Testumgebung für die Integration und Konfiguration des Plugins"
 
 #: application/views/pluginBackendAccountTab.php:32
 #: application/views/pluginBackendAccountTab.php:77
@@ -341,11 +343,11 @@ msgstr "Sandbox API Key hier einfügen"
 
 #: application/views/pluginBackendAccountTab.php:69
 msgid "Live Environment"
-msgstr "Live (Produktivumgebung)"
+msgstr "Live"
 
 #: application/views/pluginBackendAccountTab.php:70
 msgid "for processing real financial transactions"
-msgstr "zur Verarbeitung echter Zahlungen"
+msgstr "Produktivumgebung für echte Käufe und Zahlungen"
 
 #: application/views/pluginBackendAccountTab.php:87
 msgid "Paste Live Merchant ID here"
@@ -364,8 +366,8 @@ msgid ""
 "Go to your <a href=\"%s\">LaterPay Merchantbackend</a> to get your LaterPay "
 "API credentials."
 msgstr ""
-"Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>,<br>um Ihre "
-"LaterPay API Zugangsdaten abzurufen."
+"Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
+"API Zugangsdaten abzurufen."
 
 #: application/views/pluginBackendAccountTab.php:131
 msgid "Plugin Mode"
