@@ -1,6 +1,6 @@
 (function($) {$(document).ready(function() {
 
-        var window.lpShowStatistic = function() {
+        window.lpShowStatistic = function() {
             $('#statistics:visible .bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
@@ -74,7 +74,6 @@
         $('body').on('click', '#preview-post-toggle', function() {togglePreviewMode();});
 
         // handle clicks on purchase buttons in test mode
-
         $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
             if ($(this).data('preview-as-visitor')) {
                 e.preventDefault();
