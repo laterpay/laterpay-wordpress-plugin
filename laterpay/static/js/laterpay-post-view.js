@@ -1,7 +1,7 @@
 (function($) {$(document).ready(function() {
 
         window.lpShowStatistic = function() {
-            $('#statistics .bar').peity('bar', {
+            $('#statistics:visible .bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -20,7 +20,7 @@
                                 return color;
                             }
             });
-            $('#statistics .background-bar').peity('bar', {
+            $('#statistics:visible .background-bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -34,21 +34,20 @@
         var toggleStatisticsPane = function() {
             var $pane = $('#statistics'),
                 value = $pane.hasClass('hidden') ? '0' : '1';
-
+            $('#laterpay_hide_statistics_form input[name=hide_statistics_pane]').val(value);
             $.post(
                 lpVars.ajaxUrl,
-                {
-                    // TODO: issue #36
-                    action: 'admin',
-                    laterpay_hide_statistics_pane: value
-                }
+                $('#laterpay_hide_statistics_form').serializeArray()
             );
             $pane.toggleClass('hidden');
+            if (value) {
+                lpShowStatistic();
+            }
         };
 
-        $('#toggle-laterpay-statistics-pane')
-        .on('mousedown', function() {toggleStatisticsPane();})
-        .on('click', function(e) {e.preventDefault();});
+        $('body')
+        .on('mousedown', '#toggle-laterpay-statistics-pane', function() {toggleStatisticsPane();})
+        .on('click', '#toggle-laterpay-statistics-pane', function(e) {e.preventDefault();});
 
 
         // preview post either for admin or regular user
@@ -72,7 +71,7 @@
             );
         };
 
-        $('#preview-post-toggle').click(function() {togglePreviewMode();});
+        $('body').on('click', '#preview-post-toggle', function() {togglePreviewMode();});
 
         // handle clicks on purchase buttons in test mode
         $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
