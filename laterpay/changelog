@@ -1,3 +1,7 @@
+0.9.6 (July 11, 2014): Integration release =========================================================
+    - Added option to choose between automatic and manual updating of browser detection library browscap
+
+
 0.9.5 (July 9, 2014): Production-readiness release II ==============================================
     - Made plugin compatible with page caching solutions like WP Super Cache
     - Redesigned overlay for previewing paid content

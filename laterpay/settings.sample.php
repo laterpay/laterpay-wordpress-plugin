@@ -30,15 +30,14 @@ return array (
     // Access logging for generating sales statistics within the plugin;
     // Sets a cookie and logs all requests from visitors to your blog, if enabled
     'LATERPAY_ACCESS_LOGGING_ENABLED'                       => true,
-    
-    // Option to switch off auto-updating of browscap library
-    // Set this to true to allow auto-updating, or to false disallow auto-updating
+
+    // Auto-update browscap library
+    // The plugin requires browscap to ensure search engine bots, social media sites, etc. don't crash when visiting a paid post
+    // When set to true, the plugin will automatically fetch updates of this library from browscap.org
     'LATERPAY_BROWSCAP_AUTOUPDATING'                        => true,
-    
-    // to update browscap library from local file, set full path to the browscap.ini
-    // file should be present otherwise you will get an exception
-    // leave option empty to use updating from remote host
-    'LATERPAY_BROWSCAP_LOCAL_FILE'                          => '',
+    // If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
+    // on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
+    'LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY'               => '',
 
     // Debugging
     'LATERPAY_LOGGER_ENABLED'                               => false,
