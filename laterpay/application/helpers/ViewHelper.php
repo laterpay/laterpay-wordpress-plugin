@@ -4,9 +4,9 @@ class ViewHelper {
     /**
      * Get date of next day
      *
-     * @param type $date
+     * @param string $date
      *
-     * @return type
+     * @return string
      */
     protected static function getNextDay( $date ) {
         $nextDay = date('Y-m-d', mktime(
@@ -24,9 +24,9 @@ class ViewHelper {
     /**
      * Get date 30 days ago
      *
-     * @param date $date
+     * @param string $date
      *
-     * @return date
+     * @return string
      */
     protected static function getLast30Day( $date ) {
         $last30Day = date('Y-m-d', mktime(

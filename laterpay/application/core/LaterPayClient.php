@@ -186,35 +186,25 @@ class LaterPayClient {
             $data['jsevents'] = '1';
         }
         if ( $show_long_greeting ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'gg';
             }
         } elseif ( $show_greeting ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'g';
             }
         }
         if ( $show_login ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'l';
             }
         }
         if ( $show_long_signup ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 'ss';
             }
         } elseif ( $show_signup ) {
-            if ( isset($data['show']) ) {
-                $data['show'] = $data['show'];
-            } else {
+            if ( !isset($data['show']) ) {
                 $data['show'] = 's';
             }
         }
@@ -230,7 +220,7 @@ class LaterPayClient {
      * Get iframe API balance URL
      *
      * @param string|null $forcelang
-     *
+     * @deprecated since version 0.9.5
      * @return string url
      */
     public function getIframeApiBalanceUrl( $forcelang = null ) {
@@ -240,6 +230,26 @@ class LaterPayClient {
         }
         $data['xdmprefix'] = substr(uniqid('', true), 0, 10);
         $base_url   = $this->web_root . '/iframeapi/balance';
+        $params     = $this->signAndEncode($data, $base_url);
+        $url        = $base_url . '?' . $params;
+
+        return $url;
+    }
+    
+    /**
+     * Get iframe API balance URL
+     *
+     * @param string|null $forcelang
+     * @deprecated since version 0.9.5
+     * @return string url
+     */
+    public function getControlsBalanceUrl( $forcelang = null ) {
+        $data = array('cp' => $this->cp_key);
+        if ( !empty($forcelang) ) {
+            $data['forcelang'] = $forcelang;
+        }
+        $data['xdmprefix'] = substr(uniqid('', true), 0, 10);
+        $base_url   = $this->web_root . '/controls/balance';
         $params     = $this->signAndEncode($data, $base_url);
         $url        = $base_url . '?' . $params;
 

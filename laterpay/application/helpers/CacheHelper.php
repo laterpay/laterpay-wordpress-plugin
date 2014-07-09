@@ -23,12 +23,38 @@ class CacheHelper {
         return $reset;
     }
 
-    public static function isWPSuperCacheActive() {
+
+    /**
+     * Checks if a known page caching plugin is active
+     *
+     * @return boolean
+     *
+     * @access public
+     */
+    public static function siteUsesPageCaching() {
         if ( !function_exists('is_plugin_active') ) {
             include_once(ABSPATH . 'wp-admin/includes/plugin.php');
         }
 
-        return is_plugin_active('wp-super-cache/wp-cache.php');
+        $caching_plugin_is_active = false;
+
+        $caching_plugins = array(
+            'wp-super-cache/wp-cache.php',          // WP Super Cache
+            'w3-total-cache/w3-total-cache.php',    // W3 Total Cache
+            'quick-cache/quick-cache.php',          // Quick Cache
+            'wp-fastest-cache/wpFastestCache.php',  // WP Fastest Cache
+            'cachify/cachify.php',                  // Cachify
+            'wp-cachecom/wp-cache-com.php',         // WP-Cache.com
+        );
+
+        foreach ( $caching_plugins as $plugin ) {
+            if ( is_plugin_active($plugin) ) {
+                $caching_plugin_is_active = true;
+                break;
+            }
+        }
+
+        return $caching_plugin_is_active;
     }
 
 }

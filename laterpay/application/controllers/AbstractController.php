@@ -27,7 +27,7 @@ class AbstractController {
      * Assign variable for substitution in templates
      *
      * @param string $variable name variable to assign
-     * @param any    $value    value variable for assign
+     * @param mixed  $value    value variable for assign
      *
      * @access public
      */

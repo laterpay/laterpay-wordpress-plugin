@@ -1,12 +1,16 @@
-0.9.5 (July 4, 2014): Production-readiness release II ==============================================
+0.9.5 (July 9, 2014): Production-readiness release II ==============================================
     - Made plugin compatible with page caching solutions like WP Super Cache
     - Redesigned overlay for previewing paid content
     - Added more fine grained over amount of text previewed behind overlay
     - Bugfix for auto-updating of browser detection library
     - Improved internal use of standard WP APIs (transport, wp_localize_script)
+    - Added price of posts to posts table in admin backend
     - Added more flash messages for system feedback
+    - Ensured the Buyers bar chart properly scales to 1 (100%)
+    - Added possibility to hide / show the statistics pane on the view post page
     - Switched to loading minified version of YUI
     - Renamed views and several variables to be more self-explanatory
+    - Added an already cached copy of browscap library to the plugin
     - Fixed bug in getStarted tab that showed an error message that Merchant ID or API Key is not
       valid, if it was not entered yet
 

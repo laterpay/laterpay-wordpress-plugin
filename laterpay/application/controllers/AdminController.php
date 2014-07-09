@@ -109,7 +109,7 @@ class AdminController extends AbstractController {
         $dismissed_pointers = explode(',', (string)get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
         $pointers = array();
         // add pointer to LaterPay plugin in admin menu
-        if ( !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
+        if ( get_option('laterpay_plugin_is_activated') == '0' && !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
             $pointers[] = self::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page
@@ -122,7 +122,7 @@ class AdminController extends AbstractController {
 
         $this->assign('pointers', $pointers);
 
-        echo $this->getTextView('adminFooter');
+        echo $this->getTextView('partials/adminFooter');
     }
 
     /**
@@ -167,6 +167,16 @@ class AdminController extends AbstractController {
                             'message' => __('Updated.', 'laterpay')
                         )
                     );
+                    die;
+                    break;
+
+                case 'hide_statistics_pane':
+                    $current_user = wp_get_current_user();
+                    if ( !($current_user instanceof WP_User) ) {
+                        die;
+                    }
+                    $result = add_user_meta($current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'], true)
+                            || update_user_meta($current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane']);
                     die;
                     break;
 
