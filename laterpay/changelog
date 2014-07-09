@@ -1,5 +1,6 @@
 0.9.6 (July 11, 2014): Integration release =========================================================
     - Added option to choose between automatic and manual updating of browser detection library browscap
+    - Secured plugin folders against external access by adding an empty index.php file to each folder
 
 
 0.9.5 (July 9, 2014): Production-readiness release II ==============================================
