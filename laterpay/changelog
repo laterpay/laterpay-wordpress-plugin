@@ -13,6 +13,7 @@
     - Added an already cached copy of browscap library to the plugin
     - Added uninstall.php file that takes care of wiping the database from all data added
       by the plugin, when the plugin gets deactivated and then uninstalled
+    - Fixed notices that broke the activation process in debug mode
     - Fixed bug in getStarted tab that showed an error message that Merchant ID or API Key is not
       valid, if it was not entered yet
 
