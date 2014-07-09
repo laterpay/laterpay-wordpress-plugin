@@ -48,7 +48,7 @@ class Logger {
     public static function getInstance() {
         if ( empty(self::$_instance) ) {
             try {
-                if ( LATERPAY_LOGGER_ENABLED ) {
+                if ( defined('LATERPAY_LOGGER_ENABLED') && defined('LATERPAY_LOGGER_FILE') && LATERPAY_LOGGER_ENABLED ) {
                     self::$_instance = new Logger_Handler_Stream(LATERPAY_LOGGER_FILE);
                 } else {
                     self::$_instance = new Logger_Handler_Null();
