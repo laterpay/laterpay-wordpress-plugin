@@ -197,7 +197,7 @@ class LaterPay {
     }
 
     /**
-     * Plugin activation hook
+     * Activate plugin
      *
      * @global object $wpdb
      * @global string $laterpay_version
@@ -291,7 +291,7 @@ class LaterPay {
     }
 
     /**
-     * Plugin deactivation hook
+     * Deactivate plugin
      *
      */
     public function deactivate() {
@@ -299,12 +299,13 @@ class LaterPay {
     }
 
     /**
-     * Plugin uninstall hook
+     * Uninstall plugin
      *
      * @global object $wpdb
      */
     public function uninstall() {
         global $wpdb;
+
         $table_currency     = $wpdb->prefix . 'laterpay_currency';
         $table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
         $table_history      = $wpdb->prefix . 'laterpay_payment_history';
@@ -648,12 +649,13 @@ class LaterPay {
     }
 
     /**
-     * Add install / uninstall hooks for plugin
+     * Add installation and deactivatino hooks for plugin
+     *
+     * Uninstallation is handled by uninstall.php
      */
     protected function setupRegistration() {
         register_activation_hook($this->_pluginFile,    array($this, 'activate'));
         register_deactivation_hook($this->_pluginFile,  array($this, 'deactivate'));
-        register_uninstall_hook($this->_pluginFile,     array($this, 'uninstall'));
     }
 
     /**
