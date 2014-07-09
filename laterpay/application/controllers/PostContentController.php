@@ -531,7 +531,7 @@ class PostContentController extends AbstractController {
                 } else {
                     if ( (!$access || $preview_post_as_visitor) ) {
                         $currency           = get_option('laterpay_currency');
-                        $purchase_button    = '<a href="' . $link . '" class="laterpay-purchase-link laterpay-purchase-button" data-icon="b" post-id="';
+                        $purchase_button    = '<a href="#" class="laterpay-purchase-link laterpay-purchase-button" data-laterpay="' . $link . '" data-icon="b" post-id="';
                         $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
                         $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
                         $purchase_button   .= sprintf(
