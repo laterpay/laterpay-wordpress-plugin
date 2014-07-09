@@ -58,7 +58,7 @@ abstract class Logger_Abstract {
             return (string)$data;
         }
 
-        if ( version_compare(PHP_VERSION, '5.4.0', '>=') ) {
+        if ( version_compare(PHP_VERSION, '5.4.0', '>=') && defined('JSON_UNESCAPED_SLASHES') && defined('JSON_UNESCAPED_UNICODE') ) {
             return json_encode($this->normalize($data), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
 
