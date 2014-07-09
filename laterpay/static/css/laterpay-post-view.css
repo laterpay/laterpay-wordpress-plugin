@@ -421,11 +421,11 @@ label.switch-label {
     font-family:'laterpay-wordpress-icons';
     font-style:normal;
     font-weight:normal;
-    src:url(../fonts/laterpay-wordpress-icons.eot);
-    src:url(../fonts/laterpay-wordpress-icons.eot?#iefix)                     format('embedded-opentype'),
-        url(../fonts/laterpay-wordpress-icons.woff)                           format('woff'),
-        url(../fonts/laterpay-wordpress-icons.ttf)                            format('truetype'),
-        url(../fonts/laterpay-wordpress-icons.svg#laterpay-wordpress-icons)   format('svg');
+    src:url(../fonts/laterpay-wordpress-icons_v096.eot);
+    src:url(../fonts/laterpay-wordpress-icons_v096.eot?#iefix)                   format('embedded-opentype'),
+        url(../fonts/laterpay-wordpress-icons_v096.woff)                         format('woff'),
+        url(../fonts/laterpay-wordpress-icons_v096.ttf)                          format('truetype'),
+        url(../fonts/laterpay-wordpress-icons_v096.svg#laterpay-wordpress-icons) format('svg');
 }
 [data-icon]:before {
     -moz-osx-font-smoothing:grayscale;

@@ -18,7 +18,7 @@ class AdminController extends AbstractController {
         );
         wp_register_style(
             'open-sans',
-            '//fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C300%2C400%2C600&#038;subset=latin%2Clatin-ext&#038'
+            '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin,latin-ext'
         );
         wp_enqueue_style('laterpay-backend');
         wp_enqueue_style('open-sans');
