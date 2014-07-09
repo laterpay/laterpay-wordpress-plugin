@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-03 09:29:09+00:00\n"
-"PO-Revision-Date: 2014-07-08 08:29+0100\n"
+"PO-Revision-Date: 2014-07-09 11:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
@@ -244,7 +244,7 @@ msgstr "LaterPay Plugin aktivieren"
 #: application/views/partials/adminFooter.php:5
 msgid "Enter your LaterPay credentials here to activate your plugin now."
 msgstr ""
-"Willkommen bei LaterPay!Geben Sie hier Ihre LaterPay API Zugangsdaten ein, "
+"Willkommen bei LaterPay! Geben Sie hier Ihre LaterPay API Zugangsdaten ein, "
 "um das Plugin zu aktivieren."
 
 #: application/views/partials/adminFooter.php:32
