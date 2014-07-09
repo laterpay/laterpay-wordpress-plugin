@@ -31,6 +31,14 @@ return array (
     // Sets a cookie and logs all requests from visitors to your blog, if enabled
     'LATERPAY_ACCESS_LOGGING_ENABLED'                       => true,
 
+    // Auto-update browscap library
+    // The plugin requires browscap to ensure search engine bots, social media sites, etc. don't crash when visiting a paid post
+    // When set to true, the plugin will automatically fetch updates of this library from browscap.org
+    'LATERPAY_BROWSCAP_AUTOUPDATING'                        => true,
+    // If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
+    // on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
+    'LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY'               => '',
+
     // Debugging
     'LATERPAY_LOGGER_ENABLED'                               => false,
     'LATERPAY_LOGGER_FILE'                                  => '/var/log/laterpay_api.log',

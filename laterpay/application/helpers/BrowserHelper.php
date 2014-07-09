@@ -2,6 +2,9 @@
 
 class BrowserHelper {
 
+    /**
+     * @var Browscap Browscap library
+     */
     protected static $browscap = null;
 
     /**
@@ -12,11 +15,15 @@ class BrowserHelper {
      * @return array
      */
     public static function php_browser_info() {
-        if ( empty( self::$browscap ) ) {
-            self::$browscap = new Browscap( LATERPAY_GLOBAL_PATH . '/cache' );
+        if ( empty(self::$browscap) ) {
+            self::$browscap = new Browscap(LATERPAY_GLOBAL_PATH . '/cache');
+            self::$browscap->doAutoUpdate = defined('LATERPAY_BROWSCAP_AUTOUPDATING') && LATERPAY_BROWSCAP_AUTOUPDATING;
+            if ( defined('LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY') && LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY !== '' ) {
+                self::$browscap->localFile = LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY;
+            }
         }
 
-        return self::$browscap->getBrowser( NULL, true );
+        return self::$browscap->getBrowser(NULL, true);
     }
 
     /**
