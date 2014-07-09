@@ -105,9 +105,9 @@ class LaterPay {
 
         $this->setupPluginSettingsLink();
     }
-    
+
     /**
-     * 
+     *
      * @param string $settings
      */
     private function _generateUserSettings( $settings ) {
@@ -124,7 +124,7 @@ class LaterPay {
             ),
             $settings
         );
-        
+
         return $config;
     }
 
@@ -276,8 +276,8 @@ class LaterPay {
         );
 
         add_option('laterpay_plugin_is_activated',      '0');
-        add_option('laterpay_teaser_content_only',      '');
-        add_option('laterpay_plugin_is_in_live_mode',   '');
+        add_option('laterpay_teaser_content_only',      '1');
+        add_option('laterpay_plugin_is_in_live_mode',   '0');
         add_option('laterpay_sandbox_merchant_id',      '');
         add_option('laterpay_sandbox_api_key',          '');
         add_option('laterpay_live_merchant_id',         '');
