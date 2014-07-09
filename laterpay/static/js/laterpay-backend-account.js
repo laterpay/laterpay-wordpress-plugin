@@ -102,6 +102,29 @@ jQuery.noConflict();
                     success: false
                 });
             }
+        },
+        hasNoValidCredentials = function() {
+            if (
+                (
+                    // plugin is in test mode, but there are no valid Sandbox API credentials
+                    !$('#plugin-mode-toggle').prop('checked') &&
+                    (
+                        $('#laterpay_sandbox_api_key').val().length     !== 32 ||
+                        $('#laterpay_sandbox_merchant_id').val().length !== 22
+                    )
+                ) || (
+                    // plugin is in live mode, but there are no valid Live API credentials
+                    $('#plugin-mode-toggle').prop('checked') &&
+                    (
+                        $('#laterpay_live_api_key').val().length        !== 32 ||
+                        $('#laterpay_live_merchant_id').val().length    !== 22
+                    )
+                )
+            ) {
+                return true;
+            } else {
+                return false;
+            }
         };
 
     // API key Ajax forms
@@ -183,5 +206,12 @@ jQuery.noConflict();
 
     // initialize page
     autofocusEmptyInput();
+
+    // prevent leaving the account page without any valid credentials
+    window.onbeforeunload = function(e) {
+        if (hasNoValidCredentials()) {
+            return lpVars.i18nPreventUnload;
+        }
+    };
 
 });})(jQuery);
