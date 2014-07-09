@@ -197,7 +197,7 @@ class LaterPay {
     }
 
     /**
-     * Plugin activation hook
+     * Activate plugin
      *
      * @global object $wpdb
      * @global string $laterpay_version
@@ -291,24 +291,63 @@ class LaterPay {
     }
 
     /**
-     * Plugin deactivation hook
+     * Deactivate plugin
+     *
+     */
+    public function deactivate() {
+        update_option('laterpay_plugin_is_activated', '0');
+    }
+
+    /**
+     * Uninstall plugin
      *
      * @global object $wpdb
      */
-    public function deactivate() {
+    public function uninstall() {
         global $wpdb;
+
         $table_currency     = $wpdb->prefix . 'laterpay_currency';
         $table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
         $table_history      = $wpdb->prefix . 'laterpay_payment_history';
         $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
+        $table_postmeta     = $wpdb->prefix . 'postmeta';
+        $table_usermeta     = $wpdb->prefix . 'usermeta';
 
-        $sql = "DROP TABLE `" . $table_currency . "`;";
+        // remove custom tables
+        $sql = "DROP TABLE IF EXISTS
+                    $table_currency,
+                    $table_terms_price,
+                    $table_history,
+                    $table_post_views;
+                ";
         $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_terms_price . "`;";
+
+        // remove custom data from WP core tables
+        $sql = "DELETE FROM
+                    $table_postmeta
+                WHERE
+                    meta_key IN (
+                        'Teaser content',
+                        'Pricing Post',
+                        'Pricing Post Type',
+                        'laterpay_start_price',
+                        'laterpay_end_price',
+                        'laterpay_change_start_price_after_days',
+                        'laterpay_transitional_period_end_after_days',
+                        'laterpay_reach_end_price_after_days'
+                    )
+                ;
+                ";
         $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_history . "`;";
-        $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_post_views . "`;";
+        $sql = "DELETE FROM
+                    $table_usermeta
+                WHERE
+                    meta_key IN (
+                        'laterpay_preview_post_as_visitor',
+                        'laterpay_hide_statistics_pane'
+                    )
+                ;
+                ";
         $wpdb->query($sql);
 
         delete_option('laterpay_plugin_is_activated');
@@ -610,11 +649,13 @@ class LaterPay {
     }
 
     /**
-     * Add install / uninstall hook for plugin
+     * Add installation and deactivatino hooks for plugin
+     *
+     * Uninstallation is handled by uninstall.php
      */
     protected function setupRegistration() {
-        register_activation_hook($this->_pluginFile,   array($this, 'activate'));
-        register_deactivation_hook($this->_pluginFile, array($this, 'deactivate'));
+        register_activation_hook($this->_pluginFile,    array($this, 'activate'));
+        register_deactivation_hook($this->_pluginFile,  array($this, 'deactivate'));
     }
 
     /**

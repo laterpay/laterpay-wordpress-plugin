@@ -11,6 +11,8 @@
     - Switched to loading minified version of YUI
     - Renamed views and several variables to be more self-explanatory
     - Added an already cached copy of browscap library to the plugin
+    - Added uninstall.php file that takes care of wiping the database from all data added
+      by the plugin, when the plugin gets deactivated and then uninstalled
     - Fixed bug in getStarted tab that showed an error message that Merchant ID or API Key is not
       valid, if it was not entered yet
 
