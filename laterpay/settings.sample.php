@@ -30,6 +30,15 @@ return array (
     // Access logging for generating sales statistics within the plugin;
     // Sets a cookie and logs all requests from visitors to your blog, if enabled
     'LATERPAY_ACCESS_LOGGING_ENABLED'                       => true,
+    
+    // Option to switch off auto-updating of browscap library
+    // Set this to true to allow auto-updating, or to false disallow auto-updating
+    'LATERPAY_BROWSCAP_AUTOUPDATING'                        => true,
+    
+    // to update browscap library from local file, set full path to the browscap.ini
+    // file should be present otherwise you will get an exception
+    // leave option empty to use updating from remote host
+    'LATERPAY_BROWSCAP_LOCAL_FILE'                          => '',
 
     // Debugging
     'LATERPAY_LOGGER_ENABLED'                               => false,
