@@ -306,10 +306,34 @@ class LaterPay {
             __('LaterPay Plugin Settings', 'laterpay'),
             'LaterPay',
             'manage_options',
+            'laterpay-plugin',
             'laterpay/laterpay-admin.php',
-            '',
             'dashicons-laterpay-logo',
             81
+        );
+        add_submenu_page(
+            'laterpay-plugin',
+            __('Pricing | LaterPay Plugin Settings', 'laterpay'),
+            __('Pricing', 'laterpay'),
+            'manage_options',
+            'laterpay-plugin',
+            array('PricingController', 'page')
+        );
+        add_submenu_page(
+            'laterpay-plugin',
+            __('Appearance | LaterPay Plugin Settings', 'laterpay'),
+            __('Appearance', 'laterpay'),
+            'manage_options',
+            'laterpay-appearance-tab',
+            array('AppearanceController', 'page')
+        );
+        add_submenu_page(
+            'laterpay-plugin',
+            __('Account | LaterPay Plugin Settings', 'laterpay'),
+            __('Account', 'laterpay'),
+            'manage_options',
+            'laterpay-account-tab',
+            array('AccountController', 'page')
         );
     }
 
