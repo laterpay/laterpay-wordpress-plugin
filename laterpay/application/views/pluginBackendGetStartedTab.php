@@ -15,8 +15,8 @@
 
     <div class="steps-progress">
         <span class="progress-line">
-            <span class="st-1 todo"></span>
-            <span class="st-2 todo"></span>
+            <span class="st-1 done"></span>
+            <span class="st-2 done"></span>
             <span class="st-3 todo"></span>
         </span>
     </div>
@@ -34,18 +34,22 @@
                                 maxlength="22"
                                 name="get_started[laterpay_sandbox_merchant_id]"
                                 class="lp-input merchant-id-input"
-                                value=""
-                                placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>"><br>
+                                value="<?php echo LATERPAY_DEFAULT_SANDBOX_MERCHANT_ID ?>"
+                                placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>">
+                        <br>
                         <span class="input-icon api-key-icon" data-icon="j"></span>
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
-                                value=""
+                                value="<?php echo LATERPAY_DEFAULT_SANDBOX_API_KEY ?>"
                                 class="lp-input api-key-input"
                                 placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>">
                     </div>
                     <p>
-                        <?php _e('Get your <strong>Sandbox Merchant ID</strong> and <strong>Sandbox API Key</strong><br>from your', 'laterpay'); ?> <a href="<?php echo LATERPAY_MERCHANTBACKEND_URL ?>" target="_blank"><?php _e('LaterPay Merchantbackend', 'laterpay'); ?></a>.
+                        <?php _e('You can try the plugin immediately with the provided default API credentials.', 'laterpay'); ?>
+                    </p>
+                    <p>
+                        <?php _e('To actually sell content or access the LaterPay Merchantbackend, you have to register a LaterPay merchant account at <a href="https://merchant.laterpay.net" target="blank">merchant.laterpay.net</a>.', 'laterpay'); ?>
                     </p>
                 </li>
                 <li>
@@ -74,9 +78,12 @@
                 <li>
                     <div class="progress-step last">
                         <a href="#" class="button button-primary activate-lp" data-error="<?php _e('Please enter your LaterPay API key to activate LaterPay on this site.', 'laterpay'); ?>">
-                            <?php _e('Activate LaterPay on this site!', 'laterpay'); ?>
+                            <?php _e('Activate LaterPay Test Mode', 'laterpay'); ?>
                         </a>
                     </div>
+                    <p>
+                        <?php _e('In Test Mode, LaterPay is not visible for regular visitors, but only for admins. Payments are only simulated and not actually booked.', 'laterpay'); ?>
+                    </p>
                     <p>
                         <?php _e('Save settings and go to the “Add Post” page,<br>where you can check out your new options.', 'laterpay'); ?>
                     </p>

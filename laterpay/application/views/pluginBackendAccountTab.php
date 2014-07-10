@@ -40,7 +40,7 @@
                                 class="lp-input merchant-id-input"
                                 value="<?php echo $sandbox_merchant_id; ?>"
                                 required/>
-                            <label for="laterpay_sandbox_merchant_id" alt="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>">
+                            <label for="laterpay_sandbox_merchant_id" alt="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>"></label>
                         </li>
                     </ul>
                 </form>
@@ -61,7 +61,7 @@
                                 class="lp-input api-key-input"
                                 value="<?php echo $sandbox_api_key; ?>"
                                 required/>
-                                <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>">
+                            <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>"></label>
                         </li>
                     </ul>
                 </form>
