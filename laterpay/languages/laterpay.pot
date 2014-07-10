@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.9.5.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2014-07-10 18:12:14+00:00\n"
+"POT-Creation-Date: 2014-07-10 18:34:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -425,11 +425,11 @@ msgid "Get Started"
 msgstr ""
 
 #: application/views/pluginBackendGetStartedTab.php:49
-msgid "You can try the plugin immediately with the provided default API credentials."
+msgid "You can try the plugin immediately<br> with the provided Sandbox API credentials."
 msgstr ""
 
 #: application/views/pluginBackendGetStartedTab.php:52
-msgid "To actually sell content or access the LaterPay Merchantbackend, you have to register a LaterPay merchant account at <a href=\"https://merchant.laterpay.net\" target=\"blank\">merchant.laterpay.net</a>."
+msgid "To actually sell content, you first have to register with LaterPay as a merchant and request your Live API credentials at <a href=\"https://merchant.laterpay.net\" target=\"blank\">merchant.laterpay.net</a>."
 msgstr ""
 
 #: application/views/pluginBackendGetStartedTab.php:58
@@ -453,7 +453,7 @@ msgid "In Test Mode, LaterPay is not visible for regular visitors, but only for 
 msgstr ""
 
 #: application/views/pluginBackendGetStartedTab.php:88
-msgid "Save settings and go to the “Add Post” page,<br>where you can check out your new options."
+msgid "Activate the plugin and go to the “Add Post” page,<br>where you can check out your new options."
 msgstr ""
 
 #: application/views/pluginBackendPricingTab.php:25
