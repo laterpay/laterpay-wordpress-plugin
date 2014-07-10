@@ -46,10 +46,10 @@
                                 placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>">
                     </div>
                     <p>
-                        <?php _e('You can try the plugin immediately with the provided default API credentials.', 'laterpay'); ?>
+                        <?php _e('You can try the plugin immediately<br> with the provided Sandbox API credentials.', 'laterpay'); ?>
                     </p>
                     <p>
-                        <?php _e('To actually sell content or access the LaterPay Merchantbackend, you have to register a LaterPay merchant account at <a href="https://merchant.laterpay.net" target="blank">merchant.laterpay.net</a>.', 'laterpay'); ?>
+                        <?php _e('To actually sell content, you first have to register with LaterPay as a merchant and request your Live API credentials at <a href="https://merchant.laterpay.net" target="blank">merchant.laterpay.net</a>.', 'laterpay'); ?>
                     </p>
                 </li>
                 <li>
@@ -85,7 +85,7 @@
                         <?php _e('In Test Mode, LaterPay is not visible for regular visitors, but only for admins. Payments are only simulated and not actually booked.', 'laterpay'); ?>
                     </p>
                     <p>
-                        <?php _e('Save settings and go to the “Add Post” page,<br>where you can check out your new options.', 'laterpay'); ?>
+                        <?php _e('Activate the plugin and go to the “Add Post” page,<br>where you can check out your new options.', 'laterpay'); ?>
                     </p>
                 </li>
             </ul>
