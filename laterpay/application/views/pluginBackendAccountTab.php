@@ -22,14 +22,14 @@
 
             <div class="w2-5 left sandbox-credentials" data-icon="h">
                 <h3><?php _e('Sandbox Environment', 'laterpay'); ?></h3>
-                <dfn><?php _e('for testing purposes' , 'laterpay'); ?></dfn>
+                <dfn><?php _e('for testing purposes', 'laterpay'); ?></dfn>
                 <form id="laterpay_sandbox_merchant_id_form" method="post">
                     <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
                     <input type="hidden" name="action" value="account">
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <ul class="clearfix">
                         <li class="left w1-5">
-                            <strong><?php _e('Merchant ID', 'laterpay'); ?></strong>
+                            &nbsp;
                         </li>
                         <li class="left">
                             <span class="input-icon merchant-id-icon" data-icon="i"></span>
@@ -39,7 +39,8 @@
                                 name="laterpay_sandbox_merchant_id"
                                 class="lp-input merchant-id-input"
                                 value="<?php echo $sandbox_merchant_id; ?>"
-                                placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>"/>
+                                required/>
+                            <label for="laterpay_sandbox_merchant_id" alt="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>">
                         </li>
                     </ul>
                 </form>
@@ -49,7 +50,7 @@
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <ul class="clearfix">
                         <li class="left w1-5">
-                            <strong><?php _e('API Key', 'laterpay'); ?></strong>
+                            &nbsp;
                         </li>
                         <li class="left">
                             <span class="input-icon api-key-icon" data-icon="j"></span>
@@ -59,7 +60,8 @@
                                 name="laterpay_sandbox_api_key"
                                 class="lp-input api-key-input"
                                 value="<?php echo $sandbox_api_key; ?>"
-                                placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>"/>
+                                required/>
+                                <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>">
                         </li>
                     </ul>
                 </form>
@@ -74,7 +76,7 @@
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <ul class="clearfix">
                         <li class="left w1-5">
-                            <strong><?php _e('Merchant ID', 'laterpay'); ?></strong>
+                            &nbsp;
                         </li>
                         <li class="left">
                             <span class="input-icon merchant-id-icon live" data-icon="i"></span>
@@ -84,7 +86,8 @@
                                 name="laterpay_live_merchant_id"
                                 class="lp-input merchant-id-input"
                                 value="<?php echo $live_merchant_id; ?>"
-                                placeholder="<?php _e('Paste Live Merchant ID here', 'laterpay'); ?>"/>
+                                required/>
+                                <label for="laterpay_live_merchant_id" alt="<?php _e('Paste Live Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>">
                         </li>
                     </ul>
                 </form>
@@ -94,7 +97,7 @@
                     <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
                     <ul class="clearfix">
                         <li class="left w1-5">
-                            <strong><?php _e('API Key', 'laterpay'); ?></strong>
+                            &nbsp;
                         </li>
                         <li class="left">
                             <span class="input-icon api-key-icon live" data-icon="j"></span>
@@ -104,7 +107,8 @@
                                 id="laterpay_live_api_key"
                                 class="lp-input api-key-input"
                                 value="<?php echo $live_api_key; ?>"
-                                placeholder="<?php _e('Paste Live API Key here', 'laterpay'); ?>"/>
+                                required/>
+                                <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Live API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>">
                         </li>
                     </ul>
                     <ul id="request-live-credentials"
@@ -151,11 +155,11 @@
             </div><?php _e('mode.', 'laterpay'); ?>
 
             <dfn id="plugin_mode_live_text"<?php if ( !$plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
-                <?php _e('Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay'); ?><br>
+                <?php _e('Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay'); ?>
                 <?php _e('All payments are booked and credited to your account.', 'laterpay'); ?>
             </dfn>
             <dfn id="plugin_mode_test_text"<?php if ( $plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
-                <?php _e('Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay'); ?><br>
+                <?php _e('Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay'); ?>
                 <?php _e('LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay'); ?>
             </dfn>
         </div>

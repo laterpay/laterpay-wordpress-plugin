@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2014-07-03 09:29:09+00:00\n"
-"PO-Revision-Date: 2014-07-09 11:19+0100\n"
+"POT-Creation-Date: 2014-07-10 14:00:20+00:00\n"
+"PO-Revision-Date: 2014-07-10 16:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
@@ -30,18 +30,22 @@ msgstr ""
 "Sie benötigen eine Live Merchant ID und einen Live API Key, um in den Live-"
 "Modus zu wechseln."
 
-#: application/controllers/AccountController.php:60
+#: application/controllers/AccountController.php:27
+msgid "LaterPay does not work properly with invalid API credentials."
+msgstr "LaterPay funktioniert nicht ohne ungültige API Zugangsdaten."
+
+#: application/controllers/AccountController.php:61
 #: application/controllers/AdminController.php:140
-#: application/controllers/AppearanceController.php:55
+#: application/controllers/AppearanceController.php:54
 #: application/controllers/PricingController.php:71
 msgid "You don´t have sufficient user privileges to do this."
 msgstr "Ihnen fehlt die Berechtigung für diese Aktion."
 
-#: application/controllers/AccountController.php:95
+#: application/controllers/AccountController.php:96
 #: application/controllers/AdminController.php:157
-#: application/controllers/AdminController.php:177
-#: application/controllers/AppearanceController.php:89
-#: application/controllers/AppearanceController.php:100
+#: application/controllers/AdminController.php:187
+#: application/controllers/AppearanceController.php:88
+#: application/controllers/AppearanceController.php:99
 #: application/controllers/PricingController.php:102
 #: application/controllers/PricingController.php:247
 #: application/controllers/PricingController.php:363
@@ -50,64 +54,64 @@ msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: application/controllers/AccountController.php:114
+#: application/controllers/AccountController.php:115
 msgid "Sandbox Merchant ID verified and saved."
 msgstr "Die Sandbox Merchant ID wurde überprüft und gespeichert."
 
-#: application/controllers/AccountController.php:122
+#: application/controllers/AccountController.php:123
 msgid "The Sandbox Merchant ID has been removed."
 msgstr "Die Sandbox Merchant ID wurde gelöscht."
 
-#: application/controllers/AccountController.php:129
+#: application/controllers/AccountController.php:130
 #: application/controllers/GetStartedController.php:26
 msgid ""
 "The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!"
 msgstr ""
 "Die eingegebene Merchant ID ist keine gültige LaterPay Sandbox Merchant ID!"
 
-#: application/controllers/AccountController.php:147
+#: application/controllers/AccountController.php:148
 msgid "Sandbox API key verified and saved. You can now make TEST transactions."
 msgstr ""
 "Ihr Sandbox API Key ist gültig. Sie können nun TEST-Transaktionen "
 "durchführen."
 
-#: application/controllers/AccountController.php:155
+#: application/controllers/AccountController.php:156
 msgid "The Sandbox API key has been removed."
 msgstr "Der Sandbox API Key wurde gelöscht."
 
-#: application/controllers/AccountController.php:162
+#: application/controllers/AccountController.php:163
 #: application/controllers/GetStartedController.php:27
 msgid "The API key you entered is not a valid LaterPay Sandbox API key!"
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay Sandbox API Key!"
 
-#: application/controllers/AccountController.php:180
+#: application/controllers/AccountController.php:181
 msgid "Live Merchant ID verified and saved."
 msgstr "Die Live Merchant ID wurde überprüft und gespeichert."
 
-#: application/controllers/AccountController.php:188
+#: application/controllers/AccountController.php:189
 msgid "The Live Merchant ID has been removed."
 msgstr "Die Live Merchant ID wurde gelöscht."
 
-#: application/controllers/AccountController.php:195
+#: application/controllers/AccountController.php:196
 msgid "The Merchant ID you entered is not a valid LaterPay Live Merchant ID!"
 msgstr ""
 "Die eingegebene Merchant ID ist keine gültige LaterPay Live Merchant ID!"
 
-#: application/controllers/AccountController.php:213
+#: application/controllers/AccountController.php:214
 msgid "Live API key verified and saved. You can now make REAL transactions."
 msgstr ""
 "Ihr Live API Key wurde überprüft und gespeichert. Sie können nun ECHTE "
 "Transaktionen durchführen."
 
-#: application/controllers/AccountController.php:221
+#: application/controllers/AccountController.php:222
 msgid "The Live API key has been removed."
 msgstr "Der Live API Key wurde entfernt."
 
-#: application/controllers/AccountController.php:228
+#: application/controllers/AccountController.php:229
 msgid "The API key you entered is not a valid LaterPay Live API key!"
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay Live API Key!"
 
-#: application/controllers/AccountController.php:247
+#: application/controllers/AccountController.php:248
 msgid ""
 "The LaterPay plugin is in LIVE mode now. All payments are actually booked "
 "and credited to your account."
@@ -115,7 +119,7 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im LIVE-Modus. Alle Zahlungen werden "
 "tatsächlich gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: application/controllers/AccountController.php:254
+#: application/controllers/AccountController.php:255
 msgid ""
 "The LaterPay plugin is in TEST mode now. Payments are only simulated and not "
 "actually booked."
@@ -127,12 +131,12 @@ msgstr ""
 msgid "Updated."
 msgstr "Aktualisiert."
 
-#: application/controllers/AppearanceController.php:74
+#: application/controllers/AppearanceController.php:73
 msgid "Visitors will now see only the teaser content of paid posts."
 msgstr ""
 "Besucher sehen ab jetzt nur den Teaser eines kostenpflichtigen Beitrags."
 
-#: application/controllers/AppearanceController.php:81
+#: application/controllers/AppearanceController.php:80
 msgid ""
 "Visitors will now see the teaser content of paid posts plus an excerpt of "
 "the real content under an overlay."
@@ -147,13 +151,13 @@ msgstr ""
 "Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
 "und 0,05 bis 5,00."
 
-#: application/controllers/PostContentController.php:537
-#: application/views/singlePost.php:167
+#: application/controllers/PostContentController.php:535
+#: application/views/singlePost.php:159
 msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
 
-#: application/controllers/PostContentController.php:540
-#: application/views/singlePost.php:167
+#: application/controllers/PostContentController.php:538
+#: application/views/singlePost.php:159
 msgid "%s<small>%s</small>"
 msgstr "%s<small>%s</small>"
 
@@ -169,7 +173,7 @@ msgstr ""
 msgid "default price"
 msgstr "Standardpreis"
 
-#: application/controllers/PostPricingController.php:104
+#: application/controllers/PostPricingController.php:103
 msgid ""
 "This is shown to visitors, who haven't purchased the article yet. Use an "
 "excerpt of the article that makes them want to buy the whole thing!"
@@ -208,24 +212,28 @@ msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 msgid "The default price for this category was deleted."
 msgstr "Der Standardpreis für diese Kategorie wurde gelöscht."
 
-#: application/core/LaterPay.php:299
+#: application/core/LaterPay.php:370
 msgid "LaterPay Plugin Settings"
 msgstr "LaterPay-Plugin-Einstellungen"
 
-#: application/core/LaterPay.php:344
+#: application/core/LaterPay.php:410
 msgid "Teaser Content"
 msgstr "Teaser für den Beitrag"
 
-#: application/core/LaterPay.php:362
+#: application/core/LaterPay.php:428
 msgid "Pricing for this Post"
 msgstr "Preis des Beitrags"
 
-#: application/core/LaterPay.php:528
+#: application/core/LaterPay.php:480
+msgid "Price"
+msgstr "Preis"
+
+#: application/core/LaterPay.php:630
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr ""
 "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: application/core/LaterPay.php:573
+#: application/core/LaterPay.php:677
 msgid ""
 "<p>LaterPay: Your server <strong>does not</strong> meet the minimum "
 "requirement of %s version %s or higher. You are running %s version %s.</p>"
@@ -233,7 +241,7 @@ msgstr ""
 "<p>LaterPay: Ihr Server <strong>erfüllt nicht die Mindestanforderung</"
 "strong> von %s-Version %s oder neuer. Sie verwenden %s-Version %s.</p>"
 
-#: application/core/LaterPay.php:625
+#: application/core/LaterPay.php:729
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -273,8 +281,65 @@ msgid ""
 "You´ll give your users a better impression of what they´ll buy, if you "
 "preview some text, images, or video from the actual post."
 msgstr ""
-"Um Ihren Nutzer eine bessere Vorstellung davon zu geben, was sie kaufen, "
+"Um Ihren Nutzern eine bessere Vorstellung davon zu geben, was sie kaufen, "
 "sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
+
+#: application/views/partials/postPricingForm.php:12
+msgid "This post costs"
+msgstr "Dieser Beitrag kostet"
+
+#: application/views/partials/postPricingForm.php:18
+#: application/views/pluginBackendGetStartedTab.php:60
+#: application/views/pluginBackendPricingTab.php:42
+#: application/views/pluginBackendPricingTab.php:83
+#: application/views/pluginBackendPricingTab.php:118
+msgid "0.00"
+msgstr "0,00"
+
+#: application/views/partials/postPricingForm.php:24
+msgid "Apply category default price"
+msgstr "Kategorie-Standardpreis übernehmen"
+
+#: application/views/partials/postPricingForm.php:29
+msgid "Apply global default price"
+msgstr "Standardpreis übernehmen"
+
+#: application/views/partials/postPricingForm.php:34
+#: application/views/partials/postPricingForm.php:40
+msgid "Advanced pricing options"
+msgstr "Erweiterte Preissetzung"
+
+#: application/views/partials/postPricingForm.php:35
+msgid "Show"
+msgstr "Einblenden"
+
+#: application/views/partials/postPricingForm.php:41
+msgid "Hide"
+msgstr "Ausblenden"
+
+#: application/views/partials/postPricingForm.php:49
+msgid "Dynamic pricing presets"
+msgstr "Voreinstellungen"
+
+#: application/views/partials/postPricingForm.php:50
+msgid "Blockbuster"
+msgstr "Blockbuster"
+
+#: application/views/partials/postPricingForm.php:51
+msgid "Breaking News"
+msgstr "Breaking News"
+
+#: application/views/partials/postPricingForm.php:52
+msgid "Teaser"
+msgstr "Teaser"
+
+#: application/views/partials/postPricingForm.php:53
+msgid "Long-tail"
+msgstr "Long-tail"
+
+#: application/views/partials/postPricingForm.php:54
+msgid "Flat (default)"
+msgstr "Flat (Standard)"
 
 #: application/views/pluginBackendAccountTab.php:9
 #: application/views/pluginBackendAppearanceTab.php:10
@@ -321,47 +386,47 @@ msgstr "Sandbox"
 msgid "for testing purposes"
 msgstr "Testumgebung für die Integration und Konfiguration des Plugins"
 
-#: application/views/pluginBackendAccountTab.php:32
-#: application/views/pluginBackendAccountTab.php:77
-msgid "Merchant ID"
-msgstr "Merchant ID"
-
-#: application/views/pluginBackendAccountTab.php:42
+#: application/views/pluginBackendAccountTab.php:43
 #: application/views/pluginBackendGetStartedTab.php:38
 msgid "Paste Sandbox Merchant ID here"
 msgstr "Sandbox Merchant ID hier einfügen"
 
-#: application/views/pluginBackendAccountTab.php:52
-#: application/views/pluginBackendAccountTab.php:97
-msgid "API Key"
-msgstr "API Key"
+#: application/views/pluginBackendAccountTab.php:43
+#: application/views/pluginBackendAccountTab.php:90
+msgid "Merchant ID"
+msgstr "Merchant ID"
 
-#: application/views/pluginBackendAccountTab.php:62
+#: application/views/pluginBackendAccountTab.php:64
 #: application/views/pluginBackendGetStartedTab.php:45
 msgid "Paste Sandbox API Key here"
 msgstr "Sandbox API Key hier einfügen"
 
-#: application/views/pluginBackendAccountTab.php:69
+#: application/views/pluginBackendAccountTab.php:64
+#: application/views/pluginBackendAccountTab.php:111
+msgid "API Key"
+msgstr "API Key"
+
+#: application/views/pluginBackendAccountTab.php:71
 msgid "Live Environment"
 msgstr "Live"
 
-#: application/views/pluginBackendAccountTab.php:70
+#: application/views/pluginBackendAccountTab.php:72
 msgid "for processing real financial transactions"
 msgstr "Produktivumgebung für echte Käufe und Zahlungen"
 
-#: application/views/pluginBackendAccountTab.php:87
+#: application/views/pluginBackendAccountTab.php:90
 msgid "Paste Live Merchant ID here"
 msgstr "Live Merchant ID hier einfügen"
 
-#: application/views/pluginBackendAccountTab.php:107
+#: application/views/pluginBackendAccountTab.php:111
 msgid "Paste Live API Key here"
 msgstr "Live API Key hier einfügen"
 
-#: application/views/pluginBackendAccountTab.php:118
+#: application/views/pluginBackendAccountTab.php:122
 msgid "Request Live API Credentials"
 msgstr "Live API Zugangsdaten anfordern"
 
-#: application/views/pluginBackendAccountTab.php:126
+#: application/views/pluginBackendAccountTab.php:130
 msgid ""
 "Go to your <a href=\"%s\">LaterPay Merchantbackend</a> to get your LaterPay "
 "API credentials."
@@ -369,33 +434,33 @@ msgstr ""
 "Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
 "API Zugangsdaten abzurufen."
 
-#: application/views/pluginBackendAccountTab.php:131
+#: application/views/pluginBackendAccountTab.php:135
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
-#: application/views/pluginBackendAccountTab.php:132
+#: application/views/pluginBackendAccountTab.php:136
 msgid "This site is in"
 msgstr "Diese Seite ist im"
 
-#: application/views/pluginBackendAccountTab.php:151
+#: application/views/pluginBackendAccountTab.php:155
 msgid "mode."
 msgstr "Modus."
 
-#: application/views/pluginBackendAccountTab.php:154
+#: application/views/pluginBackendAccountTab.php:158
 msgid "Your visitors <strong>can now purchase with LaterPay</strong>."
 msgstr "Ihre Besucher <strong>können jetzt mit LaterPay kaufen</strong>."
 
-#: application/views/pluginBackendAccountTab.php:155
+#: application/views/pluginBackendAccountTab.php:159
 msgid "All payments are booked and credited to your account."
 msgstr "Alle Zahlungen werden gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: application/views/pluginBackendAccountTab.php:158
+#: application/views/pluginBackendAccountTab.php:162
 msgid "Payments are only simulated and <strong>not actually booked</strong>."
 msgstr ""
 "Zahlungen werden nur simuliert und <strong>nicht tatsächlich gebucht</"
 "strong>."
 
-#: application/views/pluginBackendAccountTab.php:159
+#: application/views/pluginBackendAccountTab.php:163
 msgid "LaterPay is <strong>not visible for regular visitors</strong>."
 msgstr "LaterPay ist <strong>für reguläre Besucher nicht sichtbar</strong>."
 
@@ -450,14 +515,6 @@ msgstr "LaterPay Händlerkonto"
 #: application/views/pluginBackendGetStartedTab.php:54
 msgid "The default price for posts is"
 msgstr "Der Standardpreis für Beiträge ist"
-
-#: application/views/pluginBackendGetStartedTab.php:60
-#: application/views/pluginBackendPricingTab.php:42
-#: application/views/pluginBackendPricingTab.php:83
-#: application/views/pluginBackendPricingTab.php:118
-#: application/views/partials/postPricingForm.php:18
-msgid "0.00"
-msgstr "0,00"
 
 #: application/views/pluginBackendGetStartedTab.php:71
 msgid ""
@@ -563,108 +620,59 @@ msgstr "Währung"
 msgid "All prices are given in"
 msgstr "Alle Preise sind festgelegt in"
 
-#: application/views/partials/postPricingForm.php:12
-msgid "This post costs"
-msgstr "Dieser Beitrag kostet"
-
-#: application/views/partials/postPricingForm.php:24
-msgid "Apply category default price"
-msgstr "Kategorie-Standardpreis übernehmen"
-
-#: application/views/partials/postPricingForm.php:29
-msgid "Apply global default price"
-msgstr "Standardpreis übernehmen"
-
-#: application/views/partials/postPricingForm.php:34
-#: application/views/partials/postPricingForm.php:40
-msgid "Advanced pricing options"
-msgstr "Erweiterte Preissetzung"
-
-#: application/views/partials/postPricingForm.php:35
-msgid "Show"
-msgstr "Einblenden"
-
-#: application/views/partials/postPricingForm.php:41
-msgid "Hide"
-msgstr "Ausblenden"
-
-#: application/views/partials/postPricingForm.php:49
-msgid "Dynamic pricing presets"
-msgstr "Voreinstellungen"
-
-#: application/views/partials/postPricingForm.php:50
-msgid "Blockbuster"
-msgstr "Blockbuster"
-
-#: application/views/partials/postPricingForm.php:51
-msgid "Breaking News"
-msgstr "Breaking News"
-
-#: application/views/partials/postPricingForm.php:52
-msgid "Teaser"
-msgstr "Teaser"
-
-#: application/views/partials/postPricingForm.php:53
-msgid "Long-tail"
-msgstr "Long-tail"
-
-#: application/views/partials/postPricingForm.php:54
-msgid "Flat (default)"
-msgstr "Flat (Standard)"
-
-#: application/views/singlePost.php:21
+#: application/views/singlePost.php:13
 msgid "Statistics for this Post"
 msgstr "Statistik für diesen Beitrag"
 
-#: application/views/singlePost.php:26
+#: application/views/singlePost.php:18
 msgid "Total Revenue"
 msgstr "Gesamt-Umsatz"
 
-#: application/views/singlePost.php:30
+#: application/views/singlePost.php:22
 msgid "Total Sales"
 msgstr "Gesamt-Verkäufe"
 
-#: application/views/singlePost.php:36
+#: application/views/singlePost.php:28
 msgid "Last 30 days"
 msgstr "Letzte 30 Tage"
 
-#: application/views/singlePost.php:37
+#: application/views/singlePost.php:29
 msgid "Today"
 msgstr "Heute"
 
-#: application/views/singlePost.php:47
+#: application/views/singlePost.php:39
 msgid "Revenue"
 msgstr "Umsatz"
 
-#: application/views/singlePost.php:59
+#: application/views/singlePost.php:51
 msgid "Buyers"
 msgstr "Käufer"
 
-#: application/views/singlePost.php:70
+#: application/views/singlePost.php:62
 msgid "Visitors"
 msgstr "Besucher"
 
-#: application/views/singlePost.php:75
+#: application/views/singlePost.php:67
 msgid "Preview post as"
 msgstr "Vorschau für"
 
-#: application/views/singlePost.php:75
+#: application/views/singlePost.php:67
 msgid "Admin"
 msgstr "Admin"
 
-#: application/views/singlePost.php:96
+#: application/views/singlePost.php:88
 msgid "Visitor"
 msgstr "Besucher"
 
-#: application/views/singlePost.php:114
+#: application/views/singlePost.php:106
 msgid "Buy now for %s<small>%s</small> and pay later"
 msgstr "Jetzt kaufen für %s<small>%s</small> und später zahlen"
 
-#: application/views/singlePost.php:121
+#: application/views/singlePost.php:113
 msgid "Preview a short excerpt from the paid post:"
 msgstr "Zeige einen kurzen Auszug aus dem kostenpflichtigen Beitrag:"
 
-#: application/views/singlePost.php:132
+#: application/views/singlePost.php:123
 msgid ""
 "Thanks for reading this short excerpt from the paid post! Fancy buying it to "
 "read all of it?"
@@ -673,42 +681,42 @@ msgstr ""
 "haben. Sie können den vollständigen Beitrag lesen, nachdem Sie ihn gekauft "
 "haben."
 
-#: application/views/singlePost.php:139
+#: application/views/singlePost.php:130
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: application/views/singlePost.php:144
+#: application/views/singlePost.php:135
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: application/views/singlePost.php:146
-msgid "Just agree to pay later.<br>No upfront registration and payment."
+#: application/views/singlePost.php:137
+msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
-"Stimmen Sie einfach zu, später zu zahlen.<br>Keine Vorabregistrierung. Keine "
-"Vorauszahlung."
+"Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
+"Keine Vorauszahlung."
 
-#: application/views/singlePost.php:150
+#: application/views/singlePost.php:141
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: application/views/singlePost.php:152
+#: application/views/singlePost.php:143
 msgid ""
-"Get immediate access to your purchase.<br>are only buying this article, not "
-"a subscription."
+"Get immediate access to your purchase.<br> You are only buying this article, "
+"not a subscription."
 msgstr ""
-"Greifen Sie sofort auf Ihren Kauf zu.<br>Sie kaufen nur diesen Beitrag, kein "
-"Abo."
+"Greifen Sie sofort auf Ihren Kauf zu.<br> Sie kaufen nur diesen Beitrag, "
+"kein Abo."
 
-#: application/views/singlePost.php:156
+#: application/views/singlePost.php:147
 msgid "Pay Later"
 msgstr "Später zahlen"
 
-#: application/views/singlePost.php:158
+#: application/views/singlePost.php:149
 msgid ""
-"Buy with LaterPay until you reach a total of 5 Euro.<br>Only then do you "
+"Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you "
 "have to register and pay."
 msgstr ""
-"Kaufen Sie mit LaterPay, bis Sie 5 Euro erreicht haben.<br>Erst dann müssen "
+"Kaufen Sie mit LaterPay, bis Sie 5 Euro erreicht haben.<br> Erst dann müssen "
 "Sie sich registrieren und bezahlen."
 
 #. Plugin Name of the plugin/theme

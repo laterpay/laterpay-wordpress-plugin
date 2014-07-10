@@ -158,6 +158,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
     text-align:center !important;
 }
 .laterpay-overlay-text .laterpay-benefits h2 span {
+    color:#fff !important;
     display:block !important;
     font-size:200px !important;
     height:42px !important;
@@ -167,11 +168,17 @@ h1 > .laterpay-purchase-button {display:block !important;}
     top:-84px !important;
 }
 .laterpay-benefits ul {margin:.5em 1em 0 !important; padding:0 !important;}
-.laterpay-benefits li {list-style:none !important; margin:0 !important; padding:0 0 0 80px !important;}
+.laterpay-benefits li {
+    background:url(../img/laterpay-icon-buy.svg) 6px 0 no-repeat !important;
+    background-size:61px !important;
+    list-style:none !important;
+    margin:0 !important;
+    padding:0 0 0 80px !important;
+}
 .laterpay-benefits svg.laterpay-teaser-overlay-icons {fill:#4dac64;}
-.laterpay-benefits li.laterpay-buy-now {background:url(../img/laterpay-icon-buy.svg) 6px 0 no-repeat !important;}
-.laterpay-benefits li.laterpay-use-immediately {background:url(../img/laterpay-icon-read.svg) 6px 0 no-repeat !important;}
-.laterpay-benefits li.laterpay-pay-later {background:url(../img/laterpay-icon-pay.svg) 6px 0 no-repeat !important;}
+.laterpay-benefits li.laterpay-buy-now {background-image:url(../img/laterpay-icon-buy.svg) !important;}
+.laterpay-benefits li.laterpay-use-immediately {background-image:url(../img/laterpay-icon-read.svg) !important;}
+.laterpay-benefits li.laterpay-pay-later {background-image:url(../img/laterpay-icon-pay.svg) !important;}
 .laterpay-overlay-text .laterpay-benefits h3 {
     color:#4dac64 !important;
     font-size:1.25em !important;
@@ -443,10 +450,11 @@ label.switch-label {
 
 /* #### Responsiveness ##################################################################### */
 /* iPhone5 */
-@media (max-width:568px) {
+@media (max-width:567px) {
     .laterpay-iframe .laterpay-dialog-close-button {padding:.2em 0.5em 1em 2em;}
-    .laterpay-benefits li {margin:0; width:100%;}
-    .laterpay-benefits h3[data-icon]:before,
-    .laterpay-benefits h3 br {display:none;}
-    .laterpay-overlay-text .laterpay-benefits h3 {margin: 0 0 0.1em; text-align:left;}
+
+    .laterpay-overlay-text .laterpay-benefits h2 {font-size:24px !important;}
+    .laterpay-overlay-text .laterpay-benefits ul {margin:0 0.5em !important;}
+    .laterpay-overlay-text .laterpay-benefits li br {display:none;}
+    .laterpay-benefits .laterpay-purchase-button {margin-left:2.75em !important; margin-top:.5em !important;}
 }
