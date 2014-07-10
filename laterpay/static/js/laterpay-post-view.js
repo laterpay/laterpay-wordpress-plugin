@@ -117,7 +117,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
             Y.one('#laterpay-invoice-indicator'),
             lpVars.lpBalanceUrl,
             {
-                width       : '115',
+                width       : '110',
                 height      : '30',
                 scrolling   : 'no',
                 frameborder : '0'
