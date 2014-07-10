@@ -24,6 +24,7 @@ class AccountController extends AbstractController {
                 'i18nApiKeyInvalid'         => __('The API key you entered is not a valid LaterPay API key!', 'laterpay'),
                 'i18nMerchantIdInvalid'     => __('The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay'),
                 'i18nLiveApiDataRequired'   => __('Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay'),
+                'i18nPreventUnload'         => __('LaterPay does not work properly with invalid API credentials.', 'laterpay'),
             )
         );
     }

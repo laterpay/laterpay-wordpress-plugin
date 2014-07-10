@@ -293,7 +293,7 @@ class PricingController extends AbstractController {
                 'category_id'   => $id_category,
                 'message'       => sprintf(
                                         __('All posts in category %s have a default price of %s %s now.', 'laterpay'),
-                                        $_POST['category'],
+                                        $formatted_category_price,
                                         $_POST['price'],
                                         $currency_full_name
                                     )

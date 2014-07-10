@@ -106,23 +106,33 @@ class LaterPay {
         $this->setupPluginSettingsLink();
     }
 
+    /**
+     *
+     * @param string $settings
+     */
+    private function _generateUserSettings( $settings ) {
+        $config = str_replace(
+            array(
+                '{salt}',
+                '{resource_encryption_key}',
+                "'{SITE_USES_PAGE_CACHING}'"
+            ),
+            array(
+                md5(uniqid('salt')),
+                md5(uniqid('key')),
+                CacheHelper::siteUsesPageCaching() ? 'true' : 'false'
+            ),
+            $settings
+        );
+
+        return $config;
+    }
+
     protected function createConfigurationFile() {
         try {
             if ( !file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
                 $config = file_get_contents(LATERPAY_GLOBAL_PATH . 'settings.sample.php');
-                $config = str_replace(
-                    array(
-                        '{salt}',
-                        '{resource_encryption_key}',
-                        'SITE_USES_PAGE_CACHING'
-                    ),
-                    array(
-                        md5(uniqid('salt')),
-                        md5(uniqid('key')),
-                        CacheHelper::siteUsesPageCaching() ? 'true' : 'false'
-                    ),
-                    $config
-                );
+                $config = $this->_generateUserSettings($config);
                 file_put_contents(LATERPAY_GLOBAL_PATH . 'settings.php', $config);
             }
         } catch ( Exception $e ) {
@@ -178,7 +188,7 @@ class LaterPay {
                                         $config_file
                                     );
                 }
-
+                $config_file = $this->_generateUserSettings($config_file);
                 file_put_contents(LATERPAY_GLOBAL_PATH . 'settings.php', $config_file);
             }
         } catch ( Exception $e ) {
@@ -187,7 +197,7 @@ class LaterPay {
     }
 
     /**
-     * Plugin activation hook
+     * Activate plugin
      *
      * @global object $wpdb
      * @global string $laterpay_version
@@ -266,8 +276,8 @@ class LaterPay {
         );
 
         add_option('laterpay_plugin_is_activated',      '0');
-        add_option('laterpay_teaser_content_only',      '');
-        add_option('laterpay_plugin_is_in_live_mode',   '');
+        add_option('laterpay_teaser_content_only',      '1');
+        add_option('laterpay_plugin_is_in_live_mode',   '0');
         add_option('laterpay_sandbox_merchant_id',      '');
         add_option('laterpay_sandbox_api_key',          '');
         add_option('laterpay_live_merchant_id',         '');
@@ -281,36 +291,11 @@ class LaterPay {
     }
 
     /**
-     * Plugin deactivation hook
+     * Deactivate plugin
      *
-     * @global object $wpdb
      */
     public function deactivate() {
-        global $wpdb;
-        $table_currency     = $wpdb->prefix . 'laterpay_currency';
-        $table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
-        $table_history      = $wpdb->prefix . 'laterpay_payment_history';
-        $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
-
-        $sql = "DROP TABLE `" . $table_currency . "`;";
-        $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_terms_price . "`;";
-        $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_history . "`;";
-        $wpdb->query($sql);
-        $sql = "DROP TABLE `" . $table_post_views . "`;";
-        $wpdb->query($sql);
-
-        delete_option('laterpay_plugin_is_activated');
-        delete_option('laterpay_teaser_content_only');
-        delete_option('laterpay_plugin_is_in_live_mode');
-        delete_option('laterpay_sandbox_merchant_id');
-        delete_option('laterpay_sandbox_api_key');
-        delete_option('laterpay_live_merchant_id');
-        delete_option('laterpay_live_api_key');
-        delete_option('laterpay_global_price');
-        delete_option('laterpay_currency');
-        delete_option('laterpay_version');
+        update_option('laterpay_plugin_is_activated', '0');
     }
 
     /**
@@ -571,11 +556,14 @@ class LaterPay {
         wp_enqueue_script('laterpay-post-view');
 
         // pass localized strings and variables to script
+        $client = new LaterPayClient();
+        $balance_url = $client->getControlsBalanceUrl();
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
             array(
                 'ajaxUrl'       => admin_url('admin-ajax.php'),
+                'lpBalanceUrl'  => $balance_url,
                 'getArticleUrl' => plugins_url('laterpay/scripts/lp-article.php'),
                 'getFooterUrl'  => plugins_url('laterpay/scripts/lp-footer.php'),
                 'getTitleUrl'   => plugins_url('laterpay/scripts/lp-title.php'),
@@ -601,11 +589,13 @@ class LaterPay {
     }
 
     /**
-     * Add install / uninstall hook for plugin
+     * Add installation and deactivatino hooks for plugin
+     *
+     * Uninstallation is handled by uninstall.php
      */
     protected function setupRegistration() {
-        register_activation_hook($this->_pluginFile,   array($this, 'activate'));
-        register_deactivation_hook($this->_pluginFile, array($this, 'deactivate'));
+        register_activation_hook($this->_pluginFile,    array($this, 'activate'));
+        register_deactivation_hook($this->_pluginFile,  array($this, 'deactivate'));
     }
 
     /**

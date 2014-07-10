@@ -1,7 +1,7 @@
 <script>
-    lpVars = window.lpVars || {};
-    lpVars.categoryDefaultPrice = <?php echo $category_default_price; ?>,
-    lpVars.dynamicPricingData   = <?php echo $dynamic_pricing_data; ?>,
+    var lpVars = window.lpVars || {};
+    lpVars.categoryDefaultPrice = <?php echo $category_default_price; ?>;
+    lpVars.dynamicPricingData   = <?php echo $dynamic_pricing_data; ?>;
     lpVars.isStandardPost       = <?php echo $price_post_type ? 1 : 0; ?>;
 </script>
 

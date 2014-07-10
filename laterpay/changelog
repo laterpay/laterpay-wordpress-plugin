@@ -1,4 +1,12 @@
-0.9.5 (July 7, 2014): Production-readiness release II ==============================================
+0.9.5.1 (July 10, 2014): Bugfix release =========================================================
+    - Fixed purchase button
+    - Fixed rendering of paid posts overlay on smartphones
+    - Added option to choose between automatic and manual updating of browser detection library browscap
+    - Secured plugin folders against external access by adding an empty index.php file to each folder
+    - Added versioning to LaterPay icon font to ensure cache invalidation on updates
+
+
+0.9.5 (July 9, 2014): Production-readiness release II ==============================================
     - Made plugin compatible with page caching solutions like WP Super Cache
     - Redesigned overlay for previewing paid content
     - Added more fine grained over amount of text previewed behind overlay
@@ -10,6 +18,10 @@
     - Added possibility to hide / show the statistics pane on the view post page
     - Switched to loading minified version of YUI
     - Renamed views and several variables to be more self-explanatory
+    - Added an already cached copy of browscap library to the plugin
+    - Added uninstall.php file that takes care of wiping the database from all data added
+      by the plugin, when the plugin gets deactivated and then uninstalled
+    - Fixed notices that broke the activation process in debug mode
     - Fixed bug in getStarted tab that showed an error message that Merchant ID or API Key is not
       valid, if it was not entered yet
 

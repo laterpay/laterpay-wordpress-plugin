@@ -32,10 +32,9 @@ class AppearanceController extends AbstractController {
      */
     public function page() {
         $this->loadAssets();
-
+        
         $this->assign('plugin_is_in_live_mode',     get_option('laterpay_plugin_is_in_live_mode') == 1);
         $this->assign('show_teaser_content_only',   get_option('laterpay_teaser_content_only') == 1);
-        $this->assign('balance_url',                plugins_url('laterpay/scripts/lp-balance.php'));
 
         $this->render('pluginBackendAppearanceTab');
     }

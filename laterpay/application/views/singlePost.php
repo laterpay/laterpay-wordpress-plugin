@@ -103,7 +103,7 @@
         <?php // preview only the teaser content -> add purchase link after teaser content ?>
         <?php if ( $teaser_content_only ): ?>
 
-            <a class="laterpay-purchase-link" href="<?php echo $link; ?>" data-icon="b" post-id="<?php echo $post_id; ?>" data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
+            <a href="#" class="laterpay-purchase-link" data-laterpay="<?php echo $link; ?>" data-icon="b" data-post-id="<?php echo $post_id; ?>" data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
 
         <?php // preview the teaser content plus real content, covered by overlay -> add concealed real content and purchase button ?>
         <?php else: ?>
@@ -134,26 +134,27 @@
                             <li class="laterpay-buy-now">
                                 <h3><?php _e('Buy Now', 'laterpay'); ?></h3>
                                 <p>
-                                    <?php _e('Just agree to pay later.<br>No upfront registration and payment.', 'laterpay'); ?>
+                                    <?php _e('Just agree to pay later.<br> No upfront registration and payment.', 'laterpay'); ?>
                                 </p>
                             </li>
                             <li class="laterpay-use-immediately">
                                 <h3><?php _e('Read Immediately', 'laterpay'); ?></h3>
                                 <p>
-                                    <?php _e('Get immediate access to your purchase.<br>are only buying this article, not a subscription.', 'laterpay'); ?>
+                                    <?php _e('Get immediate access to your purchase.<br> You are only buying this article, not a subscription.', 'laterpay'); ?>
                                 </p>
                             </li>
                             <li class="laterpay-pay-later">
                                 <h3><?php _e('Pay Later', 'laterpay'); ?></h3>
                                 <p>
-                                    <?php _e('Buy with LaterPay until you reach a total of 5 Euro.<br>Only then do you have to register and pay.', 'laterpay'); ?>
+                                    <?php _e('Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay'); ?>
                                 </p>
                             </li>
                         </ul>
-                        <a href="<?php echo $link; ?>"
+                        <a  href="#"
                             class="laterpay-purchase-link laterpay-purchase-button"
+                            data-laterpay="<?php echo $link; ?>"
                             data-icon="b"
-                            post-id="<?php echo $post_id; ?>"
+                            data-post-id="<?php echo $post_id; ?>"
                             data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"
                             title="<?php _e('Buy now with LaterPay', 'laterpay'); ?>"><?php echo sprintf(__('%s<small>%s</small>', 'laterpay'), ViewHelper::formatNumber($price, 2), $currency); ?></a>
                         <div class="powered-by">

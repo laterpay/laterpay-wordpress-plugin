@@ -1,6 +1,6 @@
 (function($) {$(document).ready(function() {
 
-        lpShowStatistic = function() {
+        window.lpShowStatistic = function() {
             $('#statistics:visible .bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
@@ -81,10 +81,28 @@
             }
         });
 
+        // load content via Ajax, if plugin is in page caching compatible mode
+        // (recognizable by the presence of $('#laterpay-page-caching-mode'))
+        var $pageCachingAnchor = $('#laterpay-page-caching-mode');
+        if ($pageCachingAnchor.length == 1) {
+            $.get(
+                lpVars.getArticleUrl,
+                {
+                    id              : $pageCachingAnchor.attr('data-post-id'),
+                    show_statistic  : true
+                },
+                function(html) {
+                    $pageCachingAnchor.before(html).remove();
+                    lpShowStatistic();
+                }
+            );
+        }
+
 });}(jQuery));
 
-// show LaterPay dialogs using the LaterPay dialog manager library
+// render LaterPay elements using the LaterPay dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
+    // render purchase dialogs
     var ppuContext  = {
                         showCloseBtn: true,
                         canSkipAddToInvoice: false
@@ -92,4 +110,18 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         dm          = new Y.LaterPay.DialogManager();
 
     dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
+
+    // render invoice indicator iframe
+    if (lpVars && lpVars.lpBalanceUrl) {
+        new Y.LaterPay.IFrame(
+            Y.one('#laterpay-invoice-indicator'),
+            lpVars.lpBalanceUrl,
+            {
+                width       : '110',
+                height      : '30',
+                scrolling   : 'no',
+                frameborder : '0'
+            }
+        );
+    }
 });

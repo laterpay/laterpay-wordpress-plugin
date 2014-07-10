@@ -18,7 +18,7 @@ class AdminController extends AbstractController {
         );
         wp_register_style(
             'open-sans',
-            '//fonts.googleapis.com/css?family=Open+Sans%3A300italic%2C400italic%2C600italic%2C300%2C400%2C600&#038;subset=latin%2Clatin-ext&#038'
+            '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin,latin-ext'
         );
         wp_enqueue_style('laterpay-backend');
         wp_enqueue_style('open-sans');
@@ -109,7 +109,7 @@ class AdminController extends AbstractController {
         $dismissed_pointers = explode(',', (string)get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
         $pointers = array();
         // add pointer to LaterPay plugin in admin menu
-        if ( !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
+        if ( get_option('laterpay_plugin_is_activated') == '0' && !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
             $pointers[] = self::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page

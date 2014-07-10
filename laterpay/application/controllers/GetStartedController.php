@@ -37,9 +37,10 @@ class GetStartedController extends AbstractController {
     public function page() {
         $this->loadAssets();
 
-        $Currency = new LaterPayModelCurrency();
+        $Currencies = new LaterPayModelCurrency();
 
-        $this->assign('Currency', $Currency);
+        $this->assign('global_default_price',   ViewHelper::formatNumber((float)LATERPAY_GLOBAL_PRICE_DEFAULT, 2));
+        $this->assign('Currencies',             $Currencies);
 
         $this->render('pluginBackendGetStartedTab');
     }
