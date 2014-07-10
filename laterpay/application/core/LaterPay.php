@@ -313,7 +313,7 @@ class LaterPay {
         );
         add_submenu_page(
             'laterpay-plugin',
-            __('Pricing | LaterPay Plugin Settings', 'laterpay'),
+            __('Pricing', 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
             __('Pricing', 'laterpay'),
             'manage_options',
             'laterpay-plugin',
@@ -321,7 +321,7 @@ class LaterPay {
         );
         add_submenu_page(
             'laterpay-plugin',
-            __('Appearance | LaterPay Plugin Settings', 'laterpay'),
+            __('Appearance', 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
             __('Appearance', 'laterpay'),
             'manage_options',
             'laterpay-appearance-tab',
@@ -329,7 +329,7 @@ class LaterPay {
         );
         add_submenu_page(
             'laterpay-plugin',
-            __('Account | LaterPay Plugin Settings', 'laterpay'),
+            __('Account', 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
             __('Account', 'laterpay'),
             'manage_options',
             'laterpay-account-tab',
