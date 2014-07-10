@@ -151,11 +151,11 @@
             </div><?php _e('mode.', 'laterpay'); ?>
 
             <dfn id="plugin_mode_live_text"<?php if ( !$plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
-                <?php _e('Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay'); ?><br>
+                <?php _e('Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay'); ?>
                 <?php _e('All payments are booked and credited to your account.', 'laterpay'); ?>
             </dfn>
             <dfn id="plugin_mode_test_text"<?php if ( $plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
-                <?php _e('Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay'); ?><br>
+                <?php _e('Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay'); ?>
                 <?php _e('LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay'); ?>
             </dfn>
         </div>
