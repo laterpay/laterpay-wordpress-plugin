@@ -1,2 +1,2 @@
 <?php
-// Silence is golden.
+// This index.php protects the files in its folder against direct access from the internet
