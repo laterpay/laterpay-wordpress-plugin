@@ -134,19 +134,19 @@
                             <li class="laterpay-buy-now">
                                 <h3><?php _e('Buy Now', 'laterpay'); ?></h3>
                                 <p>
-                                    <?php _e('Just agree to pay later.<br>No upfront registration and payment.', 'laterpay'); ?>
+                                    <?php _e('Just agree to pay later.<br> No upfront registration and payment.', 'laterpay'); ?>
                                 </p>
                             </li>
                             <li class="laterpay-use-immediately">
                                 <h3><?php _e('Read Immediately', 'laterpay'); ?></h3>
                                 <p>
-                                    <?php _e('Get immediate access to your purchase.<br>are only buying this article, not a subscription.', 'laterpay'); ?>
+                                    <?php _e('Get immediate access to your purchase.<br> You are only buying this article, not a subscription.', 'laterpay'); ?>
                                 </p>
                             </li>
                             <li class="laterpay-pay-later">
                                 <h3><?php _e('Pay Later', 'laterpay'); ?></h3>
                                 <p>
-                                    <?php _e('Buy with LaterPay until you reach a total of 5 Euro.<br>Only then do you have to register and pay.', 'laterpay'); ?>
+                                    <?php _e('Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay'); ?>
                                 </p>
                             </li>
                         </ul>
