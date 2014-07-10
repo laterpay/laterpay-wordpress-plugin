@@ -6,6 +6,7 @@
  * Author: LaterPay GmbH and Mihail Turalenka
  * Version: 0.9.5
  * Author URI: https://laterpay.net/
+ * Textdomain: laterpay
  */
 
 $laterpay_version = '0.9.5.1';
