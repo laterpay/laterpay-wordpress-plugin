@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-10 14:00:20+00:00\n"
-"PO-Revision-Date: 2014-07-10 16:04+0100\n"
+"PO-Revision-Date: 2014-07-10 22:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de_DE\n"
@@ -462,7 +462,7 @@ msgstr ""
 
 #: application/views/pluginBackendAccountTab.php:163
 msgid "LaterPay is <strong>not visible for regular visitors</strong>."
-msgstr "LaterPay ist <strong>für reguläre Besucher nicht sichtbar</strong>."
+msgstr "LaterPay ist <strong>für Besucher nicht sichtbar</strong>."
 
 #: application/views/pluginBackendAppearanceTab.php:23
 msgid "Preview of Paid Content"
