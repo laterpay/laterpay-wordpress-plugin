@@ -8,7 +8,7 @@ class PricingController extends AbstractController {
         // load page-specific CSS
         wp_register_style(
             'laterpay-select2',
-            LATERPAY_ASSET_PATH . '/css/vendor/select2.min.css',
+            LATERPAY_ASSETS_PATH . '/css/vendor/select2.min.css',
             array(),
             $laterpay_version
         );
@@ -17,14 +17,14 @@ class PricingController extends AbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-select2',
-            LATERPAY_ASSET_PATH . '/js/vendor/select2.min.js',
+            LATERPAY_ASSETS_PATH . '/js/vendor/select2.min.js',
             array('jquery'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-backend-pricing',
-            LATERPAY_ASSET_PATH . '/js/laterpay-backend-pricing.js',
+            LATERPAY_ASSETS_PATH . '/js/laterpay-backend-pricing.js',
             array('jquery', 'laterpay-select2'),
             $laterpay_version,
             true
