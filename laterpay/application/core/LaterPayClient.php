@@ -235,7 +235,7 @@ class LaterPayClient {
 
         return $url;
     }
-    
+
     /**
      * Get iframe API balance URL
      *
@@ -473,7 +473,7 @@ class LaterPayClient {
      * Update token
      */
     public function acquireToken() {
-        $link = $this->getTokenRedirectUrl(RequestHelper::getCurrentUrl());
+        $link = $this->getTokenRedirectUrl(LaterPayRequestHelper::getCurrentUrl());
 
         Logger::debug('LaterPayClient::acquireToken', array(
                             'link'      => $link,
@@ -506,7 +506,7 @@ class LaterPayClient {
         $this->lptoken = $token;
         setcookie($this->token_name, $token, strtotime('+1 day'), '/');
         if ( $redirect ) {
-            header('Location: ' . RequestHelper::getCurrentUrl());
+            header('Location: ' . LaterPayRequestHelper::getCurrentUrl());
             die;
         }
     }

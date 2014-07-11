@@ -34,7 +34,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
         wp_enqueue_script('laterpay-backend');
 
         // load HTML5 shim for IE <= 9 only
-        if ( BrowserHelper::is_ie() && BrowserHelper::get_browser_major_version() <= 9 ) {
+        if ( LaterPayBrowserHelper::is_ie() && LaterPayBrowserHelper::get_browser_major_version() <= 9 ) {
             wp_register_script(
                 'html5-shim-ie',
                 'http://html5shim.googlecode.com/svn/trunk/html5.js'

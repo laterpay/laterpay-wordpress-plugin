@@ -1,6 +1,6 @@
 <?php
 
-class StringHelper {
+class LaterPayStringHelper {
 
 	/**
 	 * @param string $string

@@ -1,6 +1,6 @@
 <?php
 
-class UserHelper {
+class LaterPayUserHelper {
     protected static $_preview_post_as_visitor = null;
     protected static $_hide_statistics_pane = null;
 
@@ -63,7 +63,7 @@ class UserHelper {
 
         return self::$_preview_post_as_visitor;
     }
-    
+
     /**
      * Get post preview mode
      *

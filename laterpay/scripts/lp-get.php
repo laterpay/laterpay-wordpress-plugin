@@ -56,7 +56,7 @@ function sendResponse( $file ) {
         $response->sendResponse();
         exit();
     }
-    $type = FileHelper::getFileMimeType($file);
+    $type = LaterPayFileHelper::getFileMimeType($file);
 
     $response->setHeader('Content-Type', $type);
     $data = file_get_contents($file);
@@ -111,7 +111,7 @@ if ( empty($file) || empty($aid) ) {
     exit();
 }
 
-if ( !ViewHelper::isPluginAvailable() ) {
+if ( !LaterPayViewHelper::isPluginAvailable() ) {
 
     Logger::debug('RESOURCE:: plugin is not available. Sending file...');
 
@@ -120,7 +120,7 @@ if ( !ViewHelper::isPluginAvailable() ) {
 }
 
 if ( !empty($hmac) && !empty($ts) ) {
-    if ( !LaterPayClient_Signing::verify($hmac, $client->getApiKey(), $request->getData( 'get' ), plugins_url( FileHelper::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD']) ) {
+    if ( !LaterPayClient_Signing::verify($hmac, $client->getApiKey(), $request->getData( 'get' ), plugins_url( LaterPayFileHelper::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD']) ) {
 
         Logger::error('RESOURCE:: invalid $hmac or $ts has expired');
 
@@ -155,7 +155,7 @@ if ( !empty($lptoken) ) {
         $tokenInstance  = new Auth_Hmac($client->getApiKey());
         $params['auth'] = $tokenInstance->sign($client->getLpToken());
     }
-    $new_url  = plugins_url(FileHelper::SCRIPT_PATH);
+    $new_url  = plugins_url(LaterPayFileHelper::SCRIPT_PATH);
     $new_url .= '?' . $client->signAndEncode($params, $new_url);
 
     $response->setHeader('Location', $new_url);

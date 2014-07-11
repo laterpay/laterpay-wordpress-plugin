@@ -1,6 +1,6 @@
 <?php
 
-class FileHelper {
+class LaterPayFileHelper {
 
     const URL_REGEX_PATTERN     = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
     const SCRIPT_PATH           = 'laterpay/scripts/lp-get.php';

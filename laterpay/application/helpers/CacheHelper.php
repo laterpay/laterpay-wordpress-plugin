@@ -1,6 +1,6 @@
 <?php
 
-class CacheHelper {
+class LaterPayCacheHelper {
 
     public static function resetOpcodeCache() {
         $reset = false;
@@ -18,7 +18,7 @@ class CacheHelper {
             $reset = xcache_clear_cache();
         }
 
-        Logger::debug('CacheHelper::resetOpcodeCache', array($reset));
+        Logger::debug('LaterPayCacheHelper::resetOpcodeCache', array($reset));
 
         return $reset;
     }

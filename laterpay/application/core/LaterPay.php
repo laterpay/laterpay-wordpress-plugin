@@ -83,7 +83,7 @@ class LaterPay {
         $this->setupPluginAdminResources();
         $this->setupAdminPointersScript();
 
-        if ( ViewHelper::isPluginAvailable() ) {
+        if ( LaterPayViewHelper::isPluginAvailable() ) {
             $this->setupPurchases();
             $this->setupTeaserContentBox();
             $this->setupPricingPostContentBox();
@@ -120,7 +120,7 @@ class LaterPay {
             array(
                 md5(uniqid('salt')),
                 md5(uniqid('key')),
-                CacheHelper::siteUsesPageCaching() ? 'true' : 'false'
+                LaterPayCacheHelper::siteUsesPageCaching() ? 'true' : 'false'
             ),
             $settings
         );
@@ -287,7 +287,7 @@ class LaterPay {
         add_option('laterpay_version',                  $laterpay_version) || update_option('laterpay_version', $laterpay_version);
 
         // clear opcode cache
-        CacheHelper::resetOpcodeCache();
+        LaterPayCacheHelper::resetOpcodeCache();
     }
 
     /**
@@ -459,9 +459,9 @@ class LaterPay {
         if ( !LATERPAY_ACCESS_LOGGING_ENABLED || is_admin() ) {
             return;
         }
-        $url = StatisticsHelper::getFullUrl($_SERVER);
+        $url = LaterPayStatisticsHelper::getFullUrl($_SERVER);
         $postid = url_to_postid($url);
-        StatisticsHelper::track($postid);
+        LaterPayStatisticsHelper::track($postid);
     }
 
     protected function setupUniqueVisitorsTracking() {

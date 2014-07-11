@@ -26,7 +26,7 @@ $post_id    = $request->getParam('id');     // required, relative file path
 
 $response->setHeader('Content-Type', 'text/html');
 
-if ( RequestHelper::isAjax() && !empty($post_id) ) {
+if ( LaterPayRequestHelper::isAjax() && !empty($post_id) ) {
     $controller = new LaterPayPostContentController();
 
     ob_start();

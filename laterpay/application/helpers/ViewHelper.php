@@ -1,6 +1,6 @@
 <?php
 
-class ViewHelper {
+class LaterPayViewHelper {
     /**
      * Get date of next day
      *
