@@ -1,6 +1,6 @@
 <?php
 
-class AccountController extends AbstractController {
+class LaterPayAccountController extends LaterPayAbstractController {
 
     public function loadAssets() {
         parent::loadAssets();

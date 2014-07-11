@@ -1,6 +1,6 @@
 <?php
 
-class AppearanceController extends AbstractController {
+class LaterPayAppearanceController extends LaterPayAbstractController {
 
     public function loadAssets() {
         parent::loadAssets();
@@ -32,7 +32,7 @@ class AppearanceController extends AbstractController {
      */
     public function page() {
         $this->loadAssets();
-        
+
         $this->assign('plugin_is_in_live_mode',     get_option('laterpay_plugin_is_in_live_mode') == 1);
         $this->assign('show_teaser_content_only',   get_option('laterpay_teaser_content_only') == 1);
 

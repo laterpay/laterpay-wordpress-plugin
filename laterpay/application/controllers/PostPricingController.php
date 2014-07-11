@@ -1,6 +1,6 @@
 <?php
 
-class PostPricingController extends AbstractController {
+class LaterPayPostPricingController extends LaterPayAbstractController {
 
     public function loadAssets() {
         parent::loadAssets();

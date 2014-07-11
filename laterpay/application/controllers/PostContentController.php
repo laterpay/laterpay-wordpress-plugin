@@ -1,6 +1,6 @@
 <?php
 
-class PostContentController extends AbstractController {
+class LaterPayPostContentController extends LaterPayAbstractController {
 
     /**
      * Create teaser content for the post
@@ -287,7 +287,7 @@ class PostContentController extends AbstractController {
         $is_feed = self::is_feed();
 
         Logger::debug(
-            'PostContentController::tokenHook',
+            'LaterPayPostContentController::tokenHook',
             array(
                 !is_admin(),
                 !self::is_login_page(),
@@ -300,7 +300,7 @@ class PostContentController extends AbstractController {
 
         if ( !is_admin() && !self::is_login_page() && !self::is_cron_page() && !$is_feed && BrowserHelper::browser_supports_cookies() && !BrowserHelper::is_crawler() ) {
 
-            Logger::debug('PostContentController::tokenHook', array($_SERVER['REQUEST_URI']));
+            Logger::debug('LaterPayPostContentController::tokenHook', array($_SERVER['REQUEST_URI']));
 
             $LaterPayClient = new LaterPayClient();
             if ( isset($_GET['lptoken']) ) {

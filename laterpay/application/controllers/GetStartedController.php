@@ -1,6 +1,6 @@
 <?php
 
-class GetStartedController extends AbstractController {
+class LaterPayGetStartedController extends LaterPayAbstractController {
 
     public function loadAssets() {
         parent::loadAssets();
@@ -73,8 +73,8 @@ class GetStartedController extends AbstractController {
             $current_user_id    = get_current_user_id();
             $dismissed_pointers = explode(',', (string)get_user_meta($current_user_id, 'dismissed_wp_pointers', true));
 
-            if ( !in_array(AdminController::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
-                update_user_meta($current_user_id, 'dismissed_wp_pointers', AdminController::ADMIN_MENU_POINTER);
+            if ( !in_array(LaterPayAdminController::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
+                update_user_meta($current_user_id, 'dismissed_wp_pointers', LaterPayAdminController::ADMIN_MENU_POINTER);
             }
 
             echo Zend_Json::encode(array('success' => true));

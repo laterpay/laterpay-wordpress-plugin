@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends AbstractController {
+class LaterPayAdminController extends LaterPayAbstractController {
     const ADMIN_MENU_POINTER            = 'lpwpp01';
     const POST_PRICE_BOX_POINTER        = 'lpwpp02';
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
@@ -74,28 +74,28 @@ class AdminController extends AbstractController {
         switch ( $tab ) {
         // render get started tab
         case 'get_started':
-            $GetStartedController = new GetStartedController();
-            $GetStartedController->page();
+            $LaterPayGetStartedController = new LaterPayGetStartedController();
+            $LaterPayGetStartedController->page();
             break;
 
         default:
 
         // render pricing tab
         case 'pricing':
-            $PricingController = new PricingController();
-            $PricingController->page();
+            $LaterPayPricingController = new LaterPayPricingController();
+            $LaterPayPricingController->page();
             break;
 
         // render appearance tab
         case 'appearance':
-            $AppearanceController = new AppearanceController();
-            $AppearanceController->page();
+            $LaterPayAppearanceController = new LaterPayAppearanceController();
+            $LaterPayAppearanceController->page();
             break;
 
         // render account tab
         case 'account':
-            $AccountController = new AccountController();
-            $AccountController->page();
+            $LaterPayAccountController = new LaterPayAccountController();
+            $LaterPayAccountController->page();
             break;
         }
     }
