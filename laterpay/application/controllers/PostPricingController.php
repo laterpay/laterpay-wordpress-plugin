@@ -59,10 +59,12 @@ class PostPricingController extends AbstractController {
             'laterpay-post-edit',
             'lpVars1',
             array(
-                'ajaxUrl'               => admin_url('admin-ajax.php'),
-                'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
-                'locale'                => get_locale(),
-                'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
+                'ajaxUrl'                   => admin_url('admin-ajax.php'),
+                'globalDefaultPrice'        => (float)get_option('laterpay_global_price'),
+                'locale'                    => get_locale(),
+                'i18nTeaserError'           => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
+                'i18nAddDynamicPricing'     => __('Add dynamic pricing', 'laterpay'),
+                'i18nRemoveDynamicPricing'  => __('Remove dynamic pricing', 'laterpay'),
                 // 'l10n_print_after'      => 'jQuery.extend(lpVars1, lpVars2)',
             )
         );

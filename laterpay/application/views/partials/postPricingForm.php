@@ -23,7 +23,7 @@
         <li class="selected">
             <a href="#" class="use-individual-price"><?php _e('Individual Price', 'laterpay'); ?></a>
         </li>
-        <li>
+        <li<?php if ( !($category_default_price > 0) ): ?> style="display:none;"<?php endif; ?>>
             <a href="#" class="use-category-default-price"><?php _e('Category Default Price', 'laterpay'); ?></a>
         </li>
         <?php if ( !is_null($global_default_price) ): ?>
@@ -61,4 +61,4 @@
     </div>
 </div>
 
-<a href="#" id="use-dynamic-pricing"><?php _e('Add dynamic pricing', 'laterpay'); ?></a>
+<a href="#" id="use-dynamic-pricing" class=""><?php _e('Add dynamic pricing', 'laterpay'); ?></a>

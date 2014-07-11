@@ -166,10 +166,19 @@ console.log(data + '; 0 means function get_category_prices not found :-(');
 
     $('#use-dynamic-pricing')
     .mousedown(function() {
-        $(this).fadeOut(200);
-        $('#post-price').attr('disabled', 'disabled');
-        $('#laterpay-dynamic-pricing').slideDown(250);
-        $('input[name=price_post_type]').val(1);
+        if ($(this).hasClass('dynamic-pricing-applied')) {
+            $(this).removeClass('dynamic-pricing-applied');
+            $('#post-price').attr('disabled', 'disabled');
+            $('#laterpay-dynamic-pricing').slideDown(250);
+            $('input[name=price_post_type]').val(1);
+            $(this).text(lpVars1.i18nAddDynamicPricing);
+        } else {
+            $(this).addClass('dynamic-pricing-applied');
+            $('#post-price').removeAttr('disabled');
+            $('#laterpay-dynamic-pricing').slideUp(250);
+            $('input[name=price_post_type]').val(0);
+            $(this).text(lpVars1.i18nRemoveDynamicPricing);
+        }
     })
     .click(function(e) {e.preventDefault();});
 
