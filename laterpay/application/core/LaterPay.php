@@ -305,7 +305,7 @@ class LaterPay {
         add_menu_page(
             __('LaterPay Plugin Settings', 'laterpay'),
             'LaterPay',
-            'manage_options',
+            'laterpay_read_plugin_pages',
             'laterpay/laterpay-admin.php',
             '',
             'dashicons-laterpay-logo',
@@ -352,8 +352,10 @@ class LaterPay {
     }
 
     protected function setupTeaserContentBox() {
-        add_action('save_post', array($this->getPostPricingController(), 'saveTeaserContentBox'));
-        add_action('admin_menu', array($this, 'addTeaserContentBox'));
+        if (UserHelper::isAllowed('laterpay_edit_teaser_content')) {
+            add_action('save_post', array($this->getPostPricingController(), 'saveTeaserContentBox'));
+            add_action('admin_menu', array($this, 'addTeaserContentBox'));
+        }
     }
 
     /**
@@ -370,8 +372,10 @@ class LaterPay {
     }
 
     protected function setupPricingPostContentBox() {
-        add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
-        add_action('admin_menu', array($this, 'addPricingPostContentBox'));
+        if (UserHelper::isAllowed('laterpay_edit_individual_price')) {
+            add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
+            add_action('admin_menu', array($this, 'addPricingPostContentBox'));
+        }
     }
 
     /**
@@ -638,6 +642,8 @@ class LaterPay {
 
         if ( get_option('laterpay_version') != $laterpay_version ) {
             $this->activate();
+            $_capabilities = new LaterPayCapabilities();
+            $_capabilities->populateRoles();
         }
     }
 

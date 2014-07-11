@@ -3,6 +3,17 @@
 class UserHelper {
     protected static $_preview_post_as_visitor = null;
     protected static $_hide_statistics_pane = null;
+    
+    public static function isAllowed($capability, $post = null) {
+        $allowed = false;
+        if ( !function_exists('wp_get_current_user')) {
+            include_once(ABSPATH . 'wp-includes/pluggable.php');
+        }
+        if (current_user_can($capability)) {
+            $allowed = true;
+        }
+        return $allowed;
+    }
 
     /**
      * Checks if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.

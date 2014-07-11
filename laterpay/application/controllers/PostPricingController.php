@@ -120,7 +120,7 @@ class PostPricingController extends AbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !current_user_can('edit_post', $post_id) ) {
+        if ( !UserHelper::isAllowed('laterpay_edit_teaser_content', $post_id) ) {
             return $post_id;
         }
 
@@ -220,7 +220,7 @@ class PostPricingController extends AbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !current_user_can('edit_post', $post_id) ) {
+        if ( !UserHelper::isAllowed('laterpay_edit_individual_price', $post_id) ) {
             return $post_id;
         }
 

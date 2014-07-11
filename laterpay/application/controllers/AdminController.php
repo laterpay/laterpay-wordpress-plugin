@@ -133,7 +133,7 @@ class AdminController extends AbstractController {
     public static function pageAjax() {
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
-            if ( function_exists('current_user_can') && !current_user_can('manage_options') ) {
+            if ( !UserHelper::isAllowed('laterpay_read_post_statistics') ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
