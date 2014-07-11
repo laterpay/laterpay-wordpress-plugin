@@ -4,10 +4,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LaterPay 0.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
-"POT-Creation-Date: 2014-07-10 14:00:20+00:00\n"
-"PO-Revision-Date: 2014-07-10 16:04+0100\n"
-"Last-Translator: \n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2014-07-10 18:34:36+00:00\n"
+"PO-Revision-Date: 2014-07-11 12:41+0100\n"
+"Last-Translator: Dominik Rodler <drodler@laterpay.net>\n"
+"Language-Team: de_DE <drodler@laterpay.net>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -212,28 +212,28 @@ msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 msgid "The default price for this category was deleted."
 msgstr "Der Standardpreis für diese Kategorie wurde gelöscht."
 
-#: application/core/LaterPay.php:370
+#: application/core/LaterPay.php:306
 msgid "LaterPay Plugin Settings"
 msgstr "LaterPay-Plugin-Einstellungen"
 
-#: application/core/LaterPay.php:410
+#: application/core/LaterPay.php:346
 msgid "Teaser Content"
 msgstr "Teaser für den Beitrag"
 
-#: application/core/LaterPay.php:428
+#: application/core/LaterPay.php:364
 msgid "Pricing for this Post"
 msgstr "Preis des Beitrags"
 
-#: application/core/LaterPay.php:480
+#: application/core/LaterPay.php:416
 msgid "Price"
 msgstr "Preis"
 
-#: application/core/LaterPay.php:630
+#: application/core/LaterPay.php:566
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr ""
 "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: application/core/LaterPay.php:677
+#: application/core/LaterPay.php:613
 msgid ""
 "<p>LaterPay: Your server <strong>does not</strong> meet the minimum "
 "requirement of %s version %s or higher. You are running %s version %s.</p>"
@@ -241,7 +241,7 @@ msgstr ""
 "<p>LaterPay: Ihr Server <strong>erfüllt nicht die Mindestanforderung</"
 "strong> von %s-Version %s oder neuer. Sie verwenden %s-Version %s.</p>"
 
-#: application/core/LaterPay.php:729
+#: application/core/LaterPay.php:665
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -289,7 +289,7 @@ msgid "This post costs"
 msgstr "Dieser Beitrag kostet"
 
 #: application/views/partials/postPricingForm.php:18
-#: application/views/pluginBackendGetStartedTab.php:60
+#: application/views/pluginBackendGetStartedTab.php:64
 #: application/views/pluginBackendPricingTab.php:42
 #: application/views/pluginBackendPricingTab.php:83
 #: application/views/pluginBackendPricingTab.php:118
@@ -397,7 +397,7 @@ msgid "Merchant ID"
 msgstr "Merchant ID"
 
 #: application/views/pluginBackendAccountTab.php:64
-#: application/views/pluginBackendGetStartedTab.php:45
+#: application/views/pluginBackendGetStartedTab.php:46
 msgid "Paste Sandbox API Key here"
 msgstr "Sandbox API Key hier einfügen"
 
@@ -462,7 +462,7 @@ msgstr ""
 
 #: application/views/pluginBackendAccountTab.php:163
 msgid "LaterPay is <strong>not visible for regular visitors</strong>."
-msgstr "LaterPay ist <strong>für reguläre Besucher nicht sichtbar</strong>."
+msgstr "LaterPay ist <strong>für Besucher nicht sichtbar</strong>."
 
 #: application/views/pluginBackendAppearanceTab.php:23
 msgid "Preview of Paid Content"
@@ -500,23 +500,29 @@ msgstr ""
 msgid "Get Started"
 msgstr "Los geht's"
 
-#: application/views/pluginBackendGetStartedTab.php:48
+#: application/views/pluginBackendGetStartedTab.php:49
 msgid ""
-"Get your <strong>Sandbox Merchant ID</strong> and <strong>Sandbox API Key</"
-"strong><br>from your"
+"You can try the plugin immediately<br> with the provided Sandbox API "
+"credentials."
 msgstr ""
-"Kopieren Sie Ihre <strong>Sandbox Merchant ID</strong> und Ihren "
-"<strong>Sandbox API Key</strong> aus Ihrem"
+"Sie können das Plugin sofort testen<br> mit den mitgelieferten Sandbox API "
+"Zugangsdaten."
 
-#: application/views/pluginBackendGetStartedTab.php:48
-msgid "LaterPay Merchantbackend"
-msgstr "LaterPay Händlerkonto"
+#: application/views/pluginBackendGetStartedTab.php:52
+msgid ""
+"To actually sell content, you first have to register with LaterPay as a "
+"merchant and request your Live API credentials at <a href=\"https://merchant."
+"laterpay.net\" target=\"blank\">merchant.laterpay.net</a>."
+msgstr ""
+"Um Inhalte an Besucher zu verkaufen, müssen Sie sich zuerst bei LaterPay als "
+"Händler registrieren und Ihre Live API Zugangsdaten anfordern auf <a href="
+"\"https://merchant.laterpay.net\" target=\"blank\">merchant.laterpay.net</a>."
 
-#: application/views/pluginBackendGetStartedTab.php:54
+#: application/views/pluginBackendGetStartedTab.php:58
 msgid "The default price for posts is"
 msgstr "Der Standardpreis für Beiträge ist"
 
-#: application/views/pluginBackendGetStartedTab.php:71
+#: application/views/pluginBackendGetStartedTab.php:75
 msgid ""
 "Set a <strong>default price</strong> for all posts (0 makes everything free)."
 "<br>You can set more advanced prices later."
@@ -525,22 +531,30 @@ msgstr ""
 "sind alle Beiträge kostenlos). Sie können die Preise später im Detail "
 "anpassen."
 
-#: application/views/pluginBackendGetStartedTab.php:76
+#: application/views/pluginBackendGetStartedTab.php:80
 msgid "Please enter your LaterPay API key to activate LaterPay on this site."
 msgstr ""
 "Bitte geben Sie Ihren LaterPay API Key ein, um LaterPay auf dieser Seite zu "
 "aktivieren."
 
-#: application/views/pluginBackendGetStartedTab.php:77
-msgid "Activate LaterPay on this site!"
-msgstr "Aktivieren Sie LaterPay auf dieser Seite!"
-
 #: application/views/pluginBackendGetStartedTab.php:81
+msgid "Activate LaterPay Test Mode"
+msgstr "LaterPay Testmodus aktivieren"
+
+#: application/views/pluginBackendGetStartedTab.php:85
 msgid ""
-"Save settings and go to the “Add Post” page,<br>where you can check out your "
-"new options."
+"In Test Mode, LaterPay is not visible for regular visitors, but only for "
+"admins. Payments are only simulated and not actually booked."
 msgstr ""
-"Nach dem Speichern können Sie Ihre neuen Möglichkeiten auf der \"Neuen "
+"Im Testmodus ist LaterPay nur für Administratoren und nicht für Besucher "
+"sichtbar. Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
+
+#: application/views/pluginBackendGetStartedTab.php:88
+msgid ""
+"Activate the plugin and go to the “Add Post” page,<br>where you can check "
+"out your new options."
+msgstr ""
+"Nach dem Aktivieren können Sie Ihre neuen Möglichkeiten auf der \"Neuen "
 "Beitrag erstellen\"-Seite ausprobieren."
 
 #: application/views/pluginBackendPricingTab.php:25
@@ -760,134 +774,3 @@ msgstr "LaterPay GmbH und Mihail Turalenka"
 #. Author URI of the plugin/theme
 msgid "https://laterpay.net/"
 msgstr "https://laterpay.net/"
-
-#~ msgid "The API key you entered is a valid LaterPay API key"
-#~ msgstr "Der eingegebene API Key ist ein gültiger LaterPay API Key."
-
-#~ msgid "The Merchant ID you entered is a valid LaterPay Merchant ID."
-#~ msgstr "Die eingegebene Merchant ID ist eine gültige LaterPay Merchant ID."
-
-#~ msgid "Just pay later"
-#~ msgstr "Einfach später zahlen"
-
-#~ msgid "We ask you to pay only once all your LaterPay purchases reach 5 €."
-#~ msgstr ""
-#~ "Wir bitten Sie erst darum, zu bezahlen, wenn Ihre LaterPay Einkäufe 5 € "
-#~ "erreicht haben."
-
-#~ msgid "No subscription"
-#~ msgstr "Kein Abo"
-
-#~ msgid ""
-#~ "There is no subscription or additional fee. You buy only this article."
-#~ msgstr ""
-#~ "Sie bezahlen nur diesen Beitrag. Kein Abo, keine zusätzlichen Kosten."
-
-#~ msgid "No upfront<br>registration"
-#~ msgstr "Keine Vorab-<br>Registrierung"
-
-#~ msgid ""
-#~ "You get instant access to your purchase. Just register when you pay for "
-#~ "the first time."
-#~ msgstr ""
-#~ "Sie können sofort auf Ihren Kauf zugreifen. Registrieren Sie sich "
-#~ "einfach, bevor Sie zum ersten Mal zahlen."
-
-#~ msgid "Select Category"
-#~ msgstr "Kategorie auswählen"
-
-#~ msgid "Questions about LaterPay?"
-#~ msgstr "Fragen zu LaterPay?"
-
-#~ msgid "Frequently Asked Questions"
-#~ msgstr "FAQ"
-
-#~ msgid "Developer section"
-#~ msgstr "Entwicklerbereich"
-
-#~ msgid "Contact us"
-#~ msgstr "Kontaktieren Sie uns"
-
-#~ msgid "Visit our website"
-#~ msgstr "Besuchen Sie unsere Website"
-
-#~ msgid ""
-#~ "LaterPay lets you sell digital content with ease. Set-up is fast and "
-#~ "painless. You can define selling strategies for individual posts, "
-#~ "categories, or your entire blog. Clear and easy to understand reports "
-#~ "show you, where your money comes from - and where it doesn't."
-#~ msgstr ""
-#~ "Mit LaterPay können Sie einfach digitale Inhalte verkaufen. Die "
-#~ "Einrichtung ist kurz und schmerzlos. Sie können Verkaufsoptionen für "
-#~ "einzelne Beiträge, Kategorien oder den gesamten Blog definieren. Klare "
-#~ "und einfach zu verstehende Reports zeigen Ihnen, woher Ihr Geld kommt - "
-#~ "und woher nicht.  "
-
-#~ msgid "Sandbox Merchant ID"
-#~ msgstr "Sandbox Merchant ID"
-
-#~ msgid ""
-#~ "Go to your <a href=\"%s\">LaterPay Merchantbackend</a><br>to get your "
-#~ "Sandbox Merchant ID."
-#~ msgstr ""
-#~ "Besuchen Sie Ihr<a href=\"%s\">LaterPay Händlerkonto</a>,<br> um Ihre "
-#~ "Sandbox Merchant ID abzurufen."
-
-#~ msgid "Sandbox API Key"
-#~ msgstr "Sandbox API Key"
-
-#~ msgid ""
-#~ "Go to your <a href=\"%s\">LaterPay Merchantbackend</a><br>to get your "
-#~ "Sandbox API Key."
-#~ msgstr ""
-#~ "Besuchen Sie Ihr<a href=\"%s\">LaterPay Händlerkonto</a>,<br> um Ihren "
-#~ "Sandbox API Key abzurufen."
-
-#~ msgid ""
-#~ "Go to your <a href=\"%s\">LaterPay Merchantbackend</a><br>to get your "
-#~ "Live Merchant ID."
-#~ msgstr ""
-#~ "Besuchen Sie Ihr<a href=\"%s\">LaterPay Händlerkonto</a>,<br> um Ihre "
-#~ "Live Merchant ID abzurufen."
-
-#~ msgid "LaterPay GmbH"
-#~ msgstr "LaterPay GmbH"
-
-#~ msgid ""
-#~ "Search engines can see and index all content now, even <strong>paid "
-#~ "content</strong> that is restricted for visitors."
-#~ msgstr ""
-#~ "Suchmaschinen können alle Inhalte indizieren. Auch "
-#~ "<strong>kostenpflichtige Artikel</strong>, die für Besucher nicht "
-#~ "zugänglich sind."
-
-#~ msgid ""
-#~ "Search engines can only see and index <strong>free content</strong> now."
-#~ msgstr ""
-#~ "Suchmaschinen können <strong>nur kostenfreie Inhalte</strong> indizieren."
-
-#~ msgid "Premium content powered by LaterPay"
-#~ msgstr "Premium-Inhalt powered by LaterPay"
-
-#~ msgid "Error"
-#~ msgstr "Fehler"
-
-#~ msgid "Visibility for search engines"
-#~ msgstr "Sichtbarkeit für Suchmaschinen"
-
-#~ msgid "Search engines <strong>cannot index</strong>"
-#~ msgstr ""
-#~ "Suchmaschinen können kostenpflichtige Beiträge <strong>nicht indizieren</"
-#~ "strong>."
-
-#~ msgid "<strong>can index</strong> paid content."
-#~ msgstr "<strong>können</strong> kostenpflichtige Beiträge indizieren."
-
-#~ msgid "free"
-#~ msgstr "kostenlos"
-
-#~ msgid "Close"
-#~ msgstr "Schließen"
-
-#~ msgid "Free"
-#~ msgstr "Kostenlos"
