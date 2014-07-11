@@ -11,7 +11,7 @@ return array_merge(array(
     // #############################################################################
 
     // Path to images, CSS, JS, and font files
-    'LATERPAY_ASSET_PATH' =>               WP_PLUGIN_URL . '/' . LATERPAY_BASE_NAME . '/static',
+    'LATERPAY_ASSETS_PATH' =>               WP_PLUGIN_URL . '/' . LATERPAY_BASE_NAME . '/assets',
 
     // Parameters for plugin auto-update functionality
     'LATERPAY_GITHUB_PROJECT_NAME' =>      'laterpay-wordpress-plugin',

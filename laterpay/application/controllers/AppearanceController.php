@@ -9,14 +9,14 @@ class AppearanceController extends AbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-ezmark',
-            LATERPAY_ASSET_PATH . '/js/vendor/jquery.ezmark.min.js',
+            LATERPAY_ASSETS_PATH . '/js/vendor/jquery.ezmark.min.js',
             array('jquery'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-backend-appearance',
-            LATERPAY_ASSET_PATH . '/js/laterpay-backend-appearance.js',
+            LATERPAY_ASSETS_PATH . '/js/laterpay-backend-appearance.js',
             array('jquery', 'laterpay-ezmark'),
             $laterpay_version,
             true
@@ -32,7 +32,7 @@ class AppearanceController extends AbstractController {
      */
     public function page() {
         $this->loadAssets();
-        
+
         $this->assign('plugin_is_in_live_mode',     get_option('laterpay_plugin_is_in_live_mode') == 1);
         $this->assign('show_teaser_content_only',   get_option('laterpay_teaser_content_only') == 1);
 

@@ -146,10 +146,8 @@ support.laterpay.net
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.png. Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`.
-2. This is the second screen shot
+1. The Account tab in the WordPress backend let's you ...
+2. ...
 
 
 == Changelog ==
@@ -194,7 +192,7 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 * Applied a few visual fixes
 
 = 0.9.3.3 (June 26, 2014): Post-migration release =
-* Updated LATERPAY_ASSET_PATH constant to include '/static'
+* Updated LATERPAY_ASSETS_PATH constant to include '/static'
 
 = 0.9.3.2 (June 26, 2014): Pre-migration release =
 * Updated configuration for auto-update functionality to allow migration to new public repo
