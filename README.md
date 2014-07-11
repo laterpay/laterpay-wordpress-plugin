@@ -19,7 +19,7 @@ Please get involved in this project and contribute back changes other users woul
 ## Updating Translations
 * Go to a server the plugin is installed on
 * Make sure SVN is available (`apt-get install subversion`)
-* Make sure the WordPress tran`slation tools are available (`svn checkout http://i18n.svn.wordpress.org/tools/trunk/`)
+* Make sure the WordPress translation tools are available (`svn checkout http://i18n.svn.wordpress.org/tools/trunk/`)
 * Extract POT file with translations (php makepot.php wp-plugin /path/to/my-plugin): e.g. `php makepot.php wp-plugin /var/www/wp-content/plugins/laterpay`
 * Download laterpay.pot to the languages folder of your local copy of the plugin
 * Open outdated PO file with Poedit (http://poedit.net)
