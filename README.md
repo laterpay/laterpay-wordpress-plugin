@@ -23,7 +23,7 @@ Please get involved in this project and contribute back changes other users woul
 * Extract POT file with translations (php makepot.php wp-plugin /path/to/my-plugin): e.g. `php makepot.php wp-plugin /var/www/wp-content/plugins/laterpay`
 * Download laterpay.pot to the languages folder of your local copy of the plugin
 * Open outdated PO file with Poedit (http://poedit.net)
-* Go to Catalog > Update from POT file… and choose the new POT file
+* Choose Catalog > Update from POT file… and select the new POT file
 * Update translations
 * Save to generate the new PO/MO files
 
