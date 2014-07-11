@@ -1,7 +1,10 @@
 === LaterPay ===
 
 Contributors: (this should be a list of wordpress.org userid's)
-Tags: payment, micropayment, laterpay, pay-per-use, paywall
+Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization,
+creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize,
+paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale,
+wordpress laterpay
 Requires at least: 3.3
 Tested up to: 3.9.1
 Stable tag:
@@ -19,23 +22,23 @@ It is particularly suitable for micropayments and allows you to sell content fro
 The LaterPay WordPress plugin offers the following features:
 
 = Pricing =
-    - Price types: The plugin allows you to set different price types for your blog posts:
-        - Global default price: This price is by default applied to all new and existing posts of the blog.
-        - Category default price: This price is applied to all new and existing posts in a given category.
-          If a category default price is set, it overwrites the global default price.
-          E.g. setting a category default price of 0.00 Euro, while having set a global default price of 0.49 Euro,
-          makes all posts in that category free.
-        - Individual price: This price can be set for each post.
-          It overwrites both the category default price and the global default price for the respective article.
-          E.g. setting an individual price of 0.19 Euro with a category default price of 0.10 Euro and a global
-          default price of 0.00 Euro results in a price for that post of 0.19 Euro.
-    - Default Currency: The plugin allows you to set the default currency for your blog.
-      Changing the default currency will not change the prices you have set, but only the currency code
-      that is displayed next to the price.
-    - Advanced Pricing: For every single post, you can set an advanced pricing scheme that changes the price of a blog post
-      over time. You can choose from several presets that you can adjust to your needs.
-      E.g. you can offer a breaking news post for 0.49 Euro for the first day and then automatically reduce the price
-      to 0.05 Euro to increase your sales.
+* Price types: The plugin allows you to set different price types for your blog posts:
+  ** Global default price: This price is by default applied to all new and existing posts of the blog.
+  ** Category default price: This price is applied to all new and existing posts in a given category.
+     If a category default price is set, it overwrites the global default price.
+     E.g. setting a category default price of 0.00 Euro, while having set a global default price of 0.49 Euro,
+     makes all posts in that category free.
+  ** Individual price: This price can be set for each post.
+     It overwrites both the category default price and the global default price for the respective article.
+     E.g. setting an individual price of 0.19 Euro with a category default price of 0.10 Euro and a global
+     default price of 0.00 Euro results in a price for that post of 0.19 Euro.
+* Default Currency: The plugin allows you to set the default currency for your blog.
+  Changing the default currency will not change the prices you have set, but only the currency code
+  that is displayed next to the price.
+* Advanced Pricing: For every single post, you can set an advanced pricing scheme that changes the price of a blog post
+  over time. You can choose from several presets that you can adjust to your needs.
+  E.g. you can offer a breaking news post for 0.49 Euro for the first day and then automatically reduce the price
+  to 0.05 Euro to increase your sales.
 
 = Presentation =
 * LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button next to the post title.
@@ -135,10 +138,14 @@ You can find further information about LaterPay and the LaterPay WordPress plugi
 support.laterpay.net
 
 = How do I get my LaterPay Live API credentials? =
-...
+To get your LaterPay Live API credentials, please send us the signed merchant contract and all necessary identification
+documents that are listed in the merchant contract. After we've checked your documents, we will send you an e-mail with
+your LaterPay Live API credentials.
 
 = My theme looks broken after activating the LaterPay plugin =
-...
+The LaterPay WordPress plugin has been tested to work fine with most WordPress standard themes.
+Given the sheer mass of available WordPress themes, it is still likely that you will have to make some adjustments to
+your theme after installing the LaterPay WordPress plugin.
 
 = The links to related posts are broken =
 The plugin prepends the purchase button to the title of a post ($the_title). A lot of themes use $the_title in the "title"
@@ -151,8 +158,15 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 
 == Screenshots ==
 
-1. The Account tab in the WordPress backend let's you ...
-2. ...
+1. Get started with just three steps.
+2. LaterPay lets you easily enter teaser content and set an individual or...
+3. Dynamic price for your blogposts.
+4. In the pricing tab, you can set default prices for the entire blog or specific categories.
+5. In the appearance tab, you can choose between two preview modes for your content.
+6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
+7. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
+8. The account tab lets you enter, update or delete your API credentials and switch between test and live mode.
+9. The statistics tab provides sales statistics for each post.
 
 
 == Changelog ==
