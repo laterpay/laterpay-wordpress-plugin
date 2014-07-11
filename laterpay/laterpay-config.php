@@ -29,4 +29,8 @@ return array_merge(array(
     'LATERPAY_CURRENCY_DEFAULT' =>         'EUR',
     'LATERPAY_GLOBAL_PRICE_DEFAULT' =>     0.29,
     'LATERPAY_VAT' =>                      'DE19',
+
+    // Default Sandbox API credentials for easy tryouts
+    'LATERPAY_DEFAULT_SANDBOX_MERCHANT_ID' => 'LaterPay-WordPressDemo',
+    'LATERPAY_DEFAULT_SANDBOX_API_KEY' =>  'decafbaddecafbaddecafbaddecafbad',
 ), $user_settings);

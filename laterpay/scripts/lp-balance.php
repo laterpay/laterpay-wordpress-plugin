@@ -31,10 +31,11 @@ if ( !function_exists('wp_get_current_user')) {
     include_once(ABSPATH . 'wp-includes/pluggable.php');
 }
 
+// don't render the iframe publicly in test mode
 if ( $isLive || (!$isLive && current_user_can('manage_options')) ) {
     $response->setHeader('Location', $client->getIframeApiBalanceUrl());
     $response->setHttpResponseCode(302);
     $response->sendResponse();
-} else {
+else {
     $response->sendResponse();
 }

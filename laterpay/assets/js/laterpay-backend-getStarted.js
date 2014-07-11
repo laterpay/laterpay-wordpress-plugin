@@ -120,9 +120,6 @@ jQuery.noConflict();
         validateAPIKey();
     });
 
-    // initialize page
-    $('.api-key-input, .merchant-id-input').first().focus();
-
     // hide pointer while viewing the getStarted tab
     $(document).ready(function() {
         if (typeof($().pointer) !== 'undefined' && $('#toplevel_page_laterpay-laterpay-admin').data('wpPointer')) {
