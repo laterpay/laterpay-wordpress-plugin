@@ -26,9 +26,9 @@
         <li>
             <a href="#" class="use-category-default-price"><?php _e('Category Default Price', 'laterpay'); ?></a>
         </li>
-        <?php if ( !is_null($global_price) ): ?>
+        <?php if ( !is_null($global_default_price) ): ?>
             <li>
-                <a href="#" class="use-global-default-price" data-price="<?php echo $global_price; ?>"><?php _e('Global Default Price', 'laterpay'); ?></a>
+                <a href="#" class="use-global-default-price" data-price="<?php echo $global_default_price; ?>"><?php _e('Global Default Price', 'laterpay'); ?></a>
             </li>
         <?php endif; ?>
     </ul>
