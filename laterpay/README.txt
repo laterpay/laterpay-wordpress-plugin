@@ -1,10 +1,7 @@
 === LaterPay ===
 
-Contributors: (this should be a list of wordpress.org userid's)
-Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization,
-creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize,
-paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale,
-wordpress laterpay
+Contributors: dominik-rodler
+Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.3
 Tested up to: 3.9.1
 Stable tag:
@@ -158,14 +155,14 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 
 == Screenshots ==
 
-1. Get started with just three steps.
+1. Get started with three simple steps.
 2. LaterPay lets you easily enter teaser content and set an individual or...
 3. Dynamic price for your blogposts.
 4. In the Pricing tab, you can set default prices for the entire blog or specific categories.
 5. In the Appearance tab, you can choose between two preview modes for your content.
 6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
 7. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
-8. The Account tab lets you enter, update or delete your API credentials and switch between test and live mode.
+8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
 9. The statistics pane provides sales statistics for each post.
 
 
