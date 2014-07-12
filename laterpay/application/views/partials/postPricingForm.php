@@ -51,11 +51,13 @@
         </div>
         <div class="use-category-default-price details-section" style="display:none;">
             <ul>
-                <li class="selected-category" data-category="8"><a href="#" data-price="0.29"><span>0.29 EUR</span>Category 1</a></li>
-                <li data-category="5"><a href="#" data-price="0.49"><span>0.49 EUR</span>Category 2</a></li>
-                <li data-category="3"><a href="#" data-price="0.09"><span>0.09 EUR</span>Category 3</a></li>
-                <li data-category="1"><a href="#" data-price="0.29"><span>0.29 EUR</span>Category 4</a></li>
-                <li data-category="7"><a href="#" data-price="0.99"><span>0.99 EUR</span>Category 5</a></li>
+                <?php #foreach($category_prices as $c): ?>
+                    <li data-category="<?php #echo $c[category_id]; ?>">
+                        <a href="#" data-price="<?php #echo $c[category_price]; ?>">
+                            <span><?php #echo $c[category_price]; ?> <?php #echo $currency; ?></span><?php #echo $c[category_name]; ?>
+                        </a>
+                    </li>
+                <?php #endforeach; ?>
             </ul>
         </div>
     </div>
