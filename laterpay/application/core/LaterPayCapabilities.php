@@ -17,11 +17,7 @@ class LaterPayCapabilities {
    protected function populateRoles0951() {
         $role = get_role( 'administrator' );
         if ( !empty( $role ) ) {
-// This options by default available only for administrator
-//            $role->add_cap( 'laterpay_install' );
-//            $role->add_cap( 'laterpay_activate' );
-//            $role->add_cap( 'laterpay_deactivate' );
-//            $role->add_cap( 'laterpay_uninstall' );
+            $role->add_cap( 'laterpay_read_plugin_pages' );
             $role->add_cap( 'laterpay_edit_plugin_settings' );
         }
         
@@ -30,7 +26,6 @@ class LaterPayCapabilities {
             $role = get_role($role);
             if ( empty($role) )
                 continue;
-            $role->add_cap( 'laterpay_read_plugin_pages' );
             $role->add_cap( 'laterpay_read_post_statistics' );
             $role->add_cap( 'laterpay_edit_individual_price' );
             $role->add_cap( 'laterpay_edit_teaser_content' );

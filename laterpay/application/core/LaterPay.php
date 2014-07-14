@@ -352,10 +352,8 @@ class LaterPay {
     }
 
     protected function setupTeaserContentBox() {
-        if (UserHelper::isAllowed('laterpay_edit_teaser_content')) {
-            add_action('save_post', array($this->getPostPricingController(), 'saveTeaserContentBox'));
-            add_action('admin_menu', array($this, 'addTeaserContentBox'));
-        }
+        add_action('save_post', array($this->getPostPricingController(), 'saveTeaserContentBox'));
+        add_action('admin_menu', array($this, 'addTeaserContentBox'));
     }
 
     /**
@@ -372,10 +370,8 @@ class LaterPay {
     }
 
     protected function setupPricingPostContentBox() {
-        if (UserHelper::isAllowed('laterpay_edit_individual_price')) {
-            add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
-            add_action('admin_menu', array($this, 'addPricingPostContentBox'));
-        }
+        add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
+        add_action('admin_menu', array($this, 'addPricingPostContentBox'));
     }
 
     /**

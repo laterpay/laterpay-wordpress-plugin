@@ -57,7 +57,7 @@ class PostContentController extends AbstractController {
             $teaser_content_only    = get_option('laterpay_teaser_content_only');
             if ( is_single() ) {
                 // check for required privileges to perform action
-                if ( UserHelper::isAllowed('laterpay_read_post_statistics') ) {
+                if ( UserHelper::isAllowed('laterpay_read_post_statistics', $post_id) ) {
                     $access = true;
                     $this->setStatistic();
                 } else if ( UserHelper::user_has_full_access() ) {
@@ -77,9 +77,9 @@ class PostContentController extends AbstractController {
                 $this->assign('is_premium_content',         $is_premium_content);
                 $this->assign('access',                     $access);
                 $this->assign('link',                       $link);
-                $this->assign('can_show_statistic',         UserHelper::isAllowed('laterpay_read_post_statistics') && (!RequestHelper::isAjax() || $laterpay_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content);
+                $this->assign('can_show_statistic',         UserHelper::isAllowed('laterpay_read_post_statistics', $post_id) && (!RequestHelper::isAjax() || $laterpay_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content);
                 $this->assign('post_content_cached',        CacheHelper::siteUsesPageCaching());
-                $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor());
+                $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor($post_id));
                 $this->assign('hide_statistics_pane',       UserHelper::isHiddenStatisticsPane());
 
                 $html = $this->getTextView('singlePost');
@@ -521,7 +521,7 @@ class PostContentController extends AbstractController {
             $is_premium_content = $float_price > 0;
             $access             = $GLOBALS['laterpay_access'] || UserHelper::isAllowed('laterpay_read_post_statistics', $post) || UserHelper::user_has_full_access();
             $link               = self::getLPLink($post_id);
-            $preview_post_as_visitor = UserHelper::previewPostAsVisitor();
+            $preview_post_as_visitor = UserHelper::previewPostAsVisitor($post);
             $post_content_cached = CacheHelper::siteUsesPageCaching();
 
             if ( $is_premium_content && is_single() && !is_page() ) {

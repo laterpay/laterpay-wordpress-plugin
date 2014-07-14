@@ -62,7 +62,7 @@ class PostPricingController extends AbstractController {
                 'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
                 'locale'                => get_locale(),
                 'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
-                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_post_edit);',
+                'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_post_edit);',
             )
         );
         wp_localize_script(
@@ -71,7 +71,7 @@ class PostPricingController extends AbstractController {
             array(
                 'currency'          => get_option('laterpay_currency'),
                 'i18nDefaultPrice'  => __('default price', 'laterpay'),
-                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget);',
+                'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_d3_dynamic_pricing_widget);',
             )
         );
     }
@@ -84,6 +84,9 @@ class PostPricingController extends AbstractController {
      * @access public
      */
     public function teaserContentBox( $object ) {
+        if (!UserHelper::isAllowed('laterpay_edit_teaser_content', $object)) {
+            return;
+        }
         $settings = array(
             'wpautop'         => 1,
             'media_buttons'   => 1,
@@ -138,6 +141,9 @@ class PostPricingController extends AbstractController {
      * @access public
      */
     public function pricingPostContentBox( $object ) {
+        if (!UserHelper::isAllowed('laterpay_edit_individual_price', $object)) {
+            return;
+        }
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
 
         $category = get_the_category($object->ID);
