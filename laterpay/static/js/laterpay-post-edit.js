@@ -106,7 +106,7 @@ console.log(data + '; 0 means function get_category_prices not found :-(');
         laterpaySetPrice($(this).val());
     });
 
-    $('#laterpay-price-type .lp-toggle a')
+    $('#laterpay-price-type .lp-toggle li:not(.disabled, .selected) a')
     .mousedown(function() {
         var $this                   = $(this),
             $priceSection           = $('#laterpay-price-type'),
