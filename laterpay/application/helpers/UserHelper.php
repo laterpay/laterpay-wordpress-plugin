@@ -3,6 +3,37 @@
 class UserHelper {
     protected static $_preview_post_as_visitor = null;
     protected static $_hide_statistics_pane = null;
+    
+    public static function isAllowed($capability, $post = null, $strict = true) {
+        $allowed = false;
+        $post = get_post($post);
+
+        if ( !function_exists('wp_get_current_user')) {
+            include_once(ABSPATH . 'wp-includes/pluggable.php');
+        }
+        if (current_user_can($capability)) {
+            if ( !$strict ) {
+                $allowed = true;
+            } else {
+                switch ($capability) {
+                    case 'laterpay_read_post_statistics':
+                    case 'laterpay_edit_individual_price':
+                    case 'laterpay_edit_teaser_content':
+                        $user = wp_get_current_user();
+                        if (in_array('administrator', $user->roles) || in_array('editor', $user->roles)) {
+                            $allowed = true;
+                        } elseif (!empty($post) && $post->post_author == $user->ID) {
+                            $allowed = true;
+                        }
+                        break;
+                    default:
+                        $allowed = true;
+                        break;
+                }
+            }
+        }
+        return $allowed;
+    }
 
     /**
      * Checks if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.
@@ -48,7 +79,7 @@ class UserHelper {
      *
      * @return bool
      */
-    public static function previewPostAsVisitor() {
+    public static function previewPostAsVisitor($post = null) {
         if ( is_null(self::$_preview_post_as_visitor) ) {
             $preview_post_as_visitor = 0;
             $current_user            = wp_get_current_user();
@@ -58,7 +89,7 @@ class UserHelper {
                    $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
             }
-            self::$_preview_post_as_visitor = $preview_post_as_visitor && current_user_can('manage_options');
+            self::$_preview_post_as_visitor = $preview_post_as_visitor && self::isAllowed('laterpay_read_post_statistics', $post);
         }
 
         return self::$_preview_post_as_visitor;

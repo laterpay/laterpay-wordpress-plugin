@@ -305,7 +305,7 @@ class LaterPay {
         add_menu_page(
             __('LaterPay Plugin Settings', 'laterpay'),
             'LaterPay',
-            'manage_options',
+            'laterpay_read_plugin_pages',
             'laterpay/laterpay-admin.php',
             '',
             'dashicons-laterpay-logo',
@@ -638,6 +638,8 @@ class LaterPay {
 
         if ( get_option('laterpay_version') != $laterpay_version ) {
             $this->activate();
+            $_capabilities = new LaterPayCapabilities();
+            $_capabilities->populateRoles();
         }
     }
 
