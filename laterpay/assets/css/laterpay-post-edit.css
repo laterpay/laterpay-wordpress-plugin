@@ -39,9 +39,9 @@ a:active {outline:0 none;} /* remove dotted line around links */
 /* price type section */
 #laterpay-price-type {border:1px solid #ddd; border-radius:3px;}
 
-ul.lp-toggle {background-color:#eee; margin:0; padding:0;}
+ul.lp-toggle {background-color:#e9e9e9; margin:0; padding:0;}
 ul.lp-toggle li {
-    box-shadow:-1px 0 0 #ddd inset;
+    box-shadow:inset 1px 0 0 #ddd, inset 0 1px 0 rgba(255, 255, 255, 0.55);
     float:left;
     line-height:1.25;
     margin:0;
@@ -49,14 +49,13 @@ ul.lp-toggle li {
     text-align:center;
     width:33.333%;
 }
-ul.lp-toggle li:first-child {border-radius:2px 0 0 2px;}
-ul.lp-toggle li:last-child {border-radius:0 2px 2px 0;}
-ul.lp-toggle li:last-child {box-shadow:none;}
+ul.lp-toggle li:first-child {border-radius:2px 0 0 2px; box-shadow:inset 1px 1px 0 rgba(255, 255, 255, 0.55);}
+ul.lp-toggle li:last-child {border-radius:0 2px 2px 0; box-shadow:inset 1px 0 0 #ddd, inset -1px 1px 0 rgba(255, 255, 255, 0.55);}
 ul.lp-toggle li.selected,
-ul.lp-toggle li.selected:hover {background-color:#ddd;}
-ul.lp-toggle li.disabled:hover {background-color:#eee;}
+ul.lp-toggle li.selected:hover {background-color:#d5d5d5;}
+ul.lp-toggle li.disabled:hover {background-color:#e9e9e9;}
 ul.lp-toggle li.disabled a,
-ul.lp-toggle li.disabled:hover a {color:#ccc; cursor:default;}
+ul.lp-toggle li.disabled:hover a {color:#d5d5d5; cursor:default;}
 ul.lp-toggle li:hover {background-color:#2ea2cc;}
 ul.lp-toggle li:hover a {color:#fff;}
 ul.lp-toggle li.selected {box-shadow:0 1px 3px rgba(0, 0, 0, 0.34) inset;}
