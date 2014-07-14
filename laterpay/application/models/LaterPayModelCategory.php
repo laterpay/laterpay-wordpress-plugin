@@ -73,6 +73,8 @@ class LaterPayModelCategory {
     public function getCategoryPriceDataByCategoryIds( $ids ) {
         global $wpdb;
 
+        // TODO: filter invalid categories (e.g. 1 for uncategorized)
+
         $id_list = implode($ids, ',');
 
         $sql = "

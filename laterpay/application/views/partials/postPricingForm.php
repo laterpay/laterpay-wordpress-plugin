@@ -23,14 +23,12 @@
         <li class="selected">
             <a href="#" class="use-individual-price"><?php _e('Individual Price', 'laterpay'); ?></a>
         </li>
-        <li<?php if ( !($category_default_price > 0) ): ?> style="display:none;"<?php endif; ?>>
+        <li<?php if ( !($category_default_price > 0) ): ?> class="disabled"<?php endif; ?>>
             <a href="#" class="use-category-default-price"><?php _e('Category Default Price', 'laterpay'); ?></a>
         </li>
-        <?php if ( !is_null($global_default_price) ): ?>
-            <li>
-                <a href="#" class="use-global-default-price" data-price="<?php echo $global_default_price; ?>"><?php _e('Global Default Price', 'laterpay'); ?></a>
-            </li>
-        <?php endif; ?>
+        <li<?php if ( !($global_default_price > 0) ): ?> class="disabled"<?php endif; ?>>
+            <a href="#" class="use-global-default-price" data-price="<?php echo $global_default_price; ?>"><?php _e('Global Default<span></span> Price', 'laterpay'); ?></a>
+        </li>
     </ul>
     <div id="laterpay-price-type-details">
         <div id="laterpay-dynamic-pricing" class="use-individual-price details-section" style="display:none;">
