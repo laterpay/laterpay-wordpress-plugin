@@ -376,7 +376,7 @@ class LaterPay {
     }
 
     protected function setupPremiumDownloadsShortcode() {
-        add_shortcode('laterpay_premium_download', array($this, 'renderPremiumDownloadLink'));
+        add_shortcode('laterpay_premium_download', array($this, 'renderPremiumDownloadBox'));
     }
 
     /**
@@ -393,7 +393,7 @@ class LaterPay {
      *   restricted to a maximum of three lines
      * - teaser_image_path: path to an image that should be used instead of the default LaterPay teaser image
      */
-    public function renderPremiumDownloadLink( $atts ) {
+    public function renderPremiumDownloadBox( $atts ) {
         $a = shortcode_atts(array(
                'target_page_title'  => '',
                'content_type'       => 'file',
