@@ -1,6 +1,6 @@
 <?php
 
-class GitHubPluginUpdater {
+class LaterPayGitHubPluginUpdater {
 
     const GITHUB_API_URL = 'https://api.github.com';
 

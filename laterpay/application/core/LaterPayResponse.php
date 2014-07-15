@@ -1,6 +1,6 @@
 <?php
 
-class Response extends Entity {
+class LaterPayResponse extends LaterPayEntity {
 
     public function _construct() {
         parent::_construct();
@@ -36,7 +36,7 @@ class Response extends Entity {
      * @param string  $value
      * @param boolean $replace
      *
-     * @return Response
+     * @return LaterPayResponse
      */
     public function setHeader( $name, $value, $replace = false ) {
         $name       = $this->_normalizeHeader($name);
@@ -65,7 +65,7 @@ class Response extends Entity {
      *
      * Sends any headers specified.
      *
-     * @return Response
+     * @return LaterPayResponse
      */
     public function sendHeaders() {
         if ( headers_sent() ) {
@@ -94,7 +94,7 @@ class Response extends Entity {
      *
      * @param int $code
      *
-     * @return Response
+     * @return LaterPayResponse
      */
     public function setHttpResponseCode( $code ) {
         if ( !is_int($code) || (100 > $code) || (599 < $code) ) {

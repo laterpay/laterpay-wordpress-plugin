@@ -12,161 +12,161 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: application/controllers/AccountController.php:24
+#: application/controllers/LaterPayAccountController.php:24
 msgid "The API key you entered is not a valid LaterPay API key!"
 msgstr ""
 
-#: application/controllers/AccountController.php:25
+#: application/controllers/LaterPayAccountController.php:25
 msgid "The Merchant ID you entered is not a valid LaterPay Merchant ID!"
 msgstr ""
 
-#: application/controllers/AccountController.php:26
+#: application/controllers/LaterPayAccountController.php:26
 msgid "Switching into Live mode requires a valid Live Merchant ID and Live API Key."
 msgstr ""
 
-#: application/controllers/AccountController.php:27
+#: application/controllers/LaterPayAccountController.php:27
 msgid "LaterPay does not work properly with invalid API credentials."
 msgstr ""
 
-#: application/controllers/AccountController.php:61
-#: application/controllers/AdminController.php:140
-#: application/controllers/AppearanceController.php:54
-#: application/controllers/PricingController.php:71
+#: application/controllers/LaterPayAccountController.php:61
+#: application/controllers/LaterPayAdminController.php:140
+#: application/controllers/LaterPayAppearanceController.php:54
+#: application/controllers/LaterPayPricingController.php:71
 msgid "You don´t have sufficient user privileges to do this."
 msgstr ""
 
-#: application/controllers/AccountController.php:96
-#: application/controllers/AdminController.php:157
-#: application/controllers/AdminController.php:187
-#: application/controllers/AppearanceController.php:88
-#: application/controllers/AppearanceController.php:99
-#: application/controllers/PricingController.php:102
-#: application/controllers/PricingController.php:247
-#: application/controllers/PricingController.php:363
+#: application/controllers/LaterPayAccountController.php:96
+#: application/controllers/LaterPayAdminController.php:157
+#: application/controllers/LaterPayAdminController.php:187
+#: application/controllers/LaterPayAppearanceController.php:88
+#: application/controllers/LaterPayAppearanceController.php:99
+#: application/controllers/LaterPayPricingController.php:102
+#: application/controllers/LaterPayPricingController.php:247
+#: application/controllers/LaterPayPricingController.php:363
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 
-#: application/controllers/AccountController.php:115
+#: application/controllers/LaterPayAccountController.php:115
 msgid "Sandbox Merchant ID verified and saved."
 msgstr ""
 
-#: application/controllers/AccountController.php:123
+#: application/controllers/LaterPayAccountController.php:123
 msgid "The Sandbox Merchant ID has been removed."
 msgstr ""
 
-#: application/controllers/AccountController.php:130
-#: application/controllers/GetStartedController.php:26
+#: application/controllers/LaterPayAccountController.php:130
+#: application/controllers/LaterPayGetStartedController.php:26
 msgid "The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!"
 msgstr ""
 
-#: application/controllers/AccountController.php:148
+#: application/controllers/LaterPayAccountController.php:148
 msgid "Sandbox API key verified and saved. You can now make TEST transactions."
 msgstr ""
 
-#: application/controllers/AccountController.php:156
+#: application/controllers/LaterPayAccountController.php:156
 msgid "The Sandbox API key has been removed."
 msgstr ""
 
-#: application/controllers/AccountController.php:163
-#: application/controllers/GetStartedController.php:27
+#: application/controllers/LaterPayAccountController.php:163
+#: application/controllers/LaterPayGetStartedController.php:27
 msgid "The API key you entered is not a valid LaterPay Sandbox API key!"
 msgstr ""
 
-#: application/controllers/AccountController.php:181
+#: application/controllers/LaterPayAccountController.php:181
 msgid "Live Merchant ID verified and saved."
 msgstr ""
 
-#: application/controllers/AccountController.php:189
+#: application/controllers/LaterPayAccountController.php:189
 msgid "The Live Merchant ID has been removed."
 msgstr ""
 
-#: application/controllers/AccountController.php:196
+#: application/controllers/LaterPayAccountController.php:196
 msgid "The Merchant ID you entered is not a valid LaterPay Live Merchant ID!"
 msgstr ""
 
-#: application/controllers/AccountController.php:214
+#: application/controllers/LaterPayAccountController.php:214
 msgid "Live API key verified and saved. You can now make REAL transactions."
 msgstr ""
 
-#: application/controllers/AccountController.php:222
+#: application/controllers/LaterPayAccountController.php:222
 msgid "The Live API key has been removed."
 msgstr ""
 
-#: application/controllers/AccountController.php:229
+#: application/controllers/LaterPayAccountController.php:229
 msgid "The API key you entered is not a valid LaterPay Live API key!"
 msgstr ""
 
-#: application/controllers/AccountController.php:248
+#: application/controllers/LaterPayAccountController.php:248
 msgid "The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account."
 msgstr ""
 
-#: application/controllers/AccountController.php:255
+#: application/controllers/LaterPayAccountController.php:255
 msgid "The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked."
 msgstr ""
 
-#: application/controllers/AdminController.php:167
+#: application/controllers/LaterPayAdminController.php:167
 msgid "Updated."
 msgstr ""
 
-#: application/controllers/AppearanceController.php:73
+#: application/controllers/LaterPayAppearanceController.php:73
 msgid "Visitors will now see only the teaser content of paid posts."
 msgstr ""
 
-#: application/controllers/AppearanceController.php:80
+#: application/controllers/LaterPayAppearanceController.php:80
 msgid "Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay."
 msgstr ""
 
-#: application/controllers/GetStartedController.php:25
+#: application/controllers/LaterPayGetStartedController.php:25
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
 msgstr ""
 
-#: application/controllers/PostContentController.php:535
+#: application/controllers/LaterPayPostContentController.php:535
 #: application/views/singlePost.php:159
 msgid "Buy now with LaterPay"
 msgstr ""
 
-#: application/controllers/PostContentController.php:538
+#: application/controllers/LaterPayPostContentController.php:538
 #: application/views/singlePost.php:159
 msgid "%s<small>%s</small>"
 msgstr ""
 
-#: application/controllers/PostPricingController.php:64
+#: application/controllers/LaterPayPostPricingController.php:64
 msgid "Paid posts require some teaser content. Please fill in the Teaser Content field."
 msgstr ""
 
-#: application/controllers/PostPricingController.php:73
+#: application/controllers/LaterPayPostPricingController.php:73
 msgid "default price"
 msgstr ""
 
-#: application/controllers/PostPricingController.php:103
+#: application/controllers/LaterPayPostPricingController.php:103
 msgid "This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing!"
 msgstr ""
 
-#: application/controllers/PricingController.php:144
+#: application/controllers/LaterPayPricingController.php:144
 msgid "The currency for this website is %s now."
 msgstr ""
 
-#: application/controllers/PricingController.php:165
-#: application/controllers/PricingController.php:202
+#: application/controllers/LaterPayPricingController.php:165
+#: application/controllers/LaterPayPricingController.php:202
 msgid "The price you tried to set is not within the allowed range of 0 to 5.00."
 msgstr ""
 
-#: application/controllers/PricingController.php:181
+#: application/controllers/LaterPayPricingController.php:181
 msgid "The global default price for all posts is %s %s now."
 msgstr ""
 
-#: application/controllers/PricingController.php:235
-#: application/controllers/PricingController.php:310
+#: application/controllers/LaterPayPricingController.php:235
+#: application/controllers/LaterPayPricingController.php:310
 msgid "There is no such category on this website."
 msgstr ""
 
-#: application/controllers/PricingController.php:264
-#: application/controllers/PricingController.php:288
-#: application/controllers/PricingController.php:333
+#: application/controllers/LaterPayPricingController.php:264
+#: application/controllers/LaterPayPricingController.php:288
+#: application/controllers/LaterPayPricingController.php:333
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr ""
 
-#: application/controllers/PricingController.php:356
+#: application/controllers/LaterPayPricingController.php:356
 msgid "The default price for this category was deleted."
 msgstr ""
 

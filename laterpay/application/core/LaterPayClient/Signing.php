@@ -22,7 +22,7 @@ class LaterPayClient_Signing {
         $crypt->setKey($secret);
         $hash = bin2hex($crypt->hash($data));
 
-        Logger::debug('LaterPayClient_Signing::createHmac', array($hash));
+        LaterPayLogger::debug('LaterPayClient_Signing::createHmac', array($hash));
 
         return $hash;
     }
@@ -64,7 +64,7 @@ class LaterPayClient_Signing {
             }
         }
 
-        Logger::debug('LaterPayClient_Signing::normaliseParamStructure', array($params, $out));
+        LaterPayLogger::debug('LaterPayClient_Signing::normaliseParamStructure', array($params, $out));
 
         return $out;
     }
@@ -78,7 +78,7 @@ class LaterPayClient_Signing {
      *
      * @return string
      */
-    protected static function createBaseMessage( $params, $url, $method = Request::POST ) {
+    protected static function createBaseMessage( $params, $url, $method = LaterPayRequest::POST ) {
         $msg = '{method}&{url}&{params}';
         $method = strtoupper($method);
 
@@ -111,7 +111,7 @@ class LaterPayClient_Signing {
         $param_str = rawurlencode(join('&', $data));
         $result = str_replace(array('{method}', '{url}', '{params}'), array($method, $url, $param_str), $msg);
 
-        Logger::debug('LaterPayClient_Signing::createBaseMessage', array($result));
+        LaterPayLogger::debug('LaterPayClient_Signing::createBaseMessage', array($result));
 
         return $result;
     }
@@ -126,9 +126,9 @@ class LaterPayClient_Signing {
      *
      * @return string
      */
-    protected static function sign( $secret, $params, $url, $method = Request::POST ) {
+    protected static function sign( $secret, $params, $url, $method = LaterPayRequest::POST ) {
 
-        Logger::debug('LaterPayClient_Signing::sign', array($secret, $params, $url, $method));
+        LaterPayLogger::debug('LaterPayClient_Signing::sign', array($secret, $params, $url, $method));
 
         $secret = utf8_encode($secret);
 
@@ -158,7 +158,7 @@ class LaterPayClient_Signing {
      *
      * @return string query params
      */
-    public static function signAndEncode( $secret, $params, $url, $method = Request::GET ) {
+    public static function signAndEncode( $secret, $params, $url, $method = LaterPayRequest::GET ) {
         if ( !isset($params['ts']) ) {
             $params['ts'] = (string)time();
         }
@@ -193,7 +193,7 @@ class LaterPayClient_Signing {
         // hash the querystring data
         $hmac = self::sign($secret, $params, $url, $method);
 
-        Logger::debug('LaterPayClient_Signing::sign', array('encoded' => $encoded));
+        LaterPayLogger::debug('LaterPayClient_Signing::sign', array('encoded' => $encoded));
 
         return $encoded . '&hmac=' . $hmac;
     }

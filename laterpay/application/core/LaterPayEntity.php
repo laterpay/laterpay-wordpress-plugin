@@ -5,7 +5,7 @@
  *
  * @package    Laterpay
  */
-class Entity {
+class LaterPayEntity {
 
     /**
      * Object attributes

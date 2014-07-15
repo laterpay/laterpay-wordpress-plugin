@@ -9,25 +9,25 @@ class LaterPay {
     /**
      *
      *
-     * @var PostPricingController
+     * @var LaterPayPostPricingController
      */
-    private $_postPricingController;
+    private $_laterPayPostPricingController;
     /**
      *
      *
-     * @var AdminController
+     * @var LaterPayAdminController
      */
-    private $_adminController;
+    private $_laterPayAdminController;
     /**
      *
      *
-     * @var PostContentController
+     * @var LaterPayPostContentController
      */
-    private $_postContentController;
+    private $_laterPayPostContentController;
     /**
      *
      *
-     * @var GitHubPluginUpdater
+     * @var LaterPayGitHubPluginUpdater
      */
     private $_gitHubPluginUpdater;
 
@@ -37,33 +37,33 @@ class LaterPay {
         $this->_pluginFile = $file;
     }
 
-    protected function getPostPricingController() {
-        if ( empty($this->_postPricingController) ) {
-            $this->_postPricingController = new PostPricingController();
+    protected function getLaterPayPostPricingController() {
+        if ( empty($this->_laterPayPostPricingController) ) {
+            $this->_laterPayPostPricingController = new LaterPayPostPricingController();
         }
 
-        return $this->_postPricingController;
+        return $this->_laterPayPostPricingController;
     }
 
-    protected function getAdminController() {
-        if ( empty($this->_adminController) ) {
-            $this->_adminController = new AdminController();
+    protected function getLaterPayAdminController() {
+        if ( empty($this->_laterPayAdminController) ) {
+            $this->_laterPayAdminController = new LaterPayAdminController();
         }
 
-        return $this->_adminController;
+        return $this->_laterPayAdminController;
     }
 
-    protected function getPostContentController() {
-        if ( empty($this->_postContentController) ) {
-            $this->_postContentController = new PostContentController();
+    protected function getLaterPayPostContentController() {
+        if ( empty($this->_laterPayPostContentController) ) {
+            $this->_laterPayPostContentController = new LaterPayPostContentController();
         }
 
-        return $this->_postContentController;
+        return $this->_laterPayPostContentController;
     }
 
     protected function getGitHubPluginUpdater() {
         if ( empty($this->_gitHubPluginUpdater) ) {
-            $this->_gitHubPluginUpdater = new GitHubPluginUpdater();
+            $this->_gitHubPluginUpdater = new LaterPayGitHubPluginUpdater();
             $this->_gitHubPluginUpdater->init(
                 $this->_pluginFile,
                 LATERPAY_GITHUB_USER_NAME,
@@ -83,7 +83,7 @@ class LaterPay {
         $this->setupPluginAdminResources();
         $this->setupAdminPointersScript();
 
-        if ( ViewHelper::isPluginAvailable() ) {
+        if ( LaterPayViewHelper::isPluginAvailable() ) {
             $this->setupPurchases();
             $this->setupTeaserContentBox();
             $this->setupPricingPostContentBox();
@@ -121,7 +121,7 @@ class LaterPay {
             array(
                 md5(uniqid('salt')),
                 md5(uniqid('key')),
-                CacheHelper::siteUsesPageCaching() ? 'true' : 'false'
+                LaterPayCacheHelper::siteUsesPageCaching() ? 'true' : 'false'
             ),
             $settings
         );
@@ -288,7 +288,7 @@ class LaterPay {
         add_option('laterpay_version',                  $laterpay_version) || update_option('laterpay_version', $laterpay_version);
 
         // clear opcode cache
-        CacheHelper::resetOpcodeCache();
+        LaterPayCacheHelper::resetOpcodeCache();
     }
 
     /**
@@ -322,20 +322,20 @@ class LaterPay {
      *  Add Ajax hooks for tabs in plugin backend
      */
     protected function setupAdminRoutes() {
-        if ( class_exists('GetStartedController') ) {
-            add_action('wp_ajax_getstarted',    'GetStartedController::pageAjax');
+        if ( class_exists('LaterPayGetStartedController') ) {
+            add_action('wp_ajax_getstarted',    'LaterPayGetStartedController::pageAjax');
         }
-        if ( class_exists('PricingController') ) {
-            add_action('wp_ajax_pricing',       'PricingController::pageAjax');
+        if ( class_exists('LaterPayPricingController') ) {
+            add_action('wp_ajax_pricing',       'LaterPayPricingController::pageAjax');
         }
-        if ( class_exists('AppearanceController') ) {
-            add_action('wp_ajax_appearance',    'AppearanceController::pageAjax');
+        if ( class_exists('LaterPayAppearanceController') ) {
+            add_action('wp_ajax_appearance',    'LaterPayAppearanceController::pageAjax');
         }
-        if ( class_exists('AccountController') ) {
-            add_action('wp_ajax_account',       'AccountController::pageAjax');
+        if ( class_exists('LaterPayAccountController') ) {
+            add_action('wp_ajax_account',       'LaterPayAccountController::pageAjax');
         }
-        if ( class_exists('AdminController') ) {
-            add_action('wp_ajax_admin',         'AdminController::pageAjax');
+        if ( class_exists('LaterPayAdminController') ) {
+            add_action('wp_ajax_admin',         'LaterPayAdminController::pageAjax');
         }
     }
 
@@ -345,7 +345,7 @@ class LaterPay {
     public function addTeaserContentBox() {
         add_meta_box('laterpay_teaser_content',
             __('Teaser Content', 'laterpay'),
-            array($this->getPostPricingController(), 'teaserContentBox'),
+            array($this->getLaterPayPostPricingController(), 'teaserContentBox'),
             'post',
             'normal',
             'high'
@@ -353,7 +353,7 @@ class LaterPay {
     }
 
     protected function setupTeaserContentBox() {
-        add_action('save_post', array($this->getPostPricingController(), 'saveTeaserContentBox'));
+        add_action('save_post', array($this->getLaterPayPostPricingController(), 'saveTeaserContentBox'));
         add_action('admin_menu', array($this, 'addTeaserContentBox'));
     }
 
@@ -363,7 +363,7 @@ class LaterPay {
     public function addPricingPostContentBox() {
         add_meta_box('laterpay_pricing_post_content',
             __('Pricing for this Post', 'laterpay'),
-            array($this->getPostPricingController(), 'pricingPostContentBox'),
+            array($this->getLaterPayPostPricingController(), 'pricingPostContentBox'),
             'post',
             'side',
             'high'  // show as high as possible in sidebar (priority 'high')
@@ -371,7 +371,7 @@ class LaterPay {
     }
 
     protected function setupPricingPostContentBox() {
-        add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
+        add_action('save_post', array($this->getLaterPayPostPricingController(), 'savePricingPostContentBox'));
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
     }
 
@@ -409,7 +409,7 @@ class LaterPay {
             $page_id        = 277; //$target_page->ID;
             $page_url       = get_permalink($page_id);
             $page_mime_type = get_post_mime_type($page_id);
-            $price          = PostContentController::getPostPrice($page_id);
+            $price          = LaterPayPostContentController::getPostPrice($page_id);
             $currency       = get_option('laterpay_currency');
             $price_tag      = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
         }
@@ -469,7 +469,7 @@ print_r($content_type);
         );
 
         if ( $page == 'post.php' || $page == 'post-new.php' ) {
-            $this->getPostPricingController()->loadAssets();
+            $this->getLaterPayPostPricingController()->loadAssets();
         }
     }
 
@@ -495,7 +495,7 @@ print_r($content_type);
 
     public function addDataToPostsTable( $column_name, $post_id ) {
         if ($column_name == 'post_price') {
-            $price      = number_format((float)PostContentController::getPostPrice($post_id), 2);
+            $price      = number_format((float)LaterPayPostContentController::getPostPrice($post_id), 2);
             $currency   = get_option('laterpay_currency');
 
             if ( $price > 0 ) {
@@ -516,7 +516,7 @@ print_r($content_type);
      * Hint at the newly installed plugin using WP pointers
      */
     public function addAdminPointersScript() {
-        add_action('admin_print_footer_scripts', array($this->getAdminController(), 'modifyFooter'));
+        add_action('admin_print_footer_scripts', array($this->getLaterPayAdminController(), 'modifyFooter'));
         wp_enqueue_script('wp-pointer');
         wp_enqueue_style('wp-pointer');
     }
@@ -532,9 +532,9 @@ print_r($content_type);
         if ( !LATERPAY_ACCESS_LOGGING_ENABLED || is_admin() ) {
             return;
         }
-        $url = StatisticsHelper::getFullUrl($_SERVER);
+        $url = LaterPayStatisticsHelper::getFullUrl($_SERVER);
         $postid = url_to_postid($url);
-        StatisticsHelper::track($postid);
+        LaterPayStatisticsHelper::track($postid);
     }
 
     protected function setupUniqueVisitorsTracking() {
@@ -542,19 +542,19 @@ print_r($content_type);
     }
 
     protected function setupPurchases() {
-        add_action('init', 'PostContentController::tokenHook');
-        add_action('init', 'PostContentController::buyPost');
+        add_action('init', 'LaterPayPostContentController::tokenHook');
+        add_action('init', 'LaterPayPostContentController::buyPost');
     }
 
     /**
      * Add filters to override post content
      */
     protected function setupPostContentFilter() {
-        add_filter('the_title',                array($this->getPostContentController(), 'modifyPostTitle'));
-        add_filter('the_content',              array($this->getPostContentController(), 'view'));
-        add_filter('wp_footer',                array($this->getPostContentController(), 'modifyFooter'));
-        add_action('save_post',                array($this->getPostContentController(), 'initTeaserContent'), 10, 2);
-        add_action('edit_form_after_editor',   array($this->getPostContentController(), 'initTeaserContent'), 10, 2);
+        add_filter('the_title',                array($this->getLaterPayPostContentController(), 'modifyPostTitle'));
+        add_filter('the_content',              array($this->getLaterPayPostContentController(), 'view'));
+        add_filter('wp_footer',                array($this->getLaterPayPostContentController(), 'modifyFooter'));
+        add_action('save_post',                array($this->getLaterPayPostContentController(), 'initTeaserContent'), 10, 2);
+        add_action('edit_form_after_editor',   array($this->getLaterPayPostContentController(), 'initTeaserContent'), 10, 2);
     }
 
     /**

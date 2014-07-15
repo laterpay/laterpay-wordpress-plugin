@@ -1,6 +1,6 @@
 <?php
 
-class PricingController extends AbstractController {
+class LaterPayPricingController extends LaterPayAbstractController {
     public function loadAssets() {
         parent::loadAssets();
         global $laterpay_version;
@@ -50,7 +50,7 @@ class PricingController extends AbstractController {
         $this->assign('Currencies',             $Currencies);
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
-        $this->assign('global_default_price',   ViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2));
+        $this->assign('global_default_price',   LaterPayViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2));
 
         $this->render('pluginBackendPricingTab');
     }
@@ -64,7 +64,7 @@ class PricingController extends AbstractController {
         // save changes in submitted form
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
-            if ( !UserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
+            if ( !LaterPayUserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
@@ -126,6 +126,14 @@ class PricingController extends AbstractController {
             }
             die;
         }
+        // invalid request
+        echo Zend_Json::encode(
+            array(
+                'success' => false,
+                'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+            )
+        );
+        die;
     }
 
     /**
@@ -169,7 +177,7 @@ class PricingController extends AbstractController {
         }
 
         update_option('laterpay_global_price', $delocalized_global_price);
-        $global_price       = ViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2);
+        $global_price       = LaterPayViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2);
         $Currency           = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
 
@@ -251,7 +259,7 @@ class PricingController extends AbstractController {
                 $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price);
 
                 $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-                $formatted_category_price   = ViewHelper::formatNumber((float)$category_price, 2);
+                $formatted_category_price   = LaterPayViewHelper::formatNumber((float)$category_price, 2);
 
                 echo Zend_Json::encode(
                     array(
@@ -275,7 +283,7 @@ class PricingController extends AbstractController {
         $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price, $id);
 
         $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-        $formatted_category_price   = ViewHelper::formatNumber((float)$category_price, 2);
+        $formatted_category_price   = LaterPayViewHelper::formatNumber((float)$category_price, 2);
 
         echo Zend_Json::encode(
             array(
@@ -320,7 +328,7 @@ class PricingController extends AbstractController {
         $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price);
 
         $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-        $formatted_category_price   = ViewHelper::formatNumber((float)$category_price, 2);
+        $formatted_category_price   = LaterPayViewHelper::formatNumber((float)$category_price, 2);
 
         echo Zend_Json::encode(
             array(
