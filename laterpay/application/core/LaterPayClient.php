@@ -38,7 +38,7 @@ class LaterPayClient {
             }
         }
 
-        Logger::debug('LaterPayClient::constructor', array(
+        LaterPayLogger::debug('LaterPayClient::constructor', array(
                             'api_key'       => $this->api_key,
                             'cp_key'        => $this->cp_key,
                             'lptoken'       => $this->lptoken,
@@ -110,11 +110,11 @@ class LaterPayClient {
                             'cp' => $this->cp_key
                         ),
                         $url,
-                        Request::GET
+                        LaterPayRequest::GET
                     );
         $url   .= '?' . $params;
 
-        Logger::debug('LaterPayClient::getTokenRedirectUrl',
+        LaterPayLogger::debug('LaterPayClient::getTokenRedirectUrl',
                         array(
                             'url'       => $url,
                             'api_key'   => $this->api_key,
@@ -140,10 +140,10 @@ class LaterPayClient {
         if ( !empty($identify_callback) ) {
             $data['callback_url'] = $identify_callback;
         }
-        $params = $this->signAndEncode($data, $url, Request::GET);
+        $params = $this->signAndEncode($data, $url, LaterPayRequest::GET);
         $url .= '?' . $params;
 
-        Logger::debug('LaterPayClient::getIdentifyUrl', array(
+        LaterPayLogger::debug('LaterPayClient::getIdentifyUrl', array(
                             'url'       => $url,
                             'api_key'   => $this->api_key,
                             'cp_key'    => $this->cp_key,
@@ -211,7 +211,7 @@ class LaterPayClient {
         $data['xdmprefix'] = substr(uniqid('', true), 0, 10);
 
         $url    = $this->web_root . '/iframeapi/links';
-        $params = $this->signAndEncode($data, $url, Request::GET);
+        $params = $this->signAndEncode($data, $url, LaterPayRequest::GET);
 
         return join('?', array($url, $params));
     }
@@ -317,10 +317,10 @@ class LaterPayClient {
         } else {
             $base_url = join('/', array($prefix, $page_type));
         }
-        $params = $this->signAndEncode($data, $base_url, Request::GET);
+        $params = $this->signAndEncode($data, $base_url, LaterPayRequest::GET);
         $url = $base_url . '?' . $params;
 
-        Logger::debug('LaterPayClient::getWebUrl', array(
+        LaterPayLogger::debug('LaterPayClient::getWebUrl', array(
                             'url'       => $this->getDialogApiUrl($url),
                             'api_key'   => $this->api_key,
                             'cp_key'    => $this->cp_key,
@@ -363,7 +363,7 @@ class LaterPayClient {
             $params['product'] = $product_key;
         }
 
-        $data = $this->makeRequest($this->_getAddUrl(), $params, Request::POST);
+        $data = $this->makeRequest($this->_getAddUrl(), $params, LaterPayRequest::POST);
 
         if ( isset($data['status']) && $data['status'] == 'invalid_token' ) {
             $this->acquireToken();
@@ -421,8 +421,8 @@ class LaterPayClient {
      *
      * @return string query params
      */
-    public function signAndEncode( $params, $url, $method = Request::GET ) {
-        Logger::debug('LaterPayClient::signAndEncode', array($params, $url, $method));
+    public function signAndEncode( $params, $url, $method = LaterPayRequest::GET ) {
+        LaterPayLogger::debug('LaterPayClient::signAndEncode', array($params, $url, $method));
 
         return LaterPayClient_Signing::signAndEncode($this->api_key, $params, $url, $method);
     }
@@ -436,7 +436,7 @@ class LaterPayClient {
      * @return string json string response
      */
     public function getAccess( $article_ids, $product_key = null ) {
-        Logger::debug('LaterPayClient::getAccess', array('checking access', $article_ids));
+        LaterPayLogger::debug('LaterPayClient::getAccess', array('checking access', $article_ids));
 
         if ( !is_array($article_ids) ) {
             $article_ids = array($article_ids);
@@ -454,10 +454,10 @@ class LaterPayClient {
         $allowed_statuses = array('ok', 'invalid_token', 'connection_error');
 
         if ( !in_array($data['status'], $allowed_statuses) ) {
-            Logger::error('getAccess::invalid status', array('result' => $data));
+            LaterPayLogger::error('getAccess::invalid status', array('result' => $data));
         }
 
-        Logger::debug('LaterPayClient::getAccess', array(
+        LaterPayLogger::debug('LaterPayClient::getAccess', array(
                             'params'    => $params,
                             'result'    => $data,
                             'api_key'   => $this->api_key,
@@ -475,7 +475,7 @@ class LaterPayClient {
     public function acquireToken() {
         $link = $this->getTokenRedirectUrl(LaterPayRequestHelper::getCurrentUrl());
 
-        Logger::debug('LaterPayClient::acquireToken', array(
+        LaterPayLogger::debug('LaterPayClient::acquireToken', array(
                             'link'      => $link,
                             'api_key'   => $this->api_key,
                             'cp_key'    => $this->cp_key,
@@ -494,7 +494,7 @@ class LaterPayClient {
      * @param bool   $redirect redirect after set token
      */
     public function setToken( $token, $redirect = false ) {
-        Logger::debug('LaterPayClient::setToken', array(
+        LaterPayLogger::debug('LaterPayClient::setToken', array(
                             'token'     => $token,
                             'redirect'  => $redirect,
                             'api_key'   => $this->api_key,
@@ -512,7 +512,7 @@ class LaterPayClient {
     }
 
     public function deleteToken() {
-        Logger::debug('LaterPayClient::deleteToken', array(
+        LaterPayLogger::debug('LaterPayClient::deleteToken', array(
                             'api_key'   => $this->api_key,
                             'cp_key'    => $this->cp_key,
                             'lptoken'   => $this->lptoken,
@@ -533,8 +533,8 @@ class LaterPayClient {
      *
      * @return object data response
      */
-    protected function makeRequest( $url, $params = array(), $method = Request::GET ) {
-        Logger::debug('LaterPayClient::makeRequest', array(
+    protected function makeRequest( $url, $params = array(), $method = LaterPayRequest::GET ) {
+        LaterPayLogger::debug('LaterPayClient::makeRequest', array(
                             'url'       => $url,
                             'params'    => $params,
                             'post'      => $post,
@@ -551,7 +551,7 @@ class LaterPayClient {
             'User-Agent'      => 'LaterPay Client - PHP - v0.2',
         );
         try {
-            if ( $method == Request::POST ) {
+            if ( $method == LaterPayRequest::POST ) {
                 $requestsResponse = wp_remote_retrieve_body(
                                         wp_remote_post(
                                             $url,
@@ -575,7 +575,7 @@ class LaterPayClient {
                                     );
             }
 
-            Logger::debug('LaterPayClient::makeRequest', array($requestsResponse));
+            LaterPayLogger::debug('LaterPayClient::makeRequest', array($requestsResponse));
 
             $response = Zend_Json::decode($requestsResponse, Zend_Json::TYPE_ARRAY);
             if ( $response['status'] == 'invalid_token' ) {
@@ -585,7 +585,7 @@ class LaterPayClient {
                 $this->setToken($response['new_token']);
             }
         } catch ( Zend_Json_Exception $e ) {
-            Logger::error('LaterPayClient::makeRequest', array(
+            LaterPayLogger::error('LaterPayClient::makeRequest', array(
                                 'message'   => $e->getMessage(),
                                 'url'       => $url,
                                 'params'    => $params,
@@ -595,7 +595,7 @@ class LaterPayClient {
 
             $response = array('status' => 'unexpected_error');
         } catch ( Exception $e ) {
-            Logger::error('LaterPayClient::makeRequest', array(
+            LaterPayLogger::error('LaterPayClient::makeRequest', array(
                                 'message'   => $e->getMessage(),
                                 'url'       => $url,
                                 'params'    => $params,
@@ -606,7 +606,7 @@ class LaterPayClient {
             $response = array('status' => 'connection_error');
         }
 
-        Logger::debug('LaterPayClient::makeRequest', array('response' => $response));
+        LaterPayLogger::debug('LaterPayClient::makeRequest', array('response' => $response));
 
         return $response;
     }

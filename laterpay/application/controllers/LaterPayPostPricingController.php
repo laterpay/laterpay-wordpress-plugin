@@ -84,7 +84,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
      * @access public
      */
     public function teaserContentBox( $object ) {
-        if (!UserHelper::isAllowed('laterpay_edit_teaser_content', $object)) {
+        if (!LaterPayUserHelper::isAllowed('laterpay_edit_teaser_content', $object)) {
             return;
         }
         $settings = array(
@@ -123,7 +123,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !UserHelper::isAllowed('laterpay_edit_teaser_content', $post_id) ) {
+        if ( !LaterPayUserHelper::isAllowed('laterpay_edit_teaser_content', $post_id) ) {
             return $post_id;
         }
 
@@ -141,7 +141,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
      * @access public
      */
     public function pricingPostContentBox( $object ) {
-        if (!UserHelper::isAllowed('laterpay_edit_individual_price', $object)) {
+        if (!LaterPayUserHelper::isAllowed('laterpay_edit_individual_price', $object)) {
             return;
         }
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
@@ -226,7 +226,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !UserHelper::isAllowed('laterpay_edit_individual_price', $post_id) ) {
+        if ( !LaterPayUserHelper::isAllowed('laterpay_edit_individual_price', $post_id) ) {
             return $post_id;
         }
 

@@ -40,7 +40,7 @@ class LaterPayFileHelper {
         );
         if ( $use_auth ) {
             $client         = new LaterPayClient();
-            $tokenInstance  = new Auth_Hmac($client->getApiKey());
+            $tokenInstance  = new LaterPayAuth_Hmac($client->getApiKey());
             $params['auth'] = $tokenInstance->sign($client->getLpToken());
         }
 

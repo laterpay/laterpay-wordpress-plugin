@@ -53,7 +53,7 @@ class LaterPayGetStartedController extends LaterPayAbstractController {
     public static function pageAjax() {
         if ( isset($_POST['get_started']) ) {
             // check for required privileges to perform action
-            if ( !UserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
+            if ( !LaterPayUserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(array('success' => false));
                 die;
             }

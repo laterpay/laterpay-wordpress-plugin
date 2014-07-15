@@ -27,7 +27,7 @@ class LaterPay {
     /**
      *
      *
-     * @var GitHubPluginUpdater
+     * @var LaterPayGitHubPluginUpdater
      */
     private $_gitHubPluginUpdater;
 
@@ -63,7 +63,7 @@ class LaterPay {
 
     protected function getGitHubPluginUpdater() {
         if ( empty($this->_gitHubPluginUpdater) ) {
-            $this->_gitHubPluginUpdater = new GitHubPluginUpdater();
+            $this->_gitHubPluginUpdater = new LaterPayGitHubPluginUpdater();
             $this->_gitHubPluginUpdater->init(
                 $this->_pluginFile,
                 LATERPAY_GITHUB_USER_NAME,

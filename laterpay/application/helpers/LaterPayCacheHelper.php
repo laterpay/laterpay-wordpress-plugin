@@ -18,7 +18,7 @@ class LaterPayCacheHelper {
             $reset = xcache_clear_cache();
         }
 
-        Logger::debug('LaterPayCacheHelper::resetOpcodeCache', array($reset));
+        LaterPayLogger::debug('LaterPayCacheHelper::resetOpcodeCache', array($reset));
 
         return $reset;
     }

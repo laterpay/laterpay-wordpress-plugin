@@ -3,7 +3,7 @@
 /**
  * Auth_Hmac provide tokenizer uses openssl extension
  */
-class Auth_Hmac {
+class LaterPayAuth_Hmac {
 
     const VALID_PERIOD = 86400;// 24 hrs
 
@@ -124,7 +124,7 @@ class Auth_Hmac {
     /**
      * Retrieve instance
      *
-     * @return Auth_Hmac
+     * @return LaterPayAuth_Hmac
      */
     public static function getInstance() {
         if ( null === self::$_instance ) {

@@ -18,8 +18,8 @@ require_once(APP_ROOT . '/loader.php');
 AutoLoader::registerDirectory(APP_ROOT . '/vendor');
 
 // register libraries
-$request    = new Request();
-$response   = new Response();
+$request    = new LaterPayRequest();
+$response   = new LaterPayResponse();
 
 // request parameters
 $post_id    = $request->getParam('id');     // required, relative file path

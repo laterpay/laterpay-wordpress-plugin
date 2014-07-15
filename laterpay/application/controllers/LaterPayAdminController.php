@@ -133,7 +133,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
     public static function pageAjax() {
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
-            if ( !UserHelper::isAllowed('laterpay_read_post_statistics', null, false) ) {
+            if ( !LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', null, false) ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,

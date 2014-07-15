@@ -287,7 +287,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
 
         $is_feed = self::is_feed();
 
-        Logger::debug(
+        LaterPayLogger::debug(
             'LaterPayPostContentController::tokenHook',
             array(
                 !is_admin(),
@@ -301,7 +301,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
 
         if ( !is_admin() && !self::is_login_page() && !self::is_cron_page() && !$is_feed && LaterPayBrowserHelper::browser_supports_cookies() && !LaterPayBrowserHelper::is_crawler() ) {
 
-            Logger::debug('LaterPayPostContentController::tokenHook', array($_SERVER['REQUEST_URI']));
+            LaterPayLogger::debug('LaterPayPostContentController::tokenHook', array($_SERVER['REQUEST_URI']));
 
             $LaterPayClient = new LaterPayClient();
             if ( isset($_GET['lptoken']) ) {
