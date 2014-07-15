@@ -79,6 +79,13 @@ class LaterPayGetStartedController extends LaterPayAbstractController {
 
             echo Zend_Json::encode(array('success' => true));
             die;
+        } else {
+            echo Zend_Json::encode(
+                array(
+                    'success' => false,
+                    'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                )
+            );
         }
     }
 
