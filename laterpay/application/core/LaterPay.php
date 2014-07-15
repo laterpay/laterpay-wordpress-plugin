@@ -386,10 +386,9 @@ class LaterPay {
     public function renderPremiumDownloadLink( $atts ) {
         $a = shortcode_atts(array(
                'post'           => '',
-               'price'          => 0.99,
                'title'          => __('Additional Premium Content', 'laterpay'),
                'description'    => '',
-               'teaser_image'   => 'https://d13yacurqjgara.cloudfront.net/users/25514/screenshots/1625210/codebook-logo-branding-design.png'
+               'teaser_image'   => ''
              ), $atts);
 
         // TODO: add default teaser_image to assets/img
@@ -401,11 +400,17 @@ class LaterPay {
         } else {
             $page_url   = '#';
         }
-        $currency   = get_option('laterpay_currency');
-        $price      = ViewHelper::formatNumber($a['price'], 2);
-        $price_tag  = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
+        $currency       = get_option('laterpay_currency');
+        $price          = '2.99';   // TODO: get price from post
+        $price_tag      = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
 
-        $link  = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image']})\">";
+        $content_type = ''; // assign class depending on mime type
+
+        if ( $a['teaser_image'] != '' ) {
+            $link  = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image']})\">";
+        } else {
+            $link  = "<div class=\"premium-file-link {$content_type}\">";
+        }
         $link .= "    <a href=\"{$page_url}\" class=\"premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
         $link .= "    <div class=\"details\">";
         $link .= "        <h3>{$a['title']}</h3>";
