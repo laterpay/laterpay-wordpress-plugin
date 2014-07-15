@@ -74,11 +74,11 @@
                                     </strong>
                                     <?php _e('costs', 'laterpay'); ?>
                                     <strong>
-                                        <?php $category_price = ViewHelper::formatNumber((float)$item->category_price, 2); ?>
+                                        <?php $category_price = LaterPayViewHelper::formatNumber((float)$item->category_price, 2); ?>
                                         <input  type="text"
                                                 name="price"
                                                 class="lp-input number"
-                                                value="<?php echo ViewHelper::formatNumber($item->category_price, 2); ?>"
+                                                value="<?php echo LaterPayViewHelper::formatNumber($item->category_price, 2); ?>"
                                                 style="display:none;"
                                                 placeholder="<?php _e('0.00', 'laterpay'); ?>">
                                         <span class="category-price"><?php echo $category_price; ?></span>

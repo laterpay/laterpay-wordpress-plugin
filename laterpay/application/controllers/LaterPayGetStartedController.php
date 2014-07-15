@@ -1,6 +1,6 @@
 <?php
 
-class GetStartedController extends AbstractController {
+class LaterPayGetStartedController extends LaterPayAbstractController {
 
     public function loadAssets() {
         parent::loadAssets();
@@ -39,7 +39,7 @@ class GetStartedController extends AbstractController {
 
         $Currencies = new LaterPayModelCurrency();
 
-        $this->assign('global_default_price',   ViewHelper::formatNumber((float)LATERPAY_GLOBAL_PRICE_DEFAULT, 2));
+        $this->assign('global_default_price',   LaterPayViewHelper::formatNumber((float)LATERPAY_GLOBAL_PRICE_DEFAULT, 2));
         $this->assign('Currencies',             $Currencies);
 
         $this->render('pluginBackendGetStartedTab');
@@ -53,7 +53,7 @@ class GetStartedController extends AbstractController {
     public static function pageAjax() {
         if ( isset($_POST['get_started']) ) {
             // check for required privileges to perform action
-            if ( !UserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
+            if ( !LaterPayUserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(array('success' => false));
                 die;
             }
@@ -73,12 +73,19 @@ class GetStartedController extends AbstractController {
             $current_user_id    = get_current_user_id();
             $dismissed_pointers = explode(',', (string)get_user_meta($current_user_id, 'dismissed_wp_pointers', true));
 
-            if ( !in_array(AdminController::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
-                update_user_meta($current_user_id, 'dismissed_wp_pointers', AdminController::ADMIN_MENU_POINTER);
+            if ( !in_array(LaterPayAdminController::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
+                update_user_meta($current_user_id, 'dismissed_wp_pointers', LaterPayAdminController::ADMIN_MENU_POINTER);
             }
 
             echo Zend_Json::encode(array('success' => true));
             die;
+        } else {
+            echo Zend_Json::encode(
+                array(
+                    'success' => false,
+                    'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                )
+            );
         }
     }
 

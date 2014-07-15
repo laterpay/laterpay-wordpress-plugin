@@ -1,6 +1,6 @@
 <?php
 
-class RequestHelper {
+class LaterPayRequestHelper {
 
     public static $clear_hmac = true;
     public static $clear_lptoken = true;

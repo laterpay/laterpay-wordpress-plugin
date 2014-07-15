@@ -1,6 +1,6 @@
 <?php
 
-class Logger {
+class LaterPayLogger {
     const DEBUG     = 100;
     const INFO      = 200;
     const NOTICE    = 250;
@@ -21,7 +21,7 @@ class Logger {
     );
 
     /**
-     * @var Logger_Abstract
+     * @var LaterPayLogger_Abstract
      */
     protected static $_instance;
     protected static $_uniqid = null;
@@ -49,12 +49,12 @@ class Logger {
         if ( empty(self::$_instance) ) {
             try {
                 if ( defined('LATERPAY_LOGGER_ENABLED') && defined('LATERPAY_LOGGER_FILE') && LATERPAY_LOGGER_ENABLED ) {
-                    self::$_instance = new Logger_Handler_Stream(LATERPAY_LOGGER_FILE);
+                    self::$_instance = new LaterPayLogger_Handler_Stream(LATERPAY_LOGGER_FILE);
                 } else {
-                    self::$_instance = new Logger_Handler_Null();
+                    self::$_instance = new LaterPayLogger_Handler_Null();
                 }
             } catch ( Exception $e ) {
-                self::$_instance = new Logger_Handler_Null();
+                self::$_instance = new LaterPayLogger_Handler_Null();
             }
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-class PostContentController extends AbstractController {
+class LaterPayPostContentController extends LaterPayAbstractController {
 
     /**
      * Create teaser content for the post
@@ -20,7 +20,7 @@ class PostContentController extends AbstractController {
 
         $meta_value = get_post_meta($post->ID, 'Teaser content', false);
         if ( is_array($meta_value) && count($meta_value) == 0 ) {
-            $new_meta_value = StringHelper::truncate(
+            $new_meta_value = LaterPayStringHelper::truncate(
                 $post->post_content,
                 LATERPAY_AUTO_GENERATED_TEASER_CONTENT_WORD_COUNT,
                 array (
@@ -57,17 +57,17 @@ class PostContentController extends AbstractController {
             $teaser_content_only    = get_option('laterpay_teaser_content_only');
             if ( is_single() ) {
                 // check for required privileges to perform action
-                if ( UserHelper::isAllowed('laterpay_read_post_statistics', $post_id) ) {
+                if ( LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post_id) ) {
                     $access = true;
                     $this->setStatistic();
-                } else if ( UserHelper::user_has_full_access() ) {
+                } else if ( LaterPayUserHelper::user_has_full_access() ) {
                     $access = true;
                 }
 
                 // encrypt content for premium content
-                $content = FileHelper::getEncryptedContent($post_id, $content, $access);
+                $content = LaterPayFileHelper::getEncryptedContent($post_id, $content, $access);
                 $is_premium_content = $price > 0;
-                
+
                 $this->assign('post_id',                    $post_id);
                 $this->assign('content',                    $content);
                 $this->assign('teaser_content',             $teaser_content);
@@ -77,10 +77,10 @@ class PostContentController extends AbstractController {
                 $this->assign('is_premium_content',         $is_premium_content);
                 $this->assign('access',                     $access);
                 $this->assign('link',                       $link);
-                $this->assign('can_show_statistic',         UserHelper::isAllowed('laterpay_read_post_statistics', $post_id) && (!RequestHelper::isAjax() || $laterpay_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content);
-                $this->assign('post_content_cached',        CacheHelper::siteUsesPageCaching());
-                $this->assign('preview_post_as_visitor',    UserHelper::previewPostAsVisitor($post_id));
-                $this->assign('hide_statistics_pane',       UserHelper::isHiddenStatisticsPane());
+                $this->assign('can_show_statistic',         LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post_id) && (!LaterPayRequestHelper::isAjax() || $laterpay_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content);
+                $this->assign('post_content_cached',        LaterPayCacheHelper::siteUsesPageCaching());
+                $this->assign('preview_post_as_visitor',    LaterPayUserHelper::previewPostAsVisitor($post_id));
+                $this->assign('hide_statistics_pane',       LaterPayUserHelper::isHiddenStatisticsPane());
 
                 $html = $this->getTextView('singlePost');
             } else {
@@ -96,10 +96,10 @@ class PostContentController extends AbstractController {
 
     public function modifyFooter() {
         // if Ajax request
-        if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
+        if ( (LaterPayRequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
             $postid = $_GET['id'];
         } else {
-            $url = StatisticsHelper::getFullUrl($_SERVER);
+            $url = LaterPayStatisticsHelper::getFullUrl($_SERVER);
             $postid = url_to_postid($url);
         }
         if ( !empty($postid) ) {
@@ -256,7 +256,7 @@ class PostContentController extends AbstractController {
                 $data['ip']             = $_GET['ip'];
                 $data['hash']           = $_GET['hash'];
                 $hash = $_GET['hash'];
-                $url = RequestHelper::getCurrentUrl();
+                $url = LaterPayRequestHelper::getCurrentUrl();
                 $url = preg_replace('/hash=.*?($|&)/', '', $url);
                 $url = preg_replace('/&$/',            '', $url);
                 // check hash for purchase
@@ -287,21 +287,21 @@ class PostContentController extends AbstractController {
 
         $is_feed = self::is_feed();
 
-        Logger::debug(
-            'PostContentController::tokenHook',
+        LaterPayLogger::debug(
+            'LaterPayPostContentController::tokenHook',
             array(
                 !is_admin(),
                 !self::is_login_page(),
                 !self::is_cron_page(),
                 !$is_feed,
-                BrowserHelper::browser_supports_cookies(),
-                !BrowserHelper::is_crawler()
+                LaterPayBrowserHelper::browser_supports_cookies(),
+                !LaterPayBrowserHelper::is_crawler()
             )
         );
 
-        if ( !is_admin() && !self::is_login_page() && !self::is_cron_page() && !$is_feed && BrowserHelper::browser_supports_cookies() && !BrowserHelper::is_crawler() ) {
+        if ( !is_admin() && !self::is_login_page() && !self::is_cron_page() && !$is_feed && LaterPayBrowserHelper::browser_supports_cookies() && !LaterPayBrowserHelper::is_crawler() ) {
 
-            Logger::debug('PostContentController::tokenHook', array($_SERVER['REQUEST_URI']));
+            LaterPayLogger::debug('LaterPayPostContentController::tokenHook', array($_SERVER['REQUEST_URI']));
 
             $LaterPayClient = new LaterPayClient();
             if ( isset($_GET['lptoken']) ) {
@@ -313,10 +313,10 @@ class PostContentController extends AbstractController {
             }
 
             // if Ajax request
-            if ( (RequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
+            if ( (LaterPayRequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
                 $postid = $_GET['id'];
             } else {
-                $url = StatisticsHelper::getFullUrl($_SERVER);
+                $url = LaterPayStatisticsHelper::getFullUrl($_SERVER);
                 $postid = url_to_postid($url);
             }
             if ( !empty($postid) ) {
@@ -484,7 +484,7 @@ class PostContentController extends AbstractController {
             'buy'         => 'true',
             'ip'          => ip2long($_SERVER['REMOTE_ADDR']),
         );
-        $url = RequestHelper::getCurrentUrl();
+        $url = LaterPayRequestHelper::getCurrentUrl();
         if ( strpos($url, '?') !== false || strpos($url, '&') !== false ) {
             $url .= '&';
         } else {
@@ -519,13 +519,13 @@ class PostContentController extends AbstractController {
             $price              = self::getPostPrice($post_id);
             $float_price        = (float) $price;
             $is_premium_content = $float_price > 0;
-            $access             = $GLOBALS['laterpay_access'] || UserHelper::isAllowed('laterpay_read_post_statistics', $post) || UserHelper::user_has_full_access();
-            $link               = self::getLPLink($post_id);
-            $preview_post_as_visitor = UserHelper::previewPostAsVisitor($post);
-            $post_content_cached = CacheHelper::siteUsesPageCaching();
+            $access                  = $GLOBALS['laterpay_access'] || LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post) || LaterPayUserHelper::user_has_full_access();
+            $link                    = self::getLPLink($post_id);
+            $preview_post_as_visitor = LaterPayUserHelper::previewPostAsVisitor($post);
+            $post_content_cached     = LaterPayCacheHelper::siteUsesPageCaching();
 
             if ( $is_premium_content && is_single() && !is_page() ) {
-                if ( $post_content_cached && !RequestHelper::isAjax() ) {
+                if ( $post_content_cached && !LaterPayRequestHelper::isAjax() ) {
                     $this->assign('post_id',    $post_id);
 
                     $title = $this->getTextView('partials/postTitle');
@@ -537,7 +537,7 @@ class PostContentController extends AbstractController {
                         $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
                         $purchase_button   .= sprintf(
                                                     __('%s<small>%s</small>', 'laterpay'),
-                                                    ViewHelper::formatNumber($price, 2),
+                                                    LaterPayViewHelper::formatNumber($price, 2),
                                                     $currency
                                                 );
                         $purchase_button   .= '</a>';

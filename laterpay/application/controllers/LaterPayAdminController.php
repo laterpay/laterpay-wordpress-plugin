@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends AbstractController {
+class LaterPayAdminController extends LaterPayAbstractController {
     const ADMIN_MENU_POINTER            = 'lpwpp01';
     const POST_PRICE_BOX_POINTER        = 'lpwpp02';
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
@@ -34,7 +34,7 @@ class AdminController extends AbstractController {
         wp_enqueue_script('laterpay-backend');
 
         // load HTML5 shim for IE <= 9 only
-        if ( BrowserHelper::is_ie() && BrowserHelper::get_browser_major_version() <= 9 ) {
+        if ( LaterPayBrowserHelper::is_ie() && LaterPayBrowserHelper::get_browser_major_version() <= 9 ) {
             wp_register_script(
                 'html5-shim-ie',
                 'http://html5shim.googlecode.com/svn/trunk/html5.js'
@@ -74,28 +74,28 @@ class AdminController extends AbstractController {
         switch ( $tab ) {
         // render get started tab
         case 'get_started':
-            $GetStartedController = new GetStartedController();
-            $GetStartedController->page();
+            $LaterPayGetStartedController = new LaterPayGetStartedController();
+            $LaterPayGetStartedController->page();
             break;
 
         default:
 
         // render pricing tab
         case 'pricing':
-            $PricingController = new PricingController();
-            $PricingController->page();
+            $LaterPayPricingController = new LaterPayPricingController();
+            $LaterPayPricingController->page();
             break;
 
         // render appearance tab
         case 'appearance':
-            $AppearanceController = new AppearanceController();
-            $AppearanceController->page();
+            $LaterPayAppearanceController = new LaterPayAppearanceController();
+            $LaterPayAppearanceController->page();
             break;
 
         // render account tab
         case 'account':
-            $AccountController = new AccountController();
-            $AccountController->page();
+            $LaterPayAccountController = new LaterPayAccountController();
+            $LaterPayAccountController->page();
             break;
         }
     }
@@ -133,7 +133,7 @@ class AdminController extends AbstractController {
     public static function pageAjax() {
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
-            if ( !UserHelper::isAllowed('laterpay_read_post_statistics', null, false) ) {
+            if ( !LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', null, false) ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,

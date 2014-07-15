@@ -3,13 +3,13 @@
 /**
  * Do nothing with log data
  */
-class Logger_Handler_Null extends Logger_Abstract {
+class LaterPayLogger_Handler_Null extends LaterPayLogger_Abstract {
     /**
      *
      *
      * @param integer $level The minimum logging level at which this handler will be triggered
      */
-    public function __construct( $level = Logger::DEBUG ) {
+    public function __construct( $level = LaterPayLogger::DEBUG ) {
         parent::__construct($level, false);
     }
 
