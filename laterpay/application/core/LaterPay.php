@@ -87,6 +87,7 @@ class LaterPay {
             $this->setupPurchases();
             $this->setupTeaserContentBox();
             $this->setupPricingPostContentBox();
+            $this->setupPremiumDownloadsShortcode();
 
             $this->setupCustomDataInPostsTable();
 
@@ -372,6 +373,49 @@ class LaterPay {
     protected function setupPricingPostContentBox() {
         add_action('save_post', array($this->getPostPricingController(), 'savePricingPostContentBox'));
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
+    }
+
+
+    protected function setupPremiumDownloadsShortcode() {
+        add_shortcode('laterpay_premium_download', array($this, 'renderPremiumDownloadLink'));
+    }
+
+    /**
+     * Renders a teaser box for selling additional downloadable content from the shortcode [laterpay_premium_download]
+     */
+    public function renderPremiumDownloadLink( $atts ) {
+        $a = shortcode_atts(array(
+               'post'           => '',
+               'price'          => 0.99,
+               'title'          => __('Additional Premium Content', 'laterpay'),
+               'description'    => '',
+               'teaser_image'   => 'https://d13yacurqjgara.cloudfront.net/users/25514/screenshots/1625210/codebook-logo-branding-design.png'
+             ), $atts);
+
+        // TODO: add default teaser_image to assets/img
+        // TODO: choose default teaser_image depending on mime type
+
+        if ( $a['post'] != '' ) {
+            $page       = get_page_by_title($a['post']);    // FIXME: this or the next line is failing
+            $page_url   = get_permalink($page->ID);
+        } else {
+            $page_url   = '#';
+        }
+        $currency   = get_option('laterpay_currency');
+        $price      = ViewHelper::formatNumber($a['price'], 2);
+        $price_tag  = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
+
+        $link  = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image']})\">";
+        $link .= "    <a href=\"{$page_url}\" class=\"premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
+        $link .= "    <div class=\"details\">";
+        $link .= "        <h3>{$a['title']}</h3>";
+        if ( $a['description'] != '' ) {
+            $link .= "    <p>{$a['description']}</p>";
+        }
+        $link .= "    </div>";
+        $link .= "</div>";
+
+        return $link;
     }
 
     /**

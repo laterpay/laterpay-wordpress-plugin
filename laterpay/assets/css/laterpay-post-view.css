@@ -424,6 +424,93 @@ label.switch-label {
 .switch-input:checked ~ .switch-handle {box-shadow:-1px 1px 5px rgba(0, 0, 0, 0.2); left:auto; right:.4em;}
 
 
+/* linked premium files in free to read posts */
+.premium-file-link {
+    background:#e5e5e5 url() 50% 50% / cover no-repeat;
+    border-radius:3px;
+    box-shadow:1px 1px 2px rgba(0, 0, 0, 0.34);
+    height:320px;
+    margin:.5em 1em 0.5em 0;
+    position:relative;
+    width:320px;
+}
+.premium-file-button {
+    background:#54cc76 !important;
+    background:-webkit-linear-gradient(top, #54cc76 0, #4fc270 100%) !important;
+    background:linear-gradient(to bottom, #54cc76 0, #4fc270 100%) !important;
+    border:1px solid #20947a !important;
+    border-color:#1c8069 #20947a !important;
+    border-radius:4px !important;
+    border-width:0 1px 2px 0 !important;
+    font-family:Arial, sans-serif;
+    font-size:21px !important;
+    font-weight:400 !important;
+    line-height:1.1 !important;
+    margin:0 !important;
+    padding:.15em 0.25em 0.15em 0 !important;
+    position:absolute;
+    right:.45em;
+    text-decoration:none !important;
+    text-shadow:0 -1px 0 #22a280 !important;
+    top:.5em;
+    white-space:nowrap !important;
+}
+.premium-file-button[data-icon]:before {
+    font-size:1.8em !important;
+    left:-2px !important;
+    line-height:0 !important;
+    margin:0 !important;
+    position:relative !important;
+    top:.32em !important;
+}
+.premium-file-button small {
+    bottom:.7em !important;
+    font-size:.5em !important;
+    padding-left:4px !important;
+    position:relative !important;
+}
+.premium-file-button,
+.premium-file-button small,
+.premium-file-button:hover,
+.premium-file-button:focus,
+.premium-file-button:active {color:#fff !important; text-decoration:none !important;}
+.premium-file-button:hover {
+    background:#58d67c !important;
+    background:-webkit-linear-gradient(top, #58d67c 0, #54cc76 100%) !important;
+    background:linear-gradient(to bottom, #58d67c 0, #54cc76 100%) !important;
+}
+.premium-file-button:focus,
+.premium-file-button:active {
+    background:#58d67c !important;
+    background:-webkit-linear-gradient(top, #58d67c 0, #54cc76 100%) !important;
+    background:linear-gradient(to bottom, #58d67c 0, #54cc76 100%) !important;
+    border-top-color:transparent !important;
+    border-width:2px 1px 0 0 !important;
+}
+.premium-file-link .details {
+    background-color:rgba(229, 229, 229, 0.89);
+    border-radius:0 0 2px 2px;
+    bottom:0;
+    color:#888;
+    font-size:14px;
+    font-style:normal;
+    line-height:1.2;
+    padding:10px;
+    position:absolute;
+    width:300px;
+}
+.premium-file-link .details h3 {
+    color:#555;
+    font-size:14px;
+    font-weight:600;
+    margin:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.premium-file-link p {margin:.375em 0 0; max-height:3.6em; overflow:hidden; text-overflow:ellipsis;}
+
+
 /* icon font */
 @font-face {
     font-family:'laterpay-wordpress-icons';
