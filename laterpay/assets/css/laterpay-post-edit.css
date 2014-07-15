@@ -62,7 +62,7 @@ ul.lp-toggle li.selected {box-shadow:0 1px 3px rgba(0, 0, 0, 0.34) inset;}
 ul.lp-toggle a {text-decoration:none;}
 ul.lp-toggle a {display:block; height:2.5em;}
 ul.lp-toggle .selected a,
-ul.lp-toggle .selected:hover a {color:#444; cursor:default;}
+ul.lp-toggle .selected:hover a {color:#a5a5a5; cursor:default; text-shadow:0 1px 0 #e9e9e9;}
 
 #laterpay-price-type-details .use-category-default-price ul,
 #laterpay-price-type-details .use-category-default-price li {margin:0; padding:0;}
