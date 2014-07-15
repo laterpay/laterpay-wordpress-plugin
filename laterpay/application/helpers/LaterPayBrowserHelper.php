@@ -1,6 +1,6 @@
 <?php
 
-class BrowserHelper {
+class LaterPayBrowserHelper {
 
     /**
      * @var Browscap Browscap library

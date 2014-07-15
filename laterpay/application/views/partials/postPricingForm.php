@@ -14,7 +14,7 @@
                 id="post-price"
                 class="lp-input number"
                 name="pricing-post"
-                value="<?php echo ViewHelper::formatNumber($price, 2); ?>"
+                value="<?php echo LaterPayViewHelper::formatNumber($price, 2); ?>"
                 placeholder="<?php _e('0.00', 'laterpay'); ?>">
         <?php echo $currency; ?>
     </p>

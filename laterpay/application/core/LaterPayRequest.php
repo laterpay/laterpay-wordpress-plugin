@@ -1,6 +1,6 @@
 <?php
 
-class Request extends Entity {
+class LaterPayRequest extends LaterPayEntity {
     /**
      * POST method
      *

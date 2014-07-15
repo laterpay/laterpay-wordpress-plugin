@@ -1,6 +1,6 @@
 <?php
 
-class AppearanceController extends AbstractController {
+class LaterPayAppearanceController extends LaterPayAbstractController {
 
     public function loadAssets() {
         parent::loadAssets();
@@ -47,7 +47,7 @@ class AppearanceController extends AbstractController {
     public static function pageAjax() {
         if ( isset( $_POST['form'] ) ) {
             // check for required privileges to perform action
-            if ( !UserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
+            if ( !LaterPayUserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,

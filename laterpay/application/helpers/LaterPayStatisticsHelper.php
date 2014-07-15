@@ -1,6 +1,6 @@
 <?php
 
-class StatisticsHelper {
+class LaterPayStatisticsHelper {
 
     public static $wpdb = '';
     protected static $stat = array();
@@ -98,7 +98,7 @@ class StatisticsHelper {
             (isset($_SERVER['HTTP_X_PURPOSE']) && (strtolower($_SERVER['HTTP_X_PURPOSE']) == 'preview')) ) {
             return;
         }
-        if ( BrowserHelper::is_crawler() ) {
+        if ( LaterPayBrowserHelper::is_crawler() ) {
             return;
         }
         if ( isset($_COOKIE['laterpay_tracking_code']) ) {

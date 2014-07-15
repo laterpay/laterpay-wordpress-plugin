@@ -3,7 +3,7 @@
 /**
  * Store to any stream resource
  */
-class Logger_Handler_Stream extends Logger_Abstract
+class LaterPayLogger_Handler_Stream extends LaterPayLogger_Abstract
 {
     protected $stream;
     protected $url;
@@ -16,7 +16,7 @@ class Logger_Handler_Stream extends Logger_Abstract
      * @param integer $level  The minimum logging level at which this handler will be triggered
      * @param Boolean $bubble Whether the messages that are handled can bubble up the stack or not
      */
-    public function __construct( $stream, $level = Logger::DEBUG ) {
+    public function __construct( $stream, $level = LaterPayLogger::DEBUG ) {
         parent::__construct($level);
         if ( is_resource($stream) ) {
             $this->stream = $stream;

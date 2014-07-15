@@ -1,6 +1,6 @@
 <?php
 
-class AbstractController {
+class LaterPayAbstractController {
 
     /**
      * Variables for substitution in templates

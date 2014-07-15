@@ -1,9 +1,9 @@
 <?php
 
-abstract class Logger_Abstract {
-    protected $level = Logger::DEBUG;
+abstract class LaterPayLogger_Abstract {
+    protected $level = LaterPayLogger::DEBUG;
 
-    public function __construct( $level = Logger::DEBUG ) {
+    public function __construct( $level = LaterPayLogger::DEBUG ) {
         $this->level = $level;
     }
 
