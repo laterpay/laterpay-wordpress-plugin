@@ -8,7 +8,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
         // load page-specific CSS
         wp_register_style(
             'laterpay-select2',
-            LATERPAY_ASSET_PATH . '/css/vendor/select2.min.css',
+            LATERPAY_ASSETS_PATH . '/css/vendor/select2.min.css',
             array(),
             $laterpay_version
         );
@@ -17,14 +17,14 @@ class LaterPayPricingController extends LaterPayAbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-select2',
-            LATERPAY_ASSET_PATH . '/js/vendor/select2.min.js',
+            LATERPAY_ASSETS_PATH . '/js/vendor/select2.min.js',
             array('jquery'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-backend-pricing',
-            LATERPAY_ASSET_PATH . '/js/laterpay-backend-pricing.js',
+            LATERPAY_ASSETS_PATH . '/js/laterpay-backend-pricing.js',
             array('jquery', 'laterpay-select2'),
             $laterpay_version,
             true
@@ -64,7 +64,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
         // save changes in submitted form
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
-            if ( function_exists('current_user_can') && !current_user_can('manage_options') ) {
+            if ( !UserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,

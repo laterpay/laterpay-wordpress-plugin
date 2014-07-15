@@ -1,7 +1,7 @@
 <?php if ( LATERPAY_PAGE_CACHING_COMPATIBLE_MODE && !LaterPayRequestHelper::isAjax() ): ?>
     <span id="laterpay-page-caching-mode" data-post-id="<?php echo $post_id; ?>"></span>
 <?php else: ?>
-    <?php if ( current_user_can('manage_options') && (!LaterPayRequestHelper::isAjax() || $can_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content ): ?>
+    <?php if ( $can_show_statistic ): ?>
         <div id="statistics"<?php if ( $hide_statistics_pane ) echo ' class="hidden"'; ?>>
             <form id="laterpay_hide_statistics_form" method="post">
                 <input type="hidden" name="form"    value="hide_statistics_pane">

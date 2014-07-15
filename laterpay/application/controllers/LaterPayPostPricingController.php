@@ -16,7 +16,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
 
         wp_register_style(
             'laterpay-post-edit',
-            LATERPAY_ASSET_PATH . '/css/laterpay-post-edit.css',
+            LATERPAY_ASSETS_PATH . '/css/laterpay-post-edit.css',
             array(),
             $laterpay_version
         );
@@ -31,21 +31,21 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
 
         wp_register_script(
             'laterpay-d3',
-            LATERPAY_ASSET_PATH . '/js/vendor/d3.min.js',
+            LATERPAY_ASSETS_PATH . '/js/vendor/d3.min.js',
             array(),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-d3-dynamic-pricing-widget',
-            LATERPAY_ASSET_PATH . '/js/d3.dynamic.widget.js',
+            LATERPAY_ASSETS_PATH . '/js/d3.dynamic.widget.js',
             array('laterpay-d3'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-post-edit',
-            LATERPAY_ASSET_PATH . '/js/laterpay-post-edit.js',
+            LATERPAY_ASSETS_PATH . '/js/laterpay-post-edit.js',
             array('laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'jquery'),
             $laterpay_version,
             true
@@ -62,7 +62,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
                 'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
                 'locale'                => get_locale(),
                 'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
-                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_post_edit);',
+                'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_post_edit);',
             )
         );
         wp_localize_script(
@@ -71,7 +71,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             array(
                 'currency'          => get_option('laterpay_currency'),
                 'i18nDefaultPrice'  => __('default price', 'laterpay'),
-                'l10n_print_after'      => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget);',
+                'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_d3_dynamic_pricing_widget);',
             )
         );
     }
@@ -84,6 +84,9 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
      * @access public
      */
     public function teaserContentBox( $object ) {
+        if (!UserHelper::isAllowed('laterpay_edit_teaser_content', $object)) {
+            return;
+        }
         $settings = array(
             'wpautop'         => 1,
             'media_buttons'   => 1,
@@ -120,7 +123,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !current_user_can('edit_post', $post_id) ) {
+        if ( !UserHelper::isAllowed('laterpay_edit_teaser_content', $post_id) ) {
             return $post_id;
         }
 
@@ -138,6 +141,9 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
      * @access public
      */
     public function pricingPostContentBox( $object ) {
+        if (!UserHelper::isAllowed('laterpay_edit_individual_price', $object)) {
+            return;
+        }
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
 
         $category = get_the_category($object->ID);
@@ -220,7 +226,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !current_user_can('edit_post', $post_id) ) {
+        if ( !UserHelper::isAllowed('laterpay_edit_individual_price', $post_id) ) {
             return $post_id;
         }
 

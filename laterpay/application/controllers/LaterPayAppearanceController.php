@@ -9,14 +9,14 @@ class LaterPayAppearanceController extends LaterPayAbstractController {
         // load page-specific JS
         wp_register_script(
             'laterpay-ezmark',
-            LATERPAY_ASSET_PATH . '/js/vendor/jquery.ezmark.min.js',
+            LATERPAY_ASSETS_PATH . '/js/vendor/jquery.ezmark.min.js',
             array('jquery'),
             $laterpay_version,
             true
         );
         wp_register_script(
             'laterpay-backend-appearance',
-            LATERPAY_ASSET_PATH . '/js/laterpay-backend-appearance.js',
+            LATERPAY_ASSETS_PATH . '/js/laterpay-backend-appearance.js',
             array('jquery', 'laterpay-ezmark'),
             $laterpay_version,
             true
@@ -47,7 +47,7 @@ class LaterPayAppearanceController extends LaterPayAbstractController {
     public static function pageAjax() {
         if ( isset( $_POST['form'] ) ) {
             // check for required privileges to perform action
-            if ( function_exists('current_user_can') && !current_user_can('manage_options') ) {
+            if ( !UserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,

@@ -35,15 +35,16 @@
                                 name="get_started[laterpay_sandbox_merchant_id]"
                                 class="lp-input merchant-id-input"
                                 value="<?php echo LATERPAY_DEFAULT_SANDBOX_MERCHANT_ID ?>"
-                                placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>">
-                        <br>
+                                required>
+                        <label alt="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Sandbox Merchant ID', 'laterpay'); ?>"></label>
                         <span class="input-icon api-key-icon" data-icon="j"></span>
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
                                 value="<?php echo LATERPAY_DEFAULT_SANDBOX_API_KEY ?>"
                                 class="lp-input api-key-input"
-                                placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>">
+                                required>
+                        <label alt="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>" placeholder="<?php _e('Sandbox API Key', 'laterpay'); ?>"></label>
                     </div>
                     <p>
                         <?php _e('You can try the plugin immediately<br> with the provided Sandbox API credentials.', 'laterpay'); ?>

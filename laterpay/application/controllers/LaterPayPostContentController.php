@@ -57,7 +57,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
             $teaser_content_only    = get_option('laterpay_teaser_content_only');
             if ( is_single() ) {
                 // check for required privileges to perform action
-                if ( current_user_can('manage_options') ) {
+                if ( LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post_id) ) {
                     $access = true;
                     $this->setStatistic();
                 } else if ( LaterPayUserHelper::user_has_full_access() ) {
@@ -66,6 +66,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
 
                 // encrypt content for premium content
                 $content = LaterPayFileHelper::getEncryptedContent($post_id, $content, $access);
+                $is_premium_content = $price > 0;
 
                 $this->assign('post_id',                    $post_id);
                 $this->assign('content',                    $content);
@@ -73,12 +74,12 @@ class LaterPayPostContentController extends LaterPayAbstractController {
                 $this->assign('teaser_content_only',        $teaser_content_only);
                 $this->assign('currency',                   $currency);
                 $this->assign('price',                      $price);
-                $this->assign('is_premium_content',         $price > 0);
+                $this->assign('is_premium_content',         $is_premium_content);
                 $this->assign('access',                     $access);
                 $this->assign('link',                       $link);
-                $this->assign('can_show_statistic',         $laterpay_show_statistic ? true: false);
+                $this->assign('can_show_statistic',         LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post_id) && (!LaterPayRequestHelper::isAjax() || $laterpay_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content);
                 $this->assign('post_content_cached',        LaterPayCacheHelper::siteUsesPageCaching());
-                $this->assign('preview_post_as_visitor',    LaterPayUserHelper::previewPostAsVisitor());
+                $this->assign('preview_post_as_visitor',    LaterPayUserHelper::previewPostAsVisitor($post_id));
                 $this->assign('hide_statistics_pane',       LaterPayUserHelper::isHiddenStatisticsPane());
 
                 $html = $this->getTextView('singlePost');
@@ -518,10 +519,10 @@ class LaterPayPostContentController extends LaterPayAbstractController {
             $price              = self::getPostPrice($post_id);
             $float_price        = (float) $price;
             $is_premium_content = $float_price > 0;
-            $access             = $GLOBALS['laterpay_access'] || current_user_can('manage_options') || LaterPayUserHelper::user_has_full_access();
-            $link               = self::getLPLink($post_id);
-            $preview_post_as_visitor = LaterPayUserHelper::previewPostAsVisitor();
-            $post_content_cached = LaterPayCacheHelper::siteUsesPageCaching();
+            $access                  = $GLOBALS['laterpay_access'] || LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post) || LaterPayUserHelper::user_has_full_access();
+            $link                    = self::getLPLink($post_id);
+            $preview_post_as_visitor = LaterPayUserHelper::previewPostAsVisitor($post);
+            $post_content_cached     = LaterPayCacheHelper::siteUsesPageCaching();
 
             if ( $is_premium_content && is_single() && !is_page() ) {
                 if ( $post_content_cached && !LaterPayRequestHelper::isAjax() ) {

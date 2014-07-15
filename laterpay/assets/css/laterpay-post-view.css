@@ -182,6 +182,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
 .laterpay-overlay-text .laterpay-benefits h3 {
     color:#4dac64 !important;
     font-size:1.25em !important;
+    font-style:normal !important;
     font-weight:bold !important;
     line-height:1.3 !important;
     margin:1.25em 0 0.1em !important;
