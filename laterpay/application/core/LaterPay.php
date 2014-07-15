@@ -375,47 +375,71 @@ class LaterPay {
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
     }
 
-
     protected function setupPremiumDownloadsShortcode() {
         add_shortcode('laterpay_premium_download', array($this, 'renderPremiumDownloadLink'));
     }
 
     /**
-     * Renders a teaser box for selling additional downloadable content from the shortcode [laterpay_premium_download]
+     * Renders a teaser box for selling additional (downloadable) content from the shortcode [laterpay_premium_download]
+     *
+     * The shortcode [laterpay_premium_download] accepts various parameters:
+     * - target_page_title (required): the title of the page that contains the paid content
+     * - content_type (required): choose between 'text', 'music', 'video', 'slideshow', or 'file',
+     *   to display the corresponding default teaser image provided by the plugin;
+     *   can be overridden with a custom teaser image using the teaser_image_path attribute
+     * - heading_text (required): the text that should be displayed as heading in the teaser box;
+     *   restricted to one line
+     * - description_text: text that provides additional information on the paid content;
+     *   restricted to a maximum of three lines
+     * - teaser_image_path: path to an image that should be used instead of the default LaterPay teaser image
      */
     public function renderPremiumDownloadLink( $atts ) {
         $a = shortcode_atts(array(
-               'post'           => '',
-               'title'          => __('Additional Premium Content', 'laterpay'),
-               'description'    => '',
-               'teaser_image'   => ''
+               'target_page_title'  => '',
+               'content_type'       => 'file',
+               'heading_text'       => __('Additional Premium Content', 'laterpay'),
+               'description_text'   => '',
+               'teaser_image_path'  => ''
              ), $atts);
 
-        // TODO: add default teaser_image to assets/img
-        // TODO: choose default teaser_image depending on mime type
-
-        if ( $a['post'] != '' ) {
-            $page       = get_page_by_title($a['post']);    // FIXME: this or the next line is failing
-            $page_url   = get_permalink($page->ID);
+        if ( $a['target_page_title'] == '' ) {
+            die;
         } else {
-            $page_url   = '#';
+            $target_page    = get_page_by_title($a['target_page_title']);    // FIXME: get_page_by_title returns nothing
+            $page_id        = 277; //$target_page->ID;
+            $page_url       = get_permalink($page_id);
+            $page_mime_type = get_post_mime_type($page_id);
+            $price          = PostContentController::getPostPrice($page_id);
+            $currency       = get_option('laterpay_currency');
+            $price_tag      = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
         }
-        $currency       = get_option('laterpay_currency');
-        $price          = '2.99';   // TODO: get price from post
-        $price_tag      = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
 
-        $content_type = ''; // assign class depending on mime type
+        // determine $content_type from MIME Type
+        switch ($page_mime_type) {
+            case 'application/x-compressed':
+            case 'application/x-zip-compressed':
+            case 'application/zip':
+            case 'multipart/x-zip':
+                $content_type = 'file';
+                break;
 
-        if ( $a['teaser_image'] != '' ) {
-            $link  = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image']})\">";
+            default:
+                $content_type = 'file';
+                break;
+        }
+
+print_r($content_type);
+
+        if ( $a['teaser_image_path'] != '' ) {
+            $link  = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
         } else {
-            $link  = "<div class=\"premium-file-link {$content_type}\">";
+            $link  = "<div class=\"premium-file-link {$a['content_type']}\">";
         }
         $link .= "    <a href=\"{$page_url}\" class=\"premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
         $link .= "    <div class=\"details\">";
-        $link .= "        <h3>{$a['title']}</h3>";
-        if ( $a['description'] != '' ) {
-            $link .= "    <p>{$a['description']}</p>";
+        $link .= "        <h3>{$a['heading_text']}</h3>";
+        if ( $a['description_text'] != '' ) {
+            $link .= "    <p>{$a['description_text']}</p>";
         }
         $link .= "    </div>";
         $link .= "</div>";
