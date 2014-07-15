@@ -1,4 +1,4 @@
-<?php if ( $post_content_cached && !RequestHelper::isAjax() ): ?>
+<?php if ( $post_content_cached && !LaterPayRequestHelper::isAjax() ): ?>
     <span id="laterpay-post-footer" data-post-id="<?php echo $post_id; ?>"></span>
     <script type="text/javascript">
     (function($) {
