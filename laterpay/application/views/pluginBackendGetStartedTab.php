@@ -5,12 +5,7 @@
     </div>
 
     <div class="tabs-area">
-        <ul class="tabs getstarted">
-            <li class="current"><a href="#"><?php _e('Get Started', 'laterpay'); ?></a></li>
-            <li><a href="#"><?php _e('Pricing', 'laterpay'); ?></a></li>
-            <li><a href="#"><?php _e('Appearance', 'laterpay'); ?></a></li>
-            <li><a href="#"><?php _e('Account', 'laterpay'); ?></a></li>
-        </ul>
+        <?php echo $top_nav;?>
     </div>
 
     <div class="steps-progress">

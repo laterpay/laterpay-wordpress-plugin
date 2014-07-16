@@ -35,6 +35,7 @@ class LaterPayAppearanceController extends LaterPayAbstractController {
 
         $this->assign('plugin_is_in_live_mode',     get_option('laterpay_plugin_is_in_live_mode') == 1);
         $this->assign('show_teaser_content_only',   get_option('laterpay_teaser_content_only') == 1);
+        $this->assign('top_nav',                    $this->getMenu());
 
         $this->render('pluginBackendAppearanceTab');
     }

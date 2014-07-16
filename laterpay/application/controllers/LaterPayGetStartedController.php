@@ -41,6 +41,7 @@ class LaterPayGetStartedController extends LaterPayAbstractController {
 
         $this->assign('global_default_price',   LaterPayViewHelper::formatNumber((float)LATERPAY_GLOBAL_PRICE_DEFAULT, 2));
         $this->assign('Currencies',             $Currencies);
+        $this->assign('top_nav',                $this->getMenu());
 
         $this->render('pluginBackendGetStartedTab');
     }

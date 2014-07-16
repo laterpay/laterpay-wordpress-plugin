@@ -42,6 +42,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
         $this->assign('live_merchant_id',       get_option('laterpay_live_merchant_id'));
         $this->assign('live_api_key',           get_option('laterpay_live_api_key'));
         $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
+        $this->assign('top_nav',                $this->getMenu());
 
         $this->render('pluginBackendAccountTab');
     }

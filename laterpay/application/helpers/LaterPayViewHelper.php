@@ -1,6 +1,15 @@
 <?php
 
 class LaterPayViewHelper {
+    public static $pluginPage = 'laterpay-plugin';
+
+    public static $adminMenu = array(
+        'get_started'   => array('url' => 'laterpay-getstarted-tab', 'title' => 'Get started'),
+        'pricing'       => array('url' => 'laterpay-pricing-tab', 'title' => 'Pricing'),
+        'appearance'    => array('url' => 'laterpay-appearance-tab', 'title' => 'Appearance'),
+        'account'       => array('url' => 'laterpay-account-tab', 'title' => 'Account'),
+    );
+
     /**
      * Get date of next day
      *
