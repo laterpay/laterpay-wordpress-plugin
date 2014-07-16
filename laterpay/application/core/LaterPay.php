@@ -408,23 +408,21 @@ class LaterPay {
      *
      * The shortcode [laterpay_premium_download] accepts various parameters:
      * - target_page_title (required): the title of the page that contains the paid content
-     * - content_type (required): choose between 'text', 'music', 'video', 'slideshow', or 'file',
-     *   to display the corresponding default teaser image provided by the plugin;
-     *   can be overridden with a custom teaser image using the teaser_image_path attribute
-     * - heading_text (required): the text that should be displayed as heading in the teaser box;
+     * - heading_text: the text that should be displayed as heading in the teaser box;
      *   restricted to one line
      * - description_text: text that provides additional information on the paid content;
      *   restricted to a maximum of three lines
+     * - content_type: choose between 'text', 'music', 'video', 'gallery', or 'file',
+     *   to display the corresponding default teaser image provided by the plugin;
+     *   can be overridden with a custom teaser image using the teaser_image_path attribute
      * - teaser_image_path: path to an image that should be used instead of the default LaterPay teaser image
      */
     public function renderPremiumDownloadBox( $atts ) {
-        global $wpdb;
-
         $a = shortcode_atts(array(
                'target_page_title'  => '',
-               'content_type'       => 'file',
                'heading_text'       => __('Additional Premium Content', 'laterpay'),
                'description_text'   => '',
+               'content_type'       => '',
                'teaser_image_path'  => ''
              ), $atts);
 
@@ -434,48 +432,66 @@ class LaterPay {
             $target_page    = get_page_by_title($a['target_page_title'], OBJECT, array('post', 'page', 'attachment'));
             $page_id        = $target_page->ID;
             $page_url       = get_permalink($page_id);
-            $page_mime_type = get_post_mime_type($page_id);
             $price          = LaterPayPostContentController::getPostPrice($page_id);
             $currency       = get_option('laterpay_currency');
             $price_tag      = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
         }
 
-        // determine $content_type from MIME Type
-        switch ($page_mime_type) {
-            case 'application/x-compressed':
-            case 'application/x-zip-compressed':
-            case 'application/zip':
-            case 'multipart/x-zip':
-            case 'application/pdf':
-                $content_type = 'file';
-                break;
+        $content_type = $a['content_type'];
 
-            case 'image/png':
-                $content_type = 'gallery';
-                break;
+        if ( $content_type == '' ) {
+            // determine $content_type from MIME Type of files attached to post
+            $page_mime_type = get_post_mime_type($page_id);
 
-            default:
-                $content_type = 'file';
-                break;
+            switch ($page_mime_type) {
+                case 'application/zip':
+                case 'application/x-rar-compressed':
+                case 'application/pdf':
+                    $content_type = 'file';
+                    break;
+
+                case 'image/jpeg':
+                case 'image/png':
+                case 'image/gif':
+                    $content_type = 'gallery';
+                    break;
+
+                case 'audio/vnd.wav':
+                case 'audio/mpeg':
+                case 'audio/mp4':
+                case 'audio/ogg':
+                case 'audio/aac':
+                case 'audio/aacp':
+                    $content_type = 'audio';
+                    break;
+
+                case 'video/mpeg':
+                case 'video/mp4':
+                case 'video/quicktime':
+                    $content_type = 'video';
+                    break;
+
+                default:
+                    $content_type = 'text';
+            }
         }
 
-// print_r($content_type);
-
+        // build the HTML for the teaser box
         if ( $a['teaser_image_path'] != '' ) {
-            $link  = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
+            $html = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
         } else {
-            $link  = "<div class=\"premium-file-link {$a['content_type']}\">";
+            $html = "<div class=\"premium-file-link {$content_type}\">";
         }
-        $link .= "    <a href=\"{$page_url}\" class=\"premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
-        $link .= "    <div class=\"details\">";
-        $link .= "        <h3>{$a['heading_text']}</h3>";
+        $html .= "    <a href=\"{$page_url}\" class=\"premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
+        $html .= "    <div class=\"details\">";
+        $html .= "        <h3>{$a['heading_text']}</h3>";
         if ( $a['description_text'] != '' ) {
-            $link .= "    <p>{$a['description_text']}</p>";
+            $html .= "    <p>{$a['description_text']}</p>";
         }
-        $link .= "    </div>";
-        $link .= "</div>";
+        $html .= "    </div>";
+        $html .= "</div>";
 
-        return $link;
+        return $html;
     }
 
     /**
