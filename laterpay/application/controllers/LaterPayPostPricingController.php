@@ -61,7 +61,6 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             array(
                 'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
                 'locale'                => get_locale(),
-                'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
                 'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_post_edit);',
             )
         );
@@ -69,8 +68,8 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             'laterpay-d3-dynamic-pricing-widget',
             'laterpay_d3_dynamic_pricing_widget',
             array(
-                'currency'          => get_option('laterpay_currency'),
-                'i18nDefaultPrice'  => __('default price', 'laterpay'),
+                'currency'              => get_option('laterpay_currency'),
+                'i18nDefaultPrice'      => __('default price', 'laterpay'),
                 'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_d3_dynamic_pricing_widget);',
             )
         );
