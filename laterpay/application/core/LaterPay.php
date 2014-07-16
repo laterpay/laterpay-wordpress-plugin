@@ -658,8 +658,6 @@ class LaterPay {
         }
         
         if ( count($notices) > 0 ) {
-            // this plugin's name
-            $name = get_file_data( $this->_pluginFile, array ( 'laterpay' ), 'plugin' );
             deactivate_plugins( plugin_basename( $this->_pluginFile ) );
             
             $notices[] = __('LaterPay plugin has been deactivated. Please fix issues and activate it again', 'laterpay');
