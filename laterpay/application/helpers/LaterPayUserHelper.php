@@ -3,8 +3,8 @@
 class LaterPayUserHelper {
     protected static $_preview_post_as_visitor = null;
     protected static $_hide_statistics_pane = null;
-    
-    public static function isAllowed($capability, $post = null, $strict = true) {
+
+    public static function can($capability, $post = null, $strict = true) {
         $allowed = false;
         $post = get_post($post);
 
@@ -54,8 +54,8 @@ class LaterPayUserHelper {
      * Checks if a particular user has a particular role.
      * Returns true if a match was found.
      *
-     * @param string  $role    Role name.
-     * @param int     $user_id (Optional) The ID of a user. Defaults to the current user.
+     * @param string $role    Role name.
+     * @param int    $user_id (Optional) The ID of a user. Defaults to the current user.
      *
      * @return bool
      */
@@ -89,7 +89,7 @@ class LaterPayUserHelper {
                    $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
             }
-            self::$_preview_post_as_visitor = $preview_post_as_visitor && self::isAllowed('laterpay_read_post_statistics', $post);
+            self::$_preview_post_as_visitor = $preview_post_as_visitor && self::can('laterpay_read_post_statistics', $post);
         }
 
         return self::$_preview_post_as_visitor;

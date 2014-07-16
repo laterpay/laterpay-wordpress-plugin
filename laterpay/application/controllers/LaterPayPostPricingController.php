@@ -61,7 +61,6 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             array(
                 'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
                 'locale'                => get_locale(),
-                'i18nTeaserError'       => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
                 'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_post_edit);',
             )
         );
@@ -69,8 +68,8 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             'laterpay-d3-dynamic-pricing-widget',
             'laterpay_d3_dynamic_pricing_widget',
             array(
-                'currency'          => get_option('laterpay_currency'),
-                'i18nDefaultPrice'  => __('default price', 'laterpay'),
+                'currency'              => get_option('laterpay_currency'),
+                'i18nDefaultPrice'      => __('default price', 'laterpay'),
                 'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_d3_dynamic_pricing_widget);',
             )
         );
@@ -84,7 +83,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
      * @access public
      */
     public function teaserContentBox( $object ) {
-        if (!LaterPayUserHelper::isAllowed('laterpay_edit_teaser_content', $object)) {
+        if (!LaterPayUserHelper::can('laterpay_edit_teaser_content', $object)) {
             return;
         }
         $settings = array(
@@ -123,7 +122,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !LaterPayUserHelper::isAllowed('laterpay_edit_teaser_content', $post_id) ) {
+        if ( !LaterPayUserHelper::can('laterpay_edit_teaser_content', $post_id) ) {
             return $post_id;
         }
 
@@ -141,7 +140,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
      * @access public
      */
     public function pricingPostContentBox( $object ) {
-        if (!LaterPayUserHelper::isAllowed('laterpay_edit_individual_price', $object)) {
+        if (!LaterPayUserHelper::can('laterpay_edit_individual_price', $object)) {
             return;
         }
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
@@ -226,7 +225,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         // check for required privileges to perform action
-        if ( !LaterPayUserHelper::isAllowed('laterpay_edit_individual_price', $post_id) ) {
+        if ( !LaterPayUserHelper::can('laterpay_edit_individual_price', $post_id) ) {
             return $post_id;
         }
 

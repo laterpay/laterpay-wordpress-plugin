@@ -313,15 +313,17 @@ class LaterPay {
             'dashicons-laterpay-logo',
             81
         );
-        
+
         $activated = get_option('laterpay_plugin_is_activated');
         $page_number = 0;
-        foreach (LaterPayViewHelper::$adminMenu as $name => $page) {
-            if ( $activated && $name == 'get_started') {
+        foreach ( LaterPayViewHelper::$adminMenu as $name => $page ) {
+            if ( $activated && $name == 'get_started' ) {
                 continue;
             }
             $slug = !$page_number ? $plugin_page : $page['url'];
-            if ($activated === false) {
+            if ( !$activated && $name !== 'get_started' ) {
+                continue;
+            } else {
                 $slug = $plugin_page;
             }
             add_submenu_page(

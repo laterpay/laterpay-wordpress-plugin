@@ -51,7 +51,9 @@ The LaterPay WordPress plugin offers the following features:
   the user's current LaterPay invoice total and provides a direct link to his LaterPay user backend.
   You don't have to integrate this snippet, but we recommend it for transparency reasons.
 * Shortcode to highlight premium content: If you want to sell additional premium content within a post, you can use the shortcode
-  [laterpay_premium_download] to highlight the premium content. You can choose a title, a short description and a preview image.
+  [laterpay_premium_download] to advertise and link to the premium content. Available parameters for this shortcode are
+  title, a short description, and a preview image.
+* Localization: The plugin is fully localized for English and German.
 
 = Security =
 File protection: The plugin secures files in paid posts against downloading them via a shared direct link.

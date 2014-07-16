@@ -29,16 +29,6 @@ jQuery.noConflict();
         $('#post-price').val(validatedPrice);
     }
 
-    function requiredTeaserContentNotEntered() {
-        return (
-            $('textarea[name=teaser-content]').val().length === 0 &&
-                (
-                    $('input[name=pricing-post]').val() > 0 ||
-                    $('input[name=price_post_type]').val() === 1
-                )
-            );
-    }
-
     $('#post-price').blur(function() {
         laterpaySetPrice($(this).val());
     });
@@ -72,31 +62,22 @@ jQuery.noConflict();
     });
 
     $('#post').submit(function() {
-        if (requiredTeaserContentNotEntered()) {
-            setMessage(lpVars.i18nTeaserError, false);
-            $('#timestampdiv').show();
-            $('#publishing-action .spinner').hide();
-            $('#publish').prop('disabled', false).removeClass('button-primary-disabled');
-
-            return false;
-        } else {
-            var data = window.lpc.getData();
-            if (window.lpc.getData().length === 4) {
-                $('input[name=laterpay_start_price]').val(data[0].y);
-                $('input[name=laterpay_end_price]').val(data[3].y);
-                $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
-                $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
-                $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
-            } else if (window.lpc.getData().length === 3) {
-                $('input[name=laterpay_start_price]').val(data[0].y);
-                $('input[name=laterpay_end_price]').val(data[2].y);
-                $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
-                $('input[name=laterpay_transitional_period_end_after_days]').val(0);
-                $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
-            }
-
-            return true;
+        var data = window.lpc.getData();
+        if (window.lpc.getData().length === 4) {
+            $('input[name=laterpay_start_price]').val(data[0].y);
+            $('input[name=laterpay_end_price]').val(data[3].y);
+            $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+            $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
+            $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
+        } else if (window.lpc.getData().length === 3) {
+            $('input[name=laterpay_start_price]').val(data[0].y);
+            $('input[name=laterpay_end_price]').val(data[2].y);
+            $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+            $('input[name=laterpay_transitional_period_end_after_days]').val(0);
+            $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
         }
+
+        return true;
     });
 
 

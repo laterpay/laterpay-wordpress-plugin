@@ -1,8 +1,8 @@
 <?php
     // plugin menu pointer
     if ( in_array(LaterPayAdminController::ADMIN_MENU_POINTER, $pointers) ):
-        $pointer_content = '<h3>' . __('Welcome to LaterPay!', 'laterpay') . '</h3>';
-        $pointer_content .= '<p>' . __('Enter your LaterPay credentials here to activate your plugin now.', 'laterpay') . '</p>';
+        $pointer_content = '<h3>' . __('Activate LaterPay Plugin', 'laterpay') . '</h3>';
+        $pointer_content .= '<p>' . __('Welcome to LaterPay! Please enter your LaterPay API credentials to activate the plugin now.', 'laterpay') . '</p>';
 ?>
     <script>
     jQuery(document).ready(function($) {
