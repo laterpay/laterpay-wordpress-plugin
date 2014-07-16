@@ -4,6 +4,12 @@ class LaterPayAdminController extends LaterPayAbstractController {
     const ADMIN_MENU_POINTER            = 'lpwpp01';
     const POST_PRICE_BOX_POINTER        = 'lpwpp02';
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
+    
+    public function __call($name, $arguments) {
+        if ( substr($name, 0, 3) == 'run') {
+            return $this->run( strtolower(substr($name, 3)) );
+        }
+    }
 
     public function loadAssets() {
         parent::loadAssets();
@@ -46,13 +52,11 @@ class LaterPayAdminController extends LaterPayAbstractController {
     /**
      * Constructor for class LaterPayController, processes the output pages
      */
-    public function run() {
+    public function run($tab = '') {
         $this->loadAssets();
 
         if ( (isset($_GET['tab'])) ) {
             $tab = $_GET['tab'];
-        } else {
-            $tab = '';
         }
 
         // return default tab, if no specific tab is requested
@@ -69,6 +73,11 @@ class LaterPayAdminController extends LaterPayAbstractController {
         if ( get_option('laterpay_plugin_is_activated') == '1' && $tab == 'get_started' ) {
             $tab                = 'pricing';
             $_GET['tab']        = 'pricing';
+        }
+        
+        if ( get_option('laterpay_plugin_is_activated') === false ) {
+            $tab            = 'get_started';
+            $_GET['tab']    = 'get_started';
         }
 
         switch ( $tab ) {

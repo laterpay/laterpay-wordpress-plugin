@@ -303,15 +303,37 @@ class LaterPay {
      * Add plugin to administrator panel
      */
     public function addAdminPanel() {
+        $plugin_page = LaterPayViewHelper::$pluginPage;
         add_menu_page(
             __('LaterPay Plugin Settings', 'laterpay'),
             'LaterPay',
             'laterpay_read_plugin_pages',
-            'laterpay/laterpay-admin.php',
-            '',
+            $plugin_page,
+            array($this->getLaterPayAdminController(), 'run'),
             'dashicons-laterpay-logo',
             81
         );
+        
+        $activated = get_option('laterpay_plugin_is_activated');
+        $page_number = 0;
+        foreach (LaterPayViewHelper::$adminMenu as $name => $page) {
+            if ( $activated && $name == 'get_started') {
+                continue;
+            }
+            $slug = !$page_number ? $plugin_page : $page['url'];
+            if ($activated === false) {
+                $slug = $plugin_page;
+            }
+            add_submenu_page(
+                $plugin_page,
+                __($page['title'], 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
+                __($page['title'], 'laterpay'),
+                'laterpay_read_plugin_pages',
+                $slug,
+                array($this->getLaterPayAdminController(), 'run' . $name)
+            );
+            $page_number++;
+        }
     }
 
     protected function setupAdminPanel() {
