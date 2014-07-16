@@ -646,9 +646,24 @@ class LaterPay {
         if ( !$installed_wp_is_compatible ) {
             $notices[] = sprintf($template, 'Wordpress', $required_wp_version, 'Wordpress', $installed_wp_version);
         }
-
+        // check file/folders permissions
+        $template = __('<p>LaterPay: Directory %s <strong>should be</strong> writtable.</p>', 'laterpay');
+        $file = dirname($this->_pluginFile);
+        if ( !is_writable($file) ) {
+            $notices[] = sprintf($template, $file);
+        }
+        $file = dirname($this->_pluginFile) . DIRECTORY_SEPARATOR . 'cache';
+        if ( !is_writable($file) ) {
+            $notices[] = sprintf($template, $file);
+        }
+        
         if ( count($notices) > 0 ) {
-            $out = join('\n', $notices);
+            // this plugin's name
+            $name = get_file_data( $this->_pluginFile, array ( 'laterpay' ), 'plugin' );
+            deactivate_plugins( plugin_basename( $this->_pluginFile ) );
+            
+            $notices[] = __('LaterPay plugin has been deactivated. Please fix issues and activate it again', 'laterpay');
+            $out = join("\n", $notices);
             echo '<div class="error">' . $out . '</div>';
         }
     }
