@@ -275,7 +275,7 @@ class LaterPay {
             )
         );
 
-        add_option('laterpay_plugin_is_activated',      '0');
+        add_option('laterpay_plugin_is_activated',      '');
         add_option('laterpay_teaser_content_only',      '1');
         add_option('laterpay_plugin_is_in_live_mode',   '0');
         add_option('laterpay_sandbox_merchant_id',      '');
@@ -288,6 +288,12 @@ class LaterPay {
 
         // clear opcode cache
         LaterPayCacheHelper::resetOpcodeCache();
+        
+        // activate plugin
+        $activated = get_option('laterpay_plugin_is_activated', '');
+        if ( $activated !== '' ) { // never activated before
+            update_option('laterpay_plugin_is_activated', '1');
+        }
     }
 
     /**
@@ -313,18 +319,17 @@ class LaterPay {
             81
         );
 
-        $activated = get_option('laterpay_plugin_is_activated');
+        $activated = get_option('laterpay_plugin_is_activated', '');
+        if ( $activated === '' ) { // never activated before
+            return;
+        }
         $page_number = 0;
         foreach ( LaterPayViewHelper::$adminMenu as $name => $page ) {
             if ( $activated && $name == 'get_started' ) {
                 continue;
             }
             $slug = !$page_number ? $plugin_page : $page['url'];
-            if ( !$activated && $name !== 'get_started' ) {
-                continue;
-            } else {
-                $slug = $plugin_page;
-            }
+
             add_submenu_page(
                 $plugin_page,
                 __($page['title'], 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
