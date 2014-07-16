@@ -66,9 +66,9 @@ class LaterPayGetStartedController extends LaterPayAbstractController {
             // save initial settings
             update_option('laterpay_sandbox_api_key',      $_POST['get_started']['laterpay_sandbox_api_key']);
             update_option('laterpay_sandbox_merchant_id',  $_POST['get_started']['laterpay_sandbox_merchant_id']);
-            update_option('laterpay_global_price',         $_POST['get_started']['laterpay_global_price']);
+            update_option('laterpay_global_price',         str_replace(',', '.', $_POST['get_started']['laterpay_global_price']));
             update_option('laterpay_currency',             $_POST['get_started']['laterpay_currency']);
-            update_option('laterpay_plugin_is_activated',             '1');
+            update_option('laterpay_plugin_is_activated',  '1');
 
             // automatically dismiss pointer to LaterPay plugin after saving the initial settings
             $current_user_id    = get_current_user_id();
