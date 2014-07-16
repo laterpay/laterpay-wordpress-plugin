@@ -288,7 +288,7 @@ class LaterPay {
 
         // clear opcode cache
         LaterPayCacheHelper::resetOpcodeCache();
-        
+
         // activate plugin
         $activated = get_option('laterpay_plugin_is_activated', '');
         if ( $activated !== '' ) { // never activated before
@@ -640,15 +640,34 @@ class LaterPay {
 
         $notices = array();
         $template = __('<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>', 'laterpay');
+
+        // check PHP compatibility
         if ( !$installed_php_is_compatible ) {
             $notices[] = sprintf($template, 'PHP', $required_php_version, 'PHP', $installed_php_version);
         }
+
+        // check WordPress compatibility
         if ( !$installed_wp_is_compatible ) {
             $notices[] = sprintf($template, 'Wordpress', $required_wp_version, 'Wordpress', $installed_wp_version);
         }
 
+        // check file / folder permissions
+        $template = __('<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>', 'laterpay');
+        $file = dirname($this->_pluginFile);
+        if ( !is_writable($file) ) {
+            $notices[] = sprintf($template, $file);
+        }
+        $file = dirname($this->_pluginFile) . DIRECTORY_SEPARATOR . 'cache';
+        if ( !is_writable($file) ) {
+            $notices[] = sprintf($template, $file);
+        }
+
+        // deactivate plugin and render error messages if requirements are not fulfilled
         if ( count($notices) > 0 ) {
-            $out = join('\n', $notices);
+            deactivate_plugins(plugin_basename($this->_pluginFile));
+
+            $notices[] = __('The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay');
+            $out = join("\n", $notices);
             echo '<div class="error">' . $out . '</div>';
         }
     }
