@@ -7,7 +7,7 @@
     <script>
     jQuery(document).ready(function($) {
         if (typeof(jQuery().pointer) !== 'undefined') {
-            jQuery('#toplevel_page_laterpay-laterpay-admin')
+            jQuery('#toplevel_page_laterpay-plugin')
             .pointer({
                 content : '<?php echo $pointer_content; ?>',
                 position: {
