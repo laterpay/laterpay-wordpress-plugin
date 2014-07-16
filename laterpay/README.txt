@@ -50,6 +50,7 @@ The LaterPay WordPress plugin offers the following features:
 * LaterPay invoice indicator: The plugin provides a code snippet you can insert into your theme that displays
   the user's current LaterPay invoice total and provides a direct link to his LaterPay user backend.
   You don't have to integrate this snippet, but we recommend it for transparency reasons.
+* Localization: The plugin is fully localized for English and German.
 
 = Security =
 File protection: The plugin secures files in paid posts against downloading them via a shared direct link.
