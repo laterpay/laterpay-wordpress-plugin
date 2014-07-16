@@ -437,16 +437,16 @@ label.switch-label {
 .premium-file-link.text         {background-image:url(../img/premium-text.png);}
 .premium-file-link.music        {background-image:url(../img/premium-music.png);}
 .premium-file-link.video        {background-image:url(../img/premium-video.png);}
-.premium-file-link.slideshow    {background-image:url(../img/premium-slideshow.png);}
+.premium-file-link.gallery      {background-image:url(../img/premium-gallery.png);}
 .premium-file-link.file         {background-image:url(../img/premium-download.png);}
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
      /* serve retina images for hires displays */
-     .premium-file-link.text         {background-image:url(../img/premium-text_2x.png);}
-     .premium-file-link.music        {background-image:url(../img/premium-music_2x.png);}
-     .premium-file-link.video        {background-image:url(../img/premium-video_2x.png);}
-     .premium-file-link.slideshow    {background-image:url(../img/premium-slideshow_2x.png);}
-     .premium-file-link.file         {background-image:url(../img/premium-download_2x.png);}
+     .premium-file-link.text    {background-image:url(../img/premium-text_2x.png);}
+     .premium-file-link.music   {background-image:url(../img/premium-music_2x.png);}
+     .premium-file-link.video   {background-image:url(../img/premium-video_2x.png);}
+     .premium-file-link.gallery {background-image:url(../img/premium-gallery_2x.png);}
+     .premium-file-link.file    {background-image:url(../img/premium-download_2x.png);}
 }
 
 .premium-file-button {

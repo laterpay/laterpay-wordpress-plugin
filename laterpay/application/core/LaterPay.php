@@ -418,6 +418,8 @@ class LaterPay {
      * - teaser_image_path: path to an image that should be used instead of the default LaterPay teaser image
      */
     public function renderPremiumDownloadBox( $atts ) {
+        global $wpdb;
+
         $a = shortcode_atts(array(
                'target_page_title'  => '',
                'content_type'       => 'file',
@@ -429,8 +431,8 @@ class LaterPay {
         if ( $a['target_page_title'] == '' ) {
             die;
         } else {
-            $target_page    = get_page_by_title($a['target_page_title']);    // FIXME: get_page_by_title returns nothing
-            $page_id        = 277; //$target_page->ID;
+            $target_page    = get_page_by_title($a['target_page_title'], OBJECT, array('post', 'page', 'attachment'));
+            $page_id        = $target_page->ID;
             $page_url       = get_permalink($page_id);
             $page_mime_type = get_post_mime_type($page_id);
             $price          = LaterPayPostContentController::getPostPrice($page_id);
@@ -444,7 +446,12 @@ class LaterPay {
             case 'application/x-zip-compressed':
             case 'application/zip':
             case 'multipart/x-zip':
+            case 'application/pdf':
                 $content_type = 'file';
+                break;
+
+            case 'image/png':
+                $content_type = 'gallery';
                 break;
 
             default:
@@ -452,7 +459,7 @@ class LaterPay {
                 break;
         }
 
-print_r($content_type);
+// print_r($content_type);
 
         if ( $a['teaser_image_path'] != '' ) {
             $link  = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
