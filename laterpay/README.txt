@@ -4,7 +4,7 @@ Contributors: dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag:
+Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
 License: MIT
@@ -125,7 +125,7 @@ look at your work and integrate it into the official plugin.
 If you want to suggest a feature or report a bug, we are also looking forward to your message to wordpress@laterpay.net
 
 
-== Frequently Asked Questions and Help ==
+== Frequently Asked Questions ==
 
 = Contextual Help =
 The LaterPay WordPress Plugin supports contextual help, so you will have all the information at hand right where and
