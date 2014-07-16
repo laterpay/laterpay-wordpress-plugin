@@ -330,7 +330,7 @@ class LaterPay {
             }
             $slug = !$page_number ? $plugin_page : $page['url'];
 
-            add_submenu_page(
+            $page = add_submenu_page(
                 $plugin_page,
                 __($page['title'], 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
                 __($page['title'], 'laterpay'),
@@ -338,8 +338,12 @@ class LaterPay {
                 $slug,
                 array($this->getLaterPayAdminController(), 'run' . $name)
             );
+            add_action('load-' . $page, array($this->getLaterPayAdminController(), 'help' . $name));
             $page_number++;
         }
+// TODO: add help for post edit/create pages
+//        add_action( 'load-post.php', 'post_edit_page' );
+//        add_action( 'load-new.php', 'post_new_page' );
     }
 
     protected function setupAdminPanel() {
