@@ -146,7 +146,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('Sandbox API key verified and saved. You can now make TEST transactions.', 'laterpay')
+                    'message' => __('Your Sandbox API key is valid. You can now make TEST transactions.', 'laterpay')
                 )
             );
         } elseif ( strlen($_POST['laterpay_sandbox_api_key']) == 0 ) {
