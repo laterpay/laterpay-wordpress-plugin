@@ -24,14 +24,3 @@ function setMessage(message, success) {
 }
 
 jQuery.noConflict();
-(function($) {$(function() {
-
-    $('.tabs-area a')
-    .mousedown(function() {
-        var href    = $(this).attr('href'),
-            tab     = href.substring(1);
-        window.location = 'admin.php?page=laterpay/laterpay-admin.php&tab=' + tab;
-    })
-    .click(function(e) {e.preventDefault();});
-
-});})(jQuery);

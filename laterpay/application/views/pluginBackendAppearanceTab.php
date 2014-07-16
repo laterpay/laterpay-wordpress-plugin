@@ -11,11 +11,7 @@
                 <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
             </a>
         <?php endif; ?>
-        <ul class="tabs">
-            <li><a href="#pricing"><?php _e('Pricing', 'laterpay'); ?></a></li>
-            <li class="current"><a href="#appearance"><?php _e('Appearance', 'laterpay'); ?></a></li>
-            <li><a href="#account"><?php _e('Account', 'laterpay'); ?></a></li>
-        </ul>
+        <?php echo $top_nav;?>
     </div>
 
     <div class="lp-wrap">
