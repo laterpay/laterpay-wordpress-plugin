@@ -57,7 +57,7 @@
                                     id="global-default-price"
                                     class="lp-input number"
                                     value="<?php echo $global_default_price; ?>"
-                                    placeholder="<?php _e('0.00' ,'laterpay'); ?>">
+                                    placeholder="<?php _e('0.00', 'laterpay'); ?>">
                             <select name="get_started[laterpay_currency]" class="lp-input">
                                 <?php foreach ($Currencies->getCurrencies() as $item): ?>
                                     <option value="<?php echo $item->short_name; ?>"<?php if ( $item->short_name == LATERPAY_CURRENCY_DEFAULT ): ?> selected<?php endif; ?>>
