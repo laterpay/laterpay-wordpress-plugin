@@ -4,7 +4,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
     const ADMIN_MENU_POINTER            = 'lpwpp01';
     const POST_PRICE_BOX_POINTER        = 'lpwpp02';
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
-    
+
     public function __call($name, $arguments) {
         if ( substr($name, 0, 3) == 'run') {
             return $this->run( strtolower(substr($name, 3)) );
@@ -74,7 +74,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
             $tab                = 'pricing';
             $_GET['tab']        = 'pricing';
         }
-        
+
         if ( get_option('laterpay_plugin_is_activated') === false ) {
             $tab            = 'get_started';
             $_GET['tab']    = 'get_started';
@@ -142,7 +142,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
     public static function pageAjax() {
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
-            if ( !LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', null, false) ) {
+            if ( !LaterPayUserHelper::can('laterpay_read_post_statistics', null, false) ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,

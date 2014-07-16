@@ -57,7 +57,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
             $teaser_content_only    = get_option('laterpay_teaser_content_only');
             if ( is_single() ) {
                 // check for required privileges to perform action
-                if ( LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post_id) ) {
+                if ( LaterPayUserHelper::can('laterpay_read_post_statistics', $post_id) ) {
                     $access = true;
                     $this->setStatistic();
                 } else if ( LaterPayUserHelper::user_has_full_access() ) {
@@ -77,7 +77,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
                 $this->assign('is_premium_content',         $is_premium_content);
                 $this->assign('access',                     $access);
                 $this->assign('link',                       $link);
-                $this->assign('can_show_statistic',         LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post_id) && (!LaterPayRequestHelper::isAjax() || $laterpay_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content);
+                $this->assign('can_show_statistic',         LaterPayUserHelper::can('laterpay_read_post_statistics', $post_id) && (!LaterPayRequestHelper::isAjax() || $laterpay_show_statistic) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content);
                 $this->assign('post_content_cached',        LaterPayCacheHelper::siteUsesPageCaching());
                 $this->assign('preview_post_as_visitor',    LaterPayUserHelper::previewPostAsVisitor($post_id));
                 $this->assign('hide_statistics_pane',       LaterPayUserHelper::isHiddenStatisticsPane());
@@ -519,7 +519,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
             $price              = self::getPostPrice($post_id);
             $float_price        = (float) $price;
             $is_premium_content = $float_price > 0;
-            $access                  = $GLOBALS['laterpay_access'] || LaterPayUserHelper::isAllowed('laterpay_read_post_statistics', $post) || LaterPayUserHelper::user_has_full_access();
+            $access                  = $GLOBALS['laterpay_access'] || LaterPayUserHelper::can('laterpay_read_post_statistics', $post) || LaterPayUserHelper::user_has_full_access();
             $link                    = self::getLPLink($post_id);
             $preview_post_as_visitor = LaterPayUserHelper::previewPostAsVisitor($post);
             $post_content_cached     = LaterPayCacheHelper::siteUsesPageCaching();

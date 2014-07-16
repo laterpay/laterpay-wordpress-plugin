@@ -55,7 +55,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
     public static function pageAjax() {
         if (isset($_POST['form'])) {
             // check for required privileges to perform action
-            if ( !LaterPayUserHelper::isAllowed('laterpay_edit_plugin_settings') ) {
+            if ( !LaterPayUserHelper::can('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
