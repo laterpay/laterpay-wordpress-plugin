@@ -18,16 +18,20 @@ Sell digital content with LaterPay. It allows super easy and fast payments from 
 The LaterPay WordPress plugin offers the following features:
 
 = Pricing =
-* Price types: The plugin allows you to set different price types for your blog posts:
-  ** Global default price: This price is by default applied to all new and existing posts of the blog.
-  ** Category default price: This price is applied to all new and existing posts in a given category.
+The plugin allows you to set different price types for your blog posts:
+
+* Global default price: This price is by default applied to all new and existing posts of the blog.
+* Category default price: This price is applied to all new and existing posts in a given category.
      If a category default price is set, it overwrites the global default price.
      E.g. setting a category default price of 0.00 Euro, while having set a global default price of 0.49 Euro,
      makes all posts in that category free.
-  ** Individual price: This price can be set for each post.
+* Individual price: This price can be set for each post.
      It overwrites both the category default price and the global default price for the respective article.
      E.g. setting an individual price of 0.19 Euro with a category default price of 0.10 Euro and a global
      default price of 0.00 Euro results in a price for that post of 0.19 Euro.
+
+You may also change the plugin's currency and use advanced pricing:
+
 * Default Currency: The plugin allows you to set the default currency for your blog.
   Changing the default currency will not change the prices you have set, but only the currency code
   that is displayed next to the price.
@@ -42,14 +46,19 @@ The LaterPay WordPress plugin offers the following features:
   The teaser is shown to the user before he has purchased a post.
   The plugin automatically generates teaser content by taking the first 120 words of every existing post.
   You can refine the teaser content on the ‘Add / Edit Post’ page.
-  You have the choice between two presentation modes for your teaser content:
-  ** Teaser only: This mode shows only the teaser with an unobtrusive purchase link below.
-  ** Teaser + overlay: This mode shows the teaser, an excerpt of the full content under a semi-transparent overlay
+  
+You have the choice between two presentation modes for your teaser content:
+
+* Teaser only: This mode shows only the teaser with an unobtrusive purchase link below.
+* Teaser + overlay: This mode shows the teaser, an excerpt of the full content under a semi-transparent overlay
      that briefly explains LaterPay's benefits. The plugin never loads the full content before a user has bought it.
+
+Furthermore, the plugin provides:
+
 * LaterPay invoice indicator: The plugin provides a code snippet you can insert into your theme that displays
   the user's current LaterPay invoice total and provides a direct link to his LaterPay user backend.
   You don't have to integrate this snippet, but we recommend it for transparency reasons.
-* Localization: The plugin is fully localized for English and German.
+* Full localization: The plugin is fully localized for English and German.
 
 = Security =
 File protection: The plugin secures files in paid posts against downloading them via a shared direct link.
