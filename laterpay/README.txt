@@ -101,6 +101,15 @@ following data about the respective post:
 * History charts for sales, revenue, and conversion rate of the last 30 days
 Please note that the provided statistics are only indicators and not binding in any way.
 
+= Roles and Capabilities =
+Some plugin features may not be available for certain user roles, based on the WordPress model of roles and capabilities:
+
+*Subscribers (and regular, non-registered visitors): **cannot change any** plugin settings
+*Contributors: can edit the teaser content and see the statistics of their **own** posts
+*Authors: can **additionally** edit the individual prices of their **own** posts
+*Editors: can edit the teaser content and individual prices of **all** posts and can see the statistics of **all** posts
+*Super Admins and Admins: Can **additionally** access the plugin backend, edit the plugin settings and (un-)install and (de-)activate the LaterPay WordPress plugin.
+
 
 == Installation ==
 
