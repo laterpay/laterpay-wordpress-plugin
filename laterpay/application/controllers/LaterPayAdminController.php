@@ -149,22 +149,10 @@ class LaterPayAdminController extends LaterPayAbstractController {
      */
     protected function _render_help( $page ) {
         $screen = get_current_screen();
-        //
         // Check if current screen is settings page we registered
         // Don't add help tab if it's not
         if ( $screen->id != $page )
             return;
-
-        //Add help tabs
-        //$screen->add_help_tab(array(
-        //    'id' => 'thsp_first_tab',
-        //    'title' => __('First tab', 'thsp_contextual_help'),
-        //    'content' => __('
-        //  <p>Yeah, you can even embed videos, nice!</p>
-        //  <iframe width="560" height="315" src="http://www.youtube.com/embed/RBA-lH2a6E8" frameborder="0" allowfullscreen></iframe>
-        //  ', 'thsp_contextual_help'
-        //    ),
-        //));
 
         // Add help tab to "Add New Post" and "Edit Post" page
         $screen->add_help_tab(array(
@@ -173,7 +161,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
             'content' => __('
             <strong>Teaser</strong>
             <p>
-                The teaser should give your visitors a first impression of the content you want to sell. You don’t have to provide a teaser for every single post on your site: The LaterPay plugin already took care of that and used the first 60 words (per default) of each post for the teaser content.
+                The teaser should give your visitors a first impression of the content you want to sell. You don\'t have to provide a teaser for every single post on your site: The LaterPay plugin already took care of that and used the first 60 words (per default) of each post for the teaser content.
             </p>
             <p>
                 Though, we recommend providing a specifically created teaser for each post to increase your sales.
@@ -181,7 +169,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
 
             <strong>Setting Prices</strong>
             <p>
-                You can set an individual price for each post. This price can be 0.00 Euro or set between (including) 0.05 Euro and (including) 5.00 Euro. If you set an individual price, category default prices you might have set for the post’s category won’t apply anymore until you reactive them by clicking \'Apply category default price\'.
+                You can set an individual price for each post. This price can be 0.00 Euro or set between (including) 0.05 Euro and (including) 5.00 Euro. If you set an individual price, category default prices you might have set for the post\'s category won\'t apply anymore until you reactive them by clicking \'Apply category default price\'.
             <p><br><br>
 
             <strong>Advanced Pricing Options</strong>
@@ -285,19 +273,6 @@ class LaterPayAdminController extends LaterPayAbstractController {
             ', 'thsp_contextual_help'
             ),
         ));
-
-        // Set help sidebar
-        $screen->set_help_sidebar(
-                '
-		<ul>
-			<li><a href="http://thematosoup.com">' . __('Our website', 'ts-fab') . '</a></li>
-			<li><a href="http://twitter.com/#!/thematosoup">Twitter</a></li>
-			<li><a href="http://www.facebook.com/ThematoSoup">Facebook</a></li>
-			<li><a href="http://plus.google.com/104360438826479763912">Google+</a></li>
-			<li><a href="http://www.linkedin.com/company/thematosoup">LinkedIn</a></li>
-		</ul>
-		'
-        );
     }
 
     /**
