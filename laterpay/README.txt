@@ -46,7 +46,7 @@ You may also change the plugin's currency and use advanced pricing:
   The teaser is shown to the user before he has purchased a post.
   The plugin automatically generates teaser content by taking the first 120 words of every existing post.
   You can refine the teaser content on the ‘Add / Edit Post’ page.
-  
+
 You have the choice between two presentation modes for your teaser content:
 
 * Teaser only: This mode shows only the teaser with an unobtrusive purchase link below.
@@ -176,6 +176,19 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 
 
 == Changelog ==
+
+= 0.9.6 (July 21, 2014): Production-readiness release III =
+* Included public Sandbox API credentials supplied by default
+* Fully implemented planned roles and capabilities model
+* Fixed problem where re-activating the plugin forwarded to the getStarted tab
+* Added submenu links to the admin menu
+* Tested and ensured compatibility with PHP 5.2.4
+* Revised README to comply with WordPress standards
+* Added option to switch off auto-updating of browscap
+* Secured plugin folders against external access
+* Prefixed all classes and functions with 'LaterPay'
+* Improved requirements check during installation
+* Several smaller bugfixes
 
 = 0.9.5.1 (July 10, 2014): Bugfix release =
 * Fixed purchase button
