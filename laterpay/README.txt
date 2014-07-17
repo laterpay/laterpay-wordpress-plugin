@@ -186,6 +186,7 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 * Revised README to comply with WordPress standards
 * Added option to switch off auto-updating of browscap
 * Secured plugin folders against external access
+* Extended list of protected filetypes by popular audio, video, and ebook filetypes
 * Prefixed all classes and functions with 'LaterPay'
 * Improved requirements check during installation
 * Several smaller bugfixes
