@@ -219,7 +219,9 @@ ul.tabs {margin-left:2rem;}
 .tabs .current a {color:#555; font-weight:600;}
 .tabs li:hover a {color:#2ea2cc;}
 
-#plugin-mode-indicator {position:absolute; right:1rem; top:.4rem;}
+#contextual-help-link-wrap {z-index:10;}
+
+#plugin-mode-indicator {position:absolute; right:7rem; top:.4rem;}
 #plugin-mode-indicator[data-icon]:before {
     float:left;
     font-size:4rem;

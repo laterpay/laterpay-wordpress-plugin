@@ -336,14 +336,14 @@ class LaterPay {
                 __($page['title'], 'laterpay'),
                 'laterpay_read_plugin_pages',
                 $slug,
-                array($this->getLaterPayAdminController(), 'run' . $name)
+                array($this->getLaterPayAdminController(), 'run_' . $name)
             );
-            add_action('load-' . $page, array($this->getLaterPayAdminController(), 'help' . $name));
+            add_action('load-' . $page, array($this->getLaterPayAdminController(), 'help_' . $name));
             $page_number++;
         }
-// TODO: add help for post edit/create pages
-//        add_action( 'load-post.php', 'post_edit_page' );
-//        add_action( 'load-new.php', 'post_new_page' );
+        
+        add_action( 'load-post.php', array($this->getLaterPayAdminController(), 'help_wp_edit_post') );
+        add_action( 'load-post-new.php', array($this->getLaterPayAdminController(), 'help_wp_add_post') );
     }
 
     protected function setupAdminPanel() {
