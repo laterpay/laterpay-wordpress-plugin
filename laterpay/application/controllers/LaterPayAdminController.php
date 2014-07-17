@@ -110,9 +110,9 @@ class LaterPayAdminController extends LaterPayAbstractController {
             break;
         }
     }
-    
+
     /**
-     * 
+     *
      */
     public function help($tab = '') {
 //        if ( (isset($_GET['page'])) ) {
