@@ -276,7 +276,7 @@ class LaterPay {
             )
         );
 
-        add_option('laterpay_plugin_is_activated',      '0');
+        add_option('laterpay_plugin_is_activated',      '');
         add_option('laterpay_teaser_content_only',      '1');
         add_option('laterpay_plugin_is_in_live_mode',   '0');
         add_option('laterpay_sandbox_merchant_id',      '');
@@ -289,6 +289,12 @@ class LaterPay {
 
         // clear opcode cache
         LaterPayCacheHelper::resetOpcodeCache();
+
+        // activate plugin
+        $activated = get_option('laterpay_plugin_is_activated', '');
+        if ( $activated !== '' ) { // never activated before
+            update_option('laterpay_plugin_is_activated', '1');
+        }
     }
 
     /**
@@ -314,18 +320,17 @@ class LaterPay {
             81
         );
 
-        $activated = get_option('laterpay_plugin_is_activated');
+        $activated = get_option('laterpay_plugin_is_activated', '');
+        if ( $activated === '' ) { // never activated before
+            return;
+        }
         $page_number = 0;
         foreach ( LaterPayViewHelper::$adminMenu as $name => $page ) {
             if ( $activated && $name == 'get_started' ) {
                 continue;
             }
             $slug = !$page_number ? $plugin_page : $page['url'];
-            if ( !$activated && $name !== 'get_started' ) {
-                continue;
-            } else {
-                $slug = $plugin_page;
-            }
+
             add_submenu_page(
                 $plugin_page,
                 __($page['title'], 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
@@ -731,15 +736,34 @@ class LaterPay {
 
         $notices = array();
         $template = __('<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>', 'laterpay');
+
+        // check PHP compatibility
         if ( !$installed_php_is_compatible ) {
             $notices[] = sprintf($template, 'PHP', $required_php_version, 'PHP', $installed_php_version);
         }
+
+        // check WordPress compatibility
         if ( !$installed_wp_is_compatible ) {
             $notices[] = sprintf($template, 'Wordpress', $required_wp_version, 'Wordpress', $installed_wp_version);
         }
 
+        // check file / folder permissions
+        $template = __('<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>', 'laterpay');
+        $file = dirname($this->_pluginFile);
+        if ( !is_writable($file) ) {
+            $notices[] = sprintf($template, $file);
+        }
+        $file = dirname($this->_pluginFile) . DIRECTORY_SEPARATOR . 'cache';
+        if ( !is_writable($file) ) {
+            $notices[] = sprintf($template, $file);
+        }
+
+        // deactivate plugin and render error messages if requirements are not fulfilled
         if ( count($notices) > 0 ) {
-            $out = join('\n', $notices);
+            deactivate_plugins(plugin_basename($this->_pluginFile));
+
+            $notices[] = __('The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay');
+            $out = join("\n", $notices);
             echo '<div class="error">' . $out . '</div>';
         }
     }

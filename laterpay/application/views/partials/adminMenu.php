@@ -3,7 +3,7 @@
     <?php foreach ($menu as $page): ?>
         <?php
             $slug = !$num ? $plugin_page : $page['url'];
-            if ($activated === false) {
+            if ($activated === '') { // never activated before
                 $slug = $plugin_page;
             }
         ?>

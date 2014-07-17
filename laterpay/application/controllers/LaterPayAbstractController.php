@@ -60,7 +60,7 @@ class LaterPayAbstractController {
         if ( empty($file) ) {
             $file = 'partials/adminMenu';
         }
-        $activated = get_option('laterpay_plugin_is_activated');
+        $activated = get_option('laterpay_plugin_is_activated', '');
         $current_page = isset($_GET['page']) ? $_GET['page']: LaterPayViewHelper::$pluginPage;
         $menu = LaterPayViewHelper::$adminMenu;
         if ($activated) {

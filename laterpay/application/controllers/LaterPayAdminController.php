@@ -58,10 +58,10 @@ class LaterPayAdminController extends LaterPayAbstractController {
         if ( (isset($_GET['tab'])) ) {
             $tab = $_GET['tab'];
         }
-
+        $activated = get_option('laterpay_plugin_is_activated', '');
         // return default tab, if no specific tab is requested
         if ( empty($tab) ) {
-            if ( get_option('laterpay_plugin_is_activated') == '0' ) {
+            if ( $activated == '0' ) {
                 $tab            = 'get_started';
                 $_GET['tab']    = 'get_started';
             } else {
@@ -70,12 +70,12 @@ class LaterPayAdminController extends LaterPayAbstractController {
             }
         }
         // return default tab, if plugin is already activated and get started tab is requested
-        if ( get_option('laterpay_plugin_is_activated') == '1' && $tab == 'get_started' ) {
+        if ( $activated == '1' && $tab == 'get_started' ) {
             $tab                = 'pricing';
             $_GET['tab']        = 'pricing';
         }
 
-        if ( get_option('laterpay_plugin_is_activated') === false ) {
+        if ( $activated === '' ) { // never activated before
             $tab            = 'get_started';
             $_GET['tab']    = 'get_started';
         }

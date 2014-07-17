@@ -5,7 +5,7 @@
     </div>
 
     <div class="tabs-area">
-        <a href="#account" id="plugin-mode-indicator" data-icon="h" <?php if ( $plugin_is_in_live_mode ) echo "style='display:none'"; ?>>
+        <a href="<?php echo add_query_arg(array('page' => LaterPayViewHelper::$adminMenu['account']['url']), admin_url('admin.php')); ?>" id="plugin-mode-indicator" data-icon="h">
             <h2><?php _e('<strong>Test</strong> mode', 'laterpay'); ?></h2>
             <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
         </a>
