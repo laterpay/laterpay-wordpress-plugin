@@ -565,7 +565,7 @@ class Browscap
 
         $this->_getRemoteIniFile($url, $ini_path);
 
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+        if ( version_compare(PHP_VERSION, '5.3.0', '>=') ) {
             $browsers = parse_ini_file($ini_path, true, INI_SCANNER_RAW);
         } else {
             $browsers = parse_ini_file($ini_path, true);
@@ -582,9 +582,13 @@ class Browscap
 
         $user_agents_keys = array_flip($tmp_user_agents);
 
-        // convert to SplFixedArray (requires less memory)
-        $tmp_user_agents       = SplFixedArray::fromArray($tmp_user_agents);
-        $tmp_user_agents_count = $tmp_user_agents->count();
+        if ( version_compare(PHP_VERSION, '5.3.0', '>=') ) {
+            // convert to SplFixedArray (requires less memory)
+            $tmp_user_agents        = SplFixedArray::fromArray($tmp_user_agents);
+            $tmp_user_agents_count  = $tmp_user_agents->count();
+        } else {
+            $tmp_user_agents_count = count($tmp_user_agents);
+        }
 
         // get user agent data
         $data_user_agents = array();

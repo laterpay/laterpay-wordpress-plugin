@@ -3,10 +3,10 @@ laterpay-wordpress-plugin
 
 This is the official LaterPay plugin for selling digital content with WordPress.
 
-
 Feel free to fork the plugin and adapt it to your needs.
 
 Please get involved in this project and contribute back changes other users would also benefit from.
+
 
 ## Contributing
 
@@ -16,7 +16,9 @@ Please get involved in this project and contribute back changes other users woul
 4. Push to the branch (`git push origin feature/my-new-feature`)
 5. Create a new Pull Request
 
+
 ## Updating Translations
+
 * Go to a server the plugin is installed on
 * Make sure SVN is available (`apt-get install subversion`)
 * Make sure the WordPress translation tools are available (`svn checkout http://i18n.svn.wordpress.org/tools/trunk/`)
@@ -27,11 +29,12 @@ Please get involved in this project and contribute back changes other users woul
 * Update translations
 * Save to generate the new PO/MO files
 
+
 ## Versioning
 
 The LaterPay WordPress plugin uses [Semantic Versioning 2.0.0](http://semver.org)
 
+
 ## Copyright
 
 Copyright 2014 LaterPay GmbH – Released under MIT License
-
