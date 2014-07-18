@@ -54,7 +54,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
     /**
      * Constructor for class LaterPayController, processes the output pages
      */
-    public function run($tab = '') {
+    public function run( $tab = '' ) {
         $this->loadAssets();
 
         if ( (isset($_GET['tab'])) ) {
@@ -77,42 +77,43 @@ class LaterPayAdminController extends LaterPayAbstractController {
             $_GET['tab']        = 'pricing';
         }
 
-        if ( $activated === '' ) { // never activated before
-            $tab            = 'get_started';
-            $_GET['tab']    = 'get_started';
+        // always return the get started tab, if the plugin has never been activated before
+        if ( $activated === '' ) {
+            $tab                = 'get_started';
+            $_GET['tab']        = 'get_started';
         }
 
         switch ( $tab ) {
-        // render get started tab
-        case 'get_started':
-            $LaterPayGetStartedController = new LaterPayGetStartedController();
-            $LaterPayGetStartedController->page();
-            break;
+            // render get started tab
+            case 'get_started':
+                $LaterPayGetStartedController = new LaterPayGetStartedController();
+                $LaterPayGetStartedController->page();
+                break;
 
-        default:
+            default:
 
-        // render pricing tab
-        case 'pricing':
-            $LaterPayPricingController = new LaterPayPricingController();
-            $LaterPayPricingController->page();
-            break;
+            // render pricing tab
+            case 'pricing':
+                $LaterPayPricingController = new LaterPayPricingController();
+                $LaterPayPricingController->page();
+                break;
 
-        // render appearance tab
-        case 'appearance':
-            $LaterPayAppearanceController = new LaterPayAppearanceController();
-            $LaterPayAppearanceController->page();
-            break;
+            // render appearance tab
+            case 'appearance':
+                $LaterPayAppearanceController = new LaterPayAppearanceController();
+                $LaterPayAppearanceController->page();
+                break;
 
-        // render account tab
-        case 'account':
-            $LaterPayAccountController = new LaterPayAccountController();
-            $LaterPayAccountController->page();
-            break;
-        }
+            // render account tab
+            case 'account':
+                $LaterPayAccountController = new LaterPayAccountController();
+                $LaterPayAccountController->page();
+                break;
+            }
     }
 
     /**
-     *
+     * Render contextual help, depending on the current page
      */
     public function help($tab = '') {
 //        if ( (isset($_GET['page'])) ) {
@@ -124,207 +125,218 @@ class LaterPayAdminController extends LaterPayAbstractController {
 //        }
 
         switch ( $tab ) {
-        
-        case 'wp_edit_post':
-        case 'wp_add_post':
-            $this->_renderPostEditPageHelp();
-            break;
-        // render help for get started tab
-        case 'get_started':
-            break;
-        // render pricing tab
-        case 'pricing':
-            $this->_renderPricingTabHelp();
-            break;
-        // render appearance tab
-        case 'appearance':
-            $this->_renderAppearanceTabHelp();
-            break;
-        // render account tab
-        case 'account':
-            $this->_renderAccountTabHelp();
-            break;
-        default:
-            break;
+            case 'wp_edit_post':
+            case 'wp_add_post':
+                $this->_renderAddEditPostPageHelp();
+                break;
+
+            case 'get_started':
+                break;
+
+            case 'pricing':
+                $this->_renderPricingTabHelp();
+                break;
+
+            case 'appearance':
+                $this->_renderAppearanceTabHelp();
+                break;
+
+            case 'account':
+                $this->_renderAccountTabHelp();
+                break;
+
+            default:
+                break;
         }
     }
-    
+
     /**
-     * Add help for view post page
-     * 
+     * Add contextual help for view post page
+     *
      * @return null
      */
-    protected function _renderPostViewPageHelp( ) {
+    protected function _renderPostViewPageHelp() {
         $screen = get_current_screen();
         $screen->add_help_tab(array(
-            'id'      => 'laterpay_post_edit_page_teaser',
-            'title'   => __('Teaser', 'laterpay'),
+            'id'      => 'laterpay_view_post_page_help',
+            'title'   => __('LaterPay', 'laterpay'),
             'content' => __('
-                <p>The plugin provides statistics for the following data for each post:</p>
+                <strong>Post Statistics</strong>
+                <p>The plugin provides the following statistics for the current post:</p>
                 <ul>
-                    <li>Total sales: The total number of sales of this particular post </li>
-                    <li>Total revenue: The total revenue of this particular post </li>
-                    <li>Today\'s revenue </li>
-                    <li>Today\'s visitors </li>
-                    <li>Today\'s conversion rate: The share of visitors that actually purchased </li>
-                    <li>History charts for sales, revenue, and conversion rate of the last 30 days </li>
+                    <li>Total sales: The total number of sales of this particular post</li>
+                    <li>Total revenue: The total revenue of this particular post</li>
+                    <li>Today\'s revenue</li>
+                    <li>Today\'s visitors</li>
+                    <li>Today\'s conversion rate: The share of visitors that actually purchased</li>
+                    <li>
+                        History charts for sales, revenue, and conversion rate of the last 30 days.
+                        The bar of the current day is highlighted in black, weekends are rendered light grey.
+                    </li>
                 </ul>
+                <p>The provided statistics are only indicative and not binding for payouts.</p>',
+                'laterpay'
+            ),
+        ));
+    }
+
+    /**
+     * Add contextual help for add / edit post page
+     *
+     * @return null
+     */
+    protected function _renderAddEditPostPageHelp() {
+        $screen = get_current_screen();
+        $screen->add_help_tab(array(
+            'id'      => 'laterpay_add_edit_post_page_help',
+            'title'   => __('LaterPay', 'laterpay'),
+            'content' => __('
+                <strong>Teaser</strong>
                 <p>
-                Please note that the provided statistics are only indicators and not binding for payouts in any 
-                way. 
-                </p>', 
-             'laterpay'
-            ),
+                    The teaser should give your visitors a first impression of the content you want to sell.
+                    You don\'t have to provide a teaser for every single post on your site:
+                    The LaterPay plugin already took care of that and used the first 60 words (per default)
+                    of each post for the teaser content.
+                </p>
+                <p>
+                    We recommend manually creating the teaser for each post, to increase your sales.
+                </p>
+                <br><br>
+
+                <strong>Setting Prices</strong>
+                <p>
+                    You can set an individual price for each post.
+                    This price can be 0.00 Euro or set between (including) 0.05 Euro and (including) 5.00 Euro.
+                    If you set an individual price, category default prices you might have set for the post\'s category
+                    won\'t apply anymore until you reactive them by clicking \'Apply category default price\'.
+                <p>
+                <br><br>
+
+                <strong>Advanced Pricing Options</strong>
+                <p>
+                    You can define advanced price settings for each post to adjust prices automatically over time.
+                    You can choose from several presets and adjust them according to your needs.
+                </p>
+                <p>
+                    E.g. you could sell a breaking news post for 0.49 Euro (high interest within the first 24 hours)
+                    and automatically reduce the price to 0.05 Euro on the second day.
+                </p>',
+                'laterpay'
+            )
         ));
     }
-    
+
     /**
-     * Add help for add/edit post page
-     * 
+     * Add contextual help for pricing tab
+     *
      * @return null
      */
-    protected function _renderPostEditPageHelp( ) {
+    protected function _renderPricingTabHelp() {
         $screen = get_current_screen();
         $screen->add_help_tab(array(
-            'id'      => 'laterpay_post_edit_page_teaser',
-            'title'   => __('Teaser', 'laterpay'),
-            'content' => __('
-                <p>The teaser should give your visitors a first impression of the content you want to sell. You 
-                don’t have to provide a teaser for every single post on your blog: The LaterPay plugin already 
-                took care of that and used the first 120 words (per default) of each post for the teaser 
-                content. </p>
-                Though, we recommend providing a specifically created teaser for each post to increase your 
-                sales.</p>', 
-             'laterpay'
-            ),
-        ));
-        $screen->add_help_tab(array(
-            'id'      => 'laterpay_post_setting_prices',
-            'title'   => __('Setting Prices', 'laterpay'),
-            'content' => __('
-                <p>You can set an individual price for each post. This price can be set between (including) 0.05 
-                Euro and (including) 5.00 Euro. If you set an individual price, category default prices you 
-                might have set for the post’s category won’t apply anymore until you reactive them by clicking 
-                „Apply category default price“.
-                </p>', 
-             'laterpay'
-            ),
-        ));
-        $screen->add_help_tab(array(
-            'id'      => 'laterpay_post_advance_pricing',
-            'title'   => __('Advanced Pricing Options', 'laterpay'),
-            'content' => __('
-                <p>You can define advanced price settings for each post to adjust prices automatically over 
-                time. You can choose from several presets and adjust them according to your needs. 
-                E.g. you could sell a breaking news post for 0.49 Euro (high interest within the first 24 hours) 
-                and automatically reduce the price to 0.05 Euro on the second day.
-                </p>', 
-             'laterpay'
-            ),
-        ));
-    }
-    
-    /**
-     * Add help for pricing tab
-     * 
-     * @return null
-     */
-    protected function _renderPricingTabHelp( ) {
-        $screen = get_current_screen();
-        // Add  help tabs
-        $screen->add_help_tab(array(
-            'id'      => 'laterpay_pricing_global_price',
+            'id'      => 'laterpay_pricing_tab_help_global_default_price',
             'title'   => __('Global Default Price', 'laterpay'),
             'content' => __('
-                <p>The plugin provides a code snippet you can insert into your theme that displays the user\'s 
-                    current LaterPay invoice total and provides a direct link to his LaterPay user backend. You 
-                    don\'t have to integrate this snippet, but we recommend it for transparency reasons.</p>', 
-             'laterpay'
+                <p>
+                    The global default price is used for all posts, for which no category default price or
+                    individual price has been set.
+                    Accordingly, setting the global default price to 0.00 Euro makes all articles free
+                    as long as no category default price or individual price has been set.
+                </p>',
+                'laterpay'
             ),
         ));
         $screen->add_help_tab(array(
-            'id'      => 'laterpay_pricing_currency',
+            'id'      => 'laterpay_pricing_tab_help_category_default_price',
+            'title'   => __('Category Default Prices', 'laterpay'),
+            'content' => __('
+                <p>
+                    A category default price is applied to all posts in a given category that don\'t have an
+                    individual price. A category default price overwrites the global default price.
+                    So, if you have set a global default price of 0.15 Euro, but a post belongs to a category
+                    with a category default price of 0.30 Euro, that post will sell for 0.30 Euro.
+                </p>',
+                'laterpay'
+            ),
+        ));
+        $screen->add_help_tab(array(
+            'id'      => 'laterpay_pricing_tab_help_currency',
             'title'   => __('Currency', 'laterpay'),
             'content' => __('
-                <p>You can choose between different currencies for your blog. Changing the standard currency 
-                will not convert the prices you have set. Only the currency code next to the price is changed. 
-                So, if your global default price is 0.10 Euro and you change the default currency to U.S. 
-                dollar, the global default price will be 0.10 U.S. dollar. 
-                </p>', 
-             'laterpay'
-            ),
-        ));
-        $screen->add_help_tab(array(
-            'id'      => 'laterpay_pricing_category_price',
-            'title'   => __('Category Default Price', 'laterpay'),
-            'content' => __('
-                <p>A category default price is applied to all posts in a given category that don’t have an 
-                individual price. The category default price overwrites the global default price. 
-                So, if your global default price 0.15 Euro but a post belongs to a category with a category 
-                default price of 0.30 Euro, the post is sold for 0.30 Euro. 
-                </p>', 
-             'laterpay'
+                <p>
+                    You can choose between different currencies for your blog. Changing the standard currency
+                    will not convert the prices you have set. Only the currency code next to the price is changed.
+                    So, if your global default price is 0.10 Euro and you change the default currency to U.S.
+                    dollar, the global default price will be 0.10 U.S. dollar.
+                </p>',
+                'laterpay'
             ),
         ));
     }
-    
+
     /**
-     * Add help for appearance tab
-     * 
+     * Add contextual help for appearance tab
+     *
      * @return null
      */
-    protected function _renderAppearanceTabHelp( ) {
+    protected function _renderAppearanceTabHelp() {
         $screen = get_current_screen();
         $screen->add_help_tab(array(
-            'id'      => 'laterpay_appearance_preview_mode',
+            'id'      => 'laterpay_appearance_tab_help_preview_mode',
             'title'   => __('Preview Mode', 'laterpay'),
             'content' => __('
-                <p>The preview mode defines, how teaser content is shown to your visitors. You can choose 
-                between two preview modes:</p>
+                <p>
+                    The preview mode defines, how teaser content is shown to your visitors.
+                    You can choose between two preview modes:
+                </p>
                 <ul>
-                <li>1) Teaser only: This mode shows only the teaser with an unobtrusive purchase link below. </li>
-                <li>2) Teaser + overlay: This mode shows the teaser and an excerpt of the full content under a 
-                semi-transparent overlay that briefly explains LaterPay. The plugin never loads the entire 
-                content before a user has purchased it.</li>
-                </ul>', 
-             'laterpay'
+                    <li><strong>Teaser only:</strong> This mode shows only the teaser with an unobtrusive purchase link below.</li>
+                    <li>
+                        <strong>Teaser + overlay:</strong> This mode shows the teaser and an excerpt of the full content under a
+                        semi-transparent overlay that briefly explains LaterPay. The plugin never loads the entire
+                        content before a user has purchased it.
+                    </li>
+                </ul>',
+                'laterpay'
+            ),
+        ));
+        $screen->add_help_tab(array(
+            'id'      => 'laterpay_appearance_tab_help_invoice_indicator',
+            'title'   => __('Invoice Indicator', 'laterpay'),
+            'content' => __('
+                <p>
+                    The plugin provides a code snippet you can insert into your theme that displays the user\'s
+                    current LaterPay invoice total and provides a direct link to his LaterPay user backend.
+                    You <em>don\'t have to</em> integrate this snippet, but we recommend it for transparency reasons.
+                </p>',
+                'laterpay'
             ),
         ));
     }
-    
+
     /**
-     * Add help for account tab
-     * 
+     * Add contextual help for account tab
+     *
      * @return null
      */
-    protected function _renderAccountTabHelp( ) {
+    protected function _renderAccountTabHelp() {
         $screen = get_current_screen();
-        $screen->add_help_tab(array(
-            'id'      => 'laterpay_account_invoice_indicator',
-            'title'   => __('Invoice Indicator', 'laterpay'),
-            'content' => __('
-                <p>The plugin provides a code snippet you can insert into your theme that displays the user\'s 
-                    current LaterPay invoice total and provides a direct link to his LaterPay user backend. You 
-                    don\'t have to integrate this snippet, but we recommend it for transparency reasons.</p>', 
-             'laterpay'
-            ),
-        ));
         $screen->add_help_tab(array(
             'id'      => 'laterpay_account_plugin_mode',
             'title'   => __('API Credentials and Plugin Mode', 'laterpay'),
             'content' => __('
-                <p>You can use the LaterPay WordPress plugin in two modes: 
-                Test mode: The test mode lets you test your plugin configuration. While providing the full 
-                plugin functionality, no real transactions are processed. 
-                Your visitors will be able to distinguish between test and live mode through a banner in all 
+                <p>You can use the LaterPay WordPress plugin in two modes:
+                Test mode: The test mode lets you test your plugin configuration. While providing the full
+                plugin functionality, no real transactions are processed.
+                Your visitors will be able to distinguish between test and live mode through a banner in all
                 LaterPay dialogs. </p>
                 <p>
-                We highly recommend configuring and testing the integration of the LaterPay WordPress 
-                plugin into your site on a test system, not on your production system. 
-                Live mode: In live mode, all your transactions will be processed. For legal reasons, LaterPay 
-                has to identify you as a merchant. Please mail us the signed merchant contract and the 
-                necessary identification documents and we will send you LaterPay API credentials for 
-                switching your plugin to live mode. </p>', 
+                We highly recommend configuring and testing the integration of the LaterPay WordPress
+                plugin into your site on a test system, not on your production system.
+                Live mode: In live mode, all your transactions will be processed. For legal reasons, LaterPay
+                has to identify you as a merchant. Please mail us the signed merchant contract and the
+                necessary identification documents and we will send you LaterPay API credentials for
+                switching your plugin to live mode. </p>',
              'laterpay'
             ),
         ));
