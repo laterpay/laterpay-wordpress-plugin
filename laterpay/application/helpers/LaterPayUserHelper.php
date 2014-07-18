@@ -103,7 +103,7 @@ class LaterPayUserHelper {
     public static function isHiddenStatisticsPane() {
         if ( is_null(self::$_hide_statistics_pane) ) {
             $hide_statistics_pane = 0;
-            $current_user            = wp_get_current_user();
+            $current_user = wp_get_current_user();
             if ( $current_user instanceof WP_User ) {
                 $hide_statistics_pane = get_user_meta($current_user->ID, 'laterpay_hide_statistics_pane');
                 if ( !empty($hide_statistics_pane) ) {

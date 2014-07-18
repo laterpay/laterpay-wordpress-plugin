@@ -2,14 +2,14 @@
 /*
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
- * Description: This plugin integrates LaterPay into your blog. LaterPay is a new payment method for selling digital content with ease. Your users simply agree to pay later, get instant access to your content and pay once their invoice reaches 5 Euro. The set-up is fast and painless. You can set global, category, or individual prices and use extended pricing to change prices automatically over time to boost your sales. The plugin protects the files in your paid posts, provides sales statistics for your content, and is designed to work smoothly with social media plugins and crawlers in order to not reduce your blog's reach.
+ * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay GmbH and Mihail Turalenka
- * Version: 0.9.5.1
+ * Version: 0.9.6
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  */
 
-$laterpay_version = '0.9.5.1';
+$laterpay_version = '0.9.6';
 
 define('LATERPAY_GLOBAL_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 define('LATERPAY_BASE_NAME', plugin_basename(dirname(__FILE__)));
