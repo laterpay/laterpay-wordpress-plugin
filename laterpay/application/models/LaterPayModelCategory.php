@@ -73,10 +73,8 @@ class LaterPayModelCategory {
     public function getCategoryPriceDataByCategoryIds( $ids ) {
         global $wpdb;
 
-        // TODO: filter invalid categories (e.g. 1 for uncategorized)
-
-        $id_list = implode($ids, ',');
-
+        $placeholders = array_fill(0, count($ids), '%d');
+        $format = implode(', ', $placeholders);
         $sql = "
             SELECT
                 tm.name AS category_name,
@@ -89,14 +87,13 @@ class LaterPayModelCategory {
                 ON
                     tp.term_id = tm.term_id
             WHERE
-                tm.term_id IN ($id_list)
+                tm.term_id IN ({$format})
                 AND tp.term_id IS NOT NULL
             ORDER BY
                 name
             ;
         ";
-
-        $category_price_data = $wpdb->get_results($sql);
+        $category_price_data = $wpdb->get_results($wpdb->prepare($sql, $ids), ARRAY_A);
 
         return $category_price_data;
     }
