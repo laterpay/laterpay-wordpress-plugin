@@ -330,16 +330,20 @@ class LaterPay {
             }
             $slug = !$page_number ? $plugin_page : $page['url'];
 
-            add_submenu_page(
+            $page = add_submenu_page(
                 $plugin_page,
                 __($page['title'], 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
                 __($page['title'], 'laterpay'),
                 'laterpay_read_plugin_pages',
                 $slug,
-                array($this->getLaterPayAdminController(), 'run' . $name)
+                array($this->getLaterPayAdminController(), 'run_' . $name)
             );
+            add_action('load-' . $page, array($this->getLaterPayAdminController(), 'help_' . $name));
             $page_number++;
         }
+        
+        add_action( 'load-post.php', array($this->getLaterPayAdminController(), 'help_wp_edit_post') );
+        add_action( 'load-post-new.php', array($this->getLaterPayAdminController(), 'help_wp_add_post') );
     }
 
     protected function setupAdminPanel() {
