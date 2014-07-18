@@ -17,109 +17,113 @@
             <h2><?php _e('LaterPay API Credentials', 'laterpay'); ?></h2>
 
             <div class="w2-5 left sandbox-credentials" data-icon="h">
-                <h3><?php _e('Sandbox Environment', 'laterpay'); ?></h3>
-                <dfn><?php _e('for testing purposes', 'laterpay'); ?></dfn>
-                <form id="laterpay_sandbox_merchant_id_form" method="post">
-                    <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
-                    <input type="hidden" name="action" value="account">
-                    <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
-                    <ul class="clearfix">
-                        <li class="left w1-5">
-                            &nbsp;
-                        </li>
-                        <li class="left">
-                            <span class="input-icon merchant-id-icon" data-icon="i"></span>
-                            <input type="text"
-                                maxlength="22"
-                                id="laterpay_sandbox_merchant_id"
-                                name="laterpay_sandbox_merchant_id"
-                                class="lp-input merchant-id-input"
-                                value="<?php echo $sandbox_merchant_id; ?>"
-                                required/>
-                            <label for="laterpay_sandbox_merchant_id" alt="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>"></label>
-                        </li>
-                    </ul>
-                </form>
-                <form id="laterpay_sandbox_api_key_form" method="post">
-                    <input type="hidden" name="form"   value="laterpay_sandbox_api_key">
-                    <input type="hidden" name="action" value="account">
-                    <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
-                    <ul class="clearfix">
-                        <li class="left w1-5">
-                            &nbsp;
-                        </li>
-                        <li class="left">
-                            <span class="input-icon api-key-icon" data-icon="j"></span>
-                            <input type="text"
-                                maxlength="32"
-                                id="laterpay_sandbox_api_key"
-                                name="laterpay_sandbox_api_key"
-                                class="lp-input api-key-input"
-                                value="<?php echo $sandbox_api_key; ?>"
-                                required/>
-                            <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>"></label>
-                        </li>
-                    </ul>
-                </form>
+                <fieldset>
+                    <legend><?php _e('Sandbox Environment', 'laterpay'); ?></legend>
+                    <dfn><?php _e('for testing purposes', 'laterpay'); ?></dfn>
+                    <form id="laterpay_sandbox_merchant_id_form" method="post">
+                        <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
+                        <input type="hidden" name="action" value="account">
+                        <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
+                        <ul class="clearfix">
+                            <li class="left w1-5">
+                                &nbsp;
+                            </li>
+                            <li class="left">
+                                <span class="input-icon merchant-id-icon" data-icon="i"></span>
+                                <input type="text"
+                                    maxlength="22"
+                                    id="laterpay_sandbox_merchant_id"
+                                    name="laterpay_sandbox_merchant_id"
+                                    class="lp-input merchant-id-input"
+                                    value="<?php echo $sandbox_merchant_id; ?>"
+                                    required/>
+                                <label for="laterpay_sandbox_merchant_id" alt="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>"></label>
+                            </li>
+                        </ul>
+                    </form>
+                    <form id="laterpay_sandbox_api_key_form" method="post">
+                        <input type="hidden" name="form"   value="laterpay_sandbox_api_key">
+                        <input type="hidden" name="action" value="account">
+                        <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
+                        <ul class="clearfix">
+                            <li class="left w1-5">
+                                &nbsp;
+                            </li>
+                            <li class="left">
+                                <span class="input-icon api-key-icon" data-icon="j"></span>
+                                <input type="text"
+                                    maxlength="32"
+                                    id="laterpay_sandbox_api_key"
+                                    name="laterpay_sandbox_api_key"
+                                    class="lp-input api-key-input"
+                                    value="<?php echo $sandbox_api_key; ?>"
+                                    required/>
+                                <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>"></label>
+                            </li>
+                        </ul>
+                    </form>
+                </fieldset>
             </div>
 
             <div class="w2-5 left live-credentials" data-icon="k">
-                <h3><?php _e('Live Environment', 'laterpay'); ?></h3>
-                <dfn><?php _e('for processing real financial transactions', 'laterpay'); ?></dfn>
-                <form id="laterpay_live_merchant_id_form" method="post">
-                    <input type="hidden" name="form"   value="laterpay_live_merchant_id">
-                    <input type="hidden" name="action" value="account">
-                    <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
-                    <ul class="clearfix">
-                        <li class="left w1-5">
-                            &nbsp;
-                        </li>
-                        <li class="left">
-                            <span class="input-icon merchant-id-icon live" data-icon="i"></span>
-                            <input type="text"
-                                maxlength="22"
-                                id="laterpay_live_merchant_id"
-                                name="laterpay_live_merchant_id"
-                                class="lp-input merchant-id-input"
-                                value="<?php echo $live_merchant_id; ?>"
-                                required/>
-                                <label for="laterpay_live_merchant_id" alt="<?php _e('Paste Live Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>">
-                        </li>
-                    </ul>
-                </form>
-                <form id="laterpay_live_api_key_form" method="post">
-                    <input type="hidden" name="form"    value="laterpay_live_api_key">
-                    <input type="hidden" name="action"  value="account">
-                    <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
-                    <ul class="clearfix">
-                        <li class="left w1-5">
-                            &nbsp;
-                        </li>
-                        <li class="left">
-                            <span class="input-icon api-key-icon live" data-icon="j"></span>
-                            <input type="text"
-                                maxlength="32"
-                                name="laterpay_live_api_key"
-                                id="laterpay_live_api_key"
-                                class="lp-input api-key-input"
-                                value="<?php echo $live_api_key; ?>"
-                                required/>
-                                <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Live API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>">
-                        </li>
-                    </ul>
-                    <ul id="request-live-credentials"
-                        class="clearfix"
-                        <?php if ( $live_api_key ) echo ' style="display:none;"'; ?>>
-                        <li class="left w1-5">
-                            &nbsp;
-                        </li>
-                        <li class="left">
-                            <a href="#" class="button button-primary">
-                                <?php _e('Request Live API Credentials', 'laterpay'); ?>
-                            </a>
-                        </li>
-                    </ul>
-                </form>
+                <fieldset>
+                    <legend><?php _e('Live Environment', 'laterpay'); ?></legend>
+                    <dfn><?php _e('for processing real financial transactions', 'laterpay'); ?></dfn>
+                    <form id="laterpay_live_merchant_id_form" method="post">
+                        <input type="hidden" name="form"   value="laterpay_live_merchant_id">
+                        <input type="hidden" name="action" value="account">
+                        <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
+                        <ul class="clearfix">
+                            <li class="left w1-5">
+                                &nbsp;
+                            </li>
+                            <li class="left">
+                                <span class="input-icon merchant-id-icon live" data-icon="i"></span>
+                                <input type="text"
+                                    maxlength="22"
+                                    id="laterpay_live_merchant_id"
+                                    name="laterpay_live_merchant_id"
+                                    class="lp-input merchant-id-input"
+                                    value="<?php echo $live_merchant_id; ?>"
+                                    required/>
+                                <label for="laterpay_live_merchant_id" alt="<?php _e('Paste Live Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Merchant ID', 'laterpay'); ?>"></label>
+                            </li>
+                        </ul>
+                    </form>
+                    <form id="laterpay_live_api_key_form" method="post">
+                        <input type="hidden" name="form"    value="laterpay_live_api_key">
+                        <input type="hidden" name="action"  value="account">
+                        <?php if ( function_exists('wp_nonce_field') ) wp_nonce_field('laterpay_form'); ?>
+                        <ul class="clearfix">
+                            <li class="left w1-5">
+                                &nbsp;
+                            </li>
+                            <li class="left">
+                                <span class="input-icon api-key-icon live" data-icon="j"></span>
+                                <input type="text"
+                                    maxlength="32"
+                                    name="laterpay_live_api_key"
+                                    id="laterpay_live_api_key"
+                                    class="lp-input api-key-input"
+                                    value="<?php echo $live_api_key; ?>"
+                                    required/>
+                                <label for="laterpay_sandbox_api_key" alt="<?php _e('Paste Live API Key here', 'laterpay'); ?>" placeholder="<?php _e('API Key', 'laterpay'); ?>"></label>
+                            </li>
+                        </ul>
+                        <ul id="request-live-credentials"
+                            class="clearfix"
+                            <?php if ( $live_api_key ) echo ' style="display:none;"'; ?>>
+                            <li class="left w1-5">
+                                &nbsp;
+                            </li>
+                            <li class="left">
+                                <a href="#" class="button button-primary">
+                                    <?php _e('Request Live API Credentials', 'laterpay'); ?>
+                                </a>
+                            </li>
+                        </ul>
+                    </form>
+                </fieldset>
             </div>
         </div>
         <dfn class="credentials-hint">
