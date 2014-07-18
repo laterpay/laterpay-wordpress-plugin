@@ -6,16 +6,12 @@
 
     <div class="tabs-area">
         <?php if ( !$plugin_is_in_live_mode ): ?>
-            <a href="#account" id="plugin-mode-indicator" data-icon="h">
+            <a href="<?php echo add_query_arg(array('page' => LaterPayViewHelper::$adminMenu['account']['url']), admin_url('admin.php')); ?>" id="plugin-mode-indicator" data-icon="h">
                 <h2><?php _e('<strong>Test</strong> mode', 'laterpay'); ?></h2>
                 <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
             </a>
         <?php endif; ?>
-        <ul class="tabs">
-            <li><a href="#pricing"><?php _e('Pricing', 'laterpay'); ?></a></li>
-            <li class="current"><a href="#appearance"><?php _e('Appearance', 'laterpay'); ?></a></li>
-            <li><a href="#account"><?php _e('Account', 'laterpay'); ?></a></li>
-        </ul>
+        <?php echo $top_nav;?>
     </div>
 
     <div class="lp-wrap">

@@ -7,15 +7,33 @@
 
 <input type="hidden" name="price_post_type" value="<?php echo $price_post_type ?>">
 
-<div class="post-price-wrapper">
-    <input type="text"
-            id="post-price"
-            class="lp-input number"
-            name="pricing-post"
-            value="<?php echo ViewHelper::formatNumber($price, 2); ?>"
-            placeholder="<?php _e('0.00', 'laterpay'); ?>">
-            <?php #if ( $price_post_type ) echo 'disabled'; ?>
-    <span class="lp-currency"><?php echo $currency; ?></span>
+<div id="laterpay_post_standard"<?php if ( $price_post_type ): ?> style="display:none;"<?php endif; ?>>
+    <p>
+        <?php _e('This post costs', 'laterpay'); ?>
+        <input type="text"
+                id="post-price"
+                class="lp-input number"
+                name="pricing-post"
+                value="<?php echo LaterPayViewHelper::formatNumber($price, 2); ?>"
+                placeholder="<?php _e('0.00', 'laterpay'); ?>">
+        <?php echo $currency; ?>
+    </p>
+    <p>
+        <?php if ( !is_null($category_default_price) ): ?>
+            <a href="#" id="set_price_category">
+                <?php _e('Apply category default price', 'laterpay'); ?> (<?php echo $category_default_price; ?> <?php echo $currency; ?>)
+            </a>
+        <?php endif; ?>
+        <?php if ( !is_null($global_default_price) ): ?>
+            <a href="#" id="set_price_global"<?php if ( !is_null($category_default_price) ): ?> style="display:none;"<?php endif; ?>>
+                <?php _e('Apply global default price', 'laterpay'); ?> (<?php echo $global_default_price; ?> <?php echo $currency; ?>)
+            </a>
+        <?php endif; ?>
+    </p>
+    <p>
+        <?php _e('Advanced pricing options', 'laterpay'); ?>
+        <a href="#" id="show-advanced"><?php _e('Show', 'laterpay'); ?></a>
+    </p>
 </div>
 
 <div id="laterpay-price-type">

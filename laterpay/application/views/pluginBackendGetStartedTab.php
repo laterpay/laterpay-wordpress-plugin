@@ -5,12 +5,7 @@
     </div>
 
     <div class="tabs-area">
-        <ul class="tabs getstarted">
-            <li class="current"><a href="#"><?php _e('Get Started', 'laterpay'); ?></a></li>
-            <li><a href="#"><?php _e('Pricing', 'laterpay'); ?></a></li>
-            <li><a href="#"><?php _e('Appearance', 'laterpay'); ?></a></li>
-            <li><a href="#"><?php _e('Account', 'laterpay'); ?></a></li>
-        </ul>
+        <?php echo $top_nav;?>
     </div>
 
     <div class="steps-progress">
@@ -35,15 +30,16 @@
                                 name="get_started[laterpay_sandbox_merchant_id]"
                                 class="lp-input merchant-id-input"
                                 value="<?php echo LATERPAY_DEFAULT_SANDBOX_MERCHANT_ID ?>"
-                                placeholder="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>">
-                        <br>
+                                required>
+                        <label alt="<?php _e('Paste Sandbox Merchant ID here', 'laterpay'); ?>" placeholder="<?php _e('Sandbox Merchant ID', 'laterpay'); ?>"></label>
                         <span class="input-icon api-key-icon" data-icon="j"></span>
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
                                 value="<?php echo LATERPAY_DEFAULT_SANDBOX_API_KEY ?>"
                                 class="lp-input api-key-input"
-                                placeholder="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>">
+                                required>
+                        <label alt="<?php _e('Paste Sandbox API Key here', 'laterpay'); ?>" placeholder="<?php _e('Sandbox API Key', 'laterpay'); ?>"></label>
                     </div>
                     <p>
                         <?php _e('You can try the plugin immediately<br> with the provided Sandbox API credentials.', 'laterpay'); ?>
@@ -61,7 +57,7 @@
                                     id="global-default-price"
                                     class="lp-input number"
                                     value="<?php echo $global_default_price; ?>"
-                                    placeholder="<?php _e('0.00' ,'laterpay'); ?>">
+                                    placeholder="<?php _e('0.00', 'laterpay'); ?>">
                             <select name="get_started[laterpay_currency]" class="lp-input">
                                 <?php foreach ($Currencies->getCurrencies() as $item): ?>
                                     <option value="<?php echo $item->short_name; ?>"<?php if ( $item->short_name == LATERPAY_CURRENCY_DEFAULT ): ?> selected<?php endif; ?>>
