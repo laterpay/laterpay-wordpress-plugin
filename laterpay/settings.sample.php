@@ -7,7 +7,7 @@ return array (
     'LATERPAY_ACCESS_ALL_ARTICLES_GROUP'                    => '',
 
     // File types protected against direct download from paid posts without purchasing
-    'LATERPAY_PROTECTED_FILE_TYPES'                         => 'docx|doc|gif|jpeg|jpg|pdf|png|pptx|ppt|rar|rtf|tiff|tif|txt|xlsx|xls|zip',
+    'LATERPAY_PROTECTED_FILE_TYPES'                         => '3gpp|aac|avi|divx|doc|docx|epup|flv|gif|jpeg|jpg|mobi|mov|mp3|mp4|mp4|mpg|ogg|pdf|png|ppt|pptx|rar|rtf|tif|tiff|txt|wav|wmv|xls|xlsx|zip',
 
     // Number of words used for automatically extracting teaser content for paid posts
     'LATERPAY_AUTO_GENERATED_TEASER_CONTENT_WORD_COUNT'     => 60,

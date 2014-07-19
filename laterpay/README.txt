@@ -93,13 +93,24 @@ the purchase button are displayed.
 = Statistics =
 If you open a post as a logged-in admin (or user with adequate rights), you will see a statistics tab with the
 following data about the respective post:
+
 * Total sales: The total number of sales of this particular post
 * Total revenue: The total revenue of this particular post
 * Today's revenue
 * Today's visitors
 * Today's conversion rate: The share of visitors that actually purchased
 * History charts for sales, revenue, and conversion rate of the last 30 days
+
 Please note that the provided statistics are only indicators and not binding in any way.
+
+= Roles and Capabilities =
+Some plugin features may not be available for certain user roles, based on the WordPress model of roles and capabilities:
+
+* Subscribers (and regular, non-registered visitors): **cannot change any** plugin settings
+* Contributors: can edit the teaser content and see the statistics of their **own** posts
+* Authors: can **additionally** edit the individual prices of their **own** posts
+* Editors: can edit the teaser content and individual prices of **all** posts and can see the statistics of **all** posts
+* Super Admins and Admins: Can **additionally** access the plugin backend, edit the plugin settings and (un-)install and (de-)activate the LaterPay WordPress plugin.
 
 
 == Installation ==
@@ -180,12 +191,14 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 = 0.9.6 (July 21, 2014): Production-readiness release III =
 * Included public Sandbox API credentials supplied by default
 * Fully implemented planned roles and capabilities model
+* Added contextual help to all backend pages
 * Fixed problem where re-activating the plugin forwarded to the getStarted tab
 * Added submenu links to the admin menu
 * Tested and ensured compatibility with PHP 5.2.4
 * Revised README to comply with WordPress standards
 * Added option to switch off auto-updating of browscap
 * Secured plugin folders against external access
+* Extended list of protected filetypes by popular audio, video, and ebook filetypes
 * Prefixed all classes and functions with 'LaterPay'
 * Improved requirements check during installation
 * Several smaller bugfixes

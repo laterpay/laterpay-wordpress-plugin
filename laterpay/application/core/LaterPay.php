@@ -331,16 +331,20 @@ class LaterPay {
             }
             $slug = !$page_number ? $plugin_page : $page['url'];
 
-            add_submenu_page(
+            $page = add_submenu_page(
                 $plugin_page,
                 __($page['title'], 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
                 __($page['title'], 'laterpay'),
                 'laterpay_read_plugin_pages',
                 $slug,
-                array($this->getLaterPayAdminController(), 'run' . $name)
+                array($this->getLaterPayAdminController(), 'run_' . $name)
             );
+            add_action('load-' . $page, array($this->getLaterPayAdminController(), 'help_' . $name));
             $page_number++;
         }
+        
+        add_action( 'load-post.php', array($this->getLaterPayAdminController(), 'help_wp_edit_post') );
+        add_action( 'load-post-new.php', array($this->getLaterPayAdminController(), 'help_wp_add_post') );
     }
 
     protected function setupAdminPanel() {
@@ -365,6 +369,9 @@ class LaterPay {
         }
         if ( class_exists('LaterPayAdminController') ) {
             add_action('wp_ajax_admin',         'LaterPayAdminController::pageAjax');
+        }
+        if ( class_exists('LaterPayPostPricingController') ) {
+            add_action('wp_ajax_post_pricing',         'LaterPayPostPricingController::pageAjax');
         }
     }
 
@@ -402,6 +409,10 @@ class LaterPay {
     protected function setupPricingPostContentBox() {
         add_action('save_post', array($this->getLaterPayPostPricingController(), 'savePricingPostContentBox'));
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
+
+        // Ajax actions for pricing box
+        add_action('wp_ajax_get_category_prices', 'PostPricingController::getCategoryPrices');
+        add_action('wp_ajax_nopriv_get_category_prices', 'PostPricingController::getCategoryPrices');
     }
 
     protected function setupPremiumDownloadsShortcode() {

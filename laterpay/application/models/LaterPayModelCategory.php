@@ -64,6 +64,41 @@ class LaterPayModelCategory {
     }
 
     /**
+     * Get categories with defined category default prices by list of category IDs
+     *
+     * @access public
+     *
+     * @return array category_price_data
+     */
+    public function getCategoryPriceDataByCategoryIds( $ids ) {
+        global $wpdb;
+
+        $placeholders = array_fill(0, count($ids), '%d');
+        $format = implode(', ', $placeholders);
+        $sql = "
+            SELECT
+                tm.name AS category_name,
+                tm.term_id AS category_id,
+                tp.price AS category_price
+            FROM
+                {$this->table} AS tm
+                LEFT JOIN
+                    {$this->table_prices} AS tp
+                ON
+                    tp.term_id = tm.term_id
+            WHERE
+                tm.term_id IN ({$format})
+                AND tp.term_id IS NOT NULL
+            ORDER BY
+                name
+            ;
+        ";
+        $category_price_data = $wpdb->get_results($wpdb->prepare($sql, $ids), ARRAY_A);
+
+        return $category_price_data;
+    }
+
+    /**
      * Get categories with no defined category default prices by search term
      *
      * @param string $term         term string to find categories

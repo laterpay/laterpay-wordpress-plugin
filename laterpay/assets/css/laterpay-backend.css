@@ -219,7 +219,10 @@ ul.tabs {margin-left:2rem;}
 .tabs .current a {color:#555; font-weight:600;}
 .tabs li:hover a {color:#2ea2cc;}
 
-#plugin-mode-indicator {position:absolute; right:1rem; top:.4rem;}
+#screen-meta {position:absolute; z-index:3;}
+#contextual-help-link-wrap {z-index:1;}
+
+#plugin-mode-indicator {position:absolute; right:7rem; top:.4rem;}
 #plugin-mode-indicator[data-icon]:before {
     float:left;
     font-size:4rem;
@@ -384,16 +387,24 @@ APPEARANCE
 ACCOUNT
 ============================ */
 .w2-5 h3 {font-weight:600; margin:1em 0 0.1em;}
-.w2-5 ul.clearfix {margin:1em 0 -0.4em}
-.w2-5 strong {cursor:default; line-height:2.5em;}
-.credentials-hint {display:block; margin:.5em 0 1em;}
+.w2-5 ul.clearfix {margin:1.25em 0 -0.8em}
+.w2-5 fieldset {
+    border:1px solid #ddd;
+    border-radius:3px;
+    box-shadow:1px 1px 0 #fafafa;
+    margin:1em 2em 0 0;
+    min-height:165px;
+    padding:.5em 1em 1em;
+}
+.w2-5 legend {font-size:1rem; font-weight:600; margin-left:-0.5em; padding:0 0.5em;}
+.credentials-hint {display:block; margin:1em 0;}
 
 .w2-5.sandbox-credentials,
 .w2-5.live-credentials {position:relative;}
 .w2-5.sandbox-credentials[data-icon]:before,
 .w2-5.live-credentials[data-icon]:before {color:#ddd; position:absolute; z-index:-1;}
-.w2-5.sandbox-credentials[data-icon]:before {font-size:90px; left:24px; top:53px;}
-.w2-5.live-credentials[data-icon]:before {font-size:75px; left:10px; top:68px;}
+.w2-5.sandbox-credentials[data-icon]:before {font-size:90px; left:26px; top:57px;}
+.w2-5.live-credentials[data-icon]:before {font-size:75px; left:15px; top:72px;}
 
 /* legal documents viewer */
 #request-live-credentials a {margin:.1em 0 0 1px;}

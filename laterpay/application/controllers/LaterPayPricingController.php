@@ -31,6 +31,13 @@ class LaterPayPricingController extends LaterPayAbstractController {
         );
         wp_enqueue_script('laterpay-select2');
         wp_enqueue_script('laterpay-backend-pricing');
+
+        // pass localized strings and variables to script
+        wp_localize_script(
+            'laterpay-backend-pricing',
+            'lpVars',
+            array('locale' => get_locale())
+        );
     }
 
     /**
@@ -171,7 +178,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
                 array(
                     'success'               => false,
                     'laterpay_global_price' => get_option('laterpay_global_price'),
-                    'message'               => __('The price you tried to set is not within the allowed range of 0 to 5.00.', 'laterpay')
+                    'message'               => __('The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay')
                 )
             );
             die;
