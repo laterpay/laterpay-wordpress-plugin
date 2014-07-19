@@ -84,28 +84,30 @@ jQuery.noConflict();
                             categoriesList += '<li data-category="' + category.category_id + '"><a href="#" data-price="' + category.category_price + '"><span>' + category.category_price + ' ' + lpVars.currency + '</span>' + category.category_name + '</a></li>';
                         });
                         $categoriesList.html(categoriesList);
-                        updateSelectedCategory();
+                        // updateSelectedCategory();        Is this the problem?
                         if (data.length) {
                             $('#use-category-default-price').parent().removeClass('disabled');
                         } else {
+                            // if there's no category with applied price left, switch to individual pricing and set price 0
+                            $('.lp-toggle .selected').removeClass('selected');
                             $('#use-category-default-price').parent().addClass('disabled', 'disabled');
+                            // TODO: the below stuff duplicates large parts of the toggle switch code
+                            $('#use-individual-price').parent().addClass('selected');
+                            $('#laterpay-price-type').removeClass('expanded');
+                            $('#use-dynamic-pricing').show();
+                            $('#post-price').removeAttr('disabled');
+                            laterpaySetPrice('0.00');
                         }
-                    } else {
-                        $('#use-category-default-price').parent().addClass('disabled', 'disabled');
                     }
                 },
                 'json'
             );
-            updateSelectedCategory();
-        } else {
-            // what should we do, if there is no valid category applied?
         }
     }
 
     $('.categorychecklist :checkbox').on('change', function() {
         updateSelectedCategoriesList();
     });
-
 
     $('#post-price').blur(function() {
         laterpaySetPrice($(this).val());
@@ -133,7 +135,7 @@ jQuery.noConflict();
             $priceSection.addClass('expanded');
             $dynamicPricingToggle.show();
         } else if (priceType === 'use-category-default-price') {
-            updateSelectedCategoriesList();
+            updateSelectedCategory();
             var $categories = $('#laterpay-price-type-details .use-category-default-price li'),
                 price       = $('#laterpay-price-type-details .selected-category a').attr('data-price');
             // set the price of the selected category

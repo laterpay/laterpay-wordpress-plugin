@@ -66,6 +66,7 @@ ul.lp-toggle .selected:hover a {color:#a5a5a5; cursor:default; text-shadow:0 1px
 
 #laterpay-price-type-details .use-category-default-price ul,
 #laterpay-price-type-details .use-category-default-price li {margin:0; padding:0;}
+#laterpay-price-type-details .use-category-default-price li {border-top:1px solid #fff;}
 #laterpay-price-type-details .use-category-default-price li:nth-child(even) {background-color:#f7f7f7;}
 #laterpay-price-type-details .use-category-default-price li:last-child {border-radius:0 0 1px 1px;}
 #laterpay-price-type-details .use-category-default-price li:hover,
