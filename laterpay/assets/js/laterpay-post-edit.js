@@ -34,6 +34,7 @@ jQuery.noConflict();
         }
         $('#post-price').val(validatedPrice);
     }
+
     function updateSelectedCategory() {
         var $categories         = $('#laterpay-price-type-details .use-category-default-price li'),
             $categoryEl         = $('input[name=laterpay_post_default_category]'),
@@ -50,7 +51,7 @@ jQuery.noConflict();
             $categories.first().addClass('selected-category');
             $categoryEl.val($categories.first().data('category'));
         }
-    };
+    }
 
     function updateSelectedCategoriesList() {
         var $selectedCategories = $('#categorychecklist :checkbox:checked'),
@@ -97,7 +98,7 @@ jQuery.noConflict();
             );
             updateSelectedCategory();
         } else {
-//             what should we do, if there is no valid category applied?
+            // what should we do, if there is no valid category applied?
         }
     }
 
@@ -136,7 +137,7 @@ jQuery.noConflict();
             var $categories = $('#laterpay-price-type-details .use-category-default-price li'),
                 price       = $('#laterpay-price-type-details .selected-category a').attr('data-price');
             // set the price of the selected category
-//            laterpaySetPrice(price);
+           laterpaySetPrice(price);
             // show / hide stuff
             $priceSection.addClass('expanded');
             $('.' + priceType, $details).show();
@@ -167,6 +168,7 @@ jQuery.noConflict();
         $categories.removeClass('selected-category');
         $this.parent('li').addClass('selected-category');
         $categoryEl.val(category);
+        laterpaySetPrice($this.attr('data-price'));
     })
     .on('click', 'a', function(e) {e.preventDefault();});
 
