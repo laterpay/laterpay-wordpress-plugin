@@ -156,6 +156,7 @@ jQuery.noConflict();
             setTimeout(function() { $('#post-price').focus(); }, 50);
         } else {
             $('#post-price').attr('disabled', 'disabled');
+            $('#use-dynamic-pricing').mousedown();  // remove dynamic pricing
         }
     })
     .click(function(e) {e.preventDefault();});
