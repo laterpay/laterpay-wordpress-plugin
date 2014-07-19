@@ -1,67 +1,263 @@
 jQuery.noConflict();
 (function($) { $(function() {
 
-    function validatePrice(price) {
-        // convert price to proper float value
-        if (typeof price === 'string' && price.indexOf(',') > -1) {
-            price = parseFloat(price.replace(',', '.')).toFixed(2);
-        } else {
-            price = parseFloat(price).toFixed(2);
-        }
-        // prevent negative prices
-        price = Math.abs(price);
-        // correct prices outside the allowed range of 0.05 - 5.00
-        if (price > 5) {
-            price = 5;
-        } else if (price > 0 && price < 0.05) {
-            price = 0.05;
-        }
+    function laterPayEditPost() {
+        var $o = {
+                // post price input
+                priceInput              : $('#post-price'),
 
-        return price;
+                // toggle for choosing pricing type
+                priceSection            : $('#laterpay-price-type'),
+                pricingTypeToggle       : $('#laterpay-price-type .lp-toggle'),
+                pricingTypeButtons      : $('#laterpay-price-type .lp-toggle a'),
+                individualPriceButton   : $('#use-individual-price').parent(),
+                categoryPriceButton     : $('#use-category-default-price').parent(),
+
+                // details sections for chosen pricing type
+                details                 : $('#laterpay-price-type-details'),
+                categoryPriceDetails    : $('#laterpay-price-type-details .use-category-default-price'),
+                categoriesList          : $('#laterpay-price-type-details .use-category-default-price ul'),
+                categories              : $('#laterpay-price-type-details .use-category-default-price li'),
+                categoryInput           : $('input[name=laterpay_post_default_category]'),
+                dynamicPricingToggle    : $('#use-dynamic-pricing'),
+
+                // strings cached for better compression
+                expanded                : 'expanded',
+                selected                : 'selected',
+                disabled                : 'disabled',
+                selectedCategory        : 'selected-category',
+                dynamicPricingApplied   : 'dynamic-pricing-applied',
+            },
+
+            bindEvents = function() {
+                // switch pricing type
+                $o.pricingTypeButtons
+                .mousedown(function() {switchPricingType(this);})
+                .click(function(e) {e.preventDefault();});
+
+                // validate manually entered prices
+                $o.priceInput.blur(function() {setPrice($(this).val());});
+
+                // toggle dynamic pricing widget
+                $o.dynamicPricingToggle
+                .mousedown(function() {toggleDynamicPricing();})
+                .click(function(e) {e.preventDefault();});
+
+                // update list of applicable category prices on change of categories list
+                $('.categorychecklist :checkbox')
+                .on('change', function() {updateApplicableCategoriesList();});
+
+                // apply category default prices when selecting one of the applicable categories
+                $o.categoryPriceDetails
+                .on('mousedown', 'a', function() {applyCategoryPrice(this);})
+                .on('click', 'a', function(e) {e.preventDefault();});
+            },
+
+            switchPricingType = function(trigger) {
+                var $this           = $(trigger),
+                    $clickedButton  = $this.parent('li'),
+                    priceType       = $this.attr('class');
+
+                if ($clickedButton.hasClass($o.disabled) || $clickedButton.hasClass($o.selected)) {
+                    return;
+                }
+
+                // set state of toggle
+                $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
+                $clickedButton.addClass($o.selected);
+                $o.priceSection.removeClass($o.expanded);
+
+                // hide show details sections
+                $('.details-section', $o.details).hide();
+
+                // use individual price
+                if (priceType === 'use-individual-price') {
+                    $o.priceSection.addClass($o.expanded);
+                    $o.dynamicPricingToggle.show();
+                }
+                // use category default price
+                else if (priceType === 'use-category-default-price') {
+                    updateSelectedCategory();
+
+                    // set the price of the selected category
+                    var price = $('.selected-category a', $o.categoriesList).attr('data-price');
+                    setPrice(price);
+
+                    // show / hide stuff
+                    $o.priceSection.addClass($o.expanded);
+                    $('.' + priceType, $o.details).show();
+                    $o.categories.slideDown(250);
+                    $o.dynamicPricingToggle.hide();
+                }
+                // use global default price
+                else if (priceType === 'use-global-default-price') {
+                    setPrice($this.attr('data-price'));
+                    $o.dynamicPricingToggle.hide();
+                }
+
+                // disable price input for all scenarios other than static individual price
+                if (priceType === 'use-individual-price') {
+                    $o.priceInput.removeAttr('disabled');
+                    setTimeout(function() {$o.priceInput.focus();}, 50);
+                } else {
+                    $o.priceInput.attr('disabled', 'disabled');
+                    if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
+                        $o.dynamicPricingToggle.mousedown(); // remove dynamic pricing
+                    }
+                }
+            },
+
+            setPrice = function(price) {
+                var validatedPrice = validatePrice(price);
+                // localize price
+                if (lpVars.locale == 'de_DE') {
+                    validatedPrice = validatedPrice.replace('.', ',');
+                }
+                $('#post-price').val(validatedPrice);
+            },
+
+            validatePrice = function(price) {
+                // strip non-number characters
+                price = price.replace(/[^0-9\,\.]/g, '');
+                // convert price to proper float value
+                if (typeof price === 'string' && price.indexOf(',') > -1) {
+                    price = parseFloat(price.replace(',', '.')).toFixed(2);
+                } else {
+                    price = parseFloat(price).toFixed(2);
+                }
+                // prevent non-number prices
+                if (isNaN(price)) {
+                    price = 0;
+                }
+                // prevent negative prices
+                price = Math.abs(price);
+                // correct prices outside the allowed range of 0.05 - 5.00
+                if (price > 5) {
+                    price = 5;
+                } else if (price > 0 && price < 0.05) {
+                    price = 0.05;
+                }
+
+                return price.toFixed(2);
+            },
+
+            updateSelectedCategory = function() {
+                var selectedCategoryId  = $o.categoryInput.val(),
+                    $firstCategory      = $o.categories.first();
+
+                if (!$o.categories.length) {
+                    $o.categoryInput.val('');
+                    return;
+                }
+
+                if (typeof(selectedCategoryId) !== 'undefined' && $('[data-category=' + selectedCategoryId + ']', $o.categories.parent()).length) {
+                    $('[data-category=' + selectedCategoryId + ']', $o.categories.parent()).addClass($o.selectedCategory);
+                } else {
+                    // select the first category in the list, if none is selected
+                    $firstCategory.addClass($o.selectedCategory);
+                    $o.categoryInput.val($firstCategory.data('category'));
+                }
+
+                // also update the price, if the selected category has changed in pricing mode 'category default price'
+                if ($o.categoryPriceButton.hasClass($o.selected)) {
+                    setPrice($('.selected-category a', $o.categoriesList).attr('data-price'));
+                }
+            },
+
+            updateApplicableCategoriesList = function() {
+                var $selectedCategories = $('#categorychecklist :checkbox:checked'),
+                    l                   = $selectedCategories.length,
+                    categoryIds         = [],
+                    categoriesList      = '',
+                    selectedCategoryId  = $o.categoryInput.val(),
+                    i, categoryId;
+
+                for (i = 0; i < l; i++) {
+                    categoryId = parseInt($selectedCategories.eq(i).val(), 10);
+                    categoryIds.push(categoryId);
+                }
+
+                if (categoryIds.length > 0) {
+                    // make Ajax request for prices and names of categories
+                    $.post(
+                        lpVars.ajaxUrl,
+                        {
+                            action          : 'post_pricing',
+                            form            : 'laterpay_get_category_prices',
+                            category_ids    : categoryIds
+                        },
+                        function(data) {
+                            // rebuild list of categories in category default pricing tab
+                            if (data) {
+                                data.forEach(function(category) {
+                                    categoriesList +=   '<li data-category="' + category.category_id + '">' +
+                                                            '<a href="#" data-price="' + category.category_price + '">' +
+                                                                '<span>' + category.category_price + ' ' + lpVars.currency + '</span>' +
+                                                                category.category_name +
+                                                            '</a>' +
+                                                        '</li>';
+                                });
+                                $o.categoriesList.html(categoriesList);
+
+                                if (data.length) {
+                                    $o.categoryPriceButton.removeClass($o.disabled);
+                                    $o.categories = $('#laterpay-price-type-details .use-category-default-price li');
+                                    updateSelectedCategory();
+                                } else {
+                                    // if there's no category with applied price left, switch to individual pricing and set price 0
+                                    $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
+                                    $o.categoryPriceButton.addClass($o.disabled);
+                                    // TODO: the following lines duplicate large parts of toggleDynamicPricing
+                                    $o.individualPriceButton.addClass($o.selected);
+                                    $('#laterpay-price-type').removeClass($o.expanded);
+                                    $o.dynamicPricingToggle.show();
+                                    $o.priceInput.removeAttr('disabled');
+                                    setPrice('0.00');
+                                }
+                            }
+                        },
+                        'json'
+                    );
+                }
+            },
+
+            applyCategoryPrice = function(trigger) {
+                var $this       = $(trigger),
+                    $category   = $this.parent(),
+                    category    = $category.attr('data-category'),
+                    price       = $this.attr('data-price');
+
+                $o.categories.removeClass($o.selectedCategory);
+                $category.addClass($o.selectedCategory);
+                $o.categoryInput.val(category);
+                setPrice(price);
+            },
+
+            toggleDynamicPricing = function() {
+                if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                    $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
+                    $o.priceInput.removeAttr('disabled');
+                    $('#laterpay-dynamic-pricing').slideUp(250);
+                    $('input[name=price_post_type]').val(1);
+                    $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
+                } else {
+                    $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
+                    $o.priceInput.attr('disabled', 'disabled');
+                    $('#laterpay-dynamic-pricing').slideDown(250);
+                    $('input[name=price_post_type]').val(0);
+                    $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
+                }
+            };
+
+        bindEvents();
     }
 
-    function laterpaySetPrice(price) {
-        var validatedPrice = validatePrice(price);
-        // localize price
-        if (lpVars.locale == 'de_DE') {
-            validatedPrice = validatedPrice.toFixed(2).replace('.', ',');
-        }
-        $('#post-price').val(validatedPrice);
-    }
+    // initialize page
+    laterPayEditPost();
 
-    $('#post-price').blur(function() {
-        laterpaySetPrice($(this).val());
-    });
-
-    $('#show-advanced')
-    .mousedown(function() {
-        $('#laterpay_post_advanced').show();
-        $('#laterpay_post_standard').hide();
-        $('input[name=price_post_type]').val(1);
-    })
-    .click(function(e) {e.preventDefault();});
-
-    $('#show-standard')
-    .mousedown(function() {
-        $('#laterpay_post_advanced').hide();
-        $('#laterpay_post_standard').show();
-        $('input[name=price_post_type]').val(0);
-    })
-    .click(function(e) {e.preventDefault();});
-
-    $('#set_price_category').click(function(e) {
-        laterpaySetPrice(lpVars.categoryDefaultPrice);
-        $(this).fadeOut(400);
-        e.preventDefault();
-    });
-
-    $('#set_price_global').click(function(e) {
-        laterpaySetPrice(lpVars.globalDefaultPrice);
-        $(this).fadeOut(400);
-        e.preventDefault();
-    });
-
+    // TODO: where best put this?
     $('#post').submit(function() {
+        $('#post-price').removeAttr('disabled');
         var data = window.lpc.getData();
         if (window.lpc.getData().length === 4) {
             $('input[name=laterpay_start_price]').val(data[0].y);
@@ -81,96 +277,95 @@ jQuery.noConflict();
     });
 
 
+// FIXME: selectors like $('select') will blow up like a nuclear power plant
+// when used within WordPress installations with who knows what plugins and modifications
+
+
+    // #################################################################################################################
     // dynamic pricing widget
-    if ($('#laterpay_post_advanced').length) {
-        var data    = lpVars.dynamicPricingData,
-            lpc     = new LPCurve('#laterpay-widget-container');
-        window.lpc = lpc;
+    // #################################################################################################################
+    if ($('#laterpay-dynamic-pricing').length) {
+    var data    = lpVars.dynamicPricingData,
+        lpc     = new LPCurve('#laterpay-widget-container');
+    window.lpc = lpc;
 
-        if (data.length === 4)
-            lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
-        else
-            lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
+    if (data.length === 4)
+        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
+    else
+        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
 
-        $('.blockbuster').click(function() {
-            lpc.setData([
-                {x:  0, y: 1.8},
-                {x:  6, y: 1.8},
-                {x: 11, y: 0.6},
-                {x: 30, y: 0.6}
-            ])
-            .interpolate('linear')
-            .plot();
+    $('.blockbuster').click(function() {
+        lpc.setData([
+            {x:  0, y: 1.8},
+            {x:  6, y: 1.8},
+            {x: 11, y: 0.6},
+            {x: 30, y: 0.6}
+        ])
+        .interpolate('linear')
+        .plot();
 
-            $('select').val('linear');
+        $('select').val('linear');
 
-            return false;
-        });
+        return false;
+    });
 
-        $('.long-tail').click(function() {
-            lpc.setData([
-                {x:  0, y: 1.8},
-                {x:  3, y: 1.8},
-                {x: 14, y: 0.6},
-                {x: 30, y: 0.6}
-            ])
-            .interpolate('linear')
-            .plot();
+    $('.long-tail').click(function() {
+        lpc.setData([
+            {x:  0, y: 1.8},
+            {x:  3, y: 1.8},
+            {x: 14, y: 0.6},
+            {x: 30, y: 0.6}
+        ])
+        .interpolate('linear')
+        .plot();
 
-            $('select').val('linear');
+        $('select').val('linear');
 
-            return false;
-        });
+        return false;
+    });
 
-        $('.breaking-news').click(function() {
-            lpc.setData([
-                {x:  0, y: 1.8},
-                {x:  3, y: 1.8},
-                {x: 30, y: 0.6}
-            ])
-            .interpolate('step-before')
-            .plot();
+    $('.breaking-news').click(function() {
+        lpc.setData([
+            {x:  0, y: 1.8},
+            {x:  3, y: 1.8},
+            {x: 30, y: 0.6}
+        ])
+        .interpolate('step-before')
+        .plot();
 
-            $('select').val('step-before');
+        $('select').val('step-before');
 
-            return false;
-        });
+        return false;
+    });
 
-        $('.teaser').click(function() {
-            lpc.setData([
-                {x:  0, y: 0.6},
-                {x:  3, y: 0.6},
-                {x: 30, y: 1.8}
-            ])
-            .interpolate('step-before')
-            .plot();
+    $('.teaser').click(function() {
+        lpc.setData([
+            {x:  0, y: 0.6},
+            {x:  3, y: 0.6},
+            {x: 30, y: 1.8}
+        ])
+        .interpolate('step-before')
+        .plot();
 
-            $('select').val('step-before');
+        $('select').val('step-before');
 
-            return false;
-        });
+        return false;
+    });
 
-        $('.flat').click(function() {
-            lpc.setData([
-                {x:  0, y: 1},
-                {x:  3, y: 1},
-                {x: 14, y: 1},
-                {x: 30, y: 1}
-            ])
-            .interpolate('linear')
-            .plot();
+    $('.flat').click(function() {
+        lpc.setData([
+            {x:  0, y: 1},
+            {x:  3, y: 1},
+            {x: 14, y: 1},
+            {x: 30, y: 1}
+        ])
+        .interpolate('linear')
+        .plot();
 
-            return false;
-        });
-
-        if (lpVars.isStandardPost === '1') {
-            $('#laterpay_post_standard').hide();
-            $('#laterpay_post_advanced').show();
-        } else {
-            $('#laterpay_post_standard').show();
-            $('#laterpay_post_advanced').hide();
-        }
+        return false;
+    });
     } else {
         $('#laterpay_pricing_post_content').remove();
     }
+
 });})(jQuery);

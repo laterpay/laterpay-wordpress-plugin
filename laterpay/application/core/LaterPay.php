@@ -369,6 +369,9 @@ class LaterPay {
         if ( class_exists('LaterPayAdminController') ) {
             add_action('wp_ajax_admin',         'LaterPayAdminController::pageAjax');
         }
+        if ( class_exists('LaterPayPostPricingController') ) {
+            add_action('wp_ajax_post_pricing',         'LaterPayPostPricingController::pageAjax');
+        }
     }
 
     /**
@@ -405,6 +408,10 @@ class LaterPay {
     protected function setupPricingPostContentBox() {
         add_action('save_post', array($this->getLaterPayPostPricingController(), 'savePricingPostContentBox'));
         add_action('admin_menu', array($this, 'addPricingPostContentBox'));
+
+        // Ajax actions for pricing box
+        add_action('wp_ajax_get_category_prices', 'PostPricingController::getCategoryPrices');
+        add_action('wp_ajax_nopriv_get_category_prices', 'PostPricingController::getCategoryPrices');
     }
 
     /**

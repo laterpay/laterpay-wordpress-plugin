@@ -1,19 +1,8 @@
 @charset "UTF-8";
 
-#container2 p {margin-bottom:0;}
-#container2 a {
-    background:url(../img/dynamic-pricing-presets-sprite.png) no-repeat;
-    display:block;
-    height:48px;
-    margin:.5em 0 0;
-    outline:0 none;
-    padding:0 0 0 60px;
-}
-#container2 .blockbuster {background-position:0 0;}
-#container2 .breaking-news {background-position:0 -48px;}
-#container2 .teaser {background-position:0 -96px;}
-#container2 .long-tail {background-position:0 -144px;}
-#container2 .flat {background-position:0 -192px;}
+/* general utility styles */
+.clearfix:before,
+.clearfix:after {clear:both; content:''; display:table;}
 
 input[type=text].lp-input {
     background-color:#fff;
@@ -23,19 +12,72 @@ input[type=text].lp-input {
     margin:0;
     padding:.5em;
 }
-
-.lp-input::-webkit-input-placeholder {color:#a5a5a5; line-height:1.4;}
-.lp-input::-moz-placeholder {color:#a5a5a5; line-height:1.4;}
-.lp-input:-ms-input-placeholder {color:#a5a5a5; line-height:1.4;}
-
+.lp-input::-webkit-input-placeholder {color:#a5a5a5; line-height:1;}
+.lp-input::-moz-placeholder {color:#a5a5a5; line-height:1;}
+.lp-input:-ms-input-placeholder {color:#a5a5a5; line-height:1;}
 input[type=text].lp-input:focus {-moz-appearance:none; -webkit-appearance:none; border-color:#0074a2;}
-input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
+input.lp-input.number {padding:.15em; text-align:right; width:3.5em;}
+
+a,
+a:hover,
+a:focus,
+a:active {outline:0 none;} /* remove dotted line around links */
 
 
-#laterpay_post_standard {margin-top:20px;}
-#laterpay_post_standard p:last-child {margin-bottom:0;}
+/* post pricing form */
+.post-price-wrapper {margin:1.5em 0; text-align:right;}
+#post-price {font-size:3em; -webkit-transition-duration:.4s; transition-duration:.4s;}
+#post-price:disabled {
+    border-color:transparent;
+    color:#333;
+    -webkit-transition-duration:.4s;
+    transition-duration:.4s;
+}
+#laterpay_post_standard p{float: right;}
+.lp-currency {bottom:.75em; color:#ccc; font-size:1.5em; padding-right:.33em; position:relative;}
 
-#laterpay_teaser_content dfn {color:#999; display:block; font-style:italic; margin:1em 0;}
+/* price type section */
+#laterpay-price-type {border:1px solid #ddd; border-radius:3px;}
+
+ul.lp-toggle {background-color:#e9e9e9; margin:0; padding:0;}
+ul.lp-toggle li {
+    box-shadow:inset 1px 0 0 #ddd, inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    float:left;
+    line-height:1.25;
+    margin:0;
+    padding:.5em 0;
+    text-align:center;
+    width:33.333%;
+}
+ul.lp-toggle li:first-child {border-radius:2px 0 0 2px; box-shadow:inset 1px 1px 0 rgba(255, 255, 255, 0.55);}
+ul.lp-toggle li:last-child {border-radius:0 2px 2px 0; box-shadow:inset 1px 0 0 #ddd, inset -1px 1px 0 rgba(255, 255, 255, 0.55);}
+ul.lp-toggle li.selected,
+ul.lp-toggle li.selected:hover {background-color:#d5d5d5;}
+ul.lp-toggle li.disabled:hover {background-color:#e9e9e9;}
+ul.lp-toggle li.disabled a,
+ul.lp-toggle li.disabled:hover a {color:#d5d5d5; cursor:default;}
+ul.lp-toggle li:hover {background-color:#2ea2cc;}
+ul.lp-toggle li:hover a {color:#fff;}
+ul.lp-toggle li.selected {box-shadow:0 1px 3px rgba(0, 0, 0, 0.34) inset;}
+ul.lp-toggle a {text-decoration:none;}
+ul.lp-toggle a {display:block; height:2.5em;}
+ul.lp-toggle .selected a,
+ul.lp-toggle .selected:hover a {color:#a5a5a5; cursor:default; text-shadow:0 1px 0 #e9e9e9;}
+
+#laterpay-price-type-details .use-category-default-price ul,
+#laterpay-price-type-details .use-category-default-price li {margin:0; padding:0;}
+#laterpay-price-type-details .use-category-default-price li {border-top:1px solid #fff;}
+#laterpay-price-type-details .use-category-default-price li:nth-child(even) {background-color:#f7f7f7;}
+#laterpay-price-type-details .use-category-default-price li:last-child {border-radius:0 0 1px 1px;}
+#laterpay-price-type-details .use-category-default-price li:hover,
+#laterpay-price-type.expanded .use-category-default-price li.selected-category {background-color:#feec88;}
+#laterpay-price-type-details .use-category-default-price li.selected-category {background-color:transparent;}
+#laterpay-price-type-details .use-category-default-price li.selected-category a {color:#444; cursor:default;}
+#laterpay-price-type-details .use-category-default-price a {display:block; padding:.5em 0.75em; text-decoration:none;}
+#laterpay-price-type-details a span {color:#888; float:right;}
+
+#use-dynamic-pricing {display:block; padding:.75em 0.25em 0; text-decoration:none;}
+
 
 /* add LaterPay logo to heading of postbox and teaser content editor */
 @font-face {
@@ -71,6 +113,22 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
 
 
 /* dynamic pricing widget */
+#container {margin-top:.5em;}
+#container2 p {margin-bottom:0;}
+#container2 a {
+    background:url(../img/dynamic-pricing-presets-sprite.png) no-repeat;
+    display:block;
+    height:48px;
+    margin:.5em 0 0;
+    outline:0 none;
+    padding:0 0 0 60px;
+}
+#container2 .blockbuster {background-position:0 0;}
+#container2 .breaking-news {background-position:0 -48px;}
+#container2 .teaser {background-position:0 -96px;}
+#container2 .long-tail {background-position:0 -144px;}
+#container2 .flat {background-position:0 -192px;}
+
 svg text {-webkit-user-select:none;}
 
 #laterpay-widget-container {height:240px; width:254px;}
@@ -133,3 +191,7 @@ text.start-price-currency,
 text.end-price-currency {font-size:9px; font-weight:400;}
 
 text.default-price {fill:#aaa; font-size:10px;}
+
+
+/* teaser content */
+#laterpay_teaser_content dfn {color:#999; display:block; font-style:italic; margin:1em 0;}

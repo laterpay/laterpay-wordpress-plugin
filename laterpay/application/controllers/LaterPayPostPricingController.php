@@ -59,18 +59,22 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             'laterpay-post-edit',
             'laterpay_post_edit',
             array(
-                'globalDefaultPrice'    => (float)get_option('laterpay_global_price'),
-                'locale'                => get_locale(),
-                'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_post_edit);',
+                'ajaxUrl'                   => admin_url('admin-ajax.php'),
+                'globalDefaultPrice'        => (float)get_option('laterpay_global_price'),
+                'locale'                    => get_locale(),
+                'i18nTeaserError'           => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
+                'i18nAddDynamicPricing'     => __('Add dynamic pricing', 'laterpay'),
+                'i18nRemoveDynamicPricing'  => __('Remove dynamic pricing', 'laterpay'),
+                'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
             )
         );
         wp_localize_script(
             'laterpay-d3-dynamic-pricing-widget',
             'laterpay_d3_dynamic_pricing_widget',
             array(
-                'currency'              => get_option('laterpay_currency'),
-                'i18nDefaultPrice'      => __('default price', 'laterpay'),
-                'l10n_print_after'      => 'jQuery.extend(window.lpVars, laterpay_d3_dynamic_pricing_widget);',
+                'currency'          => get_option('laterpay_currency'),
+                'i18nDefaultPrice'  => __('default price', 'laterpay'),
+                'l10n_print_after'  => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget)',
             )
         );
     }
@@ -145,17 +149,18 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
         $post_specific_price = get_post_meta($object->ID, 'Pricing Post', true);
 
-        $category = get_the_category($object->ID);
         $category_default_price = null;
-        if ( !empty($category) ) {
-            $id = $category[0]->term_id;
-            $LaterPayModelCategory = new LaterPayModelCategory();
+        $categories_of_post     = wp_get_post_categories($object->ID);
+        $post_default_category  = (int) get_post_meta($object->ID, 'laterpay_post_default_category', true);
+        if ( !empty($categories_of_post) ) {
+            $LaterPayModelCategory  = new LaterPayModelCategory();
+            $category_price_data    = $LaterPayModelCategory->getCategoryPriceDataByCategoryIds($categories_of_post);
 
-            $category_default_price = $LaterPayModelCategory->getPriceByCategoryId($id);
+            $category_default_price = $LaterPayModelCategory->getPriceByCategoryId($post_default_category);
         }
 
         $price_post_type = get_post_meta($object->ID, 'Pricing Post Type', true);
-
+        
         // return dynamic pricing widget start values
         if ( !get_post_meta($object->ID, 'laterpay_start_price', true) ) {
             $dynamic_pricing_data = array(
@@ -202,14 +207,62 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 
+        $this->assign('categories',             $categories_of_post);
+        $this->assign('category_prices',        $category_price_data);
         $this->assign('price',                  (float)$post_specific_price);
         $this->assign('category_default_price', (float)$category_default_price);
         $this->assign('global_default_price',   (float)get_option('laterpay_global_price'));
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('price_post_type',        $price_post_type);
+        $this->assign('post_default_category', (int)$post_default_category);
         $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
 
         $this->render('partials/postPricingForm');
+    }
+
+    /**
+     * Process Ajax requests from account tab
+     *
+     * @access public
+     */
+    public static function pageAjax() {
+        if (isset($_POST['form'])) {
+            // check for required privileges to perform action
+            if ( !LaterPayUserHelper::can('laterpay_edit_individual_price') ) {
+                echo Zend_Json::encode(
+                    array(
+                        'success' => false,
+                        'message' => __('You don´t have sufficient user privileges to do this.', 'laterpay')
+                    )
+                );
+                die;
+            }
+
+            switch ( $_POST['form'] ) {
+                case 'laterpay_get_category_prices':
+                    self::_getCategoryPrices($_POST['category_ids']);
+                    break;
+                default:
+                    echo Zend_Json::encode(
+                        array(
+                            'success' => false,
+                            'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                        )
+                    );
+            }
+        }
+        die;
+    }
+    
+    /**
+     * Process Ajax request for prices of applied categories
+     *
+     * @access protected
+     */
+    protected static function _getCategoryPrices( $category_ids ) {
+        $LaterPayModelCategory  = new LaterPayModelCategory();
+        $categories_price_data    = $LaterPayModelCategory->getCategoryPriceDataByCategoryIds($category_ids);
+        echo Zend_Json::encode($categories_price_data);
     }
 
     /**
@@ -229,7 +282,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             return $post_id;
         }
 
-        $delocalized_price = (float)str_replace(',', '.', $_POST['pricing-post']);
+        $delocalized_price = (float)str_replace(',', '.', $_POST['post-price']);
 
         $this->setPostMeta(
             get_post_meta($post_id, 'Pricing Post', true),
@@ -242,6 +295,12 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             stripslashes($_POST['price_post_type']),
             $post_id,
             'Pricing Post Type'
+        );
+        $this->setPostMeta(
+            get_post_meta($post_id, 'laterpay_post_default_category', true),
+            stripslashes($_POST['laterpay_post_default_category']),
+            $post_id,
+            'laterpay_post_default_category'
         );
         $this->setPostMeta(
             get_post_meta($post_id, 'laterpay_start_price', true),
