@@ -87,6 +87,7 @@ class LaterPay {
             $this->setupPurchases();
             $this->setupTeaserContentBox();
             $this->setupPricingPostContentBox();
+            $this->setupPremiumDownloadsShortcode();
 
             $this->setupCustomDataInPostsTable();
 
@@ -412,6 +413,101 @@ class LaterPay {
         // Ajax actions for pricing box
         add_action('wp_ajax_get_category_prices', 'PostPricingController::getCategoryPrices');
         add_action('wp_ajax_nopriv_get_category_prices', 'PostPricingController::getCategoryPrices');
+    }
+
+    protected function setupPremiumDownloadsShortcode() {
+        add_shortcode('laterpay_premium_download', array($this, 'renderPremiumDownloadBox'));
+    }
+
+    /**
+     * Renders a teaser box for selling additional (downloadable) content from the shortcode [laterpay_premium_download]
+     *
+     * The shortcode [laterpay_premium_download] accepts various parameters:
+     * - target_page_title (required): the title of the page that contains the paid content
+     * - heading_text: the text that should be displayed as heading in the teaser box;
+     *   restricted to one line
+     * - description_text: text that provides additional information on the paid content;
+     *   restricted to a maximum of three lines
+     * - content_type: choose between 'text', 'music', 'video', 'gallery', or 'file',
+     *   to display the corresponding default teaser image provided by the plugin;
+     *   can be overridden with a custom teaser image using the teaser_image_path attribute
+     * - teaser_image_path: path to an image that should be used instead of the default LaterPay teaser image
+     */
+    public function renderPremiumDownloadBox( $atts ) {
+        $a = shortcode_atts(array(
+               'target_page_title'  => '',
+               'heading_text'       => __('Additional Premium Content', 'laterpay'),
+               'description_text'   => '',
+               'content_type'       => '',
+               'teaser_image_path'  => ''
+             ), $atts);
+
+        if ( $a['target_page_title'] == '' ) {
+            die;
+        } else {
+            $target_page    = get_page_by_title($a['target_page_title'], OBJECT, array('post', 'page', 'attachment'));
+            $page_id        = $target_page->ID;
+            $page_url       = get_permalink($page_id);
+            $price          = LaterPayPostContentController::getPostPrice($page_id);
+            $currency       = get_option('laterpay_currency');
+            $price_tag      = sprintf(__('%s<small>%s</small>', 'laterpay'), $price, $currency);
+        }
+
+        $content_type = $a['content_type'];
+
+        if ( $content_type == '' ) {
+            // determine $content_type from MIME Type of files attached to post
+            $page_mime_type = get_post_mime_type($page_id);
+
+            switch ($page_mime_type) {
+                case 'application/zip':
+                case 'application/x-rar-compressed':
+                case 'application/pdf':
+                    $content_type = 'file';
+                    break;
+
+                case 'image/jpeg':
+                case 'image/png':
+                case 'image/gif':
+                    $content_type = 'gallery';
+                    break;
+
+                case 'audio/vnd.wav':
+                case 'audio/mpeg':
+                case 'audio/mp4':
+                case 'audio/ogg':
+                case 'audio/aac':
+                case 'audio/aacp':
+                    $content_type = 'audio';
+                    break;
+
+                case 'video/mpeg':
+                case 'video/mp4':
+                case 'video/quicktime':
+                    $content_type = 'video';
+                    break;
+
+                default:
+                    $content_type = 'text';
+            }
+        }
+
+        // build the HTML for the teaser box
+        if ( $a['teaser_image_path'] != '' ) {
+            $html = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
+        } else {
+            $html = "<div class=\"premium-file-link {$content_type}\">";
+        }
+        $html .= "    <a href=\"{$page_url}\" class=\"premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
+        $html .= "    <div class=\"details\">";
+        $html .= "        <h3>{$a['heading_text']}</h3>";
+        if ( $a['description_text'] != '' ) {
+            $html .= "    <p>{$a['description_text']}</p>";
+        }
+        $html .= "    </div>";
+        $html .= "</div>";
+
+        return $html;
     }
 
     /**

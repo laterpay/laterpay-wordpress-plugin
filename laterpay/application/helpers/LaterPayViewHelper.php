@@ -104,8 +104,10 @@ class LaterPayViewHelper {
     public static function formatNumber( $number, $decimals = 2 ) {
         global $wp_locale;
 
+        $delocalized_number = str_replace(',', '.', $number);
+
         $formatted = number_format(
-            $number,
+            $delocalized_number,
             absint($decimals),
             $wp_locale->number_format['decimal_point'],
             $wp_locale->number_format['thousands_sep']
