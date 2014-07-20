@@ -18,7 +18,7 @@
     </p>
 </div>
 
-<div id="laterpay-price-type">
+<div id="laterpay-price-type"<?php if ( $price_post_type == 'individual price, dynamic' || $price_post_type == 'category default price' ) { echo ' class="expanded"'; } ?>>
     <ul class="lp-toggle clearfix">
         <li class="<?php if ( substr_compare($price_post_type, 'individual price', 0, 16, TRUE) == 0 || ($price_post_type == '' && !($global_default_price > 0)) ) { echo 'selected'; } ?>">
             <a href="#" id="use-individual-price" class="use-individual-price"><?php _e('Individual Price', 'laterpay'); ?></a>
