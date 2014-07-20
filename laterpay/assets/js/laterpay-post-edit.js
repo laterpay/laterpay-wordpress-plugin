@@ -3,8 +3,9 @@ jQuery.noConflict();
 
     function laterPayEditPost() {
         var $o = {
-                // post price input
+                // post price inputs
                 priceInput              : $('#post-price'),
+                priceTypeInput          : $('input[name=price_post_type]'),
 
                 // toggle for choosing pricing type
                 priceSection            : $('#laterpay-price-type'),
@@ -74,6 +75,7 @@ jQuery.noConflict();
                 if (priceType === 'use-individual-price') {
                     $o.priceSection.addClass($o.expanded);
                     $o.dynamicPricingToggle.show();
+                    $o.priceTypeInput.val('individual price');
                 }
                 // use category default price
                 else if (priceType === 'use-category-default-price') {
@@ -88,11 +90,13 @@ jQuery.noConflict();
                     $('.' + priceType, $o.details).show();
                     $o.categories.slideDown(250);
                     $o.dynamicPricingToggle.hide();
+                    $o.priceTypeInput.val('category default price');
                 }
                 // use global default price
                 else if (priceType === 'use-global-default-price') {
                     setPrice($this.attr('data-price'));
                     $o.dynamicPricingToggle.hide();
+                    $o.priceTypeInput.val('global default price');
                 }
 
                 // disable price input for all scenarios other than static individual price
@@ -238,13 +242,13 @@ jQuery.noConflict();
                     $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
                     $o.priceInput.removeAttr('disabled');
                     $('#laterpay-dynamic-pricing').slideUp(250);
-                    $('input[name=price_post_type]').val(1);
+                    // $('input[name=price_post_type]').val('individual price,flat');    // TODO: how to best toggle between dynamic and flat pricing?
                     $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
                 } else {
                     $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
                     $o.priceInput.attr('disabled', 'disabled');
                     $('#laterpay-dynamic-pricing').slideDown(250);
-                    $('input[name=price_post_type]').val(0);
+                    // $('input[name=price_post_type]').val('individual price,dynamic');    // TODO: how to best toggle between dynamic and flat pricing?
                     $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
                 }
             };

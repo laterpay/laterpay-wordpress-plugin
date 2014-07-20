@@ -160,7 +160,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         $price_post_type = get_post_meta($object->ID, 'Pricing Post Type', true);
-        
+
         // return dynamic pricing widget start values
         if ( !get_post_meta($object->ID, 'laterpay_start_price', true) ) {
             $dynamic_pricing_data = array(
@@ -213,8 +213,9 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         $this->assign('category_default_price', (float)$category_default_price);
         $this->assign('global_default_price',   (float)get_option('laterpay_global_price'));
         $this->assign('currency',               get_option('laterpay_currency'));
-        $this->assign('price_post_type',        $price_post_type);
-        $this->assign('post_default_category', (int)$post_default_category);
+                // $this->assign('price_post_type',        explode(',', $price_post_type));
+                $this->assign('price_post_type',        $price_post_type);
+        $this->assign('post_default_category',  (int)$post_default_category);
         $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
 
         $this->render('partials/postPricingForm');
@@ -253,7 +254,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
         die;
     }
-    
+
     /**
      * Process Ajax request for prices of applied categories
      *

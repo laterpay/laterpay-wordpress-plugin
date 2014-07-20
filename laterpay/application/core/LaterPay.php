@@ -341,7 +341,7 @@ class LaterPay {
             add_action('load-' . $page, array($this->getLaterPayAdminController(), 'help_' . $name));
             $page_number++;
         }
-        
+
         add_action( 'load-post.php', array($this->getLaterPayAdminController(), 'help_wp_edit_post') );
         add_action( 'load-post-new.php', array($this->getLaterPayAdminController(), 'help_wp_add_post') );
     }

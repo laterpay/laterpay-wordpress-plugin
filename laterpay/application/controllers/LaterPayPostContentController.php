@@ -213,14 +213,14 @@ class LaterPayPostContentController extends LaterPayAbstractController {
     public static function getPostPrice( $post_id ) {
         // get post-specific price
         $price_post = get_post_meta($post_id, 'Pricing Post', true);
-        $post_default_category  = (int) get_post_meta($post_id, 'laterpay_post_default_category', true);
-        
+        $post_default_category  = (int)get_post_meta($post_id, 'laterpay_post_default_category', true);
+
         // get category default price
         $categories_of_post    = wp_get_post_categories($post_id);
         $price_post_category   = null;
         if ( in_array($post_default_category, $categories_of_post) ) {
-            $LaterPayModelCategory = new LaterPayModelCategory();
-            $price_post_category = $LaterPayModelCategory->getPriceByCategoryId($post_default_category);
+            $LaterPayModelCategory  = new LaterPayModelCategory();
+            $price_post_category    = $LaterPayModelCategory->getPriceByCategoryId($post_default_category);
         }
         // get global default price
         $price_post_global = get_option('laterpay_global_price');
