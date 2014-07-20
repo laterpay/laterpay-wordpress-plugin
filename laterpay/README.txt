@@ -193,6 +193,7 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 * Fully implemented planned roles and capabilities model
 * Revised pricing form in add / edit post page
 * Removed superfluous handle from dynamic pricing widget
+* Added shortcode to render nicely styled links to premium content related to a post
 * Added contextual help to all backend pages
 * Fixed problem where re-activating the plugin forwarded to the getStarted tab
 * Added submenu links to the admin menu
