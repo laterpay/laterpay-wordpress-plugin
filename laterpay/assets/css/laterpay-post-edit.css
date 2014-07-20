@@ -161,12 +161,19 @@ rect.background {fill:#f1f1f1;}
 .dragging .pointer {opacity:0;}
 
 .line-price {cursor:col-resize; opacity:.01; stroke:#fff; stroke-width:8px;}
+.line-price.hidden {display:none;}
 
 .line-price-visible {stroke:#555; stroke-dasharray:5; stroke-width:1.5px;}
+.line-price-visible.hidden {display:none;}
 
 #laterpay-widget-container.ew-resize,
 rect.x-drag-square,
 .x-triangle-bottom {cursor:col-resize;}
+
+.x-triangle-bottom.hidden,
+rect.x-drag-square.hidden,
+.x-text.hidden,
+.x-text-days.hidden {display:none;}
 
 .x-text,
 .x-text-days,

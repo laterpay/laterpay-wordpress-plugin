@@ -107,7 +107,7 @@ LPCurve.prototype.setPrice = function(min, max, defaultPrice) {
     return this;
 };
 
-LPCurve.prototype.setData = function(data) {
+LPCurve.prototype.setData = function(data, parsingFormat) {
     this.data = data;
     return this;
 };
@@ -191,10 +191,11 @@ LPCurve.prototype.plot = function() {
     // PRICE CURVE
     // -------------------------------------------------------------------------------------------------------
     // D3.js provides us with a Path Data Generator Function for lines
-    var line =  d3.svg.line()
-                .interpolate(this.interpolation)
-                .x(function(d) { return xScale(d.x); })
-                .y(function(d) { return yScale(d.y); });
+    var pathEl  = svg.select('path.line').node(),
+        line    = d3.svg.line()
+                  .interpolate(this.interpolation)
+                  .x(function(d) { return xScale(d.x); })
+                  .y(function(d) { return yScale(d.y); });
 
     // .attr('d', lineFunction(lineData)) is where the magic happens.
     // This is where we send the data to the accessor function which returns the SVG Path Commands.
@@ -318,7 +319,12 @@ LPCurve.prototype.plot = function() {
     // -------------------------------------------------------------------------------------------------------
     // SQUARES
     var xDragSquare = svg.selectAll('.x-drag-square').data((self.data).slice(1, end));
-    xDragSquare.enter().append('rect').attr('class', 'x-drag-square').call(dragXAxisBehavior);
+
+    xDragSquare.enter().append('rect').attr('class', function(point, index) {
+        if (index == self.data.length - 2) return 'x-drag-square hidden';
+        return 'x-drag-square';
+    }).call(dragXAxisBehavior);
+
     xDragSquare.exit().remove();
     xDragSquare.transition().duration(dragging ? 0 : 250)
         .attr({
@@ -332,7 +338,12 @@ LPCurve.prototype.plot = function() {
 
     // BOTTOM TRIANGLE
     var xTriangleBottom = svg.selectAll('.x-triangle-bottom').data((self.data).slice(1, end));
-    xTriangleBottom.enter().append('path').attr('class', 'x-triangle-bottom').call(dragXAxisBehavior);
+
+    xTriangleBottom.enter().append('path').attr('class', function(point, index) {
+        if (index == self.data.length - 2) return 'x-triangle-bottom hidden';
+        return 'x-triangle-bottom';
+    }).call(dragXAxisBehavior);
+
     xTriangleBottom.exit().remove();
     xTriangleBottom.transition().duration(dragging ? 0 : 250)
         .attr('d', function(d) {
@@ -343,7 +354,12 @@ LPCurve.prototype.plot = function() {
 
     // 'DAYS' TEXT
     var xTextDays = svg.selectAll('.x-text-days').data((self.data).slice(1, end));
-    xTextDays.enter().append('text').attr('class', 'x-text-days').call(dragXAxisBehavior);
+
+    xTextDays.enter().append('text').attr('class', function(point, index) {
+        if (index == self.data.length - 2) return 'x-text-days hidden';
+        return 'x-text-days';
+    }).call(dragXAxisBehavior);
+
     xTextDays.exit().remove();
     xTextDays.transition().duration(dragging ? 0 : 250)
         .text('days')
@@ -356,7 +372,12 @@ LPCurve.prototype.plot = function() {
 
     // Number of days TEXT
     var xText = svg.selectAll('.x-text').data((self.data).slice(1, end));
-    xText.enter().append('text').attr('class', 'x-text').call(dragXAxisBehavior);
+
+    xText.enter().append('text').attr('class', function(point, index) {
+        if (index == self.data.length - 2) return 'x-text hidden';
+        return 'x-text';
+    }).call(dragXAxisBehavior);
+
     xText.exit().remove();
     xText.transition().duration(dragging ? 0 : 250)
         .text(function(d) { return Math.round(d.x); })
@@ -370,7 +391,10 @@ LPCurve.prototype.plot = function() {
 
     // VERTICAL LINES
     // -------------------------------------------------------------------------------------------------------
-    priceLineVisible.enter().append('line').attr('class', 'line-price-visible');
+    priceLineVisible.enter().append('line').attr('class', function(point, index) {
+            if (index == self.data.length - 2) return 'line-price-visible hidden';
+            return 'line-price-visible';
+        });
     priceLineVisible.exit().remove();
 
     priceLineVisible
@@ -382,7 +406,11 @@ LPCurve.prototype.plot = function() {
             y2: function(d) { return yScale(d.y); },
         });
 
-    priceLine.enter().append('line').attr('class', 'line-price').call(dragXAxisBehavior);
+    priceLine.enter().append('line').attr('class', function(point, index) {
+        if (index == self.data.length - 2) return 'line-price hidden';
+        return 'line-price';
+    }).call(dragXAxisBehavior);
+
     priceLine.exit().remove();
     priceLine
         .transition().duration(dragging ? 0 : 250)
@@ -471,7 +499,9 @@ LPCurve.prototype.plot = function() {
     function dragDays(d, i) {
         var targetDate          = xScale.invert(d3.event.x),
             isDraggingLastPoint = (i == self.data.length - 2),
+            isDragHandler = (i == self.data.length - 3),
             cappedTargetDate;
+
 
         if (isDraggingLastPoint) {
             var dragDelta = (targetDate - d.x ) / (1000/fps),
@@ -481,16 +511,32 @@ LPCurve.prototype.plot = function() {
                     cappedTargetDate = Math.max(cappedTargetDate, 29.51); // minimum 30 days
                     cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum 60 days
                     d.x = cappedTargetDate;
+                    xScale.domain(d3.extent(self.data, function(d) { return d.x; })); // restore the value of the xScale since it could have changed
                     self.plot();
                 };
             clearInterval(dragInterval);
             dragInterval = setInterval(dragStep, 1000/fps); // 30 fps
             dragStep();
+        } else if (isDragHandler) {
+            cappedTargetDate = targetDate;
+            cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
+            cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum 60 days
+
+            if (cappedTargetDate >= 25) {
+                self.data[i+2].x = cappedTargetDate + 5;
+            } else {
+                self.data[i+2].x = 30;
+            }
+
+            d.x = cappedTargetDate;
+            xScale.domain(d3.extent(self.data, function(d) { return d.x; })); // restore the value of the xScale since it could have changed
+            self.plot();
         } else {
             cappedTargetDate = targetDate;
             cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
             cappedTargetDate = Math.min(cappedTargetDate, self.data[i+2].x - 0.51);
             d.x = cappedTargetDate;
+            xScale.domain(d3.extent(self.data, function(d) { return d.x; })); // restore the value of the xScale since it could have changed
             self.plot();
         }
     }
