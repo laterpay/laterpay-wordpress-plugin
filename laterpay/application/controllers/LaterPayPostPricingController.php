@@ -74,6 +74,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             array(
                 'currency'          => get_option('laterpay_currency'),
                 'i18nDefaultPrice'  => __('default price', 'laterpay'),
+                'i18nDays'          => __('days', 'laterpay'),
                 'l10n_print_after'  => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget)',
             )
         );

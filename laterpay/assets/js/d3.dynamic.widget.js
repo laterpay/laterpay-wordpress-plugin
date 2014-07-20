@@ -15,10 +15,11 @@ var LPCurve = function(container) {
     this.container          = container;
     this.interpolation      = 'linear';
     this.minPrice           = 0;
-    this.maxPrice           = 2;
-    this.defaultPrice       = 1;
+    this.maxPrice           = 5;
+    this.defaultPrice       = 0.99;
     this.i18nDefaultPrice   = lpVars.i18nDefaultPrice;
     this.currency           = lpVars.currency;
+    this.i18nDays           = lpVars.i18nDays;
     this.dragging           = false;
 
     svg = d3.select(container).append('svg').append('g');
@@ -362,7 +363,7 @@ LPCurve.prototype.plot = function() {
 
     xTextDays.exit().remove();
     xTextDays.transition().duration(dragging ? 0 : 250)
-        .text('days')
+        .text(this.i18nDays)
         .attr({
             x               : function(d) { return xScale(d.x); },
             y               : function()  { return -16; },
