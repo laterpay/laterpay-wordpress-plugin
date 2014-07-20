@@ -16,11 +16,13 @@ jQuery.noConflict();
 
                 // details sections for chosen pricing type
                 details                 : $('#laterpay-price-type-details'),
+                individualPriceDetails  : $('#laterpay-price-type-details .use-individual-price'),
                 categoryPriceDetails    : $('#laterpay-price-type-details .use-category-default-price'),
                 categoriesList          : $('#laterpay-price-type-details .use-category-default-price ul'),
                 categories              : $('#laterpay-price-type-details .use-category-default-price li'),
                 categoryInput           : $('input[name=laterpay_post_default_category]'),
                 dynamicPricingToggle    : $('#use-dynamic-pricing'),
+                dynamicPricingContainer : $('#laterpay-widget-container'),
 
                 // strings cached for better compression
                 expanded                : 'expanded',
@@ -35,6 +37,9 @@ jQuery.noConflict();
                 $o.pricingTypeButtons
                 .mousedown(function() {switchPricingType(this);})
                 .click(function(e) {e.preventDefault();});
+
+                // save pricing data
+                $('#post').submit(function() {savePricingData();});
 
                 // validate manually entered prices
                 $o.priceInput.blur(function() {setPrice($(this).val());});
@@ -71,13 +76,18 @@ jQuery.noConflict();
                 // hide show details sections
                 $('.details-section', $o.details).hide();
 
-                // use individual price
+                // case: individual price
                 if (priceType === 'use-individual-price') {
                     $o.priceSection.addClass($o.expanded);
                     $o.dynamicPricingToggle.show();
                     $o.priceTypeInput.val('individual price');
+
+                    if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
+                        renderDynamicPricingWidget();
+                        $o.individualPriceDetails.show();
+                    }
                 }
-                // use category default price
+                // case: category default price
                 else if (priceType === 'use-category-default-price') {
                     updateSelectedCategory();
 
@@ -92,7 +102,7 @@ jQuery.noConflict();
                     $o.dynamicPricingToggle.hide();
                     $o.priceTypeInput.val('category default price');
                 }
-                // use global default price
+                // case: global default price
                 else if (priceType === 'use-global-default-price') {
                     setPrice($this.attr('data-price'));
                     $o.dynamicPricingToggle.hide();
@@ -100,13 +110,13 @@ jQuery.noConflict();
                 }
 
                 // disable price input for all scenarios other than static individual price
-                if (priceType === 'use-individual-price') {
+                if (priceType === 'use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
                 } else {
                     $o.priceInput.attr('disabled', 'disabled');
                     if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
-                        $o.dynamicPricingToggle.mousedown(); // remove dynamic pricing
+                        disableDynamicPricing();
                     }
                 }
             },
@@ -208,15 +218,19 @@ jQuery.noConflict();
                                     $o.categories = $('#laterpay-price-type-details .use-category-default-price li');
                                     updateSelectedCategory();
                                 } else {
-                                    // if there's no category with applied price left, switch to individual pricing and set price 0
-                                    $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
+                                    // disable the 'use category default price' button,
+                                    // if no categories with an attached default price are applied to the current post
                                     $o.categoryPriceButton.addClass($o.disabled);
-                                    // TODO: the following lines duplicate large parts of toggleDynamicPricing
-                                    $o.individualPriceButton.addClass($o.selected);
-                                    $('#laterpay-price-type').removeClass($o.expanded);
-                                    $o.dynamicPricingToggle.show();
-                                    $o.priceInput.removeAttr('disabled');
-                                    setPrice('0.00');
+                                    // switch to individual pricing and set price to 0,
+                                    // if current pricing type is 'category default price'
+                                    if ($o.categoryPriceButton.hasClass($o.selected)) {
+                                        $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
+                                        $o.individualPriceButton.addClass($o.selected);
+                                        $('#laterpay-price-type').removeClass($o.expanded);
+                                        $o.dynamicPricingToggle.show();
+                                        $o.priceInput.removeAttr('disabled');
+                                        setPrice('0.00');
+                                    }
                                 }
                             }
                         },
@@ -239,137 +253,151 @@ jQuery.noConflict();
 
             toggleDynamicPricing = function() {
                 if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
-                    $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
-                    $o.priceInput.removeAttr('disabled');
-                    $('#laterpay-dynamic-pricing').slideUp(250);
-                    // $('input[name=price_post_type]').val('individual price,flat');    // TODO: how to best toggle between dynamic and flat pricing?
-                    $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
+                    disableDynamicPricing();
                 } else {
-                    $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
-                    $o.priceInput.attr('disabled', 'disabled');
-                    $('#laterpay-dynamic-pricing').slideDown(250);
-                    // $('input[name=price_post_type]').val('individual price,dynamic');    // TODO: how to best toggle between dynamic and flat pricing?
-                    $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
+                    enableDynamicPricing();
+                }
+            },
+
+            enableDynamicPricing = function() {
+                renderDynamicPricingWidget();
+                $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
+                $o.priceInput.attr('disabled', 'disabled');
+                $('#laterpay-dynamic-pricing').slideDown(250);
+                $('input[name=price_post_type]').val('individual price, dynamic');
+                $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
+            },
+
+            disableDynamicPricing = function() {
+                $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
+                $o.priceInput.removeAttr('disabled');
+                $('#laterpay-dynamic-pricing').slideUp(250, function() {
+                    $o.dynamicPricingContainer.empty();
+                });
+                $('input[name=price_post_type]').val('individual price');
+                $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
+            },
+
+            renderDynamicPricingWidget = function() {
+                var data    = lpVars.dynamicPricingData,
+                    lpc     = new LPCurve('#laterpay-widget-container');
+                window.lpc = lpc;
+
+                $o.priceInput.attr('disabled', 'disabled');
+
+                if (data.length === 4)
+                    lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
+                else
+                    lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
+
+                // FIXME: selectors like $('select') will blow up like a nuclear power plant
+                // when used within WordPress installations with who knows what plugins and modifications
+                // $('.blockbuster').click(function() {
+                //     lpc.setData([
+                //         {x:  0, y: 1.8},
+                //         {x:  6, y: 1.8},
+                //         {x: 11, y: 0.6},
+                //         {x: 30, y: 0.6}
+                //     ])
+                //     .interpolate('linear')
+                //     .plot();
+
+                //     $('select').val('linear');
+
+                //     return false;
+                // });
+
+                // $('.long-tail').click(function() {
+                //     lpc.setData([
+                //         {x:  0, y: 1.8},
+                //         {x:  3, y: 1.8},
+                //         {x: 14, y: 0.6},
+                //         {x: 30, y: 0.6}
+                //     ])
+                //     .interpolate('linear')
+                //     .plot();
+
+                //     $('select').val('linear');
+
+                //     return false;
+                // });
+
+                // $('.breaking-news').click(function() {
+                //     lpc.setData([
+                //         {x:  0, y: 1.8},
+                //         {x:  3, y: 1.8},
+                //         {x: 30, y: 0.6}
+                //     ])
+                //     .interpolate('step-before')
+                //     .plot();
+
+                //     $('select').val('step-before');
+
+                //     return false;
+                // });
+
+                // $('.teaser').click(function() {
+                //     lpc.setData([
+                //         {x:  0, y: 0.6},
+                //         {x:  3, y: 0.6},
+                //         {x: 30, y: 1.8}
+                //     ])
+                //     .interpolate('step-before')
+                //     .plot();
+
+                //     $('select').val('step-before');
+
+                //     return false;
+                // });
+
+                // $('.flat').click(function() {
+                //     lpc.setData([
+                //         {x:  0, y: 1},
+                //         {x:  3, y: 1},
+                //         {x: 14, y: 1},
+                //         {x: 30, y: 1}
+                //     ])
+                //     .interpolate('linear')
+                //     .plot();
+
+                //     return false;
+                // });
+            },
+
+            savePricingData = function() {
+                $o.priceInput.removeAttr('disabled');
+
+                // save dynamic pricing data
+                var data = window.lpc.getData();
+                if (window.lpc.getData().length === 4) {
+                    $('input[name=laterpay_start_price]').val(data[0].y);
+                    $('input[name=laterpay_end_price]').val(data[3].y);
+                    $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+                    $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
+                    $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
+                } else if (window.lpc.getData().length === 3) {
+                    $('input[name=laterpay_start_price]').val(data[0].y);
+                    $('input[name=laterpay_end_price]').val(data[2].y);
+                    $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+                    $('input[name=laterpay_transitional_period_end_after_days]').val(0);
+                    $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
+                }
+
+                return true;
+            },
+
+            initializePage = function() {
+                bindEvents();
+
+                if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
+                    renderDynamicPricingWidget();
                 }
             };
 
-        bindEvents();
+        initializePage();
     }
 
     // initialize page
     laterPayEditPost();
-
-    // TODO: where best put this?
-    $('#post').submit(function() {
-        $('#post-price').removeAttr('disabled');
-        var data = window.lpc.getData();
-        if (window.lpc.getData().length === 4) {
-            $('input[name=laterpay_start_price]').val(data[0].y);
-            $('input[name=laterpay_end_price]').val(data[3].y);
-            $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
-            $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
-            $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
-        } else if (window.lpc.getData().length === 3) {
-            $('input[name=laterpay_start_price]').val(data[0].y);
-            $('input[name=laterpay_end_price]').val(data[2].y);
-            $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
-            $('input[name=laterpay_transitional_period_end_after_days]').val(0);
-            $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
-        }
-
-        return true;
-    });
-
-
-// FIXME: selectors like $('select') will blow up like a nuclear power plant
-// when used within WordPress installations with who knows what plugins and modifications
-
-
-    // #################################################################################################################
-    // dynamic pricing widget
-    // #################################################################################################################
-    if ($('#laterpay-dynamic-pricing').length) {
-    var data    = lpVars.dynamicPricingData,
-        lpc     = new LPCurve('#laterpay-widget-container');
-    window.lpc = lpc;
-
-    if (data.length === 4)
-        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
-    else
-        lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
-
-    $('.blockbuster').click(function() {
-        lpc.setData([
-            {x:  0, y: 1.8},
-            {x:  6, y: 1.8},
-            {x: 11, y: 0.6},
-            {x: 30, y: 0.6}
-        ])
-        .interpolate('linear')
-        .plot();
-
-        $('select').val('linear');
-
-        return false;
-    });
-
-    $('.long-tail').click(function() {
-        lpc.setData([
-            {x:  0, y: 1.8},
-            {x:  3, y: 1.8},
-            {x: 14, y: 0.6},
-            {x: 30, y: 0.6}
-        ])
-        .interpolate('linear')
-        .plot();
-
-        $('select').val('linear');
-
-        return false;
-    });
-
-    $('.breaking-news').click(function() {
-        lpc.setData([
-            {x:  0, y: 1.8},
-            {x:  3, y: 1.8},
-            {x: 30, y: 0.6}
-        ])
-        .interpolate('step-before')
-        .plot();
-
-        $('select').val('step-before');
-
-        return false;
-    });
-
-    $('.teaser').click(function() {
-        lpc.setData([
-            {x:  0, y: 0.6},
-            {x:  3, y: 0.6},
-            {x: 30, y: 1.8}
-        ])
-        .interpolate('step-before')
-        .plot();
-
-        $('select').val('step-before');
-
-        return false;
-    });
-
-    $('.flat').click(function() {
-        lpc.setData([
-            {x:  0, y: 1},
-            {x:  3, y: 1},
-            {x: 14, y: 1},
-            {x: 30, y: 1}
-        ])
-        .interpolate('linear')
-        .plot();
-
-        return false;
-    });
-    } else {
-        $('#laterpay_pricing_post_content').remove();
-    }
 
 });})(jQuery);

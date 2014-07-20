@@ -33,7 +33,7 @@ a:active {outline:0 none;} /* remove dotted line around links */
     -webkit-transition-duration:.4s;
     transition-duration:.4s;
 }
-#laterpay_post_standard p{float: right;}
+#laterpay-post-price p {float:right;}
 .lp-currency {bottom:.75em; color:#ccc; font-size:1.5em; padding-right:.33em; position:relative;}
 
 /* price type section */
