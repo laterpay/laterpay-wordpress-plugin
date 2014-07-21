@@ -8,6 +8,13 @@ Feel free to fork the plugin and adapt it to your needs.
 Please get involved in this project and contribute back changes other users would also benefit from.
 
 
+## Installation
+
+Grab the latest version from https://github.com/laterpay/laterpay-wordpress-plugin/releases/latest and upload it
+to the plugins folder of your WordPress installation.
+The plugin will soon also be available from http://wordpress.org/plugins/
+
+
 ## Contributing
 
 1. Fork it ( https://github.com/laterpay/laterpay-wordpress-plugin/fork )
