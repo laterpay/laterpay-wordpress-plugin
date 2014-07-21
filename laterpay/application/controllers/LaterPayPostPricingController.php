@@ -263,13 +263,14 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 
-        $this->assign('post_price_type',        $post_price_type);
-        $this->assign('price',                  $price);
-        $this->assign('currency',               get_option('laterpay_currency'));
-        $this->assign('category_prices',        $category_price_data);
-        $this->assign('post_default_category',  (int)$post_default_category);
-        $this->assign('global_default_price',   $global_default_price);
-        $this->assign('dynamic_pricing_data',   Zend_Json::encode($dynamic_pricing_data));
+        // TODO: wrap everything in one variable?
+        $this->assign('laterpay_post_price_type',       $post_price_type);
+        $this->assign('laterpay_price',                 $price);
+        $this->assign('laterpay_currency',              get_option('laterpay_currency'));
+        $this->assign('laterpay_category_prices',       $category_price_data);
+        $this->assign('laterpay_post_default_category', (int)$post_default_category);
+        $this->assign('laterpay_global_default_price',  $global_default_price);
+        $this->assign('laterpay_dynamic_pricing_data',  Zend_Json::encode($dynamic_pricing_data));
 
         $this->render('partials/postPricingForm');
     }
