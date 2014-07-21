@@ -29,7 +29,7 @@
         </li>
         <li class=" <?php if ( $price_post_type == 'global default price' || ($price_post_type == '' && $global_default_price > 0) ) { echo 'selected'; } ?>
                     <?php if ( !($global_default_price > 0) ) { echo 'disabled'; } ?>">
-            <a href="#" class="use-global-default-price" data-price="<?php echo $global_default_price; ?>"><?php _e('Global Default<span></span> Price', 'laterpay'); ?></a>
+            <a href="#" id="use-global-default-price" class="use-global-default-price" data-price="<?php echo LaterPayViewHelper::formatNumber($global_default_price, 2); ?>"><?php _e('Global Default<span></span> Price', 'laterpay'); ?></a>
         </li>
     </ul>
     <div id="laterpay-price-type-details">
@@ -54,8 +54,8 @@
             <ul>
                 <?php foreach($category_prices as $c): ?>
                     <li data-category="<?php echo $c['category_id']; ?>"<?php if ($c['category_id'] == $post_default_category):?> class="selected-category"<?php endif;?>>
-                        <a href="#" data-price="<?php echo $c['category_price']; ?>">
-                            <span><?php echo $c['category_price']; ?> <?php echo $currency; ?></span><?php echo $c['category_name']; ?>
+                        <a href="#" data-price="<?php echo LaterPayViewHelper::formatNumber($c['category_price'], 2); ?>">
+                            <span><?php echo LaterPayViewHelper::formatNumber($c['category_price'], 2); ?> <?php echo $currency; ?></span><?php echo $c['category_name']; ?>
                         </a>
                     </li>
                 <?php endforeach; ?>

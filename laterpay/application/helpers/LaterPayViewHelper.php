@@ -107,7 +107,7 @@ class LaterPayViewHelper {
         $delocalized_number = str_replace(',', '.', $number);
 
         $formatted = number_format(
-            $delocalized_number,
+            (float)$delocalized_number,
             absint($decimals),
             $wp_locale->number_format['decimal_point'],
             $wp_locale->number_format['thousands_sep']
