@@ -1,6 +1,5 @@
 <script>
     var lpVars = window.lpVars || {};
-    lpVars.categoryDefaultPrice = <?php echo $category_default_price; ?>;
     lpVars.dynamicPricingData   = <?php echo $dynamic_pricing_data; ?>;
 </script>
 
@@ -20,7 +19,7 @@
 
 <div id="laterpay-price-type"<?php if ( $price_post_type == 'individual price, dynamic' || $price_post_type == 'category default price' ) { echo ' class="expanded"'; } ?>>
     <ul class="lp-toggle clearfix">
-        <li class="<?php if ( substr_compare($price_post_type, 'individual price', 0, 16, TRUE) == 0 || ($price_post_type == '' && !($global_default_price > 0)) ) { echo 'selected'; } ?>">
+        <li class="<?php if ( substr($price_post_type, 0, 16) == 'individual price' || ($price_post_type == '' && !($global_default_price > 0)) ) { echo 'selected'; } ?>">
             <a href="#" id="use-individual-price" class="use-individual-price"><?php _e('Individual Price', 'laterpay'); ?></a>
         </li>
         <li class=" <?php if ( $price_post_type == 'category default price' ) { echo 'selected'; } ?>

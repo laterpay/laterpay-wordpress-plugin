@@ -211,34 +211,32 @@ class LaterPayPostContentController extends LaterPayAbstractController {
      * @return float
      */
     public static function getPostPrice( $post_id ) {
-        // get post-specific price
-        $price_post = get_post_meta($post_id, 'Pricing Post', true);
-        $post_default_category  = (int)get_post_meta($post_id, 'laterpay_post_default_category', true);
+        $price_post_type = get_post_meta($post_id, 'Pricing Post Type', true);
+        switch ($price_post_type) {
+            // backwards compatibility: Pricing Post Type used to be stored as 0 or 1; TODO: remove with release 1.0
+            case '0':
+            case '1':
+            case 'individual price':
+                $price = get_post_meta($post_id, 'Pricing Post', true);
+                break;
 
-        // get category default price
-        $categories_of_post    = wp_get_post_categories($post_id);
-        $price_post_category   = null;
-        if ( in_array($post_default_category, $categories_of_post) ) {
-            $LaterPayModelCategory  = new LaterPayModelCategory();
-            $price_post_category    = $LaterPayModelCategory->getPriceByCategoryId($post_default_category);
-        }
-        // get global default price
-        $price_post_global = get_option('laterpay_global_price');
+            case 'individual price, dynamic':
+                $price = self::getAdvancedPrice($GLOBALS['post']);
+                break;
 
-        // determine effective price for post
-        $pricing_type = get_post_meta($post_id, 'Pricing Post Type', true);
-        if ( !$pricing_type ) {
-            if ( !empty($price_post) ) {
-                $price = $price_post;
-            } else if ( !is_null($price_post_category) ) {
-                $price = $price_post_category;
-            } else if ( !empty($price_post_global) ) {
-                $price = $price_post_global;
-            } else {
+            case 'category default price':
+                $LaterPayModelCategory  = new LaterPayModelCategory();
+                $category_id            = get_post_meta($post_id, 'laterpay_post_default_category', true);
+                $price                  = $LaterPayModelCategory->getPriceByCategoryId((int)$category_id);
+                break;
+
+            case 'global default price':
+                $price = get_option('laterpay_global_price');
+                break;
+
+            default:
                 $price = 0;
-            }
-        } else {
-            $price = self::getAdvancedPrice($GLOBALS['post']);
+                break;
         }
 
         return (float)$price;

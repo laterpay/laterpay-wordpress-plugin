@@ -365,7 +365,7 @@ jQuery.noConflict();
             },
 
             savePricingData = function() {
-                $o.priceInput.removeAttr('disabled');
+                // $o.priceInput.removeAttr('disabled');
 
                 // save dynamic pricing data
                 var data = window.lpc.getData();
