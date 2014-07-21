@@ -188,6 +188,9 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 
 == Changelog ==
 
+= 0.9.7 (July xx, 2014): Production-readiness release IV =
+* Added shortcode to align premium content shortcodes
+
 = 0.9.6 (July 21, 2014): Production-readiness release III =
 * Included public Sandbox API credentials supplied by default
 * Fully implemented planned roles and capabilities model

@@ -425,31 +425,31 @@ label.switch-label {
 
 
 /* linked premium files in free to read posts */
-.premium-file-link {
-    background:#e5e5e5 url(../img/premium-text.png) 50% 50% / cover no-repeat;
-    border-radius:3px;
-    box-shadow:1px 1px 2px rgba(0, 0, 0, 0.34);
-    height:300px;
-    margin:0 10px 20px 10px;
-    position:relative;
-    width:300px;
+.laterpay-premium-file-link {
+    background:#e5e5e5 url(../img/premium-text.png) 50% 50% / cover no-repeat !important;
+    border-radius:3px !important;
+    box-shadow:1px 1px 2px rgba(0, 0, 0, 0.34) !important;
+    height:300px !important;
+    margin:0 10px 20px 10px !important;
+    position:relative !important;
+    width:300px !important;
 }
-.premium-file-link.text         {background-image:url(../img/premium-text.png);}
-.premium-file-link.music        {background-image:url(../img/premium-music.png);}
-.premium-file-link.video        {background-image:url(../img/premium-video.png);}
-.premium-file-link.gallery      {background-image:url(../img/premium-gallery.png);}
-.premium-file-link.file         {background-image:url(../img/premium-download.png);}
+.laterpay-premium-file-link.text         {background-image:url(../img/premium-text.png) !important;}
+.laterpay-premium-file-link.music        {background-image:url(../img/premium-music.png) !important;}
+.laterpay-premium-file-link.video        {background-image:url(../img/premium-video.png) !important;}
+.laterpay-premium-file-link.gallery      {background-image:url(../img/premium-gallery.png) !important;}
+.laterpay-premium-file-link.file         {background-image:url(../img/premium-download.png) !important;}
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
      /* serve retina images for hires displays */
-     .premium-file-link.text    {background-image:url(../img/premium-text_2x.png);}
-     .premium-file-link.music   {background-image:url(../img/premium-music_2x.png);}
-     .premium-file-link.video   {background-image:url(../img/premium-video_2x.png);}
-     .premium-file-link.gallery {background-image:url(../img/premium-gallery_2x.png);}
-     .premium-file-link.file    {background-image:url(../img/premium-download_2x.png);}
+     .laterpay-premium-file-link.text    {background-image:url(../img/premium-text_2x.png) !important;}
+     .laterpay-premium-file-link.music   {background-image:url(../img/premium-music_2x.png) !important;}
+     .laterpay-premium-file-link.video   {background-image:url(../img/premium-video_2x.png) !important;}
+     .laterpay-premium-file-link.gallery {background-image:url(../img/premium-gallery_2x.png) !important;}
+     .laterpay-premium-file-link.file    {background-image:url(../img/premium-download_2x.png) !important;}
 }
 
-.premium-file-button {
+.laterpay-premium-file-button {
     background:#54cc76 !important;
     background:-webkit-linear-gradient(top, #54cc76 0, #4fc270 100%) !important;
     background:linear-gradient(to bottom, #54cc76 0, #4fc270 100%) !important;
@@ -470,7 +470,7 @@ label.switch-label {
     top:.5em;
     white-space:nowrap !important;
 }
-.premium-file-button[data-icon]:before {
+.laterpay-premium-file-button[data-icon]:before {
     font-size:1.8em !important;
     left:-2px !important;
     line-height:0 !important;
@@ -478,31 +478,31 @@ label.switch-label {
     position:relative !important;
     top:.32em !important;
 }
-.premium-file-button small {
+.laterpay-premium-file-button small {
     bottom:.7em !important;
     font-size:.5em !important;
     padding-left:4px !important;
     position:relative !important;
 }
-.premium-file-button,
-.premium-file-button small,
-.premium-file-button:hover,
-.premium-file-button:focus,
-.premium-file-button:active {color:#fff !important; text-decoration:none !important;}
-.premium-file-button:hover {
+.laterpay-premium-file-button,
+.laterpay-premium-file-button small,
+.laterpay-premium-file-button:hover,
+.laterpay-premium-file-button:focus,
+.laterpay-premium-file-button:active {color:#fff !important; text-decoration:none !important;}
+.laterpay-premium-file-button:hover {
     background:#58d67c !important;
     background:-webkit-linear-gradient(top, #58d67c 0, #54cc76 100%) !important;
     background:linear-gradient(to bottom, #58d67c 0, #54cc76 100%) !important;
 }
-.premium-file-button:focus,
-.premium-file-button:active {
+.laterpay-premium-file-button:focus,
+.laterpay-premium-file-button:active {
     background:#58d67c !important;
     background:-webkit-linear-gradient(top, #58d67c 0, #54cc76 100%) !important;
     background:linear-gradient(to bottom, #58d67c 0, #54cc76 100%) !important;
     border-top-color:transparent !important;
     border-width:2px 1px 0 0 !important;
 }
-.premium-file-link .details {
+.laterpay-premium-file-link .details {
     background-color:rgba(229, 229, 229, 0.89);
     border-radius:0 0 2px 2px;
     bottom:0;
@@ -514,7 +514,7 @@ label.switch-label {
     position:absolute;
     width:280px;
 }
-.premium-file-link .details h3 {
+.laterpay-premium-file-link .details h3 {
     color:#555;
     font-size:14px;
     font-weight:600;
@@ -523,7 +523,9 @@ label.switch-label {
     text-overflow:ellipsis;
     white-space:nowrap;
 }
-.premium-file-link p {margin:.375em 0 0; max-height:3.6em; overflow:hidden; text-overflow:ellipsis;}
+.laterpay-premium-file-link p {margin:.375em 0 0; max-height:3.6em; overflow:hidden; text-overflow:ellipsis;}
+
+.laterpay-premium-file-link-wrapper .laterpay-premium-file-link {float:left !important;}
 
 
 /* icon font */

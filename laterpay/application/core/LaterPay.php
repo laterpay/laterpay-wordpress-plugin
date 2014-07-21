@@ -87,7 +87,7 @@ class LaterPay {
             $this->setupPurchases();
             $this->setupTeaserContentBox();
             $this->setupPricingPostContentBox();
-            $this->setupPremiumDownloadsShortcode();
+            $this->setupShortcodes();
 
             $this->setupCustomDataInPostsTable();
 
@@ -415,8 +415,9 @@ class LaterPay {
         add_action('wp_ajax_nopriv_get_category_prices', 'PostPricingController::getCategoryPrices');
     }
 
-    protected function setupPremiumDownloadsShortcode() {
+    protected function setupShortcodes() {
         add_shortcode('laterpay_premium_download', array($this, 'renderPremiumDownloadBox'));
+        add_shortcode('laterpay_box_wrapper', array($this, 'renderPremiumDownloadBoxWrapper'));
     }
 
     /**
@@ -432,6 +433,14 @@ class LaterPay {
      *   to display the corresponding default teaser image provided by the plugin;
      *   can be overridden with a custom teaser image using the teaser_image_path attribute
      * - teaser_image_path: path to an image that should be used instead of the default LaterPay teaser image
+     *
+     * Basic example:
+     * [laterpay_premium_download target_page_title="Event video footage"]
+     *
+     * Advanced example:
+     * [laterpay_premium_download target_page_title="Event video footage" heading_text="Video footage of concert"
+     * description_text="Full HD video of the entire concept, including behind the scenes action."
+     * teaser_image_path="/uploads/images/concert-video-still.jpg"]
      */
     public function renderPremiumDownloadBox( $atts ) {
         $a = shortcode_atts(array(
@@ -494,11 +503,11 @@ class LaterPay {
 
         // build the HTML for the teaser box
         if ( $a['teaser_image_path'] != '' ) {
-            $html = "<div class=\"premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
+            $html = "<div class=\"laterpay-premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
         } else {
-            $html = "<div class=\"premium-file-link {$content_type}\">";
+            $html = "<div class=\"laterpay-premium-file-link {$content_type}\">";
         }
-        $html .= "    <a href=\"{$page_url}\" class=\"premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
+        $html .= "    <a href=\"{$page_url}\" class=\"laterpay-premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
         $html .= "    <div class=\"details\">";
         $html .= "        <h3>{$a['heading_text']}</h3>";
         if ( $a['description_text'] != '' ) {
@@ -508,6 +517,18 @@ class LaterPay {
         $html .= "</div>";
 
         return $html;
+    }
+
+    /**
+     * Aligns multiple teaser boxes in a row when enclosing them in shortcode [laterpay_box_wrapper]
+     *
+     * Important: Avoid linebreaks between the shortcodes as WordPress will replace them with <br> tags
+     *
+     * Example:
+     * [laterpay_box_wrapper][laterpay_premium_download target_page_title="Vocabulary list"][laterpay_premium_download target_page_title="Excercises"][/laterpay_box_wrapper]
+     */
+    function renderPremiumDownloadBoxWrapper( $atts, $content = null ) {
+        return '<div class="laterpay-premium-file-link-wrapper">' . do_shortcode($content) . '</div>';
     }
 
     /**
