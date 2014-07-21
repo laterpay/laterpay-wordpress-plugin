@@ -182,8 +182,8 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
             $global_default_price = (float)$global_default_price;
         }
 
-        $price_post_type = get_post_meta($object->ID, 'Pricing Post Type', true);
-        switch ($price_post_type) {
+        $post_price_type = get_post_meta($object->ID, 'Pricing Post Type', true);
+        switch ($post_price_type) {
             // backwards compatibility: Pricing Post Type used to be stored as 0 or 1; TODO: remove with release 1.0
             case '0':
             case '1':
@@ -208,10 +208,10 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
                 // new posts should use the global default price or 0, if there's no global default price
                 if ( is_null($global_default_price) ) {
                     $price =  0.00;
-                    $price_post_type = 'individual price';
+                    $post_price_type = 'individual price';
                 } else {
                     $price = $global_default_price;
-                    $price_post_type = 'global default price';
+                    $post_price_type = 'global default price';
                 }
 
                 break;
@@ -263,7 +263,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 
-        $this->assign('price_post_type',        $price_post_type);
+        $this->assign('post_price_type',        $post_price_type);
         $this->assign('price',                  $price);
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('category_prices',        $category_price_data);
@@ -346,7 +346,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         );
         $this->setPostMeta(
             get_post_meta($post_id, 'Pricing Post Type', true),
-            stripslashes($_POST['price_post_type']),
+            stripslashes($_POST['post_price_type']),
             $post_id,
             'Pricing Post Type'
         );

@@ -5,7 +5,7 @@ jQuery.noConflict();
         var $o = {
                 // post price inputs
                 priceInput              : $('#post-price'),
-                priceTypeInput          : $('input[name=price_post_type]'),
+                priceTypeInput          : $('input[name=post_price_type]'),
 
                 // toggle for choosing pricing type
                 priceSection            : $('#laterpay-price-type'),
@@ -272,7 +272,7 @@ jQuery.noConflict();
                 $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
                 $o.priceInput.attr('disabled', 'disabled');
                 $('#laterpay-dynamic-pricing').slideDown(250);
-                $('input[name=price_post_type]').val('individual price, dynamic');
+                $('input[name=post_price_type]').val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
             },
 
@@ -282,7 +282,7 @@ jQuery.noConflict();
                 $('#laterpay-dynamic-pricing').slideUp(250, function() {
                     $o.dynamicPricingContainer.empty();
                 });
-                $('input[name=price_post_type]').val('individual price');
+                $('input[name=post_price_type]').val('individual price');
                 $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
             },
 

@@ -213,8 +213,8 @@ class LaterPayPostContentController extends LaterPayAbstractController {
     public static function getPostPrice( $post_id ) {
         $global_default_price = get_option('laterpay_global_price');
 
-        $price_post_type = get_post_meta($post_id, 'Pricing Post Type', true);
-        switch ($price_post_type) {
+        $post_price_type = get_post_meta($post_id, 'Pricing Post Type', true);
+        switch ($post_price_type) {
             // backwards compatibility: Pricing Post Type used to be stored as 0 or 1; TODO: remove with release 1.0
             case '0':
             case '1':

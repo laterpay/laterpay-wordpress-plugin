@@ -3,7 +3,7 @@
     lpVars.dynamicPricingData   = <?php echo $dynamic_pricing_data; ?>;
 </script>
 
-<input type="hidden" name="price_post_type" value="<?php echo $price_post_type ?>">
+<input type="hidden" name="post_price_type" value="<?php echo $post_price_type ?>">
 
 <div id="laterpay-post-price" class="clearfix">
     <p>
@@ -13,27 +13,27 @@
                 name="post-price"
                 value="<?php echo LaterPayViewHelper::formatNumber($price, 2); ?>"
                 placeholder="<?php _e('0.00', 'laterpay'); ?>"
-                <?php if ( $price_post_type !== 'individual price' ) { echo 'disabled="disabled"'; } ?>>
+                <?php if ( $post_price_type !== 'individual price' ) { echo 'disabled="disabled"'; } ?>>
         <span class="lp-currency"><?php echo $currency; ?></span>
     </p>
 </div>
 
-<div id="laterpay-price-type"<?php if ( $price_post_type == 'individual price, dynamic' || $price_post_type == 'category default price' ) { echo ' class="expanded"'; } ?>>
+<div id="laterpay-price-type"<?php if ( $post_price_type == 'individual price, dynamic' || $post_price_type == 'category default price' ) { echo ' class="expanded"'; } ?>>
     <ul class="lp-toggle clearfix">
-        <li class="<?php if ( substr($price_post_type, 0, 16) == 'individual price' || ($price_post_type == '' && !($global_default_price > 0)) ) { echo 'selected'; } ?>">
+        <li class="<?php if ( substr($post_price_type, 0, 16) == 'individual price' || ($post_price_type == '' && !($global_default_price > 0)) ) { echo 'selected'; } ?>">
             <a href="#" id="use-individual-price" class="use-individual-price"><?php _e('Individual Price', 'laterpay'); ?></a>
         </li>
-        <li class=" <?php if ( $price_post_type == 'category default price' ) { echo 'selected'; } ?>
+        <li class=" <?php if ( $post_price_type == 'category default price' ) { echo 'selected'; } ?>
                     <?php if ( !count($category_prices) ) { echo 'disabled'; } ?>">
             <a href="#" id="use-category-default-price" class="use-category-default-price"><?php _e('Category Default Price', 'laterpay'); ?></a>
         </li>
-        <li class=" <?php if ( $price_post_type == 'global default price' || ($price_post_type == '' && $global_default_price > 0) ) { echo 'selected'; } ?>
+        <li class=" <?php if ( $post_price_type == 'global default price' || ($post_price_type == '' && $global_default_price > 0) ) { echo 'selected'; } ?>
                     <?php if ( !($global_default_price > 0) ) { echo 'disabled'; } ?>">
             <a href="#" id="use-global-default-price" class="use-global-default-price" data-price="<?php echo LaterPayViewHelper::formatNumber($global_default_price, 2); ?>"><?php _e('Global Default<span></span> Price', 'laterpay'); ?></a>
         </li>
     </ul>
     <div id="laterpay-price-type-details">
-        <div id="laterpay-dynamic-pricing" class="use-individual-price details-section"<?php if ( $price_post_type !== 'individual price, dynamic' ) { echo ' style="display:none;"'; } ?>>
+        <div id="laterpay-dynamic-pricing" class="use-individual-price details-section"<?php if ( $post_price_type !== 'individual price, dynamic' ) { echo ' style="display:none;"'; } ?>>
             <input type="hidden" name="laterpay_start_price">
             <input type="hidden" name="laterpay_end_price">
             <input type="hidden" name="laterpay_change_start_price_after_days">
@@ -49,7 +49,7 @@
                 <a href="#" class="flat"><?php _e('Flat (default)', 'laterpay'); ?></a> -->
             </div>
         </div>
-        <div class="use-category-default-price details-section"<?php if ( $price_post_type !== 'category default price' ) { echo ' style="display:none;"'; } ?>>
+        <div class="use-category-default-price details-section"<?php if ( $post_price_type !== 'category default price' ) { echo ' style="display:none;"'; } ?>>
             <input type="hidden" name="laterpay_post_default_category" value="<?php echo $post_default_category?>">
             <ul>
                 <?php foreach($category_prices as $c): ?>
@@ -64,14 +64,14 @@
     </div>
 </div>
 
-<?php if ( $price_post_type == 'individual price, dynamic' ): ?>
+<?php if ( $post_price_type == 'individual price, dynamic' ): ?>
     <a href="#" id="use-dynamic-pricing" class="dynamic-pricing-applied">
         <?php _e('Remove dynamic pricing', 'laterpay'); ?>
     </a>
 <?php else: ?>
     <a  href="#"
         id="use-dynamic-pricing"
-        <?php if ( substr($price_post_type, 0, 16) !== 'individual price' ) { echo 'style="display:none;"'; } ?>>
+        <?php if ( substr($post_price_type, 0, 16) !== 'individual price' ) { echo 'style="display:none;"'; } ?>>
         <?php _e('Add dynamic pricing', 'laterpay'); ?>
     </a>
 <?php endif; ?>
