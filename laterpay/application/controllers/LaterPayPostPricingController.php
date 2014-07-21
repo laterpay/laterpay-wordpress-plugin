@@ -193,44 +193,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
 
             case 'individual price, dynamic':
                 // current price
-                // $price = ????
-
-                // dynamic pricing widget values
-                if ( get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true) == 0 ) {
-                    $dynamic_pricing_data = array(
-                        array(
-                            'x' => 0,
-                            'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-                        ),
-                        array(
-                            'x' => (float)get_post_meta($object->ID, 'laterpay_change_start_price_after_days', true),
-                            'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-                        ),
-                        array(
-                            'x' => (float)get_post_meta($object->ID, 'laterpay_reach_end_price_after_days', true),
-                            'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
-                        )
-                    );
-                } else {
-                    $dynamic_pricing_data = array(
-                        array(
-                            'x' => 0,
-                            'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-                        ),
-                        array(
-                            'x' => (float)get_post_meta($object->ID, 'laterpay_change_start_price_after_days', true),
-                            'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-                        ),
-                        array(
-                            'x' => (float)get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true),
-                            'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
-                        ),
-                        array(
-                            'x' => (float)get_post_meta($object->ID, 'laterpay_reach_end_price_after_days', true),
-                            'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
-                        )
-                    );
-                }
+                $price = LaterPayPostContentController::getAdvancedPrice($GLOBALS['post']);
                 break;
 
             case 'category default price':
@@ -243,53 +206,60 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
 
             default:
                 // new posts should use the global default price or 0, if there's no global default price
-                $price = is_null($global_default_price) ? 0.00 : $global_default_price;
+                if ( is_null($global_default_price) ) {
+                    $price =  0.00;
+                    $price_post_type = 'individual price';
+                } else {
+                    $price = $global_default_price;
+                    $price_post_type = 'global default price';
+                }
+
                 break;
         }
 
-        // // return dynamic pricing widget start values
-        // if ( !get_post_meta($object->ID, 'laterpay_start_price', true) ) {
-        //     $dynamic_pricing_data = array(
-        //         array( 'x' => 0,  'y' => 1.8 ),
-        //         array( 'x' => 13, 'y' => 1.8 ),
-        //         array( 'x' => 18, 'y' => 0.2 ),
-        //         array( 'x' => 30, 'y' => 0.2 )
-        //     );
-        // } elseif ( get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true) == 0 ) {
-        //     $dynamic_pricing_data = array(
-        //         array(
-        //             'x' => 0,
-        //             'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-        //         ),
-        //         array(
-        //             'x' => (float)get_post_meta($object->ID, 'laterpay_change_start_price_after_days', true),
-        //             'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-        //         ),
-        //         array(
-        //             'x' => (float)get_post_meta($object->ID, 'laterpay_reach_end_price_after_days', true),
-        //             'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
-        //         )
-        //     );
-        // } else {
-        //     $dynamic_pricing_data = array(
-        //         array(
-        //             'x' => 0,
-        //             'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-        //         ),
-        //         array(
-        //             'x' => (float)get_post_meta($object->ID, 'laterpay_change_start_price_after_days', true),
-        //             'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
-        //         ),
-        //         array(
-        //             'x' => (float)get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true),
-        //             'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
-        //         ),
-        //         array(
-        //             'x' => (float)get_post_meta($object->ID, 'laterpay_reach_end_price_after_days', true),
-        //             'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
-        //         )
-        //     );
-        // }
+        // return dynamic pricing widget start values
+        if ( !get_post_meta($object->ID, 'laterpay_start_price', true) ) {
+            $dynamic_pricing_data = array(
+                array( 'x' => 0,  'y' => 1.8 ),
+                array( 'x' => 13, 'y' => 1.8 ),
+                array( 'x' => 18, 'y' => 0.2 ),
+                array( 'x' => 30, 'y' => 0.2 )
+            );
+        } elseif ( get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true) == 0 ) {
+            $dynamic_pricing_data = array(
+                array(
+                    'x' => 0,
+                    'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
+                ),
+                array(
+                    'x' => (float)get_post_meta($object->ID, 'laterpay_change_start_price_after_days', true),
+                    'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
+                ),
+                array(
+                    'x' => (float)get_post_meta($object->ID, 'laterpay_reach_end_price_after_days', true),
+                    'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
+                )
+            );
+        } else {
+            $dynamic_pricing_data = array(
+                array(
+                    'x' => 0,
+                    'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
+                ),
+                array(
+                    'x' => (float)get_post_meta($object->ID, 'laterpay_change_start_price_after_days', true),
+                    'y' => (float)get_post_meta($object->ID, 'laterpay_start_price', true)
+                ),
+                array(
+                    'x' => (float)get_post_meta($object->ID, 'laterpay_transitional_period_end_after_days', true),
+                    'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
+                ),
+                array(
+                    'x' => (float)get_post_meta($object->ID, 'laterpay_reach_end_price_after_days', true),
+                    'y' => (float)get_post_meta($object->ID, 'laterpay_end_price', true)
+                )
+            );
+        }
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce(plugin_basename(__FILE__)) . '" />';
 

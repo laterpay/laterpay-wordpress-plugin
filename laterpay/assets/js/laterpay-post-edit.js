@@ -114,10 +114,10 @@ jQuery.noConflict();
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
                 } else {
-                    $o.priceInput.attr('disabled', 'disabled');
                     if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
                         disableDynamicPricing();
                     }
+                    $o.priceInput.attr('disabled', 'disabled');
                 }
             },
 

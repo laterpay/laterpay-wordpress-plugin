@@ -12,7 +12,8 @@
                 class="lp-input number"
                 name="post-price"
                 value="<?php echo LaterPayViewHelper::formatNumber($price, 2); ?>"
-                placeholder="<?php _e('0.00', 'laterpay'); ?>">
+                placeholder="<?php _e('0.00', 'laterpay'); ?>"
+                <?php if ( $price_post_type !== 'individual price' ) { echo 'disabled="disabled"'; } ?>>
         <span class="lp-currency"><?php echo $currency; ?></span>
     </p>
 </div>
@@ -64,7 +65,13 @@
 </div>
 
 <?php if ( $price_post_type == 'individual price, dynamic' ): ?>
-    <a href="#" id="use-dynamic-pricing" class="dynamic-pricing-applied"><?php _e('Remove dynamic pricing', 'laterpay'); ?></a>
+    <a href="#" id="use-dynamic-pricing" class="dynamic-pricing-applied">
+        <?php _e('Remove dynamic pricing', 'laterpay'); ?>
+    </a>
 <?php else: ?>
-    <a href="#" id="use-dynamic-pricing" class=""><?php _e('Add dynamic pricing', 'laterpay'); ?></a>
+    <a  href="#"
+        id="use-dynamic-pricing"
+        <?php if ( substr($price_post_type, 0, 16) !== 'individual price' ) { echo 'style="display:none;"'; } ?>>
+        <?php _e('Add dynamic pricing', 'laterpay'); ?>
+    </a>
 <?php endif; ?>

@@ -211,6 +211,8 @@ class LaterPayPostContentController extends LaterPayAbstractController {
      * @return float
      */
     public static function getPostPrice( $post_id ) {
+        $global_default_price = get_option('laterpay_global_price');
+
         $price_post_type = get_post_meta($post_id, 'Pricing Post Type', true);
         switch ($price_post_type) {
             // backwards compatibility: Pricing Post Type used to be stored as 0 or 1; TODO: remove with release 1.0
@@ -231,11 +233,17 @@ class LaterPayPostContentController extends LaterPayAbstractController {
                 break;
 
             case 'global default price':
-                $price = get_option('laterpay_global_price');
+                $price = $global_default_price;
                 break;
 
             default:
-                $price = 0;
+                if ( $global_default_price > 0 ) {
+                    $price = $global_default_price;
+                    // there's no post price type present, so we add it
+                    add_post_meta($post_id, 'Pricing Post Type', 'global default price', true);
+                } else {
+                    $price = 0;
+                }
                 break;
         }
 
