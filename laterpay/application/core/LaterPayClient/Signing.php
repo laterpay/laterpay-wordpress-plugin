@@ -3,12 +3,20 @@
 class LaterPayClient_Signing {
     protected static $hashAlgo = 'sha224';
 
-    protected static function timeIndependentHmacCompare( $a, $b ) {
-        if ( strlen($a) != strlen($b) ) {
-            return false;
+    protected static function timeIndependentHmacCompare($known_str, $given_str) {
+        if (strlen($known_str) == 0) {
+            throw new InvalidArgumentException("This function cannot safely compare against an empty given string");
         }
 
-        return $a == $b;
+        $res = strlen($given_str) ^ strlen($known_str);
+        $given_len = strlen($given_str);
+        $known_len = strlen($known_str);
+
+        for ($i = 0; $i < $given_len; ++$i) {
+            $res |= ord($known_str[$i % $known_len]) ^ ord($given_str[$i]);
+        }
+
+        return $res === 0;
     }
 
     protected static function createHmac( $secret, $parts ) {
