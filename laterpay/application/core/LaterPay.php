@@ -216,12 +216,12 @@ class LaterPay {
         $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
 
         $sql = "
-                CREATE TABLE $table_currency (
-                    id            INT(10)         NOT NULL AUTO_INCREMENT,
-                    short_name    VARCHAR(3)      NOT NULL,
-                    full_name     VARCHAR(64)     NOT NULL,
-                    PRIMARY KEY  (id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            CREATE TABLE $table_currency (
+                id            INT(10)         NOT NULL AUTO_INCREMENT,
+                short_name    VARCHAR(3)      NOT NULL,
+                full_name     VARCHAR(64)     NOT NULL,
+                PRIMARY KEY  (id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta($sql);
 
         $sql = "
