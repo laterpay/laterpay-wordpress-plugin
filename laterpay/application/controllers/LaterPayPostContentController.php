@@ -258,6 +258,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
     public static function buyPost() {
         if ( 'index.php' == $GLOBALS['pagenow'] ) {
             if ( isset($_GET['buy']) && $_GET['buy'] ) {
+                $data = array();
                 $data['post_id']        = $_GET['post_id'];
                 $data['id_currency']    = $_GET['id_currency'];
                 $data['price']          = $_GET['price'];
@@ -471,11 +472,11 @@ class LaterPayPostContentController extends LaterPayAbstractController {
     }
 
     /**
-     * get the LaterPay link for the post
+     * Get the LaterPay link for the post
      *
-     * @param object $title title
+     * @param int $post_id
      *
-     * @return object
+     * @return string
      */
     public static function getLPLink( $post_id ) {
         $currency = get_option('laterpay_currency');

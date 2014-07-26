@@ -96,10 +96,10 @@ class LaterPayViewHelper {
     /**
      * Get number based on locale format
      *
-     * @param number  $number
-     * @param int     $decimals
+     * @param double $number
+     * @param int    $decimals
      *
-     * @return number
+     * @return string
      */
     public static function formatNumber( $number, $decimals = 2 ) {
         global $wp_locale;

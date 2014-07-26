@@ -5,7 +5,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
     const POST_PRICE_BOX_POINTER        = 'lpwpp02';
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
 
-    public function __call($name, $arguments) {
+    public function __call($name) {
         if ( substr($name, 0, 4) == 'run_') {
             return $this->run( strtolower(substr($name, 4)) );
         } elseif ( substr($name, 0, 5) == 'help_') {

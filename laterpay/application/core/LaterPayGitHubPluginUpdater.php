@@ -228,10 +228,6 @@ class LaterPayGitHubPluginUpdater {
     /**
      * Perform additional actions to successfully install our plugin
      *
-     * @param bool   $true
-     * @param string $hook_extra
-     * @param array  $result
-     *
      * @return array
      */
     public function preInstall( $return, $plugin ) {

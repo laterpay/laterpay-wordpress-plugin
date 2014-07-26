@@ -3,6 +3,9 @@
 abstract class LaterPayLogger_Abstract {
     protected $level = LaterPayLogger::DEBUG;
 
+    /**
+    * @param integer $level
+    */
     public function __construct( $level = LaterPayLogger::DEBUG ) {
         $this->level = $level;
     }

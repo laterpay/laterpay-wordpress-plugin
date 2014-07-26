@@ -76,6 +76,8 @@ class LaterPay {
     }
 
     public function run() {
+        $this->setupRequirementsChecking();
+
         $this->setupPluginTranslations();
         $this->setupAdminPanel();
         $this->setupAdminRoutes();
@@ -97,7 +99,6 @@ class LaterPay {
         }
 
         $this->setupRegistration();
-        $this->setupRequirementsChecking();
         $this->setupCheckingForUpdate();
 
         if ( is_admin() ) {
@@ -565,7 +566,8 @@ class LaterPay {
      * Add custom columns to posts table
      */
     public function addColumnsToPostsTable( $columns ) {
-        $insert_after = 'title';
+        $extended_columns   = array();
+        $insert_after       = 'title';
 
         foreach ( $columns as $key => $val ) {
             $extended_columns[$key] = $val;

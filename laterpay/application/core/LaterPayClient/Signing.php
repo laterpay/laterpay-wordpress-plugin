@@ -3,6 +3,9 @@
 class LaterPayClient_Signing {
     protected static $hashAlgo = 'sha224';
 
+    /**
+    * @param string $given_str
+    */
     protected static function timeIndependentHmacCompare($known_str, $given_str) {
         if (strlen($known_str) == 0) {
             throw new InvalidArgumentException("This function cannot safely compare against an empty given string");
@@ -19,6 +22,10 @@ class LaterPayClient_Signing {
         return $res === 0;
     }
 
+    /**
+    * @param string $secret
+    * @param string $parts
+    */
     protected static function createHmac( $secret, $parts ) {
         if ( is_array($parts) ) {
             $data = join('', $parts);

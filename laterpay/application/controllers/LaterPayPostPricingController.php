@@ -160,7 +160,10 @@ class LaterPayPostPricingController extends LaterPayAbstractController {
         }
 
         // category default price data
-        $categories_of_post = wp_get_post_categories($object->ID);
+        $category_price_data    = null;
+        $post_default_category  = null;
+        $category_default_price = null;
+        $categories_of_post     = wp_get_post_categories($object->ID);
         if ( !empty($categories_of_post) ) {
             $LaterPayModelCategory  = new LaterPayModelCategory();
             $category_price_data    = $LaterPayModelCategory->getCategoryPriceDataByCategoryIds($categories_of_post);

@@ -5,6 +5,9 @@ class LaterPayFileHelper {
     const URL_REGEX_PATTERN     = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
     const SCRIPT_PATH           = 'laterpay/scripts/lp-get.php';
 
+    /**
+    * @param null|string $file
+    */
     public static function getFileMimeType( $file ) {
         $type = '';
         if ( function_exists('finfo_file') ) {

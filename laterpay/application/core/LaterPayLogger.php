@@ -85,6 +85,10 @@ class LaterPayLogger {
         return self::log(self::ERROR, $message, $context);
     }
 
+    /**
+    * @param integer $level
+    * @param string  $message
+    */
     public static function log( $level, $message, array $context = array() ) {
         if ( !self::$_uniqid ) {
             self::$_uniqid = uniqid(getmypid() . '_');

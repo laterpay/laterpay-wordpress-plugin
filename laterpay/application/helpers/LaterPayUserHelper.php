@@ -4,6 +4,9 @@ class LaterPayUserHelper {
     protected static $_preview_post_as_visitor = null;
     protected static $_hide_statistics_pane = null;
 
+    /**
+    * @param string $capability
+    */
     public static function can($capability, $post = null, $strict = true) {
         $allowed = false;
         $post = get_post($post);

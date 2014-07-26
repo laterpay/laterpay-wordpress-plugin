@@ -53,6 +53,11 @@ class LaterPayClient {
         return $this->lptoken;
     }
 
+    /**
+     * Get API key
+     *
+     * @return string|null
+     */
     public function getApiKey() {
         return $this->api_key;
     }
@@ -165,11 +170,7 @@ class LaterPayClient {
      * @param boolean $show_login
      * @param boolean $show_signup
      * @param boolean $show_long_signup
-     * @param boolean $show_balance
-     * @param boolean $show_long_balance
      * @param boolean $use_jsevents
-     * @param boolean $skip_add_to_invoice
-     * @param string  $transaction_reference
      *
      * @return string URL
      */
@@ -221,6 +222,7 @@ class LaterPayClient {
      *
      * @param string|null $forcelang
      * @deprecated since version 0.9.5
+     *
      * @return string url
      */
     public function getIframeApiBalanceUrl( $forcelang = null ) {
@@ -241,6 +243,7 @@ class LaterPayClient {
      *
      * @param string|null $forcelang
      * @deprecated since version 0.9.5
+     *
      * @return string url
      */
     public function getControlsBalanceUrl( $forcelang = null ) {
@@ -293,6 +296,9 @@ class LaterPayClient {
         return $this->getDialogApiUrl($url);
     }
 
+    /**
+    * @param string $page_type
+    */
     protected function getWebUrl( $data, $page_type, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
         if ( $use_jsevents ) {
             $data['jsevents'] = 1;
