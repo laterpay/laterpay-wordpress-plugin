@@ -13,8 +13,8 @@ class LaterPayAdminController extends LaterPayAbstractController {
         }
     }
 
-    public function loadAssets() {
-        parent::loadAssets();
+    public function load_assets() {
+        parent::load_assets();
         global $laterpay_version;
 
         // load LaterPay-specific CSS
@@ -55,7 +55,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      * Constructor for class LaterPayController, processes the output pages
      */
     public function run( $tab = '' ) {
-        $this->loadAssets();
+        $this->load_assets();
 
         if ( (isset($_GET['tab'])) ) {
             $tab = $_GET['tab'];
@@ -87,7 +87,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
             // render get started tab
             case 'get_started':
                 $LaterPayGetStartedController = new LaterPayGetStartedController();
-                $LaterPayGetStartedController->page();
+                $LaterPayGetStartedController->render_page();
                 break;
 
             default:
@@ -95,19 +95,19 @@ class LaterPayAdminController extends LaterPayAbstractController {
             // render pricing tab
             case 'pricing':
                 $LaterPayPricingController = new LaterPayPricingController();
-                $LaterPayPricingController->page();
+                $LaterPayPricingController->render_page();
                 break;
 
             // render appearance tab
             case 'appearance':
                 $LaterPayAppearanceController = new LaterPayAppearanceController();
-                $LaterPayAppearanceController->page();
+                $LaterPayAppearanceController->render_page();
                 break;
 
             // render account tab
             case 'account':
                 $LaterPayAccountController = new LaterPayAccountController();
-                $LaterPayAccountController->page();
+                $LaterPayAccountController->render_page();
                 break;
             }
     }
@@ -119,22 +119,22 @@ class LaterPayAdminController extends LaterPayAbstractController {
         switch ( $tab ) {
             case 'wp_edit_post':
             case 'wp_add_post':
-                $this->_renderAddEditPostPageHelp();
+                $this->_render_add_edit_post_page_help();
                 break;
 
             case 'get_started':
                 break;
 
             case 'pricing':
-                $this->_renderPricingTabHelp();
+                $this->_render_pricing_tab_help();
                 break;
 
             case 'appearance':
-                $this->_renderAppearanceTabHelp();
+                $this->_render_appearance_tab_help();
                 break;
 
             case 'account':
-                $this->_renderAccountTabHelp();
+                $this->_render_account_tab_help();
                 break;
 
             default:
@@ -147,7 +147,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      *
      * @return null
      */
-    protected function _renderAddEditPostPageHelp() {
+    protected function _render_add_edit_post_page_help() {
         $screen = get_current_screen();
         $screen->add_help_tab(array(
             'id'      => 'laterpay_add_edit_post_page_help',
@@ -186,7 +186,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      *
      * @return null
      */
-    protected function _renderPricingTabHelp() {
+    protected function _render_pricing_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab(array(
             'id'      => 'laterpay_pricing_tab_help_global_default_price',
@@ -238,7 +238,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      *
      * @return null
      */
-    protected function _renderAppearanceTabHelp() {
+    protected function _render_appearance_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab(array(
             'id'      => 'laterpay_appearance_tab_help_preview_mode',
@@ -278,7 +278,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      *
      * @return null
      */
-    protected function _renderAccountTabHelp() {
+    protected function _render_account_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab(array(
             'id'      => 'laterpay_account_tab_help_api_credentials',
@@ -356,8 +356,8 @@ class LaterPayAdminController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public function modifyFooter() {
-        $dismissed_pointers = explode(',', (string)get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
+    public function modify_footer() {
+        $dismissed_pointers = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
         $pointers = array();
         // add pointer to LaterPay plugin in admin menu
         if ( get_option('laterpay_plugin_is_activated') == '0' && !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
@@ -373,7 +373,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
 
         $this->assign('pointers', $pointers);
 
-        echo $this->getTextView('partials/adminFooter');
+        echo $this->get_text_view('partials/adminFooter');
     }
 
     /**
@@ -381,7 +381,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public static function pageAjax() {
+    public static function process_ajax_requests() {
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
             if ( !LaterPayUserHelper::can('laterpay_read_post_statistics', null, false) ) {

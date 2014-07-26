@@ -176,7 +176,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
     protected function _buildTree()
     {
         $returnTree = array();
-        foreach ((array) $this->_return as $value) {
+        foreach ((array)  $this->_return as $value) {
             $node = new Zend_Server_Reflection_Node($value);
             $this->_addTree($node);
             $returnTree[] = $node;

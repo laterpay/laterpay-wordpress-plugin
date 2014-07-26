@@ -109,7 +109,7 @@ class LaterPayModelCategory {
      *
      * @return array categories
      */
-    public function getCategoriesNoPriceByTerm( $term, $limit, $excluding_id = 0 ) {
+    public function get_categories_without_price_by_term( $term, $limit, $excluding_id = 0 ) {
         global $wpdb;
 
         if ( $excluding_id == '' ) {
@@ -143,7 +143,7 @@ class LaterPayModelCategory {
         ";
         $categories = $wpdb->get_results($sql);
 
-        return (array)$categories;
+        return (array) $categories;
     }
 
     /**
@@ -176,7 +176,7 @@ class LaterPayModelCategory {
         ";
         $categories = $wpdb->get_results($sql);
 
-        return (array)$categories;
+        return (array) $categories;
     }
 
     /**

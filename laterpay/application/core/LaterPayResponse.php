@@ -19,7 +19,7 @@ class LaterPayResponse extends LaterPayEntity {
      * @return string
      */
     protected function _normalizeHeader( $name ) {
-        $filtered = str_replace(array('-', '_'), ' ', (string)$name);
+        $filtered = str_replace(array('-', '_'), ' ', (string) $name);
         $filtered = ucwords(strtolower($filtered));
         $filtered = str_replace(' ', '-', $filtered);
 
@@ -40,7 +40,7 @@ class LaterPayResponse extends LaterPayEntity {
      */
     public function setHeader( $name, $value, $replace = false ) {
         $name       = $this->_normalizeHeader($name);
-        $value      = (string)$value;
+        $value      = (string) $value;
         $headers    = $this->getDataSetDefault('headers', array());
 
         if ( $replace ) {

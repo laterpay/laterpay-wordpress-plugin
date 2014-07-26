@@ -53,7 +53,7 @@ class LaterPayLogger_Handler_Stream extends LaterPayLogger_Abstract
                 throw new UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: ' . self::$errorMessage, $this->url));
             }
         }
-        fwrite($this->stream, (string)$record['formatted']);
+        fwrite($this->stream, (string) $record['formatted']);
 
         return true;
     }

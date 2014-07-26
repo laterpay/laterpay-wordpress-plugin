@@ -99,7 +99,7 @@ class Zend_Server_Method_Definition
      */
     public function setName($name)
     {
-        $this->_name = (string) $name;
+        $this->_name = (string)  $name;
         return $this;
     }
 
@@ -206,7 +206,7 @@ class Zend_Server_Method_Definition
      */
     public function setMethodHelp($methodHelp)
     {
-        $this->_methodHelp = (string) $methodHelp;
+        $this->_methodHelp = (string)  $methodHelp;
         return $this;
     }
 

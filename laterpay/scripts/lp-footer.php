@@ -30,7 +30,7 @@ if ( LaterPayRequestHelper::isAjax() && !empty($post_id) ) {
     $controller = new LaterPayPostContentController();
 
     ob_start();
-    $controller->modifyFooter();
+    $controller->modify_footer();
     $html = ob_get_contents();
     ob_end_clean();
 

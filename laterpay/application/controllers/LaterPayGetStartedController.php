@@ -2,8 +2,8 @@
 
 class LaterPayGetStartedController extends LaterPayAbstractController {
 
-    public function loadAssets() {
-        parent::loadAssets();
+    public function load_assets() {
+        parent::load_assets();
         global $laterpay_version;
 
         // load page-specific JS
@@ -34,14 +34,14 @@ class LaterPayGetStartedController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public function page() {
-        $this->loadAssets();
+    public function render_page() {
+        $this->load_assets();
 
         $Currencies = new LaterPayModelCurrency();
 
-        $this->assign('global_default_price',   LaterPayViewHelper::formatNumber((float)LATERPAY_GLOBAL_PRICE_DEFAULT, 2));
+        $this->assign('global_default_price',   LaterPayViewHelper::formatNumber((float) LATERPAY_GLOBAL_PRICE_DEFAULT, 2));
         $this->assign('Currencies',             $Currencies);
-        $this->assign('top_nav',                $this->getMenu());
+        $this->assign('top_nav',                $this->get_menu());
 
         $this->render('pluginBackendGetStartedTab');
     }
@@ -51,7 +51,7 @@ class LaterPayGetStartedController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public static function pageAjax() {
+    public static function process_ajax_requests() {
         if ( isset($_POST['get_started']) ) {
             // check for required privileges to perform action
             if ( !LaterPayUserHelper::can('laterpay_edit_plugin_settings') ) {
@@ -72,7 +72,7 @@ class LaterPayGetStartedController extends LaterPayAbstractController {
 
             // automatically dismiss pointer to LaterPay plugin after saving the initial settings
             $current_user_id    = get_current_user_id();
-            $dismissed_pointers = explode(',', (string)get_user_meta($current_user_id, 'dismissed_wp_pointers', true));
+            $dismissed_pointers = explode(',', (string) get_user_meta($current_user_id, 'dismissed_wp_pointers', true));
 
             if ( !in_array(LaterPayAdminController::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
                 update_user_meta($current_user_id, 'dismissed_wp_pointers', LaterPayAdminController::ADMIN_MENU_POINTER);

@@ -95,7 +95,7 @@ class LaterPayLogger {
         }
         $date = new DateTime();
         $record = array(
-            'message'       => (string)$message,
+            'message'       => (string) $message,
             'pid'           => self::$_uniqid,
             'context'       => $context,
             'level'         => $level,

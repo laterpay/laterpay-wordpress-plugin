@@ -207,7 +207,7 @@ class Zend_Json_Server_Smd
      */
     public function setTarget($target)
     {
-        $this->_target = (string) $target;
+        $this->_target = (string)  $target;
         return $this;
     }
 
@@ -229,7 +229,7 @@ class Zend_Json_Server_Smd
      */
     public function setId($id)
     {
-        $this->_id = (string) $id;
+        $this->_id = (string)  $id;
         return $this->_id;
     }
 
@@ -251,7 +251,7 @@ class Zend_Json_Server_Smd
      */
     public function setDescription($description)
     {
-        $this->_description = (string) $description;
+        $this->_description = (string)  $description;
         return $this->_description;
     }
 

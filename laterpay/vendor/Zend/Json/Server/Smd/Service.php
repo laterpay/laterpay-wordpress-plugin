@@ -165,7 +165,7 @@ class Zend_Json_Server_Smd_Service
      */
     public function setName($name)
     {
-        $name = (string) $name;
+        $name = (string)  $name;
         if (!preg_match($this->_nameRegex, $name)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception(sprintf('Invalid name "%s" provided for service; must follow PHP method naming conventions', $name));
@@ -221,7 +221,7 @@ class Zend_Json_Server_Smd_Service
      */
     public function setTarget($target)
     {
-        $this->_target = (string) $target;
+        $this->_target = (string)  $target;
         return $this;
     }
 

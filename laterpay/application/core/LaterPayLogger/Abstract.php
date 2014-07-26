@@ -58,7 +58,7 @@ abstract class LaterPayLogger_Abstract {
 
     protected function convertToString( $data ) {
         if ( null === $data || is_scalar($data) ) {
-            return (string)$data;
+            return (string) $data;
         }
 
         if ( version_compare(PHP_VERSION, '5.4.0', '>=') && defined('JSON_UNESCAPED_SLASHES') && defined('JSON_UNESCAPED_UNICODE') ) {

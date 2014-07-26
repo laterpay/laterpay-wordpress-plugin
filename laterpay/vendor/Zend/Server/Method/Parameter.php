@@ -116,7 +116,7 @@ class Zend_Server_Method_Parameter
      */
     public function setDescription($description)
     {
-        $this->_description = (string) $description;
+        $this->_description = (string)  $description;
         return $this;
     }
 
@@ -138,7 +138,7 @@ class Zend_Server_Method_Parameter
      */
     public function setName($name)
     {
-        $this->_name = (string) $name;
+        $this->_name = (string)  $name;
         return $this;
     }
 
@@ -182,7 +182,7 @@ class Zend_Server_Method_Parameter
      */
     public function setType($type)
     {
-        $this->_type = (string) $type;
+        $this->_type = (string)  $type;
         return $this;
     }
 

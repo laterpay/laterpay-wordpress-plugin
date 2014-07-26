@@ -469,7 +469,7 @@ class Parsedown {
                 'element' => array(
                     'name' => 'blockquote',
                     'handler' => 'lines',
-                    'text' => (array) $matches[1],
+                    'text' => (array)  $matches[1],
                 ),
             );
 

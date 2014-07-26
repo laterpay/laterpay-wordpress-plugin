@@ -71,7 +71,7 @@ class Zend_Json
      */
     public static function decode($encodedValue, $objectDecodeType = Zend_Json::TYPE_ARRAY)
     {
-        $encodedValue = (string) $encodedValue;
+        $encodedValue = (string)  $encodedValue;
         if (function_exists('json_decode') && self::$useBuiltinEncoderDecoder !== true) {
             $decode = json_decode($encodedValue, $objectDecodeType);
 
@@ -271,7 +271,7 @@ class Zend_Json
         $children = $simpleXmlElementObject->children();
         $name = $simpleXmlElementObject->getName();
         $value = self::_getXmlValue($simpleXmlElementObject);
-        $attributes = (array) $simpleXmlElementObject->attributes();
+        $attributes = (array)  $simpleXmlElementObject->attributes();
 
         if (count($children) == 0) {
             if (!empty($attributes) && !$ignoreXmlAttributes) {
@@ -280,7 +280,7 @@ class Zend_Json
                 }
                 if (!empty($value)) {
                     $attributes['@text'] = $value;
-                } 
+                }
                 return array($name => $attributes);
             } else {
                return array($name => $value);
@@ -361,7 +361,7 @@ class Zend_Json
         return($jsonStringOutput);
     }
 
-    
+
 
     /**
      * Pretty-print JSON string
@@ -426,9 +426,9 @@ class Zend_Json
             } else {
                 if ( $inLiteral ) { $aux = ''; } else { $aux = $prefix; }
                 $result .= ( $aux ) . $token;
-                
+
                 // Count # of unescaped double-quotes in token, subtract # of
-                // escaped double-quotes and if the result is odd then we are 
+                // escaped double-quotes and if the result is odd then we are
                 // inside a string literal
                 if ((substr_count($token, "\"")-substr_count($token, "\\\"")) % 2 != 0) {
                     $inLiteral = !$inLiteral;

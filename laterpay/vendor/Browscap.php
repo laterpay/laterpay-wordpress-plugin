@@ -1040,7 +1040,7 @@ class Browscap
         foreach ($array as $key => $value) {
             if (is_int($key)) {
                 $key = '';
-            } elseif (ctype_digit((string) $key) || '.0' === substr($key, -2)) {
+            } elseif (ctype_digit((string)  $key) || '.0' === substr($key, -2)) {
                 $key = intval($key) . '=>';
             } else {
                 $key = "'" . str_replace("'", "\'", $key) . "'=>";
@@ -1048,7 +1048,7 @@ class Browscap
 
             if (is_array($value)) {
                 $value = "'" . addcslashes(serialize($value), "'") . "'";
-            } elseif (ctype_digit((string) $value)) {
+            } elseif (ctype_digit((string)  $value)) {
                 $value = intval($value);
             } else {
                 $value = "'" . str_replace("'", "\'", $value) . "'";

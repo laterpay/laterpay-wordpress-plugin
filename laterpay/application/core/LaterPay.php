@@ -357,22 +357,22 @@ class LaterPay {
      */
     protected function setupAdminRoutes() {
         if ( class_exists('LaterPayGetStartedController') ) {
-            add_action('wp_ajax_getstarted',    'LaterPayGetStartedController::pageAjax');
+            add_action('wp_ajax_getstarted',    'LaterPayGetStartedController::process_ajax_requests');
         }
         if ( class_exists('LaterPayPricingController') ) {
-            add_action('wp_ajax_pricing',       'LaterPayPricingController::pageAjax');
+            add_action('wp_ajax_pricing',       'LaterPayPricingController::process_ajax_requests');
         }
         if ( class_exists('LaterPayAppearanceController') ) {
-            add_action('wp_ajax_appearance',    'LaterPayAppearanceController::pageAjax');
+            add_action('wp_ajax_appearance',    'LaterPayAppearanceController::process_ajax_requests');
         }
         if ( class_exists('LaterPayAccountController') ) {
-            add_action('wp_ajax_account',       'LaterPayAccountController::pageAjax');
+            add_action('wp_ajax_account',       'LaterPayAccountController::process_ajax_requests');
         }
         if ( class_exists('LaterPayAdminController') ) {
-            add_action('wp_ajax_admin',         'LaterPayAdminController::pageAjax');
+            add_action('wp_ajax_admin',         'LaterPayAdminController::process_ajax_requests');
         }
         if ( class_exists('LaterPayPostPricingController') ) {
-            add_action('wp_ajax_post_pricing',         'LaterPayPostPricingController::pageAjax');
+            add_action('wp_ajax_post_pricing',         'LaterPayPostPricingController::process_ajax_requests');
         }
     }
 
@@ -554,7 +554,7 @@ class LaterPay {
         );
 
         if ( $page == 'post.php' || $page == 'post-new.php' ) {
-            $this->getLaterPayPostPricingController()->loadAssets();
+            $this->getLaterPayPostPricingController()->load_assets();
         }
     }
 
@@ -582,7 +582,7 @@ class LaterPay {
 
     public function addDataToPostsTable( $column_name, $post_id ) {
         if ( $column_name == 'post_price' ) {
-            $price      = number_format((float)LaterPayPostContentController::getPostPrice($post_id), 2);
+            $price      = number_format((float) LaterPayPostContentController::getPostPrice($post_id), 2);
             $currency   = get_option('laterpay_currency');
 
             if ( $price > 0 ) {
@@ -612,7 +612,7 @@ class LaterPay {
      * Hint at the newly installed plugin using WP pointers
      */
     public function addAdminPointersScript() {
-        add_action('admin_print_footer_scripts', array($this->getLaterPayAdminController(), 'modifyFooter'));
+        add_action('admin_print_footer_scripts', array($this->getLaterPayAdminController(), 'modify_footer'));
         wp_enqueue_script('wp-pointer');
         wp_enqueue_style('wp-pointer');
     }
@@ -648,9 +648,9 @@ class LaterPay {
     protected function setupPostContentFilter() {
         add_filter('the_title',                array($this->getLaterPayPostContentController(), 'modifyPostTitle'));
         add_filter('the_content',              array($this->getLaterPayPostContentController(), 'view'));
-        add_filter('wp_footer',                array($this->getLaterPayPostContentController(), 'modifyFooter'));
-        add_action('save_post',                array($this->getLaterPayPostContentController(), 'initTeaserContent'), 10, 2);
-        add_action('edit_form_after_editor',   array($this->getLaterPayPostContentController(), 'initTeaserContent'), 10, 2);
+        add_filter('wp_footer',                array($this->getLaterPayPostContentController(), 'modify_footer'));
+        add_action('save_post',                array($this->getLaterPayPostContentController(), 'init_teaser_content'), 10, 2);
+        add_action('edit_form_after_editor',   array($this->getLaterPayPostContentController(), 'init_teaser_content'), 10, 2);
     }
 
     /**

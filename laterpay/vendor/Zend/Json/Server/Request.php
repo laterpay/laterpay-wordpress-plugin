@@ -199,7 +199,7 @@ class Zend_Json_Server_Request
      */
     public function setId($name)
     {
-        $this->_id = (string) $name;
+        $this->_id = (string)  $name;
         return $this;
     }
 

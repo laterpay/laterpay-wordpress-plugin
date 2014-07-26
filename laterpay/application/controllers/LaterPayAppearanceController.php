@@ -2,8 +2,8 @@
 
 class LaterPayAppearanceController extends LaterPayAbstractController {
 
-    public function loadAssets() {
-        parent::loadAssets();
+    public function load_assets() {
+        parent::load_assets();
         global $laterpay_version;
 
         // load page-specific JS
@@ -30,12 +30,12 @@ class LaterPayAppearanceController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public function page() {
-        $this->loadAssets();
+    public function render_page() {
+        $this->load_assets();
 
         $this->assign('plugin_is_in_live_mode',     get_option('laterpay_plugin_is_in_live_mode') == 1);
         $this->assign('show_teaser_content_only',   get_option('laterpay_teaser_content_only') == 1);
-        $this->assign('top_nav',                    $this->getMenu());
+        $this->assign('top_nav',                    $this->get_menu());
 
         $this->render('pluginBackendAppearanceTab');
     }
@@ -45,7 +45,7 @@ class LaterPayAppearanceController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public static function pageAjax() {
+    public static function process_ajax_requests() {
         if ( isset( $_POST['form'] ) ) {
             // check for required privileges to perform action
             if ( !LaterPayUserHelper::can('laterpay_edit_plugin_settings') ) {

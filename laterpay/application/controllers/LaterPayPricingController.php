@@ -1,8 +1,8 @@
 <?php
 
 class LaterPayPricingController extends LaterPayAbstractController {
-    public function loadAssets() {
-        parent::loadAssets();
+    public function load_assets() {
+        parent::load_assets();
         global $laterpay_version;
 
         // load page-specific CSS
@@ -45,8 +45,8 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public function page() {
-        $this->loadAssets();
+    public function render_page() {
+        $this->load_assets();
 
         $Currency = new LaterPayModelCurrency();
         $LaterPayModelCategory = new LaterPayModelCategory();
@@ -57,8 +57,8 @@ class LaterPayPricingController extends LaterPayAbstractController {
         $this->assign('Currencies',             $Currencies);
         $this->assign('currency',               get_option('laterpay_currency'));
         $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
-        $this->assign('global_default_price',   LaterPayViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2));
-        $this->assign('top_nav',                $this->getMenu());
+        $this->assign('global_default_price',   LaterPayViewHelper::formatNumber((float) get_option('laterpay_global_price'), 2));
+        $this->assign('top_nav',                $this->get_menu());
 
         $this->render('pluginBackendPricingTab');
     }
@@ -68,7 +68,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public static function pageAjax() {
+    public static function process_ajax_requests() {
         // save changes in submitted form
         if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
@@ -88,19 +88,19 @@ class LaterPayPricingController extends LaterPayAbstractController {
 
             switch ( $_POST['form'] ) {
                 case 'currency_form':
-                    self::_updateCurrency();
+                    self::_update_currency();
                     break;
 
                 case 'global_price_form':
-                    self::_updateGlobalDefaultPrice();
+                    self::_update_global_default_price();
                     break;
 
                 case 'price_category_form':
-                    self::_updateCategoryDefaultPrice();
+                    self::_update_category_default_price();
                     break;
 
                 case 'price_category_form_delete':
-                    self::_deleteCategoryDefaultPrice();
+                    self::_delete_category_default_price();
                     break;
 
                 default:
@@ -124,11 +124,11 @@ class LaterPayPricingController extends LaterPayAbstractController {
             } else {
                 if (isset($_GET['category'])) {
                     echo Zend_Json::encode(
-                        $LaterPayModelCategory->getCategoriesNoPriceByTerm($_GET['term'], 10, (int)$_GET['category'])
+                        $LaterPayModelCategory->get_categories_without_price_by_term($_GET['term'], 10, (int) $_GET['category'])
                     );
                 } else {
                     echo Zend_Json::encode(
-                        $LaterPayModelCategory->getCategoriesNoPriceByTerm($_GET['term'], 10)
+                        $LaterPayModelCategory->get_categories_without_price_by_term($_GET['term'], 10)
                     );
                 }
             }
@@ -149,7 +149,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateCurrency() {
+    protected static function _update_currency() {
         update_option('laterpay_currency', $_POST['laterpay_currency']);
 
         echo Zend_Json::encode(
@@ -170,8 +170,8 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateGlobalDefaultPrice() {
-        $delocalized_global_price = (float)str_replace(',', '.', $_POST['laterpay_global_price']);
+    protected static function _update_global_default_price() {
+        $delocalized_global_price = (float) str_replace(',', '.', $_POST['laterpay_global_price']);
 
         if ($delocalized_global_price > 5 || $delocalized_global_price < 0) {
             echo Zend_Json::encode(
@@ -185,7 +185,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
         }
 
         update_option('laterpay_global_price', $delocalized_global_price);
-        $global_price       = LaterPayViewHelper::formatNumber((float)get_option('laterpay_global_price'), 2);
+        $global_price       = LaterPayViewHelper::formatNumber((float) get_option('laterpay_global_price'), 2);
         $Currency           = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
 
@@ -208,9 +208,9 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateCategoryDefaultPrice() {
+    protected static function _update_category_default_price() {
+        $delocalized_category_price = (float) str_replace(',', '.', $_POST['price']);
 
-        $delocalized_category_price = (float)str_replace(',', '.', $_POST['price']);
         if ( $delocalized_category_price > 5 || $delocalized_category_price < 0 ) {
             echo Zend_Json::encode(
                 array(
@@ -222,10 +222,10 @@ class LaterPayPricingController extends LaterPayAbstractController {
         }
 
         if ( !empty($_POST['category_id']) ) {
-            self::_updateExistingCategoryDefaultPrice();
+            self::_update_existing_category_default_price();
             die;
         } else {
-            self::_setNewCategoryDefaultPrice();
+            self::_set_new_category_default_price();
             die;
         }
     }
@@ -235,14 +235,14 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateExistingCategoryDefaultPrice() {
+    protected static function _update_existing_category_default_price() {
         $LaterPayModelCategory = new LaterPayModelCategory();
         $id_category = $LaterPayModelCategory->getCategoryIdByName($_POST['category']);
         $id = $LaterPayModelCategory->getPriceIdsByCategoryId($id_category);
 
         $Currency = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
-        $delocalized_category_price = (float)str_replace(',', '.', $_POST['price']);
+        $delocalized_category_price = (float) str_replace(',', '.', $_POST['price']);
 
         if ( empty($id) && empty($id_category) ) {
             echo Zend_Json::encode(
@@ -267,7 +267,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
                 $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price);
 
                 $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-                $formatted_category_price   = LaterPayViewHelper::formatNumber((float)$category_price, 2);
+                $formatted_category_price   = LaterPayViewHelper::formatNumber((float) $category_price, 2);
 
                 echo Zend_Json::encode(
                     array(
@@ -291,7 +291,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
         $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price, $id);
 
         $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-        $formatted_category_price   = LaterPayViewHelper::formatNumber((float)$category_price, 2);
+        $formatted_category_price   = LaterPayViewHelper::formatNumber((float) $category_price, 2);
 
         echo Zend_Json::encode(
             array(
@@ -315,7 +315,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _setNewCategoryDefaultPrice() {
+    protected static function _set_new_category_default_price() {
         $LaterPayModelCategory = new LaterPayModelCategory();
         $check = $LaterPayModelCategory->checkAvailableCategoryByName($_POST['category']);
         $id_category = $LaterPayModelCategory->getCategoryIdByName($_POST['category']);
@@ -329,14 +329,14 @@ class LaterPayPricingController extends LaterPayAbstractController {
             die;
         }
 
-        $delocalized_category_price = (float)str_replace(',', '.', $_POST['price']);
+        $delocalized_category_price = (float) str_replace(',', '.', $_POST['price']);
         $Currency = new LaterPayModelCurrency();
         $currency_full_name = $Currency->getCurrencyFullNameByShortName(get_option('laterpay_currency'));
 
         $LaterPayModelCategory->setCategoryPrice($id_category, $delocalized_category_price);
 
         $category_price             = $LaterPayModelCategory->getPriceByCategoryId($id_category);
-        $formatted_category_price   = LaterPayViewHelper::formatNumber((float)$category_price, 2);
+        $formatted_category_price   = LaterPayViewHelper::formatNumber((float) $category_price, 2);
 
         echo Zend_Json::encode(
             array(
@@ -360,7 +360,7 @@ class LaterPayPricingController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _deleteCategoryDefaultPrice() {
+    protected static function _delete_category_default_price() {
         $LaterPayModelCategory = new LaterPayModelCategory();
         $LaterPayModelCategory->deletePricesByCategoryId($_POST['category_id']);
 

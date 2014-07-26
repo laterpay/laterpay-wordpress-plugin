@@ -65,7 +65,7 @@ class Zend_Json_Expr
      */
     public function __construct($expression)
     {
-        $this->_expression = (string) $expression;
+        $this->_expression = (string)  $expression;
     }
 
     /**

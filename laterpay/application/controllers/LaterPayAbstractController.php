@@ -1,13 +1,13 @@
 <?php
 
 class LaterPayAbstractController {
-    
+
     /**
      * Variables for substitution in templates
      */
     public $variables = array();
 
-    public function loadAssets() {}
+    public function load_assets() {}
 
     /**
      * Render HTML file
@@ -43,7 +43,7 @@ class LaterPayAbstractController {
      *
      * @return string html string
      */
-    public function getTextView( $file ) {
+    public function get_text_view( $file ) {
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
@@ -55,23 +55,23 @@ class LaterPayAbstractController {
 
         return $html;
     }
-    
-    public function getMenu( $file=null ) {
+
+    public function get_menu( $file = null ) {
         if ( empty($file) ) {
             $file = 'partials/adminMenu';
         }
-        $activated = get_option('laterpay_plugin_is_activated', '');
-        $current_page = isset($_GET['page']) ? $_GET['page']: LaterPayViewHelper::$pluginPage;
-        $menu = LaterPayViewHelper::$adminMenu;
-        if ($activated) {
+        $activated      = get_option( 'laterpay_plugin_is_activated', '' );
+        $current_page   = isset($_GET['page']) ? $_GET['page']: LaterPayViewHelper::$pluginPage;
+        $menu           = LaterPayViewHelper::$adminMenu;
+        if ( $activated ) {
             unset($menu['get_started']);
         }
-        $this->assign('menu',         $menu);
-        $this->assign('current_page', $current_page);
-        $this->assign('plugin_page',  LaterPayViewHelper::$pluginPage);
-        $this->assign('activated',    $activated);
-        
-        return $this->getTextView($file);
+        $this->assign( 'menu',         $menu );
+        $this->assign( 'current_page', $current_page );
+        $this->assign( 'plugin_page',  LaterPayViewHelper::$pluginPage );
+        $this->assign( 'activated',    $activated );
+
+        return $this->get_text_view( $file );
     }
 
 }

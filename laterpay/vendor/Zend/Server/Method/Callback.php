@@ -119,7 +119,7 @@ class Zend_Server_Method_Callback
      */
     public function setFunction($function)
     {
-        $this->_function = (string) $function;
+        $this->_function = (string)  $function;
         $this->setType('function');
         return $this;
     }

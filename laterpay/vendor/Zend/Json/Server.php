@@ -421,7 +421,7 @@ class Zend_Json_Server extends Zend_Server_Abstract
                     if ($params[$key]['type'] == $newType) {
                         continue;
                     }
-                    $params[$key]['type'] = (array) $params[$key]['type'];
+                    $params[$key]['type'] = (array)  $params[$key]['type'];
                 } elseif (in_array($newType, $params[$key]['type'])) {
                     continue;
                 }

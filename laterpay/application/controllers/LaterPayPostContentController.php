@@ -9,7 +9,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
      *
      * @return string
      */
-    public function initTeaserContent( $post ) {
+    public function init_teaser_content( $post ) {
         if ( !is_object($post) ) {
             $post = get_post($post);
         }
@@ -51,7 +51,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
 
         $link       = self::getLPLink($post_id);
         if ( $price > 0 ) {
-            $this->initTeaserContent($GLOBALS['post']);
+            $this->init_teaser_content($GLOBALS['post']);
             // get teaser content
             $teaser_content         = get_post_meta($post_id, 'Teaser content', true);
             $teaser_content_only    = get_option('laterpay_teaser_content_only');
@@ -82,11 +82,11 @@ class LaterPayPostContentController extends LaterPayAbstractController {
                 $this->assign('preview_post_as_visitor',    LaterPayUserHelper::previewPostAsVisitor($post_id));
                 $this->assign('hide_statistics_pane',       LaterPayUserHelper::isHiddenStatisticsPane());
 
-                $html = $this->getTextView('singlePost');
+                $html = $this->get_text_view('singlePost');
             } else {
                 $this->assign('teaser_content', $teaser_content);
 
-                $html = $this->getTextView('post');
+                $html = $this->get_text_view('post');
             }
             return $html;
         }
@@ -94,7 +94,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
         return $content;
     }
 
-    public function modifyFooter() {
+    public function modify_footer() {
         // if Ajax request
         if ( (LaterPayRequestHelper::isAjax() && isset($_GET['id'])) || isset($_GET['id']) ) {
             $postid = $_GET['id'];
@@ -111,7 +111,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
                 $this->assign('post_id',               $postid);
                 $this->assign('identify_link',         $identify_link);
 
-                echo $this->getTextView('partials/identifyIframe');
+                echo $this->get_text_view('partials/identifyIframe');
             }
         }
     }
@@ -134,7 +134,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
 
         // get total revenue and total sales
         $total = array();
-        $history_total = (array)$LaterPayModelHistory->getTotalHistoryByPostId($post_id);
+        $history_total = (array) $LaterPayModelHistory->getTotalHistoryByPostId($post_id);
         foreach ( $history_total as $key => $item ) {
             $total[$item->currency]['sum']      = round($item->sum, 2);
             $total[$item->currency]['quantity'] = $item->quantity;
@@ -142,7 +142,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
 
         // get revenue
         $last30DaysRevenue = array();
-        $history_last30DaysRevenue = (array)$LaterPayModelHistory->getLast30DaysHistoryByPostId($post_id);
+        $history_last30DaysRevenue = (array) $LaterPayModelHistory->getLast30DaysHistoryByPostId($post_id);
         foreach ( $history_last30DaysRevenue as $item ) {
             $last30DaysRevenue[$item->currency][$item->date] = array(
                 'sum'       => round($item->sum, 2),
@@ -151,7 +151,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
         }
 
         $todayRevenue = array();
-        $history_todayRevenue = (array)$LaterPayModelHistory->getTodayHistoryByPostId($post_id);
+        $history_todayRevenue = (array) $LaterPayModelHistory->getTodayHistoryByPostId($post_id);
         foreach ( $history_todayRevenue as $item ) {
             $todayRevenue[$item->currency]['sum']       = round($item->sum, 2);
             $todayRevenue[$item->currency]['quantity']  = $item->quantity;
@@ -159,14 +159,14 @@ class LaterPayPostContentController extends LaterPayAbstractController {
 
         // get visitors
         $last30DaysVisitors = array();
-        $history_last30DaysVisitors = (array)$LaterPayModelPostViews->getLast30DaysHistory($post_id);
+        $history_last30DaysVisitors = (array) $LaterPayModelPostViews->getLast30DaysHistory($post_id);
         foreach ( $history_last30DaysVisitors as $item ) {
             $last30DaysVisitors[$item->date] = array(
                 'quantity' => $item->quantity,
             );
         }
 
-        $todayVisitors = (array)$LaterPayModelPostViews->getTodayHistory($post_id);
+        $todayVisitors = (array) $LaterPayModelPostViews->getTodayHistory($post_id);
         $todayVisitors = $todayVisitors[0]->quantity;
 
         // get buyers (= conversion rate)
@@ -229,7 +229,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
             case 'category default price':
                 $LaterPayModelCategory  = new LaterPayModelCategory();
                 $category_id            = get_post_meta($post_id, 'laterpay_post_default_category', true);
-                $price                  = $LaterPayModelCategory->getPriceByCategoryId((int)$category_id);
+                $price                  = $LaterPayModelCategory->getPriceByCategoryId((int) $category_id);
                 break;
 
             case 'global default price':
@@ -247,7 +247,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
                 break;
         }
 
-        return (float)$price;
+        return (float) $price;
     }
 
     /**
@@ -527,7 +527,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
             $post               = get_post();
             $post_id            = $post->ID;
             $price              = self::getPostPrice($post_id);
-            $float_price        = (float) $price;
+            $float_price        = (float)  $price;
             $is_premium_content = $float_price > 0;
             $access                  = $GLOBALS['laterpay_access'] || LaterPayUserHelper::can('laterpay_read_post_statistics', $post) || LaterPayUserHelper::user_has_full_access();
             $link                    = self::getLPLink($post_id);
@@ -538,7 +538,7 @@ class LaterPayPostContentController extends LaterPayAbstractController {
                 if ( $post_content_cached && !LaterPayRequestHelper::isAjax() ) {
                     $this->assign('post_id',    $post_id);
 
-                    $title = $this->getTextView('partials/postTitle');
+                    $title = $this->get_text_view('partials/postTitle');
                 } else {
                     if ( (!$access || $preview_post_as_visitor) ) {
                         $currency           = get_option('laterpay_currency');

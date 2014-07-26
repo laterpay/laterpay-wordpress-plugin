@@ -92,7 +92,7 @@ class Zend_Json_Server_Error
             return $this;
         }
 
-        $code = (int) $code;
+        $code = (int)  $code;
         if (in_array($code, $this->_allowedCodes)) {
             $this->_code = $code;
         } elseif (in_array($code, range(-32099, -32000))) {
@@ -124,7 +124,7 @@ class Zend_Json_Server_Error
             return $this;
         }
 
-        $this->_message = (string) $message;
+        $this->_message = (string)  $message;
         return $this;
     }
 

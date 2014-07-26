@@ -70,7 +70,7 @@
                                     </strong>
                                     <?php _e('costs', 'laterpay'); ?>
                                     <strong>
-                                        <?php $category_price = LaterPayViewHelper::formatNumber((float)$item->category_price, 2); ?>
+                                        <?php $category_price = LaterPayViewHelper::formatNumber((float) $item->category_price, 2); ?>
                                         <input  type="text"
                                                 name="price"
                                                 class="lp-input number"

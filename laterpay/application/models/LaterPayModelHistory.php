@@ -102,7 +102,7 @@ class LaterPayModelHistory {
                     wlph.currency_id = wlc.id
             WHERE
                 wlph.mode = '" . $mode . "'
-                AND wlph.post_id = " . (int)$post_id . "
+                AND wlph.post_id = " . (int) $post_id . "
             GROUP BY
                 wlph.currency_id
             ;
@@ -143,7 +143,7 @@ class LaterPayModelHistory {
                     wlph.currency_id = wlc.id
             WHERE
                 wlph.mode = '" . $mode . "'
-                AND wlph.post_id = " . (int)$post_id . "
+                AND wlph.post_id = " . (int) $post_id . "
                 AND wlph.date
                     BETWEEN '" . date('Y-m-d 00:00:00') . "'
                     AND '" . date('Y-m-d 23:59:59') . "'
@@ -188,7 +188,7 @@ class LaterPayModelHistory {
                     wlph.currency_id = wlc.id
             WHERE
                 wlph.mode = '" . $mode . "'
-                AND wlph.post_id = " . (int)$post_id . "
+                AND wlph.post_id = " . (int) $post_id . "
                 AND wlph.date
                     BETWEEN DATE(SUBDATE('" . date('Y-m-d 00:00:00') . "', INTERVAL 30 DAY))
                     AND '" . date('Y-m-d 23:59:59') . "'

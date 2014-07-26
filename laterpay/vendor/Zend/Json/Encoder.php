@@ -198,7 +198,7 @@ class Zend_Json_Encoder
             // Associative array
             $result = '{';
             foreach ($array as $key => $value) {
-                $key = (string) $key;
+                $key = (string)  $key;
                 $tmpArray[] = $this->_encodeString($key)
                             . ':'
                             . $this->_encodeValue($value);
@@ -234,7 +234,7 @@ class Zend_Json_Encoder
         $result = 'null';
 
         if (is_int($value) || is_float($value)) {
-            $result = (string) $value;
+            $result = (string)  $value;
             $result = str_replace(",", ".", $result);
         } elseif (is_string($value)) {
             $result = $this->_encodeString($value);

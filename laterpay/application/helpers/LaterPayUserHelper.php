@@ -74,7 +74,7 @@ class LaterPayUserHelper {
             return false;
         }
 
-        return in_array($role, (array)$user->roles);
+        return in_array($role, (array) $user->roles);
     }
 
     /**

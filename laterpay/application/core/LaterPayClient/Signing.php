@@ -30,7 +30,7 @@ class LaterPayClient_Signing {
         if ( is_array($parts) ) {
             $data = join('', $parts);
         } else {
-            $data = (string)$parts;
+            $data = (string) $parts;
         }
 
         $crypt = new Crypt_Hash(self::$hashAlgo);
@@ -175,7 +175,7 @@ class LaterPayClient_Signing {
      */
     public static function signAndEncode( $secret, $params, $url, $method = LaterPayRequest::GET ) {
         if ( !isset($params['ts']) ) {
-            $params['ts'] = (string)time();
+            $params['ts'] = (string) time();
         }
 
         if ( isset($params['hmac']) ) {

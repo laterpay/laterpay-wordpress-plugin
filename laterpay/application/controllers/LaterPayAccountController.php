@@ -2,8 +2,8 @@
 
 class LaterPayAccountController extends LaterPayAbstractController {
 
-    public function loadAssets() {
-        parent::loadAssets();
+    public function load_assets() {
+        parent::load_assets();
         global $laterpay_version;
 
         // load page-specific JS
@@ -14,7 +14,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
             $laterpay_version,
             true
         );
-        wp_enqueue_script('laterpay-backend-account');
+        wp_enqueue_script( 'laterpay-backend-account' );
 
         // pass localized strings and variables to script
         wp_localize_script(
@@ -34,17 +34,17 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public function page() {
-        $this->loadAssets();
+    public function render_page() {
+        $this->load_assets();
 
-        $this->assign('sandbox_merchant_id',    get_option('laterpay_sandbox_merchant_id'));
-        $this->assign('sandbox_api_key',        get_option('laterpay_sandbox_api_key'));
-        $this->assign('live_merchant_id',       get_option('laterpay_live_merchant_id'));
-        $this->assign('live_api_key',           get_option('laterpay_live_api_key'));
-        $this->assign('plugin_is_in_live_mode', get_option('laterpay_plugin_is_in_live_mode') == 1);
-        $this->assign('top_nav',                $this->getMenu());
+        $this->assign( 'sandbox_merchant_id',    get_option( 'laterpay_sandbox_merchant_id' ) );
+        $this->assign( 'sandbox_api_key',        get_option( 'laterpay_sandbox_api_key' ) );
+        $this->assign( 'live_merchant_id',       get_option( 'laterpay_live_merchant_id' ) );
+        $this->assign( 'live_api_key',           get_option( 'laterpay_live_api_key' ) );
+        $this->assign( 'plugin_is_in_live_mode', get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
+        $this->assign( 'top_nav',                $this->get_menu() );
 
-        $this->render('pluginBackendAccountTab');
+        $this->render( 'pluginBackendAccountTab' );
     }
 
     /**
@@ -52,8 +52,8 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public static function pageAjax() {
-        if (isset($_POST['form'])) {
+    public static function process_ajax_requests() {
+        if ( isset($_POST['form']) ) {
             // check for required privileges to perform action
             if ( !LaterPayUserHelper::can('laterpay_edit_plugin_settings') ) {
                 echo Zend_Json::encode(
@@ -71,23 +71,23 @@ class LaterPayAccountController extends LaterPayAbstractController {
 
             switch ( $_POST['form'] ) {
                 case 'laterpay_sandbox_merchant_id':
-                    self::_updateSandboxMerchantId();
+                    self::_update_sandbox_merchant_id();
                     break;
 
                 case 'laterpay_sandbox_api_key':
-                    self::_updateSandboxApiKey();
+                    self::_update_sandbox_api_key();
                     break;
 
                 case 'laterpay_live_merchant_id':
-                    self::_updateLiveMerchantId();
+                    self::_update_live_merchant_id();
                     break;
 
                 case 'laterpay_live_api_key':
-                    self::_updateLiveApiKey();
+                    self::_update_live_api_key();
                     break;
 
                 case 'plugin_is_in_live_mode':
-                    self::_updatePluginMode();
+                    self::_update_plugin_mode();
                     break;
 
                 default:
@@ -107,8 +107,8 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateSandboxMerchantId() {
-        if ( self::isValidMerchantId($_POST['laterpay_sandbox_merchant_id']) ) {
+    protected static function _update_sandbox_merchant_id() {
+        if ( self::is_valid_merchant_id($_POST['laterpay_sandbox_merchant_id']) ) {
             update_option('laterpay_sandbox_merchant_id', $_POST['laterpay_sandbox_merchant_id']);
             echo Zend_Json::encode(
                 array(
@@ -140,8 +140,8 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateSandboxApiKey() {
-        if ( self::isValidApiKey($_POST['laterpay_sandbox_api_key']) ) {
+    protected static function _update_sandbox_api_key() {
+        if ( self::is_valid_api_key($_POST['laterpay_sandbox_api_key']) ) {
             update_option('laterpay_sandbox_api_key', $_POST['laterpay_sandbox_api_key']);
             echo Zend_Json::encode(
                 array(
@@ -173,8 +173,8 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateLiveMerchantId() {
-        if ( self::isValidMerchantId($_POST['laterpay_live_merchant_id']) ) {
+    protected static function _update_live_merchant_id() {
+        if ( self::is_valid_merchant_id($_POST['laterpay_live_merchant_id']) ) {
             update_option('laterpay_live_merchant_id', $_POST['laterpay_live_merchant_id']);
             echo Zend_Json::encode(
                 array(
@@ -206,8 +206,8 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updateLiveApiKey() {
-        if ( self::isValidApiKey($_POST['laterpay_live_api_key']) ) {
+    protected static function _update_live_api_key() {
+        if ( self::is_valid_api_key($_POST['laterpay_live_api_key']) ) {
             update_option('laterpay_live_api_key', $_POST['laterpay_live_api_key']);
             echo Zend_Json::encode(
                 array(
@@ -239,7 +239,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access protected
      */
-    protected static function _updatePluginMode() {
+    protected static function _update_plugin_mode() {
         $result = update_option('laterpay_plugin_is_in_live_mode', $_POST['plugin_is_in_live_mode']);
         if ( $result ) {
             if ( get_option('laterpay_plugin_is_in_live_mode') ) {
@@ -274,7 +274,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public static function isValidMerchantId( $merchant_id ) {
+    public static function is_valid_merchant_id( $merchant_id ) {
         return preg_match('/[a-zA-Z0-9]{22}/', $merchant_id);
     }
 
@@ -283,7 +283,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
      *
      * @access public
      */
-    public static function isValidApiKey( $api_key ) {
+    public static function is_valid_api_key( $api_key ) {
         return preg_match('/[a-z0-9]{32}/', $api_key);
     }
 
