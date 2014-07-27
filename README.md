@@ -23,6 +23,10 @@ The plugin will soon also be available from http://wordpress.org/plugins/
 4. Push to the branch (`git push origin feature/my-new-feature`)
 5. Create a new Pull Request
 
+Contributed PHP code must comply with the WordPress coding standards. We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards). 
+
+Contributed JS code must be linted with JSHint.
+
 
 ## Updating Translations
 
