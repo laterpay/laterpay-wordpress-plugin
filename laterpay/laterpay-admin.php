@@ -1,6 +1,6 @@
 <?php
 
-if ( class_exists('LaterPayAdminController') ) {
+if ( class_exists( 'LaterPayAdminController' ) ) {
     $LaterPayAdminController = new LaterPayAdminController();
     $LaterPayAdminController->run();
 }

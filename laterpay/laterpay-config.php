@@ -1,12 +1,12 @@
 <?php
 
-if ( file_exists(LATERPAY_GLOBAL_PATH . 'settings.php') ) {
-    $user_settings = include(LATERPAY_GLOBAL_PATH . 'settings.php');
+if ( file_exists( LATERPAY_GLOBAL_PATH . 'settings.php' ) ) {
+    $user_settings = include( LATERPAY_GLOBAL_PATH . 'settings.php' );
 } else {
     $user_settings = array();
 }
 
-return array_merge(array(
+return array_merge( array(
     // #############################################################################
     // THESE PARAMETERS WILL BE OVERWRITTEN AFTER PLUGIN UPDATE, USE "settings.php" FILE INSTEAD
     // #############################################################################
@@ -34,4 +34,4 @@ return array_merge(array(
     // Default Sandbox API credentials for easy tryouts
     'LATERPAY_DEFAULT_SANDBOX_MERCHANT_ID' => 'LaterPay-WordPressDemo',
     'LATERPAY_DEFAULT_SANDBOX_API_KEY' =>  'decafbaddecafbaddecafbaddecafbad',
-), $user_settings);
+), $user_settings );

@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return array(
     // Name of group of registered users in your WordPress installation
     // that gets unrestricted access to paid posts;
     // Can be used to give donators, students, subscribers etc. free full access

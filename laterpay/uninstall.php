@@ -1,7 +1,7 @@
 <?php
 
 // exit, if uninstall was not called from WordPress
-if ( ! defined('WP_UNINSTALL_PLUGIN') ) {
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
     exit;
 }
 
@@ -21,7 +21,7 @@ $sql = "DROP TABLE IF EXISTS
             $table_history,
             $table_post_views;
         ";
-$wpdb->query($sql);
+$wpdb->query( $sql );
 
 // remove custom data from WP core tables
 $sql = "DELETE FROM
@@ -39,7 +39,7 @@ $sql = "DELETE FROM
             )
         ;
         ";
-$wpdb->query($sql);
+$wpdb->query( $sql );
 $sql = "DELETE FROM
             $table_usermeta
         WHERE
@@ -49,15 +49,15 @@ $sql = "DELETE FROM
             )
         ;
         ";
-$wpdb->query($sql);
+$wpdb->query( $sql );
 
-delete_option('laterpay_plugin_is_activated');
-delete_option('laterpay_teaser_content_only');
-delete_option('laterpay_plugin_is_in_live_mode');
-delete_option('laterpay_sandbox_merchant_id');
-delete_option('laterpay_sandbox_api_key');
-delete_option('laterpay_live_merchant_id');
-delete_option('laterpay_live_api_key');
-delete_option('laterpay_global_price');
-delete_option('laterpay_currency');
-delete_option('laterpay_version');
+delete_option( 'laterpay_plugin_is_activated' );
+delete_option( 'laterpay_teaser_content_only' );
+delete_option( 'laterpay_plugin_is_in_live_mode' );
+delete_option( 'laterpay_sandbox_merchant_id' );
+delete_option( 'laterpay_sandbox_api_key' );
+delete_option( 'laterpay_live_merchant_id' );
+delete_option( 'laterpay_live_api_key' );
+delete_option( 'laterpay_global_price' );
+delete_option( 'laterpay_currency' );
+delete_option( 'laterpay_version' );
