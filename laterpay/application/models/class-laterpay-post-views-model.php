@@ -30,7 +30,16 @@ class LaterPay_Post_Views_Model
     public function get_post_view_data( $post_id ) {
         global $wpdb;
 
-        $views = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->table} WHERE `post_id` = %d;" ), $post_id );
+        $sql = "
+            SELECT
+                *
+            FROM
+                {$this->table}
+            WHERE
+                post_id = %d
+            ;
+        ";
+        $views = $wpdb->get_results( $wpdb->prepare( $sql, (int) $post_id ) );
 
         return $views;
     }
@@ -47,7 +56,7 @@ class LaterPay_Post_Views_Model
 
         $sql = "
             INSERT INTO
-                {$this->table} (`post_id`, `user_id`, `date`, `ip`)
+                {$this->table} (post_id, user_id, date, ip)
             VALUES
                 ('%d', '%s', '%s', '%s')
             ON DUPLICATE KEY UPDATE
@@ -59,8 +68,8 @@ class LaterPay_Post_Views_Model
             $results = $wpdb->get_results(
                 $wpdb->prepare(
                     $sql,
-                    $data['post_id'],
-                    $data['user_id'],
+                    (int) $data['post_id'],
+                    (int) $data['user_id'],
                     date( 'Y-m-d H:i:s', $data['date'] ),
                     $data['ip'] )
             );
@@ -102,7 +111,7 @@ class LaterPay_Post_Views_Model
         $history = $wpdb->get_results(
             $wpdb->prepare(
                 $sql,
-                $post_id,
+                (int) $post_id,
                 date( 'Y-m-d 00:00:00' ),
                 date( 'Y-m-d 23:59:59' )
             )
@@ -139,7 +148,7 @@ class LaterPay_Post_Views_Model
         $history = $wpdb->get_results(
             $wpdb->prepare(
                 $sql,
-                $post_id,
+                (int) $post_id,
                 date( 'Y-m-d 00:00:00' ),
                 date( 'Y-m-d 23:59:59' )
             )

@@ -240,7 +240,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
     protected static function _update_existing_category_default_price() {
         $LaterPay_Category_Model      = new LaterPay_Category_Model();
         $id_category                = $LaterPay_Category_Model->get_category_id_by_name( $_POST['category'] );
-        $id                         = $LaterPay_Category_Model->get_price_ids_by_category_id( $id_category );
+        $id                         = $LaterPay_Category_Model->get_price_id_by_category_id( $id_category );
 
         $Currency                   = new LaterPay_Currency_Model();
         $currency_name              = $Currency->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
@@ -256,7 +256,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
             die;
         } else if ( ! empty( $id_category ) && $id_category != $_POST['category_id'] ) {
             $LaterPay_Category_Model->delete_prices_by_category_id( $_POST['category_id'] );
-            $id = $LaterPay_Category_Model->get_price_ids_by_category_id( $_POST['category_id'] );
+            $id = $LaterPay_Category_Model->get_price_id_by_category_id( $_POST['category_id'] );
 
             if ( $id ) {
                 echo Zend_Json::encode(
@@ -366,7 +366,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
         $LaterPay_Category_Model = new LaterPay_Category_Model();
         $LaterPay_Category_Model->delete_prices_by_category_id( $_POST['category_id'] );
 
-        $id = $LaterPay_Category_Model->get_price_ids_by_category_id( $_POST['category_id'] );
+        $id = $LaterPay_Category_Model->get_price_id_by_category_id( $_POST['category_id'] );
         if ( empty( $id ) ) {
             echo Zend_Json::encode(
                 array(

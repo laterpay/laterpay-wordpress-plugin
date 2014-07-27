@@ -74,8 +74,8 @@ class LaterPay_Category_Model
     public function get_category_price_data_by_category_ids( $ids ) {
         global $wpdb;
 
-        $placeholders = array_fill( 0, count( $ids ), '%d' );
-        $format = implode( ', ', $placeholders );
+        $placeholders   = array_fill( 0, count( $ids ), '%d' );
+        $format         = implode( ', ', $placeholders );
         $sql = "
             SELECT
                 tm.name AS category_name,
@@ -88,7 +88,7 @@ class LaterPay_Category_Model
                 ON
                     tp.term_id = tm.term_id
             WHERE
-                tm.term_id IN ({$format})
+                tm.term_id IN ( {$format} )
                 AND tp.term_id IS NOT NULL
             ORDER BY
                 name
@@ -100,7 +100,7 @@ class LaterPay_Category_Model
     }
 
     /**
-     * Get categories with no defined category default prices by search term
+     * Get categories without defined category default prices by search term
      *
      * @param string $term         term string to find categories
      * @param int    $limit        limit categories
@@ -117,7 +117,7 @@ class LaterPay_Category_Model
             $excluding_id = 0;
         }
 
-        $term = like_escape( $term );
+        $term = $wpdb->esc_like( $term ) . '%';
         $sql = "
             SELECT
                 tp.term_id AS id,
@@ -131,18 +131,18 @@ class LaterPay_Category_Model
             WHERE
                 (
                     tp.term_id IS NULL
-                    AND name LIKE '$term%'
+                    AND name LIKE %s
                 ) OR (
-                    tp.term_id = $excluding_id
-                    AND name LIKE '$term%'
+                    tp.term_id = %d
+                    AND name LIKE %s
                 )
             ORDER BY
                 name
             LIMIT
-                $limit
+                %d
             ;
         ";
-        $categories = $wpdb->get_results( $sql );
+        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ) );
 
         return (array) $categories;
     }
@@ -160,7 +160,7 @@ class LaterPay_Category_Model
     public function get_categories_by_term( $term, $limit ) {
         global $wpdb;
 
-        $term = like_escape( $term );
+        $term = $wpdb->esc_like( $term ) . '%';
         $sql = "
             SELECT
                 tm.term_id AS id,
@@ -168,14 +168,14 @@ class LaterPay_Category_Model
             FROM
                 {$this->table} AS tm
             WHERE
-                tm.name LIKE '$term%'
+                tm.name LIKE %s
             ORDER BY
                 name
             LIMIT
-                $limit
+                %d
             ;
         ";
-        $categories = $wpdb->get_results( $sql );
+        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ) );
 
         return (array) $categories;
     }
@@ -230,7 +230,7 @@ class LaterPay_Category_Model
      *
      * @return integer id price
      */
-    public function get_price_ids_by_category_id( $id ) {
+    public function get_price_id_by_category_id( $id ) {
         global $wpdb;
 
         $sql = "
@@ -239,101 +239,16 @@ class LaterPay_Category_Model
             FROM
                 {$this->table_prices}
             WHERE
-                term_id = '$id'
-            LIMIT
-                1
+                term_id = %d
             ;
         ";
-        $price = $wpdb->get_row( $sql );
+        $price = $wpdb->get_row( $wpdb->prepare( $sql, $id ) );
 
         if ( empty( $price ) ) {
             return null;
         }
 
         return $price->id;
-    }
-
-    /**
-     * Get category id by category name
-     *
-     * @param string @name name category
-     *
-     * @access public
-     *
-     * @return integer category id
-     */
-    public function get_category_id_by_name( $name ) {
-        global $wpdb;
-
-        $name = esc_sql( $name );
-        $sql = "
-            SELECT
-                term_id AS id
-            FROM
-                {$this->table}
-            WHERE
-                name = '$name'
-            LIMIT
-                1
-            ;
-        ";
-        $category = $wpdb->get_row( $sql );
-
-        if ( empty( $category ) ) {
-            return null;
-        }
-
-        return $category->id;
-    }
-
-    /**
-     * Check if category exists: get category id by category name
-     *
-     * @param string $name name category
-     *
-     * @access public
-     *
-     * @return integer category id
-     */
-    public function check_existence_of_category_by_name( $name ) {
-        global $wpdb;
-
-        $name = esc_sql( $name );
-        $sql = "
-            SELECT
-                tm.term_id AS id
-            FROM
-                {$this->table} AS tm
-                RIGHT JOIN
-                    {$this->table_prices} AS tp
-                ON
-                    tm.term_id = tp.term_id
-            WHERE
-                name = '$name'
-            LIMIT
-                1
-            ;
-        ";
-        $category = $wpdb->get_row( $sql );
-
-        if ( empty( $category ) ) {
-            return null;
-        }
-
-        return $category->id;
-    }
-
-    /**
-     * Delete price by category id
-     *
-     * @param integer $id id category
-     *
-     * @access public
-     */
-    public function delete_prices_by_category_id( $id ) {
-        global $wpdb;
-
-        $wpdb->delete( $this->table_prices, array( 'term_id' => $id ) );
     }
 
     /**
@@ -354,18 +269,100 @@ class LaterPay_Category_Model
             FROM
                 {$this->table_prices}
             WHERE
-                term_id = '$id'
-            LIMIT
-                1
+                term_id = %d
             ;
         ";
-        $price = $wpdb->get_row( $sql );
+        $price = $wpdb->get_row( $wpdb->prepare( $sql, $id ) );
 
         if ( empty( $price ) ) {
             return null;
         }
 
         return $price->price;
+    }
+
+    /**
+     * Get category id by category name
+     *
+     * @param string @name name category
+     *
+     * @access public
+     *
+     * @return integer category id
+     */
+    public function get_category_id_by_name( $name ) {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                term_id AS id
+            FROM
+                {$this->table}
+            WHERE
+                name = %s
+            ;
+        ";
+        $category = $wpdb->get_row( $wpdb->prepare( $sql, $name ) );
+
+        if ( empty( $category ) ) {
+            return null;
+        }
+
+        return $category->id;
+    }
+
+    /**
+     * Check if category exists: get category id by category name
+     *
+     * @param string $name name category
+     *
+     * @access public
+     *
+     * @return integer category id
+     */
+    public function check_existence_of_category_by_name( $name ) {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                tm.term_id AS id
+            FROM
+                {$this->table} AS tm
+                RIGHT JOIN
+                    {$this->table_prices} AS tp
+                ON
+                    tm.term_id = tp.term_id
+            WHERE
+                name = %s
+            ;
+        ";
+        $category = $wpdb->get_row( $wpdb->prepare( $sql, $name ) );
+
+        if ( empty( $category ) ) {
+            return null;
+        }
+
+        return $category->id;
+    }
+
+    /**
+     * Delete price by category id
+     *
+     * @param integer $id category id
+     *
+     * @access public
+     */
+    public function delete_prices_by_category_id( $id ) {
+        global $wpdb;
+
+        $sql = "
+            DELETE FROM
+                {$this->table_prices}
+            WHERE
+                term_id = %d
+            ;
+        ";
+        $wpdb->query( $wpdb->prepare( $sql, (int) $id ) );
     }
 
 }

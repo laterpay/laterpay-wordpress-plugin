@@ -76,7 +76,7 @@ class LaterPay_Payments_History_Model
     /**
      * Get total history by post id
      *
-     * @param int $post_id id post
+     * @param int $post_id
      *
      * @access public
      *
@@ -103,13 +103,13 @@ class LaterPay_Payments_History_Model
                 ON
                     wlph.currency_id = wlc.id
             WHERE
-                wlph.mode = '" . $mode . "'
-                AND wlph.post_id = " . (int) $post_id . "
+                wlph.mode = %s
+                AND wlph.post_id = %d
             GROUP BY
                 wlph.currency_id
             ;
         ";
-        $history = $wpdb->get_results( $sql );
+        $history = $wpdb->get_results( $wpdb->prepare( $sql, $mode, (int) $post_id ) );
 
         return $history;
     }
@@ -117,7 +117,7 @@ class LaterPay_Payments_History_Model
     /**
      * Get today's history by post id
      *
-     * @param int $post_id id post
+     * @param int $post_id
      *
      * @access public
      *
@@ -144,8 +144,8 @@ class LaterPay_Payments_History_Model
                 ON
                     wlph.currency_id = wlc.id
             WHERE
-                wlph.mode = '" . $mode . "'
-                AND wlph.post_id = " . (int) $post_id . "
+                wlph.mode = %s
+                AND wlph.post_id = %d
                 AND wlph.date
                     BETWEEN '" . date( 'Y-m-d 00:00:00' ) . "'
                     AND '" . date( 'Y-m-d 23:59:59' ) . "'
@@ -153,7 +153,7 @@ class LaterPay_Payments_History_Model
                 wlph.currency_id
             ;
         ";
-        $history = $wpdb->get_results( $sql );
+        $history = $wpdb->get_results( $wpdb->prepare( $sql, $mode, (int) $post_id ) );
 
         return $history;
     }
@@ -189,8 +189,8 @@ class LaterPay_Payments_History_Model
                 ON
                     wlph.currency_id = wlc.id
             WHERE
-                wlph.mode = '" . $mode . "'
-                AND wlph.post_id = " . (int) $post_id . "
+                wlph.mode = %s
+                AND wlph.post_id = %d
                 AND wlph.date
                     BETWEEN DATE(SUBDATE('" . date( 'Y-m-d 00:00:00' ) . "', INTERVAL 30 DAY))
                     AND '" . date( 'Y-m-d 23:59:59' ) . "'
@@ -202,7 +202,7 @@ class LaterPay_Payments_History_Model
                 DATE(wlph.date)
             ;
         ";
-        $history = $wpdb->get_results( $sql );
+        $history = $wpdb->get_results( $wpdb->prepare( $sql, $mode, (int) $post_id ) );
 
         return $history;
     }
@@ -226,11 +226,11 @@ class LaterPay_Payments_History_Model
             FROM
                 {$this->table}
             WHERE
-                mode = '$mode'
-                AND hash = '$hash'
+                mode = %s
+                AND hash = %s
             ;
         ";
-        $payment = $wpdb->get_results( $sql );
+        $payment = $wpdb->get_results( $wpdb->prepare( $sql, $mode, $hash ) );
 
         return $payment;
     }
