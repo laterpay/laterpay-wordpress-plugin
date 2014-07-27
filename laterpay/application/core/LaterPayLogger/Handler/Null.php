@@ -3,10 +3,10 @@
 /**
  * Do nothing with log data
  */
-class LaterPayLogger_Handler_Null extends LaterPayLogger_Abstract {
+class LaterPayLogger_Handler_Null extends LaterPayLogger_Abstract
+{
+
     /**
-     *
-     *
      * @param integer $level The minimum logging level at which this handler will be triggered
      */
     public function __construct( $level = LaterPayLogger::DEBUG ) {

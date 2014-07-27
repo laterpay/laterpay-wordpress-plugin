@@ -42,10 +42,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -65,7 +65,7 @@
 /**
  * Include Crypt_Rijndael
  */
-if (!class_exists('Crypt_Rijndael')) {
+if (! class_exists('Crypt_Rijndael')) {
     require_once 'Rijndael.php';
 }
 
@@ -177,7 +177,7 @@ class Crypt_AES extends Crypt_Rijndael {
      */
     function Crypt_AES($mode = CRYPT_AES_MODE_CBC)
     {
-        if ( !defined('CRYPT_AES_MODE') ) {
+        if ( ! defined('CRYPT_AES_MODE') ) {
             switch (true) {
                 case extension_loaded('mcrypt') && in_array('rijndael-128', mcrypt_list_algorithms()):
                     define('CRYPT_AES_MODE', CRYPT_AES_MODE_MCRYPT);
@@ -355,7 +355,7 @@ class Crypt_AES extends Crypt_Rijndael {
 
             $ciphertext = mcrypt_generic($this->enmcrypt, $plaintext);
 
-            if (!$this->continuousBuffer) {
+            if (! $this->continuousBuffer) {
                 mcrypt_generic_init($this->enmcrypt, $this->key, $this->iv);
             }
 
@@ -425,7 +425,7 @@ class Crypt_AES extends Crypt_Rijndael {
 
             $plaintext = mdecrypt_generic($this->demcrypt, $ciphertext);
 
-            if (!$this->continuousBuffer) {
+            if (! $this->continuousBuffer) {
                 mcrypt_generic_init($this->demcrypt, $this->key, $this->iv);
             }
 
@@ -445,11 +445,11 @@ class Crypt_AES extends Crypt_Rijndael {
      */
     function _mcryptSetup()
     {
-        if (!$this->changed) {
+        if (! $this->changed) {
             return;
         }
 
-        if (!$this->explicit_key_length) {
+        if (! $this->explicit_key_length) {
             // this just copied from Crypt_Rijndael::_setup()
             $length = strlen($this->key) >> 2;
             if ($length > 8) {
@@ -477,7 +477,7 @@ class Crypt_AES extends Crypt_Rijndael {
         $this->key = str_pad(substr($this->key, 0, $this->key_size), $this->key_size, chr(0));
         $this->encryptIV = $this->decryptIV = $this->iv = str_pad(substr($this->iv, 0, 16), 16, chr(0));
 
-        if (!isset($this->enmcrypt)) {
+        if (! isset($this->enmcrypt)) {
             $mode = $this->mode;
             //$mode = $this->mode == CRYPT_AES_MODE_CTR ? MCRYPT_MODE_ECB : $this->mode;
 

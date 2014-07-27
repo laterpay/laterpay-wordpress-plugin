@@ -26,15 +26,15 @@ set_include_path(
 
 require_once(LATERPAY_GLOBAL_PATH . 'loader.php');
 
-AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'controllers');
-AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'core');
-AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'helpers');
-AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'models');
-AutoLoader::registerDirectory(LATERPAY_GLOBAL_PATH . 'vendor');
+AutoLoader::register_directory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'controllers');
+AutoLoader::register_directory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'core');
+AutoLoader::register_directory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'helpers');
+AutoLoader::register_directory(LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'models');
+AutoLoader::register_directory(LATERPAY_GLOBAL_PATH . 'vendor');
 
 $laterpay_config = require_once(LATERPAY_GLOBAL_PATH . 'laterpay-config.php');
 foreach ( $laterpay_config as $option => $value ) {
-    if ( !defined($option) ) {
+    if ( ! defined($option) ) {
         define($option, $value);
     }
 }

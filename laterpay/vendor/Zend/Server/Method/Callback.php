@@ -64,7 +64,7 @@ class Zend_Server_Method_Callback
      */
     public function __construct($options = null)
     {
-        if ((null !== $options) && is_array($options))  {
+        if ((null ! == $options) && is_array($options))  {
             $this->setOptions($options);
         }
     }
@@ -165,7 +165,7 @@ class Zend_Server_Method_Callback
      */
     public function setType($type)
     {
-        if (!in_array($type, $this->_types)) {
+        if (! in_array($type, $this->_types)) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Invalid method callback type  passed to ' . __CLASS__ . '::' . __METHOD__);
         }
@@ -188,7 +188,7 @@ class Zend_Server_Method_Callback
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         $type = $this->getType();
         $array = array(

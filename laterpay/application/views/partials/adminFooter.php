@@ -6,7 +6,7 @@
 ?>
     <script>
     jQuery(document).ready(function($) {
-        if (typeof(jQuery().pointer) !== 'undefined') {
+        if (typeof(jQuery().pointer) ! == 'undefined') {
             jQuery('#toplevel_page_laterpay-plugin')
             .pointer({
                 content : '<?php echo $pointer_content; ?>',
@@ -34,7 +34,7 @@
 ?>
     <script>
         jQuery(document).ready(function($) {
-            if (typeof(jQuery().pointer) !== 'undefined') {
+            if (typeof(jQuery().pointer) ! == 'undefined') {
                 jQuery('#laterpay_pricing_post_content')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',
@@ -62,7 +62,7 @@
 ?>
     <script>
         jQuery(document).ready(function($) {
-            if (typeof(jQuery().pointer) !== 'undefined') {
+            if (typeof(jQuery().pointer) ! == 'undefined') {
                 jQuery('#laterpay_teaser_content')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',

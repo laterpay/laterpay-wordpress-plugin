@@ -1,6 +1,8 @@
 <?php
 
-class LaterPayModelPostViews {
+class LaterPayModelPostViews
+{
+
     /**
      * Name of PostViews table
      *
@@ -25,7 +27,7 @@ class LaterPayModelPostViews {
      *
      * @return array views
      */
-    public function getPostViewData( $post_id ) {
+    public function get_post_view_data( $post_id ) {
         global $wpdb;
 
         $views = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$this->table} WHERE `post_id` = %d;"), $post_id);
@@ -40,7 +42,7 @@ class LaterPayModelPostViews {
      *
      * @access public
      */
-    public function updatePostViews( $data ) {
+    public function update_post_views( $data ) {
         global $wpdb;
 
         $sql = "
@@ -76,7 +78,7 @@ class LaterPayModelPostViews {
      *
      * @return array history
      */
-    public function getLast30DaysHistory( $post_id ) {
+    public function get_last_30_days_history( $post_id ) {
         global $wpdb;
 
         $sql = "
@@ -118,7 +120,7 @@ class LaterPayModelPostViews {
      *
      * @return array history
      */
-    public function getTodayHistory( $post_id ) {
+    public function get_todays_history( $post_id ) {
         global $wpdb;
 
         $sql = "

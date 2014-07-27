@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Auth_Hmac provide tokenizer uses openssl extension
+ * Auth_Hmac provides tokenizer using openssl extension
  */
-class LaterPayAuth_Hmac {
+class LaterPayAuth_Hmac
+{
 
-    const VALID_PERIOD = 86400;// 24 hrs
+    const VALID_PERIOD = 86400; // 24 hrs
 
     protected static $_instance = null;
     protected static $privateKey = null;
@@ -71,7 +72,7 @@ class LaterPayAuth_Hmac {
     public function verify( $data, $sign ) {
         $signV = $this->sign( $data );
 
-        return ( !empty( $sign ) ) && ( $sign === $signV );
+        return ( ! empty( $sign ) ) && ( $sign === $signV );
     }
 
     /**
@@ -82,7 +83,7 @@ class LaterPayAuth_Hmac {
      *
      * @return string
      */
-    public function getToken( $data, $ts ) {
+    public function get_token( $data, $ts ) {
         $ts = $ts;
         $fresult = $this->sign( array( $data, $ts ) );
         if ( self::$useBase64 ) {
@@ -103,7 +104,7 @@ class LaterPayAuth_Hmac {
      *
      * @return boolean
      */
-    public function validateToken( $data, $ts, $token ) {
+    public function validate_token( $data, $ts, $token ) {
         $now = time();
 
         $fresult = false;
@@ -126,7 +127,7 @@ class LaterPayAuth_Hmac {
      *
      * @return LaterPayAuth_Hmac
      */
-    public static function getInstance() {
+    public static function get_instance() {
         if ( null === self::$_instance ) {
             self::$_instance = new self();
         }

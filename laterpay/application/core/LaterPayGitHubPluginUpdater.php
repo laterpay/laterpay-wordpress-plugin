@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayGitHubPluginUpdater {
+class LaterPayGitHubPluginUpdater
+{
 
     const GITHUB_API_URL = 'https://api.github.com';
 
@@ -29,35 +30,35 @@ class LaterPayGitHubPluginUpdater {
     }
 
     /**
-     * Get information regarding our plugin from WordPress
+     * Get information regarding our plugin from WordPress.
      *
      */
-    private function initPluginData() {
-        $this->slug = plugin_basename($this->pluginFile);
-        $this->pluginData = get_plugin_data($this->pluginFile);
+    private function init_plugin_data() {
+        $this->slug         = plugin_basename($this->pluginFile);
+        $this->pluginData   = get_plugin_data($this->pluginFile);
     }
 
     /**
-     * Get information regarding our plugin from GitHub
+     * Get information regarding our plugin from GitHub.
      *
      * @return void
      */
-    private function getRepoReleaseInfo() {
+    private function get_repo_release_info() {
         // only do this once
-        if ( !empty($this->githubAPIResult) ) {
+        if ( ! empty($this->githubAPIResult) ) {
             return;
         }
         // query the GitHub API
         $url = self::GITHUB_API_URL . '/repos/' . $this->username . '/' . $this->repo . '/releases';
 
         // we need the access token for private repos
-        if ( !empty($this->accessToken) ) {
+        if ( ! empty($this->accessToken) ) {
             $url = add_query_arg(array('access_token' => $this->accessToken), $url);
         }
 
         // get the results
         $this->githubAPIResult = wp_remote_retrieve_body(wp_remote_get($url));
-        if ( !empty($this->githubAPIResult) ) {
+        if ( ! empty($this->githubAPIResult) ) {
             $this->githubAPIResult = @json_decode($this->githubAPIResult);
         }
 
@@ -68,13 +69,13 @@ class LaterPayGitHubPluginUpdater {
     }
 
     /**
-     * Push in plugin version information to get the update notification
+     * Push in plugin version information to get the update notification.
      *
      * @param object $transient
      *
      * @return object
      */
-    public function setTransient( $transient ) {
+    public function set_transient( $transient ) {
 
         // if we have checked the plugin data before, don't re-check
         if ( empty($transient->checked) ) {
@@ -82,8 +83,8 @@ class LaterPayGitHubPluginUpdater {
         }
 
         // get plugin and GitHub release information
-        $this->initPluginData();
-        $this->getRepoReleaseInfo();
+        $this->init_plugin_data();
+        $this->get_repo_release_info();
 
         // check the versions if we need to do an update
         $doUpdate = version_compare(substr($this->githubAPIResult->tag_name, 1), $transient->checked[$this->slug]);
@@ -93,7 +94,7 @@ class LaterPayGitHubPluginUpdater {
             $package = $this->githubAPIResult->zipball_url;
 
             // include the access token for private GitHub repos
-            if ( !empty($this->accessToken) ) {
+            if ( ! empty($this->accessToken) ) {
                 $package = add_query_arg(array('access_token' => $this->accessToken), $package);
             }
 
@@ -109,7 +110,7 @@ class LaterPayGitHubPluginUpdater {
     }
 
     /**
-     * Push in plugin version information to display in the details lightbox
+     * Push in plugin version information to display in the details lightbox.
      *
      * @param bool   $false
      * @param string $action
@@ -117,13 +118,13 @@ class LaterPayGitHubPluginUpdater {
      *
      * @return type
      */
-    public function setPluginInfo( $false, $action, $response ) {
+    public function set_plugin_info( $false, $action, $response ) {
 
         // get plugin and GitHub release information
-        $this->initPluginData();
-        $this->getRepoReleaseInfo();
+        $this->init_plugin_data();
+        $this->get_repo_release_info();
         // if nothing is found, do nothing
-        if ( empty($response->slug) || $response->slug != $this->slug ) {
+        if ( empty($response->slug) || $response->slug ! = $this->slug ) {
             return false;
         }
         // add our plugin information
@@ -138,7 +139,7 @@ class LaterPayGitHubPluginUpdater {
         $downloadLink = $this->githubAPIResult->zipball_url;
 
         // include the access token for private GitHub repos
-        if ( !empty($this->accessToken) ) {
+        if ( ! empty($this->accessToken) ) {
             $downloadLink = add_query_arg(
                 array('access_token' => $this->accessToken), $downloadLink
             );
@@ -155,10 +156,10 @@ class LaterPayGitHubPluginUpdater {
             'changelog'     => $changelog
         );
 
-        // get the required version of WP if available
+        // get the required version of WordPress if available
         $matches = null;
         preg_match("/requires:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches);
-        if ( !empty($matches) ) {
+        if ( ! empty($matches) ) {
             if ( is_array($matches) ) {
                 if ( count($matches) > 1 ) {
                     $response->requires = $matches[1];
@@ -166,10 +167,10 @@ class LaterPayGitHubPluginUpdater {
             }
         }
 
-        // get the tested version of WP if available
+        // get the tested version of WordPress if available
         $matches = null;
         preg_match("/tested:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches);
-        if ( !empty($matches) ) {
+        if ( ! empty($matches) ) {
             if ( is_array($matches) ) {
                 if ( count($matches) > 1 ) {
                     $response->tested = $matches[1];
@@ -181,7 +182,7 @@ class LaterPayGitHubPluginUpdater {
     }
 
     /**
-     * Perform additional actions to successfully install our plugin
+     * Perform additional actions to successfully install our plugin.
      *
      * @param bool   $true
      * @param string $hook_extra
@@ -189,7 +190,7 @@ class LaterPayGitHubPluginUpdater {
      *
      * @return array
      */
-    public function postInstall( $true, $hook_extra, $result ) {
+    public function post_install( $true, $hook_extra, $result ) {
         global $wp_filesystem;
 
         // since our plugin is hosted on GitHub, our plugin folder would have a dirname of
@@ -200,8 +201,8 @@ class LaterPayGitHubPluginUpdater {
         $wp_filesystem->delete($result['destination'], true);
         $result['destination'] = $pluginFolder;
         // restore config file
-        $this->backupConfig(true);
-        // re-activate plugin if needed
+        $this->backup_config(true);
+        // re-activate plugin, if needed
         if ( $this->wasActivated ) {
             $activate = activate_plugin($this->slug);
         }
@@ -209,7 +210,7 @@ class LaterPayGitHubPluginUpdater {
         return $result;
     }
 
-    private function backupConfig( $restore = false, $file = 'settings' ) {
+    private function backup_config( $restore = false, $file = 'settings' ) {
         global $wp_filesystem;
 
         // back up config file, if it exists
@@ -218,7 +219,7 @@ class LaterPayGitHubPluginUpdater {
         $configFile     = $pluginFolder . DIRECTORY_SEPARATOR . $configName;
         $backup         = $pluginFolder . '_' . $configName . '.backup';
 
-        if ( !$restore && file_exists($configFile) ) {
+        if ( ! $restore && file_exists($configFile) ) {
             $wp_filesystem->copy($configFile, $backup, true);
         } else if ( $restore && file_exists($backup) ) {
                 $wp_filesystem->move($backup, $configFile, true);
@@ -226,23 +227,23 @@ class LaterPayGitHubPluginUpdater {
     }
 
     /**
-     * Perform additional actions to successfully install our plugin
+     * Perform additional actions to successfully install our plugin.
      *
      * @return array
      */
-    public function preInstall( $return, $plugin ) {
-        $this->initPluginData();
+    public function pre_install( $return, $plugin ) {
+        $this->init_plugin_data();
 
         $plugin = isset($plugin['plugin']) ? $plugin['plugin'] : '';
 
-        if ( empty($plugin) || $plugin != $this->slug ) {
+        if ( empty($plugin) || $plugin ! = $this->slug ) {
             return;
         }
 
-        // remember if our plugin was previously activated
+        // remember, if our plugin was previously activated
         $this->wasActivated = is_plugin_active($this->slug);
 
-        $this->backupConfig();
+        $this->backup_config();
     }
 
 }

@@ -43,10 +43,10 @@ class Zend_Exception extends Exception
     public function __construct($msg = '', $code = 0, Exception $previous = null)
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            parent::__construct($msg, (int)  $code);
+            parent::__construct($msg, (int) $code);
             $this->_previous = $previous;
         } else {
-            parent::__construct($msg, (int)  $code, $previous);
+            parent::__construct($msg, (int) $code, $previous);
         }
     }
 
@@ -72,16 +72,16 @@ class Zend_Exception extends Exception
      *
      * @return string
      */
-    public function __toString()
+    public function __to_string()
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            if (null !== ($e = $this->getPrevious())) {
-                return $e->__toString()
+            if (null ! == ($e = $this->getPrevious())) {
+                return $e->__to_string()
                        . "\n\nNext "
-                       . parent::__toString();
+                       . parent::__to_string();
             }
         }
-        return parent::__toString();
+        return parent::__to_string();
     }
 
     /**

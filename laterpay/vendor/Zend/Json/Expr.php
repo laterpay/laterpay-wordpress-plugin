@@ -73,7 +73,7 @@ class Zend_Json_Expr
      *
      * @return string holded javascript expression.
      */
-    public function __toString()
+    public function __to_string()
     {
         return $this->_expression;
     }

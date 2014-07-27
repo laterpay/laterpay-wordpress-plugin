@@ -54,7 +54,7 @@ class Zend_Server_Method_Prototype
      */
     public function __construct($options = null)
     {
-        if ((null !== $options) && is_array($options)) {
+        if ((null ! == $options) && is_array($options)) {
             $this->setOptions($options);
         }
     }
@@ -91,7 +91,7 @@ class Zend_Server_Method_Prototype
     {
         if ($parameter instanceof Zend_Server_Method_Parameter) {
             $this->_parameters[] = $parameter;
-            if (null !== ($name = $parameter->getName())) {
+            if (null ! == ($name = $parameter->getName())) {
                 $this->_parameterNameMap[$name] = count($this->_parameters) - 1;
             }
         } else {
@@ -137,7 +137,7 @@ class Zend_Server_Method_Prototype
      *
      * @return array
      */
-    public function getParameters()
+    public function get_parameters()
     {
         $types = array();
         foreach ($this->_parameters as $parameter) {
@@ -151,7 +151,7 @@ class Zend_Server_Method_Prototype
      *
      * @return array
      */
-    public function getParameterObjects()
+    public function get_parameterObjects()
     {
         return $this->_parameters;
     }
@@ -162,9 +162,9 @@ class Zend_Server_Method_Prototype
      * @param  string|int $index
      * @return null|Zend_Server_Method_Parameter
      */
-    public function getParameter($index)
+    public function get_parameter($index)
     {
-        if (!is_string($index) && !is_numeric($index)) {
+        if (! is_string($index) && ! is_numeric($index)) {
             return null;
         }
         if (array_key_exists($index, $this->_parameterNameMap)) {
@@ -198,11 +198,11 @@ class Zend_Server_Method_Prototype
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         return array(
             'returnType' => $this->getReturnType(),
-            'parameters' => $this->getParameters(),
+            'parameters' => $this->get_parameters(),
         );
     }
 }

@@ -21,10 +21,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -95,7 +95,7 @@ function crypt_random_string($length)
             // "open_basedir restriction in effect", "Permission denied", "No such file or directory", etc.
             $fp = @fopen('/dev/urandom', 'rb');
         }
-        if ($fp !== true && $fp !== false) { // surprisingly faster than !is_bool() or is_resource()
+        if ($fp ! == true && $fp ! == false) { // surprisingly faster than ! is_bool() or is_resource()
             return fread($fp, $length);
         }
         // method 3. pretty much does the same thing as method 2 per the following url:
@@ -135,7 +135,7 @@ function crypt_random_string($length)
         if (isset($_SESSION)) {
             $_OLD_SESSION = $_SESSION;
         }
-        if ($old_session_id != '') {
+        if ($old_session_id ! = '') {
             session_write_close();
         }
 
@@ -153,7 +153,7 @@ function crypt_random_string($length)
             serialize($_SESSION) .
             serialize($_OLD_SESSION)
         ));
-        if (!isset($_SESSION['count'])) {
+        if (! isset($_SESSION['count'])) {
             $_SESSION['count'] = 0;
         }
         $_SESSION['count']++;
@@ -161,7 +161,7 @@ function crypt_random_string($length)
         session_write_close();
 
         // restore old session data
-        if ($old_session_id != '') {
+        if ($old_session_id ! = '') {
             session_id($old_session_id);
             session_start();
             ini_set('session.use_cookies', $old_use_cookies);

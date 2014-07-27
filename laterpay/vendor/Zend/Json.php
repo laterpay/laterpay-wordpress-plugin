@@ -72,17 +72,17 @@ class Zend_Json
     public static function decode($encodedValue, $objectDecodeType = Zend_Json::TYPE_ARRAY)
     {
         $encodedValue = (string)  $encodedValue;
-        if (function_exists('json_decode') && self::$useBuiltinEncoderDecoder !== true) {
+        if (function_exists('json_decode') && self::$useBuiltinEncoderDecoder ! == true) {
             $decode = json_decode($encodedValue, $objectDecodeType);
 
             // php < 5.3
-            if (!function_exists('json_last_error')) {
+            if (! function_exists('json_last_error')) {
                 if ($decode === $encodedValue) {
                     require_once 'Zend/Json/Exception.php';
                     throw new Zend_Json_Exception('Decoding failed');
                 }
             // php >= 5.3
-            } elseif (($jsonLastErr = json_last_error()) != JSON_ERROR_NONE) {
+            } elseif (($jsonLastErr = json_last_error()) ! = JSON_ERROR_NONE) {
                 require_once 'Zend/Json/Exception.php';
                 switch ($jsonLastErr) {
                     case JSON_ERROR_DEPTH:
@@ -126,10 +126,10 @@ class Zend_Json
     public static function encode($valueToEncode, $cycleCheck = false, $options = array())
     {
         if (is_object($valueToEncode)) {
-            if (method_exists($valueToEncode, 'toJson')) {
-                return $valueToEncode->toJson();
-            } elseif (method_exists($valueToEncode, 'toArray')) {
-                return self::encode($valueToEncode->toArray(), $cycleCheck, $options);
+            if (method_exists($valueToEncode, 'to_json')) {
+                return $valueToEncode->to_json();
+            } elseif (method_exists($valueToEncode, 'to_array')) {
+                return self::encode($valueToEncode->to_array(), $cycleCheck, $options);
             }
         }
 
@@ -146,7 +146,7 @@ class Zend_Json
         }
 
         // Encoding
-        if (function_exists('json_encode') && self::$useBuiltinEncoderDecoder !== true) {
+        if (function_exists('json_encode') && self::$useBuiltinEncoderDecoder ! == true) {
             $encodedResult = json_encode($valueToEncode);
         } else {
             require_once 'Zend/Json/Encoder.php';
@@ -200,7 +200,7 @@ class Zend_Json
 
                 //if currentKey is integer, encodeUnicodeString call is not required.
                 "magicKey" => $aux,
-                "value"    => $value->__toString(),
+                "value"    => $value->__to_string(),
             );
             $value = $magicKey;
         } elseif (is_array($value)) {
@@ -274,11 +274,11 @@ class Zend_Json
         $attributes = (array)  $simpleXmlElementObject->attributes();
 
         if (count($children) == 0) {
-            if (!empty($attributes) && !$ignoreXmlAttributes) {
+            if (! empty($attributes) && ! $ignoreXmlAttributes) {
                 foreach ($attributes['@attributes'] as $k => $v) {
                     $attributes['@attributes'][$k]= self::_getXmlValue($v);
                 }
-                if (!empty($value)) {
+                if (! empty($value)) {
                     $attributes['@text'] = $value;
                 }
                 return array($name => $attributes);
@@ -300,13 +300,13 @@ class Zend_Json
                     $childArray[$childname] = $element[$childname];
                 }
             }
-            if (!empty($attributes) && !$ignoreXmlAttributes) {
+            if (! empty($attributes) && ! $ignoreXmlAttributes) {
                 foreach ($attributes['@attributes'] as $k => $v) {
                     $attributes['@attributes'][$k] = self::_getXmlValue($v);
                 }
                 $childArray['@attributes'] = $attributes['@attributes'];
             }
-            if (!empty($value)) {
+            if (! empty($value)) {
                 $childArray['@text'] = $value;
             }
             return array($name => $childArray);
@@ -411,17 +411,17 @@ class Zend_Json
             }
 
             $prefix = str_repeat($ind, $indent);
-            if (!$inLiteral && ($token == '{' || $token == '[')) {
+            if (! $inLiteral && ($token == '{' || $token == '[')) {
                 $indent++;
-                if (($result != '') && ($result[(strlen($result)-1)] == $lineBreak)) {
+                if (($result ! = '') && ($result[(strlen($result)-1)] == $lineBreak)) {
                     $result .= $prefix;
                 }
                 $result .= $token . $lineBreak;
-            } elseif (!$inLiteral && ($token == '}' || $token == ']')) {
+            } elseif (! $inLiteral && ($token == '}' || $token == ']')) {
                 $indent--;
                 $prefix = str_repeat($ind, $indent);
                 $result .= $lineBreak . $prefix . $token;
-            } elseif (!$inLiteral && $token == ',') {
+            } elseif (! $inLiteral && $token == ',') {
                 $result .= $token . $lineBreak;
             } else {
                 if ( $inLiteral ) { $aux = ''; } else { $aux = $prefix; }
@@ -430,8 +430,8 @@ class Zend_Json
                 // Count # of unescaped double-quotes in token, subtract # of
                 // escaped double-quotes and if the result is odd then we are
                 // inside a string literal
-                if ((substr_count($token, "\"")-substr_count($token, "\\\"")) % 2 != 0) {
-                    $inLiteral = !$inLiteral;
+                if ((substr_count($token, "\"")-substr_count($token, "\\\"")) % 2 ! = 0) {
+                    $inLiteral = ! $inLiteral;
                 }
             }
         }

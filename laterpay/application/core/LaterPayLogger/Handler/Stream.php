@@ -5,6 +5,7 @@
  */
 class LaterPayLogger_Handler_Stream extends LaterPayLogger_Abstract
 {
+
     protected $stream;
     protected $url;
     protected static $errorMessage;
@@ -32,7 +33,7 @@ class LaterPayLogger_Handler_Stream extends LaterPayLogger_Abstract
         $this->stream = null;
     }
 
-    public static function errorHandler( $code, $msg ) {
+    public static function error_handler( $code, $msg ) {
         self::$errorMessage = preg_replace('{^fopen\(.*?\): }', '', $msg);
     }
 
@@ -41,14 +42,14 @@ class LaterPayLogger_Handler_Stream extends LaterPayLogger_Abstract
      */
     protected function write( array $record ) {
         if ( null === $this->stream ) {
-            if ( !$this->url ) {
+            if ( ! $this->url ) {
                 throw new LogicException('Missing stream URL, the stream can not be opened. This may be caused by a premature call to close().');
             }
             self::$errorMessage = null;
-            set_error_handler(array('Logger_Handler_Stream', 'errorHandler'));
+            set_error_handler(array('Logger_Handler_Stream', 'error_handler'));
             $this->stream = fopen($this->url, 'a');
             restore_error_handler();
-            if ( !is_resource($this->stream) ) {
+            if ( ! is_resource($this->stream) ) {
                 $this->stream = null;
                 throw new UnexpectedValueException(sprintf('The stream or file "%s" could not be opened: ' . self::$errorMessage, $this->url));
             }

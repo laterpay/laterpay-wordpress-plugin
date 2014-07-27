@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayBrowserHelper {
+class LaterPayBrowserHelper
+{
 
     /**
      * @var Browscap Browscap library
@@ -18,7 +19,7 @@ class LaterPayBrowserHelper {
         if ( empty(self::$browscap) ) {
             self::$browscap = new Browscap(LATERPAY_GLOBAL_PATH . '/cache');
             self::$browscap->doAutoUpdate = defined('LATERPAY_BROWSCAP_AUTOUPDATING') && LATERPAY_BROWSCAP_AUTOUPDATING;
-            if ( defined('LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY') && LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY !== '' ) {
+            if ( defined('LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY') && LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY ! == '' ) {
                 self::$browscap->localFile = LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY;
             }
         }
@@ -69,7 +70,7 @@ class LaterPayBrowserHelper {
      */
     public static function is_browser( $name = '', $version = '' ) {
         $browser_info = self::php_browser_info();
-        if ( isset( $browser_info['Browser'] ) && (strpos( $browser_info['Browser'], $name ) !== false) ) {
+        if ( isset( $browser_info['Browser'] ) && (strpos( $browser_info['Browser'], $name ) ! == false) ) {
             if ( $version == '' ) {
                 return true;
             } elseif ( $browser_info['MajorVer'] == $version ) {
@@ -145,7 +146,7 @@ class LaterPayBrowserHelper {
     public static function is_mobile() {
         $browserInfo = self::php_browser_info();
         if ( isset( $browserInfo['isMobileDevice'] ) ) {
-            if ( $browserInfo['isMobileDevice'] == 1 || $browserInfo['isMobileDevice'] == "true" || strpos( $browserInfo['Device_Type'], "Mobile" ) !== false ) {
+            if ( $browserInfo['isMobileDevice'] == 1 || $browserInfo['isMobileDevice'] == "true" || strpos( $browserInfo['Device_Type'], "Mobile" ) ! == false ) {
                 return true;
             }
         }

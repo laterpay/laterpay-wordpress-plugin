@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayModelCategory {
+class LaterPayModelCategory
+{
 
     /**
      * Name of terms table
@@ -37,7 +38,7 @@ class LaterPayModelCategory {
      *
      * @return array categories
      */
-    public function getCategoriesPrices() {
+    public function get_categories_prices() {
         global $wpdb;
 
         $sql = "
@@ -58,7 +59,7 @@ class LaterPayModelCategory {
             ;
         ";
 
-        $categories = $wpdb->get_results($sql);
+        $categories = $wpdb->get_results( $sql );
 
         return $categories;
     }
@@ -70,7 +71,7 @@ class LaterPayModelCategory {
      *
      * @return array category_price_data
      */
-    public function getCategoryPriceDataByCategoryIds( $ids ) {
+    public function get_category_price_data_by_category_ids( $ids ) {
         global $wpdb;
 
         $placeholders = array_fill(0, count($ids), '%d');
@@ -141,7 +142,7 @@ class LaterPayModelCategory {
                 $limit
             ;
         ";
-        $categories = $wpdb->get_results($sql);
+        $categories = $wpdb->get_results( $sql );
 
         return (array) $categories;
     }
@@ -156,7 +157,7 @@ class LaterPayModelCategory {
      *
      * @return array categories
      */
-    public function getCategoriesByTerm( $term, $limit ) {
+    public function get_categories_by_term( $term, $limit ) {
         global $wpdb;
 
         $term = esc_sql($term);
@@ -174,7 +175,7 @@ class LaterPayModelCategory {
                 $limit
             ;
         ";
-        $categories = $wpdb->get_results($sql);
+        $categories = $wpdb->get_results( $sql );
 
         return (array) $categories;
     }
@@ -188,10 +189,10 @@ class LaterPayModelCategory {
      *
      * @access public
      */
-    public function setCategoryPrice( $id_category, $price, $id = 0 ) {
+    public function set_category_price( $id_category, $price, $id = 0 ) {
         global $wpdb;
 
-        if ( !empty($id) ) {
+        if ( ! empty($id) ) {
             $wpdb->update(
                 $this->table_prices,
                 array(
@@ -229,7 +230,7 @@ class LaterPayModelCategory {
      *
      * @return integer id price
      */
-    public function getPriceIdsByCategoryId( $id ) {
+    public function get_price_ids_by_category_id( $id ) {
         global $wpdb;
 
         $sql = "
@@ -261,7 +262,7 @@ class LaterPayModelCategory {
      *
      * @return integer category id
      */
-    public function getCategoryIdByName( $name ) {
+    public function get_category_id_by_name( $name ) {
         global $wpdb;
 
         $name = esc_sql($name);
@@ -294,7 +295,7 @@ class LaterPayModelCategory {
      *
      * @return integer category id
      */
-    public function checkAvailableCategoryByName( $name ) {
+    public function check_existence_of_category_by_name( $name ) {
         global $wpdb;
 
         $name = esc_sql($name);
@@ -329,7 +330,7 @@ class LaterPayModelCategory {
      *
      * @access public
      */
-    public function deletePricesByCategoryId( $id ) {
+    public function delete_prices_by_category_id( $id ) {
         global $wpdb;
 
         $wpdb->delete($this->table_prices, array('term_id' => $id));
@@ -344,7 +345,7 @@ class LaterPayModelCategory {
      *
      * @return float|null price category
      */
-    public function getPriceByCategoryId( $id ) {
+    public function get_price_by_category_id( $id ) {
         global $wpdb;
 
         $sql = "

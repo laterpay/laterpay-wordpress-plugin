@@ -1,6 +1,8 @@
 <?php
 
-class LaterPayViewHelper {
+class LaterPayViewHelper
+{
+
     public static $pluginPage = 'laterpay-plugin';
 
     public static $adminMenu = array(
@@ -17,7 +19,7 @@ class LaterPayViewHelper {
      *
      * @return string
      */
-    protected static function getNextDay( $date ) {
+    protected static function get_next_day( $date ) {
         $nextDay = date('Y-m-d', mktime(
                 date('H', strtotime($date)),
                 date('i', strtotime($date)),
@@ -37,7 +39,7 @@ class LaterPayViewHelper {
      *
      * @return string
      */
-    protected static function getLast30Day( $date ) {
+    protected static function get_last_30_days( $date ) {
         $last30Day = date('Y-m-d', mktime(
                 date('H', strtotime($date)),
                 date('i', strtotime($date)),
@@ -50,13 +52,13 @@ class LaterPayViewHelper {
         return $last30Day;
     }
 
-    public static function getDaysStatisticAsString( $statistic, $type = 'quantity', $delimiter = ',' ) {
+    public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
         $today = date('Y-m-d');
-        $date = self::getLast30Day(date($today));
+        $date = self::get_last_30_days(date($today));
 
         $result = '';
         while ( $date <= $today ) {
-            if ( $result !== '' ) {
+            if ( $result ! == '' ) {
                 $result .= $delimiter;
             }
             if ( isset($statistic[$date]) ) {
@@ -64,7 +66,7 @@ class LaterPayViewHelper {
             } else {
                 $result .= '0';
             }
-            $date = self::getNextDay($date);
+            $date = self::get_next_day($date);
         }
 
         return $result;
@@ -75,18 +77,18 @@ class LaterPayViewHelper {
      *
      * @return boolean
      */
-    public static function isPluginAvailable() {
-        if ( get_option('laterpay_plugin_is_activated') != 1 ) {
+    public static function plugin_is_working() {
+        if ( get_option('laterpay_plugin_is_activated') ! = 1 ) {
             return false;
         }
 
-        $modeIsLive = get_option('laterpay_plugin_is_in_live_mode');
-        $sandboxKey = get_option('laterpay_sandbox_api_key');
-        $liveKey    = get_option('laterpay_live_api_key');
-        if ( !function_exists('wp_get_current_user')) {
-            include_once(ABSPATH . 'wp-includes/pluggable.php');
+        $modeIsLive = get_option( 'laterpay_plugin_is_in_live_mode' );
+        $sandboxKey = get_option( 'laterpay_sandbox_api_key' );
+        $liveKey    = get_option( 'laterpay_live_api_key' );
+        if ( ! function_exists( 'wp_get_current_user' ) ) {
+            include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
-        if ( ($modeIsLive && empty($liveKey)) || (!$modeIsLive && empty($sandboxKey)) || (!$modeIsLive && !LaterPayUserHelper::can('laterpay_read_post_statistics', null, false)) ) {
+        if ( ($modeIsLive && empty( $liveKey )) || (! $modeIsLive && empty( $sandboxKey )) || (! $modeIsLive && ! LaterPayUserHelper::can( 'laterpay_read_post_statistics', null, false )) ) {
             return false;
         }
 
@@ -101,14 +103,14 @@ class LaterPayViewHelper {
      *
      * @return string
      */
-    public static function formatNumber( $number, $decimals = 2 ) {
+    public static function format_number( $number, $decimals = 2 ) {
         global $wp_locale;
 
-        $delocalized_number = str_replace(',', '.', $number);
+        $delocalized_number = str_replace( ',', '.', $number );
 
         $formatted = number_format(
             (float) $delocalized_number,
-            absint($decimals),
+            absint( $decimals ),
             $wp_locale->number_format['decimal_point'],
             $wp_locale->number_format['thousands_sep']
         );

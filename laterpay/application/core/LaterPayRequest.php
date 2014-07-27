@@ -1,6 +1,8 @@
 <?php
 
-class LaterPayRequest extends LaterPayEntity {
+class LaterPayRequest extends LaterPayEntity
+{
+
     /**
      * POST method
      *
@@ -46,11 +48,11 @@ class LaterPayRequest extends LaterPayEntity {
 
     public function _construct() {
         parent::_construct();
-        $this->setData('get', $_GET);
-        $this->setData('post', $_POST);
-        $this->setData('cookie', $_COOKIE);
-        $this->setData('server', $_SERVER);
-        $this->setData('env', $_ENV);
+        $this->set_data('get', $_GET);
+        $this->set_data('post', $_POST);
+        $this->set_data('cookie', $_COOKIE);
+        $this->set_data('server', $_SERVER);
+        $this->set_data('env', $_ENV);
     }
 
     /**
@@ -65,7 +67,7 @@ class LaterPayRequest extends LaterPayEntity {
      *
      * @return mixed
      */
-    public function getParam( $key, $default = null ) {
+    public function get_param( $key, $default = null ) {
         if ( isset($this->_data[$key]) ) {
             return $this->_data[$key];
         } elseif ( isset($this->_data['get']) && isset($this->_data['get'][$key]) ) {

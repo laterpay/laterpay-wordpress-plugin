@@ -58,7 +58,7 @@ class Zend_Server_Reflection_Node
     public function __construct($value, Zend_Server_Reflection_Node $parent = null)
     {
         $this->_value = $value;
-        if (null !== $parent) {
+        if (null ! == $parent) {
             $this->setParent($parent, true);
         }
 
@@ -107,7 +107,7 @@ class Zend_Server_Reflection_Node
     {
         $this->_children[] = $node;
 
-        if ($node->getParent() !== $this) {
+        if ($node->getParent() ! == $this) {
             $node->setParent($this);
         }
     }
@@ -175,7 +175,7 @@ class Zend_Server_Reflection_Node
     public function getEndPoints()
     {
         $endPoints = array();
-        if (!$this->hasChildren()) {
+        if (! $this->hasChildren()) {
             return $endPoints;
         }
 
@@ -184,14 +184,14 @@ class Zend_Server_Reflection_Node
 
             if (null === $value) {
                 $endPoints[] = $this;
-            } elseif ((null !== $value)
+            } elseif ((null ! == $value)
                 && $child->hasChildren())
             {
                 $childEndPoints = $child->getEndPoints();
-                if (!empty($childEndPoints)) {
+                if (! empty($childEndPoints)) {
                     $endPoints = array_merge($endPoints, $childEndPoints);
                 }
-            } elseif ((null !== $value) && !$child->hasChildren()) {
+            } elseif ((null ! == $value) && ! $child->hasChildren()) {
                 $endPoints[] = $child;
             }
         }

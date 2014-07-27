@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayFileHelper {
+class LaterPayFileHelper
+{
 
     const URL_REGEX_PATTERN     = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
     const SCRIPT_PATH           = 'laterpay/scripts/lp-get.php';
@@ -8,7 +9,7 @@ class LaterPayFileHelper {
     /**
     * @param null|string $file
     */
-    public static function getFileMimeType( $file ) {
+    public static function get_file_mime_type( $file ) {
         $type = '';
         if ( function_exists('finfo_file') ) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -21,15 +22,15 @@ class LaterPayFileHelper {
         return $type;
     }
 
-    public static function getEncryptedResourceUrl( $post_id, $url, $use_auth ) {
+    public static function get_encrypted_resource_url( $post_id, $url, $use_auth ) {
         $new_url            = plugins_url(self::SCRIPT_PATH);
         $blog_url_parts     = parse_url(get_bloginfo('wpurl'));
         $resource_url_parts = parse_url($url);
-        if ( $blog_url_parts['host'] != $resource_url_parts['host'] ) {
+        if ( $blog_url_parts['host'] ! = $resource_url_parts['host'] ) {
             return $url;
         }
         $uri = $resource_url_parts['path'];
-        if ( !preg_match('/.*\.(' . LATERPAY_PROTECTED_FILE_TYPES . ')/i', $uri) ) {
+        if ( ! preg_match('/.*\.(' . LATERPAY_PROTECTED_FILE_TYPES . ')/i', $uri) ) {
             return $url;
         }
         $cipher = new Crypt_AES();
@@ -43,14 +44,14 @@ class LaterPayFileHelper {
         );
         if ( $use_auth ) {
             $client         = new LaterPayClient();
-            $tokenInstance  = new LaterPayAuth_Hmac($client->getApiKey());
-            $params['auth'] = $tokenInstance->sign($client->getLpToken());
+            $tokenInstance  = new LaterPayAuth_Hmac($client->get_api_key());
+            $params['auth'] = $tokenInstance->sign($client->get_laterpay_token());
         }
 
-        return $new_url . '?' . $client->signAndEncode($params, $new_url);
+        return $new_url . '?' . $client->sign_and_encode($params, $new_url);
     }
 
-    public static function getEncryptedContent( $post_id, $content, $use_auth ) {
+    public static function get_encrypted_content( $post_id, $content, $use_auth ) {
         // encrypt links to the resources
         $urls       = array();
         $matches    = array();
@@ -62,8 +63,8 @@ class LaterPayFileHelper {
         $replace    = array();
 
         foreach ( $urls as $resource_url ) {
-            $new_url = self::getEncryptedResourceUrl($post_id, $resource_url, $use_auth);
-            if ( $new_url != $resource_url ) {
+            $new_url = self::get_encrypted_resource_url($post_id, $resource_url, $use_auth);
+            if ( $new_url ! = $resource_url ) {
                 $search[] = $resource_url;
                 $replace[] = $new_url;
             }

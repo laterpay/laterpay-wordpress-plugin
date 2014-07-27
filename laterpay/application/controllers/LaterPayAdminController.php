@@ -1,15 +1,17 @@
 <?php
 
-class LaterPayAdminController extends LaterPayAbstractController {
+class LaterPayAdminController extends LaterPayAbstractController
+{
+
     const ADMIN_MENU_POINTER            = 'lpwpp01';
     const POST_PRICE_BOX_POINTER        = 'lpwpp02';
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
 
-    public function __call($name) {
-        if ( substr($name, 0, 4) == 'run_') {
-            return $this->run( strtolower(substr($name, 4)) );
-        } elseif ( substr($name, 0, 5) == 'help_') {
-            return $this->help( strtolower(substr($name, 5)) );
+    public function __call( $name ) {
+        if ( substr( $name, 0, 4 ) == 'run_' ) {
+            return $this->run( strtolower( substr( $name, 4 ) ) );
+        } elseif ( substr( $name, 0, 5 ) == 'help_' ) {
+            return $this->help( strtolower( substr( $name, 5 ) ) );
         }
     }
 
@@ -28,18 +30,18 @@ class LaterPayAdminController extends LaterPayAbstractController {
             'open-sans',
             '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin,latin-ext'
         );
-        wp_enqueue_style('laterpay-backend');
-        wp_enqueue_style('open-sans');
+        wp_enqueue_style( 'laterpay-backend' );
+        wp_enqueue_style( 'open-sans' );
 
         // load LaterPay-specific JS
         wp_register_script(
             'laterpay-backend',
             LATERPAY_ASSETS_PATH . '/js/laterpay-backend.js',
-            array('jquery'),
+            array( 'jquery' ),
             $laterpay_version,
             true
         );
-        wp_enqueue_script('laterpay-backend');
+        wp_enqueue_script( 'laterpay-backend' );
 
         // load HTML5 shim for IE <= 9 only
         if ( LaterPayBrowserHelper::is_ie() && LaterPayBrowserHelper::get_browser_major_version() <= 9 ) {
@@ -47,7 +49,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
                 'html5-shim-ie',
                 'http://html5shim.googlecode.com/svn/trunk/html5.js'
             );
-            wp_enqueue_script('html5-shim-ie');
+            wp_enqueue_script( 'html5-shim-ie' );
         }
     }
 
@@ -57,12 +59,12 @@ class LaterPayAdminController extends LaterPayAbstractController {
     public function run( $tab = '' ) {
         $this->load_assets();
 
-        if ( (isset($_GET['tab'])) ) {
+        if ( isset( $_GET['tab'] ) ) {
             $tab = $_GET['tab'];
         }
-        $activated = get_option('laterpay_plugin_is_activated', '');
+        $activated = get_option( 'laterpay_plugin_is_activated', '' );
         // return default tab, if no specific tab is requested
-        if ( empty($tab) ) {
+        if ( empty( $tab ) ) {
             if ( $activated == '0' ) {
                 $tab            = 'get_started';
                 $_GET['tab']    = 'get_started';
@@ -149,7 +151,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      */
     protected function _render_add_edit_post_page_help() {
         $screen = get_current_screen();
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_add_edit_post_page_help',
             'title'   => __('LaterPay', 'laterpay'),
             'content' => __('
@@ -188,7 +190,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      */
     protected function _render_pricing_tab_help() {
         $screen = get_current_screen();
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_pricing_tab_help_global_default_price',
             'title'   => __('Global Default Price', 'laterpay'),
             'content' => __('
@@ -201,7 +203,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
                 'laterpay'
             ),
         ));
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_pricing_tab_help_category_default_price',
             'title'   => __('Category Default Prices', 'laterpay'),
             'content' => __('
@@ -217,7 +219,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
                 'laterpay'
             ),
         ));
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_pricing_tab_help_currency',
             'title'   => __('Currency', 'laterpay'),
             'content' => __('
@@ -240,7 +242,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      */
     protected function _render_appearance_tab_help() {
         $screen = get_current_screen();
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_appearance_tab_help_preview_mode',
             'title'   => __('Preview Mode', 'laterpay'),
             'content' => __('
@@ -259,7 +261,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
                 'laterpay'
             ),
         ));
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_appearance_tab_help_invoice_indicator',
             'title'   => __('Invoice Indicator', 'laterpay'),
             'content' => __('
@@ -280,7 +282,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
      */
     protected function _render_account_tab_help() {
         $screen = get_current_screen();
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_account_tab_help_api_credentials',
             'title'   => __('API Credentials', 'laterpay'),
             'content' => __('
@@ -323,7 +325,7 @@ class LaterPayAdminController extends LaterPayAbstractController {
              'laterpay'
             ),
         ));
-        $screen->add_help_tab(array(
+        $screen->add_help_tab( array(
             'id'      => 'laterpay_account_tab_help_plugin_mode',
             'title'   => __('Plugin Mode', 'laterpay'),
             'content' => __('
@@ -357,23 +359,23 @@ class LaterPayAdminController extends LaterPayAbstractController {
      * @access public
      */
     public function modify_footer() {
-        $dismissed_pointers = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
+        $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
         $pointers = array();
         // add pointer to LaterPay plugin in admin menu
-        if ( get_option('laterpay_plugin_is_activated') == '0' && !in_array(self::ADMIN_MENU_POINTER, $dismissed_pointers) ) {
+        if ( get_option( 'laterpay_plugin_is_activated' ) == '0' && ! in_array( self::ADMIN_MENU_POINTER, $dismissed_pointers ) ) {
             $pointers[] = self::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page
-        if ( !in_array(self::POST_PRICE_BOX_POINTER, $dismissed_pointers) ) {
+        if ( ! in_array( self::POST_PRICE_BOX_POINTER, $dismissed_pointers ) ) {
             $pointers[] = self::POST_PRICE_BOX_POINTER;
         }
-        if ( !in_array(self::POST_TEASER_CONTENT_POINTER, $dismissed_pointers) ) {
+        if ( ! in_array( self::POST_TEASER_CONTENT_POINTER, $dismissed_pointers ) ) {
             $pointers[] = self::POST_TEASER_CONTENT_POINTER;
         }
 
-        $this->assign('pointers', $pointers);
+        $this->assign( 'pointers', $pointers );
 
-        echo $this->get_text_view('partials/adminFooter');
+        echo $this->get_text_view( 'partials/adminFooter' );
     }
 
     /**
@@ -382,26 +384,26 @@ class LaterPayAdminController extends LaterPayAbstractController {
      * @access public
      */
     public static function process_ajax_requests() {
-        if ( isset($_POST['form']) ) {
+        if ( isset( $_POST['form'] ) ) {
             // check for required privileges to perform action
-            if ( !LaterPayUserHelper::can('laterpay_read_post_statistics', null, false) ) {
+            if ( ! LaterPayUserHelper::can( 'laterpay_read_post_statistics', null, false ) ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
-                        'message' => __('You don´t have sufficient user privileges to do this.', 'laterpay')
+                        'message' => __("You don't have sufficient user privileges to do this.", 'laterpay')
                     )
                 );
                 die;
             }
 
-            if ( function_exists('check_admin_referer') ) {
-                check_admin_referer('laterpay_form');
+            if ( function_exists( 'check_admin_referer' ) ) {
+                check_admin_referer( 'laterpay_form' );
             }
 
             switch ( $_POST['form'] ) {
                 case 'post_page_preview':
                     $current_user = wp_get_current_user();
-                    if ( !($current_user instanceof WP_User) ) {
+                    if ( ! ($current_user instanceof WP_User) ) {
                         echo Zend_Json::encode(
                             array(
                                 'success' => false,
@@ -410,8 +412,8 @@ class LaterPayAdminController extends LaterPayAbstractController {
                         );
                         die;
                     }
-                    $result = add_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'], true)
-                            || update_user_meta($current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post']);
+                    $result = add_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'], true )
+                            || update_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'] );
                     echo Zend_Json::encode(
                         array(
                             'success' => true,
@@ -423,11 +425,11 @@ class LaterPayAdminController extends LaterPayAbstractController {
 
                 case 'hide_statistics_pane':
                     $current_user = wp_get_current_user();
-                    if ( !($current_user instanceof WP_User) ) {
+                    if ( ! ($current_user instanceof WP_User) ) {
                         die;
                     }
-                    $result = add_user_meta($current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'], true)
-                            || update_user_meta($current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane']);
+                    $result = add_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'], true )
+                            || update_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'] );
                     die;
                     break;
 

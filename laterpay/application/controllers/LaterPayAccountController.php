@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayAccountController extends LaterPayAbstractController {
+class LaterPayAccountController extends LaterPayAbstractController
+{
 
     public function load_assets() {
         parent::load_assets();
@@ -10,7 +11,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
         wp_register_script(
             'laterpay-backend-account',
             LATERPAY_ASSETS_PATH . '/js/laterpay-backend-account.js',
-            array('jquery'),
+            array( 'jquery' ),
             $laterpay_version,
             true
         );
@@ -21,8 +22,8 @@ class LaterPayAccountController extends LaterPayAbstractController {
             'laterpay-backend-account',
             'lpVars',
             array(
-                'i18nApiKeyInvalid'         => __('The API key you entered is not a valid LaterPay API key!', 'laterpay'),
-                'i18nMerchantIdInvalid'     => __('The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay'),
+                'i18nApiKeyInvalid'         => __('The API key you entered is not a valid LaterPay API key! ', 'laterpay'),
+                'i18nMerchantIdInvalid'     => __('The Merchant ID you entered is not a valid LaterPay Merchant ID! ', 'laterpay'),
                 'i18nLiveApiDataRequired'   => __('Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay'),
                 'i18nPreventUnload'         => __('LaterPay does not work properly with invalid API credentials.', 'laterpay'),
             )
@@ -53,9 +54,9 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access public
      */
     public static function process_ajax_requests() {
-        if ( isset($_POST['form']) ) {
+        if ( isset( $_POST['form'] ) ) {
             // check for required privileges to perform action
-            if ( !LaterPayUserHelper::can('laterpay_edit_plugin_settings') ) {
+            if ( ! LaterPayUserHelper::can( 'laterpay_edit_plugin_settings' ) ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
@@ -65,8 +66,8 @@ class LaterPayAccountController extends LaterPayAbstractController {
                 die;
             }
 
-            if ( function_exists('check_admin_referer') ) {
-                check_admin_referer('laterpay_form');
+            if ( function_exists( 'check_admin_referer' ) ) {
+                check_admin_referer( 'laterpay_form' );
             }
 
             switch ( $_POST['form'] ) {
@@ -108,16 +109,18 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access protected
      */
     protected static function _update_sandbox_merchant_id() {
-        if ( self::is_valid_merchant_id($_POST['laterpay_sandbox_merchant_id']) ) {
-            update_option('laterpay_sandbox_merchant_id', $_POST['laterpay_sandbox_merchant_id']);
+        $sandbox_merchant_id = $_POST['laterpay_sandbox_merchant_id'];
+
+        if ( self::is_valid_merchant_id( $sandbox_merchant_id ) ) {
+            update_option( 'laterpay_sandbox_merchant_id', $sandbox_merchant_id );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
                     'message' => __('Sandbox Merchant ID verified and saved.', 'laterpay')
                 )
             );
-        } elseif ( strlen($_POST['laterpay_sandbox_merchant_id']) == 0 ) {
-            update_option('laterpay_sandbox_merchant_id', '');
+        } elseif ( strlen( $sandbox_merchant_id ) == 0 ) {
+            update_option( 'laterpay_sandbox_merchant_id', '' );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
@@ -128,7 +131,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay')
+                    'message' => __('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay')
                 )
             );
         }
@@ -141,16 +144,18 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access protected
      */
     protected static function _update_sandbox_api_key() {
-        if ( self::is_valid_api_key($_POST['laterpay_sandbox_api_key']) ) {
-            update_option('laterpay_sandbox_api_key', $_POST['laterpay_sandbox_api_key']);
+        $sandbox_api_key = $_POST['laterpay_sandbox_api_key'];
+
+        if ( self::is_valid_api_key( $sandbox_api_key ) ) {
+            update_option( 'laterpay_sandbox_api_key', $sandbox_api_key );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
                     'message' => __('Your Sandbox API key is valid. You can now make TEST transactions.', 'laterpay')
                 )
             );
-        } elseif ( strlen($_POST['laterpay_sandbox_api_key']) == 0 ) {
-            update_option('laterpay_sandbox_api_key', '');
+        } elseif ( strlen( $sandbox_api_key ) == 0 ) {
+            update_option( 'laterpay_sandbox_api_key', '' );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
@@ -161,7 +166,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay')
+                    'message' => __('The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay')
                 )
             );
         }
@@ -174,16 +179,18 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access protected
      */
     protected static function _update_live_merchant_id() {
-        if ( self::is_valid_merchant_id($_POST['laterpay_live_merchant_id']) ) {
-            update_option('laterpay_live_merchant_id', $_POST['laterpay_live_merchant_id']);
+        $live_merchant_id = $_POST['laterpay_live_merchant_id'];
+
+        if ( self::is_valid_merchant_id( $live_merchant_id ) ) {
+            update_option( 'laterpay_live_merchant_id', $live_merchant_id );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
                     'message' => __('Live Merchant ID verified and saved.', 'laterpay')
                 )
             );
-        } elseif ( strlen($_POST['laterpay_live_merchant_id']) == 0 ) {
-            update_option('laterpay_live_merchant_id', '');
+        } elseif ( strlen( $live_merchant_id ) == 0 ) {
+            update_option( 'laterpay_live_merchant_id', '' );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
@@ -194,7 +201,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The Merchant ID you entered is not a valid LaterPay Live Merchant ID!', 'laterpay')
+                    'message' => __('The Merchant ID you entered is not a valid LaterPay Live Merchant ID! ', 'laterpay')
                 )
             );
         }
@@ -207,16 +214,18 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access protected
      */
     protected static function _update_live_api_key() {
-        if ( self::is_valid_api_key($_POST['laterpay_live_api_key']) ) {
-            update_option('laterpay_live_api_key', $_POST['laterpay_live_api_key']);
+        $live_api_key = $_POST['laterpay_live_api_key'];
+
+        if ( self::is_valid_api_key( $live_api_key ) ) {
+            update_option( 'laterpay_live_api_key', $live_api_key );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
                     'message' => __('Live API key verified and saved. You can now make REAL transactions.', 'laterpay')
                 )
             );
-        } elseif ( strlen($_POST['laterpay_live_api_key']) == 0 ) {
-            update_option('laterpay_live_api_key', '');
+        } elseif ( strlen( $live_api_key ) == 0 ) {
+            update_option( 'laterpay_live_api_key', '' );
             echo Zend_Json::encode(
                 array(
                     'success' => true,
@@ -227,7 +236,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The API key you entered is not a valid LaterPay Live API key!', 'laterpay')
+                    'message' => __('The API key you entered is not a valid LaterPay Live API key! ', 'laterpay')
                 )
             );
         }
@@ -240,9 +249,9 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access protected
      */
     protected static function _update_plugin_mode() {
-        $result = update_option('laterpay_plugin_is_in_live_mode', $_POST['plugin_is_in_live_mode']);
+        $result = update_option( 'laterpay_plugin_is_in_live_mode', $_POST['plugin_is_in_live_mode'] );
         if ( $result ) {
-            if ( get_option('laterpay_plugin_is_in_live_mode') ) {
+            if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
                 echo Zend_Json::encode(
                     array(
                         'success' => true,
@@ -275,7 +284,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access public
      */
     public static function is_valid_merchant_id( $merchant_id ) {
-        return preg_match('/[a-zA-Z0-9]{22}/', $merchant_id);
+        return preg_match( '/[a-zA-Z0-9]{22}/', $merchant_id );
     }
 
     /**
@@ -284,7 +293,7 @@ class LaterPayAccountController extends LaterPayAbstractController {
      * @access public
      */
     public static function is_valid_api_key( $api_key ) {
-        return preg_match('/[a-z0-9]{32}/', $api_key);
+        return preg_match( '/[a-z0-9]{32}/', $api_key );
     }
 
 }

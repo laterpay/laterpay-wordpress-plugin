@@ -1,8 +1,9 @@
 <?php
 
-class LaterPayCacheHelper {
+class LaterPayCacheHelper
+{
 
-    public static function resetOpcodeCache() {
+    public static function reset_opcode_cache() {
         $reset = false;
 
         if ( function_exists('opcache_reset') ) {
@@ -18,7 +19,7 @@ class LaterPayCacheHelper {
             $reset = xcache_clear_cache();
         }
 
-        LaterPayLogger::debug('LaterPayCacheHelper::resetOpcodeCache', array($reset));
+        LaterPayLogger::debug('LaterPayCacheHelper::reset_opcode_cache', array($reset));
 
         return $reset;
     }
@@ -31,8 +32,8 @@ class LaterPayCacheHelper {
      *
      * @access public
      */
-    public static function siteUsesPageCaching() {
-        if ( !function_exists('is_plugin_active') ) {
+    public static function site_uses_page_caching() {
+        if ( ! function_exists('is_plugin_active') ) {
             include_once(ABSPATH . 'wp-admin/includes/plugin.php');
         }
 

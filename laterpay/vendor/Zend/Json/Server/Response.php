@@ -120,7 +120,7 @@ class Zend_Json_Server_Response
      * @param  mixed $name
      * @return Zend_Json_Server_Response
      */
-    public function setId($name)
+    public function set_id($name)
     {
         $this->_id = $name;
         return $this;
@@ -131,7 +131,7 @@ class Zend_Json_Server_Response
      *
      * @return mixed
      */
-    public function getId()
+    public function get_id()
     {
         return $this->_id;
     }
@@ -168,21 +168,21 @@ class Zend_Json_Server_Response
      *
      * @return string
      */
-    public function toJson()
+    public function to_json()
     {
         if ($this->isError()) {
             $response = array(
-                'error'  => $this->getError()->toArray(),
-                'id'     => $this->getId(),
+                'error'  => $this->getError()->to_array(),
+                'id'     => $this->get_id(),
             );
         } else {
             $response = array(
                 'result' => $this->getResult(),
-                'id'     => $this->getId(),
+                'id'     => $this->get_id(),
             );
         }
 
-        if (null !== ($version = $this->getVersion())) {
+        if (null ! == ($version = $this->getVersion())) {
             $response['jsonrpc'] = $version;
         }
 
@@ -239,9 +239,9 @@ class Zend_Json_Server_Response
      *
      * @return string
      */
-    public function __toString()
+    public function __to_string()
     {
-        return $this->toJson();
+        return $this->to_json();
     }
 }
 

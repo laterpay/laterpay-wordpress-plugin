@@ -53,14 +53,14 @@ class Zend_Server_Reflection_Prototype
     {
         $this->_return = $return;
 
-        if (!is_array($params) && (null !== $params)) {
+        if (! is_array($params) && (null ! == $params)) {
             require_once 'Zend/Server/Reflection/Exception.php';
             throw new Zend_Server_Reflection_Exception('Invalid parameters');
         }
 
         if (is_array($params)) {
             foreach ($params as $param) {
-                if (!$param instanceof Zend_Server_Reflection_Parameter) {
+                if (! $param instanceof Zend_Server_Reflection_Parameter) {
                     require_once 'Zend/Server/Reflection/Exception.php';
                     throw new Zend_Server_Reflection_Exception('One or more params are invalid');
                 }
@@ -96,7 +96,7 @@ class Zend_Server_Reflection_Prototype
      *
      * @return array Array of {@link Zend_Server_Reflection_Parameter}s
      */
-    public function getParameters()
+    public function get_parameters()
     {
         return $this->_params;
     }

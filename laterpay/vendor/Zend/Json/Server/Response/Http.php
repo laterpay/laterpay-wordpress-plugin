@@ -39,14 +39,14 @@ class Zend_Json_Server_Response_Http extends Zend_Json_Server_Response
      *
      * @return string
      */
-    public function toJson()
+    public function to_json()
     {
-        $this->sendHeaders();
-        if (!$this->isError() && null === $this->getId()) {
+        $this->send_headers();
+        if (! $this->isError() && null === $this->get_id()) {
             return '';
         }
 
-        return parent::toJson();
+        return parent::to_json();
     }
 
     /**
@@ -58,13 +58,13 @@ class Zend_Json_Server_Response_Http extends Zend_Json_Server_Response
      *
      * @return void
      */
-    public function sendHeaders()
+    public function send_headers()
     {
         if (headers_sent()) {
             return;
         }
 
-        if (!$this->isError() && (null === $this->getId())) {
+        if (! $this->isError() && (null === $this->get_id())) {
             header('HTTP/1.1 204 No Content');
             return;
         }
@@ -74,7 +74,7 @@ class Zend_Json_Server_Response_Http extends Zend_Json_Server_Response
         }
 
         $contentType = $smd->getContentType();
-        if (!empty($contentType)) {
+        if (! empty($contentType)) {
             header('Content-Type: ' . $contentType);
         }
     }

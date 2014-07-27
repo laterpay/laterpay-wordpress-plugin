@@ -1,4 +1,4 @@
-<?php if ( LATERPAY_PAGE_CACHING_COMPATIBLE_MODE && !LaterPayRequestHelper::isAjax() ): ?>
+<?php if ( LATERPAY_PAGE_CACHING_COMPATIBLE_MODE && ! LaterPayRequestHelper::is_ajax() ): ?>
     <span id="laterpay-page-caching-mode" data-post-id="<?php echo $post_id; ?>"></span>
 <?php else: ?>
     <?php if ( $can_show_statistic ): ?>
@@ -14,7 +14,7 @@
             <div class="totals">
                 <ul>
                     <li>
-                        <big><?php if ( isset($total[$currency]) ) { $aux = $total[$currency]['sum']; } else { $aux = 0; }; echo LaterPayViewHelper::formatNumber($aux, 2); ?><small><?php echo $currency; ?></small></big>
+                        <big><?php if ( isset($total[$currency]) ) { $aux = $total[$currency]['sum']; } else { $aux = 0; }; echo LaterPayViewHelper::format_number($aux, 2); ?><small><?php echo $currency; ?></small></big>
                         <small><?php _e('Total Revenue', 'laterpay'); ?></small>
                     </li>
                     <li>
@@ -32,10 +32,10 @@
             <div class="details">
                 <ul>
                     <li>
-                        <span class="bar"><?php if ( isset($last30DaysRevenue[$currency]) ) { $aux = $last30DaysRevenue[$currency]; } else { $aux = array(); }; echo LaterPayViewHelper::getDaysStatisticAsString($aux, 'sum', ';'); ?></span>
+                        <span class="bar"><?php if ( isset($last30DaysRevenue[$currency]) ) { $aux = $last30DaysRevenue[$currency]; } else { $aux = array(); }; echo LaterPayViewHelper::get_days_statistics_as_string($aux, 'sum', ';'); ?></span>
                     </li>
                     <li>
-                        <big><?php if ( isset($todayRevenue[$currency]) ) { $aux = $todayRevenue[$currency]['sum']; } else { $aux = 0; }; echo LaterPayViewHelper::formatNumber($aux, 2); ?><small><?php echo $currency; ?></small></big>
+                        <big><?php if ( isset($todayRevenue[$currency]) ) { $aux = $todayRevenue[$currency]['sum']; } else { $aux = 0; }; echo LaterPayViewHelper::format_number($aux, 2); ?><small><?php echo $currency; ?></small></big>
                         <small><?php _e('Revenue', 'laterpay'); ?></small>
                     </li>
                 </ul>
@@ -43,11 +43,11 @@
             <div class="details">
                 <ul>
                     <li>
-                        <span class="bar" data-max="0.5"><?php echo LaterPayViewHelper::getDaysStatisticAsString($last30DaysBuyers, 'percentage', ';'); ?></span>
+                        <span class="bar" data-max="0.5"><?php echo LaterPayViewHelper::get_days_statistics_as_string($last30DaysBuyers, 'percentage', ';'); ?></span>
                         <span class="background-bar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
                     </li>
                     <li>
-                        <big><?php echo LaterPayViewHelper::formatNumber($todayBuyers, 1); ?><small>%</small></big>
+                        <big><?php echo LaterPayViewHelper::format_number($todayBuyers, 1); ?><small>%</small></big>
                         <small><?php _e('Buyers', 'laterpay'); ?></small>
                     </li>
                 </ul>
@@ -55,7 +55,7 @@
             <div class="details">
                 <ul>
                     <li>
-                        <span class="bar"><?php echo LaterPayViewHelper::getDaysStatisticAsString($last30DaysVisitors, 'quantity', ';'); ?></span>
+                        <span class="bar"><?php echo LaterPayViewHelper::get_days_statistics_as_string($last30DaysVisitors, 'quantity', ';'); ?></span>
                     </li>
                     <li>
                         <big><?php echo $todayVisitors; ?></big>
@@ -91,7 +91,7 @@
     <?php endif; ?>
 
     <?php // post is free or was already bought by user: ?>
-    <?php if ( (!$is_premium_content || $access == true) && !$preview_post_as_visitor ): ?>
+    <?php if ( (! $is_premium_content || $access == true) && ! $preview_post_as_visitor ): ?>
 
         <?php echo $content; ?>
 
@@ -103,14 +103,14 @@
         <?php // preview only the teaser content -> add purchase link after teaser content ?>
         <?php if ( $teaser_content_only ): ?>
 
-            <a href="#" class="laterpay-purchase-link" data-laterpay="<?php echo $link; ?>" data-icon="b" data-post-id="<?php echo $post_id; ?>" data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), LaterPayViewHelper::formatNumber($price, 2), $currency); ?></a>
+            <a href="#" class="laterpay-purchase-link" data-laterpay="<?php echo $link; ?>" data-icon="b" data-post-id="<?php echo $post_id; ?>" data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"><?php echo sprintf(__('Buy now for %s<small>%s</small> and pay later', 'laterpay'), LaterPayViewHelper::format_number($price, 2), $currency); ?></a>
 
         <?php // preview the teaser content plus real content, covered by overlay -> add concealed real content and purchase button ?>
         <?php else: ?>
 
             <div id="laterpay-paid-content" class="laterpay-paid-content">
                 <div id="laterpay-full-content" class="laterpay-full-content">
-                    <!-- <?php _e('Preview a short excerpt from the paid post:', 'laterpay'); ?> -->
+                    <! -- <?php _e('Preview a short excerpt from the paid post:', 'laterpay'); ?> -->
                     <?php echo LaterPayStringHelper::truncate(
                             $content,
                             LaterPayStringHelper::determine_number_of_words($content),
@@ -156,7 +156,7 @@
                             data-icon="b"
                             data-post-id="<?php echo $post_id; ?>"
                             data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"
-                            title="<?php _e('Buy now with LaterPay', 'laterpay'); ?>"><?php echo sprintf(__('%s<small>%s</small>', 'laterpay'), LaterPayViewHelper::formatNumber($price, 2), $currency); ?></a>
+                            title="<?php _e('Buy now with LaterPay', 'laterpay'); ?>"><?php echo sprintf(__('%s<small>%s</small>', 'laterpay'), LaterPayViewHelper::format_number($price, 2), $currency); ?></a>
                         <div class="powered-by">
                             powered by<span data-icon="a"></span> beta
                         </div>

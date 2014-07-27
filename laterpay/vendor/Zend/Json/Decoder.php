@@ -103,7 +103,7 @@ class Zend_Json_Decoder
         $this->_offset       = 0;
 
         // Normalize and set $decodeType
-        if (!in_array($decodeType, array(Zend_Json::TYPE_ARRAY, Zend_Json::TYPE_OBJECT)))
+        if (! in_array($decodeType, array(Zend_Json::TYPE_ARRAY, Zend_Json::TYPE_OBJECT)))
         {
             $decodeType = Zend_Json::TYPE_ARRAY;
         }
@@ -146,7 +146,7 @@ class Zend_Json_Decoder
         if (null === $source) {
             require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception('Must specify JSON encoded source for decoding');
-        } elseif (!is_string($source)) {
+        } elseif (! is_string($source)) {
             require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception('Can only decode JSON encoded strings');
         }
@@ -201,8 +201,8 @@ class Zend_Json_Decoder
         $members = array();
         $tok = $this->_getNextToken();
 
-        while ($tok && $tok != self::RBRACE) {
-            if ($tok != self::DATUM || ! is_string($this->_tokenValue)) {
+        while ($tok && $tok ! = self::RBRACE) {
+            if ($tok ! = self::DATUM || ! is_string($this->_tokenValue)) {
                 require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing key in object encoding: ' . $this->_source);
             }
@@ -210,7 +210,7 @@ class Zend_Json_Decoder
             $key = $this->_tokenValue;
             $tok = $this->_getNextToken();
 
-            if ($tok != self::COLON) {
+            if ($tok ! = self::COLON) {
                 require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing ":" in object encoding: ' . $this->_source);
             }
@@ -223,7 +223,7 @@ class Zend_Json_Decoder
                 break;
             }
 
-            if ($tok != self::COMMA) {
+            if ($tok ! = self::COMMA) {
                 require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing "," in object encoding: ' . $this->_source);
             }
@@ -264,16 +264,16 @@ class Zend_Json_Decoder
         $starttok = $tok = $this->_getNextToken(); // Move past the '['
         $index  = 0;
 
-        while ($tok && $tok != self::RBRACKET) {
+        while ($tok && $tok ! = self::RBRACKET) {
             $result[$index++] = $this->_decodeValue();
 
             $tok = $this->_token;
 
-            if ($tok == self::RBRACKET || !$tok) {
+            if ($tok == self::RBRACKET || ! $tok) {
                 break;
             }
 
-            if ($tok != self::COMMA) {
+            if ($tok ! = self::COMMA) {
                 require_once 'Zend/Json/Exception.php';
                 throw new Zend_Json_Exception('Missing "," in array encoding: ' . $this->_source);
             }
@@ -426,7 +426,7 @@ class Zend_Json_Decoder
                 break;
         }
 
-        if ($this->_token != self::EOF) {
+        if ($this->_token ! = self::EOF) {
             $this->_offset = $i + 1; // Consume the last token character
             return($this->_token);
         }

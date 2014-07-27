@@ -1,6 +1,8 @@
 <?php
 
-class LaterPayLogger {
+class LaterPayLogger
+{
+
     const DEBUG     = 100;
     const INFO      = 200;
     const NOTICE    = 250;
@@ -41,11 +43,11 @@ class LaterPayLogger {
         }
     }
 
-    public static function setInstance( $instance ) {
+    public static function set_instance( $instance ) {
         self::$_instance = $instance;
     }
 
-    public static function getInstance() {
+    public static function get_instance() {
         if ( empty(self::$_instance) ) {
             try {
                 if ( defined('LATERPAY_LOGGER_ENABLED') && defined('LATERPAY_LOGGER_FILE') && LATERPAY_LOGGER_ENABLED ) {
@@ -74,7 +76,7 @@ class LaterPayLogger {
     }
 
     /**
-     * Adds a log record at the ERROR level.
+     * Add a log record at the ERROR level.
      *
      * @param string $message The log message
      * @param array  $context The log context
@@ -90,7 +92,7 @@ class LaterPayLogger {
     * @param string  $message
     */
     public static function log( $level, $message, array $context = array() ) {
-        if ( !self::$_uniqid ) {
+        if ( ! self::$_uniqid ) {
             self::$_uniqid = uniqid(getmypid() . '_');
         }
         $date = new DateTime();
@@ -99,13 +101,13 @@ class LaterPayLogger {
             'pid'           => self::$_uniqid,
             'context'       => $context,
             'level'         => $level,
-            'level_name'    => self::getLevelName($level),
+            'level_name'    => self::get_level_name($level),
             'channel'       => self::$_name,
             'datetime'      => $date,
             'extra'         => array(),
         );
         try {
-            $result = self::getInstance()->handle($record);
+            $result = self::get_instance()->handle($record);
         } catch ( Exception $e ) {
             return false;
         }
@@ -114,12 +116,13 @@ class LaterPayLogger {
     }
 
     /**
-     * Gets the name of the logging level.
+     * Get the name of the logging level.
      *
      * @param integer $level
+     *
      * @return string
      */
-    public static function getLevelName( $level ) {
+    public static function get_level_name( $level ) {
         return self::$levels[$level];
     }
 

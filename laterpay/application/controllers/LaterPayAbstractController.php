@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayAbstractController {
+class LaterPayAbstractController
+{
 
     /**
      * Variables for substitution in templates
@@ -57,14 +58,14 @@ class LaterPayAbstractController {
     }
 
     public function get_menu( $file = null ) {
-        if ( empty($file) ) {
+        if ( empty( $file ) ) {
             $file = 'partials/adminMenu';
         }
         $activated      = get_option( 'laterpay_plugin_is_activated', '' );
-        $current_page   = isset($_GET['page']) ? $_GET['page']: LaterPayViewHelper::$pluginPage;
+        $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPayViewHelper::$pluginPage;
         $menu           = LaterPayViewHelper::$adminMenu;
         if ( $activated ) {
-            unset($menu['get_started']);
+            unset( $menu['get_started'] );
         }
         $this->assign( 'menu',         $menu );
         $this->assign( 'current_page', $current_page );

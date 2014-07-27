@@ -77,7 +77,7 @@ class Zend_Json_Server_Error
     {
         $this->setMessage($message)
              ->setCode($code)
-             ->setData($data);
+             ->set_data($data);
     }
 
     /**
@@ -88,11 +88,11 @@ class Zend_Json_Server_Error
      */
     public function setCode($code)
     {
-        if (!is_scalar($code)) {
+        if (! is_scalar($code)) {
             return $this;
         }
 
-        $code = (int)  $code;
+        $code = (int) $code;
         if (in_array($code, $this->_allowedCodes)) {
             $this->_code = $code;
         } elseif (in_array($code, range(-32099, -32000))) {
@@ -120,7 +120,7 @@ class Zend_Json_Server_Error
      */
     public function setMessage($message)
     {
-        if (!is_scalar($message)) {
+        if (! is_scalar($message)) {
             return $this;
         }
 
@@ -144,7 +144,7 @@ class Zend_Json_Server_Error
      * @param  mixed $data
      * @return Zend_Json_Server_Error
      */
-    public function setData($data)
+    public function set_data($data)
     {
         $this->_data = $data;
         return $this;
@@ -155,7 +155,7 @@ class Zend_Json_Server_Error
      *
      * @return mixed
      */
-    public function getData()
+    public function get_data()
     {
         return $this->_data;
     }
@@ -165,12 +165,12 @@ class Zend_Json_Server_Error
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         return array(
             'code'    => $this->getCode(),
             'message' => $this->getMessage(),
-            'data'    => $this->getData(),
+            'data'    => $this->get_data(),
         );
     }
 
@@ -179,10 +179,10 @@ class Zend_Json_Server_Error
      *
      * @return string
      */
-    public function toJson()
+    public function to_json()
     {
         require_once 'Zend/Json.php';
-        return Zend_Json::encode($this->toArray());
+        return Zend_Json::encode($this->to_array());
     }
 
     /**
@@ -190,9 +190,9 @@ class Zend_Json_Server_Error
      *
      * @return string
      */
-    public function __toString()
+    public function __to_string()
     {
-        return $this->toJson();
+        return $this->to_json();
     }
 }
 

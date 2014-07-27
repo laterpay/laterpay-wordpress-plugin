@@ -1,6 +1,8 @@
 <?php
 
-class LaterPayModelHistory {
+class LaterPayModelHistory
+{
+
     /**
      * Name of payments history table
      *
@@ -36,17 +38,17 @@ class LaterPayModelHistory {
      *
      * @access public
      */
-    public function setPaymentHistory( $data ) {
+    public function set_payment_history( $data ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
+        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $mode = 'live';
         } else {
             $mode = 'test';
         }
 
-        $payment = $this->getPaymentByHash($mode, $data['hash']);
-        if ( empty($payment) ) {
+        $payment = $this->get_payment_by_hash( $mode, $data['hash'] );
+        if ( empty( $payment ) ) {
             $wpdb->insert(
                     $this->table,
                     array(
@@ -54,7 +56,7 @@ class LaterPayModelHistory {
                         'mode'          => $mode,
                         'currency_id'   => $data['id_currency'],
                         'price'         => $data['price'],
-                        'date'          => date('Y-m-d H:i:s', $data['date']),
+                        'date'          => date( 'Y-m-d H:i:s', $data['date'] ),
                         'ip'            => $data['ip'],
                         'hash'          => $data['hash']
                     ),
@@ -80,10 +82,10 @@ class LaterPayModelHistory {
      *
      * @return array history
      */
-    public function getTotalHistoryByPostId( $post_id ) {
+    public function get_total_history_by_post_id( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
+        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -107,7 +109,7 @@ class LaterPayModelHistory {
                 wlph.currency_id
             ;
         ";
-        $history = $wpdb->get_results($sql);
+        $history = $wpdb->get_results( $sql );
 
         return $history;
     }
@@ -121,10 +123,10 @@ class LaterPayModelHistory {
      *
      * @return array history
      */
-    public function getTodayHistoryByPostId( $post_id ) {
+    public function get_todays_history_by_post_id( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
+        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -145,13 +147,13 @@ class LaterPayModelHistory {
                 wlph.mode = '" . $mode . "'
                 AND wlph.post_id = " . (int) $post_id . "
                 AND wlph.date
-                    BETWEEN '" . date('Y-m-d 00:00:00') . "'
-                    AND '" . date('Y-m-d 23:59:59') . "'
+                    BETWEEN '" . date( 'Y-m-d 00:00:00' ) . "'
+                    AND '" . date( 'Y-m-d 23:59:59' ) . "'
             GROUP BY
                 wlph.currency_id
             ;
         ";
-        $history = $wpdb->get_results($sql);
+        $history = $wpdb->get_results( $sql );
 
         return $history;
     }
@@ -165,10 +167,10 @@ class LaterPayModelHistory {
      *
      * @return array history
      */
-    public function getLast30DaysHistoryByPostId( $post_id ) {
+    public function get_last_30_days_history_by_post_id( $post_id ) {
         global $wpdb;
 
-        if ( get_option('laterpay_plugin_is_in_live_mode') ) {
+        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $mode = 'live';
         } else {
             $mode = 'test';
@@ -190,8 +192,8 @@ class LaterPayModelHistory {
                 wlph.mode = '" . $mode . "'
                 AND wlph.post_id = " . (int) $post_id . "
                 AND wlph.date
-                    BETWEEN DATE(SUBDATE('" . date('Y-m-d 00:00:00') . "', INTERVAL 30 DAY))
-                    AND '" . date('Y-m-d 23:59:59') . "'
+                    BETWEEN DATE(SUBDATE('" . date( 'Y-m-d 00:00:00' ) . "', INTERVAL 30 DAY))
+                    AND '" . date( 'Y-m-d 23:59:59' ) . "'
             GROUP BY
                 wlph.currency_id,
                 DATE(wlph.date)
@@ -200,7 +202,7 @@ class LaterPayModelHistory {
                 DATE(wlph.date)
             ;
         ";
-        $history = $wpdb->get_results($sql);
+        $history = $wpdb->get_results( $sql );
 
         return $history;
     }
@@ -215,7 +217,7 @@ class LaterPayModelHistory {
      *
      * @return array payment
      */
-    public function getPaymentByHash( $mode, $hash ) {
+    public function get_payment_by_hash( $mode, $hash ) {
         global $wpdb;
 
         $sql = "
@@ -228,7 +230,7 @@ class LaterPayModelHistory {
                 AND hash = '$hash'
             ;
         ";
-        $payment = $wpdb->get_results($sql);
+        $payment = $wpdb->get_results( $sql );
 
         return $payment;
     }

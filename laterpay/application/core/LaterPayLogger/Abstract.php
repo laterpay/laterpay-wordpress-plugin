@@ -1,6 +1,8 @@
 <?php
 
-abstract class LaterPayLogger_Abstract {
+abstract class LaterPayLogger_Abstract
+{
+
     protected $level = LaterPayLogger::DEBUG;
 
     /**
@@ -15,7 +17,7 @@ abstract class LaterPayLogger_Abstract {
             return false;
         }
 
-        $record['formatted'] = $this->getFormated($record);
+        $record['formatted'] = $this->get_formatted($record);
 
         $this->write($record);
 
@@ -30,10 +32,10 @@ abstract class LaterPayLogger_Abstract {
      */
     abstract protected function write( array $record );
 
-    protected function getFormated( array $record ) {
+    protected function get_formatted( array $record ) {
         $output = "%datetime%:%pid%.%channel%.%level_name%: %message% %context%\n";
         foreach ( $record as $var => $val ) {
-            $output = str_replace('%'.$var.'%', $this->convertToString($val), $output);
+            $output = str_replace('%'.$var.'%', $this->convert_to_string($val), $output);
         }
 
         return $output;
@@ -56,7 +58,7 @@ abstract class LaterPayLogger_Abstract {
         }
     }
 
-    protected function convertToString( $data ) {
+    protected function convert_to_string( $data ) {
         if ( null === $data || is_scalar($data) ) {
             return (string) $data;
         }

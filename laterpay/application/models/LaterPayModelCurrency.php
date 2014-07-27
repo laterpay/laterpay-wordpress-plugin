@@ -1,6 +1,8 @@
 <?php
 
-class LaterPayModelCurrency {
+class LaterPayModelCurrency
+{
+
     /**
      * Name of currency table
      *
@@ -26,7 +28,7 @@ class LaterPayModelCurrency {
      *
      * @return array currencies
      */
-    public function getCurrencies() {
+    public function get_currencies() {
         global $wpdb;
 
         $currencies = $wpdb->get_results("SELECT * FROM {$this->table}");
@@ -35,15 +37,15 @@ class LaterPayModelCurrency {
     }
 
     /**
-     * Get currency id by currency code
+     * Get currency id by ISO 4217 currency code
      *
-     * @param string $name short name currency
+     * @param string $name ISO 4217 currency code
      *
      * @access public
      *
      * @return array currencies
      */
-    public function getCurrencyIdByShortName( $name ) {
+    public function get_currency_id_by_iso4217_code( $name ) {
         global $wpdb;
 
         $sql = "
@@ -61,15 +63,15 @@ class LaterPayModelCurrency {
     }
 
     /**
-     * Get full name of currency by currency code
+     * Get full name of currency by ISO 4217 currency code
      *
-     * @param string $name short name currency
+     * @param string $name ISO 4217 currency code
      *
      * @access public
      *
      * @return array currencies
      */
-    public function getCurrencyFullNameByShortName( $name ) {
+    public function get_currency_name_by_iso4217_code( $name ) {
         global $wpdb;
 
         $sql = "

@@ -1,18 +1,20 @@
 <?php
 
-class AutoLoader {
+class AutoLoader
+{
+
     static private $paths = array();
 
     /**
      * Store the filename (without extension) and full path of all '.php' files found
      */
-    public static function registerDirectory( $dirName ) {
+    public static function register_directory( $dirName ) {
         AutoLoader::$paths[] = $dirName;
     }
 
-    public static function loadClass( $class ) {
+    public static function load_class( $class ) {
         $class = str_replace('..', '', $class);
-        if ( strpos($class, '_') !== false ) {
+        if ( strpos($class, '_') ! == false ) {
             $class = str_replace('_', DIRECTORY_SEPARATOR, $class);
         } else {
             $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
@@ -28,4 +30,4 @@ class AutoLoader {
     }
 }
 
-spl_autoload_register(array('AutoLoader', 'loadClass'), false);
+spl_autoload_register(array('AutoLoader', 'load_class'), false);

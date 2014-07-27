@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayStringHelper {
+class LaterPayStringHelper
+{
 
 	/**
 	 * @param string $string
@@ -64,18 +65,18 @@ class LaterPayStringHelper {
 		);
 		if ( isset($options['ending']) ) {
 			$default['ellipsis'] = $options['ending'];
-		} elseif ( !empty($options['html']) ) {
+		} elseif ( ! empty($options['html']) ) {
 			$default['ellipsis'] = "\xe2\x80\xa6";
 		}
 		$options = array_merge($default, $options);
 		extract($options);
 
-		if ( !function_exists('mb_strlen') ) {
+		if ( ! function_exists('mb_strlen') ) {
 			class_exists('Multibyte');
 		}
 
 		if ( $html ) {
-			$text = preg_replace('/<!--(.*?)-->/i', '', $text);
+			$text = preg_replace('/<! --(.*?)-->/i', '', $text);
 			if ( $words ) {
 				$length = mb_strlen(self::limit_words(preg_replace('/<.*?>/', '', $text), $length));
 			}
@@ -88,12 +89,12 @@ class LaterPayStringHelper {
 
 			preg_match_all('/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER);
 			foreach ( $tags as $tag ) {
-				if ( !preg_match('/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2]) ) {
+				if ( ! preg_match('/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2]) ) {
 					if ( preg_match('/<[\w]+[^>]*>/s', $tag[0]) ) {
 						array_unshift($openTags, $tag[2]);
 					} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag) ) {
 						$pos = array_search($closeTag[1], $openTags);
-						if ( $pos !== false ) {
+						if ( $pos ! == false ) {
 							array_splice($openTags, $pos, 1);
 						}
 					}
@@ -134,7 +135,7 @@ class LaterPayStringHelper {
 			}
 			$truncate = mb_substr($text, 0, $length - mb_strlen($ellipsis));
 		}
-		if ( !$exact ) {
+		if ( ! $exact ) {
 			$spacepos = mb_strrpos($truncate, ' ');
 			if ( $html ) {
 				$truncateCheck 	= mb_substr($truncate, 0, $spacepos);
@@ -147,10 +148,10 @@ class LaterPayStringHelper {
 				}
 				$bits = mb_substr($truncate, $spacepos);
 				preg_match_all('/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER);
-				if ( !empty($droppedTags) ) {
-					if ( !empty($openTags) ) {
+				if ( ! empty($droppedTags) ) {
+					if ( ! empty($openTags) ) {
 						foreach ( $droppedTags as $closingTag ) {
-							if ( !in_array($closingTag[1], $openTags) ) {
+							if ( ! in_array($closingTag[1], $openTags) ) {
 								array_unshift($openTags, $closingTag[1]);
 							}
 						}

@@ -33,10 +33,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -56,7 +56,7 @@
 /**
  * Include Crypt_DES
  */
-if (!class_exists('Crypt_DES')) {
+if (! class_exists('Crypt_DES')) {
     require_once('DES.php');
 }
 
@@ -103,7 +103,7 @@ class Crypt_TripleDES extends Crypt_DES {
      */
     function Crypt_TripleDES($mode = CRYPT_DES_MODE_CBC)
     {
-        if ( !defined('CRYPT_DES_MODE') ) {
+        if ( ! defined('CRYPT_DES_MODE') ) {
             switch (true) {
                 case extension_loaded('mcrypt') && in_array('tripledes', mcrypt_list_algorithms()):
                     define('CRYPT_DES_MODE', CRYPT_DES_MODE_MCRYPT);
@@ -162,7 +162,7 @@ class Crypt_TripleDES extends Crypt_DES {
                     new Crypt_DES(CRYPT_DES_MODE_ECB),
                     new Crypt_DES(CRYPT_DES_MODE_ECB)
                 );
- 
+
                 // we're going to be doing the padding, ourselves, so disable it in the Crypt_DES objects
                 $this->des[0]->disablePadding();
                 $this->des[1]->disablePadding();
@@ -222,8 +222,8 @@ class Crypt_TripleDES extends Crypt_DES {
                 $this->des[1]->setKey(substr($key,  8, 8));
                 $this->des[2]->setKey(substr($key, 16, 8));
 
-                // Merge the three DES-1-dim-key-arrays for 3DES-inline-en/decrypting  
-                if ($this->use_inline_crypt && $this->mode != CRYPT_DES_MODE_3CBC) {
+                // Merge the three DES-1-dim-key-arrays for 3DES-inline-en/decrypting
+                if ($this->use_inline_crypt && $this->mode ! = CRYPT_DES_MODE_3CBC) {
                     $this->keys = array(
                         CRYPT_DES_ENCRYPT_1DIM => array_merge(
                             $this->des[0]->keys[CRYPT_DES_ENCRYPT_1DIM],
@@ -259,20 +259,20 @@ class Crypt_TripleDES extends Crypt_DES {
         switch ($method) {
             default: // 'pbkdf2'
                 list(, , $hash, $salt, $count) = func_get_args();
-                if (!isset($hash)) {
+                if (! isset($hash)) {
                     $hash = 'sha1';
                 }
                 // WPA and WPA2 use the SSID as the salt
-                if (!isset($salt)) {
+                if (! isset($salt)) {
                     $salt = 'phpseclib';
                 }
                 // RFC2898#section-4.2 uses 1,000 iterations by default
                 // WPA and WPA2 use 4,096.
-                if (!isset($count)) {
+                if (! isset($count)) {
                     $count = 1000;
                 }
 
-                if (!class_exists('Crypt_Hash')) {
+                if (! class_exists('Crypt_Hash')) {
                     require_once('Crypt/Hash.php');
                 }
 
@@ -341,7 +341,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 $this->enchanged = false;
             }
 
-            if ($this->mode != 'ncfb' || !$this->continuousBuffer) {
+            if ($this->mode ! = 'ncfb' || ! $this->continuousBuffer) {
                 $ciphertext = mcrypt_generic($this->enmcrypt, $plaintext);
             } else {
                 $iv = &$this->encryptIV;
@@ -383,7 +383,7 @@ class Crypt_TripleDES extends Crypt_DES {
                             $i+= 8;
                         }
                     }
-                } 
+                }
                 if ($len) {
                     $iv = mcrypt_generic($this->ecb, $iv);
                     $block = $iv ^ substr($plaintext, $i);
@@ -394,7 +394,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 return $ciphertext;
             }
 
-            if (!$this->continuousBuffer) {
+            if (! $this->continuousBuffer) {
                 mcrypt_generic_init($this->enmcrypt, $this->key, $this->encryptIV);
             }
 
@@ -423,7 +423,7 @@ class Crypt_TripleDES extends Crypt_DES {
                     $block = substr($plaintext, $i, 8);
                     // all of these _processBlock calls could, in theory, be put in a function - say Crypt_TripleDES::_ede_encrypt() or something.
                     // only problem with that: it would slow encryption and decryption down.  $this->des would have to be called every time that
-                    // function is called, instead of once for the whole string of text that's being encrypted, which would, in turn, make 
+                    // function is called, instead of once for the whole string of text that's being encrypted, which would, in turn, make
                     // encryption and decryption take more time, per this:
                     //
                     // http://blog.libssh2.org/index.php?/archives/21-Compiled-Variables.html
@@ -499,7 +499,7 @@ class Crypt_TripleDES extends Crypt_DES {
                     $xor= $des[2]->_processBlock($iv, CRYPT_DES_ENCRYPT);
 
                     $iv = $block ^ $xor;
-                    if ($continuousBuffer && strlen($iv) != 8) {
+                    if ($continuousBuffer && strlen($iv) ! = 8) {
                         $buffer = array(
                             'encrypted' => $iv,
                             'xor' => substr($xor, strlen($iv))
@@ -575,7 +575,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 $this->dechanged = false;
             }
 
-            if ($this->mode != 'ncfb' || !$this->continuousBuffer) {
+            if ($this->mode ! = 'ncfb' || ! $this->continuousBuffer) {
                 $plaintext = mdecrypt_generic($this->demcrypt, $ciphertext);
             } else {
                 $iv = &$this->decryptIV;
@@ -614,7 +614,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 return $plaintext;
             }
 
-            if (!$this->continuousBuffer) {
+            if (! $this->continuousBuffer) {
                 mcrypt_generic_init($this->demcrypt, $this->key, $this->decryptIV);
             }
 
@@ -699,7 +699,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 if (strlen($buffer['ciphertext'])) {
                     $plaintext = $ciphertext ^ substr($this->decryptIV, strlen($buffer['ciphertext']));
                     $buffer['ciphertext'].= substr($ciphertext, 0, strlen($plaintext));
-                    if (strlen($buffer['ciphertext']) != 8) {
+                    if (strlen($buffer['ciphertext']) ! = 8) {
                         $block = $this->decryptIV;
                     } else {
                         $block = $buffer['ciphertext'];
@@ -720,7 +720,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 for ($i = $start; $i < strlen($ciphertext); $i+=8) {
                     $block = substr($ciphertext, $i, 8);
                     $plaintext.= $block ^ $xor;
-                    if ($continuousBuffer && strlen($block) != 8) {
+                    if ($continuousBuffer && strlen($block) ! = 8) {
                         $buffer['ciphertext'].= $block;
                         $block = $xor;
                     } else if (strlen($block) == 8) {

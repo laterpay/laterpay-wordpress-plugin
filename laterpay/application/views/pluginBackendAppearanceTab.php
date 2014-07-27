@@ -5,7 +5,7 @@
     </div>
 
     <div class="tabs-area">
-        <?php if ( !$plugin_is_in_live_mode ): ?>
+        <?php if ( ! $plugin_is_in_live_mode ): ?>
             <a href="<?php echo add_query_arg(array('page' => LaterPayViewHelper::$adminMenu['account']['url']), admin_url('admin.php')); ?>" id="plugin-mode-indicator" data-icon="h">
                 <h2><?php _e('<strong>Test</strong> mode', 'laterpay'); ?></h2>
                 <span><?php _e('Earn money in <i>live mode</i>', 'laterpay'); ?></span>
@@ -35,7 +35,7 @@
                             name="teaser_content_only"
                             value="0"
                             class="styled"
-                            <?php if ( !$show_teaser_content_only ): ?>checked<?php endif; ?>/>
+                            <?php if ( ! $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e('Teaser content + full content, covered by overlay', 'laterpay'); ?>
                     <div class="preview-mode-2"></div>
                 </label>

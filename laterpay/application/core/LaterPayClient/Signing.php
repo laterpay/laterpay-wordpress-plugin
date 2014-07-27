@@ -1,12 +1,14 @@
 <?php
 
-class LaterPayClient_Signing {
+class LaterPayClient_Signing
+{
+
     protected static $hashAlgo = 'sha224';
 
     /**
     * @param string $given_str
     */
-    protected static function timeIndependentHmacCompare($known_str, $given_str) {
+    protected static function time_independent_hmac_compare($known_str, $given_str) {
         if (strlen($known_str) == 0) {
             throw new InvalidArgumentException("This function cannot safely compare against an empty given string");
         }
@@ -26,7 +28,7 @@ class LaterPayClient_Signing {
     * @param string $secret
     * @param string $parts
     */
-    protected static function createHmac( $secret, $parts ) {
+    protected static function create_hmac( $secret, $parts ) {
         if ( is_array($parts) ) {
             $data = join('', $parts);
         } else {
@@ -37,7 +39,7 @@ class LaterPayClient_Signing {
         $crypt->setKey($secret);
         $hash = bin2hex($crypt->hash($data));
 
-        LaterPayLogger::debug('LaterPayClient_Signing::createHmac', array($hash));
+        LaterPayLogger::debug('LaterPayClient_Signing::create_hmac', array($hash));
 
         return $hash;
     }
@@ -50,7 +52,7 @@ class LaterPayClient_Signing {
 
         $mac = self::sign($secret, $params, $url, $method);
 
-        return self::timeIndependentHmacCompare($signature, $mac);
+        return self::time_independent_hmac_compare($signature, $mac);
     }
 
     /**
@@ -62,7 +64,7 @@ class LaterPayClient_Signing {
      *
      * @return array
      */
-    protected static function normaliseParamStructure( $params ) {
+    protected static function normalise_param_structure( $params ) {
         $out = array();
 
         // this is tricky - either we have (a, b), (a, c) or we have (a, (b, c))
@@ -72,14 +74,14 @@ class LaterPayClient_Signing {
                 $out[$param_name] = $param_value;
             } else {
                 // this is (a, b), (a, c)
-                if ( !in_array($param_name, $out) ) {
+                if ( ! in_array($param_name, $out) ) {
                     $out[$param_name] = array();
                 }
                 $out[$param_name][] = $param_value;
             }
         }
 
-        LaterPayLogger::debug('LaterPayClient_Signing::normaliseParamStructure', array($params, $out));
+        LaterPayLogger::debug('LaterPayClient_Signing::normalise_param_structure', array($params, $out));
 
         return $out;
     }
@@ -93,13 +95,13 @@ class LaterPayClient_Signing {
      *
      * @return string
      */
-    protected static function createBaseMessage( $params, $url, $method = LaterPayRequest::POST ) {
+    protected static function create_base_message( $params, $url, $method = LaterPayRequest::POST ) {
         $msg = '{method}&{url}&{params}';
         $method = strtoupper($method);
 
         $data   = array();
         $url    = rawurlencode(utf8_encode($url));
-        $params = self::normaliseParamStructure($params);
+        $params = self::normalise_param_structure($params);
 
         $keys = array_keys($params);
         sort($keys);
@@ -107,14 +109,14 @@ class LaterPayClient_Signing {
             $value  = $params[$key];
             $key    = rawurlencode(utf8_encode($key));
 
-            if ( !is_array($value) ) {
+            if ( ! is_array($value) ) {
                 $value = array($value);
             }
 
             $encoded_value = '';
             sort($value);
             foreach ( $value as $v ) {
-                if ( mb_detect_encoding($v, 'UTF-8') !== 'UTF-8' ) {
+                if ( mb_detect_encoding($v, 'UTF-8') ! == 'UTF-8' ) {
                     $encoded_value = rawurlencode(utf8_encode($v));
                 } else {
                     $encoded_value = rawurlencode($v);
@@ -126,7 +128,7 @@ class LaterPayClient_Signing {
         $param_str = rawurlencode(join('&', $data));
         $result = str_replace(array('{method}', '{url}', '{params}'), array($method, $url, $param_str), $msg);
 
-        LaterPayLogger::debug('LaterPayClient_Signing::createBaseMessage', array($result));
+        LaterPayLogger::debug('LaterPayClient_Signing::create_base_message', array($result));
 
         return $result;
     }
@@ -157,8 +159,8 @@ class LaterPayClient_Signing {
 
         $aux = explode('?', $url);
         $url = $aux[0];
-        $msg = self::createBaseMessage($params, $url, $method);
-        $mac = self::createHmac($secret, $msg);
+        $msg = self::create_base_message($params, $url, $method);
+        $mac = self::create_hmac($secret, $msg);
 
         return $mac;
     }
@@ -173,8 +175,8 @@ class LaterPayClient_Signing {
      *
      * @return string query params
      */
-    public static function signAndEncode( $secret, $params, $url, $method = LaterPayRequest::GET ) {
-        if ( !isset($params['ts']) ) {
+    public static function sign_and_encode( $secret, $params, $url, $method = LaterPayRequest::GET ) {
+        if ( ! isset($params['ts']) ) {
             $params['ts'] = (string) time();
         }
 
@@ -190,12 +192,12 @@ class LaterPayClient_Signing {
             $aux = $params[$key];
             $key = utf8_encode($key);
 
-            if ( !is_array($aux) ) {
+            if ( ! is_array($aux) ) {
                 $aux = array($aux);
             }
             sort($aux);
             foreach ( $aux as $value ) {
-                if ( mb_detect_encoding($value, 'UTF-8') !== 'UTF-8' ) {
+                if ( mb_detect_encoding($value, 'UTF-8') ! == 'UTF-8' ) {
                     $value = rawurlencode(utf8_encode($value));
                 }
                 $query_pairs[] = rawurlencode($key) . '=' . rawurlencode($value);

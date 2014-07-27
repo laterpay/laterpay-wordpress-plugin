@@ -108,12 +108,12 @@ LPCurve.prototype.setPrice = function(min, max, defaultPrice) {
     return this;
 };
 
-LPCurve.prototype.setData = function(data, parsingFormat) {
+LPCurve.prototype.set_data = function(data, parsingFormat) {
     this.data = data;
     return this;
 };
 
-LPCurve.prototype.getData = function() {
+LPCurve.prototype.get_data = function() {
     return this.data;
 };
 

@@ -1,6 +1,7 @@
 <?php
 
-class LaterPayStatisticsHelper {
+class LaterPayStatisticsHelper
+{
 
     public static $wpdb = '';
     protected static $stat = array();
@@ -9,21 +10,21 @@ class LaterPayStatisticsHelper {
         'session_duration'  => 2678400,  // one month
     );
 
-    protected static function getUniqueId() {
+    protected static function get_unique_id() {
         return str_replace('.', '', uniqid(rand(0, 2147483647), true));
     }
 
     /**
      * Try to find the user's REAL IP address
      */
-    protected static function getIP2LongRemoteIP() {
+    protected static function get_ip_2_long_remote_ip() {
         $long_ip = array( 0, 0 );
 
-        if ( !function_exists('inet_pton') ) {
+        if ( ! function_exists('inet_pton') ) {
 
             function inet_pton( $ip ) {
                 // IPv4
-                if ( strpos($ip, '.') !== false ) {
+                if ( strpos($ip, '.') ! == false ) {
                     if ( strpos($ip, ':') === false )
                         $ip = pack('N', ip2long($ip));
                     else {
@@ -32,13 +33,13 @@ class LaterPayStatisticsHelper {
                     }
                 }
                 // IPv6
-                elseif ( strpos($ip, ':') !== false ) {
+                elseif ( strpos($ip, ':') ! == false ) {
                     $ip         = explode(':', $ip);
                     $parts      = 8 - count($ip);
                     $res        = '';
                     $replaced   = 0;
                     foreach ( $ip as $seg ) {
-                        if ( $seg != '' )
+                        if ( $seg ! = '' )
                             $res .= str_pad($seg, 4, '0', STR_PAD_LEFT);
                         elseif ( $replaced == 0 ) {
                             for ( $i = 0; $i <= $parts; $i++ ) {
@@ -56,17 +57,17 @@ class LaterPayStatisticsHelper {
 
         }
 
-        if ( isset($_SERVER['REMOTE_ADDR']) && filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) !== false ) {
+        if ( isset($_SERVER['REMOTE_ADDR']) && filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ! == false ) {
             $long_ip[0] = inet_pton($_SERVER['REMOTE_ADDR']);
         }
 
-        if ( isset($_SERVER['HTTP_CLIENT_IP']) && filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP) !== false ) {
+        if ( isset($_SERVER['HTTP_CLIENT_IP']) && filter_var($_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP) ! == false ) {
             $long_ip[1] = inet_pton($_SERVER['HTTP_CLIENT_IP']);
         }
 
         if ( isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
             foreach ( explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']) as $a_ip ) {
-                if ( filter_var($a_ip, FILTER_VALIDATE_IP) !== false ) {
+                if ( filter_var($a_ip, FILTER_VALIDATE_IP) ! == false ) {
                     $long_ip[1] = inet_pton($a_ip);
 
                     return $long_ip;
@@ -74,11 +75,11 @@ class LaterPayStatisticsHelper {
             }
         }
 
-        if ( isset($_SERVER['HTTP_FORWARDED']) && filter_var($_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP) !== false ) {
+        if ( isset($_SERVER['HTTP_FORWARDED']) && filter_var($_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP) ! == false ) {
             $long_ip[1] = inet_pton($_SERVER['HTTP_FORWARDED']);
         }
 
-        if ( isset($_SERVER['HTTP_X_FORWARDED']) && filter_var($_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP) !== false ) {
+        if ( isset($_SERVER['HTTP_X_FORWARDED']) && filter_var($_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP) ! == false ) {
             $long_ip[1] = inet_pton($_SERVER['HTTP_X_FORWARDED']);
         }
 
@@ -105,11 +106,11 @@ class LaterPayStatisticsHelper {
             list($uniqueId, $control_code) = explode('.', $_COOKIE['laterpay_tracking_code']);
 
             // make sure only authorized information is recorded
-            if ( $control_code != md5($uniqueId . self::$options['secret']) ) {
+            if ( $control_code ! = md5($uniqueId . self::$options['secret']) ) {
                 return;
             }
         } else {
-            $uniqueId = self::getUniqueId();
+            $uniqueId = self::get_unique_id();
             setcookie('laterpay_tracking_code', $uniqueId . '.' . md5($uniqueId . self::$options['secret']), time() + self::$options['session_duration'], '/');
         }
 
@@ -121,9 +122,9 @@ class LaterPayStatisticsHelper {
             'date'      => time(),
             'ip'        => 0,
         );
-        list($data['ip'], $longOtherIp) = self::getIP2LongRemoteIP();
+        list($data['ip'], $longOtherIp) = self::get_ip_2_long_remote_ip();
 
-        $model->updatePostViews($data);
+        $model->update_post_views($data);
     }
 
     /**
@@ -133,8 +134,8 @@ class LaterPayStatisticsHelper {
      *
      * @return string URL
      */
-    public static function getFullUrl( $s ) {
-        if ( !empty($s['HTTPS']) && $s['HTTPS'] == 'on' ) {
+    public static function get_full_url( $s ) {
+        if ( ! empty($s['HTTPS']) && $s['HTTPS'] == 'on' ) {
             $ssl = true;
         } else {
             $ssl = false;
@@ -147,7 +148,7 @@ class LaterPayStatisticsHelper {
         }
         $protocol = substr($sp, 0, strpos($sp, '/')) . ( $aux );
         $port = $s['SERVER_PORT'];
-        if ( (!$ssl && $port == '80') || ($ssl && $port == '443') ) {
+        if ( (! $ssl && $port == '80') || ($ssl && $port == '443') ) {
             $port = '';
         } else {
             $port = ':' . $port;

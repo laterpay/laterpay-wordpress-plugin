@@ -154,7 +154,7 @@
                 </form>
             </div><?php _e('mode.', 'laterpay'); ?>
 
-            <dfn id="plugin_mode_live_text"<?php if ( !$plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
+            <dfn id="plugin_mode_live_text"<?php if ( ! $plugin_is_in_live_mode ) echo " style='display:none;'"; ?>>
                 <?php _e('Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay'); ?>
                 <?php _e('All payments are booked and credited to your account.', 'laterpay'); ?>
             </dfn>

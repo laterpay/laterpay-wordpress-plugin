@@ -201,7 +201,7 @@ class Zend_Server_Method_Parameter
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         return array(
             'type'         => $this->getType(),

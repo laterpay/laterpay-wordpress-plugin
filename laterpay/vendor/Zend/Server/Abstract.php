@@ -162,7 +162,7 @@ abstract class Zend_Server_Abstract implements Zend_Server_Interface
         $name       = $reflection->getName();
         if( empty($ns) ){$method = $name ;} else { $method = $ns . '.' . $name; }
 
-        if (!$this->_overwriteExistingMethods && $this->_table->hasMethod($method)) {
+        if (! $this->_overwriteExistingMethods && $this->_table->hasMethod($method)) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Duplicate method registered: ' . $method);
         }
@@ -176,7 +176,7 @@ abstract class Zend_Server_Abstract implements Zend_Server_Interface
         foreach ($reflection->getPrototypes() as $proto) {
             $prototype = new Zend_Server_Method_Prototype();
             $prototype->setReturnType($this->_fixType($proto->getReturnType()));
-            foreach ($proto->getParameters() as $parameter) {
+            foreach ($proto->get_parameters() as $parameter) {
                 $param = new Zend_Server_Method_Parameter(array(
                     'type'     => $this->_fixType($parameter->getType()),
                     'name'     => $parameter->getName(),
@@ -221,9 +221,9 @@ abstract class Zend_Server_Abstract implements Zend_Server_Interface
         }
 
         $object = $invocable->getObject();
-        if (!is_object($object)) {
+        if (! is_object($object)) {
             $invokeArgs = $invocable->getInvokeArguments();
-            if (!empty($invokeArgs)) {
+            if (! empty($invokeArgs)) {
                 $reflection = new ReflectionClass($class);
                 $object     = $reflection->newInstanceArgs($invokeArgs);
             } else {
