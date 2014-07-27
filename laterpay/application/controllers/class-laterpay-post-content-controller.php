@@ -374,7 +374,7 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
      * @access public
      */
     public static function is_resource_link() {
-        return in_array( $GLOBALS['pagenow'], array( 'lp-get.php' ) );
+        return in_array( $GLOBALS['pagenow'], array( 'laterpay-get-script.php' ) );
     }
 
     /**
@@ -544,10 +544,10 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
                     if ( (! $access || $preview_post_as_visitor) ) {
                         $currency           = get_option( 'laterpay_currency' );
                         $purchase_button    = '<a href="#" class="laterpay-purchase-link laterpay-purchase-button" data-laterpay="' . $link . '" data-icon="b" post-id="';
-                        $purchase_button   .= $post_id . '" title="' . __('Buy now with LaterPay', 'laterpay') . '" ';
+                        $purchase_button   .= $post_id . '" title="' . __( 'Buy now with LaterPay', 'laterpay' ) . '" ';
                         $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
                         $purchase_button   .= sprintf(
-                                                    __('%s<small>%s</small>', 'laterpay'),
+                                                    __( '%s<small>%s</small>', 'laterpay' ),
                                                     LaterPay_View_Helper::format_number( $price, 2 ),
                                                     $currency
                                                 );

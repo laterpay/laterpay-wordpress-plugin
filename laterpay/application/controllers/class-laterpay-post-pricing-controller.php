@@ -63,9 +63,9 @@ class LaterPay_Post_Pricing_Controller extends LaterPay_Abstract_Controller
                 'ajaxUrl'                   => admin_url( 'admin-ajax.php' ),
                 'globalDefaultPrice'        => (float) get_option( 'laterpay_global_price' ),
                 'locale'                    => get_locale(),
-                'i18nTeaserError'           => __('Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay'),
-                'i18nAddDynamicPricing'     => __('Add dynamic pricing', 'laterpay'),
-                'i18nRemoveDynamicPricing'  => __('Remove dynamic pricing', 'laterpay'),
+                'i18nTeaserError'           => __( 'Paid posts require some teaser content. Please fill in the Teaser Content field.', 'laterpay' ),
+                'i18nAddDynamicPricing'     => __( 'Add dynamic pricing', 'laterpay' ),
+                'i18nRemoveDynamicPricing'  => __( 'Remove dynamic pricing', 'laterpay' ),
                 'l10n_print_after'          => 'jQuery.extend(lpVars, laterpay_post_edit)',
             )
         );
@@ -74,8 +74,8 @@ class LaterPay_Post_Pricing_Controller extends LaterPay_Abstract_Controller
             'laterpay_d3_dynamic_pricing_widget',
             array(
                 'currency'          => get_option( 'laterpay_currency' ),
-                'i18nDefaultPrice'  => __('default price', 'laterpay'),
-                'i18nDays'          => __('days', 'laterpay'),
+                'i18nDefaultPrice'  => __( 'default price', 'laterpay' ),
+                'i18nDays'          => __( 'days', 'laterpay' ),
                 'l10n_print_after'  => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget)',
             )
         );
@@ -108,7 +108,7 @@ class LaterPay_Post_Pricing_Controller extends LaterPay_Abstract_Controller
         $content = get_post_meta( $object->ID, 'Teaser content', true );
         $editor_id = 'postcueeditor';
 
-        echo "<dfn>" . __("This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay') . "</dfn>";
+        echo "<dfn>" . __("This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . "</dfn>";
 
         wp_editor( $content, $editor_id, $settings );
 
@@ -390,7 +390,7 @@ class LaterPay_Post_Pricing_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
-                        'message' => __('You don´t have sufficient user privileges to do this.', 'laterpay')
+                        'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
                     )
                 );
                 die;
@@ -404,7 +404,7 @@ class LaterPay_Post_Pricing_Controller extends LaterPay_Abstract_Controller
                     echo Zend_Json::encode(
                         array(
                             'success' => false,
-                            'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
             }

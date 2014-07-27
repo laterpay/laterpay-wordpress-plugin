@@ -6,10 +6,10 @@ class LaterPay_View_Helper
     public static $pluginPage = 'laterpay-plugin';
 
     public static $admin_menu = array(
-        'get_started'   => array( 'url' => 'laterpay-getstarted-tab',   'title' => __('Get started', 'laterpay') ),
-        'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __('Pricing', 'laterpay') ),
-        'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __('Appearance', 'laterpay') ),
-        'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __('Account', 'laterpay') ),
+        'get_started'   => array( 'url' => 'laterpay-getstarted-tab',   'title' => __( 'Get started', 'laterpay' ) ),
+        'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
+        'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __( 'Appearance', 'laterpay' ) ),
+        'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __( 'Account', 'laterpay' ) ),
     );
 
     /**

@@ -22,10 +22,10 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             'laterpay-backend-account',
             'lpVars',
             array(
-                'i18nApiKeyInvalid'         => __('The API key you entered is not a valid LaterPay API key! ', 'laterpay'),
-                'i18nMerchantIdInvalid'     => __('The Merchant ID you entered is not a valid LaterPay Merchant ID! ', 'laterpay'),
-                'i18nLiveApiDataRequired'   => __('Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay'),
-                'i18nPreventUnload'         => __('LaterPay does not work properly with invalid API credentials.', 'laterpay'),
+                'i18nApiKeyInvalid'         => __( 'The API key you entered is not a valid LaterPay API key! ', 'laterpay' ),
+                'i18nMerchantIdInvalid'     => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID! ', 'laterpay' ),
+                'i18nLiveApiDataRequired'   => __( 'Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay' ),
+                'i18nPreventUnload'         => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
             )
         );
     }
@@ -60,7 +60,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
-                        'message' => __('You don´t have sufficient user privileges to do this.', 'laterpay')
+                        'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
                     )
                 );
                 die;
@@ -95,7 +95,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
                     echo Zend_Json::encode(
                         array(
                             'success' => false,
-                            'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
                     die;
@@ -116,7 +116,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('Sandbox Merchant ID verified and saved.', 'laterpay')
+                    'message' => __( 'Sandbox Merchant ID verified and saved.', 'laterpay' )
                 )
             );
         } elseif ( strlen( $sandbox_merchant_id ) == 0 ) {
@@ -124,14 +124,14 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('The Sandbox Merchant ID has been removed.', 'laterpay')
+                    'message' => __( 'The Sandbox Merchant ID has been removed.', 'laterpay' )
                 )
             );
         } else {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay')
+                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay' )
                 )
             );
         }
@@ -151,7 +151,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('Your Sandbox API key is valid. You can now make TEST transactions.', 'laterpay')
+                    'message' => __( 'Your Sandbox API key is valid. You can now make TEST transactions.', 'laterpay' )
                 )
             );
         } elseif ( strlen( $sandbox_api_key ) == 0 ) {
@@ -159,14 +159,14 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('The Sandbox API key has been removed.', 'laterpay')
+                    'message' => __( 'The Sandbox API key has been removed.', 'laterpay' )
                 )
             );
         } else {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay')
+                    'message' => __( 'The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay' )
                 )
             );
         }
@@ -186,7 +186,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('Live Merchant ID verified and saved.', 'laterpay')
+                    'message' => __( 'Live Merchant ID verified and saved.', 'laterpay' )
                 )
             );
         } elseif ( strlen( $live_merchant_id ) == 0 ) {
@@ -194,14 +194,14 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('The Live Merchant ID has been removed.', 'laterpay')
+                    'message' => __( 'The Live Merchant ID has been removed.', 'laterpay' )
                 )
             );
         } else {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The Merchant ID you entered is not a valid LaterPay Live Merchant ID! ', 'laterpay')
+                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Live Merchant ID! ', 'laterpay' )
                 )
             );
         }
@@ -221,7 +221,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('Live API key verified and saved. You can now make REAL transactions.', 'laterpay')
+                    'message' => __( 'Live API key verified and saved. You can now make REAL transactions.', 'laterpay' )
                 )
             );
         } elseif ( strlen( $live_api_key ) == 0 ) {
@@ -229,14 +229,14 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('The Live API key has been removed.', 'laterpay')
+                    'message' => __( 'The Live API key has been removed.', 'laterpay' )
                 )
             );
         } else {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The API key you entered is not a valid LaterPay Live API key! ', 'laterpay')
+                    'message' => __( 'The API key you entered is not a valid LaterPay Live API key! ', 'laterpay' )
                 )
             );
         }
@@ -255,14 +255,14 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => true,
-                        'message' => __('The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay')
+                        'message' => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' )
                     )
                 );
             } else {
                 echo Zend_Json::encode(
                     array(
                         'success' => true,
-                        'message' => __('The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay')
+                        'message' => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' )
                     )
                 );
             }
@@ -270,7 +270,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                 )
             );
         }

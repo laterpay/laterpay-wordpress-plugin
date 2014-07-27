@@ -4,7 +4,7 @@ class LaterPay_File_Helper
 {
 
     const URL_REGEX_PATTERN = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
-    const SCRIPT_PATH       = 'laterpay/scripts/lp-get.php';
+    const SCRIPT_PATH       = 'laterpay/scripts/laterpay-get-script.php';
 
     /**
     * @param null|string $file

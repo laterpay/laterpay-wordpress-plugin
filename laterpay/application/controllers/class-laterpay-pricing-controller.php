@@ -78,7 +78,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
-                        'message' => __('You don´t have sufficient user privileges to do this.', 'laterpay')
+                        'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
                     )
                 );
                 die;
@@ -109,7 +109,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                     echo Zend_Json::encode(
                         array(
                             'success' => false,
-                            'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
                     die;
@@ -140,7 +140,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
         echo Zend_Json::encode(
             array(
                 'success' => false,
-                'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
             )
         );
         die;
@@ -159,7 +159,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                 'success'           => true,
                 'laterpay_currency' => get_option( 'laterpay_currency' ),
                 'message'           => sprintf(
-                                            __('The currency for this website is %s now.', 'laterpay'),
+                                            __( 'The currency for this website is %s now.', 'laterpay' ),
                                             get_option( 'laterpay_currency' )
                                         )
             )
@@ -180,7 +180,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                 array(
                     'success'               => false,
                     'laterpay_global_price' => get_option( 'laterpay_global_price' ),
-                    'message'               => __('The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay')
+                    'message'               => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
                 )
             );
             die;
@@ -196,7 +196,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                 'success'               => true,
                 'laterpay_global_price' => $global_price,
                 'message'               => sprintf(
-                                                __('The global default price for all posts is %s %s now.', 'laterpay'),
+                                                __( 'The global default price for all posts is %s %s now.', 'laterpay' ),
                                                 $global_price,
                                                 $currency_name
                                             )
@@ -217,7 +217,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('The price you tried to set is not within the allowed range of 0 to 5.00.', 'laterpay')
+                    'message' => __( 'The price you tried to set is not within the allowed range of 0 to 5.00.', 'laterpay' )
                 )
             );
             die;
@@ -250,7 +250,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('There is no such category on this website.', 'laterpay')
+                    'message' => __( 'There is no such category on this website.', 'laterpay' )
                 )
             );
             die;
@@ -262,7 +262,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
-                        'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                        'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                     )
                 );
             } else {
@@ -279,7 +279,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                         'currency'      => get_option( 'laterpay_currency' ),
                         'category_id'   => $id_category,
                         'message'       => sprintf(
-                                                __('All posts in category %s have a default price of %s %s now.', 'laterpay'),
+                                                __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
                                                 $_POST['category'],
                                                 $formatted_category_price,
                                                 $currency_name
@@ -303,7 +303,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                 'currency'      => get_option('laterpay_currency'),
                 'category_id'   => $id_category,
                 'message'       => sprintf(
-                                        __('All posts in category %s have a default price of %s %s now.', 'laterpay'),
+                                        __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
                                         $formatted_category_price,
                                         $_POST['price'],
                                         $currency_name
@@ -325,7 +325,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('There is no such category on this website.', 'laterpay')
+                    'message' => __( 'There is no such category on this website.', 'laterpay' )
                 )
             );
             die;
@@ -348,7 +348,7 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
                 'currency'      => get_option( 'laterpay_currency' ),
                 'category_id'   => $id_category,
                 'message'       => sprintf(
-                                        __('All posts in category %s have a default price of %s %s now.', 'laterpay'),
+                                        __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
                                         $_POST['category'],
                                         $formatted_category_price,
                                         $currency_name
@@ -371,14 +371,14 @@ class LaterPay_Pricing_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => true,
-                    'message' => __('The default price for this category was deleted.', 'laterpay')
+                    'message' => __( 'The default price for this category was deleted.', 'laterpay' )
                 )
             );
         } else {
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                 )
             );
         }

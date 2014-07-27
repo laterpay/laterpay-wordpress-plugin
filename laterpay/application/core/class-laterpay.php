@@ -305,7 +305,7 @@ class LaterPay
     public function add_to_admin_panel() {
         $plugin_page = LaterPay_View_Helper::$pluginPage;
         add_menu_page(
-            __('LaterPay Plugin Settings', 'laterpay'),
+            __( 'LaterPay Plugin Settings', 'laterpay' ),
             'LaterPay',
             'laterpay_read_plugin_pages',
             $plugin_page,
@@ -327,8 +327,8 @@ class LaterPay
 
             $page = add_submenu_page(
                 $plugin_page,
-                __($page['title'], 'laterpay') . ' | ' . __('LaterPay Plugin Settings', 'laterpay'),
-                __($page['title'], 'laterpay'),
+                __($page['title'], 'laterpay' ) . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
+                __($page['title'], 'laterpay' ),
                 'laterpay_read_plugin_pages',
                 $slug,
                 array( $this->get_laterpay_admin_controller(), 'run_' . $name )
@@ -374,7 +374,7 @@ class LaterPay
      */
     public function add_teaser_content_box() {
         add_meta_box( 'laterpay_teaser_content',
-            __('Teaser Content', 'laterpay'),
+            __( 'Teaser Content', 'laterpay' ),
             array( $this->get_laterpay_post_pricing_controller(), 'render_teaser_content_box' ),
             'post',
             'normal',
@@ -392,7 +392,7 @@ class LaterPay
      */
     public function add_post_pricing_form() {
         add_meta_box( 'laterpay_pricing_post_content',
-            __('Pricing for this Post', 'laterpay'),
+            __( 'Pricing for this Post', 'laterpay' ),
             array( $this->get_laterpay_post_pricing_controller(), 'render_post_pricing_form' ),
             'post',
             'side',
@@ -438,7 +438,7 @@ class LaterPay
     public function render_premium_download_box( $atts ) {
         $a = shortcode_atts(array(
                'target_page_title'  => '',
-               'heading_text'       => __('Additional Premium Content', 'laterpay'),
+               'heading_text'       => __( 'Additional Premium Content', 'laterpay' ),
                'description_text'   => '',
                'content_type'       => '',
                'teaser_image_path'  => ''
@@ -452,7 +452,7 @@ class LaterPay
             $page_url       = get_permalink( $page_id );
             $price          = LaterPay_Post_Content_Controller::get_post_price( $page_id );
             $currency       = get_option( 'laterpay_currency' );
-            $price_tag      = sprintf( __('%s<small>%s</small>', 'laterpay'), $price, $currency );
+            $price_tag      = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
         }
 
         $content_type = $a['content_type'];
@@ -564,8 +564,8 @@ class LaterPay
         foreach ( $columns as $key => $val ) {
             $extended_columns[$key] = $val;
             if ( $key == $insert_after ) {
-                $extended_columns['post_price']         = __('Price', 'laterpay');
-                $extended_columns['post_price_type']    = __('Price Type', 'laterpay');
+                $extended_columns['post_price']         = __( 'Price', 'laterpay' );
+                $extended_columns['post_price_type']    = __( 'Price Type', 'laterpay' );
             }
         }
 
@@ -587,7 +587,7 @@ class LaterPay
             $post_price_type = get_post_meta( $post_id, 'Pricing Post Type', true );
 
             if ( $post_price_type !== '' ) {
-                echo __($post_price_type, 'laterpay');
+                echo __($post_price_type, 'laterpay' );
             } else {
                 echo '&mdash;';
             }
@@ -722,10 +722,10 @@ class LaterPay
             array(
                 'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
                 'lpBalanceUrl'  => $balance_url,
-                'getArticleUrl' => plugins_url( 'laterpay/scripts/lp-article.php' ),
-                'getFooterUrl'  => plugins_url( 'laterpay/scripts/lp-footer.php' ),
-                'getTitleUrl'   => plugins_url( 'laterpay/scripts/lp-title.php' ),
-                'i18nAlert'     => __('In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay'),
+                'getArticleUrl' => plugins_url( 'laterpay/scripts/laterpay-article-script.php' ),
+                'getFooterUrl'  => plugins_url( 'laterpay/scripts/laterpay-footer-script.php' ),
+                'getTitleUrl'   => plugins_url( 'laterpay/scripts/laterpay-title-script.php' ),
+                'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
             )
         );
     }
@@ -773,7 +773,7 @@ class LaterPay
         $installed_wp_is_compatible     = version_compare( $installed_wp_version, $required_wp_version, '>=' );
 
         $notices = array();
-        $template = __('<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>', 'laterpay');
+        $template = __( '<p>LaterPay: Your server <strong>does not</strong> meet the minimum requirement of %s version %s or higher. You are running %s version %s.</p>', 'laterpay' );
 
         // check PHP compatibility
         if ( ! $installed_php_is_compatible ) {
@@ -786,7 +786,7 @@ class LaterPay
         }
 
         // check file / folder permissions
-        $template = __('<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>', 'laterpay');
+        $template = __( '<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>', 'laterpay' );
         $file = dirname( $this->_pluginFile );
         if ( ! is_writable( $file ) ) {
             $notices[] = sprintf( $template, $file );
@@ -800,7 +800,7 @@ class LaterPay
         if ( count( $notices ) > 0 ) {
             deactivate_plugins( plugin_basename( $this->_pluginFile ) );
 
-            $notices[] = __('The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay');
+            $notices[] = __( 'The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
             $out = join( "\n", $notices );
             echo '<div class="error">' . $out . '</div>';
         }
@@ -846,7 +846,7 @@ class LaterPay
     public function add_plugin_settings_link( $links ) {
         return array_merge(
             array(
-                'settings' => '<a href="' . admin_url( 'plugin-editor.php?file=laterpay%2Fsettings.php' ) . '">' . __('Settings', 'laterpay') . '</a>'
+                'settings' => '<a href="' . admin_url( 'plugin-editor.php?file=laterpay%2Fsettings.php' ) . '">' . __( 'Settings', 'laterpay' ) . '</a>'
             ),
             $links
         );

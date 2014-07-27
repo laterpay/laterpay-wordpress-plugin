@@ -153,8 +153,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         $screen = get_current_screen();
         $screen->add_help_tab( array(
             'id'      => 'laterpay_add_edit_post_page_help',
-            'title'   => __('LaterPay', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'LaterPay', 'laterpay' ),
+            'content' => __( '
                 <p>
                     <strong>Setting Prices</strong><br>
                     You can set an individual price for each post.<br>
@@ -192,8 +192,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         $screen = get_current_screen();
         $screen->add_help_tab( array(
             'id'      => 'laterpay_pricing_tab_help_global_default_price',
-            'title'   => __('Global Default Price', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'Global Default Price', 'laterpay' ),
+            'content' => __( '
                 <p>
                     The global default price is used for all posts, for which no category default price or
                     individual price has been set.<br>
@@ -205,8 +205,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         ));
         $screen->add_help_tab( array(
             'id'      => 'laterpay_pricing_tab_help_category_default_price',
-            'title'   => __('Category Default Prices', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'Category Default Prices', 'laterpay' ),
+            'content' => __( '
                 <p>
                     A category default price is applied to all posts in a given category that don\'t have an
                     individual price.<br>
@@ -221,8 +221,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         ));
         $screen->add_help_tab( array(
             'id'      => 'laterpay_pricing_tab_help_currency',
-            'title'   => __('Currency', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'Currency', 'laterpay' ),
+            'content' => __( '
                 <p>
                     You can choose between different currencies for your blog.<br>
                     Changing the standard currency will not convert the prices you have set.
@@ -244,8 +244,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         $screen = get_current_screen();
         $screen->add_help_tab( array(
             'id'      => 'laterpay_appearance_tab_help_preview_mode',
-            'title'   => __('Preview Mode', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'Preview Mode', 'laterpay' ),
+            'content' => __( '
                 <p>
                     The preview mode defines, how teaser content is shown to your visitors.<br>
                     You can choose between two preview modes:
@@ -263,8 +263,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         ));
         $screen->add_help_tab( array(
             'id'      => 'laterpay_appearance_tab_help_invoice_indicator',
-            'title'   => __('Invoice Indicator', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'Invoice Indicator', 'laterpay' ),
+            'content' => __( '
                 <p>
                     The plugin provides a code snippet you can insert into your theme that displays the user\'s
                     current LaterPay invoice total and provides a direct link to his LaterPay user backend.<br>
@@ -284,8 +284,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         $screen = get_current_screen();
         $screen->add_help_tab( array(
             'id'      => 'laterpay_account_tab_help_api_credentials',
-            'title'   => __('API Credentials', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'API Credentials', 'laterpay' ),
+            'content' => __( '
                 <p>
                     To access the LaterPay API, you need LaterPay API credentials, consisting of
                 </p>
@@ -327,8 +327,8 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
         ));
         $screen->add_help_tab( array(
             'id'      => 'laterpay_account_tab_help_plugin_mode',
-            'title'   => __('Plugin Mode', 'laterpay'),
-            'content' => __('
+            'title'   => __( 'Plugin Mode', 'laterpay' ),
+            'content' => __( '
                 <p>You can run the LaterPay plugin in two modes:</p>
                 <ul>
                     <li>
@@ -390,7 +390,7 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
-                        'message' => __("You don't have sufficient user privileges to do this.", 'laterpay')
+                        'message' => __("You don't have sufficient user privileges to do this.", 'laterpay' )
                     )
                 );
                 die;
@@ -407,7 +407,7 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
                         echo Zend_Json::encode(
                             array(
                                 'success' => false,
-                                'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                             )
                         );
                         die;
@@ -417,7 +417,7 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
                     echo Zend_Json::encode(
                         array(
                             'success' => true,
-                            'message' => __('Updated.', 'laterpay')
+                            'message' => __( 'Updated.', 'laterpay' )
                         )
                     );
                     die;
@@ -437,7 +437,7 @@ class LaterPay_Admin_Controller extends LaterPay_Abstract_Controller
                     echo Zend_Json::encode(
                         array(
                             'success' => false,
-                            'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
                     die;

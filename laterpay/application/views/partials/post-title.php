@@ -1,7 +1,6 @@
 <span id="laterpay-post-title" data-post-id="<?php echo $post_id; ?>"></span>
-
 <script>
-    (function($){
+    (function($) {
         var $title = $('#laterpay-post-title'),
             postId = $title.data('post-id');
 

@@ -23,9 +23,9 @@ class LaterPay_Get_Started_Controller extends LaterPay_Abstract_Controller
             'lpVars',
             array(
                 'locale'                        => get_locale(),
-                'i18nOutsideAllowedPriceRange'  => __('The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay'),
-                'i18nInvalidMerchantId'         => __('The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay'),
-                'i18nInvalidApiKey'             => __('The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay'),
+                'i18nOutsideAllowedPriceRange'  => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' ),
+                'i18nInvalidMerchantId'         => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay' ),
+                'i18nInvalidApiKey'             => __( 'The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay' ),
             )
         );
     }
@@ -85,7 +85,7 @@ class LaterPay_Get_Started_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                 )
             );
         }

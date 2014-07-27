@@ -53,7 +53,7 @@ class LaterPay_Appearance_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => false,
-                        'message' => __('You don´t have sufficient user privileges to do this.', 'laterpay')
+                        'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
                     )
                 );
                 die;
@@ -72,14 +72,14 @@ class LaterPay_Appearance_Controller extends LaterPay_Abstract_Controller
                             echo Zend_Json::encode(
                                 array(
                                     'success' => true,
-                                    'message' => __('Visitors will now see only the teaser content of paid posts.', 'laterpay')
+                                    'message' => __( 'Visitors will now see only the teaser content of paid posts.', 'laterpay' )
                                 )
                             );
                         } else {
                             echo Zend_Json::encode(
                                 array(
                                     'success' => true,
-                                    'message' => __('Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay')
+                                    'message' => __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay' )
                                 )
                             );
                         }
@@ -87,7 +87,7 @@ class LaterPay_Appearance_Controller extends LaterPay_Abstract_Controller
                         echo Zend_Json::encode(
                             array(
                                 'success' => false,
-                                'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                             )
                         );
                     }
@@ -98,7 +98,7 @@ class LaterPay_Appearance_Controller extends LaterPay_Abstract_Controller
                     echo Zend_Json::encode(
                         array(
                             'success' => false,
-                            'message' => __('An error occurred when trying to save your settings. Please try again.', 'laterpay')
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
                     die;
