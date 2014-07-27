@@ -369,7 +369,7 @@ class LaterPay_Client
     }
 
     public function has_token() {
-        return ! empty($this->lptoken);
+        return ! empty( $this->lptoken );
     }
 
     public function add_metered_access( $article_id, $threshold = 5, $product_key = null ) {
