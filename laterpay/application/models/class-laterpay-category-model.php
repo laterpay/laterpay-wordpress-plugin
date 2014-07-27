@@ -117,7 +117,7 @@ class LaterPay_Category_Model
             $excluding_id = 0;
         }
 
-        $term = esc_sql($term);
+        $term = like_escape( $term );
         $sql = "
             SELECT
                 tp.term_id AS id,
@@ -160,7 +160,7 @@ class LaterPay_Category_Model
     public function get_categories_by_term( $term, $limit ) {
         global $wpdb;
 
-        $term = esc_sql( $term );
+        $term = like_escape( $term );
         $sql = "
             SELECT
                 tm.term_id AS id,
@@ -192,7 +192,7 @@ class LaterPay_Category_Model
     public function set_category_price( $id_category, $price, $id = 0 ) {
         global $wpdb;
 
-        if ( ! empty($id) ) {
+        if ( ! empty( $id ) ) {
             $wpdb->update(
                 $this->table_prices,
                 array(
@@ -244,7 +244,7 @@ class LaterPay_Category_Model
                 1
             ;
         ";
-        $price = $wpdb->get_row($sql);
+        $price = $wpdb->get_row( $sql );
 
         if ( empty( $price ) ) {
             return null;
