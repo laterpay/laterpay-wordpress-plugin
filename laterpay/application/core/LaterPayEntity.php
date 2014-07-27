@@ -763,7 +763,7 @@ class LaterPayEntity
         $newData = $this->get_data( $field );
         $origData = $this->get_original_data( $field );
 
-        return $newData ! = $origData;
+        return $newData != $origData;
     }
 
     /**

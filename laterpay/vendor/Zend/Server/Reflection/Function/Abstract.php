@@ -121,7 +121,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
         $this->_reflection = $r;
 
         // Determine namespace
-        if (null ! == $namespace){
+        if (null !== $namespace){
             $this->setNamespace($namespace);
         }
 
@@ -158,7 +158,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
 
         foreach ($this->_sigParams[$level] as $value) {
             $node = new Zend_Server_Reflection_Node($value, $parent);
-            if ((null ! == $value) && ($this->_sigParamsDepth > $level + 1)) {
+            if ((null !== $value) && ($this->_sigParamsDepth > $level + 1)) {
                 $this->_addTree($node, $level + 1);
             }
         }
@@ -346,7 +346,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
             }
         }
 
-        if (count($paramTypesTmp) ! = $paramCount) {
+        if (count($paramTypesTmp) != $paramCount) {
             require_once 'Zend/Server/Reflection/Exception.php';
             throw new Zend_Server_Reflection_Exception(
                'Variable number of arguments is not supported for services (except optional parameters). '

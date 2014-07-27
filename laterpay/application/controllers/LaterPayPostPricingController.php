@@ -373,7 +373,7 @@ class LaterPayPostPricingController extends LaterPayAbstractController
     public function set_post_meta( $meta_value, $new_meta_value, $post_id, $name ) {
         if ( '' == $new_meta_value ) {
             delete_post_meta( $post_id, $name );
-        } elseif ( $new_meta_value ! = $meta_value ) {
+        } elseif ( $new_meta_value != $meta_value ) {
             add_post_meta( $post_id, $name, $new_meta_value, true ) || update_post_meta( $post_id, $name, $new_meta_value );
         }
     }

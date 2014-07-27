@@ -69,7 +69,7 @@ class Zend_Server_Method_Definition
      */
     public function __construct($options = null)
     {
-        if ((null ! == $options) && is_array($options)) {
+        if ((null !== $options) && is_array($options)) {
             $this->setOptions($options);
         }
     }
@@ -228,7 +228,7 @@ class Zend_Server_Method_Definition
      */
     public function setObject($object)
     {
-        if (! is_object($object) && (null ! == $object)) {
+        if (! is_object($object) && (null !== $object)) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Invalid object passed to ' . __CLASS__ . '::' . __METHOD__);
         }

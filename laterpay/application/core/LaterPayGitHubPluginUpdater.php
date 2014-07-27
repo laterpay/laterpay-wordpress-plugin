@@ -124,7 +124,7 @@ class LaterPayGitHubPluginUpdater
         $this->init_plugin_data();
         $this->get_repo_release_info();
         // if nothing is found, do nothing
-        if ( empty($response->slug) || $response->slug ! = $this->slug ) {
+        if ( empty($response->slug) || $response->slug != $this->slug ) {
             return false;
         }
         // add our plugin information
@@ -236,7 +236,7 @@ class LaterPayGitHubPluginUpdater
 
         $plugin = isset($plugin['plugin']) ? $plugin['plugin'] : '';
 
-        if ( empty($plugin) || $plugin ! = $this->slug ) {
+        if ( empty($plugin) || $plugin != $this->slug ) {
             return;
         }
 

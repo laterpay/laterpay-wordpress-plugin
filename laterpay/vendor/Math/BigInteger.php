@@ -325,7 +325,7 @@ class Math_BigInteger {
 
         // '0' counts as empty() but when the base is 256 '0' is equal to ord('0') or 48
         // '0' is the only value like this per http://php.net/empty
-        if (empty($x) && (abs($base) ! = 256 || $x ! == '0')) {
+        if (empty($x) && (abs($base) != 256 || $x !== '0')) {
             return;
         }
 
@@ -365,7 +365,7 @@ class Math_BigInteger {
                 }
 
                 if ($this->is_negative) {
-                    if (MATH_BIGINTEGER_MODE ! = MATH_BIGINTEGER_MODE_INTERNAL) {
+                    if (MATH_BIGINTEGER_MODE != MATH_BIGINTEGER_MODE_INTERNAL) {
                         $this->is_negative = false;
                     }
                     $temp = $this->add(new Math_BigInteger('-1'));
@@ -769,7 +769,7 @@ class Math_BigInteger {
     {
         $this->hex = $this->toHex(true);
         $vars = array('hex');
-        if ($this->generator ! = 'mt_rand') {
+        if ($this->generator != 'mt_rand') {
             $vars[] = 'generator';
         }
         if ($this->precision > 0) {
@@ -873,7 +873,7 @@ class Math_BigInteger {
         }
 
         // subtract, if appropriate
-        if ( $x_negative ! = $y_negative ) {
+        if ( $x_negative != $y_negative ) {
             if ( $x_value == $y_value ) {
                 return array(
                     MATH_BIGINTEGER_VALUE => array(),
@@ -1003,7 +1003,7 @@ class Math_BigInteger {
         }
 
         // add, if appropriate (ie. -$x - +$y or +$x - -$y)
-        if ( $x_negative ! = $y_negative ) {
+        if ( $x_negative != $y_negative ) {
             $temp = $this->_add($x_value, false, $y_value, false);
             $temp[MATH_BIGINTEGER_SIGN] = $x_negative;
 
@@ -1125,7 +1125,7 @@ class Math_BigInteger {
         //if ( $x_value == $y_value ) {
         //    return array(
         //        MATH_BIGINTEGER_VALUE => $this->_square($x_value),
-        //        MATH_BIGINTEGER_SIGN => $x_sign ! = $y_value
+        //        MATH_BIGINTEGER_SIGN => $x_sign != $y_value
         //    );
         //}
 
@@ -1142,7 +1142,7 @@ class Math_BigInteger {
         if (min($x_length, $y_length) < 2 * MATH_BIGINTEGER_KARATSUBA_CUTOFF) { $aux = $this->_trim($this->_regularMultiply($x_value, $y_value)); } else { $aux = $this->_trim($this->_karatsuba($x_value, $y_value)); }
         return array(
             MATH_BIGINTEGER_VALUE => $aux,
-            MATH_BIGINTEGER_SIGN => $x_negative ! = $y_negative
+            MATH_BIGINTEGER_SIGN => $x_negative != $y_negative
         );
     }
 
@@ -1406,7 +1406,7 @@ class Math_BigInteger {
             $remainder = new Math_BigInteger();
             $quotient->value = $q;
             $remainder->value = array($r);
-            $quotient->is_negative = $this->is_negative ! = $y->is_negative;
+            $quotient->is_negative = $this->is_negative != $y->is_negative;
             return array($this->_normalize($quotient), $this->_normalize($remainder));
         }
 
@@ -1428,7 +1428,7 @@ class Math_BigInteger {
         if ( ! $diff ) {
             $temp = new Math_BigInteger();
             $temp->value = array(1);
-            $temp->is_negative = $x_sign ! = $y_sign;
+            $temp->is_negative = $x_sign != $y_sign;
             return array($this->_normalize($temp), $this->_normalize(new Math_BigInteger()));
         }
 
@@ -1537,7 +1537,7 @@ class Math_BigInteger {
         // unnormalize the remainder
         $x->_rshift($shift);
 
-        $quotient->is_negative = $x_sign ! = $y_sign;
+        $quotient->is_negative = $x_sign != $y_sign;
 
         // calculate the "common residue", if appropriate
         if ( $x_sign ) {
@@ -1616,7 +1616,7 @@ class Math_BigInteger {
      */
     function modPow($e, $n)
     {
-        if ( $this->bitmask ! == false && $this->bitmask->compare($n) < 0 ) { $n = $this->bitmask; } else { $n = $n->abs(); }
+        if ( $this->bitmask !== false && $this->bitmask->compare($n) < 0 ) { $n = $this->bitmask; } else { $n = $n->abs(); }
 
         if ($e->compare(new Math_BigInteger()) < 0) {
             $e = $e->abs();
@@ -1726,7 +1726,7 @@ class Math_BigInteger {
         $mod2->value = array(1);
         $mod2->_lshift($j);
 
-        if ( $mod1->value ! = array(1) ) { $part1 = $this->_slidingWindow($e, $mod1, MATH_BIGINTEGER_MONTGOMERY); } else { $part1 = new Math_BigInteger(); }
+        if ( $mod1->value != array(1) ) { $part1 = $this->_slidingWindow($e, $mod1, MATH_BIGINTEGER_MONTGOMERY); } else { $part1 = new Math_BigInteger(); }
         $part2 = $this->_slidingWindow($e, $mod2, MATH_BIGINTEGER_POWEROF2);
 
         $y1 = $mod2->modInverse($mod1);
@@ -1964,7 +1964,7 @@ class Math_BigInteger {
      * usable on account of (1) its not using reasonable radix points as discussed in
      * {@link http://math.libtomcrypt.com/files/tommath.pdf#page=162 MPM 6.2.2} and (2) the fact that, even with reasonable
      * radix points, it only works when there are an even number of digits in the denominator.  The reason for (2) is that
-     * (x >> 1) + (x >> 1) ! = x / 2 + x / 2.  If x is even, they're the same, but if x is odd, they're not.  See the in-line
+     * (x >> 1) + (x >> 1) != x / 2 + x / 2.  If x is even, they're the same, but if x is odd, they're not.  See the in-line
      * comments for details.
      *
      * @see _slidingWindow()
@@ -2204,7 +2204,7 @@ class Math_BigInteger {
 
         return array(
             MATH_BIGINTEGER_VALUE => $this->_trim($product_value),
-            MATH_BIGINTEGER_SIGN => $x_negative ! = $y_negative
+            MATH_BIGINTEGER_SIGN => $x_negative != $y_negative
         );
     }
 
@@ -2485,7 +2485,7 @@ class Math_BigInteger {
                 $c = '0';
                 $d = '1';
 
-                while (bccomp($v, '0', 0) ! = 0) {
+                while (bccomp($v, '0', 0) != 0) {
                     $q = bcdiv($u, $v, 0);
 
                     $temp = $u;
@@ -2625,7 +2625,7 @@ class Math_BigInteger {
     /**
      * Compares two numbers.
      *
-     * Although one might think ! $x->compare($y) means $x ! = $y, it, in fact, means the opposite.  The reason for this is
+     * Although one might think ! $x->compare($y) means $x != $y, it, in fact, means the opposite.  The reason for this is
      * demonstrated thusly:
      *
      * $x  > $y: $x->compare($y)  > 0
@@ -2665,14 +2665,14 @@ class Math_BigInteger {
      */
     function _compare($x_value, $x_negative, $y_value, $y_negative)
     {
-        if ( $x_negative ! = $y_negative ) {
+        if ( $x_negative != $y_negative ) {
             if ( ! $x_negative && $y_negative ) { $aux = 1; } else { $aux = -1; }
             return $aux;
         }
 
         if ( $x_negative ) { $result = -1 ; } else { $result = 1; }
 
-        if ( count($x_value) ! = count($y_value) ) {
+        if ( count($x_value) != count($y_value) ) {
             if ( count($x_value) > count($y_value) ) { $aux = $result; } else { $aux = -$result; }
             return $aux;
         }
@@ -2682,7 +2682,7 @@ class Math_BigInteger {
         $y_value = array_pad($y_value, $size, 0);
 
         for ($i = count($x_value) - 1; $i >= 0; --$i) {
-            if ($x_value[$i] ! = $y_value[$i]) {
+            if ($x_value[$i] != $y_value[$i]) {
                 if ( $x_value[$i] > $y_value[$i] ) { $aux = $result; } else { $aux = -$result;}
                 return $aux;
             }
@@ -2723,7 +2723,7 @@ class Math_BigInteger {
     function setPrecision($bits)
     {
         $this->precision = $bits;
-        if ( MATH_BIGINTEGER_MODE ! = MATH_BIGINTEGER_MODE_BCMATH ) {
+        if ( MATH_BIGINTEGER_MODE != MATH_BIGINTEGER_MODE_BCMATH ) {
             $this->bitmask = new Math_BigInteger(chr((1 << ($bits & 0x7)) - 1) . str_repeat(chr(0xFF), $bits >> 3), 256);
         } else {
             $this->bitmask = new Math_BigInteger(bcpow('2', $bits, 0));
@@ -3006,7 +3006,7 @@ class Math_BigInteger {
         $left = $this->bitwise_leftShift($shift);
         $left = $left->bitwise_and(new Math_BigInteger($mask, 256));
         $right = $this->bitwise_rightShift($precision - $shift);
-        if ( MATH_BIGINTEGER_MODE ! = MATH_BIGINTEGER_MODE_BCMATH ) { $result = $left->bitwise_or($right) ; } else { $result = $left->add($right); }
+        if ( MATH_BIGINTEGER_MODE != MATH_BIGINTEGER_MODE_BCMATH ) { $result = $left->bitwise_or($right) ; } else { $result = $left->add($right); }
         return $this->_normalize($result);
     }
 
@@ -3185,7 +3185,7 @@ class Math_BigInteger {
         $initial_x = $x->copy();
 
         while (true) {
-            if ($timeout ! == false && time() - $start > $timeout) {
+            if ($timeout !== false && time() - $start > $timeout) {
                 return false;
             }
 
@@ -3271,7 +3271,7 @@ class Math_BigInteger {
         // ie. isEven() or ! isOdd()
         switch ( MATH_BIGINTEGER_MODE ) {
             case MATH_BIGINTEGER_MODE_GMP:
-                return gmp_prob_prime($this->value, $t) ! = 0;
+                return gmp_prob_prime($this->value, $t) != 0;
             case MATH_BIGINTEGER_MODE_BCMATH:
                 if ($this->value === '2') {
                     return true;
@@ -3306,7 +3306,7 @@ class Math_BigInteger {
                 953,  967,  971,  977,  983,  991,  997
             );
 
-            if ( MATH_BIGINTEGER_MODE ! = MATH_BIGINTEGER_MODE_INTERNAL ) {
+            if ( MATH_BIGINTEGER_MODE != MATH_BIGINTEGER_MODE_INTERNAL ) {
                 for ($i = 0; $i < count($primes); ++$i) {
                     $primes[$i] = new Math_BigInteger($primes[$i]);
                 }
@@ -3322,7 +3322,7 @@ class Math_BigInteger {
         }
 
         // see HAC 4.4.1 "Random search for probable primes"
-        if ( MATH_BIGINTEGER_MODE ! = MATH_BIGINTEGER_MODE_INTERNAL ) {
+        if ( MATH_BIGINTEGER_MODE != MATH_BIGINTEGER_MODE_INTERNAL ) {
             foreach ($primes as $prime) {
                 list(, $r) = $this->divide($prime);
                 if ($r->equals($zero)) {
@@ -3357,7 +3357,7 @@ class Math_BigInteger {
             for ($i = 0, $r_length = count($r_value); $i < $r_length; ++$i) {
                 $temp = ~$r_value[$i] & 0xFFFFFF;
                 for ($j = 1; ($temp >> $j) & 1; ++$j);
-                if ($j ! = 25) {
+                if ($j != 25) {
                     break;
                 }
             }
@@ -3564,7 +3564,7 @@ class Math_BigInteger {
             $x[$i] = chr($temp);
             $carry = $temp >> 8;
         }
-        if ( ($carry ! = 0) ) { $carry = chr($carry) ; } else { $carry = ''; }
+        if ( ($carry != 0) ) { $carry = chr($carry) ; } else { $carry = ''; }
         $x = $carry . $x . str_repeat(chr(0), $num_bytes);
     }
 

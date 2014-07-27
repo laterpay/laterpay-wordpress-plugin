@@ -288,7 +288,7 @@ class Zend_Json_Server_Smd_Service
         );
         foreach ($options as $key => $value) {
             if (in_array($key, array_keys($this->_paramOptionTypes))) {
-                if (null ! == ($callback = $this->_paramOptionTypes[$key])) {
+                if (null !== ($callback = $this->_paramOptionTypes[$key])) {
                     if (! $callback($value)) {
                         continue;
                     }

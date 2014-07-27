@@ -262,7 +262,7 @@ class Zend_Json_Server_Request
         $jsonArray = array(
             'method' => $this->getMethod()
         );
-        if (null ! == ($id = $this->get_id())) {
+        if (null !== ($id = $this->get_id())) {
             $jsonArray['id'] = $id;
         }
         $params = $this->get_params();

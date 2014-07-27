@@ -663,8 +663,8 @@ class Browscap
         $tmp_patterns = array();
         for ($i = 0, $j = $tmp_user_agents_count; $i < $j; $i++) {
             if (empty($browsers[$tmp_user_agents[$i]]['Comment'])
-                || false ! == strpos($tmp_user_agents[$i], '*')
-                || false ! == strpos($tmp_user_agents[$i], '?')
+                || false !== strpos($tmp_user_agents[$i], '*')
+                || false !== strpos($tmp_user_agents[$i], '?')
             ) {
                 $pattern = $this->_pregQuote($tmp_user_agents[$i]);
 
@@ -870,7 +870,7 @@ class Browscap
 
         require $cache_file;
 
-        if (! isset($cache_version) || $cache_version ! = self::CACHE_FILE_VERSION) {
+        if (! isset($cache_version) || $cache_version != self::CACHE_FILE_VERSION) {
             return false;
         }
 
@@ -981,7 +981,7 @@ class Browscap
             $content .= preg_replace($pattern, '$1="$2"', $subject) . "\n";
         }
 
-        if ($url ! = $path) {
+        if ($url != $path) {
             if (! file_put_contents($path, $content)) {
                 throw new Exception("Could not write .ini content to $path");
             }
@@ -1070,7 +1070,7 @@ class Browscap
     {
         // Caches the result
         if ($this->updateMethod === null) {
-            if ($this->localFile ! == null) {
+            if ($this->localFile !== null) {
                 $this->updateMethod = self::UPDATE_LOCAL;
             } elseif ( function_exists('wp_remote_get') ) {
                 $this->updateMethod = self::UPDATE_WP_REMOTE;
@@ -1104,7 +1104,7 @@ class Browscap
             case self::UPDATE_LOCAL:
                 $file = file_get_contents($url);
 
-                if ($file ! == false) {
+                if ($file !== false) {
                     return $file;
                 } else {
                     throw new Exception('Cannot open the local file');
@@ -1129,7 +1129,7 @@ class Browscap
                     $context = $this->_getStreamContext();
                     $file    = file_get_contents($url, false, $context);
 
-                    if ($file ! == false) {
+                    if ($file !== false) {
                         return $file;
                     }
                 }// else try with the next possibility (break omitted)
@@ -1169,7 +1169,7 @@ class Browscap
                         fwrite($remote_handler, $out);
 
                         $response = fgets($remote_handler);
-                        if (strpos($response, '200 OK') ! == false) {
+                        if (strpos($response, '200 OK') !== false) {
                             $file = '';
                             while (! feof($remote_handler)) {
                                 $file .= fgets($remote_handler);
@@ -1199,7 +1199,7 @@ class Browscap
 
                     curl_close($ch);
 
-                    if ($file ! == false) {
+                    if ($file !== false) {
                         return $file;
                     }
                 }// else try with the next possibility

@@ -54,7 +54,7 @@ class Zend_Server_Method_Prototype
      */
     public function __construct($options = null)
     {
-        if ((null ! == $options) && is_array($options)) {
+        if ((null !== $options) && is_array($options)) {
             $this->setOptions($options);
         }
     }
@@ -91,7 +91,7 @@ class Zend_Server_Method_Prototype
     {
         if ($parameter instanceof Zend_Server_Method_Parameter) {
             $this->_parameters[] = $parameter;
-            if (null ! == ($name = $parameter->getName())) {
+            if (null !== ($name = $parameter->getName())) {
                 $this->_parameterNameMap[$name] = count($this->_parameters) - 1;
             }
         } else {

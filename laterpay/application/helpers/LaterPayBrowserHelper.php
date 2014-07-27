@@ -16,15 +16,15 @@ class LaterPayBrowserHelper
      * @return array
      */
     public static function php_browser_info() {
-        if ( empty(self::$browscap) ) {
-            self::$browscap = new Browscap(LATERPAY_GLOBAL_PATH . '/cache');
-            self::$browscap->doAutoUpdate = defined('LATERPAY_BROWSCAP_AUTOUPDATING') && LATERPAY_BROWSCAP_AUTOUPDATING;
-            if ( defined('LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY') && LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY ! == '' ) {
+        if ( empty( self::$browscap ) ) {
+            self::$browscap = new Browscap( LATERPAY_GLOBAL_PATH . '/cache' );
+            self::$browscap->doAutoUpdate = defined( 'LATERPAY_BROWSCAP_AUTOUPDATING' ) && LATERPAY_BROWSCAP_AUTOUPDATING;
+            if ( defined( 'LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY' ) && LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY !== '' ) {
                 self::$browscap->localFile = LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY;
             }
         }
 
-        return self::$browscap->getBrowser(NULL, true);
+        return self::$browscap->getBrowser( NULL, true );
     }
 
     /**
@@ -70,7 +70,7 @@ class LaterPayBrowserHelper
      */
     public static function is_browser( $name = '', $version = '' ) {
         $browser_info = self::php_browser_info();
-        if ( isset( $browser_info['Browser'] ) && (strpos( $browser_info['Browser'], $name ) ! == false) ) {
+        if ( isset( $browser_info['Browser'] ) && strpos( $browser_info['Browser'], $name ) !== false ) {
             if ( $version == '' ) {
                 return true;
             } elseif ( $browser_info['MajorVer'] == $version ) {
@@ -146,7 +146,7 @@ class LaterPayBrowserHelper
     public static function is_mobile() {
         $browserInfo = self::php_browser_info();
         if ( isset( $browserInfo['isMobileDevice'] ) ) {
-            if ( $browserInfo['isMobileDevice'] == 1 || $browserInfo['isMobileDevice'] == "true" || strpos( $browserInfo['Device_Type'], "Mobile" ) ! == false ) {
+            if ( $browserInfo['isMobileDevice'] == 1 || $browserInfo['isMobileDevice'] == 'true' || strpos( $browserInfo['Device_Type'], 'Mobile' ) !== false ) {
                 return true;
             }
         }
@@ -249,7 +249,7 @@ class LaterPayBrowserHelper
     public static function browser_supports_javascript() {
         $browserInfo = self::php_browser_info();
         if ( isset( $browserInfo['JavaScript'] ) ) {
-            if ( $browserInfo['JavaScript'] == 1 || $browserInfo['JavaScript'] == "true" ) {
+            if ( $browserInfo['JavaScript'] == 1 || $browserInfo['JavaScript'] == 'true' ) {
                 return true;
             }
         }
@@ -264,7 +264,7 @@ class LaterPayBrowserHelper
     public static function browser_supports_cookies() {
         $browserInfo = self::php_browser_info();
         if ( isset( $browserInfo['Cookies'] ) ) {
-            if ( $browserInfo['Cookies'] == 1 || $browserInfo['Cookies'] == "true" ) {
+            if ( $browserInfo['Cookies'] == 1 || $browserInfo['Cookies'] == 'true' ) {
                 return true;
             }
         }
@@ -279,7 +279,7 @@ class LaterPayBrowserHelper
     public static function browser_supports_css() {
         $browserInfo = self::php_browser_info();
         if ( isset( $browserInfo['SupportsCss'] ) ) {
-            if ( $browserInfo['SupportsCss'] == 1 || $browserInfo['SupportsCss'] == "true" ) {
+            if ( $browserInfo['SupportsCss'] == 1 || $browserInfo['SupportsCss'] == 'true' ) {
                 return true;
             }
         }
@@ -300,7 +300,7 @@ class LaterPayBrowserHelper
      */
     public static function is_crawler( $version = '' ) {
         $browserInfo = self::php_browser_info();
-        if ( isset( $browserInfo['Crawler'] ) && ($browserInfo['Crawler'] == 1 || $browserInfo['Crawler'] == "true") ) {
+        if ( isset( $browserInfo['Crawler'] ) && ($browserInfo['Crawler'] == 1 || $browserInfo['Crawler'] == 'true') ) {
             if ( $version == '' ) :
                 return true;
             elseif ( $browserInfo['MajorVer'] == $version ) :

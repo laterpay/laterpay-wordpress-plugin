@@ -389,7 +389,7 @@ class LaterPayPostContentController extends LaterPayAbstractController
         $qv         = wp_parse_args( $_SERVER['QUERY_STRING'] );
         $url        = parse_url( $_SERVER['REQUEST_URI'] );
 
-        if ( ( isset( $qv['feed'] ) && '' ! = $qv['feed']) || (isset( $url['path'] ) && preg_match( '/feed/', $url['path'] )) ) {
+        if ( ( isset( $qv['feed'] ) && '' != $qv['feed']) || (isset( $url['path'] ) && preg_match( '/feed/', $url['path'] )) ) {
             $is_feed = true;
         }
 
@@ -496,7 +496,7 @@ class LaterPayPostContentController extends LaterPayAbstractController
             'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
         $url = LaterPayRequestHelper::get_current_url();
-        if ( strpos( $url, '?' ) ! == false || strpos( $url, '&' ) ! == false ) {
+        if ( strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
             $url .= '&';
         } else {
             $url .= '?';

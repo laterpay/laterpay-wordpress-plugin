@@ -559,7 +559,7 @@ class Parsedown {
             $Block['depth'] ++;
         }
 
-        if ( stripos( $Line['text'], '</'.$Block['name'].'>' ) ! == false ) // closing tag
+        if ( stripos( $Line['text'], '</'.$Block['name'].'>' ) !== false ) // closing tag
             {
             if ( $Block['depth'] > 0 ) {
                 $Block['depth'] --;
@@ -581,7 +581,7 @@ class Parsedown {
             return;
         }
 
-        if ( strpos( $Block['element']['text'], '|' ) ! == false and chop( $Line['text'], ' -:|' ) === '' ) {
+        if ( strpos( $Block['element']['text'], '|' ) !== false and chop( $Line['text'], ' -:|' ) === '' ) {
             $alignments = array();
 
             $divider = $Line['text'];
@@ -887,7 +887,7 @@ class Parsedown {
     // ~
     //
     protected function identifyUrl( $Excerpt ) {
-        if ( ! isset( $Excerpt['text'][1] ) or $Excerpt['text'][1] ! == '/' ) {
+        if ( ! isset( $Excerpt['text'][1] ) or $Excerpt['text'][1] !== '/' ) {
             return;
         }
 
@@ -951,7 +951,7 @@ class Parsedown {
     }
 
     protected function identifyUrlTag( $Excerpt ) {
-        if ( strpos( $Excerpt['text'], '>' ) ! == false and preg_match( '/^<(https?:[\/]{2}[^\s]+?)>/i', $Excerpt['text'], $matches ) ) {
+        if ( strpos( $Excerpt['text'], '>' ) !== false and preg_match( '/^<(https?:[\/]{2}[^\s]+?)>/i', $Excerpt['text'], $matches ) ) {
             $url = str_replace( array( '&', '<' ), array( '&amp;', '&lt;' ), $matches[1] );
 
             return array(
@@ -968,7 +968,7 @@ class Parsedown {
     }
 
     protected function identifyEmailTag( $Excerpt ) {
-        if ( strpos( $Excerpt['text'], '>' ) ! == false and preg_match( '/^<(\S+?@\S+?)>/', $Excerpt['text'], $matches ) ) {
+        if ( strpos( $Excerpt['text'], '>' ) !== false and preg_match( '/^<(\S+?@\S+?)>/', $Excerpt['text'], $matches ) ) {
             return array(
                 'extent' => strlen( $matches[0] ),
                 'element' => array(
@@ -983,7 +983,7 @@ class Parsedown {
     }
 
     protected function identifyTag( $Excerpt ) {
-        if ( strpos( $Excerpt['text'], '>' ) ! == false and preg_match( '/^<\/?\w.*?>/', $Excerpt['text'], $matches ) ) {
+        if ( strpos( $Excerpt['text'], '>' ) !== false and preg_match( '/^<\/?\w.*?>/', $Excerpt['text'], $matches ) ) {
             return array(
                 'markup' => $matches[0],
                 'extent' => strlen( $matches[0] ),

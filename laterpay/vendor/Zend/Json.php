@@ -72,7 +72,7 @@ class Zend_Json
     public static function decode($encodedValue, $objectDecodeType = Zend_Json::TYPE_ARRAY)
     {
         $encodedValue = (string)  $encodedValue;
-        if (function_exists('json_decode') && self::$useBuiltinEncoderDecoder ! == true) {
+        if (function_exists('json_decode') && self::$useBuiltinEncoderDecoder !== true) {
             $decode = json_decode($encodedValue, $objectDecodeType);
 
             // php < 5.3
@@ -82,7 +82,7 @@ class Zend_Json
                     throw new Zend_Json_Exception('Decoding failed');
                 }
             // php >= 5.3
-            } elseif (($jsonLastErr = json_last_error()) ! = JSON_ERROR_NONE) {
+            } elseif (($jsonLastErr = json_last_error()) != JSON_ERROR_NONE) {
                 require_once 'Zend/Json/Exception.php';
                 switch ($jsonLastErr) {
                     case JSON_ERROR_DEPTH:
@@ -146,7 +146,7 @@ class Zend_Json
         }
 
         // Encoding
-        if (function_exists('json_encode') && self::$useBuiltinEncoderDecoder ! == true) {
+        if (function_exists('json_encode') && self::$useBuiltinEncoderDecoder !== true) {
             $encodedResult = json_encode($valueToEncode);
         } else {
             require_once 'Zend/Json/Encoder.php';
@@ -413,7 +413,7 @@ class Zend_Json
             $prefix = str_repeat($ind, $indent);
             if (! $inLiteral && ($token == '{' || $token == '[')) {
                 $indent++;
-                if (($result ! = '') && ($result[(strlen($result)-1)] == $lineBreak)) {
+                if (($result != '') && ($result[(strlen($result)-1)] == $lineBreak)) {
                     $result .= $prefix;
                 }
                 $result .= $token . $lineBreak;
@@ -430,7 +430,7 @@ class Zend_Json
                 // Count # of unescaped double-quotes in token, subtract # of
                 // escaped double-quotes and if the result is odd then we are
                 // inside a string literal
-                if ((substr_count($token, "\"")-substr_count($token, "\\\"")) % 2 ! = 0) {
+                if ((substr_count($token, "\"")-substr_count($token, "\\\"")) % 2 != 0) {
                     $inLiteral = ! $inLiteral;
                 }
             }

@@ -75,7 +75,7 @@ class Zend_Exception extends Exception
     public function __to_string()
     {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-            if (null ! == ($e = $this->getPrevious())) {
+            if (null !== ($e = $this->getPrevious())) {
                 return $e->__to_string()
                        . "\n\nNext "
                        . parent::__to_string();

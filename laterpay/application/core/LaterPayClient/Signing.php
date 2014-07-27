@@ -116,7 +116,7 @@ class LaterPayClient_Signing
             $encoded_value = '';
             sort($value);
             foreach ( $value as $v ) {
-                if ( mb_detect_encoding($v, 'UTF-8') ! == 'UTF-8' ) {
+                if ( mb_detect_encoding($v, 'UTF-8') !== 'UTF-8' ) {
                     $encoded_value = rawurlencode(utf8_encode($v));
                 } else {
                     $encoded_value = rawurlencode($v);
@@ -197,7 +197,7 @@ class LaterPayClient_Signing
             }
             sort($aux);
             foreach ( $aux as $value ) {
-                if ( mb_detect_encoding($value, 'UTF-8') ! == 'UTF-8' ) {
+                if ( mb_detect_encoding($value, 'UTF-8') !== 'UTF-8' ) {
                     $value = rawurlencode(utf8_encode($value));
                 }
                 $query_pairs[] = rawurlencode($key) . '=' . rawurlencode($value);

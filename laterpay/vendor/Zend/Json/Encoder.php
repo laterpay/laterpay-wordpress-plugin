@@ -194,7 +194,7 @@ class Zend_Json_Encoder
         $tmpArray = array();
 
         // Check for associative array
-        if (! empty($array) && (array_keys($array) ! == range(0, count($array) - 1))) {
+        if (! empty($array) && (array_keys($array) !== range(0, count($array) - 1))) {
             // Associative array
             $result = '{';
             foreach ($array as $key => $value) {
@@ -321,7 +321,7 @@ class Zend_Json_Encoder
 
             $result .= '' . $method->getName(). ':function(';
 
-            if ('__construct' ! = $method->getName()) {
+            if ('__construct' != $method->getName()) {
                 $parameters  = $method->get_parameters();
                 $paramCount  = count($parameters);
                 $argsStarted = false;

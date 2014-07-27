@@ -182,7 +182,7 @@ class Zend_Json_Server_Response
             );
         }
 
-        if (null ! == ($version = $this->getVersion())) {
+        if (null !== ($version = $this->getVersion())) {
             $response['jsonrpc'] = $version;
         }
 

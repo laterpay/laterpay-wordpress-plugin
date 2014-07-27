@@ -423,7 +423,7 @@ class LaterPayClient
 
             return array();
         }
-        if ( isset( $data['status'] ) && $data['status'] ! = 'ok' ) {
+        if ( isset( $data['status'] ) && $data['status'] != 'ok' ) {
             return array();
         }
         if ( isset( $data['exceeded'] ) ) {

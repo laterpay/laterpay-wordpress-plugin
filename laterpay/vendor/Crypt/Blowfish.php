@@ -740,7 +740,7 @@ class Crypt_Blowfish {
                 $this->enchanged = false;
             }
 
-            if ($this->mode ! = 'ncfb' || ! $this->continuousBuffer) {
+            if ($this->mode != 'ncfb' || ! $this->continuousBuffer) {
                 $ciphertext = mcrypt_generic($this->enmcrypt, $plaintext);
             } else {
                 $iv = &$this->encryptIV;
@@ -833,7 +833,7 @@ class Crypt_Blowfish {
                 $this->dechanged = false;
             }
 
-            if ($this->mode ! = 'ncfb' || ! $this->continuousBuffer) {
+            if ($this->mode != 'ncfb' || ! $this->continuousBuffer) {
                 $plaintext = mdecrypt_generic($this->demcrypt, $ciphertext);
             } else {
                 $iv = &$this->decryptIV;

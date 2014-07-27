@@ -74,8 +74,8 @@ class LaterPayModelCategory
     public function get_category_price_data_by_category_ids( $ids ) {
         global $wpdb;
 
-        $placeholders = array_fill(0, count($ids), '%d');
-        $format = implode(', ', $placeholders);
+        $placeholders = array_fill( 0, count( $ids ), '%d' );
+        $format = implode( ', ', $placeholders );
         $sql = "
             SELECT
                 tm.name AS category_name,
@@ -94,7 +94,7 @@ class LaterPayModelCategory
                 name
             ;
         ";
-        $category_price_data = $wpdb->get_results($wpdb->prepare($sql, $ids), ARRAY_A);
+        $category_price_data = $wpdb->get_results( $wpdb->prepare( $sql, $ids ), ARRAY_A );
 
         return $category_price_data;
     }
@@ -160,7 +160,7 @@ class LaterPayModelCategory
     public function get_categories_by_term( $term, $limit ) {
         global $wpdb;
 
-        $term = esc_sql($term);
+        $term = esc_sql( $term );
         $sql = "
             SELECT
                 tm.term_id AS id,
@@ -246,7 +246,7 @@ class LaterPayModelCategory
         ";
         $price = $wpdb->get_row($sql);
 
-        if ( empty($price) ) {
+        if ( empty( $price ) ) {
             return null;
         }
 
@@ -265,7 +265,7 @@ class LaterPayModelCategory
     public function get_category_id_by_name( $name ) {
         global $wpdb;
 
-        $name = esc_sql($name);
+        $name = esc_sql( $name );
         $sql = "
             SELECT
                 term_id AS id
@@ -277,9 +277,9 @@ class LaterPayModelCategory
                 1
             ;
         ";
-        $category = $wpdb->get_row($sql);
+        $category = $wpdb->get_row( $sql );
 
-        if ( empty($category) ) {
+        if ( empty( $category ) ) {
             return null;
         }
 
@@ -298,7 +298,7 @@ class LaterPayModelCategory
     public function check_existence_of_category_by_name( $name ) {
         global $wpdb;
 
-        $name = esc_sql($name);
+        $name = esc_sql( $name );
         $sql = "
             SELECT
                 tm.term_id AS id
@@ -314,9 +314,9 @@ class LaterPayModelCategory
                 1
             ;
         ";
-        $category = $wpdb->get_row($sql);
+        $category = $wpdb->get_row( $sql );
 
-        if ( empty($category) ) {
+        if ( empty( $category ) ) {
             return null;
         }
 
@@ -333,7 +333,7 @@ class LaterPayModelCategory
     public function delete_prices_by_category_id( $id ) {
         global $wpdb;
 
-        $wpdb->delete($this->table_prices, array('term_id' => $id));
+        $wpdb->delete( $this->table_prices, array( 'term_id' => $id ) );
     }
 
     /**
@@ -359,9 +359,9 @@ class LaterPayModelCategory
                 1
             ;
         ";
-        $price = $wpdb->get_row($sql);
+        $price = $wpdb->get_row( $sql );
 
-        if ( empty($price) ) {
+        if ( empty( $price ) ) {
             return null;
         }
 

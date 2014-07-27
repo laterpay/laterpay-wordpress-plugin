@@ -223,7 +223,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 $this->des[2]->setKey(substr($key, 16, 8));
 
                 // Merge the three DES-1-dim-key-arrays for 3DES-inline-en/decrypting
-                if ($this->use_inline_crypt && $this->mode ! = CRYPT_DES_MODE_3CBC) {
+                if ($this->use_inline_crypt && $this->mode != CRYPT_DES_MODE_3CBC) {
                     $this->keys = array(
                         CRYPT_DES_ENCRYPT_1DIM => array_merge(
                             $this->des[0]->keys[CRYPT_DES_ENCRYPT_1DIM],
@@ -341,7 +341,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 $this->enchanged = false;
             }
 
-            if ($this->mode ! = 'ncfb' || ! $this->continuousBuffer) {
+            if ($this->mode != 'ncfb' || ! $this->continuousBuffer) {
                 $ciphertext = mcrypt_generic($this->enmcrypt, $plaintext);
             } else {
                 $iv = &$this->encryptIV;
@@ -499,7 +499,7 @@ class Crypt_TripleDES extends Crypt_DES {
                     $xor= $des[2]->_processBlock($iv, CRYPT_DES_ENCRYPT);
 
                     $iv = $block ^ $xor;
-                    if ($continuousBuffer && strlen($iv) ! = 8) {
+                    if ($continuousBuffer && strlen($iv) != 8) {
                         $buffer = array(
                             'encrypted' => $iv,
                             'xor' => substr($xor, strlen($iv))
@@ -575,7 +575,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 $this->dechanged = false;
             }
 
-            if ($this->mode ! = 'ncfb' || ! $this->continuousBuffer) {
+            if ($this->mode != 'ncfb' || ! $this->continuousBuffer) {
                 $plaintext = mdecrypt_generic($this->demcrypt, $ciphertext);
             } else {
                 $iv = &$this->decryptIV;
@@ -699,7 +699,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 if (strlen($buffer['ciphertext'])) {
                     $plaintext = $ciphertext ^ substr($this->decryptIV, strlen($buffer['ciphertext']));
                     $buffer['ciphertext'].= substr($ciphertext, 0, strlen($plaintext));
-                    if (strlen($buffer['ciphertext']) ! = 8) {
+                    if (strlen($buffer['ciphertext']) != 8) {
                         $block = $this->decryptIV;
                     } else {
                         $block = $buffer['ciphertext'];
@@ -720,7 +720,7 @@ class Crypt_TripleDES extends Crypt_DES {
                 for ($i = $start; $i < strlen($ciphertext); $i+=8) {
                     $block = substr($ciphertext, $i, 8);
                     $plaintext.= $block ^ $xor;
-                    if ($continuousBuffer && strlen($block) ! = 8) {
+                    if ($continuousBuffer && strlen($block) != 8) {
                         $buffer['ciphertext'].= $block;
                         $block = $xor;
                     } else if (strlen($block) == 8) {

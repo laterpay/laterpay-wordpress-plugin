@@ -53,7 +53,7 @@ class Zend_Server_Reflection_Prototype
     {
         $this->_return = $return;
 
-        if (! is_array($params) && (null ! == $params)) {
+        if (! is_array($params) && (null !== $params)) {
             require_once 'Zend/Server/Reflection/Exception.php';
             throw new Zend_Server_Reflection_Exception('Invalid parameters');
         }

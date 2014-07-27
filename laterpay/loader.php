@@ -14,7 +14,7 @@ class AutoLoader
 
     public static function load_class( $class ) {
         $class = str_replace('..', '', $class);
-        if ( strpos($class, '_') ! == false ) {
+        if ( strpos($class, '_') !== false ) {
             $class = str_replace('_', DIRECTORY_SEPARATOR, $class);
         } else {
             $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);

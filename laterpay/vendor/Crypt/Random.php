@@ -95,7 +95,7 @@ function crypt_random_string($length)
             // "open_basedir restriction in effect", "Permission denied", "No such file or directory", etc.
             $fp = @fopen('/dev/urandom', 'rb');
         }
-        if ($fp ! == true && $fp ! == false) { // surprisingly faster than ! is_bool() or is_resource()
+        if ($fp !== true && $fp !== false) { // surprisingly faster than ! is_bool() or is_resource()
             return fread($fp, $length);
         }
         // method 3. pretty much does the same thing as method 2 per the following url:
@@ -135,7 +135,7 @@ function crypt_random_string($length)
         if (isset($_SESSION)) {
             $_OLD_SESSION = $_SESSION;
         }
-        if ($old_session_id ! = '') {
+        if ($old_session_id != '') {
             session_write_close();
         }
 
@@ -161,7 +161,7 @@ function crypt_random_string($length)
         session_write_close();
 
         // restore old session data
-        if ($old_session_id ! = '') {
+        if ($old_session_id != '') {
             session_id($old_session_id);
             session_start();
             ini_set('session.use_cookies', $old_use_cookies);

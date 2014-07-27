@@ -86,7 +86,7 @@ class Zend_Server_Definition implements Countable, Iterator
         if (is_numeric($name)) {
             $name = null;
         }
-        if (null ! == $name) {
+        if (null !== $name) {
             $method->setName($name);
         } else {
             $name = $method->getName();

@@ -254,7 +254,7 @@ class LaterPayPricingController extends LaterPayAbstractController
                 )
             );
             die;
-        } else if ( ! empty( $id_category ) && $id_category ! = $_POST['category_id'] ) {
+        } else if ( ! empty( $id_category ) && $id_category != $_POST['category_id'] ) {
             $LaterPayModelCategory->delete_prices_by_category_id( $_POST['category_id'] );
             $id = $LaterPayModelCategory->get_price_ids_by_category_id( $_POST['category_id'] );
 

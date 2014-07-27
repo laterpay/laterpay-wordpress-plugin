@@ -30,7 +30,7 @@ class LaterPayModelPostViews
     public function get_post_view_data( $post_id ) {
         global $wpdb;
 
-        $views = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$this->table} WHERE `post_id` = %d;"), $post_id);
+        $views = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$this->table} WHERE `post_id` = %d;" ), $post_id );
 
         return $views;
     }
@@ -61,7 +61,7 @@ class LaterPayModelPostViews
                     $sql,
                     $data['post_id'],
                     $data['user_id'],
-                    date('Y-m-d H:i:s', $data['date']),
+                    date( 'Y-m-d H:i:s', $data['date'] ),
                     $data['ip'] )
             );
         } catch ( Exception $e ) {
@@ -103,8 +103,8 @@ class LaterPayModelPostViews
             $wpdb->prepare(
                 $sql,
                 $post_id,
-                date('Y-m-d 00:00:00'),
-                date('Y-m-d 23:59:59')
+                date( 'Y-m-d 00:00:00' ),
+                date( 'Y-m-d 23:59:59' )
             )
         );
 
@@ -140,8 +140,8 @@ class LaterPayModelPostViews
             $wpdb->prepare(
                 $sql,
                 $post_id,
-                date('Y-m-d 00:00:00'),
-                date('Y-m-d 23:59:59')
+                date( 'Y-m-d 00:00:00' ),
+                date( 'Y-m-d 23:59:59' )
             )
         );
 

@@ -838,7 +838,7 @@ class Crypt_Hash {
         // (Crypt_Hash::hash() trims the output for hashes but not for HMACs.  as such, we trim the output here)
         $temp = $hash[0]->toBytes() . $hash[1]->toBytes() . $hash[2]->toBytes() . $hash[3]->toBytes() .
                 $hash[4]->toBytes() . $hash[5]->toBytes();
-        if ($this->l ! = 48) {
+        if ($this->l != 48) {
             $temp.= $hash[6]->toBytes() . $hash[7]->toBytes();
         }
 

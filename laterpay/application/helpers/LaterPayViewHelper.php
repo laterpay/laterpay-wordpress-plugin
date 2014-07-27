@@ -6,10 +6,10 @@ class LaterPayViewHelper
     public static $pluginPage = 'laterpay-plugin';
 
     public static $adminMenu = array(
-        'get_started'   => array('url' => 'laterpay-getstarted-tab', 'title' => 'Get started'),
-        'pricing'       => array('url' => 'laterpay-pricing-tab', 'title' => 'Pricing'),
-        'appearance'    => array('url' => 'laterpay-appearance-tab', 'title' => 'Appearance'),
-        'account'       => array('url' => 'laterpay-account-tab', 'title' => 'Account'),
+        'get_started'   => array( 'url' => 'laterpay-getstarted-tab',   'title' => __('Get started', 'laterpay') ),
+        'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __('Pricing', 'laterpay') ),
+        'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __('Appearance', 'laterpay') ),
+        'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __('Account', 'laterpay') ),
     );
 
     /**
@@ -20,13 +20,13 @@ class LaterPayViewHelper
      * @return string
      */
     protected static function get_next_day( $date ) {
-        $nextDay = date('Y-m-d', mktime(
-                date('H', strtotime($date)),
-                date('i', strtotime($date)),
-                date('s', strtotime($date)),
-                date('m', strtotime($date)),
-                date('d', strtotime($date)) + 1,
-                date('Y', strtotime($date))
+        $nextDay = date( 'Y-m-d', mktime(
+                date( 'H', strtotime( $date ) ),
+                date( 'i', strtotime( $date ) ),
+                date( 's', strtotime( $date ) ),
+                date( 'm', strtotime( $date ) ),
+                date( 'd', strtotime( $date ) ) + 1,
+                date( 'Y', strtotime( $date ) )
             ) );
 
         return $nextDay;
@@ -40,13 +40,13 @@ class LaterPayViewHelper
      * @return string
      */
     protected static function get_last_30_days( $date ) {
-        $last30Day = date('Y-m-d', mktime(
-                date('H', strtotime($date)),
-                date('i', strtotime($date)),
-                date('s', strtotime($date)),
-                date('m', strtotime($date)),
-                date('d', strtotime($date)) - 30,
-                date('Y', strtotime($date))
+        $last30Day = date( 'Y-m-d', mktime(
+                date( 'H', strtotime( $date ) ),
+                date( 'i', strtotime( $date ) ),
+                date( 's', strtotime( $date ) ),
+                date( 'm', strtotime( $date ) ),
+                date( 'd', strtotime( $date ) ) - 30,
+                date( 'Y', strtotime( $date ) )
             ) );
 
         return $last30Day;
@@ -54,19 +54,19 @@ class LaterPayViewHelper
 
     public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
         $today = date('Y-m-d');
-        $date = self::get_last_30_days(date($today));
+        $date = self::get_last_30_days( date( $today ) );
 
         $result = '';
         while ( $date <= $today ) {
-            if ( $result ! == '' ) {
+            if ( $result !== '' ) {
                 $result .= $delimiter;
             }
-            if ( isset($statistic[$date]) ) {
+            if ( isset( $statistic[$date] ) ) {
                 $result .= $statistic[$date][$type];
             } else {
                 $result .= '0';
             }
-            $date = self::get_next_day($date);
+            $date = self::get_next_day( $date );
         }
 
         return $result;
@@ -78,7 +78,7 @@ class LaterPayViewHelper
      * @return boolean
      */
     public static function plugin_is_working() {
-        if ( get_option('laterpay_plugin_is_activated') ! = 1 ) {
+        if ( get_option( 'laterpay_plugin_is_activated' ) != 1 ) {
             return false;
         }
 

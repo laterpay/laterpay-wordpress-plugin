@@ -31,7 +31,7 @@ class LaterPayModelCurrency
     public function get_currencies() {
         global $wpdb;
 
-        $currencies = $wpdb->get_results("SELECT * FROM {$this->table}");
+        $currencies = $wpdb->get_results( "SELECT * FROM {$this->table}" );
 
         return $currencies;
     }
@@ -57,7 +57,7 @@ class LaterPayModelCurrency
                 short_name = '$name'
             ;
         ";
-        $currency = $wpdb->get_row($sql);
+        $currency = $wpdb->get_row( $sql );
 
         return $currency->id;
     }
@@ -83,7 +83,7 @@ class LaterPayModelCurrency
                 short_name = '$name'
             ;
         ";
-        $currency = $wpdb->get_row($sql);
+        $currency = $wpdb->get_row( $sql );
 
         return $currency->full_name;
     }

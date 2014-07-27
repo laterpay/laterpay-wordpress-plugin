@@ -180,7 +180,7 @@ class Zend_Json_Server extends Zend_Server_Abstract
      */
     public function handle($request = false)
     {
-        if ((false ! == $request) && (! $request instanceof Zend_Json_Server_Request)) {
+        if ((false !== $request) && (! $request instanceof Zend_Json_Server_Request)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception('Invalid request type provided; cannot handle');
         } elseif ($request) {
@@ -353,7 +353,7 @@ class Zend_Json_Server extends Zend_Server_Abstract
         $params = $this->_get_params($method);
         $serviceInfo['params'] = $params;
         $serviceMap = $this->getServiceMap();
-        if (false ! == $serviceMap->getService($serviceInfo['name'])) {
+        if (false !== $serviceMap->getService($serviceInfo['name'])) {
             $serviceMap->removeService($serviceInfo['name']);
         }
         $serviceMap->addService($serviceInfo);
@@ -407,7 +407,7 @@ class Zend_Json_Server extends Zend_Server_Abstract
                         'name'     => $parameter->getName(),
                         'optional' => $parameter->isOptional(),
                     );
-                    if (null ! == ($default = $parameter->getDefaultValue())) {
+                    if (null !== ($default = $parameter->getDefaultValue())) {
                         $params[$key]['default'] = $default;
                     }
                     $description = $parameter->getDescription();
@@ -442,10 +442,10 @@ class Zend_Json_Server extends Zend_Server_Abstract
         $response = $this->getResponse();
 
         $response->setServiceMap($this->getServiceMap());
-        if (null ! == ($id = $request->get_id())) {
+        if (null !== ($id = $request->get_id())) {
             $response->set_id($id);
         }
-        if (null ! == ($version = $request->getVersion())) {
+        if (null !== ($version = $request->getVersion())) {
             $response->setVersion($version);
         }
 

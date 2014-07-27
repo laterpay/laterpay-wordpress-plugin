@@ -162,7 +162,7 @@ class LaterPay
 
             foreach ( $config as $option => $value ) {
                 // use manually updated option instead of default
-                if ( in_array($option, $default_config) && $default_config[$option] ! = $value ) {
+                if ( in_array($option, $default_config) && $default_config[$option] != $value ) {
                     $updated_config[$option] = $value;
                     $changed = true;
                 }
@@ -286,7 +286,7 @@ class LaterPay
 
         // activate plugin
         $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        if ( $activated ! == '' ) { // never activated before
+        if ( $activated !== '' ) { // never activated before
             update_option( 'laterpay_plugin_is_activated', '1' );
         }
     }
@@ -495,7 +495,7 @@ class LaterPay
         }
 
         // build the HTML for the teaser box
-        if ( $a['teaser_image_path'] ! = '' ) {
+        if ( $a['teaser_image_path'] != '' ) {
             $html = "<div class=\"laterpay-premium-file-link\" style=\"background-image:url({$a['teaser_image_path']})\">";
         } else {
             $html = "<div class=\"laterpay-premium-file-link {$content_type}\">";
@@ -503,7 +503,7 @@ class LaterPay
         $html .= "    <a href=\"{$page_url}\" class=\"laterpay-premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
         $html .= "    <div class=\"details\">";
         $html .= "        <h3>{$a['heading_text']}</h3>";
-        if ( $a['description_text'] ! = '' ) {
+        if ( $a['description_text'] != '' ) {
             $html .= "    <p>{$a['description_text']}</p>";
         }
         $html .= "    </div>";
@@ -586,7 +586,7 @@ class LaterPay
         } else if ( $column_name == 'post_price_type' ) {
             $post_price_type = get_post_meta( $post_id, 'Pricing Post Type', true );
 
-            if ( $post_price_type ! == '' ) {
+            if ( $post_price_type !== '' ) {
                 echo __($post_price_type, 'laterpay');
             } else {
                 echo '&mdash;';
@@ -818,7 +818,7 @@ class LaterPay
     public function add_checking_for_updates() {
         global $laterpay_version;
 
-        if ( get_option('laterpay_version') ! = $laterpay_version ) {
+        if ( get_option('laterpay_version') != $laterpay_version ) {
             $this->activate();
             $_capabilities = new LaterPayCapabilities();
             $_capabilities->populate_roles();

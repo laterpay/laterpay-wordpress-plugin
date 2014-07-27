@@ -10,9 +10,9 @@ class LaterPayStringHelper
 	 * @return string
 	 */
 	public static function limit_words( $string, $word_limit ) {
-		$words = explode(' ', $string);
+		$words = explode( ' ', $string );
 
-		return implode(' ', array_slice($words, 0, $word_limit));
+		return implode( ' ', array_slice( $words, 0, $word_limit ) );
 	}
 
 	/**
@@ -23,15 +23,15 @@ class LaterPayStringHelper
 	 * @return int number_of_words
 	 */
 	public static function determine_number_of_words( $content ) {
-		$content 		= preg_replace('/\s+/', ' ', $content);
-		$total_words 	= count(explode(' ', $content));
+		$content 		= preg_replace( '/\s+/', ' ', $content );
+		$total_words 	= count( explode( ' ', $content ) );
 		$percent 		= (int) LATERPAY_PAID_CONTENT_PREVIEW_PERCENTAGE_OF_CONTENT;
-		$percent 		= max(min($percent, 100), 1);
+		$percent 		= max( min( $percent, 100 ), 1 );
 		$min 			= (int) LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MIN;
 		$max 			= (int) LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MAX;
 
-		$number_of_words = $total_words * ($percent / 100);
-		$number_of_words = max(min($number_of_words, $max), $min);
+		$number_of_words = $total_words * ( $percent / 100 );
+		$number_of_words = max( min( $number_of_words, $max ), $min );
 
 		return $number_of_words;
 	}
@@ -63,60 +63,60 @@ class LaterPayStringHelper
 			'html' 		=> false,
 			'words' 	=> false
 		);
-		if ( isset($options['ending']) ) {
+		if ( isset( $options['ending'] ) ) {
 			$default['ellipsis'] = $options['ending'];
-		} elseif ( ! empty($options['html']) ) {
+		} elseif ( ! empty( $options['html'] ) ) {
 			$default['ellipsis'] = "\xe2\x80\xa6";
 		}
-		$options = array_merge($default, $options);
-		extract($options);
+		$options = array_merge( $default, $options );
+		extract( $options );
 
-		if ( ! function_exists('mb_strlen') ) {
-			class_exists('Multibyte');
+		if ( ! function_exists( 'mb_strlen' ) ) {
+			class_exists( 'Multibyte' );
 		}
 
 		if ( $html ) {
-			$text = preg_replace('/<! --(.*?)-->/i', '', $text);
+			$text = preg_replace( '/<! --(.*?)-->/i', '', $text );
 			if ( $words ) {
-				$length = mb_strlen(self::limit_words(preg_replace('/<.*?>/', '', $text), $length));
+				$length = mb_strlen( self::limit_words( preg_replace( '/<.*?>/', '', $text ), $length ) );
 			}
-			if ( mb_strlen(preg_replace('/<.*?>/', '', $text)) <= $length ) {
+			if ( mb_strlen( preg_replace( '/<.*?>/', '', $text ) ) <= $length ) {
 				return $text;
 			}
-			$totalLength = mb_strlen(strip_tags($ellipsis));
+			$totalLength = mb_strlen( strip_tags( $ellipsis ) );
 			$openTags = array();
 			$truncate = '';
 
-			preg_match_all('/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER);
+			preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
 			foreach ( $tags as $tag ) {
-				if ( ! preg_match('/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2]) ) {
-					if ( preg_match('/<[\w]+[^>]*>/s', $tag[0]) ) {
-						array_unshift($openTags, $tag[2]);
-					} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag) ) {
-						$pos = array_search($closeTag[1], $openTags);
-						if ( $pos ! == false ) {
-							array_splice($openTags, $pos, 1);
+				if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
+					if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
+						array_unshift( $openTags, $tag[2] );
+					} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
+						$pos = array_search( $closeTag[1], $openTags );
+						if ( $pos !== false ) {
+							array_splice( $openTags, $pos, 1 );
 						}
 					}
 				}
 				$truncate .= $tag[1];
 
-				$contentLength = mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3]));
+				$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
 				if ( $contentLength + $totalLength > $length ) {
 					$left = $length - $totalLength;
 					$entitiesLength = 0;
-					if ( preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE) ) {
+					if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
 						foreach ( $entities[0] as $entity ) {
 							if ( $entity[1] + 1 - $entitiesLength <= $left ) {
 								$left--;
-								$entitiesLength += mb_strlen($entity[0]);
+								$entitiesLength += mb_strlen( $entity[0] );
 							} else {
 								break;
 							}
 						}
 					}
 
-					$truncate .= mb_substr($tag[3], 0, $left + $entitiesLength);
+					$truncate .= mb_substr( $tag[3], 0, $left + $entitiesLength );
 					break;
 				} else {
 					$truncate .= $tag[3];
@@ -128,31 +128,31 @@ class LaterPayStringHelper
 			}
 		} else {
 			if ( $words ) {
-				$length = mb_strlen(self::limit_words($text, $length));
+				$length = mb_strlen( self::limit_words( $text, $length ) );
 			}
-			if ( mb_strlen($text) <= $length ) {
+			if ( mb_strlen( $text ) <= $length ) {
 				return $text;
 			}
-			$truncate = mb_substr($text, 0, $length - mb_strlen($ellipsis));
+			$truncate = mb_substr( $text, 0, $length - mb_strlen( $ellipsis ) );
 		}
 		if ( ! $exact ) {
-			$spacepos = mb_strrpos($truncate, ' ');
+			$spacepos = mb_strrpos( $truncate, ' ' );
 			if ( $html ) {
-				$truncateCheck 	= mb_substr($truncate, 0, $spacepos);
-				$lastOpenTag 	= mb_strrpos($truncateCheck, '<');
-				$lastCloseTag 	= mb_strrpos($truncateCheck, '>');
+				$truncateCheck 	= mb_substr( $truncate, 0, $spacepos );
+				$lastOpenTag 	= mb_strrpos( $truncateCheck, '<' );
+				$lastCloseTag 	= mb_strrpos( $truncateCheck, '>' );
 				if ( $lastOpenTag > $lastCloseTag ) {
-					preg_match_all('/<[\w]+[^>]*>/s', $truncate, $lastTagMatches);
-					$lastTag = array_pop($lastTagMatches[0]);
-					$spacepos = mb_strrpos($truncate, $lastTag) + mb_strlen($lastTag);
+					preg_match_all( '/<[\w]+[^>]*>/s', $truncate, $lastTagMatches );
+					$lastTag = array_pop( $lastTagMatches[0] );
+					$spacepos = mb_strrpos( $truncate, $lastTag ) + mb_strlen( $lastTag );
 				}
-				$bits = mb_substr($truncate, $spacepos);
-				preg_match_all('/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER);
-				if ( ! empty($droppedTags) ) {
-					if ( ! empty($openTags) ) {
+				$bits = mb_substr( $truncate, $spacepos );
+				preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
+				if ( ! empty( $droppedTags ) ) {
+					if ( ! empty( $openTags ) ) {
 						foreach ( $droppedTags as $closingTag ) {
-							if ( ! in_array($closingTag[1], $openTags) ) {
-								array_unshift($openTags, $closingTag[1]);
+							if ( ! in_array( $closingTag[1], $openTags ) ) {
+								array_unshift( $openTags, $closingTag[1] );
 							}
 						}
 					} else {
@@ -162,7 +162,7 @@ class LaterPayStringHelper
 					}
 				}
 			}
-			$truncate = mb_substr($truncate, 0, $spacepos);
+			$truncate = mb_substr( $truncate, 0, $spacepos );
 		}
 		$truncate .= $ellipsis;
 

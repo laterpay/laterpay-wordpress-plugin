@@ -397,10 +397,10 @@ class Zend_Json_Server_Smd
         $SMDVersion  = self::SMD_VERSION;
         $service = compact('transport', 'envelope', 'contentType', 'SMDVersion');
 
-        if (null ! == ($target = $this->getTarget())) {
+        if (null !== ($target = $this->getTarget())) {
             $service['target']     = $target;
         }
-        if (null ! == ($id = $this->get_id())) {
+        if (null !== ($id = $this->get_id())) {
             $service['id'] = $id;
         }
 
