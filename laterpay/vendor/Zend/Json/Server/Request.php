@@ -94,7 +94,7 @@ class Zend_Json_Server_Request
      */
     public function addParam($value, $key = null)
     {
-        if ((null === $key) || !is_string($key)) {
+        if ((null === $key) || ! is_string($key)) {
             $index = count($this->_params);
             $this->_params[$index] = $value;
         } else {
@@ -136,7 +136,7 @@ class Zend_Json_Server_Request
      * @param  int|string $index
      * @return mixed|null Null when not found
      */
-    public function getParam($index)
+    public function get_param($index)
     {
         if (array_key_exists($index, $this->_params)) {
             return $this->_params[$index];
@@ -150,7 +150,7 @@ class Zend_Json_Server_Request
      *
      * @return array
      */
-    public function getParams()
+    public function get_params()
     {
         return $this->_params;
     }
@@ -163,7 +163,7 @@ class Zend_Json_Server_Request
      */
     public function setMethod($name)
     {
-        if (!preg_match($this->_methodRegex, $name)) {
+        if (! preg_match($this->_methodRegex, $name)) {
             $this->_isMethodError = true;
         } else {
             $this->_method = $name;
@@ -197,9 +197,9 @@ class Zend_Json_Server_Request
      * @param  mixed $name
      * @return Zend_Json_Server_Request
      */
-    public function setId($name)
+    public function set_id($name)
     {
-        $this->_id = (string) $name;
+        $this->_id = (string)  $name;
         return $this;
     }
 
@@ -208,7 +208,7 @@ class Zend_Json_Server_Request
      *
      * @return mixed
      */
-    public function getId()
+    public function get_id()
     {
         return $this->_id;
     }
@@ -257,16 +257,16 @@ class Zend_Json_Server_Request
      *
      * @return string
      */
-    public function toJson()
+    public function to_json()
     {
         $jsonArray = array(
             'method' => $this->getMethod()
         );
-        if (null !== ($id = $this->getId())) {
+        if (null !== ($id = $this->get_id())) {
             $jsonArray['id'] = $id;
         }
-        $params = $this->getParams();
-        if (!empty($params)) {
+        $params = $this->get_params();
+        if (! empty($params)) {
             $jsonArray['params'] = $params;
         }
         if ('2.0' == $this->getVersion()) {
@@ -282,8 +282,8 @@ class Zend_Json_Server_Request
      *
      * @return string
      */
-    public function __toString()
+    public function __to_string()
     {
-        return $this->toJson();
+        return $this->to_json();
     }
 }

@@ -113,8 +113,8 @@ abstract class Zend_Server_Reflection_Function_Abstract
         // both extend ReflectionFunctionAbstract. So, we can't do normal type
         // hinting in the prototype, but instead need to do some explicit
         // testing here.
-        if ((!$r instanceof ReflectionFunction)
-            && (!$r instanceof ReflectionMethod)) {
+        if ((! $r instanceof ReflectionFunction)
+            && (! $r instanceof ReflectionMethod)) {
             require_once 'Zend/Server/Reflection/Exception.php';
             throw new Zend_Server_Reflection_Exception('Invalid reflection class');
         }
@@ -176,7 +176,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
     protected function _buildTree()
     {
         $returnTree = array();
-        foreach ((array) $this->_return as $value) {
+        foreach ((array)  $this->_return as $value) {
             $node = new Zend_Server_Reflection_Node($value);
             $this->_addTree($node);
             $returnTree[] = $node;
@@ -218,7 +218,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
         }
 
         foreach ($endPoints as $node) {
-            if (!$node instanceof Zend_Server_Reflection_Node) {
+            if (! $node instanceof Zend_Server_Reflection_Node) {
                 continue;
             }
 
@@ -232,7 +232,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
         }
 
         // Build prototypes
-        $params = $this->_reflection->getParameters();
+        $params = $this->_reflection->get_parameters();
         foreach ($signatures as $signature) {
             $return = new Zend_Server_Reflection_ReturnValue(array_shift($signature), $this->_returnDesc);
             $tmp    = array();
@@ -265,10 +265,10 @@ abstract class Zend_Server_Reflection_Function_Abstract
         $returnDesc         = '';
         $paramCount         = $function->getNumberOfParameters();
         $paramCountRequired = $function->getNumberOfRequiredParameters();
-        $parameters         = $function->getParameters();
+        $parameters         = $function->get_parameters();
         $docBlock           = $function->getDocComment();
 
-        if (!empty($docBlock)) {
+        if (! empty($docBlock)) {
             // Get help text
             if (preg_match(':/\*\*\s*\r?\n\s*\*\s(.*?)\r?\n\s*\*(\s@|/):s', $docBlock, $matches))
             {
@@ -323,9 +323,9 @@ abstract class Zend_Server_Reflection_Function_Abstract
         $this->setDescription($helpText);
 
         // Get all param types as arrays
-        if (!isset($paramTypesTmp) && (0 < $paramCount)) {
+        if (! isset($paramTypesTmp) && (0 < $paramCount)) {
             $paramTypesTmp = array_fill(0, $paramCount, 'mixed');
-        } elseif (!isset($paramTypesTmp)) {
+        } elseif (! isset($paramTypesTmp)) {
             $paramTypesTmp = array();
         } elseif (count($paramTypesTmp) < $paramCount) {
             $start = $paramCount - count($paramTypesTmp);
@@ -335,9 +335,9 @@ abstract class Zend_Server_Reflection_Function_Abstract
         }
 
         // Get all param descriptions as arrays
-        if (!isset($paramDesc) && (0 < $paramCount)) {
+        if (! isset($paramDesc) && (0 < $paramCount)) {
             $paramDesc = array_fill(0, $paramCount, '');
-        } elseif (!isset($paramDesc)) {
+        } elseif (! isset($paramDesc)) {
             $paramDesc = array();
         } elseif (count($paramDesc) < $paramCount) {
             $start = $paramCount - count($paramDesc);
@@ -430,7 +430,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
             return;
         }
 
-        if (!is_string($namespace) || !preg_match('/[a-z0-9_\.]+/i', $namespace)) {
+        if (! is_string($namespace) || ! preg_match('/[a-z0-9_\.]+/i', $namespace)) {
             require_once 'Zend/Server/Reflection/Exception.php';
             throw new Zend_Server_Reflection_Exception('Invalid namespace');
         }
@@ -456,7 +456,7 @@ abstract class Zend_Server_Reflection_Function_Abstract
      */
     public function setDescription($string)
     {
-        if (!is_string($string)) {
+        if (! is_string($string)) {
             require_once 'Zend/Server/Reflection/Exception.php';
             throw new Zend_Server_Reflection_Exception('Invalid description');
         }

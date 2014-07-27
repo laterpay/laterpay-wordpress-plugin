@@ -294,14 +294,14 @@ jQuery.noConflict();
                 $o.priceInput.attr('disabled', 'disabled');
 
                 if (data.length === 4)
-                    lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
+                    lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
                 else
-                    lpc.setData(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
+                    lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
 
                 // FIXME: selectors like $('select') will blow up like a nuclear power plant
                 // when used within WordPress installations with who knows what plugins and modifications
                 // $('.blockbuster').click(function() {
-                //     lpc.setData([
+                //     lpc.set_data([
                 //         {x:  0, y: 1.8},
                 //         {x:  6, y: 1.8},
                 //         {x: 11, y: 0.6},
@@ -316,7 +316,7 @@ jQuery.noConflict();
                 // });
 
                 // $('.long-tail').click(function() {
-                //     lpc.setData([
+                //     lpc.set_data([
                 //         {x:  0, y: 1.8},
                 //         {x:  3, y: 1.8},
                 //         {x: 14, y: 0.6},
@@ -331,7 +331,7 @@ jQuery.noConflict();
                 // });
 
                 // $('.breaking-news').click(function() {
-                //     lpc.setData([
+                //     lpc.set_data([
                 //         {x:  0, y: 1.8},
                 //         {x:  3, y: 1.8},
                 //         {x: 30, y: 0.6}
@@ -345,7 +345,7 @@ jQuery.noConflict();
                 // });
 
                 // $('.teaser').click(function() {
-                //     lpc.setData([
+                //     lpc.set_data([
                 //         {x:  0, y: 0.6},
                 //         {x:  3, y: 0.6},
                 //         {x: 30, y: 1.8}
@@ -359,7 +359,7 @@ jQuery.noConflict();
                 // });
 
                 // $('.flat').click(function() {
-                //     lpc.setData([
+                //     lpc.set_data([
                 //         {x:  0, y: 1},
                 //         {x:  3, y: 1},
                 //         {x: 14, y: 1},
@@ -376,14 +376,14 @@ jQuery.noConflict();
                 // $o.priceInput.removeAttr('disabled');
 
                 // save dynamic pricing data
-                var data = window.lpc.getData();
-                if (window.lpc.getData().length === 4) {
+                var data = window.lpc.get_data();
+                if (window.lpc.get_data().length === 4) {
                     $('input[name=laterpay_start_price]').val(data[0].y);
                     $('input[name=laterpay_end_price]').val(data[3].y);
                     $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
                     $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
                     $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
-                } else if (window.lpc.getData().length === 3) {
+                } else if (window.lpc.get_data().length === 3) {
                     $('input[name=laterpay_start_price]').val(data[0].y);
                     $('input[name=laterpay_end_price]').val(data[2].y);
                     $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);

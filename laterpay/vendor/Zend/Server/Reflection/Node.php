@@ -175,7 +175,7 @@ class Zend_Server_Reflection_Node
     public function getEndPoints()
     {
         $endPoints = array();
-        if (!$this->hasChildren()) {
+        if (! $this->hasChildren()) {
             return $endPoints;
         }
 
@@ -188,10 +188,10 @@ class Zend_Server_Reflection_Node
                 && $child->hasChildren())
             {
                 $childEndPoints = $child->getEndPoints();
-                if (!empty($childEndPoints)) {
+                if (! empty($childEndPoints)) {
                     $endPoints = array_merge($endPoints, $childEndPoints);
                 }
-            } elseif ((null !== $value) && !$child->hasChildren()) {
+            } elseif ((null !== $value) && ! $child->hasChildren()) {
                 $endPoints[] = $child;
             }
         }

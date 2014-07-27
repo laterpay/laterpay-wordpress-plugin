@@ -41,10 +41,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -171,7 +171,7 @@ class Crypt_RC4 {
      */
     function Crypt_RC4()
     {
-        if ( !defined('CRYPT_RC4_MODE') ) {
+        if ( ! defined('CRYPT_RC4_MODE') ) {
             switch (true) {
                 case extension_loaded('mcrypt') && (defined('MCRYPT_ARCFOUR') || defined('MCRYPT_RC4')) && in_array('arcfour', mcrypt_list_algorithms()):
                     define('CRYPT_RC4_MODE', CRYPT_RC4_MODE_MCRYPT);
@@ -250,23 +250,23 @@ class Crypt_RC4 {
         switch ($method) {
             default: // 'pbkdf2'
                 list(, , $hash, $salt, $count) = func_get_args();
-                if (!isset($hash)) {
+                if (! isset($hash)) {
                     $hash = 'sha1';
                 }
                 // WPA and WPA2 use the SSID as the salt
-                if (!isset($salt)) {
+                if (! isset($salt)) {
                     $salt = 'phpseclib/salt';
                 }
                 // RFC2898#section-4.2 uses 1,000 iterations by default
                 // WPA and WPA2 use 4,096.
-                if (!isset($count)) {
+                if (! isset($count)) {
                     $count = 1000;
                 }
-                if (!isset($dkLen)) {
+                if (! isset($dkLen)) {
                     $dkLen = 128;
                 }
 
-                if (!class_exists('Crypt_Hash')) {
+                if (! class_exists('Crypt_Hash')) {
                     require_once('Crypt/Hash.php');
                 }
 
@@ -352,7 +352,7 @@ class Crypt_RC4 {
         if ( CRYPT_RC4_MODE == CRYPT_RC4_MODE_MCRYPT ) {
             if( $mode == CRYPT_RC4_ENCRYPT ) { $keyStream = 'encryptStream'; } else { $keyStream = 'decryptStream'; }
 
-            if (!$this->continuousBuffer) {
+            if (! $this->continuousBuffer) {
                 mcrypt_generic_init($this->$keyStream, $this->key, '');
             }
 

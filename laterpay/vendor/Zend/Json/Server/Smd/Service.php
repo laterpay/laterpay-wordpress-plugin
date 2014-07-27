@@ -165,8 +165,8 @@ class Zend_Json_Server_Smd_Service
      */
     public function setName($name)
     {
-        $name = (string) $name;
-        if (!preg_match($this->_nameRegex, $name)) {
+        $name = (string)  $name;
+        if (! preg_match($this->_nameRegex, $name)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception(sprintf('Invalid name "%s" provided for service; must follow PHP method naming conventions', $name));
         }
@@ -194,7 +194,7 @@ class Zend_Json_Server_Smd_Service
      */
     public function setTransport($transport)
     {
-        if (!in_array($transport, $this->_transportTypes)) {
+        if (! in_array($transport, $this->_transportTypes)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception(sprintf('Invalid transport "%s"; please select one of (%s)', $transport, implode(', ', $this->_transportTypes)));
         }
@@ -221,7 +221,7 @@ class Zend_Json_Server_Smd_Service
      */
     public function setTarget($target)
     {
-        $this->_target = (string) $target;
+        $this->_target = (string)  $target;
         return $this;
     }
 
@@ -243,7 +243,7 @@ class Zend_Json_Server_Smd_Service
      */
     public function setEnvelope($envelopeType)
     {
-        if (!in_array($envelopeType, $this->_envelopeTypes)) {
+        if (! in_array($envelopeType, $this->_envelopeTypes)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception(sprintf('Invalid envelope type "%s"; please specify one of (%s)', $envelopeType, implode(', ', $this->_envelopeTypes)));
         }
@@ -289,7 +289,7 @@ class Zend_Json_Server_Smd_Service
         foreach ($options as $key => $value) {
             if (in_array($key, array_keys($this->_paramOptionTypes))) {
                 if (null !== ($callback = $this->_paramOptionTypes[$key])) {
-                    if (!$callback($value)) {
+                    if (! $callback($value)) {
                         continue;
                     }
                 }
@@ -317,10 +317,10 @@ class Zend_Json_Server_Smd_Service
     {
         ksort($params);
         foreach ($params as $options) {
-            if (!is_array($options)) {
+            if (! is_array($options)) {
                 continue;
             }
-            if (!array_key_exists('type', $options)) {
+            if (! array_key_exists('type', $options)) {
                 continue;
             }
             $type  = $options['type'];
@@ -349,7 +349,7 @@ class Zend_Json_Server_Smd_Service
      *
      * @return array
      */
-    public function getParams()
+    public function get_params()
     {
         $params = array();
         $index  = 0;
@@ -405,13 +405,13 @@ class Zend_Json_Server_Smd_Service
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         $name       = $this->getName();
         $envelope   = $this->getEnvelope();
         $target     = $this->getTarget();
         $transport  = $this->getTransport();
-        $parameters = $this->getParams();
+        $parameters = $this->get_params();
         $returns    = $this->getReturn();
 
         if (empty($target)) {
@@ -426,9 +426,9 @@ class Zend_Json_Server_Smd_Service
      *
      * @return string
      */
-    public function toJson()
+    public function to_json()
     {
-        $service = array($this->getName() => $this->toArray());
+        $service = array($this->getName() => $this->to_array());
 
         require_once 'Zend/Json.php';
         return Zend_Json::encode($service);
@@ -439,9 +439,9 @@ class Zend_Json_Server_Smd_Service
      *
      * @return string
      */
-    public function __toString()
+    public function __to_string()
     {
-        return $this->toJson();
+        return $this->to_json();
     }
 
     /**
@@ -453,17 +453,17 @@ class Zend_Json_Server_Smd_Service
      */
     protected function _validateParamType($type, $isReturn = false)
     {
-        if (!is_string($type)) {
+        if (! is_string($type)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception('Invalid param type provided ("' . $type .'")');
         }
 
-        if (!array_key_exists($type, $this->_paramMap)) {
+        if (! array_key_exists($type, $this->_paramMap)) {
             $type = 'object';
         }
 
         $paramType = $this->_paramMap[$type];
-        if (!$isReturn && ('null' == $paramType)) {
+        if (! $isReturn && ('null' == $paramType)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception('Invalid param type provided ("' . $type . '")');
         }

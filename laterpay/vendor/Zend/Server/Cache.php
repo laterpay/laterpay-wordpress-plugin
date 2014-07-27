@@ -49,8 +49,8 @@ class Zend_Server_Cache
      */
     public static function save($filename, Zend_Server_Interface $server)
     {
-        if (!is_string($filename)
-            || (!file_exists($filename) && !is_writable(dirname($filename))))
+        if (! is_string($filename)
+            || (! file_exists($filename) && ! is_writable(dirname($filename))))
         {
             return false;
         }
@@ -85,7 +85,7 @@ class Zend_Server_Cache
      * request. Sample usage:
      *
      * <code>
-     * if (!Zend_Server_Cache::get($filename, $server)) {
+     * if (! Zend_Server_Cache::get($filename, $server)) {
      *     require_once 'Some/Service/Class.php';
      *     require_once 'Another/Service/Class.php';
      *
@@ -108,9 +108,9 @@ class Zend_Server_Cache
      */
     public static function get($filename, Zend_Server_Interface $server)
     {
-        if (!is_string($filename)
-            || !file_exists($filename)
-            || !is_readable($filename))
+        if (! is_string($filename)
+            || ! file_exists($filename)
+            || ! is_readable($filename))
         {
             return false;
         }

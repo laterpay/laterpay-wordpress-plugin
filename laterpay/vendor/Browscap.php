@@ -243,7 +243,7 @@ class Browscap
         // has to be set to reach E_STRICT compatibility, does not affect system/app settings
         date_default_timezone_set(date_default_timezone_get());
 
-        if (!isset($cache_dir)) {
+        if (! isset($cache_dir)) {
             throw new Exception('You have to provide a path to read/store the browscap cache file');
         }
 
@@ -306,7 +306,7 @@ class Browscap
     public function getBrowser($user_agent = null, $return_array = false)
     {
         // Load the cache at the first request
-        if (!$this->_cacheLoaded) {
+        if (! $this->_cacheLoaded) {
             $cache_file = $this->cacheDir . $this->cacheFilename;
             $ini_file   = $this->cacheDir . $this->iniFilename;
 
@@ -337,19 +337,19 @@ class Browscap
                         return array();
                     }
 
-                    if (!$this->silent) {
+                    if (! $this->silent) {
                         throw $e;
                     }
                 }
 
-                if (!$this->_loadCache($cache_file)) {
+                if (! $this->_loadCache($cache_file)) {
                     throw new Exception('Cannot load this cache version - the cache format is not compatible.');
                 }
             }
         }
 
         // Automatically detect the useragent
-        if (!isset($user_agent)) {
+        if (! isset($user_agent)) {
             if (isset($_SERVER['HTTP_USER_AGENT'])) {
                 $user_agent = $_SERVER['HTTP_USER_AGENT'];
             } else {
@@ -374,7 +374,7 @@ class Browscap
                     $match_string = self::COMPRESSION_PATTERN_START
                         . implode(self::COMPRESSION_PATTERN_DELIMITER, $matches);
 
-                    if (!isset($pattern_data[$match_string])) {
+                    if (! isset($pattern_data[$match_string])) {
                         // partial match - numbers are not present, but everything else is ok
                         continue;
                     }
@@ -397,7 +397,7 @@ class Browscap
                     $browser += $value;
                 }
 
-                if (!empty($browser[3])) {
+                if (! empty($browser[3])) {
                     $browser[3] = $this->_userAgents[$browser[3]];
                 }
 
@@ -433,7 +433,7 @@ class Browscap
 
         foreach ($wrappers as $wrapper) {
             $url = getenv($wrapper . '_proxy');
-            if (!empty($url)) {
+            if (! empty($url)) {
                 $params = array_merge(
                     array(
                         'port' => null,
@@ -593,7 +593,7 @@ class Browscap
         // get user agent data
         $data_user_agents = array();
         for ($i = 0, $j = $tmp_user_agents_count; $i < $j; $i++) {
-            if (!empty($browsers[$tmp_user_agents[$i]]['Parent'])) {
+            if (! empty($browsers[$tmp_user_agents[$i]]['Parent'])) {
                 $parent = $browsers[$tmp_user_agents[$i]]['Parent'];
 
                 if (isset($user_agents_keys[$parent])) {
@@ -638,7 +638,7 @@ class Browscap
         for ($i = 0, $j = $tmp_user_agents_count; $i < $j; $i++) {
             $browser = array();
             foreach ($browsers[$tmp_user_agents[$i]] as $key => $value) {
-                if (!isset($properties_keys[$key])) {
+                if (! isset($properties_keys[$key])) {
                     continue;
                 }
 
@@ -670,12 +670,12 @@ class Browscap
 
                 $matches_count = preg_match_all('@\d@', $pattern, $matches);
 
-                if (!$matches_count) {
+                if (! $matches_count) {
                     $tmp_patterns[$pattern] = $i;
                 } else {
                     $compressed_pattern = preg_replace('@\d@', '(\d)', $pattern);
 
-                    if (!isset($tmp_patterns[$compressed_pattern])) {
+                    if (! isset($tmp_patterns[$compressed_pattern])) {
                         $tmp_patterns[$compressed_pattern] = array('first' => $pattern);
                     }
 
@@ -831,10 +831,10 @@ class Browscap
         // to properly unescape '?' which was changed to '.', I replace '\.' (real dot) with '\?', then change '.' to '?' and then '\?' to '.'.
         $search  = array(
             '\\' . self::REGEX_DELIMITER, '\\.', '\\\\', '\\+', '\\[', '\\^', '\\]', '\\$', '\\(', '\\)', '\\{', '\\}',
-            '\\=', '\\!', '\\<', '\\>', '\\|', '\\:', '\\-', '.*', '.', '\\?'
+            '\\=', '\\! ', '\\<', '\\>', '\\|', '\\:', '\\-', '.*', '.', '\\?'
         );
         $replace = array(
-            self::REGEX_DELIMITER, '\\?', '\\', '+', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|',
+            self::REGEX_DELIMITER, '\\?', '\\', '+', '[', '^', ']', '$', '(', ')', '{', '}', '=', '! ', '<', '>', '|',
             ':', '-', '*', '?', '.'
         );
 
@@ -870,7 +870,7 @@ class Browscap
 
         require $cache_file;
 
-        if (!isset($cache_version) || $cache_version != self::CACHE_FILE_VERSION) {
+        if (! isset($cache_version) || $cache_version != self::CACHE_FILE_VERSION) {
             return false;
         }
 
@@ -932,7 +932,7 @@ class Browscap
      */
     protected function _getStreamContext($recreate = false)
     {
-        if (!isset($this->_streamContext) || true === $recreate) {
+        if (! isset($this->_streamContext) || true === $recreate) {
             $this->_streamContext = stream_context_create($this->getStreamContextOptions());
         }
 
@@ -982,7 +982,7 @@ class Browscap
         }
 
         if ($url != $path) {
-            if (!file_put_contents($path, $content)) {
+            if (! file_put_contents($path, $content)) {
                 throw new Exception("Could not write .ini content to $path");
             }
         }
@@ -1001,7 +1001,7 @@ class Browscap
         $remote_datetime = $this->_getRemoteData($this->remoteVerUrl);
         $remote_tmstp    = strtotime($remote_datetime);
 
-        if (!$remote_tmstp) {
+        if (! $remote_tmstp) {
             throw new Exception("Bad datetime format from {$this->remoteVerUrl}");
         }
 
@@ -1016,7 +1016,7 @@ class Browscap
      */
     protected function _getLocalMTime()
     {
-        if (!is_readable($this->localFile) || !is_file($this->localFile)) {
+        if (! is_readable($this->localFile) || ! is_file($this->localFile)) {
             throw new Exception('Local file is not readable');
         }
 
@@ -1040,7 +1040,7 @@ class Browscap
         foreach ($array as $key => $value) {
             if (is_int($key)) {
                 $key = '';
-            } elseif (ctype_digit((string) $key) || '.0' === substr($key, -2)) {
+            } elseif (ctype_digit((string)  $key) || '.0' === substr($key, -2)) {
                 $key = intval($key) . '=>';
             } else {
                 $key = "'" . str_replace("'", "\'", $key) . "'=>";
@@ -1048,7 +1048,7 @@ class Browscap
 
             if (is_array($value)) {
                 $value = "'" . addcslashes(serialize($value), "'") . "'";
-            } elseif (ctype_digit((string) $value)) {
+            } elseif (ctype_digit((string)  $value)) {
                 $value = intval($value);
             } else {
                 $value = "'" . str_replace("'", "\'", $value) . "'";
@@ -1171,7 +1171,7 @@ class Browscap
                         $response = fgets($remote_handler);
                         if (strpos($response, '200 OK') !== false) {
                             $file = '';
-                            while (!feof($remote_handler)) {
+                            while (! feof($remote_handler)) {
                                 $file .= fgets($remote_handler);
                             }
 

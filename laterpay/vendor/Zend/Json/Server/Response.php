@@ -120,7 +120,7 @@ class Zend_Json_Server_Response
      * @param  mixed $name
      * @return Zend_Json_Server_Response
      */
-    public function setId($name)
+    public function set_id($name)
     {
         $this->_id = $name;
         return $this;
@@ -131,7 +131,7 @@ class Zend_Json_Server_Response
      *
      * @return mixed
      */
-    public function getId()
+    public function get_id()
     {
         return $this->_id;
     }
@@ -145,7 +145,7 @@ class Zend_Json_Server_Response
     public function setVersion($version)
     {
         if (is_array($version)) { $version = implode(' ', $version); } else { $version = $version; }
-        if ((string)$version == '2.0') {
+        if ((string) $version == '2.0') {
             $this->_version = '2.0';
         } else {
             $this->_version = null;
@@ -168,17 +168,17 @@ class Zend_Json_Server_Response
      *
      * @return string
      */
-    public function toJson()
+    public function to_json()
     {
         if ($this->isError()) {
             $response = array(
-                'error'  => $this->getError()->toArray(),
-                'id'     => $this->getId(),
+                'error'  => $this->getError()->to_array(),
+                'id'     => $this->get_id(),
             );
         } else {
             $response = array(
                 'result' => $this->getResult(),
-                'id'     => $this->getId(),
+                'id'     => $this->get_id(),
             );
         }
 
@@ -239,9 +239,9 @@ class Zend_Json_Server_Response
      *
      * @return string
      */
-    public function __toString()
+    public function __to_string()
     {
-        return $this->toJson();
+        return $this->to_json();
     }
 }
 

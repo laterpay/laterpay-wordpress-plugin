@@ -469,7 +469,7 @@ class Crypt_Blowfish {
      */
     function Crypt_Blowfish($mode = CRYPT_BLOWFISH_MODE_CBC)
     {
-        if ( !defined('CRYPT_BLOWFISH_MODE') ) {
+        if ( ! defined('CRYPT_BLOWFISH_MODE') ) {
             switch (true) {
                 case extension_loaded('mcrypt') && in_array('blowfish', mcrypt_list_algorithms()):
                     define('CRYPT_BLOWFISH_MODE', CRYPT_BLOWFISH_MODE_MCRYPT);
@@ -543,7 +543,7 @@ class Crypt_Blowfish {
     {
         $keylength = strlen($key);
 
-        if (!$keylength) {
+        if (! $keylength) {
             $key = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
         }
         elseif ($keylength > 56) {
@@ -657,20 +657,20 @@ class Crypt_Blowfish {
         switch ($method) {
             default: // 'pbkdf2'
                 list(, , $hash, $salt, $count) = func_get_args();
-                if (!isset($hash)) {
+                if (! isset($hash)) {
                     $hash = 'sha1';
                 }
                 // WPA and WPA2 use the SSID as the salt
-                if (!isset($salt)) {
+                if (! isset($salt)) {
                     $salt = 'phpseclib/salt';
                 }
                 // RFC2898#section-4.2 uses 1,000 iterations by default
                 // WPA and WPA2 use 4,096.
-                if (!isset($count)) {
+                if (! isset($count)) {
                     $count = 1000;
                 }
 
-                if (!class_exists('Crypt_Hash')) {
+                if (! class_exists('Crypt_Hash')) {
                     require_once('Crypt/Hash.php');
                 }
 
@@ -740,7 +740,7 @@ class Crypt_Blowfish {
                 $this->enchanged = false;
             }
 
-            if ($this->mode != 'ncfb' || !$this->continuousBuffer) {
+            if ($this->mode != 'ncfb' || ! $this->continuousBuffer) {
                 $ciphertext = mcrypt_generic($this->enmcrypt, $plaintext);
             } else {
                 $iv = &$this->encryptIV;
@@ -792,7 +792,7 @@ class Crypt_Blowfish {
                 return $ciphertext;
             }
 
-            if (!$this->continuousBuffer) {
+            if (! $this->continuousBuffer) {
                 mcrypt_generic_init($this->enmcrypt, $this->key, $this->encryptIV);
             }
 
@@ -833,7 +833,7 @@ class Crypt_Blowfish {
                 $this->dechanged = false;
             }
 
-            if ($this->mode != 'ncfb' || !$this->continuousBuffer) {
+            if ($this->mode != 'ncfb' || ! $this->continuousBuffer) {
                 $plaintext = mdecrypt_generic($this->demcrypt, $ciphertext);
             } else {
                 $iv = &$this->decryptIV;
@@ -871,7 +871,7 @@ class Crypt_Blowfish {
                 return $plaintext;
             }
 
-            if (!$this->continuousBuffer) {
+            if (! $this->continuousBuffer) {
                 mcrypt_generic_init($this->demcrypt, $this->key, $this->decryptIV);
             }
 
@@ -965,7 +965,7 @@ class Crypt_Blowfish {
     {
         $length = strlen($text);
 
-        if (!$this->padding) {
+        if (! $this->padding) {
             if ($length % 8 == 0) {
                 return $text;
             } else {
@@ -990,13 +990,13 @@ class Crypt_Blowfish {
      */
     function _unpad($text)
     {
-        if (!$this->padding) {
+        if (! $this->padding) {
             return $text;
         }
 
         $length = ord($text[strlen($text) - 1]);
 
-        if (!$length || $length > 8) {
+        if (! $length || $length > 8) {
             return false;
         }
 
@@ -1064,7 +1064,7 @@ class Crypt_Blowfish {
         $mode = $this->mode;
         $code_hash = "$mode";
 
-        if (!isset($lambda_functions[$code_hash])) {
+        if (! isset($lambda_functions[$code_hash])) {
             $init_cryptBlock = '
                 extract($self->bctx["p"],  EXTR_PREFIX_ALL, "p");
                 extract($self->bctx["sb"], EXTR_PREFIX_ALL, "sb");

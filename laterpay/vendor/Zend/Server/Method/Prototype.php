@@ -97,7 +97,7 @@ class Zend_Server_Method_Prototype
         } else {
             require_once 'Zend/Server/Method/Parameter.php';
             $parameter = new Zend_Server_Method_Parameter(array(
-                'type' => (string) $parameter,
+                'type' => (string)  $parameter,
             ));
             $this->_parameters[] = $parameter;
         }
@@ -137,7 +137,7 @@ class Zend_Server_Method_Prototype
      *
      * @return array
      */
-    public function getParameters()
+    public function get_parameters()
     {
         $types = array();
         foreach ($this->_parameters as $parameter) {
@@ -151,7 +151,7 @@ class Zend_Server_Method_Prototype
      *
      * @return array
      */
-    public function getParameterObjects()
+    public function get_parameterObjects()
     {
         return $this->_parameters;
     }
@@ -162,9 +162,9 @@ class Zend_Server_Method_Prototype
      * @param  string|int $index
      * @return null|Zend_Server_Method_Parameter
      */
-    public function getParameter($index)
+    public function get_parameter($index)
     {
-        if (!is_string($index) && !is_numeric($index)) {
+        if (! is_string($index) && ! is_numeric($index)) {
             return null;
         }
         if (array_key_exists($index, $this->_parameterNameMap)) {
@@ -198,11 +198,11 @@ class Zend_Server_Method_Prototype
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         return array(
             'returnType' => $this->getReturnType(),
-            'parameters' => $this->getParameters(),
+            'parameters' => $this->get_parameters(),
         );
     }
 }

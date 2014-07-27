@@ -128,7 +128,7 @@ class Zend_Json_Server_Smd
      */
     public function setTransport($transport)
     {
-        if (!in_array($transport, $this->_transportTypes)) {
+        if (! in_array($transport, $this->_transportTypes)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception(sprintf('Invalid transport "%s" specified', $transport));
         }
@@ -154,7 +154,7 @@ class Zend_Json_Server_Smd
      */
     public function setEnvelope($envelopeType)
     {
-        if (!in_array($envelopeType, $this->_envelopeTypes)) {
+        if (! in_array($envelopeType, $this->_envelopeTypes)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception(sprintf('Invalid envelope type "%s"', $envelopeType));
         }
@@ -181,7 +181,7 @@ class Zend_Json_Server_Smd
      */
     public function setContentType($type)
     {
-        if (!preg_match($this->_contentTypeRegex, $type)) {
+        if (! preg_match($this->_contentTypeRegex, $type)) {
             require_once 'Zend/Json/Server/Exception.php';
             throw new Zend_Json_Server_Exception(sprintf('Invalid content type "%s" specified', $type));
         }
@@ -207,7 +207,7 @@ class Zend_Json_Server_Smd
      */
     public function setTarget($target)
     {
-        $this->_target = (string) $target;
+        $this->_target = (string)  $target;
         return $this;
     }
 
@@ -227,9 +227,9 @@ class Zend_Json_Server_Smd
      * @param  string $Id
      * @return Zend_Json_Server_Smd
      */
-    public function setId($id)
+    public function set_id($id)
     {
-        $this->_id = (string) $id;
+        $this->_id = (string)  $id;
         return $this->_id;
     }
 
@@ -238,7 +238,7 @@ class Zend_Json_Server_Smd
      *
      * @return string
      */
-    public function getId()
+    public function get_id()
     {
         return $this->_id;
     }
@@ -251,7 +251,7 @@ class Zend_Json_Server_Smd
      */
     public function setDescription($description)
     {
-        $this->_description = (string) $description;
+        $this->_description = (string)  $description;
         return $this->_description;
     }
 
@@ -385,7 +385,7 @@ class Zend_Json_Server_Smd
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         if ($this->isDojoCompatible()) {
             return $this->toDojoArray();
@@ -400,16 +400,16 @@ class Zend_Json_Server_Smd
         if (null !== ($target = $this->getTarget())) {
             $service['target']     = $target;
         }
-        if (null !== ($id = $this->getId())) {
+        if (null !== ($id = $this->get_id())) {
             $service['id'] = $id;
         }
 
         $services = $this->getServices();
-        if (!empty($services)) {
+        if (! empty($services)) {
             $service['services'] = array();
             foreach ($services as $name => $svc) {
                 $svc->setEnvelope($envelope);
-                $service['services'][$name] = $svc->toArray();
+                $service['services'][$name] = $svc->to_array();
             }
             $service['methods'] = $service['services'];
         }
@@ -431,7 +431,7 @@ class Zend_Json_Server_Smd
         $target = $this->getTarget();
 
         $services = $this->getServices();
-        if (!empty($services)) {
+        if (! empty($services)) {
             $service['methods'] = array();
             foreach ($services as $name => $svc) {
                 $method = array(
@@ -439,14 +439,14 @@ class Zend_Json_Server_Smd
                     'serviceURL' => $target,
                 );
                 $params = array();
-                foreach ($svc->getParams() as $param) {
+                foreach ($svc->get_params() as $param) {
                     if( array_key_exists('name', $param) ){$paramName = $param['name'] ;} else { $paramName = $param['type']; }
                     $params[] = array(
                         'name' => $paramName,
                         'type' => $param['type'],
                     );
                 }
-                if (!empty($params)) {
+                if (! empty($params)) {
                     $method['parameters'] = $params;
                 }
                 $service['methods'][] = $method;
@@ -461,10 +461,10 @@ class Zend_Json_Server_Smd
      *
      * @return string
      */
-    public function toJson()
+    public function to_json()
     {
         require_once 'Zend/Json.php';
-        return Zend_Json::encode($this->toArray());
+        return Zend_Json::encode($this->to_array());
     }
 
     /**
@@ -472,9 +472,9 @@ class Zend_Json_Server_Smd
      *
      * @return string
      */
-    public function __toString()
+    public function __to_string()
     {
-        return $this->toJson();
+        return $this->to_json();
     }
 }
 

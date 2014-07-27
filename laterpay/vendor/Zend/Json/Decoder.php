@@ -103,7 +103,7 @@ class Zend_Json_Decoder
         $this->_offset       = 0;
 
         // Normalize and set $decodeType
-        if (!in_array($decodeType, array(Zend_Json::TYPE_ARRAY, Zend_Json::TYPE_OBJECT)))
+        if (! in_array($decodeType, array(Zend_Json::TYPE_ARRAY, Zend_Json::TYPE_OBJECT)))
         {
             $decodeType = Zend_Json::TYPE_ARRAY;
         }
@@ -146,7 +146,7 @@ class Zend_Json_Decoder
         if (null === $source) {
             require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception('Must specify JSON encoded source for decoding');
-        } elseif (!is_string($source)) {
+        } elseif (! is_string($source)) {
             require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception('Can only decode JSON encoded strings');
         }
@@ -269,7 +269,7 @@ class Zend_Json_Decoder
 
             $tok = $this->_token;
 
-            if ($tok == self::RBRACKET || !$tok) {
+            if ($tok == self::RBRACKET || ! $tok) {
                 break;
             }
 

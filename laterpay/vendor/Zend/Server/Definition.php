@@ -78,7 +78,7 @@ class Zend_Server_Definition implements Countable, Iterator
         if (is_array($method)) {
             require_once 'Zend/Server/Method/Definition.php';
             $method = new Zend_Server_Method_Definition($method);
-        } elseif (!$method instanceof Zend_Server_Method_Definition) {
+        } elseif (! $method instanceof Zend_Server_Method_Definition) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Invalid method provided');
         }
@@ -96,7 +96,7 @@ class Zend_Server_Definition implements Countable, Iterator
             throw new Zend_Server_Exception('No method name provided');
         }
 
-        if (!$this->_overwriteExistingMethods && array_key_exists($name, $this->_methods)) {
+        if (! $this->_overwriteExistingMethods && array_key_exists($name, $this->_methods)) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception(sprintf('Method by name of "%s" already exists', $name));
         }
@@ -196,11 +196,11 @@ class Zend_Server_Definition implements Countable, Iterator
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         $methods = array();
         foreach ($this->getMethods() as $key => $method) {
-            $methods[$key] = $method->toArray();
+            $methods[$key] = $method->to_array();
         }
         return $methods;
     }

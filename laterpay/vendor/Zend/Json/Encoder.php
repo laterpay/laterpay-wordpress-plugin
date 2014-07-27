@@ -134,8 +134,8 @@ class Zend_Json_Encoder
         }
 
         $props = '';
-        if (method_exists($value, 'toJson')) {
-            $props =',' . preg_replace("/^\{(.*)\}$/","\\1",$value->toJson());
+        if (method_exists($value, 'to_json')) {
+            $props =',' . preg_replace("/^\{(.*)\}$/","\\1",$value->to_json());
         } else {
             if ($value instanceof IteratorAggregate) {
                 $propCollection = $value->getIterator();
@@ -194,11 +194,11 @@ class Zend_Json_Encoder
         $tmpArray = array();
 
         // Check for associative array
-        if (!empty($array) && (array_keys($array) !== range(0, count($array) - 1))) {
+        if (! empty($array) && (array_keys($array) !== range(0, count($array) - 1))) {
             // Associative array
             $result = '{';
             foreach ($array as $key => $value) {
-                $key = (string) $key;
+                $key = (string)  $key;
                 $tmpArray[] = $this->_encodeString($key)
                             . ':'
                             . $this->_encodeValue($value);
@@ -234,7 +234,7 @@ class Zend_Json_Encoder
         $result = 'null';
 
         if (is_int($value) || is_float($value)) {
-            $result = (string) $value;
+            $result = (string)  $value;
             $result = str_replace(",", ".", $result);
         } elseif (is_string($value)) {
             $result = $this->_encodeString($value);
@@ -283,7 +283,7 @@ class Zend_Json_Encoder
         $constants = $cls->getConstants();
 
         $tmpArray = array();
-        if (!empty($constants)) {
+        if (! empty($constants)) {
             foreach ($constants as $key => $value) {
                 $tmpArray[] = "$key: " . self::encode($value);
             }
@@ -310,7 +310,7 @@ class Zend_Json_Encoder
 
         $started = false;
         foreach ($methods as $method) {
-            if (! $method->isPublic() || !$method->isUserDefined()) {
+            if (! $method->isPublic() || ! $method->isUserDefined()) {
                 continue;
             }
 
@@ -322,7 +322,7 @@ class Zend_Json_Encoder
             $result .= '' . $method->getName(). ':function(';
 
             if ('__construct' != $method->getName()) {
-                $parameters  = $method->getParameters();
+                $parameters  = $method->get_parameters();
                 $paramCount  = count($parameters);
                 $argsStarted = false;
 

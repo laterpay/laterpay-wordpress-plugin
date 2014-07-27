@@ -297,7 +297,7 @@ class Parsedown {
     //
     // Comment
     protected function identifyComment( $Line ) {
-        if ( isset( $Line['text'][3] ) and $Line['text'][3] === '-' and $Line['text'][2] === '-' and $Line['text'][1] === '!' ) {
+        if ( isset( $Line['text'][3] ) and $Line['text'][3] === '-' and $Line['text'][2] === '-' and $Line['text'][1] === '! ' ) {
             $Block = array(
                 'element' => $Line['body'],
             );
@@ -469,7 +469,7 @@ class Parsedown {
                 'element' => array(
                     'name' => 'blockquote',
                     'handler' => 'lines',
-                    'text' => (array) $matches[1],
+                    'text' => (array)  $matches[1],
                 ),
             );
 
@@ -807,7 +807,7 @@ class Parsedown {
     // Spans
     //
     protected $SpanTypes = array(
-        '!' => array( 'Link' ), // ?
+        '! ' => array( 'Link' ), // ?
         '&' => array( 'Ampersand' ),
         '*' => array( 'Emphasis' ),
         '/' => array( 'Url' ),
@@ -820,7 +820,7 @@ class Parsedown {
     );
 
     // ~
-    protected $spanMarkerList = '*_!&[</`~\\';
+    protected $spanMarkerList = '*_! &[</`~\\';
 
     //
     // ~
@@ -994,7 +994,7 @@ class Parsedown {
     protected function identifyInlineCode( $Excerpt ) {
         $marker = $Excerpt['text'][0];
 
-        if ( preg_match( '/^('.$marker.'+)[ ]*(.+?)[ ]*(?<!'.$marker.')\1(?!'.$marker.')/', $Excerpt['text'], $matches ) ) {
+        if ( preg_match( '/^('.$marker.'+)[ ]*(.+?)[ ]*(?<! '.$marker.')\1(?! '.$marker.')/', $Excerpt['text'], $matches ) ) {
             $text = $matches[2];
             $text = htmlspecialchars( $text, ENT_NOQUOTES, 'UTF-8' );
 
@@ -1009,7 +1009,7 @@ class Parsedown {
     }
 
     protected function identifyLink( $Excerpt ) {
-        $extent = $Excerpt['text'][0] === '!' ? 1 : 0;
+        $extent = $Excerpt['text'][0] === '! ' ? 1 : 0;
 
         if ( strpos( $Excerpt['text'], ']' ) and preg_match( '/\[((?:[^][]|(?R))*)\]/', $Excerpt['text'], $matches ) ) {
             $Link = array( 'text' => $matches[1], 'label' => strtolower( $matches[1] ) );
@@ -1056,7 +1056,7 @@ class Parsedown {
 
         $url = str_replace( array( '&', '<' ), array( '&amp;', '&lt;' ), $Link['url'] );
 
-        if ( $Excerpt['text'][0] === '!' ) {
+        if ( $Excerpt['text'][0] === '! ' ) {
             $Element = array(
                 'name' => 'img',
                 'attributes' => array(
@@ -1183,17 +1183,17 @@ class Parsedown {
     //
     // Read-only
     protected $specialCharacters = array(
-        '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!',
+        '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '! ',
     );
 
     protected $StrongRegex = array(
-        '*' => '/^[*]{2}((?:[^*]|[*][^*]*[*])+?)[*]{2}(?![*])/s',
-        '_' => '/^__((?:[^_]|_[^_]*_)+?)__(?!_)/us',
+        '*' => '/^[*]{2}((?:[^*]|[*][^*]*[*])+?)[*]{2}(?! [*])/s',
+        '_' => '/^__((?:[^_]|_[^_]*_)+?)__(?! _)/us',
     );
 
     protected $EmRegex = array(
-        '*' => '/^[*]((?:[^*]|[*][*][^*]+?[*][*])+?)[*](?![*])/s',
-        '_' => '/^_((?:[^_]|__[^_]*__)+?)_(?!_)\b/us',
+        '*' => '/^[*]((?:[^*]|[*][*][^*]+?[*][*])+?)[*](?! [*])/s',
+        '_' => '/^_((?:[^_]|__[^_]*__)+?)_(?! _)\b/us',
     );
 
     protected $textLevelElements = array(

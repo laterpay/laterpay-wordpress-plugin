@@ -4,7 +4,7 @@
 define('APP_ROOT', realpath(dirname(__FILE__) . '/..'));
 
 // set up WordPress environment
-if ( !defined('ABSPATH') ) {
+if ( ! defined('ABSPATH') ) {
     require_once(APP_ROOT . '/../../../wp-load.php');
 }
 
@@ -15,22 +15,22 @@ if ( file_exists(APP_ROOT . '/laterpay-config.php') ) {
 }
 require_once(APP_ROOT . '/loader.php');
 
-AutoLoader::registerDirectory(APP_ROOT . '/vendor');
+AutoLoader::register_directory(APP_ROOT . '/vendor');
 
 // register libraries
-$request    = new LaterPayRequest();
-$response   = new LaterPayResponse();
+$request    = new LaterPay_Request();
+$response   = new LaterPay_Response();
 
 // request parameters
-$post_id    = $request->getParam('id');     // required, relative file path
+$post_id    = $request->get_param('id'); // required, relative file path
 
-$response->setHeader('Content-Type', 'text/html');
+$response->set_header('Content-Type', 'text/html');
 
-if ( LaterPayRequestHelper::isAjax() && !empty($post_id) ) {
-    $controller = new LaterPayPostContentController();
+if ( LaterPay_Request_Helper::is_ajax() && ! empty($post_id) ) {
+    $controller = new LaterPay_Post_Content_Controller();
 
     ob_start();
-    $controller->modifyFooter();
+    $controller->modify_footer();
     $html = ob_get_contents();
     ob_end_clean();
 
@@ -39,4 +39,4 @@ if ( LaterPayRequestHelper::isAjax() && !empty($post_id) ) {
     $response->setBody('');
 }
 
-$response->sendResponse();
+$response->send_response();

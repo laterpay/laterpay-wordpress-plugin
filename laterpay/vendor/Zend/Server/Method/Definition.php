@@ -99,7 +99,7 @@ class Zend_Server_Method_Definition
      */
     public function setName($name)
     {
-        $this->_name = (string) $name;
+        $this->_name = (string)  $name;
         return $this;
     }
 
@@ -124,7 +124,7 @@ class Zend_Server_Method_Definition
         if (is_array($callback)) {
             require_once 'Zend/Server/Method/Callback.php';
             $callback = new Zend_Server_Method_Callback($callback);
-        } elseif (!$callback instanceof Zend_Server_Method_Callback) {
+        } elseif (! $callback instanceof Zend_Server_Method_Callback) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Invalid method callback provided');
         }
@@ -153,7 +153,7 @@ class Zend_Server_Method_Definition
         if (is_array($prototype)) {
             require_once 'Zend/Server/Method/Prototype.php';
             $prototype = new Zend_Server_Method_Prototype($prototype);
-        } elseif (!$prototype instanceof Zend_Server_Method_Prototype) {
+        } elseif (! $prototype instanceof Zend_Server_Method_Prototype) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Invalid method prototype provided');
         }
@@ -206,7 +206,7 @@ class Zend_Server_Method_Definition
      */
     public function setMethodHelp($methodHelp)
     {
-        $this->_methodHelp = (string) $methodHelp;
+        $this->_methodHelp = (string)  $methodHelp;
         return $this;
     }
 
@@ -228,7 +228,7 @@ class Zend_Server_Method_Definition
      */
     public function setObject($object)
     {
-        if (!is_object($object) && (null !== $object)) {
+        if (! is_object($object) && (null !== $object)) {
             require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Invalid object passed to ' . __CLASS__ . '::' . __METHOD__);
         }
@@ -273,17 +273,17 @@ class Zend_Server_Method_Definition
      *
      * @return array
      */
-    public function toArray()
+    public function to_array()
     {
         $prototypes = $this->getPrototypes();
         $signatures = array();
         foreach ($prototypes as $prototype) {
-            $signatures[] = $prototype->toArray();
+            $signatures[] = $prototype->to_array();
         }
 
         return array(
             'name'            => $this->getName(),
-            'callback'        => $this->getCallback()->toArray(),
+            'callback'        => $this->getCallback()->to_array(),
             'prototypes'      => $signatures,
             'methodHelp'      => $this->getMethodHelp(),
             'invokeArguments' => $this->getInvokeArguments(),

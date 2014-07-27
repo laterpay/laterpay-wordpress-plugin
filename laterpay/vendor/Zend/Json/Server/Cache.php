@@ -45,13 +45,13 @@ class Zend_Json_Server_Cache extends Zend_Server_Cache
      */
     public static function saveSmd($filename, Zend_Json_Server $server)
     {
-        if (!is_string($filename)
-            || (!file_exists($filename) && !is_writable(dirname($filename))))
+        if (! is_string($filename)
+            || (! file_exists($filename) && ! is_writable(dirname($filename))))
         {
             return false;
         }
 
-        if (0 === @file_put_contents($filename, $server->getServiceMap()->toJson())) {
+        if (0 === @file_put_contents($filename, $server->getServiceMap()->to_json())) {
             return false;
         }
 
@@ -69,9 +69,9 @@ class Zend_Json_Server_Cache extends Zend_Server_Cache
      */
     public static function getSmd($filename)
     {
-        if (!is_string($filename)
-            || !file_exists($filename)
-            || !is_readable($filename))
+        if (! is_string($filename)
+            || ! file_exists($filename)
+            || ! is_readable($filename))
         {
             return false;
         }
