@@ -108,7 +108,7 @@ class LaterPay_Post_Pricing_Controller extends LaterPay_Abstract_Controller
         $content = get_post_meta( $object->ID, 'Teaser content', true );
         $editor_id = 'postcueeditor';
 
-        echo "<dfn>" . __("This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . "</dfn>";
+        echo '<dfn>' . __("This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . '</dfn>';
 
         wp_editor( $content, $editor_id, $settings );
 

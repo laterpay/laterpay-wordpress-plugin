@@ -153,7 +153,7 @@ class LaterPay_Statistics_Helper
         }
         $protocol = substr( $sp, 0, strpos( $sp, '/' ) ) . ( $aux );
         $port = $s['SERVER_PORT'];
-        if ( (! $ssl && $port == '80') || ($ssl && $port == '443') ) {
+        if ( ( ! $ssl && $port == '80' ) || ( $ssl && $port == '443' ) ) {
             $port = '';
         } else {
             $port = ':' . $port;

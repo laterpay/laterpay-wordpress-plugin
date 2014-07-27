@@ -91,7 +91,7 @@
     <?php endif; ?>
 
     <?php // post is free or was already bought by user: ?>
-    <?php if ( (! $is_premium_content || $access == true) && ! $preview_post_as_visitor ): ?>
+    <?php if ( ( ! $is_premium_content || $access == true ) && ! $preview_post_as_visitor ): ?>
 
         <?php echo $content; ?>
 

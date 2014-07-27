@@ -94,7 +94,7 @@ abstract class LaterPay_Logger_Abstract
         }
 
         if ( is_object($data) ) {
-            return sprintf("[object] (%s: %s)", get_class($data), Zend_Json::encode($data));
+            return sprintf('[object] (%s: %s)', get_class($data), Zend_Json::encode($data));
         }
 
         if ( is_resource($data) ) {

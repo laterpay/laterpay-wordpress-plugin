@@ -158,7 +158,7 @@ class LaterPay_GitHub_Plugin_Updater
 
         // get the required version of WordPress if available
         $matches = null;
-        preg_match("/requires:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches);
+        preg_match('/requires:\s([\d\.]+)/i', $this->githubAPIResult->body, $matches);
         if ( ! empty($matches) ) {
             if ( is_array($matches) ) {
                 if ( count($matches) > 1 ) {
@@ -169,7 +169,7 @@ class LaterPay_GitHub_Plugin_Updater
 
         // get the tested version of WordPress if available
         $matches = null;
-        preg_match("/tested:\s([\d\.]+)/i", $this->githubAPIResult->body, $matches);
+        preg_match('/tested:\s([\d\.]+)/i', $this->githubAPIResult->body, $matches);
         if ( ! empty($matches) ) {
             if ( is_array($matches) ) {
                 if ( count($matches) > 1 ) {

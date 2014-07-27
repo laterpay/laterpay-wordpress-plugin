@@ -184,7 +184,7 @@ class LaterPay_Browser_Helper
      */
     public static function is_ipad( $version = '' ) {
         $browserInfo = self::php_browser_info();
-        if ( preg_match( "/iPad/", $browserInfo['browser_name_pattern'], $matches ) || strpos( $_SERVER['HTTP_USER_AGENT'], 'iPad' ) ) {
+        if ( preg_match( '/iPad/', $browserInfo['browser_name_pattern'], $matches ) || strpos( $_SERVER['HTTP_USER_AGENT'], 'iPad' ) ) {
             if ( $version == '' ) :
                 return true;
             elseif ( $browserInfo['MajorVer'] == $version ) :
@@ -206,7 +206,7 @@ class LaterPay_Browser_Helper
      */
     public static function is_ipod( $version = '' ) {
         $browserInfo = self::php_browser_info();
-        if ( preg_match( "/iPod/", $browserInfo['browser_name_pattern'], $matches ) ) {
+        if ( preg_match( '/iPod/', $browserInfo['browser_name_pattern'], $matches ) ) {
             if ( $version == '' ) :
                 return true;
             elseif ( $browserInfo['MajorVer'] == $version ) :
@@ -228,7 +228,7 @@ class LaterPay_Browser_Helper
      */
     public static function is_winphone( $version = '' ) {
         $browserInfo = self::php_browser_info();
-        if ( preg_match( "/WinPhone/", $browserInfo['Platform'], $matches ) ) {
+        if ( preg_match( '/WinPhone/', $browserInfo['Platform'], $matches ) ) {
             if ( $version == '' ) :
                 return true;
             elseif ( $browserInfo['MajorVer'] == $version ) :

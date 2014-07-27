@@ -88,7 +88,7 @@ class LaterPay_View_Helper
         if ( ! function_exists( 'wp_get_current_user' ) ) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
-        if ( ($modeIsLive && empty( $liveKey )) || (! $modeIsLive && empty( $sandboxKey )) || (! $modeIsLive && ! LaterPay_User_Helper::can( 'laterpay_read_post_statistics', null, false )) ) {
+        if ( ($modeIsLive && empty( $liveKey )) || ( ! $modeIsLive && empty( $sandboxKey ) ) || ( ! $modeIsLive && ! LaterPay_User_Helper::can( 'laterpay_read_post_statistics', null, false ) ) ) {
             return false;
         }
 

@@ -8,7 +8,7 @@ class LaterPay_Entity
      *
      * @var array
      */
-    protected $_data = array( );
+    protected $_data = array();
 
     /**
      * Data changes flag (true after set_data|unset_data call)
@@ -72,7 +72,7 @@ class LaterPay_Entity
 
         $args = func_get_args();
         if ( empty( $args[0] ) ) {
-            $args[0] = array( );
+            $args[0] = array();
         }
         $this->_data = $args[0];
         $this->_add_full_names();
@@ -257,7 +257,7 @@ class LaterPay_Entity
     public function unset_data( $key = null ) {
         $this->_has_data_changes = true;
         if ( is_null( $key ) ) {
-            $this->_data = array( );
+            $this->_data = array();
         } else {
             unset( $this->_data[$key] );
             if ( isset( $this->_syncFieldsMap[$key] ) ) {
@@ -384,7 +384,7 @@ class LaterPay_Entity
      *
      * @return Varien_Object
      */
-    public function set_data_using_method( $key, $args = array( ) ) {
+    public function set_data_using_method( $key, $args = array() ) {
         $method = 'set' . $this->_camelize( $key );
         $this->$method( $args );
 
@@ -444,12 +444,12 @@ class LaterPay_Entity
      *
      * @return array
      */
-    public function __to_array( array $arrAttributes = array( ) ) {
+    public function __to_array( array $arrAttributes = array() ) {
         if ( empty( $arrAttributes ) ) {
             return $this->_data;
         }
 
-        $arrRes = array( );
+        $arrRes = array();
         foreach ( $arrAttributes as $attribute ) {
             if ( isset( $this->_data[$attribute] ) ) {
                 $arrRes[$attribute] = $this->_data[$attribute];
@@ -468,7 +468,7 @@ class LaterPay_Entity
      *
      * @return array
      */
-    public function to_array( array $arrAttributes = array( ) ) {
+    public function to_array( array $arrAttributes = array() ) {
         return $this->__to_array( $arrAttributes );
     }
 
@@ -480,7 +480,7 @@ class LaterPay_Entity
      *
      * @return array
      */
-    protected function _prepare_array( &$arr, array $elements = array( ) ) {
+    protected function _prepare_array( &$arr, array $elements = array() ) {
         foreach ( $elements as $element ) {
             if ( ! isset( $arr[$element] ) ) {
                 $arr[$element] = null;
@@ -497,7 +497,7 @@ class LaterPay_Entity
      *
      * @return string
      */
-    protected function __to_xml( array $arrAttributes = array( ), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
+    protected function __to_xml( array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
         $xml = '';
         if ( $addOpenTag ) {
             $xml.= '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
@@ -530,7 +530,7 @@ class LaterPay_Entity
      *
      * @return string
      */
-    public function to_xml( array $arrAttributes = array( ), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
+    public function to_xml( array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
         return $this->__to_xml( $arrAttributes, $rootName, $addOpenTag, $addCdata );
     }
 
@@ -541,7 +541,7 @@ class LaterPay_Entity
      *
      * @return string
      */
-    protected function __to_json( array $arrAttributes = array( ) ) {
+    protected function __to_json( array $arrAttributes = array() ) {
         $arrData = $this->to_array( $arrAttributes );
         $json = Zend_Json::encode( $arrData );
 
@@ -555,7 +555,7 @@ class LaterPay_Entity
      *
      * @return string
      */
-    public function to_json( array $arrAttributes = array( ) ) {
+    public function to_json( array $arrAttributes = array() ) {
         return $this->__to_json( $arrAttributes );
     }
 
@@ -622,7 +622,7 @@ class LaterPay_Entity
                 return isset( $this->_data[$key] );
         }
 
-        throw new Varien_Exception( "Invalid method " . get_class( $this ) . "::" . $method . "(" . print_r( $args, 1 ) . ")" );
+        throw new Varien_Exception( 'Invalid method ' . get_class( $this ) . '::' . $method . '(' . print_r( $args, 1 ) . ')' );
     }
 
     /**
@@ -676,7 +676,7 @@ class LaterPay_Entity
             return self::$_underscoreCache[$name];
         }
 
-        $result = strtolower( preg_replace( '/(.)([A-Z])/', "$1_$2", $name ) );
+        $result = strtolower( preg_replace( '/(.)([A-Z])/', '$1_$2', $name ) );
 
         self::$_underscoreCache[$name] = $result;
 
@@ -697,9 +697,9 @@ class LaterPay_Entity
      *
      * @return  string
      */
-    public function serialize( $attributes = array( ), $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"' ) {
+    public function serialize( $attributes = array(), $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"' ) {
         $res = '';
-        $data = array( );
+        $data = array();
         if ( empty( $attributes ) ) {
             $attributes = array_keys( $this->_data );
         }
@@ -787,7 +787,7 @@ class LaterPay_Entity
      *
      * @return string
      */
-    public function debug( $data = null, &$objects = array( ) ) {
+    public function debug( $data = null, &$objects = array() ) {
         if ( is_null( $data ) ) {
             $hash = spl_object_hash( $this );
             if ( ! empty( $objects[$hash] ) ) {
@@ -796,7 +796,7 @@ class LaterPay_Entity
             $objects[$hash] = true;
             $data = $this->get_data();
         }
-        $debug = array( );
+        $debug = array();
         foreach ( $data as $key => $value ) {
             if ( is_scalar( $value ) ) {
                 $debug[$key] = $value;

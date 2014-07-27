@@ -408,7 +408,7 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
     public static function get_dynamic_price( $post ) {
         if ( function_exists( 'date_diff' ) ) {
             $date_time = new DateTime( date( 'Y-m-d' ) );
-            $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( "%a" );
+            $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
         } else {
             $d1 = strtotime( date( 'Y-m-d' ) );
             $d2 = strtotime( $post->post_date );
@@ -541,7 +541,7 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
 
                     $title = $this->get_text_view( 'partials/post-title' );
                 } else {
-                    if ( (! $access || $preview_post_as_visitor) ) {
+                    if ( ( ! $access || $preview_post_as_visitor ) ) {
                         $currency           = get_option( 'laterpay_currency' );
                         $purchase_button    = '<a href="#" class="laterpay-purchase-link laterpay-purchase-button" data-laterpay="' . $link . '" data-icon="b" post-id="';
                         $purchase_button   .= $post_id . '" title="' . __( 'Buy now with LaterPay', 'laterpay' ) . '" ';

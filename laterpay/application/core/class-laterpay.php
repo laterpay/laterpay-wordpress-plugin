@@ -110,12 +110,12 @@ class LaterPay
             array(
                 '{salt}',
                 '{resource_encryption_key}',
-                "'{SITE_USES_PAGE_CACHING}'"
+                "'{SITE_USES_PAGE_CACHING}'",
             ),
             array(
                 md5( uniqid( 'salt' ) ),
                 md5( uniqid( 'key' ) ),
-                LaterPay_Cache_Helper::site_uses_page_caching() ? 'true' : 'false'
+                LaterPay_Cache_Helper::site_uses_page_caching() ? 'true' : 'false',
             ),
             $settings
         );
@@ -178,7 +178,7 @@ class LaterPay
                         $value = $value ? 'true' : 'false';
                     }
                     $config_file = preg_replace(
-                                        "#(.*)" . $option . "(.*)(\s*=>\s*)(.*)(,?)#i",
+                                        '#(.*)' . $option . '(.*)(\s*=>\s*)(.*)(,?)#i',
                                         '${1}' . $option . '${2}${3}' . $value . ',',
                                         $config_file
                                     );
@@ -501,13 +501,13 @@ class LaterPay
             $html = "<div class=\"laterpay-premium-file-link {$content_type}\">";
         }
         $html .= "    <a href=\"{$page_url}\" class=\"laterpay-premium-file-button\" data-icon=\"b\">{$price_tag}</a>";
-        $html .= "    <div class=\"details\">";
+        $html .= '    <div class=\"details\">';
         $html .= "        <h3>{$a['heading_text']}</h3>";
         if ( $a['description_text'] != '' ) {
             $html .= "    <p>{$a['description_text']}</p>";
         }
-        $html .= "    </div>";
-        $html .= "</div>";
+        $html .= '    </div>';
+        $html .= '</div>';
 
         return $html;
     }

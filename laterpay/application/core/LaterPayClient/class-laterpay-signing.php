@@ -10,15 +10,15 @@ class LaterPay_Client_Signing
     */
     protected static function time_independent_hmac_compare($known_str, $given_str) {
         if (strlen($known_str) == 0) {
-            throw new InvalidArgumentException("This function cannot safely compare against an empty given string");
+            throw new InvalidArgumentException( 'This function cannot safely compare against an empty given string' );
         }
 
-        $res = strlen($given_str) ^ strlen($known_str);
-        $given_len = strlen($given_str);
-        $known_len = strlen($known_str);
+        $res = strlen( $given_str ) ^ strlen( $known_str );
+        $given_len = strlen( $given_str );
+        $known_len = strlen( $known_str );
 
         for ($i = 0; $i < $given_len; ++$i) {
-            $res |= ord($known_str[$i % $known_len]) ^ ord($given_str[$i]);
+            $res |= ord( $known_str[$i % $known_len] ) ^ ord( $given_str[$i] );
         }
 
         return $res === 0;
@@ -29,30 +29,30 @@ class LaterPay_Client_Signing
     * @param string $parts
     */
     protected static function create_hmac( $secret, $parts ) {
-        if ( is_array($parts) ) {
-            $data = join('', $parts);
+        if ( is_array( $parts ) ) {
+            $data = join( '', $parts );
         } else {
             $data = (string) $parts;
         }
 
-        $crypt = new Crypt_Hash(self::$hashAlgo);
-        $crypt->setKey($secret);
-        $hash = bin2hex($crypt->hash($data));
+        $crypt = new Crypt_Hash( self::$hashAlgo );
+        $crypt->setKey( $secret );
+        $hash = bin2hex( $crypt->hash( $data ) );
 
-        LaterPay_Logger::debug('LaterPay_Client_Signing::create_hmac', array($hash));
+        LaterPay_Logger::debug( 'LaterPay_Client_Signing::create_hmac', array( $hash ) );
 
         return $hash;
     }
 
     public static function verify( $signature, $secret, $params, $url, $method ) {
 
-        if ( is_array($signature) ) {
+        if ( is_array( $signature ) ) {
             $signature = $signature[0];
         }
 
-        $mac = self::sign($secret, $params, $url, $method);
+        $mac = self::sign( $secret, $params, $url, $method );
 
-        return self::time_independent_hmac_compare($signature, $mac);
+        return self::time_independent_hmac_compare( $signature, $mac );
     }
 
     /**
@@ -69,19 +69,19 @@ class LaterPay_Client_Signing
 
         // this is tricky - either we have (a, b), (a, c) or we have (a, (b, c))
         foreach ( $params as $param_name => $param_value ) {
-            if ( is_array($param_value) ) {
+            if ( is_array( $param_value ) ) {
                 // this is (a, (b, c))
                 $out[$param_name] = $param_value;
             } else {
                 // this is (a, b), (a, c)
-                if ( ! in_array($param_name, $out) ) {
+                if ( ! in_array( $param_name, $out ) ) {
                     $out[$param_name] = array();
                 }
                 $out[$param_name][] = $param_value;
             }
         }
 
-        LaterPay_Logger::debug('LaterPay_Client_Signing::normalise_param_structure', array($params, $out));
+        LaterPay_Logger::debug( 'LaterPay_Client_Signing::normalise_param_structure', array( $params, $out ) );
 
         return $out;
     }
@@ -97,38 +97,38 @@ class LaterPay_Client_Signing
      */
     protected static function create_base_message( $params, $url, $method = LaterPay_Request::POST ) {
         $msg = '{method}&{url}&{params}';
-        $method = strtoupper($method);
+        $method = strtoupper( $method );
 
         $data   = array();
-        $url    = rawurlencode(utf8_encode($url));
-        $params = self::normalise_param_structure($params);
+        $url    = rawurlencode( utf8_encode( $url ) );
+        $params = self::normalise_param_structure( $params );
 
-        $keys = array_keys($params);
+        $keys = array_keys( $params );
         sort($keys);
         foreach ( $keys as $key ) {
             $value  = $params[$key];
-            $key    = rawurlencode(utf8_encode($key));
+            $key    = rawurlencode( utf8_encode( $key ) );
 
-            if ( ! is_array($value) ) {
-                $value = array($value);
+            if ( ! is_array( $value ) ) {
+                $value = array( $value );
             }
 
             $encoded_value = '';
-            sort($value);
+            sort( $value );
             foreach ( $value as $v ) {
-                if ( mb_detect_encoding($v, 'UTF-8') !== 'UTF-8' ) {
-                    $encoded_value = rawurlencode(utf8_encode($v));
+                if ( mb_detect_encoding( $v, 'UTF-8' ) !== 'UTF-8' ) {
+                    $encoded_value = rawurlencode( utf8_encode( $v ) );
                 } else {
-                    $encoded_value = rawurlencode($v);
+                    $encoded_value = rawurlencode( $v );
                 }
                 $data[] = $key . '=' . $encoded_value;
             }
         }
 
-        $param_str = rawurlencode(join('&', $data));
-        $result = str_replace(array('{method}', '{url}', '{params}'), array($method, $url, $param_str), $msg);
+        $param_str = rawurlencode( join( '&', $data ) );
+        $result = str_replace( array( '{method}', '{url}', '{params}' ), array( $method, $url, $param_str ), $msg );
 
-        LaterPay_Logger::debug('LaterPay_Client_Signing::create_base_message', array($result));
+        LaterPay_Logger::debug( 'LaterPay_Client_Signing::create_base_message', array( $result ) );
 
         return $result;
     }
@@ -145,22 +145,22 @@ class LaterPay_Client_Signing
      */
     protected static function sign( $secret, $params, $url, $method = LaterPay_Request::POST ) {
 
-        LaterPay_Logger::debug('LaterPay_Client_Signing::sign', array($secret, $params, $url, $method));
+        LaterPay_Logger::debug( 'LaterPay_Client_Signing::sign', array( $secret, $params, $url, $method ) );
 
-        $secret = utf8_encode($secret);
+        $secret = utf8_encode( $secret );
 
-        if ( isset($params['hmac']) ) {
-            unset($params['hmac']);
+        if ( isset( $params['hmac'] ) ) {
+            unset( $params['hmac'] );
         }
 
-        if ( isset($params['gettoken']) ) {
-            unset($params['gettoken']);
+        if ( isset( $params['gettoken'] ) ) {
+            unset( $params['gettoken'] );
         }
 
-        $aux = explode('?', $url);
+        $aux = explode( '?', $url );
         $url = $aux[0];
-        $msg = self::create_base_message($params, $url, $method);
-        $mac = self::create_hmac($secret, $msg);
+        $msg = self::create_base_message( $params, $url, $method );
+        $mac = self::create_hmac( $secret, $msg );
 
         return $mac;
     }
@@ -176,41 +176,41 @@ class LaterPay_Client_Signing
      * @return string query params
      */
     public static function sign_and_encode( $secret, $params, $url, $method = LaterPay_Request::GET ) {
-        if ( ! isset($params['ts']) ) {
+        if ( ! isset( $params['ts'] ) ) {
             $params['ts'] = (string) time();
         }
 
-        if ( isset($params['hmac']) ) {
-            unset($params['hmac']);
+        if ( isset( $params['hmac'] ) ) {
+            unset( $params['hmac'] );
         }
 
         // get the keys in alphabetical order
-        $keys = array_keys($params);
-        sort($keys);
+        $keys = array_keys( $params );
+        sort( $keys );
         $query_pairs = array();
         foreach ( $keys as $key ) {
             $aux = $params[$key];
-            $key = utf8_encode($key);
+            $key = utf8_encode( $key );
 
-            if ( ! is_array($aux) ) {
-                $aux = array($aux);
+            if ( ! is_array( $aux ) ) {
+                $aux = array( $aux );
             }
-            sort($aux);
+            sort( $aux );
             foreach ( $aux as $value ) {
-                if ( mb_detect_encoding($value, 'UTF-8') !== 'UTF-8' ) {
-                    $value = rawurlencode(utf8_encode($value));
+                if ( mb_detect_encoding( $value, 'UTF-8' ) !== 'UTF-8' ) {
+                    $value = rawurlencode( utf8_encode( $value ) );
                 }
-                $query_pairs[] = rawurlencode($key) . '=' . rawurlencode($value);
+                $query_pairs[] = rawurlencode( $key ) . '=' . rawurlencode( $value );
             }
         }
 
         // build the querystring
-        $encoded = join('&', $query_pairs);
+        $encoded = join( '&', $query_pairs );
 
         // hash the querystring data
-        $hmac = self::sign($secret, $params, $url, $method);
+        $hmac = self::sign( $secret, $params, $url, $method );
 
-        LaterPay_Logger::debug('LaterPay_Client_Signing::sign', array('encoded' => $encoded));
+        LaterPay_Logger::debug( 'LaterPay_Client_Signing::sign', array( 'encoded' => $encoded ) );
 
         return $encoded . '&hmac=' . $hmac;
     }
