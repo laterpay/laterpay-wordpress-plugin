@@ -426,7 +426,12 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
             }
         }
 
-        return round( $price, 2 );
+        $rounded_price = round( $price, 2 );
+        if ( $rounded_price < 0.05 ) {
+            $rounded_price = 0;
+        }
+
+        return $rounded_price;
     }
 
     /**
