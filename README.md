@@ -18,9 +18,9 @@ The plugin will soon also be available from http://wordpress.org/plugins/
 ## Contributing
 
 1. Fork it ( https://github.com/laterpay/laterpay-wordpress-plugin/fork )
-2. Create your feature branch (`git checkout -b feature/my-new-feature`)
+2. Create your feature branch (`git checkout -b feature/my_new_feature`)
 3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin feature/my-new-feature`)
+4. Push to the branch (`git push origin feature/my_new_feature`)
 5. Create a new Pull Request
 
 Contributed PHP code must comply with the WordPress coding standards. We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards). 
