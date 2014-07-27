@@ -58,7 +58,7 @@ class LaterPay_Payments_History_Model
                         'price'         => $data['price'],
                         'date'          => date( 'Y-m-d H:i:s', $data['date'] ),
                         'ip'            => $data['ip'],
-                        'hash'          => $data['hash']
+                        'hash'          => $data['hash'],
                     ),
                     array(
                         '%d',
@@ -67,7 +67,7 @@ class LaterPay_Payments_History_Model
                         '%f',
                         '%s',
                         '%d',
-                        '%s'
+                        '%s',
                     )
             );
         }

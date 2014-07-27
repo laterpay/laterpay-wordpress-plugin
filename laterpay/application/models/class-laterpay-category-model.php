@@ -197,12 +197,12 @@ class LaterPay_Category_Model
                 $this->table_prices,
                 array(
                     'term_id'   => $id_category,
-                    'price'     => $price
+                    'price'     => $price,
                 ),
                 array( 'ID' => $id ),
                 array(
                     '%d',
-                    '%f'
+                    '%f',
                 ),
                 array( '%d' )
             );
@@ -211,11 +211,11 @@ class LaterPay_Category_Model
                 $this->table_prices,
                 array(
                     'term_id'   => $id_category,
-                    'price'     => $price
+                    'price'     => $price,
                 ),
                 array(
                     '%d',
-                    '%f'
+                    '%f',
                 )
             );
         }

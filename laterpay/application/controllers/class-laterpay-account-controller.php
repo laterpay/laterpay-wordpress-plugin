@@ -255,14 +255,14 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
                 echo Zend_Json::encode(
                     array(
                         'success' => true,
-                        'message' => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' )
+                        'message' => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
                     )
                 );
             } else {
                 echo Zend_Json::encode(
                     array(
                         'success' => true,
-                        'message' => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' )
+                        'message' => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
                     )
                 );
             }
@@ -270,7 +270,7 @@ class LaterPay_Account_Controller extends LaterPay_Abstract_Controller
             echo Zend_Json::encode(
                 array(
                     'success' => false,
-                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                 )
             );
         }

@@ -116,7 +116,7 @@
                             LaterPay_String_Helper::determine_number_of_words( $content ),
                             array(
                                 'html'  => true,
-                                'words' => true
+                                'words' => true,
                             )
                         ); ?>
                     <br>

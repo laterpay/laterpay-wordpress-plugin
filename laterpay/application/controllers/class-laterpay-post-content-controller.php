@@ -26,7 +26,7 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
                 LATERPAY_AUTO_GENERATED_TEASER_CONTENT_WORD_COUNT,
                 array (
                     'html'  => true,
-                    'words' => true
+                    'words' => true,
                 )
             );
             add_post_meta( $post->ID, 'Teaser content', $new_meta_value, true );

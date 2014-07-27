@@ -61,7 +61,7 @@ class LaterPay_String_Helper
 			'ellipsis' 	=> ' ...',
 			'exact' 	=> true,
 			'html' 		=> false,
-			'words' 	=> false
+			'words' 	=> false,
 		);
 		if ( isset( $options['ending'] ) ) {
 			$default['ellipsis'] = $options['ending'];

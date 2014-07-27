@@ -153,7 +153,7 @@ class LaterPay_GitHub_Plugin_Updater
         }
         $response->sections = array (
             'description'   => $this->pluginData['Description'],
-            'changelog'     => $changelog
+            'changelog'     => $changelog,
         );
 
         // get the required version of WordPress if available

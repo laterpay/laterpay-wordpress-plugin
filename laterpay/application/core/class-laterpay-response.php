@@ -54,7 +54,7 @@ class LaterPay_Response extends LaterPay_Entity
         $headers[] = array (
             'name'      => $name,
             'value'     => $value,
-            'replace'   => $replace
+            'replace'   => $replace,
         );
         $this->set_data('headers', $headers);
 

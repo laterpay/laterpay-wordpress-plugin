@@ -113,14 +113,14 @@ class LaterPay_Client
         $params = $this->sign_and_encode(
                         array(
                             'redir' => $return_to,
-                            'cp' => $this->cp_key
+                            'cp'    => $this->cp_key,
                         ),
                         $url,
                         LaterPay_Request::GET
                     );
         $url   .= '?' . $params;
 
-        LaterPay_Logger::debug('LaterPay_Client::_get_token_redirect_url',
+        LaterPay_Logger::debug( 'LaterPay_Client::_get_token_redirect_url',
                         array(
                             'url'       => $url,
                             'api_key'   => $this->api_key,
@@ -468,7 +468,7 @@ class LaterPay_Client
         $params = array(
             'lptoken'    => $this->lptoken,
             'cp'         => $this->cp_key,
-            'article_id' => $article_ids
+            'article_id' => $article_ids,
         );
         if ( ! empty( $product_key ) ) {
             $params['product'] = $product_key;
@@ -622,7 +622,7 @@ class LaterPay_Client
                                 'message'   => $e->getMessage(),
                                 'url'       => $url,
                                 'params'    => $params,
-                                'post'      => $post
+                                'post'      => $post,
                             )
                         );
 

@@ -258,7 +258,7 @@ class LaterPay
             array(
                 'id'            => 1,
                 'short_name'    => 'USD',
-                'full_name'     => 'U.S. dollar'
+                'full_name'     => 'U.S. dollar',
             )
         );
         $wpdb->replace(
@@ -266,7 +266,7 @@ class LaterPay
             array(
                 'id'            => 2,
                 'short_name'    => 'EUR',
-                'full_name'     => 'Euro'
+                'full_name'     => 'Euro',
             )
         );
 
@@ -441,7 +441,7 @@ class LaterPay
                'heading_text'       => __( 'Additional Premium Content', 'laterpay' ),
                'description_text'   => '',
                'content_type'       => '',
-               'teaser_image_path'  => ''
+               'teaser_image_path'  => '',
              ), $atts);
 
         if ( $a['target_page_title'] == '' ) {

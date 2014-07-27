@@ -103,7 +103,7 @@ class LaterPay_Post_Pricing_Controller extends LaterPay_Abstract_Controller
             'teeny'           => 1,
             'dfw'             => 1,
             'tinymce'         => 1,
-            'quicktags'       => 1
+            'quicktags'       => 1,
         );
         $content = get_post_meta( $object->ID, 'Teaser content', true );
         $editor_id = 'postcueeditor';
