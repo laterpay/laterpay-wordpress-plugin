@@ -18,16 +18,16 @@ require_once(APP_ROOT . '/loader.php');
 AutoLoader::register_directory(APP_ROOT . '/vendor');
 
 // register libraries
-$request    = new LaterPayRequest();
-$response   = new LaterPayResponse();
+$request    = new LaterPay_Request();
+$response   = new LaterPay_Response();
 
 // request parameters
 $post_id    = $request->get_param('id'); // required, relative file path
 
 $response->set_header('Content-Type', 'text/html');
 
-if ( LaterPayRequestHelper::is_ajax() && ! empty($post_id) ) {
-    $controller = new LaterPayPostContentController();
+if ( LaterPay_Request_Helper::is_ajax() && ! empty($post_id) ) {
+    $controller = new LaterPay_Post_Content_Controller();
 
     ob_start();
     $controller->modify_footer();
