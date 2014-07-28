@@ -14,23 +14,10 @@ $laterpay_version = '0.9.6';
 define( 'LATERPAY_GLOBAL_PATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 define( 'LATERPAY_BASE_NAME', plugin_basename( dirname( __FILE__ ) ) );
 
-set_include_path(
-    implode(
-        PATH_SEPARATOR,
-        array(
-            realpath( LATERPAY_GLOBAL_PATH . 'vendor/' ),
-            get_include_path()
-        )
-    )
-);
+require_once( LATERPAY_GLOBAL_PATH . 'laterpay-load.php' );
 
-require_once( LATERPAY_GLOBAL_PATH . 'class-laterpay-auto-loader.php' );
-
-LaterPay_Auto_Loader::register_directory( LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'controllers' );
-LaterPay_Auto_Loader::register_directory( LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'core' );
-LaterPay_Auto_Loader::register_directory( LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'helpers' );
-LaterPay_Auto_Loader::register_directory( LATERPAY_GLOBAL_PATH . 'application' . DIRECTORY_SEPARATOR . 'models' );
-LaterPay_Auto_Loader::register_directory( LATERPAY_GLOBAL_PATH . 'vendor' );
+LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
+LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'vendor' );
 
 $laterpay_config = require_once( LATERPAY_GLOBAL_PATH . 'laterpay-config.php' );
 foreach ( $laterpay_config as $option => $value ) {
@@ -39,5 +26,5 @@ foreach ( $laterpay_config as $option => $value ) {
     }
 }
 
-$laterpay = new LaterPay( __FILE__ );
+$laterpay = new LaterPay_Core_Bootstrap( __FILE__ );
 $laterpay->run();
