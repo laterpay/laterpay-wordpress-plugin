@@ -540,7 +540,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
             $post_content_cached     = LaterPay_Helper_Cache::site_uses_page_caching();
 
-            if ( $is_premium_content && is_single() && ! is_page() && did_filter( 'the_title' ) === 1 ) {
+            // only render one instance of the purchase button on single premium posts - don't prepend it to related posts etc.
+            if ( $is_premium_content && is_single() && ! is_page() && did_action( 'the_title' ) === 0 ) {
                 if ( $post_content_cached && ! LaterPay_Helper_Request::is_ajax() ) {
                     $this->assign( 'post_id', $post_id );
 
