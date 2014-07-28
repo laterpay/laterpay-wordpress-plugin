@@ -524,27 +524,29 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
     /**
      * Prepend LaterPay purchase button to title (heading) of post on single post pages
      *
-     * @param object $title title
+     * @param object $the_title title
      *
      * @return object
      */
-    public function modify_post_title( $title ) {
+    public function modify_post_title( $the_title ) {
         if ( in_the_loop() ) {
-            $post               = get_post();
-            $post_id            = $post->ID;
-            $price              = self::get_post_price( $post_id );
-            $float_price        = (float) $price;
-            $is_premium_content = $float_price > 0;
-            $access                  = $GLOBALS['laterpay_access'] || LaterPay_User_Helper::can( 'laterpay_read_post_statistics', $post ) || LaterPay_User_Helper::user_has_full_access();
-            $link                    = self::get_laterpay_link( $post_id );
-            $preview_post_as_visitor = LaterPay_User_Helper::preview_post_as_visitor( $post );
-            $post_content_cached     = LaterPay_Cache_Helper::site_uses_page_caching();
+            $post                       = get_post();
+            $post_id                    = $post->ID;
+            $price                      = self::get_post_price( $post_id );
+            $float_price                = (float) $price;
+            $is_premium_content         = $float_price > 0;
+            $access                     = $GLOBALS['laterpay_access'] ||
+                                            LaterPay_User_Helper::can( 'laterpay_read_post_statistics', $post ) ||
+                                            LaterPay_User_Helper::user_has_full_access();
+            $link                       = self::get_laterpay_link( $post_id );
+            $preview_post_as_visitor    = LaterPay_User_Helper::preview_post_as_visitor( $post );
+            $post_content_cached        = LaterPay_Cache_Helper::site_uses_page_caching();
 
-            if ( $is_premium_content && is_single() && ! is_page() ) {
+            if ( $is_premium_content && is_single() && ! is_page() && did_filter( 'the_title' ) === 1 ) {
                 if ( $post_content_cached && ! LaterPay_Request_Helper::is_ajax() ) {
                     $this->assign( 'post_id', $post_id );
 
-                    $title = $this->get_text_view( 'partials/post-title' );
+                    $the_title = $this->get_text_view( 'partials/post-title' );
                 } else {
                     if ( ( ! $access || $preview_post_as_visitor ) ) {
                         $currency           = get_option( 'laterpay_currency' );
@@ -557,12 +559,12 @@ class LaterPay_Post_Content_Controller extends LaterPay_Abstract_Controller
                                                     $currency
                                                 );
                         $purchase_button   .= '</a>';
-                        $title              = $purchase_button . $title;
+                        $the_title              = $purchase_button . $the_title;
                     }
                 }
             }
         }
 
-        return $title;
+        return $the_title;
     }
 }
