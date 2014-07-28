@@ -9,7 +9,7 @@ class LaterPay_Auto_Loader
      * Store the filename (without extension) and full path of all '.php' files found
      */
     public static function register_directory( $dirName ) {
-        AutoLoader::$paths[] = $dirName;
+        LaterPay_Auto_Loader::$paths[] = $dirName;
     }
 
     public static function load_class( $class ) {
@@ -20,7 +20,7 @@ class LaterPay_Auto_Loader
             $class = str_replace( '\\', DIRECTORY_SEPARATOR, $class );
         }
 
-        foreach ( AutoLoader::$paths as $path ) {
+        foreach ( LaterPay_Auto_Loader::$paths as $path ) {
             $file = $path . DIRECTORY_SEPARATOR . $class . '.php';
             if ( file_exists( $file ) ) {
                 require_once($file);
