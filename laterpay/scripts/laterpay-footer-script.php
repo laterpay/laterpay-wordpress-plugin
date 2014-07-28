@@ -15,7 +15,7 @@ if ( file_exists( APP_ROOT . '/laterpay-config.php' ) ) {
 }
 require_once( APP_ROOT . '/loader.php' );
 
-AutoLoader::register_directory( APP_ROOT . '/vendor' );
+LaterPay_Auto_Loader::register_directory( APP_ROOT . '/vendor' );
 
 // register libraries
 $request    = new LaterPay_Request();

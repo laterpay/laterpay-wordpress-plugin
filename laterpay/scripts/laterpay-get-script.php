@@ -18,7 +18,7 @@ require_once( APP_ROOT . '/loader.php' );
 ini_set( 'display_errors', PHP_DISPLAY_ERRORS );
 ini_set( 'error_log', PHP_LOG_FILENAME );
 
-AutoLoader::register_directory( APP_ROOT . '/vendor' );
+LaterPay_Auto_Loader::register_directory( APP_ROOT . '/vendor' );
 
 // register libraries
 $request    = new LaterPay_Request();
