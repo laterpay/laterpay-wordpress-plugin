@@ -21,9 +21,9 @@ class LaterPay_Auto_Loader
         }
 
         foreach ( LaterPay_Auto_Loader::$paths as $path ) {
-            $file = $path . DIRECTORY_SEPARATOR . $class . '.php';
+            $file = $path . DIRECTORY_SEPARATOR . 'class-' . strtolower( $class ) . '.php';
             if ( file_exists( $file ) ) {
-                require_once($file);
+                require_once( $file );
                 break;
             }
         }
