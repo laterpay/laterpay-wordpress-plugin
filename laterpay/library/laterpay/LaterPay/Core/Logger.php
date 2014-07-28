@@ -36,7 +36,7 @@ class LaterPay_Core_Logger
 
     public static function init( $name, array $params ) {
         self::$_name = $name;
-        if ( isset($params[$name]) ) {
+        if ( isset( $params[$name] ) ) {
             self::$_options = $params[$name];
         } else {
             self::$_options = array();
@@ -48,10 +48,10 @@ class LaterPay_Core_Logger
     }
 
     public static function get_instance() {
-        if ( empty(self::$_instance) ) {
+        if ( empty( self::$_instance ) ) {
             try {
-                if ( defined('LATERPAY_LOGGER_ENABLED') && defined('LATERPAY_LOGGER_FILE') && LATERPAY_LOGGER_ENABLED ) {
-                    self::$_instance = new LaterPay_Core_Logger_Handler_Stream(LATERPAY_LOGGER_FILE);
+                if ( defined( 'LATERPAY_LOGGER_ENABLED' ) && defined( 'LATERPAY_LOGGER_FILE' ) && LATERPAY_LOGGER_ENABLED ) {
+                    self::$_instance = new LaterPay_Core_Logger_Handler_Stream( LATERPAY_LOGGER_FILE );
                 } else {
                     self::$_instance = new LaterPay_Core_Logger_Handler_Null();
                 }
@@ -72,7 +72,7 @@ class LaterPay_Core_Logger
      * @return Boolean Whether the record has been processed
      */
     public static function debug( $message, array $context = array() ) {
-        return self::log(self::DEBUG, $message, $context);
+        return self::log( self::DEBUG, $message, $context );
     }
 
     /**
@@ -84,7 +84,7 @@ class LaterPay_Core_Logger
      * @return Boolean Whether the record has been processed
      */
     public static function error( $message, array $context = array() ) {
-        return self::log(self::ERROR, $message, $context);
+        return self::log( self::ERROR, $message, $context );
     }
 
     /**
@@ -93,7 +93,7 @@ class LaterPay_Core_Logger
     */
     public static function log( $level, $message, array $context = array() ) {
         if ( ! self::$_uniqid ) {
-            self::$_uniqid = uniqid(getmypid() . '_');
+            self::$_uniqid = uniqid( getmypid() . '_' );
         }
         $date = new DateTime();
         $record = array(
@@ -101,13 +101,13 @@ class LaterPay_Core_Logger
             'pid'           => self::$_uniqid,
             'context'       => $context,
             'level'         => $level,
-            'level_name'    => self::get_level_name($level),
+            'level_name'    => self::get_level_name( $level ),
             'channel'       => self::$_name,
             'datetime'      => $date,
             'extra'         => array(),
         );
         try {
-            $result = self::get_instance()->handle($record);
+            $result = self::get_instance()->handle( $record );
         } catch ( Exception $e ) {
             return false;
         }
