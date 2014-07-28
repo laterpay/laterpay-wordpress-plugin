@@ -13,21 +13,22 @@ if ( file_exists( APP_ROOT . '/laterpay-config.php' ) ) {
 } else {
     exit();
 }
-require_once( APP_ROOT . '/loader.php' );
+require_once( APP_ROOT . '/laterpay-load.php' );
 
-LaterPay_Auto_Loader::register_directory( APP_ROOT . '/vendor' );
+LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
+LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'vendor' );
 
 // register libraries
-$request    = new LaterPay_Request();
-$response   = new LaterPay_Response();
+$request    = new LaterPay_Core_Request();
+$response   = new LaterPay_Core_Response();
 
 // request parameters
 $post_id    = $request->get_param( 'id' ); // required, relative file path
 
 $response->set_header( 'Content-Type', 'text/html' );
 
-if ( LaterPay_Request_Helper::is_ajax() && ! empty( $post_id ) ) {
-    $controller = new LaterPay_Post_Content_Controller();
+if ( LaterPay_Helper_Request::is_ajax() && ! empty( $post_id ) ) {
+    $controller = new LaterPay_Controller_Post_Content();
 
     ob_start();
     $controller->modify_footer();

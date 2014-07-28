@@ -13,17 +13,18 @@ if ( file_exists( APP_ROOT . '/laterpay-config.php' ) ) {
 } else {
     exit();
 }
-require_once( APP_ROOT . '/loader.php' );
+require_once( APP_ROOT . '/laterpay-load.php' );
 
 ini_set( 'display_errors', PHP_DISPLAY_ERRORS );
 ini_set( 'error_log', PHP_LOG_FILENAME );
 
-LaterPay_Auto_Loader::register_directory( APP_ROOT . '/vendor' );
+LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
+LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'vendor' );
 
 // register libraries
-$request    = new LaterPay_Request();
-$response   = new LaterPay_Response();
-$client     = new LaterPay_Client();
+$request    = new LaterPay_Core_Request();
+$response   = new LaterPay_Core_Response();
+$client     = new LaterPay_Core_Client();
 
 // functions
 function get_decrypted_file_name( $file ) {
@@ -32,7 +33,7 @@ function get_decrypted_file_name( $file ) {
     $file = base64_decode( $file );
     if ( empty( $file ) ) {
 
-        LaterPay_Logger::error( 'RESOURCE:: cannot decode $file - empty result' );
+        LaterPay_Core_Logger::error( 'RESOURCE:: cannot decode $file - empty result' );
 
         $response->set_http_response_code( 500 );
         $response->send_response();
@@ -50,13 +51,13 @@ function send_response( $file ) {
     $file = get_decrypted_file_name( $file );
     if ( ! file_exists( $file ) ) {
 
-        LaterPay_Logger::error( 'RESOURCE:: file not found', array( 'file' => $file ) );
+        LaterPay_Core_Logger::error( 'RESOURCE:: file not found', array( 'file' => $file ) );
 
         $response->set_http_response_code( 404 );
         $response->send_response();
         exit();
     }
-    $type = LaterPay_File_Helper::get_file_mime_type( $file );
+    $type = LaterPay_Helper_File::get_file_mime_type( $file );
 
     $response->set_header( 'Content-Type', $type );
     $data = file_get_contents( $file );
@@ -64,7 +65,7 @@ function send_response( $file ) {
     $response->set_http_response_code( 200 );
     $response->send_response();
 
-    LaterPay_Logger::debug( 'RESOURCE:: file sent. done.', array( 'file' => $file ) );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: file sent. done.', array( 'file' => $file ) );
 
     exit();
 }
@@ -78,7 +79,7 @@ $hmac       = $request->get_param( 'hmac' );     // required, token to validate 
 $ts         = $request->get_param( 'ts' );       // required, timestamp
 $auth       = $request->get_param( 'auth' );     // required, need to bypass API::get_access calls
 
-LaterPay_Logger::debug(
+LaterPay_Core_Logger::debug(
     'RESOURCE::incoming parameters',
     array(
         'file'      => $file,
@@ -104,36 +105,36 @@ if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
 // processing
 if ( empty($file) || empty($aid) ) {
 
-    LaterPay_Logger::error( 'RESOURCE:: empty $file or $aid' );
+    LaterPay_Core_Logger::error( 'RESOURCE:: empty $file or $aid' );
 
     $response->set_http_response_code( 400 );
     $response->send_response();
     exit();
 }
 
-if ( ! LaterPay_View_Helper::plugin_is_working() ) {
+if ( ! LaterPay_Helper_View::plugin_is_working() ) {
 
-    LaterPay_Logger::debug( 'RESOURCE:: plugin is not available. Sending file ...' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: plugin is not available. Sending file ...' );
 
     send_response( $file );
     exit();
 }
 
 if ( ! empty( $hmac ) && ! empty( $ts ) ) {
-    if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), plugins_url( LaterPay_File_Helper::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
+    if ( ! LaterPay_Core_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), plugins_url( LaterPay_Helper_File::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
 
-        LaterPay_Logger::error( 'RESOURCE:: invalid $hmac or $ts has expired' );
+        LaterPay_Core_Logger::error( 'RESOURCE:: invalid $hmac or $ts has expired' );
 
         $response->set_http_response_code( 401 );
         $response->send_response();
         exit();
     }
 
-    LaterPay_Logger::debug( 'RESOURCE:: $hmac and $ts are valid' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: $hmac and $ts are valid' );
 
 } else {
 
-    LaterPay_Logger::error( 'RESOURCE:: empty $hmac or $ts' );
+    LaterPay_Core_Logger::error( 'RESOURCE:: empty $hmac or $ts' );
 
     $response->set_http_response_code( 401 );
     $response->send_response();
@@ -143,7 +144,7 @@ if ( ! empty( $hmac ) && ! empty( $ts ) ) {
 // check token
 if ( ! empty($lptoken) ) {
 
-    LaterPay_Logger::debug( 'RESOURCE:: set token and make redirect' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: set token and make redirect' );
 
     // change URL
     $client->set_token( $lptoken );
@@ -152,10 +153,10 @@ if ( ! empty($lptoken) ) {
         'file'  => $file,
     );
     if ( ! empty( $auth ) ) {
-        $tokenInstance  = new LaterPay_Auth_HMAC( $client->get_api_key() );
+        $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
         $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
     }
-    $new_url  = plugins_url( LaterPay_File_Helper::SCRIPT_PATH );
+    $new_url  = plugins_url( LaterPay_Helper_File::SCRIPT_PATH );
     $new_url .= '?' . $client->sign_and_encode( $params, $new_url );
 
     $response->set_header( 'Location', $new_url );
@@ -166,32 +167,32 @@ if ( ! empty($lptoken) ) {
 
 if ( ! $client->has_token() ) {
 
-    LaterPay_Logger::debug( 'RESOURCE:: No token found. Acquiring token' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: No token found. Acquiring token' );
 
     $client->acquire_token();
 }
 
 if ( ! empty($auth) ) {
 
-    LaterPay_Logger::debug( 'RESOURCE:: Auth param exists. Checking ...' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: Auth param exists. Checking ...' );
 
-    $tokenInstance = new LaterPay_Auth_HMAC( $api_key );
+    $tokenInstance = new LaterPay_Core_Auth_Hmac( $api_key );
 
     if ( $tokenInstance->validate_token( $client->get_laterpay_token(), time(), $auth ) ) {
 
-        LaterPay_Logger::error( 'RESOURCE:: Auth param is valid. Sending file.' );
+        LaterPay_Core_Logger::error( 'RESOURCE:: Auth param is valid. Sending file.' );
 
         send_response( $file, $mt );
         exit();
     }
 
-    LaterPay_Logger::debug( 'RESOURCE:: Auth param is not valid.' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: Auth param is not valid.' );
 }
 
 // check access
 if ( ! empty($aid) ) {
 
-    LaterPay_Logger::debug( 'RESOURCE:: Checking access in API ...' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: Checking access in API ...' );
 
     $result = $client->get_access( $aid );
 
@@ -199,18 +200,18 @@ if ( ! empty($aid) ) {
         $access = $result['articles'][$aid]['access'];
     }
 
-    LaterPay_Logger::debug( 'RESOURCE:: Checked access', array( 'access' => $access ) );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: Checked access', array( 'access' => $access ) );
 }
 
 // send file
 if ( $access ) {
 
-    LaterPay_Logger::debug( 'RESOURCE:: Has access - sending file.' );
+    LaterPay_Core_Logger::debug( 'RESOURCE:: Has access - sending file.' );
 
     send_response( $file, $mt );
 } else {
 
-    LaterPay_Logger::error( 'RESOURCE:: Doesn\'t have access. Finish.' );
+    LaterPay_Core_Logger::error( 'RESOURCE:: Doesn\'t have access. Finish.' );
 
     $response->set_http_response_code( 403 );
     $response->send_response();
