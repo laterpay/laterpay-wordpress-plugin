@@ -64,13 +64,14 @@ class LaterPay_Category_Model
         return $categories;
     }
 
-    /**
-     * Get categories with defined category default prices by list of category IDs
-     *
-     * @access public
-     *
-     * @return array category_price_data
-     */
+	/**
+	 * Get categories with defined category default prices by list of category IDs
+	 *
+	 * @access public
+	 *
+	 * @param   array $ids
+	 * @return  array category_price_data
+	 */
     public function get_category_price_data_by_category_ids( $ids ) {
         global $wpdb;
 
@@ -142,9 +143,9 @@ class LaterPay_Category_Model
                 %d
             ;
         ";
-        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ) );
+        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ), ARRAY_A );
 
-        return (array) $categories;
+        return $categories;
     }
 
     /**
@@ -175,25 +176,27 @@ class LaterPay_Category_Model
                 %d
             ;
         ";
-        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ) );
+        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ), ARRAY_A );
 
-        return (array) $categories;
+        return $categories;
     }
 
     /**
      * Set category default price
      *
+     * @access public
+     *
      * @param integer $id_category id category
      * @param float   $price       price for category
      * @param integer $id          id price for category
      *
-     * @access public
+     * @return  int|false Number of rows affected/selected or false on error
      */
     public function set_category_price( $id_category, $price, $id = 0 ) {
         global $wpdb;
 
         if ( ! empty( $id ) ) {
-            $wpdb->update(
+            return $wpdb->update(
                 $this->table_prices,
                 array(
                     'term_id'   => $id_category,
@@ -207,7 +210,7 @@ class LaterPay_Category_Model
                 array( '%d' )
             );
         } else {
-            $wpdb->insert(
+	        return $wpdb->insert(
                 $this->table_prices,
                 array(
                     'term_id'   => $id_category,
@@ -348,21 +351,17 @@ class LaterPay_Category_Model
     /**
      * Delete price by category id
      *
-     * @param integer $id category id
+     * @access  public
      *
-     * @access public
+     * @param   integer $id category id
+     * @return  int|false The number of rows updated, or false on error.
      */
     public function delete_prices_by_category_id( $id ) {
         global $wpdb;
-
-        $sql = "
-            DELETE FROM
-                {$this->table_prices}
-            WHERE
-                term_id = %d
-            ;
-        ";
-        $wpdb->query( $wpdb->prepare( $sql, (int) $id ) );
+	    $where = array(
+		    'term_id' => (int) $id
+	    );
+	    return $wpdb->delete( $this->table_prices, $where, '%d' );
     }
 
 }
