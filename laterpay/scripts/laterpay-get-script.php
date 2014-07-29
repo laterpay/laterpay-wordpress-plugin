@@ -48,6 +48,7 @@ function get_decrypted_file_name( $file ) {
 
 function send_response( $file ) {
     global $response;
+
     $file = get_decrypted_file_name( $file );
     if ( ! file_exists( $file ) ) {
 

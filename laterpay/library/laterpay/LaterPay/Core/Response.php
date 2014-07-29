@@ -5,9 +5,9 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
 
     public function _construct() {
         parent::_construct();
-        $this->set_data('headers', array());
-        $this->set_data('body', '');
-        $this->set_data('http_response_code', 200); // HTTP response code to use in headers
+        $this->set_data( 'headers', array() );
+        $this->set_data( 'body', '' );
+        $this->set_data( 'http_response_code', 200) ; // HTTP response code to use in headers
     }
 
     /**
@@ -20,9 +20,9 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      * @return string
      */
     protected function _normalize_header( $name ) {
-        $filtered = str_replace(array('-', '_'), ' ', (string) $name);
-        $filtered = ucwords(strtolower($filtered));
-        $filtered = str_replace(' ', '-', $filtered);
+        $filtered = str_replace( array( '-', '_' ), ' ', (string) $name );
+        $filtered = ucwords( strtolower( $filtered ) );
+        $filtered = str_replace( ' ', '-', $filtered );
 
         return $filtered;
     }
@@ -40,14 +40,14 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      * @return LaterPay_Core_Response
      */
     public function set_header( $name, $value, $replace = false ) {
-        $name       = $this->_normalize_header($name);
+        $name       = $this->_normalize_header( $name );
         $value      = (string) $value;
-        $headers    = $this->get_data_set_default('headers', array());
+        $headers    = $this->get_data_set_default( 'headers', array() );
 
         if ( $replace ) {
             foreach ( $headers as $key => $header ) {
                 if ( $name == $header['name'] ) {
-                    unset($headers[$key]);
+                    unset( $headers[$key] );
                 }
             }
         }
@@ -56,7 +56,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
             'value'     => $value,
             'replace'   => $replace,
         );
-        $this->set_data('headers', $headers);
+        $this->set_data( 'headers', $headers );
 
         return $this;
     }
@@ -73,17 +73,17 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
             return $this;
         }
         $httpCodeSent = false;
-        foreach ( $this->get_data_set_default('headers', array()) as $header ) {
+        foreach ( $this->get_data_set_default( 'headers', array() ) as $header ) {
             if ( ! $httpCodeSent ) {
-                header($header['name'] . ': ' . $header['value'], $header['replace'], $this->get_data('http_response_code'));
+                header( $header['name'] . ': ' . $header['value'], $header['replace'], $this->get_data('http_response_code') );
                 $httpCodeSent = true;
             } else {
-                header($header['name'] . ': ' . $header['value'], $header['replace']);
+                header( $header['name'] . ': ' . $header['value'], $header['replace'] );
             }
         }
 
         if ( ! $httpCodeSent ) {
-            header('HTTP/1.1 ' . $this->get_data('http_response_code'));
+            header( 'HTTP/1.1 ' . $this->get_data( 'http_response_code' ) );
             $httpCodeSent = true;
         }
 
@@ -98,12 +98,13 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      * @return LaterPay_Core_Response
      */
     public function set_http_response_code( $code ) {
-        if ( ! is_int($code) || (100 > $code) || (599 < $code) ) {
+        if ( ! is_int( $code ) || ( 100 > $code ) || ( 599 < $code ) ) {
             $code = 500;
+
             return $this;
         }
 
-        $this->set_data('http_response_code', $code);
+        $this->set_data( 'http_response_code', $code );
 
         return $this;
     }
@@ -114,9 +115,9 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      * @return void
      */
     public function output_body() {
-        $body = $this->get_data('body');
-        if ( is_array($body) ) {
-            $body = implode('', $body);
+        $body = $this->get_data( 'body' );
+        if ( is_array( $body ) ) {
+            $body = implode( '', $body );
         }
 
         echo $body;
