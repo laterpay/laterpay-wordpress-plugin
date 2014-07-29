@@ -57,7 +57,8 @@ class LaterPay_Core_Updater_GitHub
         }
 
         // get the results
-        $this->githubAPIResult = wp_remote_retrieve_body(wp_remote_get($url));
+        $result = wp_remote_get( $url );
+        $this->githubAPIResult = wp_remote_retrieve_body( $result );
         if ( ! empty($this->githubAPIResult) ) {
             $this->githubAPIResult = @json_decode($this->githubAPIResult);
         }
