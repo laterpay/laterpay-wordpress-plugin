@@ -524,11 +524,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Prepend LaterPay purchase button to title (heading) of post on single post pages
      *
-     * @param object $title title
+     * @param object $the_title title
      *
      * @return object
      */
-    public function modify_post_title( $title ) {
+    public function modify_post_title( $the_title ) {
         if ( in_the_loop() ) {
             $post               = get_post();
             $post_id            = $post->ID;
@@ -540,14 +540,16 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
             $post_content_cached     = LaterPay_Helper_Cache::site_uses_page_caching();
 
-            if ( $is_premium_content && is_single() && ! is_page() ) {
+            // only render one instance of the purchase button on single premium posts - don't prepend it to related posts etc.
+            if ( $is_premium_content && is_single() && ! is_page() && did_action( 'the_title' ) === 0 ) {
                 if ( $post_content_cached && ! LaterPay_Helper_Request::is_ajax() ) {
                     $this->assign( 'post_id', $post_id );
 
-                    $title = $this->get_text_view( 'frontend/partials/post/title' );
+                    $the_title = $this->get_text_view( 'frontend/partials/post/title' );
                 } else {
                     if ( ( ! $access || $preview_post_as_visitor ) ) {
                         $currency           = get_option( 'laterpay_currency' );
+
                         $purchase_button    = '<a href="#" class="laterpay-purchase-link laterpay-purchase-button" data-laterpay="' . $link . '" data-icon="b" post-id="';
                         $purchase_button   .= $post_id . '" title="' . __( 'Buy now with LaterPay', 'laterpay' ) . '" ';
                         $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
@@ -557,12 +559,13 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
                                                     $currency
                                                 );
                         $purchase_button   .= '</a>';
-                        $title              = $purchase_button . $title;
+
+                        $the_title          = $purchase_button . $the_title;
                     }
                 }
             }
         }
 
-        return $title;
+        return $the_title;
     }
 }
