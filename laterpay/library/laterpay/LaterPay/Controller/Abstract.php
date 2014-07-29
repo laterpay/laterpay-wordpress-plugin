@@ -5,17 +5,21 @@ class LaterPay_Controller_Abstract
 
     /**
      * Variables for substitution in templates
+     * @var array
      */
     public $variables = array();
 
-    public function load_assets() {}
+	/**
+	 * Loading all assets on boot-up
+	 * @return  void
+	 */
+	public function load_assets() {}
 
     /**
      * Render HTML file
      *
-     * @param string $file file to get HTML string
-     *
-     * @access public
+     * @param   string $file file to get HTML string
+     * @return  void
      */
     public function render( $file ) {
         foreach ( $this->variables as $key => $value ) {
@@ -29,8 +33,7 @@ class LaterPay_Controller_Abstract
      *
      * @param string $variable name variable to assign
      * @param mixed  $value    value variable for assign
-     *
-     * @access public
+     * @return void
      */
     public function assign( $variable, $value ) {
         $this->variables[$variable] = $value;
@@ -39,10 +42,8 @@ class LaterPay_Controller_Abstract
     /**
      * Get HTML from file
      *
-     * @param string $file file to get HTML string
-     * @access public
-     *
-     * @return string html string
+     * @param   string $file file to get HTML string
+     * @return  string $html html output as string
      */
     public function get_text_view( $file ) {
         foreach ( $this->variables as $key => $value ) {
@@ -57,7 +58,12 @@ class LaterPay_Controller_Abstract
         return $html;
     }
 
-    public function get_menu( $file = null ) {
+	/**
+	 *
+	 * @param   string $file
+	 * @return  string $html
+	 */
+	public function get_menu( $file = null ) {
         if ( empty( $file ) ) {
             $file = 'backend/partials/tabs/menu';
         }

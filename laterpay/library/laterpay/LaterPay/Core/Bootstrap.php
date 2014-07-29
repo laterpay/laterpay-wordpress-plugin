@@ -24,13 +24,26 @@ class LaterPay_Core_Bootstrap
      */
     private $_LaterPay_Core_Updater_GitHub;
 
-    private $_pluginFile;
+	/**
+	 * @var string
+	 */
+	private $_pluginFile;
 
-    public function __construct( $file ) {
+	/**
+	 * @param   string $file
+	 * @return  LaterPay_Core_Bootstrap
+	 */
+	public function __construct( $file ) {
         $this->_pluginFile = $file;
     }
 
-    protected function get_laterpay_post_pricing_controller() {
+	/**
+	 * Returns the Instance of the Pricing Controller
+	 *
+	 * @wp-hook save_post
+	 * @return  LaterPay_Controller_Post_Pricing
+	 */
+	protected function get_laterpay_post_pricing_controller() {
         if ( empty( $this->_LaterPay_Controller_Post_Pricing ) ) {
             $this->_LaterPay_Controller_Post_Pricing = new LaterPay_Controller_Post_Pricing();
         }
@@ -38,7 +51,13 @@ class LaterPay_Core_Bootstrap
         return $this->_LaterPay_Controller_Post_Pricing;
     }
 
-    protected function get_laterpay_admin_controller() {
+	/**
+	 * Returns an instance of the Admin Controller
+	 *
+	 * @wp-hook load-post.php, load-*, admin_print_footer_scripts
+	 * @return  LaterPay_Controller_Admin
+	 */
+	protected function get_laterpay_admin_controller() {
         if ( empty( $this->_LaterPay_Controller_Admin ) ) {
             $this->_LaterPay_Controller_Admin = new LaterPay_Controller_Admin();
         }
@@ -46,7 +65,13 @@ class LaterPay_Core_Bootstrap
         return $this->_LaterPay_Controller_Admin;
     }
 
-    protected function get_laterpay_post_content_controller() {
+	/**
+	 * Returns an instance of the Post Content Controller
+	 *
+	 * @wp-hook the_title, the_content, wp_footer, save_post, edit_form_after_editor
+	 * @return  LaterPay_Controller_Post_Content
+	 */
+	protected function get_laterpay_post_content_controller() {
         if ( empty( $this->_LaterPay_Controller_Post_Content ) ) {
             $this->_LaterPay_Controller_Post_Content = new LaterPay_Controller_Post_Content();
         }
@@ -54,7 +79,13 @@ class LaterPay_Core_Bootstrap
         return $this->_LaterPay_Controller_Post_Content;
     }
 
-    protected function get_github_plugin_updater() {
+	/**
+	 * Returns an instance of the github update controller
+	 *
+	 * @wp-hook pre_set_site_transient_update_plugins, plugins_api, upgrader_pre_install, upgrader_post_install
+	 * @return  LaterPay_Core_Updater_GitHub
+	 */
+	protected function get_github_plugin_updater() {
         if ( empty( $this->_LaterPay_Core_Updater_GitHub ) ) {
             $this->_LaterPay_Core_Updater_GitHub = new LaterPay_Core_Updater_GitHub();
             $this->_LaterPay_Core_Updater_GitHub->init(
@@ -68,7 +99,11 @@ class LaterPay_Core_Bootstrap
         return $this->_LaterPay_Core_Updater_GitHub;
     }
 
-    public function run() {
+	/**
+	 *
+	 * @return void
+	 */
+	public function run() {
         $this->setup_requirements_checking();
 
         $this->setup_plugin_translations();
@@ -101,10 +136,12 @@ class LaterPay_Core_Bootstrap
         $this->setup_plugin_settings_link();
     }
 
-    /**
-     *
-     * @param string $settings
-     */
+	/**
+	 * Callback to generate the user Settings
+	 *
+	 * @param   Array $settings
+	 * @return  Array
+	 */
     private function _generate_user_settings( $settings ) {
         $config = str_replace(
             array(
@@ -123,7 +160,11 @@ class LaterPay_Core_Bootstrap
         return $config;
     }
 
-    protected function create_configuration_file() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function create_configuration_file() {
         try {
             if ( ! file_exists( LATERPAY_GLOBAL_PATH . 'settings.php' ) ) {
                 $config = file_get_contents( LATERPAY_GLOBAL_PATH . 'settings.sample.php' );
@@ -135,7 +176,11 @@ class LaterPay_Core_Bootstrap
         }
     }
 
-    protected function update_configuration_file() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function update_configuration_file() {
         if ( ! file_exists( LATERPAY_GLOBAL_PATH . 'settings.php' ) && ! file_exists( LATERPAY_GLOBAL_PATH . 'config.php' ) ) {
             $this->create_configuration_file();
             return;
@@ -192,10 +237,10 @@ class LaterPay_Core_Bootstrap
     }
 
     /**
-     * Activate plugin
+     * Install-Callback to create our database-tables
      *
-     * @global object $wpdb
-     * @global string $laterpay_version
+     * @wp-hook register_activiation_hook
+     * @return  void
      */
     public function activate() {
         global $wpdb,
@@ -294,13 +339,17 @@ class LaterPay_Core_Bootstrap
     /**
      * Deactivate plugin
      *
+     * @wp-hook register_deactivation_hook
+     * @return  bool
      */
     public function deactivate() {
-        update_option( 'laterpay_plugin_is_activated', '0' );
+		return update_option( 'laterpay_plugin_is_activated', '0' );
     }
 
     /**
      * Add plugin to administrator panel
+     *
+     * @return  void
      */
     public function add_to_admin_panel() {
         $plugin_page = LaterPay_Helper_View::$pluginPage;
@@ -341,12 +390,18 @@ class LaterPay_Core_Bootstrap
         add_action( 'load-post-new.php', array( $this->get_laterpay_admin_controller(), 'help_wp_add_post' ) );
     }
 
-    protected function setup_admin_panel() {
+	/**
+	 * Registering our Admin-Panel
+	 *
+	 * @return void
+	 */
+	protected function setup_admin_panel() {
         add_action( 'admin_menu', array( $this, 'add_to_admin_panel' ) );
     }
 
     /**
      *  Add Ajax hooks for tabs in plugin backend
+     * @return  void
      */
     protected function setup_admin_routes() {
         if ( class_exists( 'LaterPay_Controller_Admin_GetStarted' ) ) {
@@ -371,6 +426,9 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Add teaser content editor to add / edit post page
+     *
+     * @wp-hook admin_menu
+     * @return  void
      */
     public function add_teaser_content_box() {
         add_meta_box( 'laterpay_teaser_content',
@@ -382,13 +440,20 @@ class LaterPay_Core_Bootstrap
         );
     }
 
-    protected function setup_teaser_content_box() {
+	/**
+	 * Registering callbacks for adding meta_boxes
+	 * @return  void
+	 */
+	protected function setup_teaser_content_box() {
         add_action( 'save_post',    array( $this->get_laterpay_post_pricing_controller(), 'save_teaser_content_box' ) );
         add_action( 'admin_menu',   array( $this, 'add_teaser_content_box' ) );
     }
 
     /**
      * Add pricing form to add / edit post page
+     *
+     * @wp-hook admin_menu
+     * @return  void
      */
     public function add_post_pricing_form() {
         add_meta_box( 'laterpay_pricing_post_content',
@@ -400,7 +465,11 @@ class LaterPay_Core_Bootstrap
         );
     }
 
-    protected function setup_post_pricing_form() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_post_pricing_form() {
         add_action( 'save_post',    array( $this->get_laterpay_post_pricing_controller(), 'save_post_pricing_form') );
         add_action( 'admin_menu',   array( $this, 'add_post_pricing_form') );
 
@@ -408,7 +477,11 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_get_category_prices', 'PostPricingController::getCategoryPrices' );
     }
 
-    protected function setup_shortcodes() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_shortcodes() {
         add_shortcode( 'laterpay_premium_download', array( $this, 'render_premium_download_box' ) );
         add_shortcode( 'laterpay_box_wrapper',      array( $this, 'render_premium_download_box_wrapper' ) );
     }
@@ -434,6 +507,9 @@ class LaterPay_Core_Bootstrap
      * [laterpay_premium_download target_page_title="Event video footage" heading_text="Video footage of concert"
      * description_text="Full HD video of the entire concept, including behind the scenes action."
      * teaser_image_path="/uploads/images/concert-video-still.jpg"]
+     *
+     * @param   Array $atts
+     * @return  string $html
      */
     public function render_premium_download_box( $atts ) {
         $a = shortcode_atts(array(
@@ -519,6 +595,10 @@ class LaterPay_Core_Bootstrap
      *
      * Example:
      * [laterpay_box_wrapper][laterpay_premium_download target_page_title="Vocabulary list"][laterpay_premium_download target_page_title="Excercises"][/laterpay_box_wrapper]
+     *
+     * @param   array $atts
+     * @param   string $content
+     * @return  string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
         return '<div class="laterpay-premium-file-link-wrapper">' . do_shortcode( $content ) . '</div>';
@@ -527,8 +607,8 @@ class LaterPay_Core_Bootstrap
     /**
      * Load LaterPay stylesheet with LaterPay vector icon on all pages where the admin menu is visible
      *
-     * @global string $laterpay_version
-     * @param string  $page
+     * @param   string  $page
+     * @return  void
      */
     public function add_plugin_admin_assets( $page ) {
         global $laterpay_version;
@@ -550,12 +630,19 @@ class LaterPay_Core_Bootstrap
         }
     }
 
-    protected function setup_plugin_admin_assets() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_plugin_admin_assets() {
         add_action( 'admin_enqueue_scripts', array( $this, 'add_plugin_admin_assets' ) );
     }
 
     /**
      * Add custom columns to posts table
+     *
+     * @param   Array $columns
+     * @return  Array $extended_columns
      */
     public function add_columns_to_posts_table( $columns ) {
         $extended_columns   = array();
@@ -572,7 +659,16 @@ class LaterPay_Core_Bootstrap
         return $extended_columns;
     }
 
-    public function add_data_to_posts_table( $column_name, $post_id ) {
+	/**
+	 * Adding Custom Column to "View Posts"-Page
+	 *
+	 * @wp-hook manage_post_posts_custom_column
+	 *
+	 * @param   string $column_name
+	 * @param   int $post_id
+	 * @return  void
+	 */
+	public function add_data_to_posts_table( $column_name, $post_id ) {
         if ( $column_name == 'post_price' ) {
             $price      = number_format( (float) LaterPay_Controller_Post_Content::get_post_price( $post_id ), 2 );
             $currency   = get_option( 'laterpay_currency' );
@@ -595,13 +691,18 @@ class LaterPay_Core_Bootstrap
         }
     }
 
-    protected function setup_custom_data_in_posts_table() {
+	/**
+	 *
+	 * @return  void
+	 */
+	protected function setup_custom_data_in_posts_table() {
         add_filter( 'manage_post_posts_columns',         array( $this, 'add_columns_to_posts_table' ) );
         add_action( 'manage_post_posts_custom_column',   array( $this, 'add_data_to_posts_table' ), 10, 2 );
     }
 
     /**
      * Hint at the newly installed plugin using WP pointers
+     * @return  void
      */
     public function add_admin_pointers_script() {
         add_action( 'admin_print_footer_scripts', array( $this->get_laterpay_admin_controller(), 'modify_footer' ) );
@@ -615,6 +716,7 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Track unique visitors
+     * @return  void
      */
     public function add_unique_visitors_tracking() {
         if ( ! LATERPAY_ACCESS_LOGGING_ENABLED || is_admin() ) {
@@ -625,17 +727,27 @@ class LaterPay_Core_Bootstrap
         LaterPay_Helper_Statistics::track($postid);
     }
 
-    protected function setup_unique_visitors_tracking() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_unique_visitors_tracking() {
         add_action( 'init', array( $this, 'add_unique_visitors_tracking' ) );
     }
 
-    protected function setup_purchasing() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_purchasing() {
         add_action( 'init', 'LaterPay_Controller_Post_Content::token_hook' );
         add_action( 'init', 'LaterPay_Controller_Post_Content::buy_post' );
     }
 
     /**
      * Add filters to override post content
+     *
+     * @return  void
      */
     protected function setup_post_content_filters() {
         add_filter( 'the_title',                array( $this->get_laterpay_post_content_controller(), 'modify_post_title' ) );
@@ -649,7 +761,8 @@ class LaterPay_Core_Bootstrap
     /**
      * Load LaterPay stylesheets on all post pages
      *
-     * @global string $laterpay_version
+     * @wp-hook wp_enqueue_scripts
+     * @return  void
      */
     public function add_plugin_frontend_stylesheets() {
         global $laterpay_version;
@@ -671,7 +784,8 @@ class LaterPay_Core_Bootstrap
     /**
      * Load LaterPay JS libraries on all post pages
      *
-     * @global string $laterpay_version
+     * @wp-hook wp_enqueue_scripts
+     * @return  void
      */
     public function add_plugin_frontend_scripts() {
         global $laterpay_version;
@@ -730,19 +844,30 @@ class LaterPay_Core_Bootstrap
         );
     }
 
-    protected function setup_plugin_frontend_assets() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_plugin_frontend_assets() {
         add_action( 'wp_enqueue_scripts', array( $this, 'add_plugin_frontend_stylesheets' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'add_plugin_frontend_scripts' ) );
     }
 
     /**
      * Load translations
+     *
+     * @wp-hook plugins_loaded
+     * @return  void
      */
     public function add_plugin_translations() {
         load_plugin_textdomain( 'laterpay', false, dirname( plugin_basename( $this->_pluginFile ) ) . '/languages/' );
     }
 
-    protected function setup_plugin_translations() {
+	/**
+	 *
+	 * @return  void
+	 */
+	protected function setup_plugin_translations() {
         add_action( 'plugins_loaded', array( $this, 'add_plugin_translations' ) );
     }
 
@@ -750,6 +875,8 @@ class LaterPay_Core_Bootstrap
      * Add installation and deactivation hooks for plugin.
      *
      * Uninstallation is handled by uninstall.php
+     *
+     * @return  void
      */
     protected function setup_registration() {
         register_activation_hook( $this->_pluginFile, array( $this, 'activate' ) );
@@ -760,7 +887,8 @@ class LaterPay_Core_Bootstrap
      * Check plugin requirements.
      * Deactivates plugin and renders admin notices if requirements are not fulfilled.
      *
-     * @global string $wp_version
+     * @wp-hook admin_notices
+     * @return  void
      */
     public function add_requirements_checking() {
         global $wp_version;
@@ -806,14 +934,19 @@ class LaterPay_Core_Bootstrap
         }
     }
 
-    protected function setup_requirements_checking() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_requirements_checking() {
         add_action( 'admin_notices', array( $this, 'add_requirements_checking' ) );
     }
 
     /**
      * Install settings and tables if update is required
      *
-     * @global string $laterpay_version
+     * @wp-hook plugins_loaded
+     * @return  void
      */
     public function add_checking_for_updates() {
         global $laterpay_version;
@@ -825,11 +958,19 @@ class LaterPay_Core_Bootstrap
         }
     }
 
-    protected function setup_checking_for_updates() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_checking_for_updates() {
         add_action( 'plugins_loaded', array( $this, 'add_checking_for_updates' ) );
     }
 
-    protected function setup_checking_for_upgrades() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_checking_for_upgrades() {
         add_filter( 'pre_set_site_transient_update_plugins',    array( $this->get_github_plugin_updater(), 'set_transient' ) );
         add_filter( 'plugins_api',                              array( $this->get_github_plugin_updater(), 'set_plugin_info' ), 10, 3 );
         add_filter( 'upgrader_pre_install',                     array( $this->get_github_plugin_updater(), 'pre_install' ), 10, 2 );
@@ -839,9 +980,10 @@ class LaterPay_Core_Bootstrap
     /**
      * Add settings link to plugins table
      *
-     * @param type $links
+     * @wp-hook plugin_action_links_{plugin_basename}
      *
-     * @return array
+     * @param   array $links
+     * @return  array
      */
     public function add_plugin_settings_link( $links ) {
         return array_merge(
@@ -852,7 +994,11 @@ class LaterPay_Core_Bootstrap
         );
     }
 
-    protected function setup_plugin_settings_link() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function setup_plugin_settings_link() {
         add_action( 'plugin_action_links_' . plugin_basename( $this->_pluginFile ), array( $this, 'add_plugin_settings_link' ) );
     }
 

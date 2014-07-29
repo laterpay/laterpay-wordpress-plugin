@@ -3,7 +3,10 @@
 class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 {
 
-    public function load_assets() {
+	/**
+	 * @see LaterPay_Controller_Abstract::load_assets
+	 */
+	public function load_assets() {
         parent::load_assets();
         global $laterpay_version;
 
@@ -30,11 +33,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         );
     }
 
-    /**
-     * Render HTML for account tab
-     *
-     * @access public
-     */
+	/**
+	 * @see LaterPay_Controller_Abstract::render_page
+	 */
     public function render_page() {
         $this->load_assets();
 
@@ -51,7 +52,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     /**
      * Process Ajax requests from account tab
      *
-     * @access public
+     * @return void
      */
     public static function process_ajax_requests() {
         if ( isset( $_POST['form'] ) ) {
@@ -106,7 +107,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     /**
      * Update LaterPay Sandbox Merchant ID, required for making test transactions against Sandbox environment
      *
-     * @access protected
+     * @return void
      */
     protected static function _update_sandbox_merchant_id() {
         $sandbox_merchant_id = $_POST['laterpay_sandbox_merchant_id'];
@@ -141,7 +142,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     /**
      * Update LaterPay Sandbox API Key, required for making test transactions against Sandbox environment
      *
-     * @access protected
+     * @return void
      */
     protected static function _update_sandbox_api_key() {
         $sandbox_api_key = $_POST['laterpay_sandbox_api_key'];
@@ -176,7 +177,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     /**
      * Update LaterPay Live Merchant ID, required for making real transactions against production environment
      *
-     * @access protected
+     * @return void
      */
     protected static function _update_live_merchant_id() {
         $live_merchant_id = $_POST['laterpay_live_merchant_id'];
@@ -211,7 +212,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     /**
      * Update LaterPay Live API Key, required for making real transactions against production environment
      *
-     * @access protected
+     * @return void
      */
     protected static function _update_live_api_key() {
         $live_api_key = $_POST['laterpay_live_api_key'];
@@ -246,7 +247,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     /**
      * Update LaterPay Plugin Mode
      *
-     * @access protected
+     * @return void
      */
     protected static function _update_plugin_mode() {
         $result = update_option( 'laterpay_plugin_is_in_live_mode', $_POST['plugin_is_in_live_mode'] );
@@ -278,11 +279,12 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
 
-    /**
-     * Validate format of LaterPay Merchant ID
-     *
-     * @access public
-     */
+	/**
+	 * Validate format of LaterPay Merchant ID
+	 *
+	 * @param   string|int $merchant_id
+	 * @return  int
+	 */
     public static function is_valid_merchant_id( $merchant_id ) {
         return preg_match( '/[a-zA-Z0-9]{22}/', $merchant_id );
     }
@@ -290,7 +292,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     /**
      * Validate format of LaterPay API key
      *
-     * @access public
+     * @param   string|int $api_key
+     * @return  int
      */
     public static function is_valid_api_key( $api_key ) {
         return preg_match( '/[a-z0-9]{32}/', $api_key );

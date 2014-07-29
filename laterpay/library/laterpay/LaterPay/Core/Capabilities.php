@@ -5,6 +5,8 @@ class LaterPay_Core_Capabilities
 
     /**
      *  Execute LaterPay role creation for the various plugin versions.
+     *
+     * @return  void
      */
     public function populate_roles() {
         $this->populate_roles_0951();
@@ -13,7 +15,7 @@ class LaterPay_Core_Capabilities
     /**
     * Create and modify LaterPay roles
     *
-    * @since 0.9.5.1
+    * @return  void
     */
    protected function populate_roles_0951() {
         $role = get_role( 'administrator' );

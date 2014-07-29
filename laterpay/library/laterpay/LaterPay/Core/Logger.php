@@ -11,7 +11,12 @@ class LaterPay_Core_Logger
     const CRITICAL  = 500;
     const ALERT     = 550;
     const EMERGENCY = 600;
-    protected static $levels = array(
+
+	/**
+	 * contains all debugging levels
+	 * @var array
+	 */
+	protected static $levels = array(
         100 => 'DEBUG',
         200 => 'INFO',
         250 => 'NOTICE',
@@ -23,16 +28,24 @@ class LaterPay_Core_Logger
     );
 
     /**
-     * @var LaterPay_Core_Logger_Abstract
+     * @var LaterPay_Core_Logger
      */
     protected static $_instance;
-    protected static $_uniqid = null;
+
+	/**
+	 * @var null|string
+	 */
+	protected static $_uniqid = null;
 
     /**
      * @var array
      */
     protected static $_options = array();
-    protected static $_name = 'default';
+
+	/**
+	 * @var string
+	 */
+	protected static $_name = 'default';
 
     public static function init( $name, array $params ) {
         self::$_name = $name;
@@ -43,11 +56,20 @@ class LaterPay_Core_Logger
         }
     }
 
-    public static function set_instance( $instance ) {
+	/**
+	 *
+	 * @param   LaterPay_Core_Logger $instance
+	 * @return  void
+	 */
+	public static function set_instance( $instance ) {
         self::$_instance = $instance;
     }
 
-    public static function get_instance() {
+	/**
+	 *
+	 * @return LaterPay_Core_Logger|LaterPay_Core_Logger_Handler_Null|LaterPay_Core_Logger_Handler_Stream
+	 */
+	public static function get_instance() {
         if ( empty( self::$_instance ) ) {
             try {
                 if ( defined( 'LATERPAY_LOGGER_ENABLED' ) && defined( 'LATERPAY_LOGGER_FILE' ) && LATERPAY_LOGGER_ENABLED ) {
@@ -66,10 +88,9 @@ class LaterPay_Core_Logger
     /**
      * Adds a log record at the DEBUG level.
      *
-     * @param string $message The log message
-     * @param array  $context The log context
-     *
-     * @return Boolean Whether the record has been processed
+     * @param   string $message The log message
+     * @param   array  $context The log context
+     * @return  boolean Whether the record has been processed
      */
     public static function debug( $message, array $context = array() ) {
         return self::log( self::DEBUG, $message, $context );
@@ -87,10 +108,13 @@ class LaterPay_Core_Logger
         return self::log( self::ERROR, $message, $context );
     }
 
-    /**
-    * @param integer $level
-    * @param string  $message
-    */
+	/**
+	 *
+	 * @param   integer $level
+	 * @param   string  $message
+	 * @param   array $context
+	 * @return  bool
+	 */
     public static function log( $level, $message, array $context = array() ) {
         if ( ! self::$_uniqid ) {
             self::$_uniqid = uniqid( getmypid() . '_' );
@@ -118,9 +142,8 @@ class LaterPay_Core_Logger
     /**
      * Get the name of the logging level.
      *
-     * @param integer $level
-     *
-     * @return string
+     * @param   integer $level
+     * @return  string  $level_name
      */
     public static function get_level_name( $level ) {
         return self::$levels[$level];

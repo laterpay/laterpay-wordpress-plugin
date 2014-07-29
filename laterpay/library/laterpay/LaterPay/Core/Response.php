@@ -3,7 +3,11 @@
 class LaterPay_Core_Response extends LaterPay_Core_Entity
 {
 
-    public function _construct() {
+	/**
+	 *
+	 * @return LaterPay_Core_Entity
+	 */
+	public function _construct() {
         parent::_construct();
         $this->set_data('headers', array());
         $this->set_data('body', '');
@@ -15,9 +19,8 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      *
      * Normalizes a header name to X-Capitalized-Names
      *
-     * @param string $name
-     *
-     * @return string
+     * @param   string $name
+     * @return  string
      */
     protected function _normalize_header( $name ) {
         $filtered = str_replace(array('-', '_'), ' ', (string) $name);
@@ -33,9 +36,9 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      * If $replace is true, replaces any headers already defined with that
      * $name.
      *
-     * @param string  $name
-     * @param string  $value
-     * @param boolean $replace
+     * @param   string  $name
+     * @param   string  $value
+     * @param   boolean $replace
      *
      * @return LaterPay_Core_Response
      */
@@ -62,11 +65,9 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
     }
 
     /**
-     * Send all headers.
+     * Send all headers. Sends any headers specified.
      *
-     * Sends any headers specified.
-     *
-     * @return LaterPay_Core_Response
+     * @return  LaterPay_Core_Response
      */
     public function send_headers() {
         if ( headers_sent() ) {
@@ -93,9 +94,8 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
     /**
      * Set HTTP response code to use with headers.
      *
-     * @param int $code
-     *
-     * @return LaterPay_Core_Response
+     * @param   int $code
+     * @return  LaterPay_Core_Response
      */
     public function set_http_response_code( $code ) {
         if ( ! is_int($code) || (100 > $code) || (599 < $code) ) {
@@ -110,8 +110,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
 
     /**
      * Echo the body segments.
-     *
-     * @return void
+     * @return  void
      */
     public function output_body() {
         $body = $this->get_data('body');
@@ -122,7 +121,11 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         echo $body;
     }
 
-    public function send_response() {
+	/**
+	 * sending the response with headers and body
+	 * @return void
+	 */
+	public function send_response() {
         $this->send_headers();
         $this->output_body();
     }

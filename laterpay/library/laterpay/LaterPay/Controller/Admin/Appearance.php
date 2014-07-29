@@ -3,7 +3,10 @@
 class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
 {
 
-    public function load_assets() {
+	/**
+	 * @see LaterPay_Controller_Abstract::load_assets()
+	 */
+	public function load_assets() {
         parent::load_assets();
         global $laterpay_version;
 
@@ -26,11 +29,9 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-backend-appearance' );
     }
 
-    /**
-     * Render HTML for appearance tab
-     *
-     * @access public
-     */
+	/**
+	 * @see LaterPay_Controller_Abstract::render_page()
+	 */
     public function render_page() {
         $this->load_assets();
 
@@ -44,7 +45,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
     /**
      * Process Ajax requests from appearance tab
      *
-     * @access public
+     * @return void
      */
     public static function process_ajax_requests() {
         if ( isset( $_POST['form'] ) ) {

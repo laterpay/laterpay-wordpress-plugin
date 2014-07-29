@@ -3,6 +3,9 @@
 class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 {
 
+	/**
+	 * @see LaterPay_Controller_Abstract::load_assets()
+	 */
     public function load_assets() {
         parent::load_assets();
         global $laterpay_version;
@@ -30,11 +33,9 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
         );
     }
 
-    /**
-     * Render HTML for and assign currency to get started tab
-     *
-     * @access public
-     */
+	/**
+	 * @see LaterPay_Controller_Abstract::render_page()
+	 */
     public function render_page() {
         $this->load_assets();
 
@@ -50,7 +51,7 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
     /**
      * Process Ajax requests from get started tab
      *
-     * @access public
+     * @return void
      */
     public static function process_ajax_requests() {
         if ( isset( $_POST['get_started'] ) ) {

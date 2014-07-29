@@ -3,7 +3,10 @@
 class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 {
 
-    public function load_assets() {
+	/**
+	 * @see LaterPay_Controller_Abstract::load_assets()
+	 */
+	public function load_assets() {
         parent::load_assets();
         $this->load_stylesheets();
         $this->load_scripts();
@@ -11,6 +14,8 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 
     /**
      * Load page-specific CSS
+     *
+     * @return  void
      */
     public function load_stylesheets() {
         global $laterpay_version;
@@ -26,6 +31,8 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 
     /**
      * Load page-specific JS
+     *
+     * @return  void
      */
     public function load_scripts() {
         global $laterpay_version;
@@ -82,11 +89,10 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render editor for teaser content
+     * Callback-Function of add_meta_box to render the editor for teaser content
      *
-     * @param object $object post object
-     *
-     * @access public
+     * @param   WP_Post $object post object
+     * @return  void
      */
     public function render_teaser_content_box( $object ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $object ) ) {
@@ -118,9 +124,9 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     /**
      * Save teaser content
      *
-     * @param integer $post_id post id
-     *
-     * @access public
+     * @wp-hook save_post
+     * @param   int $post_id
+     * @return  int $post_id
      */
     public function save_teaser_content_box( $post_id ) {
         if ( ! isset( $_POST['laterpay_teaser_content_box_nonce'] ) || ! wp_verify_nonce( $_POST['laterpay_teaser_content_box_nonce'], plugin_basename( __FILE__ ) ) ) {
@@ -136,14 +142,14 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
         $new_meta_value = $_POST['teaser-content'];
 
         $this->set_post_meta( $meta_value, $new_meta_value, $post_id, 'Teaser content' );
+	    return $post_id;
     }
 
     /**
-     * Render form for pricing of post
+     * Callback for add_meta_box to render form for pricing of post
      *
-     * @param object $object post object
-     *
-     * @access public
+     * @param   WP_Post $object
+     * @return  void
      */
     public function render_post_pricing_form( $object ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $object ) ) {
@@ -282,7 +288,8 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     /**
      * Process Ajax request for prices of applied categories
      *
-     * @access protected
+     * @param   Array $category_ids
+     * @return  void
      */
     protected static function _get_category_prices( $category_ids ) {
         $LaterPay_Category_Model = new LaterPay_Model_Category();
@@ -294,9 +301,10 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     /**
      * Save pricing of post
      *
-     * @param integer $post_id post id
+     * @wp-hook save_post
      *
-     * @access public
+     * @param   int $post_id
+     * @return  int $post_id
      */
     public function save_post_pricing_form( $post_id ) {
         if ( ! isset( $_POST['laterpay_pricing_post_content_box_nonce'] ) || ! wp_verify_nonce( $_POST['laterpay_pricing_post_content_box_nonce'], plugin_basename( __FILE__ ) ) ) {
@@ -358,17 +366,19 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
             $post_id,
             'laterpay_reach_end_price_after_days'
         );
+
+	    return $post_id;
     }
 
     /**
      * Set post meta data
      *
-     * @param string  $meta_value     old meta value
-     * @param string  $new_meta_value new meta value
-     * @param integer $post_id        post id
-     * @param string  $name           meta name
+     * @param   string  $meta_value     old meta value
+     * @param   string  $new_meta_value new meta value
+     * @param   integer $post_id        post id
+     * @param   string  $name           meta name
      *
-     * @access public
+     * @return  void
      */
     public function set_post_meta( $meta_value, $new_meta_value, $post_id, $name ) {
         if ( '' == $new_meta_value ) {
@@ -381,7 +391,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     /**
      * Process Ajax requests from account tab
      *
-     * @access public
+     * @return  void
      */
     public static function process_ajax_requests() {
         if ( isset( $_POST['form'] ) ) {

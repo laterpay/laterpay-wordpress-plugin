@@ -80,7 +80,11 @@ class LaterPay_Core_Entity
         $this->_construct();
     }
 
-    protected function _add_full_names() {
+	/**
+	 *
+	 * @return void
+	 */
+	protected function _add_full_names() {
         $existedShortKeys = array_intersect( $this->_syncFieldsMap, array_keys( $this->_data ) );
         if ( ! empty( $existedShortKeys ) ) {
             foreach ( $existedShortKeys as $key ) {
@@ -94,7 +98,7 @@ class LaterPay_Core_Entity
      * Initiates mapping array of object's previously used fields to new fields.
      * Must be overloaded by descendants to set concrete fields map.
      *
-     * @return Varien_Object
+     * @return void
      */
     protected function _init_old_fields_map() {
 
@@ -103,7 +107,7 @@ class LaterPay_Core_Entity
     /**
      * Called after old fields are initiated. Forms synchronization map to sync old fields and new fields.
      *
-     * @return Varien_Object
+     * @return LaterPay_Core_Entity
      */
     protected function _prepare_sync_map_for_fields() {
         $old2New = $this->_oldFieldsMap;
@@ -115,17 +119,16 @@ class LaterPay_Core_Entity
 
     /**
      * Internal constructor not dependant on parameters. Can be used for object initialization.
+     *
+     * @return  LaterPay_Core_Entity
      */
-    protected function _construct() {
-
-    }
+    protected function _construct() { }
 
     /**
      * Sets _is_deleted flag value (if $is_deleted parameter is defined) and returns current flag value
      *
-     * @param boolean $is_deleted
-     *
-     * @return boolean
+     * @param   boolean $is_deleted
+     * @return  boolean
      */
     public function is_deleted( $is_deleted = null ) {
         $result = $this->_is_deleted;
@@ -148,9 +151,8 @@ class LaterPay_Core_Entity
     /**
      * set name of object id field
      *
-     * @param string $name
-     *
-     * @return Varien_Object
+     * @param   string $name
+     * @return  LaterPay_Core_Entity
      */
     public function set_id_field_name( $name ) {
         $this->_idFieldName = $name;
@@ -158,20 +160,16 @@ class LaterPay_Core_Entity
         return $this;
     }
 
-    /**
-     * Retrieve name of object id field
-     *
-     * @param string $name
-     *
-     * @return Varien_Object
-     */
+	/**
+	 * Retrieve name of object id field
+	 * @return  string
+	 */
     public function get_id_field_name() {
         return $this->_idFieldName;
     }
 
     /**
      * Retrieve object id
-     *
      * @return mixed
      */
     public function get_id() {
@@ -185,9 +183,8 @@ class LaterPay_Core_Entity
     /**
      * Set object id field value
      *
-     * @param mixed $value
-     *
-     * @return Varien_Object
+     * @param   mixed $value
+     * @return  LaterPay_Core_Entity
      */
     public function set_id( $value ) {
         if ( $this->get_id_field_name() ) {
@@ -204,9 +201,8 @@ class LaterPay_Core_Entity
      *
      * Retains previous data in the object.
      *
-     * @param array $arr
-     *
-     * @return Varien_Object
+     * @param   array $arr
+     * @return  LaterPay_Core_Entity
      */
     public function add_data( array $arr ) {
         foreach ( $arr as $index => $value ) {
@@ -224,10 +220,10 @@ class LaterPay_Core_Entity
      *
      * If $key is an array, it will overwrite all the data in the object.
      *
-     * @param string|array $key
-     * @param mixed        $value
+     * @param   string|array $key
+     * @param   mixed $value
      *
-     * @return Varien_Object
+     * @return  LaterPay_Core_Entity
      */
     public function set_data( $key, $value = null ) {
         $this->_has_data_changes = true;
@@ -250,9 +246,8 @@ class LaterPay_Core_Entity
      *
      * $key can be a string only. Array will be ignored.
      *
-     * @param string $key
-     *
-     * @return Varien_Object
+     * @param   null|string $key
+     * @return  LaterPay_Core_Entity
      */
     public function unset_data( $key = null ) {
         $this->_has_data_changes = true;
@@ -273,9 +268,8 @@ class LaterPay_Core_Entity
      *
      * $key can be a string only. Array will be ignored.
      *
-     * @param string $key
-     *
-     * @return Varien_Object
+     * @param   null|string $key
+     * @return  LaterPay_Core_Entity
      */
     public function unset_old_data( $key = null ) {
         if ( is_null( $key ) ) {
@@ -298,10 +292,10 @@ class LaterPay_Core_Entity
      * If $index is specified, it will assume that attribute data is an array
      * and retrieve the corresponding member.
      *
-     * @param string     $key
-     * @param string|int $index
+     * @param   string $key
+     * @param   null|string|int $index
      *
-     * @return mixed
+     * @return  array|
      */
     public function get_data( $key = '', $index = null ) {
         if ( '' === $key ) {
@@ -367,9 +361,8 @@ class LaterPay_Core_Entity
     /**
      * Get value from _data array without parse key
      *
-     * @param string $key
-     *
-     * @return mixed
+     * @param   string $key
+     * @return  mixed
      */
     protected function _get_data( $key ) {
         if ( isset( $this->_data[$key] ) ) { $aux = $this->_data[$key]; } else { $aux = null; }
@@ -878,10 +871,10 @@ class LaterPay_Core_Entity
     }
 
     /**
-     * @param string  $field
-     * @param boolean $flag
      *
-     * @return Varien_Object
+     * @param   string  $field
+     * @param   boolean $flag
+     * @return  LaterPay_Core_Entity
      */
     public function flag_dirty( $field, $flag = true ) {
         if ( is_null( $field ) ) {
