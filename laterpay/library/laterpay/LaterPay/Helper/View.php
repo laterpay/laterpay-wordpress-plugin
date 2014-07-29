@@ -3,7 +3,10 @@
 class LaterPay_Helper_View
 {
 
-    public static $pluginPage = 'laterpay-plugin';
+	/**
+	 * @var string
+	 */
+	public static $pluginPage = 'laterpay-plugin';
 
     /**
      * Admin menu data
@@ -21,12 +24,11 @@ class LaterPay_Helper_View
     /**
      * Get date of next day
      *
-     * @param string $date
-     *
-     * @return string
+     * @param   string $date
+     * @return  string $nextDay
      */
     protected static function get_next_day( $date ) {
-        $nextDay = date( 'Y-m-d', mktime(
+        $next_day = date( 'Y-m-d', mktime(
                 date( 'H', strtotime( $date ) ),
                 date( 'i', strtotime( $date ) ),
                 date( 's', strtotime( $date ) ),
@@ -35,18 +37,17 @@ class LaterPay_Helper_View
                 date( 'Y', strtotime( $date ) )
             ) );
 
-        return $nextDay;
+        return $next_day;
     }
 
     /**
      * Get date 30 days ago
      *
-     * @param string $date
-     *
-     * @return string
+     * @param   string $date
+     * @return  string $last_30_day
      */
     protected static function get_last_30_days( $date ) {
-        $last30Day = date( 'Y-m-d', mktime(
+	    $last_30_day = date( 'Y-m-d', mktime(
                 date( 'H', strtotime( $date ) ),
                 date( 'i', strtotime( $date ) ),
                 date( 's', strtotime( $date ) ),
@@ -55,10 +56,18 @@ class LaterPay_Helper_View
                 date( 'Y', strtotime( $date ) )
             ) );
 
-        return $last30Day;
+        return $last_30_day;
     }
 
-    public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
+	/**
+	 *
+	 * @param   array $statistic
+	 * @param   string $type
+	 * @param   string $delimiter
+	 *
+	 * @return string
+	 */
+	public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
         $today = date('Y-m-d');
         $date = self::get_last_30_days( date( $today ) );
 
@@ -80,8 +89,7 @@ class LaterPay_Helper_View
 
     /**
      * Check if plugin is fully functional
-     *
-     * @return boolean
+     * @return  bool
      */
     public static function plugin_is_working() {
         if ( get_option( 'laterpay_plugin_is_activated' ) != 1 ) {
@@ -104,10 +112,9 @@ class LaterPay_Helper_View
     /**
      * Get number based on locale format
      *
-     * @param double $number
-     * @param int    $decimals
-     *
-     * @return string
+     * @param   double $number
+     * @param   int $decimals
+     * @return  string $formatted
      */
     public static function format_number( $number, $decimals = 2 ) {
         global $wp_locale;

@@ -3,19 +3,35 @@
 class LaterPay_Helper_Statistics
 {
 
-    public static $wpdb = '';
-    protected static $stat = array();
-    protected static $options = array(
+	/**
+	 * @var string|wpdb
+	 */
+	public static $wpdb = '';
+
+	/**
+	 * @var array
+	 */
+	protected static $stat = array();
+
+	/**
+	 * @var array
+	 */
+	protected static $options = array(
         'secret'            => LATERPAY_SALT,
         'session_duration'  => 2678400,  // one month
     );
 
-    protected static function get_unique_id() {
+	/**
+	 *
+	 * @return  string $unique_id
+	 */
+	protected static function get_unique_id() {
         return str_replace( '.', '', uniqid( rand( 0, 2147483647 ), true ) );
     }
 
     /**
      * Try to find the user's REAL IP address
+     * @return  string $ip
      */
     protected static function get_ip_2_long_remote_ip() {
         $long_ip = array( 0, 0 );
@@ -88,6 +104,9 @@ class LaterPay_Helper_Statistics
 
     /**
      * Core tracking functionality
+     *
+     * @param   string|int $post_id
+     * @return  void
      */
     public static function track( $post_id = '' ) {
         if ( empty( $post_id ) ) {
@@ -135,9 +154,8 @@ class LaterPay_Helper_Statistics
     /**
      * Get Full URL
      *
-     * @param array $s $_SERVER
-     *
-     * @return string URL
+     * @param   array $s $_SERVER
+     * @return  string $url
      */
     public static function get_full_url( $s ) {
         if ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' ) {

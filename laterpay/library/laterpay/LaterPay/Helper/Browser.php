@@ -4,7 +4,7 @@ class LaterPay_Helper_Browser
 {
 
     /**
-     * @var Browscap Browscap library
+     * @var Browscap $browscap library
      */
     protected static $browscap = null;
 

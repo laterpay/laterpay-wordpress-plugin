@@ -3,7 +3,12 @@
 class LaterPay_Helper_Cache
 {
 
-    public static function reset_opcode_cache() {
+	/**
+	 * resetting cache if exists
+	 *
+	 * @return bool|void
+	 */
+	public static function reset_opcode_cache() {
         $reset = false;
 
         if ( function_exists( 'opcache_reset' ) ) {
@@ -28,9 +33,7 @@ class LaterPay_Helper_Cache
     /**
      * Checks if a known page caching plugin is active
      *
-     * @return boolean
-     *
-     * @access public
+     * @return  bool
      */
     public static function site_uses_page_caching() {
         if ( ! function_exists( 'is_plugin_active' ) ) {

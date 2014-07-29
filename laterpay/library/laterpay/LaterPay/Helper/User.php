@@ -6,9 +6,12 @@ class LaterPay_Helper_User
     protected static $_preview_post_as_visitor = null;
     protected static $_hide_statistics_pane = null;
 
-    /**
-    * @param string $capability
-    */
+	/**
+	 * @param   string $capability
+	 * @param   WP_Post|int|null $post
+	 * @param   bool $strict
+	 * @return bool
+	 */
     public static function can( $capability, $post = null, $strict = true ) {
         $allowed = false;
         $post = get_post( $post );
@@ -80,11 +83,12 @@ class LaterPay_Helper_User
         return in_array( $role, (array) $user->roles );
     }
 
-    /**
-     * Get post preview mode
-     *
-     * @return bool
-     */
+	/**
+	 * Get post preview mode
+	 *
+	 * @param   null|WP_Post $post
+	 * @return  bool
+	 */
     public static function preview_post_as_visitor($post = null) {
         if ( is_null( self::$_preview_post_as_visitor ) ) {
             $preview_post_as_visitor = 0;
@@ -104,7 +108,7 @@ class LaterPay_Helper_User
     /**
      * Get post preview mode
      *
-     * @return bool
+     * @return  bool
      */
     public static function statistics_pane_is_hidden() {
         if ( is_null( self::$_hide_statistics_pane ) ) {
