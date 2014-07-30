@@ -18,26 +18,20 @@ class LaterPay_Core_Capabilities
     * @return  void
     */
    protected function populate_roles_0951() {
-        $role = get_role( 'administrator' );
-        if ( ! empty( $role ) ) {
-            $role->add_cap( 'laterpay_read_plugin_pages' );
-            $role->add_cap( 'laterpay_edit_plugin_settings' );
-        }
-
-        $roles = array('administrator', 'editor');
-        foreach ($roles as $role) {
-            $role = get_role($role);
-            if ( empty($role) )
+        $roles = array( 'administrator', 'editor' );
+        foreach ( $roles as $role ) {
+            $role = get_role( $role );
+            if ( empty( $role ) )
                 continue;
             $role->add_cap( 'laterpay_read_post_statistics' );
             $role->add_cap( 'laterpay_edit_individual_price' );
             $role->add_cap( 'laterpay_edit_teaser_content' );
         }
 
-        $roles = array('author', 'contributor');
-        foreach ($roles as $role) {
-            $role = get_role($role);
-            if ( empty($role) )
+        $roles = array( 'author', 'contributor' );
+        foreach ( $roles as $role ) {
+            $role = get_role( $role );
+            if ( empty( $role ) )
                 continue;
             $role->add_cap( 'laterpay_read_post_statistics' );
             $role->add_cap( 'laterpay_edit_teaser_content' );
