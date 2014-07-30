@@ -50,7 +50,7 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax requests from get started tab
+     * Process Ajax requests from get started tab.
      *
      * @return void
      */

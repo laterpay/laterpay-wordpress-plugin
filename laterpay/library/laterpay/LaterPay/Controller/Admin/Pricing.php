@@ -68,7 +68,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax requests from pricing tab
+     * Process Ajax requests from pricing tab.
      *
      * @return  void
      */
@@ -149,7 +149,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update the currency used for all prices
+     * Update the currency used for all prices.
      *
      * @return  void
      */
@@ -170,7 +170,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update the global price, which is by default applied to all posts
+     * Update the global price, which is by default applied to all posts.
      *
      * @return  void
      */
@@ -208,7 +208,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update the category price, which is by default applied to all posts in a given category
+     * Update the category price, which is by default applied to all posts in a given category.
      *
      * @return  void
      */
@@ -235,7 +235,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update the category price, if a category price is already defined for a given category
+     * Update the category price, if a category price is already defined for a given category.
      *
      * @return  void
      */
@@ -315,7 +315,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Set the category price, if a given category does not have a category price yet
+     * Set the category price, if a given category does not have a category price yet.
      *
      * @return  void
      */
@@ -360,7 +360,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Delete the category price for a given category
+     * Delete the category price for a given category.
      *
      * @return  void
      */

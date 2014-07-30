@@ -4,7 +4,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 {
 
     /**
-     * Create teaser content for the post
+     * Create teaser content for the post.
      *
      * @param int object $post
      *
@@ -34,7 +34,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render post
+     * Render post.
      */
     public function view( $content ) {
         global $laterpay_show_statistics;
@@ -116,7 +116,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Set up post statistics
+     * Set up post statistics.
      */
     protected function get_post_statistics() {
         if ( ! LATERPAY_ACCESS_LOGGING_ENABLED ) {
@@ -203,7 +203,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get post price
+     * Get post price, depending on applied price type of post.
      *
      * @param int $post_id
      *
@@ -250,7 +250,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add purchase to purchase history
+     * Save purchase in purchase history.
      */
     public static function buy_post() {
         if ( 'index.php' == $GLOBALS['pagenow'] ) {
@@ -285,7 +285,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update incorrect token and create token if it doesn't exist
+     * Update incorrect token or create token, if it doesn't exist.
      */
     public static function token_hook() {
         $GLOBALS['laterpay_access'] = false;
@@ -339,7 +339,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current page is login page
+     * Check if current page is login page.
      *
      * @return boolean is login page
      */
@@ -348,7 +348,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current page is cron page
+     * Check if current page is cron page.
      *
      * @return boolean is cron page
      */
@@ -357,16 +357,16 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current page is laterpay resource link
+     * Check if current page is LaterPay resource link.
      *
-     * @return boolean is cron page
+     * @return boolean is resource link
      */
     public static function is_resource_link() {
         return in_array( $GLOBALS['pagenow'], array( 'laterpay-get-script.php' ) );
     }
 
     /**
-     * Check if current request is RSS feed
+     * Check if current request is RSS feed.
      *
      * @return boolean is feed
      */
@@ -383,9 +383,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get current price for post with dynamic pricing scheme defined
+     * Get current price for post with dynamic pricing scheme defined.
      *
-     * @param object $post post
+     * @param object $post
      *
      * @return float price
      */
@@ -419,7 +419,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current date is after set date for end of dynamic price change
+     * Check if current date is after set date for end of dynamic price change.
      *
      * @param object $post
      * @param int    $days_since_publication
@@ -431,7 +431,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current date is before set date for end of dynamic price change
+     * Check if current date is before set date for end of dynamic price change.
      *
      * @param object $post
      * @param int    $days_since_publication
@@ -443,7 +443,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Calculate transitional price between start price and end price based on linear equation
+     * Calculate transitional price between start price and end price based on linear equation.
      *
      * @param type $post
      * @param int  $days_since_publication
@@ -462,7 +462,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get the LaterPay link for the post
+     * Get the LaterPay link for the post.
      *
      * @param int $post_id
      *
@@ -506,7 +506,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Prepend LaterPay purchase button to title (heading) of post on single post pages
+     * Prepend LaterPay purchase button to title (heading) of post on single post pages.
      *
      * @param object $the_title title
      *

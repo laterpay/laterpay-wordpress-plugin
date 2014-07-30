@@ -64,7 +64,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
 	/**
-	 * Constructor for class LaterPayController, processes the output pages
+	 * Constructor for class LaterPayController, processes the tabs in the plugin backend.
 	 *
 	 * @param   string $tab
      *
@@ -129,7 +129,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render contextual help, depending on the current page
+     * Render contextual help, depending on the current page.
      *
      * @param   string $tab
      *
@@ -163,7 +163,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add contextual help for add / edit post page
+     * Add contextual help for add / edit post page.
      *
      * @return  void
      */
@@ -202,7 +202,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add contextual help for pricing tab
+     * Add contextual help for pricing tab.
      *
      * @return  void
      */
@@ -254,7 +254,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add contextual help for appearance tab
+     * Add contextual help for appearance tab.
      *
      * @return  void
      */
@@ -294,7 +294,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add contextual help for account tab
+     * Add contextual help for account tab.
      *
      * @return  void
      */
@@ -372,7 +372,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add pointers to pages
+     * Add WordPress pointers to pages.
      *
      * @return  void
      */
@@ -397,7 +397,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax requests
+     * Process Ajax requests for post previewing settings.
      *
      * @return  void
      */

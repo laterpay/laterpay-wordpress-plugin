@@ -13,7 +13,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Load page-specific CSS
+     * Load page-specific CSS.
      *
      * @return  void
      */
@@ -30,7 +30,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Load page-specific JS
+     * Load page-specific JS.
      *
      * @return  void
      */
@@ -89,7 +89,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Callback-Function of add_meta_box to render the editor for teaser content
+     * Callback function of add_meta_box to render the editor for teaser content.
      *
      * @param   WP_Post $object post object
      *
@@ -123,7 +123,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Save teaser content
+     * Save teaser content.
      *
      * @wp-hook save_post
      *
@@ -149,7 +149,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Callback for add_meta_box to render form for pricing of post
+     * Callback for add_meta_box to render form for pricing of post.
      *
      * @param   WP_Post $object
      *
@@ -277,7 +277,6 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( plugin_basename( __FILE__ ) ) . '" />';
 
-        // TODO: wrap everything in one variable?
         $this->assign( 'laterpay_post_price_type',       $post_price_type );
         $this->assign( 'laterpay_price',                 $price );
         $this->assign( 'laterpay_currency',              get_option( 'laterpay_currency' ) );
@@ -290,7 +289,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax request for prices of applied categories
+     * Process Ajax request for prices of applied categories.
      *
      * @param   Array $category_ids
      *
@@ -304,7 +303,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Save pricing of post
+     * Save pricing of post.
      *
      * @wp-hook save_post
      *
@@ -377,7 +376,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Set post meta data
+     * Set post meta data.
      *
      * @param   string  $meta_value     old meta value
      * @param   string  $new_meta_value new meta value
@@ -395,7 +394,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax requests from account tab
+     * Process Ajax requests from account tab.
      *
      * @return  void
      */

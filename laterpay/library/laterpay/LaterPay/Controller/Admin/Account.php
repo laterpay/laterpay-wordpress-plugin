@@ -51,7 +51,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax requests from account tab
+     * Process Ajax requests from account tab.
      *
      * @return void
      */
@@ -106,7 +106,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay Sandbox Merchant ID, required for making test transactions against Sandbox environment
+     * Update LaterPay Sandbox Merchant ID, required for making test transactions against Sandbox environment.
      *
      * @return void
      */
@@ -141,7 +141,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay Sandbox API Key, required for making test transactions against Sandbox environment
+     * Update LaterPay Sandbox API Key, required for making test transactions against Sandbox environment.
      *
      * @return void
      */
@@ -176,7 +176,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay Live Merchant ID, required for making real transactions against production environment
+     * Update LaterPay Live Merchant ID, required for making real transactions against production environment.
      *
      * @return void
      */
@@ -211,7 +211,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay Live API Key, required for making real transactions against production environment
+     * Update LaterPay Live API Key, required for making real transactions against production environment.
      *
      * @return void
      */
@@ -246,7 +246,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay Plugin Mode
+     * Update LaterPay plugin mode (test or live).
      *
      * @return void
      */
@@ -281,7 +281,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
 
 	/**
-	 * Validate format of LaterPay Merchant ID
+	 * Validate format of LaterPay Merchant ID.
 	 *
 	 * @param   string|int $merchant_id
      *
@@ -292,7 +292,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Validate format of LaterPay API key
+     * Validate format of LaterPay API key.
      *
      * @param   string|int $api_key
      *

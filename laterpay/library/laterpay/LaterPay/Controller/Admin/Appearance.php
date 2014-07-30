@@ -44,7 +44,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax requests from appearance tab
+     * Process Ajax requests from appearance tab.
      *
      * @return void
      */

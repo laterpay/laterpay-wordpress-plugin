@@ -4,20 +4,21 @@ class LaterPay_Controller_Abstract
 {
 
     /**
-     * Variables for substitution in templates
+     * Variables for substitution in templates.
+     *
      * @var array
      */
     public $variables = array();
 
 	/**
-	 * Loading all assets on boot-up
+	 * Load all assets on boot-up.
      *
 	 * @return  void
 	 */
 	public function load_assets() {}
 
     /**
-     * Render HTML file
+     * Render HTML file.
      *
      * @param   string $file file to get HTML string
      *
@@ -31,7 +32,7 @@ class LaterPay_Controller_Abstract
     }
 
     /**
-     * Assign variable for substitution in templates
+     * Assign variable for substitution in templates.
      *
      * @param string $variable name variable to assign
      * @param mixed  $value    value variable for assign
@@ -43,7 +44,7 @@ class LaterPay_Controller_Abstract
     }
 
     /**
-     * Get HTML from file
+     * Get HTML from file.
      *
      * @param   string $file file to get HTML string
      *
@@ -63,7 +64,7 @@ class LaterPay_Controller_Abstract
     }
 
 	/**
-     * Render the navigation for the plugin backend
+     * Render the navigation for the plugin backend.
      *
 	 * @param   string $file
      *
