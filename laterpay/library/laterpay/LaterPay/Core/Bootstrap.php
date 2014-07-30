@@ -364,7 +364,7 @@ class LaterPay_Core_Bootstrap
         add_menu_page(
             __( 'LaterPay Plugin Settings', 'laterpay' ),
             'LaterPay',
-            'laterpay_read_plugin_pages',
+            'edit_plugins',
             $plugin_page,
             array( $this->get_laterpay_admin_controller(), 'run' ),
             'dashicons-laterpay-logo',
@@ -386,7 +386,7 @@ class LaterPay_Core_Bootstrap
                 $plugin_page,
                 __($page['title'], 'laterpay' ) . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
                 __($page['title'], 'laterpay' ),
-                'laterpay_read_plugin_pages',
+                'edit_plugins',
                 $slug,
                 array( $this->get_laterpay_admin_controller(), 'run_' . $name )
             );
