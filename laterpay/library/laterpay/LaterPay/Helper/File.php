@@ -24,7 +24,10 @@ class LaterPay_Helper_File
 	 */
     public static function get_file_mime_type( $file ) {
         $type = '';
-        if ( function_exists( 'finfo_file' ) ) {
+        if ( function_exists('wp_check_filetype') ) {
+            $filetype = wp_check_filetype( $file );
+            $type = $filetype['type'];
+        } elseif ( function_exists( 'finfo_file' ) ) {
             $finfo  = finfo_open( FILEINFO_MIME_TYPE );
             $type   = finfo_file( $finfo, $file );
             finfo_close( $finfo );
@@ -57,11 +60,16 @@ class LaterPay_Helper_File
         $cipher = new Crypt_AES();
         $cipher->setKey( LATERPAY_RESOURCE_ENCRYPTION_KEY );
         $file = base64_encode( $cipher->encrypt( $uri ) );
-
+        
+        $request = new LaterPay_Core_Request();
+        $path = $request->getServer('DOCUMENT_ROOT') . $uri;
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        
         $client = new LaterPay_Core_Client();
         $params = array(
             'aid'   => $post_id,
             'file'  => $file,
+            'ext'   => '.' . $ext,
         );
         if ( $use_auth ) {
             $client         = new LaterPay_Core_Client();
