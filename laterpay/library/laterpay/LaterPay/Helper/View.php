@@ -7,19 +7,20 @@ class LaterPay_Helper_View
 	 * @var string
 	 */
 	public static $pluginPage = 'laterpay-plugin';
-
+    
     /**
-     * Admin menu data
-     * @note titles should be translated while output
+     * Get admin menu data
      *
      * @var array
      */
-    public static $admin_menu = array(
-        'get_started'   => array( 'url' => 'laterpay-getstarted-tab',   'title' => 'Get started' ),
-        'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => 'Pricing' ),
-        'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => 'Appearance' ),
-        'account'       => array( 'url' => 'laterpay-account-tab',      'title' => 'Account' ),
-    );
+    public static function getAdminMenu() {
+        return array(
+            'get_started'   => array( 'url' => 'laterpay-getstarted-tab',   'title' => __( 'Get started', 'laterpay' ) ),
+            'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
+            'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __( 'Appearance', 'laterpay' ) ),
+            'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __( 'Account', 'laterpay' ) ),
+        );
+    }
 
     /**
      * Get date of next day

@@ -62,6 +62,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->assign( 'plugin_is_in_live_mode', get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
         $this->assign( 'global_default_price',   LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
         $this->assign( 'top_nav',                $this->get_menu() );
+        $this->assign( 'admin_menu',             LaterPay_Helper_View::getAdminMenu() );
 
         $this->render( 'backend/tabs/pricing' );
     }
