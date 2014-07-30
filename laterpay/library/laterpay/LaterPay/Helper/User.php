@@ -7,31 +7,39 @@ class LaterPay_Helper_User
     protected static $_hide_statistics_pane = null;
 
 	/**
-	 * @param   string $capability
-	 * @param   WP_Post|int|null $post
-	 * @param   bool   $strict
+	 * @param string           $capability
+	 * @param WP_Post|int|null $post_id
+	 * @param bool             $strict
      *
 	 * @return bool
 	 */
-    public static function can( $capability, $post = null, $strict = true ) {
+    public static function can( $capability, $post_id = null, $strict = true ) {
         $allowed = false;
-        $post = get_post( $post );
 
         if ( ! function_exists( 'wp_get_current_user' )) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
-        if (current_user_can($capability)) {
+        if ( current_user_can( $capability ) ) {
             if ( ! $strict ) {
                 $allowed = true;
             } else {
                 switch ( $capability ) {
                     case 'laterpay_read_post_statistics':
-                    case 'laterpay_edit_individual_price':
                     case 'laterpay_edit_teaser_content':
-                        $user = wp_get_current_user();
-                        if ( in_array( 'administrator', $user->roles ) || in_array( 'editor', $user->roles ) ) {
+                        if ( ! empty( $post_id ) && current_user_can( 'edit_post', $post_id ) ) {
+                            // use edit_post capability as proxy:
+                            // - super admins, admins, and editors can edit all posts
+                            // - authors and contributors can edit their own posts
                             $allowed = true;
-                        } elseif ( ! empty( $post ) && $post->post_author == $user->ID ) {
+                        }
+                        break;
+
+                    case 'laterpay_edit_individual_price':
+                        if ( ! empty( $post_id ) && current_user_can( 'publish_post', $post_id ) ) {
+                            // use publish_post capability as proxy:
+                            // - super admins, admins, and editors can publish all posts
+                            // - authors can publish their own posts
+                            // - contributors can not publish posts
                             $allowed = true;
                         }
                         break;
@@ -42,6 +50,7 @@ class LaterPay_Helper_User
                 }
             }
         }
+
         return $allowed;
     }
 
