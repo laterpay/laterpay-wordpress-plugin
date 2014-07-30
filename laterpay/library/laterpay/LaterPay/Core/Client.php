@@ -684,32 +684,30 @@ class LaterPay_Core_Client
         );
         try {
             if ( $method == LaterPay_Core_Request::POST ) {
-                $requestsResponse = wp_remote_retrieve_body(
-                                        wp_remote_post(
-                                            $url,
-                                            array(
-                                                'headers'   => $headers,
-                                                'body'      => $params,
-                                                'timeout'   => 30,
-                                            )
-                                        )
-                                    );
+                $raw_response = wp_remote_post(
+                                    $url,
+                                    array(
+                                        'headers'   => $headers,
+                                        'body'      => $params,
+                                        'timeout'   => 30,
+                                    )
+                                );
+                $raw_response_body = wp_remote_retrieve_body( $raw_response );
             } else {
                 $url .= '?' . $params;
-                $requestsResponse = wp_remote_retrieve_body(
-                                        wp_remote_get(
-                                            $url,
-                                            array(
-                                                'headers' => $headers,
-                                                'timeout' => 30,
-                                            )
-                                        )
-                                    );
+                $raw_response = wp_remote_post(
+                                    $url,
+                                    array(
+                                        'headers'   => $headers,
+                                        'timeout'   => 30,
+                                    )
+                                );
+                $raw_response_body = wp_remote_retrieve_body( $raw_response );
             }
 
-            LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array( $requestsResponse ) );
+            LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array( $raw_response_body ) );
 
-            $response = Zend_Json::decode( $requestsResponse, Zend_Json::TYPE_ARRAY );
+            $response = Zend_Json::decode( $raw_response_body, Zend_Json::TYPE_ARRAY );
             if ( $response['status'] == 'invalid_token' ) {
                 $this->delete_token();
             }

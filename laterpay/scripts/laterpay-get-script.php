@@ -48,6 +48,7 @@ function get_decrypted_file_name( $file ) {
 
 function send_response( $file ) {
     global $response;
+
     $file = get_decrypted_file_name( $file );
     if ( ! file_exists( $file ) ) {
 
@@ -58,9 +59,11 @@ function send_response( $file ) {
         exit();
     }
     $type = LaterPay_Helper_File::get_file_mime_type( $file );
+    $data = file_get_contents( $file );
+    $filename = basename( $file );
 
     $response->set_header( 'Content-Type', $type );
-    $data = file_get_contents( $file );
+    $response->set_header( 'Content-Disposition', "attachment; filename=\"$filename\"" );
     $response->setBody( $data );
     $response->set_http_response_code( 200 );
     $response->send_response();
