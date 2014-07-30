@@ -45,6 +45,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         $this->assign( 'live_api_key',           get_option( 'laterpay_live_api_key' ) );
         $this->assign( 'plugin_is_in_live_mode', get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
         $this->assign( 'top_nav',                $this->get_menu() );
+        $this->assign( 'admin_menu',             LaterPay_Helper_View::get_admin_menu() );
 
         $this->render( 'backend/tabs/account' );
     }

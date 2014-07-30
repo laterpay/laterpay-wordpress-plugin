@@ -75,7 +75,7 @@ class LaterPay_Controller_Abstract
         }
         $activated      = get_option( 'laterpay_plugin_is_activated', '' );
         $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;
-        $menu           = LaterPay_Helper_View::$admin_menu;
+        $menu           = LaterPay_Helper_View::get_admin_menu();
         if ( $activated ) {
             unset( $menu['get_started'] );
         }

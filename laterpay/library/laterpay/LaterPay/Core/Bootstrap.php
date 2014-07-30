@@ -376,21 +376,22 @@ class LaterPay_Core_Bootstrap
             return;
         }
         $page_number = 0;
-        foreach ( LaterPay_Helper_View::$admin_menu as $name => $page ) {
+        $menu = LaterPay_Helper_View::get_admin_menu();
+        foreach ( $menu as $name => $page ) {
             if ( $activated && $name == 'get_started' ) {
                 continue;
             }
             $slug = ! $page_number ? $plugin_page : $page['url'];
 
-            $page = add_submenu_page(
+            $page_id = add_submenu_page(
                 $plugin_page,
-                __($page['title'], 'laterpay' ) . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
-                __($page['title'], 'laterpay' ),
+                $page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
+                $page['title'],
                 'laterpay_read_plugin_pages',
                 $slug,
                 array( $this->get_laterpay_admin_controller(), 'run_' . $name )
             );
-            add_action( 'load-' . $page, array( $this->get_laterpay_admin_controller(), 'help_' . $name ) );
+            add_action( 'load-' . $page_id, array( $this->get_laterpay_admin_controller(), 'help_' . $name ) );
             $page_number++;
         }
 

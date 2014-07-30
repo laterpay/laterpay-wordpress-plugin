@@ -38,6 +38,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
         $this->assign( 'plugin_is_in_live_mode',     get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
         $this->assign( 'show_teaser_content_only',   get_option( 'laterpay_teaser_content_only' ) == 1 );
         $this->assign( 'top_nav',                    $this->get_menu() );
+        $this->assign( 'admin_menu',                 LaterPay_Helper_View::get_admin_menu() );
 
         $this->render( 'backend/tabs/appearance' );
     }
