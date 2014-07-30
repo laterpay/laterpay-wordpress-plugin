@@ -58,12 +58,14 @@ function send_response( $file ) {
         $response->send_response();
         exit();
     }
-    $type = LaterPay_Helper_File::get_file_mime_type( $file );
-    $data = file_get_contents( $file );
+    $type     = LaterPay_Helper_File::get_file_mime_type( $file );
+    $fsize    = filesize( $file );
+    $data     = file_get_contents( $file );
     $filename = basename( $file );
 
     $response->set_header( 'Content-Type', $type );
-    $response->set_header( 'Content-Disposition', "attachment; filename=\"$filename\"" );
+    $response->set_header( 'Content-Disposition', 'inline; filename="' . $filename .'"' );
+    $response->set_header( 'Content-Length', $fsize );
     $response->setBody( $data );
     $response->set_http_response_code( 200 );
     $response->send_response();
