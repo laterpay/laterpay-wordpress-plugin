@@ -32,7 +32,7 @@ class LaterPay_Model_Payments_History
     }
 
     /**
-     * Save payment to payment history
+     * Save payment to payment history.
      *
      * @param array $data payment data
      *
@@ -74,7 +74,7 @@ class LaterPay_Model_Payments_History
     }
 
     /**
-     * Get total history by post id
+     * Get total history by post id.
      *
      * @param int $post_id
      *
@@ -115,7 +115,7 @@ class LaterPay_Model_Payments_History
     }
 
     /**
-     * Get today's history by post id
+     * Get today's history by post id.
      *
      * @param int $post_id
      *
@@ -159,7 +159,7 @@ class LaterPay_Model_Payments_History
     }
 
     /**
-     * Get last 30 days history by post id
+     * Get last 30 days' history by post id.
      *
      * @param int $post_id id post
      *
@@ -208,7 +208,7 @@ class LaterPay_Model_Payments_History
     }
 
     /**
-     * Get payment by hash
+     * Get payment by hash.
      *
      * @param string $mode mode (live or test)
      * @param string $hash hash for date payment

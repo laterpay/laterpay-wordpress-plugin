@@ -11,6 +11,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 	 *
 	 * @param   string $name
 	 * @param   mixed $args
+     *
 	 * @return void
 	 */
 	public function __call( $name, $args ) {
@@ -66,6 +67,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 	 * Constructor for class LaterPayController, processes the output pages
 	 *
 	 * @param   string $tab
+     *
 	 * @return  void
 	 */
     public function run( $tab = '' ) {
@@ -130,6 +132,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      * Render contextual help, depending on the current page
      *
      * @param   string $tab
+     *
      * @return  void
      */
     public function help( $tab = '' ) {

@@ -7,7 +7,8 @@ class LaterPay_Helper_Request
     public static $clear_lptoken = true;
 
 	/**
-	 * Checking if the current request is an Ajax-Request
+	 * Check if the current request is an Ajax request.
+     *
 	 * @return bool
 	 */
 	public static function is_ajax() {
@@ -15,7 +16,7 @@ class LaterPay_Helper_Request
     }
 
     /**
-     * Get current URL
+     * Get current URL.
      *
      * @return  string $url
      */

@@ -42,6 +42,7 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
      * PATCH method
      *
      * @link http://tools.ietf.org/html/rfc5789
+     *
      * @var string
      */
     const PATCH = 'PATCH';

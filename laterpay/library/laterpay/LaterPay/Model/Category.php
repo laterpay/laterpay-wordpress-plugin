@@ -32,9 +32,7 @@ class LaterPay_Model_Category
     }
 
     /**
-     * Get categories with defined category default prices
-     *
-     * @access public
+     * Get categories with defined category default prices.
      *
      * @return array categories
      */
@@ -65,11 +63,10 @@ class LaterPay_Model_Category
     }
 
 	/**
-	 * Get categories with defined category default prices by list of category IDs
-	 *
-	 * @access public
+	 * Get categories with defined category default prices by list of category IDs.
 	 *
 	 * @param   array $ids
+     *
 	 * @return  array category_price_data
 	 */
     public function get_category_price_data_by_category_ids( $ids ) {
@@ -106,8 +103,6 @@ class LaterPay_Model_Category
      * @param string $term         term string to find categories
      * @param int    $limit        limit categories
      * @param int    $excluding_id excluding id
-     *
-     * @access public
      *
      * @return array categories
      */
@@ -149,12 +144,10 @@ class LaterPay_Model_Category
     }
 
     /**
-     * Get categories by search term
+     * Get categories by search term.
      *
      * @param string $term  term string to find categories
      * @param int    $limit limit categories
-     *
-     * @access public
      *
      * @return array categories
      */
@@ -182,9 +175,7 @@ class LaterPay_Model_Category
     }
 
     /**
-     * Set category default price
-     *
-     * @access public
+     * Set category default price.
      *
      * @param integer $id_category id category
      * @param float   $price       price for category
@@ -225,11 +216,9 @@ class LaterPay_Model_Category
     }
 
     /**
-     * Get price id by category id
+     * Get price id by category id.
      *
      * @param integer $id id category
-     *
-     * @access public
      *
      * @return integer id price
      */
@@ -255,11 +244,9 @@ class LaterPay_Model_Category
     }
 
     /**
-     * Get price by category id
+     * Get price by category id.
      *
      * @param integer $id category id
-     *
-     * @access public
      *
      * @return float|null price category
      */
@@ -289,8 +276,6 @@ class LaterPay_Model_Category
      *
      * @param string @name name category
      *
-     * @access public
-     *
      * @return integer category id
      */
     public function get_category_id_by_name( $name ) {
@@ -315,11 +300,9 @@ class LaterPay_Model_Category
     }
 
     /**
-     * Check if category exists: get category id by category name
+     * Check if category exists: get category id by category name.
      *
      * @param string $name name category
-     *
-     * @access public
      *
      * @return integer category id
      */
@@ -349,11 +332,10 @@ class LaterPay_Model_Category
     }
 
     /**
-     * Delete price by category id
-     *
-     * @access  public
+     * Delete price by category id.
      *
      * @param   integer $id category id
+     *
      * @return  int|false The number of rows updated, or false on error.
      */
     public function delete_prices_by_category_id( $id ) {

@@ -14,6 +14,7 @@ class LaterPay_Core_Logger
 
 	/**
 	 * contains all debugging levels
+     *
 	 * @var array
 	 */
 	protected static $levels = array(
@@ -59,6 +60,7 @@ class LaterPay_Core_Logger
 	/**
 	 *
 	 * @param   LaterPay_Core_Logger $instance
+     *
 	 * @return  void
 	 */
 	public static function set_instance( $instance ) {
@@ -90,6 +92,7 @@ class LaterPay_Core_Logger
      *
      * @param   string $message The log message
      * @param   array  $context The log context
+     *
      * @return  boolean Whether the record has been processed
      */
     public static function debug( $message, array $context = array() ) {
@@ -113,6 +116,7 @@ class LaterPay_Core_Logger
 	 * @param   integer $level
 	 * @param   string  $message
 	 * @param   array $context
+     *
 	 * @return  bool
 	 */
     public static function log( $level, $message, array $context = array() ) {
@@ -143,6 +147,7 @@ class LaterPay_Core_Logger
      * Get the name of the logging level.
      *
      * @param   integer $level
+     *
      * @return  string  $level_name
      */
     public static function get_level_name( $level ) {

@@ -13,6 +13,7 @@ class LaterPay_Core_Client_Signing
 	 * @param   string $known_str
 	 * @param   string $given_str
 	 * @throws  InvalidArgumentException
+     *
 	 * @return  bool
 	 */
     protected static function time_independent_hmac_compare($known_str, $given_str) {
@@ -34,6 +35,7 @@ class LaterPay_Core_Client_Signing
 	/**
 	 * @param   string $secret
 	 * @param   string $parts
+     *
 	 * @return  string
 	 */
     protected static function create_hmac( $secret, $parts ) {
@@ -59,6 +61,7 @@ class LaterPay_Core_Client_Signing
 	 * @param   array $params
 	 * @param   string $url
 	 * @param   string $method
+     *
 	 * @return  bool
 	 */
 	public static function verify( $signature, $secret, $params, $url, $method ) {
@@ -186,7 +189,7 @@ class LaterPay_Core_Client_Signing
      * Preprocess parameters
      *
      * @param string $secret
-     * @param array  $params array params
+     * @param array  $params
      * @param string $url
      * @param string $method HTTP method
      *

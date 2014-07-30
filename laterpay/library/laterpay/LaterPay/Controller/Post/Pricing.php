@@ -92,6 +92,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
      * Callback-Function of add_meta_box to render the editor for teaser content
      *
      * @param   WP_Post $object post object
+     *
      * @return  void
      */
     public function render_teaser_content_box( $object ) {
@@ -125,7 +126,9 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
      * Save teaser content
      *
      * @wp-hook save_post
+     *
      * @param   int $post_id
+     *
      * @return  int $post_id
      */
     public function save_teaser_content_box( $post_id ) {
@@ -149,6 +152,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
      * Callback for add_meta_box to render form for pricing of post
      *
      * @param   WP_Post $object
+     *
      * @return  void
      */
     public function render_post_pricing_form( $object ) {
@@ -289,6 +293,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
      * Process Ajax request for prices of applied categories
      *
      * @param   Array $category_ids
+     *
      * @return  void
      */
     protected static function _get_category_prices( $category_ids ) {
@@ -304,6 +309,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
      * @wp-hook save_post
      *
      * @param   int $post_id
+     *
      * @return  int $post_id
      */
     public function save_post_pricing_form( $post_id ) {

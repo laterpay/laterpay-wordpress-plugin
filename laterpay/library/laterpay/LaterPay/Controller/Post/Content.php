@@ -35,8 +35,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     /**
      * Render post
-     *
-     * @access public
      */
     public function view( $content ) {
         global $laterpay_show_statistics;
@@ -253,8 +251,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     /**
      * Add purchase to purchase history
-     *
-     * @access public
      */
     public static function buy_post() {
         if ( 'index.php' == $GLOBALS['pagenow'] ) {
@@ -290,8 +286,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     /**
      * Update incorrect token and create token if it doesn't exist
-     *
-     * @access public
      */
     public static function token_hook() {
         $GLOBALS['laterpay_access'] = false;
@@ -348,8 +342,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Check if current page is login page
      *
      * @return boolean is login page
-     *
-     * @access public
      */
     public static function is_login_page() {
         return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) );
@@ -359,8 +351,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Check if current page is cron page
      *
      * @return boolean is cron page
-     *
-     * @access public
      */
     public static function is_cron_page() {
         return in_array( $GLOBALS['pagenow'], array( 'wp-cron.php' ) );
@@ -370,8 +360,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Check if current page is laterpay resource link
      *
      * @return boolean is cron page
-     *
-     * @access public
      */
     public static function is_resource_link() {
         return in_array( $GLOBALS['pagenow'], array( 'laterpay-get-script.php' ) );
@@ -381,8 +369,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Check if current request is RSS feed
      *
      * @return boolean is feed
-     *
-     * @access public
      */
     public static function is_feed() {
         $is_feed    = false;
@@ -402,8 +388,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @param object $post post
      *
      * @return float price
-     *
-     * @access public
      */
     public static function get_dynamic_price( $post ) {
         if ( function_exists( 'date_diff' ) ) {
@@ -437,8 +421,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current date is after set date for end of dynamic price change
      *
-     * @param object $post                   post
-     * @param int    $days_since_publication days
+     * @param object $post
+     * @param int    $days_since_publication
      *
      * @return boolean
      */
@@ -449,8 +433,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current date is before set date for end of dynamic price change
      *
-     * @param object $post                   post
-     * @param int    $days_since_publication days
+     * @param object $post
+     * @param int    $days_since_publication
      *
      * @return boolean
      */
@@ -462,7 +446,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Calculate transitional price between start price and end price based on linear equation
      *
      * @param type $post
-     * @param int  $days_since_publication days
+     * @param int  $days_since_publication
      *
      * @return float
      */

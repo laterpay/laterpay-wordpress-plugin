@@ -283,6 +283,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 	 * Validate format of LaterPay Merchant ID
 	 *
 	 * @param   string|int $merchant_id
+     *
 	 * @return  int
 	 */
     public static function is_valid_merchant_id( $merchant_id ) {
@@ -293,6 +294,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * Validate format of LaterPay API key
      *
      * @param   string|int $api_key
+     *
      * @return  int
      */
     public static function is_valid_api_key( $api_key ) {

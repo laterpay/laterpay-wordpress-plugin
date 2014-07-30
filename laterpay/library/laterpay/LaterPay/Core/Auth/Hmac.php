@@ -63,10 +63,10 @@ class LaterPay_Core_Auth_Hmac
     }
 
     /**
-     * verify data and sign
+     * Verify data and sign.
      *
-     * @param string|array $data Verifyng data
-     * @param string  $sign Sign string
+     * @param string|array  $data data to be verified
+     * @param string        $sign Sign string
      *
      * @return number|boolean
      */

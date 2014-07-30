@@ -152,6 +152,7 @@ class LaterPay_Core_Entity
      * set name of object id field
      *
      * @param   string $name
+     *
      * @return  LaterPay_Core_Entity
      */
     public function set_id_field_name( $name ) {
@@ -162,6 +163,7 @@ class LaterPay_Core_Entity
 
 	/**
 	 * Retrieve name of object id field
+     *
 	 * @return  string
 	 */
     public function get_id_field_name() {
@@ -170,6 +172,7 @@ class LaterPay_Core_Entity
 
     /**
      * Retrieve object id
+     *
      * @return mixed
      */
     public function get_id() {
@@ -184,6 +187,7 @@ class LaterPay_Core_Entity
      * Set object id field value
      *
      * @param   mixed $value
+     *
      * @return  LaterPay_Core_Entity
      */
     public function set_id( $value ) {
@@ -202,6 +206,7 @@ class LaterPay_Core_Entity
      * Retains previous data in the object.
      *
      * @param   array $arr
+     *
      * @return  LaterPay_Core_Entity
      */
     public function add_data( array $arr ) {
@@ -247,6 +252,7 @@ class LaterPay_Core_Entity
      * $key can be a string only. Array will be ignored.
      *
      * @param   null|string $key
+     *
      * @return  LaterPay_Core_Entity
      */
     public function unset_data( $key = null ) {
@@ -269,6 +275,7 @@ class LaterPay_Core_Entity
      * $key can be a string only. Array will be ignored.
      *
      * @param   null|string $key
+     *
      * @return  LaterPay_Core_Entity
      */
     public function unset_old_data( $key = null ) {
@@ -362,6 +369,7 @@ class LaterPay_Core_Entity
      * Get value from _data array without parse key
      *
      * @param   string $key
+     *
      * @return  mixed
      */
     protected function _get_data( $key ) {
@@ -635,6 +643,7 @@ class LaterPay_Core_Entity
      * Attribute setter (deprecated)
      *
      * @param string  $var
+     *
      * @param mixed   $value
      */
     public function __set( $var, $value ) {
@@ -807,6 +816,7 @@ class LaterPay_Core_Entity
      * Implementation of ArrayAccess::offsetSet()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
+     *
      * @param string  $offset
      * @param mixed   $value
      */
@@ -818,6 +828,7 @@ class LaterPay_Core_Entity
      * Implementation of ArrayAccess::offsetExists()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetexists.php
+     *
      * @param string $offset
      *
      * @return boolean
@@ -830,6 +841,7 @@ class LaterPay_Core_Entity
      * Implementation of ArrayAccess::offsetUnset()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
+     *
      * @param string $offset
      */
     public function offset_unset( $offset ) {
@@ -840,6 +852,7 @@ class LaterPay_Core_Entity
      * Implementation of ArrayAccess::offsetGet()
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetget.php
+     *
      * @param string $offset
      *
      * @return mixed
@@ -874,6 +887,7 @@ class LaterPay_Core_Entity
      *
      * @param   string  $field
      * @param   boolean $flag
+     *
      * @return  LaterPay_Core_Entity
      */
     public function flag_dirty( $field, $flag = true ) {

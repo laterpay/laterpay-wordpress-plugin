@@ -20,6 +20,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      * Normalizes a header name to X-Capitalized-Names
      *
      * @param   string $name
+     *
      * @return  string
      */
     protected function _normalize_header( $name ) {
@@ -95,6 +96,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      * Set HTTP response code to use with headers.
      *
      * @param   int $code
+     *
      * @return  LaterPay_Core_Response
      */
     public function set_http_response_code( $code ) {
@@ -111,6 +113,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
 
     /**
      * Echo the body segments.
+     *
      * @return  void
      */
     public function output_body() {
@@ -123,7 +126,8 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
     }
 
 	/**
-	 * sending the response with headers and body
+	 * Send the response with headers and body.
+     *
 	 * @return void
 	 */
 	public function send_response() {

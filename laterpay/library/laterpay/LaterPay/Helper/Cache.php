@@ -4,7 +4,7 @@ class LaterPay_Helper_Cache
 {
 
 	/**
-	 * resetting cache if exists
+	 * Reset cache, if it exists.
 	 *
 	 * @return bool|void
 	 */
@@ -31,7 +31,7 @@ class LaterPay_Helper_Cache
 
 
     /**
-     * Checks if a known page caching plugin is active
+     * Check if a known page caching plugin is active.
      *
      * @return  bool
      */

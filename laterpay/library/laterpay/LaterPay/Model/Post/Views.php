@@ -21,7 +21,7 @@ class LaterPay_Model_Post_Views
     }
 
     /**
-     * Get post views
+     * Get post views.
      *
      * @access public
      *
@@ -45,11 +45,9 @@ class LaterPay_Model_Post_Views
     }
 
     /**
-     * Save payment to payment history
+     * Save payment to payment history.
      *
      * @param array $data payment data
-     *
-     * @access public
      */
     public function update_post_views( $data ) {
         global $wpdb;
@@ -79,11 +77,9 @@ class LaterPay_Model_Post_Views
     }
 
     /**
-     * Get last 30 days' history by post id
+     * Get last 30 days' history by post id.
      *
      * @param int $post_id id post
-     *
-     * @access public
      *
      * @return array history
      */
@@ -124,8 +120,6 @@ class LaterPay_Model_Post_Views
      * Get today's history by post id
      *
      * @param int $post_id id post
-     *
-     * @access public
      *
      * @return array history
      */

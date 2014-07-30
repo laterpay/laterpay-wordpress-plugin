@@ -9,7 +9,8 @@ class LaterPay_Helper_User
 	/**
 	 * @param   string $capability
 	 * @param   WP_Post|int|null $post
-	 * @param   bool $strict
+	 * @param   bool   $strict
+     *
 	 * @return bool
 	 */
     public static function can( $capability, $post = null, $strict = true ) {
@@ -45,7 +46,7 @@ class LaterPay_Helper_User
     }
 
     /**
-     * Checks if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.
+     * Check if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.
      * Returns true if a match was found.
      *
      * @return bool
@@ -60,7 +61,7 @@ class LaterPay_Helper_User
 
 
     /**
-     * Checks if a particular user has a particular role.
+     * Check if a particular user has a particular role.
      * Returns true if a match was found.
      *
      * @param string $role    Role name.
@@ -84,9 +85,10 @@ class LaterPay_Helper_User
     }
 
 	/**
-	 * Get post preview mode
+	 * Get post preview mode.
 	 *
 	 * @param   null|WP_Post $post
+     *
 	 * @return  bool
 	 */
     public static function preview_post_as_visitor($post = null) {
@@ -106,7 +108,7 @@ class LaterPay_Helper_User
     }
 
     /**
-     * Get post preview mode
+     * Get post preview mode.
      *
      * @return  bool
      */

@@ -24,8 +24,6 @@ class LaterPay_Model_Currency
     /**
      * Get currencies
      *
-     * @access public
-     *
      * @return array currencies
      */
     public function get_currencies() {
@@ -40,8 +38,6 @@ class LaterPay_Model_Currency
      * Get currency id by ISO 4217 currency code
      *
      * @param string $name ISO 4217 currency code
-     *
-     * @access public
      *
      * @return array currencies
      */
@@ -66,8 +62,6 @@ class LaterPay_Model_Currency
      * Get full name of currency by ISO 4217 currency code
      *
      * @param string $name ISO 4217 currency code
-     *
-     * @access public
      *
      * @return array currencies
      */

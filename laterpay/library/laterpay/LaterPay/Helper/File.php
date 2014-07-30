@@ -4,19 +4,22 @@ class LaterPay_Helper_File
 {
 
 	/**
-	 * regex to detect urls
+	 * Regex to detect urls
+     *
 	 * @var string
 	 */
 	const URL_REGEX_PATTERN = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
 
 	/**
-	 * path to script file
+	 * Path to script file
+     *
 	 * @var string
 	 */
 	const SCRIPT_PATH       = 'laterpay/scripts/laterpay-get-script.php';
 
 	/**
 	 * @param   null|string $file
+     *
 	 * @return  string|false
 	 */
     public static function get_file_mime_type( $file ) {
@@ -34,9 +37,9 @@ class LaterPay_Helper_File
 
 	/**
 	 *
-	 * @param   int $post_id
+	 * @param   int    $post_id
 	 * @param   string $url
-	 * @param   bool $use_auth
+	 * @param   bool   $use_auth
 	 *
 	 * @return  string $url
 	 */

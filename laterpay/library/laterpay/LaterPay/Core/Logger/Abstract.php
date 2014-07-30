@@ -28,6 +28,7 @@ abstract class LaterPay_Core_Logger_Abstract
      * Writes the record down to the log of the implementing handler
      *
      * @param array   $record
+     *
      * @return void
      */
     abstract protected function write( array $record );

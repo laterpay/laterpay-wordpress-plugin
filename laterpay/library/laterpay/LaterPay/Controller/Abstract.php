@@ -11,6 +11,7 @@ class LaterPay_Controller_Abstract
 
 	/**
 	 * Loading all assets on boot-up
+     *
 	 * @return  void
 	 */
 	public function load_assets() {}
@@ -19,6 +20,7 @@ class LaterPay_Controller_Abstract
      * Render HTML file
      *
      * @param   string $file file to get HTML string
+     *
      * @return  void
      */
     public function render( $file ) {
@@ -33,6 +35,7 @@ class LaterPay_Controller_Abstract
      *
      * @param string $variable name variable to assign
      * @param mixed  $value    value variable for assign
+     *
      * @return void
      */
     public function assign( $variable, $value ) {
@@ -43,6 +46,7 @@ class LaterPay_Controller_Abstract
      * Get HTML from file
      *
      * @param   string $file file to get HTML string
+     *
      * @return  string $html html output as string
      */
     public function get_text_view( $file ) {
@@ -59,8 +63,10 @@ class LaterPay_Controller_Abstract
     }
 
 	/**
-	 *
+     * Render the navigation for the plugin backend
+     *
 	 * @param   string $file
+     *
 	 * @return  string $html
 	 */
 	public function get_menu( $file = null ) {

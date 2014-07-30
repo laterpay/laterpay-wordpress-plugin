@@ -4,8 +4,9 @@ class LaterPay_Helper_String
 {
 
 	/**
-	 * @param   string $string
-	 * @param   int $word_limit*
+	 * @param   string 	$string
+	 * @param   int 	$word_limit*
+	 *
 	 * @return  string
 	 */
 	public static function limit_words( $string, $word_limit ) {
@@ -15,9 +16,10 @@ class LaterPay_Helper_String
 	}
 
 	/**
-	 * determines the number of words to be shown behind overlay according to the settings supplied by the blog owner
+	 * Determine the number of words to be shown behind overlay according to the settings supplied by the blog owner.
 	 *
 	 * @param   string $content
+	 *
 	 * @return  int $number_of_words
 	 */
 	public static function determine_number_of_words( $content ) {

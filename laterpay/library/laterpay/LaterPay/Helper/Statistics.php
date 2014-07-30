@@ -30,7 +30,8 @@ class LaterPay_Helper_Statistics
     }
 
     /**
-     * Try to find the user's REAL IP address
+     * Try to find the user's REAL IP address.
+     *
      * @return  string $ip
      */
     protected static function get_ip_2_long_remote_ip() {
@@ -106,6 +107,7 @@ class LaterPay_Helper_Statistics
      * Core tracking functionality
      *
      * @param   string|int $post_id
+     *
      * @return  void
      */
     public static function track( $post_id = '' ) {
@@ -152,9 +154,10 @@ class LaterPay_Helper_Statistics
     }
 
     /**
-     * Get Full URL
+     * Get Full URL.
      *
      * @param   array $s $_SERVER
+     *
      * @return  string $url
      */
     public static function get_full_url( $s ) {
