@@ -15,28 +15,7 @@ class LaterPay_Helper_File
      *
 	 * @var string
 	 */
-	const SCRIPT_PATH       = 'laterpay/scripts/laterpay-get-script.php';
-
-	/**
-	 * @param   null|string $file
-     *
-	 * @return  string|false
-	 */
-    public static function get_file_mime_type( $file ) {
-        $type = '';
-        if ( function_exists('wp_check_filetype') ) {
-            $filetype = wp_check_filetype( $file );
-            $type = $filetype['type'];
-        } elseif ( function_exists( 'finfo_file' ) ) {
-            $finfo  = finfo_open( FILEINFO_MIME_TYPE );
-            $type   = finfo_file( $finfo, $file );
-            finfo_close( $finfo );
-        } elseif ( function_exists( 'mime_content_type' ) ) {
-            $type   = mime_content_type( $file );
-        }
-
-        return $type;
-    }
+	const SCRIPT_PATH = 'laterpay/scripts/laterpay-get-script.php';
 
 	/**
 	 *
@@ -60,11 +39,11 @@ class LaterPay_Helper_File
         $cipher = new Crypt_AES();
         $cipher->setKey( LATERPAY_RESOURCE_ENCRYPTION_KEY );
         $file = base64_encode( $cipher->encrypt( $uri ) );
-        
+
         $request = new LaterPay_Core_Request();
         $path = $request->getServer('DOCUMENT_ROOT') . $uri;
         $ext = pathinfo($path, PATHINFO_EXTENSION);
-        
+
         $client = new LaterPay_Core_Client();
         $params = array(
             'aid'   => $post_id,
