@@ -376,7 +376,7 @@ class LaterPay_Core_Bootstrap
             return;
         }
         $page_number = 0;
-        $menu = LaterPay_Helper_View::getAdminMenu();
+        $menu = LaterPay_Helper_View::get_admin_menu();
         foreach ( $menu as $name => $page ) {
             if ( $activated && $name == 'get_started' ) {
                 continue;

@@ -13,7 +13,7 @@ class LaterPay_Helper_View
      *
      * @var array
      */
-    public static function getAdminMenu() {
+    public static function get_admin_menu() {
         return array(
             'get_started'   => array( 'url' => 'laterpay-getstarted-tab',   'title' => __( 'Get started', 'laterpay' ) ),
             'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
