@@ -55,12 +55,6 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
      */
     public static function process_ajax_requests() {
         if ( isset( $_POST['get_started'] ) ) {
-            // check for required privileges to perform action
-            if ( ! LaterPay_Helper_User::can( 'laterpay_edit_plugin_settings' ) ) {
-                echo Zend_Json::encode( array( 'success' => false ) );
-                die;
-            }
-
             if ( function_exists('check_admin_referer') ) {
                 check_admin_referer( 'laterpay_form' );
             }
