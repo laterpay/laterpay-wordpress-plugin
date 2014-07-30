@@ -3,11 +3,18 @@
 class LaterPay_Core_Client_Signing
 {
 
-    protected static $hashAlgo = 'sha224';
+	/**
+	 * Contains the hash-algorithm
+	 * @var string
+	 */
+	protected static $hashAlgo = 'sha224';
 
-    /**
-    * @param string $given_str
-    */
+	/**
+	 * @param   string $known_str
+	 * @param   string $given_str
+	 * @throws  InvalidArgumentException
+	 * @return  bool
+	 */
     protected static function time_independent_hmac_compare($known_str, $given_str) {
         if (strlen($known_str) == 0) {
             throw new InvalidArgumentException( 'This function cannot safely compare against an empty given string' );
@@ -24,10 +31,11 @@ class LaterPay_Core_Client_Signing
         return $res === 0;
     }
 
-    /**
-    * @param string $secret
-    * @param string $parts
-    */
+	/**
+	 * @param   string $secret
+	 * @param   string $parts
+	 * @return  string
+	 */
     protected static function create_hmac( $secret, $parts ) {
         if ( is_array( $parts ) ) {
             $data = join( '', $parts );
@@ -44,7 +52,16 @@ class LaterPay_Core_Client_Signing
         return $hash;
     }
 
-    public static function verify( $signature, $secret, $params, $url, $method ) {
+	/**
+	 *
+	 * @param   string $signature
+	 * @param   string $secret
+	 * @param   array $params
+	 * @param   string $url
+	 * @param   string $method
+	 * @return  bool
+	 */
+	public static function verify( $signature, $secret, $params, $url, $method ) {
 
         if ( is_array( $signature ) ) {
             $signature = $signature[0];

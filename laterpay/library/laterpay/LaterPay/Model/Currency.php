@@ -54,10 +54,10 @@ class LaterPay_Model_Currency
             FROM
                 {$this->table}
             WHERE
-                short_name = '$name'
+                short_name = %s
             ;
         ";
-        $currency = $wpdb->get_row( $sql );
+        $currency = $wpdb->get_row( $wpdb->prepare( $sql, $name ) );
 
         return $currency->id;
     }
@@ -80,10 +80,10 @@ class LaterPay_Model_Currency
             FROM
                 {$this->table}
             WHERE
-                short_name = '$name'
+                short_name = %s
             ;
         ";
-        $currency = $wpdb->get_row( $sql );
+        $currency = $wpdb->get_row( $wpdb->prepare( $sql, $name ) );
 
         return $currency->full_name;
     }

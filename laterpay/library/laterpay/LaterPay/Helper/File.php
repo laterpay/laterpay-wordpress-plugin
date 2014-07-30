@@ -3,12 +3,22 @@
 class LaterPay_Helper_File
 {
 
-    const URL_REGEX_PATTERN = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
-    const SCRIPT_PATH       = 'laterpay/scripts/laterpay-get-script.php';
+	/**
+	 * regex to detect urls
+	 * @var string
+	 */
+	const URL_REGEX_PATTERN = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
 
-    /**
-    * @param null|string $file
-    */
+	/**
+	 * path to script file
+	 * @var string
+	 */
+	const SCRIPT_PATH       = 'laterpay/scripts/laterpay-get-script.php';
+
+	/**
+	 * @param   null|string $file
+	 * @return  string|false
+	 */
     public static function get_file_mime_type( $file ) {
         $type = '';
         if ( function_exists( 'finfo_file' ) ) {
@@ -22,7 +32,15 @@ class LaterPay_Helper_File
         return $type;
     }
 
-    public static function get_encrypted_resource_url( $post_id, $url, $use_auth ) {
+	/**
+	 *
+	 * @param   int $post_id
+	 * @param   string $url
+	 * @param   bool $use_auth
+	 *
+	 * @return  string $url
+	 */
+	public static function get_encrypted_resource_url( $post_id, $url, $use_auth ) {
         $new_url            = plugins_url( self::SCRIPT_PATH );
         $blog_url_parts     = parse_url( get_bloginfo('wpurl') );
         $resource_url_parts = parse_url( $url );
@@ -51,7 +69,16 @@ class LaterPay_Helper_File
         return $new_url . '?' . $client->sign_and_encode( $params, $new_url );
     }
 
-    public static function get_encrypted_content( $post_id, $content, $use_auth ) {
+	/**
+	 * getting the encrypted content by a given post_id
+	 *
+	 * @param   int $post_id
+	 * @param   string $content
+	 * @param   string $use_auth
+	 *
+	 * @return  string $content
+	 */
+	public static function get_encrypted_content( $post_id, $content, $use_auth ) {
         // encrypt links to the resources
         $urls       = array();
         $matches    = array();

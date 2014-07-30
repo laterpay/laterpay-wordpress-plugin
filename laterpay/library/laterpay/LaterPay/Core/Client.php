@@ -5,17 +5,39 @@ class LaterPay_Core_Client
 
     /**
      * API key
+     * @var string
      */
     protected $api_key;
-    protected $api_root;
-    protected $web_root;
-    protected $cp_key;
-    protected $lptoken = null;
-    protected $token_name;
 
-    /**
-     * Constructor for class LaterPayAPICore
-     */
+	/**	 *
+	 * @var string
+	 */
+	protected $api_root;
+
+	/**
+	 * @var string
+	 */
+	protected $web_root;
+
+	/**
+	 * @var string
+	 */
+	protected $cp_key;
+
+	/**
+	 * @var null|string
+	 */
+	protected $lptoken = null;
+
+	/**
+	 * @var string
+	 */
+	protected $token_name;
+
+	/**
+	 * @param   array $_args
+	 * @return  LaterPay_Core_Client
+	 */
     public function __construct( $_args = array() ) {
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $this->cp_key   = get_option( 'laterpay_live_merchant_id' );
@@ -50,7 +72,11 @@ class LaterPay_Core_Client
                     );
     }
 
-    public function get_laterpay_token() {
+	/**
+	 *
+	 * @return null|string
+	 */
+	public function get_laterpay_token() {
         return $this->lptoken;
     }
 
@@ -104,9 +130,8 @@ class LaterPay_Core_Client
     /**
      * Get token redirect URL
      *
-     * @param string $return_to URL
-     *
-     * @return string URL
+     * @param   string $return_to URL
+     * @return  string $url
      */
     public function _get_token_redirect_url( $return_to ) {
         $url    = $this->_get_token_url();
@@ -135,9 +160,8 @@ class LaterPay_Core_Client
     /**
      * Get identify URL
      *
-     * @param string $identify_callback
-     *
-     * @return string
+     * @param   string $identify_callback
+     * @return  string
      */
     public function get_identify_url( $identify_callback = null ) {
         $url = $this->_get_identify_url();
@@ -162,6 +186,8 @@ class LaterPay_Core_Client
 
     /**
      * Get iframe API URL
+     *
+     * TODO: 1 array as param...
      *
      * @param string  $next_url
      * @param string  $css_url
@@ -221,10 +247,10 @@ class LaterPay_Core_Client
     /**
      * Get iframe API balance URL
      *
-     * @param string|null $forcelang
      * @deprecated since version 0.9.5
      *
-     * @return string url
+     * @param   string|null $forcelang
+     * @return  string $url
      */
     public function get_iframe_api_balance_url( $forcelang = null ) {
         $data = array('cp' => $this->cp_key);
@@ -244,10 +270,10 @@ class LaterPay_Core_Client
     /**
      * Get iframe API balance URL
      *
-     * @param string|null $forcelang
      * @deprecated since version 0.9.5
      *
-     * @return string url
+     * @param   string|null $forcelang
+     * @return  string $url
      */
     public function get_controls_balance_url( $forcelang = null ) {
         $data = array( 'cp' => $this->cp_key );
@@ -264,11 +290,22 @@ class LaterPay_Core_Client
         return $url;
     }
 
-    protected function get_dialog_api_url( $url ) {
+	/**
+	 *
+	 * @param   string $url
+	 * @return  string
+	 */
+	protected function get_dialog_api_url( $url ) {
         return $this->web_root . '/dialog-api?url=' . urlencode( $url );
     }
 
-    public function get_login_dialog_url( $next_url, $use_jsevents = false ) {
+	/**
+	 *
+	 * @param   string $next_url
+	 * @param   bool $use_jsevents
+	 * @return  string $url
+	 */
+	public function get_login_dialog_url( $next_url, $use_jsevents = false ) {
         if ( $use_jsevents ) {
             $aux = '"&jsevents=1';
         } else {
@@ -279,6 +316,12 @@ class LaterPay_Core_Client
         return $this->get_dialog_api_url( $url );
     }
 
+	/**
+	 *
+	 * @param   string $next_url
+	 * @param   bool $use_jsevents
+	 * @return  string $url
+	 */
     public function get_signup_dialog_url( $next_url, $use_jsevents = false ) {
         if ( $use_jsevents ) {
             $aux = '"&jsevents=1';
@@ -290,6 +333,12 @@ class LaterPay_Core_Client
         return $this->get_dialog_api_url( $url );
     }
 
+	/**
+	 *
+	 * @param   string $next_url
+	 * @param   bool $use_jsevents
+	 * @return  string $url
+	 */
     public function get_logout_dialog_url( $next_url, $use_jsevents = false ) {
         if ( $use_jsevents ) {
             $aux = '"&jsevents=1';
@@ -301,9 +350,20 @@ class LaterPay_Core_Client
         return $this->get_dialog_api_url( $url );
     }
 
-    /**
-    * @param string $page_type
-    */
+	/**
+	 *
+	 * TODO: moving params to an single param-array
+	 *
+	 * @param   array $data
+	 * @param   string $page_type
+	 * @param   null|string $product_key
+	 * @param   bool $dialog
+	 * @param   bool $use_jsevents
+	 * @param   bool $skip_add_to_invoice
+	 * @param   null|string $transaction_reference
+	 *
+	 * @return  string $url
+	 */
     protected function get_web_url( $data, $page_type, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
         if ( $use_jsevents ) {
             $data['jsevents'] = 1;
@@ -342,7 +402,20 @@ class LaterPay_Core_Client
         return $this->get_dialog_api_url( $url );
     }
 
-    public function get_buy_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
+	/**
+	 *
+	 * TODO: moving params to an single param-array
+	 *
+	 * @param   array $data
+	 * @param   null|string $product_key
+	 * @param   bool $dialog
+	 * @param   bool $use_jsevents
+	 * @param   bool $skip_add_to_invoice
+	 * @param   null|string $transaction_reference
+	 *
+	 * @return  string $url
+	 */
+	public function get_buy_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
         return $this->get_web_url(
             $data,
             'buy',
@@ -354,7 +427,19 @@ class LaterPay_Core_Client
         );
     }
 
-    public function get_add_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
+	/**
+	 * TODO: moving params to an single param-array
+	 *
+	 * @param   array $data
+	 * @param   string|null $product_key
+	 * @param   bool $dialog
+	 * @param   bool $use_jsevents
+	 * @param   bool $skip_add_to_invoice
+	 * @param   null $transaction_reference
+	 *
+	 * @return  string $url
+	 */
+	public function get_add_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
         $data['cp'] = $this->cp_key;
 
         return $this->get_web_url(
@@ -368,11 +453,23 @@ class LaterPay_Core_Client
         );
     }
 
-    public function has_token() {
+	/**
+	 *
+	 * @return bool
+	 */
+	public function has_token() {
         return ! empty( $this->lptoken );
     }
 
-    public function add_metered_access( $article_id, $threshold = 5, $product_key = null ) {
+	/**
+	 *
+	 * @param   int $article_id
+	 * @param   int $threshold
+	 * @param   null|string $product_key
+	 *
+	 * @return  void
+	 */
+	public function add_metered_access( $article_id, $threshold = 5, $product_key = null ) {
         $params = array(
             'lptoken'    => $this->lptoken,
             'cp'         => $this->cp_key,
@@ -393,7 +490,14 @@ class LaterPay_Core_Client
         }
     }
 
-    public function get_metered_access( $article_ids, $threshold = 5, $product_key = null ) {
+	/**
+	 *
+	 * @param   int|array $article_ids
+	 * @param   int  $threshold
+	 * @param   null|string $product_key
+	 * @return array
+	 */
+	public function get_metered_access( $article_ids, $threshold = 5, $product_key = null ) {
         if ( ! is_array( $article_ids ) ) {
             $article_ids = array( $article_ids );
         }
@@ -438,11 +542,10 @@ class LaterPay_Core_Client
     /**
      * Preprocess parameters
      *
-     * @param array  $params array params
-     * @param string $url
-     * @param string $method http method
-     *
-     * @return string query params
+     * @param   array  $params array params
+     * @param   string $url
+     * @param   string $method http method
+     * @return  string query params
      */
     public function sign_and_encode( $params, $url, $method = LaterPay_Core_Request::GET ) {
         LaterPay_Core_Logger::debug('LaterPay_Client::sign_and_encode', array($params, $url, $method));
@@ -453,10 +556,9 @@ class LaterPay_Core_Client
     /**
      * Get response from access for post
      *
-     * @param array  $article_ids array with posts ids
-     * @param string $product_key array with posts ids
-     *
-     * @return string json string response
+     * @param   array  $article_ids array with posts ids
+     * @param   null|string $product_key array with posts ids
+     * @return  string json string response
      */
     public function get_access( $article_ids, $product_key = null ) {
         LaterPay_Core_Logger::debug('LaterPay_Client::get_access', array('checking access', $article_ids));
@@ -494,6 +596,7 @@ class LaterPay_Core_Client
 
     /**
      * Update token
+     * @return  void
      */
     public function acquire_token() {
         $link = $this->_get_token_redirect_url( LaterPay_Helper_Request::get_current_url() );
@@ -513,8 +616,10 @@ class LaterPay_Core_Client
     /**
      * Set token to cookie
      *
-     * @param string $token    token key
-     * @param bool   $redirect redirect after set token
+     * @param   string $token    token key
+     * @param   bool $redirect redirect after set token
+     *
+     * @return  void
      */
     public function set_token( $token, $redirect = false ) {
         LaterPay_Core_Logger::debug( 'LaterPay_Client::set_token', array(
@@ -534,7 +639,11 @@ class LaterPay_Core_Client
         }
     }
 
-    public function delete_token() {
+	/**
+	 * deletingthea token from cookies
+	 * @return  void
+	 */
+	public function delete_token() {
         LaterPay_Core_Logger::debug( 'LaterPay_Client::delete_token', array(
                             'api_key'   => $this->api_key,
                             'cp_key'    => $this->cp_key,
@@ -550,11 +659,11 @@ class LaterPay_Core_Client
     /**
      * Send request to $url
      *
-     * @param string $url    URL to send request to
-     * @param array  $params
-     * @param string $method
+     * @param   string $url    URL to send request to
+     * @param   array  $params
+     * @param   string $method
      *
-     * @return object data response
+     * @return  array $response
      */
     protected function make_request( $url, $params = array(), $method = LaterPay_Core_Request::GET ) {
         LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(

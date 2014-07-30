@@ -7,7 +7,13 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     const POST_PRICE_BOX_POINTER        = 'lpwpp02';
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
 
-    public function __call( $name, $args ) {
+	/**
+	 *
+	 * @param   string $name
+	 * @param   mixed $args
+	 * @return void
+	 */
+	public function __call( $name, $args ) {
         if ( substr( $name, 0, 4 ) == 'run_' ) {
             return $this->run( strtolower( substr( $name, 4 ) ) );
         } elseif ( substr( $name, 0, 5 ) == 'help_' ) {
@@ -15,7 +21,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         }
     }
 
-    public function load_assets() {
+	/**
+	 * @see LaterPay_Controller_Abstract::load_assets()
+	 */
+	public function load_assets() {
         parent::load_assets();
         global $laterpay_version;
 
@@ -53,9 +62,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         }
     }
 
-    /**
-     * Constructor for class LaterPayController, processes the output pages
-     */
+	/**
+	 * Constructor for class LaterPayController, processes the output pages
+	 *
+	 * @param   string $tab
+	 * @return  void
+	 */
     public function run( $tab = '' ) {
         $this->load_assets();
 
@@ -116,6 +128,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
     /**
      * Render contextual help, depending on the current page
+     *
+     * @param   string $tab
+     * @return  void
      */
     public function help( $tab = '' ) {
         switch ( $tab ) {
@@ -147,7 +162,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add contextual help for add / edit post page
      *
-     * @return null
+     * @return  void
      */
     protected function _render_add_edit_post_page_help() {
         $screen = get_current_screen();
@@ -186,7 +201,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add contextual help for pricing tab
      *
-     * @return null
+     * @return  void
      */
     protected function _render_pricing_tab_help() {
         $screen = get_current_screen();
@@ -238,7 +253,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add contextual help for appearance tab
      *
-     * @return null
+     * @return  void
      */
     protected function _render_appearance_tab_help() {
         $screen = get_current_screen();
@@ -278,7 +293,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add contextual help for account tab
      *
-     * @return null
+     * @return  void
      */
     protected function _render_account_tab_help() {
         $screen = get_current_screen();
@@ -356,7 +371,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add pointers to pages
      *
-     * @access public
+     * @return  void
      */
     public function modify_footer() {
         $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
@@ -381,7 +396,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Process Ajax requests
      *
-     * @access public
+     * @return  void
      */
     public static function process_ajax_requests() {
         if ( isset( $_POST['form'] ) ) {

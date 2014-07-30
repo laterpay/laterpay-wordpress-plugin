@@ -3,6 +3,9 @@
 class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 {
 
+	/**
+	 * @see LaterPay_Controller_Abstract::load_assets()
+	 */
     public function load_assets() {
         parent::load_assets();
         global $laterpay_version;
@@ -42,11 +45,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
     }
 
-    /**
-     * Render HTML for and assign variables to pricing tab
-     *
-     * @access public
-     */
+	/**
+	 * @see LaterPay_Controller_Abstract::load_assets()
+	 */
     public function render_page() {
         $this->load_assets();
 
@@ -68,7 +69,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Process Ajax requests from pricing tab
      *
-     * @access public
+     * @return  void
      */
     public static function process_ajax_requests() {
         // save changes in submitted form
@@ -149,7 +150,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the currency used for all prices
      *
-     * @access protected
+     * @return  void
      */
     protected static function _update_currency() {
         update_option( 'laterpay_currency', $_POST['laterpay_currency'] );
@@ -170,7 +171,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the global price, which is by default applied to all posts
      *
-     * @access protected
+     * @return  void
      */
     protected static function _update_global_default_price() {
         $delocalized_global_price = (float) str_replace( ',', '.', $_POST['laterpay_global_price'] );
@@ -208,7 +209,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the category price, which is by default applied to all posts in a given category
      *
-     * @access protected
+     * @return  void
      */
     protected static function _update_category_default_price() {
         $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
@@ -235,12 +236,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the category price, if a category price is already defined for a given category
      *
-     * @access protected
+     * @return  void
      */
     protected static function _update_existing_category_default_price() {
         $LaterPay_Category_Model      = new LaterPay_Model_Category();
         $id_category                = $LaterPay_Category_Model->get_category_id_by_name( $_POST['category'] );
-        $id                         = $LaterPay_Category_Model->get_price_ids_by_category_id( $id_category );
+        $id                         = $LaterPay_Category_Model->get_price_id_by_category_id( $id_category );
 
         $Currency                   = new LaterPay_Model_Currency();
         $currency_name              = $Currency->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
@@ -256,7 +257,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             die;
         } else if ( ! empty( $id_category ) && $id_category != $_POST['category_id'] ) {
             $LaterPay_Category_Model->delete_prices_by_category_id( $_POST['category_id'] );
-            $id = $LaterPay_Category_Model->get_price_ids_by_category_id( $_POST['category_id'] );
+            $id = $LaterPay_Category_Model->get_price_id_by_category_id( $_POST['category_id'] );
 
             if ( $id ) {
                 echo Zend_Json::encode(
@@ -315,7 +316,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Set the category price, if a given category does not have a category price yet
      *
-     * @access protected
+     * @return  void
      */
     protected static function _set_new_category_default_price() {
         $LaterPay_Category_Model  = new LaterPay_Model_Category();
@@ -360,13 +361,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Delete the category price for a given category
      *
-     * @access protected
+     * @return  void
      */
     protected static function _delete_category_default_price() {
         $LaterPay_Category_Model = new LaterPay_Model_Category();
         $LaterPay_Category_Model->delete_prices_by_category_id( $_POST['category_id'] );
 
-        $id = $LaterPay_Category_Model->get_price_ids_by_category_id( $_POST['category_id'] );
+        $id = $LaterPay_Category_Model->get_price_id_by_category_id( $_POST['category_id'] );
         if ( empty( $id ) ) {
             echo Zend_Json::encode(
                 array(

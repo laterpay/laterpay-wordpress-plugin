@@ -76,14 +76,14 @@
 // call function_exists() a second time to stop the require_once from being called outside
 // of the auto loader
 if (! function_exists('crypt_random_string')) {
-    require_once('Random.php');
+    require_once( 'Random.php' );
 }
 
 /**
  * Include Crypt_Hash
  */
 if (! class_exists('Crypt_Hash')) {
-    require_once('Hash.php');
+    require_once( 'Hash.php' );
 }
 
 /**#@+

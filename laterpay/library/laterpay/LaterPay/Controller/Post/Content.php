@@ -6,9 +6,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Create teaser content for the post
      *
-     * @param int object $post
-     *
-     * @return string
+     * @param   WP_Post $post
+     * @return  void
      */
     public function init_teaser_content( $post ) {
         if ( ! is_object( $post ) ) {
@@ -36,7 +35,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Render post
      *
-     * @access public
+     * @param   string $content
+     * @return  string $content
      */
     public function view( $content ) {
         global $laterpay_show_statistics;
@@ -95,7 +95,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         return $content;
     }
 
-    public function modify_footer() {
+	/**
+	 *
+	 * @return void
+	 */
+	public function modify_footer() {
         // if Ajax request
         if ( (LaterPay_Helper_Request::is_ajax() && isset( $_GET['id'] )) || isset( $_GET['id'] ) ) {
             $postid = $_GET['id'];
@@ -119,6 +123,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     /**
      * Set up post statistics
+     * @return  void
      */
     protected function get_post_statistics() {
         if ( ! LATERPAY_ACCESS_LOGGING_ENABLED ) {
@@ -207,9 +212,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Get post price
      *
-     * @param int $post_id
-     *
-     * @return float
+     * @param   int $post_id
+     * @return  float $price
      */
     public static function get_post_price( $post_id ) {
         $global_default_price = get_option( 'laterpay_global_price' );
@@ -254,7 +258,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Add purchase to purchase history
      *
-     * @access public
+     * @return  void
      */
     public static function buy_post() {
         if ( 'index.php' == $GLOBALS['pagenow'] ) {
@@ -291,7 +295,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Update incorrect token and create token if it doesn't exist
      *
-     * @access public
+     * @return  void
      */
     public static function token_hook() {
         $GLOBALS['laterpay_access'] = false;
@@ -347,9 +351,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current page is login page
      *
-     * @return boolean is login page
+     * @return  boolean is login page
      *
-     * @access public
      */
     public static function is_login_page() {
         return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) );
@@ -358,9 +361,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current page is cron page
      *
-     * @return boolean is cron page
-     *
-     * @access public
+     * @return  boolean is cron page
      */
     public static function is_cron_page() {
         return in_array( $GLOBALS['pagenow'], array( 'wp-cron.php' ) );
@@ -369,9 +370,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current page is laterpay resource link
      *
-     * @return boolean is cron page
-     *
-     * @access public
+     * @return  boolean is cron page
      */
     public static function is_resource_link() {
         return in_array( $GLOBALS['pagenow'], array( 'laterpay-get-script.php' ) );
@@ -380,9 +379,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current request is RSS feed
      *
-     * @return boolean is feed
-     *
-     * @access public
+     * @return  boolean $is_feed
      */
     public static function is_feed() {
         $is_feed    = false;
@@ -399,11 +396,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Get current price for post with dynamic pricing scheme defined
      *
-     * @param object $post post
-     *
-     * @return float price
-     *
-     * @access public
+     * @param   WP_Post $post post
+     * @return  float $price
      */
     public static function get_dynamic_price( $post ) {
         if ( function_exists( 'date_diff' ) ) {
@@ -437,10 +431,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current date is after set date for end of dynamic price change
      *
-     * @param object $post                   post
-     * @param int    $days_since_publication days
-     *
-     * @return boolean
+     * @param   WP_Post $post
+     * @param   int $days_since_publication days
+     * @return  boolean
      */
     private static function is_after_transitional_period( $post, $days_since_publication ) {
         return get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) <= $days_since_publication || get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) == 0;
@@ -449,10 +442,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Check if current date is before set date for end of dynamic price change
      *
-     * @param object $post                   post
-     * @param int    $days_since_publication days
-     *
-     * @return boolean
+     * @param   WP_Post $post
+     * @param   int $days_since_publication
+     * @return  boolean
      */
     private static function is_before_transitional_period( $post, $days_since_publication ) {
         return get_post_meta( $post->ID, 'laterpay_change_start_price_after_days', true ) >= $days_since_publication;
@@ -461,10 +453,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Calculate transitional price between start price and end price based on linear equation
      *
-     * @param type $post
-     * @param int  $days_since_publication days
-     *
-     * @return float
+     * @param   WP_Post $post
+     * @param   int $days_since_publication days
+     * @return  float $price
      */
     private static function calculate_transitional_price( $post, $days_since_publication ) {
         $end_price          = get_post_meta( $post->ID, 'laterpay_end_price', true );
@@ -480,9 +471,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Get the LaterPay link for the post
      *
-     * @param int $post_id
-     *
-     * @return string
+     * @param   int $post_id
+     * @return  string $link
      */
     public static function get_laterpay_link( $post_id ) {
         $currency = get_option( 'laterpay_currency' );
@@ -524,9 +514,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Prepend LaterPay purchase button to title (heading) of post on single post pages
      *
-     * @param object $title title
-     *
-     * @return object
+     * @wp-hook the_title
+     * @param   string $title
+     * @return  string
      */
     public function modify_post_title( $title ) {
         if ( in_the_loop() ) {

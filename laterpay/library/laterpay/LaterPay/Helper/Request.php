@@ -6,14 +6,18 @@ class LaterPay_Helper_Request
     public static $clear_hmac = true;
     public static $clear_lptoken = true;
 
-    public static function is_ajax() {
+	/**
+	 * Checking if the current request is an Ajax-Request
+	 * @return bool
+	 */
+	public static function is_ajax() {
         return ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest';
     }
 
     /**
      * Get current URL
      *
-     * @return string of current URL
+     * @return  string $url
      */
     public static function get_current_url() {
         $ssl = isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on';
