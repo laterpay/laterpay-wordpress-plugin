@@ -680,7 +680,8 @@ class LaterPay_Core_Client
      * @return  array $response
      */
     protected function make_request( $url, $params = array(), $method = LaterPay_Core_Request::GET ) {
-        LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(
+        $post = get_post();
+	    LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(
                             'url'       => $url,
                             'params'    => $params,
                             'post'      => $post,

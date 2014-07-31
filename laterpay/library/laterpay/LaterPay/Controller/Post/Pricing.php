@@ -88,15 +88,32 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
         );
     }
 
+	/**
+	 * Add teaser content editor to add / edit post page.
+	 *
+	 * @wp-hook admin_menu
+	 *
+	 * @return  void
+	 */
+	public function add_teaser_content_box() {
+		add_meta_box( 'laterpay_teaser_content',
+		              __( 'Teaser Content', 'laterpay' ),
+		              array( $this, 'render_teaser_content_box' ),
+		              'post',
+		              'normal',
+		              'high'
+		);
+	}
+
     /**
      * Callback function of add_meta_box to render the editor for teaser content.
      *
-     * @param   WP_Post $object post object
+     * @param   WP_Post $post post object
      *
      * @return  void
      */
-    public function render_teaser_content_box( $object ) {
-        if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $object ) ) {
+    public function render_teaser_content_box( $post ) {
+        if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post ) ) {
             return;
         }
         $settings = array(
@@ -112,7 +129,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
             'tinymce'         => 1,
             'quicktags'       => 1,
         );
-        $content = get_post_meta( $object->ID, 'Teaser content', true );
+        $content = get_post_meta( $post->ID, 'Teaser content', true );
         $editor_id = 'postcueeditor';
 
         echo '<dfn>' . __("This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . '</dfn>';
@@ -148,19 +165,40 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 	    return $post_id;
     }
 
-    /**
+
+
+
+	/**
+	 * Add pricing form to add / edit post page.
+	 *
+	 * @wp-hook admin_menu
+	 *
+	 * @return  void
+	 */
+	public function add_post_pricing_form() {
+		add_meta_box( 'laterpay_pricing_post_content',
+		              __( 'Pricing for this Post', 'laterpay' ),
+		              array( $this, 'render_post_pricing_form' ),
+		              'post',
+		              'side',
+		              'high'
+		);
+	}
+
+
+	/**
      * Callback for add_meta_box to render form for pricing of post.
      *
-     * @param   WP_Post $object
+     * @param   WP_Post $post
      *
      * @return  void
      */
-    public function render_post_pricing_form( $object ) {
-        if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $object ) ) {
+    public function render_post_pricing_form( $post ) {
+        if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
             return;
         }
 
-        $post_specific_price = get_post_meta( $object->ID, 'Pricing Post', true );
+        $post_specific_price = get_post_meta( $post->ID, 'Pricing Post', true );
         // TODO: optimize the current approach:
         // If it's an existing value, if should have been saved with decimals,
         // so '0' is a crappy way of knowing that 'Pricing Post' has never been set
@@ -174,11 +212,11 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
         $category_price_data    = null;
         $post_default_category  = null;
         $category_default_price = null;
-        $categories_of_post     = wp_get_post_categories( $object->ID );
+        $categories_of_post     = wp_get_post_categories( $post->ID );
         if ( ! empty( $categories_of_post ) ) {
             $LaterPay_Category_Model  = new LaterPay_Model_Category();
             $category_price_data    = $LaterPay_Category_Model->get_category_price_data_by_category_ids( $categories_of_post );
-            $post_default_category  = (int) get_post_meta( $object->ID, 'laterpay_post_default_category', true );
+            $post_default_category  = (int) get_post_meta( $post->ID, 'laterpay_post_default_category', true );
             // if the post has a category defined from which to use the category default price then let's get that price
             if ( $post_default_category > 0 ) {
                 $category_default_price = (float) $LaterPay_Category_Model->get_price_by_category_id( $post_default_category );
@@ -196,7 +234,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
             $global_default_price = (float) $global_default_price;
         }
 
-        $post_price_type = get_post_meta( $object->ID, 'Pricing Post Type', true );
+        $post_price_type = get_post_meta( $post->ID, 'Pricing Post Type', true );
         switch ( $post_price_type ) {
             // backwards compatibility: Pricing Post Type used to be stored as 0 or 1; TODO: remove with release 1.0
             case '0':
@@ -232,45 +270,45 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
         }
 
         // return dynamic pricing widget start values
-        if ( ! get_post_meta( $object->ID, 'laterpay_start_price', true ) ) {
+        if ( ! get_post_meta( $post->ID, 'laterpay_start_price', true ) ) {
             $dynamic_pricing_data = array(
                 array( 'x' => 0,  'y' => 1.8 ),
                 array( 'x' => 13, 'y' => 1.8 ),
                 array( 'x' => 18, 'y' => 0.2 ),
                 array( 'x' => 30, 'y' => 0.2 )
             );
-        } elseif ( get_post_meta( $object->ID, 'laterpay_transitional_period_end_after_days', true ) == 0 ) {
+        } elseif ( get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) == 0 ) {
             $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
-                    'y' => (float) get_post_meta( $object->ID, 'laterpay_start_price', true )
+                    'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
                 ),
                 array(
-                    'x' => (float) get_post_meta( $object->ID, 'laterpay_change_start_price_after_days', true ),
-                    'y' => (float) get_post_meta( $object->ID, 'laterpay_start_price', true )
+                    'x' => (float) get_post_meta( $post->ID, 'laterpay_change_start_price_after_days', true ),
+                    'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
                 ),
                 array(
-                    'x' => (float) get_post_meta( $object->ID, 'laterpay_reach_end_price_after_days', true ),
-                    'y' => (float) get_post_meta( $object->ID, 'laterpay_end_price', true )
+                    'x' => (float) get_post_meta( $post->ID, 'laterpay_reach_end_price_after_days', true ),
+                    'y' => (float) get_post_meta( $post->ID, 'laterpay_end_price', true )
                 )
             );
         } else {
             $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
-                    'y' => (float) get_post_meta( $object->ID, 'laterpay_start_price', true )
+                    'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
                 ),
                 array(
-                    'x' => (float) get_post_meta( $object->ID, 'laterpay_change_start_price_after_days', true ),
-                    'y' => (float) get_post_meta( $object->ID, 'laterpay_start_price', true )
+                    'x' => (float) get_post_meta( $post->ID, 'laterpay_change_start_price_after_days', true ),
+                    'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
                 ),
                 array(
-                    'x' => (float) get_post_meta( $object->ID, 'laterpay_transitional_period_end_after_days', true ),
-                    'y' => (float) get_post_meta( $object->ID, 'laterpay_end_price', true )
+                    'x' => (float) get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ),
+                    'y' => (float) get_post_meta( $post->ID, 'laterpay_end_price', true )
                 ),
                 array(
-                    'x' => (float) get_post_meta( $object->ID, 'laterpay_reach_end_price_after_days', true ),
-                    'y' => (float) get_post_meta( $object->ID, 'laterpay_end_price', true )
+                    'x' => (float) get_post_meta( $post->ID, 'laterpay_reach_end_price_after_days', true ),
+                    'y' => (float) get_post_meta( $post->ID, 'laterpay_end_price', true )
                 )
             );
         }

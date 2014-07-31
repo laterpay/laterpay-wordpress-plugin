@@ -8,6 +8,51 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
 
 	/**
+	 * Add plugin to administrator panel.
+	 *
+	 * @return  void
+	 */
+	public function add_to_admin_panel() {
+		$plugin_page = LaterPay_Helper_View::$pluginPage;
+		add_menu_page(
+			__( 'LaterPay Plugin Settings', 'laterpay' ),
+			'LaterPay',
+			'laterpay_read_plugin_pages',
+			$plugin_page,
+			array( $this, 'run' ),
+			'dashicons-laterpay-logo',
+			81
+		);
+
+		$activated = get_option( 'laterpay_plugin_is_activated', '' );
+		if ( $activated === '' ) { // never activated before
+			return;
+		}
+		$page_number = 0;
+		$menu = LaterPay_Helper_View::get_admin_menu();
+		foreach ( $menu as $name => $page ) {
+			if ( $activated && $name == 'get_started' ) {
+				continue;
+			}
+			$slug = ! $page_number ? $plugin_page : $page['url'];
+
+			$page_id = add_submenu_page(
+				$plugin_page,
+				$page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
+				$page['title'],
+				'laterpay_read_plugin_pages',
+				$slug,
+				array( $this, 'run_' . $name )
+			);
+			add_action( 'load-' . $page_id, array( $this, 'help_' . $name ) );
+			$page_number++;
+		}
+
+		add_action( 'load-post.php', array( $this, 'help_wp_edit_post' ) );
+		add_action( 'load-post-new.php', array( $this, 'help_wp_add_post' ) );
+	}
+
+	/**
 	 *
 	 * @param   string $name
 	 * @param   mixed $args
@@ -102,7 +147,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         switch ( $tab ) {
             // render get started tab
             case 'get_started':
-                $LaterPay_Get_Started_Controller = new LaterPay_Controller_Admin_GetStarted();
+                $LaterPay_Get_Started_Controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
                 $LaterPay_Get_Started_Controller->render_page();
                 break;
 
@@ -110,19 +155,19 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
             // render pricing tab
             case 'pricing':
-                $LaterPay_Pricing_Controller = new LaterPay_Controller_Admin_Pricing();
+                $LaterPay_Pricing_Controller = new LaterPay_Controller_Admin_Pricing( $this->config );
                 $LaterPay_Pricing_Controller->render_page();
                 break;
 
             // render appearance tab
             case 'appearance':
-                $LaterPay_Appearance_Controller = new LaterPay_Controller_Admin_Appearance();
+                $LaterPay_Appearance_Controller = new LaterPay_Controller_Admin_Appearance( $this->config );
                 $LaterPay_Appearance_Controller->render_page();
                 break;
 
             // render account tab
             case 'account':
-                $LaterPay_Account_Controller = new LaterPay_Controller_Admin_Account();
+                $LaterPay_Account_Controller = new LaterPay_Controller_Admin_Account( $this->config );
                 $LaterPay_Account_Controller->render_page();
                 break;
             }

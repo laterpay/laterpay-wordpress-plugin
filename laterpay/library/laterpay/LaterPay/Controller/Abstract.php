@@ -11,6 +11,20 @@ class LaterPay_Controller_Abstract
     public $variables = array();
 
 	/**
+	 * Contains all settings for our plugin
+	 * @var LaterPay_Model_Config
+	 */
+	protected $config;
+
+	/**
+	 * @param   LaterPay_Model_Config $config
+	 * @return  LaterPay_Controller_Abstract
+	 */
+	public function __construct( LaterPay_Model_Config $config ) {
+		$this->config = $config;
+	}
+
+	/**
 	 * Load all assets on boot-up.
      *
 	 * @return  void
