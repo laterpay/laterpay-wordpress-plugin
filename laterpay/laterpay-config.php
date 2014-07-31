@@ -11,9 +11,6 @@ return array_merge( array(
     // THESE PARAMETERS WILL BE OVERWRITTEN AFTER PLUGIN UPDATE, USE "settings.php" FILE INSTEAD
     // #############################################################################
 
-    // Path to images, CSS, JS, and font files
-    'LATERPAY_ASSETS_PATH' =>               WP_PLUGIN_URL . '/' . LATERPAY_BASE_NAME . '/assets',
-
     // Parameters for plugin auto-update functionality
     'LATERPAY_GITHUB_PROJECT_NAME' =>      'laterpay-wordpress-plugin',
     'LATERPAY_GITHUB_USER_NAME' =>         'laterpay',
