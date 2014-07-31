@@ -18,13 +18,12 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function load_stylesheets() {
-        global $laterpay_version;
 
         wp_register_style(
             'laterpay-post-edit',
-            LATERPAY_ASSETS_PATH . '/css/laterpay-post-edit.css',
+            $this->config->css_url . 'laterpay-post-edit.css',
             array(),
-            $laterpay_version
+            $this->config->version
         );
         wp_enqueue_style( 'laterpay-post-edit' );
     }
@@ -35,27 +34,26 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function load_scripts() {
-        global $laterpay_version;
 
         wp_register_script(
             'laterpay-d3',
-            LATERPAY_ASSETS_PATH . '/js/vendor/d3.min.js',
+            $this->config->js_url . '/vendor/d3.min.js',
             array(),
-            $laterpay_version,
+            $this->config->version,
             true
         );
         wp_register_script(
             'laterpay-d3-dynamic-pricing-widget',
-            LATERPAY_ASSETS_PATH . '/js/d3.dynamic.widget.js',
+            $this->config->js_url . '/d3.dynamic.widget.js',
             array( 'laterpay-d3' ),
-            $laterpay_version,
+            $this->config->version,
             true
         );
         wp_register_script(
             'laterpay-post-edit',
-            LATERPAY_ASSETS_PATH . '/js/laterpay-post-edit.js',
+            $this->config->js_url . '/laterpay-post-edit.js',
             array( 'laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'jquery' ),
-            $laterpay_version,
+            $this->config->version,
             true
         );
         wp_enqueue_script( 'laterpay-d3' );

@@ -72,14 +72,13 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 	 */
 	public function load_assets() {
         parent::load_assets();
-        global $laterpay_version;
 
         // load LaterPay-specific CSS
         wp_register_style(
             'laterpay-backend',
-            LATERPAY_ASSETS_PATH . '/css/laterpay-backend.css',
+            $this->config->css_url . 'laterpay-backend.css',
             array(),
-            $laterpay_version
+            $this->config->version
         );
         wp_register_style(
             'open-sans',
@@ -91,9 +90,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         // load LaterPay-specific JS
         wp_register_script(
             'laterpay-backend',
-            LATERPAY_ASSETS_PATH . '/js/laterpay-backend.js',
+            $this->config->js_url . 'laterpay-backend.js',
             array( 'jquery' ),
-            $laterpay_version,
+            $this->config->version,
             true
         );
         wp_enqueue_script( 'laterpay-backend' );

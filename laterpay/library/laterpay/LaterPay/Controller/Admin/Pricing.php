@@ -8,30 +8,29 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 	 */
     public function load_assets() {
         parent::load_assets();
-        global $laterpay_version;
 
         // load page-specific CSS
         wp_register_style(
             'laterpay-select2',
-            LATERPAY_ASSETS_PATH . '/css/vendor/select2.min.css',
+            $this->config->css_url. 'vendor/select2.min.css',
             array(),
-            $laterpay_version
+            $this->config->version
         );
         wp_enqueue_style( 'laterpay-select2' );
 
         // load page-specific JS
         wp_register_script(
             'laterpay-select2',
-            LATERPAY_ASSETS_PATH . '/js/vendor/select2.min.js',
+            $this->config->js_url . 'vendor/select2.min.js',
             array( 'jquery' ),
-            $laterpay_version,
+            $this->config->version,
             true
         );
         wp_register_script(
             'laterpay-backend-pricing',
-            LATERPAY_ASSETS_PATH . '/js/laterpay-backend-pricing.js',
+            $this->config->js_url . 'laterpay-backend-pricing.js',
             array( 'jquery', 'laterpay-select2' ),
-            $laterpay_version,
+            $this->config->version,
             true
         );
         wp_enqueue_script( 'laterpay-select2' );

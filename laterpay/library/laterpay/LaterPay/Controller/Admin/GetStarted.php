@@ -8,14 +8,13 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 	 */
     public function load_assets() {
         parent::load_assets();
-        global $laterpay_version;
 
         // load page-specific JS
         wp_register_script(
             'laterpay-backend-getstarted',
-            LATERPAY_ASSETS_PATH . '/js/laterpay-backend-getStarted.js',
+            $this->config->js_url . 'laterpay-backend-getStarted.js',
             array( 'jquery' ),
-            $laterpay_version,
+            $this->config->version,
             true
         );
         wp_enqueue_script( 'laterpay-backend-getstarted' );
