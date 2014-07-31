@@ -38,7 +38,7 @@ function laterpay_init() {
  * @wp-hook register_deactivation_hook
  * @return  void
  */
-function laterpay_active() {
+function laterpay_activate() {
 
 	laterpay_before_start();
 
@@ -53,7 +53,7 @@ function laterpay_active() {
  * @wp-hook register_deactivation_hook
  * @return  void
  */
-function laterpay_deactive() {
+function laterpay_deactivate() {
 
 	laterpay_before_start();
 
