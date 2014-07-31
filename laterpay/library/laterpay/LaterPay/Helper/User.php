@@ -8,12 +8,12 @@ class LaterPay_Helper_User
 
 	/**
 	 * @param string           $capability
-	 * @param WP_Post|int|null $post_id
+	 * @param WP_Post|int|null $post
 	 * @param bool             $strict
      *
 	 * @return bool
 	 */
-    public static function can( $capability, $post_id = null, $strict = true ) {
+    public static function can( $capability, $post = null, $strict = true ) {
         $allowed = false;
 
         if ( ! function_exists( 'wp_get_current_user' )) {
@@ -26,7 +26,7 @@ class LaterPay_Helper_User
                 switch ( $capability ) {
                     case 'laterpay_read_post_statistics':
                     case 'laterpay_edit_teaser_content':
-                        if ( ! empty( $post_id ) && current_user_can( 'edit_post', $post_id ) ) {
+                        if ( ! empty( $post ) && current_user_can( 'edit_post', $post ) ) {
                             // use edit_post capability as proxy:
                             // - super admins, admins, and editors can edit all posts
                             // - authors and contributors can edit their own posts
@@ -35,7 +35,7 @@ class LaterPay_Helper_User
                         break;
 
                     case 'laterpay_edit_individual_price':
-                        if ( ! empty( $post_id ) && current_user_can( 'publish_post', $post_id ) ) {
+                        if ( ! empty( $post ) && current_user_can( 'publish_post', $post ) ) {
                             // use publish_post capability as proxy:
                             // - super admins, admins, and editors can publish all posts
                             // - authors can publish their own posts
@@ -56,7 +56,6 @@ class LaterPay_Helper_User
 
     /**
      * Check if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.
-     * Returns true if a match was found.
      *
      * @return bool
      */
@@ -71,7 +70,6 @@ class LaterPay_Helper_User
 
     /**
      * Check if a particular user has a particular role.
-     * Returns true if a match was found.
      *
      * @param string $role    Role name.
      * @param int    $user_id (Optional) The ID of a user. Defaults to the current user.
@@ -94,13 +92,13 @@ class LaterPay_Helper_User
     }
 
 	/**
-	 * Get post preview mode.
+	 * Check if the current user wants to preview the post as it renders for an admin or as it renders for a visitor.
 	 *
 	 * @param   null|WP_Post $post
      *
 	 * @return  bool
 	 */
-    public static function preview_post_as_visitor($post = null) {
+    public static function preview_post_as_visitor( $post = null ) {
         if ( is_null( self::$_preview_post_as_visitor ) ) {
             $preview_post_as_visitor = 0;
             $current_user            = wp_get_current_user();
@@ -117,7 +115,7 @@ class LaterPay_Helper_User
     }
 
     /**
-     * Get post preview mode.
+     * Check if the current user has hidden the post statistics pane.
      *
      * @return  bool
      */

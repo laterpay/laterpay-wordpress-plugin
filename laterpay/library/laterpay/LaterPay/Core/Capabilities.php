@@ -13,7 +13,7 @@ class LaterPay_Core_Capabilities
     }
 
     /**
-    * Create and modify LaterPay roles
+    * Create and modify LaterPay roles.
     *
     * @return  void
     */
@@ -21,8 +21,9 @@ class LaterPay_Core_Capabilities
         $roles = array( 'administrator', 'editor' );
         foreach ( $roles as $role ) {
             $role = get_role( $role );
-            if ( empty( $role ) )
+            if ( empty( $role ) ) {
                 continue;
+            }
             $role->add_cap( 'laterpay_read_post_statistics' );
             $role->add_cap( 'laterpay_edit_individual_price' );
             $role->add_cap( 'laterpay_edit_teaser_content' );
@@ -31,8 +32,9 @@ class LaterPay_Core_Capabilities
         $roles = array( 'author', 'contributor' );
         foreach ( $roles as $role ) {
             $role = get_role( $role );
-            if ( empty( $role ) )
+            if ( empty( $role ) ) {
                 continue;
+            }
             $role->add_cap( 'laterpay_read_post_statistics' );
             $role->add_cap( 'laterpay_edit_teaser_content' );
         }

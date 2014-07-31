@@ -75,11 +75,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		// save changes in submitted form
 		if ( isset( $_POST['form'] ) ) {
 			// check for required privileges to perform action
-			if ( ! LaterPay_Helper_User::can( 'laterpay_edit_plugin_settings' ) ) {
+			if ( ! current_user_can( 'edit_plugins' ) ) {
 				wp_send_json(
 					array(
 						'success' => false,
-						'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
+						'message' => __( "You don't have sufficient user privileges to do this.", 'laterpay' )
 					)
 				);
 			}
