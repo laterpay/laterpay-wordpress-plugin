@@ -16,11 +16,14 @@ class LaterPay_Helper_Browser
      * @return array
      */
     public static function php_browser_info() {
+
+	    $config = laterpay_get_plugin_config();
+
         if ( empty( self::$browscap ) ) {
-            self::$browscap = new Browscap( LATERPAY_GLOBAL_PATH . '/cache' );
-            self::$browscap->doAutoUpdate = defined( 'LATERPAY_BROWSCAP_AUTOUPDATING' ) && LATERPAY_BROWSCAP_AUTOUPDATING;
-            if ( defined( 'LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY' ) && LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY !== '' ) {
-                self::$browscap->localFile = LATERPAY_BROWSCAP_MANUALLY_UPDATED_COPY;
+            self::$browscap = new Browscap( $config->get( 'cache_dir' ) );
+            self::$browscap->doAutoUpdate = $config->get( 'browscap.autoupdate' );
+            if ( $config->has( 'browsecap.manually_updated_copy' ) ) {
+                self::$browscap->localFile = $config->get( 'browsecap.manually_updated_copy' );
             }
         }
 

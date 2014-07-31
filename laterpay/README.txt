@@ -77,7 +77,7 @@ of the LaterPay WordPress plugin (/wp-admin/plugin-editor.php?file=laterpay%2Fla
 
 = Caching Compatibility =
 The plugin automatically detects if one of the available WordPress caching plugins (WP Super Cache, W3 Total Cache,
-Quick Cache, WP Fastest Cache, Cachify, WP-Cache.com) are active and sets the constant LATERPAY_PAGE_CACHING_COMPATIBLE_MODE
+Quick Cache, WP Fastest Cache, Cachify, WP-Cache.com) are active and sets the config-key `caching.compatible_mode`
 accordingly. If the site is in page caching compatibly mode, the post page is rendered without the actual post content,
 which the plugin then requests using Ajax. If the user has not purchased the post already, only the teaser content and
 the purchase button are displayed.

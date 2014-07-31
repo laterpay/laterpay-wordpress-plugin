@@ -131,7 +131,7 @@
             </div>
         </div>
         <dfn class="credentials-hint">
-            <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), LATERPAY_MERCHANTBACKEND_URL ); ?>
+            <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
         </dfn>
         <hr>
 

@@ -78,8 +78,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$this->update_configuration_file();
-
 		$table_currency     = $wpdb->prefix . 'laterpay_currency';
 		$table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
 		$table_history      = $wpdb->prefix . 'laterpay_payment_history';
@@ -153,9 +151,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		update_option( 'laterpay_sandbox_api_key',          '' );
 		update_option( 'laterpay_live_merchant_id',         '' );
 		update_option( 'laterpay_live_api_key',             '' );
-		update_option( 'laterpay_global_price',             LATERPAY_GLOBAL_PRICE_DEFAULT );
-		update_option( 'laterpay_currency',                 LATERPAY_CURRENCY_DEFAULT );
-		update_option( 'laterpay_version', $this->config->version );
+		update_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
+		update_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
+		update_option( 'laterpay_version',                  $this->config->version );
 
 		// clear opcode cache
 		LaterPay_Helper_Cache::reset_opcode_cache();
@@ -164,85 +162,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		$activated = get_option( 'laterpay_plugin_is_activated', '' );
 		if ( $activated !== '' ) { // never activated before
 			update_option( 'laterpay_plugin_is_activated', '1' );
-		}
-	}
-
-
-	/**
-	 * Write settings.php file based on configurations.
-	 *
-	 * @return void
-	 */
-	protected function create_configuration_file() {
-		try {
-			if ( ! file_exists( LATERPAY_GLOBAL_PATH . 'settings.php' ) ) {
-				$config = file_get_contents( LATERPAY_GLOBAL_PATH . 'settings.sample.php' );
-				$config = $this->_generate_user_settings( $config );
-				file_put_contents( LATERPAY_GLOBAL_PATH . 'settings.php', $config );
-			}
-		} catch ( Exception $e ) {
-			// do nothing
-		}
-	}
-
-	/**
-	 * Update an existing settings.php file based on configurations.
-	 *
-	 * @return void
-	 */
-	protected function update_configuration_file() {
-		if ( ! file_exists( LATERPAY_GLOBAL_PATH . 'settings.php' ) && ! file_exists( LATERPAY_GLOBAL_PATH . 'config.php' ) ) {
-			$this->create_configuration_file();
-			return;
-		}
-
-		try {
-			$default_config = require( LATERPAY_GLOBAL_PATH . 'settings.sample.php' );
-			$updated_config = array();
-
-			// backwards compatibility: get configuration from old formated file
-			if ( file_exists( LATERPAY_GLOBAL_PATH . 'config.php' )) {
-				require_once( LATERPAY_GLOBAL_PATH . 'config.php' );
-				$config = array();
-				foreach ( $default_config as $option => $value ) {
-					if ( defined( $option ) ) {
-						$config[$option] = constant( $option );
-					}
-				}
-				@unlink( LATERPAY_GLOBAL_PATH . 'config.php' );
-			} else {
-				$config = require( LATERPAY_GLOBAL_PATH . 'settings.php' );
-			}
-			$changed = false;
-
-			foreach ( $config as $option => $value ) {
-				// use manually updated option instead of default
-				if ( in_array( $option, $default_config ) && $default_config[$option] != $value ) {
-					$updated_config[$option] = $value;
-					$changed = true;
-				}
-			}
-
-			if ( $changed ) {
-				$config_file = file_get_contents( LATERPAY_GLOBAL_PATH . 'settings.sample.php' );
-
-				foreach ( $updated_config as $option => $value ) {
-					if ( is_string( $value ) ) {
-						$value = "'$value'";
-					} elseif ( is_bool( $value ) ) {
-						$value = $value ? 'true' : 'false';
-					}
-					$config_file = preg_replace(
-						'#(.*)' . $option . '(.*)(\s*=>\s*)(.*)(,?)#i',
-						'${1}' . $option . '${2}${3}' . $value . ',',
-						$config_file
-					);
-				}
-				$config_file = $this->_generate_user_settings($config_file);
-				file_put_contents( LATERPAY_GLOBAL_PATH . 'settings.php', $config_file );
-			}
-		} catch ( Exception $e ) {
-			// do nothing
 		}
 	}
 

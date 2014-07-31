@@ -52,13 +52,7 @@ class LaterPay_Core_Bootstrap {
 			add_action( 'admin_enqueue_scripts', array( $this, 'add_admin_pointers_script' ) );
 
 			// checking for upgrades
-			$github_updater = new LaterPay_Core_Updater_GitHub();
-			$github_updater->init(
-				$this->config->plugin_file_path,
-				LATERPAY_GITHUB_USER_NAME,
-				LATERPAY_GITHUB_PROJECT_NAME,
-				LATERPAY_GITHUB_TOKEN
-			);
+			$github_updater = new LaterPay_Controller_Admin_GitHubUpdater( $this->config );
 			add_filter( 'pre_set_site_transient_update_plugins',    array( $github_updater, 'set_transient' ) );
 			add_filter( 'plugins_api',                              array( $github_updater, 'set_plugin_info' ), 10, 3 );
 			add_filter( 'upgrader_pre_install',                     array( $github_updater, 'pre_install' ), 10, 2 );
@@ -137,31 +131,6 @@ class LaterPay_Core_Bootstrap {
 		}
 
 		add_action( 'plugin_action_links_' . $this->config->plugin_base_name, array( $this, 'add_plugin_settings_link' ) );
-	}
-
-	/**
-	 * Callback to generate the user settings.
-	 *
-	 * @param   Array $settings
-	 *
-	 * @return  Array
-	 */
-	private function _generate_user_settings( $settings ) {
-		$config = str_replace(
-			array(
-				'{salt}',
-				'{resource_encryption_key}',
-				"'{SITE_USES_PAGE_CACHING}'",
-			),
-			array(
-				md5( uniqid( 'salt' ) ),
-				md5( uniqid( 'key' ) ),
-				LaterPay_Helper_Cache::site_uses_page_caching() ? 'true' : 'false',
-			),
-			$settings
-		);
-
-		return $config;
 	}
 
 	/**
@@ -298,7 +267,7 @@ class LaterPay_Core_Bootstrap {
 		wp_enqueue_script( 'laterpay-post-view' );
 
 		// pass localized strings and variables to script
-		$client         = new LaterPay_Core_Client();
+		$client         = new LaterPay_Core_Client( $this->config );
 		$balance_url    = $client->get_controls_balance_url();
 		wp_localize_script(
 			'laterpay-post-view',
@@ -313,7 +282,6 @@ class LaterPay_Core_Bootstrap {
 			)
 		);
 	}
-
 
 	/**
 	 * Add settings link to plugins table.

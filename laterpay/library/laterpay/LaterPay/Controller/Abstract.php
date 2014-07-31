@@ -22,6 +22,8 @@ class LaterPay_Controller_Abstract
 	 */
 	public function __construct( LaterPay_Model_Config $config ) {
 		$this->config = $config;
+		// assigning the config to our view
+		$this->assign( 'config', $this->config );
 	}
 
 	/**
@@ -42,7 +44,20 @@ class LaterPay_Controller_Abstract
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
-        require_once LATERPAY_GLOBAL_PATH . "views/$file.php";
+	    $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
+	    if( !file_exists( $view_file ) ) {
+		    $msg = sprintf(
+			    __( '%s : <code>%s</code> not found', 'laterpay' ),
+			    __METHOD__,
+			    __FILE__
+		    );
+		    LaterPay_Core_Logger::error(
+			    $msg,
+			    array( 'view_file' => $view_file )
+		    );
+		    return;
+	    }
+		include_once( $view_file );
     }
 
     /**
@@ -68,8 +83,22 @@ class LaterPay_Controller_Abstract
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
+	    $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
+	    if( !file_exists( $view_file ) ) {
+		    $msg = sprintf(
+			    __( '%s : <code>%s</code> not found', 'laterpay' ),
+			    __METHOD__,
+			    __FILE__
+		    );
+		    LaterPay_Core_Logger::error(
+		        $msg,
+			    array( 'view_file' => $view_file )
+		    );
+		    return '';
+	    }
+
         ob_start();
-        include LATERPAY_GLOBAL_PATH . "views/$file.php";
+        include( $view_file );
         $thread = ob_get_contents();
         ob_end_clean();
         $html = $thread;

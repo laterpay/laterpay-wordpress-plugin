@@ -25,10 +25,13 @@ class LaterPay_Helper_String
 	public static function determine_number_of_words( $content ) {
 		$content 		= preg_replace( '/\s+/', ' ', $content );
 		$total_words 	= count( explode( ' ', $content ) );
-		$percent 		= (int) LATERPAY_PAID_CONTENT_PREVIEW_PERCENTAGE_OF_CONTENT;
+
+		$config = laterpay_get_plugin_config();
+
+		$percent 		= (int) $config->get( 'preview_percentage_of_content' );
 		$percent 		= max( min( $percent, 100 ), 1 );
-		$min 			= (int) LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MIN;
-		$max 			= (int) LATERPAY_PAID_CONTENT_PREVIEW_WORD_COUNT_MAX;
+		$min 			= (int) $config->get( 'preview_word_count_min' );
+		$max 			= (int) $config->get( 'preview_word_count_max' );
 
 		$number_of_words = $total_words * ( $percent / 100 );
 		$number_of_words = max( min( $number_of_words, $max ), $min );

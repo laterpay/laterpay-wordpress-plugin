@@ -72,10 +72,21 @@ class LaterPay_Core_Logger
 	 * @return LaterPay_Core_Logger|LaterPay_Core_Logger_Handler_Null|LaterPay_Core_Logger_Handler_Stream
 	 */
 	public static function get_instance() {
+
+		/**
+		 * Contains the full path with filename to logfile
+		 * @var     string $log_file
+		 * @return  string $log_file
+		 */
+		$log_file = apply_filters(
+			'laterpay_log_file',
+			'/var/log/laterpay_api.log'
+		);
+
         if ( empty( self::$_instance ) ) {
             try {
-                if ( defined( 'LATERPAY_LOGGER_ENABLED' ) && defined( 'LATERPAY_LOGGER_FILE' ) && LATERPAY_LOGGER_ENABLED ) {
-                    self::$_instance = new LaterPay_Core_Logger_Handler_Stream( LATERPAY_LOGGER_FILE );
+                if ( defined( 'WB_DEBUG' ) && WB_DEBUG ) {
+                    self::$_instance = new LaterPay_Core_Logger_Handler_Stream( $log_file );
                 } else {
                     self::$_instance = new LaterPay_Core_Logger_Handler_Null();
                 }
