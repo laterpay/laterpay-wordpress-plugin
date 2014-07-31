@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Controller_Tacking extends LaterPay_Controller_Abstract {
+class LaterPay_Controller_Tracking extends LaterPay_Controller_Abstract {
 
 	/**
 	 * Track unique visitors.
