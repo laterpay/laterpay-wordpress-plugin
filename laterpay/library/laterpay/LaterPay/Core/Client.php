@@ -719,23 +719,22 @@ class LaterPay_Core_Client
 
             LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array( $raw_response_body ) );
 
-            $response = Zend_Json::decode( $raw_response_body, Zend_Json::TYPE_ARRAY );
+	        $error_code = wp_remote_retrieve_response_code( $raw_response );
+	        if( $error_code > 400 ) {
+		        throw new Exception(
+			        wp_remote_retrieve_response_message( $raw_response ),
+			        $error_code
+		        );
+	        }
+
+            $response = json_decode( $raw_response_body, true );
+
             if ( $response['status'] == 'invalid_token' ) {
                 $this->delete_token();
             }
             if ( array_key_exists( 'new_token', $response ) ) {
                 $this->set_token( $response['new_token'] );
             }
-        } catch ( Zend_Json_Exception $e ) {
-            LaterPay_Core_Logger::error( 'LaterPay_Client::make_request', array(
-                                'message'   => $e->getMessage(),
-                                'url'       => $url,
-                                'params'    => $params,
-                                'post'      => $post,
-                            )
-                        );
-
-            $response = array( 'status' => 'unexpected_error' );
         } catch ( Exception $e ) {
             LaterPay_Core_Logger::error( 'LaterPay_Client::make_request', array(
                                 'message'   => $e->getMessage(),

@@ -51,13 +51,12 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
         if ( isset( $_POST['form'] ) ) {
             // check for required privileges to perform action
             if ( ! LaterPay_Helper_User::can( 'laterpay_edit_plugin_settings' ) ) {
-                echo Zend_Json::encode(
+	            wp_send_json(
                     array(
                         'success' => false,
                         'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
                     )
                 );
-                die;
             }
 
             if ( function_exists('check_admin_referer') ) {
@@ -70,14 +69,14 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                     $result = update_option( 'laterpay_teaser_content_only', $_POST['teaser_content_only'] );
                     if ( $result ) {
                         if ( get_option( 'laterpay_teaser_content_only' ) ) {
-                            echo Zend_Json::encode(
+	                        wp_send_json(
                                 array(
                                     'success' => true,
                                     'message' => __( 'Visitors will now see only the teaser content of paid posts.', 'laterpay' )
                                 )
                             );
                         } else {
-                            echo Zend_Json::encode(
+	                        wp_send_json(
                                 array(
                                     'success' => true,
                                     'message' => __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay' )
@@ -85,7 +84,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                             );
                         }
                     } else {
-                        echo Zend_Json::encode(
+	                    wp_send_json(
                             array(
                                 'success' => false,
                                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
@@ -96,13 +95,12 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                     break;
 
                 default:
-                    echo Zend_Json::encode(
+	                wp_send_json(
                         array(
                             'success' => false,
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
-                    die;
                     break;
             }
         }

@@ -449,13 +449,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 		if ( isset( $_POST['form'] ) ) {
 			// check for required privileges to perform action
 			if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success' => false,
 						'message' => __("You don't have sufficient user privileges to do this.", 'laterpay' )
 					)
 				);
-				die;
 			}
 
 			if ( function_exists( 'check_admin_referer' ) ) {
@@ -466,23 +465,21 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 				case 'post_page_preview':
 					$current_user = wp_get_current_user();
 					if ( ! ($current_user instanceof WP_User) ) {
-						echo Zend_Json::encode(
+						wp_send_json(
 							array(
 								'success' => false,
 								'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
 							)
 						);
-						die;
 					}
 					$result = add_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'], true )
 					          || update_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'] );
-					echo Zend_Json::encode(
+					wp_send_json(
 						array(
 							'success' => true,
 							'message' => __( 'Updated.', 'laterpay' )
 						)
 					);
-					die;
 					break;
 
 				case 'hide_statistics_pane':
@@ -496,13 +493,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 					break;
 
 				default:
-					echo Zend_Json::encode(
+					wp_send_json(
 						array(
 							'success' => false,
 							'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
 						)
 					);
-					die;
 					break;
 			}
 		}

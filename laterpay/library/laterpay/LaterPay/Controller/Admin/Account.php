@@ -58,13 +58,12 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 		if ( isset( $_POST['form'] ) ) {
 			// check for required privileges to perform action
 			if ( ! LaterPay_Helper_User::can( 'laterpay_edit_plugin_settings' ) ) {
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success' => false,
 						'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
 					)
 				);
-				die;
 			}
 
 			if ( function_exists( 'check_admin_referer' ) ) {
@@ -93,7 +92,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 					break;
 
 				default:
-					echo Zend_Json::encode(
+					wp_send_json(
 						array(
 							'success' => false,
 							'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
@@ -114,7 +113,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
 		if ( self::is_valid_merchant_id( $sandbox_merchant_id ) ) {
 			update_option( 'laterpay_sandbox_merchant_id', $sandbox_merchant_id );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'Sandbox Merchant ID verified and saved.', 'laterpay' )
@@ -122,14 +121,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 			);
 		} elseif ( strlen( $sandbox_merchant_id ) == 0 ) {
 			update_option( 'laterpay_sandbox_merchant_id', '' );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'The Sandbox Merchant ID has been removed.', 'laterpay' )
 				)
 			);
 		} else {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay' )
@@ -149,7 +148,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
 		if ( self::is_valid_api_key( $sandbox_api_key ) ) {
 			update_option( 'laterpay_sandbox_api_key', $sandbox_api_key );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'Your Sandbox API key is valid. You can now make TEST transactions.', 'laterpay' )
@@ -157,14 +156,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 			);
 		} elseif ( strlen( $sandbox_api_key ) == 0 ) {
 			update_option( 'laterpay_sandbox_api_key', '' );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'The Sandbox API key has been removed.', 'laterpay' )
 				)
 			);
 		} else {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay' )
@@ -184,7 +183,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
 		if ( self::is_valid_merchant_id( $live_merchant_id ) ) {
 			update_option( 'laterpay_live_merchant_id', $live_merchant_id );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'Live Merchant ID verified and saved.', 'laterpay' )
@@ -192,14 +191,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 			);
 		} elseif ( strlen( $live_merchant_id ) == 0 ) {
 			update_option( 'laterpay_live_merchant_id', '' );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'The Live Merchant ID has been removed.', 'laterpay' )
 				)
 			);
 		} else {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'The Merchant ID you entered is not a valid LaterPay Live Merchant ID! ', 'laterpay' )
@@ -219,7 +218,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
 		if ( self::is_valid_api_key( $live_api_key ) ) {
 			update_option( 'laterpay_live_api_key', $live_api_key );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'Live API key verified and saved. You can now make REAL transactions.', 'laterpay' )
@@ -227,14 +226,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 			);
 		} elseif ( strlen( $live_api_key ) == 0 ) {
 			update_option( 'laterpay_live_api_key', '' );
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'The Live API key has been removed.', 'laterpay' )
 				)
 			);
 		} else {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'The API key you entered is not a valid LaterPay Live API key! ', 'laterpay' )
@@ -253,14 +252,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 		$result = update_option( 'laterpay_plugin_is_in_live_mode', $_POST['plugin_is_in_live_mode'] );
 		if ( $result ) {
 			if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success' => true,
 						'message' => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
 					)
 				);
 			} else {
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success' => true,
 						'message' => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
@@ -268,7 +267,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 				);
 			}
 		} else {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),

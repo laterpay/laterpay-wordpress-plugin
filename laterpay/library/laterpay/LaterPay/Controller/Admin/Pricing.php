@@ -76,15 +76,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		if ( isset( $_POST['form'] ) ) {
 			// check for required privileges to perform action
 			if ( ! LaterPay_Helper_User::can( 'laterpay_edit_plugin_settings' ) ) {
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success' => false,
 						'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
 					)
 				);
-				die;
 			}
-
 			if ( function_exists( 'check_admin_referer' ) ) {
 				check_admin_referer( 'laterpay_form' );
 			}
@@ -107,13 +105,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 					break;
 
 				default:
-					echo Zend_Json::encode(
+					wp_send_json(
 						array(
 							'success' => false,
 							'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
 						)
 					);
-					die;
 			}
 		}
 
@@ -121,16 +118,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		if ( isset( $_GET['term'] ) ) {
 			$LaterPay_Category_Model = new LaterPay_Model_Category();
 			if ( isset( $_GET['get'] ) && $_GET['get'] ) {
-				echo Zend_Json::encode(
+				wp_send_json(
 					$LaterPay_Category_Model->get_categories_by_term( $_GET['term'], 1 )
 				);
 			} else {
 				if ( isset( $_GET['category'] ) ) {
-					echo Zend_Json::encode(
+					wp_send_json(
 						$LaterPay_Category_Model->get_categories_without_price_by_term( $_GET['term'], 10, (int) $_GET['category'] )
 					);
 				} else {
-					echo Zend_Json::encode(
+					wp_send_json(
 						$LaterPay_Category_Model->get_categories_without_price_by_term( $_GET['term'], 10 )
 					);
 				}
@@ -138,13 +135,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 			die;
 		}
 		// invalid request
-		echo Zend_Json::encode(
+		wp_send_json(
 			array(
 				'success' => false,
 				'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
 			)
 		);
-		die;
 	}
 
 	/**
@@ -155,7 +151,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 	protected static function _update_currency() {
 		update_option( 'laterpay_currency', $_POST['laterpay_currency'] );
 
-		echo Zend_Json::encode(
+		wp_send_json(
 			array(
 				'success'           => true,
 				'laterpay_currency' => get_option( 'laterpay_currency' ),
@@ -165,7 +161,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 				)
 			)
 		);
-		die;
 	}
 
 	/**
@@ -177,14 +172,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		$delocalized_global_price = (float) str_replace( ',', '.', $_POST['laterpay_global_price'] );
 
 		if ( $delocalized_global_price > 5 || $delocalized_global_price < 0 ) {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success'               => false,
 					'laterpay_global_price' => get_option( 'laterpay_global_price' ),
 					'message'               => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
 				)
 			);
-			die;
 		}
 
 		update_option('laterpay_global_price', $delocalized_global_price);
@@ -192,7 +186,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		$Currency           = new LaterPay_Model_Currency();
 		$currency_name = $Currency->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
 
-		echo Zend_Json::encode(
+		wp_send_json(
 			array(
 				'success'               => true,
 				'laterpay_global_price' => $global_price,
@@ -203,7 +197,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 				)
 			)
 		);
-		die;
 	}
 
 	/**
@@ -215,13 +208,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		$delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
 
 		if ( $delocalized_category_price > 5 || $delocalized_category_price < 0 ) {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'The price you tried to set is not within the allowed range of 0 to 5.00.', 'laterpay' )
 				)
 			);
-			die;
 		}
 
 		if ( ! empty( $_POST['category_id'] ) ) {
@@ -248,19 +240,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		$delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
 
 		if ( empty( $id ) && empty( $id_category ) ) {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'There is no such category on this website.', 'laterpay' )
 				)
 			);
-			die;
 		} else if ( ! empty( $id_category ) && $id_category != $_POST['category_id'] ) {
 			$LaterPay_Category_Model->delete_prices_by_category_id( $_POST['category_id'] );
 			$id = $LaterPay_Category_Model->get_price_id_by_category_id( $_POST['category_id'] );
 
 			if ( $id ) {
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success' => false,
 						'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
@@ -272,7 +263,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 				$category_price             = $LaterPay_Category_Model->get_price_by_category_id( $id_category );
 				$formatted_category_price   = LaterPay_Helper_View::format_number( (float) $category_price, 2 );
 
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success'       => true,
 						'category'      => $_POST['category'],
@@ -287,7 +278,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 						)
 					)
 				);
-				die;
 			}
 		}
 
@@ -296,7 +286,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		$category_price             = $LaterPay_Category_Model->get_price_by_category_id( $id_category );
 		$formatted_category_price   = LaterPay_Helper_View::format_number( (float) $category_price, 2 );
 
-		echo Zend_Json::encode(
+		wp_send_json(
 			array(
 				'success'       => true,
 				'category'      => $_POST['category'],
@@ -323,13 +313,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		$check                  = $LaterPay_Category_Model->check_existence_of_category_by_name( $_POST['category'] );
 		$id_category            = $LaterPay_Category_Model->get_category_id_by_name( $_POST['category'] );
 		if ( ! empty( $check ) || empty( $id_category ) ) {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'There is no such category on this website.', 'laterpay' )
 				)
 			);
-			die;
 		}
 
 		$delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
@@ -341,7 +330,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 		$category_price             = $LaterPay_Category_Model->get_price_by_category_id( $id_category );
 		$formatted_category_price   = LaterPay_Helper_View::format_number( (float) $category_price, 2 );
 
-		echo Zend_Json::encode(
+		wp_send_json(
 			array(
 				'success'       => true,
 				'category'      => $_POST['category'],
@@ -369,21 +358,20 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
 		$id = $LaterPay_Category_Model->get_price_id_by_category_id( $_POST['category_id'] );
 		if ( empty( $id ) ) {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => true,
 					'message' => __( 'The default price for this category was deleted.', 'laterpay' )
 				)
 			);
 		} else {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
 				)
 			);
 		}
-		die;
 	}
 
 }
