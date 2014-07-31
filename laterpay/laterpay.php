@@ -11,12 +11,11 @@
  */
 
 // Kick-Off
-add_action( 'plugins_loaded', 'laterpay_init', 0 );
+add_action( 'plugins_loaded',           'laterpay_init', 0 );
+register_activation_hook( __FILE__,     'laterpay_activate' );
+register_deactivation_hook( __FILE__,   'laterpay_deactivate' );
 
-register_activation_hook( __FILE__, 'laterpay_activate' );
-register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
-
-// TODO: can be removed, we're using controllers $this->config->version which references to Version in Plugin-Header (Line 7)
+// TODO: can be removed, we're using $this->config->version which references to Version in Plugin-Header (Line 7)
 $laterpay_version = '0.9.6';
 
 define( 'LATERPAY_GLOBAL_PATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
@@ -29,6 +28,7 @@ if( !class_exists( 'LaterPay_Autoloader' ) ) {
 LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
 LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'vendor' );
 
+// TODO: move this to laterpay_get_plugin_config
 $laterpay_config = require_once( LATERPAY_GLOBAL_PATH . 'laterpay-config.php' );
 foreach ( $laterpay_config as $option => $value ) {
 	if ( ! defined( $option ) ) {
@@ -39,7 +39,6 @@ foreach ( $laterpay_config as $option => $value ) {
 
 /**
  * Callback to start our plugin
- *
  * @wp-hook plugins_loaded
  * @return  void
  */
@@ -47,8 +46,6 @@ function laterpay_init() {
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->run();
-
-
 }
 
 /**
@@ -60,7 +57,6 @@ function laterpay_active(){
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->activate();
-
 }
 
 /**
@@ -72,12 +68,11 @@ function laterpay_deactive(){
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->deactivate();
-
 }
 
 /**
  * getting the plugin settings
- * @return  stdClass
+ * @return  LaterPay_Model_Config
  */
 function laterpay_get_plugin_config(){
 
@@ -102,8 +97,6 @@ function laterpay_get_plugin_config(){
 
 	foreach ( $headers as $name => $value )
 		$data->$name = $value;
-
-//	echo "<pre>" . print_r( $data, true ). "</pre>";
 
 	return $data;
 }
