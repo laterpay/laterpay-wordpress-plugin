@@ -2,7 +2,6 @@
 
 class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
 
-
 	/**
 	 * Render a teaser box for selling additional (downloadable) content from the shortcode [laterpay_premium_download].
 	 *
@@ -114,8 +113,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
 	 * Example:
 	 * [laterpay_box_wrapper][laterpay_premium_download target_page_title="Vocabulary list"][laterpay_premium_download target_page_title="Excercises"][/laterpay_box_wrapper]
 	 *
-	 * @param   array $atts
-	 * @param   string $content
+	 * @param   array 	$atts
+	 * @param   string 	$content
 	 *
 	 * @return  string
 	 */
