@@ -3,16 +3,30 @@
 class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 
 	/**
-	 * Check plugin requirements.
-	 *
-	 * Deactivates plugin and renders admin notices if requirements are not fulfilled.
+	 * Renders admin notices if requirements are not fulfilled.
 	 *
 	 * @wp-hook admin_notices
 	 *
 	 * @return  void
 	 */
-	public function check_requirements() {
-		global $wp_version;
+	public function render_requirements_notices() {
+        $notices = $this->check_requirements();
+        
+		// render error messages if requirements are not fulfilled
+		if ( count( $notices ) > 0 ) {
+			$out = join( "\n", $notices );
+            echo '<div class="error">' . $out . '</div>';
+		}
+	}
+    
+    /**
+     * Check plugin requirements and deactivates plugin if requirements are not fulfilled.
+     * 
+     * @global string $wp_version
+     * @return array $notices
+     */
+    public function check_requirements() {
+        global $wp_version;
 
 		$installed_php_version          = phpversion();
 		$installed_wp_version           = $wp_version;
@@ -44,18 +58,18 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		if ( ! is_writable( $file ) ) {
 			$notices[] = sprintf( $template, $file );
 		}
-
-		// deactivate plugin and render error messages if requirements are not fulfilled
+        
+        // deactivate plugin if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
-			deactivate_plugins( $this->config->plugin_base_name );
+			deactivate_plugins( $this->config->plugin_base_name, true );
 
 			$notices[] = __( 'The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
-			$out = join( "\n", $notices );
-			echo '<div class="error">' . $out . '</div>';
-		}
-	}
+        }
+        
+        return $notices;
+    }
 
-	/**
+    /**
 	 * Install settings and tables if update is required.
 	 *
 	 * @wp-hook plugins_loaded
@@ -65,8 +79,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		$current_version = get_option('laterpay_version');
 		if ( version_compare( $current_version, $this->config->version, '!=' ) ) {
 			$this->install();
-			$_capabilities = new LaterPay_Core_Capabilities();
-			$_capabilities->populate_roles();
 		}
 	}
 
@@ -76,7 +88,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	 */
 	public function install(){
 		global $wpdb;
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        $notices = (array) $this->check_requirements();
+        if ( count($notices) ) {
+            return;
+        }
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$table_currency     = $wpdb->prefix . 'laterpay_currency';
 		$table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
@@ -144,16 +160,16 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 			)
 		);
 
-		update_option( 'laterpay_plugin_is_activated',      '' );
-		update_option( 'laterpay_teaser_content_only',      '1' );
-		update_option( 'laterpay_plugin_is_in_live_mode',   '0' );
-		update_option( 'laterpay_sandbox_merchant_id',      '' );
-		update_option( 'laterpay_sandbox_api_key',          '' );
-		update_option( 'laterpay_live_merchant_id',         '' );
-		update_option( 'laterpay_live_api_key',             '' );
-		update_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
-		update_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
-		update_option( 'laterpay_version',                  $this->config->version );
+		add_option( 'laterpay_plugin_is_activated',      '' );
+		add_option( 'laterpay_teaser_content_only',      '1' );
+		add_option( 'laterpay_plugin_is_in_live_mode',   '0' );
+		add_option( 'laterpay_sandbox_merchant_id',      '' );
+		add_option( 'laterpay_sandbox_api_key',          '' );
+		add_option( 'laterpay_live_merchant_id',         '' );
+		add_option( 'laterpay_live_api_key',             '' );
+		add_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
+		add_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
+		update_option( 'laterpay_version',               $this->config->version );
 
 		// clear opcode cache
 		LaterPay_Helper_Cache::reset_opcode_cache();
@@ -163,6 +179,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		if ( $activated !== '' ) { // never activated before
 			update_option( 'laterpay_plugin_is_activated', '1' );
 		}
+        
+        // update capabilities
+        $capabilities = new LaterPay_Core_Capabilities();
+        $capabilities->populate_roles();
 	}
 
 }
