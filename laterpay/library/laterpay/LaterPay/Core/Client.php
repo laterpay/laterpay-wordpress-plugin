@@ -35,31 +35,28 @@ class LaterPay_Core_Client
 	protected $token_name;
 
 	/**
-	 * @param   array $_args
-     *
+	 * @param   LaterPay_Model_Config $config
 	 * @return  LaterPay_Core_Client
 	 */
-    public function __construct( $_args = array() ) {
+    public function __construct( LaterPay_Model_Config $config ) {
+
+	    $this->config = $config;
+
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $this->cp_key   = get_option( 'laterpay_live_merchant_id' );
             $this->api_key  = get_option( 'laterpay_live_api_key' );
-            $this->api_root = LATERPAY_LIVE_API_URL;
-            $this->web_root = LATERPAY_LIVE_WEB_URL;
+            $this->api_root = $this->config->get( 'api.live_url' );
+            $this->web_root = $this->config->get( 'api.live_web_url' );
         } else {
             $this->cp_key   = get_option( 'laterpay_sandbox_merchant_id' );
             $this->api_key  = get_option( 'laterpay_sandbox_api_key' );
-            $this->api_root = LATERPAY_SANDBOX_API_URL;
-            $this->web_root = LATERPAY_SANDBOX_WEB_URL;
+            $this->api_root = $this->config->get( 'api.sandbox_url' );
+            $this->web_root = $this->config->get( 'api.sandbox_web_url' );
         }
 
-        $this->token_name = LATERPAY_COOKIE_TOKEN_NAME;
+        $this->token_name = $this->config->get( 'api.token_name' );
         if ( isset( $_COOKIE[$this->token_name] ) ) {
             $this->lptoken = $_COOKIE[$this->token_name];
-        }
-        foreach ( $_args as $key => $value ) {
-            if ( property_exists( $this, $key ) ) {
-                $this->{$key} = $value;
-            }
         }
 
         LaterPay_Core_Logger::debug( 'LaterPay_Client::constructor', array(
@@ -680,7 +677,8 @@ class LaterPay_Core_Client
      * @return  array $response
      */
     protected function make_request( $url, $params = array(), $method = LaterPay_Core_Request::GET ) {
-        LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(
+        $post = get_post();
+	    LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(
                             'url'       => $url,
                             'params'    => $params,
                             'post'      => $post,
@@ -721,23 +719,22 @@ class LaterPay_Core_Client
 
             LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array( $raw_response_body ) );
 
-            $response = Zend_Json::decode( $raw_response_body, Zend_Json::TYPE_ARRAY );
+	        $error_code = wp_remote_retrieve_response_code( $raw_response );
+	        if( $error_code > 400 ) {
+		        throw new Exception(
+			        wp_remote_retrieve_response_message( $raw_response ),
+			        $error_code
+		        );
+	        }
+
+            $response = json_decode( $raw_response_body, true );
+
             if ( $response['status'] == 'invalid_token' ) {
                 $this->delete_token();
             }
             if ( array_key_exists( 'new_token', $response ) ) {
                 $this->set_token( $response['new_token'] );
             }
-        } catch ( Zend_Json_Exception $e ) {
-            LaterPay_Core_Logger::error( 'LaterPay_Client::make_request', array(
-                                'message'   => $e->getMessage(),
-                                'url'       => $url,
-                                'params'    => $params,
-                                'post'      => $post,
-                            )
-                        );
-
-            $response = array( 'status' => 'unexpected_error' );
         } catch ( Exception $e ) {
             LaterPay_Core_Logger::error( 'LaterPay_Client::make_request', array(
                                 'message'   => $e->getMessage(),

@@ -4,20 +4,37 @@ class LaterPay_Controller_Abstract
 {
 
     /**
-     * Variables for substitution in templates
+     * Variables for substitution in templates.
+     *
      * @var array
      */
     public $variables = array();
 
 	/**
-	 * Loading all assets on boot-up
+	 * Contains all settings for our plugin
+	 * @var LaterPay_Model_Config
+	 */
+	protected $config;
+
+	/**
+	 * @param   LaterPay_Model_Config $config
+	 * @return  LaterPay_Controller_Abstract
+	 */
+	public function __construct( LaterPay_Model_Config $config ) {
+		$this->config = $config;
+		// assigning the config to our view
+		$this->assign( 'config', $this->config );
+	}
+
+	/**
+	 * Load all assets on boot-up.
      *
 	 * @return  void
 	 */
 	public function load_assets() {}
 
     /**
-     * Render HTML file
+     * Render HTML file.
      *
      * @param   string $file file to get HTML string
      *
@@ -27,11 +44,24 @@ class LaterPay_Controller_Abstract
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
-        require_once LATERPAY_GLOBAL_PATH . "views/$file.php";
+	    $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
+	    if( !file_exists( $view_file ) ) {
+		    $msg = sprintf(
+			    __( '%s : <code>%s</code> not found', 'laterpay' ),
+			    __METHOD__,
+			    __FILE__
+		    );
+		    LaterPay_Core_Logger::error(
+			    $msg,
+			    array( 'view_file' => $view_file )
+		    );
+		    return;
+	    }
+		include_once( $view_file );
     }
 
     /**
-     * Assign variable for substitution in templates
+     * Assign variable for substitution in templates.
      *
      * @param string $variable name variable to assign
      * @param mixed  $value    value variable for assign
@@ -43,7 +73,7 @@ class LaterPay_Controller_Abstract
     }
 
     /**
-     * Get HTML from file
+     * Get HTML from file.
      *
      * @param   string $file file to get HTML string
      *
@@ -53,8 +83,22 @@ class LaterPay_Controller_Abstract
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
+	    $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
+	    if( !file_exists( $view_file ) ) {
+		    $msg = sprintf(
+			    __( '%s : <code>%s</code> not found', 'laterpay' ),
+			    __METHOD__,
+			    __FILE__
+		    );
+		    LaterPay_Core_Logger::error(
+		        $msg,
+			    array( 'view_file' => $view_file )
+		    );
+		    return '';
+	    }
+
         ob_start();
-        include LATERPAY_GLOBAL_PATH . "views/$file.php";
+        include( $view_file );
         $thread = ob_get_contents();
         ob_end_clean();
         $html = $thread;
@@ -63,7 +107,7 @@ class LaterPay_Controller_Abstract
     }
 
 	/**
-     * Render the navigation for the plugin backend
+     * Render the navigation for the plugin backend.
      *
 	 * @param   string $file
      *
@@ -75,7 +119,7 @@ class LaterPay_Controller_Abstract
         }
         $activated      = get_option( 'laterpay_plugin_is_activated', '' );
         $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;
-        $menu           = LaterPay_Helper_View::$admin_menu;
+        $menu           = LaterPay_Helper_View::get_admin_menu();
         if ( $activated ) {
             unset( $menu['get_started'] );
         }

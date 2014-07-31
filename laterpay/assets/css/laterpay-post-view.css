@@ -11,7 +11,6 @@
     font-weight:400 !important;
     margin:1em 0 0 !important;
     text-decoration:none !important;
-    white-space:nowrap !important;
 }
 .laterpay-purchase-link[data-icon]:before {
     font-size:2em !important;
@@ -42,6 +41,7 @@
     margin:0 0 0.5em 0.5em !important;
     padding:.2em 0.2em 0.1em 0 !important;
     text-shadow:0 -1px 0 #22a280 !important;
+    white-space:nowrap !important;
 }
 .laterpay-purchase-link.laterpay-purchase-button small {
     bottom:.7em !important;

@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">
@@ -5,10 +7,12 @@
     </div>
 
     <div class="tabs-area">
-        <a href="<?php echo add_query_arg( array( 'page' => LaterPay_Helper_View::$admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>" id="plugin-mode-indicator" data-icon="h">
+        <?php if ( ! $plugin_is_in_live_mode ): ?>
+        <a href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>" id="plugin-mode-indicator" data-icon="h">
             <h2><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
             <span><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
         </a>
+        <?php endif; ?>
         <?php echo $top_nav; ?>
     </div>
 
@@ -127,7 +131,7 @@
             </div>
         </div>
         <dfn class="credentials-hint">
-            <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), LATERPAY_MERCHANTBACKEND_URL ); ?>
+            <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
         </dfn>
         <hr>
 

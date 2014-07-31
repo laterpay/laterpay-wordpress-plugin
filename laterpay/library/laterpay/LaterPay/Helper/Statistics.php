@@ -17,7 +17,7 @@ class LaterPay_Helper_Statistics
 	 * @var array
 	 */
 	protected static $options = array(
-        'secret'            => LATERPAY_SALT,
+        'secret'            => AUTH_SALT,
         'session_duration'  => 2678400,  // one month
     );
 

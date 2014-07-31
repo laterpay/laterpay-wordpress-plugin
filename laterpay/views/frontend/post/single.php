@@ -1,4 +1,6 @@
-<?php if ( LATERPAY_PAGE_CACHING_COMPATIBLE_MODE && ! LaterPay_Helper_Request::is_ajax() ): ?>
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
+<?php if ( $config->get( 'caching.compatible_mode' ) && ! LaterPay_Helper_Request::is_ajax() ): ?>
     <span id="laterpay-page-caching-mode" data-post-id="<?php echo $post_id; ?>"></span>
 <?php else: ?>
     <?php if ( $can_show_statistic ): ?>
