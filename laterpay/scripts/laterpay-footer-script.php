@@ -28,7 +28,7 @@ $post_id    = $request->get_param( 'id' ); // required, relative file path
 $response->set_header( 'Content-Type', 'text/html' );
 
 if ( LaterPay_Helper_Request::is_ajax() && ! empty( $post_id ) ) {
-    $controller = new LaterPay_Controller_Post_Content();
+    $controller = new LaterPay_Controller_Post_Content( $this->config );
 
     ob_start();
     $controller->modify_footer();
