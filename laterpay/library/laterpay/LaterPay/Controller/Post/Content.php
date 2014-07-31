@@ -469,16 +469,16 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return string
      */
     public function get_laterpay_link( $post_id ) {
-        $currency = get_option( 'laterpay_currency' );
-        $price = self::get_post_price( $post_id );
+        $currency   = get_option( 'laterpay_currency' );
+        $price      = self::get_post_price( $post_id );
 
-        $LaterPay_Currency_Model = new LaterPay_Model_Currency();
-        $LaterPay_Client = new LaterPay_Core_Client( $this->config );
+        $currency_model = new LaterPay_Model_Currency();
+        $client = new LaterPay_Core_Client( $this->config );
 
         // data to register purchase after redirect from LaterPay
         $data = array(
             'post_id'     => $post_id,
-            'id_currency' => $LaterPay_Currency_Model->get_currency_id_by_iso4217_code( $currency ),
+            'id_currency' => $currency_model->get_currency_id_by_iso4217_code( $currency ),
             'price'       => $price,
             'date'        => time(),
             'buy'         => 'true',
@@ -502,7 +502,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'title'         => $GLOBALS['post']->post_title,
         );
 
-        return $LaterPay_Client->get_add_url( $params );
+        return $client->get_add_url( $params );
     }
 
     /**
@@ -514,15 +514,17 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      */
     public function modify_post_title( $the_title ) {
         if ( in_the_loop() ) {
-            $post               = get_post();
-            $post_id            = $post->ID;
-            $price              = self::get_post_price( $post_id );
-            $float_price        = (float) $price;
-            $is_premium_content = $float_price > 0;
-            $access                  = $GLOBALS['laterpay_access'] || LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post ) || LaterPay_Helper_User::user_has_full_access();
-            $link                    = $this->get_laterpay_link( $post_id );
-            $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
-            $post_content_cached     = LaterPay_Helper_Cache::site_uses_page_caching();
+            $post                       = get_post();
+            $post_id                    = $post->ID;
+            $price                      = self::get_post_price( $post_id );
+            $float_price                = (float) $price;
+            $is_premium_content         = $float_price > 0;
+            $access                     = $GLOBALS['laterpay_access'] ||
+                                            LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post ) ||
+                                            LaterPay_Helper_User::user_has_full_access();
+            $link                       = $this->get_laterpay_link( $post_id );
+            $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
+            $post_content_cached        = LaterPay_Helper_Cache::site_uses_page_caching();
 
             // only render one instance of the purchase button on single premium posts - don't prepend it to related posts etc.
             if ( $is_premium_content && is_single() && ! is_page() && did_action( 'the_title' ) === 0 ) {
