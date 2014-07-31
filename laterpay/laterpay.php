@@ -154,7 +154,7 @@ function laterpay_get_plugin_config() {
 	 * @return  bool    $caching_compatible_mode
 	 */
 	$caching_compatible_mode = apply_filters(
-		'laterpay_get_caching_compatible_mod',
+		'laterpay_get_caching_compatible_mode',
 		LaterPay_Helper_Cache::site_uses_page_caching()
 	);
 	$config->set( 'caching.compatible_mode', (bool)$caching_compatible_mode );
