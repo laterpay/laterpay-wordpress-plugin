@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <?php if ( $config->get( 'caching.compatible_mode' ) && ! LaterPay_Helper_Request::is_ajax() ): ?>
     <span id="laterpay-page-caching-mode" data-post-id="<?php echo $post_id; ?>"></span>
 <?php else: ?>
