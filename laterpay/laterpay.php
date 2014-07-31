@@ -104,6 +104,5 @@ function laterpay_get_plugin_config() {
 		$data->$name = $value;
 	}
 
-
 	return $data;
 }
