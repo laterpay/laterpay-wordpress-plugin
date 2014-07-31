@@ -428,6 +428,7 @@ ACCOUNT
 #legal-docs-frame .close-iframe:hover {background-color:#2ea2cc;}
 
 .switch {display:inline-block; margin:0 0.25em; position:relative; top:-.25em; vertical-align:middle;}
+.switch form {margin:0;}
 label.switch-label {
     background-color:#fff;
     background-image:-webkit-linear-gradient(top, #eee, #fff 25px);

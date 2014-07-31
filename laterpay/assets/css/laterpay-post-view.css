@@ -76,11 +76,6 @@
     border-width:2px 1px 0 0 !important;
 }
 
-/* hide LaterPay purchase buttons from all places other than within h1 */
-.laterpay-purchase-button {display:none !important;}
-h1 > .laterpay-purchase-button {display:block !important;}
-.laterpay-benefits .laterpay-purchase-button {display:inline-block !important;}
-
 
 /* Content overlay */
 .laterpay-iframe iframe {border:0 none;}
@@ -347,6 +342,7 @@ h1 > .laterpay-purchase-button {display:block !important;}
 #plugin-visibility {background-color:#ffc600; border-radius:0 0 0 3px; margin:7px 0 0; padding:1em 0.75em 0.66em;}
 
 .switch {display:inline-block; margin:0 0.25em; position:relative; top:-.1em; vertical-align:middle;}
+.switch form {margin:0;}
 label.switch-label {
     background-color:#fff;
     background-image:-webkit-linear-gradient(top, #eee, #fff 25px);
