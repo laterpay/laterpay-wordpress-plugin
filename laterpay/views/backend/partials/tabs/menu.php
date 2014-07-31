@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <ul class="tabs">
     <?php $num = 0; ?>
     <?php foreach ( $menu as $page ): ?>

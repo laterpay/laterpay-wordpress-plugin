@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <span id="laterpay-post-title" data-post-id="<?php echo $post_id; ?>"></span>
 <script>
     (function($) {

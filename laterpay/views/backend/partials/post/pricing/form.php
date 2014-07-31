@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <script>
     var lpVars = window.lpVars || {};
     lpVars.dynamicPricingData   = <?php echo $laterpay_dynamic_pricing_data; ?>;
