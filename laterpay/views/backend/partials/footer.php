@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <?php
     // plugin menu pointer
     if ( in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $pointers ) ):

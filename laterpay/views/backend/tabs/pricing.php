@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <div class="lp-page wp-core-ui">
 
     <div id="message" style="display:none;">
