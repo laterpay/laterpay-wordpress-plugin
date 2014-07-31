@@ -16,7 +16,7 @@ add_action( 'plugins_loaded', 'laterpay_init', 0 );
 register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
 
-// TODO: can be removed, we've in controllers $this->config->version with references to Version in Plugin-Header (Line 7)
+// TODO: can be removed, we're using controllers $this->config->version which references to Version in Plugin-Header (Line 7)
 $laterpay_version = '0.9.6';
 
 define( 'LATERPAY_GLOBAL_PATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
