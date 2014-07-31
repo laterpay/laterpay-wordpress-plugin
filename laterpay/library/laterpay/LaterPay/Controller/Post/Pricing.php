@@ -441,7 +441,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 				wp_send_json(
 					array(
 						'success' => false,
-						'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
+						'message' => __( "You don't have sufficient user privileges to do this.", 'laterpay' )
 					)
 				);
 			}

@@ -17,7 +17,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 		add_menu_page(
 			__( 'LaterPay Plugin Settings', 'laterpay' ),
 			'LaterPay',
-			'laterpay_read_plugin_pages',
+			'edit_plugins',
 			$plugin_page,
 			array( $this, 'run' ),
 			'dashicons-laterpay-logo',
@@ -40,7 +40,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 				$plugin_page,
 				$page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
 				$page['title'],
-				'laterpay_read_plugin_pages',
+				'edit_plugins',
 				$slug,
 				array( $this, 'run_' . $name )
 			);
