@@ -35,31 +35,28 @@ class LaterPay_Core_Client
 	protected $token_name;
 
 	/**
-	 * @param   array $_args
-     *
+	 * @param   LaterPay_Model_Config $config
 	 * @return  LaterPay_Core_Client
 	 */
-    public function __construct( $_args = array() ) {
+    public function __construct( LaterPay_Model_Config $config ) {
+
+	    $this->config = $config;
+
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $this->cp_key   = get_option( 'laterpay_live_merchant_id' );
             $this->api_key  = get_option( 'laterpay_live_api_key' );
-            $this->api_root = LATERPAY_LIVE_API_URL;
-            $this->web_root = LATERPAY_LIVE_WEB_URL;
+            $this->api_root = $this->config->get( 'api.live_url' );
+            $this->web_root = $this->config->get( 'api.live_web_url' );
         } else {
             $this->cp_key   = get_option( 'laterpay_sandbox_merchant_id' );
             $this->api_key  = get_option( 'laterpay_sandbox_api_key' );
-            $this->api_root = LATERPAY_SANDBOX_API_URL;
-            $this->web_root = LATERPAY_SANDBOX_WEB_URL;
+            $this->api_root = $this->config->get( 'api.sandbox_url' );
+            $this->web_root = $this->config->get( 'api.sandbox_web_url' );
         }
 
-        $this->token_name = LATERPAY_COOKIE_TOKEN_NAME;
+        $this->token_name = $this->config->get( 'api.token_name' );
         if ( isset( $_COOKIE[$this->token_name] ) ) {
             $this->lptoken = $_COOKIE[$this->token_name];
-        }
-        foreach ( $_args as $key => $value ) {
-            if ( property_exists( $this, $key ) ) {
-                $this->{$key} = $value;
-            }
         }
 
         LaterPay_Core_Logger::debug( 'LaterPay_Client::constructor', array(

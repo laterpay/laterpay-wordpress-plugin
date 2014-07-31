@@ -40,7 +40,7 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 
 		$Currencies = new LaterPay_Model_Currency();
 
-		$this->assign( 'global_default_price',   LaterPay_Helper_View::format_number( (float) LATERPAY_GLOBAL_PRICE_DEFAULT, 2 ) );
+		$this->assign( 'global_default_price',   LaterPay_Helper_View::format_number( (float) $this->config->get( 'currency.default_price' ), 2 ) );
 		$this->assign( 'Currencies',             $Currencies );
 		$this->assign( 'top_nav',                $this->get_menu() );
 		$this->assign( 'admin_menu',             LaterPay_Helper_View::get_admin_menu() );

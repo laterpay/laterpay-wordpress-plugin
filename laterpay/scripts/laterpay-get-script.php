@@ -24,7 +24,8 @@ LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRE
 // register libraries
 $request    = new LaterPay_Core_Request();
 $response   = new LaterPay_Core_Response();
-$client     = new LaterPay_Core_Client();
+$config     = laterpay_get_plugin_config();
+$client     = new LaterPay_Core_Client( $config );
 
 // functions
 function get_decrypted_file_name( $file ) {
@@ -40,7 +41,7 @@ function get_decrypted_file_name( $file ) {
         exit();
     }
     $cipher = new Crypt_AES();
-    $cipher->setKey( LATERPAY_RESOURCE_ENCRYPTION_KEY );
+    $cipher->setKey( SECURE_AUTH_SALT );
     $file = $request->getServer( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
 
     return $file;

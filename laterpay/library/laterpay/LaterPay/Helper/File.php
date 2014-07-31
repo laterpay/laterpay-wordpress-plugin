@@ -18,6 +18,12 @@ class LaterPay_Helper_File
 	const SCRIPT_PATH = 'laterpay/scripts/laterpay-get-script.php';
 
 	/**
+	 * File types protected against direct download from paid posts without purchasing
+	 * @var string
+	 */
+	protected static $protected_file_types = '3gpp|aac|avi|divx|doc|docx|epup|flv|gif|jpeg|jpg|mobi|mov|mp3|mp4|mp4|mpg|ogg|pdf|png|ppt|pptx|rar|rtf|tif|tiff|txt|wav|wmv|xls|xlsx|zip';
+
+	/**
 	 *
 	 * @param   int    $post_id
 	 * @param   string $url
@@ -33,25 +39,26 @@ class LaterPay_Helper_File
             return $url;
         }
         $uri = $resource_url_parts['path'];
-        if ( ! preg_match( '/.*\.(' . LATERPAY_PROTECTED_FILE_TYPES . ')/i', $uri ) ) {
+        if ( ! preg_match( '/.*\.(' . self::$protected_file_types . ')/i', $uri ) ) {
             return $url;
         }
         $cipher = new Crypt_AES();
-        $cipher->setKey( LATERPAY_RESOURCE_ENCRYPTION_KEY );
+        $cipher->setKey( SECURE_AUTH_SALT );
         $file = base64_encode( $cipher->encrypt( $uri ) );
 
         $request = new LaterPay_Core_Request();
         $path = $request->getServer('DOCUMENT_ROOT') . $uri;
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-        $client = new LaterPay_Core_Client();
+		$config = laterpay_get_plugin_config();
+        $client = new LaterPay_Core_Client( $config );
         $params = array(
             'aid'   => $post_id,
             'file'  => $file,
             'ext'   => '.' . $ext,
         );
         if ( $use_auth ) {
-            $client         = new LaterPay_Core_Client();
+            $client         = new LaterPay_Core_Client( $config );
             $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
         }

@@ -29,14 +29,14 @@
                                 maxlength="22"
                                 name="get_started[laterpay_sandbox_merchant_id]"
                                 class="lp-input merchant-id-input"
-                                value="<?php echo LATERPAY_DEFAULT_SANDBOX_MERCHANT_ID; ?>"
+                                value="<?php echo $config->get( 'api.sandbox_merchant_id' ); ?>"
                                 required>
                         <label alt="<?php _e( 'Paste Sandbox Merchant ID here', 'laterpay' ); ?>" placeholder="<?php _e( 'Sandbox Merchant ID', 'laterpay' ); ?>"></label>
                         <span class="input-icon api-key-icon" data-icon="j"></span>
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
-                                value="<?php echo LATERPAY_DEFAULT_SANDBOX_API_KEY; ?>"
+                                value="<?php echo $config->get( 'api.sandbox_api_key' ); ?>"
                                 class="lp-input api-key-input"
                                 required>
                         <label alt="<?php _e( 'Paste Sandbox API Key here', 'laterpay' ); ?>" placeholder="<?php _e( 'Sandbox API Key', 'laterpay' ); ?>"></label>
@@ -60,7 +60,7 @@
                                     placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
                             <select name="get_started[laterpay_currency]" class="lp-input">
                                 <?php foreach ( $Currencies->get_currencies() as $item ): ?>
-                                    <option value="<?php echo $item->short_name; ?>"<?php if ( $item->short_name == LATERPAY_CURRENCY_DEFAULT ): ?> selected<?php endif; ?>>
+                                    <option value="<?php echo $item->short_name; ?>"<?php if ( $item->short_name == $config->get( 'currency.default' ) ): ?> selected<?php endif; ?>>
                                         <?php echo $item->short_name; ?>
                                     </option>
                                 <?php endforeach; ?>

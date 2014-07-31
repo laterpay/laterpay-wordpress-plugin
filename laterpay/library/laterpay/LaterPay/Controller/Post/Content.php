@@ -23,7 +23,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         if ( is_array( $meta_value ) && count( $meta_value ) == 0 ) {
             $new_meta_value = LaterPay_Helper_String::truncate(
                 $post->post_content,
-                LATERPAY_AUTO_GENERATED_TEASER_CONTENT_WORD_COUNT,
+                $this->config->get( 'content.auto_generated_teaser_content_word_count' ),
                 array (
                     'html'  => true,
                     'words' => true,
@@ -48,7 +48,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $price      = self::get_post_price( $post_id );
         $access     = $GLOBALS['laterpay_access'];
 
-        $link       = self::get_laterpay_link( $post_id );
+        $link       = $this->get_laterpay_link( $post_id );
         if ( $price > 0 ) {
             $this->init_teaser_content( $GLOBALS['post'] );
             // get teaser content
@@ -76,7 +76,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
                 $this->assign( 'is_premium_content',         $is_premium_content );
                 $this->assign( 'access',                     $access );
                 $this->assign( 'link',                       $link );
-                $this->assign( 'can_show_statistic',         LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) && (! LaterPay_Helper_Request::is_ajax() || $laterpay_show_statistics) && LATERPAY_ACCESS_LOGGING_ENABLED && $is_premium_content );
+                $this->assign( 'can_show_statistic',         LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) && (! LaterPay_Helper_Request::is_ajax() || $laterpay_show_statistics) && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content );
                 $this->assign( 'post_content_cached',        LaterPay_Helper_Cache::site_uses_page_caching() );
                 $this->assign( 'preview_post_as_visitor',    LaterPay_Helper_User::preview_post_as_visitor($post_id) );
                 $this->assign( 'hide_statistics_pane',       LaterPay_Helper_User::statistics_pane_is_hidden() );
@@ -104,7 +104,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         if ( ! empty( $postid ) ) {
             $price = self::get_post_price( $postid );
             if ( $price > 0 ) {
-                $LaterPay_Client = new LaterPay_Core_Client();
+                $LaterPay_Client = new LaterPay_Core_Client( $this->config );
                 $identify_link = $LaterPay_Client->get_identify_url();
 
                 $this->assign( 'post_id',       $postid );
@@ -119,7 +119,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Set up post statistics.
      */
     protected function get_post_statistics() {
-        if ( ! LATERPAY_ACCESS_LOGGING_ENABLED ) {
+        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
             return;
         }
 
@@ -267,7 +267,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
                 $url = preg_replace( '/hash=.*?($|&)/', '', $url );
                 $url = preg_replace( '/&$/',            '', $url );
                 // check hash for purchase
-                if ( md5( md5( $url ) . LATERPAY_SALT ) == $hash ) {
+                if ( md5( md5( $url ) . AUTH_SALT ) == $hash ) {
                     $LaterPay_Payments_History_Model = new LaterPay_Model_Payments_History();
                     $LaterPay_Payments_History_Model->set_payment_history( $data );
                 }
@@ -287,7 +287,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Update incorrect token or create token, if it doesn't exist.
      */
-    public static function token_hook() {
+    public function token_hook() {
         $GLOBALS['laterpay_access'] = false;
 
         $is_feed = self::is_feed();
@@ -308,7 +308,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
             LaterPay_Core_Logger::debug( 'LaterPay_Post_Content_Controller::token_hook', array( $_SERVER['REQUEST_URI'] ) );
 
-            $LaterPay_Client = new LaterPay_Core_Client();
+            $LaterPay_Client = new LaterPay_Core_Client( $this->config );
             if ( isset($_GET['lptoken']) ) {
                 $LaterPay_Client->set_token( $_GET['lptoken'], true );
             }
@@ -468,12 +468,12 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      *
      * @return string
      */
-    public static function get_laterpay_link( $post_id ) {
+    public function get_laterpay_link( $post_id ) {
         $currency = get_option( 'laterpay_currency' );
         $price = self::get_post_price( $post_id );
 
         $LaterPay_Currency_Model = new LaterPay_Model_Currency();
-        $LaterPay_Client = new LaterPay_Core_Client();
+        $LaterPay_Client = new LaterPay_Core_Client( $this->config );
 
         // data to register purchase after redirect from LaterPay
         $data = array(
@@ -491,13 +491,13 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $url .= '?';
         }
         $url .= http_build_query( $data );
-        $hash = md5( md5( $url ) . LATERPAY_SALT );
+        $hash = md5( md5( $url ) . AUTH_SALT );
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => $post_id,
             'purchase_date' => time() . '000', // fix for PHP 32bit
             'pricing'       => $currency . ( $price * 100 ),
-            'vat'           => LATERPAY_VAT,
+            'vat'           => $this->config->get( 'currency.default_vat' ),
             'url'           => $url . '&hash=' . $hash,
             'title'         => $GLOBALS['post']->post_title,
         );
@@ -520,7 +520,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $float_price        = (float) $price;
             $is_premium_content = $float_price > 0;
             $access                  = $GLOBALS['laterpay_access'] || LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post ) || LaterPay_Helper_User::user_has_full_access();
-            $link                    = self::get_laterpay_link( $post_id );
+            $link                    = $this->get_laterpay_link( $post_id );
             $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
             $post_content_cached     = LaterPay_Helper_Cache::site_uses_page_caching();
 
