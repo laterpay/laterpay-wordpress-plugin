@@ -53,7 +53,7 @@ function laterpay_init() {
  * @wp-hook register_deactivation_hook
  * @return  void
  */
-function laterpay_active(){
+function laterpay_activate(){
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->activate();
@@ -64,7 +64,7 @@ function laterpay_active(){
  * @wp-hook register_deactivation_hook
  * @return  void
  */
-function laterpay_deactive(){
+function laterpay_deactivate(){
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->deactivate();
