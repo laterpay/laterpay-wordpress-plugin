@@ -3,8 +3,8 @@
 class LaterPay_Helper_User
 {
 
-    protected static $_preview_post_as_visitor = null;
-    protected static $_hide_statistics_pane = null;
+    protected static $_preview_post_as_visitor  = null;
+    protected static $_hide_statistics_pane     = null;
 
 	/**
 	 * @param string           $capability
@@ -19,8 +19,10 @@ class LaterPay_Helper_User
         if ( ! function_exists( 'wp_get_current_user' )) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
+
         if ( current_user_can( $capability ) ) {
             if ( ! $strict ) {
+                // if $strict = false, it's sufficient that a capability is added to the role of the current user
                 $allowed = true;
             } else {
                 switch ( $capability ) {
