@@ -252,8 +252,7 @@ class LaterPay_Core_Bootstrap {
      * @return  void
      */
     public function activate() {
-        global $wpdb,
-        $laterpay_version;
+        global $wpdb;
 
         $this->update_configuration_file();
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -333,7 +332,7 @@ class LaterPay_Core_Bootstrap {
         add_option( 'laterpay_live_api_key',             '' );
         add_option( 'laterpay_global_price',             LATERPAY_GLOBAL_PRICE_DEFAULT );
         add_option( 'laterpay_currency',                 LATERPAY_CURRENCY_DEFAULT );
-        add_option( 'laterpay_version',                  $laterpay_version ) || update_option( 'laterpay_version', $laterpay_version );
+        update_option( 'laterpay_version', $this->config->version );
 
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();
@@ -489,17 +488,14 @@ class LaterPay_Core_Bootstrap {
     /**
      * Load LaterPay stylesheet with LaterPay vector icon on all pages where the admin menu is visible.
      *
-     * @param   string  $page
-     *
      * @return  void
      */
-    public function add_plugin_admin_assets( $page ) {
-        global $laterpay_version;
+    public function add_plugin_admin_assets( ) {
         wp_register_style(
             'laterpay-admin',
             $this->config->css_url . 'laterpay-admin.css',
             array(),
-            $laterpay_version
+            $this->config->version
         );
         wp_enqueue_style( 'laterpay-admin' );
 
@@ -682,9 +678,8 @@ class LaterPay_Core_Bootstrap {
      * @return  void
      */
     public function check_for_updates() {
-        global $laterpay_version;
-
-        if ( get_option('laterpay_version') != $laterpay_version ) {
+	    // todo: using version_compare!
+        if ( get_option('laterpay_version') != $this->config->version ) {
             $this->activate();
             $_capabilities = new LaterPay_Core_Capabilities();
             $_capabilities->populate_roles();
