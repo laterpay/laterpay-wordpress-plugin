@@ -57,8 +57,8 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 		if ( isset( $_POST['get_started'] ) ) {
 			// check for required privileges to perform action
 			if ( ! LaterPay_Helper_User::can( 'laterpay_edit_plugin_settings' ) ) {
-				echo Zend_Json::encode( array( 'success' => false ) );
-				die;
+				wp_send_json( array( 'success' => false ) );
+
 			}
 
 			if ( function_exists('check_admin_referer') ) {
@@ -80,10 +80,10 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 				update_user_meta( $current_user_id, 'dismissed_wp_pointers', LaterPay_Controller_Admin::ADMIN_MENU_POINTER );
 			}
 
-			echo Zend_Json::encode( array( 'success' => true ) );
-			die;
+			wp_send_json( array( 'success' => true ) );
+
 		} else {
-			echo Zend_Json::encode(
+			wp_send_json(
 				array(
 					'success' => false,
 					'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )

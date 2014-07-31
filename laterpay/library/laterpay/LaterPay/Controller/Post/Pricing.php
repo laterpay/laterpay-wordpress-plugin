@@ -319,7 +319,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 		$this->assign( 'laterpay_category_prices',       $category_price_data );
 		$this->assign( 'laterpay_post_default_category', (int) $post_default_category );
 		$this->assign( 'laterpay_global_default_price',  $global_default_price );
-		$this->assign( 'laterpay_dynamic_pricing_data',  Zend_Json::encode( $dynamic_pricing_data ) );
+		$this->assign( 'laterpay_dynamic_pricing_data',  json_encode( $dynamic_pricing_data ) );
 
 		$this->render( 'backend/partials/post/pricing/form' );
 	}
@@ -335,7 +335,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 		$LaterPay_Category_Model = new LaterPay_Model_Category();
 		$categories_price_data = $LaterPay_Category_Model->get_category_price_data_by_category_ids( $category_ids );
 
-		echo Zend_Json::encode( $categories_price_data );
+		wp_send_json( $categories_price_data );
 	}
 
 	/**
@@ -438,13 +438,12 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 		if ( isset( $_POST['form'] ) ) {
 			// check for required privileges to perform action
 			if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price' ) ) {
-				echo Zend_Json::encode(
+				wp_send_json(
 					array(
 						'success' => false,
 						'message' => __( 'You don´t have sufficient user privileges to do this.', 'laterpay' )
 					)
 				);
-				die;
 			}
 
 			switch ( $_POST['form'] ) {
@@ -452,7 +451,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 					self::_get_category_prices( $_POST['category_ids'] );
 					break;
 				default:
-					echo Zend_Json::encode(
+					wp_send_json(
 						array(
 							'success' => false,
 							'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )

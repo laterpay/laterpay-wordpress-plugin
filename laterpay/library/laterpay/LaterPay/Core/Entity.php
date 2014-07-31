@@ -544,7 +544,7 @@ class LaterPay_Core_Entity
      */
     protected function __to_json( array $arrAttributes = array() ) {
         $arrData = $this->to_array( $arrAttributes );
-        $json = Zend_Json::encode( $arrData );
+        $json = json_encode( $arrData );
 
         return $json;
     }

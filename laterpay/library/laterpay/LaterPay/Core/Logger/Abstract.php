@@ -68,7 +68,7 @@ abstract class LaterPay_Core_Logger_Abstract
             return json_encode($this->normalize($data), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
 
-        return str_replace('\\/', '/', Zend_Json::encode( $this->normalize($data)));
+        return str_replace('\\/', '/', json_encode( $this->normalize( $data ) ) );
     }
 
     protected function normalize( $data ) {
@@ -95,7 +95,7 @@ abstract class LaterPay_Core_Logger_Abstract
         }
 
         if ( is_object($data) ) {
-            return sprintf('[object] (%s: %s)', get_class($data), Zend_Json::encode($data));
+            return sprintf('[object] (%s: %s)', get_class($data), json_encode($data));
         }
 
         if ( is_resource($data) ) {
