@@ -22,7 +22,7 @@ $laterpay_version = '0.9.6';
 define( 'LATERPAY_GLOBAL_PATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 define( 'LATERPAY_BASE_NAME',   plugin_basename( dirname( __FILE__ ) ) );
 
-if( !class_exists( 'LaterPay_Autoloader' ) ) {
+if( ! class_exists( 'LaterPay_Autoloader' ) ) {
 	require_once( LATERPAY_GLOBAL_PATH . 'laterpay-load.php' );
 }
 
@@ -56,7 +56,7 @@ function laterpay_init() {
  * @wp-hook register_deactivation_hook
  * @return  void
  */
-function laterpay_active(){
+function laterpay_active() {
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->activate();
@@ -68,7 +68,7 @@ function laterpay_active(){
  * @wp-hook register_deactivation_hook
  * @return  void
  */
-function laterpay_deactive(){
+function laterpay_deactive() {
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->deactivate();
@@ -79,7 +79,7 @@ function laterpay_deactive(){
  * getting the plugin settings
  * @return  stdClass
  */
-function laterpay_get_plugin_config(){
+function laterpay_get_plugin_config() {
 
 	$data = new LaterPay_Model_Config();
 	$data->plugin_dir_path  = plugin_dir_path( __FILE__ );
@@ -100,10 +100,10 @@ function laterpay_get_plugin_config(){
 		)
 	);
 
-	foreach ( $headers as $name => $value )
+	foreach ( $headers as $name => $value ) {
 		$data->$name = $value;
+	}
 
-//	echo "<pre>" . print_r( $data, true ). "</pre>";
 
 	return $data;
 }
