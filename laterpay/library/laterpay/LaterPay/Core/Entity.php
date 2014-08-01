@@ -611,7 +611,7 @@ class LaterPay_Core_Entity
                     $aux = null;
                 }
                 $data = $this->set_data( $key, $aux );
-                return $result;
+                return $data;
 
             case 'uns' :
                 $key = $this->_underscore( substr( $method, 3 ) );

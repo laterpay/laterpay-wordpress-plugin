@@ -609,29 +609,33 @@ class LaterPay_Core_Client
      * @return  void
      */
     public function acquire_token() {
-        $link = $this->_get_token_redirect_url( LaterPay_Helper_Request::get_current_url() );
 
-        LaterPay_Core_Logger::debug( 'LaterPay_Client::acquire_token', array(
-                            'link'      => $link,
-                            'api_key'   => $this->api_key,
-                            'cp_key'    => $this->cp_key,
-                            'lptoken'   => $this->lptoken,
-                        )
-                    );
+        $link = get_permalink();
+        $link = $this->_get_token_redirect_url( $link );
 
-        header( 'Location: ' . $link );
-        exit();
+        $context = array(
+            'link'      => $link,
+            'api_key'   => $this->api_key,
+            'cp_key'    => $this->cp_key,
+            'lptoken'   => $this->lptoken,
+        );
+
+        LaterPay_Core_Logger::debug(
+            __METHOD__,
+            $context
+        );
+
+        wp_redirect( $link );
+        exit;
     }
 
     /**
      * Set token to cookie.
      *
      * @param   string  $token    token key
-     * @param   bool    $redirect redirect after set token
-     *
      * @return  void
      */
-    public function set_token( $token, $redirect = false ) {
+    public function set_token( $token  ) {
         LaterPay_Core_Logger::debug( 'LaterPay_Client::set_token', array(
                             'token'     => $token,
                             'redirect'  => $redirect,
@@ -643,10 +647,6 @@ class LaterPay_Core_Client
 
         $this->lptoken = $token;
         setcookie( $this->token_name, $token, strtotime( '+1 day' ), '/' );
-        if ( $redirect ) {
-            header( 'Location: ' . LaterPay_Helper_Request::get_current_url() );
-            die;
-        }
     }
 
 	/**

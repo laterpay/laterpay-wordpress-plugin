@@ -83,8 +83,8 @@ class LaterPay_Core_Bootstrap {
 		if ( LaterPay_Helper_View::plugin_is_working() ) {
 
 			$post_controller = new LaterPay_Controller_Post_Content( $this->config );
-			add_action( 'init',                     array( $post_controller, 'token_hook' ) );
-			add_action( 'init',                     array( $post_controller, 'buy_post' ) );
+			add_action( 'template_redirect',        array( $post_controller, 'create_token' ) );
+			add_action( 'template_redirect',        array( $post_controller, 'buy_post' ) );
 			// add filters to override post content
 			add_filter( 'the_title',                array( $post_controller, 'modify_post_title' ) );
 			add_filter( 'the_content',              array( $post_controller, 'view' ) );
