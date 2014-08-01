@@ -92,7 +92,7 @@ class LaterPay_Model_Category
                 name
             ;
         ";
-        $category_price_data = $wpdb->get_results( $wpdb->prepare( $sql, $ids ), ARRAY_A );
+        $category_price_data = $wpdb->get_results( $wpdb->prepare( $sql, $ids ) );
 
         return $category_price_data;
     }
