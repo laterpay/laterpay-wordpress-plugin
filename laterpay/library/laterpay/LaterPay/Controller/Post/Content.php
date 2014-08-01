@@ -371,11 +371,18 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
                 ! self::is_cron_page(),
                 ! $is_feed,
                 LaterPay_Helper_Browser::browser_supports_cookies(),
-                ! LaterPay_Helper_Browser::is_crawler()
+                ! LaterPay_Helper_Browser::is_crawler(),
             )
         );
 
-        if ( ! is_admin() && ! self::is_login_page() && ! self::is_cron_page() && ! $is_feed && LaterPay_Helper_Browser::browser_supports_cookies() && ! LaterPay_Helper_Browser::is_crawler() ) {
+        if (
+            ! is_admin() &&
+            ! self::is_login_page() &&
+            ! self::is_cron_page() &&
+            ! $is_feed &&
+            LaterPay_Helper_Browser::browser_supports_cookies() &&
+            ! LaterPay_Helper_Browser::is_crawler()
+        ) {
 
             LaterPay_Core_Logger::debug( 'LaterPay_Post_Content_Controller::token_hook', array( $_SERVER['REQUEST_URI'] ) );
 
@@ -390,18 +397,18 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
             // if Ajax request
             if ( (LaterPay_Helper_Request::is_ajax() && isset( $_GET['id'] )) || isset( $_GET['id'] ) ) {
-                $postid = $_GET['id'];
+                $post_id    = $_GET['id'];
             } else {
-                $url = LaterPay_Helper_Statistics::get_full_url( $_SERVER );
-                $postid = url_to_postid( $url );
+                $url        = LaterPay_Helper_Statistics::get_full_url( $_SERVER );
+                $post_id    = url_to_postid( $url );
             }
-            if ( ! empty($postid) ) {
-                $price = self::get_post_price($postid);
+            if ( ! empty( $post_id ) ) {
+                $price = self::get_post_price( $post_id );
                 if ( $price > 0 ) {
-                    $result = $LaterPay_Client->get_access( $postid );
+                    $result = $LaterPay_Client->get_access( $post_id );
                     $access = false;
-                    if ( ! empty( $result ) && isset( $result['articles'][$postid] ) ) {
-                        $access = $result['articles'][$postid]['access'];
+                    if ( ! empty( $result ) && isset( $result['articles'][$post_id] ) ) {
+                        $access = $result['articles'][$post_id]['access'];
                     }
                     $GLOBALS['laterpay_access'] = $access;
                 }

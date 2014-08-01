@@ -245,7 +245,7 @@ class LaterPay_Core_Client
     }
 
     /**
-     * Get iframe API balance URL
+     * Get iframe API balance URL.
      *
      * @deprecated since version 0.9.5
      *
@@ -269,7 +269,7 @@ class LaterPay_Core_Client
     }
 
     /**
-     * Get iframe API balance URL
+     * Get iframe API balance URL.
      *
      * @deprecated since version 0.9.5
      *
@@ -303,7 +303,8 @@ class LaterPay_Core_Client
     }
 
 	/**
-	 *
+     * Get URL for the LaterPay login form.
+     *
 	 * @param   string $next_url
 	 * @param   bool $use_jsevents
      *
@@ -321,7 +322,8 @@ class LaterPay_Core_Client
     }
 
 	/**
-	 *
+     * Get URL for the LaterPay signup form.
+     *
 	 * @param   string $next_url
 	 * @param   bool $use_jsevents
      *
@@ -339,7 +341,8 @@ class LaterPay_Core_Client
     }
 
 	/**
-	 *
+     * Get URL for logging out a user from LaterPay.
+     *
 	 * @param   string $next_url
 	 * @param   bool $use_jsevents
      *
@@ -547,11 +550,11 @@ class LaterPay_Core_Client
     }
 
     /**
-     * Preprocess parameters
+     * Sign and encode all request parameters.
      *
      * @param   array  $params array params
      * @param   string $url
-     * @param   string $method http method
+     * @param   string $method HTTP method
      *
      * @return  string query params
      */
@@ -562,14 +565,15 @@ class LaterPay_Core_Client
     }
 
     /**
-     * Get response from access for post
+     * Check if user has access to a given item / given array of items.
      *
-     * @param   array  $article_ids array with posts ids
+     * @param   array       $article_ids array with posts ids
      * @param   null|string $product_key array with posts ids
      *
      * @return  string json string response
      */
     public function get_access( $article_ids, $product_key = null ) {
+
         LaterPay_Core_Logger::debug('LaterPay_Client::get_access', array('checking access', $article_ids));
 
         if ( ! is_array( $article_ids ) ) {
@@ -624,7 +628,7 @@ class LaterPay_Core_Client
     }
 
     /**
-     * Set token to cookie.
+     * Set cookie with token.
      *
      * @param   string  $token    token key
      * @param   bool    $redirect redirect after set token
