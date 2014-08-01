@@ -37,12 +37,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
 			                    'teaser_image_path'  => '',
 		                    ), $atts);
 
-		if ( $a['target_page_title'] == '' ) {
-			die;
+		$target_page    = get_page_by_title( $a['target_page_title'], OBJECT, array( 'post', 'page', 'attachment' ) );
+		$page_id        = $target_page->ID;
+		$page_url       = get_permalink( $page_id );
+
+		if ( $a['target_page_title'] == '' || empty( $page_id ) ) {
+			return;
 		} else {
-			$target_page    = get_page_by_title( $a['target_page_title'], OBJECT, array( 'post', 'page', 'attachment' ) );
-			$page_id        = $target_page->ID;
-			$page_url       = get_permalink( $page_id );
 			$price          = LaterPay_Helper_View::format_number( LaterPay_Controller_Post_Content::get_post_price( $page_id ), 2 );
 			$currency       = get_option( 'laterpay_currency' );
 			$price_tag      = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
