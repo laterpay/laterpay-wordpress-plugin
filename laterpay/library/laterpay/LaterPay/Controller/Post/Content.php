@@ -96,14 +96,68 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     }
 
+    /**
+     * Ajax method to get the cached article. This
+     * is because there could be a price change in
+     * laterpay and we always need the current article
+     * price.
+     */
+    public function get_cached_article() {
+    	global $post, $wp_query, $laterpay_show_statistics;
+
+    	// set the global vars so that WordPress
+    	// thinks it is in a single view
+    	$wp_query->is_single      = TRUE;
+    	$wp_query->in_the_loop    = TRUE;
+    	$laterpay_show_statistics = TRUE;
+
+    	// get the content
+    	$post_id = $_REQUEST[ 'post_id' ];
+    	$post = get_post( $post_id );
+    	$post_content = $post->post_content;
+
+    	$content = apply_filters( 'the_content', $post_content );
+    	$content = str_replace( ']]>', ']]&gt;', $content );
+
+    	echo $content;
+
+    	exit;
+    }
+
+    /**
+     * Ajax method to get the the modified title
+     */
+    public function get_modified_title() {
+    	global $post, $wp_query;
+
+    	// set the global vars so that WordPress
+    	// thinks it is in a single view
+    	$wp_query->is_single      = TRUE;
+    	$wp_query->in_the_loop    = TRUE;
+
+    	// get the content
+    	$post_id = $_REQUEST[ 'id' ];
+    	$post = get_post( $post_id );
+    	$post_title = get_the_title( $post_id );
+
+    	echo $post_title;
+
+    	exit;
+    }
+
 	/**
 	 * Adding the LaterPay-iFrame to Footer
 	 * @return void
 	 */
 	public function modify_footer() {
 
-	    $post = get_post();
-	    if( $post === null ){
+		// check if we are in the ajax environment
+		if ( LaterPay_Helper_Request::is_ajax() )
+	    	$post = get_post( $_GET[ 'id' ] );
+		else
+			$post = get_post();
+
+	    if ( $post === null ) {
 		    return;
 	    }
 
@@ -118,6 +172,15 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             echo $this->get_text_view( 'frontend/partials/identify/iframe' );
         }
 
+    }
+
+    /**
+     * This ajax callback loads the modified footer
+     * and echos it.
+     */
+    public function get_modified_footer() {
+		$this->modify_footer();
+    	exit;
     }
 
     /**
