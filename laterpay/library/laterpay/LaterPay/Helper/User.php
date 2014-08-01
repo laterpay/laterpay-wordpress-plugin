@@ -3,8 +3,8 @@
 class LaterPay_Helper_User
 {
 
-    protected static $_preview_post_as_visitor = null;
-    protected static $_hide_statistics_pane = null;
+    protected static $_preview_post_as_visitor  = null;
+    protected static $_hide_statistics_pane     = null;
 
 	/**
 	 * @param string           $capability
@@ -19,8 +19,10 @@ class LaterPay_Helper_User
         if ( ! function_exists( 'wp_get_current_user' )) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
+
         if ( current_user_can( $capability ) ) {
             if ( ! $strict ) {
+                // if $strict = false, it's sufficient that a capability is added to the role of the current user
                 $allowed = true;
             } else {
                 switch ( $capability ) {
@@ -52,19 +54,6 @@ class LaterPay_Helper_User
         }
 
         return $allowed;
-    }
-
-    /**
-     * Check if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.
-     *
-     * @return bool
-     */
-    public static function user_has_full_access() {
-
-        if ( LATERPAY_ACCESS_ALL_ARTICLES_GROUP == '' )
-            return false;
-
-        return self::user_has_role( LATERPAY_ACCESS_ALL_ARTICLES_GROUP );
     }
 
 
