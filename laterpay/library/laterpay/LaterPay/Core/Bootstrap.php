@@ -44,7 +44,6 @@ class LaterPay_Core_Bootstrap {
 
 		// only in backend
 		if ( is_admin() ) {
-
 			// add the admin panel
 			$admin_controller = new LaterPay_Controller_Admin( $this->config );
 			add_action( 'admin_menu',                   array( $admin_controller, 'add_to_admin_panel' ) );
@@ -60,7 +59,6 @@ class LaterPay_Core_Bootstrap {
 			add_filter( 'plugins_api',                              array( $github_updater, 'set_plugin_info' ), 10, 3 );
 			add_filter( 'upgrader_pre_install',                     array( $github_updater, 'pre_install' ), 10, 2 );
 			add_filter( 'upgrader_post_install',                    array( $github_updater, 'post_install' ), 10, 3 );
-
 		}
 
 		// add Ajax hooks for tabs in plugin backend
@@ -83,7 +81,6 @@ class LaterPay_Core_Bootstrap {
 		add_action( 'wp_ajax_laterpay_post_pricing',  array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
 		if ( LaterPay_Helper_View::plugin_is_working() ) {
-
 			$post_controller = new LaterPay_Controller_Post_Content( $this->config );
 			add_action( 'init',                     array( $post_controller, 'token_hook' ) );
 			add_action( 'init',                     array( $post_controller, 'buy_post' ) );

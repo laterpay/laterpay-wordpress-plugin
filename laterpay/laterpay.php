@@ -10,14 +10,14 @@
  * Domain Path: /languages
  */
 
-// Kick-Off
+// Kick-off
 add_action( 'plugins_loaded', 'laterpay_init', 0 );
 
 register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
 
 /**
- * Callback to start our plugin
+ * Callback to start the plugin
  *
  * @wp-hook plugins_loaded
  * @return  void
@@ -35,6 +35,7 @@ function laterpay_init() {
 
 /**
  * Callback for activating the plugin
+ *
  * @wp-hook register_deactivation_hook
  * @return  void
  */
@@ -176,7 +177,7 @@ function laterpay_get_plugin_config() {
 	/**
 	 * Content filter to change the settings for preview output
 	 *
-	 *  @var     Array $content_settings
+	 * @var     Array $content_settings
 	 *
 	 * @return  Array $content_settings array(
 	 *                                     'content.auto_generated_teaser_content_word_count'   => Integer - Number of words used for automatically extracting teaser content for paid posts,
@@ -221,7 +222,7 @@ function laterpay_get_plugin_config() {
 	$browscap_settings = apply_filters( 'laterpay_get_browscap_settings', $browscap_settings );
 	$config->import( $browscap_settings );
 
-	// cache the config in the next call
+	// cache the config
 	wp_cache_set( 'laterpay', $config, 'config' );
 
 	return $config;

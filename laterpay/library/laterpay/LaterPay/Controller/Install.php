@@ -62,6 +62,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 
         // deactivate plugin if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
+            // suppress 'Plugin activated' notice
+            unset( $_GET['activate'] );
+
 			deactivate_plugins( $this->config->plugin_base_name, true );
 
 			$notices[] = __( 'The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
@@ -92,10 +95,12 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	public function install() {
 		global $wpdb;
 
+        // cancel the installation process, if the requirements check returns errors
         $notices = (array) $this->check_requirements();
         if ( count( $notices ) ) {
             return;
         }
+
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$table_currency     = $wpdb->prefix . 'laterpay_currency';
