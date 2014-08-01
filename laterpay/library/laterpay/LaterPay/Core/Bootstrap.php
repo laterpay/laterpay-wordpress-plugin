@@ -84,20 +84,25 @@ class LaterPay_Core_Bootstrap {
 			$post_controller = new LaterPay_Controller_Post_Content( $this->config );
 			add_action( 'init',                     array( $post_controller, 'token_hook' ) );
 			add_action( 'init',                     array( $post_controller, 'buy_post' ) );
+
 			// add filters to override post content
 			add_filter( 'the_title',                array( $post_controller, 'modify_post_title' ) );
 			add_filter( 'the_content',              array( $post_controller, 'view' ) );
 			add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
 			add_action( 'save_post',                array( $post_controller, 'init_teaser_content' ), 10, 2 );
 			add_action( 'edit_form_after_editor',   array( $post_controller, 'init_teaser_content' ), 10, 2 );
-			// ajax requests
-			add_action( 'wp_ajax_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
-			add_action( 'wp_ajax_nopriv_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
-			add_action( 'wp_ajax_laterpay_article_script', array( $post_controller, 'get_cached_article' ) );
-			add_action( 'wp_ajax_nopriv_laterpay_article_script', array( $post_controller, 'get_cached_article' ) );
-			add_action( 'wp_ajax_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
-			add_action( 'wp_ajax_nopriv_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
 
+			// add Ajax actions
+			add_action( 'wp_ajax_get_category_prices', 				array( $pricing_controller, 'get_category_prices' ) );
+
+			add_action( 'wp_ajax_laterpay_title_script', 			array( $post_controller, 'get_modified_title' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_title_script', 	array( $post_controller, 'get_modified_title' ) );
+
+			add_action( 'wp_ajax_laterpay_article_script', 			array( $post_controller, 'get_cached_article' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_article_script', 	array( $post_controller, 'get_cached_article' ) );
+
+			add_action( 'wp_ajax_laterpay_footer_script', 			array( $post_controller, 'get_modified_footer' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_footer_script', 	array( $post_controller, 'get_modified_footer' ) );
 
 			// register callbacks for adding meta_boxes
 			$pricing_controller = new LaterPay_Controller_Post_Pricing( $this->config );
@@ -107,14 +112,11 @@ class LaterPay_Core_Bootstrap {
 			add_action( 'save_post',    array( $pricing_controller, 'save_post_pricing_form') );
 			add_action( 'admin_menu',   array( $pricing_controller, 'add_post_pricing_form') );
 
-			// load scripts for our admin pages
+			// load scripts for admin pages
 			add_action( 'admin_print_styles-post.php', array( $pricing_controller, 'load_assets' ) );
 			add_action( 'admin_print_styles-post-new.php', array( $pricing_controller, 'load_assets' ) );
 
-			// add Ajax actions for pricing box
-			add_action( 'wp_ajax_get_category_prices', array( $pricing_controller, 'get_category_prices' ) );
-
-			// add our shortcodes
+			// add shortcodes
 			$shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
 			add_shortcode( 'laterpay_premium_download', array( $shortcode_controller, 'render_premium_download_box' ) );
 			add_shortcode( 'laterpay_box_wrapper',      array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
