@@ -113,7 +113,7 @@ class LaterPay_Model_Category
             $excluding_id = 0;
         }
 
-        $term = $wpdb->esc_like( $term ) . '%';
+        $term = like_escape( $term ) . '%';
         $sql = "
             SELECT
                 tp.term_id AS id,
@@ -138,7 +138,7 @@ class LaterPay_Model_Category
                 %d
             ;
         ";
-        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ), ARRAY_A );
+        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ) );
 
         return $categories;
     }
@@ -154,7 +154,7 @@ class LaterPay_Model_Category
     public function get_categories_by_term( $term, $limit ) {
         global $wpdb;
 
-        $term = $wpdb->esc_like( $term ) . '%';
+        $term = like_escape( $term ) . '%';
         $sql = "
             SELECT
                 tm.term_id AS id,
@@ -169,7 +169,7 @@ class LaterPay_Model_Category
                 %d
             ;
         ";
-        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ), ARRAY_A );
+        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ) );
 
         return $categories;
     }
