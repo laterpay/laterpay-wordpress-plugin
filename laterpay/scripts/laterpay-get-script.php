@@ -76,7 +76,7 @@ function send_response( $file ) {
     exit();
 }
 
-// request parameters
+// get request parameters
 $file       = $request->get_param( 'file' );     // required, relative file path
 $aid        = $request->get_param( 'aid' );      // required, article id
 $mt         = $request->get_param( 'mt' );       // optional, need to convert file to requested type
@@ -108,8 +108,8 @@ if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
     $api_key = get_option( 'laterpay_sandbox_api_key' );
 }
 
-// processing
-if ( empty($file) || empty($aid) ) {
+// handle missing file or article id
+if ( empty( $file ) || empty( $aid ) ) {
 
     LaterPay_Core_Logger::error( 'RESOURCE:: empty $file or $aid' );
 
@@ -148,7 +148,7 @@ if ( ! empty( $hmac ) && ! empty( $ts ) ) {
 }
 
 // check token
-if ( ! empty($lptoken) ) {
+if ( ! empty( $lptoken ) ) {
 
     LaterPay_Core_Logger::debug( 'RESOURCE:: set token and make redirect' );
 
@@ -171,6 +171,7 @@ if ( ! empty($lptoken) ) {
     exit();
 }
 
+// acquire new token, if necessary
 if ( ! $client->has_token() ) {
 
     LaterPay_Core_Logger::debug( 'RESOURCE:: No token found. Acquiring token' );
@@ -178,7 +179,7 @@ if ( ! $client->has_token() ) {
     $client->acquire_token();
 }
 
-if ( ! empty($auth) ) {
+if ( ! empty( $auth ) ) {
 
     LaterPay_Core_Logger::debug( 'RESOURCE:: Auth param exists. Checking ...' );
 
@@ -196,7 +197,7 @@ if ( ! empty($auth) ) {
 }
 
 // check access
-if ( ! empty($aid) ) {
+if ( ! empty( $aid ) ) {
 
     LaterPay_Core_Logger::debug( 'RESOURCE:: Checking access in API ...' );
 
