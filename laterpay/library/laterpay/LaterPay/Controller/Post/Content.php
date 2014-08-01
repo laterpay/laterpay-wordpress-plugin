@@ -66,8 +66,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             if ( LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
                 $access = true;
                 $this->get_post_statistics();
-            } else if ( LaterPay_Helper_User::user_has_full_access() ) {
-                $access = true;
             }
 
             // encrypt content for premium content
@@ -530,8 +528,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $float_price                = (float) $price;
             $is_premium_content         = $float_price > 0;
             $access                     = $GLOBALS['laterpay_access'] ||
-                                            LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post ) ||
-                                            LaterPay_Helper_User::user_has_full_access();
+                                            LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
             $link                       = $this->get_laterpay_link( $post_id );
             $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
             $post_content_cached        = $this->config->get('caching.compatible_mode' );

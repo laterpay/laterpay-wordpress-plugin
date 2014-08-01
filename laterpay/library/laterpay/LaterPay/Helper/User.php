@@ -56,19 +56,6 @@ class LaterPay_Helper_User
         return $allowed;
     }
 
-    /**
-     * Check if the current user is part of group LATERPAY_ACCESS_ALL_ARTICLES_GROUP.
-     *
-     * @return bool
-     */
-    public static function user_has_full_access() {
-
-        if ( LATERPAY_ACCESS_ALL_ARTICLES_GROUP == '' )
-            return false;
-
-        return self::user_has_role( LATERPAY_ACCESS_ALL_ARTICLES_GROUP );
-    }
-
 
     /**
      * Check if a particular user has a particular role.
