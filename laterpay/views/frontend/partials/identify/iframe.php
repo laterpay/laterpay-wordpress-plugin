@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<?php if ( $post_content_cached && ! LaterPay_Helper_Request::is_ajax() ): ?>
+<?php if ( $config->get( 'caching.compatible_mode' ) && ! LaterPay_Helper_Request::is_ajax() ): ?>
     <span id="laterpay-post-footer" data-post-id="<?php echo $post_id; ?>"></span>
     <script>
         (function($) {

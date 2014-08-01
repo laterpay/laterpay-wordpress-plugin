@@ -534,7 +534,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
                                             LaterPay_Helper_User::user_has_full_access();
             $link                       = $this->get_laterpay_link( $post_id );
             $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
-            $post_content_cached        = LaterPay_Helper_Cache::site_uses_page_caching();
+            $post_content_cached        = $this->config->get('caching.compatible_mode' );
 
             // only render one instance of the purchase button on single premium posts - don't prepend it to related posts etc.
             if ( $is_premium_content && is_single() && ! is_page() && did_action( 'the_title' ) === 0 ) {
