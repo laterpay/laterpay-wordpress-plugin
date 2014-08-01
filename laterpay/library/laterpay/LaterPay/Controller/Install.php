@@ -12,7 +12,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	public function render_requirements_notices() {
         $notices = $this->check_requirements();
 
-		// render error messages if requirements are not fulfilled
+		// render error messages, if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
 			$out = join( "\n", $notices );
             echo '<div class="error">' . $out . '</div>';
@@ -20,7 +20,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
     /**
-     * Check plugin requirements and deactivate plugin, if requirements are not fulfilled.
+     * Check plugin requirements. Deactivate plugin and return notices, if requirements are not fulfilled.
      *
      * @global string $wp_version
      *

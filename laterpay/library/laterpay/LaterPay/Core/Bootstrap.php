@@ -8,12 +8,14 @@ class LaterPay_Core_Bootstrap {
 
 	/**
 	 * Contains all settings for our plugin
+	 *
 	 * @var LaterPay_Model_Config
 	 */
 	private $config;
 
 	/**
 	 * @param   LaterPay_Model_Config $config
+	 *
 	 * @return  LaterPay_Core_Bootstrap
 	 */
 	public function __construct( LaterPay_Model_Config $config ) {
@@ -27,7 +29,7 @@ class LaterPay_Core_Bootstrap {
 	 */
 	public function run() {
 
-		// load the textdomain
+		// load the text domain
 		$textdomain_path = dirname( plugin_basename( $this->config->plugin_file_path ) ) . $this->config->text_domain_path;
 		load_plugin_textdomain(
 			'laterpay',
@@ -35,7 +37,7 @@ class LaterPay_Core_Bootstrap {
 			$textdomain_path
 		);
 
-		// requirements-check
+		// requirements check
 		$install_controller = new LaterPay_Controller_Install( $this->config );
 		add_action( 'admin_notices', array( $install_controller, 'render_requirements_notices' ) );
 		add_action( 'admin_notices', array( $install_controller, 'check_for_updates' ) );
