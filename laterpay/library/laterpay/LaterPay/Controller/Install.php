@@ -98,7 +98,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
         // cancel the installation process, if the requirements check returns errors
         $notices = (array) $this->check_requirements();
         if ( count( $notices ) ) {
-            return;
+            $this->render_requirements_notices();   //  #150 FIXME: render_requirements_notices triggers check_requirements a second times...
+            exit;
         }
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
