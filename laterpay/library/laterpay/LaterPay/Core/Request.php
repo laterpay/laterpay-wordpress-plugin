@@ -49,15 +49,15 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
 
     public function _construct() {
         parent::_construct();
-        $this->set_data('get', $_GET);
-        $this->set_data('post', $_POST);
-        $this->set_data('cookie', $_COOKIE);
-        $this->set_data('server', $_SERVER);
-        $this->set_data('env', $_ENV);
+        $this->set_data( 'get',     $_GET );
+        $this->set_data( 'post',    $_POST );
+        $this->set_data( 'cookie',  $_COOKIE );
+        $this->set_data( 'server',  $_SERVER );
+        $this->set_data( 'env',     $_ENV );
     }
 
     /**
-     * Retrieve a parameter
+     * Retrieve a parameter.
      *
      * Retrieves a parameter from the instance. Priority is in the order of
      * userland parameters $_GET, $_POST. If a
@@ -69,11 +69,11 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
      * @return mixed
      */
     public function get_param( $key, $default = null ) {
-        if ( isset($this->_data[$key]) ) {
+        if ( isset( $this->_data[$key] ) ) {
             return $this->_data[$key];
-        } elseif ( isset($this->_data['get']) && isset($this->_data['get'][$key]) ) {
+        } elseif ( isset( $this->_data['get'] ) && isset( $this->_data['get'][$key] ) ) {
             return $this->_data['get'][$key];
-        } elseif ( isset($this->_data['post']) &&  isset($this->_data['post'][$key]) ) {
+        } elseif ( isset( $this->_data['post'] ) &&  isset( $this->_data['post'][$key] ) ) {
             return $this->_data['get'][$key];
         }
 
