@@ -37,7 +37,7 @@ class LaterPay_Core_Bootstrap {
 
 		// requirements-check
 		$install_controller = new LaterPay_Controller_Install( $this->config );
-		add_action( 'admin_notices', array( $install_controller, 'check_requirements' ) );
+		add_action( 'admin_notices', array( $install_controller, 'render_requirements_notices' ) );
 		add_action( 'admin_notices', array( $install_controller, 'check_for_updates' ) );
 
 		// only in backend
@@ -143,8 +143,8 @@ class LaterPay_Core_Bootstrap {
 	 */
 	public function activate() {
 		$install_controller = new LaterPay_Controller_Install( $this->config );
-		$install_controller->install();
-	}
+        $install_controller->install();
+    }
 
 	/**
 	 * Deactivate plugin.
