@@ -51,13 +51,5 @@ $sql = "DELETE FROM
         ";
 $wpdb->query( $sql );
 
-delete_option( 'laterpay_plugin_is_activated' );
-delete_option( 'laterpay_teaser_content_only' );
-delete_option( 'laterpay_plugin_is_in_live_mode' );
-delete_option( 'laterpay_sandbox_merchant_id' );
-delete_option( 'laterpay_sandbox_api_key' );
-delete_option( 'laterpay_live_merchant_id' );
-delete_option( 'laterpay_live_api_key' );
-delete_option( 'laterpay_global_price' );
-delete_option( 'laterpay_currency' );
-delete_option( 'laterpay_version' );
+// delete cached config
+wp_cache_delete( 'laterpay', 'config' );
