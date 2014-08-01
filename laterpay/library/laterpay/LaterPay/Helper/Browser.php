@@ -22,8 +22,8 @@ class LaterPay_Helper_Browser
         if ( empty( self::$browscap ) ) {
             self::$browscap = new Browscap( $config->get( 'cache_dir' ) );
             self::$browscap->doAutoUpdate = $config->get( 'browscap.autoupdate' );
-            if ( $config->has( 'browsecap.manually_updated_copy' ) ) {
-                self::$browscap->localFile = $config->get( 'browsecap.manually_updated_copy' );
+            if ( $config->has( 'browscap.manually_updated_copy' ) ) {
+                self::$browscap->localFile = $config->get( 'browscap.manually_updated_copy' );
             }
         }
 
