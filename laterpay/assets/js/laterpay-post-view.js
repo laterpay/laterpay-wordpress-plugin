@@ -85,17 +85,16 @@
         // (recognizable by the presence of $('#laterpay-page-caching-mode'))
         var $pageCachingAnchor = $('#laterpay-page-caching-mode');
         if ($pageCachingAnchor.length == 1) {
-            $.get(
-                lpVars.getArticleUrl,
-                {
-                    id              : $pageCachingAnchor.attr('data-post-id'),
-                    show_statistic  : true
-                },
-                function(html) {
-                    $pageCachingAnchor.before(html).remove();
-                    lpShowStatistic();
-                }
-            );
+        	
+        	var post_vars = {
+        		action: 'laterpay_article_script',
+        		post_id: $pageCachingAnchor.attr( 'data-post-id' )
+        	}
+        	
+        	$.post( lpVars.ajaxUrl, post_vars, function( response ) {
+        		$pageCachingAnchor.before( response ).remove();
+                lpShowStatistic();
+			} );
         }
 
 });}(jQuery));

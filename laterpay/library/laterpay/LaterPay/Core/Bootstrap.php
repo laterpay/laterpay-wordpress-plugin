@@ -58,7 +58,6 @@ class LaterPay_Core_Bootstrap {
 			add_filter( 'plugins_api',                              array( $github_updater, 'set_plugin_info' ), 10, 3 );
 			add_filter( 'upgrader_pre_install',                     array( $github_updater, 'pre_install' ), 10, 2 );
 			add_filter( 'upgrader_post_install',                    array( $github_updater, 'post_install' ), 10, 3 );
-
 		}
 
 		// add Ajax hooks for tabs in plugin backend
@@ -91,6 +90,14 @@ class LaterPay_Core_Bootstrap {
 			add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
 			add_action( 'save_post',                array( $post_controller, 'init_teaser_content' ), 10, 2 );
 			add_action( 'edit_form_after_editor',   array( $post_controller, 'init_teaser_content' ), 10, 2 );
+			// ajax requests
+			add_action( 'wp_ajax_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
+			add_action( 'wp_ajax_laterpay_article_script', array( $post_controller, 'get_cached_article' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_article_script', array( $post_controller, 'get_cached_article' ) );
+			add_action( 'wp_ajax_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
+
 
 			// register callbacks for adding meta_boxes
 			$pricing_controller = new LaterPay_Controller_Post_Pricing( $this->config );
@@ -274,11 +281,8 @@ class LaterPay_Core_Bootstrap {
 			'laterpay-post-view',
 			'lpVars',
 			array(
-				'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-				'lpBalanceUrl'  => $balance_url,
-				'getArticleUrl' => plugins_url( 'laterpay/scripts/laterpay-article-script.php' ),
-				'getFooterUrl'  => plugins_url( 'laterpay/scripts/laterpay-footer-script.php' ),
-				'getTitleUrl'   => plugins_url( 'laterpay/scripts/laterpay-title-script.php' ),
+				'ajaxUrl'          => admin_url( 'admin-ajax.php' ),
+				'lpBalanceUrl'     => $balance_url,
 				'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
 			)
 		);

@@ -7,15 +7,14 @@
             postId = $title.data('post-id');
 
         $title.hide();
-        $.get(
-            lpVars.getTitleUrl,
-            {
-                id              : postId,
-                show_statistic  : true
-            },
-            function(html) {
-                $title.before(html).remove();
-            }
-        );
+		var post_vars = {
+			action: 'laterpay_title_script',
+			id: postId,
+			show_statistic: true
+		};
+
+		$.post( lpVars.ajaxUrl, post_vars, function( response ) {
+			 $title.before( response ).remove();
+		} );
     })(jQuery);
 </script>
