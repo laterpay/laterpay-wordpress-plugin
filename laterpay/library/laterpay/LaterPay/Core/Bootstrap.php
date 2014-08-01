@@ -63,22 +63,22 @@ class LaterPay_Core_Bootstrap {
 
 		// add Ajax hooks for tabs in plugin backend
 		$admin_get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
-		add_action( 'wp_ajax_getstarted',    array( $admin_get_started_controller, 'process_ajax_requests' ) );
+		add_action( 'wp_ajax_laterpay_getstarted',    array( $admin_get_started_controller, 'process_ajax_requests' ) );
 
 		$admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
-		add_action( 'wp_ajax_pricing',       array( $admin_pricing_controller, 'process_ajax_requests' ) );
+		add_action( 'wp_ajax_laterpay_pricing',       array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
 		$admin_appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
-		add_action( 'wp_ajax_appearance',    array( $admin_appearance_controller, 'process_ajax_requests' ) );
+		add_action( 'wp_ajax_laterpay_appearance',    array( $admin_appearance_controller, 'process_ajax_requests' ) );
 
 		$admin_account_controller = new LaterPay_Controller_Admin_Account( $this->config );
-		add_action( 'wp_ajax_account',       array( $admin_account_controller, 'process_ajax_requests' ) );
+		add_action( 'wp_ajax_laterpay_account',       array( $admin_account_controller, 'process_ajax_requests' ) );
 
 		$admin_controller = new LaterPay_Controller_Admin( $this->config );
-		add_action( 'wp_ajax_admin', array( $admin_controller, 'process_ajax_requests' ) );
+		add_action( 'wp_ajax_laterpay_admin', array( $admin_controller, 'process_ajax_requests' ) );
 
 		$admin_pricing_controller = new LaterPay_Controller_Post_Pricing( $this->config );
-		add_action( 'wp_ajax_post_pricing',  array( $admin_pricing_controller, 'process_ajax_requests' ) );
+		add_action( 'wp_ajax_laterpay_post_pricing',  array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
 		if ( LaterPay_Helper_View::plugin_is_working() ) {
 

@@ -21,7 +21,7 @@
     <div class="lp-wrap">
         <form id="get_started_form" method="post">
             <input type="hidden" name="form"    value="get_started_form">
-            <input type="hidden" name="action"  value="getstarted">
+            <input type="hidden" name="action"  value="laterpay_getstarted">
             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
             <ul class="step-row clearfix">
                 <li>
