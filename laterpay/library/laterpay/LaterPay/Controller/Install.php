@@ -3,7 +3,7 @@
 class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 
 	/**
-	 * Renders admin notices if requirements are not fulfilled.
+	 * Render admin notices if requirements are not fulfilled.
 	 *
 	 * @wp-hook admin_notices
 	 *
@@ -11,18 +11,19 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	 */
 	public function render_requirements_notices() {
         $notices = $this->check_requirements();
-        
+
 		// render error messages if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
 			$out = join( "\n", $notices );
             echo '<div class="error">' . $out . '</div>';
 		}
 	}
-    
+
     /**
-     * Check plugin requirements and deactivates plugin if requirements are not fulfilled.
-     * 
+     * Check plugin requirements and deactivate plugin, if requirements are not fulfilled.
+     *
      * @global string $wp_version
+     *
      * @return array $notices
      */
     public function check_requirements() {
@@ -58,21 +59,22 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		if ( ! is_writable( $file ) ) {
 			$notices[] = sprintf( $template, $file );
 		}
-        
+
         // deactivate plugin if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
 			deactivate_plugins( $this->config->plugin_base_name, true );
 
 			$notices[] = __( 'The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
         }
-        
+
         return $notices;
     }
 
     /**
-	 * Install settings and tables if update is required.
+	 * Compare plugin version with latest version and perform an update if required.
 	 *
 	 * @wp-hook plugins_loaded
+     *
 	 * @return  void
 	 */
 	public function check_for_updates() {
@@ -83,13 +85,15 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
 	/**
-	 * Install our plugin and tables
+	 * Create our custom tables and set the required options.
+     *
 	 * @return  void
 	 */
-	public function install(){
+	public function install() {
 		global $wpdb;
+
         $notices = (array) $this->check_requirements();
-        if ( count($notices) ) {
+        if ( count( $notices ) ) {
             return;
         }
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -179,7 +183,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		if ( $activated !== '' ) { // never activated before
 			update_option( 'laterpay_plugin_is_activated', '1' );
 		}
-        
+
         // update capabilities
         $capabilities = new LaterPay_Core_Capabilities();
         $capabilities->populate_roles();
