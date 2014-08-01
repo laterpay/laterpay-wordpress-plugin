@@ -21,7 +21,7 @@
             <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
             <form id="teaser_content_only" method="post">
                 <input type="hidden" name="form"    value="teaser_content_only">
-                <input type="hidden" name="action"  value="appearance">
+                <input type="hidden" name="action"  value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <label class="left">
                     <input type="radio"

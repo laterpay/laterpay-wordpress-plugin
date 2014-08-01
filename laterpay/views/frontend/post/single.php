@@ -7,7 +7,7 @@
         <div id="statistics"<?php if ( $hide_statistics_pane ) echo ' class="hidden"'; ?>>
             <form id="laterpay_hide_statistics_form" method="post">
                 <input type="hidden" name="form"    value="hide_statistics_pane">
-                <input type="hidden" name="action"  value="admin">
+                <input type="hidden" name="action"  value="laterpay_admin">
                 <input type="hidden" name="hide_statistics_pane"  value="<?php echo $hide_statistics_pane;?>">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
             </form>
@@ -70,7 +70,7 @@
                 <div class="switch">
                     <form id="plugin_mode" method="post">
                         <input type="hidden" name="form"    value="post_page_preview">
-                        <input type="hidden" name="action"  value="admin">
+                        <input type="hidden" name="action"  value="laterpay_admin">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                         <label class="switch-label">
                             <input type="checkbox"

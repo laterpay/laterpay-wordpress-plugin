@@ -26,7 +26,7 @@
                     <dfn><?php _e( 'for testing purposes', 'laterpay' ); ?></dfn>
                     <form id="laterpay_sandbox_merchant_id_form" method="post">
                         <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
-                        <input type="hidden" name="action" value="account">
+                        <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
                             <li class="left w1-5">
@@ -47,7 +47,7 @@
                     </form>
                     <form id="laterpay_sandbox_api_key_form" method="post">
                         <input type="hidden" name="form"   value="laterpay_sandbox_api_key">
-                        <input type="hidden" name="action" value="account">
+                        <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
                             <li class="left w1-5">
@@ -75,7 +75,7 @@
                     <dfn><?php _e( 'for processing real financial transactions', 'laterpay' ); ?></dfn>
                     <form id="laterpay_live_merchant_id_form" method="post">
                         <input type="hidden" name="form"   value="laterpay_live_merchant_id">
-                        <input type="hidden" name="action" value="account">
+                        <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
                             <li class="left w1-5">
@@ -96,7 +96,7 @@
                     </form>
                     <form id="laterpay_live_api_key_form" method="post">
                         <input type="hidden" name="form"    value="laterpay_live_api_key">
-                        <input type="hidden" name="action"  value="account">
+                        <input type="hidden" name="action"  value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
                             <li class="left w1-5">
@@ -140,7 +140,7 @@
             <?php _e( 'This site is in', 'laterpay' ); ?><div class="switch">
                 <form id="plugin_mode" method="post">
                     <input type="hidden" name="form"    value="plugin_is_in_live_mode">
-                    <input type="hidden" name="action"  value="account">
+                    <input type="hidden" name="action"  value="laterpay_account">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                     <label class="switch-label">
                         <input type="checkbox"
