@@ -38,19 +38,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
                                 'teaser_image_path'  => '',
                             ), $atts);
 
-        // escape user input
-        $page_title     = esc_attr( $a['target_page_title'] );
-        $heading        = esc_attr( $a['heading_text'] );
-        $description    = esc_attr( $a['description_text'] );
-        $content_type   = esc_attr( $a['content_type'] );
-        $image_path     = esc_attr( $a['teaser_image_path'] );
-
         // get URL for provided page title
-        $page           = get_page_by_title( $page_title, OBJECT, array( 'post', 'page', 'attachment' ) );
+        $page           = get_page_by_title( $a['target_page_title'], OBJECT, array( 'post', 'page', 'attachment' ) );
         $page_id        = $page->ID;
         $page_url       = get_permalink( $page_id );
 
-        if ( $page_title == '' || empty( $page_id ) ) {
+        if ( empty( $page ) ) {
             return;
         } else {
             // get price of content
@@ -59,7 +52,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
             $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
         }
 
-        if ( $content_type == '' ) {
+        $content_types = ['file', 'gallery', 'audio', 'video', 'text'];
+
+        if ( $a['content_type'] == '' ) {
             // determine $content_type from MIME Type of files attached to post
             $page_mime_type = get_post_mime_type( $page_id );
 
@@ -94,7 +89,16 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
                 default:
                     $content_type = 'text';
             }
+        } else if ( in_array( $a['content_type'], $content_types ) ) {
+            $content_type = $a['content_type'];
+        } else {
+            $content_type = 'text';
         }
+
+        // escape user input
+        $image_path     = esc_url( $a['teaser_image_path'] );
+        $heading        = esc_attr( $a['heading_text'] );
+        $description    = esc_attr( $a['description_text'] );
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
