@@ -23,7 +23,7 @@ $sql = "DROP TABLE IF EXISTS
         ";
 $wpdb->query( $sql );
 
-// removing post metas from wp_postmeta-Table
+// remove pricing data from wp_postmeta table
 delete_post_meta_by_key( 'laterpay_post_teaser' );
 delete_post_meta_by_key( 'laterpay_post_pricing' );
 delete_post_meta_by_key( 'laterpay_post_pricing_type' );
@@ -33,7 +33,7 @@ delete_post_meta_by_key( 'laterpay_change_start_price_after_days' );
 delete_post_meta_by_key( 'laterpay_transitional_period_end_after_days' );
 delete_post_meta_by_key( 'laterpay_reach_end_price_after_days' );
 
-// removing user meta from wp_usersmeta-table
+// remove user settings from wp_usermeta table
 $sql = "DELETE FROM
             $table_usermeta
         WHERE
@@ -45,7 +45,7 @@ $sql = "DELETE FROM
         ";
 $wpdb->query( $sql );
 
-// removing global settings from wp_options-Table
+// remove global settings from wp_options table
 delete_option( 'laterpay_plugin_is_activated' );
 delete_option( 'laterpay_teaser_content_only' );
 delete_option( 'laterpay_plugin_is_in_live_mode' );
