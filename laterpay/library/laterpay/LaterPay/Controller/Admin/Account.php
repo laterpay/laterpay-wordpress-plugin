@@ -249,6 +249,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 	 */
 	protected static function _update_plugin_mode() {
 		$result = update_option( 'laterpay_plugin_is_in_live_mode', $_POST['plugin_is_in_live_mode'] );
+
 		if ( $result ) {
 			if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
 				wp_send_json(
