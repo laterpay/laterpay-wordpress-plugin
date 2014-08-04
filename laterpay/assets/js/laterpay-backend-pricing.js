@@ -37,7 +37,7 @@ jQuery.noConflict();
 
         // show flash message when correcting an invalid price
         if (corrected) {
-            setMessage(i18n_outsideAllowedPriceRange, false);
+            setMessage(lpVars.i18n_outsideAllowedPriceRange, false);
         }
 
         return price;
@@ -110,7 +110,7 @@ jQuery.noConflict();
                                 data        : function(term) {
                                                 return {
                                                     term        : term,
-                                                    action      : 'pricing',
+                                                    action      : 'laterpay_pricing',
                                                     category    : $(this).parent().find('input[name=category_id]').val()
                                                 };
                                             },

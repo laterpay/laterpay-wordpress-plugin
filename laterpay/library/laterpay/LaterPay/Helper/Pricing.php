@@ -1,6 +1,54 @@
 <?php
 
 class LaterPay_Helper_Pricing {
+
+
+    /**
+     * Get post price, depending on applied price type of post.
+     *
+     * @param   int $post_id
+     * @return  float $price
+     */
+    public static function get_post_price( $post_id ) {
+        $global_default_price = get_option( 'laterpay_global_price' );
+
+        $post_price_type = get_post_meta( $post_id, 'laterpay_post_pricing_type', true );
+        switch ( $post_price_type ) {
+            // backwards compatibility: Pricing Post Type used to be stored as 0 or 1; TODO: remove with release 1.0
+            case '0':
+            case '1':
+            case 'individual price':
+                $price = get_post_meta( $post_id, 'laterpay_post_pricing', true );
+                break;
+
+            case 'individual price, dynamic':
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( get_post( ) );
+                break;
+
+            case 'category default price':
+                $LaterPay_Category_Model  = new LaterPay_Model_Category();
+                $category_id            = get_post_meta( $post_id, 'laterpay_post_default_category', true );
+                $price                  = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
+                break;
+
+            case 'global default price':
+                $price = $global_default_price;
+                break;
+
+            default:
+                if ( $global_default_price > 0 ) {
+                    $price = $global_default_price;
+                    // there's no post price type present, so we add it
+                    add_post_meta( $post_id, 'laterpay_post_pricing_type', 'global default price', true );
+                } else {
+                    $price = 0;
+                }
+                break;
+        }
+
+        return (float) $price;
+    }
+
     /**
      * Get current price for post with dynamic pricing scheme defined.
      *

@@ -48,8 +48,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             $page_number++;
         }
 
-        add_action( 'load-post.php', array( $this, 'help_wp_edit_post' ) );
-        add_action( 'load-post-new.php', array( $this, 'help_wp_add_post' ) );
     }
 
     /**
@@ -183,22 +181,22 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         switch ( $tab ) {
             case 'wp_edit_post':
             case 'wp_add_post':
-                $this->_render_add_edit_post_page_help();
+                $this->render_add_edit_post_page_help();
                 break;
 
             case 'get_started':
                 break;
 
             case 'pricing':
-                $this->_render_pricing_tab_help();
+                $this->render_pricing_tab_help();
                 break;
 
             case 'appearance':
-                $this->_render_appearance_tab_help();
+                $this->render_appearance_tab_help();
                 break;
 
             case 'account':
-                $this->_render_account_tab_help();
+                $this->render_account_tab_help();
                 break;
 
             default:
@@ -211,7 +209,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_add_edit_post_page_help() {
+    protected function render_add_edit_post_page_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_add_edit_post_page_help',
@@ -250,7 +248,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_pricing_tab_help() {
+    protected function render_pricing_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_global_default_price',
@@ -302,7 +300,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_appearance_tab_help() {
+    protected function render_appearance_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_appearance_tab_help_preview_mode',
@@ -342,7 +340,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_account_tab_help() {
+    protected function render_account_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_account_tab_help_api_credentials',

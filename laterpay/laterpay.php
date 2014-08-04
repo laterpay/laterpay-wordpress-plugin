@@ -172,6 +172,7 @@ function laterpay_get_plugin_config() {
 		'content.preview_percentage_of_content'             => 25,
 		'content.preview_word_count_min'                    => 26,
 		'content.preview_word_count_max'                    => 200,
+        'content.allowed_post_types'                        => get_post_types( array( 'public' => true ) )
 	);
 
 	/**
@@ -184,6 +185,7 @@ function laterpay_get_plugin_config() {
 	 *                                     'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
 	 *                                     'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
 	 *                                     'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
+     *                                     'content.allowed_post_types'                         => Array - allowed post_types which supports LaterPay-Payment
 	 *                                  );
 	 */
 	$content_settings = apply_filters( 'laterpay_get_content_settings', $content_settings );

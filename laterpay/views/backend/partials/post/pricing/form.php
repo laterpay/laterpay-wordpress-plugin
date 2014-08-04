@@ -21,7 +21,7 @@
 </div>
 
 <div id="laterpay-price-type"<?php if ( $laterpay_post_price_type == 'individual price, dynamic' || $laterpay_post_price_type == 'category default price' ) { echo ' class="expanded"'; } ?>>
-    <ul class="lp-toggle clearfix">
+     <ul class="lp-toggle clearfix">
         <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == 'individual price' || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'selected'; } ?>">
             <a href="#" id="use-individual-price" class="use-individual-price"><?php _e( 'Individual Price', 'laterpay' ); ?></a>
         </li>
@@ -52,17 +52,18 @@
             </div>
         </div>
         <div class="use-category-default-price details-section"<?php if ( $laterpay_post_price_type !== 'category default price' ) { echo ' style="display:none;"'; } ?>>
-            <input type="hidden" name="laterpay_post_default_category" value="<?php echo $laterpay_post_default_category?>">
-            <ul>
+             <input type="hidden" name="laterpay_post_default_category" value="<?php echo $laterpay_post_default_category?>">
+             <ul>
                 <?php foreach ( $laterpay_category_prices as $c ): ?>
-                    <li data-category="<?php echo $c['category_id']; ?>"<?php if ( $c['category_id'] == $laterpay_post_default_category ): ?> class="selected-category"<?php endif; ?>>
-                        <a href="#" data-price="<?php echo LaterPay_Helper_View::format_number($c['category_price'], 2); ?>">
-                            <span><?php echo LaterPay_Helper_View::format_number( $c['category_price'], 2 ); ?> <?php echo $laterpay_currency; ?></span><?php echo $c['category_name']; ?>
+                    <li data-category="<?php echo $c->category_id; ?>"<?php if ( $c->category_id == $laterpay_post_default_category ): ?> class="selected-category"<?php endif; ?>>
+                        <a href="#" data-price="<?php echo LaterPay_Helper_View::format_number($c->category_price, 2); ?>">
+                            <span><?php echo LaterPay_Helper_View::format_number( $c->category_price, 2 ); ?> <?php echo $laterpay_currency; ?></span><?php echo $c->category_name; ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
         </div>
+
     </div>
 </div>
 
@@ -76,4 +77,4 @@
         <?php if ( substr( $laterpay_post_price_type, 0, 16 ) !== 'individual price' ) { echo 'style="display:none;"'; } ?>>
         <?php _e( 'Add dynamic pricing', 'laterpay' ); ?>
     </a>
-<?php endif; ?>
+<?php endif;

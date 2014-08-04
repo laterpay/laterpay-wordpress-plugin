@@ -108,7 +108,19 @@ class LaterPay_Helper_View
         if ( ! function_exists( 'wp_get_current_user' ) ) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
-        if ( ($modeIsLive && empty( $liveKey )) || ( ! $modeIsLive && empty( $sandboxKey ) ) || ( ! $modeIsLive && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) ) {
+
+        // checking if plugin works in live mode and api.key exists
+        if( $modeIsLive && empty( $liveKey ) ) {
+            return false;
+        }
+
+        // checking if plugin is not in live mode and sandboxKey exists
+        if ( ! $modeIsLive && empty( $sandboxKey ) ) {
+            return false;
+        }
+
+        // checking if plugin is not in live mode and current has enough rights
+        if( ! $modeIsLive && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
             return false;
         }
 
