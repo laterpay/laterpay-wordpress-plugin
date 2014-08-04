@@ -25,7 +25,7 @@
                     <dfn class="spacer">&nbsp;</dfn>
                     <form id="global-price-form" method="post" action="">
                         <input type="hidden" name="form"    value="global_price_form">
-                        <input type="hidden" name="action"  value="pricing">
+                        <input type="hidden" name="action"  value="laterpay_pricing">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                         <p>
@@ -62,7 +62,7 @@
                             <form method="post" class="category-price-form">
                                 <p>
                                     <input type="hidden" name="form"        value="price_category_form">
-                                    <input type="hidden" name="action"      value="pricing">
+                                    <input type="hidden" name="action"      value="laterpay_pricing">
                                     <input type="hidden" name="category_id" value="<?php echo $item->category_id; ?>">
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
@@ -96,7 +96,7 @@
                     </p>
                     <form method="post" id="category-price-form-template" class="category-price-form unsaved" style="display:none;">
                         <input type="hidden" name="form"        value="price_category_form">
-                        <input type="hidden" name="action"      value="pricing">
+                        <input type="hidden" name="action"      value="laterpay_pricing">
                         <input type="hidden" name="category_id" value="">
 
                         <p>
@@ -143,7 +143,7 @@
             <h2><?php _e( 'Currency', 'laterpay' ); ?></h2>
             <form id="currency_form" method="post">
                 <input type="hidden" name="form"    value="currency_form">
-                <input type="hidden" name="action"  value="pricing">
+                <input type="hidden" name="action"  value="laterpay_pricing">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                 <div>

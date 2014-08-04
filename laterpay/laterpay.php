@@ -10,14 +10,14 @@
  * Domain Path: /languages
  */
 
-// Kick-Off
+// Kick-off
 add_action( 'plugins_loaded', 'laterpay_init', 0 );
 
 register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
 
 /**
- * Callback to start our plugin
+ * Callback to start the plugin
  *
  * @wp-hook plugins_loaded
  * @return  void
@@ -35,6 +35,7 @@ function laterpay_init() {
 
 /**
  * Callback for activating the plugin
+ *
  * @wp-hook register_deactivation_hook
  * @return  void
  */
@@ -77,7 +78,7 @@ function laterpay_get_plugin_config() {
 
 	$config = new LaterPay_Model_Config();
 
-	// the plugin default settings for path, dirs
+	// plugin default settings for paths and directories
 	$config->set( 'plugin_dir_path',    plugin_dir_path( __FILE__ ) );
 	$config->set( 'plugin_file_path',   __FILE__ );
 	$config->set( 'plugin_base_name',   plugin_basename( __FILE__ ) );
@@ -90,7 +91,7 @@ function laterpay_get_plugin_config() {
 	$config->set( 'js_url',     $plugin_url . 'assets/js/' );
 	$config->set( 'image_url',  $plugin_url . 'assets/images/' );
 
-	// the plugin headers
+	// plugin headers
 	$plugin_headers = get_file_data(
 		__FILE__,
 		array (
@@ -107,13 +108,14 @@ function laterpay_get_plugin_config() {
 	$config->import( $plugin_headers );
 
 
-	// adding github-settings
+	// GitHub settings
 	$config->set( 'github.name', 'laterpay-wordpress-plugin' );
 	$config->set( 'github.user', 'laterpay' );
 	$config->set( 'github.token', '' );
 
 	/**
-	 *  LaterPay API Endpoints and API-default Settings
+	 * LaterPay API endpoints and API default settings
+	 *
 	 * @var array
 	 */
 	$api_settings = array(
@@ -128,15 +130,17 @@ function laterpay_get_plugin_config() {
 	);
 
 	/**
-	 * Plugin-Filter which allows to manipulate the api-endpoint-urls
+	 * Plugin filter for manipulating the API endpoint URLs
+	 *
 	 * @param   Array $api_settings
+	 *
 	 * @return  Array $api_settings
 	 */
 	$api_settings = apply_filters( 'laterpay_get_api_settings', $api_settings );
 	$config->import( $api_settings );
 
 
-	// the default currency-settings
+	// default currency settings
 	$currency_settings = array(
 		'currency.default'          => 'EUR',
         'currency.default_price'    => 0.29,
@@ -145,19 +149,22 @@ function laterpay_get_plugin_config() {
 	$config->import( $currency_settings );
 
 	/**
-	 * Use page caching compatible mode
+	 * Use page caching compatible mode.
+	 *
 	 * Set this to true, if you are using a caching solution like WP Super Cache that caches entire HTML pages;
 	 * In compatibility mode the plugin renders paid posts without the actual content so they can be cached as static
 	 * files and then uses an Ajax request to load either the preview content or the full content,
 	 * depending on the current visitor
+	 *
 	 * @var     bool    $caching_compatible_mode
+	 *
 	 * @return  bool    $caching_compatible_mode
 	 */
 	$caching_compatible_mode = apply_filters(
 		'laterpay_get_caching_compatible_mode',
 		LaterPay_Helper_Cache::site_uses_page_caching()
 	);
-	$config->set( 'caching.compatible_mode', (bool)$caching_compatible_mode );
+	$config->set( 'caching.compatible_mode', (bool) $caching_compatible_mode );
 
 	// content settings
 	$content_settings = array(
@@ -166,9 +173,12 @@ function laterpay_get_plugin_config() {
 		'content.preview_word_count_min'                    => 26,
 		'content.preview_word_count_max'                    => 200,
 	);
+
 	/**
-	 * Content-Filter to change the settings for preview-output
+	 * Content filter to change the settings for preview output
+	 *
 	 * @var     Array $content_settings
+	 *
 	 * @return  Array $content_settings array(
 	 *                                     'content.auto_generated_teaser_content_word_count'   => Integer - Number of words used for automatically extracting teaser content for paid posts,
 	 *                                     'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
@@ -184,13 +194,14 @@ function laterpay_get_plugin_config() {
 	 * Sets a cookie and logs all requests from visitors to your blog, if enabled
 	 *
 	 * @var     bool $access_logging_enabled
+	 *
 	 * @return  bool $access_logging_enabled
 	 */
 	$access_logging_enabled = apply_filters(
 		'later_pay_access_logging_enabled',
 		true
 	);
-	$config->set( 'logging.access_logging_enabled', (bool)$access_logging_enabled );
+	$config->set( 'logging.access_logging_enabled', (bool) $access_logging_enabled );
 
 	// browscap
 	$browscap_settings = array(
@@ -200,30 +211,33 @@ function laterpay_get_plugin_config() {
 		'browscap.autoupdate' => true,
 		// If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
 		// on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
-		'browsecap.manually_updated_copy' => '',
+		'browscap.manually_updated_copy' => '',
 	);
+
 	/**
 	 * @var     array $browscap_settings
+	 *
 	 * @return  array $browscap_settings
 	 */
 	$browscap_settings = apply_filters( 'laterpay_get_browscap_settings', $browscap_settings );
 	$config->import( $browscap_settings );
 
-	// setting the config to cache for next call.
+	// cache the config
 	wp_cache_set( 'laterpay', $config, 'config' );
+
 	return $config;
 }
 
 /**
- * This function is called before plugins_loaded, activate_laterpay, deactivate_laterpay
- * to register our autoloading-paths
+ * Run before plugins_loaded, activate_laterpay, and deactivate_laterpay, to register our autoloading paths.
+ *
  * @return  Void
  */
-function laterpay_before_start(){
+function laterpay_before_start() {
 
 	$dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
-	if( ! class_exists( 'LaterPay_Autoloader' ) ) {
+	if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
 		require_once( $dir . 'laterpay-load.php' );
 	}
 
