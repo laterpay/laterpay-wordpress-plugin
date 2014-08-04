@@ -35,10 +35,9 @@ class LaterPay_Core_Bootstrap {
 			$textdomain_path
 		);
 
-		// backend actions required for this plugin
+		// backend actions
 		if ( is_admin() ) {
-
-            // requirements-check
+            // check requirements
             $install_controller = new LaterPay_Controller_Install( $this->config );
             add_action( 'admin_notices', array( $install_controller, 'check_requirements' ) );
             add_action( 'admin_notices', array( $install_controller, 'check_for_updates' ) );
@@ -70,7 +69,7 @@ class LaterPay_Core_Bootstrap {
             return;
         }
 
-        // add our shortcodes
+        // add custom shortcodes
         $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
         add_shortcode( 'laterpay_premium_download', array( $shortcode_controller, 'render_premium_download_box' ) );
         add_shortcode( 'laterpay_box_wrapper',      array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
@@ -78,8 +77,7 @@ class LaterPay_Core_Bootstrap {
         add_shortcode( 'laterpay', 					array( $shortcode_controller, 'render_premium_download_box' ) );
 
         // backend actions
-        if( is_admin() ) {
-
+        if ( is_admin() ) {
             // add Ajax hooks for tabs in plugin backend
             $admin_get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
             add_action( 'wp_ajax_laterpay_getstarted',    array( $admin_get_started_controller, 'process_ajax_requests' ) );
@@ -127,17 +125,14 @@ class LaterPay_Core_Bootstrap {
 
             // setup custom columns for each allowed post_type
             $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );
-            foreach( $this->config->get( 'content.allowed_post_types' ) as $post_type ){
+            foreach ( $this->config->get( 'content.allowed_post_types' ) as $post_type ) {
                 add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
                 add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
             }
-
-
         }
 
-        // frontend scripts
-        if( !is_admin() ){
-
+        // frontend actions
+        if ( !is_admin() ) {
             $post_controller = new LaterPay_Controller_Post_Content( $this->config );
             add_action( 'init',                     array( $post_controller, 'create_token' ) );
             add_action( 'init',                     array( $post_controller, 'buy_post' ) );
@@ -147,20 +142,19 @@ class LaterPay_Core_Bootstrap {
             add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
             add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
 
-            // ajax requests in frontend
-            add_action( 'wp_ajax_laterpay_title_script',            array( $post_controller, 'get_modified_title' ) );
-            add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
-            add_action( 'wp_ajax_laterpay_footer_script',           array( $post_controller, 'get_modified_footer' ) );
+            // register Ajax requests in frontend
+            add_action( 'wp_ajax_laterpay_title_script',    array( $post_controller, 'get_modified_title' ) );
+            add_action( 'wp_ajax_laterpay_article_script',  array( $post_controller, 'get_cached_post' ) );
+            add_action( 'wp_ajax_laterpay_footer_script',   array( $post_controller, 'get_modified_footer' ) );
 
             // setup unique visitors tracking
             $tracking_controller = new LaterPay_Controller_Tracking( $this->config );
             add_action( 'init', array( $tracking_controller, 'add_unique_visitors_tracking' ) );
 
-            // register our frontend scripts
+            // register frontend assets
             add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_stylesheets' ) );
             add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_scripts' ) );
         }
-
 	}
 
 	/**
@@ -235,7 +229,6 @@ class LaterPay_Core_Bootstrap {
 	 * @return  void
 	 */
 	public function add_frontend_stylesheets() {
-
 		wp_register_style(
 			'laterpay-post-view',
 			$this->config->css_url . 'laterpay-post-view.css',
@@ -258,7 +251,6 @@ class LaterPay_Core_Bootstrap {
 	 * @return  void
 	 */
 	public function add_frontend_scripts() {
-
 		wp_register_script(
 			'jquery',
 			'//code.jquery.com/jquery-1.11.0.min.js'

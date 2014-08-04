@@ -17,9 +17,10 @@ register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
 
 /**
- * Callback to start the plugin
+ * Callback to start the plugin.
  *
  * @wp-hook plugins_loaded
+ *
  * @return  void
  */
 function laterpay_init() {
@@ -34,9 +35,10 @@ function laterpay_init() {
 }
 
 /**
- * Callback for activating the plugin
+ * Callback for activating the plugin.
  *
  * @wp-hook register_deactivation_hook
+ *
  * @return  void
  */
 function laterpay_activate() {
@@ -50,8 +52,10 @@ function laterpay_activate() {
 }
 
 /**
- * Callback for deactivating the plugin
+ * Callback for deactivating the plugin.
+ *
  * @wp-hook register_deactivation_hook
+ *
  * @return  void
  */
 function laterpay_deactivate() {
@@ -65,7 +69,8 @@ function laterpay_deactivate() {
 }
 
 /**
- * getting the plugin settings
+ * Getting the plugin settings.
+ *
  * @return  LaterPay_Model_Config
  */
 function laterpay_get_plugin_config() {
@@ -114,7 +119,7 @@ function laterpay_get_plugin_config() {
 	$config->set( 'github.token', '' );
 
 	/**
-	 * LaterPay API endpoints and API default settings
+	 * LaterPay API endpoints and API default settings.
 	 *
 	 * @var array
 	 */
@@ -130,7 +135,7 @@ function laterpay_get_plugin_config() {
 	);
 
 	/**
-	 * Plugin filter for manipulating the API endpoint URLs
+	 * Plugin filter for manipulating the API endpoint URLs.
 	 *
 	 * @param   Array $api_settings
 	 *
@@ -185,7 +190,7 @@ function laterpay_get_plugin_config() {
 	 *                                     'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
 	 *                                     'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
 	 *                                     'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
-     *                                     'content.allowed_post_types'                         => Array - allowed post_types which supports LaterPay-Payment
+     *                                     'content.allowed_post_types'                         => Array - allowed post_types that support LaterPay payments
 	 *                                  );
 	 */
 	$content_settings = apply_filters( 'laterpay_get_content_settings', $content_settings );
