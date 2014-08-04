@@ -61,19 +61,16 @@ class LaterPay_Model_Post_Views
                 count = count + 1
             ;
         ";
+	    $sql =  $wpdb->prepare(
+		    $sql,
+		    (int) $data['post_id'],
+		    (int) $data['user_id'],
+		    date( 'Y-m-d H:i:s', $data['date'] ),
+		    $data['ip']
+	    );
 
-        try {
-            $results = $wpdb->get_results(
-                $wpdb->prepare(
-                    $sql,
-                    (int) $data['post_id'],
-                    (int) $data['user_id'],
-                    date( 'Y-m-d H:i:s', $data['date'] ),
-                    $data['ip'] )
-            );
-        } catch ( Exception $e ) {
-            // nothing to do - user has already viewed page
-        }
+	    return $wpdb->get_results( $sql );
+
     }
 
     /**

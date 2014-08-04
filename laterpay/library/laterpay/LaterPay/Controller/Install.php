@@ -12,7 +12,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	public function render_requirements_notices() {
         $notices = $this->check_requirements();
 
-		// render error messages if requirements are not fulfilled
+		// render error messages, if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
 			$out = join( "\n", $notices );
             echo '<div class="error">' . $out . '</div>';
@@ -20,7 +20,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
     /**
-     * Check plugin requirements and deactivate plugin, if requirements are not fulfilled.
+     * Check plugin requirements. Deactivate plugin and return notices, if requirements are not fulfilled.
      *
      * @global string $wp_version
      *
@@ -62,6 +62,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 
         // deactivate plugin if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
+            // suppress 'Plugin activated' notice
+            unset( $_GET['activate'] );
+
 			deactivate_plugins( $this->config->plugin_base_name, true );
 
 			$notices[] = __( 'The LaterPay plugin could not be installed. Please fix the reported issues and try again.', 'laterpay' );
@@ -92,10 +95,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	public function install() {
 		global $wpdb;
 
+        // cancel the installation process, if the requirements check returns errors
         $notices = (array) $this->check_requirements();
         if ( count( $notices ) ) {
-            return;
+            $this->render_requirements_notices();   //  #150 FIXME: render_requirements_notices triggers check_requirements a second times...
+            exit;
         }
+
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$table_currency     = $wpdb->prefix . 'laterpay_currency';

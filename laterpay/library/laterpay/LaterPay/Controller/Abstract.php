@@ -45,16 +45,15 @@ class LaterPay_Controller_Abstract
             ${$key} = $value;
         }
 	    $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
-	    if( !file_exists( $view_file ) ) {
+	    if ( ! file_exists( $view_file ) ) {
 		    $msg = sprintf(
 			    __( '%s : <code>%s</code> not found', 'laterpay' ),
 			    __METHOD__,
 			    __FILE__
 		    );
-		    LaterPay_Core_Logger::error(
-			    $msg,
-			    array( 'view_file' => $view_file )
-		    );
+
+		    LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+
 		    return;
 	    }
 		include_once( $view_file );
@@ -84,16 +83,15 @@ class LaterPay_Controller_Abstract
             ${$key} = $value;
         }
 	    $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
-	    if( !file_exists( $view_file ) ) {
+	    if ( ! file_exists( $view_file ) ) {
 		    $msg = sprintf(
 			    __( '%s : <code>%s</code> not found', 'laterpay' ),
 			    __METHOD__,
 			    __FILE__
 		    );
-		    LaterPay_Core_Logger::error(
-		        $msg,
-			    array( 'view_file' => $view_file )
-		    );
+
+		    LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+
 		    return '';
 	    }
 

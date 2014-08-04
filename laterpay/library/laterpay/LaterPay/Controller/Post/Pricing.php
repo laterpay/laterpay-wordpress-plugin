@@ -243,7 +243,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 
 			case 'individual price, dynamic':
 				// current price
-				$price = LaterPay_Controller_Post_Content::get_dynamic_price( $GLOBALS['post'] );
+				$price = LaterPay_Helper_Pricing::get_dynamic_price( $GLOBALS['post'] );
 				break;
 
 			case 'category default price':

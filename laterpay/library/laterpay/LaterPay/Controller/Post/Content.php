@@ -103,61 +103,65 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * price.
      */
     public function get_cached_article() {
-    	global $post, $wp_query, $laterpay_show_statistics;
+        global $post, $wp_query, $laterpay_show_statistics;
 
-    	// set the global vars so that WordPress
-    	// thinks it is in a single view
-    	$wp_query->is_single      = TRUE;
-    	$wp_query->in_the_loop    = TRUE;
-    	$laterpay_show_statistics = TRUE;
+        // set the global vars so that WordPress
+        // thinks it is in a single view
+        $wp_query->is_single      = TRUE;
+        $wp_query->in_the_loop    = TRUE;
+        $laterpay_show_statistics = TRUE;
 
-    	// get the content
-    	$post_id = $_REQUEST[ 'post_id' ];
-    	$post = get_post( $post_id );
-    	$post_content = $post->post_content;
+        // get the content
+        $post_id = $_REQUEST[ 'post_id' ];
+        $post = get_post( $post_id );
+        $post_content = $post->post_content;
 
-    	$content = apply_filters( 'the_content', $post_content );
-    	$content = str_replace( ']]>', ']]&gt;', $content );
+        $content = apply_filters( 'the_content', $post_content );
+        $content = str_replace( ']]>', ']]&gt;', $content );
 
-    	echo $content;
+        echo $content;
 
-    	exit;
+        exit;
     }
 
     /**
      * Ajax method to get the the modified title
      */
     public function get_modified_title() {
-    	global $post, $wp_query;
+        global $post, $wp_query;
 
-    	// set the global vars so that WordPress
-    	// thinks it is in a single view
-    	$wp_query->is_single      = TRUE;
-    	$wp_query->in_the_loop    = TRUE;
+        // set the global vars so that WordPress
+        // thinks it is in a single view
+        $wp_query->is_single      = TRUE;
+        $wp_query->in_the_loop    = TRUE;
 
-    	// get the content
-    	$post_id = $_REQUEST[ 'id' ];
-    	$post = get_post( $post_id );
-    	$post_title = get_the_title( $post_id );
+        // get the content
+        $post_id = $_REQUEST[ 'id' ];
+        $post = get_post( $post_id );
+        $post_title = get_the_title( $post_id );
 
-    	echo $post_title;
+        echo $post_title;
 
-    	exit;
+        exit;
     }
 
-	/**
+    /**
+     * This ajax callback loads the modified footer
+     * and echos it.
+     */
+    public function get_modified_footer() {
+        $this->modify_footer();
+        exit;
+    }
+
+    /**
 	 * Adding the LaterPay-iFrame to Footer
 	 * @return void
 	 */
 	public function modify_footer() {
 
-		// check if we are in the ajax environment
-		if ( LaterPay_Helper_Request::is_ajax() )
-	    	$post = get_post( $_GET[ 'id' ] );
-		else
-			$post = get_post();
-
-	    if ( $post === null ) {
+	    $post = get_post();
+	    if( $post === null ){
 		    return;
 	    }
 
@@ -172,15 +176,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             echo $this->get_text_view( 'frontend/partials/identify/iframe' );
         }
 
-    }
-
-    /**
-     * This ajax callback loads the modified footer
-     * and echos it.
-     */
-    public function get_modified_footer() {
-		$this->modify_footer();
-    	exit;
     }
 
     /**
@@ -205,7 +200,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         // get total revenue and total sales
         $total = array();
         $history_total = (array) $LaterPay_Payments_History_Model->get_total_history_by_post_id( $post->ID );
-        foreach ( $history_total as $key => $item ) {
+        foreach ( $history_total as $item ) {
             $total[$item->currency]['sum']      = round($item->sum, 2);
             $total[$item->currency]['quantity'] = $item->quantity;
         }
@@ -293,7 +288,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
                 break;
 
             case 'individual price, dynamic':
-                $price = self::get_dynamic_price( get_post( ) );
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( get_post( ) );
                 break;
 
             case 'category default price':
@@ -322,92 +317,82 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     /**
      * Save purchase in purchase history.
+     *
+     * @wp-hook template_redirect
+     * @return  void
      */
-    public static function buy_post() {
-        if ( 'index.php' == $GLOBALS['pagenow'] ) {
-            if ( isset( $_GET['buy'] ) && $_GET['buy'] ) {
-                $data = array();
-                $data['post_id']        = $_GET['post_id'];
-                $data['id_currency']    = $_GET['id_currency'];
-                $data['price']          = $_GET['price'];
-                $data['date']           = $_GET['date'];
-                $data['ip']             = $_GET['ip'];
-                $data['hash']           = $_GET['hash'];
-                $hash = $_GET['hash'];
-                $url = LaterPay_Helper_Request::get_current_url();
-                $url = preg_replace( '/hash=.*?($|&)/', '', $url );
-                $url = preg_replace( '/&$/',            '', $url );
-                // check hash for purchase
-                if ( md5( md5( $url ) . AUTH_SALT ) == $hash ) {
-                    $LaterPay_Payments_History_Model = new LaterPay_Model_Payments_History();
-                    $LaterPay_Payments_History_Model->set_payment_history( $data );
-                }
-                $url = preg_replace( '/post_id=.*?($|&)/',      '', $url );
-                $url = preg_replace( '/id_currency=.*?($|&)/',  '', $url );
-                $url = preg_replace( '/price=.*?($|&)/',        '', $url );
-                $url = preg_replace( '/date=.*?($|&)/',         '', $url );
-                $url = preg_replace( '/ip=.*?($|&)/',           '', $url );
-                $url = preg_replace( '/buy=.*?($|&)/',          '', $url );
-                $url = preg_replace( '/&$/',                    '', $url );
-                header( 'Location: ' . $url );
-                die;
-            }
+    public function buy_post() {
+
+        if( !isset( $_GET[ 'buy' ] ) ){
+            return;
         }
-    }
 
-    /**
-     * Update incorrect token or create token, if it doesn't exist.
-     */
-    public function token_hook() {
-        $GLOBALS['laterpay_access'] = false;
-
-        $is_feed = self::is_feed();
-
-        LaterPay_Core_Logger::debug(
-            'LaterPay_Post_Content_Controller::token_hook',
-            array(
-                ! is_admin(),
-                ! self::is_login_page(),
-                ! self::is_cron_page(),
-                ! $is_feed,
-                LaterPay_Helper_Browser::browser_supports_cookies(),
-                ! LaterPay_Helper_Browser::is_crawler()
-            )
+        // contains all required parameters for the GET-Request
+        $required_params = array(
+            'p',
+            'buy',
+            'vat',
+            'hmac',
+            'post_id',
+            'id_currency',
+            'price',
+            'date',
+            'ip',
+            'hash'
         );
 
-        if ( ! is_admin() && ! self::is_login_page() && ! self::is_cron_page() && ! $is_feed && LaterPay_Helper_Browser::browser_supports_cookies() && ! LaterPay_Helper_Browser::is_crawler() ) {
+        // checking if all parameters are available in GET-Request
+        $diff = array_diff(
+            array_keys( $_GET ),
+            $required_params
+        );
 
-            LaterPay_Core_Logger::debug( 'LaterPay_Post_Content_Controller::token_hook', array( $_SERVER['REQUEST_URI'] ) );
-
-            $LaterPay_Client = new LaterPay_Core_Client( $this->config );
-            if ( isset($_GET['lptoken']) ) {
-                $LaterPay_Client->set_token( $_GET['lptoken'], true );
-            }
-
-            if ( ! $LaterPay_Client->has_token() ) {
-                $LaterPay_Client->acquire_token();
-            }
-
-            // if Ajax request
-            if ( (LaterPay_Helper_Request::is_ajax() && isset( $_GET['id'] )) || isset( $_GET['id'] ) ) {
-                $postid = $_GET['id'];
-            } else {
-                $url = LaterPay_Helper_Statistics::get_full_url( $_SERVER );
-                $postid = url_to_postid( $url );
-            }
-            if ( ! empty($postid) ) {
-                $price = self::get_post_price($postid);
-                if ( $price > 0 ) {
-                    $result = $LaterPay_Client->get_access( $postid );
-                    $access = false;
-                    if ( ! empty( $result ) && isset( $result['articles'][$postid] ) ) {
-                        $access = $result['articles'][$postid]['access'];
-                    }
-                    $GLOBALS['laterpay_access'] = $access;
-                }
-            }
+        if( count( $diff ) > 0 ){
+            LaterPay_Core_Logger::error(
+                __METHOD__ . ' some parameters are missing in GET-Request',
+                array(
+                    'get'               => $_GET,
+                    'required_params'   => $required_params,
+                    'diff'              => $diff,
+                )
+            );
+            return;
         }
+
+        // data to create the url and hash-check
+        $url_data = array(
+            'post_id'     => $_GET[ 'post_id' ],
+            'id_currency' => $_GET[ 'id_currency' ],
+            'price'       => $_GET[ 'price' ],
+            'date'        => $_GET[ 'date' ],
+            'buy'         => $_GET[ 'buy' ],
+            'ip'          => $_GET[ 'ip' ],
+        );
+        $url    = $this->get_buy_redirect_url( $url_data );
+        $hash   = $this->get_hash_by_url( $url );
+
+        // checking if the parameters of $_GET are valid and not manipulated
+        if ( $hash === $_GET[ 'hash' ] ) {
+
+            $data = array(
+                'post_id'       => $_GET[ 'post_id' ],
+                'id_currency'   => $_GET[ 'id_currency' ],
+                'price'         => $_GET[ 'price' ],
+                'date'          => $_GET[ 'date' ],
+                'ip'            => $_GET[ 'ip' ],
+                'hash'          => $_GET[ 'hash' ],
+            );
+
+            $payment_history_model = new LaterPay_Model_Payments_History();
+            $payment_history_model->set_payment_history( $data );
+        }
+
+        $post_id = absint( $_GET[ 'post_id' ] );
+        $redirect_url = get_permalink( $post_id );
+        wp_redirect( $redirect_url );
+        exit;
     }
+
 
     /**
      * Check if current page is login page.
@@ -428,117 +413,95 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current request is RSS feed.
+     * Update incorrect token or create token, if it doesn't exist.
      *
-     * @return boolean is feed
+     * @wp-hook template_redirect
+     * @return  void
      */
-    public static function is_feed() {
-        $is_feed    = false;
-        $qv         = wp_parse_args( $_SERVER['QUERY_STRING'] );
-        $url        = parse_url( $_SERVER['REQUEST_URI'] );
+    public function create_token() {
+        $GLOBALS[ 'laterpay_access' ] = false;
 
-        if ( ( isset( $qv['feed'] ) && '' != $qv['feed']) || (isset( $url['path'] ) && preg_match( '/feed/', $url['path'] )) ) {
-            $is_feed = true;
+        $is_singular                = is_singular();
+        $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
+        $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
+
+        $context =  array(
+            'is_singular'       => $is_singular,
+            'support_cookies'   => $browser_supports_cookies,
+            'is_crawler'        => $browser_is_crawler
+        );
+
+        LaterPay_Core_Logger::debug(
+            __METHOD__,
+            $context
+        );
+
+        if( !$is_singular || !$browser_supports_cookies || $browser_is_crawler ){
+            return;
         }
 
-        return $is_feed;
-    }
-
-    /**
-     * Get current price for post with dynamic pricing scheme defined.
-     *
-     * @param object $post
-     *
-     * @return float price
-     */
-    public static function get_dynamic_price( $post ) {
-        if ( function_exists( 'date_diff' ) ) {
-            $date_time = new DateTime( date( 'Y-m-d' ) );
-            $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
-        } else {
-            $d1 = strtotime( date( 'Y-m-d' ) );
-            $d2 = strtotime( $post->post_date );
-            $diff_secs = abs( $d1 - $d2 );
-            $days_since_publication = floor( $diff_secs / ( 3600 * 24 ) );
+        $laterpay_client = new LaterPay_Core_Client( $this->config );
+        if ( isset( $_GET[ 'lptoken' ] ) ) {
+            $laterpay_client->set_token( $_GET['lptoken'], true );
         }
 
-        if ( self::is_before_transitional_period( $post, $days_since_publication ) ) {
-            $price = get_post_meta( $post->ID, 'laterpay_start_price', true );
-        } else {
-            if ( self::is_after_transitional_period( $post, $days_since_publication ) ) {
-                $price = get_post_meta( $post->ID, 'laterpay_end_price', true );
-            } else {    // transitional period between start and end of dynamic price change
-                $price = self::calculate_transitional_price( $post, $days_since_publication );
+        if ( !$laterpay_client->has_token() ) {
+            $laterpay_client->acquire_token();
+        }
+
+        // fetching the current post
+        $post = get_post();
+        if( $post === null ){
+            LaterPay_Core_Logger::error( __METHOD__ . ' post not found!' );
+            return;
+        }
+
+        LaterPay_Core_Logger::debug(
+            __METHOD__,
+            array(
+                "post" => $post
+            )
+        );
+
+        $price      = self::get_post_price( $post->ID );
+        $access     = false;
+
+        if ( $price == 0 ) {
+            $result = $laterpay_client->get_access( array( $post->ID ) );
+
+            if ( !empty( $result ) && isset( $result[ 'articles' ] ) && isset( $result[ 'articles' ][ $post->ID ] ) ) {
+                $access = $result['articles'][ $post->ID ]['access'];
             }
         }
 
-        $rounded_price = round( $price, 2 );
-        if ( $rounded_price < 0.05 ) {
-            $rounded_price = 0;
-        }
+        $GLOBALS['laterpay_access'] = $access;
 
-        return $rounded_price;
-    }
-
-    /**
-     * Check if current date is after set date for end of dynamic price change.
-     *
-     * @param object $post
-     * @param int    $days_since_publication
-     *
-     * @return boolean
-     */
-    private static function is_after_transitional_period( $post, $days_since_publication ) {
-        return get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) <= $days_since_publication || get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) == 0;
-    }
-
-    /**
-     * Check if current date is before set date for end of dynamic price change.
-     *
-     * @param object $post
-     * @param int    $days_since_publication
-     *
-     * @return boolean
-     */
-    private static function is_before_transitional_period( $post, $days_since_publication ) {
-        return get_post_meta( $post->ID, 'laterpay_change_start_price_after_days', true ) >= $days_since_publication;
-    }
-
-    /**
-     * Calculate transitional price between start price and end price based on linear equation.
-     *
-     * @param type $post
-     * @param int  $days_since_publication
-     *
-     * @return float
-     */
-    private static function calculate_transitional_price( $post, $days_since_publication ) {
-        $end_price          = get_post_meta( $post->ID, 'laterpay_end_price', true );
-        $start_price        = get_post_meta( $post->ID, 'laterpay_start_price', true );
-        $days_until_end     = get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true );
-        $days_until_start   = get_post_meta( $post->ID, 'laterpay_change_start_price_after_days', true );
-
-        $coefficient = ( $end_price - $start_price ) / ( $days_until_end - $days_until_start );
-
-        return $start_price + ( $days_since_publication - $days_until_start ) * $coefficient;
     }
 
     /**
      * Get the LaterPay link for the post.
      *
-     * @param int $post_id
-     *
-     * @return string
+     * @param   int $post_id
+     * @return  string   url || empty string if something went wrong
      */
     public function get_laterpay_link( $post_id ) {
+
+        $post = get_post( $post_id );
+        if( $post === null ){
+            return '';
+        }
+
+        // re-setting the post-id
+        $post_id    = $post->ID;
+
         $currency   = get_option( 'laterpay_currency' );
         $price      = self::get_post_price( $post_id );
 
         $currency_model = new LaterPay_Model_Currency();
-        $client = new LaterPay_Core_Client( $this->config );
+        $client         = new LaterPay_Core_Client( $this->config );
 
         // data to register purchase after redirect from LaterPay
-        $data = array(
+        $url_params = array(
             'post_id'     => $post_id,
             'id_currency' => $currency_model->get_currency_id_by_iso4217_code( $currency ),
             'price'       => $price,
@@ -546,14 +509,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'buy'         => 'true',
             'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
-        $url = LaterPay_Helper_Request::get_current_url();
-        if ( strpos( $url, '?' ) !== false || strpos( $url, '&' ) !== false ) {
-            $url .= '&';
-        } else {
-            $url .= '?';
-        }
-        $url .= http_build_query( $data );
-        $hash = md5( md5( $url ) . AUTH_SALT );
+        $url    = $this->get_buy_redirect_url( $url_params );
+        $hash   = $this->get_hash_by_url( $url );
+
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => $post_id,
@@ -561,56 +519,86 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'pricing'       => $currency . ( $price * 100 ),
             'vat'           => $this->config->get( 'currency.default_vat' ),
             'url'           => $url . '&hash=' . $hash,
-            'title'         => $GLOBALS['post']->post_title,
+            'title'         => $post->post_title,
         );
 
         return $client->get_add_url( $params );
     }
 
     /**
+     * Returning the url hash by a given url
+     * @param   string $url
+     * @return  string $hash
+     */
+    protected function get_hash_by_url( $url ){
+        return md5( md5( $url ) . AUTH_SALT );
+    }
+    /**
+     * generating the redirect to buy a post url by given data
+     *
+     * @param   array $data
+     * @return  String $url
+     */
+    protected function get_buy_redirect_url( array $data ){
+
+        $url = get_permalink( $data[ 'post_id' ] );
+
+        if( !$url ){
+
+            LaterPay_Core_Logger::error(
+                __METHOD__ . ' could not found a url for the given post_id',
+                array( 'data' => $data )
+            );
+            return $url;
+        }
+
+        $url = add_query_arg( $data, $url );
+        return $url;
+    }
+
+    /**
      * Prepend LaterPay purchase button to title (heading) of post on single post pages.
      *
-     * @param object $the_title title
-     *
-     * @return object
+     * @wp-hook the_title
+     * @param   string $the_title title
+     * @return  string
      */
     public function modify_post_title( $the_title ) {
-        if ( in_the_loop() ) {
-            $post                       = get_post();
-            $post_id                    = $post->ID;
-            $price                      = self::get_post_price( $post_id );
-            $float_price                = (float) $price;
-            $is_premium_content         = $float_price > 0;
-            $access                     = $GLOBALS['laterpay_access'] ||
-                                            LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
-            $link                       = $this->get_laterpay_link( $post_id );
-            $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
-            $post_content_cached        = $this->config->get('caching.compatible_mode' );
 
-            // only render one instance of the purchase button on single premium posts - don't prepend it to related posts etc.
-            if ( $is_premium_content && is_single() && ! is_page() && did_action( 'the_title' ) === 0 ) {
-                if ( $post_content_cached && ! LaterPay_Helper_Request::is_ajax() ) {
-                    $this->assign( 'post_id', $post_id );
+        if ( !in_the_loop() || !is_singular() || did_action( 'the_title' ) !== 0 ) {
+            return $the_title;
+        }
 
-                    $the_title = $this->get_text_view( 'frontend/partials/post/title' );
-                } else {
-                    if ( ( ! $access || $preview_post_as_visitor ) ) {
-                        $currency           = get_option( 'laterpay_currency' );
+        $is_ajax                    = defined( 'DOING_AJAX' ) && DOING_AJAX;
+        $post                       = get_post();
+        $post_id                    = $post->ID;
+        $price                      = self::get_post_price( $post_id );
+        $float_price                = (float) $price;
+        $is_premium_content         = $float_price > 0;
 
-                        $purchase_button    = '<a href="#" class="laterpay-purchase-link laterpay-purchase-button" data-laterpay="' . $link . '" data-icon="b" post-id="';
-                        $purchase_button   .= $post_id . '" title="' . __( 'Buy now with LaterPay', 'laterpay' ) . '" ';
-                        $purchase_button   .= 'data-preview-as-visitor="' . $preview_post_as_visitor . '">';
-                        $purchase_button   .= sprintf(
-                                                    __( '%s<small>%s</small>', 'laterpay' ),
-                                                    LaterPay_Helper_View::format_number( $price, 2 ),
-                                                    $currency
-                                                );
-                        $purchase_button   .= '</a>';
+        // only render one instance of the purchase button on premium posts - don't prepend it to related posts etc.
+        if ( !$is_premium_content  ) {
+            return $the_title;
+        }
 
-                        $the_title          = $purchase_button . $the_title;
-                    }
-                }
-            }
+        $access                     = $GLOBALS['laterpay_access'] || LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
+        $link                       = $this->get_laterpay_link( $post_id );
+        $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $post_content_cached        = $this->config->get('caching.compatible_mode' );
+        $currency                   = get_option( 'laterpay_currency' );
+
+        // asign required variables to view-template
+        $this->assign( 'post_id',   $post_id );
+        $this->assign( 'link',      $link );
+        $this->assign( 'price',     LaterPay_Helper_View::format_number( $price, 2 ) );
+        $this->assign( 'currency',  $currency );
+
+        if ( $post_content_cached && !$is_ajax ) {
+            $the_title = $this->get_text_view( 'frontend/partials/post/title' );
+        }
+        else if ( !$access || $preview_post_as_visitor ) {
+            $purchase_button= $this->get_text_view( 'frontend/partials/post/purchase_button' );
+            $the_title      = $purchase_button . $the_title;
         }
 
         return $the_title;
