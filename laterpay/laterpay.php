@@ -211,7 +211,7 @@ function laterpay_get_plugin_config() {
 		'browscap.autoupdate' => true,
 		// If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
 		// on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
-		'browscap.manually_updated_copy' => '',
+		'browscap.manually_updated_copy' => null,
 	);
 
 	/**

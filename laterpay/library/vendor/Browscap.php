@@ -58,6 +58,8 @@ class Browscap
     const UPDATE_LOCAL = 'local';
     const UPDATE_WP_REMOTE = 'wp_remote';
 
+    const MEMORY_LIMIT = -1; // 128M or -1 for unlimited value
+    
     /**
      * Options for regex patterns.
      *
@@ -327,6 +329,7 @@ class Browscap
 
             if ($update_cache) {
                 try {
+                    @ini_set( 'memory_limit', self::MEMORY_LIMIT );
                     $this->updateCache();
                 } catch (Exception $e) {
                     if (file_exists($ini_file)) {
