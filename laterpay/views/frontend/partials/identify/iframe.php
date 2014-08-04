@@ -9,7 +9,7 @@
 				action: 'laterpay_footer_script',
 				id: $( '#laterpay-post-footer' ).data( 'post-id' )
 			};
-			$.post( lpVars.ajaxUrl, post_vars, function( response ) {
+			$.get( lpVars.ajaxUrl, post_vars, function( response ) {
                 $( '#laterpay-post-footer' ).before( response );
                 $( '#laterpay-post-footer' ).remove();
                 lpShowStatistic();

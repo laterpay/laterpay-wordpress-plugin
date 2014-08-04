@@ -91,7 +91,7 @@
         		post_id: $pageCachingAnchor.attr( 'data-post-id' )
         	}
         	
-        	$.post( lpVars.ajaxUrl, post_vars, function( response ) {
+        	$.get( lpVars.ajaxUrl, post_vars, function( response ) {
         		$pageCachingAnchor.before( response ).remove();
                 lpShowStatistic();
 			} );

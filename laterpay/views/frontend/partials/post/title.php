@@ -13,7 +13,7 @@
 			show_statistic: true
 		};
 
-		$.post( lpVars.ajaxUrl, post_vars, function( response ) {
+		$.get( lpVars.ajaxUrl, post_vars, function( response ) {
 			 $title.before( response ).remove();
 		} );
     })(jQuery);
