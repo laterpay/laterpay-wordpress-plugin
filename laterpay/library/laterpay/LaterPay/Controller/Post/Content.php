@@ -428,15 +428,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current page is LaterPay resource link.
-     *
-     * @return boolean is resource link
-     */
-    public static function is_resource_link() {
-        return in_array( $GLOBALS['pagenow'], array( 'laterpay-get-script.php' ) );
-    }
-
-    /**
      * Check if current request is RSS feed.
      *
      * @return boolean is feed

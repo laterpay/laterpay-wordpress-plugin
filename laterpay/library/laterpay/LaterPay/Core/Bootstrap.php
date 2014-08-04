@@ -98,6 +98,11 @@ class LaterPay_Core_Bootstrap {
 			add_action( 'wp_ajax_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
 			add_action( 'wp_ajax_nopriv_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
 
+			// file helper
+			$file_helper = new LaterPay_Helper_File();
+			add_action( 'wp_ajax_laterpay_load_files', array( $file_helper, 'load_file' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_load_files', array( $file_helper, 'load_file' ) );
+
 
 			// register callbacks for adding meta_boxes
 			$pricing_controller = new LaterPay_Controller_Post_Pricing( $this->config );
