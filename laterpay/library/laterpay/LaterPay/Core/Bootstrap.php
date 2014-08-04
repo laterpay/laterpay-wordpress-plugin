@@ -108,6 +108,19 @@ class LaterPay_Core_Bootstrap {
             // saving the pricing
             add_action( 'save_post',        array( $post_metabox_controller, 'save_post_pricing_form') );
 
+			// file helper
+			$file_helper = new LaterPay_Helper_File();
+			add_action( 'wp_ajax_laterpay_load_files', array( $file_helper, 'load_file' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_load_files', array( $file_helper, 'load_file' ) );
+
+            // ajax requests
+            add_action( 'wp_ajax_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
+            add_action( 'wp_ajax_nopriv_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
+            add_action( 'wp_ajax_laterpay_article_script', array( $post_controller, 'get_cached_article' ) );
+            add_action( 'wp_ajax_nopriv_laterpay_article_script', array( $post_controller, 'get_cached_article' ) );
+            add_action( 'wp_ajax_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
+            add_action( 'wp_ajax_nopriv_laterpay_footer_script', array( $post_controller, 'get_modified_footer' ) );
+
             // load scripts for our admin pages
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
             add_action( 'admin_print_styles-post-new.php',  array( $post_metabox_controller, 'load_assets' ) );
