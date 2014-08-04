@@ -52,7 +52,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
             $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
         }
 
-        $content_types = ['file', 'gallery', 'audio', 'video', 'text'];
+        $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
 
         if ( $a['content_type'] == '' ) {
             // determine $content_type from MIME Type of files attached to post
