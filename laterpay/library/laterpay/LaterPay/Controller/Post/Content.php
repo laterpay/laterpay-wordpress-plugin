@@ -96,68 +96,14 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     }
 
-    /**
-     * Ajax method to get the cached article. This
-     * is because there could be a price change in
-     * laterpay and we always need the current article
-     * price.
-     */
-    public function get_cached_article() {
-    	global $post, $wp_query, $laterpay_show_statistics;
-
-    	// set the global vars so that WordPress
-    	// thinks it is in a single view
-    	$wp_query->is_single      = TRUE;
-    	$wp_query->in_the_loop    = TRUE;
-    	$laterpay_show_statistics = TRUE;
-
-    	// get the content
-    	$post_id = $_REQUEST[ 'post_id' ];
-    	$post = get_post( $post_id );
-    	$post_content = $post->post_content;
-
-    	$content = apply_filters( 'the_content', $post_content );
-    	$content = str_replace( ']]>', ']]&gt;', $content );
-
-    	echo $content;
-
-    	exit;
-    }
-
-    /**
-     * Ajax method to get the the modified title
-     */
-    public function get_modified_title() {
-    	global $post, $wp_query;
-
-    	// set the global vars so that WordPress
-    	// thinks it is in a single view
-    	$wp_query->is_single      = TRUE;
-    	$wp_query->in_the_loop    = TRUE;
-
-    	// get the content
-    	$post_id = $_REQUEST[ 'id' ];
-    	$post = get_post( $post_id );
-    	$post_title = get_the_title( $post_id );
-
-    	echo $post_title;
-
-    	exit;
-    }
-
 	/**
 	 * Adding the LaterPay-iFrame to Footer
 	 * @return void
 	 */
 	public function modify_footer() {
 
-		// check if we are in the ajax environment
-		if ( LaterPay_Helper_Request::is_ajax() )
-	    	$post = get_post( $_GET[ 'id' ] );
-		else
-			$post = get_post();
-
-	    if ( $post === null ) {
+	    $post = get_post();
+	    if( $post === null ){
 		    return;
 	    }
 
@@ -172,15 +118,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             echo $this->get_text_view( 'frontend/partials/identify/iframe' );
         }
 
-    }
-
-    /**
-     * This ajax callback loads the modified footer
-     * and echos it.
-     */
-    public function get_modified_footer() {
-		$this->modify_footer();
-    	exit;
     }
 
     /**
@@ -371,18 +308,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
                 ! self::is_cron_page(),
                 ! $is_feed,
                 LaterPay_Helper_Browser::browser_supports_cookies(),
-                ! LaterPay_Helper_Browser::is_crawler(),
+                ! LaterPay_Helper_Browser::is_crawler()
             )
         );
 
-        if (
-            ! is_admin() &&
-            ! self::is_login_page() &&
-            ! self::is_cron_page() &&
-            ! $is_feed &&
-            LaterPay_Helper_Browser::browser_supports_cookies() &&
-            ! LaterPay_Helper_Browser::is_crawler()
-        ) {
+        if ( ! is_admin() && ! self::is_login_page() && ! self::is_cron_page() && ! $is_feed && LaterPay_Helper_Browser::browser_supports_cookies() && ! LaterPay_Helper_Browser::is_crawler() ) {
 
             LaterPay_Core_Logger::debug( 'LaterPay_Post_Content_Controller::token_hook', array( $_SERVER['REQUEST_URI'] ) );
 
@@ -397,18 +327,18 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
             // if Ajax request
             if ( (LaterPay_Helper_Request::is_ajax() && isset( $_GET['id'] )) || isset( $_GET['id'] ) ) {
-                $post_id    = $_GET['id'];
+                $postid = $_GET['id'];
             } else {
-                $url        = LaterPay_Helper_Statistics::get_full_url( $_SERVER );
-                $post_id    = url_to_postid( $url );
+                $url = LaterPay_Helper_Statistics::get_full_url( $_SERVER );
+                $postid = url_to_postid( $url );
             }
-            if ( ! empty( $post_id ) ) {
-                $price = self::get_post_price( $post_id );
+            if ( ! empty($postid) ) {
+                $price = self::get_post_price($postid);
                 if ( $price > 0 ) {
-                    $result = $LaterPay_Client->get_access( $post_id );
+                    $result = $LaterPay_Client->get_access( $postid );
                     $access = false;
-                    if ( ! empty( $result ) && isset( $result['articles'][$post_id] ) ) {
-                        $access = $result['articles'][$post_id]['access'];
+                    if ( ! empty( $result ) && isset( $result['articles'][$postid] ) ) {
+                        $access = $result['articles'][$postid]['access'];
                     }
                     $GLOBALS['laterpay_access'] = $access;
                 }
