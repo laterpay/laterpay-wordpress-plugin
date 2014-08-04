@@ -93,6 +93,11 @@ class LaterPay_Core_Bootstrap {
 			add_action( 'save_post',                array( $post_controller, 'init_teaser_content' ), 10, 2 );
 			add_action( 'edit_form_after_editor',   array( $post_controller, 'init_teaser_content' ), 10, 2 );
 
+			// file helper
+			$file_helper = new LaterPay_Helper_File();
+			add_action( 'wp_ajax_laterpay_load_files', array( $file_helper, 'load_file' ) );
+			add_action( 'wp_ajax_nopriv_laterpay_load_files', array( $file_helper, 'load_file' ) );
+
             // ajax requests
             add_action( 'wp_ajax_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
             add_action( 'wp_ajax_nopriv_laterpay_title_script', array( $post_controller, 'get_modified_title' ) );
