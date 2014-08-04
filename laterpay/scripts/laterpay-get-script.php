@@ -15,9 +15,6 @@ if ( file_exists( APP_ROOT . '/laterpay-config.php' ) ) {
 }
 require_once( APP_ROOT . '/laterpay-load.php' );
 
-ini_set( 'display_errors', PHP_DISPLAY_ERRORS );
-ini_set( 'error_log', PHP_LOG_FILENAME );
-
 LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
 LaterPay_AutoLoader::register_directory( LATERPAY_GLOBAL_PATH . 'library' . DIRECTORY_SEPARATOR . 'vendor' );
 
