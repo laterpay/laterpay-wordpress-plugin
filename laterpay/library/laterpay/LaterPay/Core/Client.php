@@ -632,10 +632,10 @@ class LaterPay_Core_Client
     /**
      * Set token to cookie.
      *
-     * @param   string  $token    token key
+     * @param   string  $token token key
      * @return  void
      */
-    public function set_token( $token  ) {
+    public function set_token( $token, $redirect = false ) {
         LaterPay_Core_Logger::debug( 'LaterPay_Client::set_token', array(
                             'token'     => $token,
                             'redirect'  => $redirect,
