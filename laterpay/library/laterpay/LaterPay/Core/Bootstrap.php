@@ -122,10 +122,18 @@ class LaterPay_Core_Bootstrap {
 
         }
 
+        $post_controller = new LaterPay_Controller_Post_Content( $this->config );
+        // ajax requests in frontend
+        add_action( 'wp_ajax_laterpay_title_script',            array( $post_controller, 'get_modified_title' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_title_script',     array( $post_controller, 'get_modified_title' ) );
+        add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_article_script',   array( $post_controller, 'get_cached_post' ) );
+        add_action( 'wp_ajax_laterpay_footer_script',           array( $post_controller, 'get_modified_footer' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_footer_script',    array( $post_controller, 'get_modified_footer' ) );
+
         // frontend scripts
         if( !is_admin() ){
 
-            $post_controller = new LaterPay_Controller_Post_Content( $this->config );
             add_action( 'init',                     array( $post_controller, 'create_token' ) );
             add_action( 'init',                     array( $post_controller, 'buy_post' ) );
 
@@ -133,11 +141,6 @@ class LaterPay_Core_Bootstrap {
             add_filter( 'the_title',                array( $post_controller, 'modify_post_title' ) );
             add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
             add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
-
-            // ajax requests in frontend
-            add_action( 'wp_ajax_laterpay_title_script',            array( $post_controller, 'get_modified_title' ) );
-            add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
-            add_action( 'wp_ajax_laterpay_footer_script',           array( $post_controller, 'get_modified_footer' ) );
 
             // setup unique visitors tracking
             $tracking_controller = new LaterPay_Controller_Tracking( $this->config );
