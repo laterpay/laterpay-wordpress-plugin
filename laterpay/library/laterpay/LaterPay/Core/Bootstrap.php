@@ -50,8 +50,7 @@ class LaterPay_Core_Bootstrap {
             }
 
             // Adding the when the plugin is active and all checks are ok
-            //if( is_plugin_active( $this->config->plugin_base_name ) ) {
-            if( is_plugin_active( 'laterpay-wordpress-plugin/index.php' ) ) {
+            if( is_plugin_active( $this->config->plugin_base_name ) ) {
 
                 // add the admin panel
                 $admin_controller = new LaterPay_Controller_Admin( $this->config );
