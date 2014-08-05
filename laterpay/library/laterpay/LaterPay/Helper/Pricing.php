@@ -22,7 +22,7 @@ class LaterPay_Helper_Pricing {
                 break;
 
             case 'individual price, dynamic':
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( get_post( ) );
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( get_post() );
                 break;
 
             case 'category default price':
