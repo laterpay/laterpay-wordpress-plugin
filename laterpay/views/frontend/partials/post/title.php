@@ -11,8 +11,14 @@
                         };
 
         $title.hide();
-        $.get(lpVars.ajaxUrl, postVars, function(response) {
-            $title.before(response).remove();
-        });
+		var post_vars = {
+			action: 'laterpay_title_script',
+			id: postId,
+			show_statistic: true
+		};
+
+		$.get( lpVars.ajaxUrl, post_vars, function( response ) {
+			 $title.before( response ).remove();
+		} );
     })(jQuery);
 </script>

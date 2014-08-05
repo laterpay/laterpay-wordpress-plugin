@@ -90,14 +90,14 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 	 * Add teaser content editor to add / edit post page.
 	 *
 	 * @wp-hook add_meta_boxes
+     *
 	 * @return  void
 	 */
 	public function add_meta_boxes() {
 
         $post_types = $this->config->get( 'content.allowed_post_types' );
 
-        foreach( $post_types as $post_type ) {
-
+        foreach ( $post_types as $post_type ) {
             add_meta_box(
                 'laterpay_post_teaser',
                 __( 'Teaser Content', 'laterpay' ),
@@ -107,7 +107,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 'high'
             );
 
-            add_meta_box( 
+            add_meta_box(
                 'laterpay_post_pricing',
                 __( 'Pricing for this Post', 'laterpay' ),
                 array( $this, 'render_post_pricing_form' ),
@@ -115,7 +115,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 'side',
                 'high'
             );
-
         }
 	}
 
@@ -123,6 +122,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 	 * Callback function of add_meta_box to render the editor for teaser content.
 	 *
 	 * @param   WP_Post $post
+     *
 	 * @return  void
 	 */
 	public function render_teaser_content_box( $post ) {
@@ -155,17 +155,19 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 	 * Save teaser content.
 	 *
 	 * @wp-hook save_post
+     *
 	 * @param   int $post_id
+     *
 	 * @return  void
 	 */
 	public function save_teaser_content_box( $post_id ) {
 
-        // nonce, not valid -> do nothing
+        // nonce not valid -> do nothing
         if ( ! isset( $_POST['laterpay_teaser_content_box_nonce'] ) || ! wp_verify_nonce( $_POST['laterpay_teaser_content_box_nonce'], $this->config->get( 'plugin_base_name' ) ) ) {
             return;
         }
 
-        // Autosave -> do nothing
+        // autosave -> do nothing
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return;
         }
@@ -177,7 +179,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         // no post found -> do nothing
         $post = get_post( $post_id );
-        if( $post === null ){
+        if ( $post === null ) {
             return;
         }
 
@@ -186,10 +188,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 			return;
 		}
 
-		if( isset( $_POST['laterpay_post_teaser'] ) ) {
+		if ( isset( $_POST['laterpay_post_teaser'] ) ) {
             $new_meta_value = $_POST['laterpay_post_teaser'];
-        }
-        else {
+        } else {
             $new_meta_value = LaterPay_Helper_String::truncate(
                 $post->post_content,
                 $this->config->get( 'content.auto_generated_teaser_content_word_count' ),
@@ -229,8 +230,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
          */
 		if ( $post_specific_price == 0 ) {
 			$post_specific_price = null;
-		} 
-        else {
+		} else {
 			$post_specific_price = (float) $post_specific_price;
 		}
 
@@ -259,8 +259,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
          */
 		if ( $global_default_price == 0 ) {
 			$global_default_price = null;
-		}
-        else {
+		} else {
 			$global_default_price = (float) $global_default_price;
 		}
 
@@ -295,7 +294,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 					$price = $global_default_price;
 					$post_price_type = 'global default price';
 				}
-
 				break;
 		}
 
@@ -307,8 +305,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 				array( 'x' => 18, 'y' => 0.2 ),
 				array( 'x' => 30, 'y' => 0.2 )
 			);
-		}
-        elseif ( get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) == 0 ) {
+		} elseif ( get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) == 0 ) {
 			$dynamic_pricing_data = array(
 				array(
 					'x' => 0,
@@ -323,8 +320,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 					'y' => (float) get_post_meta( $post->ID, 'laterpay_end_price', true )
 				)
 			);
-		}
-        else {
+		} else {
 			$dynamic_pricing_data = array(
 				array(
 					'x' => 0,
@@ -365,11 +361,12 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 	 * @wp-hook save_post
 	 *
 	 * @param   int $post_id
+     *
 	 * @return  void
 	 */
 	public function save_post_pricing_form( $post_id ) {
 
-        // nonce, not valid -> do nothing
+        // nonce not valid -> do nothing
         if ( ! isset( $_POST['laterpay_pricing_post_content_box_nonce'] ) || ! wp_verify_nonce( $_POST['laterpay_pricing_post_content_box_nonce'], $this->config->plugin_base_name ) ) {
 			return;
 		}
@@ -379,7 +376,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        // Autosave -> do nothing
+        // autosave -> do nothing
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return;
         }
@@ -454,8 +451,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 	public function set_post_meta( $name, $new_meta_value, $post_id ) {
         if ( $new_meta_value === '' ) {
 			return delete_post_meta( $post_id, $name );
-		}
-        else {
+		} else {
             return update_post_meta( $post_id, $name, $new_meta_value );
 		}
 	}

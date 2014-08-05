@@ -76,7 +76,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             return;
         }
 		$post = get_post();
-	    if( $post === null ){
+	    if ( $post === null ) {
 		    return;
 	    }
 
@@ -259,6 +259,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Update incorrect token or create token, if it doesn't exist.
      *
      * @wp-hook template_redirect
+     *
      * @return  void
      */
     public function create_token() {
@@ -292,9 +293,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $laterpay_client->acquire_token();
         }
 
-        // fetching the current post
+        // fetch the current post
         $post = get_post();
-        if( $post === null ){
+        if ( $post === null ) {
             LaterPay_Core_Logger::error( __METHOD__ . ' post not found!' );
             return;
         }
@@ -325,16 +326,17 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Get the LaterPay link for the post.
      *
      * @param   int $post_id
+     *
      * @return  string   url || empty string if something went wrong
      */
     public function get_laterpay_link( $post_id ) {
 
         $post = get_post( $post_id );
-        if( $post === null ){
+        if ( $post === null ) {
             return '';
         }
 
-        // re-setting the post-id
+        // re-set the post-id
         $post_id    = $post->ID;
 
         $currency   = get_option( 'laterpay_currency' );
@@ -369,25 +371,28 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Returning the url hash by a given url
+     * Returning the URL hash by a given URL
+     *
      * @param   string $url
+     *
      * @return  string $hash
      */
-    protected function get_hash_by_url( $url ){
+    protected function get_hash_by_url( $url ) {
         return md5( md5( $url ) . AUTH_SALT );
     }
+
     /**
-     * generating the redirect to buy a post url by given data
+     * Generate the redirect to buy a post URL by given data
      *
      * @param   array $data
+     *
      * @return  String $url
      */
-    protected function get_buy_redirect_url( array $data ){
+    protected function get_buy_redirect_url( array $data ) {
 
         $url = get_permalink( $data[ 'post_id' ] );
 
-        if( !$url ){
-
+        if ( ! $url ) {
             LaterPay_Core_Logger::error(
                 __METHOD__ . ' could not found a url for the given post_id',
                 array( 'data' => $data )
@@ -396,6 +401,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         $url = add_query_arg( $data, $url );
+
         return $url;
     }
 
@@ -403,7 +409,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * helper function to detec if the current post is a single-post and can be parsed in frontend
      * @return  bool true|false
      */
-    protected function post_is_a_laterpay_post(){
+    protected function post_is_a_laterpay_post() {
 
         // only modify the post_content on singluar-pages
         if( !is_singular() || !in_the_loop() ){
@@ -421,22 +427,22 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
     /**
      * rendering the content and adding laterpay buy buttons and notices
-     * 
+     *
      * @wp-hook the_content
-     * 
+     *
      * @param   string $content
+     *
      * @return  string $content
      */
     public function modify_post_content( $content ) {
         global $laterpay_show_statistics;
 
-
-        if( !$this->post_is_a_laterpay_post() ) {
+        if ( !$this->post_is_a_laterpay_post() ) {
             return $content;
         }
 
         $post = get_post();
-        if( $post === null ){
+        if ( $post === null ) {
             return $content;
         }
         $post_id = $post->ID;
@@ -482,7 +488,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $html = $this->get_text_view( 'frontend/post/single' );
 
         return $html;
-
     }
 
 
@@ -491,16 +496,17 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Prepend LaterPay purchase button to title (heading) of post on single post pages.
      *
      * @wp-hook the_title
-     * @param   string $the_title 
+     *
+     * @param   string $the_title
+     *
      * @return  string $the_title
      */
     public function modify_post_title( $the_title ) {
-
-        if ( !in_the_loop()  ) {
+        if ( ! in_the_loop() ) {
             return $the_title;
         }
 
-        if( !$this->post_is_a_laterpay_post() ){
+        if ( ! $this->post_is_a_laterpay_post() ) {
             return $the_title;
         }
 
@@ -522,34 +528,32 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $post_content_cached        = $this->config->get('caching.compatible_mode' );
         $currency                   = get_option( 'laterpay_currency' );
 
-        // asign required variables to view-template
+        // assign required variables to view templates
         $this->assign( 'post_id',   $post_id );
         $this->assign( 'link',      $link );
         $this->assign( 'price',     LaterPay_Helper_View::format_number( $price, 2 ) );
         $this->assign( 'currency',  $currency );
 
-        if ( $post_content_cached && !$is_ajax ) {
+        if ( $post_content_cached && ! $is_ajax ) {
             $the_title = $this->get_text_view( 'frontend/partials/post/title' );
-        }
-        else if ( !$access || $preview_post_as_visitor ) {
-            $purchase_button= $this->get_text_view( 'frontend/partials/post/purchase_button' );
-            $the_title      = $purchase_button . $the_title;
+        } else if ( ! $access || $preview_post_as_visitor ) {
+            $purchase_button = $this->get_text_view( 'frontend/partials/post/purchase_button' );
+            $the_title = $purchase_button . $the_title;
         }
 
         return $the_title;
     }
 
     /**
-     * Adding the LaterPay-iFrame to Footer
+     * Add the LaterPay iframe to the footer.
      *
      * @wp-hook wp_footer
      *
      * @return void
      */
     public function modify_footer() {
-
         $post = get_post();
-        if( $post === null ){
+        if ( $post === null ) {
             return;
         }
 

@@ -2,7 +2,7 @@
 
 <script>
     var lpVars = window.lpVars || {};
-    lpVars.dynamicPricingData   = <?php echo $laterpay_dynamic_pricing_data; ?>;
+    lpVars.dynamicPricingData = <?php echo $laterpay_dynamic_pricing_data; ?>;
 </script>
 
 <input type="hidden" name="post_price_type" value="<?php echo $laterpay_post_price_type ?>">
@@ -77,4 +77,4 @@
         <?php if ( substr( $laterpay_post_price_type, 0, 16 ) !== 'individual price' ) { echo 'style="display:none;"'; } ?>>
         <?php _e( 'Add dynamic pricing', 'laterpay' ); ?>
     </a>
-<?php endif;
+<?php endif; ?>

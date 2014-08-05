@@ -76,15 +76,13 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 			update_option( 'laterpay_plugin_is_activated',  '1' );
 
 			// automatically dismiss pointer to LaterPay plugin after saving the initial settings
-			$current_user_id    = get_current_user_id();
-			$dismissed_pointers = explode( ',', (string) get_user_meta( $current_user_id, 'dismissed_wp_pointers', true ) );
+			$dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
 			if ( ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers ) ) {
 				update_user_meta( $current_user_id, 'dismissed_wp_pointers', LaterPay_Controller_Admin::ADMIN_MENU_POINTER );
 			}
 
 			wp_send_json( array( 'success' => true ) );
-
 		} else {
 			wp_send_json(
 				array(

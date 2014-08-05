@@ -58,6 +58,8 @@ class Browscap
     const UPDATE_LOCAL = 'local';
     const UPDATE_WP_REMOTE = 'wp_remote';
 
+    const MEMORY_LIMIT = -1; // 128M or -1 for unlimited value
+
     /**
      * Options for regex patterns.
      *
@@ -327,6 +329,7 @@ class Browscap
 
             if ($update_cache) {
                 try {
+                    @ini_set( 'memory_limit', self::MEMORY_LIMIT );
                     $this->updateCache();
                 } catch (Exception $e) {
                     if (file_exists($ini_file)) {
@@ -1113,15 +1116,15 @@ class Browscap
                 $headers    = array(
                     'User-Agent' => $this->_getUserAgent(),
                 );
-                $file = wp_remote_retrieve_body(
-                            wp_remote_get(
-                                $url,
-                                array(
-                                    'headers' => $headers,
-                                    'timeout' => 30,
-                                )
-                            )
-                        );
+                $raw_response = wp_remote_get(
+                                    $url,
+                                    array(
+                                        'headers'   => $headers,
+                                        'timeout'   => 30,
+                                    )
+                                );
+                $file = wp_remote_retrieve_body( $raw_response );
+
                 return $file;
             case self::UPDATE_FOPEN:
                 if (ini_get('allow_url_fopen') && function_exists('file_get_contents')) {
@@ -1129,7 +1132,7 @@ class Browscap
                     $context = $this->_getStreamContext();
                     $file    = file_get_contents($url, false, $context);
 
-                    if ($file !== false) {
+                    if ( $file !== false ) {
                         return $file;
                     }
                 }// else try with the next possibility (break omitted)

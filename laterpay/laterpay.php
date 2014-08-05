@@ -17,62 +17,60 @@ register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
 
 /**
- * Callback to start the plugin
+ * Callback for starting the plugin.
  *
  * @wp-hook plugins_loaded
+ *
  * @return  void
  */
 function laterpay_init() {
-
 	laterpay_before_start();
 
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->run();
-
-
 }
 
 /**
- * Callback for activating the plugin
+ * Callback for activating the plugin.
  *
  * @wp-hook register_deactivation_hook
+ *
  * @return  void
  */
 function laterpay_activate() {
-
 	laterpay_before_start();
 
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->activate();
-
 }
 
 /**
- * Callback for deactivating the plugin
+ * Callback for deactivating the plugin.
+ *
  * @wp-hook register_deactivation_hook
+ *
  * @return  void
  */
 function laterpay_deactivate() {
-
 	laterpay_before_start();
 
 	$config     = laterpay_get_plugin_config();
 	$laterpay   = new LaterPay_Core_Bootstrap( $config );
 	$laterpay->deactivate();
-
 }
 
 /**
- * getting the plugin settings
+ * Get the plugin settings.
+ *
  * @return  LaterPay_Model_Config
  */
 function laterpay_get_plugin_config() {
 
-	// checking if the config is in cache -> don't load it again.
+	// check, if the config is in cache -> don't load it again.
 	$config = wp_cache_get( 'laterpay', 'config' );
-	if( is_a( $config, 'LaterPay_Model_Config' ) ){
+	if ( is_a( $config, 'LaterPay_Model_Config' ) ) {
 		return $config;
 	}
 
@@ -107,14 +105,13 @@ function laterpay_get_plugin_config() {
 	);
 	$config->import( $plugin_headers );
 
-
 	// GitHub settings
-	$config->set( 'github.name', 'laterpay-wordpress-plugin' );
-	$config->set( 'github.user', 'laterpay' );
-	$config->set( 'github.token', '' );
+	$config->set( 'github.name', 	'laterpay-wordpress-plugin' );
+	$config->set( 'github.user', 	'laterpay' );
+	$config->set( 'github.token', 	'' );
 
 	/**
-	 * LaterPay API endpoints and API default settings
+	 * LaterPay API endpoints and API default settings.
 	 *
 	 * @var array
 	 */
@@ -130,7 +127,7 @@ function laterpay_get_plugin_config() {
 	);
 
 	/**
-	 * Plugin filter for manipulating the API endpoint URLs
+	 * Plugin filter for manipulating the API endpoint URLs.
 	 *
 	 * @param   Array $api_settings
 	 *
@@ -139,8 +136,7 @@ function laterpay_get_plugin_config() {
 	$api_settings = apply_filters( 'laterpay_get_api_settings', $api_settings );
 	$config->import( $api_settings );
 
-
-	// default currency settings
+	// default settings for currency and VAT
 	$currency_settings = array(
 		'currency.default'          => 'EUR',
         'currency.default_price'    => 0.29,
@@ -166,12 +162,14 @@ function laterpay_get_plugin_config() {
 	);
 	$config->set( 'caching.compatible_mode', (bool) $caching_compatible_mode );
 
-	// content settings
+	// content preview settings
 	$content_settings = array(
 		'content.auto_generated_teaser_content_word_count'  => 60,
 		'content.preview_percentage_of_content'             => 25,
 		'content.preview_word_count_min'                    => 26,
 		'content.preview_word_count_max'                    => 200,
+
+		// TODO: this does not belong here:
         'content.allowed_post_types'                        => get_post_types( array( 'public' => true ) )
 	);
 
@@ -185,7 +183,7 @@ function laterpay_get_plugin_config() {
 	 *                                     'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
 	 *                                     'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
 	 *                                     'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
-     *                                     'content.allowed_post_types'                         => Array - allowed post_types which supports LaterPay-Payment
+     *                                     'content.allowed_post_types'                         => Array - allowed post_types that support LaterPay payments
 	 *                                  );
 	 */
 	$content_settings = apply_filters( 'laterpay_get_content_settings', $content_settings );
@@ -199,13 +197,10 @@ function laterpay_get_plugin_config() {
 	 *
 	 * @return  bool $access_logging_enabled
 	 */
-	$access_logging_enabled = apply_filters(
-		'later_pay_access_logging_enabled',
-		true
-	);
+	$access_logging_enabled = apply_filters( 'later_pay_access_logging_enabled', true );
 	$config->set( 'logging.access_logging_enabled', (bool) $access_logging_enabled );
 
-	// browscap
+	// Browscap browser detection library
 	$browscap_settings = array(
 		// Auto-update browscap library
 		// The plugin requires browscap to ensure search engine bots, social media sites, etc. don't crash when visiting a paid post
@@ -213,7 +208,7 @@ function laterpay_get_plugin_config() {
 		'browscap.autoupdate' => true,
 		// If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
 		// on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
-		'browscap.manually_updated_copy' => '',
+		'browscap.manually_updated_copy' => null,
 	);
 
 	/**
