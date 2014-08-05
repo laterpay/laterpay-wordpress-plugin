@@ -103,7 +103,7 @@ class Browscap
      */
     public $remoteIniUrl = 'http://browscap.org/stream?q=PHP_BrowscapINI';
     public $remoteVerUrl = 'http://browscap.org/version';
-    public $timeout = 5;
+    public $timeout = 60;
     public $updateInterval = 432000; // 5 days
     public $errorInterval = 7200; // 2 hours
     public $doAutoUpdate = true;
@@ -1120,7 +1120,7 @@ class Browscap
                                     $url,
                                     array(
                                         'headers'   => $headers,
-                                        'timeout'   => 30,
+                                        'timeout'   => $timeout,
                                     )
                                 );
                 $file = wp_remote_retrieve_body( $raw_response );
