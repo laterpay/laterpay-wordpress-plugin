@@ -564,11 +564,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return  string
      */
     public function modify_post_title( $the_title ) {
-
-        if ( !in_the_loop() || !is_singular() || did_action( 'the_title' ) !== 0 ) {
-            return $the_title;
-        }
-
         $is_ajax                    = defined( 'DOING_AJAX' ) && DOING_AJAX;
         $post                       = get_post();
         $post_id                    = $post->ID;
@@ -576,8 +571,14 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $float_price                = (float) $price;
         $is_premium_content         = $float_price > 0;
 
-        // only render one instance of the purchase button on premium posts - don't prepend it to related posts etc.
-        if ( !$is_premium_content  ) {
+        // check if we should not prepend the purchase button to the_title
+        // e.g. because it's rendered with the nav menu or as related link
+        $preserve_title             =   ! $is_premium_content ||
+                                        ! in_the_loop() ||
+                                        ! is_singular();
+                                        // TODO: don't modify the_title, if it is rendered within related posts
+
+        if ( $preserve_title ) {
             return $the_title;
         }
 
@@ -587,18 +588,17 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $post_content_cached        = $this->config->get('caching.compatible_mode' );
         $currency                   = get_option( 'laterpay_currency' );
 
-        // asign required variables to view-template
+        // assign variables to views
         $this->assign( 'post_id',   $post_id );
         $this->assign( 'link',      $link );
         $this->assign( 'price',     LaterPay_Helper_View::format_number( $price, 2 ) );
         $this->assign( 'currency',  $currency );
 
-        if ( $post_content_cached && !$is_ajax ) {
-            $the_title = $this->get_text_view( 'frontend/partials/post/title' );
-        }
-        else if ( !$access || $preview_post_as_visitor ) {
-            $purchase_button= $this->get_text_view( 'frontend/partials/post/purchase_button' );
-            $the_title      = $purchase_button . $the_title;
+        if ( $post_content_cached && ! $is_ajax ) {
+            $the_title              = $this->get_text_view( 'frontend/partials/post/title' );
+        } else if ( ! $access || $preview_post_as_visitor ) {
+            $purchase_button        = $this->get_text_view( 'frontend/partials/post/purchase_button' );
+            $the_title              = $purchase_button . $the_title;
         }
 
         return $the_title;
