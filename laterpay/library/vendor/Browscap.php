@@ -554,6 +554,7 @@ class Browscap
     {
         $ini_path              = $this->cacheDir . $this->iniFilename;
         $cache_path            = $this->cacheDir . $this->cacheFilename;
+        $tmp_cache_path        = $this->cacheDir . 'new.' . $this->cacheFilename;
         $cache_path_properties = $this->cacheDir . $this->cachePropertiesFilename;
         $cache_path_browsers   = $this->cacheDir . $this->cacheBrowserFilename;
         $cache_path_useragent  = $this->cacheDir . $this->cacheUseragentsFilename;
@@ -719,7 +720,30 @@ class Browscap
         $cache = $this->_buildCache();
 
         // Save and return
-        return (bool) file_put_contents($cache_path, $cache, LOCK_EX);
+        $result = (bool) file_put_contents($tmp_cache_path, $cache, LOCK_EX);
+        if ( $result && $this->validateCacheFile($tmp_cache_path) ) {
+            $result = (bool) file_put_contents($cache_path, $cache, LOCK_EX);
+        }
+        if ( file_exists($tmp_cache_path) ) {
+            @unlink($tmp_cache_path);
+        }
+        return $result;
+    }
+    
+    /**
+     * PHP file syntax check
+     * 
+     * @param string $file
+     * @return boolean
+     */
+    protected function validateCacheFile($file) {
+        $command = 'php -l ' . escapeshellarg($file);
+        $return_var = 0;
+        ob_start();
+        @system($command, $return_var);
+        ob_end_clean();
+        
+        return $return_var === 0;
     }
 
     /**
@@ -871,6 +895,10 @@ class Browscap
 
         $this->_cacheLoaded = false;
 
+        if ( ! $this->validateCacheFile($cache_file) ) {
+            return false;
+        }
+        
         require $cache_file;
 
         if (! isset($cache_version) || $cache_version != self::CACHE_FILE_VERSION) {
