@@ -304,23 +304,4 @@ class LaterPay_Core_Bootstrap {
 			)
 		);
 	}
-
-	/**
-	 * Add settings link to plugins table.
-	 *
-	 * @wp-hook plugin_action_links_{plugin_basename}
-	 *
-	 * @param   array $links
-	 *
-	 * @return  array
-	 */
-	public function add_plugin_settings_link( $links ) {
-		return array_merge(
-			array(
-				'settings' => '<a href="' . admin_url( 'plugin-editor.php?file=laterpay%2Fsettings.php' ) . '">' . __( 'Settings', 'laterpay' ) . '</a>'
-			),
-			$links
-		);
-	}
-
 }
