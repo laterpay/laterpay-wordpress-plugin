@@ -188,8 +188,17 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 
 == Changelog ==
 
-= 0.9.7 (July xx, 2014): Production-readiness release IV =
+= 0.9.7 (August 5, 2014): Production-readiness release IV =
+* Added support for all standard as well as custom post types
 * Added shortcode to align premium content shortcodes
+* Changed advanced settings mechanism from file-based to WordPress filters
+* Increased robustness of installation and activation procedure
+* Replaced custom code with native WordPress functions where possible
+* Improved performance / reduced memory footprint of plugin
+* Improved security of plugin (validation, sanitizing, access to files)
+* Prefixed all class names, variables etc. to avoid collisions with other plugins
+* Changed internal coding style to adhere to WordPress standards
+* Several smaller bugfixes
 
 = 0.9.6 (July 21, 2014): Production-readiness release III =
 * Included public Sandbox API credentials supplied by default
