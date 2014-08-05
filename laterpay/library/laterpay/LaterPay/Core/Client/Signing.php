@@ -4,7 +4,7 @@ class LaterPay_Core_Client_Signing
 {
 
 	/**
-	 * Contains the hash-algorithm
+	 * Contains the hash algorithm
 	 * @var string
 	 */
 	protected static $hashAlgo = 'sha224';
@@ -16,8 +16,8 @@ class LaterPay_Core_Client_Signing
      *
 	 * @return  bool
 	 */
-    protected static function time_independent_hmac_compare($known_str, $given_str) {
-        if (strlen($known_str) == 0) {
+    protected static function time_independent_hmac_compare( $known_str, $given_str ) {
+        if ( strlen( $known_str ) == 0 ) {
             throw new InvalidArgumentException( 'This function cannot safely compare against an empty given string' );
         }
 
@@ -25,7 +25,7 @@ class LaterPay_Core_Client_Signing
         $given_len = strlen( $given_str );
         $known_len = strlen( $known_str );
 
-        for ($i = 0; $i < $given_len; ++$i) {
+        for ( $i = 0; $i < $given_len; ++$i ) {
             $res |= ord( $known_str[$i % $known_len] ) ^ ord( $given_str[$i] );
         }
 
@@ -58,14 +58,13 @@ class LaterPay_Core_Client_Signing
 	 *
 	 * @param   string $signature
 	 * @param   string $secret
-	 * @param   array $params
+	 * @param   array  $params
 	 * @param   string $url
 	 * @param   string $method
      *
 	 * @return  bool
 	 */
 	public static function verify( $signature, $secret, $params, $url, $method ) {
-
         if ( is_array( $signature ) ) {
             $signature = $signature[0];
         }
@@ -107,7 +106,7 @@ class LaterPay_Core_Client_Signing
     }
 
     /**
-     * Create base message
+     * Create base message.
      *
      * @param array  $params mapping of all parameters that should be signed
      * @param string $url    full URL of the target endpoint, no URL parameters
@@ -154,7 +153,12 @@ class LaterPay_Core_Client_Signing
     }
 
     /**
-     * Create signature for given `params`, `url` and HTTP method
+     * Create signature for given 'params', 'url' and HTTP method.
+     *
+     * How params are canonicalized:
+     * - 'urllib.quote' every key and value that will be signed
+     * - sort the param list
+     * - '&'-join the params
      *
      * @param string $secret secret used to create signature
      * @param array  $params mapping of all parameters that should be signed
@@ -186,7 +190,9 @@ class LaterPay_Core_Client_Signing
     }
 
     /**
-     * Preprocess parameters
+     * Sign and encode a URL 'url' with a 'secret' key called via a HTTP 'method'.
+     * It adds the signature to the URL as the URL parameter "hmac" and also adds the required timestamp parameter 'ts'
+     * if it's not already in the 'params' dictionary. 'unicode()' instances in params are handled correctly.
      *
      * @param string $secret
      * @param array  $params

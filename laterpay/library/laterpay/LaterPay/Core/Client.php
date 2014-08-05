@@ -724,7 +724,7 @@ class LaterPay_Core_Client
             LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array( $raw_response_body ) );
 
 	        $error_code = wp_remote_retrieve_response_code( $raw_response );
-	        if( $error_code > 400 ) {
+	        if ( $error_code > 400 ) {
 		        throw new Exception(
 			        wp_remote_retrieve_response_message( $raw_response ),
 			        $error_code

@@ -48,8 +48,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             $page_number++;
         }
 
-        add_action( 'load-post.php', array( $this, 'help_wp_edit_post' ) );
-        add_action( 'load-post-new.php', array( $this, 'help_wp_add_post' ) );
     }
 
     /**
@@ -183,22 +181,22 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         switch ( $tab ) {
             case 'wp_edit_post':
             case 'wp_add_post':
-                $this->_render_add_edit_post_page_help();
+                $this->render_add_edit_post_page_help();
                 break;
 
             case 'get_started':
                 break;
 
             case 'pricing':
-                $this->_render_pricing_tab_help();
+                $this->render_pricing_tab_help();
                 break;
 
             case 'appearance':
-                $this->_render_appearance_tab_help();
+                $this->render_appearance_tab_help();
                 break;
 
             case 'account':
-                $this->_render_account_tab_help();
+                $this->render_account_tab_help();
                 break;
 
             default:
@@ -211,7 +209,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_add_edit_post_page_help() {
+    protected function render_add_edit_post_page_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_add_edit_post_page_help',
@@ -241,8 +239,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                             Nevertheless, we highly recommend manually creating the teaser for each post, to increase your sales.
                                         </p>',
                                     'laterpay'
-                                   )
-                               ));
+                                   ),
+                               ) );
     }
 
     /**
@@ -250,51 +248,56 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_pricing_tab_help() {
+    protected function render_pricing_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_global_default_price',
                                    'title'   => __( 'Global Default Price', 'laterpay' ),
                                    'content' => __( '
-                <p>
-                    The global default price is used for all posts, for which no category default price or
-                    individual price has been set.<br>
-                    Accordingly, setting the global default price to 0 Euro makes all articles free,
-                    for which no category default price or individual price has been set.
-                </p>',
+                                                    <p>
+                                                        The global default price is used for all posts, for which no
+                                                        category default price or individual price has been set.<br>
+                                                        Accordingly, setting the global default price to 0 Euro makes
+                                                        all articles free, for which no category default price or
+                                                        individual price has been set.
+                                                    </p>',
                                                     'laterpay'
-                                   ),
-                               ));
+                                                ),
+                               ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_category_default_price',
                                    'title'   => __( 'Category Default Prices', 'laterpay' ),
                                    'content' => __( '
-                <p>
-                    A category default price is applied to all posts in a given category that don\'t have an
-                    individual price.<br>
-                    A category default price overwrites the global default price.<br>
-                    If a post belongs to multiple categories, you can choose on the add / edit post page, which category
-                    default price should be effective.<br>
-                    For example, if you have set a global default price of 0.15 Euro, but a post belongs to a category
-                    with a category default price of 0.30 Euro, that post will sell for 0.30 Euro.
-                </p>',
+                                                    <p>
+                                                        A category default price is applied to all posts in a given
+                                                        category that don\'t have an individual price.<br>
+                                                        A category default price overwrites the global default price.<br>
+                                                        If a post belongs to multiple categories, you can choose on
+                                                        the add / edit post page, which category default price should
+                                                        be effective.<br>
+                                                        For example, if you have set a global default price of 0.15 Euro,
+                                                        but a post belongs to a category with a category default price
+                                                        of 0.30 Euro, that post will sell for 0.30 Euro.
+                                                    </p>',
                                                     'laterpay'
-                                   ),
-                               ));
+                                                ),
+                               ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_currency',
                                    'title'   => __( 'Currency', 'laterpay' ),
                                    'content' => __( '
-                <p>
-                    You can choose between different currencies for your blog.<br>
-                    Changing the standard currency will not convert the prices you have set.
-                    Only the currency code next to the price is changed.<br>
-                    For example, if your global default price is 0.10 Euro and you change the default currency to U.S.
-                    dollar, the global default price will be 0.10 U.S. dollar.
-                </p>',
+                                                    <p>
+                                                        You can choose between different currencies for your blog.<br>
+                                                        Changing the standard currency will not convert the prices you
+                                                        have set.
+                                                        Only the currency code next to the price is changed.<br>
+                                                        For example, if your global default price is 0.10 Euro and you
+                                                        change the default currency to U.S. dollar, the global default
+                                                        price will be 0.10 U.S. dollar.
+                                                    </p>',
                                                     'laterpay'
-                                   ),
-                               ));
+                                                ),
+                               ) );
     }
 
     /**
@@ -302,39 +305,47 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_appearance_tab_help() {
+    protected function render_appearance_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_appearance_tab_help_preview_mode',
                                    'title'   => __( 'Preview Mode', 'laterpay' ),
                                    'content' => __( '
-                <p>
-                    The preview mode defines, how teaser content is shown to your visitors.<br>
-                    You can choose between two preview modes:
-                </p>
-                <ul>
-                    <li><strong>Teaser only</strong> &ndash; This mode shows only the teaser with an unobtrusive purchase link below.</li>
-                    <li>
-                        <strong>Teaser + overlay</strong> &ndash; This mode shows the teaser and an excerpt of the full content under a
-                        semi-transparent overlay that briefly explains LaterPay.<br>
-                        The plugin never loads the entire content before a user has purchased it.
-                    </li>
-                </ul>',
+                                                    <p>
+                                                        The preview mode defines, how teaser content is shown to your
+                                                        visitors.<br>
+                                                        You can choose between two preview modes:
+                                                    </p>
+                                                    <ul>
+                                                        <li>
+                                                            <strong>Teaser only</strong> &ndash; This mode shows only
+                                                            the teaser with an unobtrusive purchase link below.
+                                                        </li>
+                                                        <li>
+                                                            <strong>Teaser + overlay</strong> &ndash; This mode shows
+                                                            the teaser and an excerpt of the full content under a
+                                                            semi-transparent overlay that briefly explains LaterPay.<br>
+                                                            The plugin never loads the entire content before a user has
+                                                            purchased it.
+                                                        </li>
+                                                    </ul>',
                                                     'laterpay'
-                                   ),
-                               ));
+                                                ),
+                               ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_appearance_tab_help_invoice_indicator',
                                    'title'   => __( 'Invoice Indicator', 'laterpay' ),
                                    'content' => __( '
-                <p>
-                    The plugin provides a code snippet you can insert into your theme that displays the user\'s
-                    current LaterPay invoice total and provides a direct link to his LaterPay user backend.<br>
-                    You <em>don\'t have to</em> integrate this snippet, but we recommend it for transparency reasons.
-                </p>',
+                                                    <p>
+                                                        The plugin provides a code snippet you can insert into your
+                                                        theme that displays the user\'s current LaterPay invoice total
+                                                        and provides a direct link to his LaterPay user backend.<br>
+                                                        You <em>don\'t have to</em> integrate this snippet, but we
+                                                        recommend it for transparency reasons.
+                                                    </p>',
                                                     'laterpay'
-                                   ),
-                               ));
+                                                ),
+                               ) );
     }
 
     /**
@@ -342,77 +353,87 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      *
      * @return  void
      */
-    protected function _render_account_tab_help() {
+    protected function render_account_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_account_tab_help_api_credentials',
                                    'title'   => __( 'API Credentials', 'laterpay' ),
                                    'content' => __( '
-                <p>
-                    To access the LaterPay API, you need LaterPay API credentials, consisting of
-                </p>
-                <ul>
-                    <li><strong>Merchant ID</strong> (a 22-character string) and</li>
-                    <li><strong>API Key</strong> (a 32-character string).</li>
-                </ul>
-                <p>
-                    LaterPay runs two completely separated API environments that need
-                    <strong>different API credentials:</strong>
-                </p>
-                <ul>
-                    <li>
-                        The <strong>Sandbox</strong> environment for testing and development use.<br>
-                        In this environment you can play around with LaterPay without fear, as your transactions
-                        will only be simulated and not actually be processed.<br>
-                        LaterPay guarantees no particular service level of availability for this environment.
-                    </li>
-                    <li>
-                        The <strong>Live</strong> environment for production use.</br>
-                        In this environment all transactions will be actually processed and credited to your
-                        LaterPay merchant account.<br>
-                        The LaterPay SLA for availability and response time apply.
-                    </li>
-                </ul>
-                <p>
-                    The LaterPay plugin comes with a set of <strong>public Sandbox credentials</strong> to allow
-                    immediate testing use.
-                </p>
-                <p>
-                    If you want to switch to <strong>Live mode</strong> and sell content, you need your individual
-                    <strong>Live API credentials.</strong><br>
-                    Due to legal reasons, we can email you those credentials only once we have received a
-                    <strong>signed merchant contract</strong> including <strong>all necessary identification
-                    documents</strong> by ground mail.
-                </p>',
+                                                    <p>
+                                                        To access the LaterPay API, you need LaterPay API credentials,
+                                                        consisting of
+                                                    </p>
+                                                    <ul>
+                                                        <li><strong>Merchant ID</strong> (a 22-character string) and</li>
+                                                        <li><strong>API Key</strong> (a 32-character string).</li>
+                                                    </ul>
+                                                    <p>
+                                                        LaterPay runs two completely separated API environments that
+                                                        need <strong>different API credentials:</strong>
+                                                    </p>
+                                                    <ul>
+                                                        <li>
+                                                            The <strong>Sandbox</strong> environment for testing and
+                                                            development use.<br>
+                                                            In this environment you can play around with LaterPay
+                                                            without fear, as your transactions will only be simulated
+                                                            and not actually be processed.<br>
+                                                            LaterPay guarantees no particular service level of
+                                                            availability for this environment.
+                                                        </li>
+                                                        <li>
+                                                            The <strong>Live</strong> environment for production use.</br>
+                                                            In this environment all transactions will be actually
+                                                            processed and credited to your LaterPay merchant account.<br>
+                                                            The LaterPay SLA for availability and response time apply.
+                                                        </li>
+                                                    </ul>
+                                                    <p>
+                                                        The LaterPay plugin comes with a set of <strong>public Sandbox
+                                                        credentials</strong> to allow immediate testing use.
+                                                    </p>
+                                                    <p>
+                                                        If you want to switch to <strong>Live mode</strong> and sell
+                                                        content, you need your individual <strong>Live API credentials.
+                                                        </strong><br>
+                                                        Due to legal reasons, we can email you those credentials only
+                                                        once we have received a <strong>signed merchant contract</strong>
+                                                        including <strong>all necessary identification documents</strong>
+                                                        by ground mail.
+                                                    </p>',
                                                     'laterpay'
-                                   ),
-                               ));
+                                                ),
+                               ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_account_tab_help_plugin_mode',
                                    'title'   => __( 'Plugin Mode', 'laterpay' ),
                                    'content' => __( '
-                <p>You can run the LaterPay plugin in two modes:</p>
-                <ul>
-                    <li>
-                        <strong>Test Mode</strong> &ndash; The test mode lets you test your plugin configuration.<br>
-                        While providing the full plugin functionality, payments are only simulated and not
-                        actually processed.<br>
-                        The plugin will <em>only</em> be visible to admin users, not to visitors.
-                    </li>
-                    <li>
-                        <strong>Live Mode</strong> &ndash; In live mode, the plugin is publicly visible and manages
-                        access to paid content.<br>
-                        All payments are actually processed.
-                    </li>
-                </ul>
-                <p>
-                    Using the LaterPay plugin usually requires some adjustments on your theme.<br>
-                    Therefore, we recommend installing, configuring, and testing the LaterPay plugin on a test system
-                    before activating it on your production system.
-                </p>',
+                                                    <p>You can run the LaterPay plugin in two modes:</p>
+                                                    <ul>
+                                                        <li>
+                                                            <strong>Test Mode</strong> &ndash; The test mode lets you
+                                                            test your plugin configuration.<br>
+                                                            While providing the full plugin functionality, payments are
+                                                            only simulated and not actually processed.<br>
+                                                            The plugin will <em>only</em> be visible to admin users,
+                                                            not to visitors.
+                                                        </li>
+                                                        <li>
+                                                            <strong>Live Mode</strong> &ndash; In live mode, the plugin
+                                                            is publicly visible and manages access to paid content.<br>
+                                                            All payments are actually processed.
+                                                        </li>
+                                                    </ul>
+                                                    <p>
+                                                        Using the LaterPay plugin usually requires some adjustments on
+                                                        your theme.<br>
+                                                        Therefore, we recommend installing, configuring, and testing
+                                                        the LaterPay plugin on a test system before activating it on
+                                                        your production system.
+                                                    </p>',
                                                     'laterpay'
-                                   ),
-                               ));
+                                                ),
+                               ) );
     }
 
     /**
@@ -425,7 +446,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         $pointers = array();
 
         // add pointer to LaterPay plugin in admin menu
-        if ( get_option( 'laterpay_plugin_is_activated' ) == '0' && ! in_array( self::ADMIN_MENU_POINTER, $dismissed_pointers ) ) {
+        if (
+            get_option( 'laterpay_plugin_is_activated' ) == '0' &&
+            ! in_array( self::ADMIN_MENU_POINTER, $dismissed_pointers )
+        ) {
             $pointers[] = self::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page
@@ -465,7 +489,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             switch ( $_POST['form'] ) {
                 case 'post_page_preview':
                     $current_user = wp_get_current_user();
-                    if ( ! ($current_user instanceof WP_User) ) {
+                    if ( ! ( $current_user instanceof WP_User ) ) {
                         wp_send_json(
                             array(
                                 'success' => false,
@@ -485,7 +509,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
                 case 'hide_statistics_pane':
                     $current_user = wp_get_current_user();
-                    if ( ! ($current_user instanceof WP_User) ) {
+                    if ( ! ( $current_user instanceof WP_User ) ) {
                         die;
                     }
                     $result = add_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'], true )

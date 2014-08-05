@@ -90,10 +90,10 @@ ul.lp-toggle .selected:hover a {color:#a5a5a5; cursor:default; text-shadow:0 1px
         url(../fonts/laterpay-wordpress-icons_v096.ttf)                          format('truetype'),
         url(../fonts/laterpay-wordpress-icons_v096.svg#laterpay-wordpress-icons) format('svg');
 }
-#laterpay_pricing_post_content h3 span,
-#laterpay_teaser_content h3 span {left:6.25em; position:relative;}
-#laterpay_pricing_post_content h3 span:before,
-#laterpay_teaser_content h3 span:before {
+#laterpay_post_pricing h3 span,
+#laterpay_post_teaser h3 span {left:6.25em; position:relative;}
+#laterpay_post_pricing h3 span:before,
+#laterpay_post_teaser h3 span:before {
     -moz-osx-font-smoothing:grayscale;
     -webkit-font-smoothing:antialiased;
     content:'a';
@@ -109,7 +109,7 @@ ul.lp-toggle .selected:hover a {color:#a5a5a5; cursor:default; text-shadow:0 1px
     text-transform:none !important;
     top:.106em;
 }
-#laterpay_teaser_content h3 span:before {top:.11em;}
+#laterpay_post_teaser h3 span:before {top:.11em;}
 
 
 /* dynamic pricing widget */
@@ -201,4 +201,4 @@ text.default-price {fill:#aaa; font-size:10px;}
 
 
 /* teaser content */
-#laterpay_teaser_content dfn {color:#999; display:block; font-style:italic; margin:1em 0;}
+#laterpay_post_teaser dfn {color:#999; display:block; font-style:italic; margin:1em 0;}

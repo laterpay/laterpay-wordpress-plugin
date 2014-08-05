@@ -23,23 +23,17 @@ $sql = "DROP TABLE IF EXISTS
         ";
 $wpdb->query( $sql );
 
-// remove custom data from WP core tables
-$sql = "DELETE FROM
-            $table_postmeta
-        WHERE
-            meta_key IN (
-                'Teaser content',
-                'Pricing Post',
-                'Pricing Post Type',
-                'laterpay_start_price',
-                'laterpay_end_price',
-                'laterpay_change_start_price_after_days',
-                'laterpay_transitional_period_end_after_days',
-                'laterpay_reach_end_price_after_days'
-            )
-        ;
-        ";
-$wpdb->query( $sql );
+// remove pricing data from wp_postmeta table
+delete_post_meta_by_key( 'laterpay_post_teaser' );
+delete_post_meta_by_key( 'laterpay_post_pricing' );
+delete_post_meta_by_key( 'laterpay_post_pricing_type' );
+delete_post_meta_by_key( 'laterpay_start_price' );
+delete_post_meta_by_key( 'laterpay_end_price' );
+delete_post_meta_by_key( 'laterpay_change_start_price_after_days' );
+delete_post_meta_by_key( 'laterpay_transitional_period_end_after_days' );
+delete_post_meta_by_key( 'laterpay_reach_end_price_after_days' );
+
+// remove user settings from wp_usermeta table
 $sql = "DELETE FROM
             $table_usermeta
         WHERE
@@ -51,6 +45,7 @@ $sql = "DELETE FROM
         ";
 $wpdb->query( $sql );
 
+// remove global settings from wp_options table
 delete_option( 'laterpay_plugin_is_activated' );
 delete_option( 'laterpay_teaser_content_only' );
 delete_option( 'laterpay_plugin_is_in_live_mode' );

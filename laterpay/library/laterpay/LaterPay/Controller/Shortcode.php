@@ -44,10 +44,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
         $page_url       = get_permalink( $page_id );
 
         if ( empty( $page ) ) {
-            return;
+            return '';
         } else {
             // get price of content
-            $price      = LaterPay_Helper_View::format_number( LaterPay_Controller_Post_Content::get_post_price( $page_id ), 2 );
+            $price      = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $page_id ), 2 );
             $currency   = get_option( 'laterpay_currency' );
             $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
         }
