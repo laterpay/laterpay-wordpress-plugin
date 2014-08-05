@@ -447,7 +447,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         // add pointer to LaterPay plugin in admin menu
         if (
-            get_option( 'laterpay_plugin_is_activated' ) == '0' &&
+            get_option( 'laterpay_plugin_is_activated', '' ) == '' &&
             ! in_array( self::ADMIN_MENU_POINTER, $dismissed_pointers )
         ) {
             $pointers[] = self::ADMIN_MENU_POINTER;
