@@ -221,7 +221,19 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 			return;
 		}
 
-		$post_specific_price = get_post_meta( $post->ID, 'laterpay_post_pricing', true );
+        $post_prices = get_post_meta( $post->ID, 'laterpay_post_prices', true );
+        if( !is_array( $post_prices ) ){
+            $post_prices = array();
+        }
+
+        $post_default_category  = array_key_exists( 'category_id', $post_prices ) ? (int) $post_prices[ 'category_id' ] : 0;
+        $post_specific_price    = array_key_exists( 'price', $post_prices ) ? $post_prices[ 'price' ] : '';
+        $post_price_type        = array_key_exists( 'type', $post_prices ) ? $post_prices[ 'type' ] : '';
+        $start_price            = array_key_exists( 'start_price', $post_prices ) ? (float) $post_prices[ 'start_price' ] : '';
+        $end_price              = array_key_exists( 'end_price', $post_prices ) ? (float) $post_prices[ 'end_price' ] : '';
+        $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days', $post_prices ) ? (float) $post_prices[ 'reach_end_price_after_days' ] : '';
+        $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days', $post_prices ) ? (float) $post_prices[ 'change_start_price_after_days' ] : '';
+        $transitional_period_end_after_days =  array_key_exists( 'transitional_period_end_after_days', $post_prices ) ? (float)$post_prices[ 'transitional_period_end_after_days' ] : '';
 
 		/**
          * TODO: optimize the current approach:
@@ -236,13 +248,11 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
 		// category default price data
 		$category_price_data    = null;
-		$post_default_category  = null;
 		$category_default_price = null;
 		$categories_of_post     = wp_get_post_categories( $post->ID );
 		if ( ! empty( $categories_of_post ) ) {
 			$laterpay_category_model  = new LaterPay_Model_Category();
 			$category_price_data    = $laterpay_category_model->get_category_price_data_by_category_ids( $categories_of_post );
-			$post_default_category  = (int) get_post_meta( $post->ID, 'laterpay_post_default_category', true );
 			// if the post has a category defined from which to use the category default price then let's get that price
 			if ( $post_default_category > 0 ) {
 				$category_default_price = (float) $laterpay_category_model->get_price_by_category_id( $post_default_category );
@@ -263,18 +273,15 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 			$global_default_price = (float) $global_default_price;
 		}
 
-		$post_price_type = get_post_meta( $post->ID, 'laterpay_post_pricing_type', true );
 		switch ( $post_price_type ) {
-			// backwards compatibility: Pricing Post Type used to be stored as 0 or 1; TODO: remove with release 1.0
-			case '0':
-			case '1':
+
 			case 'individual price':
 				$price = $post_specific_price;
 				break;
 
 			case 'individual price, dynamic':
 				// current price
-				$price = LaterPay_Helper_Pricing::get_dynamic_price( $GLOBALS['post'] );
+				$price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_prices );
 				break;
 
 			case 'category default price':
@@ -298,45 +305,45 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 		}
 
 		// return dynamic pricing widget start values
-		if ( ! get_post_meta( $post->ID, 'laterpay_start_price', true ) ) {
+        if ( $start_price === '' ) {
 			$dynamic_pricing_data = array(
 				array( 'x' => 0,  'y' => 1.8 ),
 				array( 'x' => 13, 'y' => 1.8 ),
 				array( 'x' => 18, 'y' => 0.2 ),
 				array( 'x' => 30, 'y' => 0.2 )
 			);
-		} elseif ( get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ) == 0 ) {
+		} elseif ( $transitional_period_end_after_days === '' ) {
 			$dynamic_pricing_data = array(
 				array(
 					'x' => 0,
-					'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
+                    'y' => $start_price
 				),
 				array(
-					'x' => (float) get_post_meta( $post->ID, 'laterpay_change_start_price_after_days', true ),
-					'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
+					'x' => $change_start_price_after_days,
+					'y' => $start_price
 				),
 				array(
-					'x' => (float) get_post_meta( $post->ID, 'laterpay_reach_end_price_after_days', true ),
-					'y' => (float) get_post_meta( $post->ID, 'laterpay_end_price', true )
+					'x' => $reach_end_price_after_days,
+					'y' => $end_price
 				)
 			);
 		} else {
 			$dynamic_pricing_data = array(
 				array(
 					'x' => 0,
-					'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
+					'y' => $start_price
 				),
 				array(
-					'x' => (float) get_post_meta( $post->ID, 'laterpay_change_start_price_after_days', true ),
-					'y' => (float) get_post_meta( $post->ID, 'laterpay_start_price', true )
+					'x' => $change_start_price_after_days,
+					'y' => $start_price
 				),
 				array(
-					'x' => (float) get_post_meta( $post->ID, 'laterpay_transitional_period_end_after_days', true ),
-					'y' => (float) get_post_meta( $post->ID, 'laterpay_end_price', true )
+					'x' => $transitional_period_end_after_days,
+					'y' => $end_price
 				),
 				array(
-					'x' => (float) get_post_meta( $post->ID, 'laterpay_reach_end_price_after_days', true ),
-					'y' => (float) get_post_meta( $post->ID, 'laterpay_end_price', true )
+					'x' => $reach_end_price_after_days,
+					'y' => $end_price
 				)
 			);
 		}
@@ -386,73 +393,79 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-		$delocalized_price = (float) str_replace( ',', '.', $_POST['post-price'] );
+        // postmeta values array
+        $meta_values = array();
 
-		$this->set_post_meta(
-            'laterpay_post_pricing',
-			$delocalized_price,
-			$post_id
-		);
+        // Setting the correct type
+        if( !isset( $_POST[ 'post_price_type' ] ) ) {
+            $type = 'global default price';
+        }
+        else {
+            $type = $_POST[ 'post_price_type' ];
+        }
+        $meta_values[ 'type' ] = stripslashes( $_POST[ 'post_price_type' ] );
 
-		$this->set_post_meta(
-            'laterpay_post_pricing_type',
-			stripslashes( $_POST['post_price_type'] ),
-			$post_id
-		);
+        // Setting the indiviudal price
+        if( $type === 'individual price' && isset( $_POST['post-price'] ) ){
+            $meta_values[ 'price' ] = (float) str_replace( ',', '.', $_POST[ 'post-price' ] );
+        }
 
-		$this->set_post_meta(
-            'laterpay_post_default_category',
-			stripslashes( $_POST['laterpay_post_default_category'] ),
-			$post_id
-		);
+        // Setting the individual dynamic price
+        if( $type === 'individual price, dynamic' ){
+
+            if( isset( $_POST[ 'laterpay_start_price' ] ) ) {
+                $meta_values[ 'start_price' ] = stripslashes( $_POST[ 'laterpay_start_price' ] );
+            }
+
+            if( isset( $_POST[ 'laterpay_end_price' ] ) ) {
+                $meta_values[ 'end_price' ] = stripslashes( $_POST[ 'laterpay_end_price' ] );
+            }
+
+            if( isset( $_POST[ 'laterpay_change_start_price_after_days' ] ) ) {
+                $meta_values[ 'change_start_price_after_days' ] = absint( $_POST[ 'laterpay_change_start_price_after_days' ] );
+            }
+
+            if( isset( $_POST[ 'laterpay_transitional_period_end_after_days' ] ) ) {
+                $meta_values[ 'transitional_period_end_after_days' ] = absint( $_POST[ 'laterpay_transitional_period_end_after_days' ] );
+            }
+
+            if( isset( $_POST[ 'laterpay_reach_end_price_after_days' ] ) ) {
+                $meta_values[ 'reach_end_price_after_days' ] = absint( $_POST[ 'laterpay_reach_end_price_after_days' ] );
+            }
+
+        }
+
+        // Setting the category_id to use the category-based price
+        if( $type === 'category default price' ) {
+
+            if( isset( $_POST[ 'laterpay_post_default_category' ] ) ) {
+                $meta_values[ 'category_id' ] = stripslashes( $_POST[ 'laterpay_post_default_category' ] );
+            }
+
+        }
 
         $this->set_post_meta(
-            'laterpay_start_price',
-			stripslashes( $_POST['laterpay_start_price'] ),
-			$post_id
-		);
+            'laterpay_post_prices',
+            $meta_values,
+            $post_id
+        );
 
-		$this->set_post_meta(
-            'laterpay_end_price',
-			stripslashes( $_POST['laterpay_end_price'] ),
-			$post_id
-		);
-
-		$this->set_post_meta(
-            'laterpay_change_start_price_after_days',
-			absint( $_POST['laterpay_change_start_price_after_days'] ),
-			$post_id
-		);
-
-		$this->set_post_meta(
-            'laterpay_transitional_period_end_after_days',
-            absint( $_POST['laterpay_transitional_period_end_after_days'] ),
-			$post_id
-
-		);
-
-		$this->set_post_meta(
-            'laterpay_reach_end_price_after_days',
-            absint( $_POST['laterpay_reach_end_price_after_days'] ),
-			$post_id
-		);
-
-	}
+    }
 
 	/**
 	 * Set post meta data.
 	 *
      * @param   string  $name           meta name
-	 * @param   string  $new_meta_value new meta value
+	 * @param   string  $meta_value     new meta value
 	 * @param   integer $post_id        post id
 	 *
 	 * @return  bool|int false failure, post_meta_id on insert/update or true on success
 	 */
-	public function set_post_meta( $name, $new_meta_value, $post_id ) {
-        if ( $new_meta_value === '' ) {
+	public function set_post_meta( $name, $meta_value, $post_id ) {
+        if ( empty( $meta_value ) ) {
 			return delete_post_meta( $post_id, $name );
 		} else {
-            return update_post_meta( $post_id, $name, $new_meta_value );
+            return update_post_meta( $post_id, $name, $meta_value );
 		}
 	}
 
