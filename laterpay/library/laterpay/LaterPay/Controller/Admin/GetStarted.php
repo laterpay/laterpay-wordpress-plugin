@@ -64,15 +64,22 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 					)
 				);
 			}
-			if ( function_exists('check_admin_referer') ) {
+			if ( function_exists( 'check_admin_referer' ) ) {
 				check_admin_referer( 'laterpay_form' );
 			}
 
+			// validate user inputs
+			// TODO: validate API key and Merchant ID like in Account controller
+			$sandbox_merchant_id 	= wp_strip_all_tags( $_POST['get_started']['laterpay_sandbox_merchant_id'], true );
+			$sandbox_api_key 		= wp_strip_all_tags( $_POST['get_started']['laterpay_sandbox_api_key'], true );
+			$global_default_price 	= str_replace( ',', '.', wp_strip_all_tags( $_POST['get_started']['laterpay_global_price'], true ) );
+			$currency 				= $_POST['get_started']['laterpay_currency'];
+
 			// save initial settings
-			update_option( 'laterpay_sandbox_api_key',      $_POST['get_started']['laterpay_sandbox_api_key'] );
-			update_option( 'laterpay_sandbox_merchant_id',  $_POST['get_started']['laterpay_sandbox_merchant_id'] );
-			update_option( 'laterpay_global_price',         str_replace( ',', '.', $_POST['get_started']['laterpay_global_price'] ) );
-			update_option( 'laterpay_currency',             $_POST['get_started']['laterpay_currency'] );
+			update_option( 'laterpay_sandbox_merchant_id',  $sandbox_merchant_id );
+			update_option( 'laterpay_sandbox_api_key',      $sandbox_api_key );
+			update_option( 'laterpay_global_price',         $global_default_price );
+			update_option( 'laterpay_currency',             $currency );
 			update_option( 'laterpay_plugin_is_activated',  '1' );
 
 			// automatically dismiss pointer to LaterPay plugin after saving the initial settings
