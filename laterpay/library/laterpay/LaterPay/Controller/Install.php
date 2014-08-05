@@ -87,6 +87,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     /**
      * Maybe updating the existing postmeta meta_key's when current_version < 0.9.7
      *
+     * @wp-hook admin_notices
      * @return  void
      */
     public function maybe_update_meta_keys(){
