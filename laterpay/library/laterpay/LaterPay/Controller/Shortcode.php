@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
+class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
+{
 
     /**
      * Render a teaser box for selling additional (downloadable) content from the shortcode [laterpay_premium_download].
@@ -25,9 +26,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
      * description_text="Full HD video of the entire concept, including behind the scenes action."
      * teaser_image_path="/uploads/images/concert-video-still.jpg"]
      *
-     * @param   array $atts
+     * @param array $atts
      *
-     * @return  string $html
+     * @return string $html
      */
     public function render_premium_download_box( $atts ) {
         $a = shortcode_atts(array(
@@ -126,10 +127,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract {
      * Example:
      * [laterpay_box_wrapper][laterpay_premium_download target_page_title="Vocabulary list"][laterpay_premium_download target_page_title="Excercises"][/laterpay_box_wrapper]
      *
-     * @param   array   $atts
-     * @param   string  $content
+     * @param  array   $atts
+     * @param  string  $content
      *
-     * @return  string
+     * @return string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
         return '<div class="laterpay-premium-file-link-wrapper">' . do_shortcode( $content ) . '</div>';

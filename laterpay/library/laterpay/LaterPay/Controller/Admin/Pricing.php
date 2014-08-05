@@ -136,6 +136,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 			}
 			die;
 		}
+
 		// invalid request
 		wp_send_json(
 			array(
@@ -234,7 +235,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 	 * @return  void
 	 */
 	protected static function _update_existing_category_default_price() {
-		$Category_Price    = new LaterPay_Model_Category();
+		$Category_Price    			= new LaterPay_Model_Category();
 		$category_id                = $Category_Price->get_category_id_by_name( $_POST['category'] );
 		$category_price_id          = $Category_Price->get_price_id_by_category_id( $category_id );
 
@@ -312,9 +313,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 	 * @return  void
 	 */
 	protected static function _set_new_category_default_price() {
-		$Category_Price  	= new LaterPay_Model_Category();
-		$category_doesnt_exist      = $Category_Price->check_existence_of_category_by_name( $_POST['category'] );
-		$category_id            	= $Category_Price->get_category_id_by_name( $_POST['category'] );
+		$Category_Price  		= new LaterPay_Model_Category();
+		$category_doesnt_exist  = $Category_Price->check_existence_of_category_by_name( $_POST['category'] );
+		$category_id            = $Category_Price->get_category_id_by_name( $_POST['category'] );
 
 		if ( ! empty( $category_doesnt_exist ) || empty( $category_id ) ) {
 			wp_send_json(
@@ -382,15 +383,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Process Ajax request for prices of applied categories.
      *
-     * @param   Array $category_ids
+     * @param array $category_ids
      *
-     * @return  void
+     * @return void
      */
     protected static function get_category_prices( $category_ids ) {
-        $laterpay_category_model = new LaterPay_Model_Category();
-        $categories_price_data = $laterpay_category_model->get_category_price_data_by_category_ids( $category_ids );
+        $Category_Price 		= new LaterPay_Model_Category();
+        $categories_price_data 	= $Category_Price->get_category_price_data_by_category_ids( $category_ids );
+
         wp_send_json( $categories_price_data );
     }
-
 
 }

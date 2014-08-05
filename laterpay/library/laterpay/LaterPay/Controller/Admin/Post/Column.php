@@ -1,13 +1,14 @@
 <?php
 
-class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract {
+class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
+{
 
 	/**
 	 * Add custom columns to posts table.
 	 *
-	 * @param   array $columns
+	 * @param array $columns
 	 *
-	 * @return  array $extended_columns
+	 * @return array $extended_columns
 	 */
 	public function add_columns_to_posts_table( $columns ) {
 		$extended_columns   = array();
@@ -29,10 +30,10 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 	 *
 	 * @wp-hook manage_post_posts_custom_column
 	 *
-	 * @param   string $column_name
-	 * @param   int $post_id
+	 * @param string $column_name
+	 * @param int 	 $post_id
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function add_data_to_posts_table( $column_name, $post_id ) {
 		if ( $column_name == 'post_price' ) {
@@ -44,10 +45,9 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 			} else {
 				echo '&mdash;';
 			}
-
 		} else if ( $column_name == 'post_price_type' ) {
             $post_prices = get_post_meta( $post_id, 'laterpay_post_prices', true );
-            if ( !is_array( $post_prices ) ){
+            if ( ! is_array( $post_prices ) ) {
                 $post_prices = array();
             }
 
@@ -57,9 +57,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
             else {
 				echo '&mdash;';
 			}
-
 		}
 	}
-
 
 }

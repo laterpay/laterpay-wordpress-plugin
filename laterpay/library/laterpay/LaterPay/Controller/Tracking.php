@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Controller_Tracking extends LaterPay_Controller_Abstract {
+class LaterPay_Controller_Tracking extends LaterPay_Controller_Abstract
+{
 
 	/**
 	 * Track unique visitors.
@@ -11,11 +12,11 @@ class LaterPay_Controller_Tracking extends LaterPay_Controller_Abstract {
 		if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
 			return;
 		}
-        if ( !is_singular() ){
+        if ( ! is_singular() ) {
             return;
         }
         $post_id = get_the_ID();
-        if ( !$post_id ){
+        if ( ! $post_id ) {
             return;
         }
 		LaterPay_Helper_Statistics::track( $post_id );

@@ -4,19 +4,17 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 {
 
     /**
-     * Ajax method to get the cached article. This
-     * is because there could be a price change in
-     * laterpay and we always need the current article
-     * price.
+     * Ajax method to get the cached article.
+     * Required, because there could be a price change in LaterPay and we always need the current article price.
      *
      * @wp-hook wp_ajax_laterpay_article_script, wp_ajax_nopriv_laterpay_article_script
+     *
      * @return  void
      */
     public function get_cached_post() {
         global $post, $wp_query, $laterpay_show_statistics;
 
-        // set the global vars so that WordPress
-        // thinks it is in a single view
+        // set the global vars so that WordPress thinks it is in a single view
         $wp_query->is_single      = TRUE;
         $wp_query->in_the_loop    = TRUE;
         $laterpay_show_statistics = TRUE;
@@ -35,7 +33,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Ajax method to get the the modified title
+     * Ajax method to get the the modified title.
      *
      * @wp-hook wp_ajax_laterpay_title_script, wp_ajax_nopriv_laterpay_title_script
      * @return  void
@@ -43,8 +41,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     public function get_modified_title() {
         global $post, $wp_query;
 
-        // set the global vars so that WordPress
-        // thinks it is in a single view
+        // set the global vars so that WordPress thinks it is in a single view
         $wp_query->is_single      = TRUE;
         $wp_query->in_the_loop    = TRUE;
 
@@ -52,15 +49,16 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $post_id    = absint( $_REQUEST[ 'id' ] );
         $post       = get_post( $post_id );
         $post_title = get_the_title( $post_id );
+
         echo $post_title;
         exit;
     }
 
     /**
-     * This ajax callback loads the modified footer
-     * and echos it.
+     * Ajax callback to load and echo the modified footer.
      *
      * @wp-hook wp_ajax_laterpay_footer_script, wp_ajax_nopriv_laterpay_footer_script
+     *
      * @return  void
      */
     public function get_modified_footer() {
@@ -84,8 +82,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $currency = get_option( 'laterpay_currency' );
 
         // get historical performance data for post
-        $LaterPay_Payments_History_Model   = new LaterPay_Model_Payments_History();
-        $LaterPay_Post_Views_Model = new LaterPay_Model_Post_Views();
+        $LaterPay_Payments_History_Model    = new LaterPay_Model_Payments_History();
+        $LaterPay_Post_Views_Model          = new LaterPay_Model_Post_Views();
 
         // get total revenue and total sales
         $total = array();
@@ -170,7 +168,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             return;
         }
 
-        // contains all required parameters for the GET-Request
+        // parameters required for the GET request
         $required_params = array(
             'p',
             'buy',
@@ -181,16 +179,16 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'price',
             'date',
             'ip',
-            'hash'
+            'hash',
         );
 
-        // checking if all parameters are available in GET-Request
+        // check if all parameters are available in GET request
         $diff = array_diff(
             array_keys( $_GET ),
             $required_params
         );
 
-        if ( count( $diff ) > 0 ){
+        if ( count( $diff ) > 0 ) {
             LaterPay_Core_Logger::error(
                 __METHOD__ . ' some parameters are missing in GET-Request',
                 array(
@@ -214,9 +212,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $url    = $this->get_buy_redirect_url( $url_data );
         $hash   = $this->get_hash_by_url( $url );
 
-        // checking if the parameters of $_GET are valid and not manipulated
+        // check if the parameters of $_GET are valid and not manipulated
         if ( $hash === $_GET[ 'hash' ] ) {
-
             $data = array(
                 'post_id'       => $_GET[ 'post_id' ],
                 'id_currency'   => $_GET[ 'id_currency' ],
@@ -230,12 +227,12 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $payment_history_model->set_payment_history( $data );
         }
 
-        $post_id = absint( $_GET[ 'post_id' ] );
-        $redirect_url = get_permalink( $post_id );
+        $post_id        = absint( $_GET[ 'post_id' ] );
+        $redirect_url   = get_permalink( $post_id );
+
         wp_redirect( $redirect_url );
         exit;
     }
-
 
     /**
      * Check if current page is login page.
@@ -256,7 +253,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update incorrect token or create token, if it doesn't exist.
+     * Update incorrect token or create one, if it doesn't exist.
      *
      * @wp-hook template_redirect
      *
@@ -280,7 +277,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $context
         );
 
-        if ( !$is_singular || !$browser_supports_cookies || $browser_is_crawler ){
+        if ( ! $is_singular || !$browser_supports_cookies || $browser_is_crawler ){
             return;
         }
 
@@ -293,7 +290,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $laterpay_client->acquire_token();
         }
 
-        // fetch the current post
+        // get the current post
         $post = get_post();
         if ( $post === null ) {
             LaterPay_Core_Logger::error( __METHOD__ . ' post not found!' );
@@ -302,13 +299,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
         LaterPay_Core_Logger::debug(
             __METHOD__,
-            array(
-                "post" => $post
-            )
+            array( 'post' => $post )
         );
 
-        $price      = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-        $access     = false;
+        $price  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $access = false;
 
         if ( $price == 0 ) {
             $result = $laterpay_client->get_access( array( $post->ID ) );
@@ -319,24 +314,22 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         $GLOBALS['laterpay_access'] = $access;
-
     }
 
     /**
-     * Get the LaterPay link for the post.
+     * Get the LaterPay purchase link for the post.
      *
-     * @param   int $post_id
+     * @param int $post_id
      *
-     * @return  string   url || empty string if something went wrong
+     * @return string   url || empty string if something went wrong
      */
     public function get_laterpay_link( $post_id ) {
-
         $post = get_post( $post_id );
         if ( $post === null ) {
             return '';
         }
 
-        // re-set the post-id
+        // re-set the post_id
         $post_id    = $post->ID;
 
         $currency   = get_option( 'laterpay_currency' );
@@ -371,7 +364,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Returning the URL hash by a given URL
+     * Return the URL hash for a given URL.
      *
      * @param   string $url
      *
@@ -382,14 +375,13 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Generate the redirect to buy a post URL by given data
+     * Generate the redirect URL to buy a post for given data.
      *
      * @param   array $data
      *
      * @return  String $url
      */
     protected function get_buy_redirect_url( array $data ) {
-
         $url = get_permalink( $data[ 'post_id' ] );
 
         if ( ! $url ) {
@@ -411,13 +403,12 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return  bool true|false
      */
     protected function post_is_a_laterpay_post() {
-
         // only modify the post_content on singular pages
         if ( ! is_singular() || ! in_the_loop() ) {
             return false;
         }
 
-        // check if the current post type is allowed
+        // check if LaterPay is enabled for the current post type
         $post_type = get_post_type();
         if ( ! in_array( $post_type, $this->config->get( 'content.allowed_post_types' ) ) ) {
             return false;
@@ -431,9 +422,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      *
      * @wp-hook the_content
      *
-     * @param   string $content
+     * @param string $content
      *
-     * @return  string $content
+     * @return string $content
      */
     public function modify_post_content( $content ) {
         global $laterpay_show_statistics;
@@ -560,7 +551,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
             echo $this->get_text_view( 'frontend/partials/identify/iframe' );
         }
-
     }
 
 }

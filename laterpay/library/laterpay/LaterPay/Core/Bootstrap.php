@@ -4,7 +4,8 @@
  *  LaterPay bootstrap class
  *
  */
-class LaterPay_Core_Bootstrap {
+class LaterPay_Core_Bootstrap
+{
 
     /**
      * Contains all settings for our plugin

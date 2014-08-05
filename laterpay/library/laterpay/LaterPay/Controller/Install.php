@@ -168,7 +168,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	/**
 	 * Create our custom tables and set the required options.
      *
-	 * @return  void
+	 * @return void
 	 */
 	public function install() {
 		global $wpdb;
@@ -268,8 +268,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		}
 
         // update capabilities
-        $capabilities = new LaterPay_Core_Capabilities();
-        $capabilities->populate_roles();
+        $Capabilities = new LaterPay_Core_Capabilities();
+        $Capabilities->populate_roles();
 	}
 
 }

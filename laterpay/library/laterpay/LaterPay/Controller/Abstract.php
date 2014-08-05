@@ -11,13 +11,15 @@ class LaterPay_Controller_Abstract
     public $variables = array();
 
 	/**
-	 * Contains all settings for our plugin
+	 * Contains all settings for our plugin.
+     *
 	 * @var LaterPay_Model_Config
 	 */
 	protected $config;
 
 	/**
 	 * @param   LaterPay_Model_Config $config
+     *
 	 * @return  LaterPay_Controller_Abstract
 	 */
 	public function __construct( LaterPay_Model_Config $config ) {
@@ -36,9 +38,9 @@ class LaterPay_Controller_Abstract
     /**
      * Render HTML file.
      *
-     * @param   string $file file to get HTML string
+     * @param string $file file to get HTML string
      *
-     * @return  void
+     * @return void
      */
     public function render( $file ) {
         foreach ( $this->variables as $key => $value ) {
@@ -74,9 +76,9 @@ class LaterPay_Controller_Abstract
     /**
      * Get HTML from file.
      *
-     * @param   string $file file to get HTML string
+     * @param string $file file to get HTML string
      *
-     * @return  string $html html output as string
+     * @return string $html html output as string
      */
     public function get_text_view( $file ) {
         foreach ( $this->variables as $key => $value ) {
@@ -107,9 +109,9 @@ class LaterPay_Controller_Abstract
 	/**
      * Render the navigation for the plugin backend.
      *
-	 * @param   string $file
+	 * @param string $file
      *
-	 * @return  string $html
+	 * @return string $html
 	 */
 	public function get_menu( $file = null ) {
         if ( empty( $file ) ) {
