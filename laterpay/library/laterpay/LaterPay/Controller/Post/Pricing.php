@@ -160,6 +160,7 @@ class LaterPay_Controller_Post_Pricing extends LaterPay_Controller_Abstract
 		$new_meta_value = $_POST['teaser-content'];
 
 		$this->set_post_meta( $meta_value, $new_meta_value, $post_id, 'Teaser content' );
+
 		return $post_id;
 	}
 
