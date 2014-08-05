@@ -86,9 +86,6 @@ class LaterPay_Core_Bootstrap
                 $admin_controller = new LaterPay_Controller_Admin( $this->config );
                 add_action( 'wp_ajax_laterpay_admin', array( $admin_controller, 'process_ajax_requests' ) );
             }
-
-            // add links to the LaterPay Plugin in plugin.php
-            add_action( 'plugin_action_links_' . $this->config->plugin_base_name, array( $this, 'add_plugin_settings_link' ) );
         }
 
         // migrate the pricing postmeta to an array
