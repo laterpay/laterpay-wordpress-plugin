@@ -166,7 +166,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      */
     public function buy_post() {
 
-        if( !isset( $_GET[ 'buy' ] ) ){
+        if ( !isset( $_GET[ 'buy' ] ) ){
             return;
         }
 
@@ -190,7 +190,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $required_params
         );
 
-        if( count( $diff ) > 0 ){
+        if ( count( $diff ) > 0 ){
             LaterPay_Core_Logger::error(
                 __METHOD__ . ' some parameters are missing in GET-Request',
                 array(
@@ -280,7 +280,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $context
         );
 
-        if( !$is_singular || !$browser_supports_cookies || $browser_is_crawler ){
+        if ( !$is_singular || !$browser_supports_cookies || $browser_is_crawler ){
             return;
         }
 
@@ -412,13 +412,13 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     protected function post_is_a_laterpay_post() {
 
         // only modify the post_content on singluar-pages
-        if( !is_singular() || !in_the_loop() ){
+        if ( !is_singular() || !in_the_loop() ){
             return false;
         }
 
         // checking if the current post type is allowed
         $post_type = get_post_type();
-        if( !in_array( $post_type, $this->config->get( 'content.allowed_post_types' ) ) ){
+        if ( !in_array( $post_type, $this->config->get( 'content.allowed_post_types' ) ) ){
             return false;
         }
 

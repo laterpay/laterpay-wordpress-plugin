@@ -11,7 +11,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	 */
 	public function render_requirements_notices() {
         $notices = $this->check_requirements();
-		// render error messages, if requirements are not fulfilled
 		if ( count( $notices ) > 0 ) {
 			$out = join( "\n", $notices );
             echo '<div class="error">' . $out . '</div>';
@@ -71,11 +70,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
     /**
-	 * Compare plugin version with latest version and perform an update if required.
+	 * Compare plugin version with latest version and perform an update, if required.
 	 *
 	 * @wp-hook plugins_loaded
      *
-	 * @return  void
+	 * @return void
 	 */
 	public function check_for_updates() {
 		$current_version = get_option('laterpay_version');
@@ -85,12 +84,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
     /**
-     * Maybe updating the existing postmeta meta_key's when current_version < 0.9.7
+     * Update the existing postmeta meta_keys when current_version < 0.9.7
      *
      * @wp-hook admin_notices
-     * @return  void
+     *
+     * @return void
      */
-    public function maybe_update_meta_keys(){
+    public function maybe_update_meta_keys() {
         global $wpdb;
 
         $current_version = get_option('laterpay_version');
@@ -98,7 +98,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
             return;
         }
 
-        // mapped old values to new one
+        // map old values to new ones
         $meta_key_mapping = array(
             'Teaser content'    => 'laterpay_post_teaser',
             'Pricing Post'      => 'laterpay_post_pricing',
@@ -107,15 +107,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 
         $sql = "UPDATE " . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
 
-        foreach( $meta_key_mapping as $before => $after ){
+        foreach( $meta_key_mapping as $before => $after ) {
             $prepared_sql = $wpdb->prepare( $sql, array( $after, $before ) );
             $wpdb->query( $prepared_sql );
         }
-
     }
 
     /**
-     * Migration of old postmeta's to a single postmeta array
+     * Migrate old postmeta data to a single postmeta array
      *
      * @wp-hook get_post_metadata
      *
@@ -126,10 +125,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
      * @return  null $return
      */
     public function migrate_pricing_post_meta( $return, $post_id, $meta_key ) {
-
-        // Migrate the pricing postmeta to an array
-        if( $meta_key === 'laterpay_post_prices' ){
-
+        // migrate the pricing postmeta to an array
+        if ( $meta_key === 'laterpay_post_prices' ) {
             $meta_migration_mapping = array(
                 'laterpay_post_pricing'                         => 'price',
                 'laterpay_post_default_category'                => 'category_id',
@@ -138,32 +135,31 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
                 'laterpay_end_price'                            => 'end_price',
                 'laterpay_change_start_price_after_days'        => 'change_start_price_after_days',
                 'laterpay_transitional_period_end_after_days'   => 'transitional_period_end_after_days,',
-                'laterpay_reach_end_price_after_days'           => 'reach_end_price_after_days'
+                'laterpay_reach_end_price_after_days'           => 'reach_end_price_after_days',
             );
 
             $new_meta_values = array();
 
-            foreach( $meta_migration_mapping as $old_meta_key => $new_key ){
+            foreach ( $meta_migration_mapping as $old_meta_key => $new_key ) {
                 $value = get_post_meta( $post_id, $old_meta_key, true );
 
                 if ( $value !== '' ) {
-                    // Adding the meta_value to the new postmeta
-
-                    // migrate old data, when post_pricing is "0" or "1" set it to "individual price"
-                    if( $old_meta_key === 'laterpay_post_pricing_type' && in_array( $value, array( '0', '1' ) ) ) {
+                    // migrate old data: if post_pricing is '0' or '1', set it to 'individual price'
+                    if ( $old_meta_key === 'laterpay_post_pricing_type' && in_array( $value, array( '0', '1' ) ) ) {
                         $value = 'individual price';
                     }
 
+                    // add the meta_value to the new postmeta array
                     $new_meta_values[ $new_key ] = $value;
 
-                    // Deleting the old postmeta
+                    // delete the old postmeta
                     delete_post_meta( $post_id, $old_meta_key );
                 }
             }
-            if( !empty( $new_meta_values ) ){
+
+            if ( ! empty( $new_meta_values ) ) {
                 add_post_meta( $post_id, 'laterpay_post_prices', $new_meta_values, true );
             }
-
         }
 
         return $return;
@@ -181,7 +177,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
         $notices = (array) $this->check_requirements();
         if ( count( $notices ) ) {
             $this->render_requirements_notices();   //  #150 FIXME: render_requirements_notices triggers check_requirements a second times...
-           // exit;
         }
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

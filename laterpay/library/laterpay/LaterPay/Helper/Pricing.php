@@ -49,10 +49,10 @@ class LaterPay_Helper_Pricing {
     }
 
     /**
-     * Get current price for post with dynamic pricing scheme defined.
+     * Get current price for posts with dynamic pricing scheme defined.
      *
-     * @param   WP_Post $post
-     * @param   Array $post_prices      see post_meta 'laterpay_post_prices'
+     * @param WP_Post $post
+     * @param array $post_prices see post_meta 'laterpay_post_prices'
      *
      * @return float price
      */
@@ -69,13 +69,12 @@ class LaterPay_Helper_Pricing {
 
         if ( $post_prices[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_prices[ 'start_price' ];
-        }
-        else {
-            if (     $post_prices[ 'transitional_period_end_after_days' ] <= $days_since_publication
-                ||  $post_prices[ 'transitional_period_end_after_days' ] == 0 ) {
+        } else {
+            if ( $post_prices[ 'transitional_period_end_after_days' ] <= $days_since_publication ||
+                 $post_prices[ 'transitional_period_end_after_days' ] == 0
+                ) {
                 $price = $post_prices[ 'end_price' ];
-            }
-            else {    // transitional period between start and end of dynamic price change
+            } else {    // transitional period between start and end of dynamic price change
                 $price = self::calculate_transitional_price( $post_prices, $days_since_publication );
             }
         }

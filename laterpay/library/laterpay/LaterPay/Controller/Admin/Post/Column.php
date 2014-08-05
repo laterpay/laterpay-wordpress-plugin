@@ -47,11 +47,11 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 
 		} else if ( $column_name == 'post_price_type' ) {
             $post_prices = get_post_meta( $post_id, 'laterpay_post_prices', true );
-            if( !is_array( $post_prices ) ){
+            if ( !is_array( $post_prices ) ){
                 $post_prices = array();
             }
 
-            if( array_key_exists( 'type', $post_prices ) ) {
+            if ( array_key_exists( 'type', $post_prices ) ) {
                 echo __( $post_prices[ 'type' ], 'laterpay' );
             }
             else {

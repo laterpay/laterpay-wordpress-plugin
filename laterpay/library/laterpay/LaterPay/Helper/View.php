@@ -7,7 +7,7 @@ class LaterPay_Helper_View
 	 * @var string
 	 */
 	public static $pluginPage = 'laterpay-plugin';
-    
+
     /**
      * Get admin menu data
      *
@@ -110,7 +110,7 @@ class LaterPay_Helper_View
         }
 
         // checking if plugin works in live mode and api.key exists
-        if( $modeIsLive && empty( $liveKey ) ) {
+        if ( $modeIsLive && empty( $liveKey ) ) {
             return false;
         }
 
@@ -120,7 +120,7 @@ class LaterPay_Helper_View
         }
 
         // checking if plugin is not in live mode and current has enough rights
-        if( ! $modeIsLive && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
+        if ( ! $modeIsLive && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
             return false;
         }
 
