@@ -60,13 +60,10 @@ class LaterPay_Core_Bootstrap {
 			add_filter( 'plugins_api',                              array( $github_updater, 'set_plugin_info' ), 10, 3 );
 			add_filter( 'upgrader_pre_install',                     array( $github_updater, 'pre_install' ), 10, 2 );
 			add_filter( 'upgrader_post_install',                    array( $github_updater, 'post_install' ), 10, 3 );
-
-            // adding links to the LaterPay-Plugin in plugin.php
-            add_action( 'plugin_action_links_' . $this->config->plugin_base_name, array( $this, 'add_plugin_settings_link' ) );
 		}
 
-        // checking if the plugin is correctly configured and working
-        if ( !LaterPay_Helper_View::plugin_is_working() ) {
+        // check, if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
 
@@ -304,23 +301,4 @@ class LaterPay_Core_Bootstrap {
 			)
 		);
 	}
-
-	/**
-	 * Add settings link to plugins table.
-	 *
-	 * @wp-hook plugin_action_links_{plugin_basename}
-	 *
-	 * @param   array $links
-	 *
-	 * @return  array
-	 */
-	public function add_plugin_settings_link( $links ) {
-		return array_merge(
-			array(
-				'settings' => '<a href="' . admin_url( 'plugin-editor.php?file=laterpay%2Fsettings.php' ) . '">' . __( 'Settings', 'laterpay' ) . '</a>'
-			),
-			$links
-		);
-	}
-
 }
