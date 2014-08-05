@@ -207,7 +207,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 	protected static function _update_category_default_price() {
 		$delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
 
-		if ( $delocalized_category_price > 5 || $delocalized_category_price < 0 ) {
+		if ( $delocalized_category_price > 5 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) ) {
 			wp_send_json(
 				array(
 					'success' => false,
