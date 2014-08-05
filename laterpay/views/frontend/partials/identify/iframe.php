@@ -4,15 +4,20 @@
     <span id="laterpay-post-footer" data-post-id="<?php echo $post_id; ?>"></span>
     <script>
         (function($) {
-            $( '#laterpay-post-footer' ).hide();
-            var post_vars = {
+            $('#laterpay-post-footer').hide();
+            var postVars = {
                     action  : 'laterpay_footer_script',
                     id      : $('#laterpay-post-footer').data('post-id')
                 };
-            $.get(lpVars.ajaxUrl, post_vars, function(response) {
-                $('#laterpay-post-footer').before(response).remove();
-                lpShowStatistic();
-            });
+
+            $.get(
+                lpVars.ajaxUrl,
+                postVars,
+                function(response) {
+                    $('#laterpay-post-footer').before(response).remove();
+                    lpShowStatistic();
+                }
+            );
         })(jQuery);
     </script>
 <?php else: ?>

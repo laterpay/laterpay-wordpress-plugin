@@ -1,8 +1,5 @@
-<?php
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
-?>
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <a href="#"
     class="laterpay-purchase-link laterpay-purchase-button"
     post-id="<?php echo $post_id; ?>"
