@@ -86,16 +86,16 @@ class Browscap
     /**
      * Options for auto update capabilities
      *
-     * $remoteVerUrl: The location to use to check out if a new version of the
-     *                browscap.ini file is available.
-     * $remoteIniUrl: The location from which download the ini file.
-     *                The placeholder for the file should be represented by a %s.
-     * $timeout: The timeout for the requests.
+     * $remoteVerUrl:   The location to use to check out if a new version of the
+     *                  browscap.ini file is available.
+     * $remoteIniUrl:   The location from which download the ini file.
+     *                  The placeholder for the file should be represented by a %s.
+     * $timeout:        The timeout for the requests.
      * $updateInterval: The update interval in seconds.
-     * $errorInterval: The next update interval in seconds in case of an error.
-     * $doAutoUpdate: Flag to disable the automatic interval based update.
-     * $updateMethod: The method to use to update the file, has to be a value of
-     *                an UPDATE_* constant, null or false.
+     * $errorInterval:  The next update interval in seconds in case of an error.
+     * $doAutoUpdate:   Flag to disable the automatic interval based update.
+     * $updateMethod:   The method to use to update the file, has to be a value of
+     *                  an UPDATE_* constant, null or false.
      *
      * The default source file type is changed from normal to full. The performance difference
      * is MINIMAL, so there is no reason to use the standard file whatsoever. Either go for light,
@@ -103,10 +103,10 @@ class Browscap
      */
     public $remoteIniUrl = 'http://browscap.org/stream?q=PHP_BrowscapINI';
     public $remoteVerUrl = 'http://browscap.org/version';
-    public $timeout = 60;
+    public $timeout =60;
     public $updateInterval = 432000; // 5 days
     public $errorInterval = 7200; // 2 hours
-    public $doAutoUpdate = true;
+public $doAutoUpdate = true;
     public $updateMethod = null;
 
     /**
@@ -729,10 +729,10 @@ class Browscap
         }
         return $result;
     }
-    
+
     /**
      * PHP file syntax check
-     * 
+     *
      * @param string $file
      * @return boolean
      */
@@ -742,7 +742,7 @@ class Browscap
         ob_start();
         @system($command, $return_var);
         ob_end_clean();
-        
+
         return $return_var === 0;
     }
 
@@ -898,7 +898,7 @@ class Browscap
         if ( ! $this->validateCacheFile($cache_file) ) {
             return false;
         }
-        
+
         require $cache_file;
 
         if (! isset($cache_version) || $cache_version != self::CACHE_FILE_VERSION) {
@@ -1145,13 +1145,13 @@ class Browscap
                     'User-Agent' => $this->_getUserAgent(),
                 );
                 $raw_response = wp_remote_get(
-                                    $url,
-                                    array(
-                                        'headers'   => $headers,
-                                        'timeout'   => $timeout,
-                                    )
+                                      $url,
+                                        array(
+                                          'headers'   => $headers,
+                                          'timeout'   => 60,
+                                            )
                                 );
-                $file = wp_remote_retrieve_body( $raw_response );
+                $file = wp_remote_retrieve_body( $raw_response  );
 
                 return $file;
             case self::UPDATE_FOPEN:
