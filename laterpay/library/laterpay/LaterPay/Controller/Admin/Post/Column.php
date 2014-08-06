@@ -53,7 +53,28 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
             }
 
             if ( array_key_exists( 'type', $post_prices ) ) {
-                echo __( $post_prices[ 'type' ], 'laterpay' );
+            	switch ( $post_prices[ 'type' ] ) {
+            		case 'individual price':
+            			$post_price_type = __( 'individual price', 'laterpay' );
+            			break;
+
+            		case 'individual price, dynamic':
+            			$post_price_type = __( 'dynamic individual price', 'laterpay' );
+            			break;
+
+            		case 'category default price':
+            			$post_price_type = __( 'category default price', 'laterpay' );
+            			break;
+
+            		case 'global default price':
+            			$post_price_type = __( 'global default price', 'laterpay' );
+            			break;
+
+            		default:
+            			$post_price_type = '&mdash;';
+            	}
+
+                echo $post_price_type;
             }
             else {
 				echo '&mdash;';
