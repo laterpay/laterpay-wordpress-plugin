@@ -139,7 +139,7 @@
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>
             <?php _e( 'This site is in', 'laterpay' ); ?><div class="switch">
                 <form id="plugin_mode" method="post">
-                    <input type="hidden" name="form"    value="plugin_is_in_live_mode">
+                    <input type="hidden" name="form"    value="laterpay_plugin_mode">
                     <input type="hidden" name="action"  value="laterpay_account">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                     <label class="switch-label">
