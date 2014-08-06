@@ -40,7 +40,7 @@
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                                         autocomplete="off">
                                 <span id="laterpay-global-price-text"><?php echo $global_default_price; ?></span>
-                                <span class="laterpay_currency"><?php echo $currency; ?></span>
+                                <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
                             </strong>
                             <a href="#" class="edit-link laterpay-change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
                             <a href="#" class="edit-link laterpay-save-link"   data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
@@ -80,7 +80,7 @@
                                                 style="display:none;"
                                                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
                                         <span class="category-price"><?php echo $category_price; ?></span>
-                                        <span class="laterpay_currency"><?php echo $currency; ?></span>
+                                        <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
                                     </strong>
 
                                     <a href="#" class="edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
@@ -115,7 +115,7 @@
                                         style="display:none;"
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
                                 <span class="category-price"><?php echo $global_default_price; ?></span>
-                                <span class="laterpay_currency"><?php echo $currency; ?></span>
+                                <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
                             </strong>
 
                             <a href="#" class="edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
