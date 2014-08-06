@@ -4,7 +4,7 @@ class LaterPay_Helper_File
 {
 
 	/**
-	 * Regex to detect urls
+	 * Regex to detect URLs
      *
 	 * @var string
 	 */
@@ -68,13 +68,11 @@ class LaterPay_Helper_File
     }
 
     /**
-     * Ajax callback to load the files through a script
-     * rather then to access it directly
+     * Ajax callback to load a files through a script rather access it directly.
      *
      * @return	void
      */
     public function load_file() {
-
     	// register libraries
     	$request    = new LaterPay_Core_Request();
     	$response   = new LaterPay_Core_Response();
@@ -143,7 +141,7 @@ class LaterPay_Helper_File
     	}
 
     	// check token
-    	if ( ! empty($lptoken) ) {
+    	if ( ! empty( $lptoken ) ) {
     		LaterPay_Core_Logger::debug( 'RESOURCE:: set token and make redirect' );
     		// change URL
     		$client->set_token( $lptoken );
@@ -169,7 +167,7 @@ class LaterPay_Helper_File
     		$client->acquire_token();
     	}
 
-    	if ( ! empty($auth) ) {
+    	if ( ! empty( $auth ) ) {
     		LaterPay_Core_Logger::debug( 'RESOURCE:: Auth param exists. Checking ...' );
     		$tokenInstance = new LaterPay_Core_Auth_Hmac( $api_key );
     		if ( $tokenInstance->validate_token( $client->get_laterpay_token(), time(), $auth ) ) {
@@ -181,7 +179,7 @@ class LaterPay_Helper_File
     	}
 
     	// check access
-    	if ( ! empty($aid) ) {
+    	if ( ! empty( $aid ) ) {
     		LaterPay_Core_Logger::debug( 'RESOURCE:: Checking access in API ...' );
     		$result = $client->get_access( $aid );
     		if ( ! empty( $result ) && isset( $result['articles'][$aid] ) ) {
@@ -205,7 +203,7 @@ class LaterPay_Helper_File
     }
 
     /**
-     * Gets the file name
+     * Get the file name of a secured file.
      *
      * @param string $file
      *
@@ -231,11 +229,11 @@ class LaterPay_Helper_File
     }
 
     /**
-     * Send the file to the user
+     * Send a secured file to the user.
      *
-     * @param	string $file
+     * @param string $file
      *
-     * @return	void
+     * @return void
      */
     protected function send_response( $file ) {
     	global $response;
@@ -267,13 +265,13 @@ class LaterPay_Helper_File
     }
 
 	/**
-	 * getting the encrypted content by a given post_id
+	 * Get the content of a paid post with encrypted links to contained files.
 	 *
-	 * @param   int $post_id
-	 * @param   string $content
-	 * @param   string $use_auth
+	 * @param int    $post_id
+	 * @param string $content
+	 * @param string $use_auth
 	 *
-	 * @return  string $content
+	 * @return string $content
 	 */
 	public static function get_encrypted_content( $post_id, $content, $use_auth ) {
         // encrypt links to the resources
