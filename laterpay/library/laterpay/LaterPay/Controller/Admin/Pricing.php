@@ -45,23 +45,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * @see LaterPay_Controller_Abstract::load_assets()
+     * @see LaterPay_Controller_Abstract::render_page
      */
     public function render_page() {
         $this->load_assets();
 
-        $category_price_model   = new LaterPay_Model_CategoryPrice();
-        $category_prices        = $category_price_model->get_categories_prices();
-        $currency_model         = new LaterPay_Model_Currency();
-        $currencies             = $currency_model->get_currencies();
+        $category_price_model           = new LaterPay_Model_CategoryPrice();
+        $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
+        $currency_model                 = new LaterPay_Model_Currency();
+        $currencies                     = $currency_model->get_currencies();
 
-        $this->assign( 'category_prices',           $category_prices );
-        $this->assign( 'currencies',                $currencies );
-        $this->assign( 'standard_currency',         get_option( 'laterpay_currency' ) );
-        $this->assign( 'plugin_is_in_live_mode',    get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
-        $this->assign( 'global_default_price',      LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
-        $this->assign( 'top_nav',                   $this->get_menu() );
-        $this->assign( 'admin_menu',                LaterPay_Helper_View::get_admin_menu() );
+        $this->assign( 'categories_with_defined_price', $categories_with_defined_price );
+        $this->assign( 'currencies',                    $currencies );
+        $this->assign( 'standard_currency',             get_option( 'laterpay_currency' ) );
+        $this->assign( 'plugin_is_in_live_mode',        get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
+        $this->assign( 'global_default_price',          LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
+        $this->assign( 'top_nav',                       $this->get_menu() );
+        $this->assign( 'admin_menu',                    LaterPay_Helper_View::get_admin_menu() );
 
         $this->render( 'backend/tabs/pricing' );
     }

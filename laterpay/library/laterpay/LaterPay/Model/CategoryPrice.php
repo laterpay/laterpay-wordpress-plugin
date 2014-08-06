@@ -32,11 +32,11 @@ class LaterPay_Model_CategoryPrice
     }
 
     /**
-     * Get categories with defined category default prices.
+     * Get all categories with a defined category default price.
      *
      * @return array categories
      */
-    public function get_categories_prices() {
+    public function get_categories_with_defined_price() {
         global $wpdb;
 
         $sql = "
