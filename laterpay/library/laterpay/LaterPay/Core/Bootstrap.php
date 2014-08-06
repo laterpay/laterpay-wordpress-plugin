@@ -300,9 +300,6 @@ class LaterPay_Core_Bootstrap
             array(
                 'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
                 'lpBalanceUrl'  => $balance_url,
-                'getArticleUrl' => plugins_url( 'laterpay/scripts/laterpay-article-script.php' ),
-                'getFooterUrl'  => plugins_url( 'laterpay/scripts/laterpay-footer-script.php' ),
-                'getTitleUrl'   => plugins_url( 'laterpay/scripts/laterpay-title-script.php' ),
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
             )
