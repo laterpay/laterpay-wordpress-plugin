@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Wed Aug 06 2014 11:09:42 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Aug 06 2014 12:33:18 GMT+0200 (CEST)\n"
 "Last-Translator: tester <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -557,7 +557,7 @@ msgstr "Ihnen fehlt die Berechtigung für diese Aktion."
 
 #: ../library/laterpay/LaterPay/Controller/Admin.php:496 ..
 #: library/laterpay/LaterPay/Controller/Admin.php:524 ..
-#: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:98 ..
+#: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:112 ..
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:97 ..
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:274 ..
 #: library/laterpay/LaterPay/Controller/Admin/Appearance.php:89 ..
@@ -595,6 +595,14 @@ msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Sandbox Merchant
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:168
 msgid "The API key you entered is not a valid LaterPay Sandbox API key! "
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay Sandbox API Key!"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/GetStarted.php:77
+msgid "Your merchant id is not valid."
+msgstr "Ihre Merchant ID ist nicht gültig."
+
+#: ../library/laterpay/LaterPay/Controller/Admin/GetStarted.php:86
+msgid "Your sandbox API key is not valid."
+msgstr "Ihr Sandbox API Key ist nicht gültig."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:27
 msgid "The API key you entered is not a valid LaterPay API key! "
@@ -725,6 +733,22 @@ msgstr "Preis"
 #: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:21
 msgid "Price Type"
 msgstr "Preistyp"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:58
+msgid "individual price"
+msgstr "Individueller Preis"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:62
+msgid "dynamic individual price"
+msgstr "Individueller Preis (dynamisch)"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:66
+msgid "category default price"
+msgstr "Kategorie-Standardpreis"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:70
+msgid "global default price"
+msgstr "Standardpreis"
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:69
 msgid ""
