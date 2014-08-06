@@ -172,15 +172,18 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Deactivate plugin.
+     * Sets option 'laterpay_plugin_is_activated' to false, if the installation was successfully activated.
      *
      * @wp-hook register_deactivation_hook
      *
-     * @return  bool
+     * @return void
      */
     public function deactivate() {
-        return delete_option( 'laterpay_plugin_is_activated' );
+        $activated = get_option( 'laterpay_plugin_is_activated', '' );
+        if ( $activated == '1' ) {
+            update_option( 'laterpay_plugin_is_activated', '0' );
+        }
     }
-
 
     /**
      * Register custom menu in admin panel.

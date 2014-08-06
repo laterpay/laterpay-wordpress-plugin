@@ -8,7 +8,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     const POST_TEASER_CONTENT_POINTER   = 'lpwpp03';
 
     /**
-     * Add plugin to administrator panel.
+     * Show plugin in administrator panel.
      *
      * @return  void
      */
@@ -25,15 +25,18 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         );
 
         $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        if ( $activated === '' ) { // never activated before
+        // don't render submenu links, if the plugin was never activated before
+        if ( $activated === '' ) {
             return;
         }
-        $page_number = 0;
-        $menu = LaterPay_Helper_View::get_admin_menu();
+        $page_number    = 0;
+        $menu           = LaterPay_Helper_View::get_admin_menu();
         foreach ( $menu as $name => $page ) {
-            if ( $activated && $name == 'get_started' ) {
+            // don't render 'get started' submenu link, if the plugin was activated before
+            if ( $activated !== '' && $name == 'get_started' ) {
                 continue;
             }
+
             $slug = ! $page_number ? $plugin_page : $page['url'];
 
             $page_id = add_submenu_page(
@@ -47,13 +50,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             add_action( 'load-' . $page_id, array( $this, 'help_' . $name ) );
             $page_number++;
         }
-
     }
 
     /**
      *
-     * @param   string $name
-     * @param   mixed $args
+     * @param string $name
+     * @param mixed  $args
      *
      * @return void
      */
@@ -118,27 +120,23 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         if ( isset( $_GET['tab'] ) ) {
             $tab = $_GET['tab'];
         }
+
         $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        // return default tab, if no specific tab is requested
-        if ( empty( $tab ) ) {
-            if ( $activated == '0' ) {
-                $tab            = 'get_started';
-                $_GET['tab']    = 'get_started';
-            } else {
-                $tab            = 'pricing';
-                $_GET['tab']    = 'pricing';
-            }
-        }
-        // return default tab, if plugin is already activated and get started tab is requested
-        if ( $activated == '1' && $tab == 'get_started' ) {
-            $tab                = 'pricing';
-            $_GET['tab']        = 'pricing';
-        }
 
         // always return the get started tab, if the plugin has never been activated before
         if ( $activated === '' ) {
-            $tab                = 'get_started';
-            $_GET['tab']        = 'get_started';
+            $tab            = 'get_started';
+            $_GET['tab']    = 'get_started';
+        }
+        // return default tab, if no specific tab is requested
+        if ( empty( $tab ) ) {
+            $tab            = 'pricing';
+            $_GET['tab']    = 'pricing';
+        }
+        // return default tab, if plugin is already activated and get started tab is requested
+        if ( $activated == '1' && $tab == 'get_started' ) {
+            $tab            = 'pricing';
+            $_GET['tab']    = 'pricing';
         }
 
         switch ( $tab ) {

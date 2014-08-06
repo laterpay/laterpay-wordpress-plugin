@@ -247,7 +247,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 			)
 		);
 
-		add_option( 'laterpay_plugin_is_activated',      '' );
 		add_option( 'laterpay_teaser_content_only',      '1' );
 		add_option( 'laterpay_plugin_is_in_live_mode',   '0' );
 		add_option( 'laterpay_sandbox_merchant_id',      '' );
@@ -257,13 +256,17 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		add_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
 		add_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
 		update_option( 'laterpay_version',               $this->config->version );
+        // option 'laterpay_plugin_is_activated' is set to empty on installation, to be able to tell between a fresh
+        // installation and an activated but deactivated installation, to lead the user through the get started process,
+        // if it is a fresh installation
+        add_option( 'laterpay_plugin_is_activated',      '' );
 
 		// clear opcode cache
 		LaterPay_Helper_Cache::reset_opcode_cache();
 
-		// activate plugin
+		// re-activate deactivated installation
 		$activated = get_option( 'laterpay_plugin_is_activated', '' );
-		if ( $activated !== '' ) { // never activated before
+		if ( $activated == '0' ) {
 			update_option( 'laterpay_plugin_is_activated', '1' );
 		}
 
