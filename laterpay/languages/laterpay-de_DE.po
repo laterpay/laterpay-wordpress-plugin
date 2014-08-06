@@ -1,32 +1,38 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: LaterPay\n"
+"Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: 2014-08-05 21:53+0100\n"
-"Last-Translator: Dominik Rodler <drodler@laterpay.net>\n"
-"Language-Team: \n"
-"Language: de_DE\n"
+"PO-Revision-Date: Wed Aug 06 2014 11:09:42 GMT+0200 (CEST)\n"
+"Last-Translator: tester <twoldrich@laterpay.net>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: German\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
-"X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Loco-Target-Locale: de_DE"
 
-#: ../library/laterpay/LaterPay/Core/Bootstrap.php:296
+#: ../library/laterpay/LaterPay/Core/Bootstrap.php:304
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
-msgstr ""
-"Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
+msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../library/laterpay/LaterPay/Core/Bootstrap.php:313
-msgid "Settings"
-msgstr "Einstellungen"
+#: ../library/laterpay/LaterPay/Core/Bootstrap.php:305 ..
+#: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:28 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:182
+msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
+msgstr ""
+"Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
+"und 0,05 bis 5,00."
 
 #: ../library/laterpay/LaterPay/Helper/View.php:18
 msgid "Get started"
@@ -44,22 +50,22 @@ msgstr "Darstellung"
 msgid "Account"
 msgstr "Konto"
 
-#: ../library/laterpay/LaterPay/Controller/Install.php:40
+#: ../library/laterpay/LaterPay/Controller/Install.php:38
 #, php-format
 msgid ""
 "<p>LaterPay: Your server <strong>does not</strong> meet the minimum "
 "requirement of %s version %s or higher. You are running %s version %s.</p>"
 msgstr ""
-"<p>LaterPay: Ihr Server <strong>erfüllt nicht die Mindestanforderung</"
-"strong> von %s-Version %s oder neuer. Sie verwenden %s-Version %s.</p>"
+"<p>LaterPay: Ihr Server <strong>erfüllt nicht die "
+"Mindestanforderung</strong> von %s-Version %s oder neuer. Sie verwenden %s-"
+"Version %s.</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Install.php:53
+#: ../library/laterpay/LaterPay/Controller/Install.php:51
 #, php-format
 msgid "<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>"
-msgstr ""
-"<p>LaterPay: Verzeichnis %s <strong>ist nicht beschreibbar</strong>.</p>"
+msgstr "<p>LaterPay: Verzeichnis %s <strong>ist nicht beschreibbar</strong>.</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Install.php:70
+#: ../library/laterpay/LaterPay/Controller/Install.php:66
 msgid ""
 "The LaterPay plugin could not be installed. Please fix the reported issues "
 "and try again."
@@ -67,27 +73,27 @@ msgstr ""
 "Das LaterPay Plugin konnte nicht installiert werden. Bitte beheben Sie die "
 "genannten Probleme und versuchen Sie es erneut."
 
-#: ../library/laterpay/LaterPay/Controller/Abstract.php:50 ..
-#: /library/laterpay/LaterPay/Controller/Abstract.php:88
+#: ../library/laterpay/LaterPay/Controller/Abstract.php:52 ..
+#: library/laterpay/LaterPay/Controller/Abstract.php:90
 #, php-format
 msgid "%s : <code>%s</code> not found"
 msgstr "%s : <code>%s</code> nicht gefunden"
 
 #: ../library/laterpay/LaterPay/Controller/Admin.php:18 ..
-#: /library/laterpay/LaterPay/Controller/Admin.php:41
+#: library/laterpay/LaterPay/Controller/Admin.php:41
 msgid "LaterPay Plugin Settings"
 msgstr "LaterPay-Plugin-Einstellungen"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:218
+#: ../library/laterpay/LaterPay/Controller/Admin.php:216
 msgid "LaterPay"
 msgstr "LaterPay"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:219
+#: ../library/laterpay/LaterPay/Controller/Admin.php:217
 msgid ""
 "\n"
 "                                        <p>\n"
-"                                            <strong>Setting Prices</"
-"strong><br>\n"
+"                                            <strong>Setting "
+"Prices</strong><br>\n"
 "                                            You can set an individual price "
 "for each post.<br>\n"
 "                                            Possible prices are either 0 "
@@ -121,16 +127,16 @@ msgid ""
 "uses the first 60 words of each post as teaser content.\n"
 "                                            <br>\n"
 "                                            Nevertheless, we highly "
-"recommend manually creating the teaser for each post, to increase your "
-"sales.\n"
+"recommend manually creating the teaser for each post, to increase your sales."
+"\n"
 "                                        </p>"
 msgstr ""
 "\n"
 "<p>\n"
 "<strong>Preissetzung</strong><br>\n"
 "Sie können einen individuellen Preis für jeden Beitrag setzen.<br>\n"
-"Mögliche Preise sind entweder 0 Euro (kostenlos) oder jeder Preis zwischen "
-"0,05 Euro (einschließlich) und 5,00 Euro (einschließlich).<br>\n"
+"Mögliche Preise sind entweder 0 Euro (kostenlos) oder jeder Preis zwischen 0,"
+"05 Euro (einschließlich) und 5,00 Euro (einschließlich).<br>\n"
 "Wenn Sie einen individuellen Preis setzen, ist ein eventuell gesetzter "
 "Kategorie-Standardpreis für diesen Beitrag nicht mehr gültig,\n"
 "bis Sie den Kategorie-Standardpreis wieder für diesen Beitrag anwenden.\n"
@@ -148,8 +154,8 @@ msgstr ""
 "</p>\n"
 "<p>\n"
 "<strong>Teaser</strong><br>\n"
-"Der Teaser sollte Ihren Besuchern einen ersten Eindruck von dem Inhalt "
-"geben, den Sie verkaufen möchten.<br>\n"
+"Der Teaser sollte Ihren Besuchern einen ersten Eindruck von dem Inhalt geben,"
+" den Sie verkaufen möchten.<br>\n"
 "Sie müssen nicht für jeden Beitrag in Ihrem Blog einen neuen Teaser "
 "erstellen:<br>\n"
 "Standardmäßig nutzt das LaterPay Plugin die ersten 60 Zeichen jedes Beitrags "
@@ -159,449 +165,434 @@ msgstr ""
 "um die Attraktivität des Beitrags zu steigern.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:257 ..
-#: /views/backend/tabs/pricing.php:23
+#: ../library/laterpay/LaterPay/Controller/Admin.php:255 ..
+#: views/backend/tabs/pricing.php:23
 msgid "Global Default Price"
 msgstr "Standardpreis"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:258
+#: ../library/laterpay/LaterPay/Controller/Admin.php:256
 msgid ""
 "\n"
-"                <p>\n"
-"                    The global default price is used for all posts, for "
-"which no category default price or\n"
-"                    individual price has been set.<br>\n"
-"                    Accordingly, setting the global default price to 0 Euro "
-"makes all articles free,\n"
-"                    for which no category default price or individual price "
-"has been set.\n"
-"                </p>"
+"                                                    <p>\n"
+"                                                        The global default "
+"price is used for all posts, for which no\n"
+"                                                        category default "
+"price or individual price has been set.<br>\n"
+"                                                        Accordingly, setting "
+"the global default price to 0 Euro makes\n"
+"                                                        all articles free, "
+"for which no category default price or\n"
+"                                                        individual price has "
+"been set.\n"
+"                                                    </p>"
 msgstr ""
-"\n"
 "<p>\n"
-"Der Standardpreis wird für alle Beiträge genutzt, für die kein Kategorie-"
-"Standardpreis\n"
-"gesetzt wurde.<br>\n"
-"Wenn Sie also den Standardpreis auf 0 Euro setzen, werden alle Artikel "
-"kostenfrei,\n"
-"für die kein Kategorie-Standardpreis oder individueller Preis gesetzt "
-"wurde.\n"
+"Der Standardpreis wird für alle Beiträge verwendet, für die kein Kategorie-"
+"Standardpreis oder individueller Preis festgelegt wurde.<br>\n"
+"Bei einem Standardpreis von 0 Euro sind somit alle Beiträge kostenlos, für "
+"die kein Kategorie-Standardpreis oder individueller Preis gesetzt wurde.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:270 ..
-#: /views/backend/tabs/pricing.php:56
+#: ../library/laterpay/LaterPay/Controller/Admin.php:269 ..
+#: views/backend/tabs/pricing.php:56
 msgid "Category Default Prices"
 msgstr "Kategorie-Standardpreise"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:271
+#: ../library/laterpay/LaterPay/Controller/Admin.php:270
 msgid ""
 "\n"
-"                <p>\n"
-"                    A category default price is applied to all posts in a "
-"given category that don't have an\n"
-"                    individual price.<br>\n"
-"                    A category default price overwrites the global default "
-"price.<br>\n"
-"                    If a post belongs to multiple categories, you can choose "
-"on the add / edit post page, which category\n"
-"                    default price should be effective.<br>\n"
-"                    For example, if you have set a global default price of "
-"0.15 Euro, but a post belongs to a category\n"
-"                    with a category default price of 0.30 Euro, that post "
-"will sell for 0.30 Euro.\n"
-"                </p>"
+"                                                    <p>\n"
+"                                                        A category default "
+"price is applied to all posts in a given\n"
+"                                                        category that don't "
+"have an individual price.<br>\n"
+"                                                        A category default "
+"price overwrites the global default price.<br>\n"
+"                                                        If a post belongs to "
+"multiple categories, you can choose on\n"
+"                                                        the add / edit post "
+"page, which category default price should\n"
+"                                                        be effective.<br>\n"
+"                                                        For example, if you "
+"have set a global default price of 0.15 Euro,\n"
+"                                                        but a post belongs "
+"to a category with a category default price\n"
+"                                                        of 0.30 Euro, that "
+"post will sell for 0.30 Euro.\n"
+"                                                    </p>"
 msgstr ""
-"\n"
 "<p>\n"
 "Ein Kategorie-Standardpreis wird auf alle Beiträge einer Kategorie "
-"angewendet,\n"
-"für die kein individueller Preis gesetzt wurde.<br>\n"
+"angewendet, für die kein individueller Preis gesetzt wurde.<br>\n"
 "Ein Kategorie-Standardpreis überschreibt den Standardpreis.<br>\n"
-"Wenn ein Beitrag mehreren Kategorien zugeordnet ist, können Sie auf der "
-"Seite\n"
+"Wenn ein Beitrag zu mehreren Kategorien gehört, können Sie auf der Seite "
 "\"Neuen Beitrag erstellen\" bzw. \"Beitrag bearbeiten\" wählen, welcher "
-"Kategorie-Standardpreis\n"
-"genutzt werden soll.<br>\n"
-"Wenn Sie z. B. einen Standardpreis von 0,15 Euro gesetzt haben, ein Beitrag "
-"aber in einer Kategorie\n"
-"mit Kategorie-Standardpreis 0,30 Euro liegt, wird dieser Beitrag für 0,30 "
-"Euro verkauft.\n"
+"Kategorie-Standardpreis angewendet werden soll.<br>\n"
+"Wenn Sie also z. B. einen Standardpreis von 0,15 Euro gesetzt haben und ein "
+"Beitrag in einer Kategorie mit Kategorie-Standardpreis 0,30 Euro liegt, "
+"kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:286 ..
-#: /views/backend/tabs/pricing.php:143
+#: ../library/laterpay/LaterPay/Controller/Admin.php:287 ..
+#: views/backend/tabs/pricing.php:143
 msgid "Currency"
 msgstr "Währung"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:287
+#: ../library/laterpay/LaterPay/Controller/Admin.php:288
 msgid ""
 "\n"
-"                <p>\n"
-"                    You can choose between different currencies for your "
-"blog.<br>\n"
-"                    Changing the standard currency will not convert the "
-"prices you have set.\n"
-"                    Only the currency code next to the price is changed."
-"<br>\n"
-"                    For example, if your global default price is 0.10 Euro "
-"and you change the default currency to U.S.\n"
-"                    dollar, the global default price will be 0.10 U.S. "
-"dollar.\n"
-"                </p>"
+"                                                    <p>\n"
+"                                                        You can choose "
+"between different currencies for your blog.<br>\n"
+"                                                        Changing the "
+"standard currency will not convert the prices you\n"
+"                                                        have set.\n"
+"                                                        Only the currency "
+"code next to the price is changed.<br>\n"
+"                                                        For example, if your "
+"global default price is 0.10 Euro and you\n"
+"                                                        change the default "
+"currency to U.S. dollar, the global default\n"
+"                                                        price will be 0.10 U."
+"S. dollar.\n"
+"                                                    </p>"
 msgstr ""
-"\n"
 "<p>\n"
 "Sie können zwischen verschiedenen Währungen für Ihr Blog wählen.<br>\n"
-"Wenn Sie die Standardwährung ändern, werden die Preise, die Sie gesetzt "
-"haben, nicht umgerechnet.\n"
-"Nur der Währungscode, der neben einem Preis angezeigt wird, wird verändert."
-"<br>\n"
-"Wenn Sei also einen Standardpreis von 0,10 Euro gesetzt haben und die "
-"Standardwährung\n"
-"in U.S. dollar ändern, wird der Standardpreis in Zukunft 0,10 U.S. dollar "
-"betragen.</p>"
+"Wenn Sie die Währung Ihres Blogs ändern, werden bereits gesetzte Preise "
+"nicht umgerechnet.\n"
+"Nur die angezeigte Währung ändert sich.<br>\n"
+"Wenn Sie also z. B. einen Standardpreis von 0,10 Euro gesetzt haben und die "
+"Standardwährung auf U.S. dollar ändern, wird der Standardpreis 0,10 U.S. "
+"dollar betragen. \n"
+"</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:309
+#: ../library/laterpay/LaterPay/Controller/Admin.php:312
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:310
+#: ../library/laterpay/LaterPay/Controller/Admin.php:313
 msgid ""
 "\n"
-"                <p>\n"
-"                    The preview mode defines, how teaser content is shown to "
-"your visitors.<br>\n"
-"                    You can choose between two preview modes:\n"
-"                </p>\n"
-"                <ul>\n"
-"                    <li><strong>Teaser only</strong> &ndash; This mode shows "
-"only the teaser with an unobtrusive purchase link below.</li>\n"
-"                    <li>\n"
-"                        <strong>Teaser + overlay</strong> &ndash; This mode "
-"shows the teaser and an excerpt of the full content under a\n"
-"                        semi-transparent overlay that briefly explains "
-"LaterPay.<br>\n"
-"                        The plugin never loads the entire content before a "
-"user has purchased it.\n"
-"                    </li>\n"
-"                </ul>"
+"                                                    <p>\n"
+"                                                        The preview mode "
+"defines, how teaser content is shown to your\n"
+"                                                        visitors.<br>\n"
+"                                                        You can choose "
+"between two preview modes:\n"
+"                                                    </p>\n"
+"                                                    <ul>\n"
+"                                                        <li>\n"
+"                                                            <strong>Teaser "
+"only</strong> &ndash; This mode shows only\n"
+"                                                            the teaser with "
+"an unobtrusive purchase link below.\n"
+"                                                        </li>\n"
+"                                                        <li>\n"
+"                                                            <strong>Teaser + "
+"overlay</strong> &ndash; This mode shows\n"
+"                                                            the teaser and "
+"an excerpt of the full content under a\n"
+"                                                            semi-transparent "
+"overlay that briefly explains LaterPay.<br>\n"
+"                                                            The plugin never "
+"loads the entire content before a user has\n"
+"                                                            purchased it.\n"
+"                                                        </li>\n"
+"                                                    </ul>"
 msgstr ""
-"\n"
 "<p>\n"
-"Der Vorschau-Modus legt fest, wie ein Besucher den Teaser zu einem Beitrag "
-"sieht.<br>\n"
-"Sie können zwischen zwei Vorschau-Modi wählen:\n"
+"Der Vorschau-Modus definiert, wie Ihre Besucher den Teaser-Inhalt eines "
+"Beitrags sehen.<br>\n"
 "</p>\n"
 "<ul>\n"
-"<li><strong>Nur Teaser</strong> &ndash; Dieser Modus zeigt nur den Teaser "
-"und einen unaufdringlichen LaterPay Kauflink darunter.</li>\n"
 "<li>\n"
-"<strong>Teaser + Overlay</strong> &ndash; Dieser Modus zeigt den Teaser und "
-"einen Auszug des Volltextes unter einem Overlay,\n"
-"das LaterPay in wenigen Worten erklärt.<br>\n"
-"Das Plugin lädt niemals den gesamten Beitrag, bevor er nicht gekauft wurde.\n"
+"<strong>Nur Teaser</strong> &ndash; In diesem Modus wird nur der Teaser und "
+"darunter ein unaufdringlicher Kauflink angezeigt. \n"
 "</li>\n"
-"</ul>"
+"<li>\n"
+"<strong>Teaser + Auszug unter Overlay</strong> &ndash; In diesem Modus wird "
+"der Teaser und ein Auszug des Volltextes unter einem halbtransparenten "
+"Overlay angezeigt, das LaterPay kurz erklärt.<br>\n"
+"Das Plugin lädt niemals den vollständigen Inhalt eines Beitrags bevor der "
+"Nutzer ihn nicht gekauft hat.\n"
+"</li>\n"
+"</ul>\n"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:328
+#: ../library/laterpay/LaterPay/Controller/Admin.php:337
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:329
+#: ../library/laterpay/LaterPay/Controller/Admin.php:338
 msgid ""
 "\n"
-"                <p>\n"
-"                    The plugin provides a code snippet you can insert into "
-"your theme that displays the user's\n"
-"                    current LaterPay invoice total and provides a direct "
-"link to his LaterPay user backend.<br>\n"
-"                    You <em>don't have to</em> integrate this snippet, but "
-"we recommend it for transparency reasons.\n"
-"                </p>"
+"                                                    <p>\n"
+"                                                        The plugin provides "
+"a code snippet you can insert into your\n"
+"                                                        theme that displays "
+"the user's current LaterPay invoice total\n"
+"                                                        and provides a "
+"direct link to his LaterPay user backend.<br>\n"
+"                                                        You <em>don't have "
+"to</em> integrate this snippet, but we\n"
+"                                                        recommend it for "
+"transparency reasons.\n"
+"                                                    </p>"
 msgstr ""
-"\n"
 "<p>\n"
-"Das Plugin stellt ein Code Snippet bereit, das Sie in Ihr Theme integrieren "
-"können\n"
-"und das Ihren Nutzern immer den aktuellen Stand Ihrer LaterPay Rechnung "
-"anzeigt.\n"
-"Mit einem Klick auf die LaterPay Rechnungsanzeige gelangt er direkt in sein "
-"LaterPay Nutzerkonto.<br>\n"
-"Sie müssen das Snippet <em>nicht verwenden</em>, aus Transparenzgründen "
-"empfehlen wir es aber.\n"
+"Das Plugin bietet ein HTML-Schnipsel, das Sie in Ihr Theme integrieren "
+"können. Es zeigt dem Nutzer den aktuellen Stand seiner LaterPay Rechnung an "
+"und bietet ihm die Möglichkeit, direkt in sein LaterPay Nutzerkonto zu "
+"gelangen.<br>\n"
+"Sie <em>müssen die Rechnungsanzeige nicht verwenden</em>, wir empfehlen es "
+"aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:349
+#: ../library/laterpay/LaterPay/Controller/Admin.php:360
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:350
+#: ../library/laterpay/LaterPay/Controller/Admin.php:361
 msgid ""
 "\n"
-"                <p>\n"
-"                    To access the LaterPay API, you need LaterPay API "
-"credentials, consisting of\n"
-"                </p>\n"
-"                <ul>\n"
-"                    <li><strong>Merchant ID</strong> (a 22-character string) "
-"and</li>\n"
-"                    <li><strong>API Key</strong> (a 32-character string).</"
-"li>\n"
-"                </ul>\n"
-"                <p>\n"
-"                    LaterPay runs two completely separated API environments "
-"that need\n"
-"                    <strong>different API credentials:</strong>\n"
-"                </p>\n"
-"                <ul>\n"
-"                    <li>\n"
-"                        The <strong>Sandbox</strong> environment for testing "
-"and development use.<br>\n"
-"                        In this environment you can play around with "
-"LaterPay without fear, as your transactions\n"
-"                        will only be simulated and not actually be processed."
+"                                                    <p>\n"
+"                                                        To access the "
+"LaterPay API, you need LaterPay API credentials,\n"
+"                                                        consisting of\n"
+"                                                    </p>\n"
+"                                                    <ul>\n"
+"                                                        <li><strong>Merchant "
+"ID</strong> (a 22-character string) and</li>\n"
+"                                                        <li><strong>API "
+"Key</strong> (a 32-character string).</li>\n"
+"                                                    </ul>\n"
+"                                                    <p>\n"
+"                                                        LaterPay runs two "
+"completely separated API environments that\n"
+"                                                        need "
+"<strong>different API credentials:</strong>\n"
+"                                                    </p>\n"
+"                                                    <ul>\n"
+"                                                        <li>\n"
+"                                                            The "
+"<strong>Sandbox</strong> environment for testing and\n"
+"                                                            development use."
 "<br>\n"
-"                        LaterPay guarantees no particular service level of "
-"availability for this environment.\n"
-"                    </li>\n"
-"                    <li>\n"
-"                        The <strong>Live</strong> environment for production "
-"use.</br>\n"
-"                        In this environment all transactions will be "
-"actually processed and credited to your\n"
-"                        LaterPay merchant account.<br>\n"
-"                        The LaterPay SLA for availability and response time "
-"apply.\n"
-"                    </li>\n"
-"                </ul>\n"
-"                <p>\n"
-"                    The LaterPay plugin comes with a set of <strong>public "
-"Sandbox credentials</strong> to allow\n"
-"                    immediate testing use.\n"
-"                </p>\n"
-"                <p>\n"
-"                    If you want to switch to <strong>Live mode</strong> and "
-"sell content, you need your individual\n"
-"                    <strong>Live API credentials.</strong><br>\n"
-"                    Due to legal reasons, we can email you those credentials "
-"only once we have received a\n"
-"                    <strong>signed merchant contract</strong> including "
-"<strong>all necessary identification\n"
-"                    documents</strong> by ground mail.\n"
-"                </p>"
+"                                                            In this "
+"environment you can play around with LaterPay\n"
+"                                                            without fear, as "
+"your transactions will only be simulated\n"
+"                                                            and not actually "
+"be processed.<br>\n"
+"                                                            LaterPay "
+"guarantees no particular service level of\n"
+"                                                            availability for "
+"this environment.\n"
+"                                                        </li>\n"
+"                                                        <li>\n"
+"                                                            The "
+"<strong>Live</strong> environment for production use.</br>\n"
+"                                                            In this "
+"environment all transactions will be actually\n"
+"                                                            processed and "
+"credited to your LaterPay merchant account.<br>\n"
+"                                                            The LaterPay SLA "
+"for availability and response time apply.\n"
+"                                                        </li>\n"
+"                                                    </ul>\n"
+"                                                    <p>\n"
+"                                                        The LaterPay plugin "
+"comes with a set of <strong>public Sandbox\n"
+"                                                        credentials</strong> "
+"to allow immediate testing use.\n"
+"                                                    </p>\n"
+"                                                    <p>\n"
+"                                                        If you want to "
+"switch to <strong>Live mode</strong> and sell\n"
+"                                                        content, you need "
+"your individual <strong>Live API credentials.\n"
+"                                                        </strong><br>\n"
+"                                                        Due to legal reasons,"
+" we can email you those credentials only\n"
+"                                                        once we have "
+"received a <strong>signed merchant contract</strong>\n"
+"                                                        including "
+"<strong>all necessary identification documents</strong>\n"
+"                                                        by ground mail.\n"
+"                                                    </p>"
 msgstr ""
-"\n"
-"<p>\n"
-"Um auf die LaterPay API zugreifen zu können, benötigen Sie API Zugangsdaten, "
-"bestehend aus:\n"
-"</p>\n"
-"<ul>\n"
-"<li><strong>Merchant ID</strong> (22 Zeichen) und</li>\n"
-"<li><strong>API Key</strong> (32 Zeichen).</li>\n"
-"</ul>\n"
-"<p>\n"
-"LaterPay betreibt zwei vollständig unabhängige API Umgebungen,\n"
-"<strong>für die Sie unterschiedliche Zugangsdaten benötigen:</strong>\n"
-"</p>\n"
-"<ul>\n"
-"<li>\n"
-"Die <strong>Sandbox</strong> Umgebung für Test- und Entwicklungsarbeiten."
-"<br>\n"
-"In dieser Umgebung können Sie mit LaterPay gefahrlos experimentieren, da "
-"Zahlungen\n"
-"nur simuliert und nicht tatsächlich gebucht werden.<br>\n"
-"Für die Sandbox Umgebung garantiert LaterPay keine ständige Verfügbarkeit.\n"
-"</li>\n"
-"<li>\n"
-"Die <strong>Live</strong> Live Umgebung für den Produktiveinsatz.</br>\n"
-"In dieser Umgebung werden alle Transaktionen tatsächlich gebucht und Ihrem\n"
-"LaterPay Händler Konto zugerechnet.<br>\n"
-"Für diese Umgebung gilt das LaterPay Service Level Agreement für "
-"Verfügbarkeit und Response Time.\n"
-"</li>\n"
-"</ul>\n"
-"<p>\n"
-"Das LaterPay Plugin stellt automatisch <strong>öffentliche Sandbox "
-"Zugangsdaten</strong> bereit,\n"
-"um ein sofortiges Testen zu ermöglichen.\n"
-"</p>\n"
-"<p>\n"
-"Wenn Sie in den <strong>Live Modus</strong> wechseln und Inhalte verkaufen "
-"möchten, benötigen Sie\n"
-"individuelle <strong>Live API Zugangsdaten.</strong><br>\n"
-"Aus rechtlichen Gründen können wir Ihnen diese Zugangsdaten erst dann per E-"
-"Mail zusenden, wenn wir\n"
-"einen <strong>unterzeichneten Händlervertrag</strong> inklusive "
-"<strong>aller Dokumente zur Identifizierung</strong>\n"
-"per Post erhalten haben.\n"
-"</p>"
+"Um auf die LaterPay API zugreifen zu können, benötigen Sie LaterPay API "
+"Zugangsdaten, bestehend aus\n"
+"                                                    </p>\n"
+"                                                    <ul>\n"
+"                                                        <li><strong>Merchant "
+"ID</strong> (22 Zeichen) und</li>\n"
+"                                                        <li><strong>API "
+"Key</strong> (32 Zeichen).</li>\n"
+"                                                    </ul>\n"
+"                                                    <p>\n"
+"                                                        LaterPay betreibt "
+"zwei vollständig voneinander unabhängige API Umgebungen, für die "
+"<strong>unterschiedliche Zugangsdaten</strong> benötigt werden:\n"
+"                                                    </p>\n"
+"                                                    <ul>\n"
+"                                                        <li>\n"
+"                                                            Die "
+"<strong>Sandbox</strong>-Umgebung für Test- und Entwicklungszwecke<br>\n"
+"                                                            In dieser "
+"Umgebung können Sie LaterPay gefahrlos ausprobieren, da Transaktionen nicht "
+"tatsächlich gebucht sondern nur simuliert werden.<br>\n"
+"                                                            Für diese "
+"Umgebung garantiert LaterPay keine ständige Verfügbarkeit.\n"
+"                                                        </li>\n"
+"                                                        <li>\n"
+"                                                            Die "
+"<strong>Live</strong>-Umgebung für den Produktivbetrieb.</br>\n"
+"                                                            In dieser "
+"Umgebung werden alle Transaktionen gebucht und Ihrem\n"
+"LaterPay Händlerkonto gutgeschrieben.<br>\n"
+"                                                            Für diese "
+"Umgebung gilt das LaterPay Service-Level-Agreement fü Verfügbarkeit und "
+"Response Time.\n"
+"                                                        </li>\n"
+"                                                    </ul>\n"
+"                                                    <p>\n"
+"                                                        Zusammen mit dem "
+"Plugin werden <strong>öffentliche API Zugangsdaten</strong> ausgeliefert, "
+"die ein sofortiges Testen erlauben.\n"
+"                                                    </p>\n"
+"                                                    <p>\n"
+"                                                       Wenn Sie in den "
+"<strong>Live-Modus</strong> wechseln und Inhalte verkaufen möchten, "
+"benötigen Sie Ihre persönlichen <strong>Live API Zugangsdaten.\n"
+"                                                        </strong><br>\n"
+"                                                        Aus rechtlichen "
+"Gründen können wir Ihnen diese Zugangsdaten erst dann per E-Mail zusenden, "
+"wenn wir einen <strong>unterzeichneten Händlervertrag</strong> und "
+"<strong>alle notwendigen Dokumente zu Ihrer Identifizierung als "
+"Händler</strong> per Post erhalten haben.\n"
+"                                                    </p>\n"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:392 ..
-#: /views/backend/tabs/account.php:139
+#: ../library/laterpay/LaterPay/Controller/Admin.php:409 ..
+#: views/backend/tabs/account.php:139
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:393
+#: ../library/laterpay/LaterPay/Controller/Admin.php:410
 msgid ""
 "\n"
-"                <p>You can run the LaterPay plugin in two modes:</p>\n"
-"                <ul>\n"
-"                    <li>\n"
-"                        <strong>Test Mode</strong> &ndash; The test mode "
-"lets you test your plugin configuration.<br>\n"
-"                        While providing the full plugin functionality, "
-"payments are only simulated and not\n"
-"                        actually processed.<br>\n"
-"                        The plugin will <em>only</em> be visible to admin "
-"users, not to visitors.\n"
-"                    </li>\n"
-"                    <li>\n"
-"                        <strong>Live Mode</strong> &ndash; In live mode, the "
-"plugin is publicly visible and manages\n"
-"                        access to paid content.<br>\n"
-"                        All payments are actually processed.\n"
-"                    </li>\n"
-"                </ul>\n"
-"                <p>\n"
-"                    Using the LaterPay plugin usually requires some "
-"adjustments on your theme.<br>\n"
-"                    Therefore, we recommend installing, configuring, and "
-"testing the LaterPay plugin on a test system\n"
-"                    before activating it on your production system.\n"
-"                </p>"
+"                                                    <p>You can run the "
+"LaterPay plugin in two modes:</p>\n"
+"                                                    <ul>\n"
+"                                                        <li>\n"
+"                                                            <strong>Test "
+"Mode</strong> &ndash; The test mode lets you\n"
+"                                                            test your plugin "
+"configuration.<br>\n"
+"                                                            While providing "
+"the full plugin functionality, payments are\n"
+"                                                            only simulated "
+"and not actually processed.<br>\n"
+"                                                            The plugin will "
+"<em>only</em> be visible to admin users,\n"
+"                                                            not to visitors.\n"
+"                                                        </li>\n"
+"                                                        <li>\n"
+"                                                            <strong>Live "
+"Mode</strong> &ndash; In live mode, the plugin\n"
+"                                                            is publicly "
+"visible and manages access to paid content.<br>\n"
+"                                                            All payments are "
+"actually processed.\n"
+"                                                        </li>\n"
+"                                                    </ul>\n"
+"                                                    <p>\n"
+"                                                        Using the LaterPay "
+"plugin usually requires some adjustments on\n"
+"                                                        your theme.<br>\n"
+"                                                        Therefore, we "
+"recommend installing, configuring, and testing\n"
+"                                                        the LaterPay plugin "
+"on a test system before activating it on\n"
+"                                                        your production "
+"system.\n"
+"                                                    </p>"
 msgstr ""
-"\n"
 "<p>Sie können das Plugin in zwei Modi betreiben:</p>\n"
-"<ul>\n"
-"<li>\n"
-"<strong>Test Modus</strong> &ndash; Im Testmodus können Sie Ihre Plugin "
-"Konfiguration testen.<br>\n"
-"Es stehen Ihnen alle Funktionen des Plugins zur Verfügung,\n"
-"Zahlungen werden jedoch nicht tatsächlich gebucht.<br>\n"
-"LaterPay ist <em>nur</em> für Admins sichtbar, nicht für reguläre Besucher.\n"
-"</li>\n"
-"<li>\n"
-"<strong>Live Modus</strong> &ndash; Im Live Modus ist das Plugin für alle "
-"Nutzer sichtbar und\n"
-"beschränkt den Zugang zu Bezahlinhalten.<br>\n"
-"Alle Zahlungen werden tatsächlich gebucht.\n"
-"</li>\n"
-"</ul>\n"
-"<p>\n"
-"In der Regel benötigt das Plugin ein paar Anpassungen an Ihrem Theme.<br>\n"
-"Daher empfehlen wir Ihnen, das Plugin auf einem Testsystem zu installieren, "
-"zu konfigurieren und zu testen,\n"
-"bevor Sie es auf Ihrem Produktivsystem aktivieren.\n"
-"</p>"
+"                                                    <ul>\n"
+"                                                        <li>\n"
+"                                                            <strong>Test-"
+"Modus</strong> &ndash; Im Test-Modus können Sie Ihre Plugin Konfiguration "
+"testen.<br>\n"
+"                                                            Dieser Modus "
+"bietet die volle Plugin-Funktionalität, Transaktionen werden aber nicht "
+"tatsächlich gebucht.<br>\n"
+"                                                            Das Plugin wird "
+"<em>nur</em> für Admins sichtbar sein und nicht für reguläre Besucher.\n"
+"                                                        </li>\n"
+"                                                        <li>\n"
+"                                                            <strong>Live-"
+"Modus</strong> &ndash; Im Live-Modus ist das Plugin für alle Nutzer sichtbar "
+"und beschränkt den Zugriff auf kostenpflichtige Inhalte.<br>\n"
+"                                                            Alle Zahlungen "
+"werden tatsächlich gebucht.\n"
+"                                                        </li>\n"
+"                                                    </ul>\n"
+"                                                    <p>\n"
+"                                                        In der Regel werden "
+"einige Änderungen an Ihrem Theme notwendig, wenn Sie das LaterPay WordPress "
+"Plugin verwenden.<br>\n"
+"                                                        Daher empfehlen wir, "
+"das Plugin auf einem Testsystem zu installieren, zu testen und zu "
+"konfigurieren, bevor Sie es auf Ihrem Produktivsystem aktivieren. \n"
+"                                                    </p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:456 ..
-#: /library/laterpay/LaterPay/Controller/Post/Pricing.php:444
-#: /library/laterpay/LaterPay/Controller/Admin/GetStarted.php:63
-#: /library/laterpay/LaterPay/Controller/Admin/Account.php:64
-#: /library/laterpay/LaterPay/Controller/Admin/Appearance.php:57
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:82
+#: ../library/laterpay/LaterPay/Controller/Admin.php:480 ..
+#: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:64 ..
+#: library/laterpay/LaterPay/Controller/Admin/Account.php:64 ..
+#: library/laterpay/LaterPay/Controller/Admin/Appearance.php:57 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:82
 msgid "You don't have sufficient user privileges to do this."
 msgstr "Ihnen fehlt die Berechtigung für diese Aktion."
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:472 ..
-#: /library/laterpay/LaterPay/Controller/Admin.php:500
-#: /library/laterpay/LaterPay/Controller/Post/Pricing.php:457
-#: /library/laterpay/LaterPay/Controller/Admin/GetStarted.php:90
-#: /library/laterpay/LaterPay/Controller/Admin/Account.php:97
-#: /library/laterpay/LaterPay/Controller/Admin/Account.php:273
-#: /library/laterpay/LaterPay/Controller/Admin/Appearance.php:89
-#: /library/laterpay/LaterPay/Controller/Admin/Appearance.php:100
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:111
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:141
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:257
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:371
+#: ../library/laterpay/LaterPay/Controller/Admin.php:496 ..
+#: library/laterpay/LaterPay/Controller/Admin.php:524 ..
+#: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:98 ..
+#: library/laterpay/LaterPay/Controller/Admin/Account.php:97 ..
+#: library/laterpay/LaterPay/Controller/Admin/Account.php:274 ..
+#: library/laterpay/LaterPay/Controller/Admin/Appearance.php:89 ..
+#: library/laterpay/LaterPay/Controller/Admin/Appearance.php:100 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:113 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:144 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:262 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:377
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:481
+#: ../library/laterpay/LaterPay/Controller/Admin.php:505
 msgid "Updated."
 msgstr "Aktualisiert."
 
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:35
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:36
 msgid "Additional Premium Content"
 msgstr "Zusätzlicher Premium-Inhalt"
 
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:52 ..
-#: /views/frontend/post/single.php:161
-#: /views/frontend/partials/post/purchase_button.php:16
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:53 ..
+#: views/frontend/post/single.php:161 ..
+#: views/frontend/partials/post/purchase_button.php:13
 #, php-format
 msgid "%s<small>%s</small>"
 msgstr "%s<small>%s</small>"
 
-#: ../library/laterpay/LaterPay/Controller/Post/Column.php:19
-msgid "Price"
-msgstr "Preis"
-
-#: ../library/laterpay/LaterPay/Controller/Post/Column.php:20
-msgid "Price Type"
-msgstr "Preis"
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:71
-msgid ""
-"Paid posts require some teaser content. Please fill in the Teaser Content "
-"field."
-msgstr ""
-"Kostenpflichtige Inhalte benötigen einen Teaser. Bitte geben Sie einen "
-"Teaser an."
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:72 ..
-#: /views/backend/partials/post/pricing/form.php:77
-msgid "Add dynamic pricing"
-msgstr "Dynamische Preissetzung hinzufügen"
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:73 ..
-#: /views/backend/partials/post/pricing/form.php:71
-msgid "Remove dynamic pricing"
-msgstr "Dynamische Preissetzung entfernen"
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:82
-msgid "default price"
-msgstr "Standardpreis"
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:83
-msgid "days"
-msgstr "Tage"
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:98
-msgid "Teaser Content"
-msgstr "Teaser für den Beitrag"
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:133
-msgid ""
-"This is shown to visitors, who haven't purchased the article yet. Use an "
-"excerpt of the article that makes them want to buy the whole thing! "
-msgstr ""
-"Dies wird Besuchern angezeigt, die den Beitrag noch nicht gekauft haben. "
-"Schreiben Sie einen Teaser, der Lust auf den gesamten Beitrag macht."
-
-#: ../library/laterpay/LaterPay/Controller/Post/Pricing.php:178
-msgid "Pricing for this Post"
-msgstr "Preis des Beitrags"
-
-#: ../library/laterpay/LaterPay/Controller/Admin/GetStarted.php:28 ..
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:179
-msgid ""
-"The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
-msgstr ""
-"Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
-"und 0,05 bis 5,00."
-
 #: ../library/laterpay/LaterPay/Controller/Admin/GetStarted.php:29 ..
-#: /library/laterpay/LaterPay/Controller/Admin/Account.php:133
-msgid ""
-"The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! "
-msgstr ""
-"Die eingegebene Merchant ID ist keine gültige LaterPay Sandbox Merchant ID!"
+#: library/laterpay/LaterPay/Controller/Admin/Account.php:133
+msgid "The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! "
+msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Sandbox Merchant ID!"
 
 #: ../library/laterpay/LaterPay/Controller/Admin/GetStarted.php:30 ..
-#: /library/laterpay/LaterPay/Controller/Admin/Account.php:168
+#: library/laterpay/LaterPay/Controller/Admin/Account.php:168
 msgid "The API key you entered is not a valid LaterPay Sandbox API key! "
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay Sandbox API Key!"
 
@@ -614,8 +605,7 @@ msgid "The Merchant ID you entered is not a valid LaterPay Merchant ID! "
 msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Merchant ID!"
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:29
-msgid ""
-"Switching into Live mode requires a valid Live Merchant ID and Live API Key."
+msgid "Switching into Live mode requires a valid Live Merchant ID and Live API Key."
 msgstr ""
 "Sie benötigen eine Live Merchant ID und einen Live API Key, um in den Live-"
 "Modus zu wechseln."
@@ -652,8 +642,7 @@ msgstr "Die Live Merchant ID wurde gelöscht."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:203
 msgid "The Merchant ID you entered is not a valid LaterPay Live Merchant ID! "
-msgstr ""
-"Die eingegebene Merchant ID ist keine gültige LaterPay Live Merchant ID!"
+msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Live Merchant ID!"
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:223
 msgid "Live API key verified and saved. You can now make REAL transactions."
@@ -669,7 +658,7 @@ msgstr "Der Live API Key wurde entfernt."
 msgid "The API key you entered is not a valid LaterPay Live API key! "
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay Live API Key!"
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Account.php:258
+#: ../library/laterpay/LaterPay/Controller/Admin/Account.php:259
 msgid ""
 "The LaterPay plugin is in LIVE mode now. All payments are actually booked "
 "and credited to your account."
@@ -677,7 +666,7 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im LIVE-Modus. Alle Zahlungen werden "
 "tatsächlich gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Account.php:265
+#: ../library/laterpay/LaterPay/Controller/Admin/Account.php:266
 msgid ""
 "The LaterPay plugin is in TEST mode now. Payments are only simulated and not "
 "actually booked."
@@ -687,8 +676,7 @@ msgstr ""
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Appearance.php:74
 msgid "Visitors will now see only the teaser content of paid posts."
-msgstr ""
-"Besucher sehen ab jetzt nur den Teaser eines kostenpflichtigen Beitrags."
+msgstr "Besucher sehen ab jetzt nur den Teaser eines kostenpflichtigen Beitrags."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Appearance.php:81
 msgid ""
@@ -698,38 +686,87 @@ msgstr ""
 "Besucher sehen ab jetzt den Teaser eines kostenpflichtigen Beitrags und "
 "einen Auszug des Artikels unter einem Overlay."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:159
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:162
 #, php-format
 msgid "The currency for this website is %s now."
 msgstr "Die Währung für diese Website ist jetzt %s."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:194
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:198
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:214
-msgid ""
-"The price you tried to set is not within the allowed range of 0 to 5.00."
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:218
+msgid "The price you tried to set is not within the allowed range of 0 to 5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist nicht im erlaubten Bereich von 0 bis "
 "5,00."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:246 ..
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:319
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:251 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:326
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:274 ..
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:297
-#: /library/laterpay/LaterPay/Controller/Admin/Pricing.php:341
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:279 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:302 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:346
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:364
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:370
 msgid "The default price for this category was deleted."
 msgstr "Der Standardpreis für diese Kategorie wurde gelöscht."
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:20
+msgid "Price"
+msgstr "Preis"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:21
+msgid "Price Type"
+msgstr "Preistyp"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:69
+msgid ""
+"Paid posts require some teaser content. Please fill in the Teaser Content "
+"field."
+msgstr ""
+"Kostenpflichtige Inhalte benötigen einen Teaser. Bitte geben Sie einen "
+"Teaser an."
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:70 ..
+#: views/backend/partials/post/pricing/form.php:78
+msgid "Add dynamic pricing"
+msgstr "Dynamische Preissetzung hinzufügen"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:71 ..
+#: views/backend/partials/post/pricing/form.php:72
+msgid "Remove dynamic pricing"
+msgstr "Dynamische Preissetzung entfernen"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:80
+msgid "default price"
+msgstr "Standardpreis"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:81
+msgid "days"
+msgstr "Tage"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:100
+msgid "Teaser Content"
+msgstr "Teaser für den Beitrag"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:109
+msgid "Pricing for this Post"
+msgstr "Preis des Beitrags"
+
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Metabox.php:146
+msgid ""
+"This is shown to visitors, who haven't purchased the article yet. Use an "
+"excerpt of the article that makes them want to buy the whole thing! "
+msgstr ""
+"Dies wird Besuchern angezeigt, die den Beitrag noch nicht gekauft haben. "
+"Schreiben Sie einen Teaser, der Lust auf den gesamten Beitrag macht."
 
 #: ../views/frontend/post/single.php:15
 msgid "Statistics for this Post"
@@ -832,12 +869,11 @@ msgstr ""
 "Sie sich registrieren und bezahlen."
 
 #: ../views/frontend/post/single.php:161 ..
-#: /views/frontend/partials/post/purchase_button.php:9
+#: views/frontend/partials/post/purchase_button.php:6
 msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
 
-#: ../views/backend/tabs/getstarted.php:36
-#: ../views/backend/tabs/account.php:44
+#: ../views/backend/tabs/getstarted.php:36 ../views/backend/tabs/account.php:44
 msgid "Paste Sandbox Merchant ID here"
 msgstr "Sandbox Merchant ID hier einfügen"
 
@@ -845,8 +881,7 @@ msgstr "Sandbox Merchant ID hier einfügen"
 msgid "Sandbox Merchant ID"
 msgstr "Sandbox Merchant ID"
 
-#: ../views/backend/tabs/getstarted.php:44
-#: ../views/backend/tabs/account.php:65
+#: ../views/backend/tabs/getstarted.php:44 ../views/backend/tabs/account.php:65
 msgid "Paste Sandbox API Key here"
 msgstr "Sandbox API Key hier einfügen"
 
@@ -869,17 +904,16 @@ msgid ""
 "laterpay.net\" target=\"blank\">merchant.laterpay.net</a>."
 msgstr ""
 "Um Inhalte an Besucher zu verkaufen, müssen Sie sich zuerst bei LaterPay als "
-"Händler registrieren und Ihre Live API Zugangsdaten anfordern auf <a href="
-"\"https://merchant.laterpay.net\" target=\"blank\">merchant.laterpay.net</a>"
+"Händler registrieren und Ihre Live API Zugangsdaten anfordern auf <a "
+"href=\"https://merchant.laterpay.net\" target=\"blank\">merchant.laterpay.net</a>"
 
 #: ../views/backend/tabs/getstarted.php:56
 msgid "The default price for posts is"
 msgstr "Der Standardpreis für Beiträge ist"
 
-#: ../views/backend/tabs/getstarted.php:62
-#: ../views/backend/tabs/pricing.php:40 .. /views/backend/tabs/pricing.php:81
-#: ../views/backend/tabs/pricing.php:116
-#: /views/backend/partials/post/pricing/form.php:17
+#: ../views/backend/tabs/getstarted.php:62 ../views/backend/tabs/pricing.php:40 ..
+#: views/backend/tabs/pricing.php:81 ../views/backend/tabs/pricing.php:116 ..
+#: views/backend/partials/post/pricing/form.php:17
 msgid "0.00"
 msgstr "0,00"
 
@@ -918,13 +952,13 @@ msgstr ""
 "Nach dem Aktivieren können Sie Ihre neuen Möglichkeiten auf der \"Neuen "
 "Beitrag erstellen\"-Seite ausprobieren."
 
-#: ../views/backend/tabs/appearance.php:12
-#: ../views/backend/tabs/account.php:12 .. /views/backend/tabs/pricing.php:12
+#: ../views/backend/tabs/appearance.php:12 ../views/backend/tabs/account.php:12 ..
+#: views/backend/tabs/pricing.php:12
 msgid "<strong>Test</strong> mode"
 msgstr "<strong>Test</strong>-Modus"
 
-#: ../views/backend/tabs/appearance.php:13
-#: ../views/backend/tabs/account.php:13 .. /views/backend/tabs/pricing.php:13
+#: ../views/backend/tabs/appearance.php:13 ../views/backend/tabs/account.php:13 ..
+#: views/backend/tabs/pricing.php:13
 msgid "Earn money in <i>live mode</i>"
 msgstr "Verdienen Sie Geld im <i>Live-Modus</i>"
 
@@ -1028,8 +1062,8 @@ msgstr "Alle Zahlungen werden gebucht und Ihrem Händlerkonto gutgeschrieben."
 #: ../views/backend/tabs/account.php:166
 msgid "Payments are only simulated and <strong>not actually booked</strong>."
 msgstr ""
-"Zahlungen werden nur simuliert und <strong>nicht tatsächlich gebucht</"
-"strong>."
+"Zahlungen werden nur simuliert und <strong>nicht tatsächlich "
+"gebucht</strong>."
 
 #: ../views/backend/tabs/account.php:167
 msgid "LaterPay is <strong>not visible for regular visitors</strong>."
@@ -1039,18 +1073,18 @@ msgstr "LaterPay ist <strong>für Besucher nicht sichtbar</strong>."
 msgid "<strong>Every post</strong> costs"
 msgstr "<strong>Jeder Beitrag</strong> kostet"
 
-#: ../views/backend/tabs/pricing.php:45 ../views/backend/tabs/pricing.php:88
-#: .. /views/backend/tabs/pricing.php:123
+#: ../views/backend/tabs/pricing.php:45 ../views/backend/tabs/pricing.php:88 ..
+#: views/backend/tabs/pricing.php:123
 msgid "Change"
 msgstr "Ändern"
 
-#: ../views/backend/tabs/pricing.php:46 ../views/backend/tabs/pricing.php:86
-#: .. /views/backend/tabs/pricing.php:121
+#: ../views/backend/tabs/pricing.php:46 ../views/backend/tabs/pricing.php:86 ..
+#: views/backend/tabs/pricing.php:121
 msgid "Save"
 msgstr "Speichern"
 
-#: ../views/backend/tabs/pricing.php:47 ../views/backend/tabs/pricing.php:87
-#: .. /views/backend/tabs/pricing.php:122
+#: ../views/backend/tabs/pricing.php:47 ../views/backend/tabs/pricing.php:87 ..
+#: views/backend/tabs/pricing.php:122
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -1085,8 +1119,7 @@ msgstr ""
 "Standardpreise."
 
 #: ../views/backend/tabs/pricing.php:135
-msgid ""
-"You can set individual prices for posts,<br>when adding or editing a post."
+msgid "You can set individual prices for posts,<br>when adding or editing a post."
 msgstr ""
 "Sie können individuelle Preise für Beiträge setzen,<br>wenn Sie einen "
 "Beitrag erstellen oder bearbeiten."
