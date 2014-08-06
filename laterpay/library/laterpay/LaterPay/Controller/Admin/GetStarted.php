@@ -69,24 +69,17 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 				check_admin_referer( 'laterpay_form' );
 			}
 
-			// validate user input merchant id
-			$sandbox_merchant_id = wp_strip_all_tags( $_POST['get_started']['laterpay_sandbox_merchant_id'], true );
-			if ( ! LaterPay_Controller_Admin_Account::is_valid_merchant_id( $sandbox_merchant_id ) ) {
-				wp_send_json( array(
-					'success' => false,
-					'message' => __( 'Your merchant id is not valid.', 'laterpay' )
-				) );
+			// validate user inputs
+			$sandbox_merchant_id 	= wp_strip_all_tags( $_POST['get_started']['laterpay_sandbox_merchant_id'], true );
+			$sandbox_api_key 		= wp_strip_all_tags( $_POST['get_started']['laterpay_sandbox_api_key'], true );
+			// use the provided default API credentials, if one of the user submitted values is invalid
+			if (
+				! LaterPay_Controller_Admin_Account::is_valid_merchant_id( $sandbox_merchant_id ) ||
+				! LaterPay_Controller_Admin_Account::is_valid_api_key( $sandbox_api_key )
+			) {
+				$sandbox_merchant_id 	= $config->get( 'api.sandbox_merchant_id' );
+				$sandbox_api_key 		= $config->get( 'api.sandbox_api_key' );
 			}
-
-			// validate user input sandbox api key
-			$sandbox_api_key = wp_strip_all_tags( $_POST['get_started']['laterpay_sandbox_api_key'], true );
-			if ( ! LaterPay_Controller_Admin_Account::is_valid_api_key( $sandbox_api_key ) ) {
-				wp_send_json( array(
-					'success' => false,
-					'message' => __( 'Your sandbox API key is not valid.', 'laterpay' )
-				) );
-			}
-
 			$global_default_price 	= str_replace( ',', '.', wp_strip_all_tags( $_POST['get_started']['laterpay_global_price'], true ) );
 			$currency 				= $_POST['get_started']['laterpay_currency'];
 

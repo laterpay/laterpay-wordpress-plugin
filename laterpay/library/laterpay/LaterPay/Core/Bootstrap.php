@@ -27,7 +27,6 @@ class LaterPay_Core_Bootstrap
      * @return void
      */
     public function run() {
-
         // load the textdomain
         $textdomain_path = dirname( plugin_basename( $this->config->plugin_file_path ) ) . $this->config->text_domain_path;
         load_plugin_textdomain(

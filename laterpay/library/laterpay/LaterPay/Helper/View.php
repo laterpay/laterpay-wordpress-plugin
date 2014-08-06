@@ -98,7 +98,7 @@ class LaterPay_Helper_View
      * @return  bool
      */
     public static function plugin_is_working() {
-        if ( get_option( 'laterpay_plugin_is_activated' ) != 1 ) {
+        if ( get_option( 'laterpay_plugin_is_activated' ) !== '1' ) {
             return false;
         }
 

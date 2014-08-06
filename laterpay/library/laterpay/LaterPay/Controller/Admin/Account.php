@@ -283,13 +283,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * Validate format of LaterPay Merchant ID
      *
      * Format: 22 characters, alphanumeric with upper- and lowercase characters
+     * Special feature: our demo LaterPay Merchant ID also contains a hyphen :-)
      *
      * @param string|int $merchant_id
      *
      * @return int
      */
     public static function is_valid_merchant_id( $merchant_id ) {
-        return preg_match( '/[a-zA-Z0-9]{22}/', $merchant_id );
+        return preg_match( '/[a-zA-Z0-9\-]{22}/', $merchant_id );
     }
 
     /**
