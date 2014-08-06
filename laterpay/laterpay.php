@@ -21,7 +21,7 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
  *
  * @wp-hook plugins_loaded
  *
- * @return  void
+ * @return void
  */
 function laterpay_init() {
 	laterpay_before_start();
@@ -34,9 +34,9 @@ function laterpay_init() {
 /**
  * Callback for activating the plugin.
  *
- * @wp-hook register_deactivation_hook
+ * @wp-hook register_activation_hook
  *
- * @return  void
+ * @return void
  */
 function laterpay_activate() {
 	laterpay_before_start();

@@ -39,8 +39,7 @@ class LaterPay_Core_Bootstrap
 
         // backend actions required for the plugin
         if ( is_admin() ) {
-
-            // requirements check only on plugins.php page
+            // perform requirements check on plugins.php page only
             if ( ! empty ( $GLOBALS[ 'pagenow' ] ) && $GLOBALS[ 'pagenow' ] === 'plugins.php' ) {
                 $install_controller->check_requirements();
                 add_action( 'admin_notices', array( $install_controller, 'render_requirements_notices' ) );
