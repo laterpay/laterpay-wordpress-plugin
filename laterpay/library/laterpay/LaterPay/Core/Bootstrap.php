@@ -178,7 +178,7 @@ class LaterPay_Core_Bootstrap
      * @return  bool
      */
     public function deactivate() {
-        return update_option( 'laterpay_plugin_is_activated', '0' );
+        return delete_option( 'laterpay_plugin_is_activated' );
     }
 
 
