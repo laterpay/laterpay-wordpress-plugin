@@ -85,7 +85,7 @@ class LaterPay_Core_Logger
 
         if ( empty( self::$_instance ) ) {
             try {
-                if ( defined( 'WB_DEBUG' ) && WB_DEBUG ) {
+                if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
                     self::$_instance = new LaterPay_Core_Logger_Handler_Stream( $log_file );
                 } else {
                     self::$_instance = new LaterPay_Core_Logger_Handler_Null();

@@ -46,7 +46,7 @@ class LaterPay_Core_Logger_Handler_Stream extends LaterPay_Core_Logger_Abstract
                 throw new LogicException('Missing stream URL, the stream can not be opened. This may be caused by a premature call to close().');
             }
             self::$errorMessage = null;
-            set_error_handler(array('Logger_Handler_Stream', 'error_handler'));
+            set_error_handler(array('LaterPay_Core_Logger_Handler_Stream', 'error_handler'));
             $this->stream = fopen($this->url, 'a');
             restore_error_handler();
             if ( ! is_resource($this->stream) ) {
