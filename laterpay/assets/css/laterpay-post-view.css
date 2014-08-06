@@ -75,10 +75,6 @@
     border-top-color:transparent !important;
     border-width:2px 1px 0 0 !important;
 }
-/* hide LaterPay purchase buttons from all places other than within h1 */
-.laterpay-purchase-button {display:none !important;}
-h1 > .laterpay-purchase-button {display:block !important;}
-.laterpay-benefits .laterpay-purchase-button {display:inline-block !important;}
 
 /* Content overlay */
 .laterpay-iframe iframe {border:0 none;}

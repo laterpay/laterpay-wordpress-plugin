@@ -143,7 +143,6 @@ class LaterPay_Core_Bootstrap
             add_action( 'init',                     array( $post_controller, 'buy_post' ) );
 
             // add filters to override post content
-            add_filter( 'the_title',                array( $post_controller, 'modify_post_title' ) );
             add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
             add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
 
