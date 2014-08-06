@@ -37,7 +37,8 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 	 */
 	public function add_data_to_posts_table( $column_name, $post_id ) {
 		if ( $column_name == 'post_price' ) {
-			$price      = number_format( (float) LaterPay_Helper_Pricing::get_post_price( $post_id ), 2 );
+
+			$price 		= LaterPay_Helper_View::format_number( (float) LaterPay_Helper_Pricing::get_post_price( $post_id ), 2 );
 			$currency   = get_option( 'laterpay_currency' );
 
 			if ( $price > 0 ) {
