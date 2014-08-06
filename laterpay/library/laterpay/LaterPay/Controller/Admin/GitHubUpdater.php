@@ -3,49 +3,49 @@
 class LaterPay_Controller_Admin_GitHubUpdater
 {
 
-	const GITHUB_API_URL = 'https://api.github.com';
+    const GITHUB_API_URL = 'https://api.github.com';
 
-	/**
-	 * GitHub username
-	 * @var string
-	 */
+    /**
+     * GitHub username
+     * @var string
+     */
     private $username;
 
-	/**
-	 * GitHub repo name
-	 * @var string
-	 */
-	private $repo;
+    /**
+     * GitHub repo name
+     * @var string
+     */
+    private $repo;
 
-	/**
-	 * holds data from GitHub
-	 * @var array
-	 */
-	private $githubAPIResult;
+    /**
+     * holds data from GitHub
+     * @var array
+     */
+    private $githubAPIResult;
 
-	/**
-	 * GitHub private repo token
-	 * @var string
-	 */
-	private $accessToken;
+    /**
+     * GitHub private repo token
+     * @var string
+     */
+    private $accessToken;
 
-	/**
-	 * @var bool
-	 */
-	private $wasActivated = false;
+    /**
+     * @var bool
+     */
+    private $wasActivated = false;
 
-	/**
-	 * @var LaterPay_Model_Config
-	 */
-	private $config;
+    /**
+     * @var LaterPay_Model_Config
+     */
+    private $config;
 
-	public function __construct( LaterPay_Model_Config $config ) {
-		$this->config = $config;
+    public function __construct( LaterPay_Model_Config $config ) {
+        $this->config = $config;
 
-		$this->username     = $this->config->get( 'github.user' );
-		$this->repo         = $this->config->get( 'github.name' );
-		$this->accessToken  = $this->config->get( 'github.token' );
-	}
+        $this->username     = $this->config->get( 'github.user' );
+        $this->repo         = $this->config->get( 'github.name' );
+        $this->accessToken  = $this->config->get( 'github.token' );
+    }
 
     /**
      * Get information regarding our plugin from GitHub.
@@ -96,11 +96,17 @@ class LaterPay_Controller_Admin_GitHubUpdater
         // get plugin and GitHub release information
         $this->get_repo_release_info();
 
+        $plugin_base_name = $this->config->get( 'plugin_base_name' );
+
+        if ( !array_key_exists( $plugin_base_name, $transient->checked  ) ) {
+            return $transient;
+        }
+
         // check the versions, if we need to do an update
         $doUpdate = version_compare(
-                        substr( $this->githubAPIResult->tag_name, 1 ),
-                        $transient->checked[$this->config->plugin_basename]
-                    );
+            substr( $this->githubAPIResult->tag_name, 1 ),
+            $transient->checked[ $plugin_base_name ]
+        );
 
         // update the transient to include our updated plugin data
         if ( $doUpdate == 1 ) {
@@ -112,11 +118,11 @@ class LaterPay_Controller_Admin_GitHubUpdater
             }
 
             $obj                = new stdClass();
-            $obj->slug          = $this->config->plugin_basename;
+            $obj->slug          = $this->config->get( 'plugin_base_name' );
             $obj->new_version   = substr( $this->githubAPIResult->tag_name, 1 );
-            $obj->url           = $this->config->plugin_uri;
+            $obj->url           = $this->config->get( 'plugin_uri' );
             $obj->package       = $package;
-            $transient->response[$this->config->plugin_basename] = $obj;
+            $transient->response[ $plugin_base_name ] = $obj;
         }
 
         return $transient;
@@ -134,10 +140,9 @@ class LaterPay_Controller_Admin_GitHubUpdater
     public function set_plugin_info( $false, $action, $response ) {
 
         // get plugin and GitHub release information
-        $this->init_plugin_data();
         $this->get_repo_release_info();
         // if nothing is found, do nothing
-        if ( empty( $response->slug ) || $response->slug != $this->config->get( 'plugin_basename' ) ) {
+        if ( empty( $response->slug ) || $response->slug != $this->config->get( 'plugin_base_name' ) ) {
             return false;
         }
         // add our plugin information
@@ -204,7 +209,7 @@ class LaterPay_Controller_Admin_GitHubUpdater
     public function post_install( $true, $hook_extra, $result ) {
         global $wp_filesystem;
 #
-	    $slug = $this->config->get( 'plugin_basename' );
+        $slug = $this->config->get( 'plugin_base_name' );
 
         // since our plugin is hosted on GitHub, our plugin folder would have a dirname of
         // reponame-tagname, so we have to change it to our original one:
@@ -235,29 +240,28 @@ class LaterPay_Controller_Admin_GitHubUpdater
         if ( ! $restore && file_exists( $configFile ) ) {
             $wp_filesystem->copy( $configFile, $backup, true );
         } else if ( $restore && file_exists( $backup ) ) {
-                $wp_filesystem->move( $backup, $configFile, true );
-            }
+            $wp_filesystem->move( $backup, $configFile, true );
+        }
     }
 
-	/**
-	 * Perform additional actions to successfully install our plugin.
-	 *
-	 * @param $return
-	 * @param $plugin
-	 *
-	 * @return array
-	 */
+    /**
+     * Perform additional actions to successfully install our plugin.
+     *
+     * @param $return
+     * @param $plugin
+     *
+     * @return array
+     */
     public function pre_install( $return, $plugin ) {
-        $this->init_plugin_data();
 
         $plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
 
-        if ( empty( $plugin ) || $plugin != $this->config->get( 'plugin_basename' ) ) {
+        if ( empty( $plugin ) || $plugin != $this->config->get( 'plugin_base_name' ) ) {
             return;
         }
 
         // remember, if our plugin was previously activated
-        $this->wasActivated = is_plugin_active( $this->config->get( 'plugin_basename' ) );
+        $this->wasActivated = is_plugin_active( $this->config->get( 'plugin_base_name' ) );
 
         $this->backup_config();
     }
