@@ -113,7 +113,7 @@ class LaterPay_Model_CategoryPrice
             $excluding_id = 0;
         }
 
-        $term = $wpdb->esc_like( $term ) . '%';
+        $term = like_escape( esc_sql( $term ) ) . '%';
         $sql = "
             SELECT
                 tp.term_id AS id,
@@ -154,7 +154,7 @@ class LaterPay_Model_CategoryPrice
     public function get_categories_by_term( $term, $limit ) {
         global $wpdb;
 
-        $term = $wpdb->esc_like( $term ) . '%';
+        $term = like_escape( esc_sql( $term ) ) . '%';
         $sql = "
             SELECT
                 tm.term_id AS id,
