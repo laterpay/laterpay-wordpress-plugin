@@ -38,10 +38,11 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 	public function render_page() {
 		$this->load_assets();
 
-		$Currencies = new LaterPay_Model_Currency();
+		$currency_model = new LaterPay_Model_Currency();
+		$currencies  	= $currency_model->get_currencies();
 
 		$this->assign( 'global_default_price',   LaterPay_Helper_View::format_number( (float) $this->config->get( 'currency.default_price' ), 2 ) );
-		$this->assign( 'Currencies',             $Currencies );
+		$this->assign( 'currencies',             $currencies );
 		$this->assign( 'top_nav',                $this->get_menu() );
 		$this->assign( 'admin_menu',             LaterPay_Helper_View::get_admin_menu() );
 

@@ -28,7 +28,7 @@ class LaterPay_Helper_Pricing {
                 break;
 
             case 'category default price':
-                $LaterPay_Category_Model  = new LaterPay_Model_Category();
+                $LaterPay_Category_Model  = new LaterPay_Model_CategoryPrice();
                 $price                  = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
                 break;
 

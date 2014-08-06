@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Model_Category
+class LaterPay_Model_CategoryPrice
 {
 
     /**

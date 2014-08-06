@@ -247,7 +247,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 		$category_default_price = null;
 		$categories_of_post     = wp_get_post_categories( $post->ID );
 		if ( ! empty( $categories_of_post ) ) {
-			$laterpay_category_model  = new LaterPay_Model_Category();
+			$laterpay_category_model  = new LaterPay_Model_CategoryPrice();
 			$category_price_data    = $laterpay_category_model->get_category_price_data_by_category_ids( $categories_of_post );
 			// if the post has a category defined from which to use the category default price then let's get that price
 			if ( $post_default_category > 0 ) {

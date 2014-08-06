@@ -58,25 +58,25 @@
                     <dfn class="spacer"><?php _e( 'Category default prices overwrite global default prices.', 'laterpay' ); ?></dfn>
                     <div id="category-prices">
                         <p><strong><?php _e( 'Every post in category', 'laterpay' ); ?> &hellip;</strong></p>
-                        <?php foreach ( $Categories as $item ): ?>
+                        <?php foreach ( $category_prices as $category_price ): ?>
                             <form method="post" class="category-price-form">
                                 <p>
                                     <input type="hidden" name="form"        value="price_category_form">
                                     <input type="hidden" name="action"      value="laterpay_pricing">
-                                    <input type="hidden" name="category_id" value="<?php echo $item->category_id; ?>">
+                                    <input type="hidden" name="category_id" value="<?php echo $category_price->category_id; ?>">
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                                     <strong>
-                                        <input type="hidden" name="category" value="<?php echo $item->category_name; ?>" class="category-select">
-                                        <span class="category-title"><?php echo $item->category_name; ?></span>
+                                        <input type="hidden" name="category" value="<?php echo $category_price->category_name; ?>" class="category-select">
+                                        <span class="category-title"><?php echo $category_price->category_name; ?></span>
                                     </strong>
                                     <?php _e( 'costs', 'laterpay' ); ?>
                                     <strong>
-                                        <?php $category_price = LaterPay_Helper_View::format_number( (float) $item->category_price, 2 ); ?>
+                                        <?php $category_price = LaterPay_Helper_View::format_number( (float) $category_price->category_price, 2 ); ?>
                                         <input  type="text"
                                                 name="price"
                                                 class="lp-input number"
-                                                value="<?php echo LaterPay_Helper_View::format_number($item->category_price, 2); ?>"
+                                                value="<?php echo LaterPay_Helper_View::format_number($category_price->category_price, 2); ?>"
                                                 style="display:none;"
                                                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
                                         <span class="category-price"><?php echo $category_price; ?></span>
@@ -150,9 +150,9 @@
                     <p><?php _e( 'All prices are given in', 'laterpay' ); ?>
                         <span class="currency-dd">
                             <select name="laterpay_currency" id="laterpay_currency" class="lp-input">
-                                <?php foreach ( $Currencies as $item ): ?>
-                                    <option<?php if ( $item->short_name == $currency ): ?> selected<?php endif; ?> value="<?php echo $item->short_name; ?>">
-                                        <?php echo $item->full_name . ' (' . $item->short_name . ')'; ?>
+                                <?php foreach ( $currencies as $currency ): ?>
+                                    <option<?php if ( $currency->short_name == $standard_currency ): ?> selected<?php endif; ?> value="<?php echo $currency->short_name; ?>">
+                                        <?php echo $currency->full_name . ' (' . $currency->short_name . ')'; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

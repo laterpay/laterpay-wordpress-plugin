@@ -144,28 +144,28 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         switch ( $tab ) {
             // render get started tab
             case 'get_started':
-                $LaterPay_Get_Started_Controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
-                $LaterPay_Get_Started_Controller->render_page();
+                $get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
+                $get_started_controller->render_page();
                 break;
 
             default:
 
             // render pricing tab
             case 'pricing':
-                $LaterPay_Pricing_Controller = new LaterPay_Controller_Admin_Pricing( $this->config );
-                $LaterPay_Pricing_Controller->render_page();
+                $pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
+                $pricing_controller->render_page();
                 break;
 
             // render appearance tab
             case 'appearance':
-                $LaterPay_Appearance_Controller = new LaterPay_Controller_Admin_Appearance( $this->config );
-                $LaterPay_Appearance_Controller->render_page();
+                $appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
+                $appearance_controller->render_page();
                 break;
 
             // render account tab
             case 'account':
-                $LaterPay_Account_Controller = new LaterPay_Controller_Admin_Account( $this->config );
-                $LaterPay_Account_Controller->render_page();
+                $account_controller = new LaterPay_Controller_Admin_Account( $this->config );
+                $account_controller->render_page();
                 break;
         }
     }

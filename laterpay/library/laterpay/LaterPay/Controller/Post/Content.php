@@ -82,12 +82,12 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $currency = get_option( 'laterpay_currency' );
 
         // get historical performance data for post
-        $LaterPay_Payments_History_Model    = new LaterPay_Model_Payments_History();
-        $LaterPay_Post_Views_Model          = new LaterPay_Model_Post_Views();
+        $payments_history_model    = new LaterPay_Model_Payments_History();
+        $post_views_model          = new LaterPay_Model_Post_Views();
 
         // get total revenue and total sales
         $total = array();
-        $history_total = (array) $LaterPay_Payments_History_Model->get_total_history_by_post_id( $post->ID );
+        $history_total = (array) $payments_history_model->get_total_history_by_post_id( $post->ID );
         foreach ( $history_total as $item ) {
             $total[$item->currency]['sum']      = round($item->sum, 2);
             $total[$item->currency]['quantity'] = $item->quantity;
@@ -95,7 +95,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
         // get revenue
         $last30DaysRevenue = array();
-        $history_last30DaysRevenue = (array) $LaterPay_Payments_History_Model->get_last_30_days_history_by_post_id( $post->ID );
+        $history_last30DaysRevenue = (array) $payments_history_model->get_last_30_days_history_by_post_id( $post->ID );
         foreach ( $history_last30DaysRevenue as $item ) {
             $last30DaysRevenue[$item->currency][$item->date] = array(
                 'sum'       => round( $item->sum, 2 ),
@@ -104,7 +104,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         $todayRevenue = array();
-        $history_todayRevenue = (array) $LaterPay_Payments_History_Model->get_todays_history_by_post_id( $post->ID );
+        $history_todayRevenue = (array) $payments_history_model->get_todays_history_by_post_id( $post->ID );
         foreach ( $history_todayRevenue as $item ) {
             $todayRevenue[$item->currency]['sum']       = round( $item->sum, 2 );
             $todayRevenue[$item->currency]['quantity']  = $item->quantity;
@@ -112,14 +112,14 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
         // get visitors
         $last30DaysVisitors = array();
-        $history_last30DaysVisitors = (array) $LaterPay_Post_Views_Model->get_last_30_days_history( $post->ID );
+        $history_last30DaysVisitors = (array) $post_views_model->get_last_30_days_history( $post->ID );
         foreach ( $history_last30DaysVisitors as $item ) {
             $last30DaysVisitors[$item->date] = array(
                 'quantity' => $item->quantity,
             );
         }
 
-        $todayVisitors = (array) $LaterPay_Post_Views_Model->get_todays_history( $post->ID );
+        $todayVisitors = (array) $post_views_model->get_todays_history( $post->ID );
         $todayVisitors = $todayVisitors[0]->quantity;
 
         // get buyers (= conversion rate)

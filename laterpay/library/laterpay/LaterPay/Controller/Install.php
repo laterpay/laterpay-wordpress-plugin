@@ -268,8 +268,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		}
 
         // update capabilities
-        $Capabilities = new LaterPay_Core_Capabilities();
-        $Capabilities->populate_roles();
+        $laterpay_capabilities = new LaterPay_Core_Capabilities();
+        $laterpay_capabilities->populate_roles();
 	}
 
 }
