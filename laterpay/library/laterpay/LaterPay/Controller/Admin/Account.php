@@ -86,7 +86,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     self::_update_live_api_key();
                     break;
 
-                case 'plugin_is_in_live_mode':
+                case 'laterpay_plugin_mode':
                     self::_update_plugin_mode();
                     break;
 
@@ -280,7 +280,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
 
     /**
-     * Validate format of LaterPay Merchant ID
+     * Validate format of LaterPay Merchant ID (uuid).
      *
      * Format: 22 characters, alphanumeric with upper- and lowercase characters
      * Special feature: our demo LaterPay Merchant ID also contains a hyphen :-)
@@ -294,7 +294,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Validate format of LaterPay API key.
+     * Validate format of LaterPay API key (shared secret).
      *
      * Format: 32 characters, alphanumeric with only lowercase characters
      *
