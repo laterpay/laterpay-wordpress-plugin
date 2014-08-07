@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Wed Aug 06 2014 21:54:11 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri Aug 08 2014 00:34:08 GMT+0200 (CEST)\n"
 "Last-Translator: tester <drodler@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -80,15 +80,15 @@ msgid "%s : <code>%s</code> not found"
 msgstr "%s : <code>%s</code> nicht gefunden"
 
 #: ../library/laterpay/LaterPay/Controller/Admin.php:18 ..
-#: library/laterpay/LaterPay/Controller/Admin.php:41
+#: library/laterpay/LaterPay/Controller/Admin.php:44
 msgid "LaterPay Plugin Settings"
 msgstr "LaterPay-Plugin-Einstellungen"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:216
+#: ../library/laterpay/LaterPay/Controller/Admin.php:214
 msgid "LaterPay"
 msgstr "LaterPay"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:217
+#: ../library/laterpay/LaterPay/Controller/Admin.php:215
 msgid ""
 "\n"
 "                                        <p>\n"
@@ -165,12 +165,12 @@ msgstr ""
 "um die Attraktivität des Beitrags zu steigern.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:255 ..
+#: ../library/laterpay/LaterPay/Controller/Admin.php:253 ..
 #: views/backend/tabs/pricing.php:23
 msgid "Global Default Price"
 msgstr "Standardpreis"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:256
+#: ../library/laterpay/LaterPay/Controller/Admin.php:254
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -193,12 +193,12 @@ msgstr ""
 "die kein Kategorie-Standardpreis oder individueller Preis gesetzt wurde.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:269 ..
+#: ../library/laterpay/LaterPay/Controller/Admin.php:267 ..
 #: views/backend/tabs/pricing.php:56
 msgid "Category Default Prices"
 msgstr "Kategorie-Standardpreise"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:270
+#: ../library/laterpay/LaterPay/Controller/Admin.php:268
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -233,12 +233,12 @@ msgstr ""
 "kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:287 ..
+#: ../library/laterpay/LaterPay/Controller/Admin.php:285 ..
 #: views/backend/tabs/pricing.php:143
 msgid "Currency"
 msgstr "Währung"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:288
+#: ../library/laterpay/LaterPay/Controller/Admin.php:286
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -267,11 +267,11 @@ msgstr ""
 "dollar betragen. \n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:312
+#: ../library/laterpay/LaterPay/Controller/Admin.php:310
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:313
+#: ../library/laterpay/LaterPay/Controller/Admin.php:311
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -319,11 +319,11 @@ msgstr ""
 "</li>\n"
 "</ul>\n"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:337
+#: ../library/laterpay/LaterPay/Controller/Admin.php:335
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:338
+#: ../library/laterpay/LaterPay/Controller/Admin.php:336
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -348,11 +348,11 @@ msgstr ""
 "aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:360
+#: ../library/laterpay/LaterPay/Controller/Admin.php:358
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:361
+#: ../library/laterpay/LaterPay/Controller/Admin.php:359
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -476,12 +476,12 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:409 ..
+#: ../library/laterpay/LaterPay/Controller/Admin.php:407 ..
 #: views/backend/tabs/account.php:139
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:410
+#: ../library/laterpay/LaterPay/Controller/Admin.php:408
 msgid ""
 "\n"
 "                                                    <p>You can run the "
@@ -550,17 +550,17 @@ msgstr ""
 "konfigurieren, bevor Sie es auf Ihrem Produktivsystem aktivieren. \n"
 "                                                    </p>"
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:480 ..
+#: ../library/laterpay/LaterPay/Controller/Admin.php:478 ..
 #: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:64 ..
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:64 ..
 #: library/laterpay/LaterPay/Controller/Admin/Appearance.php:57 ..
 #: library/laterpay/LaterPay/Controller/Admin/Pricing.php:82
-msgid "You don't have sufficient user privileges to do this."
-msgstr "Ihnen fehlt die Berechtigung für diese Aktion."
+msgid "You don't have sufficient user capabilities to do this."
+msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:496 ..
-#: library/laterpay/LaterPay/Controller/Admin.php:524 ..
-#: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:112 ..
+#: ../library/laterpay/LaterPay/Controller/Admin.php:494 ..
+#: library/laterpay/LaterPay/Controller/Admin.php:522 ..
+#: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:105 ..
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:97 ..
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:274 ..
 #: library/laterpay/LaterPay/Controller/Admin/Appearance.php:89 ..
@@ -574,17 +574,32 @@ msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: ../library/laterpay/LaterPay/Controller/Admin.php:505
+#: ../library/laterpay/LaterPay/Controller/Admin.php:503
 msgid "Updated."
 msgstr "Aktualisiert."
 
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:36
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:48
 msgid "Additional Premium Content"
 msgstr "Zusätzlicher Premium-Inhalt"
 
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:53 ..
-#: views/frontend/post/single.php:161 ..
-#: views/frontend/partials/post/purchase_button.php:13
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:64 ..
+#: library/laterpay/LaterPay/Controller/Shortcode.php:75
+msgid "Problem with inserted shortcode:"
+msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
+
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:65
+msgid "The target page you specified doesn't seem to exist on this site."
+msgstr ""
+"Die Zielseite, die Sie angegeben haben, scheint auf dieser Seite nicht zu "
+"existieren."
+
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:76
+msgid "LaterPay has been disabled for the post type of the target page."
+msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
+
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:98 ..
+#: views/frontend/partials/post/purchase_button.php:13 ..
+#: views/frontend/partials/post/purchase_box.php:53
 #, php-format
 msgid "%s<small>%s</small>"
 msgstr "%s<small>%s</small>"
@@ -598,14 +613,6 @@ msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Sandbox Merchant
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:168
 msgid "The API key you entered is not a valid LaterPay Sandbox API key! "
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay Sandbox API Key!"
-
-#: ../library/laterpay/LaterPay/Controller/Admin/GetStarted.php:77
-msgid "Your merchant id is not valid."
-msgstr "Ihre Merchant ID ist nicht gültig."
-
-#: ../library/laterpay/LaterPay/Controller/Admin/GetStarted.php:86
-msgid "Your sandbox API key is not valid."
-msgstr "Ihr Sandbox API Key ist nicht gültig."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:27
 msgid "The API key you entered is not a valid LaterPay API key! "
@@ -749,7 +756,8 @@ msgstr "Individueller Preis (dynamisch)"
 msgid "category default price"
 msgstr "Kategorie-Standardpreis"
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:70
+#: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:70 ..
+#: library/laterpay/LaterPay/Controller/Admin/Post/Column.php:81
 msgid "global default price"
 msgstr "Standardpreis"
 
@@ -795,60 +803,21 @@ msgstr ""
 "Dies wird Besuchern angezeigt, die den Beitrag noch nicht gekauft haben. "
 "Schreiben Sie einen Teaser, der Lust auf den gesamten Beitrag macht."
 
-#: ../views/frontend/post/single.php:15
-msgid "Statistics for this Post"
-msgstr "Statistik für diesen Beitrag"
-
-#: ../views/frontend/post/single.php:20
-msgid "Total Revenue"
-msgstr "Gesamt-Umsatz"
-
-#: ../views/frontend/post/single.php:24
-msgid "Total Sales"
-msgstr "Gesamt-Verkäufe"
-
-#: ../views/frontend/post/single.php:30
-msgid "Last 30 days"
-msgstr "Letzte 30 Tage"
-
-#: ../views/frontend/post/single.php:31
-msgid "Today"
-msgstr "Heute"
-
-#: ../views/frontend/post/single.php:41
-msgid "Revenue"
-msgstr "Umsatz"
-
-#: ../views/frontend/post/single.php:53
-msgid "Buyers"
-msgstr "Käufer"
-
-#: ../views/frontend/post/single.php:64
-msgid "Visitors"
-msgstr "Besucher"
-
-#: ../views/frontend/post/single.php:69
-msgid "Preview post as"
-msgstr "Vorschau für"
-
-#: ../views/frontend/post/single.php:69
-msgid "Admin"
-msgstr "Admin"
-
-#: ../views/frontend/post/single.php:90
-msgid "Visitor"
-msgstr "Besucher"
-
-#: ../views/frontend/post/single.php:108
+#: ../views/frontend/partials/post/purchase_link.php:10
 #, php-format
 msgid "Buy now for %s<small>%s</small> and pay later"
 msgstr "Jetzt kaufen für %s<small>%s</small> und später zahlen"
 
-#: ../views/frontend/post/single.php:115
+#: ../views/frontend/partials/post/purchase_button.php:6 ..
+#: views/frontend/partials/post/purchase_box.php:51
+msgid "Buy now with LaterPay"
+msgstr "Jetzt mit LaterPay kaufen"
+
+#: ../views/frontend/partials/post/purchase_box.php:5
 msgid "Preview a short excerpt from the paid post:"
 msgstr "Zeige einen kurzen Auszug aus dem kostenpflichtigen Beitrag:"
 
-#: ../views/frontend/post/single.php:125
+#: ../views/frontend/partials/post/purchase_box.php:15
 msgid ""
 "Thanks for reading this short excerpt from the paid post! Fancy buying it to "
 "read all of it?"
@@ -857,25 +826,25 @@ msgstr ""
 "haben. Sie können den vollständigen Beitrag lesen, nachdem Sie ihn gekauft "
 "haben."
 
-#: ../views/frontend/post/single.php:132
+#: ../views/frontend/partials/post/purchase_box.php:22
 msgid "Read Now, Pay Later"
 msgstr "Jetzt lesen, später zahlen"
 
-#: ../views/frontend/post/single.php:137
+#: ../views/frontend/partials/post/purchase_box.php:27
 msgid "Buy Now"
 msgstr "Jetzt kaufen"
 
-#: ../views/frontend/post/single.php:139
+#: ../views/frontend/partials/post/purchase_box.php:29
 msgid "Just agree to pay later.<br> No upfront registration and payment."
 msgstr ""
 "Stimmen Sie einfach zu, später zu zahlen.<br> Keine Vorabregistrierung. "
 "Keine Vorauszahlung."
 
-#: ../views/frontend/post/single.php:143
+#: ../views/frontend/partials/post/purchase_box.php:33
 msgid "Read Immediately"
 msgstr "Sofort lesen"
 
-#: ../views/frontend/post/single.php:145
+#: ../views/frontend/partials/post/purchase_box.php:35
 msgid ""
 "Get immediate access to your purchase.<br> You are only buying this article, "
 "not a subscription."
@@ -883,11 +852,11 @@ msgstr ""
 "Greifen Sie sofort auf Ihren Kauf zu.<br> Sie kaufen nur diesen Beitrag, "
 "kein Abo."
 
-#: ../views/frontend/post/single.php:149
+#: ../views/frontend/partials/post/purchase_box.php:39
 msgid "Pay Later"
 msgstr "Später zahlen"
 
-#: ../views/frontend/post/single.php:151
+#: ../views/frontend/partials/post/purchase_box.php:41
 msgid ""
 "Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you "
 "have to register and pay."
@@ -895,10 +864,49 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie 5 Euro erreicht haben.<br> Erst dann müssen "
 "Sie sich registrieren und bezahlen."
 
-#: ../views/frontend/post/single.php:161 ..
-#: views/frontend/partials/post/purchase_button.php:6
-msgid "Buy now with LaterPay"
-msgstr "Jetzt mit LaterPay kaufen"
+#: ../views/frontend/partials/post/statistic.php:13
+msgid "Statistics for this Post"
+msgstr "Statistik für diesen Beitrag"
+
+#: ../views/frontend/partials/post/statistic.php:18
+msgid "Total Revenue"
+msgstr "Gesamt-Umsatz"
+
+#: ../views/frontend/partials/post/statistic.php:22
+msgid "Total Sales"
+msgstr "Gesamt-Verkäufe"
+
+#: ../views/frontend/partials/post/statistic.php:28
+msgid "Last 30 days"
+msgstr "Letzte 30 Tage"
+
+#: ../views/frontend/partials/post/statistic.php:29
+msgid "Today"
+msgstr "Heute"
+
+#: ../views/frontend/partials/post/statistic.php:39
+msgid "Revenue"
+msgstr "Umsatz"
+
+#: ../views/frontend/partials/post/statistic.php:51
+msgid "Buyers"
+msgstr "Käufer"
+
+#: ../views/frontend/partials/post/statistic.php:62
+msgid "Visitors"
+msgstr "Besucher"
+
+#: ../views/frontend/partials/post/statistic.php:67
+msgid "Preview post as"
+msgstr "Vorschau für"
+
+#: ../views/frontend/partials/post/statistic.php:67
+msgid "Admin"
+msgstr "Admin"
+
+#: ../views/frontend/partials/post/statistic.php:88
+msgid "Visitor"
+msgstr "Besucher"
 
 #: ../views/backend/tabs/getstarted.php:36 ../views/backend/tabs/account.php:44
 msgid "Paste Sandbox Merchant ID here"
