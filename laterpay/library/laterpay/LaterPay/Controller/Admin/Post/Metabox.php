@@ -185,7 +185,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 			return;
 		}
 
-		if ( isset( $_POST['laterpay_post_teaser'] ) ) {
+		if ( isset( $_POST['laterpay_post_teaser'] ) && !empty( $_POST[ 'laterpay_post_teaser' ] ) ) {
             $new_meta_value = $_POST['laterpay_post_teaser'];
         } else {
             $new_meta_value = LaterPay_Helper_String::truncate(
