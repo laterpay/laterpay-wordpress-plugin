@@ -1,13 +1,14 @@
 <?php
 
-class LaterPay_Helper_Pricing {
-
+class LaterPay_Helper_Pricing
+{
 
     /**
      * Get post price, depending on applied price type of post.
      *
-     * @param   int $post_id
-     * @return  float $price
+     * @param int $post_id
+     *
+     * @return float $price
      */
     public static function get_post_price( $post_id ) {
         $global_default_price = get_option( 'laterpay_global_price' );
