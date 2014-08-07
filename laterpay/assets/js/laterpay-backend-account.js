@@ -1,7 +1,8 @@
 jQuery.noConflict();
 (function($) { $(function() {
 
-    var autofocusEmptyInput = function() {
+    var requestSent = false,
+        autofocusEmptyInput = function() {
             var $inputs = $('.api-key-input, .merchant-id-input');
             for (var i = 0, l = $inputs.length; i < l; i++) {
                 if ($inputs.eq(i).val() === '') {
@@ -35,31 +36,39 @@ jQuery.noConflict();
                     $('#plugin_mode_hidden_input').val(0);
                     $('#plugin-mode-toggle').prop('checked', false);
                     togglePluginModeText();
-                    makeAjaxRequest('plugin_mode', true);
+
                     return false;
                 } else {
                     $('#plugin_mode_hidden_input').val(1);
                     togglePluginModeText();
-                    makeAjaxRequest('plugin_mode', true);
+                    makeAjaxRequest('laterpay_plugin_mode', true);
                 }
             } else {
                 $('#plugin_mode_hidden_input').val(0);
                 togglePluginModeText();
-                makeAjaxRequest('plugin_mode', true);
+                makeAjaxRequest('laterpay_plugin_mode', true);
             }
         },
         makeAjaxRequest = function(form_id) {
-            $.post(
-                ajaxurl,
-                $('#' + form_id).serializeArray(),
-                function(data) {
-                    setMessage({
-                        message: data.message,
-                        success: data.success
-                    });
-                },
-                'json'
-            );
+            // prevent duplicate Ajax requests
+            if ( !requestSent ) {
+                requestSent = true;
+
+                $.post(
+                    ajaxurl,
+                    $('#' + form_id).serializeArray(),
+                    function(data) {
+                        setMessage({
+                            message: data.message,
+                            success: data.success
+                        });
+                    },
+                    'json'
+                )
+                .done(function() {
+                    requestSent = false;
+                });
+            }
         },
         validateAPIKey = function(api_key_input) {
             var $input          = $(api_key_input),
@@ -74,13 +83,15 @@ jQuery.noConflict();
 
             if (value.length === 0 || value.length === apiKeyLength) {
                 makeAjaxRequest($form.attr('id'));
-                togglePluginMode();
+
             } else {
                 setMessage({
                     message: lpVars.i18nApiKeyInvalid,
                     success: false
                 });
             }
+            // switch from live mode to test mode if requirements are not fulfilled
+            togglePluginMode();
         },
         validateMerchantId = function(merchant_id_input) {
             var $input              = $(merchant_id_input),
@@ -95,13 +106,14 @@ jQuery.noConflict();
 
             if (value.length === 0 || value.length === merchantIdLength) {
                 makeAjaxRequest($form.attr('id'));
-                togglePluginMode();
             } else {
                 setMessage({
                     message: lpVars.i18nMerchantIdInvalid,
                     success: false
                 });
             }
+            // switch from live mode to test mode if requirements are not fulfilled
+            togglePluginMode();
         },
         hasNoValidCredentials = function() {
             if (
