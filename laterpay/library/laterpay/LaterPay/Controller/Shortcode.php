@@ -67,8 +67,30 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             return $error_message;
         }
-        $page_id    = $page->ID;
-        $page_url   = get_permalink( $page_id );
+        $page_id = $page->ID;
+
+        // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
+        if ( ! in_array( $page->post_type, $this->config->get( 'content.allowed_post_types' ) )  {
+            $error_message  = '<div class="laterpay-shortcode-error">';
+            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+            $error_message .= __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+            $error_message .= '</div>';
+
+            return $error_message;
+        }
+
+        // check if page has a custom post type
+        $custom_post_types      = get_post_types( array( '_builtin' => false ) );
+        $custom_types           = array_keys( $custom_post_types );
+        $is_custom_post_type    = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types );
+
+        // get the URL of the target page
+        if ( $is_custom_post_type ) {
+            // getting the permalink of a custom post type requires get_post_permalink instead of get_permalink
+            $page_url = get_post_permalink( $page_id );
+        } else {
+            $page_url = get_permalink( $page_id );
+        }
 
         // get price of content
         $price      = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $page_id ), 2 );
