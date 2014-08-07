@@ -8,21 +8,22 @@ class LaterPay_Core_Bootstrap
 {
 
     /**
-     * Contains all settings for our plugin
+     * Contains all settings for the plugin
      * @var LaterPay_Model_Config
      */
     private $config;
 
     /**
-     * @param   LaterPay_Model_Config $config
-     * @return  LaterPay_Core_Bootstrap
+     * @param LaterPay_Model_Config $config
+     *
+     * @return LaterPay_Core_Bootstrap
      */
     public function __construct( LaterPay_Model_Config $config ) {
         $this->config = $config;
     }
 
     /**
-     * Start our plugin on plugins_loaded hook.
+     * Start the plugin on plugins_loaded hook.
      *
      * @return void
      */
@@ -37,7 +38,7 @@ class LaterPay_Core_Bootstrap
 
         $install_controller = new LaterPay_Controller_Install( $this->config );
 
-        // backend actions required for the plugin
+        // backend actions part 1
         if ( is_admin() ) {
             // perform requirements check on plugins.php page only
             if ( ! empty ( $GLOBALS[ 'pagenow' ] ) && $GLOBALS[ 'pagenow' ] === 'plugins.php' ) {
@@ -87,7 +88,7 @@ class LaterPay_Core_Bootstrap
             }
         }
 
-        // migrate the pricing postmeta to an array
+        // migrate multiple pricing postmeta from older plugin versions to an array
         add_filter( 'get_post_metadata', array( $install_controller, 'migrate_pricing_post_meta' ), 10, 4 );
 
         // check if the plugin is correctly configured and working
@@ -95,7 +96,7 @@ class LaterPay_Core_Bootstrap
             return;
         }
 
-        // backend actions
+        // backend actions part 2
         if ( is_admin() ) {
             // register callbacks for adding meta_boxes
             $post_metabox_controller = new LaterPay_Controller_Admin_Post_Metabox( $this->config );
@@ -107,7 +108,7 @@ class LaterPay_Core_Bootstrap
             // saving the pricing
             add_action( 'save_post',        array( $post_metabox_controller, 'save_post_pricing_form') );
 
-            // load scripts for our admin pages
+            // load scripts for the admin pages
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
             add_action( 'admin_print_styles-post-new.php',  array( $post_metabox_controller, 'load_assets' ) );
 
@@ -120,7 +121,7 @@ class LaterPay_Core_Bootstrap
 
         }
 
-        // add our shortcodes
+        // add the shortcodes
         $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
         add_shortcode( 'laterpay_premium_download', array( $shortcode_controller, 'render_premium_download_box' ) );
         add_shortcode( 'laterpay_box_wrapper',      array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
@@ -129,8 +130,6 @@ class LaterPay_Core_Bootstrap
 
         $post_controller = new LaterPay_Controller_Post_Content( $this->config );
         // add Ajax hooks for frontend
-        add_action( 'wp_ajax_laterpay_title_script',            array( $post_controller, 'get_modified_title' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_title_script',     array( $post_controller, 'get_modified_title' ) );
         add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
         add_action( 'wp_ajax_nopriv_laterpay_article_script',   array( $post_controller, 'get_cached_post' ) );
         add_action( 'wp_ajax_laterpay_footer_script',           array( $post_controller, 'get_modified_footer' ) );
@@ -148,15 +147,14 @@ class LaterPay_Core_Bootstrap
             add_action( 'init',                     array( $post_controller, 'buy_post' ) );
 
             // add filters to override post content
-            add_filter( 'the_title',                array( $post_controller, 'modify_post_title' ) );
             add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
             add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
 
             // setup unique visitors tracking
             $tracking_controller = new LaterPay_Controller_Tracking( $this->config );
-            add_action( 'init', array( $tracking_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'init',         array( $tracking_controller, 'add_unique_visitors_tracking' ) );
 
-            // register our frontend scripts
+            // register the frontend scripts
             add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_stylesheets' ) );
             add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_scripts' ) );
         }
@@ -165,9 +163,9 @@ class LaterPay_Core_Bootstrap
     /**
      * Install callback to create custom database tables.
      *
-     * @wp-hook register_activiation_hook
+     * @wp-hook register_activation_hook
      *
-     * @return  void
+     * @return void
      */
     public function activate() {
         $install_controller = new LaterPay_Controller_Install( $this->config );
@@ -175,8 +173,8 @@ class LaterPay_Core_Bootstrap
     }
 
     /**
-     * Deactivate plugin.
-     * Sets option 'laterpay_plugin_is_activated' to false, if the installation was successfully activated.
+     * Callback to deactivate plugin.
+     * Sets option 'laterpay_plugin_is_activated' to false, if the installation was successfully activated at that time.
      *
      * @wp-hook register_deactivation_hook
      *
@@ -201,7 +199,7 @@ class LaterPay_Core_Bootstrap
     /**
      * Load LaterPay stylesheet with LaterPay vector icon on all pages where the admin menu is visible.
      *
-     * @return  void
+     * @return void
      */
     public function add_plugin_admin_assets( ) {
         wp_register_style(
@@ -216,13 +214,12 @@ class LaterPay_Core_Bootstrap
             'jquery',
             '//code.jquery.com/jquery-1.11.0.min.js'
         );
-
     }
 
     /**
      * Hint at the newly installed plugin using WordPress pointers.
      *
-     * @return  void
+     * @return void
      */
     public function add_admin_pointers_script() {
         wp_enqueue_script( 'wp-pointer' );
@@ -234,7 +231,7 @@ class LaterPay_Core_Bootstrap
      *
      * @wp-hook wp_enqueue_scripts
      *
-     * @return  void
+     * @return void
      */
     public function add_frontend_stylesheets() {
         wp_register_style(
@@ -256,7 +253,7 @@ class LaterPay_Core_Bootstrap
      *
      * @wp-hook wp_enqueue_scripts
      *
-     * @return  void
+     * @return void
      */
     public function add_frontend_scripts() {
         wp_register_script(
