@@ -164,14 +164,6 @@ The LaterPay WordPress plugin has been tested to work fine with most WordPress s
 Given the sheer mass of available WordPress themes, it is still likely that you will have to make some adjustments to
 your theme after installing the LaterPay WordPress plugin.
 
-= The links to related posts are broken =
-The plugin prepends the purchase button to the title of a post ($the_title). A lot of themes use $the_title in the "title"
-or "alt" attribute of their hyperlinks, so that the full title is displayed in a tooltip, when moving the mouse over that link.
-But the purchase button contains a "title" attribute itself, which breaks the hyperlink of the theme.
-You can easily remove the purchase button from $the_title by wrapping $the_title in the wp_strip_all_tags() function provided by WordPress.
-Before (broken): <?php echo $the_title; ?>
-Working: <?php echo wp_strip_all_tags( $the_title ); ?>
-
 
 == Screenshots ==
 
@@ -190,6 +182,7 @@ Working: <?php echo wp_strip_all_tags( $the_title ); ?>
 
 = 0.9.7 (August 5, 2014): Production-readiness release IV =
 * Added support for all standard as well as custom post types
+* Instead of modifying the_title, we now prepend a purchase button to the post content to prevent various compatibility issues
 * Added shortcode to align premium content shortcodes
 * Changed advanced settings mechanism from file-based to WordPress filters
 * Increased robustness of installation and activation procedure
