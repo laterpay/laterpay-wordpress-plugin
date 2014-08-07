@@ -7,12 +7,10 @@
     data-laterpay="<?php echo $laterpay[ 'link' ]; ?>"
     data-icon="b"
     data-preview-as-visitor="<?php echo $laterpay[ 'preview_post_as_visitor' ]; ?>"
->
-    <?php
+><?php
         echo sprintf(
             __( '%s<small>%s</small>', 'laterpay' ),
             $laterpay[ 'price' ],
             $laterpay[ 'currency' ]
         );
-    ?>
-</a>
+    ?></a>

@@ -168,8 +168,6 @@ function laterpay_get_plugin_config() {
 		'content.preview_percentage_of_content'             => 25,
 		'content.preview_word_count_min'                    => 26,
 		'content.preview_word_count_max'                    => 200,
-        'content.show_purchase_button'                      => true,
-
 		// TODO: this does not belong here:
         'content.allowed_post_types'                        => get_post_types( array( 'public' => true ) )
 	);
@@ -185,7 +183,6 @@ function laterpay_get_plugin_config() {
 	 *                                     'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
 	 *                                     'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
      *                                     'content.allowed_post_types'                         => Array - allowed post_types that support LaterPay purchases
-     *                                     'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
 	 *                                  );
 	 */
 	$content_settings = apply_filters( 'laterpay_get_content_settings', $content_settings );

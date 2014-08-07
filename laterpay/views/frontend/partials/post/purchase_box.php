@@ -48,13 +48,13 @@
                 data-icon="b"
                 data-post-id="<?php echo $laterpay['post_id']; ?>"
                 data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']; ?>"
-                title="<?php _e( 'Buy now with LaterPay', 'laterpay' ); ?>">
-                <?php echo sprintf(
+                title="<?php _e( 'Buy now with LaterPay', 'laterpay' ); ?>"
+            ><?php echo sprintf(
                                     __( '%s<small>%s</small>', 'laterpay' ),
                                     LaterPay_Helper_View::format_number( $laterpay['price'], 2 ),
                                     $laterpay['currency']
-                    ); ?>
-            </a>
+                    );
+            ?></a>
             <div class="powered-by">
                 powered by<span data-icon="a"></span> beta
             </div>
