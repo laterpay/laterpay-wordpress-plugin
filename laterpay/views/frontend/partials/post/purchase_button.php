@@ -2,17 +2,17 @@
 
 <a href="#"
     class="laterpay-purchase-link laterpay-purchase-button"
-    post-id="<?php echo $post_id; ?>"
+    post-id="<?php echo $laterpay[ 'post_id' ]; ?>"
     title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
-    data-laterpay="<?php echo $link; ?>"
+    data-laterpay="<?php echo $laterpay[ 'link' ]; ?>"
     data-icon="b"
-    data-preview-as-visitor="<?php echo $preview_post_as_visitor; ?>"
+    data-preview-as-visitor="<?php echo $laterpay[ 'preview_post_as_visitor' ]; ?>"
 >
     <?php
         echo sprintf(
             __( '%s<small>%s</small>', 'laterpay' ),
-            $price,
-            $currency
+            $laterpay[ 'price' ],
+            $laterpay[ 'currency' ]
         );
     ?>
 </a>

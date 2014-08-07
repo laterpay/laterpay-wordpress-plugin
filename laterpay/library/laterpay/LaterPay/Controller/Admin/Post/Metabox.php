@@ -371,7 +371,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 			return;
 		}
 
-        // check for required privileges to perform action
+        // check for required capabilities to perform action
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post_id ) ) {
             return;
         }

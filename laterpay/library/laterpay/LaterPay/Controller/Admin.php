@@ -470,12 +470,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      */
     public static function process_ajax_requests() {
         if ( isset( $_POST['form'] ) ) {
-            // check for required privileges to perform action
+            // check for required capabilities to perform action
             if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
                 wp_send_json(
                     array(
                         'success' => false,
-                        'message' => __("You don't have sufficient user privileges to do this.", 'laterpay' )
+                        'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' )
                     )
                 );
             }
