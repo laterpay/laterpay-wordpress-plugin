@@ -141,8 +141,7 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
         // frontend actions
-//        if ( ! is_admin() ) 
-        {
+        if ( ! is_admin() ){
             add_action( 'init',                     array( $post_controller, 'create_token' ) );
             add_action( 'init',                     array( $post_controller, 'buy_post' ) );
 
