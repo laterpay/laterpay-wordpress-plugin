@@ -131,8 +131,6 @@ class LaterPay_Core_Bootstrap
 
         $post_controller = new LaterPay_Controller_Post_Content( $this->config );
         // add Ajax hooks for frontend
-        add_action( 'wp_ajax_laterpay_title_script',            array( $post_controller, 'get_modified_title' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_title_script',     array( $post_controller, 'get_modified_title' ) );
         add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
         add_action( 'wp_ajax_nopriv_laterpay_article_script',   array( $post_controller, 'get_cached_post' ) );
         add_action( 'wp_ajax_laterpay_footer_script',           array( $post_controller, 'get_modified_footer' ) );
@@ -149,7 +147,7 @@ class LaterPay_Core_Bootstrap
 
             // setup unique visitors tracking
             $tracking_controller = new LaterPay_Controller_Tracking( $this->config );
-            add_action( 'init', array( $tracking_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'init',         array( $tracking_controller, 'add_unique_visitors_tracking' ) );
 
             // register the frontend scripts
             add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_stylesheets' ) );

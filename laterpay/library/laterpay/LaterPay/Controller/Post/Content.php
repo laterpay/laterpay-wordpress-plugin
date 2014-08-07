@@ -33,28 +33,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Ajax method to get the the modified title.
-     *
-     * @wp-hook wp_ajax_laterpay_title_script, wp_ajax_nopriv_laterpay_title_script
-     * @return  void
-     */
-    public function get_modified_title() {
-        global $post, $wp_query;
-
-        // set the global vars so that WordPress thinks it is in a single view
-        $wp_query->is_single      = TRUE;
-        $wp_query->in_the_loop    = TRUE;
-
-        // get the content
-        $post_id    = absint( $_REQUEST[ 'id' ] );
-        $post       = get_post( $post_id );
-        $post_title = get_the_title( $post_id );
-
-        echo $post_title;
-        exit;
-    }
-
-    /**
      * Ajax callback to load and echo the modified footer.
      *
      * @wp-hook wp_ajax_laterpay_footer_script, wp_ajax_nopriv_laterpay_footer_script
@@ -144,16 +122,18 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         // assign variables
-        $this->assign( 'total',                 $total );
+        $statistic_args = array(
+            'total'             => $total,
+            'last30DaysRevenue' => $last30DaysRevenue,
+            'todayRevenue'      => $todayRevenue,
+            'last30DaysBuyers'  => $last30DaysBuyers,
+            'todayBuyers'       => $todayBuyers,
+            'last30DaysVisitors'=> $last30DaysVisitors,
+            'todayVisitors'     => $todayVisitors,
+        );
 
-        $this->assign( 'last30DaysRevenue',     $last30DaysRevenue );
-        $this->assign( 'todayRevenue',          $todayRevenue );
+        $this->assign( 'statistic', $statistic_args );
 
-        $this->assign( 'last30DaysBuyers',      $last30DaysBuyers );
-        $this->assign( 'todayBuyers',           $todayBuyers );
-
-        $this->assign( 'last30DaysVisitors',    $last30DaysVisitors );
-        $this->assign( 'todayVisitors',         $todayVisitors );
     }
 
     /**
@@ -460,42 +440,71 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $purchase_link = $this->get_laterpay_purchase_link( $post_id );
 
         // get teaser content
-        $teaser_content         = get_post_meta( $post_id, 'laterpay_post_teaser', true );
-        $teaser_content_only    = get_option( 'laterpay_teaser_content_only' );
+        $teaser_content             = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+        $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
+        $is_ajax                    = defined( 'DOING_AJAX' ) && DOING_AJAX;
+        $user_can_read_statistic    = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
+        $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $hide_statistics_pane       = LaterPay_Helper_User::statistics_pane_is_hidden();
 
         // get post statistics if user has the required capabilities
-        if ( LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+        if ( $user_can_read_statistic ) {
             $access = true;
             $this->get_post_statistics();
         }
 
-        $can_show_statistic         = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) &&
-                                      ( ! LaterPay_Helper_Request::is_ajax() || $laterpay_show_statistics ) &&
-                                      $this->config->get( 'logging.access_logging_enabled' ) &&
-                                      $is_premium_content;
-        $post_content_cached        = LaterPay_Helper_Cache::site_uses_page_caching();
-        $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
-        $hide_statistics_pane       = LaterPay_Helper_User::statistics_pane_is_hidden();
         // encrypt files contained in premium posts
         $content                    = LaterPay_Helper_File::get_encrypted_content( $post_id, $content, $access );
 
-        $this->assign( 'laterpay', [
+        // assign all required vars to the view-templates
+        $view_args = array(
             'post_id'                   => $post_id,
             'content'                   => $content,
             'teaser_content'            => $teaser_content,
             'teaser_content_only'       => $teaser_content_only,
             'currency'                  => $currency,
             'price'                     => $price,
-            'is_premium_content'        => $is_premium_content,
             'access'                    => $access,
             'link'                      => $purchase_link,
-            'can_show_statistic'        => $can_show_statistic,
-            'post_content_cached'       => $post_content_cached,
             'preview_post_as_visitor'   => $preview_post_as_visitor,
             'hide_statistics_pane'      => $hide_statistics_pane,
-        ] );
+        );
+        $this->assign( 'laterpay', $view_args );
 
-        $html = $this->get_text_view( 'frontend/post/single' );
+        // starting the output
+        $html = '';
+
+        // adding the statistic if enabled
+        if( ( $user_can_read_statistic || $laterpay_show_statistics ) && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
+            $html .= $this->get_text_view( 'frontend/partials/post/statistic' );
+        }
+
+        // post is free or was already bought by user
+        if ( ( !$is_premium_content || $access ) && !$preview_post_as_visitor ) {
+            return $html . $content;
+        }
+
+        // When caching is enabled and it's not an ajax-request, return the placeholder
+        if ( (bool) $this->config->get( 'caching.compatible_mode' ) && !$is_ajax ){
+            return $this->get_text_view( 'frontend/partials/post/single_cached' );
+        }
+
+        // adding the purchase button on top of the teaser-content
+        if( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
+            $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
+        }
+
+        // adding the teaser before content
+        $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
+
+        if( $teaser_content_only ){
+            // preview only the teaser content -> add purchase link after teaser content
+            $html .= $this->get_text_view( 'frontend/partials/post/purchase_link' );
+        }
+        else {
+            // preview only the teaser content -> add purchase link after teaser content
+            $html .= $this->get_text_view( 'frontend/partials/post/purchase_box' );
+        }
 
         return $html;
     }
