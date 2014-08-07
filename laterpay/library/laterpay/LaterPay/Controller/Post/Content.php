@@ -148,38 +148,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             return;
         }
 
-        // parameters required for the GET request
-        $required_params = array(
-            'p',
-            'buy',
-            'vat',
-            'hmac',
-            'post_id',
-            'id_currency',
-            'price',
-            'date',
-            'ip',
-            'hash',
-        );
-
-        // check if all parameters are available in GET request
-        $diff = array_diff(
-            array_keys( $_GET ),
-            $required_params
-        );
-
-        if ( count( $diff ) > 0 ) {
-            LaterPay_Core_Logger::error(
-                __METHOD__ . ' some parameters are missing in GET-Request',
-                array(
-                    'get'               => $_GET,
-                    'required_params'   => $required_params,
-                    'diff'              => $diff,
-                )
-            );
-            return;
-        }
-
         // data to create the URL and hash-check
         $url_data = array(
             'post_id'     => $_GET[ 'post_id' ],
@@ -191,7 +159,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         );
         $url    = $this->get_after_purchase_redirect_url( $url_data );
         $hash   = $this->get_hash_by_url( $url );
-
+        // update lptoken if we got it
+        if ( isset($_GET['lptoken']) ) {
+            $client = new LaterPay_Core_Client($this->config);
+            $client->set_token($_GET['lptoken']);
+        }
         // check if the parameters of $_GET are valid and not manipulated
         if ( $hash === $_GET[ 'hash' ] ) {
             $data = array(
@@ -247,7 +219,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
 
         $context =  array(
-            'is_singular'       => $is_singular,
+            'is_frontend'       => $is_frontend,
             'support_cookies'   => $browser_supports_cookies,
             'is_crawler'        => $browser_is_crawler
         );
@@ -285,7 +257,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $price  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         $access = false;
 
-        if ( $price == 0 ) {
+        if ( $price != 0 ) {
             $result = $laterpay_client->get_access( array( $post->ID ) );
 
             if ( !empty( $result ) && isset( $result[ 'articles' ] ) && isset( $result[ 'articles' ][ $post->ID ] ) ) {
@@ -351,7 +323,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return  string $hash
      */
     protected function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . AUTH_SALT );
+        return md5( md5( $url ) . wp_salt() );
     }
 
     /**
