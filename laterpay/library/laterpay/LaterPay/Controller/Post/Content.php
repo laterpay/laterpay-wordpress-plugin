@@ -490,7 +490,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         // add a purchase button as very first element of the content
+        $html .= '<div class="clearfix">';
         $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
+        $html .= '</div>';
 
         // add the teaser content
         $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
