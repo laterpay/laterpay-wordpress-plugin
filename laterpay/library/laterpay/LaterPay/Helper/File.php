@@ -24,15 +24,15 @@ class LaterPay_Helper_File
 	protected static $protected_file_types = '3gpp|aac|avi|divx|doc|docx|epup|flv|gif|jpeg|jpg|mobi|mov|mp3|mp4|mp4|mpg|ogg|pdf|png|ppt|pptx|rar|rtf|tif|tiff|txt|wav|wmv|xls|xlsx|zip';
 
 	/**
+     * Generate an encrypted URL for a file within a paid post that has a protected file type.
+     *
+	 * @param int    $post_id
+	 * @param string $url
+	 * @param bool   $use_auth
 	 *
-	 * @param   int    $post_id
-	 * @param   string $url
-	 * @param   bool   $use_auth
-	 *
-	 * @return  string $url
+	 * @return string $url
 	 */
 	public static function get_encrypted_resource_url( $post_id, $url, $use_auth ) {
-
         $new_url            = admin_url( self::SCRIPT_PATH );
         $blog_url_parts     = parse_url( get_bloginfo('wpurl') );
         $resource_url_parts = parse_url( $url );
@@ -73,7 +73,7 @@ class LaterPay_Helper_File
      * @return	void
      */
     public function load_file() {
-        unset($_GET['action']);
+        unset( $_GET['action'] );
     	// register libraries
     	$request    = new LaterPay_Core_Request();
     	$response   = new LaterPay_Core_Response();
@@ -113,7 +113,7 @@ class LaterPay_Helper_File
     	}
 
     	// processing
-    	if ( empty($file) || empty($aid) ) {
+    	if ( empty( $file ) || empty( $aid ) ) {
     		LaterPay_Core_Logger::error( 'RESOURCE:: empty $file or $aid' );
     		$response->set_http_response_code( 400 );
     		$response->send_response();
@@ -211,7 +211,8 @@ class LaterPay_Helper_File
      * @return string
      */
     protected function get_decrypted_file_name( $file ) {
-    	global $response, $request;
+    	$request    = new LaterPay_Core_Request();
+    	$response   = new LaterPay_Core_Response();
 
     	$file = base64_decode( $file );
     	if ( empty( $file ) ) {
@@ -237,7 +238,7 @@ class LaterPay_Helper_File
      * @return void
      */
     protected function send_response( $file ) {
-    	global $response;
+    	$response = new LaterPay_Core_Response();
 
     	$file = $this->get_decrypted_file_name( $file );
     	if ( ! file_exists( $file ) ) {

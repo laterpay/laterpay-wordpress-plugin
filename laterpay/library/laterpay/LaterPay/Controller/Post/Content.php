@@ -15,9 +15,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         global $post, $wp_query, $laterpay_show_statistics;
 
         // set the global vars so that WordPress thinks it is in a single view
-        $wp_query->is_single      = TRUE;
-        $wp_query->in_the_loop    = TRUE;
-        $laterpay_show_statistics = TRUE;
+        $wp_query->is_single      = true;
+        $wp_query->in_the_loop    = true;
+        $laterpay_show_statistics = true;
 
         // get the content
         $post_id        = absint( $_REQUEST[ 'post_id' ] );
@@ -28,7 +28,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $content        = str_replace( ']]>', ']]&gt;', $content );
 
         echo $content;
-
         exit;
     }
 
@@ -60,14 +59,14 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $currency = get_option( 'laterpay_currency' );
 
         // get historical performance data for post
-        $payments_history_model    = new LaterPay_Model_Payments_History();
-        $post_views_model          = new LaterPay_Model_Post_Views();
+        $payments_history_model = new LaterPay_Model_Payments_History();
+        $post_views_model       = new LaterPay_Model_Post_Views();
 
         // get total revenue and total sales
         $total = array();
         $history_total = (array) $payments_history_model->get_total_history_by_post_id( $post->ID );
         foreach ( $history_total as $item ) {
-            $total[$item->currency]['sum']      = round($item->sum, 2);
+            $total[$item->currency]['sum']      = round( $item->sum, 2 );
             $total[$item->currency]['quantity'] = $item->quantity;
         }
 
@@ -148,38 +147,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             return;
         }
 
-        // parameters required for the GET request
-        $required_params = array(
-            'p',
-            'buy',
-            'vat',
-            'hmac',
-            'post_id',
-            'id_currency',
-            'price',
-            'date',
-            'ip',
-            'hash',
-        );
-
-        // check if all parameters are available in GET request
-        $diff = array_diff(
-            array_keys( $_GET ),
-            $required_params
-        );
-
-        if ( count( $diff ) > 0 ) {
-            LaterPay_Core_Logger::error(
-                __METHOD__ . ' some parameters are missing in GET-Request',
-                array(
-                    'get'               => $_GET,
-                    'required_params'   => $required_params,
-                    'diff'              => $diff,
-                )
-            );
-            return;
-        }
-
         // data to create the URL and hash-check
         $url_data = array(
             'post_id'     => $_GET[ 'post_id' ],
@@ -191,7 +158,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         );
         $url    = $this->get_after_purchase_redirect_url( $url_data );
         $hash   = $this->get_hash_by_url( $url );
-
+        // update lptoken if we got it
+        if ( isset( $_GET['lptoken'] ) ) {
+            $client = new LaterPay_Core_Client( $this->config );
+            $client->set_token( $_GET['lptoken'] );
+        }
         // check if the parameters of $_GET are valid and not manipulated
         if ( $hash === $_GET[ 'hash' ] ) {
             $data = array(
@@ -242,12 +213,12 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     public function create_token() {
         $GLOBALS[ 'laterpay_access' ] = false;
 
-        $is_singular                = is_singular();
+        $is_frontend                = is_singular() || is_home() || is_search() || is_archive();
         $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
         $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
 
-        $context =  array(
-            'is_singular'       => $is_singular,
+        $context = array(
+            'is_frontend'       => $is_frontend,
             'support_cookies'   => $browser_supports_cookies,
             'is_crawler'        => $browser_is_crawler
         );
@@ -257,7 +228,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $context
         );
 
-        if ( ! $is_singular || !$browser_supports_cookies || $browser_is_crawler ){
+        if ( ! $is_frontend || ! $browser_supports_cookies || $browser_is_crawler ) {
             return;
         }
 
@@ -266,7 +237,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $laterpay_client->set_token( $_GET['lptoken'], true );
         }
 
-        if ( !$laterpay_client->has_token() ) {
+        if ( ! $laterpay_client->has_token() ) {
             $laterpay_client->acquire_token();
         }
 
@@ -277,18 +248,15 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             return;
         }
 
-        LaterPay_Core_Logger::debug(
-            __METHOD__,
-            array( 'post' => $post )
-        );
+        LaterPay_Core_Logger::debug( __METHOD__, array( 'post' => $post ) );
 
         $price  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         $access = false;
 
-        if ( $price == 0 ) {
+        if ( $price != 0 ) {
             $result = $laterpay_client->get_access( array( $post->ID ) );
 
-            if ( !empty( $result ) && isset( $result[ 'articles' ] ) && isset( $result[ 'articles' ][ $post->ID ] ) ) {
+            if ( ! empty( $result ) && isset( $result[ 'articles' ] ) && isset( $result[ 'articles' ][ $post->ID ] ) ) {
                 $access = $result['articles'][ $post->ID ]['access'];
             }
         }
@@ -351,11 +319,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return  string $hash
      */
     protected function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . AUTH_SALT );
+        return md5( md5( $url ) . wp_salt() );
     }
 
     /**
-     * Generate URL the user is redirected to after buying a given post.
+     * Generate the URL to which the user is redirected to after buying a given post.
      *
      * @param array $data
      *

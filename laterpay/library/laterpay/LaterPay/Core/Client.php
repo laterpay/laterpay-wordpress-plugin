@@ -685,11 +685,9 @@ class LaterPay_Core_Client
      * @return  array $response
      */
     protected function make_request( $url, $params = array(), $method = LaterPay_Core_Request::GET ) {
-        $post = get_post();
 	    LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(
                             'url'       => $url,
                             'params'    => $params,
-                            'post'      => $post,
                             'api_key'   => $this->api_key,
                             'cp_key'    => $this->cp_key,
                             'lptoken'   => $this->lptoken,
@@ -715,7 +713,7 @@ class LaterPay_Core_Client
                 $raw_response_body = wp_remote_retrieve_body( $raw_response );
             } else {
                 $url .= '?' . $params;
-                $raw_response = wp_remote_post(
+                $raw_response = wp_remote_get(
                                     $url,
                                     array(
                                         'headers'   => $headers,
@@ -748,7 +746,6 @@ class LaterPay_Core_Client
                                 'message'   => $e->getMessage(),
                                 'url'       => $url,
                                 'params'    => $params,
-                                'post'      => $post,
                             )
                         );
 

@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -134,28 +135,28 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_nopriv_laterpay_article_script',   array( $post_controller, 'get_cached_post' ) );
         add_action( 'wp_ajax_laterpay_footer_script',           array( $post_controller, 'get_modified_footer' ) );
         add_action( 'wp_ajax_nopriv_laterpay_footer_script',    array( $post_controller, 'get_modified_footer' ) );
-        
+
         // ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
         add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
         add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
         // frontend actions
-        if ( ! is_admin() ){
-            add_action( 'init',                     array( $post_controller, 'create_token' ) );
-            add_action( 'init',                     array( $post_controller, 'buy_post' ) );
+        if ( ! is_admin() ) {
+            add_action( 'template_redirect',    array( $post_controller, 'buy_post' ) );
+            add_action( 'template_redirect',    array( $post_controller, 'create_token' ) );
 
             // add filters to override post content
-            add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
-            add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
+            add_filter( 'the_content',          array( $post_controller, 'modify_post_content' ) );
+            add_filter( 'wp_footer',            array( $post_controller, 'modify_footer' ) );
 
             // setup unique visitors tracking
             $tracking_controller = new LaterPay_Controller_Tracking( $this->config );
-            add_action( 'init',         array( $tracking_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'init',                 array( $tracking_controller, 'add_unique_visitors_tracking' ) );
 
             // register the frontend scripts
-            add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_stylesheets' ) );
-            add_action( 'wp_enqueue_scripts', array( $this, 'add_frontend_scripts' ) );
+            add_action( 'wp_enqueue_scripts',   array( $this, 'add_frontend_stylesheets' ) );
+            add_action( 'wp_enqueue_scripts',   array( $this, 'add_frontend_scripts' ) );
         }
     }
 
@@ -200,7 +201,7 @@ class LaterPay_Core_Bootstrap
      *
      * @return void
      */
-    public function add_plugin_admin_assets( ) {
+    public function add_plugin_admin_assets() {
         wp_register_style(
             'laterpay-admin',
             $this->config->css_url . 'laterpay-admin.css',
