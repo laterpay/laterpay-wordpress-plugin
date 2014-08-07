@@ -614,7 +614,7 @@ class LaterPay_Core_Client
      */
     public function acquire_token() {
 
-        $link = get_permalink();
+        $link = LaterPay_Helper_Request::get_current_url();
         $link = $this->_get_token_redirect_url( $link );
 
         $context = array(
@@ -651,6 +651,10 @@ class LaterPay_Core_Client
 
         $this->lptoken = $token;
         setcookie( $this->token_name, $token, strtotime( '+1 day' ), '/' );
+        if ( $redirect ) {
+            wp_redirect(LaterPay_Helper_Request::get_current_url());
+            exit();
+        }
     }
 
 	/**
