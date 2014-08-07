@@ -14,7 +14,7 @@ class LaterPay_Helper_Pricing
         $global_default_price = get_option( 'laterpay_global_price' );
 
         $post = get_post( );
-        $post_prices = get_post_meta( $post_id, 'laterpay_post_prices' );
+        $post_prices = get_post_meta( $post_id, 'laterpay_post_prices', true );
 
         $post_price_type    = array_key_exists( 'type', $post_prices ) ? $post_prices[ 'type' ] : '';
         $category_id        = array_key_exists( 'category_id', $post_prices ) ? $post_prices[ 'category_id' ] : '';
