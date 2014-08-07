@@ -211,7 +211,8 @@ class LaterPay_Helper_File
      * @return string
      */
     protected function get_decrypted_file_name( $file ) {
-    	global $response, $request;
+    	$request    = new LaterPay_Core_Request();
+    	$response   = new LaterPay_Core_Response();
 
     	$file = base64_decode( $file );
     	if ( empty( $file ) ) {
@@ -237,7 +238,7 @@ class LaterPay_Helper_File
      * @return void
      */
     protected function send_response( $file ) {
-    	global $response;
+    	$response   = new LaterPay_Core_Response();
 
     	$file = $this->get_decrypted_file_name( $file );
     	if ( ! file_exists( $file ) ) {

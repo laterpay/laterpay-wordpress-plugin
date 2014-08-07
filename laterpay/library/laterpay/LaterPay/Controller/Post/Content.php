@@ -231,7 +231,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     public static function is_cron_page() {
         return in_array( $GLOBALS['pagenow'], array( 'wp-cron.php' ) );
     }
-
+    
     /**
      * Update incorrect token or create one, if it doesn't exist.
      *
@@ -242,7 +242,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     public function create_token() {
         $GLOBALS[ 'laterpay_access' ] = false;
 
-        $is_singular                = is_singular();
+        $is_frontend                = is_singular() || is_home() || is_search() || is_archive();
         $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
         $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
 
@@ -257,7 +257,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $context
         );
 
-        if ( ! $is_singular || !$browser_supports_cookies || $browser_is_crawler ){
+        if ( ! $is_frontend || !$browser_supports_cookies || $browser_is_crawler ){
             return;
         }
 

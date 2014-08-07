@@ -142,8 +142,8 @@ class LaterPay_Core_Bootstrap
 
         // frontend actions
         if ( ! is_admin() ){
-            add_action( 'init',                     array( $post_controller, 'create_token' ) );
-            add_action( 'init',                     array( $post_controller, 'buy_post' ) );
+            add_action( 'template_redirect',                     array( $post_controller, 'create_token' ) );
+            add_action( 'template_redirect',                     array( $post_controller, 'buy_post' ) );
 
             // add filters to override post content
             add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
