@@ -4,6 +4,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 {
 
     /**
+     * Contains all settings for the plugin.
+     *
+     * @var LaterPay_Model_Config
+     */
+    protected $config;
+
+    /**
      * Render a teaser box for selling additional (downloadable) content from the shortcode [laterpay_premium_download].
      * Shortcode [laterpay] is an alias for shortcode [laterpay_premium_download].
      *
@@ -48,7 +55,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $page_id = absint( $a['target_page_id'] );
         if ( ! $page_id ) {
             // get $page_id for provided page title, if no valid target_page_id was provided
-            $page = get_page_by_title( $a['target_page_title'], OBJECT, $config->get( 'content.allowed_post_types' ); );
+            $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.allowed_post_types' ) );
             if ( empty( $page ) ) {
                 return '';
             }
