@@ -4,11 +4,19 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 {
 
     /**
+     * Contains all settings for the plugin.
+     *
+     * @var LaterPay_Model_Config
+     */
+    protected $config;
+
+    /**
      * Render a teaser box for selling additional (downloadable) content from the shortcode [laterpay_premium_download].
      * Shortcode [laterpay] is an alias for shortcode [laterpay_premium_download].
      *
      * The shortcode [laterpay_premium_download] accepts various parameters:
-     * - target_page_title (required): the title of the page that contains the paid content
+     * - target_page_title: the title of the page that contains the paid content
+     * - target_page_id: the WordPress id of the page that contains the paid content
      * - heading_text: the text that should be displayed as heading in the teaser box;
      *   restricted to one line
      * - description_text: text that provides additional information on the paid content;
@@ -20,9 +28,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * Basic example:
      * [laterpay_premium_download target_page_title="Event video footage"]
+     * or:
+     * [laterpay_premium_download target_page_id="734"]
      *
      * Advanced example:
-     * [laterpay_premium_download target_page_title="Event video footage" heading_text="Video footage of concert"
+     * [laterpay_premium_download target_page_id="734" heading_text="Video footage of concert"
      * description_text="Full HD video of the entire concept, including behind the scenes action."
      * teaser_image_path="/uploads/images/concert-video-still.jpg"]
      *
@@ -32,26 +42,60 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      */
     public function render_premium_download_box( $atts ) {
         $a = shortcode_atts(array(
-                                'target_page_title'  => '',
-                                'heading_text'       => __( 'Additional Premium Content', 'laterpay' ),
-                                'description_text'   => '',
-                                'content_type'       => '',
-                                'teaser_image_path'  => '',
+                                'target_page_title' => '',
+                                'target_page_id'    => '',
+                                'target_page_title' => '',
+                                'heading_text'      => __( 'Additional Premium Content', 'laterpay' ),
+                                'description_text'  => '',
+                                'content_type'      => '',
+                                'teaser_image_path' => '',
                             ), $atts);
 
-        // get URL for provided page title
-        $page           = get_page_by_title( $a['target_page_title'], OBJECT, array( 'post', 'page', 'attachment' ) );
-        $page_id        = $page->ID;
-        $page_url       = get_permalink( $page_id );
-
-        if ( empty( $page ) ) {
-            return '';
-        } else {
-            // get price of content
-            $price      = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $page_id ), 2 );
-            $currency   = get_option( 'laterpay_currency' );
-            $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
+        // get URL for target page
+        $page = null;
+        if ( $a[ 'target_page_id' ] !== '' ) {
+            $page = get_post( absint( $a[ 'target_page_id' ] ) );
         }
+        if ( $page === null && $a[ 'target_page_title' ] !== '' ) {
+            $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.allowed_post_types' ) );
+        }
+        if ( $page === null ) {
+            $error_message  = '<div class="laterpay-shortcode-error">';
+            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+            $error_message .= __( "The target page you specified doesn't seem to exist on this site.", 'laterpay' );
+            $error_message .= '</div>';
+
+            return $error_message;
+        }
+        $page_id = $page->ID;
+
+        // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
+        if ( ! in_array( $page->post_type, $this->config->get( 'content.allowed_post_types' ) ) )  {
+            $error_message  = '<div class="laterpay-shortcode-error">';
+            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+            $error_message .= __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+            $error_message .= '</div>';
+
+            return $error_message;
+        }
+
+        // check if page has a custom post type
+        $custom_post_types      = get_post_types( array( '_builtin' => false ) );
+        $custom_types           = array_keys( $custom_post_types );
+        $is_custom_post_type    = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types );
+
+        // get the URL of the target page
+        if ( $is_custom_post_type ) {
+            // getting the permalink of a custom post type requires get_post_permalink instead of get_permalink
+            $page_url = get_post_permalink( $page_id );
+        } else {
+            $page_url = get_permalink( $page_id );
+        }
+
+        // get price of content
+        $price      = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $page_id ), 2 );
+        $currency   = get_option( 'laterpay_currency' );
+        $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
 
         $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
 
@@ -103,15 +147,15 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = "<div class=\"laterpay-premium-file-link\" style=\"background-image:url({ $image_path })\">";
+            $html = "<div class=\"laterpay-premium-file-link\" style=\"background-image:url($image_path)\">";
         } else {
-            $html = "<div class=\"laterpay-premium-file-link { $content_type }\">";
+            $html = "<div class=\"laterpay-premium-file-link $content_type\">";
         }
-        $html .= "    <a href=\"{ $page_url }\" class=\"laterpay-premium-file-button\" data-icon=\"b\">{ $price_tag }</a>";
-        $html .= '    <div class=\"details\">';
-        $html .= "        <h3>{ $heading }</h3>";
+        $html .= "    <a href=\"$page_url\" class=\"laterpay-premium-file-button\" data-icon=\"b\">$price_tag</a>";
+        $html .= '    <div class="details">';
+        $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
-            $html .= "    <p>{ $description }</p>";
+            $html .= "    <p>$description</p>";
         }
         $html .= '    </div>';
         $html .= '</div>';
