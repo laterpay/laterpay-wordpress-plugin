@@ -24,8 +24,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $post           = get_post( $post_id );
         $post_content   = $post->post_content;
 
-        $content = apply_filters( 'the_content', $post_content );
-        $content = str_replace( ']]>', ']]&gt;', $content );
+        $content        = apply_filters( 'the_content', $post_content );
+        $content        = str_replace( ']]>', ']]&gt;', $content );
 
         echo $content;
 
@@ -454,9 +454,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         // encrypt files contained in premium posts
-        $content                    = LaterPay_Helper_File::get_encrypted_content( $post_id, $content, $access );
+        $content = LaterPay_Helper_File::get_encrypted_content( $post_id, $content, $access );
 
-        // assign all required vars to the view-templates
+        // assign all required vars to the view templates
         $view_args = array(
             'post_id'                   => $post_id,
             'content'                   => $content,
@@ -474,35 +474,34 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         // starting the output
         $html = '';
 
-        // adding the statistic if enabled
+        // add the post statistics, if enabled
         if( ( $user_can_read_statistic || $laterpay_show_statistics ) && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
             $html .= $this->get_text_view( 'frontend/partials/post/statistic' );
         }
 
-        // post is free or was already bought by user
-        if ( ( !$is_premium_content || $access ) && !$preview_post_as_visitor ) {
+        // return the full unmodified content, if post is free or was already bought by user
+        if ( ( ! $is_premium_content || $access ) && ! $preview_post_as_visitor ) {
             return $html . $content;
         }
 
-        // When caching is enabled and it's not an ajax-request, return the placeholder
-        if ( (bool) $this->config->get( 'caching.compatible_mode' ) && !$is_ajax ){
+        // return only a placeholder, if caching is enabled and it's not an Ajax request
+        if ( (bool) $this->config->get( 'caching.compatible_mode' ) && ! $is_ajax ) {
             return $this->get_text_view( 'frontend/partials/post/single_cached' );
         }
 
-        // adding the purchase button on top of the teaser-content
-        if( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
+        // add a purchase button as very first element of the content
+        if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
         }
 
-        // adding the teaser before content
+        // add the teaser content
         $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
 
-        if( $teaser_content_only ){
-            // preview only the teaser content -> add purchase link after teaser content
+        if ( $teaser_content_only ) {
+            // add teaser content plus a purchase link after the teaser content
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_link' );
-        }
-        else {
-            // preview only the teaser content -> add purchase link after teaser content
+        } else {
+            // add excerpt of full content, covered by an overlay with a purchase button
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_box' );
         }
 
@@ -524,8 +523,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         if ( $price > 0 ) {
-            $laterpay_client = new LaterPay_Core_Client( $this->config );
-            $identify_link = $laterpay_client->get_identify_url();
+            $laterpay_client    = new LaterPay_Core_Client( $this->config );
+            $identify_link      = $laterpay_client->get_identify_url();
 
             $this->assign( 'post_id',       $post->ID );
             $this->assign( 'identify_link', $identify_link );

@@ -1,6 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-
 <div id="laterpay-paid-content" class="laterpay-paid-content">
     <div id="laterpay-full-content" class="laterpay-full-content">
         <!-- <?php _e( 'Preview a short excerpt from the paid post:', 'laterpay' ); ?> -->
@@ -62,4 +61,3 @@
         </div>
     </div>
 </div>
-

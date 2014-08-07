@@ -1,8 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<?php
-$currency = $laterpay[ 'currency' ];
-?>
+<?php $currency = $laterpay[ 'currency' ]; ?>
 
 <div id="statistics"<?php if ( $laterpay['hide_statistics_pane'] ) echo ' class="hidden"'; ?>>
     <form id="laterpay_hide_statistics_form" method="post">
