@@ -15,7 +15,9 @@ class LaterPay_Helper_Pricing
 
         $post = get_post( );
         $post_prices = get_post_meta( $post_id, 'laterpay_post_prices', true );
-
+        if( !is_array( $post_prices ) ){
+            $post_prices = array();
+        }
         $post_price_type    = array_key_exists( 'type', $post_prices ) ? $post_prices[ 'type' ] : '';
         $category_id        = array_key_exists( 'category_id', $post_prices ) ? $post_prices[ 'category_id' ] : '';
 
