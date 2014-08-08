@@ -30,18 +30,20 @@ The plugin allows you to set different price types for your blog posts:
      E.g. setting an individual price of 0.19 Euro with a category default price of 0.10 Euro and a global
      default price of 0.00 Euro results in a price for that post of 0.19 Euro.
 
-You may also change the plugin's currency and use advanced pricing:
+You may also change the plugin's currency and apply a dynamic pricing scheme to posts:
 
 * Default Currency: The plugin allows you to set the default currency for your blog.
   Changing the default currency will not change the prices you have set, but only the currency code
   that is displayed next to the price.
-* Advanced Pricing: For every single post, you can set an advanced pricing scheme that changes the price of a blog post
-  over time. You can choose from several presets that you can adjust to your needs.
-  E.g. you can offer a breaking news post for 0.49 Euro for the first day and then automatically reduce the price
-  to 0.05 Euro to increase your sales.
+* Dynamic Pricing: For every single post, you can set a price curve that changes the price of a blog post
+  over time, starting from the publication date.
+  E.g. you can offer a breaking news post for 0.49 Euro for the first two days and then automatically reduce the price
+  to 0.05 Euro until the fith day to increase your sales.
 
 = Presentation =
-* LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button next to the post title.
+* LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button at the beginning of the
+  post content. You can choose to not show this button and instead render it from within your theme by calling
+  <?php do_action( 'laterpay_purchase_button' ); ?> within your theme.
 * Teaser content: Every post you sell with LaterPay has to contain a teaser.
   The teaser is shown to the user before he has purchased a post.
   The plugin automatically generates teaser content by taking the first 120 words of every existing post.
@@ -58,15 +60,13 @@ Furthermore, the plugin provides:
 * LaterPay invoice indicator: The plugin provides a code snippet you can insert into your theme that displays
   the user's current LaterPay invoice total and provides a direct link to his LaterPay user backend.
   You don't have to integrate this snippet, but we recommend it for transparency reasons.
+* Support for all standard post types and custom post types.
 * Full localization: The plugin is fully localized for English and German.
 
 = Security =
 File protection: The plugin secures files in paid posts against downloading them via a shared direct link.
 So even if a user purchases a post and shares the direct link to a contained file, other users won't be able
 to access that file, unless they've already bought the post.
-By default, the plugin protects the most common filetypes, not including audio or video files.
-If you want to protect additional filetypes, you can modify the list of protected filetypes in the settings.php
-of the LaterPay WordPress plugin (/wp-admin/plugin-editor.php?file=laterpay%2Flaterpay-config.php).
 
 = Crawler Friendliness =
 * Social media: The plugin supports Facebook, Twitter, and Google+ crawlers, so it won't hurt your social media reach.
@@ -127,6 +127,8 @@ Some plugin features may not be available for certain user roles, based on the W
   If you want to start earning money, you have to first register a LaterPay merchant account and request your
   Live API credentials.
 
+The plugin will notify you about available updates that you can install with a single click.
+
 
 == Modification, bug reports, and feature requests ==
 
@@ -180,18 +182,19 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
-= 0.9.7 (August 5, 2014): Production-readiness release IV =
+= 0.9.7 (August 8, 2014): Production-readiness release IV =
 * Added support for all standard as well as custom post types
 * Instead of modifying the_title, we now prepend a purchase button to the post content to prevent various compatibility issues
+* Added the action 'laterpay_purchase_button' to render the purchase button from within a theme
 * Added shortcode to align premium content shortcodes
 * Changed advanced settings mechanism from file-based to WordPress filters
 * Increased robustness of installation and activation procedure
-* Replaced custom code with native WordPress functions where possible
+* Replaced custom code with native WordPress functions wherever possible
 * Improved performance / reduced memory footprint of plugin
 * Improved security of plugin (validation, sanitizing, access to files)
 * Prefixed all class names, variables etc. to avoid collisions with other plugins
 * Changed internal coding style to adhere to WordPress standards
-* Several smaller bugfixes
+* Lots of smaller bugfixes and improvements
 
 = 0.9.6 (July 21, 2014): Production-readiness release III =
 * Included public Sandbox API credentials supplied by default
