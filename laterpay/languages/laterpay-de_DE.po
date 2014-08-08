@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Aug 08 2014 00:34:08 GMT+0200 (CEST)\n"
-"Last-Translator: tester <drodler@laterpay.net>\n"
+"PO-Revision-Date: Fri Aug 08 2014 11:45:24 GMT+0200 (CEST)\n"
+"Last-Translator: tester <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -598,7 +598,7 @@ msgid "LaterPay has been disabled for the post type of the target page."
 msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
 
 #: ../library/laterpay/LaterPay/Controller/Shortcode.php:98 ..
-#: views/frontend/partials/post/purchase_button.php:13 ..
+#: views/frontend/partials/post/purchase_button.php:12 ..
 #: views/frontend/partials/post/purchase_box.php:53
 #, php-format
 msgid "%s<small>%s</small>"
@@ -638,7 +638,7 @@ msgstr "Die Sandbox Merchant ID wurde überprüft und gespeichert."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:126
 msgid "The Sandbox Merchant ID has been removed."
-msgstr "Die Sandbox Merchant ID wurde gelöscht."
+msgstr "Die Sandbox Merchant ID wurde entfernt."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:153
 msgid "Your Sandbox API key is valid. You can now make TEST transactions."
@@ -648,7 +648,7 @@ msgstr ""
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:161
 msgid "The Sandbox API key has been removed."
-msgstr "Der Sandbox API Key wurde gelöscht."
+msgstr "Der Sandbox API Key wurde entfernt."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:188
 msgid "Live Merchant ID verified and saved."
@@ -656,7 +656,7 @@ msgstr "Die Live Merchant ID wurde überprüft und gespeichert."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:196
 msgid "The Live Merchant ID has been removed."
-msgstr "Die Live Merchant ID wurde gelöscht."
+msgstr "Die Live Merchant ID wurde entfernt."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Account.php:203
 msgid "The Merchant ID you entered is not a valid LaterPay Live Merchant ID! "
@@ -734,7 +734,7 @@ msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:370
 msgid "The default price for this category was deleted."
-msgstr "Der Standardpreis für diese Kategorie wurde gelöscht."
+msgstr "Der Standardpreis für diese Kategorie wurde entfernt."
 
 #: ../library/laterpay/LaterPay/Controller/Admin/Post/Column.php:20
 msgid "Price"
