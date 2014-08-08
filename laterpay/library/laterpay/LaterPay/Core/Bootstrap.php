@@ -142,23 +142,23 @@ class LaterPay_Core_Bootstrap
 
         // frontend actions
         if ( ! is_admin() ) {
-            add_action( 'template_redirect',    array( $post_controller, 'buy_post' ) );
-            add_action( 'template_redirect',    array( $post_controller, 'create_token' ) );
+            add_action( 'template_redirect',        array( $post_controller, 'buy_post' ) );
+            add_action( 'template_redirect',        array( $post_controller, 'create_token' ) );
 
-            // ad custom action to print the laterpay purchase-button
+            // add custom action to print the LaterPay purchase button
             add_action( 'laterpay_purchase_button', array( $post_controller, 'the_purchase_button' ) );
 
             // add filters to override post content
-            add_filter( 'the_content',          array( $post_controller, 'modify_post_content' ) );
-            add_filter( 'wp_footer',            array( $post_controller, 'modify_footer' ) );
+            add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
+            add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
 
             // setup unique visitors tracking
             $tracking_controller = new LaterPay_Controller_Tracking( $this->config );
-            add_action( 'init',                 array( $tracking_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'init',                     array( $tracking_controller, 'add_unique_visitors_tracking' ) );
 
             // register the frontend scripts
-            add_action( 'wp_enqueue_scripts',   array( $this, 'add_frontend_stylesheets' ) );
-            add_action( 'wp_enqueue_scripts',   array( $this, 'add_frontend_scripts' ) );
+            add_action( 'wp_enqueue_scripts',       array( $this, 'add_frontend_stylesheets' ) );
+            add_action( 'wp_enqueue_scripts',       array( $this, 'add_frontend_scripts' ) );
         }
     }
 

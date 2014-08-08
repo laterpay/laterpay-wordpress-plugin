@@ -366,12 +366,16 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Callback to generate a purchase-button in theme
+     * Callback to generate a LaterPay purchase button within the theme that can be freely positioned.
+     * When doing this, you should set config option 'content.show_purchase_button' to FALSE to disable the default
+     * rendering of a purchase button at the beginning of the post content, thus avoiding multiple purchase buttons
+     * on the post page.
      *
      * @wp-hook laterpay_purchase_button
+     *
      * @return  void
      */
-    public function the_purchase_button(){
+    public function the_purchase_button() {
 
         if ( ! $this->post_is_a_laterpay_post() ) {
             return;
@@ -383,7 +387,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-        if( $price == 0 ){
+        if ( $price == 0 ) {
             return;
         }
 
@@ -394,7 +398,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'price'                     => $price,
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
         );
+
         $this->assign( 'laterpay', $view_args );
+
         echo $this->get_text_view( 'frontend/partials/post/purchase_button' );
     }
 
