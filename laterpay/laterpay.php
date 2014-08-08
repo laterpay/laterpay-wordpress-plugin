@@ -115,15 +115,12 @@ function laterpay_get_plugin_config() {
 	 *
 	 * @var array
 	 */
-	$api_settings = array(
+	$default_api_settings = array(
 		'api.sandbox_url'           => 'https://api.sandbox.laterpaytest.net',
 		'api.sandbox_web_url'       => 'https://web.sandbox.laterpaytest.net',
 		'api.live_url'              => 'https://api.laterpay.net',
 		'api.live_web_url'          => 'https://web.laterpay.net',
-		'api.merchant_backend_url'  => 'https://merchant.laterpay.net/',
-	    'api.token_name'            => 'token',
-	    'api.sandbox_merchant_id'   => 'LaterPay-WordPressDemo',
-	    'api.sandbox_api_key'       => 'decafbaddecafbaddecafbaddecafbad',
+		'api.merchant_backend_url'  => 'https://merchant.laterpay.net/'
 	);
 
 	/**
@@ -133,7 +130,15 @@ function laterpay_get_plugin_config() {
 	 *
 	 * @return  Array $api_settings
 	 */
-	$api_settings = apply_filters( 'laterpay_get_api_settings', $api_settings );
+	$api_settings = apply_filters( 'laterpay_get_api_settings', $default_api_settings );
+    if( !is_array( $api_settings ) ){
+        $api_settings = $default_api_settings;
+    }
+    // non-editable settings for our api.
+    $api_settings[ 'api.token_name' ]           = 'token';
+    $api_settings[ 'api.sandbox_merchant_id' ]  = 'LaterPay-WordPressDemo';
+    $api_settings[ 'api.sandbox_api_key' ]      = 'decafbaddecafbaddecafbaddecafbad';
+
 	$config->import( $api_settings );
 
 	// default settings for currency and VAT
