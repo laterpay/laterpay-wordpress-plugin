@@ -370,9 +370,10 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      *
      * Depending on the configuration, the content of paid posts is modified and several elements are added to the content:
      * If the user is an admin, a statistics pane with performance data for the current post is shown.
+     * LaterPay purchase button is shown before the content.
      * Depending on the settings in the appearance tab, only the teaser content or the teaser content plus an excerpt of
      * the full content is returned for user who have not bought the post.
-     * A LaterPay purchase link and / or a LaterPay purchase button is shown.
+     * A LaterPay purchase link or a LaterPay purchase button is shown after the content.
      *
      * @wp-hook the_content
      *
