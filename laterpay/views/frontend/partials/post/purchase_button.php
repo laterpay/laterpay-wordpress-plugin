@@ -10,7 +10,7 @@
 ><?php
         echo sprintf(
             __( '%s<small>%s</small>', 'laterpay' ),
-            $laterpay[ 'price' ],
+            LaterPay_Helper_View::format_number( (float) $laterpay[ 'price' ], 2 ),
             $laterpay[ 'currency' ]
         );
     ?></a>
