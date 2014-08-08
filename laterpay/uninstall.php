@@ -27,17 +27,6 @@ $wpdb->query( $sql );
 delete_post_meta_by_key( 'laterpay_post_prices' );
 delete_post_meta_by_key( 'laterpay_post_teaser' );
 
-// legacy postmeta
-// TODO: remove in version 1.0
-delete_post_meta_by_key( 'laterpay_post_pricing' );
-delete_post_meta_by_key( 'laterpay_post_pricing_type' );
-delete_post_meta_by_key( 'laterpay_post_default_category' );
-delete_post_meta_by_key( 'laterpay_start_price' );
-delete_post_meta_by_key( 'laterpay_end_price' );
-delete_post_meta_by_key( 'laterpay_change_start_price_after_days' );
-delete_post_meta_by_key( 'laterpay_transitional_period_end_after_days' );
-delete_post_meta_by_key( 'laterpay_reach_end_price_after_days' );
-
 // remove user settings from wp_usermeta table
 $sql = "DELETE FROM
             $table_usermeta
