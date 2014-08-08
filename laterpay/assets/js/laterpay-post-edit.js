@@ -197,7 +197,7 @@ jQuery.noConflict();
                     $.post(
                         lpVars.ajaxUrl,
                         {
-                            action          : 'post_pricing',
+                            action          : 'laterpay_get_category_prices',
                             form            : 'laterpay_get_category_prices',
                             category_ids    : categoryIds
                         },
