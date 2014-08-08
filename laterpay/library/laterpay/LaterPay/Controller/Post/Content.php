@@ -348,9 +348,9 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Helper function to detect, if the current post is a single post and can be parsed in frontend.
      *
-     * @return bool true|false
+     * @return  bool true|false
      */
-    protected function post_is_a_laterpay_post() {
+    protected function post_is_a_laterpay_post( ) {
         // only modify the post_content on singular pages
         if ( ! is_singular() || ! in_the_loop() ) {
             return false;
@@ -363,6 +363,39 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         return true;
+    }
+
+    /**
+     * Callback to generate a purchase-button in theme
+     *
+     * @wp-hook laterpay_purchase_button
+     * @return  void
+     */
+    public function the_purchase_button(){
+
+        if ( ! $this->post_is_a_laterpay_post() ) {
+            return;
+        }
+
+        $post = get_post();
+        if ( $post === null ) {
+            return;
+        }
+
+        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        if( $price == 0 ){
+            return;
+        }
+
+        $view_args = array(
+            'post_id'                   => $post->ID,
+            'link'                      => $purchase_link = $this->get_laterpay_purchase_link( $post->ID ),
+            'currency'                  => get_option( 'laterpay_currency' ),
+            'price'                     => $price,
+            'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+        );
+        $this->assign( 'laterpay', $view_args );
+        echo $this->get_text_view( 'frontend/partials/post/purchase_button' );
     }
 
     /**
@@ -459,10 +492,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         // add a purchase button as very first element of the content
-        $html .= '<div class="clearfix">';
-        $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
-        $html .= '</div>';
-
+        if( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
+            $html .= '<div class="clearfix">';
+            $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
+            $html .= '</div>';
+        }
         // add the teaser content
         $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
 

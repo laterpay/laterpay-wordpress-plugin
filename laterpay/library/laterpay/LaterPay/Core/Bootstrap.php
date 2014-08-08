@@ -145,6 +145,9 @@ class LaterPay_Core_Bootstrap
             add_action( 'template_redirect',    array( $post_controller, 'buy_post' ) );
             add_action( 'template_redirect',    array( $post_controller, 'create_token' ) );
 
+            // ad custom action to print the laterpay purchase-button
+            add_action( 'laterpay_purchase_button', array( $post_controller, 'the_purchase_button' ) );
+
             // add filters to override post content
             add_filter( 'the_content',          array( $post_controller, 'modify_post_content' ) );
             add_filter( 'wp_footer',            array( $post_controller, 'modify_footer' ) );
