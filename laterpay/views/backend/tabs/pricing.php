@@ -72,14 +72,14 @@
                                     </strong>
                                     <?php _e( 'costs', 'laterpay' ); ?>
                                     <strong>
-                                        <?php $category = LaterPay_Helper_View::format_number( (float) $category->category_price, 2 ); ?>
+                                        <?php $category_price = LaterPay_Helper_View::format_number( (float) $category->category_price, 2 ); ?>
                                         <input  type="text"
                                                 name="price"
                                                 class="lp-input number"
                                                 value="<?php echo LaterPay_Helper_View::format_number($category->category_price, 2); ?>"
                                                 style="display:none;"
                                                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
-                                        <span class="category-price"><?php echo $category; ?></span>
+                                        <span class="category-price"><?php echo $category_price; ?></span>
                                         <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
                                     </strong>
 

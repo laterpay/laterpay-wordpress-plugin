@@ -74,8 +74,7 @@ class LaterPay_Core_Bootstrap
 
                 $admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
                 add_action( 'wp_ajax_laterpay_pricing',             array( $admin_pricing_controller, 'process_ajax_requests' ) );
-                add_action( 'wp_ajax_laterpay_post_pricing',        array( $admin_pricing_controller, 'process_category_ajax_requests' ) );
-                add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'get_category_prices' ) );
+                add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
                 $admin_appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
                 add_action( 'wp_ajax_laterpay_appearance', array( $admin_appearance_controller, 'process_ajax_requests' ) );
