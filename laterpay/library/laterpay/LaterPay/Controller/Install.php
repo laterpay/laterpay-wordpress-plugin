@@ -49,10 +49,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 
 		// check file / folder permissions
 		$template = __( '<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>', 'laterpay' );
-		$file = dirname( $this->config->plugin_file_path );
-		if ( ! is_writable( $file ) ) {
-			$notices[] = sprintf( $template, $file );
-		}
 		$file = dirname( $this->config->plugin_file_path ) . DIRECTORY_SEPARATOR . 'cache';
 		if ( ! is_writable( $file ) ) {
 			$notices[] = sprintf( $template, $file );
