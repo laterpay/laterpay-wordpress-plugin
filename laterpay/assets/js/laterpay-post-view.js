@@ -1,6 +1,11 @@
 (function($) {$(document).ready(function() {
 
         window.lpShowStatistic = function() {
+            // don't render the post statistics, if there are multiple single pages on one page
+            if ($('#statistics:visible').length > 1) {
+                return;
+            }
+
             $('#statistics:visible .bar').peity('bar', {
                 delimiter   : ';',
                 width       : 182,
