@@ -132,7 +132,7 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
 
 /* **** Layout **** */
 .lp-page {min-height:100%;}
-.lp-wrap {padding:1rem;}
+.lp-wrap {max-width:1240px; padding:1rem;}
 
 #message {
     box-shadow:0 1px 4px 0 rgba(0, 0, 0, 0.55);
@@ -326,7 +326,7 @@ h2 + hr {border-top:2px solid #d3d3d3; margin:.5rem 0 0.25rem;}
 .pr-type2 hr {border-top-color:#a6a6a6;}
 .pr-type3 hr {border-top-color:#757575;}
 
-dfn.spacer {display:block; height:2em;}
+dfn.spacer {display:block; height:2.4em;}
 
 .edit-link {margin-left:1em; padding:.5em 0;}
 
@@ -334,7 +334,9 @@ dfn.spacer {display:block; height:2em;}
 #global-price-form.editing p {margin-top:.5em;}
 
 /* category default prices */
-.category-price-form.editing p {margin:-0.5em 0 -0.35em}
+#category-prices p {margin:1em 0 0;}
+#category-prices .category-price-form p {margin-top:.25em;}
+#category-prices .category-price-form.editing p {margin:-0.1em 0;}
 .select2-container,
 .select2-drop,
 .select2-search,
@@ -386,25 +388,26 @@ APPEARANCE
 /* ==============================
 ACCOUNT
 ============================ */
-.w2-5 h3 {font-weight:600; margin:1em 0 0.1em;}
-.w2-5 ul.clearfix {margin:1.25em 0 -0.8em}
-.w2-5 fieldset {
+.w1-2 h3 {font-weight:600; margin:1em 0 0.1em;}
+.w1-2 ul.clearfix {margin:1.25em 0 -0.8em}
+.w1-2 fieldset {
     border:1px solid #ddd;
     border-radius:3px;
     box-shadow:1px 1px 0 #fafafa;
-    margin:1em 2em 0 0;
+    margin:1em 1em 0 0;
     min-height:165px;
     padding:.5em 1em 1em;
 }
-.w2-5 legend {font-size:1rem; font-weight:600; margin-left:-0.5em; padding:0 0.5em;}
+.w1-2 legend {font-size:1rem; font-weight:600; margin-left:-0.5em; padding:0 0.5em;}
 .credentials-hint {display:block; margin:1em 0;}
 
-.w2-5.sandbox-credentials,
-.w2-5.live-credentials {position:relative;}
-.w2-5.sandbox-credentials[data-icon]:before,
-.w2-5.live-credentials[data-icon]:before {color:#ddd; position:absolute; z-index:-1;}
-.w2-5.sandbox-credentials[data-icon]:before {font-size:90px; left:26px; top:57px;}
-.w2-5.live-credentials[data-icon]:before {font-size:75px; left:15px; top:72px;}
+.w1-2.sandbox-credentials,
+.w1-2.live-credentials {position:relative;}
+.w1-2.sandbox-credentials[data-icon]:before,
+.w1-2.live-credentials[data-icon]:before {color:#ddd; position:absolute; z-index:-1;}
+.w1-2.sandbox-credentials[data-icon]:before {font-size:90px; left:26px; top:57px;}
+.w1-2.live-credentials[data-icon]:before {font-size:75px; left:15px; top:72px;}
+.background-icon-spacer {width:84px;}
 
 /* legal documents viewer */
 #request-live-credentials a {margin:.1em 0 0 1px;}
@@ -511,3 +514,21 @@ label.switch-label {
 
 #plugin_mode_live_text,
 #plugin_mode_test_text {display:block;}
+
+
+/* #### Responsiveness ##################################################################### */
+@media (max-width:1279px) {
+    .lp-wrap {padding:0;}
+
+    /* Pricing tab */
+    .edit-link {margin-left:.5em;}
+    .pr-type3 br {display:none;}
+}
+@media (max-width:1050px) {
+    /* Account tab */
+    .w1-2.sandbox-credentials[data-icon]:before {font-size:75px; left:24px; top:61px;}
+    .w1-2.live-credentials[data-icon]:before {font-size:60px; left:14px; top:79px;}
+    .background-icon-spacer {width:70px;}
+    input.api-key-input[type=text],
+    input.merchant-id-input[type=text] {width:290px;}
+}

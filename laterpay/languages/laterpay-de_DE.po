@@ -1141,7 +1141,7 @@ msgstr "Löschen"
 
 #: ../views/backend/tabs/pricing.php:95
 msgid "Set default price for another category"
-msgstr "Standardpreis für eine weitere Kategorie setzen"
+msgstr "Standardpreis für weitere Kategorie setzen"
 
 #: ../views/backend/tabs/pricing.php:131
 msgid "Individual Prices"
@@ -1156,7 +1156,7 @@ msgstr ""
 #: ../views/backend/tabs/pricing.php:135
 msgid "You can set individual prices for posts,<br>when adding or editing a post."
 msgstr ""
-"Sie können individuelle Preise für Beiträge setzen,<br>wenn Sie einen "
+"Sie können individuelle Preise für Beiträge setzen,<br> wenn Sie einen "
 "Beitrag erstellen oder bearbeiten."
 
 #: ../views/backend/tabs/pricing.php:150

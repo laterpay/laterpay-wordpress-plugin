@@ -20,7 +20,7 @@
         <div class="lp-form-row clearfix">
             <h2><?php _e( 'LaterPay API Credentials', 'laterpay' ); ?></h2>
 
-            <div class="w2-5 left sandbox-credentials" data-icon="h">
+            <div class="w1-2 left sandbox-credentials" data-icon="h">
                 <fieldset>
                     <legend><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for testing purposes', 'laterpay' ); ?></dfn>
@@ -29,7 +29,7 @@
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
-                            <li class="left w1-5">
+                            <li class="left background-icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="left">
@@ -50,7 +50,7 @@
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
-                            <li class="left w1-5">
+                            <li class="left background-icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="left">
@@ -69,7 +69,7 @@
                 </fieldset>
             </div>
 
-            <div class="w2-5 left live-credentials" data-icon="k">
+            <div class="w1-2 left live-credentials" data-icon="k">
                 <fieldset>
                     <legend><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for processing real financial transactions', 'laterpay' ); ?></dfn>
@@ -78,7 +78,7 @@
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
-                            <li class="left w1-5">
+                            <li class="left background-icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="left">
@@ -99,7 +99,7 @@
                         <input type="hidden" name="action"  value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="clearfix">
-                            <li class="left w1-5">
+                            <li class="left background-icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="left">
@@ -117,7 +117,7 @@
                         <ul id="request-live-credentials"
                             class="clearfix"
                             <?php if ( $live_api_key ) { echo ' style="display:none;"'; } ?>>
-                            <li class="left w1-5">
+                            <li class="left background-icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="left">
