@@ -373,7 +373,10 @@ jQuery.noConflict();
             },
 
             savePricingData = function() {
-                // $o.priceInput.removeAttr('disabled');
+
+                if( !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied) ) {
+                    return;
+                }
 
                 // save dynamic pricing data
                 var data = window.lpc.get_data();
