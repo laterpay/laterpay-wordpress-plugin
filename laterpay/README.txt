@@ -3,7 +3,7 @@
 Contributors: dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 3.9.1
+Tested up to: 3.9.2
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -325,6 +325,11 @@ your theme after installing the LaterPay WordPress plugin.
 
 
 == Changelog ==
+
+= 0.9.7.1 (August 13, 2014): Bugfix Release =
+* Fixed minor bug on post add / edit page that would trigger a Javascript confirm message when saving
+* Fixed preview mode for paid posts
+* Disabled rendering of post statistics, if a page includes multiple single post pages
 
 = 0.9.7 (August 8, 2014): Production-readiness release IV =
 * Added support for all standard as well as custom post types
