@@ -61,7 +61,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         // target_page_id was provided, but didn't work
         if ( $page === null && $a[ 'target_page_id' ] !== '' ) {
             $error_reason = sprintf(
-                                    __( 'We couldn\'t find a page for target_page_id="%s" on this site.', 'laterpay' )
+                                    __( 'We couldn\'t find a page for target_page_id="%s" on this site.', 'laterpay' ),
                                     absint( $a[ 'target_page_id' ] )
                                     );
         }
@@ -71,7 +71,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         // target_page_title was provided, but didn't work (no invalid target_page_id was provided)
         if ( $page === null && $error_reason == '' ) {
             $error_reason = sprintf(
-                                    __( 'We couldn\'t find a page for target_page_title="%s" on this site.', 'laterpay' )
+                                    __( 'We couldn\'t find a page for target_page_title="%s" on this site.', 'laterpay' ),
                                     esc_html( $a[ 'target_page_title' ] )
                                     );
         }
