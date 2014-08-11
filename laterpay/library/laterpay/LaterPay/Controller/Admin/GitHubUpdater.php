@@ -231,6 +231,8 @@ class LaterPay_Controller_Admin_GitHubUpdater
     private function backup_config( $restore = false, $file = 'settings' ) {
         global $wp_filesystem;
 
+        $slug = $this->config->get( 'plugin_base_name' );
+
         // back up config file, if it exists
         $pluginFolder   = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . dirname( $slug );
         $configName     = $file . '.php';
