@@ -62,7 +62,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $page === null && $a[ 'target_page_id' ] !== '' ) {
             $error_reason = sprintf(
                                     __( 'We couldn\'t find a page for target_page_id="%s" on this site.', 'laterpay' );
-                                    $a[ 'target_page_id' ]
+                                    absint( $a[ 'target_page_id' ] )
                                     );
         }
         if ( $page === null && $a[ 'target_page_title' ] !== '' ) {
@@ -72,7 +72,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $page === null && $error_reason == '' ) {
             $error_reason = sprintf(
                                     __( 'We couldn\'t find a page for target_page_title="%s" on this site.', 'laterpay' );
-                                    $a[ 'target_page_title' ]
+                                    esc_html( $a[ 'target_page_title' ] )
                                     );
         }
         if ( $page === null ) {
