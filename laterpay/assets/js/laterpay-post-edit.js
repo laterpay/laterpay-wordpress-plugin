@@ -192,60 +192,58 @@ jQuery.noConflict();
                     categoryIds.push(categoryId);
                 }
 
-                if (categoryIds.length > 0) {
-                    // make Ajax request for prices and names of categories
-                    $.post(
-                        lpVars.ajaxUrl,
-                        {
-                            action          : 'laterpay_get_category_prices',
-                            form            : 'laterpay_get_category_prices',
-                            category_ids    : categoryIds
-                        },
-                        function(data) {
-                            // rebuild list of categories in category default pricing tab
-                            if (data) {
-                                data.forEach(function(category) {
-                                    categoriesList +=   '<li data-category="' + category.category_id + '">' +
-                                                            '<a href="#" data-price="' + category.category_price + '">' +
-                                                                '<span>' + category.category_price + ' ' + lpVars.currency + '</span>' +
-                                                                category.category_name +
-                                                            '</a>' +
-                                                        '</li>';
-                                });
-                                $o.categoriesList.html(categoriesList);
+                // make Ajax request for prices and names of categories
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action          : 'laterpay_get_category_prices',
+                        form            : 'laterpay_get_category_prices',
+                        category_ids    : categoryIds
+                    },
+                    function(data) {
+                        // rebuild list of categories in category default pricing tab
+                        if (data) {
+                            data.forEach(function(category) {
+                                categoriesList +=   '<li data-category="' + category.category_id + '">' +
+                                                        '<a href="#" data-price="' + category.category_price + '">' +
+                                                            '<span>' + category.category_price + ' ' + lpVars.currency + '</span>' +
+                                                            category.category_name +
+                                                        '</a>' +
+                                                    '</li>';
+                            });
+                            $o.categoriesList.html(categoriesList);
 
-                                if (data.length) {
-                                    $o.categoryPriceButton.removeClass($o.disabled);
-                                    $o.categories = $('#laterpay-price-type-details .use-category-default-price li');
-                                    updateSelectedCategory();
-                                } else {
-                                    // disable the 'use category default price' button,
-                                    // if no categories with an attached default price are applied to the current post
-                                    $o.categoryPriceButton.addClass($o.disabled);
-                                    // if current pricing type is 'category default price'
-                                    // fall back to global default price or an individual price of 0
-                                    if ($o.categoryPriceButton.hasClass($o.selected)) {
-                                        $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
-                                        $('#laterpay-price-type').removeClass($o.expanded);
+                            if (data.length) {
+                                $o.categoryPriceButton.removeClass($o.disabled);
+                                $o.categories = $('#laterpay-price-type-details .use-category-default-price li');
+                                updateSelectedCategory();
+                            } else {
+                                // disable the 'use category default price' button,
+                                // if no categories with an attached default price are applied to the current post
+                                $o.categoryPriceButton.addClass($o.disabled);
+                                // if current pricing type is 'category default price'
+                                // fall back to global default price or an individual price of 0
+                                if ($o.categoryPriceButton.hasClass($o.selected)) {
+                                    $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
+                                    $('#laterpay-price-type').removeClass($o.expanded);
 
-                                        if ($o.globalPriceButton.hasClass($o.disabled)) {
-                                            $o.individualPriceButton.addClass($o.selected);
-                                            $o.priceTypeInput.val('individual price');
-                                            $o.dynamicPricingToggle.show();
-                                            $o.priceInput.removeAttr('disabled');
-                                            setPrice('0.00');
-                                        } else {
-                                            $o.globalPriceButton.addClass($o.selected);
-                                            $o.priceTypeInput.val('global default price');
-                                            setPrice(lpVars.globalDefaultPrice);
-                                        }
+                                    if ($o.globalPriceButton.hasClass($o.disabled)) {
+                                        $o.individualPriceButton.addClass($o.selected);
+                                        $o.priceTypeInput.val('individual price');
+                                        $o.dynamicPricingToggle.show();
+                                        $o.priceInput.removeAttr('disabled');
+                                        setPrice('0.00');
+                                    } else {
+                                        $o.globalPriceButton.addClass($o.selected);
+                                        $o.priceTypeInput.val('global default price');
+                                        setPrice(lpVars.globalDefaultPrice);
                                     }
                                 }
                             }
-                        },
-                        'json'
-                    );
-                }
+                        }
+                    },
+                    'json'
+                );
             },
 
             applyCategoryPrice = function(trigger) {
