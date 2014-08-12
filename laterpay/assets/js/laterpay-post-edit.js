@@ -221,6 +221,7 @@ jQuery.noConflict();
                                 // disable the 'use category default price' button,
                                 // if no categories with an attached default price are applied to the current post
                                 $o.categoryPriceButton.addClass($o.disabled);
+                                $('.details-section').hide();
                                 // if current pricing type is 'category default price'
                                 // fall back to global default price or an individual price of 0
                                 if ($o.categoryPriceButton.hasClass($o.selected)) {
