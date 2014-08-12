@@ -105,11 +105,6 @@ function laterpay_get_plugin_config() {
 	);
 	$config->import( $plugin_headers );
 
-	// GitHub settings
-	$config->set( 'github.name', 	'laterpay-wordpress-plugin' );
-	$config->set( 'github.user', 	'laterpay' );
-	$config->set( 'github.token', 	'' );
-
 	/**
 	 * LaterPay API endpoints and API default settings.
 	 *
