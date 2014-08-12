@@ -103,7 +103,7 @@ class LaterPay_Helper_Pricing
 
         $post = get_post( );
         $post_prices = get_post_meta( $post_id, self::META_KEY, true );
-        if ( !is_array( $post_prices ) ) {
+        if ( ! is_array( $post_prices ) ) {
             $post_prices = array();
         }
         $post_price_type    = array_key_exists( 'type', $post_prices ) ? $post_prices[ 'type' ] : '';
@@ -120,18 +120,21 @@ class LaterPay_Helper_Pricing
                 break;
 
             case 'category default price':
-                $LaterPay_Category_Model  = new LaterPay_Model_CategoryPrice();
-                $price                  = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
+                $LaterPay_Category_Model    = new LaterPay_Model_CategoryPrice();
+                $price                      = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
                 break;
 
             case 'global default price':
                 $price = $global_default_price;
                 break;
-        }
 
-        // apply the global default price, if the price is 0
-        if ( $price == 0 && $global_default_price > 0 ) {
-            $price = $global_default_price;
+            default:
+                if ( $global_default_price > 0 ) {
+                    $price = $global_default_price;
+                } else {
+                    $price = 0;
+                }
+                break;
         }
 
         return (float) $price;
