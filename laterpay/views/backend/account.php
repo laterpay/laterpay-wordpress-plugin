@@ -167,7 +167,6 @@
                 <?php _e( 'LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
             </dfn>
         </div>
-
     </div>
 
 </div>

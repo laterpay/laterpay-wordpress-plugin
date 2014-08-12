@@ -8,7 +8,7 @@
     data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']; ?>">
     <?php echo sprintf(
                         __( 'Buy now for %s<small>%s</small> and pay later', 'laterpay' ),
-                        LaterPay_Helper_View::format_number($laterpay['price'], 2),
+                        LaterPay_Helper_View::format_number( (float) $laterpay['price'], 2 ),
                         $laterpay['currency']
         ); ?>
 </a>

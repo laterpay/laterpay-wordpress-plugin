@@ -51,7 +51,7 @@ function laterpay_activate() {
  *
  * @wp-hook register_deactivation_hook
  *
- * @return  void
+ * @return void
  */
 function laterpay_deactivate() {
 	laterpay_before_start();
@@ -64,7 +64,7 @@ function laterpay_deactivate() {
 /**
  * Get the plugin settings.
  *
- * @return  LaterPay_Model_Config
+ * @return LaterPay_Model_Config
  */
 function laterpay_get_plugin_config() {
 	// check, if the config is in cache -> don't load it again.
