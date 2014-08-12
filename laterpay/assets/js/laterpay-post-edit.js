@@ -74,7 +74,7 @@ jQuery.noConflict();
                 $clickedButton.addClass($o.selected);
                 $o.priceSection.removeClass($o.expanded);
 
-                // hide show details sections
+                // hide / show details sections
                 $('.details-section', $o.details).hide();
 
                 // case: individual price
@@ -221,7 +221,10 @@ jQuery.noConflict();
                                 // disable the 'use category default price' button,
                                 // if no categories with an attached default price are applied to the current post
                                 $o.categoryPriceButton.addClass($o.disabled);
-                                $('.details-section').hide();
+
+                                // hide / details sections
+                                $('.details-section', $o.details).hide();
+
                                 // if current pricing type is 'category default price'
                                 // fall back to global default price or an individual price of 0
                                 if ($o.categoryPriceButton.hasClass($o.selected)) {
