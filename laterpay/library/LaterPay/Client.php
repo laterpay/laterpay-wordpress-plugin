@@ -306,7 +306,7 @@ class LaterPay_Client
      * Get URL for the LaterPay login form.
      *
 	 * @param   string $next_url
-	 * @param   bool $use_jsevents
+	 * @param   boolean$use_jsevents
      *
 	 * @return  string $url
 	 */
@@ -325,7 +325,7 @@ class LaterPay_Client
      * Get URL for the LaterPay signup form.
      *
 	 * @param   string $next_url
-	 * @param   bool $use_jsevents
+	 * @param   boolean$use_jsevents
      *
 	 * @return  string $url
 	 */
@@ -344,7 +344,7 @@ class LaterPay_Client
      * Get URL for logging out a user from LaterPay.
      *
 	 * @param   string $next_url
-	 * @param   bool $use_jsevents
+	 * @param   boolean$use_jsevents
      *
 	 * @return  string $url
 	 */
@@ -366,9 +366,9 @@ class LaterPay_Client
 	 * @param   array $data
 	 * @param   string $page_type
 	 * @param   null|string $product_key
-	 * @param   bool $dialog
-	 * @param   bool $use_jsevents
-	 * @param   bool $skip_add_to_invoice
+	 * @param   boolean$dialog
+	 * @param   boolean$use_jsevents
+	 * @param   boolean$skip_add_to_invoice
 	 * @param   null|string $transaction_reference
 	 *
 	 * @return  string $url
@@ -417,9 +417,9 @@ class LaterPay_Client
 	 *
 	 * @param   array $data
 	 * @param   null|string $product_key
-	 * @param   bool $dialog
-	 * @param   bool $use_jsevents
-	 * @param   bool $skip_add_to_invoice
+	 * @param   boolean$dialog
+	 * @param   boolean$use_jsevents
+	 * @param   boolean$skip_add_to_invoice
 	 * @param   null|string $transaction_reference
 	 *
 	 * @return  string $url
@@ -441,9 +441,9 @@ class LaterPay_Client
 	 *
 	 * @param   array $data
 	 * @param   string|null $product_key
-	 * @param   bool $dialog
-	 * @param   bool $use_jsevents
-	 * @param   bool $skip_add_to_invoice
+	 * @param   boolean$dialog
+	 * @param   boolean$use_jsevents
+	 * @param   boolean$skip_add_to_invoice
 	 * @param   null $transaction_reference
 	 *
 	 * @return  string $url

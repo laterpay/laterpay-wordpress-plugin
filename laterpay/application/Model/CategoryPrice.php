@@ -4,7 +4,7 @@ class LaterPay_Model_CategoryPrice
 {
 
     /**
-     * Name of terms table
+     * Name of terms table.
      *
      * @var string
      *
@@ -13,7 +13,7 @@ class LaterPay_Model_CategoryPrice
     public $table;
 
     /**
-     * Name of prices table
+     * Name of prices table.
      *
      * @var string
      *
@@ -22,7 +22,7 @@ class LaterPay_Model_CategoryPrice
     public $table_prices;
 
     /**
-     * Constructor for class LaterPay_Currency_Model, load table names
+     * Constructor for class LaterPay_Currency_Model, load table names.
      */
     function __construct() {
         global $wpdb;
@@ -63,7 +63,7 @@ class LaterPay_Model_CategoryPrice
     }
 
 	/**
-	 * Get categories with defined category default prices by list of category IDs.
+	 * Get categories with defined category default prices by list of category ids.
 	 *
 	 * @param   array $ids
      *
@@ -98,7 +98,7 @@ class LaterPay_Model_CategoryPrice
     }
 
     /**
-     * Get categories without defined category default prices by search term
+     * Get categories without defined category default prices by search term.
      *
      * @param string $term         term string to find categories
      * @param int    $limit        limit categories
@@ -272,7 +272,7 @@ class LaterPay_Model_CategoryPrice
     }
 
     /**
-     * Get category id by category name
+     * Get category id by category name.
      *
      * @param string @name name category
      *
@@ -300,7 +300,7 @@ class LaterPay_Model_CategoryPrice
     }
 
     /**
-     * Check if category exists: get category id by category name.
+     * Check if category exists by getting the category id by category name.
      *
      * @param string $name name category
      *
@@ -340,9 +340,11 @@ class LaterPay_Model_CategoryPrice
      */
     public function delete_prices_by_category_id( $id ) {
         global $wpdb;
+
 	    $where = array(
 		    'term_id' => (int) $id
 	    );
+
 	    return $wpdb->delete( $this->table_prices, $where, '%d' );
     }
 

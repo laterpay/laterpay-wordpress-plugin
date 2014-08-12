@@ -69,6 +69,7 @@ class LaterPay_Model_Config {
 	 *
 	 * @param  string $name
 	 * @param  mixed $value
+	 *
 	 * @return void|LaterPay_Model_Config
 	 */
 	public function set( $name, $value ) {
@@ -88,6 +89,7 @@ class LaterPay_Model_Config {
 	 * Import an array or an object as properties.
 	 *
 	 * @param  array|object $var
+	 *
 	 * @return void|LaterPay_Model_Config
 	 */
 	public function import( $var ) {
@@ -115,6 +117,7 @@ class LaterPay_Model_Config {
 	 * Might be taken from parent object.
 	 *
 	 * @param  string $name
+	 *
 	 * @return mixed
 	 */
 	public function get( $name ) {
@@ -135,6 +138,7 @@ class LaterPay_Model_Config {
 	 * Get all properties.
 	 *
 	 * @param  boolean $use_parent Get parent object's properties too.
+	 *
 	 * @return array
 	 */
 	public function get_all( $use_parent = FALSE ) {
@@ -155,6 +159,7 @@ class LaterPay_Model_Config {
 	 * Due to syntax restrictions in PHP we cannot name this "isset()".
 	 *
 	 * @param  string $name
+	 *
 	 * @return boolean
 	 */
 	public function has( $name ) {
@@ -177,6 +182,7 @@ class LaterPay_Model_Config {
 	 * Further calls to has() and get() will not take this property into account.
 	 *
 	 * @param  string $name
+	 *
 	 * @return void|LaterPay_Model_Config
 	 */
 	public function delete( $name ) {
@@ -197,6 +203,7 @@ class LaterPay_Model_Config {
 	 * Set parent object. Properties of this object will be inherited.
 	 *
 	 * @param  LaterPay_Model_Config $object
+	 *
 	 * @return LaterPay_Model_Config
 	 */
 	public function set_parent( LaterPay_Model_Config $object ) {
@@ -251,7 +258,9 @@ class LaterPay_Model_Config {
 	 *
 	 * @param  string $msg  Error message. Always be specific.
 	 * @param  string $code Re-use the same code to group error messages.
+	 *
 	 * @throws Exception
+	 *
 	 * @return void|WP_Error
 	 */
 	protected function stop( $msg, $code = '' ) {
@@ -271,8 +280,10 @@ class LaterPay_Model_Config {
 	 * Wrapper for set().
 	 *
 	 * @see    set()
+	 *
 	 * @param  string $name
 	 * @param  mixed  $value
+	 *
 	 * @return LaterPay_Model_Config
 	 */
 	public function __set( $name, $value ) {
@@ -284,7 +295,9 @@ class LaterPay_Model_Config {
 	 * Wrapper for get()
 	 *
 	 * @see    get()
+	 *
 	 * @param  string $name
+	 *
 	 * @return mixed
 	 */
 	public function __get( $name ) {
@@ -296,7 +309,9 @@ class LaterPay_Model_Config {
 	 * Wrapper for has().
 	 *
 	 * @see    has()
+	 *
 	 * @param  string $name
+	 *
 	 * @return boolean
 	 */
 	public function __isset( $name ) {

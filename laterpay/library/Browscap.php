@@ -299,7 +299,7 @@ public $doAutoUpdate = true;
      * Gets the information about the browser by User Agent
      *
      * @param string $user_agent   the user agent string
-     * @param bool   $return_array whether return an array or an object
+     * @param boolean  $return_array whether return an array or an object
      *
      * @throws Exception
      * @return \stdClass|array  the object containing the browsers details. Array if
@@ -548,7 +548,7 @@ public $doAutoUpdate = true;
     /**
      * Parses the ini file and updates the cache files
      *
-     * @return bool whether the file was correctly written to the disk
+     * @return booleanwhether the file was correctly written to the disk
      */
     public function updateCache()
     {
@@ -957,7 +957,7 @@ public $doAutoUpdate = true;
     /**
      * Lazy getter for the stream context resource.
      *
-     * @param bool $recreate
+     * @param boolean$recreate
      *
      * @return resource
      */
@@ -978,7 +978,7 @@ public $doAutoUpdate = true;
      * @param string $path the path of the ini file to update
      *
      * @throws Exception
-     * @return bool if the ini file was updated
+     * @return booleanif the ini file was updated
      */
     protected function _getRemoteIniFile($url, $path)
     {

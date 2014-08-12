@@ -28,7 +28,7 @@ class LaterPay_Helper_File
      *
 	 * @param int    $post_id
 	 * @param string $url
-	 * @param bool   $use_auth
+	 * @param boolean  $use_auth
 	 *
 	 * @return string $url
 	 */

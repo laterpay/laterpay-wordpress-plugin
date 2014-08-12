@@ -151,9 +151,9 @@ function laterpay_get_plugin_config() {
 	 * files and then uses an Ajax request to load either the preview content or the full content,
 	 * depending on the current visitor
 	 *
-	 * @var bool $caching_compatible_mode
+	 * @var boolean$caching_compatible_mode
 	 *
-	 * @return bool $caching_compatible_mode
+	 * @return boolean$caching_compatible_mode
 	 */
 	$caching_compatible_mode = apply_filters(
 		'laterpay_get_caching_compatible_mode',
@@ -192,9 +192,9 @@ function laterpay_get_plugin_config() {
 	 * Access logging for generating sales statistics within the plugin;
 	 * Sets a cookie and logs all requests from visitors to your blog, if enabled
 	 *
-	 * @var bool $access_logging_enabled
+	 * @var boolean$access_logging_enabled
 	 *
-	 * @return bool $access_logging_enabled
+	 * @return boolean$access_logging_enabled
 	 */
 	$access_logging_enabled = apply_filters( 'later_pay_access_logging_enabled', true );
 	$config->set( 'logging.access_logging_enabled', (bool) $access_logging_enabled );

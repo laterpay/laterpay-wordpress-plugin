@@ -9,7 +9,7 @@ class LaterPay_Helper_User
 	/**
 	 * @param string           $capability
 	 * @param WP_Post|int|null $post
-	 * @param bool             $strict
+	 * @param boolean            $strict
      *
 	 * @return bool
 	 */

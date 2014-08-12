@@ -4,7 +4,7 @@ class LaterPay_Model_Payments_History
 {
 
     /**
-     * Name of payments history table
+     * Name of payments history table.
      *
      * @var string
      *
@@ -13,7 +13,7 @@ class LaterPay_Model_Payments_History
     public $table;
 
     /**
-     * Name of currency table
+     * Name of currency table.
      *
      * @var string
      *
@@ -22,7 +22,7 @@ class LaterPay_Model_Payments_History
     public $table_currency;
 
     /**
-     * Constructor for class LaterPay_Payments_History_Model, load table names
+     * Constructor for class LaterPay_Payments_History_Model, load table names.
      */
     function __construct() {
         global $wpdb;

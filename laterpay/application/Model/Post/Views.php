@@ -4,7 +4,7 @@ class LaterPay_Model_Post_Views
 {
 
     /**
-     * Name of PostViews table
+     * Name of PostViews table.
      *
      * @var string
      *
@@ -13,7 +13,7 @@ class LaterPay_Model_Post_Views
     public $table;
 
     /**
-     * Constructor for class LaterPay_Post_Views_Model, load table name
+     * Constructor for class LaterPay_Post_Views_Model, load table name.
      */
     function __construct() {
         global $wpdb;
@@ -114,7 +114,7 @@ class LaterPay_Model_Post_Views
     }
 
     /**
-     * Get today's history by post id
+     * Get today's history by post id.
      *
      * @param int $post_id id post
      *
