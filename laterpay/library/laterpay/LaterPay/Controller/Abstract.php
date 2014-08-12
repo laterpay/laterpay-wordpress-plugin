@@ -115,7 +115,7 @@ class LaterPay_Controller_Abstract
 	 */
 	public function get_menu( $file = null ) {
         if ( empty( $file ) ) {
-            $file = 'backend/partials/tabs/menu';
+            $file = 'backend/partials/menu';
         }
         $activated      = get_option( 'laterpay_plugin_is_activated', '' );
         $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;

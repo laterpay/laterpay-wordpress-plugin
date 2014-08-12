@@ -484,7 +484,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
         // add the post statistics, if enabled
         if( ( $user_can_read_statistic || $laterpay_show_statistics ) && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
-            $html .= $this->get_text_view( 'frontend/partials/post/statistic' );
+            $html .= $this->get_text_view( 'frontend/partials/post/statistics' );
         }
 
         // return the full unmodified content, if post is free or was already bought by user
@@ -538,7 +538,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $this->assign( 'post_id',       $post->ID );
             $this->assign( 'identify_link', $identify_link );
 
-            echo $this->get_text_view( 'frontend/partials/identify/iframe' );
+            echo $this->get_text_view( 'frontend/partials/identify_iframe' );
         }
     }
 

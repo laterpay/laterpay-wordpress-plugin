@@ -47,7 +47,7 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 		$this->assign( 'top_nav',                $this->get_menu() );
 		$this->assign( 'admin_menu',             LaterPay_Helper_View::get_admin_menu() );
 
-		$this->render( 'backend/tabs/getstarted' );
+		$this->render( 'backend/getstarted' );
 	}
 
 	/**

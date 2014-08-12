@@ -353,7 +353,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 		$this->assign( 'laterpay_global_default_price',  $global_default_price );
 		$this->assign( 'laterpay_dynamic_pricing_data',  json_encode( $dynamic_pricing_data ) );
 
-		$this->render( 'backend/partials/post/pricing/form' );
+		$this->render( 'backend/partials/post_pricing_form' );
 	}
 
 	/**
