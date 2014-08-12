@@ -389,23 +389,32 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
             // get all post_categories
             $post_categories = wp_get_post_categories( $post->ID );
+
             if ( empty( $post_categories ) ) {
                 // apply the global default price as new price, if no other post categories are found
                 LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post->ID );
             } else {
-                // find the category with the highest price and assign its category_id to the post
+                // load all category-prices by the given category_ids
                 $laterpay_category_model    = new LaterPay_Model_CategoryPrice();
                 $category_price_data        = $laterpay_category_model->get_category_price_data_by_category_ids( $post_categories );
 
-                $price = 0;
-                foreach ( $category_price_data as $data ) {
-                    if ( $data->category_price > $price ) {
-                        $price          = $data->category_price;
-                        $category_id    = $data->category_id;
+                if( count( $category_price_data ) < 1 ){
+                    // No other category-prices found for this post
+                    LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post->ID );
+                }
+                else {
+                    // Find the category with the highest price and assign its category_id to the post
+                    $price = 0;
+                    foreach ( $category_price_data as $data ) {
+                        if ( $data->category_price > $price ) {
+                            $price          = $data->category_price;
+                            $category_id    = $data->category_id;
+                        }
                     }
+
+                    LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post->ID, $category_id, true );
                 }
 
-                LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post->ID, $category_id, true );
             }
 
         }
