@@ -3,6 +3,100 @@
 class LaterPay_Helper_Pricing
 {
 
+    const META_KEY = 'laterpay_post_prices';
+
+    /**
+     * Returns all Posts with a configured post_price
+     * @return  Array
+     */
+    public static function get_all_posts_with_price(){
+
+        $post_args = array(
+            'meta_query'    => array(
+                array(
+                    'meta_key' => self::META_KEY
+                )
+            ),
+            'posts_per_page'=> '-1',
+        );
+        $posts = get_posts( $post_args );
+        return $posts;
+
+    }
+
+    /**
+     * Returns all Posts by a given category_id with a configured post_price
+     *
+     * @param   Int $category_id
+     * @return  Array
+     */
+    public static function get_posts_with_price_by_category_id( $category_id ){
+        $post_args = array(
+            'meta_query'    => array(
+                array(
+                    'meta_key' => self::META_KEY
+                )
+            ),
+            'cat'           => $category_id,
+            'posts_per_page'=> '-1'
+        );
+        $posts = get_posts( $post_args );
+        return $posts;
+    }
+
+    /**
+     * Helper Function to set the global default price to an post
+     *
+     * @param   Int $post_id
+     * @return  Bool true|false
+     */
+    public static function set_global_default_price( $post_id ){
+        $global_default_price = get_option( 'laterpay_global_price' );
+
+        if( $global_default_price == 0 ){
+            return false;
+        }
+
+        $post = get_post( $post_id );
+        if( $post === null ){
+            return false;
+        }
+
+        $post_prices = array();
+        $post_prices[ 'type' ] = 'global default price';
+
+        return update_post_meta( $post_id, self::META_KEY, $post_prices );
+
+    }
+
+    /**
+     * Setting the category default price to an given post
+     *
+     * @param   int $post_id
+     * @param   int $category_id
+     * @param   bool $strict - checks if the given category_id is assigned to the post_id
+     * @return  bool true|false
+     */
+    public static function set_category_default_price( $post_id, $category_id, $strict = false ){
+
+        $post = get_post( $post_id );
+        if( $post === null ){
+            return false;
+        }
+
+        // checks if the post has the category_id
+        if( $strict && !has_category( $category_id, $post ) ) {
+            return false;
+        }
+
+        $post_price = array(
+            'type'          => 'category default price',
+            'category_id'   => (int)$category_id
+        );
+
+        return update_post_meta( $post_id, self::META_KEY, $post_price );
+    }
+
     /**
      * Get post price, depending on applied price type of post.
      *
@@ -14,20 +108,21 @@ class LaterPay_Helper_Pricing
         $global_default_price = get_option( 'laterpay_global_price' );
 
         $post = get_post( );
-        $post_prices = get_post_meta( $post_id, 'laterpay_post_prices', true );
+        $post_prices = get_post_meta( $post_id, self::META_KEY, true );
         if( !is_array( $post_prices ) ){
             $post_prices = array();
         }
         $post_price_type    = array_key_exists( 'type', $post_prices ) ? $post_prices[ 'type' ] : '';
         $category_id        = array_key_exists( 'category_id', $post_prices ) ? $post_prices[ 'category_id' ] : '';
 
+        $price = 0;
         switch ( $post_price_type ) {
             case 'individual price':
                 $price = array_key_exists( 'price', $post_prices ) ? $post_prices[ 'price' ] : '';
                 break;
 
             case 'individual price, dynamic':
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_prices );
+                $price = self::get_dynamic_price( $post, $post_prices );
                 break;
 
             case 'category default price':
@@ -38,14 +133,11 @@ class LaterPay_Helper_Pricing
             case 'global default price':
                 $price = $global_default_price;
                 break;
+        }
 
-            default:
-                if ( $global_default_price > 0 ) {
-                    $price = $global_default_price;
-                } else {
-                    $price = 0;
-                }
-                break;
+        // set the global default price if the price is 0.
+        if( $price == 0 && $global_default_price > 0 ){
+            $price = $global_default_price;
         }
 
         return (float) $price;
