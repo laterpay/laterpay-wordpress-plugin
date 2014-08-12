@@ -236,6 +236,6 @@ function laterpay_before_start() {
 		require_once( $dir . 'laterpay-load.php' );
 	}
 
-	LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
-	LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'vendor' );
+	LaterPay_AutoLoader::register_directory( $dir . 'application' );
+	LaterPay_AutoLoader::register_directory( $dir . 'library' );
 }
