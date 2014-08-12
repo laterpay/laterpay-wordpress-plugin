@@ -14,13 +14,18 @@ function setMessage(message, success) {
         }
     }
 
-    var messageClass = success ? 'updated' : 'error';
-    jQuery('html, body').animate({ scrollTop: 0 });
-    jQuery('#message').attr('class', messageClass).find('p').html(message);
-    if (jQuery('#message p:hidden')) {
-        jQuery('#message').slideDown(250);
+    var $message        = jQuery('#message'),
+        messageClass    = success ? 'updated' : 'error';
+
+    $message.attr('class', messageClass).find('p').html(message);
+    if (jQuery('p:hidden', $message)) {
+        $message.slideDown(250);
     }
-    flashVisible = setTimeout(function() { jQuery('#message').slideUp(250); }, 3000);
+    flashVisible = setTimeout(function() { clearMessage(); }, 3000);
+}
+
+function clearMessage() {
+    jQuery('#message').slideUp(250);
 }
 
 jQuery.noConflict();

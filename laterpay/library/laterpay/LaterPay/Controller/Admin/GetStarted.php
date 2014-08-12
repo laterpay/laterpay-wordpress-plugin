@@ -26,8 +26,9 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 			array(
 				'locale'                        => get_locale(),
 				'i18nOutsideAllowedPriceRange'  => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' ),
-				'i18nInvalidMerchantId'         => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay' ),
-				'i18nInvalidApiKey'             => __( 'The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay' ),
+				'i18nInvalidMerchantId'         => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay' ),
+				'i18nInvalidApiKey'             => __( 'The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay' ),
+				'i18nTabsDisabled'             	=> __( 'Please fill in this page before proceeding to other settings pages.', 'laterpay' ),
 			)
 		);
 	}

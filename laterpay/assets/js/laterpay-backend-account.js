@@ -1,7 +1,9 @@
 jQuery.noConflict();
 (function($) { $(function() {
 
-    var requestSent = false,
+    var throttledFlashMessage,
+        flashMessageTimeout = 800,
+        requestSent         = false,
         autofocusEmptyInput = function() {
             var $inputs = $('.api-key-input, .merchant-id-input');
             for (var i = 0, l = $inputs.length; i < l; i++) {
@@ -13,13 +15,13 @@ jQuery.noConflict();
         },
         togglePluginModeText = function() {
             if ($('#plugin-mode-toggle').prop('checked')) {
-                $('#plugin_mode_live_hint').fadeIn(400);
-                $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeOut(400);
+                $('#plugin_mode_live_hint').fadeIn();
+                $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeOut();
                 $('#plugin_mode_test_text').hide();
                 $('#plugin_mode_live_text').show();
             } else {
-                $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeIn(400);
-                $('#plugin_mode_live_hint').fadeOut(400);
+                $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeIn();
+                $('#plugin_mode_live_hint').fadeOut();
                 $('#plugin_mode_live_text').hide();
                 $('#plugin_mode_test_text').show();
             }
@@ -28,25 +30,29 @@ jQuery.noConflict();
             var $toggle = $('#plugin-mode-toggle');
 
             if ($toggle.prop('checked')) {
+                // user has switched plugin mode switch to 'LIVE'
                 if ($('#laterpay_live_api_key').val().length !== 32 || $('#laterpay_live_merchant_id').val().length !== 22) {
-                    setMessage({
-                        message: lpVars.i18nLiveApiDataRequired,
-                        success: false
-                    });
+                    // no valid API credentials: switch plugin mode back to 'TEST'
+                    setMessage(lpVars.i18nLiveApiDataRequired, false);
                     $('#plugin_mode_hidden_input').val(0);
                     $('#plugin-mode-toggle').prop('checked', false);
                     togglePluginModeText();
 
                     return false;
                 } else {
+                    // everything ok: switch plugin mode to 'LIVE'
                     $('#plugin_mode_hidden_input').val(1);
                     togglePluginModeText();
                     makeAjaxRequest('laterpay_plugin_mode', true);
                 }
             } else {
-                $('#plugin_mode_hidden_input').val(0);
-                togglePluginModeText();
-                makeAjaxRequest('laterpay_plugin_mode', true);
+                // user has switched plugin mode switch to 'TEST'
+                // only switch plugin mode, if it was set to 'LIVE' before
+                if ($('#plugin_mode_hidden_input').val() === 1) {
+                    $('#plugin_mode_hidden_input').val(0);
+                    togglePluginModeText();
+                    makeAjaxRequest('laterpay_plugin_mode', true);
+                }
             }
         },
         makeAjaxRequest = function(form_id) {
@@ -58,10 +64,7 @@ jQuery.noConflict();
                     ajaxurl,
                     $('#' + form_id).serializeArray(),
                     function(data) {
-                        setMessage({
-                            message: data.message,
-                            success: data.success
-                        });
+                        setMessage(data.message, data.success);
                     },
                     'json'
                 )
@@ -76,19 +79,20 @@ jQuery.noConflict();
                 value           = $input.val().trim(),
                 apiKeyLength    = 32;
 
+            // clear flash message timeout
+            window.clearTimeout(throttledFlashMessage);
+
             // trim spaces from input
             if (value.length !== $input.val().length) {
                 $input.val(value);
             }
-
             if (value.length === 0 || value.length === apiKeyLength) {
                 makeAjaxRequest($form.attr('id'));
-
             } else {
-                setMessage({
-                    message: lpVars.i18nApiKeyInvalid,
-                    success: false
-                });
+                // set timeout to throttle flash message
+                throttledFlashMessage = window.setTimeout(function() {
+                    setMessage(lpVars.i18nApiKeyInvalid, false);
+                }, flashMessageTimeout);
             }
             // switch from live mode to test mode if requirements are not fulfilled
             togglePluginMode();
@@ -99,6 +103,9 @@ jQuery.noConflict();
                 value               = $input.val().trim(),
                 merchantIdLength    = 22;
 
+            // clear flash message timeout
+            window.clearTimeout(throttledFlashMessage);
+
             // trim spaces from input
             if (value.length !== $input.val().length) {
                 $input.val(value);
@@ -107,10 +114,10 @@ jQuery.noConflict();
             if (value.length === 0 || value.length === merchantIdLength) {
                 makeAjaxRequest($form.attr('id'));
             } else {
-                setMessage({
-                    message: lpVars.i18nMerchantIdInvalid,
-                    success: false
-                });
+                // set timeout to throttle flash message
+                throttledFlashMessage = window.setTimeout(function() {
+                    setMessage(lpVars.i18nMerchantIdInvalid, false);
+                }, flashMessageTimeout);
             }
             // switch from live mode to test mode if requirements are not fulfilled
             togglePluginMode();
@@ -174,7 +181,7 @@ jQuery.noConflict();
             iframeOffset,
             scrollPosition;
 
-        $button.fadeOut(400);
+        $button.fadeOut();
 
         // remove possibly existing iframe and insert a wrapper to display the iframe in
         if ($('iframe', $iframeWrapper).length !== 0) {
@@ -206,11 +213,11 @@ jQuery.noConflict();
             '</iframe>'
         );
         $('.close-iframe', $iframeWrapper).bind('click', function(e) {
-            $(this).fadeOut(400)
+            $(this).fadeOut()
                 .parent('#legal-docs-frame').slideUp(400, function() {
                     $(this).remove();
                 });
-            $button.fadeIn(400);
+            $button.fadeIn();
             e.preventDefault();
         });
     })
@@ -220,7 +227,7 @@ jQuery.noConflict();
     autofocusEmptyInput();
 
     // prevent leaving the account page without any valid credentials
-    window.onbeforeunload = function(e) {
+    window.onbeforeunload = function() {
         if (hasNoValidCredentials()) {
             return lpVars.i18nPreventUnload;
         }

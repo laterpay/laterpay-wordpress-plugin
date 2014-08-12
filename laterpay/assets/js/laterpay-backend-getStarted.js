@@ -1,11 +1,17 @@
 jQuery.noConflict();
 (function($) { $(function() {
 
+    var throttledFlashMessage;
+
     function validateAPIKey() {
         var $apiKey     = $('.api-key-input'),
             $merchantID = $('.merchant-id-input'),
             keyValue    = $apiKey.val().trim(),
             idValue     = $merchantID.val().trim();
+
+        // clear flash message timeout
+        window.clearTimeout(throttledFlashMessage);
+
         if (keyValue.length !== $apiKey.val().length) {
             $apiKey.val(keyValue);
         }
@@ -15,16 +21,24 @@ jQuery.noConflict();
 
         if (keyValue.length === 32 && idValue.length === 22) {
             $('.progress-line .st-1').removeClass('todo').addClass('done');
+            clearMessage();
+
             return true;
         } else {
             $('.progress-line .st-1').removeClass('done').addClass('todo');
         }
 
         if (idValue.length > 0 && idValue.length !== 22) {
-            setMessage(lpVars.i18nInvalidMerchantId, false);
+            // set timeout to throttle flash message
+            throttledFlashMessage = window.setTimeout(function() {
+                setMessage(lpVars.i18nInvalidMerchantId, false);
+            }, 500);
         }
         if (keyValue.length > 0 && keyValue.length !== 32) {
-            setMessage(lpVars.i18nInvalidApiKey, false);
+            // set timeout to throttle flash message
+            throttledFlashMessage = window.setTimeout(function() {
+                setMessage(lpVars.i18nInvalidApiKey, false);
+            }, 500);
         }
 
         return false;
@@ -78,10 +92,7 @@ jQuery.noConflict();
 
     $('.activate-lp').click(function() {
         if (!validateAPIKey()) {
-            setMessage({
-                'message': $(this).data().error,
-                'success': false
-            });
+            setMessage($(this).data().error, false);
             return;
         }
 
@@ -128,6 +139,11 @@ jQuery.noConflict();
     });
 
     // disable tabs
-    $('.tabs.getstarted li a').unbind('mousedown');
+    $('.get-started .tabs li a')
+    .mousedown(function() {
+        alert(lpVars.i18nTabsDisabled);
+
+        return false;
+    });
 
 });})(jQuery);

@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="lp-page wp-core-ui">
+<div class="lp-page wp-core-ui get-started">
 
     <div id="message" style="display:none;">
         <p></p>
