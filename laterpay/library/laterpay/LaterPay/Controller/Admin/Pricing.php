@@ -392,7 +392,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $post_categories = wp_get_post_categories( $post->ID );
             if ( empty( $post_categories ) ) {
                 // No other post-categories found, set the global default price as new price
-                LaterPay_Helper_Pricing::set_global_default_price( $post->ID );
+                LaterPay_Helper_Pricing::set_post_global_default_price( $post->ID );
             }
             else {
                 // Find the category with the highest price and assign the category_id to the post
@@ -410,7 +410,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     }
                 }
 
-                LaterPay_Helper_Pricing::set_category_default_price( $post->ID, $category_id, true );
+                LaterPay_Helper_Pricing::set_post_category_default_price( $post->ID, $category_id, true );
             }
 
         }

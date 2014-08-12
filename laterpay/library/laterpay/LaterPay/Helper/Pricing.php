@@ -50,7 +50,7 @@ class LaterPay_Helper_Pricing
      * @param   Int $post_id
      * @return  Bool true|false
      */
-    public static function set_global_default_price( $post_id ){
+    public static function set_post_global_default_price( $post_id ){
         $global_default_price = get_option( 'laterpay_global_price' );
 
         if( $global_default_price == 0 ){
@@ -77,7 +77,7 @@ class LaterPay_Helper_Pricing
      * @param   bool $strict - checks if the given category_id is assigned to the post_id
      * @return  bool true|false
      */
-    public static function set_category_default_price( $post_id, $category_id, $strict = false ){
+    public static function set_post_category_default_price( $post_id, $category_id, $strict = false ){
 
         $post = get_post( $post_id );
         if( $post === null ){
