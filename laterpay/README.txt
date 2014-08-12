@@ -327,9 +327,13 @@ your theme after installing the LaterPay WordPress plugin.
 == Changelog ==
 
 = 0.9.7.1 (August 13, 2014): Bugfix Release =
+* Removed GitHub plugin updater to switch plugin over to wordpress.org plugin release channel
+* Fixed bugs in multi-layer pricing logic (global default, category default, individual price)
 * Fixed minor bug on post add / edit page that would trigger a Javascript confirm message when saving
+* Revised user interface to work on tablet resolutions
 * Fixed preview mode for paid posts
 * Disabled rendering of post statistics, if a page includes multiple single post pages
+* Various smaller bugfixes and improvements
 
 = 0.9.7 (August 8, 2014): Production-readiness release IV =
 * Added support for all standard as well as custom post types
