@@ -351,17 +351,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Delete the category price for a given category.
      *
-     * @return  void
+     * @return void
      */
     protected function delete_category_default_price() {
-
         $category_id = (int) $_POST['category_id'];
 
-        // deleting the category_price
+        // delete the category_price
         $category_price_model = new LaterPay_Model_CategoryPrice();
         $success = $category_price_model->delete_prices_by_category_id( $category_id );
 
-        if ( !$success ) {
+        if ( ! $success ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -370,51 +369,45 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             );
         }
 
-        // Getting all post with the deleted $category_id and loop through them
+        // get all post with the deleted $category_id and loop through them
         $posts = LaterPay_Helper_Pricing::get_posts_with_price_by_category_id( $category_id );
-        foreach( $posts as $post ){
-
-            // Checking if the post is a configured laterpay post
+        foreach ( $posts as $post ) {
+            // check if the post has LaterPay pricing data
             $post_price = get_post_meta( $post->ID, 'laterpay_post_prices', true );
-            if( !is_array( $post_price ) ){
+            if ( ! is_array( $post_price ) ) {
                 continue;
             }
-            // Checking if the type is "category price"
-            if( $post_price[ 'type' ] !== 'category default price' ){
+            // check if the post uses a category default price
+            if ( $post_price[ 'type' ] !== 'category default price' ) {
                 continue;
             }
-            // Checking if the post has the deleted category_id as category default price
-            if( $post_price[ 'category_id' ] !== $category_id ){
+            // check if the post has the deleted category_id as category default price
+            if ( $post_price[ 'category_id' ] !== $category_id ) {
                 continue;
             }
 
-            // Get all post_categories
+            // get all post_categories
             $post_categories = wp_get_post_categories( $post->ID );
             if ( empty( $post_categories ) ) {
-                // No other post-categories found, set the global default price as new price
-                LaterPay_Helper_Pricing::set_post_global_default_price( $post->ID );
-            }
-            else {
-                // Find the category with the highest price and assign the category_id to the post
-
+                // apply the global default price as new price, if no other post categories are found
+                LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post->ID );
+            } else {
+                // find the category with the highest price and assign its category_id to the post
                 $laterpay_category_model    = new LaterPay_Model_CategoryPrice();
                 $category_price_data        = $laterpay_category_model->get_category_price_data_by_category_ids( $post_categories );
 
-                echo "<pre>" . print_r( $category_price_data, true ). "</pre>";
-
                 $price = 0;
-                foreach( $category_price_data as $data ){
-                    if( $data->category_price > $price ){
+                foreach ( $category_price_data as $data ) {
+                    if ( $data->category_price > $price ) {
                         $price          = $data->category_price;
                         $category_id    = $data->category_id;
                     }
                 }
 
-                LaterPay_Helper_Pricing::set_post_category_default_price( $post->ID, $category_id, true );
+                LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post->ID, $category_id, true );
             }
 
         }
-
 
         wp_send_json(
             array(
@@ -422,7 +415,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'message' => __( 'The default price for this category was deleted.', 'laterpay' ),
             )
         );
-
     }
 
     /**

@@ -237,7 +237,7 @@ jQuery.noConflict();
                                         } else {
                                             $o.globalPriceButton.addClass($o.selected);
                                             $o.priceTypeInput.val('global default price');
-                                            setPrice( lpVars.globalDefaultPrice );
+                                            setPrice(lpVars.globalDefaultPrice);
                                         }
                                     }
                                 }
