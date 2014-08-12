@@ -133,11 +133,15 @@ class LaterPay_Helper_Pricing
             case 'global default price':
                 $price = $global_default_price;
                 break;
-        }
 
-        // set the global default price if the price is 0.
-        if( $price == 0 && $global_default_price > 0 ){
-            $price = $global_default_price;
+            default:
+                if ( $global_default_price > 0 ) {
+                    $price = $global_default_price;
+                } else {
+                    $price = 0;
+                }
+                break;
+
         }
 
         return (float) $price;
