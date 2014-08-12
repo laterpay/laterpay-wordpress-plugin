@@ -100,7 +100,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $this->delete_category_default_price();
                     break;
                 case 'laterpay_get_category_prices':
+                    if( !array_key_exists( 'category_ids', $_POST ) )
+                        $_POST[ 'category_ids' ] = array();
                     $this->get_category_prices( $_POST['category_ids'] );
+
                     break;
                 default:
                     wp_send_json(
@@ -435,9 +438,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function get_category_prices( $category_ids ) {
-        $category_price_model   = new LaterPay_Model_CategoryPrice();
-        $categories_price_data  = $category_price_model->get_category_price_data_by_category_ids( $category_ids );
-
+        $categories_price_data = array();
+        if( is_array( $category_ids ) && count( $category_ids ) > 0 ){
+            $category_price_model   = new LaterPay_Model_CategoryPrice();
+            $categories_price_data  = $category_price_model->get_category_price_data_by_category_ids( $category_ids );
+        }
         wp_send_json( $categories_price_data );
     }
 
