@@ -51,7 +51,7 @@
                 title="<?php _e( 'Buy now with LaterPay', 'laterpay' ); ?>"
             ><?php echo sprintf(
                                     __( '%s<small>%s</small>', 'laterpay' ),
-                                    LaterPay_Helper_View::format_number( $laterpay['price'], 2 ),
+                                    LaterPay_Helper_View::format_number( (float) $laterpay['price'], 2 ),
                                     $laterpay['currency']
                     );
             ?></a>
