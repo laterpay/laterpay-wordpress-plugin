@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Core_Client_Signing
+class LaterPay_Client_Signing
 {
 
 	/**

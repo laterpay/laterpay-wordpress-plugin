@@ -160,7 +160,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $hash   = $this->get_hash_by_url( $url );
         // update lptoken if we got it
         if ( isset( $_GET['lptoken'] ) ) {
-            $client = new LaterPay_Core_Client( $this->config );
+            $client = new LaterPay_Client( $this->config );
             $client->set_token( $_GET['lptoken'] );
         }
         // check if the parameters of $_GET are valid and not manipulated
@@ -232,7 +232,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             return;
         }
 
-        $laterpay_client = new LaterPay_Core_Client( $this->config );
+        $laterpay_client = new LaterPay_Client( $this->config );
         if ( isset( $_GET[ 'lptoken' ] ) ) {
             $laterpay_client->set_token( $_GET['lptoken'], true );
         }
@@ -284,7 +284,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
         $currency_model = new LaterPay_Model_Currency();
-        $client         = new LaterPay_Core_Client( $this->config );
+        $client         = new LaterPay_Client( $this->config );
 
         // data to register purchase after redirect from LaterPay
         $url_params = array(
@@ -532,7 +532,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         if ( $price > 0 ) {
-            $laterpay_client    = new LaterPay_Core_Client( $this->config );
+            $laterpay_client    = new LaterPay_Client( $this->config );
             $identify_link      = $laterpay_client->get_identify_url();
 
             $this->assign( 'post_id',       $post->ID );

@@ -52,14 +52,14 @@ class LaterPay_Helper_File
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
 		$config = laterpay_get_plugin_config();
-        $client = new LaterPay_Core_Client( $config );
+        $client = new LaterPay_Client( $config );
         $params = array(
             'aid'   => $post_id,
             'file'  => $file,
             'ext'   => '.' . $ext,
         );
         if ( $use_auth ) {
-            $client         = new LaterPay_Core_Client( $config );
+            $client         = new LaterPay_Client( $config );
             $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
         }
@@ -78,7 +78,7 @@ class LaterPay_Helper_File
     	$request    = new LaterPay_Core_Request();
     	$response   = new LaterPay_Core_Response();
     	$config     = laterpay_get_plugin_config();
-    	$client     = new LaterPay_Core_Client( $config );
+    	$client     = new LaterPay_Client( $config );
 
     	// request parameters
     	$file       = $request->get_param( 'file' );     // required, relative file path
@@ -127,7 +127,7 @@ class LaterPay_Helper_File
     	}
 
     	if ( ! empty( $hmac ) && ! empty( $ts ) ) {
-    		if ( ! LaterPay_Core_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
+    		if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
     			LaterPay_Core_Logger::error( 'RESOURCE:: invalid $hmac or $ts has expired' );
     			$response->set_http_response_code( 401 );
     			$response->send_response();

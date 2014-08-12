@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Core_Client
+class LaterPay_Client
 {
 
     /**
@@ -36,7 +36,7 @@ class LaterPay_Core_Client
 
 	/**
 	 * @param   LaterPay_Model_Config $config
-	 * @return  LaterPay_Core_Client
+	 * @return  LaterPay_Client
 	 */
     public function __construct( LaterPay_Model_Config $config ) {
 
@@ -561,7 +561,7 @@ class LaterPay_Core_Client
     public function sign_and_encode( $params, $url, $method = LaterPay_Core_Request::GET ) {
         LaterPay_Core_Logger::debug('LaterPay_Client::sign_and_encode', array($params, $url, $method));
 
-        return LaterPay_Core_Client_Signing::sign_and_encode( $this->api_key, $params, $url, $method );
+        return LaterPay_Client_Signing::sign_and_encode( $this->api_key, $params, $url, $method );
     }
 
     /**

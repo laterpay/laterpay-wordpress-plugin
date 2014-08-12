@@ -288,7 +288,7 @@ class LaterPay_Core_Bootstrap
         wp_enqueue_script( 'laterpay-post-view' );
 
         // pass localized strings and variables to script
-        $client         = new LaterPay_Core_Client( $this->config );
+        $client         = new LaterPay_Client( $this->config );
         $balance_url    = $client->get_controls_balance_url();
         wp_localize_script(
             'laterpay-post-view',
