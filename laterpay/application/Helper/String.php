@@ -4,8 +4,10 @@ class LaterPay_Helper_String
 {
 
 	/**
+	 * Get the first given number of words from a string.
+	 *
 	 * @param   string 	$string
-	 * @param   int 	$word_limit*
+	 * @param   int 	$word_limit
 	 *
 	 * @return  string
 	 */
@@ -16,11 +18,11 @@ class LaterPay_Helper_String
 	}
 
 	/**
-	 * Determine the number of words to be shown behind overlay according to the settings supplied by the blog owner.
+	 * Determine the number of words to be shown behind an overlay according to the settings supplied by the blog owner.
 	 *
-	 * @param   string $content
+	 * @param string $content
 	 *
-	 * @return  int $number_of_words
+	 * @return int $number_of_words
 	 */
 	public static function determine_number_of_words( $content ) {
 		$content 		= preg_replace( '/\s+/', ' ', $content );
@@ -40,10 +42,10 @@ class LaterPay_Helper_String
 	}
 
 	/**
-	 * Truncate text
+	 * Truncate text.
 	 *
 	 * Cuts a string to the length of $length and replaces the last characters
-	 * with an ellipsis if the text is longer than length.
+	 * with an ellipsis, if the text is longer than length.
 	 *
 	 * ### Options:
 	 *
@@ -86,9 +88,9 @@ class LaterPay_Helper_String
 			if ( mb_strlen( preg_replace( '/<.*?>/', '', $text ) ) <= $length ) {
 				return $text;
 			}
-			$totalLength = mb_strlen( strip_tags( $ellipsis ) );
-			$openTags = array();
-			$truncate = '';
+			$totalLength 	= mb_strlen( strip_tags( $ellipsis ) );
+			$openTags 		= array();
+			$truncate 		= '';
 
 			preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $text, $tags, PREG_SET_ORDER );
 			foreach ( $tags as $tag ) {

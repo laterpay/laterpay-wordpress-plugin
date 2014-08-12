@@ -10,11 +10,11 @@ class LaterPay_Helper_Request {
 	public static function is_ajax() {
         return ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest';
     }
-    
+
     /**
      * Get current URL.
      *
-     * @return  string $url
+     * @return string $url
      */
     public static function get_current_url() {
         $ssl = isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on';
@@ -32,12 +32,12 @@ class LaterPay_Helper_Request {
                 }
             }
         }
-       
+
         $uri = preg_replace( '/lptoken=.*?($|&)/', '', $uri );
 
         $uri = preg_replace( '/ts=.*?($|&)/', '', $uri );
         $uri = preg_replace( '/hmac=.*?($|&)/', '', $uri );
-        
+
         $uri = preg_replace( '/&$/', '', $uri );
 
         if ( $ssl ) {

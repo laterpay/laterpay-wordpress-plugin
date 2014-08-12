@@ -9,7 +9,7 @@ class LaterPay_Helper_User
 	/**
 	 * @param string           $capability
 	 * @param WP_Post|int|null $post
-	 * @param bool             $strict
+	 * @param boolean          $strict
      *
 	 * @return bool
 	 */
@@ -56,12 +56,11 @@ class LaterPay_Helper_User
         return $allowed;
     }
 
-
     /**
      * Check if a particular user has a particular role.
      *
-     * @param string $role    Role name.
-     * @param int    $user_id (Optional) The ID of a user. Defaults to the current user.
+     * @param string $role    role name
+     * @param int    $user_id (optional) ID of a user. Defaults to the current user.
      *
      * @return bool
      */

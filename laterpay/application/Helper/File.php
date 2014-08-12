@@ -4,21 +4,22 @@ class LaterPay_Helper_File
 {
 
 	/**
-	 * Regex to detect URLs
+	 * Regex to detect URLs.
      *
 	 * @var string
 	 */
 	const URL_REGEX_PATTERN = '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#';
 
 	/**
-	 * Path to script file
+	 * Path to script file.
      *
 	 * @var string
 	 */
 	const SCRIPT_PATH = 'admin-ajax.php?action=laterpay_load_files';
 
 	/**
-	 * File types protected against direct download from paid posts without purchasing
+	 * File types protected against direct download from paid posts without purchasing.
+     *
 	 * @var string
 	 */
 	protected static $protected_file_types = '3gpp|aac|avi|divx|doc|docx|epup|flv|gif|jpeg|jpg|mobi|mov|mp3|mp4|mp4|mpg|ogg|pdf|png|ppt|pptx|rar|rtf|tif|tiff|txt|wav|wmv|xls|xlsx|zip';
@@ -26,9 +27,9 @@ class LaterPay_Helper_File
 	/**
      * Generate an encrypted URL for a file within a paid post that has a protected file type.
      *
-	 * @param int    $post_id
-	 * @param string $url
-	 * @param bool   $use_auth
+	 * @param int      $post_id
+	 * @param string   $url
+	 * @param boolean  $use_auth
 	 *
 	 * @return string $url
 	 */
@@ -68,7 +69,7 @@ class LaterPay_Helper_File
     }
 
     /**
-     * Ajax callback to load a files through a script rather access it directly.
+     * Ajax callback to load a file through a script to prevent direct access.
      *
      * @return	void
      */
@@ -204,7 +205,7 @@ class LaterPay_Helper_File
     }
 
     /**
-     * Get the file name of a secured file.
+     * Get the file name of a file with encrypted filename.
      *
      * @param string $file
      *

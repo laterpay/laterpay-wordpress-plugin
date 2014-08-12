@@ -9,7 +9,7 @@ class LaterPay_Helper_Browser
     protected static $browscap = null;
 
     /**
-     * Returns array of all browser info.
+     * Return array of all browser infos.
      *
      * @usage $browserInfo = php_browser_info();
      *
@@ -31,7 +31,7 @@ class LaterPay_Helper_Browser
     }
 
     /**
-     * Returns the name of the browser.
+     * Return the name of the browser.
      *
      * @return string
      */
@@ -42,7 +42,7 @@ class LaterPay_Helper_Browser
     }
 
     /**
-     * Returns the browser version number.
+     * Return the browser version number.
      *
      * @return mixed
      */
@@ -53,7 +53,7 @@ class LaterPay_Helper_Browser
     }
 
     /**
-     * Returns the browser version number.
+     * Return the browser major version number.
      *
      * @return mixed
      */

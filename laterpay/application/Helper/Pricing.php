@@ -43,7 +43,7 @@ class LaterPay_Helper_Pricing
      *
      * @param int $post_id
      *
-     * @return bool true|false
+     * @return booleantrue|false
      */
     public static function apply_global_default_price_to_post( $post_id ) {
         $global_default_price = get_option( 'laterpay_global_price' );
@@ -66,11 +66,11 @@ class LaterPay_Helper_Pricing
     /**
      * Apply a given category default price to a given post.
      *
-     * @param   int  $post_id
-     * @param   int  $category_id
-     * @param   bool $strict - checks if the given category_id is assigned to the post_id
+     * @param   int     $post_id
+     * @param   int     $category_id
+     * @param   boolean $strict - checks if the given category_id is assigned to the post_id
      *
-     * @return  bool true|false
+     * @return  boolean true|false
      */
     public static function apply_category_default_price_to_post( $post_id, $category_id, $strict = false ) {
         $post = get_post( $post_id );
@@ -78,7 +78,7 @@ class LaterPay_Helper_Pricing
             return false;
         }
 
-        // check if the post has the category_id
+        // check if the post has the given category_id
         if ( $strict && ! has_category( $category_id, $post ) ) {
             return false;
         }
@@ -92,7 +92,7 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Get post price, depending on applied price type of post.
+     * Get post price, depending on price type applied to post.
      *
      * @param int $post_id
      *
@@ -141,10 +141,10 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Get the current price for posts with dynamic pricing scheme defined.
+     * Get the current price for a post with dynamic pricing scheme defined.
      *
      * @param WP_Post $post
-     * @param array $post_prices see post_meta 'laterpay_post_prices'
+     * @param array   $post_prices see post_meta 'laterpay_post_prices'
      *
      * @return float price
      */

@@ -9,7 +9,7 @@ class LaterPay_Helper_View
 	public static $pluginPage = 'laterpay-plugin';
 
     /**
-     * Get admin menu data
+     * Get admin menu data.
      *
      * @var array
      */
@@ -23,11 +23,11 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Get date of next day
+     * Get date of next day.
      *
-     * @param   string $date
+     * @param string $date
      *
-     * @return  string $nextDay
+     * @return string $nextDay
      */
     protected static function get_next_day( $date ) {
         $next_day = date( 'Y-m-d', mktime(
@@ -43,7 +43,7 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Get date a given number of days prior to a given date
+     * Get date a given number of days prior to a given date.
      *
      * @param   string  $date
      * @param   int     $ago number of days ago
@@ -65,16 +65,17 @@ class LaterPay_Helper_View
     }
 
 	/**
-	 *
-	 * @param   array $statistic
-	 * @param   string $type
-	 * @param   string $delimiter
+     * Get the statistics data for the last 30 days as string, joined by a given delimiter.
+     *
+	 * @param array  $statistic
+	 * @param string $type
+	 * @param string $delimiter
 	 *
 	 * @return string
 	 */
 	public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
-        $today = date('Y-m-d');
-        $date = self::get_date_days_ago( date( $today ), 30 );
+        $today  = date('Y-m-d');
+        $date   = self::get_date_days_ago( date( $today ), 30 );
 
         $result = '';
         while ( $date <= $today ) {
@@ -109,17 +110,17 @@ class LaterPay_Helper_View
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
 
-        // checking if plugin works in live mode and api.key exists
+        // checking if plugin works in live mode and API key exists
         if ( $modeIsLive && empty( $liveKey ) ) {
             return false;
         }
 
-        // checking if plugin is not in live mode and sandboxKey exists
+        // check if plugin is not in live mode and Sandbox API key exists
         if ( ! $modeIsLive && empty( $sandboxKey ) ) {
             return false;
         }
 
-        // checking if plugin is not in live mode and current has enough rights
+        // check if plugin is not in live mode and current user has sufficient capabilities
         if ( ! $modeIsLive && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
             return false;
         }
@@ -128,7 +129,7 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Get number based on locale format
+     * Get number based on locale format.
      *
      * @param   double  $number
      * @param   int     $decimals

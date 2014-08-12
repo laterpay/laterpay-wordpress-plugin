@@ -4,7 +4,7 @@ class LaterPay_Model_Currency
 {
 
     /**
-     * Name of currency table
+     * Name of currency table.
      *
      * @var string
      *
@@ -13,7 +13,7 @@ class LaterPay_Model_Currency
     public $table;
 
     /**
-     * Constructor for class LaterPay_Currency_Model, load table name
+     * Constructor for class LaterPay_Currency_Model, load table name.
      */
     function __construct() {
         global $wpdb;
@@ -22,7 +22,7 @@ class LaterPay_Model_Currency
     }
 
     /**
-     * Get currencies
+     * Get currencies.
      *
      * @return array currencies
      */
@@ -35,7 +35,7 @@ class LaterPay_Model_Currency
     }
 
     /**
-     * Get currency id by ISO 4217 currency code
+     * Get currency id by ISO 4217 currency code.
      *
      * @param string $name ISO 4217 currency code
      *
@@ -59,7 +59,7 @@ class LaterPay_Model_Currency
     }
 
     /**
-     * Get full name of currency by ISO 4217 currency code
+     * Get full name of currency by ISO 4217 currency code.
      *
      * @param string $name ISO 4217 currency code
      *

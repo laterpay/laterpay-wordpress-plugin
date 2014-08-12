@@ -17,7 +17,7 @@ class LaterPay_Core_Auth_Hmac
 	 * constructor for class Token
 	 *
 	 * @param string $privateKey File name of private pem key
-	 * @param bool   $isPacked   key must be packed
+	 * @param boolean  $isPacked   key must be packed
 	 *
 	 * @throws Exception
 	 * @return \LaterPay_Core_Auth_Hmac

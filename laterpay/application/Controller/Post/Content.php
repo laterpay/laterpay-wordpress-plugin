@@ -348,7 +348,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     /**
      * Helper function to detect, if the current post is a single post and can be parsed in frontend.
      *
-     * @return  bool true|false
+     * @return  booleantrue|false
      */
     protected function post_is_a_laterpay_post( ) {
         // only modify the post_content on singular pages

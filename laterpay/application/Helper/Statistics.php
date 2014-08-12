@@ -104,7 +104,7 @@ class LaterPay_Helper_Statistics
     }
 
     /**
-     * Core tracking functionality
+     * Core tracking functionality.
      *
      * @param   string|int $post_id
      *
@@ -154,7 +154,7 @@ class LaterPay_Helper_Statistics
     }
 
     /**
-     * Get Full URL.
+     * Get full URL.
      *
      * @param   array $s $_SERVER
      *
