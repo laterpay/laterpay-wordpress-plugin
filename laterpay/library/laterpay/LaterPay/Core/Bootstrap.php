@@ -61,13 +61,6 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_enqueue_scripts', array( $this, 'add_plugin_admin_assets' ) );
                 add_action( 'admin_enqueue_scripts', array( $this, 'add_admin_pointers_script' ) );
 
-                // check for upgrades
-                $github_updater = new LaterPay_Controller_Admin_GitHubUpdater( $this->config );
-                add_filter( 'pre_set_site_transient_update_plugins',    array( $github_updater, 'set_transient' ) );
-                add_filter( 'plugins_api',                              array( $github_updater, 'set_plugin_info' ), 10, 3 );
-                add_filter( 'upgrader_pre_install',                     array( $github_updater, 'pre_install' ), 10, 2 );
-                add_filter( 'upgrader_post_install',                    array( $github_updater, 'post_install' ), 10, 3 );
-
                 // add Ajax hooks for tabs in plugin backend
                 $admin_get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
                 add_action( 'wp_ajax_laterpay_getstarted', array( $admin_get_started_controller, 'process_ajax_requests' ) );
