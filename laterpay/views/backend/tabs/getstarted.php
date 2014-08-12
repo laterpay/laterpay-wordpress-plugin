@@ -51,22 +51,24 @@
                     </p>
                 </li>
                 <li>
-                    <div class="progress-step">
+                    <div class="progress-step middle">
                         <p class="centered">
                             <?php _e( 'The default price for posts is', 'laterpay' ); ?>
-                            <input type="text"
-                                    name="get_started[laterpay_global_price]"
-                                    id="global-default-price"
-                                    class="lp-input number"
-                                    value="<?php echo $global_default_price; ?>"
-                                    placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
-                            <select name="get_started[laterpay_currency]" class="lp-input">
-                                <?php foreach ( $currencies as $currency ): ?>
-                                    <option value="<?php echo $currency->short_name; ?>"<?php if ( $currency->short_name == $config->get( 'currency.default' ) ): ?> selected<?php endif; ?>>
-                                        <?php echo $currency->short_name; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <span class="nowrap">
+                                <input type="text"
+                                        name="get_started[laterpay_global_price]"
+                                        id="global-default-price"
+                                        class="lp-input number"
+                                        value="<?php echo $global_default_price; ?>"
+                                        placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
+                                <select name="get_started[laterpay_currency]" class="lp-input">
+                                    <?php foreach ( $currencies as $currency ): ?>
+                                        <option value="<?php echo $currency->short_name; ?>"<?php if ( $currency->short_name == $config->get( 'currency.default' ) ): ?> selected<?php endif; ?>>
+                                            <?php echo $currency->short_name; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </span>
                         </p>
                     </div>
                     <p>

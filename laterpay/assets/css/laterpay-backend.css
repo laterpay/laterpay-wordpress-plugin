@@ -290,25 +290,29 @@ GET STARTED
     top:0;
     width:6.5em;
 }
-.step-row li .progress-step .centered {line-height:6.75em; margin:0; text-align:center;}
+.step-row li .progress-step .centered {line-height:6.75em; margin:0; position:relative; text-align:center;}
 .step-row li .first {border-radius:4px 0 0 4px; line-height:3em; padding-left:4px;}
 .step-row li .progress-step.first label[placeholder]:before {margin:1.15em 0 0 3.1em;}
+.step-row li .progress-step.middle {padding:0 2.5em 0 0.5em;}
+.step-row li .progress-step.middle .nowrap {white-space:nowrap;}
+.step-row li .progress-step.middle #global-default-price {border-radius:4px 0 0 4px;}
+.step-row li .progress-step.middle select {border-radius:0 4px 4px 0; margin-left:-5px;}
 .step-row li .last {text-align:center;}
 .step-row li .last:before {background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAABgAgMAAAD9WbPBAAAACVBMVEXx8fHj4+Pp6ek4EdgDAAAAkUlEQVQ4y3XUoRFEMQgFwCuNEhAkE0kplH7yrwG1EgYev/l91Thx4YuPDtz44cJHD26cuPDFRwdu/HDhowc3Tlz44qMDN3648NGDAycufPHRgRs/XPjowYETv8WJAw9eeni4ceBl9sKJAw9edvFw48DLDRRO3HjwcpMPNw68ZKFw4saDl2w+nDjw8hMKJ248H//a7psxTSpZ7AAAAABJRU5ErkJggg==) 100% 50% no-repeat;}
 .step-row li .progress-step .activate-lp {
     font-weight:600;
     height:3em;
     line-height:3em;
-    padding:0 1.25em;
+    padding:0 1em;
+    position:relative;
     vertical-align:inherit;
 }
 .progress-step + p,
 .progress-step + p + p {color:#aaa; margin:0 0 1em; padding:1.5em 2em 0 0; text-align:center;}
 .progress-step + p + p {padding-top:0;}
 
-
 .step-row .progress-step input.api-key-input,
-.step-row .progress-step input.merchant-id-input {padding-left:2.75em; width:21.5em;}
+.step-row .progress-step input.merchant-id-input {max-width:91%; padding-left:2.75em; width:21.5em;}
 .step-row .progress-step input.merchant-id-input {margin-top:.5em;}
 .step-row .input-icon {margin:.15em 0 0 0.5em;}
 .step-row .progress-step .input-icon.api-key-icon {margin-top:.05em;}
@@ -517,8 +521,15 @@ label.switch-label {
 
 
 /* #### Responsiveness ##################################################################### */
+@media (max-width:1320px) {
+    /* Get Started tab */
+    .step-row li .progress-step.middle .centered {line-height:2em; padding-top:.95em;}
+}
 @media (max-width:1279px) {
     .lp-wrap {padding:0;}
+
+    /* Get Started tab */
+    .step-row li .progress-step.middle .centered {line-height:2em; padding-top:.95em;}
 
     /* Pricing tab */
     .edit-link {margin-left:.5em;}
