@@ -114,7 +114,7 @@ ul.lp-toggle .selected:hover a {color:#a5a5a5; cursor:default; text-shadow:0 1px
 
 /* dynamic pricing widget */
 #container {margin-top:.5em;}
-#container2 p {margin-bottom:0;}
+/*#container2 p {margin-bottom:0;}
 #container2 a {
     background:url(../img/dynamic-pricing-presets-sprite.png) no-repeat;
     display:block;
@@ -127,7 +127,7 @@ ul.lp-toggle .selected:hover a {color:#a5a5a5; cursor:default; text-shadow:0 1px
 #container2 .breaking-news {background-position:0 -48px;}
 #container2 .teaser {background-position:0 -96px;}
 #container2 .long-tail {background-position:0 -144px;}
-#container2 .flat {background-position:0 -192px;}
+#container2 .flat {background-position:0 -192px;}*/
 
 svg text {-webkit-user-select:none;}
 

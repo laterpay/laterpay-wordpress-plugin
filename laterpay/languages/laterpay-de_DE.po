@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Aug 08 2014 11:45:24 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Aug 12 2014 10:15:49 GMT+0200 (CEST)\n"
 "Last-Translator: tester <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -22,13 +22,13 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Loco-Target-Locale: de_DE"
 
-#: ../library/laterpay/LaterPay/Core/Bootstrap.php:304
+#: ../library/laterpay/LaterPay/Core/Bootstrap.php:306
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../library/laterpay/LaterPay/Core/Bootstrap.php:305 ..
+#: ../library/laterpay/LaterPay/Core/Bootstrap.php:307 ..
 #: library/laterpay/LaterPay/Controller/Admin/GetStarted.php:28 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:182
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:178
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
@@ -65,7 +65,7 @@ msgstr ""
 msgid "<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>"
 msgstr "<p>LaterPay: Verzeichnis %s <strong>ist nicht beschreibbar</strong>.</p>"
 
-#: ../library/laterpay/LaterPay/Controller/Install.php:66
+#: ../library/laterpay/LaterPay/Controller/Install.php:62
 msgid ""
 "The LaterPay plugin could not be installed. Please fix the reported issues "
 "and try again."
@@ -565,10 +565,10 @@ msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 #: library/laterpay/LaterPay/Controller/Admin/Account.php:274 ..
 #: library/laterpay/LaterPay/Controller/Admin/Appearance.php:89 ..
 #: library/laterpay/LaterPay/Controller/Admin/Appearance.php:100 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:113 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:144 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:262 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:377
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:109 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:140 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:258 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:373
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
@@ -582,22 +582,28 @@ msgstr "Aktualisiert."
 msgid "Additional Premium Content"
 msgstr "Zusätzlicher Premium-Inhalt"
 
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:64 ..
-#: library/laterpay/LaterPay/Controller/Shortcode.php:75
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:64
+#, php-format
+msgid "We couldn't find a page for target_page_id=\"%s\" on this site."
+msgstr "Wir konnten keine Seite für target_page_id=\"%s\" auf dieser Webseite finden."
+
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:74
+#, php-format
+msgid "We couldn't find a page for target_page_title=\"%s\" on this site."
+msgstr ""
+"Wir konnten keine Seite für target_page_title=\"%s\" auf dieser Webseite "
+"finden."
+
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:80 ..
+#: library/laterpay/LaterPay/Controller/Shortcode.php:91
 msgid "Problem with inserted shortcode:"
 msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
 
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:65
-msgid "The target page you specified doesn't seem to exist on this site."
-msgstr ""
-"Die Zielseite, die Sie angegeben haben, scheint auf dieser Seite nicht zu "
-"existieren."
-
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:76
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:92
 msgid "LaterPay has been disabled for the post type of the target page."
 msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
 
-#: ../library/laterpay/LaterPay/Controller/Shortcode.php:98 ..
+#: ../library/laterpay/LaterPay/Controller/Shortcode.php:114 ..
 #: views/frontend/partials/post/purchase_button.php:12 ..
 #: views/frontend/partials/post/purchase_box.php:53
 #, php-format
@@ -704,35 +710,35 @@ msgstr ""
 "Besucher sehen ab jetzt den Teaser eines kostenpflichtigen Beitrags und "
 "einen Auszug des Artikels unter einem Overlay."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:162
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:158
 #, php-format
 msgid "The currency for this website is %s now."
 msgstr "Die Währung für diese Website ist jetzt %s."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:198
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:194
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:218
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:214
 msgid "The price you tried to set is not within the allowed range of 0 to 5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist nicht im erlaubten Bereich von 0 bis "
 "5,00."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:251 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:326
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:247 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:322
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:279 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:302 ..
-#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:346
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:275 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:298 ..
+#: library/laterpay/LaterPay/Controller/Admin/Pricing.php:342
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:370
+#: ../library/laterpay/LaterPay/Controller/Admin/Pricing.php:366
 msgid "The default price for this category was deleted."
 msgstr "Der Standardpreis für diese Kategorie wurde entfernt."
 
@@ -1141,7 +1147,7 @@ msgstr "Löschen"
 
 #: ../views/backend/tabs/pricing.php:95
 msgid "Set default price for another category"
-msgstr "Standardpreis für eine weitere Kategorie setzen"
+msgstr "Standardpreis für weitere Kategorie setzen"
 
 #: ../views/backend/tabs/pricing.php:131
 msgid "Individual Prices"
@@ -1156,7 +1162,7 @@ msgstr ""
 #: ../views/backend/tabs/pricing.php:135
 msgid "You can set individual prices for posts,<br>when adding or editing a post."
 msgstr ""
-"Sie können individuelle Preise für Beiträge setzen,<br>wenn Sie einen "
+"Sie können individuelle Preise für Beiträge setzen,<br> wenn Sie einen "
 "Beitrag erstellen oder bearbeiten."
 
 #: ../views/backend/tabs/pricing.php:150

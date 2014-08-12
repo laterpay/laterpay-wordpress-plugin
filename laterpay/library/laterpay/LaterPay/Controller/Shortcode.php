@@ -51,18 +51,34 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                 'teaser_image_path' => '',
                             ), $atts);
 
+        $error_reason = '';
+
         // get URL for target page
         $page = null;
         if ( $a[ 'target_page_id' ] !== '' ) {
             $page = get_post( absint( $a[ 'target_page_id' ] ) );
         }
+        // target_page_id was provided, but didn't work
+        if ( $page === null && $a[ 'target_page_id' ] !== '' ) {
+            $error_reason = sprintf(
+                                    __( 'We couldn\'t find a page for target_page_id="%s" on this site.', 'laterpay' ),
+                                    absint( $a[ 'target_page_id' ] )
+                                    );
+        }
         if ( $page === null && $a[ 'target_page_title' ] !== '' ) {
             $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.allowed_post_types' ) );
+        }
+        // target_page_title was provided, but didn't work (no invalid target_page_id was provided)
+        if ( $page === null && $error_reason == '' ) {
+            $error_reason = sprintf(
+                                    __( 'We couldn\'t find a page for target_page_title="%s" on this site.', 'laterpay' ),
+                                    esc_html( $a[ 'target_page_title' ] )
+                                    );
         }
         if ( $page === null ) {
             $error_message  = '<div class="laterpay-shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-            $error_message .= __( "The target page you specified doesn't seem to exist on this site.", 'laterpay' );
+            $error_message .= $error_reason;
             $error_message .= '</div>';
 
             return $error_message;

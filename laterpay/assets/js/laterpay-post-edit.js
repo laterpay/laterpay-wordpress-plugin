@@ -40,7 +40,7 @@ jQuery.noConflict();
                 .click(function(e) {e.preventDefault();});
 
                 // save pricing data
-                $('#post').submit(function() {savePricingData();});
+                $('#post').submit(function() {saveDynamicPricingData();});
 
                 // validate manually entered prices
                 $o.priceInput.blur(function() {setPrice($(this).val());});
@@ -372,9 +372,9 @@ jQuery.noConflict();
                 // });
             },
 
-            savePricingData = function() {
-
-                if( !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied) ) {
+            saveDynamicPricingData = function() {
+                // don't try to save dynamic pricing data, if pricing type is not dynamic but static
+                if (!$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     return;
                 }
 

@@ -42,14 +42,14 @@
             <input type="hidden" name="laterpay_transitional_period_end_after_days">
             <input type="hidden" name="laterpay_reach_end_price_after_days">
             <div id="laterpay-widget-container"></div>
-            <div id="container2">
-                <!-- <p><?php _e( 'Dynamic pricing presets', 'laterpay' ); ?></p>
+            <!-- <div id="container2">
+                <p><?php _e( 'Dynamic pricing presets', 'laterpay' ); ?></p>
                 <a href="#" class="blockbuster"><?php _e( 'Blockbuster', 'laterpay' ); ?></a>
                 <a href="#" class="breaking-news"><?php _e( 'Breaking News', 'laterpay' ); ?></a>
                 <a href="#" class="teaser"><?php _e( 'Teaser', 'laterpay' ); ?></a>
                 <a href="#" class="long-tail"><?php _e( 'Long-tail', 'laterpay' ); ?></a>
-                <a href="#" class="flat"><?php _e( 'Flat (default)', 'laterpay' ); ?></a> -->
-            </div>
+                <a href="#" class="flat"><?php _e( 'Flat (default)', 'laterpay' ); ?></a>
+            </div> -->
         </div>
         <div class="use-category-default-price details-section"<?php if ( $laterpay_post_price_type !== 'category default price' ) { echo ' style="display:none;"'; } ?>>
              <input type="hidden" name="laterpay_post_default_category" value="<?php echo $laterpay_post_default_category?>">
