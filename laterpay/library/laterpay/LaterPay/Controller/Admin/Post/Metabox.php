@@ -428,7 +428,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // apply category default price of given category
         if ( $type === 'category default price' ) {
             if ( isset( $_POST[ 'laterpay_post_default_category' ] ) ) {
-                $meta_values[ 'category_id' ] = stripslashes( $_POST[ 'laterpay_post_default_category' ] );
+                $category_id = stripslashes( $_POST[ 'laterpay_post_default_category' ] );
+                $meta_values[ 'category_id' ] = absint( $category_id );
             }
         }
 

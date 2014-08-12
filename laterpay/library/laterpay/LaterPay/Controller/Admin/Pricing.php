@@ -354,7 +354,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function delete_category_default_price() {
-        $category_id = (int) $_POST['category_id'];
+        $category_id = absint( $_POST['category_id'] );
 
         // delete the category_price
         $category_price_model = new LaterPay_Model_CategoryPrice();
@@ -381,8 +381,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             if ( $post_price[ 'type' ] !== 'category default price' ) {
                 continue;
             }
+
             // check if the post has the deleted category_id as category default price
-            if ( $post_price[ 'category_id' ] !== $category_id ) {
+            if ( (int) $post_price[ 'category_id' ] !== $category_id ) {
                 continue;
             }
 
