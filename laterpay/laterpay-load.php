@@ -6,7 +6,7 @@ class LaterPay_AutoLoader
     static private $paths = array();
 
     /**
-     * Store the filename (without extension) and full path of all '.php' files found
+     * Store the filename (without extension) and full path of all '.php' files found.
      */
     public static function register_directory( $dirName ) {
         LaterPay_AutoLoader::$paths[] = $dirName;
