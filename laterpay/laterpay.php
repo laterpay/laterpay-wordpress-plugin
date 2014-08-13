@@ -68,7 +68,7 @@ function laterpay_deactivate() {
  */
 function laterpay_get_plugin_config() {
 	// check, if the config is in cache -> don't load it again.
-	$config = wp_cache_get( 'laterpay', 'config' );
+	$config = wp_cache_get( 'config', 'laterpay' );
 	if ( is_a( $config, 'LaterPay_Model_Config' ) ) {
 		return $config;
 	}
@@ -219,7 +219,7 @@ function laterpay_get_plugin_config() {
 	$config->import( $browscap_settings );
 
 	// cache the config
-	wp_cache_set( 'laterpay', $config, 'config' );
+	wp_cache_set( 'config', $config, 'laterpay' );
 
 	return $config;
 }

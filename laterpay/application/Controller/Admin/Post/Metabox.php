@@ -398,7 +398,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $meta_values[ 'type' ] = stripslashes( $_POST[ 'post_price_type' ] );
 
         // apply (static) individual price
-        if ( $type === 'individual price' && isset( $_POST['post-price'] ) ){
+        if ( $type === 'individual price' && isset( $_POST['post-price'] ) ) {
             $meta_values[ 'price' ] = (float) str_replace( ',', '.', $_POST[ 'post-price' ] );
         }
 

@@ -101,6 +101,13 @@ class LaterPay_Helper_Pricing
     public static function get_post_price( $post_id ) {
         $global_default_price = get_option( 'laterpay_global_price' );
 
+        $cache_key = 'laterpay_post_price_' . $post_id;
+
+        $price = wp_cache_get( $cache_key, 'laterpay' );
+        if ( !! $price ) {
+            return $price;
+        }
+
         $post = get_post( $post_id );
         $post_prices = get_post_meta( $post_id, self::META_KEY, true );
         if ( ! is_array( $post_prices ) ) {
@@ -136,6 +143,11 @@ class LaterPay_Helper_Pricing
                 }
                 break;
         }
+
+        $price = (float) $price;
+
+        // add the price to the current post cache
+        wp_cache_set( $cache_key, $price, 'laterpay' );
 
         return (float) $price;
     }
