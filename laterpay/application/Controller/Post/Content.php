@@ -644,6 +644,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'https://static.sandbox.laterpaytest.net/webshell_static/client/1.0.0/laterpay-dialog/css/dialog.css'
         );
 
+        // always enqueue 'laterpay-post-view' to ensure that shortcode [laterpay_premium_download] has styling
         wp_enqueue_style( 'laterpay-post-view' );
 
         // only enqueue the styles when the current post is purchasable
