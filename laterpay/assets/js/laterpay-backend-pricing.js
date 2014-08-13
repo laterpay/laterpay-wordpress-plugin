@@ -35,11 +35,6 @@ jQuery.noConflict();
             price = price.replace('.', ',');
         }
 
-        // show flash message when correcting an invalid price
-        if (corrected) {
-            setMessage(lpVars.i18n_outsideAllowedPriceRange, false);
-        }
-
         return price;
     }
 
