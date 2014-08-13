@@ -558,7 +558,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             return $html . $content;
         }
 
-        // return on non-singular pages - archive, feed, tax, author - just the teaser-content
+        // return the teaser-content on non-singular pages (archive, feed, tax, author, ..)
         if( !$is_ajax && !is_singular() ){
             return $this->get_text_view( 'frontend/partials/post/teaser' );
         }
