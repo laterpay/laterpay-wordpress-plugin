@@ -106,7 +106,7 @@ class LaterPay_Core_Bootstrap
 
             // setup custom columns for each allowed post_type
             $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );
-            foreach( $this->config->get( 'content.allowed_post_types' ) as $post_type ){
+            foreach ( $this->config->get( 'content.allowed_post_types' ) as $post_type ) {
                 add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
                 add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
             }

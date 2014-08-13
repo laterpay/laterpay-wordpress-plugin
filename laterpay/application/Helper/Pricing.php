@@ -146,8 +146,9 @@ class LaterPay_Helper_Pricing
 
         $price = (float) $price;
 
-        // adding the price to the current post-cache
+        // add the price to the current post cache
         wp_cache_set( $cache_key, $price, 'laterpay' );
+
         return (float) $price;
     }
 

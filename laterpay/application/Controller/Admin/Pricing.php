@@ -397,16 +397,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 // apply the global default price as new price, if no other post categories are found
                 LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post->ID );
             } else {
-                // load all category-prices by the given category_ids
+                // load all category prices by the given category_ids
                 $laterpay_category_model    = new LaterPay_Model_CategoryPrice();
                 $category_price_data        = $laterpay_category_model->get_category_price_data_by_category_ids( $post_categories );
 
-                if( count( $category_price_data ) < 1 ){
-                    // No other category-prices found for this post
+                if ( count( $category_price_data ) < 1 ) {
+                    // no other category prices found for this post
                     LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post->ID );
-                }
-                else {
-                    // Find the category with the highest price and assign its category_id to the post
+                } else {
+                    // find the category with the highest price and assign its category_id to the post
                     $price = 0;
                     foreach ( $category_price_data as $data ) {
                         if ( $data->category_price > $price ) {
@@ -417,9 +416,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
                     LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post->ID, $category_id, true );
                 }
-
             }
-
         }
 
         wp_send_json(
@@ -439,10 +436,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     protected function get_category_prices( $category_ids ) {
         $categories_price_data = array();
-        if( is_array( $category_ids ) && count( $category_ids ) > 0 ){
+
+        if ( is_array( $category_ids ) && count( $category_ids ) > 0 ) {
             $category_price_model   = new LaterPay_Model_CategoryPrice();
             $categories_price_data  = $category_price_model->get_category_price_data_by_category_ids( $category_ids );
         }
+
         wp_send_json( $categories_price_data );
     }
 
