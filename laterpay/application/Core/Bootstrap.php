@@ -143,6 +143,7 @@ class LaterPay_Core_Bootstrap
             // add filters to override post content
             add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
             add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
+            add_filter( 'the_posts',                array( $post_controller, 'prefetch_post_access' ) );
 
             // setup unique visitors tracking
             $tracking_controller = new LaterPay_Controller_Tracking( $this->config );

@@ -101,7 +101,7 @@ class LaterPay_Helper_Pricing
     public static function get_post_price( $post_id ) {
         $global_default_price = get_option( 'laterpay_global_price' );
 
-        $post = get_post( );
+        $post = get_post( $post_id );
         $post_prices = get_post_meta( $post_id, self::META_KEY, true );
         if ( ! is_array( $post_prices ) ) {
             $post_prices = array();
