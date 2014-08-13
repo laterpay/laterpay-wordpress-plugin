@@ -507,8 +507,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
         $is_premium_content = $price > 0;
 
-        // get information if user has access to content
-        $access = $this->has_post_access( $post );
 
         // get purchase link
         $purchase_link = $this->get_laterpay_purchase_link( $post_id );
@@ -521,10 +519,12 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
         $hide_statistics_pane       = LaterPay_Helper_User::statistics_pane_is_hidden();
 
-        // get post statistics if user has the required capabilities
+        // get information if user has access to content
+        $access = $this->has_post_access( $post );
+
+        // if user can read the statistic, we can switch to "admin"-mode and have to load the correct content
         if ( $user_can_read_statistic ) {
             $access = true;
-            $this->initialize_post_statistic();
         }
 
         // encrypt files contained in premium posts
@@ -549,6 +549,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
 
         // add the post statistics, if enabled
         if( ( $user_can_read_statistic || $laterpay_show_statistics ) && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
+            $this->initialize_post_statistic();
             $html .= $this->get_text_view( 'frontend/partials/post/statistics' );
         }
 
@@ -558,7 +559,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         }
 
         // return on non-singular pages - archive, feed, tax, author - just the teaser-content
-        if( !is_singular() ){
+        if( !$is_ajax && !is_singular() ){
             return $this->get_text_view( 'frontend/partials/post/teaser' );
         }
 

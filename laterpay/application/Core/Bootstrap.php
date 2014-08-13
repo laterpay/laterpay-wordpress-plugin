@@ -132,6 +132,11 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
         add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
+        // add filters to override post content
+        // we're using the filters also in ajax-request, so they have to stay outsite the "is_admin()"-Check
+        add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
+        add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
+
         // frontend actions
         if ( ! is_admin() ) {
             add_action( 'template_redirect',        array( $post_controller, 'buy_post' ) );
@@ -140,9 +145,7 @@ class LaterPay_Core_Bootstrap
             // add custom action to print the LaterPay purchase button
             add_action( 'laterpay_purchase_button', array( $post_controller, 'the_purchase_button' ) );
 
-            // add filters to override post content
-            add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
-            add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
+            // prefetch the post_access for loops
             add_filter( 'the_posts',                array( $post_controller, 'prefetch_post_access' ) );
 
             // setup unique visitors tracking
