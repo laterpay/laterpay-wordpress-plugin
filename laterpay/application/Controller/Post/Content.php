@@ -18,12 +18,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return void
      */
     public function get_cached_post() {
-        global $post, $wp_query, $laterpay_show_statistics;
+        global $post, $wp_query;
 
         // set the global vars so that WordPress thinks it is in a single view
         $wp_query->is_single      = true;
         $wp_query->in_the_loop    = true;
-        $laterpay_show_statistics = true;
 
         // get the content
         $post_id        = absint( $_REQUEST[ 'post_id' ] );
@@ -502,7 +501,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return string $content
      */
     public function modify_post_content( $content ) {
-        global $laterpay_show_statistics;
 
         $post = get_post();
         if ( $post === null ) {
@@ -564,7 +562,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $html = '';
 
         // add the post statistics, if enabled
-        if ( ( $user_can_read_statistic || $laterpay_show_statistics ) && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
+        if ( $user_can_read_statistic && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
             $this->initialize_post_statistic();
             $html .= $this->get_text_view( 'frontend/partials/post/statistics' );
         }
