@@ -91,13 +91,17 @@
         var $pageCachingAnchor = $('#laterpay-page-caching-mode');
         if ($pageCachingAnchor.length == 1) {
             var post_vars = {
-                action  : 'laterpay_article_script',
-                post_id : $pageCachingAnchor.attr('data-post-id')
-            };
-            $.get( lpVars.ajaxUrl, post_vars, function(response) {
-                $pageCachingAnchor.before(response).remove();
-                lpShowStatistic();
-            } );
+                                action  : 'laterpay_article_script',
+                                post_id : $pageCachingAnchor.attr('data-post-id')
+                            };
+            $.get(
+                lpVars.ajaxUrl,
+                post_vars,
+                function(response) {
+                    $pageCachingAnchor.before(response).remove();
+                    lpShowStatistic();
+                }
+            );
         }
 
 });}(jQuery));
