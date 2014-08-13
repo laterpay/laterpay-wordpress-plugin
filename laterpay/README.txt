@@ -333,6 +333,7 @@ your theme after installing the LaterPay WordPress plugin.
 * Revised user interface to work on tablet resolutions
 * Fixed preview mode for paid posts
 * Disabled rendering of post statistics, if a page includes multiple single post pages
+* LaterPay CSS and JS assets are now only loaded, if a post can be purchased
 * Various smaller bugfixes and improvements
 
 = 0.9.7 (August 8, 2014): Production-readiness release IV =
