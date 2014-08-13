@@ -644,12 +644,13 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'https://static.sandbox.laterpaytest.net/webshell_static/client/1.0.0/laterpay-dialog/css/dialog.css'
         );
 
+        wp_enqueue_style( 'laterpay-post-view' );
+
         // only enqueue the styles when the current post is purchasable
         if ( ! is_singular() || ! $this->is_purchasable() ) {
             return;
         }
 
-        wp_enqueue_style( 'laterpay-post-view' );
         wp_enqueue_style( 'laterpay-dialogs' );
     }
 
