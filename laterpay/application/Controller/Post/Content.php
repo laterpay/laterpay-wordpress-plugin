@@ -402,6 +402,38 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Helper function to check if the current or a given post is purchasable
+     *
+     * @param null|WP_Post $post
+     *
+     * @return  bool true|false
+     */
+    protected function is_post_purchasable( $post = null ){
+
+        if( !is_a( $post, 'WP_POST' ) ){
+            // loading the current post in $GLOBAL['post']
+            $post = get_post();
+            if( $post === null ){
+                return false;
+            }
+        }
+
+        // Checks if is this post_type an enabled post_type
+        if( !$this->is_enabled_post_type( $post->post_type ) ){
+            return false;
+        }
+
+        // Checks if the current post-price is not 0
+        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        if( $price == 0 ){
+            return false;
+        }
+
+        return true;
+
+    }
+
+    /**
      * Check if current page is login page.
      *
      * @return boolean
@@ -430,31 +462,24 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function the_purchase_button() {
+
+        // check if the current post is purchasable
+        if( !$this->is_post_purchasable() ){
+            return;
+        }
+
         $post = get_post();
-        if ( $post === null ) {
-            return;
-        }
 
-        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-            return;
-        }
-
-        // Is post a buy-able post?
-        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-        if ( $price == 0 ) {
-            return;
-        }
-
-        // Is post already bought?
-        if ( $this->has_access_to_post( $post ) ) {
+        // Checks if the current post is not already purchased
+        if( !$this->has_access_to_post( $post ) ){
             return;
         }
 
         $view_args = array(
             'post_id'                   => $post->ID,
-            'link'                      => $purchase_link = $this->get_laterpay_purchase_link( $post->ID ),
+            'link'                      => $this->get_laterpay_purchase_link( $post->ID ),
             'currency'                  => get_option( 'laterpay_currency' ),
-            'price'                     => $price,
+            'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
         );
 
@@ -590,31 +615,109 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return void
      */
     public function modify_footer() {
-        if ( ! is_singular() ) {
-            return;
-        }
 
-        $post = get_post();
-        if ( $post === null ) {
-            return;
-        }
-
-        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-            return;
-        }
-
-        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-        if ( $price == 0 ) {
+        if( ! is_singular() ||!$this->is_post_purchasable( ) ){
             return;
         }
 
         $laterpay_client    = new LaterPay_Client( $this->config );
         $identify_link      = $laterpay_client->get_identify_url();
 
-        $this->assign( 'post_id',       $post->ID );
+        $this->assign( 'post_id',       get_the_ID() );
         $this->assign( 'identify_link', $identify_link );
 
         echo $this->get_text_view( 'frontend/partials/identify/iframe' );
+    }
+
+    /**
+     * Load LaterPay stylesheets
+     *
+     * @wp-hook wp_enqueue_scripts
+     * @return void
+     */
+    public function add_frontend_stylesheets() {
+
+        wp_register_style(
+            'laterpay-post-view',
+            $this->config->css_url . 'laterpay-post-view.css',
+            array(),
+            $this->config->version
+        );
+        wp_register_style(
+            'laterpay-dialogs',
+            'https://static.sandbox.laterpaytest.net/webshell_static/client/1.0.0/laterpay-dialog/css/dialog.css'
+        );
+
+        // only enqueue the styles when the current post is purchasable
+        if( !is_singular() || !$this->is_post_purchasable() ){
+            return;
+        }
+
+        wp_enqueue_style( 'laterpay-post-view' );
+        wp_enqueue_style( 'laterpay-dialogs' );
+    }
+
+    /**
+     * Load LaterPay JS libraries
+     *
+     * @wp-hook wp_enqueue_scripts
+     *
+     * @return void
+     */
+    public function add_frontend_scripts() {
+        wp_register_script(
+            'laterpay-yui',
+            'https://static.laterpay.net/yui/3.13.0/build/yui/yui-min.js',
+            array(),
+            $this->config->version,
+            false
+        );
+        wp_register_script(
+            'laterpay-config',
+            'https://static.laterpay.net/client/1.0.0/config.js',
+            array( 'laterpay-yui' ),
+            $this->config->version,
+            false
+        );
+        wp_register_script(
+            'laterpay-peity',
+            $this->config->js_url . '/vendor/jquery.peity.min.js',
+            array( 'jquery' ),
+            $this->config->version,
+            false
+        );
+        wp_register_script(
+            'laterpay-post-view',
+            $this->config->js_url . '/laterpay-post-view.js',
+            array( 'jquery', 'laterpay-peity' ),
+            $this->config->version,
+            false
+        );
+
+        // pass localized strings and variables to script
+        $client         = new LaterPay_Client( $this->config );
+        $balance_url    = $client->get_controls_balance_url();
+        wp_localize_script(
+            'laterpay-post-view',
+            'lpVars',
+            array(
+                'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+                'lpBalanceUrl'  => $balance_url,
+                'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
+                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
+            )
+        );
+
+        // only enqueue the scripts when the current post is purchasable
+        if( !is_singular() || !$this->is_post_purchasable() ){
+            return;
+        }
+
+        wp_enqueue_script( 'laterpay-yui' );
+        wp_enqueue_script( 'laterpay-config' );
+        wp_enqueue_script( 'laterpay-peity' );
+        wp_enqueue_script( 'laterpay-post-view' );
+
     }
 
 }

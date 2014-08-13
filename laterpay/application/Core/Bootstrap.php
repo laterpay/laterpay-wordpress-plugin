@@ -153,9 +153,10 @@ class LaterPay_Core_Bootstrap
             add_action( 'init',                     array( $tracking_controller, 'add_unique_visitors_tracking' ) );
 
             // register the frontend scripts
-            add_action( 'wp_enqueue_scripts',       array( $this, 'add_frontend_stylesheets' ) );
-            add_action( 'wp_enqueue_scripts',       array( $this, 'add_frontend_scripts' ) );
+            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_stylesheets' ) );
+            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_scripts' ) );
         }
+
     }
 
     /**
@@ -224,86 +225,5 @@ class LaterPay_Core_Bootstrap
         wp_enqueue_style( 'wp-pointer' );
     }
 
-    /**
-     * Load LaterPay stylesheets on all post pages.
-     *
-     * @wp-hook wp_enqueue_scripts
-     *
-     * @return void
-     */
-    public function add_frontend_stylesheets() {
-        wp_register_style(
-            'laterpay-post-view',
-            $this->config->css_url . 'laterpay-post-view.css',
-            array(),
-            $this->config->version
-        );
-        wp_register_style(
-            'laterpay-dialogs',
-            'https://static.sandbox.laterpaytest.net/webshell_static/client/1.0.0/laterpay-dialog/css/dialog.css'
-        );
-        wp_enqueue_style( 'laterpay-post-view' );
-        wp_enqueue_style( 'laterpay-dialogs' );
-    }
-
-    /**
-     * Load LaterPay JS libraries on all post pages.
-     *
-     * @wp-hook wp_enqueue_scripts
-     *
-     * @return void
-     */
-    public function add_frontend_scripts() {
-        wp_register_script(
-            'jquery',
-            '//code.jquery.com/jquery-1.11.0.min.js'
-        );
-        wp_register_script(
-            'laterpay-yui',
-            'https://static.laterpay.net/yui/3.13.0/build/yui/yui-min.js',
-            array(),
-            $this->config->version,
-            false
-        );
-        wp_register_script(
-            'laterpay-config',
-            'https://static.laterpay.net/client/1.0.0/config.js',
-            array( 'laterpay-yui' ),
-            $this->config->version,
-            false
-        );
-        wp_register_script(
-            'laterpay-peity',
-            $this->config->js_url . '/vendor/jquery.peity.min.js',
-            array( 'jquery' ),
-            $this->config->version,
-            false
-        );
-        wp_register_script(
-            'laterpay-post-view',
-            $this->config->js_url . '/laterpay-post-view.js',
-            array( 'jquery', 'laterpay-peity' ),
-            $this->config->version,
-            false
-        );
-        wp_enqueue_script( 'laterpay-yui' );
-        wp_enqueue_script( 'laterpay-config' );
-        wp_enqueue_script( 'laterpay-peity' );
-        wp_enqueue_script( 'laterpay-post-view' );
-
-        // pass localized strings and variables to script
-        $client         = new LaterPay_Client( $this->config );
-        $balance_url    = $client->get_controls_balance_url();
-        wp_localize_script(
-            'laterpay-post-view',
-            'lpVars',
-            array(
-                'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-                'lpBalanceUrl'  => $balance_url,
-                'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
-                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
-            )
-        );
-    }
 
 }
