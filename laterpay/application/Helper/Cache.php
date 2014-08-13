@@ -49,6 +49,7 @@ class LaterPay_Helper_Cache
             'wp-fastest-cache/wpFastestCache.php',  // WP Fastest Cache
             'cachify/cachify.php',                  // Cachify
             'wp-cachecom/wp-cache-com.php',         // WP-Cache.com
+            'wordfence/wordfence.php',              // Wordfence
         );
 
         foreach ( $caching_plugins as $plugin ) {
