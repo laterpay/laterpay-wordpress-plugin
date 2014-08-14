@@ -127,8 +127,7 @@ input.lp-input.number {padding:.25em 0.5em; text-align:right; width:4em;}
 .w1-6 {width:16.6%;}
 .left {float:left;}
 .right {float:right;}
-.clearfix:before,
-.clearfix:after {clear:both; content:''; display:table;}
+.clearfix:after {clear:both; content:' '; display:block; font-size:0; height:0; visibility:hidden;}
 
 /* **** Layout **** */
 .lp-page {min-height:100%;}

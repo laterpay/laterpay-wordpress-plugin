@@ -1,8 +1,6 @@
 @charset "UTF-8";
 
-.clearfix:before,
-.clearfix:after {content:''; display:table;}
-.clearfix:after {clear:both;}
+.clearfix:after {clear:both; content:' '; display:block; font-size:0; height:0; visibility:hidden;}
 
 /* Purchase button */
 .laterpay-purchase-link {
@@ -50,12 +48,12 @@
     position:relative !important;
 }
 .laterpay-purchase-link.laterpay-purchase-button[data-icon]:before {
-    font-size:1.5em !important;
-    left:-2px !important;
+    font-size:1.75em !important;
+    left:-3px !important;
     line-height:0 !important;
-    margin:0 0.2em 0 0 !important;
+    margin:0 0.1em 0 0 !important;
     position:relative !important;
-    top:.25em !important;
+    top:.3em !important;
 }
 .laterpay-purchase-link.laterpay-purchase-button,
 .laterpay-purchase-link.laterpay-purchase-button small,
