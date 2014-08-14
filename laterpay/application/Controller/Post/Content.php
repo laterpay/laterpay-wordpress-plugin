@@ -665,28 +665,28 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'laterpay-yui',
             'https://static.laterpay.net/yui/3.13.0/build/yui/yui-min.js',
             array(),
-            $this->config->version,
+            $this->config->get( 'version' ),
             false
         );
         wp_register_script(
             'laterpay-config',
             'https://static.laterpay.net/client/1.0.0/config.js',
             array( 'laterpay-yui' ),
-            $this->config->version,
+            $this->config->get( 'version' ),
             false
         );
         wp_register_script(
             'laterpay-peity',
-            $this->config->js_url . '/vendor/jquery.peity.min.js',
+            $this->config->get( 'js_url' ) . 'vendor/jquery.peity.min.js',
             array( 'jquery' ),
-            $this->config->version,
+            $this->config->get( 'version' ),
             false
         );
         wp_register_script(
             'laterpay-post-view',
-            $this->config->js_url . '/laterpay-post-view.js',
+            $this->config->get( 'js_url' ) . 'laterpay-post-view.js',
             array( 'jquery', 'laterpay-peity' ),
-            $this->config->version,
+            $this->config->get( 'version' ),
             false
         );
 
