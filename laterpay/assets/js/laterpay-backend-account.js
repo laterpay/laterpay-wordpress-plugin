@@ -47,12 +47,12 @@ jQuery.noConflict();
                 }
             } else {
                 // user has switched plugin mode switch to 'TEST'
-                // only switch plugin mode, if it was set to 'LIVE' before
-                if ($('#plugin_mode_hidden_input').val() === 1) {
+                // // only switch plugin mode, if it was set to 'LIVE' before
+                // if ($('#plugin_mode_hidden_input').val() === 1) {
                     $('#plugin_mode_hidden_input').val(0);
                     togglePluginModeText();
                     makeAjaxRequest('laterpay_plugin_mode', true);
-                }
+                // }
             }
         },
         makeAjaxRequest = function(form_id) {

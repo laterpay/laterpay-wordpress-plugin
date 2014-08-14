@@ -185,19 +185,26 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         update_option( 'laterpay_global_price', $delocalized_global_price );
 
-        $global_price   = LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 );
-        $currency_model = new LaterPay_Model_Currency();
-        $currency_name  = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
+        $global_price           = (float) get_option( 'laterpay_global_price' );
+        $localized_global_price = LaterPay_Helper_View::format_number( $global_price, 2 );
+        $currency_model         = new LaterPay_Model_Currency();
+        $currency_name          = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
+
+        if ( $global_price == 0 ) {
+            $message = __( 'All posts are free by default now.', 'laterpay' );
+        } else {
+            $message = sprintf(
+                            __( 'The global default price for all posts is %s %s now.', 'laterpay' ),
+                            $localized_global_price,
+                            $currency_name
+                        );
+        }
 
         wp_send_json(
             array(
                 'success'               => true,
-                'laterpay_global_price' => $global_price,
-                'message'               => sprintf(
-                    __( 'The global default price for all posts is %s %s now.', 'laterpay' ),
-                    $global_price,
-                    $currency_name
-                )
+                'laterpay_global_price' => $localized_global_price,
+                'message'               => $message,
             )
         );
     }
