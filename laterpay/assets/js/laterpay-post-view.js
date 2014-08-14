@@ -94,23 +94,13 @@
                                 action  : 'laterpay_article_script',
                                 post_id : $pageCachingAnchor.attr('data-post-id')
                             };
+
             $.get(
                 lpVars.ajaxUrl,
                 post_vars,
                 function(response) {
                     $pageCachingAnchor.before(response).remove();
                     lpShowStatistic();
-                    YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
-                            // render purchase dialogs
-                            var ppuContext  = {
-                                    showCloseBtn: true,
-                                    canSkipAddToInvoice: false
-                                },
-                                dm          = new Y.LaterPay.DialogManager();
-
-                            dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
-                    } );
-
                 }
             );
         }
