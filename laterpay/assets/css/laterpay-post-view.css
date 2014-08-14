@@ -8,7 +8,9 @@
     font-family:Arial, sans-serif;
     font-weight:400 !important;
     margin:1em 0 0 !important;
+    position:relative !important;
     text-decoration:none !important;
+    z-index:1 !important;
 }
 .laterpay-purchase-link[data-icon]:before {
     font-size:2em !important;
@@ -147,6 +149,7 @@
     font-weight:lighter !important;
     line-height:1.05 !important;
     margin:0 !important;
+    overflow:hidden;
     text-align:center !important;
 }
 .laterpay-overlay-text .laterpay-benefits h2 span {
