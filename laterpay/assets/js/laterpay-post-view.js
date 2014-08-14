@@ -100,11 +100,22 @@
                 function(response) {
                     $pageCachingAnchor.before(response).remove();
                     lpShowStatistic();
+                    YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
+                            // render purchase dialogs
+                            var ppuContext  = {
+                                    showCloseBtn: true,
+                                    canSkipAddToInvoice: false
+                                },
+                                dm          = new Y.LaterPay.DialogManager();
+
+                            dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
+                    } );
+
                 }
             );
         }
-
 });}(jQuery));
+
 
 // render LaterPay elements using the LaterPay dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
@@ -115,7 +126,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
                     },
         dm          = new Y.LaterPay.DialogManager();
 
-    dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
+        dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
     if (lpVars && lpVars.lpBalanceUrl) {

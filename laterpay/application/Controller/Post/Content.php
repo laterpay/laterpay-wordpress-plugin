@@ -661,16 +661,22 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_scripts() {
+
+        $laterpay_src = 'static.laterpay.net';
+        if( $this->config->get( 'script_debug_mode' ) ){
+            $laterpay_src = 'static.dev.laterpaytest.net';
+        }
+
         wp_register_script(
             'laterpay-yui',
-            'https://static.laterpay.net/yui/3.13.0/build/yui/yui-min.js',
+            'https://' . $laterpay_src . '/yui/3.13.0/build/yui/yui-min.js',
             array(),
             $this->config->get( 'version' ),
             false
         );
         wp_register_script(
             'laterpay-config',
-            'https://static.laterpay.net/client/1.0.0/config.js',
+            'https://' . $laterpay_src . '/client/1.0.0/config.js',
             array( 'laterpay-yui' ),
             $this->config->get( 'version' ),
             false

@@ -88,6 +88,10 @@ function laterpay_get_plugin_config() {
 	$config->set( 'js_url',     $plugin_url . 'assets/js/' );
 	$config->set( 'image_url',  $plugin_url . 'assets/images/' );
 
+    $config->set( 'debug_mode',         defined( 'WP_DEBUG' ) && WP_DEBUG );
+    $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
+
+
 	// plugin headers
 	$plugin_headers = get_file_data(
 		__FILE__,
