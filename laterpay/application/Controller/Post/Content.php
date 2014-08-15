@@ -21,8 +21,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         global $post, $wp_query;
 
         // set the global vars so that WordPress thinks it is in a single view
-        $wp_query->is_single      = true;
-        $wp_query->in_the_loop    = true;
+        $wp_query->is_singular  = true;
+        $wp_query->in_the_loop  = true;
 
         // get the content
         $post_id        = absint( $_REQUEST[ 'post_id' ] );
