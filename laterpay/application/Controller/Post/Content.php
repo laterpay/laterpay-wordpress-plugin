@@ -562,7 +562,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $html = '';
 
         // add the post statistics, if enabled
-        if ( $user_can_read_statistic && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
+        if ( is_singular() && $user_can_read_statistic && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
             $this->initialize_post_statistic();
             $html .= $this->get_text_view( 'frontend/partials/post/statistics' );
         }
