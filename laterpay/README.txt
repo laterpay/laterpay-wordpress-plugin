@@ -326,6 +326,8 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.7.2: Migration to wordpress.org =
+
 = 0.9.7.1 (August 13, 2014): Bugfix Release =
 * Removed GitHub plugin updater to switch plugin over to wordpress.org plugin release channel
 * Fixed bugs in multi-layer pricing logic (global default, category default, individual price)
