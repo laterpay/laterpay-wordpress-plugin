@@ -3,133 +3,263 @@ input[type=text].lp-input,
 input[type=number].lp-input,
 textarea.lp-input,
 select.lp-input
-    background-color    #fff
-    border-radius       4px
-    border              2px solid #ddd
-    box-shadow          none
-    margin              0
-    padding             0.5em
+    background-color        $background-lightest
+    border-radius           4px
+    border                  2px solid $border
+    box-shadow              none
+    margin                  0
+    padding                 0.5em
+
+    &:focus
+        -moz-appearance     none
+        -webkit-appearance  none
+        border-color        $clickable-highlight
 
 select.lp-input
-    height              auto
-    margin-left         2px
-    padding             0.25em
-    position            relative
-    top                 -1px
-
-// focus state of inputs
-input[type=text].lp-input:focus,
-input[type=number].lp-input:focus,
-textarea.lp-input:focus,
-select.lp-input:focus
-    -moz-appearance     none
-    -webkit-appearance  none
-    border-color        #0074a2
-
-
-// responsive placeholders ---------------------------------------------------------------------------------------------
-input[type=text][required]:focus + label[placeholder]:before
-    color               #0074a2
-
-input[type=text][required]:focus + label[placeholder]:before,
-input[type=text][required]:valid + label[placeholder]:before
-        -ms-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
-    -webkit-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
-            transform           translate(-2px, -1.25em) scale(0.9, 0.9)
-    -webkit-transition-duration 0.2s
-            transition-duration 0.2s
-
-input[type=text][required]:invalid + label[placeholder][alt]:before
-    content             attr(alt)
-
-input[type=text][required] + label[placeholder]
-    display             block
-    line-height         1
-    margin-bottom       1em
-    margin-top          webkit-calc(-3em - 2px)
-    margin-top          calc(-3em - 2px)
-    pointer-events      none
-
-input[type=text][required] + label[placeholder]:before
-    background          -webkit-gradient(linear, left top, left bottom, color-stop(46%, rgba(255,255,255,0)), color-stop(47%, rgba(255,255,255,1)))
-    background          -webkit-linear-gradient(top, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
-    background          linear-gradient(to bottom, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
-    filter              progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=0)
-    background-repeat   no-repeat
-    color               #a5a5a5
-    content             attr(placeholder)
-    display             inline-block
-    margin              1.4em 0 0 0.5em
-    padding             0 3px
-    -webkit-transition  0.3s ease-in-out
-            transition  0.3s ease-in-out
-    white-space         nowrap
-
-.input-icon + input[type=text][required] + label[placeholder]:before
-    margin              1.4em 0 0 -webkit-calc(3em - 1px)
-    margin              1.4em 0 0 calc(3em - 1px)
+    height                  auto
+    margin-left             2px
+    padding                 0.25em
+    position                relative
+    top                     -1px
 
 
 // special inputs ------------------------------------------------------------------------------------------------------
 // API Key and Merchant ID inputs
 input[type=text].api-key-input,
 input[type=text].merchant-id-input
-    padding-left        2.8em
-    width               22em
-
-// inputs with icon
-.input-icon
-    color               #ddd
-    font-size           2em
-    margin              0.04em 0 0 0.35em
-    position            absolute
+    padding-left            2.8em
+    width                   22em
 
 // number inputs
-input.lp-input.number
-    padding             0.25em 0.5em
-    text-align          right
-    width               4em
+input[type=text].number
+    padding                 0.25em 0.5em
+    text-align              right
+    width                   4em
+
+// iconized inputs
+.input-icon
+    color                   $border
+    font-size               2em
+    margin                  0.04em 0 0 0.35em
+    position                absolute
+
+
+// responsive placeholders ---------------------------------------------------------------------------------------------
+input[type=text][required] + label[placeholder]
+    display                 block
+    line-height             1
+    margin-bottom           1em
+    margin-top              webkit-calc(-3em - 2px)
+    margin-top              calc(-3em - 2px)
+    pointer-events          none
+
+    &:before
+        background          -webkit-gradient(linear, left top, left bottom, color-stop(46%, rgba(255,255,255,0)), color-stop(47%, rgba(255,255,255,1)))
+        background          -webkit-linear-gradient(top, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
+        background          linear-gradient(to bottom, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
+        filter              unquote(progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=0))
+        background-repeat   no-repeat
+        color               #a5a5a5
+        content             attr(placeholder)
+        display             inline-block
+        margin              1.4em 0 0 0.5em
+        padding             0 3px
+        -webkit-transition  0.3s ease-in-out
+                transition  0.3s ease-in-out
+        white-space         nowrap
+
+input[type=text][required]
+    &:focus + label[placeholder]:before,
+    &:valid + label[placeholder]:before
+        -ms-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+    -webkit-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+            transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+    -webkit-transition-duration 0.2s
+            transition-duration 0.2s
+
+    &:focus + label[placeholder]:before
+        color               $clickable-highlight
+
+    &:invalid + label[placeholder][alt]:before
+        content             attr(alt)
+
+.input-icon + input[type=text][required] + label[placeholder]:before
+    margin                  1.4em 0 0 -webkit-calc(3em - 1px)
+    margin                  1.4em 0 0 calc(3em - 1px)
 
 
 // styled radio buttons and checkboxes  --------------------------------------------------------------------------------
 .ez-mark
-    *display            inline
-    cursor              pointer
-    display             inline-block
-    margin-right        0.1em
-    position            relative
-    width               1.5em
-    z-index             1
-    zoom                1
+    *display                inline
+    cursor                  pointer
+    display                 inline-block
+    margin-right            0.1em
+    position                relative
+    width                   1.5em
+    z-index                 1
+    zoom                    1
 
-.ez-mark input[type=radio],
-.ez-mark input[type=checkbox]
-    cursor              pointer
-    // filter              alpha(opacity=0)
-    left                -0.3rem
-    opacity             0
-    position            relative
-    top                 -0.75rem
+    input[type=radio],
+    input[type=checkbox]
+        cursor              pointer
+        left                -0.3rem
+        opacity             0
+        position            relative
+        top                 -0.75rem
 
-.ez-mark svg
-    height              1.5em
-    position            absolute
-.ez-mark svg .frame
-    fill                #ccc
-.ez-mark:hover svg .frame
-    fill                #2ea2cc
-.ez-mark svg .frameBack
-    fill                #f7f7f7
-.ez-checkbox svg .check
-    display             none
-.ez-checkbox.ez-checked svg .check
-    display             block
-    fill                #666
-.ez-radio svg .dot
-    display             none
-.ez-radio.ez-checked svg .dot
-    display             block
-    fill                #666
+    svg
+        height              1.5em
+        position            absolute
+
+        .frame
+            fill            $border-darker
+
+        .frameBack
+            fill            $background
+
+        .check
+            display         none
+
+        .dot
+            display         none
+
+    &:hover
+        svg .frame
+            fill            $clickable-highlight
+
+.ez-checked
+    .ez-checkbox svg .check,
+    .ez-radio svg .dot
+        display             block
+        fill                #666
+
 .ez-hide
-    // filter              alpha(opacity=0)
-    opacity             0
+    opacity                 0
+
+
+// toggles (basically a styled checkbox) -------------------------------------------------------------------------------
+.switch
+    display                         inline-block
+    margin                          0 0.25em
+    position                        relative
+    top                             -0.25em
+    vertical-align                  middle
+
+    form
+        margin                      0
+
+    // frame
+    .switch-label
+        background-color            $background-lightest
+        background-image            -webkit-linear-gradient(top, #eee, $background-lightest 25px)
+        background-image            linear-gradient(to bottom, #eee, $background-lightest 25px)
+        border-radius               1rem
+        box-shadow                  inset 0 -1px $background-lightest,
+                                    inset 0 1px 1px rgba(0, 0, 0, 0.05)
+        cursor                      pointer
+        display                     inline-block
+        height                      1.75em
+        margin                      0.25em 0.25em 0
+        padding                     0.25em
+        position                    relative
+        vertical-align              top
+        width                       5em
+
+        .switch-input
+            left                    0
+            opacity                 0
+            position                absolute
+            top                     0
+
+        // text within toggle
+        .switch-text
+            background-color        #ccccd1
+            border-radius           inherit
+            box-shadow              inset 0 1px 2px rgba(0, 0, 0, 0.12),
+                                    inset 0 0 2px rgba(0, 0, 0, 0.15)
+            display                 block
+            font-size               10px
+            height                  100%
+            position                relative
+            text-transform          uppercase
+            -webkit-transition-property opacity background
+                    transition-property opacity background
+            -webkit-transition  0.15s ease-out
+                    transition  0.15s ease-out
+
+            &:before,
+            &:after
+                color               $text-inverse
+                font-size           1.25em
+                font-weight         600
+                line-height         1
+                margin-top          -0.5em
+                position            absolute
+                top                 50%
+                -webkit-transition  inherit
+                        transition  inherit
+
+            // 'off'-text
+            &:before
+                content             attr(data-off)
+                right               0.75em
+
+            // 'on'-text
+            &:after
+                content             attr(data-on)
+                left                0.75em
+                opacity             0
+
+        // toggle knob
+        .switch-handle
+            background-color        $background-lightest
+            background-image        -webkit-linear-gradient(top, $background-lightest 40%, #f0f0f0)
+            background-image        linear-gradient(to bottom, $background-lightest 40%, #f0f0f0)
+            border-radius           1em
+            box-shadow              1px 1px 5px rgba(0, 0, 0, 0.2)
+            height                  1.55em
+            left                    0.35em
+            position                absolute
+            top                     0.35em
+            -webkit-transition      left 0.15s ease-out
+                    transition      left 0.15s ease-out
+            width                   1.55em
+
+            &:before
+                background-color    #e9e9e9
+                background-image    -webkit-linear-gradient(top, #f5f5f5, #e5e5e5)
+                background-image    linear-gradient(to bottom, #f5f5f5, #e5e5e5)
+                border-radius       50%
+                box-shadow          inset 0 1px rgba(0, 0, 0, 0.02)
+                content             ''
+                height              1.1em
+                left                50%
+                margin              -0.55em 0 0 -0.55em
+                position            absolute
+                top                 50%
+                width               1.1em
+
+        // show 'on'-state when checked
+        .switch-input
+            &:checked ~ .switch-text
+                background-color    #4fc270
+                box-shadow          inset 0 1px 2px rgba(0, 0, 0, 0.15),
+                                    inset 0 0 3px rgba(0, 0, 0, 0.2)
+
+                &:before
+                    opacity         0
+
+                &:after
+                    opacity         1
+
+
+            &:checked ~ .switch-handle
+                box-shadow          -1px 1px 5px rgba(0, 0, 0, 0.2)
+                left                auto
+                right               0.4em
+
+
+// edit links ----------------------------------------------------------------------------------------------------------
+.edit-link
+    margin-left                     1em
+    padding                         0.5em 0
