@@ -1,0 +1,135 @@
+// basic input styling -------------------------------------------------------------------------------------------------
+input[type=text].lp-input,
+input[type=number].lp-input,
+textarea.lp-input,
+select.lp-input
+    background-color    #fff
+    border-radius       4px
+    border              2px solid #ddd
+    box-shadow          none
+    margin              0
+    padding             0.5em
+
+select.lp-input
+    height              auto
+    margin-left         2px
+    padding             0.25em
+    position            relative
+    top                 -1px
+
+// focus state of inputs
+input[type=text].lp-input:focus,
+input[type=number].lp-input:focus,
+textarea.lp-input:focus,
+select.lp-input:focus
+    -moz-appearance     none
+    -webkit-appearance  none
+    border-color        #0074a2
+
+
+// responsive placeholders ---------------------------------------------------------------------------------------------
+input[type=text][required]:focus + label[placeholder]:before
+    color               #0074a2
+
+input[type=text][required]:focus + label[placeholder]:before,
+input[type=text][required]:valid + label[placeholder]:before
+        -ms-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+    -webkit-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+            transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+    -webkit-transition-duration 0.2s
+            transition-duration 0.2s
+
+input[type=text][required]:invalid + label[placeholder][alt]:before
+    content             attr(alt)
+
+input[type=text][required] + label[placeholder]
+    display             block
+    line-height         1
+    margin-bottom       1em
+    margin-top          webkit-calc(-3em - 2px)
+    margin-top          calc(-3em - 2px)
+    pointer-events      none
+
+input[type=text][required] + label[placeholder]:before
+    background          -webkit-gradient(linear, left top, left bottom, color-stop(46%, rgba(255,255,255,0)), color-stop(47%, rgba(255,255,255,1)))
+    background          -webkit-linear-gradient(top, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
+    background          linear-gradient(to bottom, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
+    filter              progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=0)
+    background-repeat   no-repeat
+    color               #a5a5a5
+    content             attr(placeholder)
+    display             inline-block
+    margin              1.4em 0 0 0.5em
+    padding             0 3px
+    -webkit-transition  0.3s ease-in-out
+            transition  0.3s ease-in-out
+    white-space         nowrap
+
+.input-icon + input[type=text][required] + label[placeholder]:before
+    margin              1.4em 0 0 -webkit-calc(3em - 1px)
+    margin              1.4em 0 0 calc(3em - 1px)
+
+
+// special inputs ------------------------------------------------------------------------------------------------------
+// API Key and Merchant ID inputs
+input[type=text].api-key-input,
+input[type=text].merchant-id-input
+    padding-left        2.8em
+    width               22em
+
+// inputs with icon
+.input-icon
+    color               #ddd
+    font-size           2em
+    margin              0.04em 0 0 0.35em
+    position            absolute
+
+// number inputs
+input.lp-input.number
+    padding             0.25em 0.5em
+    text-align          right
+    width               4em
+
+
+// styled radio buttons and checkboxes  --------------------------------------------------------------------------------
+.ez-mark
+    *display            inline
+    cursor              pointer
+    display             inline-block
+    margin-right        0.1em
+    position            relative
+    width               1.5em
+    z-index             1
+    zoom                1
+
+.ez-mark input[type=radio],
+.ez-mark input[type=checkbox]
+    cursor              pointer
+    // filter              alpha(opacity=0)
+    left                -0.3rem
+    opacity             0
+    position            relative
+    top                 -0.75rem
+
+.ez-mark svg
+    height              1.5em
+    position            absolute
+.ez-mark svg .frame
+    fill                #ccc
+.ez-mark:hover svg .frame
+    fill                #2ea2cc
+.ez-mark svg .frameBack
+    fill                #f7f7f7
+.ez-checkbox svg .check
+    display             none
+.ez-checkbox.ez-checked svg .check
+    display             block
+    fill                #666
+.ez-radio svg .dot
+    display             none
+.ez-radio.ez-checked svg .dot
+    display             block
+    fill                #666
+.ez-hide
+    // filter              alpha(opacity=0)
+    opacity             0

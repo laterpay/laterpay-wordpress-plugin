@@ -1,0 +1,101 @@
+// content area --------------------------------------------------------------------------------------------------------
+.lp-page
+    min-height          100%
+
+.lp-wrap
+    max-width           1240px
+    padding             1rem
+
+
+// tabs ----------------------------------------------------------------------------------------------------------------
+.tabs-area
+    background-color    #fff
+    border-bottom       1px solid #ccc
+    box-shadow          0 1px 0 #fff
+    left                -20px
+    padding-top         2rem
+    position            relative
+    width               101.6%
+
+ul.tabs
+    margin-left         2rem
+
+.tabs li
+    display             inline-block
+    margin-left         1.5rem
+    position            relative
+    top                 2px
+
+.tabs li:first-child
+    margin-left         0
+
+.tabs li a
+    color               #aaa
+    display             block
+    font-size           1rem
+    padding             0.5em 1em 0.75em
+    text-decoration     none
+
+.tabs li:hover a
+    color               #2ea2cc
+
+.tabs .current
+    background-color    #f1f1f1
+    border-radius       4px 4px 0 0
+    border-top          4px solid #0074a2
+
+.tabs .current a
+    color               #555
+    font-weight         600
+
+
+// plugin mode indicator -----------------------------------------------------------------------------------------------
+#plugin-mode-indicator
+    position            absolute
+    right               7rem
+    top                 0.4rem
+
+#plugin-mode-indicator[data-icon]:before
+    float               left
+    font-size           4rem
+    left                -2.75rem
+    line-height         0
+    position            relative
+    top                 1.8rem
+
+#plugin-mode-indicator h2,
+#plugin-mode-indicator i
+    color               #0074a2
+
+#plugin-mode-indicator h2
+    font-size           2rem
+
+#plugin-mode-indicator i
+    font-style          normal
+
+#plugin-mode-indicator:hover h2,
+#plugin-mode-indicator:hover i
+    color               #2ea2cc
+
+#plugin-mode-indicator span
+    color               #999
+
+
+// flash messages ------------------------------------------------------------------------------------------------------
+#message
+    box-shadow          0 1px 4px 0 rgba(0, 0, 0, 0.55)
+    margin              0
+    opacity             0.9
+    position            absolute
+    top                 1.25rem
+    width               96%
+    z-index             111
+
+
+// contextual help -----------------------------------------------------------------------------------------------------
+#screen-meta
+    position            absolute
+    z-index             3
+
+#contextual-help-link-wrap
+    z-index             1
