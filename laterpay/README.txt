@@ -334,6 +334,7 @@ your theme after installing the LaterPay WordPress plugin.
 * Fixed minor bug on post add / edit page that would trigger a Javascript confirm message when saving
 * Revised user interface to work on tablet resolutions
 * Fixed preview mode for paid posts
+* Disabled autoupdates for Browscap and removed requirements check for writable cache folder
 * Disabled rendering of post statistics, if a page includes multiple single post pages
 * LaterPay CSS and JS assets are now only loaded, if a post can be purchased
 * Various smaller bugfixes and improvements
