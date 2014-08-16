@@ -208,7 +208,7 @@ function laterpay_get_plugin_config() {
 		// Auto-update browscap library
 		// The plugin requires browscap to ensure search engine bots, social media sites, etc. don't crash when visiting a paid post
 		// When set to true, the plugin will automatically fetch updates of this library from browscap.org
-		'browscap.autoupdate' => true,
+		'browscap.autoupdate' => false,
 		// If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
 		// on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
 		'browscap.manually_updated_copy' => null,
