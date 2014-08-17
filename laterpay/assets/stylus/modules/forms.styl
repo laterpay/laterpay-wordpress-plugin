@@ -3,78 +3,78 @@ input[type=text].lp-input,
 input[type=number].lp-input,
 textarea.lp-input,
 select.lp-input
-    background-color        $background-lightest
-    border-radius           4px
-    border                  2px solid $border
-    box-shadow              none
-    margin                  0
-    padding                 0.5em
+    background-color                $background-lightest
+    border-radius                   4px
+    border                          2px solid $border
+    box-shadow                      none
+    margin                          0
+    padding                         0.5em
 
     &:focus
-        -moz-appearance     none
-        -webkit-appearance  none
-        border-color        $clickable-highlight
+        -moz-appearance             none
+        -webkit-appearance          none
+        border-color                $clickable-highlight
 
 select.lp-input
-    height                  auto
-    margin-left             2px
-    padding                 0.25em
-    position                relative
-    top                     -1px
+    height                          auto
+    margin-left                     2px
+    padding                         0.25em
+    position                        relative
+    top                             -1px
 
 
 // special inputs ------------------------------------------------------------------------------------------------------
 // API Key and Merchant ID inputs
 input[type=text].api-key-input,
 input[type=text].merchant-id-input
-    padding-left            2.8em
-    width                   22em
+    padding-left                    2.8em
+    width                           22em
 
 // number inputs
 input[type=text].number
-    padding                 0.25em 0.5em
-    text-align              right
-    width                   4em
+    padding                         0.25em 0.5em
+    text-align                      right
+    width                           4em
 
 // iconized inputs
 .input-icon
-    color                   $border
-    font-size               2em
-    margin                  0.04em 0 0 0.35em
-    position                absolute
+    color                           $border
+    font-size                       2em
+    margin                          0.04em 0 0 0.35em
+    position                        absolute
 
 
 // HTML5 placeholders --------------------------------------------------------------------------------------------------
 .lp-input::-webkit-input-placeholder,
 .lp-input::-moz-placeholder,
 .lp-input:-ms-input-placeholder
-    color                   #a5a5a5
-    line-height             1
+    color                           #a5a5a5
+    line-height                     1
 
 
 // responsive placeholders ---------------------------------------------------------------------------------------------
 input[type=text][required] + label[placeholder]
-    display                 block
-    line-height             1
-    margin-bottom           1em
-    margin-top              webkit-calc(-3em - 2px)
-    margin-top              calc(-3em - 2px)
-    pointer-events          none
+    display                         block
+    line-height                     1
+    margin-bottom                   1em
+    margin-top                      webkit-calc(-3em - 2px)
+    margin-top                      calc(-3em - 2px)
+    pointer-events                  none
 
     &:before
-        background          -webkit-gradient(linear, left top, left bottom, color-stop(46%, rgba(255,255,255,0)), color-stop(47%, rgba(255,255,255,1)))
-        background          -webkit-linear-gradient(top, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
-        background          linear-gradient(to bottom, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
-        filter              unquote('progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ffffff", endColorstr="#ffffff", GradientType=0)')
-        background-repeat   no-repeat
-        color               #a5a5a5
-        content             attr(placeholder)
-        display             inline-block
-        margin              1.4em 0 0 0.5em
-        padding             0 3px
-        -webkit-transition  0.3s ease-in-out
-                transition  0.3s ease-in-out
-        white-space         nowrap
+        background                  -webkit-gradient(linear, left top, left bottom, color-stop(46%, rgba(255,255,255,0)), color-stop(47%, rgba(255,255,255,1)))
+        background                  -webkit-linear-gradient(top, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
+        background                  linear-gradient(to bottom, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
+        filter                      unquote('progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ffffff", endColorstr="#ffffff", GradientType=0)')
+        background-repeat           no-repeat
+        color                       #a5a5a5
+        content                     attr(placeholder)
+        display                     inline-block
+        margin                      1.4em 0 0 0.5em
+        padding                     0 3px
+        -webkit-transition          0.3s ease-in-out
+                transition          0.3s ease-in-out
+        white-space                 nowrap
 
 input[type=text][required]
     &:focus + label[placeholder]:before,
@@ -82,70 +82,68 @@ input[type=text][required]
     // FIXME: uncommenting the -ms-transform and the -webkit-transform breaks the transform property!?
     //     -ms-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
     // -webkit-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
-            transform           translate(-2px, -1.25em) scale(0.9, 0.9)
-    -webkit-transition-duration 0.2s
-            transition-duration 0.2s
+            transform               translate(-2px, -1.25em) scale(0.9, 0.9)
+    -webkit-transition-duration     0.2s
+            transition-duration     0.2s
 
     &:focus + label[placeholder]:before
-        color               $clickable-highlight
+        color                       $clickable-highlight
 
     &:invalid + label[placeholder][alt]:before
-        content             attr(alt)
+        content                     attr(alt)
 
 .input-icon + input[type=text][required] + label[placeholder]:before
-    margin                  1.4em 0 0 -webkit-calc(3em - 1px)
-    margin                  1.4em 0 0 calc(3em - 1px)
+    margin                          1.4em 0 0 -webkit-calc(3em - 1px)
+    margin                          1.4em 0 0 calc(3em - 1px)
 
 
 // styled radio buttons and checkboxes  --------------------------------------------------------------------------------
 .ez-mark
-    *display                inline
-    cursor                  pointer
-    display                 inline-block
-    margin-right            0.1em
-    position                relative
-    width                   1.5em
-    z-index                 1
-    zoom                    1
+    *display                        inline
+    cursor                          pointer
+    display                         inline-block
+    margin-right                    0.1em
+    position                        relative
+    width                           1.5em
+    z-index                         1
+    zoom                            1
 
     input[type=radio],
     input[type=checkbox]
-        cursor              pointer
-        left                -0.3rem
-        opacity             0
-        position            relative
-        top                 -0.75rem
+        cursor                      pointer
+        left                        -0.3rem
+        opacity                     0
+        position                    relative
+        top                         -0.75rem
 
     svg
-        height              1.5em
-        position            absolute
+        height                      1.5em
+        position                    absolute
 
         .frame
-            fill            $border-darker
+            fill                    $border-darker
 
         .frameBack
-            fill            $background-lightest
+            fill                    $background-lightest
 
         .check
-            display         none
+            display                 none
 
         .dot
-            display         none
+            display                 none
 
 .ez-mark :hover,
 label:hover .ez-mark
     svg .frame
-        fill                $clickable-highlight
-
-
+        fill                        $clickable-highlight
 
 .ez-checked.ez-checkbox svg .check,
 .ez-checked.ez-radio svg .dot
-    display                 block
-    fill                    #666
+    display                         block
+    fill                            #666
 
 .ez-hide
-    opacity                 0
+    opacity                         0
 
 
 // edit links ----------------------------------------------------------------------------------------------------------
