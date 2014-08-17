@@ -65,7 +65,7 @@ input[type=text][required] + label[placeholder]
         background          -webkit-gradient(linear, left top, left bottom, color-stop(46%, rgba(255,255,255,0)), color-stop(47%, rgba(255,255,255,1)))
         background          -webkit-linear-gradient(top, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
         background          linear-gradient(to bottom, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
-        // filter              unquote(progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=0))
+        filter              unquote('progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ffffff", endColorstr="#ffffff", GradientType=0)')
         background-repeat   no-repeat
         color               #a5a5a5
         content             attr(placeholder)
@@ -79,9 +79,9 @@ input[type=text][required] + label[placeholder]
 input[type=text][required]
     &:focus + label[placeholder]:before,
     &:valid + label[placeholder]:before
-        -ms-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
-    -webkit-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
-            transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+    //     -ms-transform           translate(-2px, -1.25em)// scale(0.9, 0.9)  // FIXME: two transform rules written like this don't work in stylus
+    // -webkit-transform           translate(-2px, -1.25em)// scale(0.9, 0.9)
+            transform           translate(-2px, -1.25em)// scale(0.9, 0.9)
     -webkit-transition-duration 0.2s
             transition-duration 0.2s
 
@@ -123,7 +123,7 @@ input[type=text][required]
             fill            $border-darker
 
         .frameBack
-            fill            $background
+            fill            $background-lightest
 
         .check
             display         none
@@ -131,15 +131,17 @@ input[type=text][required]
         .dot
             display         none
 
-    &:hover
-        svg .frame
-            fill            $clickable-highlight
+.ez-mark :hover,
+label:hover .ez-mark
+    svg .frame
+        fill                $clickable-highlight
 
-.ez-checked
-    .ez-checkbox svg .check,
-    .ez-radio svg .dot
-        display             block
-        fill                #666
+
+
+.ez-checked.ez-checkbox svg .check,
+.ez-checked.ez-radio svg .dot
+    display                 block
+    fill                    #666
 
 .ez-hide
     opacity                 0
