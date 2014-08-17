@@ -1,59 +1,16 @@
 // Loaded on backend pages of LaterPay plugin
 
+@charset "UTF-8";
+
 @import 'modules/variables'
 @import 'modules/tags'
 @import 'modules/helpers'
 @import 'modules/forms'
 @import 'modules/vector-icons'
 
+@import 'widgets/toggle'
+
 @import 'pages/get-started'
 @import 'pages/pricing'
 @import 'pages/appearance'
 @import 'pages/account'
-
-
-// responsiveness ------------------------------------------------------------------------------------------------------
-@media (max-width:1320px) {
-    /* Get Started tab */
-    .step-row li .progress-step.middle .centered
-        line-height                 2em
-        padding-top                 0.95em
-}
-
-@media (max-width:1279px) {
-    .lp-wrap
-        padding                     0
-
-    /* Get Started tab */
-    .step-row li .progress-step.middle .centered
-        line-height                 2em
-        padding-top                 0.95em
-
-    /* Pricing tab */
-    .edit-link
-        margin-left                 0.5em
-    .pr-type3 br
-        display                     none
-}
-
-@media (max-width:1050px) {
-    /* Account tab */
-    .w1-2
-        .sandbox-credentials[data-icon]:before
-            font-size               75px
-            left                    24px
-            top                     61px
-
-        .live-credentials[data-icon]:before
-            font-size               60px
-            left                    14px
-            top                     79px
-
-    .background-icon-spacer
-        width                       70px
-
-    input
-        .api-key-input[type=text],
-        .merchant-id-input[type=text]
-            width                   290px
-}

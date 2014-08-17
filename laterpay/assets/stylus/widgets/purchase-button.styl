@@ -1,0 +1,85 @@
+// LaterPay purchase button
+
+// rendered as plain link ----------------------------------------------------------------------------------------------
+.laterpay-purchase-link
+    display                         block                                                           !important
+    font-family                     Arial, sans-serif                                               !important
+    font-weight                     400                                                             !important
+    margin                          1em 0 0                                                         !important
+    position                        relative                                                        !important
+    text-decoration                 none                                                            !important
+    z-index                         1                                                               !important
+
+    // currency iso code
+    small
+        bottom                      0.45em                                                          !important
+        font-size                   0.6em                                                           !important
+        padding                     0 1px 0 2px                                                     !important
+        position                    relative                                                        !important
+
+// LaterPay logo
+.laterpay-purchase-link[data-icon]:before
+    font-size                       2em                                                             !important
+    left                            -0.25em                                                         !important
+    line-height                     0                                                               !important
+    margin                          0 -0.15em 0 0                                                   !important
+    position                        relative                                                        !important
+    top                             0.35em                                                          !important
+
+
+// rendered as button --------------------------------------------------------------------------------------------------
+.laterpay-purchase-link.laterpay-purchase-button {
+    background                      #54cc76                                                         !important
+    background                      -webkit-linear-gradient(top, #54cc76 0, #4fc270 100%)           !important
+    background                      linear-gradient(to bottom, #54cc76 0, #4fc270 100%)             !important
+    border-color                    #1c8069 #20947a                                                 !important
+    border-radius                   5px                                                             !important
+    border                          1px solid #20947a                                               !important
+    border-width                    0 1px 2px 0                                                     !important
+    color                           $text-inverse                                                   !important
+    cursor                          pointer                                                         !important
+    float                           right                                                           !important
+    font-size                       28px                                                            !important
+    line-height                     1.1                                                             !important
+    margin                          0.5em 0 0.5em 0.5em                                             !important
+    padding                         0.2em 0.2em 0.1em 0                                             !important
+    text-shadow                     0 -1px 0 #22a280                                                !important
+    white-space                     nowrap                                                          !important
+
+    &:hover,
+    &:focus,
+    &:active
+        background                  #58d67c                                                         !important
+        background                  -webkit-linear-gradient(top, #58d67c 0, #54cc76 100%)           !important
+        background                  linear-gradient(to bottom, #58d67c 0, #54cc76 100%)             !important
+        color                       $text-inverse                                                   !important
+        text-decoration             none                                                            !important
+
+    &:focus,
+    &:active
+        border-top-color            transparent                                                     !important
+        border-width                2px 1px 0 0                                                     !important
+
+    small
+        bottom                      0.7em                                                           !important
+        color                       $text-inverse                                                   !important
+        font-size                   0.5em                                                           !important
+        padding-left                4px                                                             !important
+        position                    relative                                                        !important
+        text-decoration             none                                                            !important
+
+.laterpay-purchase-link.laterpay-purchase-button[data-icon]:before
+    font-size                       1.75em                                                          !important
+    left                            -3px                                                            !important
+    line-height                     0                                                               !important
+    margin                          0 0.1em 0 0                                                     !important
+    position                        relative                                                        !important
+    top                             0.3em                                                           !important
+
+
+// responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:567px) {
+    .laterpay-purchase-button
+        margin-left                 2.75em                                                          !important
+        margin-top                  0.5em                                                           !important
+}

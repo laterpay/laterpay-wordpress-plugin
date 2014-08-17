@@ -1,0 +1,175 @@
+// add / edit post page in WordPress backend
+
+// LaterPay vector logo for pricing and teaser metabox -----------------------------------------------------------------
+#laterpay_post_pricing,
+#laterpay_post_teaser
+    h3 span
+        left                        6.25em
+        position                    relative
+
+#laterpay_post_pricing h3 span:before,
+#laterpay_post_teaser h3 span:before
+    -moz-osx-font-smoothing         grayscale
+    -webkit-font-smoothing          antialiased
+    content                         'a'
+    font-family                     laterpay-wordpress-icons !important
+    font-size                       6em
+    font-style                      normal !important
+    font-variant                    normal !important
+    font-weight                     normal !important
+    left                            -1.05em
+    line-height                     0
+    position                        absolute
+    speak                           none
+    text-transform                  none !important
+    top                             0.106em
+
+#laterpay_post_teaser h3 span:before
+    top                             0.11em
+
+
+// pricing metabox -----------------------------------------------------------------------------------------------------
+// enter / display post price section
+.post-price-wrapper
+    margin                          1.5em 0
+    text-align                      right
+
+#post-price
+    font-size                       3em
+    -webkit-transition-duration     0.4s
+            transition-duration     0.4s
+
+    &:disabled
+        border-color                transparent
+        color                       #333
+        -webkit-transition-duration 0.4s
+                transition-duration 0.4s
+
+#laterpay-post-price p
+    float                           right
+
+.lp-currency
+    bottom                          0.75em
+    color                           $text-lightest
+    font-size                       1.5em
+    padding-right                   0.33em
+    position                        relative
+
+
+// select price type section
+#laterpay-price-type
+    border                          1px solid $border
+    border-radius                   3px
+
+    // switch for selecting price type
+    ul.lp-toggle
+        background-color            #e9e9e9
+        margin                      0
+        padding                     0
+
+        li
+            box-shadow              inset 1px 0 0 #ddd,
+                                    inset 0 1px 0 rgba(255, 255, 255, 0.55)
+            float                   left
+            line-height             1.25
+            margin                  0
+            padding                 0.5em 0
+            text-align              center
+            width                   33.333%
+
+            &:first-child
+                border-radius       2px 0 0 2px
+                box-shadow          inset 1px 1px 0 rgba(255, 255, 255, 0.55)
+
+            &:last-child
+                border-radius       0 2px 2px 0
+                box-shadow          inset 1px 0 0 #ddd,
+                                    inset -1px 1px 0 rgba(255, 255, 255, 0.55)
+
+            .selected,
+            .selected:hover
+                background-color    #d5d5d5
+
+            .selected
+                box-shadow          inset 0 1px 3px rgba(0, 0, 0, 0.34)
+
+            .disabled
+                a
+                    color           #d5d5d5
+                    cursor          default
+
+                :hover
+                    background-color    #e9e9e9
+
+                    a
+                        color       #d5d5d5
+                        cursor      default
+
+            :hover
+                background-color    $clickable-highlight
+
+                a
+                    color           $text-inverse
+
+        a
+            display                 block
+            height                  2.5em
+            text-decoration         none
+
+        a,
+        &:hover a
+            color                   #a5a5a5
+            cursor                  default
+            text-shadow             0 1px 0 #e9e9e9
+
+
+    // details for selected price type
+    #laterpay-price-type-details .use-category-default-price
+        ul,
+        li
+            margin                  0
+            padding                 0
+
+        li
+            border-top              1px solid #fff
+
+            &:nth-child(even)
+                background-color    #f7f7f7
+
+            &:last-child
+                border-radius       0 0 1px 1px
+
+            &:hover
+                background-color    $background-highlight
+
+            a
+                display             block
+                padding             0.5em 0.75em
+                text-decoration     none
+
+                span
+                    color           #888
+                    float           right
+
+            .selected-category
+                background-color    transparent
+
+                a
+                    color           #444
+                    cursor          default
+
+#laterpay-price-type.expanded .use-category-default-price li.selected-category
+    background-color                $background-highlight
+
+#use-dynamic-pricing
+    display                         block
+    padding                         0.75em 0.25em 0
+    text-decoration                 none
+
+
+// teaser content metabox ----------------------------------------------------------------------------------------------
+#laterpay_post_teaser dfn
+    color                           #999
+    display                         block
+    font-style                      italic
+    margin                          1em 0

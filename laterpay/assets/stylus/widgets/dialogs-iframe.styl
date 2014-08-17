@@ -1,0 +1,45 @@
+// LaterPay dialogs iframe
+
+.laterpay-iframe
+    height                          100%
+    left                            0
+    padding-top                     30px
+    position                        fixed
+    top                             0
+    width                           100%
+    z-index                         999999
+
+    iframe
+        border                      0 none
+
+    .laterpay-dialog-close-button
+        color                       #555
+        padding                     1em 1em 1em 2em
+        position                    absolute
+        right                       0
+        text-decoration             none
+        top                         0
+
+        &:hover
+            color                   #999
+            text-decoration         none
+
+    .laterpay-dialog-close-button[data-icon]
+        &:before
+            background-color        #555
+            border-radius           1em
+            color                   #000
+            margin-right            0.4em
+            padding                 0.1em
+            position                relative
+            top                     0.15em
+
+        &:hover:before
+            background-color        #999
+
+
+// responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:567px) {
+    .laterpay-iframe .laterpay-dialog-close-button
+        padding                     0.2em 0.5em 1em 2em
+}

@@ -79,6 +79,30 @@
         &:hover
             background-color    $clickable-highlight
 
+
+// plugin mode ---------------------------------------------------------------------------------------------------------
 #plugin_mode_live_text,
 #plugin_mode_test_text
     display                     block
+
+
+// responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1050px) {
+    .w1-2
+        .sandbox-credentials[data-icon]:before
+            font-size           75px
+            left                24px
+            top                 61px
+
+        .live-credentials[data-icon]:before
+            font-size           60px
+            left                14px
+            top                 79px
+
+    .background-icon-spacer
+        width                   70px
+
+    input.api-key-input[type=text],
+    input.merchant-id-input[type=text]
+        width                   290px
+}
