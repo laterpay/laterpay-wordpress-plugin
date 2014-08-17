@@ -89,38 +89,38 @@ input[type=text][required] + label[placeholder]:before -webkit-transition 0.3s e
 /* line 79 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 
 /* line 80 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
-input[type=text][required]:focus + label[placeholder]:before,input[type=text][required]:valid + label[placeholder]:before{transform:translate(-2px,-1.25em)}
-/* line 85 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text][required]:focus + label[placeholder]:before,input[type=text][required]:valid + label[placeholder]:before{transform:translate(-2px,-1.25em) scale(.9,.9)}
+/* line 86 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 input[type=text][required] -webkit-transition-duration 0.2s{transition-duration:.2s}
-/* line 88 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 89 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 input[type=text][required]:focus + label[placeholder]:before{color:#2ea2cc}
-/* line 91 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 92 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 input[type=text][required]:invalid + label[placeholder][alt]:before{content:attr(alt)}
-/* line 94 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 95 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .input-icon + input[type=text][required] + label[placeholder]:before{margin:1.4em 0 0 -webkit-calc(3em - 1px);margin:1.4em 0 0 calc(3em - 1px)}
-/* line 100 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 101 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark{*display:inline;cursor:pointer;display:inline-block;margin-right:.1em;position:relative;width:1.5em;z-index:1;zoom:1;}
-/* line 110 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 111 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark input[type=radio],.ez-mark input[type=checkbox]{cursor:pointer;left:-.3rem;opacity:0;position:relative;top:-.75rem}
-/* line 118 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 119 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg{height:1.5em;position:absolute;}
-/* line 122 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 123 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .frame{fill:#ccc}
-/* line 125 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 126 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .frameBack{fill:#fff}
-/* line 128 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 129 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .check{display:none}
-/* line 131 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 132 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .dot{display:none}
-/* line 134 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 135 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 
-/* line 136 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 137 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark :hover svg .frame,label:hover .ez-mark svg .frame{fill:#2ea2cc}
-/* line 141 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 142 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-checked.ez-checkbox svg .check,.ez-checked.ez-radio svg .dot{display:block;fill:#666}
-/* line 146 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 147 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-hide{opacity:0}
-/* line 151 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 152 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .edit-link{margin-left:1em;padding:.5em 0}
 /* line 32 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 
@@ -156,7 +156,7 @@ input[type=text][required]:invalid + label[placeholder][alt]:before{content:attr
 .laterpay-icon-live-mode:before{content:'k'}
 /* line 79 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/vector-icons.styl */
 .laterpay-icon-hide:before{content:'l'}
-/* line 154 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/vector-icons.styl */
+/* line 155 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/vector-icons.styl */
 
 /* line 2 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/backend-layout.styl */
 

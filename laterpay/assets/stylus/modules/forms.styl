@@ -79,9 +79,10 @@ input[type=text][required] + label[placeholder]
 input[type=text][required]
     &:focus + label[placeholder]:before,
     &:valid + label[placeholder]:before
-    //     -ms-transform           translate(-2px, -1.25em)// scale(0.9, 0.9)  // FIXME: two transform rules written like this don't work in stylus
-    // -webkit-transform           translate(-2px, -1.25em)// scale(0.9, 0.9)
-            transform           translate(-2px, -1.25em)// scale(0.9, 0.9)
+    // FIXME: uncommenting the -ms-transform and the -webkit-transform breaks the transform property!?
+    //     -ms-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+    // -webkit-transform           translate(-2px, -1.25em) scale(0.9, 0.9)
+            transform           translate(-2px, -1.25em) scale(0.9, 0.9)
     -webkit-transition-duration 0.2s
             transition-duration 0.2s
 

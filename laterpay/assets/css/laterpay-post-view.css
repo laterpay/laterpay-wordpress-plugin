@@ -110,7 +110,7 @@
 .switch .switch-label .switch-input:checked ~ .switch-text:after{opacity:1}
 /* line 118 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/widgets/toggle.styl */
 .switch .switch-label .switch-input:checked ~ .switch-handle{box-shadow:-1px 1px 5px rgba(0,0,0,0.2);left:auto;right:.4em}
-/* line 95 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/widgets/toggle.styl */
+/* line 22 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/widgets/toggle.styl */
 
 /* line 4 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/widgets/post-statistics.styl */
 
@@ -342,3 +342,7 @@
 .laterpay-overlay-text .laterpay-benefits ul{margin:0 .5em !important}
 /* line 235 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-view.styl */
 .laterpay-overlay-text .laterpay-benefits li br{display:none}}
+/* line 17 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/laterpay-post-view.styl */
+.switch label.switch-label{width:4em;}
+/* line 20 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/laterpay-post-view.styl */
+.switch label.switch-label .switch-input:checked ~ .switch-text{background-color:#ccccd1}

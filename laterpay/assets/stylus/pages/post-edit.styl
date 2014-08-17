@@ -34,6 +34,9 @@
     margin                          1.5em 0
     text-align                      right
 
+#laterpay-post-price p
+    float                           right
+
 #post-price
     font-size                       3em
     -webkit-transition-duration     0.4s
@@ -44,9 +47,6 @@
         color                       #333
         -webkit-transition-duration 0.4s
                 transition-duration 0.4s
-
-#laterpay-post-price p
-    float                           right
 
 .lp-currency
     bottom                          0.75em
@@ -86,41 +86,41 @@
                 box-shadow          inset 1px 0 0 #ddd,
                                     inset -1px 1px 0 rgba(255, 255, 255, 0.55)
 
-            .selected,
-            .selected:hover
-                background-color    #d5d5d5
-
-            .selected
-                box-shadow          inset 0 1px 3px rgba(0, 0, 0, 0.34)
-
-            .disabled
-                a
-                    color           #d5d5d5
-                    cursor          default
-
-                :hover
-                    background-color    #e9e9e9
-
-                    a
-                        color       #d5d5d5
-                        cursor      default
-
-            :hover
+            &:hover
                 background-color    $clickable-highlight
 
                 a
                     color           $text-inverse
 
-        a
-            display                 block
-            height                  2.5em
-            text-decoration         none
+            a
+                display             block
+                height              2.5em
+                text-decoration     none
 
-        a,
-        &:hover a
-            color                   #a5a5a5
-            cursor                  default
-            text-shadow             0 1px 0 #e9e9e9
+        .selected,
+        .selected:hover
+            background-color        #d5d5d5
+
+        .selected
+            box-shadow              inset 0 1px 3px rgba(0, 0, 0, 0.34)
+
+            a,
+            &:hover a
+                color               #a5a5a5
+                cursor              default
+                text-shadow         0 1px 0 #e9e9e9
+
+        .disabled
+            a
+                color               #d5d5d5
+                cursor              default
+
+            &:hover
+                background-color    #e9e9e9
+
+                a
+                    color           #d5d5d5
+                    cursor          default
 
 
     // details for selected price type

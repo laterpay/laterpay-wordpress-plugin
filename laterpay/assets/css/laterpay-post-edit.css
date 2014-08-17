@@ -89,38 +89,38 @@ input[type=text][required] + label[placeholder]:before -webkit-transition 0.3s e
 /* line 79 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 
 /* line 80 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
-input[type=text][required]:focus + label[placeholder]:before,input[type=text][required]:valid + label[placeholder]:before{transform:translate(-2px,-1.25em)}
-/* line 85 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text][required]:focus + label[placeholder]:before,input[type=text][required]:valid + label[placeholder]:before{transform:translate(-2px,-1.25em) scale(.9,.9)}
+/* line 86 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 input[type=text][required] -webkit-transition-duration 0.2s{transition-duration:.2s}
-/* line 88 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 89 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 input[type=text][required]:focus + label[placeholder]:before{color:#2ea2cc}
-/* line 91 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 92 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 input[type=text][required]:invalid + label[placeholder][alt]:before{content:attr(alt)}
-/* line 94 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 95 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .input-icon + input[type=text][required] + label[placeholder]:before{margin:1.4em 0 0 -webkit-calc(3em - 1px);margin:1.4em 0 0 calc(3em - 1px)}
-/* line 100 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 101 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark{*display:inline;cursor:pointer;display:inline-block;margin-right:.1em;position:relative;width:1.5em;z-index:1;zoom:1;}
-/* line 110 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 111 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark input[type=radio],.ez-mark input[type=checkbox]{cursor:pointer;left:-.3rem;opacity:0;position:relative;top:-.75rem}
-/* line 118 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 119 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg{height:1.5em;position:absolute;}
-/* line 122 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 123 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .frame{fill:#ccc}
-/* line 125 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 126 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .frameBack{fill:#fff}
-/* line 128 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 129 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .check{display:none}
-/* line 131 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 132 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark svg .dot{display:none}
-/* line 134 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 135 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 
-/* line 136 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 137 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-mark :hover svg .frame,label:hover .ez-mark svg .frame{fill:#2ea2cc}
-/* line 141 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 142 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-checked.ez-checkbox svg .check,.ez-checked.ez-radio svg .dot{display:block;fill:#666}
-/* line 146 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 147 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .ez-hide{opacity:0}
-/* line 151 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+/* line 152 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 .edit-link{margin-left:1em;padding:.5em 0}
 /* line 32 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
 
@@ -227,15 +227,15 @@ text.default-price{fill:#aaa;font-size:10px}
 /* line 33 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
 .post-price-wrapper{margin:1.5em 0;text-align:right}
 /* line 37 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#post-price{font-size:3em;}
-/* line 39 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#post-price -webkit-transition-duration 0.4s{transition-duration:.4s}
-/* line 42 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#post-price:disabled{border-color:transparent;color:#333;}
-/* line 45 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#post-price:disabled -webkit-transition-duration 0.4s{transition-duration:.4s}
-/* line 48 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
 #laterpay-post-price p{float:right}
+/* line 40 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#post-price{font-size:3em;}
+/* line 42 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#post-price -webkit-transition-duration 0.4s{transition-duration:.4s}
+/* line 45 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#post-price:disabled{border-color:transparent;color:#333;}
+/* line 48 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#post-price:disabled -webkit-transition-duration 0.4s{transition-duration:.4s}
 /* line 51 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
 .lp-currency{bottom:.75em;color:#ccc;font-size:1.5em;padding-right:.33em;position:relative}
 /* line 60 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
@@ -249,25 +249,25 @@ text.default-price{fill:#aaa;font-size:10px}
 /* line 84 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
 #laterpay-price-type ul.lp-toggle li:last-child{border-radius:0 2px 2px 0;box-shadow:inset 1px 0 0 #ddd,inset -1px 1px 0 rgba(255,255,255,0.55)}
 /* line 89 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle li .selected,#laterpay-price-type ul.lp-toggle li .selected:hover{background-color:#d5d5d5}
-/* line 93 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle li .selected{box-shadow:inset 0 1px 3px rgba(0,0,0,0.34)}
-/* line 96 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-
-/* line 97 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle li .disabled a{color:#d5d5d5;cursor:default}
-/* line 101 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle li .disabled :hover{background-color:#e9e9e9;}
+#laterpay-price-type ul.lp-toggle li:hover{background-color:#2ea2cc;}
+/* line 92 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#laterpay-price-type ul.lp-toggle li:hover a{color:#fff}
+/* line 95 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#laterpay-price-type ul.lp-toggle li a{display:block;height:2.5em;text-decoration:none}
+/* line 100 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#laterpay-price-type ul.lp-toggle .selected,#laterpay-price-type ul.lp-toggle .selected:hover{background-color:#d5d5d5}
 /* line 104 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle li .disabled :hover a{color:#d5d5d5;cursor:default}
+#laterpay-price-type ul.lp-toggle .selected{box-shadow:inset 0 1px 3px rgba(0,0,0,0.34);}
 /* line 108 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle li :hover{background-color:#2ea2cc;}
-/* line 111 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle li :hover a{color:#fff}
+#laterpay-price-type ul.lp-toggle .selected a,#laterpay-price-type ul.lp-toggle .selected:hover a{color:#a5a5a5;cursor:default;text-shadow:0 1px 0 #e9e9e9}
+/* line 113 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+
 /* line 114 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle a{display:block;height:2.5em;text-decoration:none}
-/* line 120 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
-#laterpay-price-type ul.lp-toggle a,#laterpay-price-type ul.lp-toggle:hover a{color:#a5a5a5;cursor:default;text-shadow:0 1px 0 #e9e9e9}
+#laterpay-price-type ul.lp-toggle .disabled a{color:#d5d5d5;cursor:default}
+/* line 118 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#laterpay-price-type ul.lp-toggle .disabled:hover{background-color:#e9e9e9;}
+/* line 121 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
+#laterpay-price-type ul.lp-toggle .disabled:hover a{color:#d5d5d5;cursor:default}
 /* line 127 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
 
 /* line 129 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/post-edit.styl */
