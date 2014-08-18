@@ -20,12 +20,12 @@ jQuery.noConflict();
         }
 
         if (keyValue.length === 32 && idValue.length === 22) {
-            $('.progress-line .st-1').removeClass('todo').addClass('done');
+            $('.lp_steps-background .st-1').removeClass('lp_step-todo').addClass('lp_step-done');
             clearMessage();
 
             return true;
         } else {
-            $('.progress-line .st-1').removeClass('done').addClass('todo');
+            $('.lp_steps-background .st-1').removeClass('lp_step-done').addClass('lp_step-todo');
         }
 
         if (idValue.length > 0 && idValue.length !== 22) {
@@ -90,7 +90,7 @@ jQuery.noConflict();
         $defaultPrice.val(validatedPrice);
     });
 
-    $('.activate-lp').click(function() {
+    $('.lp_activate-plugin-button').click(function() {
         if (!validateAPIKey()) {
             setMessage($(this).data().error, false);
             return;
@@ -114,11 +114,11 @@ jQuery.noConflict();
             $defaultPrice.val(0.05);
         }
 
-        $('.progress-line .todo').removeClass('todo').addClass('done');
+        $('.lp_steps-background .lp_step-todo').removeClass('lp_step-todo').addClass('lp_step-done');
 
         $.post(
             ajaxurl,
-            $('#get_started_form').serializeArray(),
+            $('#lp_get-started-form').serializeArray(),
             function(data) {
                 window.location = 'post-new.php';
             }
@@ -139,7 +139,7 @@ jQuery.noConflict();
     });
 
     // disable tabs
-    $('.get-started .tabs li a')
+    $('.lp_get-started-page .lp_nav_tabs li a')
     .mousedown(function() {
         alert(lpVars.i18nTabsDisabled);
 

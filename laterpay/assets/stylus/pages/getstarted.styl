@@ -1,7 +1,7 @@
 // 'Get Started' tab in plugin backend
 
-// disabled tabs of other pages ----------------------------------------------------------------------------------------
-.tabs.getstarted li:not(.current)
+// disabled tabs of other backend pages --------------------------------------------------------------------------------
+.lp_nav_tabs.lp_get-started-page li:not(.current)
     opacity                         0.34
 
     a:hover
@@ -10,59 +10,46 @@
 
 
 // progress indicator --------------------------------------------------------------------------------------------------
-.steps-progress
+.lp_progress
     margin                          4.5rem 0 2rem
-    text-align                      center
 
-// background
-.progress-line
-    background-image                url(../../img/get-started-steps.png)
-    background-repeat               no-repeat
-    display                         inline-block
+.lp_progress-background
+    background                      url(../../img/get-started-steps.png) no-repeat
     height                          4rem
-    position                        relative
     width                           628px
 
+    .lp_step-1
+        left                        2px
+
+    .lp_step-2
+        left                        292px
+
+    .lp_step-3
+        left                        582px
+
 // checkmarks
-.todo,
-.done
-    background-image                url(../../img/todo.png)
-    background-repeat               no-repeat
-    display                         block
+.lp_step-todo,
+.lp_step-done
+    background                      url(../../img/todo.png) no-repeat
     height                          45px
-    position                        absolute
     top                             4px
     width                           45px
 
-.done
+.lp_step-done
     background-image                url(../../img/done.png)
-
-.st-1
-    left                            2px
-.st-2
-    left                            292px
-.st-3
-    left                            582px
 
 
 // setup steps ---------------------------------------------------------------------------------------------------------
-.step-row li
-    float                           left
-    width                           33%
-
-    .progress-step
+.lp_setup-steps
+    .lp_setup-step
         background-color            $background-darker
         -moz-box-sizing             border-box
              box-sizing             border-box
         height                      6.5em
         line-height                 6.75em
-        padding                     0 2em 0 0
-        position                    relative
 
         &:before
-            background-image        url(../../img/get-started-arrowhead.png)
-            background-position     100% 50%
-            background-repeat       no-repeat
+            background-image        url(../../img/get-started-arrowhead.png) 100% 50% no-repeat
             content                 ''
             height                  6.5em
             position                absolute
@@ -70,25 +57,11 @@
             top                     0
             width                   6.5em
 
-        input
+        .lp_input
             border-color            #d5d5d5
-            margin                  0 0 0 0.25em
-            padding                 0.5em
-
-        select
-            border-color            #d5d5d5
-            padding                 0.25em
-            position                relative
-            top                     -2px
-
-        .centered
-            line-height             6.75em
-            margin                  0
-            position                relative
-            text-align              center
 
     // Sandbox Merchant ID and Sandbox API Key
-    .first.progress-step
+    .lp_step-1
         border-radius               4px 0 0 4px
         line-height                 3em
         padding-left                4px
@@ -98,70 +71,55 @@
 
         .lp_api-key-input,
         .lp_merchant-id-input
+            margin                  0 0 0 0.25em
             max-width               91%
-            padding-left            2.75em
+            padding                 $fs-05 $fs-05 $fs-05 2.75em
             width                   21.5em
-
-        .lp_merchant-id-input
-            margin-top              0.5em
 
         .input-icon
             margin                  0.15em 0 0 0.5em
 
-            .api-key-icon
-                margin-top          0.05em
+        .api-key-icon
+            margin-top              0.05em
 
     // global default price and default currency
-    .middle.progress-step
+    .lp_step-2
         padding                     0 2.5em 0 0.5em
 
-        .nowrap
-            white-space             nowrap
+        p
+            line-height             6.75em
 
         #global-default-price
             border-radius           4px 0 0 4px
 
-        select
+        select.lp_input
             border-radius           0 4px 4px 0
             margin-left             -5px
+            padding                 0.25em
+            top                     -2px
 
     // 'activate in test mode' button
-    .last.progress-step
-        text-align                  center
-
+    .lp_step-3
         &:before
-            background-image        url(../../img/get-started-arrowhead-last.png)
-            background-position     100% 50%
-            background-repeat       no-repeat
+            background              url(../../img/get-started-arrowhead-last.png) 100% 50% no-repeat
 
-        .activate-lp
-            font-weight             600
+        .lp_activate-plugin-button
             height                  3em
             line-height             3em
-            padding                 0 1em
-            position                relative
             vertical-align          inherit
 
 
 // explanatory texts for setup steps -----------------------------------------------------------------------------------
-.progress-step + p,
-.progress-step + p + p
+.lp_setup-step + p,
+.lp_setup-step + p + p
     color                           $text-lighter
-    margin                          0 0 1em
-    padding                         1.5em 2em 0 0
+    margin                          0 0 $fs-1
+    padding                         $fs-15 $fs-2 0 0
     text-align                      center
-
-.progress-step + p + p
-    padding-top                     0
 
 
 // responsiveness ------------------------------------------------------------------------------------------------------
-@media (max-width:1320px)
-    .step-row li .progress-step.middle .centered
-        line-height                 2em
-        padding-top                 0.95em
-
 @media (max-width:1279px)
-    .step-row li .progress-step.middle .centered
+    .lp_setup-steps lp_step-2 p
         line-height                 2em
         padding-top                 0.95em
