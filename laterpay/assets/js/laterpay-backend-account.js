@@ -5,7 +5,7 @@ jQuery.noConflict();
         flashMessageTimeout = 800,
         requestSent         = false,
         autofocusEmptyInput = function() {
-            var $inputs = $('.api-key-input, .merchant-id-input');
+            var $inputs = $('.lp_api-key-input, .lp_merchant-id-input');
             for (var i = 0, l = $inputs.length; i < l; i++) {
                 if ($inputs.eq(i).val() === '') {
                     $inputs.eq(i).focus();
@@ -16,11 +16,11 @@ jQuery.noConflict();
         togglePluginModeText = function() {
             if ($('#plugin-mode-toggle').prop('checked')) {
                 $('#plugin_mode_live_hint').fadeIn();
-                $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeOut();
+                $('#plugin_mode_test_hint, .lp_plugin-mode-indicator').fadeOut();
                 $('#plugin_mode_test_text').hide();
                 $('#plugin_mode_live_text').show();
             } else {
-                $('#plugin_mode_test_hint, #plugin-mode-indicator').fadeIn();
+                $('#plugin_mode_test_hint, .lp_plugin-mode-indicator').fadeIn();
                 $('#plugin_mode_live_hint').fadeOut();
                 $('#plugin_mode_live_text').hide();
                 $('#plugin_mode_test_text').show();
@@ -147,7 +147,7 @@ jQuery.noConflict();
         };
 
     // API key Ajax forms
-    $('.api-key-input').bind('input', function() {
+    $('.lp_api-key-input').bind('input', function() {
         var api_key_input = this;
         setTimeout(function() {
             validateAPIKey(api_key_input);
@@ -155,7 +155,7 @@ jQuery.noConflict();
     });
 
     // Merchant ID Ajax forms
-    $('.merchant-id-input').bind('input', function() {
+    $('.lp_merchant-id-input').bind('input', function() {
         var merchant_id_input = this;
         setTimeout(function() {
             validateMerchantId(merchant_id_input);
@@ -188,7 +188,7 @@ jQuery.noConflict();
             $('iframe', $iframeWrapper).remove();
         }
         if ($iframeWrapper.length === 0) {
-            $('.credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
+            $('.lp_credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
                 // scroll document so that iframe fills viewport
                 iframeOffset = $('#legal-docs-frame').offset();
                 scrollPosition = iframeOffset.top - topMargin;

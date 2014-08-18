@@ -87,8 +87,8 @@
         });
 
         // load content via Ajax, if plugin is in page caching compatible mode
-        // (recognizable by the presence of $('#laterpay-page-caching-mode'))
-        var $pageCachingAnchor = $('#laterpay-page-caching-mode');
+        // (recognizable by the presence of $('#lp_cached-content'))
+        var $pageCachingAnchor = $('#lp_cached-content');
         if ($pageCachingAnchor.length == 1) {
             var post_vars = {
                                 action  : 'laterpay_article_script',

@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<ul class="tabs">
+<ul class="lp_nav_tabs">
     <?php $num = 0; ?>
     <?php foreach ( $menu as $page ): ?>
         <?php
@@ -10,7 +10,7 @@
             }
         ?>
         <li <?php if ( $current_page == $page['url'] || ( ! $num && $current_page == $plugin_page ) ): ?>class="current"<?php endif; ?>>
-            <a href="<?php echo add_query_arg(array('page' => $slug), admin_url('admin.php'));?>">
+            <a href="<?php echo add_query_arg(array('page' => $slug), admin_url('admin.php'));?>" class="lp_d-blk">
                 <?php echo $page['title']; ?>
             </a>
         </li>

@@ -11,7 +11,7 @@
     <p>
         <input type="text"
                 id="post-price"
-                class="lp-input number"
+                class="lp_input lp_number-input"
                 name="post-price"
                 value="<?php echo LaterPay_Helper_View::format_number($laterpay_price, 2); ?>"
                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>"

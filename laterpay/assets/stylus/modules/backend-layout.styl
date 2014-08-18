@@ -1,23 +1,25 @@
 // content area --------------------------------------------------------------------------------------------------------
-.lp-page
+.lp_page
     min-height              100%
 
-.lp-wrap
+.lp_pagewrap
     max-width               1240px
-    padding                 1rem
+    padding                 $fs-1
+
+.lp_row
+    // no particular styles attached
 
 
 // tabs ----------------------------------------------------------------------------------------------------------------
-.tabs-area
+.lp_navigation
     background-color        $background-lightest
     border-bottom           1px solid $border-darker
     box-shadow              0 1px 0 $background-lightest
     left                    -20px
     padding-top             2rem
-    position                relative
     width                   101.6%
 
-ul.tabs
+.lp_nav_tabs
     margin-left             2rem
 
     li
@@ -31,10 +33,8 @@ ul.tabs
 
         a
             color           $text-lighter
-            display         block
-            font-size       1rem
+            font-size       $fs-1
             padding         0.5em 1em 0.75em
-            text-decoration none
 
         &:hover
             a
@@ -43,7 +43,7 @@ ul.tabs
     .current
         background-color    $background
         border-radius       4px 4px 0 0
-        border-top          4px solid #0074a2
+        border-top          4px solid $clickable
 
         a
             color           $text
@@ -51,8 +51,7 @@ ul.tabs
 
 
 // plugin mode indicator -----------------------------------------------------------------------------------------------
-#plugin-mode-indicator
-    position                absolute
+.lp_plugin-mode-indicator
     right                   7rem
     top                     0.4rem
 
@@ -74,7 +73,7 @@ ul.tabs
     span
         color               #999
 
-#plugin-mode-indicator[data-icon]:before
+.lp_plugin-mode-indicator[data-icon]:before
     float                   left
     font-size               4rem
     left                    -2.75rem
@@ -105,5 +104,5 @@ ul.tabs
 
 // responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px)
-    .lp-wrap
+    .lp_pagewrap
         padding             0

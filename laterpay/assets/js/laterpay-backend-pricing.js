@@ -152,7 +152,7 @@ jQuery.noConflict();
         // save category default price
         $form
         .on('mousedown', '.laterpay-save-link', function() {
-            $('.lp-input.number', $form).val(validatePrice($('.lp-input.number', $form).val()));
+            $('.lp_input.number', $form).val(validatePrice($('.lp_input.number', $form).val()));
             $form.removeClass('unsaved');
             $.post(
                 ajaxurl,

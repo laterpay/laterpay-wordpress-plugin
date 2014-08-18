@@ -1,14 +1,14 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="lp-page wp-core-ui">
+<div class="lp_page wp-core-ui">
 
     <div id="message" style="display:none;">
         <p></p>
     </div>
 
-    <div class="tabs-area">
+    <div class="lp_navigation lp_p-rel">
         <?php if ( ! $plugin_is_in_live_mode ): ?>
-            <a href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>" id="plugin-mode-indicator" data-icon="h">
+            <a href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator lp_p-abs" data-icon="h">
                 <h2><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
                 <span><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
             </a>
@@ -16,7 +16,7 @@
         <?php echo $top_nav; ?>
     </div>
 
-    <div class="lp-wrap">
+    <div class="lp_pagewrap">
         <ul class="step-row lp_fl-clearfix">
             <li>
                 <div class="pr-type1">
@@ -34,7 +34,7 @@
                                 <input  type="text"
                                         name="laterpay_global_price"
                                         id="global-default-price"
-                                        class="lp-input number"
+                                        class="lp_input lp_number-input"
                                         value="<?php echo $global_default_price; ?>"
                                         style="display:none;"
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
@@ -42,9 +42,9 @@
                                 <span id="laterpay-global-price-text"><?php echo $global_default_price; ?></span>
                                 <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
                             </strong>
-                            <a href="#" class="edit-link laterpay-change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                            <a href="#" class="edit-link laterpay-save-link"   data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
-                            <a href="#" class="edit-link laterpay-cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link laterpay-change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link laterpay-save-link"   data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link laterpay-cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                         </p>
                     </form>
 
@@ -75,7 +75,7 @@
                                         <?php $category_price = LaterPay_Helper_View::format_number( (float) $category->category_price, 2 ); ?>
                                         <input  type="text"
                                                 name="price"
-                                                class="lp-input number"
+                                                class="lp_input lp_number-input"
                                                 value="<?php echo LaterPay_Helper_View::format_number($category->category_price, 2); ?>"
                                                 style="display:none;"
                                                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
@@ -83,10 +83,10 @@
                                         <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
                                     </strong>
 
-                                    <a href="#" class="edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
-                                    <a href="#" class="edit-link laterpay-cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                                    <a href="#" class="edit-link laterpay-change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                                    <a href="#" class="edit-link laterpay-delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link laterpay-cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link laterpay-change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link laterpay-delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                                 </p>
                             </form>
                         <?php endforeach; ?>
@@ -110,7 +110,7 @@
                             <strong>
                                 <input  type="text"
                                         name="price"
-                                        class="lp-input number"
+                                        class="lp_input lp_number-input"
                                         value="<?php echo $global_default_price; ?>"
                                         style="display:none;"
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
@@ -118,10 +118,10 @@
                                 <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
                             </strong>
 
-                            <a href="#" class="edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
-                            <a href="#" class="edit-link laterpay-cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                            <a href="#" class="edit-link laterpay-change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                            <a href="#" class="edit-link laterpay-delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link laterpay-cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link laterpay-change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link laterpay-delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                         </p>
                     </form>
                 </div>
@@ -149,7 +149,7 @@
                 <div>
                     <p><?php _e( 'All prices are given in', 'laterpay' ); ?>
                         <span class="currency-dd">
-                            <select name="laterpay_currency" id="laterpay_currency" class="lp-input">
+                            <select name="laterpay_currency" id="laterpay_currency" class="lp_input">
                                 <?php foreach ( $currencies as $currency ): ?>
                                     <option<?php if ( $currency->short_name == $standard_currency ): ?> selected<?php endif; ?> value="<?php echo $currency->short_name; ?>">
                                         <?php echo $currency->full_name . ' (' . $currency->short_name . ')'; ?>

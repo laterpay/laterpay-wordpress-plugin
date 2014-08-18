@@ -4,8 +4,8 @@ jQuery.noConflict();
     var throttledFlashMessage;
 
     function validateAPIKey() {
-        var $apiKey     = $('.api-key-input'),
-            $merchantID = $('.merchant-id-input'),
+        var $apiKey     = $('.lp_api-key-input'),
+            $merchantID = $('.lp_merchant-id-input'),
             keyValue    = $apiKey.val().trim(),
             idValue     = $merchantID.val().trim();
 
@@ -127,7 +127,7 @@ jQuery.noConflict();
         return false;
     });
 
-    $('.api-key-input, .merchant-id-input').bind('input', function() {
+    $('.lp_api-key-input, .lp_merchant-id-input').bind('input', function() {
         validateAPIKey();
     });
 
