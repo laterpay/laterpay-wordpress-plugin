@@ -10,9 +10,7 @@ Please get involved in this project and contribute back changes other users woul
 
 ## Installation
 
-Grab the latest version from https://github.com/laterpay/laterpay-wordpress-plugin/releases/latest and upload it
-to the plugins folder of your WordPress installation.
-The plugin will soon also be available from http://wordpress.org/plugins/
+The plugin is available on http://wordpress.org/plugins/laterpay
 
 
 ## Contributing
@@ -23,7 +21,12 @@ The plugin will soon also be available from http://wordpress.org/plugins/
 4. Push to the branch (`git push origin feature/my_new_feature`)
 5. Create a new Pull Request
 
-Contributed PHP code must comply with the WordPress coding standards. We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards).
+The plugin uses the CSS preprocessor [Stylus](http://learnboost.github.io/stylus/).
+Stylus is a node.js module. If you have node.js running, you can install Stylus with ```sudo npm install -g stylus```.
+To generate production CSS from the .styl sources, go to folder 'laterpay' and run ```stylus assets/stylus --out assets/css --inline --compress```.
+
+Contributed PHP code must comply with the WordPress coding standards.
+We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards).
 
 Contributed JS code must be linted with JSHint.
 
