@@ -17,13 +17,14 @@
     </div>
 
     <div class="lp_pagewrap">
-        <ul class="step-row lp_fl-clearfix">
+        <ul class="lp_row lp_fl-clearfix">
             <li>
-                <div class="pr-type1">
+                <div class="lp_m-0 lp_m-r1">
                     <h2><?php _e( 'Global Default Price', 'laterpay' ); ?></h2>
-                    <hr>
-                    <dfn class="spacer">&nbsp;</dfn>
-                    <form id="global-price-form" method="post" action="">
+                    <hr class="lp_b-s2 lp_m-0 lp_m-t05 lp_m-b025">
+                    <dfn class="lp_spacer lp_d-block">&nbsp;</dfn>
+
+                    <form id="lp_global-price-form" method="post" action="">
                         <input type="hidden" name="form"    value="global_price_form">
                         <input type="hidden" name="action"  value="laterpay_pricing">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
@@ -33,18 +34,18 @@
                             <strong>
                                 <input  type="text"
                                         name="laterpay_global_price"
-                                        id="global-default-price"
+                                        id="lp_global-default-price"
                                         class="lp_input lp_number-input"
                                         value="<?php echo $global_default_price; ?>"
                                         style="display:none;"
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                                         autocomplete="off">
-                                <span id="laterpay-global-price-text"><?php echo $global_default_price; ?></span>
-                                <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
+                                <span id="lp_global-price-text"><?php echo $global_default_price; ?></span>
+                                <span class="lp_currency"><?php echo $standard_currency; ?></span>
                             </strong>
-                            <a href="#" class="lp_edit-link laterpay-change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                            <a href="#" class="lp_edit-link laterpay-save-link"   data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
-                            <a href="#" class="lp_edit-link laterpay-cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link lp_save-link"   data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link lp_cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                         </p>
                     </form>
 
@@ -52,14 +53,15 @@
             </li>
 
             <li>
-                <div class="pr-type2">
+                <div class="lp_m-0 lp_m-r1">
                     <h2><?php _e( 'Category Default Prices', 'laterpay' ); ?></h2>
-                    <hr>
-                    <dfn class="spacer"><?php _e( 'Category default prices overwrite global default prices.', 'laterpay' ); ?></dfn>
-                    <div id="category-prices">
+                    <hr class="lp_b-s2 lp_m-0 lp_m-t05 lp_m-b025">
+                    <dfn class="lp_spacer lp_d-block"><?php _e( 'Category default prices overwrite global default prices.', 'laterpay' ); ?></dfn>
+
+                    <div id="lp_category-prices">
                         <p><strong><?php _e( 'Every post in category', 'laterpay' ); ?> &hellip;</strong></p>
                         <?php foreach ( $categories_with_defined_price as $category ): ?>
-                            <form method="post" class="category-price-form">
+                            <form method="post" class="lp_category-price-form">
                                 <p>
                                     <input type="hidden" name="form"        value="price_category_form">
                                     <input type="hidden" name="action"      value="laterpay_pricing">
@@ -67,8 +69,8 @@
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                                     <strong>
-                                        <input type="hidden" name="category" value="<?php echo $category->category_name; ?>" class="category-select">
-                                        <span class="category-title"><?php echo $category->category_name; ?></span>
+                                        <input type="hidden" name="category" value="<?php echo $category->category_name; ?>" class="lp_category-select">
+                                        <span class="lp_category-title lp_d-inl-block"><?php echo $category->category_name; ?></span>
                                     </strong>
                                     <?php _e( 'costs', 'laterpay' ); ?>
                                     <strong>
@@ -79,22 +81,22 @@
                                                 value="<?php echo LaterPay_Helper_View::format_number($category->category_price, 2); ?>"
                                                 style="display:none;"
                                                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
-                                        <span class="category-price"><?php echo $category_price; ?></span>
-                                        <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
+                                        <span class="lp_category-price"><?php echo $category_price; ?></span>
+                                        <span class="lp_currency"><?php echo $standard_currency; ?></span>
                                     </strong>
 
-                                    <a href="#" class="lp_edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
-                                    <a href="#" class="lp_edit-link laterpay-cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                                    <a href="#" class="lp_edit-link laterpay-change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                                    <a href="#" class="lp_edit-link laterpay-delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link lp_save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link lp_cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link lp_change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_edit-link lp_delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                                 </p>
                             </form>
                         <?php endforeach; ?>
                     </div>
                     <p>
-                        <a href="#" id="add_category_button" data-icon="c"><?php _e( 'Set default price for another category', 'laterpay' ); ?></a>
+                        <a href="#" id="lp_add-category-link" class="lp_d-block" data-icon="c"><?php _e( 'Set default price for another category', 'laterpay' ); ?></a>
                     </p>
-                    <form method="post" id="category-price-form-template" class="category-price-form unsaved" style="display:none;">
+                    <form method="post" id="category-price-form-template" class="lp_category-price-form unsaved" style="display:none;">
                         <input type="hidden" name="form"        value="price_category_form">
                         <input type="hidden" name="action"      value="laterpay_pricing">
                         <input type="hidden" name="category_id" value="">
@@ -103,8 +105,8 @@
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                             <strong>
-                                <input type="hidden" name="category" value="" class="category-select">
-                                <span class="category-title"></span>
+                                <input type="hidden" name="category" value="" class="lp_category-select">
+                                <span class="lp_category-title lp_d-inl-block"></span>
                             </strong>
                             <?php _e( 'costs', 'laterpay' ); ?>
                             <strong>
@@ -114,23 +116,25 @@
                                         value="<?php echo $global_default_price; ?>"
                                         style="display:none;"
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
-                                <span class="category-price"><?php echo $global_default_price; ?></span>
-                                <span class="laterpay_currency"><?php echo $standard_currency; ?></span>
+                                <span class="lp_category-price"><?php echo $global_default_price; ?></span>
+                                <span class="lp_currency"><?php echo $standard_currency; ?></span>
                             </strong>
 
-                            <a href="#" class="lp_edit-link laterpay-save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
-                            <a href="#" class="lp_edit-link laterpay-cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                            <a href="#" class="lp_edit-link laterpay-change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                            <a href="#" class="lp_edit-link laterpay-delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link lp_save-link"    data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link lp_cancel-link"  data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link lp_change-link"  data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_edit-link lp_delete-link"  data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                         </p>
                     </form>
                 </div>
             </li>
+
             <li>
-                <div class="pr-type3">
+                <div class="lp_m-0 lp_m-r1">
                     <h2><?php _e( 'Individual Prices', 'laterpay' ); ?></h2>
-                    <hr>
-                    <dfn class="spacer"><?php _e( 'Individual prices overwrite global and category default prices.', 'laterpay' ); ?></dfn>
+                    <hr class="lp_b-s2 lp_m-0 lp_m-t05 lp_m-b025">
+                    <dfn class="lp_spacer lp_d-block"><?php _e( 'Individual prices overwrite global and category default prices.', 'laterpay' ); ?></dfn>
+
                     <div>
                         <p><?php _e( 'You can set individual prices for posts,<br>when adding or editing a post.', 'laterpay' ); ?></p>
                     </div>
@@ -139,9 +143,9 @@
         </ul>
         <hr>
 
-        <div class="pr-type4">
+        <div class="lp_row">
             <h2><?php _e( 'Currency', 'laterpay' ); ?></h2>
-            <form id="currency_form" method="post">
+            <form id="lp_currency-form" method="post">
                 <input type="hidden" name="form"    value="currency_form">
                 <input type="hidden" name="action"  value="laterpay_pricing">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
@@ -149,7 +153,7 @@
                 <div>
                     <p><?php _e( 'All prices are given in', 'laterpay' ); ?>
                         <span class="currency-dd">
-                            <select name="laterpay_currency" id="laterpay_currency" class="lp_input">
+                            <select name="laterpay_currency" id="lp_currency-select" class="lp_input">
                                 <?php foreach ( $currencies as $currency ): ?>
                                     <option<?php if ( $currency->short_name == $standard_currency ): ?> selected<?php endif; ?> value="<?php echo $currency->short_name; ?>">
                                         <?php echo $currency->full_name . ' (' . $currency->short_name . ')'; ?>

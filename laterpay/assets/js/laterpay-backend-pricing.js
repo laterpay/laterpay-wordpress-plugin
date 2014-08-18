@@ -44,38 +44,38 @@ jQuery.noConflict();
     // #####################################################################
 
     function enterEditModeGlobalPrice() {
-        $('#laterpay-global-price-text, #global-price-form .laterpay-change-link').hide();
-        $('#global-default-price, #global-price-form .laterpay-cancel-link, #global-price-form .laterpay-save-link').show(0, function() {
-            setTimeout(function() { $('#global-default-price').focus(); }, 50);
+        $('#lp_global-price-text, #lp_global-price-form .lp_change-link').hide();
+        $('#lp_global-default-price, #lp_global-price-form .lp_cancel-link, #lp_global-price-form .lp_save-link').show(0, function() {
+            setTimeout(function() { $('#lp_global-default-price').focus(); }, 50);
         });
-        $('#global-price-form').addClass('editing');
+        $('#lp_global-price-form').addClass('editing');
     }
 
     function exitEditModeGlobalPrice() {
-        $('#laterpay-global-price-text, #global-price-form .laterpay-change-link').show();
-        $('#global-default-price, #global-price-form .laterpay-cancel-link, #global-price-form .laterpay-save-link').hide();
-        $('#global-price-form').removeClass('editing');
+        $('#lp_global-price-text, #lp_global-price-form .lp_change-link').show();
+        $('#lp_global-default-price, #lp_global-price-form .lp_cancel-link, #lp_global-price-form .lp_save-link').hide();
+        $('#lp_global-price-form').removeClass('editing');
     }
 
     // edit global default price
-    $('#global-price-form .laterpay-change-link')
+    $('#lp_global-price-form .lp_change-link')
     .mousedown(function() { enterEditModeGlobalPrice(); })
     .click(function(e) { e.preventDefault(); });
 
     // cancel editing global default price
-    $('#global-price-form .laterpay-cancel-link')
+    $('#lp_global-price-form .lp_cancel-link')
     .mousedown(function() { exitEditModeGlobalPrice(); })
     .click(function(e) { e.preventDefault(); });
 
     // save global default price
-    $('#global-price-form .laterpay-save-link').mousedown(function() {
-        $('#global-default-price').val(validatePrice($('#global-default-price').val()));
+    $('#lp_global-price-form .lp_save-link').mousedown(function() {
+        $('#lp_global-default-price').val(validatePrice($('#lp_global-default-price').val()));
         $.post(
             ajaxurl,
-            $('#global-price-form').serializeArray(),
+            $('#lp_global-price-form').serializeArray(),
             function(r) {
                 if (r.success) {
-                    $('#laterpay-global-price-text').html(r.laterpay_global_price);
+                    $('#lp_global-price-text').html(r.laterpay_global_price);
                 }
                 setMessage(r.message, r.success);
             },
@@ -98,7 +98,7 @@ jQuery.noConflict();
     }
 
     function renderCategorySelect($form) {
-        $('.category-select', $form).select2({
+        $('.lp_category-select', $form).select2({
             allowClear      : true,
             ajax            : {
                                 url         : ajaxurl,
@@ -132,11 +132,11 @@ jQuery.noConflict();
                 $(this).remove();
             });
         } else {
-            $('.number, .laterpay-save-link, .laterpay-cancel-link', $form).hide();
-            $('.category-select', $form).select2('destroy');
-            $('.category-title, .category-price, .laterpay-change-link, .laterpay-delete-link', $form).show();
+            $('.lp_number-input, .lp_save-link, .lp_cancel-link', $form).hide();
+            $('.lp_category-select', $form).select2('destroy');
+            $('.lp_category-title, .lp_category-price, .lp_change-link, .lp_delete-link', $form).show();
         }
-        $('#add_category_button').fadeIn(250);
+        $('#lp_add-category-link').fadeIn(250);
     }
 
     function editCategoryDefaultPrice($form) {
@@ -144,14 +144,14 @@ jQuery.noConflict();
 
         // initialize edit mode
         $form.addClass('editing');
-        $('.category-title, .category-price, .laterpay-change-link, .laterpay-delete-link', $form).hide();
-        $('#add_category_button').fadeOut(250);
-        $('.number, .laterpay-save-link, .laterpay-cancel-link', $form).show();
+        $('.lp_category-title, .lp_category-price, .lp_change-link, .lp_delete-link', $form).hide();
+        $('#lp_add-category-link').fadeOut(250);
+        $('.number, .lp_save-link, .lp_cancel-link', $form).show();
         renderCategorySelect($form);
 
         // save category default price
         $form
-        .on('mousedown', '.laterpay-save-link', function() {
+        .on('mousedown', '.lp_save-link', function() {
             $('.lp_input.number', $form).val(validatePrice($('.lp_input.number', $form).val()));
             $form.removeClass('unsaved');
             $.post(
@@ -159,8 +159,8 @@ jQuery.noConflict();
                 $form.serializeArray(),
                 function(r) {
                     if (r.success) {
-                        $('.category-price', $form).text(r.price);
-                        $('.category-title', $form).text(r.category);
+                        $('.lp_category-price', $form).text(r.price);
+                        $('.lp_category-title', $form).text(r.category);
                         $('input[name=category_id]', $form).val(r.category_id);
                     }
                     setMessage(r.message, r.success);
@@ -169,39 +169,39 @@ jQuery.noConflict();
             );
             exitEditModeCategoryPrice($form);
         })
-        .on('click', '.laterpay-save-link', function(e) { e.preventDefault(); });
+        .on('click', '.lp_save-link', function(e) { e.preventDefault(); });
 
         // cancel editing category default price
         $form
-        .on('mousedown', '.laterpay-cancel-link', function() { exitEditModeCategoryPrice($form); })
-        .on('click',     '.laterpay-cancel-link', function(e) { e.preventDefault(); });
+        .on('mousedown', '.lp_cancel-link', function() { exitEditModeCategoryPrice($form); })
+        .on('click',     '.lp_cancel-link', function(e) { e.preventDefault(); });
     }
 
     // add category default price for another category
-    $('#add_category_button')
+    $('#lp_add-category-link')
     .mousedown(function() {
-        $('#add_category_button').fadeOut(250);
+        $('#lp_add-category-link').fadeOut(250);
         var $form = $('#category-price-form-template')
                     .clone()
                     .removeAttr('id')
-                    .appendTo('#category-prices')
+                    .appendTo('#lp_category-prices')
                     .fadeIn(250);
         editCategoryDefaultPrice($form);
     })
     .click(function(e) { e.preventDefault(); });
 
     // edit category default price
-    $('#category-prices')
-    .on('mousedown', '.laterpay-change-link', function() {
-        var $form = $(this).parents('.category-price-form');
+    $('#lp_category-prices')
+    .on('mousedown', '.lp_change-link', function() {
+        var $form = $(this).parents('.lp_category-price-form');
         editCategoryDefaultPrice($form);
     })
-    .on('click', '.laterpay-change-link', function(e) { e.preventDefault(); });
+    .on('click', '.lp_change-link', function(e) { e.preventDefault(); });
 
     // delete category default price
-    $('#category-prices')
-    .on('mousedown', '.laterpay-delete-link', function() {
-        var $form = $(this).parents('.category-price-form');
+    $('#lp_category-prices')
+    .on('mousedown', '.lp_delete-link', function() {
+        var $form = $(this).parents('.lp_category-price-form');
         $('input[name=form]', $form).val('price_category_form_delete');
 
         $.post(
@@ -218,7 +218,7 @@ jQuery.noConflict();
             'json'
         );
     })
-    .on('click', '.laterpay-delete-link', function(e) { e.preventDefault(); });
+    .on('click', '.lp_delete-link', function(e) { e.preventDefault(); });
 
 
     // #############################################################################################
@@ -226,13 +226,13 @@ jQuery.noConflict();
     // #############################################################################################
 
     function updateCurrency(currency) {
-        $('.laterpay_currency').html(currency);
+        $('.lp_currency').html(currency);
     }
 
-    $('#laterpay_currency').change(function() {
+    $('#lp_currency-select').change(function() {
         $.post(
             ajaxurl,
-            $('#currency_form').serializeArray(),
+            $('#lp_currency-form').serializeArray(),
             function(r) {
                 if (r.success) {
                     updateCurrency(r.laterpay_currency);

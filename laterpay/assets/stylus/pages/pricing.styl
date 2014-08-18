@@ -1,40 +1,32 @@
 // 'Pricing' tab in plugin backend
 
 // price type sections -------------------------------------------------------------------------------------------------
-.pr-type1,
-.pr-type2,
-.pr-type3
-    margin                  0 1rem 0 0
-
-.lp_page h2 + hr
-    border-top              2px solid #d3d3d3
-    margin                  0.5rem 0 0.25rem
-
-.pr-type1 hr
+ul.lp_row li:nth-child(1) h2 + hr
     border-top-color        #d3d3d3
-.pr-type2 hr
+
+ul.lp_row li:nth-child(2) h2 + hr
     border-top-color        #a6a6a6
-.pr-type3 hr
+
+ul.lp_row li:nth-child(3) h2 + hr
     border-top-color        #757575
 
-dfn.spacer
-    display                 block
+.lp_spacer
     height                  2.4em
 
 
 // global default price ------------------------------------------------------------------------------------------------
-#global-price-form.editing p
-    margin-top              0.5em
+#lp_global-price-form.editing p
+    margin-top              $fs-05
 
 
 // category default prices ---------------------------------------------------------------------------------------------
-#category-prices
+#lp_category-prices
     p
-        margin              1em 0 0
+        margin              $fs-1 0 0
 
-    .category-price-form
+    .lp_category-price-form
         p
-            margin-top      0.25em
+            margin-top      $fs-025
 
         .editing p
             margin          -0.1em 0
@@ -46,18 +38,14 @@ dfn.spacer
     margin-bottom           32px
     width                   10rem
 
-.category-title
-    display                 inline-block
+.lp_category-title
     min-width               8.75em
-
-#add_category_button
-    display                 block
 
 
 // responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px)
     .lp_edit-link
-        margin-left        0.5em
+        margin-left        $fs-05
 
-    .pr-type3 br
+    ul.lp_row li:nth-child(3) br
         display            none

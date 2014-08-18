@@ -21,7 +21,7 @@
             <h2><?php _e( 'LaterPay API Credentials', 'laterpay' ); ?></h2>
 
             <div class="lp_w-1-2 lp_fl-left lp_p-rel lp_sandbox-credentials" data-icon="h">
-                <fieldset class="lp_b-r3 lp_b-s1 lp_b-emb lp_m-1-1-0-0">
+                <fieldset class="lp_b-r3 lp_b-s1 lp_b-emb lp_m-1 lp_m-b0 lp_m-l0">
                     <legend class="lp_fs-1 lp_fw-b lp_pd-0-05"><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for testing purposes', 'laterpay' ); ?></dfn>
                     <form id="laterpay_sandbox_merchant_id_form" method="post">
@@ -70,7 +70,7 @@
             </div>
 
             <div class="lp_w-1-2 lp_fl-left lp_p-rel lp_live-credentials" data-icon="k">
-                <fieldset class="lp_b-r3 lp_b-s1 lp_b-emb lp_m-1-1-0-0">
+                <fieldset class="lp_b-r3 lp_b-s1 lp_b-emb lp_m-1 lp_m-b0 lp_m-l0">
                     <legend class="lp_fs-1 lp_fw-b lp_pd-0-05"><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for processing real financial transactions', 'laterpay' ); ?></dfn>
                     <form id="laterpay_live_merchant_id_form" method="post">
@@ -129,7 +129,7 @@
                 </fieldset>
             </div>
         </div>
-        <dfn class="lp_credentials-hint lp_d-blk lp_m-1-0">
+        <dfn class="lp_credentials-hint lp_d-block lp_m-1-0">
             <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
         </dfn>
         <hr>
@@ -157,11 +157,11 @@
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>
 
-            <dfn id="plugin_mode_live_text" class="lp_d-blk"<?php if ( ! $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
+            <dfn id="plugin_mode_live_text" class="lp_d-block"<?php if ( ! $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
                 <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay' ); ?>
                 <?php _e( 'All payments are booked and credited to your account.', 'laterpay' ); ?>
             </dfn>
-            <dfn id="plugin_mode_test_text" class="lp_d-blk"<?php if ( $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
+            <dfn id="plugin_mode_test_text" class="lp_d-block"<?php if ( $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
                 <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay' ); ?>
                 <?php _e( 'LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
             </dfn>
