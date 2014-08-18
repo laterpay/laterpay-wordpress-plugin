@@ -9,7 +9,7 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 	public function load_assets() {
 		parent::load_assets();
 
-		// load LaterPay-specific CSS
+		// load page-specific CSS
 		wp_register_style(
 		    'laterpay-backend-getstarted',
 		    $this->config->css_url . 'laterpay-backend-getstarted.css',
