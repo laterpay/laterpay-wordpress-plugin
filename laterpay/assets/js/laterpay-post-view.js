@@ -79,7 +79,7 @@
         $('body').on('click', '#preview-post-toggle', function() {togglePreviewMode();});
 
         // handle clicks on purchase buttons in test mode
-        $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
+        $('body').on('mousedown', '.lp_purchase-link', function(e) {
             if ($(this).data('preview-as-visitor')) {
                 e.preventDefault();
                 alert(lpVars.i18nAlert);
@@ -116,7 +116,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
                     },
         dm          = new Y.LaterPay.DialogManager();
 
-        dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
+        dm.attachToLinks('.lp_purchase-link', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
     if (lpVars && lpVars.lpBalanceUrl) {

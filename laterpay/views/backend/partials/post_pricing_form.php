@@ -7,7 +7,7 @@
 
 <input type="hidden" name="post_price_type" value="<?php echo $laterpay_post_price_type ?>">
 
-<div id="laterpay-post-price" class="clearfix">
+<div id="laterpay-post-price" class="lp_fl-clearfix">
     <p>
         <input type="text"
                 id="post-price"
@@ -21,7 +21,7 @@
 </div>
 
 <div id="laterpay-price-type"<?php if ( $laterpay_post_price_type == 'individual price, dynamic' || $laterpay_post_price_type == 'category default price' ) { echo ' class="expanded"'; } ?>>
-     <ul class="lp-toggle clearfix">
+     <ul class="lp-toggle lp_fl-clearfix">
         <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == 'individual price' || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'selected'; } ?>">
             <a href="#" id="use-individual-price" class="use-individual-price"><?php _e( 'Individual Price', 'laterpay' ); ?></a>
         </li>

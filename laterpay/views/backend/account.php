@@ -17,10 +17,10 @@
     </div>
 
     <div class="lp-wrap">
-        <div class="lp-form-row clearfix">
+        <div class="lp_row lp_fl-clearfix">
             <h2><?php _e( 'LaterPay API Credentials', 'laterpay' ); ?></h2>
 
-            <div class="w1-2 left sandbox-credentials" data-icon="h">
+            <div class="lp_w-1-2 lp_fl-left sandbox-credentials" data-icon="h">
                 <fieldset>
                     <legend><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for testing purposes', 'laterpay' ); ?></dfn>
@@ -28,11 +28,11 @@
                         <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                        <ul class="clearfix">
-                            <li class="left background-icon-spacer">
+                        <ul class="lp_fl-clearfix">
+                            <li class="lp_fl-left background-icon-spacer">
                                 &nbsp;
                             </li>
-                            <li class="left">
+                            <li class="lp_fl-left">
                                 <span class="input-icon merchant-id-icon" data-icon="i"></span>
                                 <input type="text"
                                     maxlength="22"
@@ -49,11 +49,11 @@
                         <input type="hidden" name="form"   value="laterpay_sandbox_api_key">
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                        <ul class="clearfix">
-                            <li class="left background-icon-spacer">
+                        <ul class="lp_fl-clearfix">
+                            <li class="lp_fl-left background-icon-spacer">
                                 &nbsp;
                             </li>
-                            <li class="left">
+                            <li class="lp_fl-left">
                                 <span class="input-icon api-key-icon" data-icon="j"></span>
                                 <input type="text"
                                     maxlength="32"
@@ -69,7 +69,7 @@
                 </fieldset>
             </div>
 
-            <div class="w1-2 left live-credentials" data-icon="k">
+            <div class="lp_w-1-2 lp_fl-left live-credentials" data-icon="k">
                 <fieldset>
                     <legend><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for processing real financial transactions', 'laterpay' ); ?></dfn>
@@ -77,11 +77,11 @@
                         <input type="hidden" name="form"   value="laterpay_live_merchant_id">
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                        <ul class="clearfix">
-                            <li class="left background-icon-spacer">
+                        <ul class="lp_fl-clearfix">
+                            <li class="lp_fl-left background-icon-spacer">
                                 &nbsp;
                             </li>
-                            <li class="left">
+                            <li class="lp_fl-left">
                                 <span class="input-icon merchant-id-icon live" data-icon="i"></span>
                                 <input type="text"
                                     maxlength="22"
@@ -98,11 +98,11 @@
                         <input type="hidden" name="form"    value="laterpay_live_api_key">
                         <input type="hidden" name="action"  value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                        <ul class="clearfix">
-                            <li class="left background-icon-spacer">
+                        <ul class="lp_fl-clearfix">
+                            <li class="lp_fl-left background-icon-spacer">
                                 &nbsp;
                             </li>
-                            <li class="left">
+                            <li class="lp_fl-left">
                                 <span class="input-icon api-key-icon live" data-icon="j"></span>
                                 <input type="text"
                                     maxlength="32"
@@ -115,12 +115,12 @@
                             </li>
                         </ul>
                         <ul id="request-live-credentials"
-                            class="clearfix"
+                            class="lp_fl-clearfix"
                             <?php if ( $live_api_key ) { echo ' style="display:none;"'; } ?>>
-                            <li class="left background-icon-spacer">
+                            <li class="lp_fl-left background-icon-spacer">
                                 &nbsp;
                             </li>
-                            <li class="left">
+                            <li class="lp_fl-left">
                                 <a href="#" class="button button-primary">
                                     <?php _e( 'Request Live API Credentials', 'laterpay' ); ?>
                                 </a>
@@ -135,7 +135,7 @@
         </dfn>
         <hr>
 
-        <div class="lp-form-row">
+        <div class="lp_row">
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>
             <?php _e( 'This site is in', 'laterpay' ); ?><div class="switch">
                 <form id="laterpay_plugin_mode" method="post">
@@ -158,11 +158,11 @@
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>
 
-            <dfn id="plugin_mode_live_text"<?php if ( ! $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
+            <dfn id="plugin_mode_live_text" class="lp_d-blk"<?php if ( ! $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
                 <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>.', 'laterpay' ); ?>
                 <?php _e( 'All payments are booked and credited to your account.', 'laterpay' ); ?>
             </dfn>
-            <dfn id="plugin_mode_test_text"<?php if ( $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
+            <dfn id="plugin_mode_test_text" class="lp_d-blk"<?php if ( $plugin_is_in_live_mode ) { echo " style='display:none;'"; } ?>>
                 <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay' ); ?>
                 <?php _e( 'LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
             </dfn>

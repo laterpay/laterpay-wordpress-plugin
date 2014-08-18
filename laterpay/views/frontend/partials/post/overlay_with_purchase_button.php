@@ -22,7 +22,7 @@
                     <?php _e( 'Read Now, Pay Later', 'laterpay' ); ?>
                 </h2>
             </header>
-            <ul class="clearfix">
+            <ul class="lp_fl-clearfix">
                 <li class="laterpay-buy-now">
                     <h3><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
                     <p>
@@ -43,7 +43,7 @@
                 </li>
             </ul>
             <a  href="#"
-                class="laterpay-purchase-link laterpay-purchase-button"
+                class="lp_purchase-link lp_button"
                 data-laterpay="<?php echo $laterpay['link']; ?>"
                 data-icon="b"
                 data-post-id="<?php echo $laterpay['post_id']; ?>"

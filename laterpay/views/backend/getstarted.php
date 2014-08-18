@@ -23,7 +23,7 @@
             <input type="hidden" name="form"    value="get_started_form">
             <input type="hidden" name="action"  value="laterpay_getstarted">
             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-            <ul class="step-row clearfix">
+            <ul class="step-row lp_fl-clearfix">
                 <li>
                     <div class="progress-step first">
                         <span class="input-icon merchant-id-icon" data-icon="i"></span>

@@ -17,7 +17,7 @@
     </div>
 
     <div class="lp-wrap">
-        <ul class="step-row clearfix">
+        <ul class="step-row lp_fl-clearfix">
             <li>
                 <div class="pr-type1">
                     <h2><?php _e( 'Global Default Price', 'laterpay' ); ?></h2>

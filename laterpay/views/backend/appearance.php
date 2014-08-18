@@ -17,13 +17,13 @@
     </div>
 
     <div class="lp-wrap">
-        <div class="lp-form-row clearfix">
+        <div class="lp_row lp_fl-clearfix">
             <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
             <form id="teaser_content_only" method="post">
                 <input type="hidden" name="form"    value="teaser_content_only">
                 <input type="hidden" name="action"  value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-                <label class="left">
+                <label class="lp_fl-left">
                     <input type="radio"
                             name="teaser_content_only"
                             value="1"
@@ -32,7 +32,7 @@
                     <?php _e( 'Teaser content only', 'laterpay' ); ?>
                     <div class="preview-mode-1"></div>
                 </label>
-                <label class="left">
+                <label class="lp_fl-left">
                     <input type="radio"
                             name="teaser_content_only"
                             value="0"
@@ -44,9 +44,9 @@
             </form>
         </div>
         <hr>
-        <div class="lp-form-row">
+        <div class="lp_row">
             <h2><?php _e( 'LaterPay Invoice Indicator', 'laterpay' ); ?></h2>
-            <dfn class="clearfix">
+            <dfn class="lp_fl-clearfix">
                 <?php _e( 'Insert this HTML snippet into your theme to show your users their LaterPay invoice balance.', 'laterpay' ); ?><br>
                 <?php _e( 'The LaterPay invoice indicator is served by LaterPay. Its styling can not be changed.', 'laterpay' ); ?>
             </dfn>

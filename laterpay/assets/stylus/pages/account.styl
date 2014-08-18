@@ -1,7 +1,7 @@
 // 'Account' tab in plugin backend
 
 // API credentials -----------------------------------------------------------------------------------------------------
-.w1-2
+.lp_w-1-2
     h3
         font-weight             600
         margin                  1em 0 0.1em
@@ -29,23 +29,23 @@
         margin-left             -0.5em
         padding                 0 0.5em
 
-.w1-2.sandbox-credentials,
-.w1-2.live-credentials
+.lp_w-1-2.sandbox-credentials,
+.lp_w-1-2.live-credentials
     position                    relative
 
-.w1-2.sandbox-credentials[data-icon],
-.w1-2.live-credentials[data-icon]
+.lp_w-1-2.sandbox-credentials[data-icon],
+.lp_w-1-2.live-credentials[data-icon]
     &:before
         color                   $border
         position                absolute
         z-index                 -1
 
-.w1-2.sandbox-credentials[data-icon]:before
+.lp_w-1-2.sandbox-credentials[data-icon]:before
     font-size                   90px
     left                        26px
     top                         57px
 
-.w1-2.live-credentials[data-icon]:before
+.lp_w-1-2.live-credentials[data-icon]:before
     font-size                   75px
     left                        15px
     top                         72px
@@ -84,15 +84,9 @@
             background-color    $clickable-highlight
 
 
-// plugin mode ---------------------------------------------------------------------------------------------------------
-#plugin_mode_live_text,
-#plugin_mode_test_text
-    display                     block
-
-
 // responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1050px)
-    .w1-2
+    .lp_w-1-2
         .sandbox-credentials[data-icon]:before
             font-size           75px
             left                24px
