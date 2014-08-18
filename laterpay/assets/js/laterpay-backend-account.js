@@ -176,8 +176,8 @@ jQuery.noConflict();
             viewportHeight          = parseInt($(window).height(), 10),
             topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
             iframeHeight            = viewportHeight - topMargin,
-            $iframeWrapperObject    = $('<div id="legal-docs-frame" style="height:' + iframeHeight + 'px;"></div>'),
-            $iframeWrapper          = $('#legal-docs-frame'),
+            $iframeWrapperObject    = $('<div id="lp_legal-docs-iframe" style="height:' + iframeHeight + 'px;"></div>'),
+            $iframeWrapper          = $('#lp_legal-docs-iframe'),
             iframeOffset,
             scrollPosition;
 
@@ -190,7 +190,7 @@ jQuery.noConflict();
         if ($iframeWrapper.length === 0) {
             $('.lp_credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
                 // scroll document so that iframe fills viewport
-                iframeOffset = $('#legal-docs-frame').offset();
+                iframeOffset = $('#lp_legal-docs-iframe').offset();
                 scrollPosition = iframeOffset.top - topMargin;
                 $('BODY, HTML').animate({
                     scrollTop: scrollPosition
@@ -199,12 +199,12 @@ jQuery.noConflict();
         }
 
         // cache object again after replacing it
-        $iframeWrapper = $('#legal-docs-frame');
+        $iframeWrapper = $('#lp_legal-docs-iframe');
 
         // inject a new iframe with the requested src parameter into the wrapper
         $iframeWrapper
         .html(
-            '<a href="#" class="close-iframe">x</a>' +
+            '<a href="#" class="lp_close-iframe">x</a>' +
             '<iframe ' +
                 'src="' + src + '" ' +
                 'frameborder="0" ' +
@@ -212,9 +212,9 @@ jQuery.noConflict();
                 'width="100%">' +
             '</iframe>'
         );
-        $('.close-iframe', $iframeWrapper).bind('click', function(e) {
+        $('.lp_close-iframe', $iframeWrapper).bind('click', function(e) {
             $(this).fadeOut()
-                .parent('#legal-docs-frame').slideUp(400, function() {
+                .parent('#lp_legal-docs-iframe').slideUp(400, function() {
                     $(this).remove();
                 });
             $button.fadeIn();
