@@ -4,9 +4,9 @@
 
 <div id="statistics"<?php if ( $laterpay['hide_statistics_pane'] ) echo ' class="hidden"'; ?>>
     <form id="laterpay_hide_statistics_form" method="post">
-        <input type="hidden" name="form"    value="hide_statistics_pane">
-        <input type="hidden" name="action"  value="laterpay_admin">
-        <input type="hidden" name="hide_statistics_pane"  value="<?php echo $laterpay['hide_statistics_pane'];?>">
+        <input type="hidden" name="action"  value="laterpay_post_statistic_visibility">
+        <input type="hidden" name="post_id"  value="<?php echo $laterpay[ 'post_id' ]; ?>">
+        <input type="hidden" name="hide_statistics_pane" id="laterpay_hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
     <a href="#" id="toggle-laterpay-statistics-pane" data-icon="l"></a>
@@ -67,8 +67,7 @@
         <?php _e( 'Preview post as', 'laterpay' ); ?> <strong><?php _e( 'Admin', 'laterpay' ); ?></strong>
         <div class="switch">
             <form id="plugin_mode" method="post">
-                <input type="hidden" name="form"    value="post_page_preview">
-                <input type="hidden" name="action"  value="laterpay_admin">
+                <input type="hidden" name="action"  value="laterpay_post_statistic_toggle_preview">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <label class="switch-label">
                     <input type="checkbox"

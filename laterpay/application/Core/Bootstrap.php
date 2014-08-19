@@ -56,10 +56,8 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_print_footer_scripts',   array( $admin_controller, 'modify_footer' ) );
                 add_action( 'load-post.php',                array( $admin_controller, 'help_wp_edit_post' ) );
                 add_action( 'load-post-new.php',            array( $admin_controller, 'help_wp_add_post' ) );
-
-                // load the admin assets
-                add_action( 'admin_enqueue_scripts', array( $this, 'add_plugin_admin_assets' ) );
-                add_action( 'admin_enqueue_scripts', array( $this, 'add_admin_pointers_script' ) );
+                add_action( 'admin_enqueue_scripts',        array( $admin_controller, 'add_plugin_admin_assets' ) );
+                add_action( 'admin_enqueue_scripts',        array( $admin_controller, 'add_admin_pointers_script' ) );
 
                 // add Ajax hooks for tabs in plugin backend
                 $admin_get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
@@ -75,8 +73,6 @@ class LaterPay_Core_Bootstrap
                 $admin_account_controller = new LaterPay_Controller_Admin_Account( $this->config );
                 add_action( 'wp_ajax_laterpay_account', array( $admin_account_controller, 'process_ajax_requests' ) );
 
-                $admin_controller = new LaterPay_Controller_Admin( $this->config );
-                add_action( 'wp_ajax_laterpay_admin', array( $admin_controller, 'process_ajax_requests' ) );
             }
         }
 
@@ -124,8 +120,6 @@ class LaterPay_Core_Bootstrap
         // add Ajax hooks for frontend
         add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
         add_action( 'wp_ajax_nopriv_laterpay_article_script',   array( $post_controller, 'get_cached_post' ) );
-        add_action( 'wp_ajax_laterpay_footer_script',           array( $post_controller, 'get_modified_footer' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_footer_script',    array( $post_controller, 'get_modified_footer' ) );
 
         // ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
@@ -136,6 +130,12 @@ class LaterPay_Core_Bootstrap
         // we're using the filters in ajax-requests, so they've to stay outside the is_admin()"-check
         add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
         add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
+
+        $statistic_controller = new LaterPay_Controller_Statistic( $this->config );
+        // ajax callback to show the statistic tab
+        add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistic_controller, 'ajax_render_tab' ) );
+        add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistic_controller, 'ajax_toggle_visibility' ) );
+        add_action( 'wp_ajax_laterpay_post_statistic_toggle_preview',   array( $statistic_controller, 'ajax_toggle_preview' ) );
 
         // frontend actions
         if ( ! is_admin() ) {
@@ -149,8 +149,8 @@ class LaterPay_Core_Bootstrap
             add_filter( 'the_posts',                array( $post_controller, 'prefetch_post_access' ) );
 
             // setup unique visitors tracking
-            $tracking_controller = new LaterPay_Controller_Tracking( $this->config );
-            add_action( 'init',                     array( $tracking_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'template_redirect',                 array( $statistic_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'wp_footer',                         array( $statistic_controller, 'modify_footer' ) );
 
             // register the frontend scripts
             add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_stylesheets' ) );
@@ -185,45 +185,5 @@ class LaterPay_Core_Bootstrap
             update_option( 'laterpay_plugin_is_activated', '0' );
         }
     }
-
-    /**
-     * Register custom menu in admin panel.
-     *
-     * @return void
-     */
-    protected function setup_admin_panel() {
-        add_action( 'admin_menu', array( $this, 'add_to_admin_panel' ) );
-    }
-
-    /**
-     * Load LaterPay stylesheet with LaterPay vector icon on all pages where the admin menu is visible.
-     *
-     * @return void
-     */
-    public function add_plugin_admin_assets() {
-        wp_register_style(
-            'laterpay-admin',
-            $this->config->css_url . 'laterpay-admin.css',
-            array(),
-            $this->config->version
-        );
-        wp_enqueue_style( 'laterpay-admin' );
-
-        wp_register_script(
-            'jquery',
-            '//code.jquery.com/jquery-1.11.0.min.js'
-        );
-    }
-
-    /**
-     * Hint at the newly installed plugin using WordPress pointers.
-     *
-     * @return void
-     */
-    public function add_admin_pointers_script() {
-        wp_enqueue_script( 'wp-pointer' );
-        wp_enqueue_style( 'wp-pointer' );
-    }
-
 
 }

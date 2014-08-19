@@ -36,6 +36,7 @@ class LaterPay_Helper_Cache
      * @return  bool
      */
     public static function site_uses_page_caching() {
+
         if ( ! function_exists( 'is_plugin_active' ) ) {
             include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
         }
