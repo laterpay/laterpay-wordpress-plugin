@@ -464,67 +464,29 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax requests for post previewing settings.
+     * Load LaterPay stylesheet with LaterPay vector icon on all pages where the admin menu is visible.
      *
      * @return void
      */
-    public static function process_ajax_requests() {
-        if ( isset( $_POST['form'] ) ) {
-            // check for required capabilities to perform action
-            if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
-                wp_send_json(
-                    array(
-                        'success' => false,
-                        'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' )
-                    )
-                );
-            }
+    public function add_plugin_admin_assets() {
+        wp_register_style(
+            'laterpay-admin',
+            $this->config->css_url . 'laterpay-admin.css',
+            array(),
+            $this->config->version
+        );
+        wp_enqueue_style( 'laterpay-admin' );
 
-            if ( function_exists( 'check_admin_referer' ) ) {
-                check_admin_referer( 'laterpay_form' );
-            }
+    }
 
-            switch ( $_POST['form'] ) {
-                case 'post_page_preview':
-                    $current_user = wp_get_current_user();
-                    if ( ! ( $current_user instanceof WP_User ) ) {
-                        wp_send_json(
-                            array(
-                                'success' => false,
-                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                            )
-                        );
-                    }
-                    $result = add_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'], true )
-                              || update_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor', $_POST['preview_post'] );
-                    wp_send_json(
-                        array(
-                            'success' => true,
-                            'message' => __( 'Updated.', 'laterpay' )
-                        )
-                    );
-                    break;
-
-                case 'hide_statistics_pane':
-                    $current_user = wp_get_current_user();
-                    if ( ! ( $current_user instanceof WP_User ) ) {
-                        die;
-                    }
-                    $result = add_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'], true )
-                              || update_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane', $_POST['hide_statistics_pane'] );
-                    die;
-                    break;
-
-                default:
-                    wp_send_json(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                        )
-                    );
-                    break;
-            }
-        }
+    /**
+     * Hint at the newly installed plugin using WordPress pointers.
+     *
+     * @return void
+     */
+    public function add_admin_pointers_script() {
+        wp_enqueue_script( 'wp-pointer' );
+        wp_enqueue_style( 'wp-pointer' );
     }
 
 }
