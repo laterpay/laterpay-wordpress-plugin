@@ -2,16 +2,16 @@
 
 <?php $currency = $laterpay[ 'currency' ]; ?>
 
-<div id="statistics"<?php if ( $laterpay['hide_statistics_pane'] ) echo ' class="hidden"'; ?>>
-    <form id="laterpay_hide_statistics_form" method="post">
-        <input type="hidden" name="action"  value="laterpay_post_statistic_visibility">
+<div class="lp_post-statistics"<?php if ( $laterpay['hide_statistics_pane'] ) echo ' class="hidden"'; ?>>
+    <form id="lp_toggle-post-statistics-visibility-form" method="post">
+        <input type="hidden" name="action"   value="laterpay_post_statistic_visibility">
         <input type="hidden" name="post_id"  value="<?php echo $laterpay[ 'post_id' ]; ?>">
-        <input type="hidden" name="hide_statistics_pane" id="laterpay_hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
+        <input type="hidden" name="hide_statistics_pane" id="lp_hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
-    <a href="#" id="toggle-laterpay-statistics-pane" data-icon="l"></a>
+    <a href="#" id="lp_toggle-post-statistics-visibility" data-icon="l"></a>
     <h2 data-icon="a"><?php _e( 'Statistics for this Post', 'laterpay' ); ?></h2>
-    <div class="totals">
+    <div class="lp_post-statistics-totals">
         <ul>
             <li>
                 <big><?php if ( isset( $statistic['total'][$currency] ) ) { $aux = $statistic['total'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
@@ -23,16 +23,16 @@
             </li>
         </ul>
     </div>
-    <div class="separator">
+    <div class="lp_post-statistics-separator">
         <ul>
             <li><p><?php _e( 'Last 30 days', 'laterpay' ); ?></p><hr></li>
             <li><p><?php _e( 'Today', 'laterpay' ); ?></p><hr></li>
         </ul>
     </div>
-    <div class="details">
+    <div class="lp_post-statistics-details">
         <ul>
             <li>
-                <span class="bar"><?php if ( isset( $statistic['last30DaysRevenue'][$currency] ) ) { $aux = $statistic['last30DaysRevenue'][$currency]; } else { $aux = array(); }; echo LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ); ?></span>
+                <span class="lp_sparkline-bar"><?php if ( isset( $statistic['last30DaysRevenue'][$currency] ) ) { $aux = $statistic['last30DaysRevenue'][$currency]; } else { $aux = array(); }; echo LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ); ?></span>
             </li>
             <li>
                 <big><?php if ( isset( $statistic['todayRevenue'][$currency] ) ) { $aux = $statistic['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
@@ -40,11 +40,11 @@
             </li>
         </ul>
     </div>
-    <div class="details">
+    <div class="lp_post-statistics-details">
         <ul>
             <li>
-                <span class="bar" data-max="0.5"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $statistic['last30DaysBuyers'], 'percentage', ';' ); ?></span>
-                <span class="background-bar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
+                <span class="lp_sparkline-bar" data-max="0.5"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $statistic['last30DaysBuyers'], 'percentage', ';' ); ?></span>
+                <span class="lp_sparkline-background-bar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
             </li>
             <li>
                 <big><?php echo LaterPay_Helper_View::format_number( $statistic['todayBuyers'], 1 ); ?><small>%</small></big>
@@ -52,10 +52,10 @@
             </li>
         </ul>
     </div>
-    <div class="details">
+    <div class="lp_post-statistics-details">
         <ul>
             <li>
-                <span class="bar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $statistic['last30DaysVisitors'], 'quantity', ';' ); ?></span>
+                <span class="lp_sparkline-bar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $statistic['last30DaysVisitors'], 'quantity', ';' ); ?></span>
             </li>
             <li>
                 <big><?php echo $statistic['todayVisitors']; ?></big>
@@ -63,21 +63,19 @@
             </li>
         </ul>
     </div>
-    <div id="plugin-visibility">
+    <div id="lp_plugin-preview-mode">
         <?php _e( 'Preview post as', 'laterpay' ); ?> <strong><?php _e( 'Admin', 'laterpay' ); ?></strong>
         <div class="switch">
-            <form id="plugin_mode" method="post">
-                <input type="hidden" name="action"  value="laterpay_post_statistic_toggle_preview">
+            <form id="lp_plugin-preview-mode-form" method="post">
+                <input type="hidden" name="action" value="laterpay_post_statistic_toggle_preview">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <label class="switch-label">
                     <input type="checkbox"
                             name="preview_post_checkbox"
-                            id="preview-post-toggle"
                             class="switch-input"
                             <?php if ( $laterpay['preview_post_as_visitor'] == 1 ): ?>checked<?php endif; ?>>
                     <input type="hidden"
                             name="preview_post"
-                            id="preview_post_hidden_input"
                             value="<?php if ( $laterpay['preview_post_as_visitor'] == 1 ) { echo 1; } else { echo 0; } ?>">
                     <span class="switch-text" data-on="" data-off=""></span>
                     <span class="switch-handle"></span>

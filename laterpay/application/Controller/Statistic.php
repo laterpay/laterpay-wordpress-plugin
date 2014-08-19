@@ -75,7 +75,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             return;
         }
 
-        echo '<div id="laterpay-statistic"></div>';
+        echo '<div id="lp_post-statistics-placeholder"></div>';
     }
 
     /**

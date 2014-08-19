@@ -15,15 +15,15 @@ jQuery.noConflict();
         },
         togglePluginModeText = function() {
             if ($('#plugin-mode-toggle').prop('checked')) {
-                $('#plugin_mode_live_hint').fadeIn();
-                $('#plugin_mode_test_hint, .lp_plugin-mode-indicator').fadeOut();
-                $('#plugin_mode_test_text').hide();
-                $('#plugin_mode_live_text').show();
+                $('#lp_plugin-preview-mode-form_live_hint').fadeIn();
+                $('#lp_plugin-preview-mode-form_test_hint, .lp_plugin-mode-indicator').fadeOut();
+                $('#lp_plugin-preview-mode-form_test_text').hide();
+                $('#lp_plugin-preview-mode-form_live_text').show();
             } else {
-                $('#plugin_mode_test_hint, .lp_plugin-mode-indicator').fadeIn();
-                $('#plugin_mode_live_hint').fadeOut();
-                $('#plugin_mode_live_text').hide();
-                $('#plugin_mode_test_text').show();
+                $('#lp_plugin-preview-mode-form_test_hint, .lp_plugin-mode-indicator').fadeIn();
+                $('#lp_plugin-preview-mode-form_live_hint').fadeOut();
+                $('#lp_plugin-preview-mode-form_live_text').hide();
+                $('#lp_plugin-preview-mode-form_test_text').show();
             }
         },
         togglePluginMode = function() {
@@ -34,22 +34,22 @@ jQuery.noConflict();
                 if ($('#laterpay_live_api_key').val().length !== 32 || $('#laterpay_live_merchant_id').val().length !== 22) {
                     // no valid API credentials: switch plugin mode back to 'TEST'
                     setMessage(lpVars.i18nLiveApiDataRequired, false);
-                    $('#plugin_mode_hidden_input').val(0);
+                    $('#lp_plugin-preview-mode-form_hidden_input').val(0);
                     $('#plugin-mode-toggle').prop('checked', false);
                     togglePluginModeText();
 
                     return false;
                 } else {
                     // everything ok: switch plugin mode to 'LIVE'
-                    $('#plugin_mode_hidden_input').val(1);
+                    $('#lp_plugin-preview-mode-form_hidden_input').val(1);
                     togglePluginModeText();
                     makeAjaxRequest('laterpay_plugin_mode', true);
                 }
             } else {
                 // user has switched plugin mode switch to 'TEST'
                 // // only switch plugin mode, if it was set to 'LIVE' before
-                // if ($('#plugin_mode_hidden_input').val() === 1) {
-                    $('#plugin_mode_hidden_input').val(0);
+                // if ($('#lp_plugin-preview-mode-form_hidden_input').val() === 1) {
+                    $('#lp_plugin-preview-mode-form_hidden_input').val(0);
                     togglePluginModeText();
                     makeAjaxRequest('laterpay_plugin_mode', true);
                 // }

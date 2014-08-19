@@ -1,14 +1,7 @@
-/**
- * statistics pane functions
- */
 (function($) {
     $(document).ready(function() {
         var statistic = {};
 
-        /**
-         * init function to load the tab and register the events
-         * @return void
-         */
         statistic.init = function() {
             var xhr;
 
@@ -21,26 +14,22 @@
                 statistic.render(data);
 
                 $('body')
-                .on('mousedown', '#toggle-laterpay-statistics-pane', function(e) {
+                .on('mousedown', '#lp_toggle-post-statistics-visibility', function(e) {
                     statistic.event_toggle_visibility(e);
                 })
-                .on('click', '#toggle-laterpay-statistics-pane', function(e) {
+                .on('click', '#lp_toggle-post-statistics-visibility', function(e) {
                     e.preventDefault();
                 })
-                .on('click', '#preview-post-toggle', function(e) {
+                .on('click', '#lp_plugin-preview-mode-form .switch-input', function(e) {
                     statistic.event_toggle_preview_mode(e);
                 });
             } );
         };
 
-        /**
-         * render the sparklines in the statistics pane
-         * @return void
-         */
         statistic.renderSparklines = function() {
-            var $pane = $('#statistics');
+            var $pane = $('.lp_post-statistics');
 
-            $('.bar', $pane).peity('bar', {
+            $('.lp_sparkline-bar', $pane).peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -60,7 +49,7 @@
                             }
             });
 
-            $('.background-bar', $pane).peity('bar', {
+            $('.lp_sparkline-background-bar', $pane).peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -69,10 +58,6 @@
             });
         };
 
-        /**
-         * load the statistic
-         * @return xhr promise
-         */
         statistic.load_tab = function() {
             var request_vars = {
                 action  : 'laterpay_post_statistic_render',
@@ -85,12 +70,8 @@
             );
         };
 
-        /**
-         * ajax request to save the visibility
-         * @return xhr promise
-         */
         statistic.save_visibility = function() {
-            var request_vars = $('#laterpay_hide_statistics_form').serializeArray();
+            var request_vars = $('#lp_toggle-post-statistics-visibility-form').serializeArray();
 
             return $.post(
                 lpVars.ajaxUrl,
@@ -98,12 +79,8 @@
             );
         };
 
-        /**
-         * ajax request to toggle the plugin mode
-         * @return xhr promise
-         */
-        statistic.save_plugin_mode = function(){
-            var request_vars = $('#plugin_mode').serializeArray();
+        statistic.save_plugin_mode = function() {
+            var request_vars = $('#lp_plugin-preview-mode-form').serializeArray();
 
             return $.post(
                 lpVars.ajaxUrl,
@@ -111,30 +88,21 @@
             );
         };
 
-        /**
-         * render the statistics pane
-         * @param string data
-         * @return void
-         */
-        statistic.render = function( data ){
-            var $container = $('#laterpay-statistic');
+        statistic.render = function(data) {
+            var $container = $('#lp_post-statistics-placeholder');
+
             $container.html(data);
             statistic.renderSparklines();
         };
 
-        /**
-         * callback to toggle the visibility of the statistics pane
-         * @param event
-         * @return void
-         */
         statistic.event_toggle_visibility = function(e) {
             e.preventDefault();
 
-            var $pane = $('#statistics'),
+            var $pane = $('.lp_post-statistics'),
                 value = $pane.hasClass('hidden') ? '0' : '1',
                 xhr;
 
-            $('#laterpay_hide_statistics_pane').val(value);
+            $('#lp_hide-statistics-pane').val(value);
 
             // toggle the visibility
             $pane.toggleClass('hidden');
@@ -150,16 +118,11 @@
             } );
         };
 
-        /**
-         * callback to toggle the preview/live mode of the post
-         * @param event
-         * @return void
-         */
         statistic.event_toggle_preview_mode = function(e) {
             e.preventDefault();
 
-            var $toggle         = $( '#preview-post-toggle'),
-                $preview_state  = $( '#preview_post_hidden_input'),
+            var $toggle         = $('#lp_plugin-preview-mode-form .switch-input'),
+                $preview_state  = $('#lp_plugin-preview-mode-form input[name=preview_post]'),
                 xhr;
 
             if ($toggle.prop('checked')) {
@@ -181,22 +144,14 @@
         };
 
         // placeholder found, initialize the statistics pane
-        if ($('#laterpay-statistic').length > 0) {
+        if ($('#lp_post-statistics-placeholder) {
             statistic.init();
         }
-    } );
-
-})(jQuery);
 
 
-/**
- * purchase functions
- */
-(function($) {
-    $(document).ready(function() {
         // load content via Ajax, if plugin is in page caching compatible mode
-        // (recognizable by the presence of $('#laterpay-page-caching-mode'))
-        var $pageCachingAnchor = $('#laterpay-page-caching-mode');
+        // (recognizable by the presence of $('#lp_cached-content'))
+        var $pageCachingAnchor = $('#lp_cached-content');
         if ($pageCachingAnchor.length == 1) {
             var post_vars = {
                 action  : 'laterpay_article_script',
@@ -206,14 +161,14 @@
             $.get(
                 lpVars.ajaxUrl,
                 post_vars,
-                function(response) {
-                    $pageCachingAnchor.before(response).remove();
+                function(data) {
+                    $pageCachingAnchor.before(data).remove();
                 }
             );
         }
 
         // handle clicks on purchase buttons in test mode
-        $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
+        $('body').on('mousedown', '.lp_purchase-link', function(e) {
             if ($(this).data('preview-as-visitor')) {
                 e.preventDefault();
                 alert(lpVars.i18nAlert);
@@ -223,16 +178,16 @@
     });
 })(jQuery);
 
-// render LaterPay elements using the LaterPay dialog manager library
+// render LaterPay purchase dialogs using the LaterPay dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
     // render purchase dialogs
     var ppuContext  = {
-                        showCloseBtn: true,
-                        canSkipAddToInvoice: false
-                    },
+                        showCloseBtn        : true,
+                        canSkipAddToInvoice : false,
+                      },
         dm          = new Y.LaterPay.DialogManager();
 
-        dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
+        dm.attachToLinks('.lp_purchase-link', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
     if (lpVars && lpVars.lpBalanceUrl) {
@@ -243,7 +198,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
                 width       : '110',
                 height      : '30',
                 scrolling   : 'no',
-                frameborder : '0'
+                frameborder : '0',
             }
         );
     }
