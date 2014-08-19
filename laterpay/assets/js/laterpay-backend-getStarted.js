@@ -20,12 +20,12 @@ jQuery.noConflict();
         }
 
         if (keyValue.length === 32 && idValue.length === 22) {
-            $('.lp_steps-background .st-1').removeClass('lp_step-todo').addClass('lp_step-done');
+            $('.lp_steps-background .lp_step-1').removeClass('lp_step-todo').addClass('lp_step-done');
             clearMessage();
 
             return true;
         } else {
-            $('.lp_steps-background .st-1').removeClass('lp_step-done').addClass('lp_step-todo');
+            $('.lp_steps-background .lp_step-1').removeClass('lp_step-done').addClass('lp_step-todo');
         }
 
         if (idValue.length > 0 && idValue.length !== 22) {
@@ -79,9 +79,9 @@ jQuery.noConflict();
         return price.toFixed(2);
     }
 
-    $('#global-default-price').blur(function() {
+    $('#lp_global-default-price').blur(function() {
         // validate price
-        var $defaultPrice   = $('#global-default-price'),
+        var $defaultPrice   = $('#lp_global-default-price'),
             defaultPrice    = $defaultPrice.val(),
             validatedPrice  = validatePrice(defaultPrice);
         if (lpVars.locale == 'de_DE') {
@@ -97,7 +97,7 @@ jQuery.noConflict();
         }
 
         // validate price
-        var $defaultPrice   = $('#global-default-price'),
+        var $defaultPrice   = $('#lp_global-default-price'),
             defaultPrice    = $defaultPrice.val();
         // convert price to proper float value
         if (defaultPrice.indexOf(',') > -1) {

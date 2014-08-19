@@ -59,7 +59,7 @@
                             <span class="lp_nowrap">
                                 <input type="text"
                                         name="get_started[laterpay_global_price]"
-                                        id="global-default-price"
+                                        id="lp_global-default-price"
                                         class="lp_input lp_number-input"
                                         value="<?php echo $global_default_price; ?>"
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
