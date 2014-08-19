@@ -31,7 +31,7 @@
                         <input type="text"
                                 maxlength="22"
                                 name="get_started[laterpay_sandbox_merchant_id]"
-                                class="lp_input lp_merchant-id-input lp_m-t05"
+                                class="lp_input lp_merchant-id-input"
                                 value="<?php echo $config->get( 'api.sandbox_merchant_id' ); ?>"
                                 required>
                         <label alt="<?php _e( 'Paste Sandbox Merchant ID here', 'laterpay' ); ?>" placeholder="<?php _e( 'Sandbox Merchant ID', 'laterpay' ); ?>"></label>

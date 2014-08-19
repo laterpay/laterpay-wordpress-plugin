@@ -49,7 +49,7 @@
         line-height                 6.75em
 
         &:before
-            background-image        url(../../img/get-started-arrowhead.png) 100% 50% no-repeat
+            background              url(../../img/get-started-arrowhead.png) 100% 50% no-repeat
             content                 ''
             height                  6.5em
             position                absolute
@@ -66,15 +66,18 @@
         line-height                 3em
         padding-left                4px
 
-        label[placeholder]:before
+        .input-icon + input[type=text][required] + label[placeholder]:before
             margin                  1.15em 0 0 3.1em
 
         .lp_api-key-input,
         .lp_merchant-id-input
-            margin                  0 0 0 0.25em
+            margin                  0 0 0 $fs-025
             max-width               91%
             padding                 $fs-05 $fs-05 $fs-05 2.75em
             width                   21.5em
+
+        .lp_merchant-id-input
+            margin-top              $fs-05
 
         .input-icon
             margin                  0.15em 0 0 0.5em
@@ -91,6 +94,7 @@
 
         #lp_global-default-price
             border-radius           4px 0 0 4px
+            padding                 $fs-05
 
         select.lp_input
             border-radius           0 4px 4px 0
