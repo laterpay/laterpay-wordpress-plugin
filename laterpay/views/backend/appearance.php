@@ -30,7 +30,7 @@
                             class="styled"
                             <?php if ( $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content only', 'laterpay' ); ?>
-                    <div class="lp_preview-mode1"></div>
+                    <div class="lp_preview-mode-1"></div>
                 </label>
                 <label class="lp_fl-left">
                     <input type="radio"
@@ -39,11 +39,11 @@
                             class="styled"
                             <?php if ( ! $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
-                    <div class="lp_preview-mode2"></div>
+                    <div class="lp_preview-mode-2"></div>
                 </label>
             </form>
         </div>
-        <hr>
+        <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
             <h2><?php _e( 'LaterPay Invoice Indicator', 'laterpay' ); ?></h2>

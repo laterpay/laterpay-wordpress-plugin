@@ -18,10 +18,10 @@
 
     <div class="lp_pagewrap">
         <ul class="lp_row lp_fl-clearfix">
-            <li>
+            <li class="lp_fl-left lp_w-1-3">
                 <div class="lp_m-0 lp_m-r1">
                     <h2><?php _e( 'Global Default Price', 'laterpay' ); ?></h2>
-                    <hr class="lp_b-s2 lp_m-0 lp_m-t05 lp_m-b025">
+                    <hr class="lp_b-none lp_m-0 lp_m-t05 lp_m-b025">
                     <dfn class="lp_spacer lp_d-block">&nbsp;</dfn>
 
                     <form id="lp_global-price-form" method="post" action="">
@@ -52,10 +52,10 @@
                 </div>
             </li>
 
-            <li>
+            <li class="lp_fl-left lp_w-1-3">
                 <div class="lp_m-0 lp_m-r1">
                     <h2><?php _e( 'Category Default Prices', 'laterpay' ); ?></h2>
-                    <hr class="lp_b-s2 lp_m-0 lp_m-t05 lp_m-b025">
+                    <hr class="lp_b-none lp_m-0 lp_m-t05 lp_m-b025">
                     <dfn class="lp_spacer lp_d-block"><?php _e( 'Category default prices overwrite global default prices.', 'laterpay' ); ?></dfn>
 
                     <div id="lp_category-prices">
@@ -93,9 +93,8 @@
                             </form>
                         <?php endforeach; ?>
                     </div>
-                    <p>
-                        <a href="#" id="lp_add-category-link" class="lp_d-block" data-icon="c"><?php _e( 'Set default price for another category', 'laterpay' ); ?></a>
-                    </p>
+                    <a href="#" id="lp_add-category-link" class="lp_d-block lp_m-t1" data-icon="c"><?php _e( 'Set default price for another category', 'laterpay' ); ?></a>
+
                     <form method="post" id="category-price-form-template" class="lp_category-price-form unsaved" style="display:none;">
                         <input type="hidden" name="form"        value="price_category_form">
                         <input type="hidden" name="action"      value="laterpay_pricing">
@@ -129,10 +128,10 @@
                 </div>
             </li>
 
-            <li>
+            <li class="lp_fl-left lp_w-1-3">
                 <div class="lp_m-0 lp_m-r1">
                     <h2><?php _e( 'Individual Prices', 'laterpay' ); ?></h2>
-                    <hr class="lp_b-s2 lp_m-0 lp_m-t05 lp_m-b025">
+                    <hr class="lp_b-none lp_m-0 lp_m-t05 lp_m-b025">
                     <dfn class="lp_spacer lp_d-block"><?php _e( 'Individual prices overwrite global and category default prices.', 'laterpay' ); ?></dfn>
 
                     <div>
@@ -141,7 +140,7 @@
                 </div>
             </li>
         </ul>
-        <hr>
+        <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
             <h2><?php _e( 'Currency', 'laterpay' ); ?></h2>

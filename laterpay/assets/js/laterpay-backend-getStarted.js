@@ -139,7 +139,7 @@ jQuery.noConflict();
     });
 
     // disable tabs
-    $('.lp_get-started-page .lp_nav_tabs li a')
+    $('.lp_get-started-page .lp_nav-tabs li a')
     .mousedown(function() {
         alert(lpVars.i18nTabsDisabled);
 

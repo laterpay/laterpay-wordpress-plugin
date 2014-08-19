@@ -1,4 +1,7 @@
 // borders -------------------------------------------------------------------------------------------------------------
+.lp_b-none
+    border              0 none
+
 .lp_b-s1
     border              1px solid $border
 
@@ -66,6 +69,16 @@
 .lp_m-1
     margin              $fs-1
 
+// combinations
+.lp_m-1-0
+    margin              $fs-1 0
+
+.lp_m-0-center
+    margin              0 auto
+
+.lp_m-1-center
+    margin              $fs-1 auto
+
 // top margins
 .lp_m-t0
     margin-top          0
@@ -93,6 +106,9 @@
 .lp_m-b1
     margin-bottom       $fs-1
 
+.lp_m-b3
+    margin-bottom       $fs-3
+
 // left margins
 .lp_m-l0
     margin-left         0
@@ -100,20 +116,20 @@
 .lp_m-l1
     margin-left         $fs-1
 
-// combinations
-.lp_m-1-0
-    margin              $fs-1 0
-
-.lp_m-0-center
-    margin              0 auto
-
-.lp_m-1-center
-    margin              $fs-1 auto
+.lp_m-l2
+    margin-left         $fs-2
 
 
 // paddings ------------------------------------------------------------------------------------------------------------
 .lp_pd-0
     padding              0
+
+// combinations
+.lp_pd-0-05
+    padding              0 $fs-05
+
+.lp_pd-0-1
+    padding              0 $fs-1
 
 // top paddings
 .lp_pd-t0
@@ -122,13 +138,6 @@
 // right paddings
 .lp_pd-r2
     padding-right        $fs-2
-
-// combinations
-.lp_pd-0-05
-    padding              0 $fs-05
-
-.lp_pd-0-1
-    padding              0 $fs-1
 
 
 // position ------------------------------------------------------------------------------------------------------------

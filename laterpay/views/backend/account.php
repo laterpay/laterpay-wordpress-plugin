@@ -132,7 +132,7 @@
         <dfn class="lp_credentials-hint lp_d-block lp_m-1-0">
             <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
         </dfn>
-        <hr>
+        <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>

@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<ul class="lp_nav_tabs">
+<ul class="lp_nav-tabs">
     <?php $num = 0; ?>
     <?php foreach ( $menu as $page ): ?>
         <?php
