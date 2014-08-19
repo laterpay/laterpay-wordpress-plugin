@@ -37,109 +37,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Ajax callback to load and echo the modified footer.
-     *
-     * @wp-hook wp_ajax_laterpay_footer_script, wp_ajax_nopriv_laterpay_footer_script
-     *
-     * @return void
-     */
-    public function get_modified_footer() {
-        $this->modify_footer();
-        exit;
-    }
-
-    /**
-     * Generate performance data statistics for post.
-     */
-    protected function initialize_post_statistic() {
-        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
-            return;
-        }
-        $post = get_post();
-        if ( $post === null ) {
-            return;
-        }
-
-        // get currency
-        $currency = get_option( 'laterpay_currency' );
-
-        // get historical performance data for post
-        $payments_history_model = new LaterPay_Model_Payments_History();
-        $post_views_model       = new LaterPay_Model_Post_Views();
-
-        // get total revenue and total sales
-        $total = array();
-        $history_total = (array) $payments_history_model->get_total_history_by_post_id( $post->ID );
-        foreach ( $history_total as $item ) {
-            $total[$item->currency]['sum']      = round( $item->sum, 2 );
-            $total[$item->currency]['quantity'] = $item->quantity;
-        }
-
-        // get revenue
-        $last30DaysRevenue = array();
-        $history_last30DaysRevenue = (array) $payments_history_model->get_last_30_days_history_by_post_id( $post->ID );
-        foreach ( $history_last30DaysRevenue as $item ) {
-            $last30DaysRevenue[$item->currency][$item->date] = array(
-                'sum'       => round( $item->sum, 2 ),
-                'quantity'  => $item->quantity,
-            );
-        }
-
-        $todayRevenue = array();
-        $history_todayRevenue = (array) $payments_history_model->get_todays_history_by_post_id( $post->ID );
-        foreach ( $history_todayRevenue as $item ) {
-            $todayRevenue[$item->currency]['sum']       = round( $item->sum, 2 );
-            $todayRevenue[$item->currency]['quantity']  = $item->quantity;
-        }
-
-        // get visitors
-        $last30DaysVisitors = array();
-        $history_last30DaysVisitors = (array) $post_views_model->get_last_30_days_history( $post->ID );
-        foreach ( $history_last30DaysVisitors as $item ) {
-            $last30DaysVisitors[$item->date] = array(
-                'quantity' => $item->quantity,
-            );
-        }
-
-        $todayVisitors = (array) $post_views_model->get_todays_history( $post->ID );
-        $todayVisitors = $todayVisitors[0]->quantity;
-
-        // get buyers (= conversion rate)
-        $last30DaysBuyers = array();
-        if ( isset( $last30DaysRevenue[$currency] ) ) {
-            $revenues = $last30DaysRevenue[$currency];
-        } else {
-            $revenues = array();
-        }
-        foreach ( $revenues as $date => $item ) {
-            $percentage = 0;
-            if ( isset( $last30DaysVisitors[$date] ) && ! empty( $last30DaysVisitors[$date]['quantity'] ) ) {
-                $percentage = round( 100 * $item['quantity'] / $last30DaysVisitors[$date]['quantity'] );
-            }
-            $last30DaysBuyers[$date] = array( 'percentage' => $percentage );
-        }
-
-        $todayBuyers = 0;
-        if ( ! empty( $todayVisitors ) && isset( $todayRevenue[$currency] ) ) {
-            // percentage of buyers (sales divided by visitors)
-            $todayBuyers = round( 100 * $todayRevenue[$currency]['quantity'] / $todayVisitors );
-        }
-
-        // assign variables
-        $statistic_args = array(
-            'total'             => $total,
-            'last30DaysRevenue' => $last30DaysRevenue,
-            'todayRevenue'      => $todayRevenue,
-            'last30DaysBuyers'  => $last30DaysBuyers,
-            'todayBuyers'       => $todayBuyers,
-            'last30DaysVisitors'=> $last30DaysVisitors,
-            'todayVisitors'     => $todayVisitors,
-        );
-
-        $this->assign( 'statistic', $statistic_args );
-    }
-
-    /**
      * Save purchase in purchase history.
      *
      * @wp-hook template_redirect
@@ -401,36 +298,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Helper function to check if the current or a given post is purchasable.
-     *
-     * @param null|WP_Post $post
-     *
-     * @return bool true|false
-     */
-    protected function is_purchasable( $post = null ) {
-        if ( ! is_a( $post, 'WP_POST' ) ) {
-            // loading the current post in $GLOBAL['post']
-            $post = get_post();
-            if ( $post === null ) {
-                return false;
-            }
-        }
-
-        // check if post_type is enabled for LaterPay
-        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-            return false;
-        }
-
-        // checks if the current post price is not 0
-        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-        if ( $price == 0 ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Check if current page is login page.
      *
      * @return boolean
@@ -460,7 +327,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      */
     public function the_purchase_button() {
         // check if the current post is purchasable
-        if ( $this->is_purchasable() ) {
+        if ( LaterPay_Helper_Pricing::is_post_purchasable() ) {
             return;
         }
 
@@ -531,7 +398,6 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $is_ajax                    = defined( 'DOING_AJAX' ) && DOING_AJAX;
         $user_can_read_statistic    = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
         $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
-        $hide_statistics_pane       = LaterPay_Helper_User::statistics_pane_is_hidden();
 
         // check if user has access to content (because he already bought it)
         $access = $this->has_access_to_post( $post );
@@ -554,22 +420,15 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'price'                     => $price,
             'link'                      => $purchase_link,
             'preview_post_as_visitor'   => $preview_post_as_visitor,
-            'hide_statistics_pane'      => $hide_statistics_pane,
         );
         $this->assign( 'laterpay', $view_args );
 
         // start collecting the output
         $html = '';
 
-        // add the post statistics, if enabled
-        if ( is_singular() && $user_can_read_statistic && $this->config->get( 'logging.access_logging_enabled' ) && $is_premium_content ) {
-            $this->initialize_post_statistic();
-            $html .= $this->get_text_view( 'frontend/partials/post/statistics' );
-        }
-
-        // return the full unmodified content, if post is free or was already bought by user
-        if ( ( ! $is_premium_content || $access ) && ! $preview_post_as_visitor ) {
-            return $html . $content;
+        // return the full unmodified content, if post was already bought by user
+        if ( $access && ! $preview_post_as_visitor ) {
+            return $content;
         }
 
         // return the teaser content on non-singular pages (archive, feed, tax, author, ...)
@@ -610,7 +469,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return void
      */
     public function modify_footer() {
-        if ( ! is_singular() || ! $this->is_purchasable( ) ) {
+        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_post_purchasable() ) {
             return;
         }
 
@@ -620,7 +479,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         $this->assign( 'post_id',       get_the_ID() );
         $this->assign( 'identify_link', $identify_link );
 
-        echo $this->get_text_view( 'frontend/partials/identify/iframe' );
+        echo $this->get_text_view( 'frontend/partials/identify_iframe' );
     }
 
     /**
@@ -646,7 +505,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         wp_enqueue_style( 'laterpay-post-view' );
 
         // only enqueue the styles when the current post is purchasable
-        if ( ! is_singular() || ! $this->is_purchasable() ) {
+        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_post_purchasable() ) {
             return;
         }
 
@@ -696,6 +555,11 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             false
         );
 
+        // only enqueue the scripts when the current post is purchasable
+        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_post_purchasable() ) {
+            return;
+        }
+
         // pass localized strings and variables to script
         $client         = new LaterPay_Client( $this->config );
         $balance_url    = $client->get_controls_balance_url();
@@ -704,16 +568,13 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'lpVars',
             array(
                 'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+                'post_id'       => get_the_ID(),
+                'debug'         => $this->config->get( 'debug_mode' ),
                 'lpBalanceUrl'  => $balance_url,
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
             )
         );
-
-        // only enqueue the scripts when the current post is purchasable
-        if ( ! is_singular() || ! $this->is_purchasable() ) {
-            return;
-        }
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-config' );
