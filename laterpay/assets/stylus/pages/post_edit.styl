@@ -40,11 +40,7 @@
             outline                 0 none
 
 // enter / display post price section
-#laterpay-post-price p
-    float                           right
-
-#post-price
-    font-size                       3em
+#lp_post-price input[name=post-price]
     -webkit-transition-duration     0.4s
             transition-duration     0.4s
 
@@ -54,16 +50,15 @@
         -webkit-transition-duration 0.4s
                 transition-duration 0.4s
 
-.lp-currency
+.lp_currency
     bottom                          0.75em
     color                           $text-lightest
     font-size                       1.5em
     padding-right                   0.33em
-    position                        relative
 
 
 // select price type section
-#laterpay-price-type
+#lp_price-type
     border                          1px solid $border
     border-radius                   3px
 
@@ -129,7 +124,7 @@
 
 
     // details for selected price type
-    #laterpay-price-type-details .use-category-default-price
+    #lp_price-type-details .lp_use-category-default-price
         ul,
         li
             margin                  0
@@ -155,17 +150,17 @@
                     color           #888
                     float           right
 
-            .selected-category
+            .lp_selected-category
                 background-color    transparent
 
                 a
                     color           #444
                     cursor          default
 
-#laterpay-price-type.expanded .use-category-default-price li.selected-category
+#lp_price-type.expanded .lp_use-category-default-price li.lp_selected-category
     background-color                $background-highlight
 
-#use-dynamic-pricing
+#lp_use-dynamic-pricing
     display                         block
     padding                         0.75em 0.25em 0
 
