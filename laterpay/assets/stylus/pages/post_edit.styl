@@ -29,11 +29,17 @@
 
 
 // pricing metabox -----------------------------------------------------------------------------------------------------
-// enter / display post price section
-.post-price-wrapper
-    margin                          1.5em 0
-    text-align                      right
+#laterpay_post_pricing
+    a
+        text-decoration             none
 
+        // remove dotted outline from links
+        &:focus,
+        &:active,
+        &:visited
+            outline                 0 none
+
+// enter / display post price section
 #laterpay-post-price p
     float                           right
 
@@ -95,7 +101,6 @@
             a
                 display             block
                 height              2.5em
-                text-decoration     none
 
         .selected,
         .selected:hover
@@ -145,7 +150,6 @@
             a
                 display             block
                 padding             0.5em 0.75em
-                text-decoration     none
 
                 span
                     color           #888
@@ -164,7 +168,6 @@
 #use-dynamic-pricing
     display                         block
     padding                         0.75em 0.25em 0
-    text-decoration                 none
 
 
 // teaser content metabox ----------------------------------------------------------------------------------------------
