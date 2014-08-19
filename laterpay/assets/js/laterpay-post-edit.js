@@ -1,6 +1,7 @@
 jQuery.noConflict();
 (function($) { $(function() {
 
+    // encapsulate all LaterPay Javascript in function laterPayEditPost
     function laterPayEditPost() {
         var $o = {
                 // post price inputs

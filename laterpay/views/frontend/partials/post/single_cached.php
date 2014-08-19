@@ -1,3 +1,3 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<span id="lp_cached-content" data-post-id="<?php echo $laterpay['post_id']; ?>"></span>
+<span id="lp_post-content-placeholder" data-post-id="<?php echo $laterpay['post_id']; ?>"></span>

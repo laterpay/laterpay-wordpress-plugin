@@ -1,184 +1,164 @@
-(function($) {
-    $(document).ready(function() {
-        var statistic = {};
+(function($) { $(document).ready(function() {
 
-        statistic.init = function() {
-            var xhr;
+        // encapsulate all LaterPay Javascript in function laterPayViewPost
+        function laterPayViewPost() {
+            var bindPurchaseEvents = function() {
+                    // handle clicks on purchase links in test mode
+                    $('.lp_purchase-link')
+                    .on('mousedown', function() {handlePurchaseInTestMode(this);})
+                    .on('click', function(e) {e.preventDefault();});
+                },
 
-            xhr = statistic.load_tab();
-            xhr.done(function(data) {
-                if (!data || data === 0) {
-                    return;
-                }
+                bindPostStatisticsEvents = function() {
+                    // toggle visibility of post statistics pane
+                    $('#lp_toggle-post-statistics-visibility')
+                    .on('mousedown', function() {
+                        togglePostStatisticsVisibility();
+                    })
+                    .on('click', function(e) {e.preventDefault();});
 
-                statistic.render(data);
+                    // toggle plugin preview mode between 'preview as visitor' and 'preview as admin'
+                    $('#lp_plugin-preview-mode-form .switch-input')
+                    .on('change', function() {
+                        togglePluginPreviewMode();
+                    });
+                },
 
-                $('body')
-                .on('mousedown', '#lp_toggle-post-statistics-visibility', function(e) {
-                    statistic.event_toggle_visibility(e);
-                })
-                .on('click', '#lp_toggle-post-statistics-visibility', function(e) {
-                    e.preventDefault();
-                })
-                .on('click', '#lp_plugin-preview-mode-form .switch-input', function(e) {
-                    statistic.event_toggle_preview_mode(e);
-                });
-            } );
-        };
+                renderPostStatisticsPane = function() {
+                    var requestVars     = {
+                                            action  : 'laterpay_post_statistic_render',
+                                            post_id : lpVars.post_id
+                                          },
+                        data            = $.get(
+                                            lpVars.ajaxUrl,
+                                            requestVars
+                                          ),
+                        $placeholder    = $('#lp_post-statistics-placeholder'),
+                        $postStatisticsPane;
 
-        statistic.renderSparklines = function() {
-            var $pane = $('.lp_post-statistics');
+                    // render post statistics pane in placeholder
+                    if (!data || data === 0) {
+                        return;
+                    }
+                    $postStatisticsPane = $placeholder.html(data);
 
-            $('.lp_sparkline-bar', $pane).peity('bar', {
-                delimiter   : ';',
-                width       : 182,
-                height      : 42,
-                gap         : 1,
-                fill        : function(value, index, array) {
-                                var date        = new Date(),
-                                    daysCount   = array.length,
-                                    color       = '#999';
-                                date.setDate(date.getDate() - (daysCount - index));
-                                // highlight the last (current) day
-                                if (index === (daysCount - 1))
-                                    color = '#555';
-                                // highlight Saturdays and Sundays
-                                if (date.getDay() === 0 || date.getDay() === 6)
-                                    color = '#c1c1c1';
-                                return color;
-                            }
-            });
+                    // bind events to post statistics pane
+                    bindPostStatisticsEvents();
 
-            $('.lp_sparkline-background-bar', $pane).peity('bar', {
-                delimiter   : ';',
-                width       : 182,
-                height      : 42,
-                gap         : 1,
-                fill        : function() { return '#ddd'; }
-            });
-        };
+                    // render sparklines within post statistics pane
+                    $('.lp_sparkline-bar', $postStatisticsPane).peity('bar', {
+                        delimiter   : ';',
+                        width       : 182,
+                        height      : 42,
+                        gap         : 1,
+                        fill        : function(value, index, array) {
+                                        var date        = new Date(),
+                                            daysCount   = array.length,
+                                            color       = '#999';
+                                        date.setDate(date.getDate() - (daysCount - index));
+                                        // highlight the last (current) day
+                                        if (index === (daysCount - 1))
+                                            color = '#555';
+                                        // highlight Saturdays and Sundays
+                                        if (date.getDay() === 0 || date.getDay() === 6)
+                                            color = '#c1c1c1';
+                                        return color;
+                                    }
+                    });
 
-        statistic.load_tab = function() {
-            var request_vars = {
-                action  : 'laterpay_post_statistic_render',
-                post_id : lpVars.post_id
-            };
+                    $('.lp_sparkline-background-bar', $postStatisticsPane).peity('bar', {
+                        delimiter   : ';',
+                        width       : 182,
+                        height      : 42,
+                        gap         : 1,
+                        fill        : function() { return '#ddd'; }
+                    });
+                },
 
-            return $.get(
-                lpVars.ajaxUrl,
-                request_vars
-            );
-        };
+                togglePostStatisticsVisibility = function() {
+                    var $form       = $('#lp_toggle-post-statistics-visibility-form'),
+                        $pane       = $('.lp_post-statistics'),
+                        $input      = $('#lp_hide-statistics-pane'),
+                        is_hidden   = $pane.hasClass('hidden') ? '0' : '1';
 
-        statistic.save_visibility = function() {
-            var request_vars = $('#lp_toggle-post-statistics-visibility-form').serializeArray();
+                    $input.val(is_hidden);
 
-            return $.post(
-                lpVars.ajaxUrl,
-                request_vars
-            );
-        };
+                    // toggle the visibility
+                    $pane.toggleClass('hidden');
 
-        statistic.save_plugin_mode = function() {
-            var request_vars = $('#lp_plugin-preview-mode-form').serializeArray();
+                    // save the state
+                    $.post(
+                        lpVars.ajaxUrl,
+                        $form.serializeArray()
+                    );
+                },
 
-            return $.post(
-                lpVars.ajaxUrl,
-                request_vars
-            );
-        };
+                togglePluginPreviewMode = function() {
+                    var $form   = $('#lp_plugin-preview-mode-form'),
+                        $toggle = $('.switch-input', $form),
+                        $input  = $('input[name=preview_post]', $form);
 
-        statistic.render = function(data) {
-            var $container = $('#lp_post-statistics-placeholder');
+                    if ($toggle.prop('checked')) {
+                        $input.val(1);
+                    } else {
+                        $input.val(0);
+                    }
 
-            $container.html(data);
-            statistic.renderSparklines();
-        };
+                    // save the state
+                    $.post(
+                        lpVars.ajaxUrl,
+                        $form.serializeArray()
+                    );
+                },
 
-        statistic.event_toggle_visibility = function(e) {
-            e.preventDefault();
+                loadPostContent = function() {
+                    var $pageCachingAnchor  = $('#lp_post-content-placeholder'),
+                        requestVars         = {
+                                                action  : 'laterpay_article_script',
+                                                post_id : $pageCachingAnchor.attr('data-post-id')
+                                              };
 
-            var $pane = $('.lp_post-statistics'),
-                value = $pane.hasClass('hidden') ? '0' : '1',
-                xhr;
+                    $.get(
+                        lpVars.ajaxUrl,
+                        requestVars,
+                        function(data) {
+                            $pageCachingAnchor.before(data).remove();
+                        }
+                    );
+                },
 
-            $('#lp_hide-statistics-pane').val(value);
+                handlePurchaseInTestMode = function(trigger) {
+                    if ($(trigger).data('preview-as-visitor')) {
+                        // show alert instead of loading LaterPay purchase dialogs
+                        alert(lpVars.i18nAlert);
+                    }
+                },
 
-            // toggle the visibility
-            $pane.toggleClass('hidden');
+                initializePage = function() {
+                    // load post content via Ajax, if plugin is in caching compatible mode
+                    // (recognizable by the presence of lp_post-content-placeholder
+                    if ($('#lp_post-content-placeholder').length == 1) {
+                        loadPostContent();
+                    }
 
-            // save the state
-            xhr = statistic.save_visibility();
-            xhr.done(function(data, textStatus, jqXHR) {
-                if (!data || !data.success && lpVars.debug) {
-                    console.error(data);
-                    console.error(textStatus);
-                    console.error(jqXHR);
-                }
-            } );
-        };
+                    // render the post statistics pane, if a placeholder exists for it
+                    if ($('#lp_post-statistics-placeholder').length == 1) {
+                        renderPostStatisticsPane();
+                    }
 
-        statistic.event_toggle_preview_mode = function(e) {
-            e.preventDefault();
+                    bindPurchaseEvents();
+                };
 
-            var $toggle         = $('#lp_plugin-preview-mode-form .switch-input'),
-                $preview_state  = $('#lp_plugin-preview-mode-form input[name=preview_post]'),
-                xhr;
-
-            if ($toggle.prop('checked')) {
-                $preview_state.val(1);
-            } else {
-                $preview_state.val(0);
-            }
-
-            xhr = statistic.save_plugin_mode();
-            xhr.done(function(data, textStatus, jqXHR) {
-                if (data && data.success) {
-                    window.location.reload();
-                } else {
-                    console.error(data);
-                    console.error(textStatus);
-                    console.error(jqXHR);
-                }
-            } );
-        };
-
-        // placeholder found, initialize the statistics pane
-        if ($('#lp_post-statistics-placeholder) {
-            statistic.init();
+            initializePage();
         }
 
+        // initialize page
+        laterPayViewPost();
 
-        // load content via Ajax, if plugin is in page caching compatible mode
-        // (recognizable by the presence of $('#lp_cached-content'))
-        var $pageCachingAnchor = $('#lp_cached-content');
-        if ($pageCachingAnchor.length == 1) {
-            var post_vars = {
-                action  : 'laterpay_article_script',
-                post_id : $pageCachingAnchor.attr('data-post-id')
-            };
+});})(jQuery);
 
-            $.get(
-                lpVars.ajaxUrl,
-                post_vars,
-                function(data) {
-                    $pageCachingAnchor.before(data).remove();
-                }
-            );
-        }
 
-        // handle clicks on purchase buttons in test mode
-        $('body').on('mousedown', '.lp_purchase-link', function(e) {
-            if ($(this).data('preview-as-visitor')) {
-                e.preventDefault();
-                alert(lpVars.i18nAlert);
-            }
-        });
-
-    });
-})(jQuery);
-
-// render LaterPay purchase dialogs using the LaterPay dialog manager library
+// render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
     // render purchase dialogs
     var ppuContext  = {
