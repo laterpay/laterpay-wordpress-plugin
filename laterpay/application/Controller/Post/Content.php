@@ -327,7 +327,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      */
     public function the_purchase_button() {
         // check if the current post is purchasable
-        if ( LaterPay_Helper_Pricing::is_post_purchasable() ) {
+        if ( LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
 
@@ -469,7 +469,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return void
      */
     public function modify_footer() {
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_post_purchasable() ) {
+        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
 
@@ -505,7 +505,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         wp_enqueue_style( 'laterpay-post-view' );
 
         // only enqueue the styles when the current post is purchasable
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_post_purchasable() ) {
+        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
 
@@ -556,7 +556,7 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         );
 
         // only enqueue the scripts when the current post is purchasable
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_post_purchasable() ) {
+        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
 
