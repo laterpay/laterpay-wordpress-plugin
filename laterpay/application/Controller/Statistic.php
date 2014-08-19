@@ -228,7 +228,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         $this->initialize_post_statistics( $post );
-        echo $this->get_text_view( 'frontend/partials/post/statistics' );
+        echo $this->get_text_view( 'frontend/partials/post/post_statistics' );
         exit;
     }
 
