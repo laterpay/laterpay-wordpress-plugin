@@ -42,8 +42,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             exit;
         }
 
-        if ( ! $this->has_access_to_post( $post ) ) {
+        if ( !is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
+            // check for post access only for not logged in users
             exit;
+        }
+        else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ){
+            // if user is logged in and "preview_as_visitor" is activated, return
+           exit;
         }
 
         $content        = apply_filters( 'the_content', $post->post_content );
