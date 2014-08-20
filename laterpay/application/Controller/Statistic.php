@@ -195,21 +195,25 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
     public function ajax_render_tab(){
 
         if( !isset( $_GET[ 'post_id' ] ) ){
-            return;
+            exit;
         }
 
         if( !isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ){
-            return;
+            exit;
+        }
+
+        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ){
+            exit;
         }
 
         $post_id    = absint( $_GET[ 'post_id' ] );
         $post       = get_post( $post_id );
         if( $post === null ){
-            return;
+            exit;
         }
 
         if( !LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-            return;
+            exit;
         }
 
         // assign all required vars to the view templates

@@ -29,7 +29,7 @@ class LaterPay_Core_Bootstrap
      */
     public function run() {
         // load the textdomain
-        $textdomain_path = dirname( plugin_basename( $this->config->plugin_file_path ) ) . $this->config->text_domain_path;
+        $textdomain_path = dirname( $this->config->plugin_base_name ) . $this->config->text_domain_path;
         load_plugin_textdomain(
             'laterpay',
             false,
@@ -116,20 +116,20 @@ class LaterPay_Core_Bootstrap
         // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
         add_shortcode( 'laterpay',                  array( $shortcode_controller, 'render_premium_download_box' ) );
 
-        $post_controller = new LaterPay_Controller_Post_Content( $this->config );
+        $post_controller = new LaterPay_Controller_Post( $this->config );
         // add Ajax hooks for frontend
-        add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_article_script',   array( $post_controller, 'get_cached_post' ) );
-
-        // ajax hooks for post resources
-        $file_helper = new LaterPay_Helper_File();
-        add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
+        add_action( 'wp_ajax_laterpay_post_load_purchased_content',          array( $post_controller, 'ajax_load_purchased_content' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );
 
         // add filters to override post content
         // we're using the filters in ajax-requests, so they've to stay outside the is_admin()"-check
         add_filter( 'the_content',              array( $post_controller, 'modify_post_content' ) );
         add_filter( 'wp_footer',                array( $post_controller, 'modify_footer' ) );
+
+        // ajax hooks for post resources
+        $file_helper = new LaterPay_Helper_File();
+        add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
         $statistic_controller = new LaterPay_Controller_Statistic( $this->config );
         // ajax callback to show the statistic tab
@@ -148,13 +148,14 @@ class LaterPay_Core_Bootstrap
             // prefetch the post_access for loops
             add_filter( 'the_posts',                array( $post_controller, 'prefetch_post_access' ) );
 
+            // register the frontend scripts
+            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_stylesheets' ) );
+            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_scripts' ) );
+
             // setup unique visitors tracking
             add_action( 'template_redirect',                 array( $statistic_controller, 'add_unique_visitors_tracking' ) );
             add_action( 'wp_footer',                         array( $statistic_controller, 'modify_footer' ) );
 
-            // register the frontend scripts
-            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_stylesheets' ) );
-            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_scripts' ) );
         }
 
     }

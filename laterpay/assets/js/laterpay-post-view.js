@@ -5,6 +5,8 @@
 
     $( document).ready( function() {
 
+        "use strict";
+
         var statistic = {};
 
         /**
@@ -27,7 +29,7 @@
                     .on(
                         'mousedown',
                         '#toggle-laterpay-statistics-pane',
-                        function( e ) { statistic.event_toggle_visibility( e ) }
+                        function( e ) { statistic.event_toggle_visibility( e ); }
                     )
                     .on(
                         'click',
@@ -37,7 +39,7 @@
                     .on(
                         'click',
                         '#preview-post-toggle',
-                        function( e ) { statistic.event_toggle_preview_mode( e ) }
+                        function( e ) { statistic.event_toggle_preview_mode( e ); }
                     )
                 ;
 
@@ -62,11 +64,13 @@
                         color       = '#999';
                     date.setDate(date.getDate() - (daysCount - index));
                     // highlight the last (current) day
-                    if (index === (daysCount - 1))
+                    if (index === (daysCount - 1)){
                         color = '#555';
+                    }
                     // highlight Saturdays and Sundays
-                    if (date.getDay() === 0 || date.getDay() === 6)
+                    if (date.getDay() === 0 || date.getDay() === 6){
                         color = '#c1c1c1';
+                    }
                     return color;
                 }
             });
@@ -87,7 +91,8 @@
         statistic.load_tab = function() {
             var request_vars = {
                 action  : 'laterpay_post_statistic_render',
-                post_id : lpVars.post_id
+                post_id : lpVars.post_id,
+                nonce   : lpVars.nonces.statistic
             };
             return $.get(
                 lpVars.ajaxUrl,
@@ -121,7 +126,7 @@
 
         /**
          * render the statistic tab
-         * @param string data
+         * @param data
          * @return void
          */
         statistic.render = function( data ){
@@ -210,35 +215,60 @@
 
     $( document).ready( function(){
 
-        // load content via Ajax, if plugin is in page caching compatible mode
-        // (recognizable by the presence of $('#laterpay-page-caching-mode'))
-        var $pageCachingAnchor = $('#laterpay-page-caching-mode');
-        if ($pageCachingAnchor.length == 1) {
-            var post_vars = {
-                action  : 'laterpay_article_script',
-                post_id : $pageCachingAnchor.attr('data-post-id')
-            };
+        "use strict";
 
-            $.get(
-                lpVars.ajaxUrl,
-                post_vars,
-                function(response) {
-                    $pageCachingAnchor.before(response).remove();
+        var post                = {},
+            $cache_container    = $( '#laterpay-cache-wrapper' )
+        ;
+
+        /**
+         * init function for our post_caching
+         * @return void
+         */
+        post.init = function(){
+            var xhr;
+
+            // handle clicks on purchase buttons in test mode
+            $( 'body' ).on(
+                'click',
+                '.laterpay-purchase-link',
+                function( e ) {
+                    if ( $( this ).data( 'preview-as-visitor' ) ) {
+                        e.preventDefault();
+                        alert( lpVars.i18nAlert );
+                    }
                 }
             );
-        }
 
-        // handle clicks on purchase buttons in test mode
-        $( 'body' ).on(
-            'mousedown',
-            '.laterpay-purchase-link',
-            function( e ) {
-                if ( $( this ).data( 'preview-as-visitor' ) ) {
-                    e.preventDefault();
-                    alert( lpVars.i18nAlert );
+            xhr = post.load_purchased_content();
+            xhr.done( function( data ){
+                if( !data ){
+                    return;
                 }
-            }
-        );
+                $cache_container.html( data );
+            } );
+
+        };
+
+        /**
+         * load purchased content via Ajax, if plugin is in page caching compatible mode
+         * @return jqxhr promise
+         */
+        post.load_purchased_content = function(){
+            var request_vars = {
+                action  : 'laterpay_post_load_purchased_content',
+                post_id : lpVars.post_id,
+                nonce   : lpVars.nonces.content
+            };
+            return $.get(
+                lpVars.ajaxUrl,
+                request_vars
+            );
+        };
+
+        if( lpVars.caching && $cache_container.length > 0 ){
+            post.init();
+        }
 
     } );
 
@@ -257,16 +287,17 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
-    if (lpVars && lpVars.lpBalanceUrl) {
-        new Y.LaterPay.IFrame(
-            Y.one('#laterpay-invoice-indicator'),
-            lpVars.lpBalanceUrl,
-            {
-                width       : '110',
-                height      : '30',
-                scrolling   : 'no',
-                frameborder : '0'
-            }
-        );
+    if ( !lpVars || !lpVars.lpBalanceUrl) {
+        return;
     }
+    new Y.LaterPay.IFrame(
+        Y.one('#laterpay-invoice-indicator'),
+        lpVars.lpBalanceUrl,
+        {
+            width       : '110',
+            height      : '30',
+            scrolling   : 'no',
+            frameborder : '0'
+        }
+    );
 });
