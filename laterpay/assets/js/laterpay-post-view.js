@@ -209,7 +209,7 @@
 
 
 /**
- * post purchase functions activated for caching
+ * post purchase functions for activated caching
  */
 ( function( $ ) {
 
