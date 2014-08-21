@@ -228,7 +228,7 @@
         post_cache.init = function(){
             var xhr;
 
-            xhr = post.load_purchased_content();
+            xhr = post_cache.load_purchased_content();
             xhr.done( function( data ){
                 if( !data ){
                     return;
