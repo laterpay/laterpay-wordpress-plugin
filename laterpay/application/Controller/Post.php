@@ -33,11 +33,21 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $post_id        = absint( $_GET[ 'post_id' ] );
         $post           = get_post( $post_id );
-        $post_content   = $post->post_content;
 
-        $content        = apply_filters( 'the_content', $post_content );
+        if ( $post === null ) {
+            exit;
+        }
+
+        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
+            exit;
+        }
+
+        if ( ! $this->has_access_to_post( $post ) ) {
+            exit;
+        }
+
+        $content        = apply_filters( 'the_content', $post->post_content );
         $content        = str_replace( ']]>', ']]&gt;', $content );
-
         echo $content;
         exit;
     }
