@@ -1,59 +1,46 @@
 /**
- * statistic tab functions
+ * statistics pane functions
  */
-( function( $ ) {
-
-    $( document).ready( function() {
-
-        "use strict";
-
+(function($) {
+    $(document).ready(function() {
         var statistic = {};
 
         /**
          * init function to load the tab and register the events
          * @return void
          */
-        statistic.initialize = function(){
+        statistic.init = function() {
             var xhr;
 
             xhr = statistic.load_tab();
-            xhr.done( function( data ) {
-
-                if( !data || data == 0 ){
+            xhr.done(function(data) {
+                if (!data || data === 0) {
                     return;
                 }
 
-                statistic.render( data );
+                statistic.render(data);
 
                 $('body')
-                    .on(
-                        'mousedown',
-                        '#toggle-laterpay-statistics-pane',
-                        function( e ) { statistic.event_toggle_visibility( e ); }
-                    )
-                    .on(
-                        'click',
-                        '#toggle-laterpay-statistics-pane',
-                        function( e ) { e.preventDefault(); }
-                    )
-                    .on(
-                        'click',
-                        '#preview-post-toggle',
-                        function( e ) { statistic.event_toggle_preview_mode( e ); }
-                    )
-                ;
-
+                .on('mousedown', '#toggle-laterpay-statistics-pane', function(e) {
+                    statistic.event_toggle_visibility(e);
+                })
+                .on('click', '#toggle-laterpay-statistics-pane', function(e) {
+                    e.preventDefault();
+                })
+                .on('click', '#preview-post-toggle', function(e) {
+                    statistic.event_toggle_preview_mode(e);
+                });
             } );
         };
 
         /**
-         * creating the peity diagramms on our statistic tab
+         * render the sparklines in the statistics pane
          * @return void
          */
-        statistic.create_peity = function(){
-            var $pane = $( '#statistics' );
+        statistic.render_sparklines = function() {
+            var $pane = $('#statistics');
 
-            $pane.find( '.bar' ).peity('bar', {
+            $('.bar', $pane).peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -75,7 +62,7 @@
                 }
             });
 
-            $pane.find( '.background-bar' ).peity('bar', {
+            $('.background-bar', $pane).peity('bar', {
                 delimiter   : ';',
                 width       : 182,
                 height      : 42,
@@ -94,6 +81,7 @@
                 post_id : lpVars.post_id,
                 nonce   : lpVars.nonces.statistic
             };
+
             return $.get(
                 lpVars.ajaxUrl,
                 request_vars
@@ -104,8 +92,9 @@
          * ajax request to save the visibility
          * @return xhr promise
          */
-        statistic.save_visibility = function(){
-            var request_vars = $( '#laterpay_hide_statistics_form' ).serializeArray();
+        statistic.save_visibility = function() {
+            var request_vars = $('#laterpay_hide_statistics_form').serializeArray();
+
             return $.post(
                 lpVars.ajaxUrl,
                 request_vars
@@ -117,7 +106,8 @@
          * @return xhr promise
          */
         statistic.save_plugin_mode = function(){
-            var request_vars = $( '#plugin_mode' ).serializeArray();
+            var request_vars = $('#plugin_mode').serializeArray();
+
             return $.post(
                 lpVars.ajaxUrl,
                 request_vars
@@ -125,45 +115,42 @@
         };
 
         /**
-         * render the statistic tab
+         * render the statistics pane
          * @param data
          * @return void
          */
         statistic.render = function( data ){
-            var $container = $( '#laterpay-statistic' );
-            $container.html( data );
-            statistic.create_peity();
+            var $container = $('#laterpay-statistic');
+            $container.html(data);
+            statistic.render_sparklines();
         };
 
         /**
-         * callback to toggle the visibility of the statistic tab
+         * callback to toggle the visibility of the statistics pane
          * @param event
          * @return void
          */
-        statistic.event_toggle_visibility = function( event ){
-            event.preventDefault();
+        statistic.event_toggle_visibility = function(e) {
+            e.preventDefault();
 
-            var $pane = $( '#statistics' ),
-                value = $pane.hasClass( 'hidden' ) ? '0' : '1',
-                xhr
-            ;
+            var $pane = $('#statistics'),
+                value = $pane.hasClass('hidden') ? '0' : '1',
+                xhr;
 
-            $('#laterpay_hide_statistics_pane').val( value );
+            $('#laterpay_hide_statistics_pane').val(value);
 
             // toggle the visibility
             $pane.toggleClass('hidden');
 
-            // saving the state
+            // save the state
             xhr = statistic.save_visibility();
-            xhr.done( function( data, textStatus, jqXHR  ) {
-                if( ( !data || !data.success ) && lpVars.debug ) {
-                    console.error( data );
-                    console.error( textStatus );
-                    console.error( jqXHR );
+            xhr.done(function(data, textStatus, jqXHR) {
+                if ( (!data || !data.success) && lpVars.debug) {
+                    console.error(data);
+                    console.error(textStatus);
+                    console.error(jqXHR);
                 }
             } );
-
-
         };
 
         /**
@@ -171,42 +158,38 @@
          * @param event
          * @return void
          */
-        statistic.event_toggle_preview_mode = function( event ){
-            event.preventDefault();
+        statistic.event_toggle_preview_mode = function(e) {
+            e.preventDefault();
+
             var $toggle         = $( '#preview-post-toggle'),
                 $preview_state  = $( '#preview_post_hidden_input'),
-                xhr
-            ;
+                xhr;
 
-            if ( $toggle.prop( 'checked' ) ) {
-                $preview_state.val( 1 );
-            }
-            else {
-                $preview_state.val( 0 );
+            if ($toggle.prop('checked')) {
+                $preview_state.val(1);
+            } else {
+                $preview_state.val(0);
             }
 
             xhr = statistic.save_plugin_mode();
-            xhr.done( function( data, textStatus, jqXHR ) {
-                if ( data && data.success ) {
+            xhr.done(function(data, textStatus, jqXHR) {
+                if (data && data.success) {
                     window.location.reload();
-                }
-                else {
-                    console.error( data );
-                    console.error( textStatus );
-                    console.error( jqXHR );
+                } else if( lpVars.debug ){
+                    console.error(data);
+                    console.error(textStatus);
+                    console.error(jqXHR);
                 }
             } );
         };
 
-        // placeholder found, initialize the statistic tab
-        if( $( '#laterpay-statistic').length > 0 ) {
-            statistic.initialize();
+        // placeholder found, initialize the statistics pane
+        if ($('#laterpay-statistic').length > 0) {
+            statistic.init();
         }
-
     } );
 
-} )( jQuery );
-
+})(jQuery);
 
 /**
  * post purchase functions for activated caching
@@ -219,7 +202,7 @@
 
         var post_cache          = {},
             $cache_container    = $( '#laterpay-cache-wrapper' )
-        ;
+            ;
 
         /**
          * init function for our post_caching
@@ -229,11 +212,11 @@
             var xhr;
 
             xhr = post_cache.load_purchased_content();
-            xhr.done( function( data ){
+            xhr.done( function(data){
                 if( !data ){
                     return;
                 }
-                $cache_container.html( data );
+                $cache_container.html(data);
             } );
 
         };
@@ -260,8 +243,7 @@
 
     } );
 
-} )( jQuery );
-
+})(jQuery);
 
 // render LaterPay elements using the LaterPay dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {

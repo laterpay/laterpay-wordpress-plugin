@@ -4,36 +4,37 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 {
 
     /**
-     * Requirement-Check for Logging and Rendering the Statistic Tab via Ajax-Callback
+     * Check requirements for logging and rendering the post statistic pane via Ajax callback.
+     *
      * @return bool
      */
-    protected function check_requirements(){
-
-        // Checks if we're on a singular page
-        if( !is_singular() ){
+    protected function check_requirements() {
+        // check if we're on a singular page
+        if ( ! is_singular() ) {
             return false;
         }
 
-        // Checks if we have a post
+        // check if we have a post
         $post = get_post();
         if ( $post === null ) {
             return false;
         }
 
-        // Checks if the current post_type is an allowed post_type
+        // check if the current post_type is an allowed post_type
         if ( ! in_array( $post->post_type, $this->config->get( 'content.allowed_post_types' ) ) ) {
             return false;
         }
 
-        // Checks if the current post is a purchasable post
-        if( !LaterPay_Helper_Pricing::is_post_purchasable() ){
+        // check if the current post is purchasable
+        if ( ! LaterPay_Helper_Pricing::is_purchasable() ){
             return false;
         }
 
-        // Check if the logging is enabled
-        if( !$this->config->get( 'logging.access_logging_enabled' ) ) {
+        // check if logging is enabled
+        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
             return false;
         }
+
         return true;
     }
 
@@ -41,11 +42,11 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 	 * Track unique visitors.
 	 *
      * @wp-hook template_redirect
-	 * @return  void
+     *
+	 * @return void
 	 */
 	public function add_unique_visitors_tracking() {
-
-        if( !$this->check_requirements() ){
+        if ( ! $this->check_requirements() ) {
             return;
         }
 
@@ -55,22 +56,22 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 	}
 
     /**
-     * Callback to add the statistic placeholder to footer
+     * Callback to add the statistics placeholder to the footer.
      *
      * @wp-hook wp_footer
+     *
      * @return void
      */
-    public function modify_footer(){
-
-        if( !$this->check_requirements() ){
+    public function modify_footer() {
+        if ( ! $this->check_requirements() ) {
             return;
         }
 
         /**
-         * Check if caching is not active and user is not logged in, than don't add the statistic tab to footer
-         * otherwise, when caching is enabled, we have to check this on backend via ajax
+         * don't add the statistics pane to the footer, if caching is disabled or user is not logged in;
+         * if caching is enabled, we have to check this on the backend via Ajax
          */
-        if( !$this->config->get( 'caching.compatible_mode' ) && !LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
+        if ( ! $this->config->get( 'caching.compatible_mode' ) && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
             return;
         }
 
@@ -78,30 +79,32 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Ajax-Callback to toggle the preview mode of the post
+     * Ajax callback to toggle the preview mode of the post.
+     *
      * @wp-hook wp_ajax_laterpay_post_statistic_toggle_preview
+     *
      * @return void
      */
-    public function ajax_toggle_preview(){
-
+    public function ajax_toggle_preview() {
         $error = array(
             'success' => false,
             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
         );
 
-        // checking the admin-referer
-        if( !check_admin_referer( 'laterpay_form' ) ) {
+        // check the admin referer
+        if ( ! check_admin_referer( 'laterpay_form' ) ) {
             $error[ 'code' ] = 1;
             wp_send_json( $error );
         }
 
-        if ( !isset( $_POST[ 'preview_post' ] ) ) {
+        if ( ! isset( $_POST[ 'preview_post' ] ) ) {
             $error[ 'code' ] = 2;
             wp_send_json( $error );
         }
 
+        // check if we have a valid user
         $current_user = wp_get_current_user();
-        if ( !is_a( $current_user, 'WP_User' ) ) {
+        if ( ! is_a( $current_user, 'WP_User' ) ) {
             $error[ 'code' ] = 3;
             wp_send_json( $error );
         }
@@ -118,7 +121,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             $_POST[ 'preview_post' ]
         );
 
-        if( !$result ) {
+        if ( ! $result ) {
             $error[ 'code' ] = 5;
             wp_send_json( $error );
         }
@@ -129,35 +132,35 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
                 'message' => __( 'Updated.', 'laterpay' )
             )
         );
-
     }
 
     /**
-     * Ajax-Callback to toggle the visibility of the tab
+     * Ajax callback to toggle the visibility of the statistics pane.
+     *
      * @wp-hook wp_ajax_laterpay_post_statistic_visibility
+     *
      * @return void
      */
-    public function ajax_toggle_visibility(){
-
+    public function ajax_toggle_visibility() {
         $error = array(
             'success'   => false,
             'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' )
         );
 
-        // checking the admin-referer
-        if( !check_admin_referer( 'laterpay_form' ) ) {
+        // check the admin referer
+        if ( ! check_admin_referer( 'laterpay_form' ) ) {
             $error[ 'code' ] = 1;
             wp_send_json( $error );
         }
 
-        if ( !isset( $_POST[ 'hide_statistics_pane' ] ) ) {
+        if ( ! isset( $_POST[ 'hide_statistics_pane' ] ) ) {
             $error[ 'code' ] = 2;
             wp_send_json( $error );
         }
 
-        // getting the current user
+        // check if we have a valid user
         $current_user = wp_get_current_user();
-        if ( !is_a( $current_user, 'WP_User' ) ) {
+        if ( ! is_a( $current_user, 'WP_User' ) ) {
             $error[ 'code' ] = 3;
             wp_send_json( $error );
         }
@@ -174,7 +177,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             (bool) $_POST['hide_statistics_pane']
         );
 
-        if( !$result ) {
+        if ( ! $result ) {
             $error[ 'code' ] = 5;
             wp_send_json( $error );
         }
@@ -188,8 +191,10 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Ajax-Callback to render the statistic tab
+     * Ajax callback to render the statistics pane.
+     *
      * @wp-hook wp_ajax_laterpay_post_statistic_render
+     *
      * @return void
      */
     public function ajax_render_tab(){
@@ -216,7 +221,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             exit;
         }
 
-        // assign all required vars to the view templates
+        // assign variables
         $view_args = array(
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
             'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
@@ -225,18 +230,19 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $this->initialize_post_statistic( $post );
+        $this->initialize_post_statistics( $post );
         echo $this->get_text_view( 'frontend/partials/post/statistics' );
         exit;
     }
 
     /**
      * Generate performance data statistics for post.
+     *
      * @param WP_Post $post
+     *
      * @return void
      */
-    protected function initialize_post_statistic( WP_Post $post ) {
-
+    protected function initialize_post_statistics( WP_Post $post ) {
         // get currency
         $currency = get_option( 'laterpay_currency' );
 
@@ -315,7 +321,4 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 
         $this->assign( 'statistic', $statistic_args );
     }
-
-
-
 }

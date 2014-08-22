@@ -6,22 +6,22 @@ class LaterPay_Helper_Pricing
     const META_KEY = 'laterpay_post_prices';
 
     /**
-     * Helper function to check if the current or a given post is purchasable.
+     * Check if the current post or a given post is purchasable.
      *
      * @param null|WP_Post $post
      *
      * @return bool true|false
      */
-    public static function is_post_purchasable( $post = null ) {
+    public static function is_purchasable( $post = null ) {
         if ( ! is_a( $post, 'WP_POST' ) ) {
-            // loading the current post in $GLOBAL['post']
+            // load the current post in $GLOBAL['post']
             $post = get_post();
             if ( $post === null ) {
                 return false;
             }
         }
 
-        // checks if the current post price is not 0
+        // check if the current post price is not 0
         $price = self::get_post_price( $post->ID );
         if ( $price == 0 ) {
             return false;
@@ -29,7 +29,6 @@ class LaterPay_Helper_Pricing
 
         return true;
     }
-
 
     /**
      * Return all posts that have a price applied.
