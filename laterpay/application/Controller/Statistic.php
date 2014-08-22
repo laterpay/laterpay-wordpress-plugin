@@ -202,10 +202,6 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         if( !isset( $_GET[ 'post_id' ] ) ){
             exit;
         }
-        
-        if ( ! isset( $_GET[ 'post_id' ] ) ) {
-            return;
-        }
 
         if( !isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ){
             exit;
@@ -222,7 +218,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         }
 
         if( !LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-            return;
+            exit;
         }
 
         // assign variables

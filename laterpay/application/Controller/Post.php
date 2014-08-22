@@ -38,17 +38,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             exit;
         }
 
-        if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-            exit;
-        }
-
         if ( !is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
             // check for post access only for not logged in users
             exit;
         }
         else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ){
             // if user is logged in and "preview_as_visitor" is activated, return
-           exit;
+            exit;
         }
 
         $content        = apply_filters( 'the_content', $post->post_content );
@@ -412,6 +408,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // get purchase link
         $purchase_link = $this->get_laterpay_purchase_link( $post_id );
 
+        // teaser content
+        $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+
+        // output states
         // teaser content
         $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
 
