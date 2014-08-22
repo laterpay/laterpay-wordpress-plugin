@@ -8,7 +8,7 @@ class LaterPay_Core_Bootstrap
 {
 
     /**
-     * Contains all settings for the plugin
+     * Contains all settings for the plugin.
      * @var LaterPay_Model_Config
      */
     private $config;
@@ -154,9 +154,6 @@ class LaterPay_Core_Bootstrap
             add_action( 'template_redirect',                    array( $statistic_controller, 'add_unique_visitors_tracking' ) );
             add_action( 'wp_footer',                            array( $statistic_controller, 'modify_footer' ) );
 
-            // register the frontend scripts
-            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_stylesheets' ) );
-            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_scripts' ) );
         }
     }
 
