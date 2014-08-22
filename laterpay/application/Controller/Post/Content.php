@@ -496,9 +496,15 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             array(),
             $this->config->version
         );
+
+        $laterpay_src = 'https://lpstatic.net/';
+        if ( $this->config->get( 'script_debug_mode' ) ){
+            $laterpay_src = 'https://sandbox.lpstatic.net/';
+        }
+
         wp_register_style(
             'laterpay-dialogs',
-            'https://static.sandbox.laterpaytest.net/webshell_static/client/1.0.0/laterpay-dialog/css/dialog.css'
+            $laterpay_src . 'client/1.0.0/laterpay-dialog/css/dialog.css'
         );
 
         // always enqueue 'laterpay-post-view' to ensure that shortcode [laterpay_premium_download] has styling
