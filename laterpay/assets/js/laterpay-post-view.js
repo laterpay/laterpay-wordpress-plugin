@@ -37,7 +37,7 @@
          * render the sparklines in the statistics pane
          * @return void
          */
-        statistic.renderSparklines = function() {
+        statistic.render_sparklines = function() {
             var $pane = $('#statistics');
 
             $('.bar', $pane).peity('bar', {
@@ -46,18 +46,20 @@
                 height      : 42,
                 gap         : 1,
                 fill        : function(value, index, array) {
-                                var date        = new Date(),
-                                    daysCount   = array.length,
-                                    color       = '#999';
-                                date.setDate(date.getDate() - (daysCount - index));
-                                // highlight the last (current) day
-                                if (index === (daysCount - 1))
-                                    color = '#555';
-                                // highlight Saturdays and Sundays
-                                if (date.getDay() === 0 || date.getDay() === 6)
-                                    color = '#c1c1c1';
-                                return color;
-                            }
+                    var date        = new Date(),
+                        daysCount   = array.length,
+                        color       = '#999';
+                    date.setDate(date.getDate() - (daysCount - index));
+                    // highlight the last (current) day
+                    if (index === (daysCount - 1)){
+                        color = '#555';
+                    }
+                    // highlight Saturdays and Sundays
+                    if (date.getDay() === 0 || date.getDay() === 6){
+                        color = '#c1c1c1';
+                    }
+                    return color;
+                }
             });
 
             $('.background-bar', $pane).peity('bar', {
@@ -76,7 +78,8 @@
         statistic.load_tab = function() {
             var request_vars = {
                 action  : 'laterpay_post_statistic_render',
-                post_id : lpVars.post_id
+                post_id : lpVars.post_id,
+                nonce   : lpVars.nonces.statistic
             };
 
             return $.get(
@@ -113,13 +116,13 @@
 
         /**
          * render the statistics pane
-         * @param string data
+         * @param data
          * @return void
          */
         statistic.render = function( data ){
             var $container = $('#laterpay-statistic');
             $container.html(data);
-            statistic.renderSparklines();
+            statistic.render_sparklines();
         };
 
         /**
@@ -142,7 +145,7 @@
             // save the state
             xhr = statistic.save_visibility();
             xhr.done(function(data, textStatus, jqXHR) {
-                if (!data || !data.success && lpVars.debug) {
+                if ( (!data || !data.success) && lpVars.debug) {
                     console.error(data);
                     console.error(textStatus);
                     console.error(jqXHR);
@@ -172,7 +175,7 @@
             xhr.done(function(data, textStatus, jqXHR) {
                 if (data && data.success) {
                     window.location.reload();
-                } else {
+                } else if( lpVars.debug ){
                     console.error(data);
                     console.error(textStatus);
                     console.error(jqXHR);
@@ -188,63 +191,102 @@
 
 })(jQuery);
 
-
 /**
- * purchase functions
+ * post purchase functions for activated caching
  */
-(function($) {
-    $(document).ready(function() {
-        // load content via Ajax, if plugin is in page caching compatible mode
-        // (recognizable by the presence of $('#laterpay-page-caching-mode'))
-        var $pageCachingAnchor = $('#laterpay-page-caching-mode');
-        if ($pageCachingAnchor.length == 1) {
-            var post_vars = {
-                action  : 'laterpay_article_script',
-                post_id : $pageCachingAnchor.attr('data-post-id')
-            };
+( function( $ ) {
 
-            $.get(
-                lpVars.ajaxUrl,
-                post_vars,
-                function(response) {
-                    $pageCachingAnchor.before(response).remove();
+    $( document).ready( function(){
+
+        "use strict";
+
+        var post_cache          = {},
+            $cache_container    = $( '#laterpay-cache-wrapper' )
+            ;
+
+        /**
+         * init function for our post_caching
+         * @return void
+         */
+        post_cache.init = function(){
+            var xhr;
+
+            xhr = post_cache.load_purchased_content();
+            xhr.done( function(data){
+                if( !data ){
+                    return;
                 }
+                $cache_container.html(data);
+            } );
+
+        };
+
+        /**
+         * load purchased content via Ajax, if plugin is in page caching compatible mode
+         * @return jqxhr promise
+         */
+        post_cache.load_purchased_content = function(){
+            var request_vars = {
+                action  : 'laterpay_post_load_purchased_content',
+                post_id : lpVars.post_id,
+                nonce   : lpVars.nonces.content
+            };
+            return $.get(
+                lpVars.ajaxUrl,
+                request_vars
             );
+        };
+
+        if( lpVars.caching && $cache_container.length > 0 ){
+            post_cache.init();
         }
 
-        // handle clicks on purchase buttons in test mode
-        $('body').on('mousedown', '.laterpay-purchase-link', function(e) {
-            if ($(this).data('preview-as-visitor')) {
-                e.preventDefault();
-                alert(lpVars.i18nAlert);
-            }
-        });
+    } );
 
-    });
 })(jQuery);
 
 // render LaterPay elements using the LaterPay dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
     // render purchase dialogs
-    var ppuContext  = {
-                        showCloseBtn: true,
-                        canSkipAddToInvoice: false
-                    },
-        dm          = new Y.LaterPay.DialogManager();
+    var $purchase_link  = Y.one( '.laterpay-purchase-link' ),
+        ppuContext      = {
+            showCloseBtn: true,
+            canSkipAddToInvoice: false
+        },
+        dm              = new Y.LaterPay.DialogManager();
 
-        dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
+    if ( ! $purchase_link ){
+        // no purchase-link found, so we've not to register the dialog
+        return;
+    }
+
+    if( $purchase_link.getData( 'preview-as-visitor' ) ){
+        // preview as visitor on testing mode for logged in user isset, attach event to purchase link and return
+        Y.one( Y.config.doc ).delegate(
+            'click',
+            function( event ){
+                event.preventDefault();
+                alert( lpVars.i18nAlert );
+            },
+            '.laterpay-purchase-link'
+        );
+        return;
+    }
+
+    dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
-    if (lpVars && lpVars.lpBalanceUrl) {
-        new Y.LaterPay.IFrame(
-            Y.one('#laterpay-invoice-indicator'),
-            lpVars.lpBalanceUrl,
-            {
-                width       : '110',
-                height      : '30',
-                scrolling   : 'no',
-                frameborder : '0'
-            }
-        );
+    if ( !lpVars || !lpVars.lpBalanceUrl) {
+        return;
     }
+    new Y.LaterPay.IFrame(
+        Y.one('#laterpay-invoice-indicator'),
+        lpVars.lpBalanceUrl,
+        {
+            width       : '110',
+            height      : '30',
+            scrolling   : 'no',
+            frameborder : '0'
+        }
+    );
 });
