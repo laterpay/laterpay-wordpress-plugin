@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+/**
+ * this template is used for do_action( 'laterpay_purchase_button' );
+ */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+?>
 
 <a href="#"
     class="laterpay-purchase-link laterpay-purchase-button"

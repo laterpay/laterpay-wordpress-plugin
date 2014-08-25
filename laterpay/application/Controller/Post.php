@@ -343,15 +343,16 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function the_purchase_button() {
+
         // check if the current post is purchasable
-        if ( LaterPay_Helper_Pricing::is_purchasable() ) {
+        if ( !LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
 
         $post = get_post();
 
         // check if the current post was already purchased
-        if ( ! $this->has_access_to_post( $post ) ) {
+        if ( $this->has_access_to_post( $post ) ) {
             return;
         }
 
