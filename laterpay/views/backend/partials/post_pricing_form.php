@@ -20,7 +20,7 @@
     </p>
 </div>
 
-<div id="laterpay-price-type"<?php if ( in_array( $laterpay_post_price_type, LaterPay_Helper_Pricing::TYPE_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE ) ) { echo ' class="expanded"'; } ?>>
+<div id="laterpay-price-type"<?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE ) ) ) { echo ' class="expanded"'; } ?>>
      <ul class="lp-toggle clearfix">
         <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'selected'; } ?>">
             <a href="#" id="use-individual-price" class="use-individual-price"><?php _e( 'Individual Price', 'laterpay' ); ?></a>
