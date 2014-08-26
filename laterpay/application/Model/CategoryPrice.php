@@ -10,7 +10,7 @@ class LaterPay_Model_CategoryPrice
      *
      * @access public
      */
-    public $table;
+    public $term_table;
 
     /**
      * Name of prices table.
@@ -26,9 +26,8 @@ class LaterPay_Model_CategoryPrice
      */
     function __construct() {
         global $wpdb;
-
-        $this->table = $wpdb->prefix . 'terms';
-        $this->table_prices = $wpdb->prefix . 'laterpay_terms_price';
+        $this->term_table = $wpdb->terms;
+        $this->term_table_prices = $wpdb->prefix . 'laterpay_terms_price';
     }
 
     /**
@@ -38,16 +37,15 @@ class LaterPay_Model_CategoryPrice
      */
     public function get_categories_with_defined_price() {
         global $wpdb;
-
         $sql = "
             SELECT
                 tm.name AS category_name,
                 tm.term_id AS category_id,
                 tp.price AS category_price
             FROM
-                {$this->table} AS tm
+                {$this->term_table} AS tm
                 LEFT JOIN
-                    {$this->table_prices} AS tp
+                    {$this->term_table_prices} AS tp
                 ON
                     tp.term_id = tm.term_id
             WHERE
@@ -80,9 +78,9 @@ class LaterPay_Model_CategoryPrice
                 tm.term_id AS category_id,
                 tp.price AS category_price
             FROM
-                {$this->table} AS tm
+                {$this->term_table} AS tm
                 LEFT JOIN
-                    {$this->table_prices} AS tp
+                    {$this->term_table_prices} AS tp
                 ON
                     tp.term_id = tm.term_id
             WHERE
@@ -119,9 +117,9 @@ class LaterPay_Model_CategoryPrice
                 tp.term_id AS id,
                 tm.name AS text
             FROM
-                {$this->table} AS tm
+                {$this->term_table} AS tm
                 LEFT JOIN
-                    {$this->table_prices} AS tp
+                    {$this->term_table_prices} AS tp
                 ON
                     tp.term_id = tm.term_id
             WHERE
@@ -139,7 +137,6 @@ class LaterPay_Model_CategoryPrice
             ;
         ";
         $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ) );
-
         return $categories;
     }
 
@@ -160,7 +157,7 @@ class LaterPay_Model_CategoryPrice
                 tm.term_id AS id,
                 tm.name AS text
             FROM
-                {$this->table} AS tm
+                {$this->term_table} AS tm
             WHERE
                 tm.name LIKE %s
             ORDER BY
@@ -170,7 +167,6 @@ class LaterPay_Model_CategoryPrice
             ;
         ";
         $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ) );
-
         return $categories;
     }
 
@@ -188,7 +184,7 @@ class LaterPay_Model_CategoryPrice
 
         if ( ! empty( $id ) ) {
             return $wpdb->update(
-                $this->table_prices,
+                $this->term_table_prices,
                 array(
                     'term_id'   => $id_category,
                     'price'     => $price,
@@ -202,7 +198,7 @@ class LaterPay_Model_CategoryPrice
             );
         } else {
 	        return $wpdb->insert(
-                $this->table_prices,
+                $this->term_table_prices,
                 array(
                     'term_id'   => $id_category,
                     'price'     => $price,
@@ -229,7 +225,7 @@ class LaterPay_Model_CategoryPrice
             SELECT
                 id
             FROM
-                {$this->table_prices}
+                {$this->term_table_prices}
             WHERE
                 term_id = %d
             ;
@@ -257,7 +253,7 @@ class LaterPay_Model_CategoryPrice
             SELECT
                 price
             FROM
-                {$this->table_prices}
+                {$this->term_table_prices}
             WHERE
                 term_id = %d
             ;
@@ -269,34 +265,6 @@ class LaterPay_Model_CategoryPrice
         }
 
         return $price->price;
-    }
-
-    /**
-     * Get category id by category name.
-     *
-     * @param string @name name category
-     *
-     * @return integer category id
-     */
-    public function get_category_id_by_name( $name ) {
-        global $wpdb;
-
-        $sql = "
-            SELECT
-                term_id AS id
-            FROM
-                {$this->table}
-            WHERE
-                name = %s
-            ;
-        ";
-        $category = $wpdb->get_row( $wpdb->prepare( $sql, $name ) );
-
-        if ( empty( $category ) ) {
-            return null;
-        }
-
-        return $category->id;
     }
 
     /**
@@ -313,9 +281,9 @@ class LaterPay_Model_CategoryPrice
             SELECT
                 tm.term_id AS id
             FROM
-                {$this->table} AS tm
+                {$this->term_table} AS tm
                 RIGHT JOIN
-                    {$this->table_prices} AS tp
+                    {$this->term_table_prices} AS tp
                 ON
                     tm.term_id = tp.term_id
             WHERE
@@ -345,7 +313,7 @@ class LaterPay_Model_CategoryPrice
 		    'term_id' => (int) $id
 	    );
 
-	    return $wpdb->delete( $this->table_prices, $where, '%d' );
+	    return $wpdb->delete( $this->term_table_prices, $where, '%d' );
     }
 
 }

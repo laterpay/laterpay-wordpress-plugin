@@ -135,7 +135,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
                 if ( $value !== '' ) {
                     // migrate old data: if post_pricing is '0' or '1', set it to 'individual price'
                     if ( $old_meta_key === 'laterpay_post_pricing_type' && in_array( $value, array( '0', '1' ) ) ) {
-                        $value = 'individual price';
+                        $value = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
                     }
 
                     // add the meta_value to the new postmeta array
