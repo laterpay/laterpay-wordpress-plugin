@@ -109,11 +109,11 @@ class LaterPay_Helper_Pricing
         foreach( $post_ids as $post_id ){
             $post_price = get_post_meta( $post_id, self::META_KEY, true );
             if ( ! is_array( $post_price ) ) {
-                $post_price = array();
+                continue;
             }
 
             // check if the post uses a global default price
-            if ( $post_price[ 'type' ] !== self::TYPE_DEFAULT_PRICE ) {
+            if ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== self::TYPE_DEFAULT_PRICE ) {
                 continue;
             }
 
