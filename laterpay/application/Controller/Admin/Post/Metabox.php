@@ -270,20 +270,20 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 		}
 
 		switch ( $post_price_type ) {
-			case 'individual price':
+			case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
 				$price = $post_specific_price;
 				break;
 
-			case 'individual price, dynamic':
+			case LaterPay_Helper_Pricing::TYPE_DYNAMIC_PRICE:
 				// current price
 				$price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_prices );
 				break;
 
-			case 'category default price':
+			case LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE:
 				$price = $category_default_price;
 				break;
 
-			case 'global default price':
+			case LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE:
 				$price = $global_default_price;
 				break;
 
@@ -291,10 +291,10 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 				// new posts should use the global default price or 0, if there's no global default price
 				if ( is_null( $global_default_price ) ) {
 					$price =  0.00;
-					$post_price_type = 'individual price';
+					$post_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
 				} else {
 					$price = $global_default_price;
-					$post_price_type = 'global default price';
+					$post_price_type = LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE;
 				}
 				break;
 		}
@@ -391,19 +391,19 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         // apply global default price, if pricing type is not defined
         if ( ! isset( $_POST[ 'post_price_type' ] ) ) {
-            $type = 'global default price';
+            $type = LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE;
         } else {
             $type = $_POST[ 'post_price_type' ];
         }
         $meta_values[ 'type' ] = stripslashes( $_POST[ 'post_price_type' ] );
 
         // apply (static) individual price
-        if ( $type === 'individual price' && isset( $_POST['post-price'] ) ) {
+        if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE && isset( $_POST['post-price'] ) ) {
             $meta_values[ 'price' ] = (float) str_replace( ',', '.', $_POST[ 'post-price' ] );
         }
 
         // apply dynamic individual price
-        if ( $type === 'individual price, dynamic' ) {
+        if ( $type === LaterPay_Helper_Pricing::TYPE_DYNAMIC_PRICE ) {
             if ( isset( $_POST[ 'laterpay_start_price' ] ) ) {
                 $meta_values[ 'start_price' ] = stripslashes( $_POST[ 'laterpay_start_price' ] );
             }
@@ -426,7 +426,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         }
 
         // apply category default price of given category
-        if ( $type === 'category default price' ) {
+        if ( $type === LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE ) {
             if ( isset( $_POST[ 'laterpay_post_default_category' ] ) ) {
                 $category_id = stripslashes( $_POST[ 'laterpay_post_default_category' ] );
                 $meta_values[ 'category_id' ] = absint( $category_id );
