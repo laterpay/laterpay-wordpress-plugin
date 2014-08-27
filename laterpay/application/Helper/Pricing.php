@@ -42,7 +42,7 @@ class LaterPay_Helper_Pricing
      */
     public static function get_all_posts_with_price() {
         $post_args = array(
-            'meta_query'        => array( array( 'meta_key' => self::META_KEY ) ),
+            'meta_query'        => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
             'posts_per_page'    => '-1',
         );
         $posts = get_posts( $post_args );
@@ -61,7 +61,7 @@ class LaterPay_Helper_Pricing
         $config     = laterpay_get_plugin_config();
         $post_args  = array(
             'fields'            => 'ids',
-            'meta_query'        => array( array( 'meta_key' => self::META_KEY ) ),
+            'meta_query'        => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
             'cat'               => $category_id,
             'posts_per_page'    => '-1',
             'post_type'         => $config->get( 'content.allowed_post_types' ),
@@ -90,9 +90,9 @@ class LaterPay_Helper_Pricing
         }
 
         $post_prices = array();
-        $post_prices[ 'type' ] = self::TYPE_DEFAULT_PRICE;
+        $post_prices[ 'type' ] = LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE;
 
-        return update_post_meta( $post_id, self::META_KEY, $post_prices );
+        return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_prices );
     }
 
 
@@ -107,13 +107,13 @@ class LaterPay_Helper_Pricing
         $post_ids           = self::get_post_ids_with_price_by_category_id( $category_id );
 
         foreach( $post_ids as $post_id ){
-            $post_price = get_post_meta( $post_id, self::META_KEY, true );
+            $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
             if ( ! is_array( $post_price ) ) {
                 continue;
             }
 
             // check if the post uses a global default price
-            if ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== self::TYPE_DEFAULT_PRICE ) {
+            if ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE ) {
                 continue;
             }
 
@@ -147,11 +147,11 @@ class LaterPay_Helper_Pricing
         }
 
         $post_price = array(
-            'type'          => self::TYPE_CATEGORY_PRICE,
+            'type'          => LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE,
             'category_id'   => (int) $category_id
         );
 
-        return update_post_meta( $post_id, self::META_KEY, $post_price );
+        return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_price );
     }
 
     /**
@@ -173,7 +173,7 @@ class LaterPay_Helper_Pricing
         }
 
         $post = get_post( $post_id );
-        $post_prices = get_post_meta( $post_id, self::META_KEY, true );
+        $post_prices = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
         if ( ! is_array( $post_prices ) ) {
             $post_prices = array();
         }
@@ -181,20 +181,20 @@ class LaterPay_Helper_Pricing
         $category_id        = array_key_exists( 'category_id', $post_prices ) ? $post_prices[ 'category_id' ] : '';
 
         switch ( $post_price_type ) {
-            case self::TYPE_INDIVIDUAL_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
                 $price = array_key_exists( 'price', $post_prices ) ? $post_prices[ 'price' ] : '';
                 break;
 
-            case self::TYPE_DYNAMIC_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_DYNAMIC_PRICE:
                 $price = self::get_dynamic_price( $post, $post_prices );
                 break;
 
-            case self::TYPE_CATEGORY_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE:
                 $LaterPay_Category_Model    = new LaterPay_Model_CategoryPrice();
                 $price                      = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
                 break;
 
-            case self::TYPE_DEFAULT_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE:
                 $price = $global_default_price;
                 break;
 
