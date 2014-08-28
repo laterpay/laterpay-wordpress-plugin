@@ -73,33 +73,57 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
     /**
-     * Update the existing postmeta meta_keys when current_version < 0.9.7
+     * Update the existing postmeta meta_keys when the new version is greater than or equal 0.9.7
      *
+     * @since 0.9.7
      * @wp-hook admin_notices
-     *
      * @return void
      */
     public function maybe_update_meta_keys() {
         global $wpdb;
 
-        $current_version = get_option('laterpay_version');
-        if ( version_compare( $current_version, '0.9.7', '>=' ) ) {
-            return;
+        // checks, if the current version is greater than or equal 0.9.7
+        if ( version_compare( $this->config->get( 'version' ), '0.9.7', '>=' ) ) {
+
+            // map old values to new ones
+            $meta_key_mapping = array(
+                'Teaser content'    => 'laterpay_post_teaser',
+                'Pricing Post'      => 'laterpay_post_pricing',
+                'Pricing Post Type' => 'laterpay_post_pricing_type'
+            );
+
+            $sql = "UPDATE " . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
+
+            foreach( $meta_key_mapping as $before => $after ) {
+                $prepared_sql = $wpdb->prepare( $sql, array( $after, $before ) );
+                $wpdb->query( $prepared_sql );
+            }
+
+        }
+    }
+
+    /**
+     * Updating the existing currency-Option to EUR when new version is greater than or equal 0.9.8
+     *
+     * @since 0.9.8
+     * @wp-hook admin_notices
+     * @return void
+     */
+    public function maybe_update_currency_to_euro(){
+        global $wpdb;
+
+        // checks, if the current version is greater than or equal 0.9.8
+        if ( version_compare( $this->config->get( 'version' ), '0.9.8', '>=' ) ) {
+
+            // updating the currency to default currency 'EUR'
+            update_option( 'laterpay_currency', $this->config->get( 'currency.default' ) );
+
+            // removing currency-table
+            $sql = 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'laterpay_currency';
+            $wpdb->query( $sql );
+
         }
 
-        // map old values to new ones
-        $meta_key_mapping = array(
-            'Teaser content'    => 'laterpay_post_teaser',
-            'Pricing Post'      => 'laterpay_post_pricing',
-            'Pricing Post Type' => 'laterpay_post_pricing_type'
-        );
-
-        $sql = "UPDATE " . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
-
-        foreach( $meta_key_mapping as $before => $after ) {
-            $prepared_sql = $wpdb->prepare( $sql, array( $after, $before ) );
-            $wpdb->query( $prepared_sql );
-        }
     }
 
     /**
@@ -170,19 +194,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-		$table_currency     = $wpdb->prefix . 'laterpay_currency';
 		$table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
 		$table_history      = $wpdb->prefix . 'laterpay_payment_history';
 		$table_post_views   = $wpdb->prefix . 'laterpay_post_views';
-
-		$sql = "
-            CREATE TABLE $table_currency (
-                id            INT(10)         NOT NULL AUTO_INCREMENT,
-                short_name    VARCHAR(3)      NOT NULL,
-                full_name     VARCHAR(64)     NOT NULL,
-                PRIMARY KEY  (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-		dbDelta( $sql );
 
 		$sql = "
             CREATE TABLE $table_terms_price (
@@ -218,24 +232,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
 		dbDelta( $sql );
 
-		// seed currency table
-		$wpdb->replace(
-			$table_currency,
-			array(
-				'id'            => 1,
-				'short_name'    => 'USD',
-				'full_name'     => 'U.S. dollar',
-			)
-		);
-		$wpdb->replace(
-			$table_currency,
-			array(
-				'id'            => 2,
-				'short_name'    => 'EUR',
-				'full_name'     => 'Euro',
-			)
-		);
-
 		add_option( 'laterpay_teaser_content_only',      '1' );
 		add_option( 'laterpay_plugin_is_in_live_mode',   '0' );
 		add_option( 'laterpay_sandbox_merchant_id',      '' );
@@ -244,7 +240,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		add_option( 'laterpay_live_api_key',             '' );
 		add_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
 		add_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
-		update_option( 'laterpay_version',               $this->config->version );
+
+        // keep the plugin-version up to date.
+        update_option( 'laterpay_version',               $this->config->get( 'version' ) );
+
         // option 'laterpay_plugin_is_activated' is set to empty on installation, to be able to tell between a fresh
         // installation and an activated but deactivated installation, to lead the user through the get started process,
         // if it is a fresh installation

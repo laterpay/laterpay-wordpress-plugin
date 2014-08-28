@@ -1,25 +1,24 @@
 <?php
 
-class LaterPay_Model_Currency
-{
+class LaterPay_Model_Currency {
 
     /**
-     * Name of currency table.
-     *
-     * @var string
-     *
-     * @access public
+     * Array which contains all currencies
+     * @var array
      */
-    public $table;
+    protected $currencies = array(
+        array(
+            'id'            => 2,
+            'short_name'    => 'EUR',
+            'full_name'     => 'Euro',
+        )
+    );
 
     /**
-     * Constructor for class LaterPay_Currency_Model, load table name.
+     * Constructor for class LaterPay_Currency_Model
+     * @return LaterPay_Model_Currency
      */
-    function __construct() {
-        global $wpdb;
-
-        $this->table = $wpdb->prefix . 'laterpay_currency';
-    }
+    function __construct() { }
 
     /**
      * Get currencies.
@@ -27,11 +26,7 @@ class LaterPay_Model_Currency
      * @return array currencies
      */
     public function get_currencies() {
-        global $wpdb;
-
-        $currencies = $wpdb->get_results( "SELECT * FROM {$this->table}" );
-
-        return $currencies;
+        return $this->currencies;
     }
 
     /**
@@ -39,23 +34,22 @@ class LaterPay_Model_Currency
      *
      * @param string $name ISO 4217 currency code
      *
-     * @return array currencies
+     * @return int|null $currency_id
      */
     public function get_currency_id_by_iso4217_code( $name ) {
-        global $wpdb;
 
-        $sql = "
-            SELECT
-                id
-            FROM
-                {$this->table}
-            WHERE
-                short_name = %s
-            ;
-        ";
-        $currency = $wpdb->get_row( $wpdb->prepare( $sql, $name ) );
+        $currency_id = null;
 
-        return $currency->id;
+        foreach( $this->currencies as $currency ) {
+
+            if ( $currency[ 'short_name' ] === $name ) {
+                $currency_id = $currency[ 'id' ];
+                break;
+            }
+
+        }
+
+        return $currency_id;
     }
 
     /**
@@ -63,23 +57,23 @@ class LaterPay_Model_Currency
      *
      * @param string $name ISO 4217 currency code
      *
-     * @return array currencies
+     * @return string $full_name
      */
     public function get_currency_name_by_iso4217_code( $name ) {
-        global $wpdb;
 
-        $sql = "
-            SELECT
-                full_name
-            FROM
-                {$this->table}
-            WHERE
-                short_name = %s
-            ;
-        ";
-        $currency = $wpdb->get_row( $wpdb->prepare( $sql, $name ) );
+        $full_name = '';
 
-        return $currency->full_name;
+        foreach( $this->currencies as $currency ) {
+
+            if ( $currency[ 'short_name' ] === $name ) {
+                $full_name = $currency[ 'full_name' ];
+                break;
+            }
+
+        }
+
+        return $full_name;
+
     }
 
 }

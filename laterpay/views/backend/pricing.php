@@ -139,28 +139,5 @@
         </ul>
         <hr>
 
-        <div class="pr-type4">
-            <h2><?php _e( 'Currency', 'laterpay' ); ?></h2>
-            <form id="currency_form" method="post">
-                <input type="hidden" name="form"    value="currency_form">
-                <input type="hidden" name="action"  value="laterpay_pricing">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                <div>
-                    <p><?php _e( 'All prices are given in', 'laterpay' ); ?>
-                        <span class="currency-dd">
-                            <select name="laterpay_currency" id="laterpay_currency" class="lp-input">
-                                <?php foreach ( $currencies as $currency ): ?>
-                                    <option<?php if ( $currency->short_name == $standard_currency ): ?> selected<?php endif; ?> value="<?php echo $currency->short_name; ?>">
-                                        <?php echo $currency->full_name . ' (' . $currency->short_name . ')'; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </span>
-                    </p>
-                </div>
-            </form>
-        </div>
-
     </div>
 </div>

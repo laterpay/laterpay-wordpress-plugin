@@ -46,6 +46,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_notices',                        array( $install_controller, 'render_requirements_notices' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'check_for_updates' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_meta_keys' ) );
+                add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_currency_to_euro' ) );
             }
 
             // add the plugin, if it is active and all checks are ok

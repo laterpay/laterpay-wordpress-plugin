@@ -52,11 +52,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $category_price_model           = new LaterPay_Model_CategoryPrice();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
-        $currency_model                 = new LaterPay_Model_Currency();
-        $currencies                     = $currency_model->get_currencies();
 
         $this->assign( 'categories_with_defined_price', $categories_with_defined_price );
-        $this->assign( 'currencies',                    $currencies );
         $this->assign( 'standard_currency',             get_option( 'laterpay_currency' ) );
         $this->assign( 'plugin_is_in_live_mode',        get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
         $this->assign( 'global_default_price',          LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
@@ -84,9 +81,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 );
             }
             switch ( $_POST['form'] ) {
-                case 'currency_form':
-                    $this->update_currency();
-                    break;
 
                 case 'global_price_form':
                     $this->update_global_default_price();
@@ -141,26 +135,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             array(
                 'success' => false,
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-            )
-        );
-    }
-
-    /**
-     * Update the currency used for all prices.
-     *
-     * @return  void
-     */
-    protected function update_currency() {
-        update_option( 'laterpay_currency', $_POST['laterpay_currency'] );
-
-        wp_send_json(
-            array(
-                'success'           => true,
-                'laterpay_currency' => get_option( 'laterpay_currency' ),
-                'message'           => sprintf(
-                    __( 'The currency for this website is %s now.', 'laterpay' ),
-                    get_option( 'laterpay_currency' )
-                )
             )
         );
     }

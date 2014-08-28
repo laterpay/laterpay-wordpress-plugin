@@ -63,8 +63,8 @@
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
                                 <select name="get_started[laterpay_currency]" class="lp-input">
                                     <?php foreach ( $currencies as $currency ): ?>
-                                        <option value="<?php echo $currency->short_name; ?>"<?php if ( $currency->short_name == $config->get( 'currency.default' ) ): ?> selected<?php endif; ?>>
-                                            <?php echo $currency->short_name; ?>
+                                        <option value="<?php echo $currency['short_name']; ?>"<?php if ( $currency['short_name'] === $config->get( 'currency.default' ) ): ?> selected<?php endif; ?>>
+                                            <?php echo $currency['short_name']; ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
