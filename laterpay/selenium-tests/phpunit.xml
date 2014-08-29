@@ -1,0 +1,30 @@
+<phpunit
+    bootstrap="includes/bootstrap.php"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="false"
+    convertErrorsToExceptions="false"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="false"
+    processIsolation="false"
+    stopOnFailure="false"
+    syntaxCheck="false">
+    <testsuites>
+        <testsuite name="smoke">
+            <directory suffix=".php">tests/install</directory>
+        </testsuite>
+    </testsuites>
+    <logging>
+        <log type="junit" target="reports/lastrun.xml" logIncompleteSkipped="false" />
+    </logging>
+    <!--<selenium>
+        <browser name="Firefox"
+                 browser="*firefox"
+                 host="localhost"
+                 port="4444"
+                 timeout="30000"/>
+    </selenium>-->
+    <php>
+        <env name="browsers" value="firefox,chrome" />
+    </php>
+</phpunit>
