@@ -30,6 +30,29 @@ class LaterPay_Model_Currency {
     }
 
     /**
+     * Get short name by currency_id
+     *
+     * @param integer $currency_id
+     *
+     * @return string $short_name
+     */
+    public function get_short_name_by_currency_id( $currency_id ) {
+
+        $short_name = null;
+
+        foreach( $this->currencies as $currency ) {
+
+            if ( (int) $currency[ 'id' ] === (int) $currency_id ) {
+                $short_name = $currency[ 'short_name' ];
+                break;
+            }
+
+        }
+
+        return $short_name;
+    }
+
+    /**
      * Get currency id by ISO 4217 currency code.
      *
      * @param string $name ISO 4217 currency code

@@ -249,20 +249,23 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         // get historical performance data for post
         $payments_history_model = new LaterPay_Model_Payments_History();
         $post_views_model       = new LaterPay_Model_Post_Views();
+        $currency_model         = new LaterPay_Model_Currency();
 
         // get total revenue and total sales
         $total = array();
         $history_total = (array) $payments_history_model->get_total_history_by_post_id( $post->ID );
         foreach ( $history_total as $item ) {
-            $total[$item->currency]['sum']      = round( $item->sum, 2 );
-            $total[$item->currency]['quantity'] = $item->quantity;
+            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
+            $total[$currency_short_name]['sum']      = round( $item->sum, 2 );
+            $total[$currency_short_name]['quantity'] = $item->quantity;
         }
 
         // get revenue
         $last30DaysRevenue = array();
         $history_last30DaysRevenue = (array) $payments_history_model->get_last_30_days_history_by_post_id( $post->ID );
         foreach ( $history_last30DaysRevenue as $item ) {
-            $last30DaysRevenue[$item->currency][$item->date] = array(
+            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
+            $last30DaysRevenue[$currency_short_name][$item->date] = array(
                 'sum'       => round( $item->sum, 2 ),
                 'quantity'  => $item->quantity,
             );
@@ -271,8 +274,9 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $todayRevenue = array();
         $history_todayRevenue = (array) $payments_history_model->get_todays_history_by_post_id( $post->ID );
         foreach ( $history_todayRevenue as $item ) {
-            $todayRevenue[$item->currency]['sum']       = round( $item->sum, 2 );
-            $todayRevenue[$item->currency]['quantity']  = $item->quantity;
+            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
+            $todayRevenue[$currency_short_name]['sum']       = round( $item->sum, 2 );
+            $todayRevenue[$currency_short_name]['quantity']  = $item->quantity;
         }
 
         // get visitors
