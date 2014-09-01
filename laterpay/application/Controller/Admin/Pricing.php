@@ -75,7 +75,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         // save changes in submitted form
         if ( isset( $_POST['form'] ) ) {
             // check for required capabilities to perform action
-            if ( ! current_user_can( 'edit_plugins' ) ) {
+            if ( ! current_user_can( 'activate_plugins' ) ) {
                 wp_send_json(
                     array(
                         'success' => false,

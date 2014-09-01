@@ -58,7 +58,7 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
 	public static function process_ajax_requests() {
 		if ( isset( $_POST['get_started'] ) ) {
 			// check for required capabilities to perform action
-			if ( ! current_user_can( 'edit_plugins' ) ) {
+			if ( ! current_user_can( 'activate_plugins' ) ) {
 				wp_send_json(
 					array(
 						'success' => false,
