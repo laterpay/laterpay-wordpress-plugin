@@ -29,7 +29,7 @@ class LaterPay_Core_Bootstrap
      */
     public function run() {
         // load the textdomain
-        $textdomain_path = dirname( plugin_basename( $this->config->plugin_file_path ) ) . $this->config->text_domain_path;
+        $textdomain_path = dirname( $this->config->plugin_base_name ) . $this->config->text_domain_path;
         load_plugin_textdomain(
             'laterpay',
             false,
@@ -115,10 +115,10 @@ class LaterPay_Core_Bootstrap
         // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
         add_shortcode( 'laterpay',                              array( $shortcode_controller, 'render_premium_download_box' ) );
 
+        $post_controller = new LaterPay_Controller_Post( $this->config );
         // add Ajax hooks for frontend
-        $post_controller = new LaterPay_Controller_Post_Content( $this->config );
-        add_action( 'wp_ajax_laterpay_article_script',          array( $post_controller, 'get_cached_post' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_article_script',   array( $post_controller, 'get_cached_post' ) );
+        add_action( 'wp_ajax_laterpay_post_load_purchased_content',          array( $post_controller, 'ajax_load_purchased_content' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );
 
         // Ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
@@ -130,7 +130,6 @@ class LaterPay_Core_Bootstrap
         add_filter( 'the_content',                              array( $post_controller, 'modify_post_content' ) );
         add_filter( 'wp_footer',                                array( $post_controller, 'modify_footer' ) );
 
-        // Ajax callbacks to show the statistic pane
         $statistic_controller = new LaterPay_Controller_Statistic( $this->config );
         add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistic_controller, 'ajax_render_tab' ) );
         add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistic_controller, 'ajax_toggle_visibility' ) );
@@ -147,13 +146,14 @@ class LaterPay_Core_Bootstrap
             // prefetch the post_access for loops
             add_filter( 'the_posts',                            array( $post_controller, 'prefetch_post_access' ) );
 
+            // register the frontend scripts
+            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_stylesheets' ) );
+            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_scripts' ) );
+
             // setup unique visitors tracking
             add_action( 'template_redirect',                    array( $statistic_controller, 'add_unique_visitors_tracking' ) );
             add_action( 'wp_footer',                            array( $statistic_controller, 'modify_footer' ) );
 
-            // register the frontend scripts
-            add_action( 'wp_enqueue_scripts',                   array( $post_controller, 'add_frontend_stylesheets' ) );
-            add_action( 'wp_enqueue_scripts',                   array( $post_controller, 'add_frontend_scripts' ) );
         }
     }
 

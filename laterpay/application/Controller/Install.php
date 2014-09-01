@@ -73,7 +73,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
     /**
-     * Update the existing postmeta meta_keys when current_version < 0.9.7
+     * Update the existing postmeta meta_keys, if current_version < 0.9.7.
      *
      * @wp-hook admin_notices
      *
@@ -103,7 +103,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
     /**
-     * Migrate old postmeta data to a single postmeta array
+     * Migrate old postmeta data to a single postmeta array.
      *
      * @wp-hook get_post_metadata
      *
@@ -135,7 +135,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
                 if ( $value !== '' ) {
                     // migrate old data: if post_pricing is '0' or '1', set it to 'individual price'
                     if ( $old_meta_key === 'laterpay_post_pricing_type' && in_array( $value, array( '0', '1' ) ) ) {
-                        $value = 'individual price';
+                        $value = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
                     }
 
                     // add the meta_value to the new postmeta array
@@ -155,7 +155,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
 	/**
-	 * Create our custom tables and set the required options.
+	 * Create custom tables and set the required options.
      *
 	 * @return void
 	 */

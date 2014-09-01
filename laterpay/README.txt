@@ -143,7 +143,7 @@ instead must be set using filters.
 
 ## Example
 
-```php
+``php
 add_filter( 'laterpay_get_api_settings', 'demo_filter_laterpay_get_api_settings' );
 /**
  * Demo callback to change the settings
@@ -161,7 +161,7 @@ function demo_filter_laterpay_get_api_settings( array $settings ) {
 
   return $settings;
 }
-```
+``
 
 # Activate / Deactivate Caching-compatible Mode
 
@@ -171,7 +171,7 @@ function demo_filter_laterpay_get_api_settings( array $settings ) {
 
 ## Example
 
-```php
+``php
 add_filter( 'laterpay_get_caching_compatible_mode', 'demo_filter_laterpay_get_caching_compatible_mode' );
 /**
  * Demo callback to manually set the caching mode
@@ -189,7 +189,7 @@ function demo_filter_laterpay_get_caching_compatible_mode( $mode ) {
 
   return $mode;
 }
-```
+``
 
 # Edit Content Settings
 
@@ -199,7 +199,7 @@ function demo_filter_laterpay_get_caching_compatible_mode( $mode ) {
 
 ## Example
 
-```php
+``php
 add_filter( 'laterpay_get_content_settings', 'demo_filter_laterpay_get_content_settings' );
 /**
  * Demo callback to change the settings
@@ -219,7 +219,7 @@ function demo_filter_laterpay_get_content_settings( array $settings ) {
 
   return $settings;
 }
-```
+``
 
 # activate / Deactivate Access Logging
 
@@ -228,7 +228,7 @@ function demo_filter_laterpay_get_content_settings( array $settings ) {
 
 ## Example
 
-```php
+``php
 add_filter( 'later_pay_access_logging_enabled', 'demo_filter_later_pay_access_logging_enabled' );
 /**
  * Demo callback to manually set the logging mode
@@ -246,7 +246,7 @@ function demo_filter_laterpay_later_pay_access_logging_enabled( $logging ) {
 
   return $logging;
 }
-```
+``
 
 # Edit Browscap Settings
 
@@ -255,7 +255,7 @@ function demo_filter_laterpay_later_pay_access_logging_enabled( $logging ) {
 
 ## Example
 
-```php
+``php
 add_filter( 'laterpay_get_browscap_settings', 'demo_filter_laterpay_get_browscap_settings' );
 /**
  * Demo callback to change the settings
@@ -272,7 +272,7 @@ function demo_filter_laterpay_get_browscap_settings( array $settings ) {
 
   return $settings;
 }
-```
+``
 
 == Modification, Bug Reports, and Feature Requests ==
 

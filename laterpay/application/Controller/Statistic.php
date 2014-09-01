@@ -197,25 +197,28 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function ajax_render_tab() {
-        if ( ! isset( $_GET[ 'post_id' ] ) ) {
-            return;
+    public function ajax_render_tab(){
+
+        if( !isset( $_GET[ 'post_id' ] ) ){
+            exit;
         }
 
-        if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ) {
-            return;
+        if( !isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ){
+            exit;
         }
 
-        // check if we have a post
+        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ){
+            exit;
+        }
+
         $post_id    = absint( $_GET[ 'post_id' ] );
         $post       = get_post( $post_id );
-        if ( $post === null ) {
-            return;
+        if( $post === null ){
+            exit;
         }
 
-        // check for required capabilities to perform action
-        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-            return;
+        if( !LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+            exit;
         }
 
         // assign variables

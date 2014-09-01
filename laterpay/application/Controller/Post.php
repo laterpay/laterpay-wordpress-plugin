@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 {
 
     /**
@@ -13,25 +13,42 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * Ajax method to get the cached article.
      * Required, because there could be a price change in LaterPay and we always need the current article price.
      *
-     * @wp-hook wp_ajax_laterpay_article_script, wp_ajax_nopriv_laterpay_article_script
+     * @wp-hook wp_ajax_laterpay_post_load_purchased_content, wp_ajax_nopriv_laterpay_post_load_purchased_content
      *
      * @return void
      */
-    public function get_cached_post() {
-        global $post, $wp_query;
+    public function ajax_load_purchased_content() {
 
-        // set the global vars so that WordPress thinks it is in a single view
-        $wp_query->is_singular  = true;
-        $wp_query->in_the_loop  = true;
+        if( !isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_load_purchased_content' ){
+            exit;
+        }
 
-        // get the content
-        $post_id        = absint( $_REQUEST[ 'post_id' ] );
+        if( !isset( $_GET[ 'nonce' ] ) || !wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ){
+            exit;
+        }
+
+        if ( ! isset( $_GET[ 'post_id' ] ) ) {
+            return;
+        }
+
+        $post_id        = absint( $_GET[ 'post_id' ] );
         $post           = get_post( $post_id );
-        $post_content   = $post->post_content;
 
-        $content        = apply_filters( 'the_content', $post_content );
+        if ( $post === null ) {
+            exit;
+        }
+
+        if ( !is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
+            // check for post access only for not logged in users
+            exit;
+        }
+        else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ){
+            // if user is logged in and "preview_as_visitor" is activated, return
+            exit;
+        }
+
+        $content        = apply_filters( 'the_content', $post->post_content );
         $content        = str_replace( ']]>', ']]&gt;', $content );
-
         echo $content;
         exit;
     }
@@ -326,15 +343,16 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function the_purchase_button() {
+
         // check if the current post is purchasable
-        if ( LaterPay_Helper_Pricing::is_purchasable() ) {
+        if ( ! LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
 
         $post = get_post();
 
         // check if the current post was already purchased
-        if ( ! $this->has_access_to_post( $post ) ) {
+        if ( $this->has_access_to_post( $post ) ) {
             return;
         }
 
@@ -387,17 +405,25 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         if ( $price == 0 ) {
             return $content;
         }
-        $is_premium_content = $price > 0;
 
         // get purchase link
         $purchase_link = $this->get_laterpay_purchase_link( $post_id );
 
-        // get teaser content
-        $teaser_content             = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+        // teaser content
+        $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+
+        // output states
+        // teaser content
+        $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+
+        // output states
         $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
-        $is_ajax                    = defined( 'DOING_AJAX' ) && DOING_AJAX;
         $user_can_read_statistic    = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
         $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
+
+        // caching and ajax
+        $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
+        $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
 
         // check if user has access to content (because he already bought it)
         $access = $this->has_access_to_post( $post );
@@ -426,19 +452,19 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
         // start collecting the output
         $html = '';
 
-        // return the full unmodified content, if post was already bought by user
-        if ( $access && ! $preview_post_as_visitor ) {
-            return $content;
-        }
-
-        // return the teaser content on non-singular pages (archive, feed, tax, author, ...)
-        if ( ! $is_ajax && ! is_singular() ) {
+        // return the teaser content on non-singular pages (archive, feed, tax, author, search, ...)
+        if ( ! is_singular() ) {
             return $this->get_text_view( 'frontend/partials/post/teaser' );
         }
 
-        // return only a placeholder, if caching is enabled and it's not an Ajax request
-        if ( (bool) $this->config->get( 'caching.compatible_mode' ) && ! $is_ajax ) {
-            return $this->get_text_view( 'frontend/partials/post/single_cached' );
+        /**
+         * return the full encrypted content, if ..
+         * ..the post was bought by user
+         * ..logged_in_user does not preview the post as visitor
+         * ..caching is not activated or caching is activated and content is loaded via ajax request
+         */
+        if ( $access && ! $preview_post_as_visitor && ( ! $caching_is_active || $is_ajax_and_caching_is_active ) ) {
+            return $content;
         }
 
         // add a purchase button as very first element of the content
@@ -447,7 +473,8 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
             $html .= '</div>';
         }
-        // add the teaser content
+
+        // add the the teaser content
         $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
 
         if ( $teaser_content_only ) {
@@ -458,7 +485,13 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             $html .= $this->get_text_view( 'frontend/partials/post/overlay_with_purchase_button' );
         }
 
+        if ( $caching_is_active ) {
+            // if caching is enabled, we've to wrap the teaser in a div to replace it when the post is purchased
+            return '<div id="laterpay-cache-wrapper">' . $html . '</div>';
+        }
+
         return $html;
+
     }
 
     /**
@@ -496,9 +529,15 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             array(),
             $this->config->version
         );
+
+        $laterpay_src = 'https://lpstatic.net/';
+        if ( $this->config->get( 'script_debug_mode' ) ){
+            $laterpay_src = 'https://sandbox.lpstatic.net/';
+        }
+
         wp_register_style(
             'laterpay-dialogs',
-            'https://static.sandbox.laterpaytest.net/webshell_static/client/1.0.0/laterpay-dialog/css/dialog.css'
+            $laterpay_src . 'client/1.0.0/laterpay-dialog/css/dialog.css'
         );
 
         // always enqueue 'laterpay-post-view' to ensure that shortcode [laterpay_premium_download] has styling
@@ -531,34 +570,29 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             'https://' . $laterpay_src . '/yui/3.13.0/build/yui/yui-min.js',
             array(),
             $this->config->get( 'version' ),
-            false
+            true
         );
         wp_register_script(
             'laterpay-config',
             'https://' . $laterpay_src . '/client/1.0.0/config.js',
             array( 'laterpay-yui' ),
             $this->config->get( 'version' ),
-            false
+            true
         );
         wp_register_script(
             'laterpay-peity',
             $this->config->get( 'js_url' ) . 'vendor/jquery.peity.min.js',
             array( 'jquery' ),
             $this->config->get( 'version' ),
-            false
+            true
         );
         wp_register_script(
             'laterpay-post-view',
             $this->config->get( 'js_url' ) . 'laterpay-post-view.js',
             array( 'jquery', 'laterpay-peity' ),
             $this->config->get( 'version' ),
-            false
+            true
         );
-
-        // only enqueue the scripts when the current post is purchasable
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
-            return;
-        }
 
         // pass localized strings and variables to script
         $client         = new LaterPay_Client( $this->config );
@@ -569,12 +603,22 @@ class LaterPay_Controller_Post_Content extends LaterPay_Controller_Abstract
             array(
                 'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
                 'post_id'       => get_the_ID(),
-                'debug'         => $this->config->get( 'debug_mode' ),
+                'debug'         => (bool) $this->config->get( 'debug_mode' ),
+                'caching'       => (bool) $this->config->get( 'caching.compatible_mode' ),
+                'nonces'        => array(
+                    'content'   => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
+                    'statistic' => wp_create_nonce( 'laterpay_post_statistic_render' ),
+                ),
                 'lpBalanceUrl'  => $balance_url,
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
             )
         );
+
+        // only enqueue the scripts when the current post is purchasable
+        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
+            return;
+        }
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-config' );
