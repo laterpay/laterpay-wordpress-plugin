@@ -9,28 +9,28 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
      * @return bool
      */
     protected function check_requirements() {
-        // check if we're on a singular page
+        // check, if we're on a singular page
         if ( ! is_singular() ) {
             return false;
         }
 
-        // check if we have a post
+        // check, if we have a post
         $post = get_post();
         if ( $post === null ) {
             return false;
         }
 
-        // check if the current post_type is an allowed post_type
+        // check, if the current post_type is an allowed post_type
         if ( ! in_array( $post->post_type, $this->config->get( 'content.allowed_post_types' ) ) ) {
             return false;
         }
 
-        // check if the current post is purchasable
+        // check, if the current post is purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable() ){
             return false;
         }
 
-        // check if logging is enabled
+        // check, if logging is enabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
             return false;
         }
@@ -38,22 +38,22 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         return true;
     }
 
-	/**
-	 * Track unique visitors.
-	 *
+    /**
+     * Track unique visitors.
+     *
      * @wp-hook template_redirect
      *
-	 * @return void
-	 */
-	public function add_unique_visitors_tracking() {
+     * @return void
+     */
+    public function add_unique_visitors_tracking() {
         if ( ! $this->check_requirements() ) {
             return;
         }
 
         $post_id = get_the_ID();
 
-		LaterPay_Helper_Statistics::track( $post_id );
-	}
+        LaterPay_Helper_Statistics::track( $post_id );
+    }
 
     /**
      * Callback to add the statistics placeholder to the footer.

@@ -60,13 +60,13 @@ class LaterPay_Model_CategoryPrice
         return $categories;
     }
 
-	/**
-	 * Get categories with defined category default prices by list of category ids.
-	 *
-	 * @param   array $ids
+    /**
+     * Get categories with defined category default prices by list of category ids.
      *
-	 * @return  array category_price_data
-	 */
+     * @param   array $ids
+     *
+     * @return  array category_price_data
+     */
     public function get_category_price_data_by_category_ids( $ids ) {
         global $wpdb;
 
@@ -197,7 +197,7 @@ class LaterPay_Model_CategoryPrice
                 array( '%d' )
             );
         } else {
-	        return $wpdb->insert(
+            return $wpdb->insert(
                 $this->term_table_prices,
                 array(
                     'term_id'   => $id_category,
@@ -309,11 +309,11 @@ class LaterPay_Model_CategoryPrice
     public function delete_prices_by_category_id( $id ) {
         global $wpdb;
 
-	    $where = array(
-		    'term_id' => (int) $id
-	    );
+        $where = array(
+            'term_id' => (int) $id
+        );
 
-	    return $wpdb->delete( $this->term_table_prices, $where, '%d' );
+        return $wpdb->delete( $this->term_table_prices, $where, '%d' );
     }
 
 }

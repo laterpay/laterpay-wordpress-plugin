@@ -6,13 +6,13 @@ class LaterPay_Helper_User
     protected static $_preview_post_as_visitor  = null;
     protected static $_hide_statistics_pane     = null;
 
-	/**
-	 * @param string           $capability
-	 * @param WP_Post|int|null $post
-	 * @param boolean          $strict
+    /**
+     * @param string           $capability
+     * @param WP_Post|int|null $post
+     * @param boolean          $strict
      *
-	 * @return bool
-	 */
+     * @return bool
+     */
     public static function can( $capability, $post = null, $strict = true ) {
         $allowed = false;
 
@@ -79,13 +79,13 @@ class LaterPay_Helper_User
         return in_array( $role, (array) $user->roles );
     }
 
-	/**
-	 * Check if the current user wants to preview the post as it renders for an admin or as it renders for a visitor.
-	 *
-	 * @param   null|WP_Post $post
+    /**
+     * Check if the current user wants to preview the post as it renders for an admin or as it renders for a visitor.
      *
-	 * @return  bool
-	 */
+     * @param   null|WP_Post $post
+     *
+     * @return  bool
+     */
     public static function preview_post_as_visitor( $post = null ) {
         if ( is_null( self::$_preview_post_as_visitor ) ) {
             $preview_post_as_visitor = 0;

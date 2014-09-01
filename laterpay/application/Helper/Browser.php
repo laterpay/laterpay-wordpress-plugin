@@ -17,7 +17,7 @@ class LaterPay_Helper_Browser
      */
     public static function php_browser_info() {
 
-	    $config = laterpay_get_plugin_config();
+        $config = laterpay_get_plugin_config();
 
         if ( empty( self::$browscap ) ) {
             self::$browscap = new Browscap( $config->get( 'cache_dir' ) );

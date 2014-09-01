@@ -3,10 +3,10 @@
 class LaterPay_Helper_View
 {
 
-	/**
-	 * @var string
-	 */
-	public static $pluginPage = 'laterpay-plugin';
+    /**
+     * @var string
+     */
+    public static $pluginPage = 'laterpay-plugin';
 
     /**
      * Get admin menu data.
@@ -52,7 +52,7 @@ class LaterPay_Helper_View
      */
     protected static function get_date_days_ago( $date, $ago = 30 ) {
         $ago = absint( $ago );
-	    $prior_date = date( 'Y-m-d', mktime(
+        $prior_date = date( 'Y-m-d', mktime(
                 date( 'H', strtotime( $date ) ),
                 date( 'i', strtotime( $date ) ),
                 date( 's', strtotime( $date ) ),
@@ -64,16 +64,16 @@ class LaterPay_Helper_View
         return $prior_date;
     }
 
-	/**
+    /**
      * Get the statistics data for the last 30 days as string, joined by a given delimiter.
      *
-	 * @param array  $statistic
-	 * @param string $type
-	 * @param string $delimiter
-	 *
-	 * @return string
-	 */
-	public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
+     * @param array  $statistic
+     * @param string $type
+     * @param string $delimiter
+     *
+     * @return string
+     */
+    public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
         $today  = date('Y-m-d');
         $date   = self::get_date_days_ago( date( $today ), 30 );
 

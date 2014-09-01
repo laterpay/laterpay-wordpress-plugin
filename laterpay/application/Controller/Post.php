@@ -416,7 +416,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // output states
         $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
-        $user_can_read_statistic    = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
+        $user_can_read_statistics   = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
         $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
         // caching and Ajax
@@ -427,7 +427,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $access = $this->has_access_to_post( $post );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
-        if ( $user_can_read_statistic ) {
+        if ( $user_can_read_statistics ) {
             $access = true;
         }
 

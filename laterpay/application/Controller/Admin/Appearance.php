@@ -3,10 +3,10 @@
 class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
 {
 
-	/**
-	 * @see LaterPay_Controller_Abstract::load_assets()
-	 */
-	public function load_assets() {
+    /**
+     * @see LaterPay_Controller_Abstract::load_assets()
+     */
+    public function load_assets() {
         parent::load_assets();
 
         // load page-specific JS
@@ -28,9 +28,9 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-backend-appearance' );
     }
 
-	/**
-	 * @see LaterPay_Controller_Abstract::render_page()
-	 */
+    /**
+     * @see LaterPay_Controller_Abstract::render_page()
+     */
     public function render_page() {
         $this->load_assets();
 
@@ -51,7 +51,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
         if ( isset( $_POST['form'] ) ) {
             // check for required capabilities to perform action
             if ( ! current_user_can( 'edit_plugins' ) ) {
-	            wp_send_json(
+                wp_send_json(
                     array(
                         'success' => false,
                         'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
@@ -68,14 +68,14 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                     $result = update_option( 'laterpay_teaser_content_only', $_POST['teaser_content_only'] );
                     if ( $result ) {
                         if ( get_option( 'laterpay_teaser_content_only' ) ) {
-	                        wp_send_json(
+                            wp_send_json(
                                 array(
                                     'success' => true,
                                     'message' => __( 'Visitors will now see only the teaser content of paid posts.', 'laterpay' )
                                 )
                             );
                         } else {
-	                        wp_send_json(
+                            wp_send_json(
                                 array(
                                     'success' => true,
                                     'message' => __( 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.', 'laterpay' )
@@ -83,7 +83,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                             );
                         }
                     } else {
-	                    wp_send_json(
+                        wp_send_json(
                             array(
                                 'success' => false,
                                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
@@ -94,7 +94,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                     break;
 
                 default:
-	                wp_send_json(
+                    wp_send_json(
                         array(
                             'success' => false,
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )

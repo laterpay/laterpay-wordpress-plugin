@@ -1,5 +1,4 @@
-jQuery.noConflict();
-(function($) { $(function() {
+(function($) { $(document).ready(function() {
 
     // encapsulate all LaterPay Javascript in function laterPayEditPost
     function laterPayEditPost() {

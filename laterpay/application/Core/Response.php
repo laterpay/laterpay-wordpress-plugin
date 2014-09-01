@@ -3,11 +3,11 @@
 class LaterPay_Core_Response extends LaterPay_Core_Entity
 {
 
-	/**
-	 *
-	 * @return LaterPay_Core_Entity
-	 */
-	public function _construct() {
+    /**
+     *
+     * @return LaterPay_Core_Entity
+     */
+    public function _construct() {
         parent::_construct();
         $this->set_data( 'headers', array() );
         $this->set_data( 'body', '' );
@@ -125,12 +125,12 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         echo $body;
     }
 
-	/**
-	 * Send the response with headers and body.
+    /**
+     * Send the response with headers and body.
      *
-	 * @return void
-	 */
-	public function send_response() {
+     * @return void
+     */
+    public function send_response() {
         $this->send_headers();
         $this->output_body();
     }

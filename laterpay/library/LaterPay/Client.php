@@ -9,38 +9,38 @@ class LaterPay_Client
      */
     protected $api_key;
 
-	/**	 *
-	 * @var string
-	 */
-	protected $api_root;
+    /**  *
+     * @var string
+     */
+    protected $api_root;
 
-	/**
-	 * @var string
-	 */
-	protected $web_root;
+    /**
+     * @var string
+     */
+    protected $web_root;
 
-	/**
-	 * @var string
-	 */
-	protected $cp_key;
+    /**
+     * @var string
+     */
+    protected $cp_key;
 
-	/**
-	 * @var null|string
-	 */
-	protected $lptoken = null;
+    /**
+     * @var null|string
+     */
+    protected $lptoken = null;
 
-	/**
-	 * @var string
-	 */
-	protected $token_name;
+    /**
+     * @var string
+     */
+    protected $token_name;
 
-	/**
-	 * @param   LaterPay_Model_Config $config
-	 * @return  LaterPay_Client
-	 */
+    /**
+     * @param   LaterPay_Model_Config $config
+     * @return  LaterPay_Client
+     */
     public function __construct( LaterPay_Model_Config $config ) {
 
-	    $this->config = $config;
+        $this->config = $config;
 
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $this->cp_key   = get_option( 'laterpay_live_merchant_id' );
@@ -70,11 +70,11 @@ class LaterPay_Client
                     );
     }
 
-	/**
-	 *
-	 * @return null|string
-	 */
-	public function get_laterpay_token() {
+    /**
+     *
+     * @return null|string
+     */
+    public function get_laterpay_token() {
         return $this->lptoken;
     }
 
@@ -292,25 +292,25 @@ class LaterPay_Client
         return $url;
     }
 
-	/**
-	 *
-	 * @param   string $url
+    /**
      *
-	 * @return  string
-	 */
-	protected function get_dialog_api_url( $url ) {
+     * @param   string $url
+     *
+     * @return  string
+     */
+    protected function get_dialog_api_url( $url ) {
         return $this->web_root . '/dialog-api?url=' . urlencode( $url );
     }
 
-	/**
+    /**
      * Get URL for the LaterPay login form.
      *
-	 * @param   string $next_url
-	 * @param   boolean$use_jsevents
+     * @param   string $next_url
+     * @param   boolean$use_jsevents
      *
-	 * @return  string $url
-	 */
-	public function get_login_dialog_url( $next_url, $use_jsevents = false ) {
+     * @return  string $url
+     */
+    public function get_login_dialog_url( $next_url, $use_jsevents = false ) {
         if ( $use_jsevents ) {
             $aux = '"&jsevents=1';
         } else {
@@ -321,14 +321,14 @@ class LaterPay_Client
         return $this->get_dialog_api_url( $url );
     }
 
-	/**
+    /**
      * Get URL for the LaterPay signup form.
      *
-	 * @param   string $next_url
-	 * @param   boolean$use_jsevents
+     * @param   string $next_url
+     * @param   boolean$use_jsevents
      *
-	 * @return  string $url
-	 */
+     * @return  string $url
+     */
     public function get_signup_dialog_url( $next_url, $use_jsevents = false ) {
         if ( $use_jsevents ) {
             $aux = '"&jsevents=1';
@@ -340,14 +340,14 @@ class LaterPay_Client
         return $this->get_dialog_api_url( $url );
     }
 
-	/**
+    /**
      * Get URL for logging out a user from LaterPay.
      *
-	 * @param   string $next_url
-	 * @param   boolean$use_jsevents
+     * @param   string $next_url
+     * @param   boolean$use_jsevents
      *
-	 * @return  string $url
-	 */
+     * @return  string $url
+     */
     public function get_logout_dialog_url( $next_url, $use_jsevents = false ) {
         if ( $use_jsevents ) {
             $aux = '"&jsevents=1';
@@ -359,20 +359,20 @@ class LaterPay_Client
         return $this->get_dialog_api_url( $url );
     }
 
-	/**
-	 *
-	 * TODO: moving params to an single param-array
-	 *
-	 * @param   array $data
-	 * @param   string $page_type
-	 * @param   null|string $product_key
-	 * @param   boolean$dialog
-	 * @param   boolean$use_jsevents
-	 * @param   boolean$skip_add_to_invoice
-	 * @param   null|string $transaction_reference
-	 *
-	 * @return  string $url
-	 */
+    /**
+     *
+     * TODO: moving params to an single param-array
+     *
+     * @param   array $data
+     * @param   string $page_type
+     * @param   null|string $product_key
+     * @param   boolean$dialog
+     * @param   boolean$use_jsevents
+     * @param   boolean$skip_add_to_invoice
+     * @param   null|string $transaction_reference
+     *
+     * @return  string $url
+     */
     protected function get_web_url( $data, $page_type, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
         if ( $use_jsevents ) {
             $data['jsevents'] = 1;
@@ -411,20 +411,20 @@ class LaterPay_Client
         return $this->get_dialog_api_url( $url );
     }
 
-	/**
-	 *
-	 * TODO: moving params to an single param-array
-	 *
-	 * @param   array $data
-	 * @param   null|string $product_key
-	 * @param   boolean$dialog
-	 * @param   boolean$use_jsevents
-	 * @param   boolean$skip_add_to_invoice
-	 * @param   null|string $transaction_reference
-	 *
-	 * @return  string $url
-	 */
-	public function get_buy_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
+    /**
+     *
+     * TODO: moving params to an single param-array
+     *
+     * @param   array $data
+     * @param   null|string $product_key
+     * @param   boolean$dialog
+     * @param   boolean$use_jsevents
+     * @param   boolean$skip_add_to_invoice
+     * @param   null|string $transaction_reference
+     *
+     * @return  string $url
+     */
+    public function get_buy_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
         return $this->get_web_url(
             $data,
             'buy',
@@ -436,19 +436,19 @@ class LaterPay_Client
         );
     }
 
-	/**
-	 * TODO: moving params to an single param-array
-	 *
-	 * @param   array $data
-	 * @param   string|null $product_key
-	 * @param   boolean$dialog
-	 * @param   boolean$use_jsevents
-	 * @param   boolean$skip_add_to_invoice
-	 * @param   null $transaction_reference
-	 *
-	 * @return  string $url
-	 */
-	public function get_add_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
+    /**
+     * TODO: moving params to an single param-array
+     *
+     * @param   array $data
+     * @param   string|null $product_key
+     * @param   boolean$dialog
+     * @param   boolean$use_jsevents
+     * @param   boolean$skip_add_to_invoice
+     * @param   null $transaction_reference
+     *
+     * @return  string $url
+     */
+    public function get_add_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
         $data['cp'] = $this->cp_key;
 
         return $this->get_web_url(
@@ -462,23 +462,23 @@ class LaterPay_Client
         );
     }
 
-	/**
-	 *
-	 * @return bool
-	 */
-	public function has_token() {
+    /**
+     *
+     * @return bool
+     */
+    public function has_token() {
         return ! empty( $this->lptoken );
     }
 
-	/**
-	 *
-	 * @param   int $article_id
-	 * @param   int $threshold
-	 * @param   null|string $product_key
-	 *
-	 * @return  void
-	 */
-	public function add_metered_access( $article_id, $threshold = 5, $product_key = null ) {
+    /**
+     *
+     * @param   int $article_id
+     * @param   int $threshold
+     * @param   null|string $product_key
+     *
+     * @return  void
+     */
+    public function add_metered_access( $article_id, $threshold = 5, $product_key = null ) {
         $params = array(
             'lptoken'    => $this->lptoken,
             'cp'         => $this->cp_key,
@@ -499,15 +499,15 @@ class LaterPay_Client
         }
     }
 
-	/**
-	 *
-	 * @param   int|array $article_ids
-	 * @param   int  $threshold
-	 * @param   null|string $product_key
+    /**
      *
-	 * @return array
-	 */
-	public function get_metered_access( $article_ids, $threshold = 5, $product_key = null ) {
+     * @param   int|array $article_ids
+     * @param   int  $threshold
+     * @param   null|string $product_key
+     *
+     * @return array
+     */
+    public function get_metered_access( $article_ids, $threshold = 5, $product_key = null ) {
         if ( ! is_array( $article_ids ) ) {
             $article_ids = array( $article_ids );
         }
@@ -657,12 +657,12 @@ class LaterPay_Client
         }
     }
 
-	/**
-	 * Delete the token from cookies.
+    /**
+     * Delete the token from cookies.
      *
-	 * @return  void
-	 */
-	public function delete_token() {
+     * @return  void
+     */
+    public function delete_token() {
         LaterPay_Core_Logger::debug( 'LaterPay_Client::delete_token', array(
                             'api_key'   => $this->api_key,
                             'cp_key'    => $this->cp_key,
@@ -685,7 +685,7 @@ class LaterPay_Client
      * @return  array $response
      */
     protected function make_request( $url, $params = array(), $method = LaterPay_Core_Request::GET ) {
-	    LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(
+        LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array(
                             'url'       => $url,
                             'params'    => $params,
                             'api_key'   => $this->api_key,
@@ -725,13 +725,13 @@ class LaterPay_Client
 
             LaterPay_Core_Logger::debug( 'LaterPay_Client::make_request', array( $raw_response_body ) );
 
-	        $error_code = wp_remote_retrieve_response_code( $raw_response );
-	        if ( $error_code > 400 ) {
-		        throw new Exception(
-			        wp_remote_retrieve_response_message( $raw_response ),
-			        $error_code
-		        );
-	        }
+            $error_code = wp_remote_retrieve_response_code( $raw_response );
+            if ( $error_code > 400 ) {
+                throw new Exception(
+                    wp_remote_retrieve_response_message( $raw_response ),
+                    $error_code
+                );
+            }
 
             $response = json_decode( $raw_response_body, true );
 

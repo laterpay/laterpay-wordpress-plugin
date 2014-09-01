@@ -80,11 +80,11 @@ class LaterPay_Core_Entity
         $this->_construct();
     }
 
-	/**
-	 *
-	 * @return void
-	 */
-	protected function _add_full_names() {
+    /**
+     *
+     * @return void
+     */
+    protected function _add_full_names() {
         $existedShortKeys = array_intersect( $this->_syncFieldsMap, array_keys( $this->_data ) );
         if ( ! empty( $existedShortKeys ) ) {
             foreach ( $existedShortKeys as $key ) {
@@ -161,11 +161,11 @@ class LaterPay_Core_Entity
         return $this;
     }
 
-	/**
-	 * Retrieve name of object id field
+    /**
+     * Retrieve name of object id field
      *
-	 * @return  string
-	 */
+     * @return  string
+     */
     public function get_id_field_name() {
         return $this->_idFieldName;
     }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Store to any stream resource
+ * Store to any stream resource.
  */
 class LaterPay_Core_Logger_Handler_Stream extends LaterPay_Core_Logger_Abstract
 {
