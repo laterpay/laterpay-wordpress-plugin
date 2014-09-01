@@ -455,10 +455,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // return the teaser content on non-singular pages (archive, feed, tax, author, search, ...)
         if ( ! is_singular() ) {
             // prepend hint to feed items that reading the full content requires purchasing the post
-            if ( is_feed( $feeds ) ) {
+            if ( is_feed() ) {
                 $html .= sprintf(
-                            __( '<a href="%s">Read the full post for %s %s</a>', 'laterpay' ),
-                            $purchase_link,
+                            __( '&mdash; Visit the post to buy its full content for %s %s &mdash; ', 'laterpay' ),
                             LaterPay_Helper_View::format_number( $price, 2 ),
                             $currency
                         );
