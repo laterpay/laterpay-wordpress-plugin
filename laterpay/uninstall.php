@@ -50,3 +50,30 @@ delete_option( 'laterpay_live_api_key' );
 delete_option( 'laterpay_global_price' );
 delete_option( 'laterpay_currency' );
 delete_option( 'laterpay_version' );
+
+// remove custom capabilities
+$roles = array( 'administrator', 'editor' );
+foreach ( $roles as $role ) {
+    $role = get_role( $role );
+    if ( empty( $role ) ) {
+        continue;
+    }
+    $role->remove_cap( 'laterpay_read_post_statistics' );
+    $role->remove_cap( 'laterpay_edit_individual_price' );
+    $role->remove_cap( 'laterpay_edit_teaser_content' );
+}
+
+$roles = array( 'author', 'contributor' );
+foreach ( $roles as $role ) {
+    $role = get_role( $role );
+    if ( empty( $role ) ) {
+        continue;
+    }
+    $role->remove_cap( 'laterpay_read_post_statistics' );
+    $role->remove_cap( 'laterpay_edit_teaser_content' );
+}
+
+$role = get_role( 'author' );
+if ( ! empty( $role ) ) {
+    $role->remove_cap( 'laterpay_edit_individual_price' );
+}
