@@ -27,7 +27,8 @@
                 renderPostStatisticsPane = function() {
                     var requestVars     = {
                                             action  : 'laterpay_post_statistic_render',
-                                            post_id : lpVars.post_id
+                                            post_id : lpVars.post_id,
+                                            nonce   : lpVars.nonces.statistic
                                           },
                         data            = $.get(
                                             lpVars.ajaxUrl,
@@ -114,8 +115,9 @@
                 loadPostContent = function() {
                     var $pageCachingAnchor  = $('#lp_post-content-placeholder'),
                         requestVars         = {
-                                                action  : 'laterpay_article_script',
-                                                post_id : $pageCachingAnchor.attr('data-post-id')
+                                                action  : 'laterpay_post_load_purchased_content',
+                                                post_id : lpVars.post_id,
+                                                nonce   : lpVars.nonces.content
                                               };
 
                     $.get(
@@ -160,26 +162,48 @@
 
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
-    // render purchase dialogs
-    var ppuContext  = {
-                        showCloseBtn        : true,
-                        canSkipAddToInvoice : false,
-                      },
-        dm          = new Y.LaterPay.DialogManager();
+    var $purchaseLink  = Y.one('.lp_purchase-link'),
+        ppuContext      = {
+                            showCloseBtn        : true,
+                            canSkipAddToInvoice : false
+                          },
+        dm              = new Y.LaterPay.DialogManager();
 
-        dm.attachToLinks('.lp_purchase-link', ppuContext.showCloseBtn);
+    if (!$purchaseLink) {
+        // don't register the dialogs, if there's no purchase link in the page
+        return;
+    }
+
+    if ($purchase_link.getData('preview-as-visitor')) {
+        // bind event to purchase link and return, if 'preview as visitor' is activated for admins
+        Y.one(Y.config.doc).delegate(
+            'click',
+            function(event) {
+                event.preventDefault();
+                alert(lpVars.i18nAlert);
+            },
+            '.lp_purchase-link'
+        );
+
+        return;
+    }
+
+    dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
-    if (lpVars && lpVars.lpBalanceUrl) {
-        new Y.LaterPay.IFrame(
-            Y.one('#laterpay-invoice-indicator'),
-            lpVars.lpBalanceUrl,
-            {
-                width       : '110',
-                height      : '30',
-                scrolling   : 'no',
-                frameborder : '0',
-            }
-        );
+    if (!lpVars || !lpVars.lpBalanceUrl) {
+        // don't render the invoice indicator, if no URL is provided in the variables
+        return;
     }
+
+    new Y.LaterPay.IFrame(
+        Y.one('#laterpay-invoice-indicator'),
+        lpVars.lpBalanceUrl,
+        {
+            width       : '110',
+            height      : '30',
+            scrolling   : 'no',
+            frameborder : '0'
+        }
+    );
 });
