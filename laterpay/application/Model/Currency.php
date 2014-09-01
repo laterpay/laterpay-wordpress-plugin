@@ -3,7 +3,8 @@
 class LaterPay_Model_Currency {
 
     /**
-     * Array which contains all currencies
+     * Contains all currencies.
+     *
      * @var array
      */
     protected $currencies = array(
@@ -15,7 +16,8 @@ class LaterPay_Model_Currency {
     );
 
     /**
-     * Constructor for class LaterPay_Currency_Model
+     * Constructor for class LaterPay_Currency_Model.
+     *
      * @return LaterPay_Model_Currency
      */
     function __construct() { }
@@ -30,14 +32,13 @@ class LaterPay_Model_Currency {
     }
 
     /**
-     * Get short name by currency_id
+     * Get short name by currency_id.
      *
      * @param integer $currency_id
      *
      * @return string $short_name
      */
     public function get_short_name_by_currency_id( $currency_id ) {
-
         $short_name = null;
 
         foreach( $this->currencies as $currency ) {
@@ -60,16 +61,13 @@ class LaterPay_Model_Currency {
      * @return int|null $currency_id
      */
     public function get_currency_id_by_iso4217_code( $name ) {
-
         $currency_id = null;
 
-        foreach( $this->currencies as $currency ) {
-
+        foreach ( $this->currencies as $currency ) {
             if ( $currency[ 'short_name' ] === $name ) {
                 $currency_id = $currency[ 'id' ];
                 break;
             }
-
         }
 
         return $currency_id;
@@ -83,20 +81,16 @@ class LaterPay_Model_Currency {
      * @return string $full_name
      */
     public function get_currency_name_by_iso4217_code( $name ) {
-
         $full_name = '';
 
-        foreach( $this->currencies as $currency ) {
-
+        foreach ( $this->currencies as $currency ) {
             if ( $currency[ 'short_name' ] === $name ) {
                 $full_name = $currency[ 'full_name' ];
                 break;
             }
-
         }
 
         return $full_name;
-
     }
 
 }

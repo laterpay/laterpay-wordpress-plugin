@@ -73,16 +73,18 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
     /**
-     * Update the existing postmeta meta_keys when the new version is greater than or equal 0.9.7
+     * Update the existing postmeta meta_keys, if the new version is greater than or equal to 0.9.7.
      *
      * @since 0.9.7
+     *
      * @wp-hook admin_notices
+     *
      * @return void
      */
     public function maybe_update_meta_keys() {
         global $wpdb;
 
-        // checks, if the current version is greater than or equal 0.9.7
+        // check, if the current version is greater than or equal to 0.9.7
         if ( version_compare( $this->config->get( 'version' ), '0.9.7', '>=' ) ) {
 
             // map old values to new ones
@@ -103,31 +105,31 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
     /**
-     * Updating the existing currency-Option to EUR when new version is greater than or equal 0.9.8
+     * Update the existing currency option to EUR, if new version is greater than or equal to 0.9.8.
      *
      * @since 0.9.8
+     *
      * @wp-hook admin_notices
+     *
      * @return void
      */
-    public function maybe_update_currency_to_euro(){
+    public function maybe_update_currency_to_euro() {
         global $wpdb;
 
-        // checks, if the current version is greater than or equal 0.9.8
+        // check, if the current version is greater than or equal to 0.9.8
         if ( version_compare( $this->config->get( 'version' ), '0.9.8', '>=' ) ) {
 
-            // updating the currency to default currency 'EUR'
+            // update the currency to default currency 'EUR'
             update_option( 'laterpay_currency', $this->config->get( 'currency.default' ) );
 
-            // removing currency-table
+            // remove currency table
             $sql = 'DROP TABLE IF EXISTS ' . $wpdb->prefix . 'laterpay_currency';
             $wpdb->query( $sql );
-
         }
-
     }
 
     /**
-     * Migrate old postmeta data to a single postmeta array
+     * Migrate old postmeta data to a single postmeta array.
      *
      * @wp-hook get_post_metadata
      *
@@ -179,7 +181,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
 	/**
-	 * Create our custom tables and set the required options.
+	 * Create custom tables and set the required options.
      *
 	 * @return void
 	 */
@@ -241,7 +243,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 		add_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
 		add_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
 
-        // keep the plugin-version up to date.
+        // keep the plugin version up to date.
         update_option( 'laterpay_version',               $this->config->get( 'version' ) );
 
         // option 'laterpay_plugin_is_activated' is set to empty on installation, to be able to tell between a fresh
