@@ -73,7 +73,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
 	}
 
     /**
-     * Update the existing postmeta meta_keys when current_version < 0.9.7
+     * Update the existing postmeta meta_keys, if current_version < 0.9.7.
      *
      * @wp-hook admin_notices
      *
@@ -103,7 +103,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
     /**
-     * Migrate old postmeta data to a single postmeta array
+     * Migrate old postmeta data to a single postmeta array.
      *
      * @wp-hook get_post_metadata
      *
@@ -155,7 +155,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
 	/**
-	 * Create our custom tables and set the required options.
+	 * Create custom tables and set the required options.
      *
 	 * @return void
 	 */

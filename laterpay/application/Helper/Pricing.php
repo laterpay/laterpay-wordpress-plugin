@@ -3,10 +3,10 @@
 class LaterPay_Helper_Pricing
 {
 
-    const TYPE_DEFAULT_PRICE = 'global default price';
-    const TYPE_CATEGORY_PRICE = 'category default price';
-    const TYPE_INDIVIDUAL_PRICE = 'individual price';
-    const TYPE_DYNAMIC_PRICE = 'individual price, dynamic';
+    const TYPE_GLOBAL_DEFAULT_PRICE     = 'global default price';
+    const TYPE_CATEGORY_DEFAULT_PRICE   = 'category default price';
+    const TYPE_INDIVIDUAL_PRICE         = 'individual price';
+    const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
     const META_KEY = 'laterpay_post_prices';
 
@@ -90,7 +90,7 @@ class LaterPay_Helper_Pricing
         }
 
         $post_prices = array();
-        $post_prices[ 'type' ] = LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE;
+        $post_prices[ 'type' ] = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
 
         return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_prices );
     }
@@ -113,7 +113,7 @@ class LaterPay_Helper_Pricing
             }
 
             // check if the post uses a global default price
-            if ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE ) {
+            if ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
                 continue;
             }
 
@@ -147,7 +147,7 @@ class LaterPay_Helper_Pricing
         }
 
         $post_price = array(
-            'type'          => LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE,
+            'type'          => LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
             'category_id'   => (int) $category_id
         );
 
@@ -185,16 +185,16 @@ class LaterPay_Helper_Pricing
                 $price = array_key_exists( 'price', $post_prices ) ? $post_prices[ 'price' ] : '';
                 break;
 
-            case LaterPay_Helper_Pricing::TYPE_DYNAMIC_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
                 $price = self::get_dynamic_price( $post, $post_prices );
                 break;
 
-            case LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
                 $LaterPay_Category_Model    = new LaterPay_Model_CategoryPrice();
                 $price                      = $LaterPay_Category_Model->get_price_by_category_id( (int) $category_id );
                 break;
 
-            case LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
                 $price = $global_default_price;
                 break;
 

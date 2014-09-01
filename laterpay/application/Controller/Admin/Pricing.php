@@ -243,7 +243,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function update_existing_category_default_price() {
 
         $term = get_term_by( 'name', $_POST['category'], 'category' );
-        if( !$term ){
+        if ( ! $term ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -332,7 +332,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     protected function set_new_category_default_price() {
         $term = get_term_by( 'name', $_POST['category'], 'category' );
-        if( !$term ){
+        if ( ! $term ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -411,7 +411,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 continue;
             }
             // check if the post uses a category default price
-            if ( $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE ) {
+            if ( $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
                 continue;
             }
 

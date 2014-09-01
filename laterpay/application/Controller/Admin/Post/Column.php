@@ -58,15 +58,15 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
                         $post_price_type = __( 'individual price', 'laterpay' );
                         break;
 
-                    case LaterPay_Helper_Pricing::TYPE_DYNAMIC_PRICE:
+                    case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
                         $post_price_type = __( 'dynamic individual price', 'laterpay' );
                         break;
 
-                    case LaterPay_Helper_Pricing::TYPE_CATEGORY_PRICE:
+                    case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
                         $post_price_type = __( 'category default price', 'laterpay' );
                         break;
 
-                    case LaterPay_Helper_Pricing::TYPE_DEFAULT_PRICE:
+                    case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
                         $post_price_type = __( 'global default price', 'laterpay' );
                         break;
 
