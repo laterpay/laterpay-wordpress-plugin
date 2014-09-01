@@ -1,0 +1,15 @@
+class_name: BasicTester
+modules:
+    enabled:
+        - WebDriver
+        - BasicHelper
+    config:
+        WebDriver:
+         url: 'http://src.wordpress-develop.dev/'
+         browser: firefox
+         restart: false
+         clear_cookies: false
+         window_size: 1024x768
+         wait: 5
+         capabilities:
+             unexpectedAlertBehaviour: 'accept'
