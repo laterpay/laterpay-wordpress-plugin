@@ -19,10 +19,23 @@ class C1InstallCest {
         $I->fillField(PluginPage::$pluginSearchField, PluginPage::$pluginSearchValue);
         $I->submitForm(PluginPage::$pluginSearchForm, array());
         $I->see(PluginPage::$expectedModule);
-        $I->makeScreenshot('findPlugin');
     }
 
-    private function installAndActivatePlugin(BasicTester $I) {
+    public function uploadPlugin(BasicTester $I) {
+
+        $I->amOnPage(PluginPage::$url_plugin_upload);
+        $I->attachFile('pluginzip', 'laterpay.zip');
+        $I->click("install-plugin-submit");
+        $I->see(PluginPage::$assertionInstalled);
+    }
+
+    public function checkInstalledPlugin(BasicTester $I) {
+
+        $I->amOnPage(PluginPage::$url_plugin_list);
+        $I->see(PluginPage::$assertionPluginListed);
+    }
+
+    private function installAndActivatePluginByManager(BasicTester $I) {
 
         $I->click('.install-now');
         $I->acceptPopup();
@@ -30,7 +43,7 @@ class C1InstallCest {
         $I->click('Activate Plugin');
     }
 
-    private function installPlugin(BasicTester $I) {
+    private function installPluginByManager(BasicTester $I) {
 
         $I->click('.install-now');
         $I->acceptPopup();

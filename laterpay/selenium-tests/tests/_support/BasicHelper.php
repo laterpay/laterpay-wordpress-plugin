@@ -7,53 +7,63 @@ namespace Codeception\Module;
 
 class BasicHelper extends \Codeception\Module {
 
-/*
+    public function doanloadLatestPlugin($path) {
 
-    private $data = null;
+        if (file_exists($path)) {
 
-    private function readFile($k) {
+            $file = file_get_contents($path);
 
-        $file = 'tests/_data/install_' . $k . '.dat';
-
-        if (file_exists($file))
-            $this->data[$k] = file_get_contents($file);
-    }
-
-    private function readXml() {
-
-        $file = 'tests/_data/install.xml';
-
-        if (file_exists($file)) {
-
-            $string = file_get_contents($file);
-
-            $array = (array) json_decode(json_encode(simplexml_load_string($string)), true);
-
-            foreach ($array as $k => $v)
-                $this->data[$k] = $v;
-
-            return;
+            file_put_contents('tests/_data/plugin.zip', $file);
         };
-
-        $this->data = array();
     }
 
-    public function in($k = '') {
+    /*
 
-        if (!$this->data)
-            $this->readXml();
+      private $data = null;
 
-        if (isset($this->data[$k]))
-            return $this->data[$k];
+      private function readFile($k) {
 
-        if (!isset($this->data[$k]))
-            $this->readFile($k);
+      $file = 'tests/_data/install_' . $k . '.dat';
 
-        if (isset($this->data[$k]))
-            return $this->data[$k];
+      if (file_exists($file))
+      $this->data[$k] = file_get_contents($file);
+      }
 
-        return null;
-    }
-*/
+      private function readXml() {
+
+      $file = 'tests/_data/install.xml';
+
+      if (file_exists($file)) {
+
+      $string = file_get_contents($file);
+
+      $array = (array) json_decode(json_encode(simplexml_load_string($string)), true);
+
+      foreach ($array as $k => $v)
+      $this->data[$k] = $v;
+
+      return;
+      };
+
+      $this->data = array();
+      }
+
+      public function in($k = '') {
+
+      if (!$this->data)
+      $this->readXml();
+
+      if (isset($this->data[$k]))
+      return $this->data[$k];
+
+      if (!isset($this->data[$k]))
+      $this->readFile($k);
+
+      if (isset($this->data[$k]))
+      return $this->data[$k];
+
+      return null;
+      }
+     */
 }
 
