@@ -8,11 +8,27 @@ class PluginPage {
     public static $pluginSearchField = 's';
     public static $pluginSearchForm = '.search-form';
     public static $pluginSearchValue = 'laterpay';
-    public static $pluginLatestPath = 'http://downloads.wordpress.org/plugin/laterpay.zip';
+    public static $pluginUploadField = 'pluginzip';
+    public static $pluginUploadFilename = 'laterpay.zip';
+    public static $pluginUploadSubmitField = 'install-plugin-submit';
+    public static $pluginDeactivateLink = '#laterpay .deactivate > a';
+    public static $pluginDeleteLink = '#laterpay .delete > a';
+    public static $pluginDeleteConfirmLink = '#submit';
+    public static $pluginActivateLink = '#laterpay .activate > a';
+    public static $pluginNavigationLabel = 'LaterPay';
+    public static $backNavigateTab = '#adminmenuwrap';
+    public static $pluginBackLink = '/wp-admin/admin.php?page=laterpay-plugin';
+    public static $laterpaySandboxMerchantField = 'get_started[laterpay_sandbox_merchant_id]';
+    public static $laterpaySandboxMerchantInvalidValue = 'a1b2c3d4e5f6g7h8i9j0';
+    public static $laterpaySandboxApiKeyField = 'get_started[laterpay_sandbox_api_key]';
+    public static $laterpaySandboxApiKeyInitValue = 'a1b2c3d4e5f6g7h8i9j0';
+    public static $pluginActivateFormButton = '.activate-lp';
     //expected
-    public static $expectedModule = 'laterpay';
-    public static $assertionInstalled = 'Plugin installed successfully';
-    public static $assertionPluginListed = 'LaterPay';
+    public static $assertPluginName = 'laterpay';
+    public static $assertInstalled = 'Plugin installed successfully';
+    public static $assertPluginListed = 'LaterPay';
+    public static $assertNoLaterPayApiKey = 'Please enter your LaterPay API key to activate LaterPay on this site.';
+    public static $assertInvalidMerchantId = 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!';
 
     /**
      * Declare UI map for this page here. CSS or XPath allowed.

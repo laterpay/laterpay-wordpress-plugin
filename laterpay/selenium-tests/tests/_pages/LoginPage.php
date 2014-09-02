@@ -27,5 +27,14 @@ class LoginPage {
         return static::$URL . $param;
     }
 
+    public static function login($I) {
+
+        $I->amOnPage(self::$URL);
+        $I->fillField(self::$usernameField, self::$usernameValue);
+        $I->fillField(self::$passwordField, self::$passwordValue);
+        $I->click(self::$loginButton);
+        $I->see(self::$expectedTitle);
+    }
+
 }
 

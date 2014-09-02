@@ -1,8 +1,8 @@
-class_name: BasicTester
+class_name: SetupTester
 modules:
     enabled:
         - WebDriver
-        - BasicHelper
+        - CommonHelper
     config:
         WebDriver:
          url: 'http://src.wordpress-develop.dev/'
