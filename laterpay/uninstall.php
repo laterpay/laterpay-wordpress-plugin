@@ -52,7 +52,7 @@ delete_option( 'laterpay_currency' );
 delete_option( 'laterpay_version' );
 
 // remove custom capabilities
-$roles = array( 'administrator', 'editor' );
+foreach ( array( 'administrator', 'editor' ) as $role ) {
 foreach ( $roles as $role ) {
     $role = get_role( $role );
     if ( empty( $role ) ) {
@@ -63,7 +63,7 @@ foreach ( $roles as $role ) {
     $role->remove_cap( 'laterpay_edit_teaser_content' );
 }
 
-$roles = array( 'author', 'contributor' );
+foreach ( array( 'author', 'contributor' ) as $role ) {
 foreach ( $roles as $role ) {
     $role = get_role( $role );
     if ( empty( $role ) ) {
