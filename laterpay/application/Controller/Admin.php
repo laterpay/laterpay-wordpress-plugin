@@ -449,7 +449,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         $this->assign( 'pointers', $pointers );
 
-        echo $this->get_text_view( 'backend/partials/footer' );
+        echo $this->get_text_view( 'backend/partials/pointer_scripts' );
     }
 
     /**
