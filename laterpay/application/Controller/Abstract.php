@@ -24,7 +24,7 @@ class LaterPay_Controller_Abstract
 	 */
 	public function __construct( LaterPay_Model_Config $config ) {
 		$this->config = $config;
-		// assigning the config to our view
+		// assign the config to our view
 		$this->assign( 'config', $this->config );
 	}
 
@@ -64,8 +64,8 @@ class LaterPay_Controller_Abstract
     /**
      * Assign variable for substitution in templates.
      *
-     * @param string $variable name variable to assign
-     * @param mixed  $value    value variable for assign
+     * @param string $variable variable name to assign
+     * @param mixed  $value    variable value to assign
      *
      * @return void
      */
