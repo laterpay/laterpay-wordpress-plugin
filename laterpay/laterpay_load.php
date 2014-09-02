@@ -64,6 +64,7 @@ class LaterPay_AutoLoader
             }
         }
     }
+
 }
 
 spl_autoload_register( array( 'LaterPay_AutoLoader', 'load_class' ), false );

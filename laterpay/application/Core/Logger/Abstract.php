@@ -25,9 +25,9 @@ abstract class LaterPay_Core_Logger_Abstract
     }
 
     /**
-     * Writes the record down to the log of the implementing handler
+     * Writes the record to the log of the implementing handler.
      *
-     * @param array   $record
+     * @param array $record
      *
      * @return void
      */
@@ -45,11 +45,9 @@ abstract class LaterPay_Core_Logger_Abstract
     /**
      * Closes the handler.
      *
-     * This will be called automatically when the object is destroyed
+     * This will be called automatically when the object is destroyed.
      */
-    public function close() {
-
-    }
+    public function close() {}
 
     public function __destruct() {
         try {
@@ -60,49 +58,49 @@ abstract class LaterPay_Core_Logger_Abstract
     }
 
     protected function convert_to_string( $data ) {
-        if ( null === $data || is_scalar($data) ) {
-            return (string) $data;
+        if ( null === $data || is_scalar( $data ) ) {
+            return ( string ) $data;
         }
 
-        if ( version_compare(PHP_VERSION, '5.4.0', '>=') && defined('JSON_UNESCAPED_SLASHES') && defined('JSON_UNESCAPED_UNICODE') ) {
-            return json_encode($this->normalize($data), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) && defined( 'JSON_UNESCAPED_SLASHES' ) && defined( 'JSON_UNESCAPED_UNICODE' ) ) {
+            return json_encode( $this->normalize( $data ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
         }
 
-        return str_replace('\\/', '/', json_encode( $this->normalize( $data ) ) );
+        return str_replace( '\\/', '/', json_encode( $this->normalize( $data ) ) );
     }
 
     protected function normalize( $data ) {
-        if ( is_bool($data) || is_null($data) ) {
-            return var_export($data, true);
+        if ( is_bool( $data ) || is_null( $data ) ) {
+            return var_export( $data, true );
         }
 
-        if ( null === $data || is_scalar($data) ) {
+        if ( null === $data || is_scalar( $data ) ) {
             return $data;
         }
 
-        if ( is_array($data) || $data instanceof Traversable ) {
+        if ( is_array( $data ) || $data instanceof Traversable ) {
             $normalized = array();
 
             foreach ( $data as $key => $value ) {
-                $normalized[$key] = $this->normalize($value);
+                $normalized[$key] = $this->normalize( $value );
             }
 
             return $normalized;
         }
 
         if ( $data instanceof DateTime ) {
-            return $data->format('Y-m-d H:i:s.u');
+            return $data->format( 'Y-m-d H:i:s.u' );
         }
 
-        if ( is_object($data) ) {
-            return sprintf('[object] (%s: %s)', get_class($data), json_encode($data));
+        if ( is_object( $data ) ) {
+            return sprintf( '[object] (%s: %s)', get_class( $data ), json_encode( $data ) );
         }
 
-        if ( is_resource($data) ) {
+        if ( is_resource( $data ) ) {
             return '[resource]';
         }
 
-        return '[unknown('.gettype($data).')]';
+        return '[unknown(' . gettype( $data ) . ')]';
     }
 
 }

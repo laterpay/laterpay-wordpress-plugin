@@ -179,4 +179,5 @@ class LaterPay_Helper_String
 
         return $truncate;
     }
+
 }

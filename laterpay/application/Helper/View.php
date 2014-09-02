@@ -45,10 +45,10 @@ class LaterPay_Helper_View
     /**
      * Get date a given number of days prior to a given date.
      *
-     * @param   string  $date
-     * @param   int     $ago number of days ago
+     * @param string $date
+     * @param int    $ago number of days ago
      *
-     * @return  string  $prior_date
+     * @return string $prior_date
      */
     protected static function get_date_days_ago( $date, $ago = 30 ) {
         $ago = absint( $ago );
@@ -96,7 +96,7 @@ class LaterPay_Helper_View
     /**
      * Check if plugin is fully functional.
      *
-     * @return  bool
+     * @return bool
      */
     public static function plugin_is_working() {
         if ( get_option( 'laterpay_plugin_is_activated' ) !== '1' ) {
@@ -131,10 +131,10 @@ class LaterPay_Helper_View
     /**
      * Get number based on locale format.
      *
-     * @param   double  $number
-     * @param   int     $decimals
+     * @param double $number
+     * @param int    $decimals
      *
-     * @return  string  $formatted
+     * @return string $formatted
      */
     public static function format_number( $number, $decimals = 2 ) {
         global $wp_locale;

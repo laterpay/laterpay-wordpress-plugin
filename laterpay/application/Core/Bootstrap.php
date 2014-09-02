@@ -183,4 +183,5 @@ class LaterPay_Core_Bootstrap
             update_option( 'laterpay_plugin_is_activated', '0' );
         }
     }
+
 }

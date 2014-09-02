@@ -319,4 +319,5 @@ class LaterPay_Model_Config {
 
         return $this->has( $name );
     }
+
 }

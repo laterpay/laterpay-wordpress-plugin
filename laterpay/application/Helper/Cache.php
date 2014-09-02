@@ -61,4 +61,5 @@ class LaterPay_Helper_Cache
 
         return $caching_plugin_is_active;
     }
+
 }

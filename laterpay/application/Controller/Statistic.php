@@ -321,4 +321,5 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 
         $this->assign( 'statistic', $statistic_args );
     }
+
 }
