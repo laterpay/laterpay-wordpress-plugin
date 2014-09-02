@@ -57,11 +57,21 @@ ul.lp_nav-tabs
     right                   7rem
     top                     0.4rem
 
+    &:before
+        float               left
+        font-size           4rem
+        left                -2.75rem
+        line-height         0
+        position            relative
+        top                 1.8rem
+
     h2,
     i
         color               $clickable
 
-    &:hover
+    &:hover,
+    &:active
+        &:before,
         h2,
         i
             color           $clickable-highlight
@@ -74,14 +84,6 @@ ul.lp_nav-tabs
 
     span
         color               #999
-
-.lp_plugin-mode-indicator[data-icon]:before
-    float                   left
-    font-size               4rem
-    left                    -2.75rem
-    line-height             0
-    position                relative
-    top                     1.8rem
 
 
 // flash messages ------------------------------------------------------------------------------------------------------
