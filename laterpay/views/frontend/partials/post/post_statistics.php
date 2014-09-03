@@ -4,8 +4,8 @@
 
 <div class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' hidden'; ?>">
     <form id="lp_toggle-post-statistics-visibility-form" method="post">
-        <input type="hidden" name="action" value="laterpay_post_statistic_visibility">
-        <input type="hidden" name="hide_statistics_pane" id="lp_hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
+        <input type="hidden" name="action"                  value="laterpay_post_statistic_visibility">
+        <input type="hidden" name="hide_statistics_pane"    value="<?php echo $laterpay['hide_statistics_pane'];?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
     <a href="#" id="lp_toggle-post-statistics-visibility" data-icon="l"></a>

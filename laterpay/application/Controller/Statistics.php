@@ -167,7 +167,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $result = update_user_meta(
             $current_user->ID,
             'laterpay_hide_statistics_pane',
-            (bool) $_POST['hide_statistics_pane']
+            absint( $_POST['hide_statistics_pane'] )
         );
 
         if ( ! $result ) {

@@ -81,12 +81,12 @@
                 },
 
                 togglePostStatisticsVisibility = function() {
-                    var $form       = $('#lp_toggle-post-statistics-visibility-form'),
-                        $pane       = $('.lp_post-statistics'),
-                        $input      = $('#lp_hide-statistics-pane'),
-                        is_hidden   = $pane.hasClass('hidden') ? '0' : '1';
+                    var $form   = $('#lp_toggle-post-statistics-visibility-form'),
+                        $pane   = $('.lp_post-statistics'),
+                        $input  = $('input[name=hide_statistics_pane]'),
+                        doHide  = $pane.hasClass('hidden') ? '0' : '1';
 
-                    $input.val(is_hidden);
+                    $input.val(doHide);
 
                     // toggle the visibility
                     $pane.toggleClass('hidden');
