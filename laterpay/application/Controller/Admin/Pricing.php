@@ -452,7 +452,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => true,
-                'message' => __( 'The default price for this category was deleted.', 'laterpay' ),
+                'message' => sprintf(
+                                __( 'The default price for category %s was deleted.', 'laterpay' ),
+                                $_POST['category']
+                            ),
             )
         );
     }
