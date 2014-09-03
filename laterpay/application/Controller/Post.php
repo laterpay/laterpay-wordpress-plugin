@@ -467,7 +467,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // add a purchase button as very first element of the content
         if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
-            $html .= '<div class="clearfix">';
+            $html .= '<div class="lp_fl-clearfix">';
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
             $html .= '</div>';
         }
