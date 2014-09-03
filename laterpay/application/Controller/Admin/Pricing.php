@@ -317,8 +317,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'category_id'   => $category_id,
                 'message'       => sprintf(
                     __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
+                    $_POST['category'],
                     $formatted_category_price,
-                    $_POST['price'],
                     $currency_name
                 )
             )
@@ -452,7 +452,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => true,
-                'message' => __( 'The default price for this category was deleted.', 'laterpay' ),
+                'message' => sprintf(
+                                __( 'The default price for category %s was deleted.', 'laterpay' ),
+                                $_POST['category']
+                            ),
             )
         );
     }

@@ -76,7 +76,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                     );
         }
         if ( $page === null ) {
-            $error_message  = '<div class="laterpay-shortcode-error">';
+            $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
@@ -87,7 +87,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
         if ( ! in_array( $page->post_type, $this->config->get( 'content.allowed_post_types' ) ) )  {
-            $error_message  = '<div class="laterpay-shortcode-error">';
+            $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
             $error_message .= '</div>';
@@ -163,12 +163,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = "<div class=\"laterpay-premium-file-link\" style=\"background-image:url($image_path)\">";
+            $html = "<div class=\"lp_premium-file-box\" style=\"background-image:url($image_path)\">";
         } else {
-            $html = "<div class=\"laterpay-premium-file-link $content_type\">";
+            $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
         }
-        $html .= "    <a href=\"$page_url\" class=\"laterpay-premium-file-button\" data-icon=\"b\">$price_tag</a>";
-        $html .= '    <div class="details">';
+        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link-without-function lp_button\" data-icon=\"b\">$price_tag</a>";
+        $html .= '    <div class="lp_premium-file-details">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
             $html .= "    <p>$description</p>";
@@ -193,7 +193,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
-        return '<div class="laterpay-premium-file-link-wrapper">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premium-file-box-wrapper">' . do_shortcode( $content ) . '</div>';
     }
 
 }

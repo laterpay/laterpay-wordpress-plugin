@@ -130,10 +130,10 @@ class LaterPay_Core_Bootstrap
         add_filter( 'the_content',                              array( $post_controller, 'modify_post_content' ) );
         add_filter( 'wp_footer',                                array( $post_controller, 'modify_footer' ) );
 
-        $statistic_controller = new LaterPay_Controller_Statistic( $this->config );
-        add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistic_controller, 'ajax_render_tab' ) );
-        add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistic_controller, 'ajax_toggle_visibility' ) );
-        add_action( 'wp_ajax_laterpay_post_statistic_toggle_preview',   array( $statistic_controller, 'ajax_toggle_preview' ) );
+        $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
+        add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistics_controller, 'ajax_render_tab' ) );
+        add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistics_controller, 'ajax_toggle_visibility' ) );
+        add_action( 'wp_ajax_laterpay_post_statistic_toggle_preview',   array( $statistics_controller, 'ajax_toggle_preview' ) );
 
         // frontend actions
         if ( ! is_admin() ) {
@@ -151,8 +151,8 @@ class LaterPay_Core_Bootstrap
             add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_scripts' ) );
 
             // setup unique visitors tracking
-            add_action( 'template_redirect',                    array( $statistic_controller, 'add_unique_visitors_tracking' ) );
-            add_action( 'wp_footer',                            array( $statistic_controller, 'modify_footer' ) );
+            add_action( 'template_redirect',                    array( $statistics_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'wp_footer',                            array( $statistics_controller, 'modify_footer' ) );
 
         }
     }
@@ -183,4 +183,5 @@ class LaterPay_Core_Bootstrap
             update_option( 'laterpay_plugin_is_activated', '0' );
         }
     }
+
 }

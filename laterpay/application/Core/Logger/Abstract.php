@@ -102,4 +102,5 @@ abstract class LaterPay_Core_Logger_Abstract
 
         return '[unknown(' . gettype( $data ) . ')]';
     }
+
 }

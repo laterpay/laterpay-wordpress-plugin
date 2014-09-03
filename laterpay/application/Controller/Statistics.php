@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 {
 
     /**
@@ -9,28 +9,28 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
      * @return bool
      */
     protected function check_requirements() {
-        // check if we're on a singular page
+        // check, if we're on a singular page
         if ( ! is_singular() ) {
             return false;
         }
 
-        // check if we have a post
+        // check, if we have a post
         $post = get_post();
         if ( $post === null ) {
             return false;
         }
 
-        // check if the current post_type is an allowed post_type
+        // check, if the current post_type is an allowed post_type
         if ( ! in_array( $post->post_type, $this->config->get( 'content.allowed_post_types' ) ) ) {
             return false;
         }
 
-        // check if the current post is purchasable
+        // check, if the current post is purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable() ){
             return false;
         }
 
-        // check if logging is enabled
+        // check, if logging is enabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
             return false;
         }
@@ -38,22 +38,22 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         return true;
     }
 
-	/**
-	 * Track unique visitors.
-	 *
+    /**
+     * Track unique visitors.
+     *
      * @wp-hook template_redirect
      *
-	 * @return void
-	 */
-	public function add_unique_visitors_tracking() {
+     * @return void
+     */
+    public function add_unique_visitors_tracking() {
         if ( ! $this->check_requirements() ) {
             return;
         }
 
         $post_id = get_the_ID();
 
-		LaterPay_Helper_Statistics::track( $post_id );
-	}
+        LaterPay_Helper_Statistics::track( $post_id );
+    }
 
     /**
      * Callback to add the statistics placeholder to the footer.
@@ -67,15 +67,12 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             return;
         }
 
-        /**
-         * don't add the statistics pane to the footer, if caching is disabled or user is not logged in;
-         * if caching is enabled, we have to check this on the backend via Ajax
-         */
-        if ( ! $this->config->get( 'caching.compatible_mode' ) && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
+        // don't add the statistics pane placeholder to the footer, if the user is not logged in
+        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
             return;
         }
 
-        echo '<div id="laterpay-statistic"></div>';
+        echo '<div id="lp_post-statistics-placeholder"></div>';
     }
 
     /**
@@ -143,42 +140,37 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
      */
     public function ajax_toggle_visibility() {
         $error = array(
-            'success'   => false,
+            'success' => false,
             'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' )
         );
 
         // check the admin referer
         if ( ! check_admin_referer( 'laterpay_form' ) ) {
-            $error[ 'code' ] = 1;
             wp_send_json( $error );
         }
 
         if ( ! isset( $_POST[ 'hide_statistics_pane' ] ) ) {
-            $error[ 'code' ] = 2;
             wp_send_json( $error );
         }
 
         // check if we have a valid user
         $current_user = wp_get_current_user();
         if ( ! is_a( $current_user, 'WP_User' ) ) {
-            $error[ 'code' ] = 3;
             wp_send_json( $error );
         }
 
         // check for required capabilities to perform action
         if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
-            $error[ 'code' ] = 4;
             wp_send_json( $error );
         }
 
         $result = update_user_meta(
             $current_user->ID,
             'laterpay_hide_statistics_pane',
-            (bool) $_POST['hide_statistics_pane']
+            absint( $_POST['hide_statistics_pane'] )
         );
 
         if ( ! $result ) {
-            $error[ 'code' ] = 5;
             wp_send_json( $error );
         }
 
@@ -197,27 +189,27 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function ajax_render_tab(){
+    public function ajax_render_tab() {
 
-        if( !isset( $_GET[ 'post_id' ] ) ){
+        if ( ! isset( $_GET[ 'post_id' ] ) ) {
             exit;
         }
 
-        if( !isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ){
+        if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ) {
             exit;
         }
 
-        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ){
+        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ) {
             exit;
         }
 
         $post_id    = absint( $_GET[ 'post_id' ] );
         $post       = get_post( $post_id );
-        if( $post === null ){
+        if ( $post === null ) {
             exit;
         }
 
-        if( !LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
             exit;
         }
 
@@ -231,7 +223,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         $this->initialize_post_statistics( $post );
-        echo $this->get_text_view( 'frontend/partials/post/statistics' );
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
         exit;
     }
 
@@ -321,4 +313,5 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 
         $this->assign( 'statistic', $statistic_args );
     }
+
 }

@@ -1,0 +1,54 @@
+// LaterPay dialogs iframe
+
+.laterpay-overlay
+    background-color                #000                                        !important
+    height                          100%                                        !important
+    left                            0                                           !important
+    opacity                         0.89                                        !important
+    position                        fixed                                       !important
+    top                             0                                           !important
+    width                           100%                                        !important
+    z-index                         999998                                      !important
+
+.laterpay-iframe
+    height                          100%                                        !important
+    left                            0                                           !important
+    padding-top                     $fs-2                                       !important
+    position                        fixed                                       !important
+    top                             0                                           !important
+    width                           100%                                        !important
+    z-index                         999999                                      !important
+
+    iframe
+        border                      0 none
+
+    .laterpay-dialog-close-button
+        color                       $text                                       !important
+        padding                     1em 1em 1em 2em
+        position                    absolute
+        right                       0
+        text-decoration             none
+        top                         0
+
+        &:hover
+            color                   #999                                        !important
+            text-decoration         none
+
+    .laterpay-dialog-close-button[data-icon]
+        &:before
+            background-color        $text                                       !important
+            border-radius           1em
+            color                   #000
+            margin-right            0.4em
+            padding                 0.1em
+            position                relative
+            top                     0.15em
+
+        &:hover:before
+            background-color        #999
+
+
+// responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:567px)
+    .laterpay-iframe .laterpay-dialog-close-button
+        padding                     0.2em 0.5em 1em 2em

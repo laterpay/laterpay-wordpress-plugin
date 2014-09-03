@@ -5,6 +5,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
     /**
      * Contains the access state for all loaded posts.
+     *
      * @var array
      */
     protected $access = array();
@@ -18,12 +19,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function ajax_load_purchased_content() {
-
-        if( !isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_load_purchased_content' ){
+        if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_load_purchased_content' ) {
             exit;
         }
 
-        if( !isset( $_GET[ 'nonce' ] ) || !wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ){
+        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ) {
             exit;
         }
 
@@ -31,24 +31,23 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        $post_id        = absint( $_GET[ 'post_id' ] );
-        $post           = get_post( $post_id );
+        $post_id    = absint( $_GET[ 'post_id' ] );
+        $post       = get_post( $post_id );
 
         if ( $post === null ) {
             exit;
         }
 
-        if ( !is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
-            // check for post access only for not logged in users
+        if ( ! is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
+            // check access to paid post for not logged in users only
             exit;
-        }
-        else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ){
-            // if user is logged in and "preview_as_visitor" is activated, return
+        } else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ) {
+            // return, if user is logged in and 'preview_as_visitor' is activated
             exit;
         }
 
-        $content        = apply_filters( 'the_content', $post->post_content );
-        $content        = str_replace( ']]>', ']]&gt;', $content );
+        $content = apply_filters( 'the_content', $post->post_content );
+        $content = str_replace( ']]>', ']]&gt;', $content );
         echo $content;
         exit;
     }
@@ -64,7 +63,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        // data to create the URL and hash-check
+        // data to create and hash-check the URL
         $url_data = array(
             'post_id'     => $_GET[ 'post_id' ],
             'id_currency' => $_GET[ 'id_currency' ],
@@ -193,7 +192,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             )
         );
 
-        // access already loaded before
+        // access was already checked
         if ( array_key_exists( $post_id, $this->access ) ) {
             return (bool) $this->access[ $post_id ];
         }
@@ -301,7 +300,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Helper function to check if LaterPay is enabled for the given post type.
+     * Helper function to check, if LaterPay is enabled for the given post type.
      *
      * @param   string $post_type
      *
@@ -315,7 +314,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current page is login page.
+     * Check, if current page is login page.
      *
      * @return boolean
      */
@@ -324,7 +323,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if current page is cron page.
+     * Check, if current page is cron page.
      *
      * @return boolean
      */
@@ -343,15 +342,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function the_purchase_button() {
-
-        // check if the current post is purchasable
+        // check, if the current post is purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
 
         $post = get_post();
 
-        // check if the current post was already purchased
+        // check, if the current post was already purchased
         if ( $this->has_access_to_post( $post ) ) {
             return;
         }
@@ -401,7 +399,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $currency   = get_option( 'laterpay_currency' );
         $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
 
-        // No price found for this post? return the content
+        // return the content, if no price was found for the post
         if ( $price == 0 ) {
             return $content;
         }
@@ -409,7 +407,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // get purchase link
         $purchase_link = $this->get_laterpay_purchase_link( $post_id );
 
-        // teaser content
+        // get the teaser content
         $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
 
         // output states
@@ -418,18 +416,18 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // output states
         $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
-        $user_can_read_statistic    = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
+        $user_can_read_statistics   = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
         $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
-        // caching and ajax
+        // caching and Ajax
         $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
         $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
 
-        // check if user has access to content (because he already bought it)
+        // check, if user has access to content (because he already bought it)
         $access = $this->has_access_to_post( $post );
 
-        // if user can read the statistics, we can switch to 'admin' mode and have to load the correct content
-        if ( $user_can_read_statistic ) {
+        // switch to 'admin' mode and load the correct content, if user can read post statistics
+        if ( $user_can_read_statistics ) {
             $access = true;
         }
 
@@ -458,10 +456,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         /**
-         * return the full encrypted content, if ..
-         * ..the post was bought by user
-         * ..logged_in_user does not preview the post as visitor
-         * ..caching is not activated or caching is activated and content is loaded via ajax request
+         * return the full encrypted content, if ...
+         * ...the post was bought by user
+         * ...logged_in_user does not preview the post as visitor
+         * ...caching is not activated or caching is activated and content is loaded via Ajax request
          */
         if ( $access && ! $preview_post_as_visitor && ( ! $caching_is_active || $is_ajax_and_caching_is_active ) ) {
             return $content;
@@ -469,12 +467,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // add a purchase button as very first element of the content
         if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
-            $html .= '<div class="clearfix">';
+            $html .= '<div class="lp_fl-clearfix">';
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
             $html .= '</div>';
         }
 
-        // add the the teaser content
+        // add the teaser content
         $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
 
         if ( $teaser_content_only ) {
@@ -486,12 +484,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         if ( $caching_is_active ) {
-            // if caching is enabled, we've to wrap the teaser in a div to replace it when the post is purchased
-            return '<div id="laterpay-cache-wrapper">' . $html . '</div>';
+            // if caching is enabled, wrap the teaser in a div, so it can be replaced with the full content,
+            // if the post is / has already been purchased
+            return '<div id="lp_post-content-placeholder">' . $html . '</div>';
         }
 
         return $html;
-
     }
 
     /**

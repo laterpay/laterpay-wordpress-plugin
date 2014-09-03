@@ -27,4 +27,5 @@ class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Abstract
     protected function write( array $record ) {
         // do nothing
     }
+
 }

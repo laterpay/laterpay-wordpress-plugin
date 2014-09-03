@@ -59,4 +59,5 @@ class LaterPay_Core_Logger_Handler_Stream extends LaterPay_Core_Logger_Abstract
 
         return true;
     }
+
 }
