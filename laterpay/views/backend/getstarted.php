@@ -27,7 +27,7 @@
             <ul class="lp_setup-steps lp_fl-clearfix">
                 <li class="lp_fl-left lp_w-1-3">
                     <div class="lp_setup-step lp_step-1 lp_p-rel lp_pd-r2">
-                        <span class="input-icon merchant-id-icon" data-icon="i"></span>
+                        <span class="lp_input-icon lp_merchant-id-icon" data-icon="i"></span>
                         <input type="text"
                                 maxlength="22"
                                 name="get_started[laterpay_sandbox_merchant_id]"
@@ -35,7 +35,7 @@
                                 value="<?php echo $config->get( 'api.sandbox_merchant_id' ); ?>"
                                 required>
                         <label alt="<?php _e( 'Paste Sandbox Merchant ID here', 'laterpay' ); ?>" placeholder="<?php _e( 'Sandbox Merchant ID', 'laterpay' ); ?>"></label>
-                        <span class="input-icon api-key-icon" data-icon="j"></span>
+                        <span class="lp_input-icon lp_api-key-icon" data-icon="j"></span>
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"

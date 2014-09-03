@@ -440,7 +440,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      * @return void
      */
     public function modify_footer() {
-        $pointers = self::get_pointers_to_be_shown();
+        $pointers = LaterPay_Controller_Admin::get_pointers_to_be_shown();
 
         // don't render the partial, if there are no pointers to be shown
         if ( empty( $pointers ) ) {
@@ -474,8 +474,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_admin_pointers_script() {
+        $pointers = LaterPay_Controller_Admin::get_pointers_to_be_shown();
+
         // don't enqueue the assets, if there are no pointers to be shown
-        if ( empty( self::get_pointers_to_be_shown() ) ) {
+        if ( empty( $pointers ) ) {
             return;
         }
 
@@ -494,16 +496,16 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         if (
             get_option( 'laterpay_plugin_is_activated', '' ) == '' &&
-            ! in_array( self::ADMIN_MENU_POINTER, $dismissed_pointers )
+            ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers )
         ) {
-            $pointers[] = self::ADMIN_MENU_POINTER;
+            $pointers[] = LaterPay_Controller_Admin::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page
-        if ( ! in_array( self::POST_PRICE_BOX_POINTER, $dismissed_pointers ) ) {
-            $pointers[] = self::POST_PRICE_BOX_POINTER;
+        if ( ! in_array( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER, $dismissed_pointers ) ) {
+            $pointers[] = LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER;
         }
-        if ( ! in_array( self::POST_TEASER_CONTENT_POINTER, $dismissed_pointers ) ) {
-            $pointers[] = self::POST_TEASER_CONTENT_POINTER;
+        if ( ! in_array( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER, $dismissed_pointers ) ) {
+            $pointers[] = LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER;
         }
 
         return $pointers;
