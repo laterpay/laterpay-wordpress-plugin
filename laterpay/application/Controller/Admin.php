@@ -474,8 +474,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_admin_pointers_script() {
+
         // don't enqueue the assets, if there are no pointers to be shown
-        if ( empty( self::get_pointers_to_be_shown() ) ) {
+        $pointer = self::get_pointers_to_be_shown();
+        if ( empty( $pointer ) ) {
             return;
         }
 
