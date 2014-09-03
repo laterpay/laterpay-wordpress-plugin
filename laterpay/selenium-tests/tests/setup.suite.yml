@@ -1,10 +1,13 @@
 class_name: SetupTester
+extensions:
+  enabled: CommonExtension
+config:
 modules:
     enabled:
         - WebDriver
         - CommonHelper
     config:
-        WebDriver:
+       WebDriver:
          url: 'http://src.wordpress-develop.dev/'
          browser: firefox
          restart: false

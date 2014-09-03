@@ -9,3 +9,5 @@ screen -d -m java -jar /usr/local/bin/selenium-server-standalone-2.42.2.jar
 wget http://codeception.com/codecept.phar
 
 php codecept.phar run
+
+

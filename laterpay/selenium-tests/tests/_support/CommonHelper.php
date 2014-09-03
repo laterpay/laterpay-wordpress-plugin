@@ -5,14 +5,50 @@ namespace Codeception\Module;
 class CommonHelper extends \Codeception\Module {
 
     /**
-     * @param \SetupTester $I
+     * For test development purposes. Runs DevPage::start()
+     * @param \Tester $I
      */
-    public function hLogin($I) {
+    public function hDev($I) {
 
-        \LoginPage::login($I);
+        \DevPage::start($I);
     }
 
     /**
+     * Login to backend
+     * @param \Tester $I
+     */
+    public function hLogin($I) {
+
+        \LoginPage::Login($I);
+    }
+
+    /**
+     * Logout from backend
+     * @param \Tester $I
+     */
+    public function hLogout($I) {
+
+        \LoginPage::Logout($I);
+    }
+
+    /**
+     * Remove, Install, activate and configure LaterPay plugin in wordpress throught SetupPage::reinstall
+     * @param \Tester $I
+     */
+    public function hReinstall($I) {
+
+        try {
+
+            \SetupPage::Reinstall($I);
+            return true;
+        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
+
+            return false;
+        };
+    }
+
+    /**
+     * Helper to have ability if-then-else condition
      * @param \SetupTester $I
      * @param String $I
      */
@@ -29,6 +65,7 @@ class CommonHelper extends \Codeception\Module {
     }
 
     /**
+     * Helper to have ability non mandatory mouse click
      * @param \SetupTester $I
      * @param String $I
      */

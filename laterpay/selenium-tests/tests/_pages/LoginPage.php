@@ -9,8 +9,10 @@ class LoginPage {
     public static $usernameValue = 'admin';
     public static $passwordValue = 'password';
     public static $loginButton = 'wp-submit';
+    public static $logoutMenu = '#wp-admin-bar-my-account';
+    public static $logoutButton = '#wp-admin-bar-logout>a';
     //expected
-    public static $expectedTitle = 'Dashboard';
+    public static $expectedBackTitle = 'Dashboard';
 
     /**
      * Declare UI map for this page here. CSS or XPath allowed.
@@ -30,10 +32,23 @@ class LoginPage {
     public static function login($I) {
 
         $I->amOnPage(self::$URL);
-        $I->fillField(self::$usernameField, self::$usernameValue);
-        $I->fillField(self::$passwordField, self::$passwordValue);
-        $I->click(self::$loginButton);
-        $I->see(self::$expectedTitle);
+
+        if (!$I->hSee($I, self::$expectedBackTitle)) {
+
+            $I->fillField(self::$usernameField, self::$usernameValue);
+            $I->fillField(self::$passwordField, self::$passwordValue);
+            $I->click(self::$loginButton);
+        };
+    }
+
+    public static function logout($I) {
+
+        if ($I->hSee($I, self::$expectedBackTitle)) {
+
+            $I->moveMouseOver(LoginPage::$logoutMenu);
+
+            $I->click(LoginPage::$logoutButton);
+        };
     }
 
 }
