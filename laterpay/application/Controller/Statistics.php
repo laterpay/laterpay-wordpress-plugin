@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 {
 
     /**
