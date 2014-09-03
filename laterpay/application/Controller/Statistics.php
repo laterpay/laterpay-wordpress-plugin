@@ -140,31 +140,27 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      */
     public function ajax_toggle_visibility() {
         $error = array(
-            'success'   => false,
+            'success' => false,
             'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' )
         );
 
         // check the admin referer
         if ( ! check_admin_referer( 'laterpay_form' ) ) {
-            $error[ 'code' ] = 1;
             wp_send_json( $error );
         }
 
         if ( ! isset( $_POST[ 'hide_statistics_pane' ] ) ) {
-            $error[ 'code' ] = 2;
             wp_send_json( $error );
         }
 
         // check if we have a valid user
         $current_user = wp_get_current_user();
         if ( ! is_a( $current_user, 'WP_User' ) ) {
-            $error[ 'code' ] = 3;
             wp_send_json( $error );
         }
 
         // check for required capabilities to perform action
         if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
-            $error[ 'code' ] = 4;
             wp_send_json( $error );
         }
 
@@ -175,7 +171,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         );
 
         if ( ! $result ) {
-            $error[ 'code' ] = 5;
             wp_send_json( $error );
         }
 
