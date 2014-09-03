@@ -67,11 +67,8 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             return;
         }
 
-        /**
-         * don't add the statistics pane to the footer, if caching is disabled or user is not logged in;
-         * if caching is enabled, we have to check this on the backend via Ajax
-         */
-        if ( ! $this->config->get( 'caching.compatible_mode' ) && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
+        // don't add the statistics pane placeholder to the footer, if the user is not logged in
+        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
             return;
         }
 
@@ -197,27 +194,27 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function ajax_render_tab(){
+    public function ajax_render_tab() {
 
-        if( !isset( $_GET[ 'post_id' ] ) ){
+        if ( ! isset( $_GET[ 'post_id' ] ) ) {
             exit;
         }
 
-        if( !isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ){
+        if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_statistic_render' ) {
             exit;
         }
 
-        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ){
+        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ) {
             exit;
         }
 
         $post_id    = absint( $_GET[ 'post_id' ] );
         $post       = get_post( $post_id );
-        if( $post === null ){
+        if ( $post === null ) {
             exit;
         }
 
-        if( !LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
             exit;
         }
 
@@ -231,7 +228,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         $this->initialize_post_statistics( $post );
-        echo $this->get_text_view( 'frontend/partials/post/post_statistics' );
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
         exit;
     }
 

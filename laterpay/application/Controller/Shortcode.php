@@ -167,7 +167,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         } else {
             $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
         }
-        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link lp_button\" data-icon=\"b\">$price_tag</a>";
+        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link-without-function lp_button\" data-icon=\"b\">$price_tag</a>";
         $html .= '    <div class="lp_premium-file-details">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {

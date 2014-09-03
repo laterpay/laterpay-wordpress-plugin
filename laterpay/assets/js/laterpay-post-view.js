@@ -24,24 +24,28 @@
                     });
                 },
 
-                renderPostStatisticsPane = function() {
-                    var requestVars     = {
+                loadPostStatistics = function() {
+                    var $placeholder    = $('#lp_post-statistics-placeholder'),
+                        requestVars     = {
                                             action  : 'laterpay_post_statistic_render',
                                             post_id : lpVars.post_id,
                                             nonce   : lpVars.nonces.statistic
-                                          },
-                        data            = $.get(
-                                            lpVars.ajaxUrl,
-                                            requestVars
-                                          ),
-                        $placeholder    = $('#lp_post-statistics-placeholder'),
-                        $postStatisticsPane;
+                                          };
 
-                    // render post statistics pane in placeholder
-                    if (!data || data === 0) {
-                        return;
-                    }
-                    $postStatisticsPane = $placeholder.html(data);
+                    $.get(
+                        lpVars.ajaxUrl,
+                        requestVars,
+                        function(data) {
+                            if (data) {
+                                $placeholder.before(data).remove();
+                                renderPostStatisticsPane();
+                            }
+                        }
+                    );
+                },
+
+                renderPostStatisticsPane = function() {
+                    var $postStatisticsPane = $('.lp_post-statistics');
 
                     // bind events to post statistics pane
                     bindPostStatisticsEvents();
@@ -113,18 +117,18 @@
                 },
 
                 loadPostContent = function() {
-                    var $pageCachingAnchor  = $('#lp_post-content-placeholder'),
-                        requestVars         = {
-                                                action  : 'laterpay_post_load_purchased_content',
-                                                post_id : lpVars.post_id,
-                                                nonce   : lpVars.nonces.content
-                                              };
+                    var $placeholder    = $('#lp_post-content-placeholder'),
+                        requestVars     = {
+                                            action  : 'laterpay_post_load_purchased_content',
+                                            post_id : lpVars.post_id,
+                                            nonce   : lpVars.nonces.content
+                                          };
 
                     $.get(
                         lpVars.ajaxUrl,
                         requestVars,
                         function(data) {
-                            $pageCachingAnchor.before(data).remove();
+                            $placeholder.before(data).remove();
                         }
                     );
                 },
@@ -145,7 +149,7 @@
 
                     // render the post statistics pane, if a placeholder exists for it
                     if ($('#lp_post-statistics-placeholder').length == 1) {
-                        renderPostStatisticsPane();
+                        loadPostStatistics();
                     }
 
                     bindPurchaseEvents();
@@ -174,7 +178,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         return;
     }
 
-    if ($purchase_link.getData('preview-as-visitor')) {
+    if ($purchaseLink.getData('preview-as-visitor')) {
         // bind event to purchase link and return, if 'preview as visitor' is activated for admins
         Y.one(Y.config.doc).delegate(
             'click',
