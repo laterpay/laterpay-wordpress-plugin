@@ -4,7 +4,7 @@
     function laterPayEditPost() {
         var $o = {
                 // post price inputs
-                priceInput              : $('#lp_post-price input[name=lp_post-price]'),
+                priceInput              : $('#lp_post-price input[name=post-price]'),
                 priceTypeInput          : $('#lp_post-price input[name=post_price_type]'),
 
                 // toggle for choosing pricing type
