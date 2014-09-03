@@ -317,8 +317,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'category_id'   => $category_id,
                 'message'       => sprintf(
                     __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
+                    $_POST['category'],
                     $formatted_category_price,
-                    $_POST['price'],
                     $currency_name
                 )
             )

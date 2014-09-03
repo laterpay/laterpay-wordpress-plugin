@@ -125,34 +125,43 @@ jQuery.noConflict();
         });
     }
 
-    function exitEditModeCategoryPrice($form) {
+    function exitEditModeCategoryPrice($form, editAnotherCategory) {
         $form.removeClass('editing');
         if ($form.hasClass('unsaved')) {
+            // remove form, if creating a new category default price has been canceled
             $form.fadeOut(250, function() {
                 $(this).remove();
             });
         } else {
+            // hide form, if editing an existing category default price has been canceled
             $('.lp_number-input, .lp_save-link, .lp_cancel-link', $form).hide();
             $('.lp_category-select', $form).select2('destroy');
             $('.lp_category-title, .lp_category-price, .lp_change-link, .lp_delete-link', $form).show();
+            // reset value of price input to current category default price
+            $('.lp_number-input', $form).val($('.lp_category-price', $form).text());
         }
-        $('#lp_add-category-link').fadeIn(250);
+        if (!editAnotherCategory) {
+            $('#lp_add-category-link').fadeIn(250);
+        }
     }
 
     function editCategoryDefaultPrice($form) {
-// TODO: end edit mode for all other category prices
+        // exit edit mode of all other category prices
+        $('.lp_category-price-form.editing').each(function() {
+            exitEditModeCategoryPrice($(this), true);
+        });
 
         // initialize edit mode
         $form.addClass('editing');
         $('.lp_category-title, .lp_category-price, .lp_change-link, .lp_delete-link', $form).hide();
         $('#lp_add-category-link').fadeOut(250);
-        $('.number, .lp_save-link, .lp_cancel-link', $form).show();
+        $('.lp_number-input, .lp_save-link, .lp_cancel-link', $form).show();
         renderCategorySelect($form);
 
         // save category default price
         $form
         .on('mousedown', '.lp_save-link', function() {
-            $('.lp_input.number', $form).val(validatePrice($('.lp_input.number', $form).val()));
+            $('.lp_input.lp_number-input', $form).val(validatePrice($('.lp_input.lp_number-input', $form).val()));
             $form.removeClass('unsaved');
             $.post(
                 ajaxurl,
