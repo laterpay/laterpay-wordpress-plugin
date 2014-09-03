@@ -11,7 +11,7 @@
 
 
 // render vector icons from icon font ----------------------------------------------------------------------------------
-// inject vector icon when 'data-icon' attribute is applied to an element
+// inject vector icon in pseudo element when 'data-icon' attribute is applied to an element
 [data-icon]:before
     content             attr(data-icon)
     font-family         laterpay-wordpress-icons !important
@@ -26,7 +26,7 @@
     top                 0.1em
 
 
-// inject vector icon when an 'laterpay-icon-' or 'laterpay-logo-' class is applied to an element
+// inject vector icon in pseudo element when an 'laterpay-icon-' or 'laterpay-logo-' class is applied to an element
 [class^='laterpay-icon-']:before,
 [class^='laterpay-logo-']:before,
     font-family         laterpay-wordpress-icons !important
@@ -37,7 +37,7 @@
     speak               none
     text-transform      none !important
 
-// font-smoothing
+// font smoothing
 [data-icon]:before,
 [class^='laterpay-icon-']:before,
 [class^='laterpay-logo-']:before,
@@ -75,6 +75,6 @@
 .laterpay-icon-live-mode:before
     content 'k'
 
-// hide icon (used in statistics pane)
+// 'hide' icon (used in statistics pane)
 .laterpay-icon-hide:before
     content 'l'

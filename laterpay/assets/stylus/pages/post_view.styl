@@ -1,29 +1,29 @@
 // view post page in WordPress frontend
 
 // content preview mode 2: teaser + excerpt from actual content, covered by overlay ------------------------------------
-.laterpay-paid-content
-    bottom                          1em
-    margin-bottom                   5em
-    min-height                      400px
-    position                        relative
-    top                             0
+.lp_paid-content
+    bottom                          1em                                                             !important
+    margin-bottom                   5em                                                             !important
+    min-height                      400px                                                           !important
+    position                        relative                                                        !important
+    top                             0                                                               !important
 
     // obfuscate excerpt of full post content by making it look blurred
-    .laterpay-full-content
-        color                       transparent
-        padding                     0.25em
-        text-shadow                 0 0 4px #000
+    .lp_full-content
+        color                       transparent                                                     !important
+        padding                     0.25em                                                          !important
+        text-shadow                 0 0 4px #000                                                    !important
 
-    .laterpay-overlay-text
-        background-color            rgba(255, 255, 255, 0.89)
-        height                      100%
-        left                        0
-        position                    absolute
-        top                         0
-        width                       100%
+    .lp_overlay-text
+        background-color            rgba(255, 255, 255, 0.89)                                       !important
+        height                      100%                                                            !important
+        left                        0                                                               !important
+        position                    absolute                                                        !important
+        top                         0                                                               !important
+        width                       100%                                                            !important
 
         // modal-like box describing the benefits of LaterPay
-        .laterpay-benefits
+        .lp_benefits
             background-clip         padding-box                                                     !important
             background              #e5e5e5                                                         !important
             background              -webkit-radial-gradient(center, ellipse, #fcfcfc 34%, #e1e1e1 89%) !important
@@ -93,17 +93,17 @@
                     line-height     1.3                                                             !important
                     margin          0                                                               !important
 
-            li.laterpay-buy-now
+            li.lp_benefit-buy-now
                 background-image    url(../img/laterpay-icon-buy.svg)                               !important
 
-            li.laterpay-use-immediately
+            li.lp_benefit-use-immediately
                 background-image    url(../img/laterpay-icon-read.svg)                              !important
 
-            li.laterpay-pay-later
+            li.lp_benefit-pay-later
                 background-image    url(../img/laterpay-icon-pay.svg)                               !important
 
-            svg.laterpay-teaser-overlay-icons
-                fill                #4dac64
+            svg.lp_teaser-overlay-icons
+                fill                #4dac64                                                         !important
 
             .lp_purchase-link.lp_button
                 display             inline-block                                                    !important
@@ -111,13 +111,14 @@
                 margin-left         6em                                                             !important
                 margin-top          1em                                                             !important
 
-            .powered-by
+            .lp_powered-by
                 color               #bbb                                                            !important
                 font-size           16px                                                            !important
                 left                50%                                                             !important
                 margin              -1.5em 0 0 -7em                                                 !important
                 position            absolute                                                        !important
 
+                // LaterPay logo (rendered in pseudo element from icon font)
                 span[data-icon]:before
                     color           #c5c5c5                                                         !important
                     font-size       6em                                                             !important
@@ -129,16 +130,16 @@
 
 // Chrome browser hacks
 @media screen and (-webkit-min-device-pixel-ratio:0)
-    .laterpay-benefits .powered-by
-        margin-top                  1.5em
+    .lp_benefits .lp_powered-by
+        margin-top                  1.5em                                                           !important
 
+        // LaterPay logo (rendered in pseudo element from icon font)
         span[data-icon]:before
-            top                     0.08em
-
+            top                     0.08em                                                          !important
 
 
 // shortcodes for linked premium files in free to read posts -----------------------------------------------------------
-.laterpay-premium-file-link
+.lp_premium-file-box
     background                      #e5e5e5 url(../img/premium-text.png) 50% 50% no-repeat          !important
     background-size                 cover                                                           !important
     border-radius                   3px                                                             !important
@@ -148,91 +149,41 @@
     position                        relative                                                        !important
     width                           300px                                                           !important
 
-.laterpay-premium-file-link.text
+.lp_content-type-text
     background-image                url(../img/premium-text.png)                                    !important
 
-.laterpay-premium-file-link.music
+.lp_content-type-music
     background-image                url(../img/premium-music.png)                                   !important
 
-.laterpay-premium-file-link.video
+.lp_content-type-video
     background-image                url(../img/premium-video.png)                                   !important
 
-.laterpay-premium-file-link.gallery
+.lp_content-type-gallery
     background-image                url(../img/premium-gallery.png)                                 !important
 
-.laterpay-premium-file-link.file
+.lp_content-type-file
     background-image                url(../img/premium-download.png)                                !important
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
     // serve retina images for hires displays
-    .laterpay-premium-file-link.text
+    .lp_content-type-text
         background-image            url(../img/premium-text_2x.png)                                 !important
-    .laterpay-premium-file-link.music
+    .lp_content-type-music
         background-image            url(../img/premium-music_2x.png)                                !important
-    .laterpay-premium-file-link.video
+    .lp_content-type-video
         background-image            url(../img/premium-video_2x.png)                                !important
-    .laterpay-premium-file-link.gallery
+    .lp_content-type-gallery
         background-image            url(../img/premium-gallery_2x.png)                              !important
-    .laterpay-premium-file-link.file
+    .lp_content-type-file
         background-image            url(../img/premium-download_2x.png)                             !important
 
-.laterpay-premium-file-button
-    background                      $background-laterpay                                            !important
-    background                      -webkit-linear-gradient(top, $background-laterpay 0, $background-laterpay-darker 100%)  !important
-    background                      linear-gradient(to bottom, $background-laterpay 0, $background-laterpay-darker 100%)    !important
-    border                          1px solid #20947a                                               !important
-    border-color                    #1c8069 #20947a                                                 !important
-    border-radius                   4px                                                             !important
-    border-width                    0 1px 2px 0                                                     !important
-    color                           $text-inverse                                                   !important
-    font-family                     Arial, sans-serif                                               !important
+.lp_premium-file-box .lp_purchase-link.lp_button
     font-size                       21px                                                            !important
-    font-weight                     400                                                             !important
-    line-height                     1.1                                                             !important
     margin                          0                                                               !important
-    padding                         0.15em 0.25em 0.15em 0                                          !important
-    position                        absolute                                                        !important
     right                           0.45em                                                          !important
-    text-decoration                 none                                                            !important
-    text-shadow                     0 -1px 0 #22a280                                                !important
     top                             0.5em                                                           !important
-    white-space                     nowrap                                                          !important
 
-    small,
-    &:hover,
-    &:focus,
-    &:active
-        color                       $text-inverse                                                   !important
-        text-decoration             none                                                            !important
-
-    &:hover
-        background                  $background-laterpay-highlight                                  !important
-        background                  -webkit-linear-gradient(top, $background-laterpay-highlight 0, $background-laterpay 100%) !important
-        background                  linear-gradient(to bottom, $background-laterpay-highlight 0, $background-laterpay 100%)   !important
-
-    &:focus,
-    &:active
-        background                  $background-laterpay-highlight                                  !important
-        background                  -webkit-linear-gradient(top, $background-laterpay-highlight 0, $background-laterpay 100%) !important
-        background                  linear-gradient(to bottom, $background-laterpay-highlight 0, $background-laterpay 100%)   !important
-        border-top-color            transparent                                                     !important
-        border-width                2px 1px 0 0                                                     !important
-
-    small
-        bottom                      0.7em                                                           !important
-        font-size                   0.5em                                                           !important
-        padding-left                4px                                                             !important
-        position                    relative                                                        !important
-
-    .laterpay-premium-file-button[data-icon]:before
-        font-size                   1.8em                                                           !important
-        left                        -2px                                                            !important
-        line-height                 0                                                               !important
-        margin                      0                                                               !important
-        position                    relative                                                        !important
-        top                         0.32em                                                          !important
-
-.laterpay-premium-file-link .details
+.lp_premium-file-details
     background-color                rgba(229, 229, 229, 0.89)                                       !important
     border-radius                   0 0 2px 2px                                                     !important
     bottom                          0                                                               !important
@@ -259,26 +210,26 @@
         overflow                    hidden                                                          !important
         text-overflow               ellipsis                                                        !important
 
-.laterpay-premium-file-link-wrapper .laterpay-premium-file-link
+.lp_premium-file-box-wrapper .lp_premium-file-box
     float                           left                                                            !important
 
 // error messages displayed instead of broken shortcodes
-.laterpay-shortcode-error
-    background-color                #e66262
-    border-radius                   3px
-    color                           $text-inverse
-    margin                          1em 2em
-    padding                         0.5em 1em
+.lp_shortcode-error
+    background-color                #e66262                                                         !important
+    border-radius                   3px                                                             !important
+    color                           $text-inverse                                                   !important
+    margin                          1em 2em                                                         !important
+    padding                         0.5em 1em                                                       !important
 
 
 // responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:567px)
-    .laterpay-overlay-text .laterpay-benefits
+    .lp_overlay-text .lp_benefits
         h2
-            font-size               24px !important
+            font-size               24px                                                            !important
 
         ul
-            margin                  0 0.5em !important
+            margin                  0 0.5em                                                         !important
 
         li br
-            display                 none
+            display                 none                                                            !important

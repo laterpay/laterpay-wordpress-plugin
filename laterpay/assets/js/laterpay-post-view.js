@@ -188,7 +188,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         return;
     }
 
-    dm.attachToLinks('.laterpay-purchase-link', ppuContext.showCloseBtn);
+    dm.attachToLinks('.lp_purchase-link', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
     if (!lpVars || !lpVars.lpBalanceUrl) {
