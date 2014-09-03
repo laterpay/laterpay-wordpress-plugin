@@ -109,10 +109,13 @@
                         $input.val(0);
                     }
 
-                    // save the state
+                    // save the state and reload the page in the new preview mode
                     $.post(
                         lpVars.ajaxUrl,
-                        $form.serializeArray()
+                        $form.serializeArray(),
+                        function() {
+                            window.location.reload();
+                        }
                     );
                 },
 
