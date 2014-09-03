@@ -53,7 +53,6 @@ delete_option( 'laterpay_version' );
 
 // remove custom capabilities
 foreach ( array( 'administrator', 'editor' ) as $role ) {
-foreach ( $roles as $role ) {
     $role = get_role( $role );
     if ( empty( $role ) ) {
         continue;
@@ -64,7 +63,6 @@ foreach ( $roles as $role ) {
 }
 
 foreach ( array( 'author', 'contributor' ) as $role ) {
-foreach ( $roles as $role ) {
     $role = get_role( $role );
     if ( empty( $role ) ) {
         continue;
