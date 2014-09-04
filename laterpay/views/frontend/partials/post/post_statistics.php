@@ -2,7 +2,7 @@
 
 <?php $currency = $laterpay[ 'currency' ]; ?>
 
-<div class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' hidden'; ?>">
+<div class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' lp_hidden'; ?>">
     <form id="lp_toggle-post-statistics-visibility-form" method="post">
         <input type="hidden" name="action"                  value="laterpay_post_statistic_visibility">
         <input type="hidden" name="hide_statistics_pane"    value="<?php echo $laterpay['hide_statistics_pane'];?>">

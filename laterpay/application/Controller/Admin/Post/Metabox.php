@@ -96,7 +96,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         foreach ( $post_types as $post_type ) {
             add_meta_box(
-                'laterpay_post_teaser',
+                'lp_post-teaser',
                 __( 'Teaser Content', 'laterpay' ),
                 array( $this, 'render_teaser_content_box' ),
                 $post_type,
@@ -105,7 +105,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             );
 
             add_meta_box(
-                'laterpay_post_pricing',
+                'lp_post-pricing',
                 __( 'Pricing for this Post', 'laterpay' ),
                 array( $this, 'render_post_pricing_form' ),
                 $post_type,

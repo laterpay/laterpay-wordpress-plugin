@@ -26,9 +26,9 @@
                 dynamicPricingContainer : $('#lp_dynamic-pricing-widget-container'),
 
                 // strings cached for better compression
-                expanded                : 'expanded',
-                selected                : 'selected',
-                disabled                : 'disabled',
+                expanded                : 'lp_expanded',
+                selected                : 'lp_selected',
+                disabled                : 'lp_disabled',
                 selectedCategory        : 'lp_selected-category',
                 dynamicPricingApplied   : 'lp_dynamic-pricing-applied',
             },

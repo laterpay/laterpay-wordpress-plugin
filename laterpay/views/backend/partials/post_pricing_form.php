@@ -18,16 +18,16 @@
     <input type="hidden" name="post_price_type" value="<?php echo $laterpay_post_price_type ?>">
 </div>
 
-<div id="lp_price-type"<?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) ) ) { echo ' class="expanded"'; } ?>>
+<div id="lp_price-type"<?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) ) ) { echo ' class="lp_expanded"'; } ?>>
      <ul class="lp-toggle lp_fl-clearfix">
-        <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == 'individual price' || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'selected'; } ?>">
+        <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == 'individual price' || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'lp_selected'; } ?>">
             <a href="#" id="lp_use-individual-price" class="lp_use-individual-price"><?php _e( 'Individual Price', 'laterpay' ); ?></a>
         </li>
-        <li class=" <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'selected'; } ?>
+        <li class=" <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'lp_selected'; } ?>
                     <?php if ( ! count( $laterpay_category_prices ) ) { echo 'disabled'; } ?>">
             <a href="#" id="lp_use-category-default-price" class="lp_use-category-default-price"><?php _e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
-        <li class=" <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE || ($laterpay_post_price_type == '' && $laterpay_global_default_price > 0) ) { echo 'selected'; } ?>
+        <li class=" <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE || ($laterpay_post_price_type == '' && $laterpay_global_default_price > 0) ) { echo 'lp_selected'; } ?>
                     <?php if ( ! ($laterpay_global_default_price > 0) ) { echo 'disabled'; } ?>">
             <a href="#" id="lp_use-global-default-price" class="lp_use-global-default-price" data-price="<?php echo LaterPay_Helper_View::format_number( $laterpay_global_default_price, 2 ); ?>"><?php _e( 'Global Default<span></span> Price', 'laterpay' ); ?></a>
         </li>

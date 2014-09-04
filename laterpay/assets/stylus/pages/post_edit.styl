@@ -1,14 +1,14 @@
 // add / edit post page in WordPress backend
 
 // LaterPay vector logo for pricing and teaser metabox -----------------------------------------------------------------
-#laterpay_post_pricing,
-#laterpay_post_teaser
+#lp_post-pricing,
+#lp_post-teaser
     h3 span
         left                        6.25em
         position                    relative
 
-#laterpay_post_pricing h3 span:before,
-#laterpay_post_teaser h3 span:before
+#lp_post-pricing h3 span:before,
+#lp_post-teaser h3 span:before
     -moz-osx-font-smoothing         grayscale
     -webkit-font-smoothing          antialiased
     content                         'a'
@@ -24,12 +24,12 @@
     text-transform                  none !important
     top                             0.106em
 
-#laterpay_post_teaser h3 span:before
+#lp_post-teaser h3 span:before
     top                             0.11em
 
 
 // pricing metabox -----------------------------------------------------------------------------------------------------
-#laterpay_post_pricing
+#lp_post-pricing
     a
         text-decoration             none
 
@@ -97,11 +97,11 @@
                 display             block
                 height              2.5em
 
-        .selected,
-        .selected:hover
+        .lp_selected,
+        .lp_selected:hover
             background-color        #d5d5d5
 
-        .selected
+        .lp_selected
             box-shadow              inset 0 1px 3px rgba(0, 0, 0, 0.34)
 
             a,
@@ -110,7 +110,7 @@
                 cursor              default
                 text-shadow         0 1px 0 #e9e9e9
 
-        .disabled
+        .lp_disabled
             a
                 color               #d5d5d5
                 cursor              default
@@ -168,7 +168,7 @@
 
 
 // teaser content metabox ----------------------------------------------------------------------------------------------
-#laterpay_post_teaser dfn
+#lp_post-teaser dfn
     color                           #999
     display                         block
     font-style                      italic

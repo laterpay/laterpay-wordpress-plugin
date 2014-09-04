@@ -84,12 +84,12 @@
                     var $form   = $('#lp_toggle-post-statistics-visibility-form'),
                         $pane   = $('.lp_post-statistics'),
                         $input  = $('input[name=hide_statistics_pane]'),
-                        doHide  = $pane.hasClass('hidden') ? '0' : '1';
+                        doHide  = $pane.hasClass('lp_hidden') ? '0' : '1';
 
                     $input.val(doHide);
 
                     // toggle the visibility
-                    $pane.toggleClass('hidden');
+                    $pane.toggleClass('lp_hidden');
 
                     // save the state
                     $.post(
