@@ -6,8 +6,9 @@
                 // post price inputs
                 priceInput              : $('#lp_post-price input[name=post-price]'),
                 priceTypeInput          : $('#lp_post-price input[name=post_price_type]'),
+                revenueModelInput       : $('#lp_post-price :radio[name=post_revenue_model]'),
 
-                // toggle for choosing pricing type
+                // button group for choosing pricing type
                 priceSection            : $('#lp_price-type'),
                 pricingTypeToggle       : $('#lp_price-type .lp-toggle'),
                 pricingTypeButtons      : $('#lp_price-type .lp-toggle a'),
@@ -31,6 +32,8 @@
                 disabled                : 'lp_disabled',
                 selectedCategory        : 'lp_selected-category',
                 dynamicPricingApplied   : 'lp_dynamic-pricing-applied',
+                payPerUse               : 'ppu',
+                singleSale              : 'ss',
             },
 
             bindEvents = function() {
@@ -44,6 +47,9 @@
 
                 // validate manually entered prices
                 $o.priceInput.blur(function() {setPrice($(this).val());});
+
+                // validate choice of revenue model (validating the price switches the revenue model if required)
+                $o.revenueModelInput.change(function() {validatePrice($o.priceInput.val());});
 
                 // toggle dynamic pricing widget
                 $o.dynamicPricingToggle
@@ -69,7 +75,7 @@
                     return;
                 }
 
-                // set state of toggle
+                // set state of button group
                 $('.' + $o.selected, $o.pricingTypeToggle).removeClass($o.selected);
                 $clickedButton.addClass($o.selected);
                 $o.priceSection.removeClass($o.expanded);
@@ -153,7 +159,40 @@
                     price = 0.05;
                 }
 
+                validateRevenueModel(price);
+
                 return price.toFixed(2);
+            },
+
+            validateRevenueModel = function(price) {
+                // FIXME: #315 reeeeeally ugly selectors here...
+
+                var currentRevenueModel = $('#lp_post-price :radio[name=post_revenue_model]:checked').val();
+
+                if ((price === 0 || price > 0.05) && price < 5) {
+                    // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
+                    $('#lp_post-price :radio[name=post_revenue_model][value=' + $o.payPerUse + ']').removeAttr('disabled');
+                } else {
+                    // disable Pay-per-Use
+                    $('#lp_post-price :radio[name=post_revenue_model][value=' + $o.payPerUse + ']').attr('disabled', 'disabled');
+                }
+
+                if (price > 1.49) {
+                    // enable Single Sale for prices > 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
+                    $('#lp_post-price :radio[name=post_revenue_model][value=' + $o.singleSale + ']').removeAttr('disabled');
+                } else {
+                    // disable Single Sale
+                    $('#lp_post-price :radio[name=post_revenue_model][value=' + $o.singleSale + ']').attr('disabled', 'disabled');
+                }
+
+                // switch revenue model, if combination of price and revenue model is not allowed
+                if (price > 5 && currentRevenueModel == $o.payPerUse) {
+                    // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
+                    $('#lp_post-price :radio[name=post_revenue_model][value=' + $o.singleSale + ']').prop('checked', true);
+                } else if (price < 1.49 && currentRevenueModel == $o.singleSale) {
+                    // Single Sale purchases are not allowed for prices < 1.49 Euro
+                    $('#lp_post-price :radio[name=post_revenue_model][value=' + $o.payPerUse + ']').prop('checked', true);
+                }
             },
 
             updateSelectedCategory = function() {
