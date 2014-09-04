@@ -11,9 +11,10 @@ class PluginModule extends BaseModule {
     //pricing tab elements
     public static $pricingAddCategoryButton = '#add_category_button';
     public static $pricingCategorySelect = '#select2-drop-mask';
-    public static $pricingCategorySelectOption = '#select2-result-label';
-    public static $pricingSaveLink = ".edit-link .laterpay-save-link";
-    public static $pricingCancelLink = ".edit-link .laterpay-cancel-link";
+    public static $pricingCategorySelectOption = 'div[text="value"]';
+    public static $pricingSaveLink = ".edit-link.laterpay-save-link";
+    public static $pricingCancelLink = ".edit-link.laterpay-cancel-link";
+    public static $pricingPriceInput = ".lp-input.number";
 
     public function goThroughGetStartedTab()
     {
@@ -22,7 +23,7 @@ class PluginModule extends BaseModule {
 
     public function createCategoryDefaultPrice($category_name, $category_default_price)
     {
-        $I = $this->webguy;
+        $I = $this->BackendTester;
         $I->amOnPage(self::$BaseUrl);
         $I->click(self::$adminMenuPluginButton);
         $I->click(self::$pluginPricingTab);
@@ -46,7 +47,8 @@ class PluginModule extends BaseModule {
         $I->seeElement(self::$pricingCancelLink);
 
         $I->click(self::$pricingCategorySelect);
-        $I->click(self::$pricingCategorySelectOption);
+        $I->click(str_replace('value', $category_name, self::$pricingCategorySelectOption));
+        $I->fillField(self::$pricingPriceInput, $category_default_price);
 
         return $this;
     }

@@ -36,13 +36,19 @@ heading_text="Shortcode Heading" description_text="Shortcode Description" conten
     public static $C3 = 'Both wrong
 [laterpay_premium_download target_page_title="LaterPay WordPress Plugin Shortcode Test Wrong Title" target_page_id={Some nonexisting
 ID} heading_text="Shortcode Heading" description_text="Shortcode Description" content_type="gallery"]';
+
     public static $BaseUrl = '/wp-admin/';
+
+    /**
+     * @var BackendTester
+     */
+    protected $BackendTester;
 
     /**
      * @param \BackendTester $I
      */
-    public function construct($I) {
-        $this->webguy  = $I;
+    public function __construct($I) {
+        $this->BackendTester  = $I;
     }
 
     /**

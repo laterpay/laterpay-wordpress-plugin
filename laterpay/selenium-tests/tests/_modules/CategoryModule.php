@@ -12,7 +12,7 @@ class CategoryModule extends BaseModule {
 
     public function createTestCategory($category_name)
     {
-        $I = $this->webguy;
+        $I = $this->BackendTester;
         $I->amOnPage(self::$URL);
         $I->fillField(self::$elementCategoryNameId, $category_name);
         $I->click(self::$elementSubmitId);

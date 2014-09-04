@@ -25,6 +25,5 @@ class PluginPage {
         return static::$URL . $param;
     }
 
-
 }
 
