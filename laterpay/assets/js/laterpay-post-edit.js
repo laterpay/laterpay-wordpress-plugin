@@ -70,7 +70,7 @@
                 }
 
                 // set state of toggle
-                $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
+                $('.' + $o.selected, $o.pricingTypeToggle).removeClass($o.selected);
                 $clickedButton.addClass($o.selected);
                 $o.priceSection.removeClass($o.expanded);
 
@@ -228,7 +228,7 @@
                                 // if current pricing type is 'category default price'
                                 // fall back to global default price or an individual price of 0
                                 if ($o.categoryPriceButton.hasClass($o.selected)) {
-                                    $('.selected', $o.pricingTypeToggle).removeClass($o.selected);
+                                    $('.' + $o.selected, $o.pricingTypeToggle).removeClass($o.selected);
                                     $('#lp_price-type').removeClass($o.expanded);
 
                                     if ($o.globalPriceButton.hasClass($o.disabled)) {
