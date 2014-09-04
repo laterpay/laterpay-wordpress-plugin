@@ -157,7 +157,9 @@
                     color           #444
                     cursor          default
 
-#lp_price-type.expanded .lp_use-category-default-price li.lp_selected-category
+// TODO: this looks just a tiny little bit BAD:
+#lp_price-type.expanded .lp_use-category-default-price li.lp_selected-category,
+#lp_price-type #lp_price-type-details .lp_use-category-default-price li.lp_selected-category:nth-child(2n)
     background-color                $background-highlight
 
 #lp_use-dynamic-pricing
