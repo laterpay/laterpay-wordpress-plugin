@@ -127,7 +127,7 @@ class CheckPricesApplyingWithCategoryPriceDeletedCest {
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
      */
     public function stepCreateCategory1(BackendTester $I) {
-        \CategoryPage::create($I, \ConstantsPage::$CAT1);
+        \CategoryPage::create($I, \CommonPage::$CAT1);
     }
 
     /**
@@ -136,8 +136,7 @@ class CheckPricesApplyingWithCategoryPriceDeletedCest {
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
      */
     public function assertCreatedCategory1(BackendTester $I) {
-        $I->amOnPage(CategoryPage::$URL);
-        $I->see(\ConstantsPage::$CAT1, CategoryPage::$categories_table_selector);
+        $I->see(\CommonPage::$CAT1, CategoryPage::$categories_table_selector);
     }
 
     /**
@@ -146,7 +145,7 @@ class CheckPricesApplyingWithCategoryPriceDeletedCest {
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
      */
     public function stepCreateCategory2(BackendTester $I) {
-        \CategoryPage::create($I, \ConstantsPage::$CAT2);
+        \CategoryPage::create($I, \CommonPage::$CAT2);
     }
 
     /**
@@ -155,8 +154,7 @@ class CheckPricesApplyingWithCategoryPriceDeletedCest {
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
      */
     public function assertCreatedCategory2(BackendTester $I) {
-        $I->amOnPage(CategoryPage::$URL);
-        $I->see(\ConstantsPage::$CAT2, CategoryPage::$categories_table_selector);
+        $I->see(\CommonPage::$CAT2, CategoryPage::$categories_table_selector);
     }
 
     /**
@@ -165,7 +163,7 @@ class CheckPricesApplyingWithCategoryPriceDeletedCest {
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
      */
     public function stepCreateCategory3(BackendTester $I) {
-        \CategoryPage::create($I, \ConstantsPage::$CAT3);
+        \CategoryPage::create($I, \CommonPage::$CAT3);
     }
 
     /**
@@ -174,8 +172,7 @@ class CheckPricesApplyingWithCategoryPriceDeletedCest {
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
      */
     public function assertCreatedCategory3(BackendTester $I) {
-        $I->amOnPage(CategoryPage::$URL);
-        $I->see(\ConstantsPage::$CAT3, CategoryPage::$categories_table_selector);
+        $I->see(\CommonPage::$CAT3, CategoryPage::$categories_table_selector);
     }
 
     //Change category default price
@@ -226,9 +223,47 @@ class CheckPricesApplyingWithCategoryPriceDeletedCest {
      * @group Backend
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
      */
-
     public function stepClickCancelLinkIsShown(BackendTester $I) {
         $I->click(PluginPage::$pricingAddCategoryButton);
     }
+
+    /**
+     * @param \BackendTester $I
+     * @group Backend
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
+     */
+    public function assertSetDefaultPriceForAnotherCategoryLinkIsShown(BackendTester $I) {
+        $I->seeElement(PluginPage::$pricingAddCategoryButton);
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group Backend
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
+     */
+    public function assertCancelLinkIsNotShown(BackendTester $I) {
+        $I->cantSeeElement(PluginPage::$pricingCancelLink);
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group Backend
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
+     */
+    public function assertSaveLinkIsNotShown(BackendTester $I) {
+        $I->cantSeeElement(PluginPage::$pricingSaveLink);
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group Backend
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
+     */
+    public function stepClickCancelLinkIsShownAgain(BackendTester $I) {
+        $I->click(PluginPage::$pricingAddCategoryButton);
+        $I->selectOption()
+    }
+
+
 }
 
