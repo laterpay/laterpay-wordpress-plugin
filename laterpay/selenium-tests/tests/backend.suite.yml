@@ -1,0 +1,15 @@
+class_name: BackendTester
+modules:
+    enabled:
+        - WebDriver
+        - CommonHelper
+    config:
+        WebDriver:
+         url: 'http://local.wordpress.dev/'
+         browser: firefox
+         restart: false
+         clear_cookies: false
+         window_size: 1024x768
+         wait: 5
+         capabilities:
+             unexpectedAlertBehaviour: 'accept'
