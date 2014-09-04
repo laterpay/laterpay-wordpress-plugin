@@ -15,13 +15,14 @@
         <?php _e( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ); ?>
     </div>
     <div class="lp_overlay-text">
-        <div class="lp_laterpay-benefits">
+        <div class="lp_benefits">
             <header>
                 <h2>
                     <span data-icon="a"></span>
                     <?php _e( 'Read Now, Pay Later', 'laterpay' ); ?>
                 </h2>
             </header>
+
             <ul class="lp_fl-clearfix">
                 <li class="lp_benefit-buy-now">
                     <h3><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
@@ -46,7 +47,7 @@
             <?php do_action( 'laterpay_purchase_button' ); ?>
 
             <div class="lp_powered-by">
-                powered by<span data-icon="a"></span> beta
+                powered by<span data-icon="a"></span>beta
             </div>
         </div>
     </div>
