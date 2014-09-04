@@ -233,10 +233,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // re-set the post_id
-        $post_id    = $post->ID;
+        $post_id        = $post->ID;
 
-        $currency   = get_option( 'laterpay_currency' );
-        $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $currency       = get_option( 'laterpay_currency' );
+        $price          = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 
         $currency_model = new LaterPay_Model_Currency();
         $client         = new LaterPay_Client( $this->config );
@@ -256,14 +257,19 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // parameters for LaterPay purchase form
         $params = array(
             'article_id'    => $post_id,
-            'purchase_date' => time() . '000', // fix for PHP 32bit
             'pricing'       => $currency . ( $price * 100 ),
             'vat'           => $this->config->get( 'currency.default_vat' ),
             'url'           => $url . '&hash=' . $hash,
             'title'         => $post->post_title,
         );
 
-        return $client->get_add_url( $params );
+        if ( $revenue_model == 'ss' ) {
+            // Single Sale purchase
+            return $client->get_buy_url( $params );
+        } else {
+            // Pay-per-Use purchase
+            return $client->get_add_url( $params );
+        }
     }
 
     /**
