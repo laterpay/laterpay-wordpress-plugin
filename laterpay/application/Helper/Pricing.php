@@ -170,7 +170,7 @@ class LaterPay_Helper_Pricing
 
         // checks if the price is in cache and returns it
         $price = wp_cache_get( $cache_key, 'laterpay' );
-        if ( ! $price ) {
+        if ( $price ) {
             return $price;
         }
 
@@ -276,7 +276,7 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Get revenue model of post price (Pay Per Use or Single Sale).
+     * Get revenue model of post price (Pay-per-Use or Single Sale).
      *
      * @param int $post_id
      *

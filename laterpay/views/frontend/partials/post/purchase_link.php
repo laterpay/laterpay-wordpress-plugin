@@ -8,13 +8,13 @@
     data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']; ?>">
     <?php if ( $laterpay['revenue_model'] == 'ss' ): ?>
         <?php echo sprintf(
-                            __( 'Buy now for %s<small>%s</small> and pay later', 'laterpay' ),
+                            __( 'Buy now for %s<small>%s</small>', 'laterpay' ),
                             LaterPay_Helper_View::format_number( (float) $laterpay['price'], 2 ),
                             $laterpay['currency']
             ); ?>
     <?php else: ?>
         <?php echo sprintf(
-                            __( 'Buy now for %s<small>%s</small>', 'laterpay' ),
+                            __( 'Buy now for %s<small>%s</small> and pay later', 'laterpay' ),
                             LaterPay_Helper_View::format_number( (float) $laterpay['price'], 2 ),
                             $laterpay['currency']
             ); ?>
