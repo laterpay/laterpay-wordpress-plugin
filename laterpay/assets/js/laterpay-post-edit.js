@@ -146,9 +146,9 @@
                 }
                 // prevent negative prices
                 price = Math.abs(price);
-                // correct prices outside the allowed range of 0.05 - 5.00
-                if (price > 5) {
-                    price = 5;
+                // correct prices outside the allowed range of 0.05 - 149.49
+                if (price > 149.99) {
+                    price = 149.99;
                 } else if (price > 0 && price < 0.05) {
                     price = 0.05;
                 }

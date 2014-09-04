@@ -11,7 +11,7 @@ class LaterPay_Helper_Pricing
     const META_KEY = 'laterpay_post_prices';
 
     /**
-     * Check if the current post or a given post is purchasable.
+     * Check, if the current post or a given post is purchasable.
      *
      * @param null|WP_Post $post
      *
@@ -26,8 +26,8 @@ class LaterPay_Helper_Pricing
             }
         }
 
-        // check if the current post price is not 0
-        $price = self::get_post_price( $post->ID );
+        // check, if the current post price is not 0
+        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         if ( $price == 0 ) {
             return false;
         }
@@ -51,7 +51,7 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Return all post ids with a given category_id that have a price applied.
+     * Return all post_ids with a given category_id that have a price applied.
      *
      * @param int $category_id
      *
@@ -67,6 +67,7 @@ class LaterPay_Helper_Pricing
             'post_type'         => $config->get( 'content.allowed_post_types' ),
         );
         $posts      = get_posts( $post_args );
+
         return $posts;
     }
 
@@ -89,22 +90,23 @@ class LaterPay_Helper_Pricing
             return false;
         }
 
-        $post_prices = array();
-        $post_prices[ 'type' ] = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
+        $post_price = array();
+        $post_price[ 'type' ] = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
 
-        return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_prices );
+        return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_price );
     }
 
 
     /**
-     * Apply's the 'category default price' to all posts with a 'global default price' by a given category_id
+     * Apply the 'category default price' to all posts with a 'global default price' by a given category_id.
      *
      * @param integer $category_id
+     *
      * @return array $updated_post_ids all updated post_ids
      */
     public static function apply_category_price_to_posts_with_global_price( $category_id ){
         $updated_post_ids   = array();
-        $post_ids           = self::get_post_ids_with_price_by_category_id( $category_id );
+        $post_ids           = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
 
         foreach( $post_ids as $post_id ){
             $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
@@ -112,12 +114,12 @@ class LaterPay_Helper_Pricing
                 continue;
             }
 
-            // check if the post uses a global default price
+            // check, if the post uses a global default price
             if ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
                 continue;
             }
 
-            $success = self::apply_category_default_price_to_post( $post_id, $category_id, true );
+            $success = LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $category_id, true );
             if ( $success ) {
                 $updated_post_ids[] = $post_id;
             }
@@ -129,11 +131,11 @@ class LaterPay_Helper_Pricing
     /**
      * Apply a given category default price to a given post.
      *
-     * @param   int     $post_id
-     * @param   int     $category_id
-     * @param   boolean $strict - checks if the given category_id is assigned to the post_id
+     * @param int     $post_id
+     * @param int     $category_id
+     * @param boolean $strict - checks, if the given category_id is assigned to the post_id
      *
-     * @return  boolean true|false
+     * @return boolean true|false
      */
     public static function apply_category_default_price_to_post( $post_id, $category_id, $strict = false ) {
         $post = get_post( $post_id );
@@ -141,7 +143,7 @@ class LaterPay_Helper_Pricing
             return false;
         }
 
-        // check if the post has the given category_id
+        // check, if the post has the given category_id
         if ( $strict && ! has_category( $category_id, $post ) ) {
             return false;
         }
@@ -166,27 +168,27 @@ class LaterPay_Helper_Pricing
 
         $cache_key = 'laterpay_post_price_' . $post_id;
 
-        // checks if the price is in cache and returns it.
+        // checks if the price is in cache and returns it
         $price = wp_cache_get( $cache_key, 'laterpay' );
-        if ( !! $price ) {
+        if ( ! $price ) {
             return $price;
         }
 
         $post = get_post( $post_id );
-        $post_prices = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
-        if ( ! is_array( $post_prices ) ) {
-            $post_prices = array();
+        $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
+        if ( ! is_array( $post_price ) ) {
+            $post_price = array();
         }
-        $post_price_type    = array_key_exists( 'type', $post_prices ) ? $post_prices[ 'type' ] : '';
-        $category_id        = array_key_exists( 'category_id', $post_prices ) ? $post_prices[ 'category_id' ] : '';
+        $post_price_type    = array_key_exists( 'type', $post_price ) ? $post_price[ 'type' ] : '';
+        $category_id        = array_key_exists( 'category_id', $post_price ) ? $post_price[ 'category_id' ] : '';
 
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
-                $price = array_key_exists( 'price', $post_prices ) ? $post_prices[ 'price' ] : '';
+                $price = array_key_exists( 'price', $post_price ) ? $post_price[ 'price' ] : '';
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                $price = self::get_dynamic_price( $post, $post_prices );
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_price );
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
@@ -219,11 +221,11 @@ class LaterPay_Helper_Pricing
      * Get the current price for a post with dynamic pricing scheme defined.
      *
      * @param WP_Post $post
-     * @param array   $post_prices see post_meta 'laterpay_post_prices'
+     * @param array   $post_price see post_meta 'laterpay_post_prices'
      *
      * @return float price
      */
-    public static function get_dynamic_price( $post, $post_prices ) {
+    public static function get_dynamic_price( $post, $post_price ) {
         if ( function_exists( 'date_diff' ) ) {
             $date_time = new DateTime( date( 'Y-m-d' ) );
             $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
@@ -234,15 +236,15 @@ class LaterPay_Helper_Pricing
             $days_since_publication = floor( $diff_secs / ( 3600 * 24 ) );
         }
 
-        if ( $post_prices[ 'change_start_price_after_days' ] >= $days_since_publication ) {
-            $price = $post_prices[ 'start_price' ];
+        if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
+            $price = $post_price[ 'start_price' ];
         } else {
-            if ( $post_prices[ 'transitional_period_end_after_days' ] <= $days_since_publication ||
-                 $post_prices[ 'transitional_period_end_after_days' ] == 0
+            if ( $post_price[ 'transitional_period_end_after_days' ] <= $days_since_publication ||
+                 $post_price[ 'transitional_period_end_after_days' ] == 0
                 ) {
-                $price = $post_prices[ 'end_price' ];
+                $price = $post_price[ 'end_price' ];
             } else {    // transitional period between start and end of dynamic price change
-                $price = self::calculate_transitional_price( $post_prices, $days_since_publication );
+                $price = LaterPay_Helper_Pricing::calculate_transitional_price( $post_price, $days_since_publication );
             }
         }
 
@@ -257,20 +259,38 @@ class LaterPay_Helper_Pricing
     /**
      * Calculate transitional price between start price and end price based on linear equation.
      *
-     * @param  array $post_prices  postmeta see 'laterpay_post_prices'
-     * @param  int   $days_since_publication
+     * @param array $post_price postmeta see 'laterpay_post_prices'
+     * @param int   $days_since_publication
      *
      * @return float
      */
-    private static function calculate_transitional_price( $post_prices, $days_since_publication ) {
-        $end_price          = $post_prices[ 'end_price' ];
-        $start_price        = $post_prices[ 'start_price' ];
-        $days_until_end     = $post_prices[ 'transitional_period_end_after_days' ];
-        $days_until_start   = $post_prices[ 'change_start_price_after_days' ];
+    private static function calculate_transitional_price( $post_price, $days_since_publication ) {
+        $end_price          = $post_price[ 'end_price' ];
+        $start_price        = $post_price[ 'start_price' ];
+        $days_until_end     = $post_price[ 'transitional_period_end_after_days' ];
+        $days_until_start   = $post_price[ 'change_start_price_after_days' ];
 
         $coefficient = ( $end_price - $start_price ) / ( $days_until_end - $days_until_start );
 
         return $start_price + ( $days_since_publication - $days_until_start ) * $coefficient;
+    }
+
+    /**
+     * Get revenue model of post price (Pay Per Use or Single Sale).
+     *
+     * @param int $post_id
+     *
+     * @return string $revenue_model
+     */
+    public static function get_post_revenue_model( $post_id ) {
+        $post = get_post( $post_id );
+        $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
+        if ( ! is_array( $post_price ) ) {
+            $post_price = array();
+        }
+        $revenue_model = array_key_exists( 'revenue_model', $post_price ) ? $post_price[ 'revenue_model' ] : '';
+
+        return $revenue_model;
     }
 
 }

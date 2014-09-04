@@ -176,11 +176,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Checks if user has access to a post.
+     * Check, if user has access to a post.
      *
-     * @param   WP_Post $post
+     * @param WP_Post $post
      *
-     * @return  boolean success
+     * @return boolean success
      */
     public function has_access_to_post( WP_Post $post ) {
         $post_id = $post->ID;
@@ -210,6 +210,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             if ( array_key_exists( $post_id, $result[ 'articles' ] ) ) {
                 $access = (bool) $result[ 'articles' ][ $post_id ][ 'access' ];
                 $this->access[ $post_id ] = $access;
+
                 return $access;
             }
 
@@ -268,9 +269,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     /**
      * Return the URL hash for a given URL.
      *
-     * @param   string $url
+     * @param string $url
      *
-     * @return  string $hash
+     * @return string $hash
      */
     protected function get_hash_by_url( $url ) {
         return md5( md5( $url ) . wp_salt() );
@@ -281,7 +282,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      *
      * @param array $data
      *
-     * @return String $url
+     * @return string $url
      */
     protected function get_after_purchase_redirect_url( array $data ) {
         $url = get_permalink( $data[ 'post_id' ] );
@@ -300,11 +301,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Helper function to check, if LaterPay is enabled for the given post type.
+     * Check, if LaterPay is enabled for the given post type.
      *
-     * @param   string $post_type
+     * @param string $post_type
      *
-     * @return  bool true|false
+     * @return bool true|false
      */
     protected function is_enabled_post_type( $post_type ) {
         if ( ! in_array( $post_type, $this->config->get( 'content.allowed_post_types' ) ) ) {
@@ -339,7 +340,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      *
      * @wp-hook laterpay_purchase_button
      *
-     * @return  void
+     * @return void
      */
     public function the_purchase_button() {
         // check, if the current post is purchasable
@@ -384,7 +385,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return string $content
      */
     public function modify_post_content( $content ) {
-
         $post = get_post();
         if ( $post === null ) {
             return $content;
@@ -396,8 +396,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get pricing data
-        $currency   = get_option( 'laterpay_currency' );
-        $price      = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $currency       = get_option( 'laterpay_currency' );
+        $price          = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 
         // return the content, if no price was found for the post
         if ( $price == 0 ) {
@@ -442,6 +443,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'teaser_content_only'       => $teaser_content_only,
             'currency'                  => $currency,
             'price'                     => $price,
+            'revenue_model'             => $revenue_model,
             'link'                      => $purchase_link,
             'preview_post_as_visitor'   => $preview_post_as_visitor,
         );
@@ -549,10 +551,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $laterpay_src . 'client/1.0.0/laterpay-dialog/css/dialog.css'
         );
 
-        // always enqueue 'laterpay-post-view' to ensure that shortcode [laterpay_premium_download] has styling
+        // always enqueue 'laterpay-post-view' to ensure that LaterPay shortcodes have styling
         wp_enqueue_style( 'laterpay-post-view' );
 
-        // only enqueue the styles when the current post is purchasable
+        // only enqueue the purchase dialog styles, if the current post is purchasable
         if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }
@@ -568,9 +570,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_scripts() {
-
         $laterpay_src = 'static.laterpay.net';
-        if( $this->config->get( 'script_debug_mode' ) ){
+        if ( $this->config->get( 'script_debug_mode' ) ) {
             $laterpay_src = 'static.dev.laterpaytest.net';
         }
 
@@ -624,7 +625,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             )
         );
 
-        // only enqueue the scripts when the current post is purchasable
+        // only enqueue the scripts, if the current post is purchasable
         if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
             return;
         }

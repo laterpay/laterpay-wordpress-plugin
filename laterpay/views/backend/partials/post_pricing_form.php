@@ -6,6 +6,12 @@
 </script>
 
 <div id="lp_post-price" class="lp_fl-clearfix">
+    <label>
+        <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' checked'; } ?>>PPU
+    </label>
+    <label>
+        <input type="radio" name="post_revenue_model" value="ss"<?php if ( $laterpay_post_revenue_model == 'ss') { echo ' checked'; } ?>>SS
+    </label>
     <p class="lp_fl-right">
         <input type="text"
                 class="lp_input lp_number-input lp_fs-3"
@@ -38,14 +44,6 @@
             <input type="hidden" name="laterpay_transitional_period_end_after_days">
             <input type="hidden" name="laterpay_reach_end_price_after_days">
             <div id="lp_dynamic-pricing-widget-container"></div>
-            <!-- <div id="container2">
-                <p><?php _e( 'Dynamic pricing presets', 'laterpay' ); ?></p>
-                <a href="#" class="blockbuster"><?php _e( 'Blockbuster', 'laterpay' ); ?></a>
-                <a href="#" class="breaking-news"><?php _e( 'Breaking News', 'laterpay' ); ?></a>
-                <a href="#" class="teaser"><?php _e( 'Teaser', 'laterpay' ); ?></a>
-                <a href="#" class="long-tail"><?php _e( 'Long-tail', 'laterpay' ); ?></a>
-                <a href="#" class="flat"><?php _e( 'Flat (default)', 'laterpay' ); ?></a>
-            </div> -->
         </div>
         <div class="lp_use-category-default-price lp_details-section"<?php if ( $laterpay_post_price_type !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo ' style="display:none;"'; } ?>>
              <input type="hidden" name="laterpay_post_default_category" value="<?php echo $laterpay_post_default_category?>">
