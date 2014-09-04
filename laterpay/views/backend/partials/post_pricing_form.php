@@ -6,12 +6,14 @@
 </script>
 
 <div id="lp_post-price" class="lp_fl-clearfix">
-    <label>
-        <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' checked'; } ?>>PPU
-    </label>
-    <label>
-        <input type="radio" name="post_revenue_model" value="ss"<?php if ( $laterpay_post_revenue_model == 'ss') { echo ' checked'; } ?>>SS
-    </label>
+    <div class="lp_post-revenue-model"<?php if ( $laterpay_post_price_type !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo ' style="display:none;"'; } ?>>
+        <label>
+            <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' checked'; } ?>>PPU
+        </label>
+        <label>
+            <input type="radio" name="post_revenue_model" value="ss"<?php if ( $laterpay_post_revenue_model == 'ss') { echo ' checked'; } ?>>SS
+        </label>
+    </div>
     <p class="lp_fl-right">
         <input type="text"
                 class="lp_input lp_number-input lp_fs-3"
