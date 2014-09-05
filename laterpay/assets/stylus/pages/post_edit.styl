@@ -33,11 +33,12 @@
     a
         text-decoration             none
 
-        // remove dotted outline from links
+        // remove dotted outline and box shadows from links
         &:focus,
         &:active,
         &:visited
-            outline                 0 none
+            box-shadow  none
+            outline     0 none
 
 // enter / display post price section
 #lp_post-price input[name=post-price]
@@ -58,6 +59,7 @@
     font-size                       1.5em
 
 .lp_post-revenue-model
+    width                           3em
 
     label
         background-color            $background-darker
@@ -73,6 +75,9 @@
         &:hover
             background-color        $background-laterpay
             cursor                  default
+
+    .lp_disabled
+        visibility                  hidden
 
     input[type=radio]
         display                     none

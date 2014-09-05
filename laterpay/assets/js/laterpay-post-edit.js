@@ -47,6 +47,8 @@
 
                 // validate manually entered prices
                 $o.priceInput.blur(function() {setPrice($(this).val());});
+// TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
+// $o.priceInput.bind('input', function() {setPrice($(this).val());});
 
                 // validate choice of revenue model (validating the price switches the revenue model if required)
                 $(':radio', $o.revenueModel).change(function() {validatePrice($o.priceInput.val());});
@@ -176,18 +178,22 @@
 
                 if ((price === 0 || price > 0.05) && price < 5) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
-                    $payPerUse.removeAttr('disabled');
+                    $payPerUse.removeAttr('disabled')
+                        .parent('label').removeClass($o.disabled);
                 } else {
                     // disable Pay-per-Use
-                    $payPerUse.attr('disabled', 'disabled');
+                    $payPerUse.attr('disabled', 'disabled')
+                        .parent('label').addClass($o.disabled);
                 }
 
                 if (price > 1.49) {
                     // enable Single Sale for prices > 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
-                    $singleSale.removeAttr('disabled');
+                    $singleSale.removeAttr('disabled')
+                        .parent('label').removeClass($o.disabled);
                 } else {
                     // disable Single Sale
-                    $singleSale.attr('disabled', 'disabled');
+                    $singleSale.attr('disabled', 'disabled')
+                        .parent('label').addClass($o.disabled);
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed

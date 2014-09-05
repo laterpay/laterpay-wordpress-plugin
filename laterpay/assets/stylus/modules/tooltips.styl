@@ -1,0 +1,63 @@
+// styled tooltips rendered for elements that have class lp_tooltip and a data-laterpay-tooltip attribute
+
+.lp_tooltip
+    display                             inline-block
+    position                            relative
+
+    &:before,
+    &:after
+        -moz-transform                  translate3d(0, 0, 0)
+        -moz-transition-delay           0
+        -moz-transition                 0.25s ease
+        -webkit-transform               translate3d(0, 0, 0)
+        -webkit-transition-delay        0
+        -webkit-transition              0.25s ease
+        opacity                         0
+        pointer-events                  none
+        position                        absolute
+        transform                       translate3d(0, 0, 0)
+        transition-delay                0
+        transition                      0.25s ease
+        visibility                      hidden
+        z-index                         1000000
+
+    // downward-pointing arrow
+    &:before
+        background                      transparent
+        border                          6px solid transparent
+        border-top-color                $text
+        content                         ''
+        margin-bottom                   -12px
+        position                        absolute
+        z-index                         1000001
+
+    // text content of the tooltip
+    &:after
+        background                      $text
+        border-radius                   3px
+        color                           $text-inverse
+        content                         attr(data-tooltip)
+        font-size                       $fs-08
+        font-weight                     normal
+        line-height                     1.3em
+        margin-left                     -18px
+        padding                         $fs-05
+        width                           10em
+
+    &:hover:before,
+    &:hover:after,
+    &:focus:before,
+    &:focus:after
+        opacity                         1
+        visibility                      visible
+        -moz-transform                  translateY(-8px)
+        -webkit-transform               translateY(-8px)
+        transform                       translateY(-8px)
+
+    &:hover:before,
+    &:hover:after
+        -moz-transition-delay           100ms
+        -webkit-transition-delay        100ms
+        bottom                          100%
+        left                            50%
+        transition-delay                100ms

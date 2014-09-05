@@ -69,12 +69,13 @@
             -webkit-transition      0.25s ease-in-out 0.1s
                     transition      0.25s ease-in-out 0.1s
 
-    // remove dotted outline from #lp_toggle-post-statistics-visibility link
+    // remove dotted outline and box shadows from #lp_toggle-post-statistics-visibility link
     a,
-    a:hover,
-    a:focus,
-    a:active
-        outline                     0 none
+    &:focus,
+    &:active,
+    &:visited
+        box-shadow  none
+        outline     0 none
 
 // hidden statistics pane
 .lp_post-statistics.lp_hidden
