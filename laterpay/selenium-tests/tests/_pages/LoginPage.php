@@ -29,27 +29,5 @@ class LoginPage {
         return static::$URL . $param;
     }
 
-    public static function login($I) {
-
-        $I->amOnPage(self::$URL);
-
-        if (!$I->hSee($I, self::$expectedBackTitle)) {
-
-            $I->fillField(self::$usernameField, self::$usernameValue);
-            $I->fillField(self::$passwordField, self::$passwordValue);
-            $I->click(self::$loginButton);
-        };
-    }
-
-    public static function logout($I) {
-
-        if ($I->hSee($I, self::$expectedBackTitle)) {
-
-            $I->moveMouseOver(LoginPage::$logoutMenu);
-
-            $I->click(LoginPage::$logoutButton);
-        };
-    }
-
 }
 

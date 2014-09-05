@@ -37,7 +37,13 @@ heading_text="Shortcode Heading" description_text="Shortcode Description" conten
 [laterpay_premium_download target_page_title="LaterPay WordPress Plugin Shortcode Test Wrong Title" target_page_id={Some nonexisting
 ID} heading_text="Shortcode Heading" description_text="Shortcode Description" content_type="gallery"]';
 
-    public static $BaseUrl = '/wp-admin/';
+    public static $baseUrl = '/wp-admin/';
+
+    public static $veryShortTimeout = 1;
+    public static $shortTimeout = 5;
+    public static $averageTimeout = 15;
+    public static $longTimeout = 30;
+    public static $veryLongTimeout = 60;
 
     /**
      * @var BackendTester

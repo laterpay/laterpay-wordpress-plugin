@@ -30,7 +30,7 @@ class SetupPage {
     public static $globalDefaultPrice = '400';
     public static $globalDefaultCurrencyField = 'get_started[laterpay_currency]';
     public static $globalDefaultCurrency = 'EUR';
-    public static $pluginActivationDelay = 3;
+    public static $pluginActivationDelay = 10;
     //expected
     public static $assertPluginName = 'laterpay';
     public static $assertInstalled = 'Plugin installed successfully';
@@ -59,47 +59,6 @@ class SetupPage {
      */
     public static function route($param) {
         return static::$URL . $param;
-    }
-
-    public static function Reinstall($I, $logout = true) {
-
-        LoginPage::login($I);
-
-        $I->amOnPage(SetupPage::$url_plugin_list);
-        if ($I->hSee($I, SetupPage::$assertPluginName)) {
-
-            $I->hClick($I, SetupPage::$pluginDeactivateLink);
-            $I->hClick($I, SetupPage::$pluginDeleteLink);
-            $I->hClick($I, SetupPage::$pluginDeleteConfirmLink);
-
-            $I->amOnPage(SetupPage::$url_plugin_add);
-            $I->amOnPage(SetupPage::$url_plugin_upload);
-            $I->attachFile(SetupPage::$pluginUploadField, SetupPage::$pluginUploadFilename);
-            $I->click(SetupPage::$pluginUploadSubmitField);
-
-            $I->amOnPage(SetupPage::$url_plugin_list);
-            $I->click(SetupPage::$pluginActivateLink);
-            $I->waitForElement(SetupPage::$pluginDeactivateLink);
-        };
-
-        if ($logout)
-            LoginPage::logout($I, $logout);
-    }
-
-    public static function Reconfigure($I, $logout = true) {
-
-        LoginPage::login($I);
-
-        $I->amOnPage(SetupPage::$pluginBackLink);
-        $I->fillField(SetupPage::$laterpaySandboxMerchantField, SetupPage::$laterpaySandboxMerchantSandboxValue);
-        $I->fillField(SetupPage::$laterpaySandboxApiKeyField, SetupPage::$laterpaySandboxApiKeyValidValue);
-        $I->fillField(SetupPage::$globalDefaultPriceField, SetupPage::$globalDefaultPrice);
-        $I->selectOption(SetupPage::$globalDefaultCurrencyField, SetupPage::$globalDefaultCurrency);
-        $I->click(SetupPage::$pluginActivateFormButton);
-        $I->wait(SetupPage::$pluginActivationDelay);
-
-        if ($logout)
-            LoginPage::logout($I);
     }
 
 }
