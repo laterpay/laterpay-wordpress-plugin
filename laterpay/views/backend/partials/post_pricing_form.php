@@ -10,17 +10,21 @@
         <input type="text"
                 class="lp_input lp_number-input lp_fs-3"
                 name="post-price"
-                value="<?php echo LaterPay_Helper_View::format_number($laterpay_price, 2); ?>"
+                value="<?php echo LaterPay_Helper_View::format_number( $laterpay_price, 2 ); ?>"
                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                 <?php if ( $laterpay_post_price_type !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled="disabled"'; } ?>>
         <span class="lp_currency lp_p-rel"><?php echo $laterpay_currency; ?></span>
     </p>
     <div class="lp_post-revenue-model lp_p-rel"<?php if ( $laterpay_post_price_type !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo ' style="display:none;"'; } ?>>
-        <label  class="lp_d-block lp_m-t125 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip<?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' lp_selected'; } ?>"
+        <label  class="lp_d-block lp_m-t125 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
+                        <?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' lp_selected'; } ?>
+                        <?php if ( $laterpay_price > 5) { echo ' lp_disabled'; } ?>"
                 data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
             <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' checked'; } ?>>PPU
         </label>
-        <label  class="lp_d-block lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip<?php if ( $laterpay_post_revenue_model == 'ss') { echo ' lp_selected'; } ?>"
+        <label  class="lp_d-block lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
+                        <?php if ( $laterpay_post_revenue_model == 'ss') { echo ' lp_selected'; } ?>
+                        <?php if ( $laterpay_price < 1.49) { echo ' lp_disabled'; } ?>"
                 data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
             <input type="radio" name="post_revenue_model" value="ss"<?php if ( $laterpay_post_revenue_model == 'ss') { echo ' checked'; } ?>>SS
         </label>
