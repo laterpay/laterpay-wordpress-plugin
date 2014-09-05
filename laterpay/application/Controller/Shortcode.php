@@ -193,7 +193,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
-        return '<div class="lp_premium-file-box-wrapper">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
     }
 
 }
