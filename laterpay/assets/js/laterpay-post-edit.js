@@ -123,13 +123,13 @@
                 if (priceType === 'lp_use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
-                    $o.revenueModel.slideDown(175);
+                    $o.revenueModel.show();
                 } else {
                     if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                         disableDynamicPricing();
                     }
                     $o.priceInput.attr('disabled', 'disabled');
-                    $o.revenueModel.slideUp(175);
+                    $o.revenueModel.hide();
                 }
             },
 
@@ -198,6 +198,10 @@
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', true);
                 }
+
+                // highlight current revenue model
+                $('label', $o.revenueModel).removeClass($o.selected);
+                $(':radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
             },
 
             updateSelectedCategory = function() {
@@ -309,7 +313,7 @@
             toggleDynamicPricing = function() {
                 if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     disableDynamicPricing();
-                    $o.revenueModel.slideDown(175);
+                    $o.revenueModel.show();
                 } else {
                     enableDynamicPricing();
                 }
@@ -322,7 +326,7 @@
                 $('#lp_dynamic-pricing').slideDown(250);
                 $('input[name=post_price_type]').val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
-                $o.revenueModel.slideUp(175);
+                $o.revenueModel.hide();
             },
 
             disableDynamicPricing = function() {
