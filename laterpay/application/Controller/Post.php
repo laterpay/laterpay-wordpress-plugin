@@ -568,10 +568,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_scripts() {
+        $laterpay_src       = 'static.laterpay.net';
+        $laterpay_config    = 'config.js';
 
-        $laterpay_src = 'static.laterpay.net';
-        if( $this->config->get( 'script_debug_mode' ) ){
-            $laterpay_src = 'static.dev.laterpaytest.net';
+        if ( $this->config->get( 'script_debug_mode' ) ) {
+            $laterpay_src       = 'static.dev.laterpaytest.net';
+            $laterpay_config    = 'config-dev.js';
         }
 
         wp_register_script(
