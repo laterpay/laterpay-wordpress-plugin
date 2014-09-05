@@ -579,14 +579,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'https://' . $laterpay_src . '/yui/3.13.0/build/yui/yui-min.js',
             array(),
             $this->config->get( 'version' ),
-            true
+            false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
         );
         wp_register_script(
             'laterpay-config',
             'https://' . $laterpay_src . '/client/1.0.0/config.js',
             array( 'laterpay-yui' ),
             $this->config->get( 'version' ),
-            true
+            false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
         );
         wp_register_script(
             'laterpay-peity',
