@@ -49,6 +49,18 @@ class SetupPluginCest {
 
     /**
      * @param \BackendTester $I
+     * @group dev
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/285
+     */
+    public function dev(BackendTester $I) {
+
+        BackendModule::of($I)->login();
+
+        PostModule::of($I)->checkTestPostForLaterPayElements(BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+    }
+
+    /**
+     * @param \BackendTester $I
      * @group UI3
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/285
      */

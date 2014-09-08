@@ -1,3 +1,4 @@
+# dsn: 'mysql:host=localhost;dbname=wordpress_trunk' - must be set a fake database name, cush as framework fill drop all tables in it.
 class_name: BackendTester
 modules:
     enabled:
@@ -15,7 +16,9 @@ modules:
          capabilities:
              unexpectedAlertBehaviour: 'accept'
       Db:
-        dsn: 'mysql:host=localhost;dbname=wordpress_develop'
+        dsn: 'mysql:host=localhost;dbname=wordpress_trunk'
+        host: 'localhost'
         user: 'root'
-        password:
+        password: 'root'
         dump: tests/_data/refresh.sql
+        populate: true

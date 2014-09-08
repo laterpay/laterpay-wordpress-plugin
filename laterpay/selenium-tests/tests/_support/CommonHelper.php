@@ -8,10 +8,22 @@ class CommonHelper extends \Codeception\Module {
      * For test development purposes. Runs DevPage::start()
      * @param \Tester $I
      * Usage examples:
-     * mod($I,'BackendModule','login');
+      mod($I,'BackendModule','login');
       amOnPage(PostModule::$pagePostNew);
       amOnPage(SetupPage::$pluginBackLink);
+      amOnPage(PostModule::$pagePostList);
       click('a[class=".lp_activate-plugin-button"]');
+      click(PostModule::$linkGlobalDefaultPrice);
+      makeScreenshot(1);
+      click('LaterPay WordPress Plugin Test Post');
+      see(0.35, PostModule::$visibleLaterpayPurchaseButton);
+      see('USD', PostModule::$visibleLaterpayPurchaseButton);
+      acceptPopup();
+      see('0.35', 'a[class="lp_purchase-link lp_button"]');
+     *
+     *
+      click('Uncategorized');
+     *
      * //
       fillField(PostModule::$fieldTitle, BaseModule::$T1);
       executeJS(" tinymce.activeEditor.selection.setContent('".BaseModule::$C1."'); ");
@@ -70,6 +82,23 @@ class CommonHelper extends \Codeception\Module {
             $I->click($string);
         } catch (\PHPUnit_Framework_AssertionFailedError $f) {
 
+        };
+    }
+
+    /**
+     * Helper to have ability non mandatory mouse click
+     * @param \SetupTester $I
+     * @param String $I
+     */
+    public function hCheckbox($I, $string) {
+
+        try {
+
+            $I->seeCheckboxIsChecked($string);
+            return true;
+        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
+
+            return false;
         };
     }
 

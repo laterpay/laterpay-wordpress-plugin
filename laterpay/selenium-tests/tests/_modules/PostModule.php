@@ -11,20 +11,23 @@ class PostModule extends BaseModule {
     public static $fieldTeaser = '#laterpay_teaser_content';
     public static $fieldPrice = '#post-price';
     //links
-    public static $linkGlobalDefaultPrice = '#use-global-default-price';
-    public static $linkIndividualPrice = '#use-individual-price';
+    public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
+    public static $linkIndividualPrice = '#lp_use-individual-price';
     public static $linkAddMedia = '#insert-media-button';
     public static $linkPublish = '#publish';
-    public static $linkViewPost = '.ab-item';
-    public static $linkPreviewSwitcher = '#preview-post-toggle';
+    public static $linkViewPost = '#view-post-btn a';
+    public static $linkPreviewSwitcher = 'span[class="switch-handle"]';
+    public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
-    public static $visibleLaterpayStatistics = '#statistics';
-    public static $visibleLaterpayPurchaseButton = '.laterpay-purchase-link.laterpay-purchase-button';
-    public static $visibleLaterpayTeaserContent = '.laterpay-teaser-content';
+    public static $visibleLaterpayStatistics = 'div[class="lp_post-statistics"]';
+    public static $visibleLaterpayPurchaseButton = 'a[class="lp_purchase-link lp_button"]';
+    public static $visibleLaterpayTeaserContent = '.lp_teaser-content';
     public static $visibleLaterpayContent = '.entry-content';
     public static $visibleInTablePostTitle = '.post-title';
     public static $visibleInTablePostPrice = '.post-price';
+    public static $pageListPriceCol = 'td[class="post_price.column-post_price"]';
+    public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
 
     /**
      * P.26
@@ -62,7 +65,7 @@ class PostModule extends BaseModule {
 
             case 'global default price':
                 $I->amGoingTo('Choose global default price type');
-                $I->click(PostModule::$linkGlobalDefaultPrice);
+                $I->click($I, PostModule::$linkGlobalDefaultPrice);
                 break;
 
             case 'category default price':
@@ -138,10 +141,12 @@ class PostModule extends BaseModule {
      * @return $this
      */
     public function checkTestPostForLaterPayElements($post, $price_type = null, $price = null, $currency = null, $title = null, $content = null, $teaser = null) {
+
         $I = $this->BackendTester;
 
-        //TODO: implement open post for editing
-
+        $I->amGoingTo('Open post from list');
+        $I->amOnPage(PostModule::$pagePostList);
+        $I->click($post, PostModule::$visibleInTablePostTitle);
         switch ($price_type) {
 
             case 'global default price':
@@ -164,32 +169,27 @@ class PostModule extends BaseModule {
                 break;
         }
 
+        $I->amGoingTo('Switch Preview toggle to “Visitor”');
         $I->click(PostModule::$linkViewPost);
-        //TODO: need to check if toggle works on click
-        $I->click(PostModule::$linkPreviewSwitcher);
-
-        $I->seeElement(PostModule::$visibleLaterpayStatistics);
-        //TODO: Implement check for correct price and currency
+        if (!$I->hCheckbox($I, PostModule::$linkPreviewSwitcherElement))
+            $I->click(PostModule::$linkPreviewSwitcher);
+        $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
         $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
         $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
-        //TODO: clarify Preview Mode params check and implement
-        //create teaser content
-        $teaser_content = $this->_createTeaserContent($content, $teaser);
-        $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
+        $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
 
-        $I->click(PostModule::$linkPreviewSwitcher);
+        $I->amGoingTo('Switch Preview toggle to “Admin”');
+        if ($I->hCheckbox($I, PostModule::$linkPreviewSwitcherElement))
+            $I->click(PostModule::$linkPreviewSwitcher);
         $I->seeElement(PostModule::$visibleLaterpayStatistics);
         $I->dontSeeElement(PostModule::$visibleLaterpayPurchaseButton);
-        //TODO: clarify Preview Mode params check and implement
         $I->see($content, PostModule::$visibleLaterpayContent);
-        $I->dontSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
+        $I->dontSee(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
 
+        $I->amGoingTo('Go to the Post Overview page');
         $I->amOnPage(PostModule::$pagePostList);
-        //TODO: Implement find price and price type for post in table
-        $I->see($price, $post);
-        $I->see($price_type, $post);
-
-        //TODO: Implement logic if plugin tested in LIVE mode
+        $I->see($price, PostModule::$pageListPriceCol);
+        $I->see($price_type, PostModule::$pageListPricetypeCol);
 
         return $this;
     }

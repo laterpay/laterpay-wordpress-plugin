@@ -60,6 +60,9 @@ class SetupModule extends BaseModule {
         $I->amOnPage(SetupPage::$url_plugin_list);
         $I->see(SetupPage::$pluginNavigationLabel, SetupPage::$backNavigateTab);
 
+        //floated popup
+        if ($I->hSee('.wp-pointer-content'))
+            $I->hClick('.wp-pointer-content .close');
         return $this;
     }
 

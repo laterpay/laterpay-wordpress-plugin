@@ -1,1 +1,1 @@
-delete from wordpress_develop.wp_posts;
+--truncate table wordpress_develop.wp_posts;
