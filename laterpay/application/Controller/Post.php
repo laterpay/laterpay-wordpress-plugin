@@ -568,9 +568,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_scripts() {
-        $laterpay_src       = 'static.laterpay.net';
-        $laterpay_config    = 'config-sandbox.js';
-
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $laterpay_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
         } elseif ( $this->config->get( 'script_debug_mode' ) ) {
