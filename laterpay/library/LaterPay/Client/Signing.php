@@ -123,7 +123,7 @@ class LaterPay_Client_Signing
         $params = self::normalise_param_structure( $params );
 
         $keys = array_keys( $params );
-        sort($keys);
+        sort( $keys, SORT_STRING );
         foreach ( $keys as $key ) {
             $value  = $params[$key];
             $key    = rawurlencode( utf8_encode( $key ) );
@@ -133,7 +133,7 @@ class LaterPay_Client_Signing
             }
 
             $encoded_value = '';
-            sort( $value );
+            sort( $value, SORT_STRING );
             foreach ( $value as $v ) {
                 if ( mb_detect_encoding( $v, 'UTF-8' ) !== 'UTF-8' ) {
                     $encoded_value = rawurlencode( utf8_encode( $v ) );
@@ -212,7 +212,7 @@ class LaterPay_Client_Signing
 
         // get the keys in alphabetical order
         $keys = array_keys( $params );
-        sort( $keys );
+        sort( $keys, SORT_STRING );
         $query_pairs = array();
         foreach ( $keys as $key ) {
             $aux = $params[$key];
@@ -221,7 +221,7 @@ class LaterPay_Client_Signing
             if ( ! is_array( $aux ) ) {
                 $aux = array( $aux );
             }
-            sort( $aux );
+            sort( $aux, SORT_STRING );
             foreach ( $aux as $value ) {
                 if ( mb_detect_encoding( $value, 'UTF-8' ) !== 'UTF-8' ) {
                     $value = rawurlencode( utf8_encode( $value ) );
