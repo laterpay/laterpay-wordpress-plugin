@@ -25,7 +25,7 @@ class SetupPage {
     public static $laterpaySandboxApiKeyInitValue = 'a1b2c3d4e5f6g7h8i9j0';
     public static $laterpaySandboxApiKeyInvalidValue = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5';
     public static $laterpaySandboxApiKeyValidValue = 'decafbaddecafbaddecafbaddecafbad';
-    public static $pluginActivateFormButton = '.activate-lp';
+    public static $pluginActivateFormButton = '.lp_activate-plugin-button';
     public static $globalDefaultPriceField = 'get_started[laterpay_global_price]';
     public static $globalDefaultPrice = '400';
     public static $globalDefaultCurrencyField = 'get_started[laterpay_currency]';
@@ -39,9 +39,7 @@ class SetupPage {
     public static $assertInvalidMerchantId = 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!';
     public static $assertEmptyDemoMerchantId = 'Please enter your LaterPay API key to activate LaterPay on this site.';
     public static $assertInvalidDemoMerchantId = 'The API key you entered is not a valid LaterPay Sandbox API key!';
-    public static $assertFieldStepOneDone = 'span[class="st-1 done"]';
-    public static $assertFieldStepTwoDone = 'span[class="st-2 done"]';
-    public static $assertFieldStepThreeDone = 'span[class="st-3 done"]';
+    public static $assertFieldStepOneDone = 'span[class="lp_step-1 lp_step-done"]';
     public static $pluginActivateSuccesRedirectUrl = '/wp-admin/post-new.php';
 
     //public static $assertInvalidMerchantId = 'The API key you entered is not a valid LaterPay Sandbox API key!';

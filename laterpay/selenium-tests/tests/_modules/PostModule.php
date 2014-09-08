@@ -3,33 +3,31 @@
 class PostModule extends BaseModule {
 
     //page
-    public static $pagePostNew                    = '/wp-admin/post-new.php';
-    public static $pagePostList                   = '/wp-admin/edit.php';
-
+    public static $pagePostNew = '/wp-admin/post-new.php';
+    public static $pagePostList = '/wp-admin/edit.php';
     //fields
-    public static $fieldTitle                     = '#title';
-    public static $fieldContent                   = '#content_ifr';
-    public static $fieldTeaser                    = '#laterpay_teaser_content';
-    public static $fieldPrice                     = '#post-price';
-
+    public static $fieldTitle = '#title';
+    public static $fieldContent = '#content_ifr';
+    public static $fieldTeaser = '#laterpay_teaser_content';
+    public static $fieldPrice = '#post-price';
     //links
-    public static $linkGlobalDefaultPrice         = '#use-global-default-price';
-    public static $linkIndividualPrice            = '#use-individual-price';
-    public static $linkAddMedia                   = '#insert-media-button';
-    public static $linkPublish                    = '#publish';
-    public static $linkViewPost                   = '.ab-item';
-    public static $linkPreviewSwitcher            = '#preview-post-toggle';
-
+    public static $linkGlobalDefaultPrice = '#use-global-default-price';
+    public static $linkIndividualPrice = '#use-individual-price';
+    public static $linkAddMedia = '#insert-media-button';
+    public static $linkPublish = '#publish';
+    public static $linkViewPost = '.ab-item';
+    public static $linkPreviewSwitcher = '#preview-post-toggle';
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
-    public static $visibleLaterpayStatistics      = '#statistics';
-    public static $visibleLaterpayPurchaseButton  = '.laterpay-purchase-link.laterpay-purchase-button';
-    public static $visibleLaterpayTeaserContent   = '.laterpay-teaser-content';
-    public static $visibleLaterpayContent         = '.entry-content';
-    public static $visibleInTablePostTitle        = '.post-title';
-    public static $visibleInTablePostPrice        = '.post-price';
+    public static $visibleLaterpayStatistics = '#statistics';
+    public static $visibleLaterpayPurchaseButton = '.laterpay-purchase-link.laterpay-purchase-button';
+    public static $visibleLaterpayTeaserContent = '.laterpay-teaser-content';
+    public static $visibleLaterpayContent = '.entry-content';
+    public static $visibleInTablePostTitle = '.post-title';
+    public static $visibleInTablePostPrice = '.post-price';
 
     /**
+     * P.26
      * @param $title
      * @param $content
      * @param null $categories
@@ -39,23 +37,24 @@ class PostModule extends BaseModule {
      * @param null $files
      * @return $this
      */
-    public function createTestPost($title, $content, $categories = null,
-                                   $price_type = null, $price = null, $teaser = null, $files = null) {
+    public function createTestPost($title, $content, $categories = null, $price_type = null, $price = null, $teaser = null, $files = null) {
+
         $I = $this->BackendTester;
 
-        $I->amOnPage(self::$pagePostNew);
+        $I->amOnPage(PostModule::$pagePostNew);
         $I->amGoingTo('Set post title');
-        $I->fillField(self::$fieldTitle, $title);
+        $I->fillField(PostModule::$fieldTitle, $title);
 
         $I->amGoingTo('Set post content');
-        $I->click(self::$fieldContent);
+        $I->click(PostModule::$fieldContent);
+        $content = substr($content, 0, 60);
         $I->executeJS(" tinymce.activeEditor.selection.setContent('$content'); ");
 
         //create teaser content
         if ($teaser) {
             $I->amGoingTo('Set teaser content');
             $teaser_content = $this->_createTeaserContent($content, $teaser);
-            $I->fillField(self::$fieldTitle, $teaser_content);
+            $I->fillField(PostModule::$fieldTitle, $teaser_content);
         }
 
         //TODO: probably move it into separate method
@@ -63,7 +62,7 @@ class PostModule extends BaseModule {
 
             case 'global default price':
                 $I->amGoingTo('Choose global default price type');
-                $I->click(self::$linkGlobalDefaultPrice);
+                $I->click(PostModule::$linkGlobalDefaultPrice);
                 break;
 
             case 'category default price':
@@ -72,9 +71,9 @@ class PostModule extends BaseModule {
 
             case 'individual price':
                 $I->amGoingTo('Choose individual price type');
-                $I->click(self::$linkIndividualPrice);
+                $I->click(PostModule::$linkIndividualPrice);
                 BackendModule::of($I)
-                    ->priceValidation(self::$fieldPrice);
+                        ->priceValidation(PostModule::$fieldPrice);
                 break;
 
             case 'individual dynamic price':
@@ -87,7 +86,7 @@ class PostModule extends BaseModule {
 
         if ($price) {
             $I->amGoingTo('Set price');
-            $I->fillField(self::$fieldPrice, $price);
+            $I->fillField(PostModule::$fieldPrice, $price);
         }
 
         //TODO: need to check this logic
@@ -104,14 +103,14 @@ class PostModule extends BaseModule {
         if ($files) {
             $I->amGoingTo('Attach files to post');
             //TODO: implement multiply files insertion and correct upload
-            $I->attachFile(self::$linkAddMedia, $files);
+            $I->attachFile(PostModule::$linkAddMedia, $files);
         }
 
         $I->amGoingTo('Publish post');
-        $I->click(self::$linkPublish);
-        $I->wait(self::$veryShortTimeout);
+        $I->click(PostModule::$linkPublish);
+        $I->wait(PostModule::$veryShortTimeout);
 
-        $I->amOnPage(self::$pagePostList);
+        $I->amOnPage(PostModule::$pagePostList);
 
         //TODO: Same names can present on post page
         $I->see($title, PostModule::$visibleInTablePostTitle);
@@ -124,7 +123,21 @@ class PostModule extends BaseModule {
         return $this;
     }
 
-    public function checkTestPostForLaterPayElements($post, $price_type, $price, $currency, $title, $content, $teaser) {
+    /**
+     * P.38-29
+     * Check Post for LaterPay Elements
+     * @param $post
+     * @param null $price_type
+     * @param null $price
+     * @param null $currency
+     * @param null $categories
+     * @param $title
+     * @param null $content
+     * @param $teaser
+     *
+     * @return $this
+     */
+    public function checkTestPostForLaterPayElements($post, $price_type = null, $price = null, $currency = null, $title = null, $content = null, $teaser = null) {
         $I = $this->BackendTester;
 
         //TODO: implement open post for editing
@@ -132,47 +145,46 @@ class PostModule extends BaseModule {
         switch ($price_type) {
 
             case 'global default price':
-                $I->click(self::$linkGlobalDefaultPrice);
+                $I->click(PostModule::$linkGlobalDefaultPrice);
                 break;
 
             case 'category default price':
                 break;
 
             case 'individual price':
-                $I->click(self::$linkIndividualPrice);
+                $I->click(PostModule::$linkIndividualPrice);
                 break;
 
             case 'individual dynamic price':
-                $I->click(self::$linkIndividualPrice);
-                $I->see(self::$visibleLaterpayWidgetContainer);
+                $I->click(PostModule::$linkIndividualPrice);
+                $I->see(PostModule::$visibleLaterpayWidgetContainer);
                 break;
 
             default:
                 break;
         }
 
-        $I->click(self::$linkViewPost);
+        $I->click(PostModule::$linkViewPost);
         //TODO: need to check if toggle works on click
-        $I->click(self::$linkPreviewSwitcher);
+        $I->click(PostModule::$linkPreviewSwitcher);
 
-        $I->seeElement(self::$visibleLaterpayStatistics);
+        $I->seeElement(PostModule::$visibleLaterpayStatistics);
         //TODO: Implement check for correct price and currency
-        $I->see($currency, self::$visibleLaterpayPurchaseButton);
-        $I->see($price, self::$visibleLaterpayPurchaseButton);
+        $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
+        $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
         //TODO: clarify Preview Mode params check and implement
-
         //create teaser content
         $teaser_content = $this->_createTeaserContent($content, $teaser);
-        $I->see($teaser_content, self::$visibleLaterpayTeaserContent);
+        $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
 
-        $I->click(self::$linkPreviewSwitcher);
-        $I->seeElement(self::$visibleLaterpayStatistics);
-        $I->dontSeeElement(self::$visibleLaterpayPurchaseButton);
+        $I->click(PostModule::$linkPreviewSwitcher);
+        $I->seeElement(PostModule::$visibleLaterpayStatistics);
+        $I->dontSeeElement(PostModule::$visibleLaterpayPurchaseButton);
         //TODO: clarify Preview Mode params check and implement
-        $I->see($content, self::$visibleLaterpayContent);
-        $I->dontSee($teaser_content, self::$visibleLaterpayTeaserContent);
+        $I->see($content, PostModule::$visibleLaterpayContent);
+        $I->dontSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
 
-        $I->amOnPage(self::$pagePostList);
+        $I->amOnPage(PostModule::$pagePostList);
         //TODO: Implement find price and price type for post in table
         $I->see($price, $post);
         $I->see($price_type, $post);
@@ -196,6 +208,18 @@ class PostModule extends BaseModule {
     }
 
     /**
+     * P.23
+     * @param $post
+     * @return $this
+     */
+    public function purchasePost($post) {
+
+        $I = $this->BackendTester;
+
+        return $this;
+    }
+
+    /**
      * @param $post
      * @param $category
      * @return $this
@@ -208,10 +232,11 @@ class PostModule extends BaseModule {
         return $this;
     }
 
-    private function _createTeaserContent($content, $teaser)
-    {
+    private function _createTeaserContent($content, $teaser) {
         $teaser_content = explode(' ', strip_tags($content), $teaser);
         array_pop($teaser_content);
         return join(' ', $teaser_content) . '...';
     }
+
 }
+

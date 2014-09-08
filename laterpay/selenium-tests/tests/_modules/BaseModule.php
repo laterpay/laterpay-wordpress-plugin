@@ -36,9 +36,7 @@ heading_text="Shortcode Heading" description_text="Shortcode Description" conten
     public static $C3 = 'Both wrong
 [laterpay_premium_download target_page_title="LaterPay WordPress Plugin Shortcode Test Wrong Title" target_page_id={Some nonexisting
 ID} heading_text="Shortcode Heading" description_text="Shortcode Description" content_type="gallery"]';
-
     public static $baseUrl = '/wp-admin/';
-
     public static $veryShortTimeout = 1;
     public static $shortTimeout = 5;
     public static $averageTimeout = 15;
@@ -54,7 +52,7 @@ ID} heading_text="Shortcode Heading" description_text="Shortcode Description" co
      * @param \BackendTester $I
      */
     public function __construct($I) {
-        $this->BackendTester  = $I;
+        $this->BackendTester = $I;
     }
 
     /**
@@ -64,4 +62,6 @@ ID} heading_text="Shortcode Heading" description_text="Shortcode Description" co
     static public function of($I) {
         return new static($I);
     }
+
 }
+

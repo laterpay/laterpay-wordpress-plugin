@@ -3,9 +3,10 @@ modules:
     enabled:
         - WebDriver
         - CommonHelper
+        - Db
     config:
-        WebDriver:
-         url: 'http://local.wordpress.dev/'
+      WebDriver:
+         url: 'http://src.wordpress-develop.dev/'
          browser: firefox
          restart: false
          clear_cookies: false
@@ -13,3 +14,8 @@ modules:
          wait: 5
          capabilities:
              unexpectedAlertBehaviour: 'accept'
+      Db:
+        dsn: 'mysql:host=localhost;dbname=wordpress_develop'
+        user: 'root'
+        password:
+        dump: tests/_data/refresh.sql

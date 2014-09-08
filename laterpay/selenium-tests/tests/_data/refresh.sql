@@ -1,0 +1,1 @@
+delete from wordpress_develop.wp_posts;
