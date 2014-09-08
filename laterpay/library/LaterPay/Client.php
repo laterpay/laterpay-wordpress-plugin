@@ -425,6 +425,8 @@ class LaterPay_Client
      * @return  string $url
      */
     public function get_buy_url( $data, $product_key = null, $dialog = true, $use_jsevents = false, $skip_add_to_invoice = false, $transaction_reference = null ) {
+        $data['cp'] = $this->cp_key;
+
         return $this->get_web_url(
             $data,
             'buy',
