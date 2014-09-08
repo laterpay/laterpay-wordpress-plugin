@@ -45,7 +45,7 @@ class BackendModule extends BaseModule {
      * Price Validation {price input, confirmation link, change link}
      * Is a price validated successfully?
      */
-    public function priceValidation($price_input = 0, $change_link = null, $confirmation_link = null) {
+    public function validatePrice($price_input = 0, $change_link = null, $confirmation_link = null) {
 
         $I = $this->BackendTester;
 
@@ -62,6 +62,11 @@ class BackendModule extends BaseModule {
 
                 $I->see($expectedValue, PluginPage::$globalPriceText);
             };
+    }
+
+    public function validateAPICredentials()
+    {
+        //TODO: implement this method
     }
 
 }

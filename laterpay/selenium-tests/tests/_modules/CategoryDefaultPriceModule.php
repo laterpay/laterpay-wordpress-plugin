@@ -1,12 +1,6 @@
 <?php
 
 class CategoryDefaultPriceModule extends BaseModule {
-    //admin area elements
-    public static $adminMenuPluginButton        = '#toplevel_page_laterpay-plugin';
-
-    //plugin tabs
-    public static $pluginPricingTab             = 'a[href$="laterpay-plugin"]';
-
     //pricing tab elements
     public static $pricingAddCategoryButton     = '#add_category_button';
     public static $pricingCategorySelect        = '#select2-drop-mask';
@@ -17,9 +11,7 @@ class CategoryDefaultPriceModule extends BaseModule {
     public static $pricingChangeLink            = ".edit-link.laterpay-change-link";
     public static $pricingDeleteLink            = ".edit-link.laterpay-delete-link";
     public static $pricingPriceInput            = ".lp-input.number";
-
-    //message
-    public static $message                      = "#message p";
+    //messages
     public static $messageCategoryPriceSave     = "All posts in category {category_name} have a default price of {category_price}";
     public static $messageCategoryPriceDeleted  = "The default price for this category was deleted.";
     public static $messageCategoryPriceChanged  = "All posts in category {category_name} have a default price of {category_price}";
@@ -45,7 +37,7 @@ class CategoryDefaultPriceModule extends BaseModule {
 
         $I->amGoingTo('Validate Price');
         BackendModule::of($I)
-            ->priceValidation(self::$pricingPriceInput, self::$pricingCancelLink, self::$pricingSaveLink);
+            ->validatePrice(self::$pricingPriceInput, self::$pricingCancelLink, self::$pricingSaveLink);
 
         $I->amGoingTo('Cancel category default price');
         $I->click(self::$pricingAddCategoryButton);

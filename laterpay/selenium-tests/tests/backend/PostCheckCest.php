@@ -28,7 +28,7 @@ class PostCheckCest {
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.00, 60);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('test post 1', 'individual price', 0.00, 'USD',
+            ->checkTestPostForLaterPayElements('post-1', 'individual price', 0.00, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -57,7 +57,7 @@ class PostCheckCest {
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.40, 60);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('test post 1', 'individual price', 0.40, 'USD',
+            ->checkTestPostForLaterPayElements('post-1', 'individual price', 0.40, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -90,11 +90,11 @@ class PostCheckCest {
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.40, null);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('test post 1', 'individual price', 0.40, 'USD',
+            ->checkTestPostForLaterPayElements('post-1', 'individual price', 0.40, 'USD',
                 BaseModule::$T1, BaseModule::$C1, 60);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('test post 2', 'individual price', 0.40, 'USD',
+            ->checkTestPostForLaterPayElements('post-2', 'individual price', 0.40, 'USD',
                 BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -127,7 +127,7 @@ class PostCheckCest {
                              'starts at 0.85 and goes to 0.05 after 5 days', null);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('test post 1', 'individual price', 0.85, 'USD',
+            ->checkTestPostForLaterPayElements('post-1', 'individual price', 0.85, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -158,7 +158,7 @@ class PostCheckCest {
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, BaseModule::$CAT1, 'global default price', 0.35, null);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('test post 1', 'global default price', 0.35, 'USD',
+            ->checkTestPostForLaterPayElements('post-1', 'global default price', 0.35, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -192,7 +192,7 @@ class PostCheckCest {
             ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49);
 
         PostModule::of($I)
-            ->createTestPost('test post 1', BaseModule::$C1, BaseModule::$CAT1, 'category default price', 0.49, 60);
+            ->createTestPost('post-1', BaseModule::$C1, BaseModule::$CAT1, 'category default price', 0.49, 60);
 
         BackendModule::of($I)
             ->logout();
