@@ -32,6 +32,9 @@ class PostModule extends BaseModule {
     public static $pageListPriceCol = 'td[class="post_price.column-post_price"]';
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
 
+    //messages
+    public static $messageShortcodeError          = "Shortcode error message";
+
     /**
      * P.26
      * @param $title
@@ -218,7 +221,6 @@ class PostModule extends BaseModule {
      * @return $this
      */
     public function unassignPostFromCategory($category) {
-
         $I = $this->BackendTester;
 
         //TODO: we need to do only unassign operation
@@ -233,7 +235,6 @@ class PostModule extends BaseModule {
      * @return $this
      */
     public function assignPostToCategory($category) {
-
         $I = $this->BackendTester;
 
         //TODO: we need to do only assign operation
@@ -242,11 +243,74 @@ class PostModule extends BaseModule {
         return $this;
     }
 
-    private function _createTeaserContent($content, $teaser) {
+    /**
+     * @param $post
+     * @param $price
+     * @param $files
+     * @return $this
+     */
+    public function checkIfFilesAreProtected($post, $price, $files)
+    {
+        $I = $this->BackendTester;
+
+        $I->amOnPage(self::$pagePostList);
+        $I->click($post . self::$visibleInTablePostTitle);
+        $I->click(self::$linkViewPost);
+        $I->click(self::$linkPreviewSwitcher);
+
+        return $this;
+    }
+
+    /**
+     * @param $post
+     * @param $price
+     * @return $this
+     */
+    public function checkIfCorrectShortcodeIsDisplayedCorrectly($post, $price)
+    {
+        $I = $this->BackendTester;
+
+        if ($price > 0) {
+            $I->amOnPage(self::$pagePostList);
+            $I->click($post . self::$visibleInTablePostTitle);
+            $I->click(self::$linkViewPost);
+            $I->click(self::$linkPreviewSwitcher);
+            $I->see(self::$messageShortcodeError, self::$messageShortcodeError);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $post
+     * @param $price
+     * @return $this
+     */
+    public function CheckIfWrongShortcodeIsDisplayedCorrectly($post, $price)
+    {
+        $I = $this->BackendTester;
+
+        if ($price > 0) {
+            $I->amOnPage(self::$pagePostList);
+            $I->click($post . self::$visibleInTablePostTitle);
+            $I->click(self::$linkViewPost);
+            $I->click(self::$linkPreviewSwitcher);
+            $I->see(self::$messageShortcodeError, self::$messageShortcodeError);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $content
+     * @param $teaser
+     * @return string
+     */
+    private function _createTeaserContent($content, $teaser)
+    {
         $teaser_content = explode(' ', strip_tags($content), $teaser);
         array_pop($teaser_content);
         return join(' ', $teaser_content) . '...';
     }
-
 }
 

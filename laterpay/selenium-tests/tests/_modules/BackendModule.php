@@ -63,11 +63,5 @@ class BackendModule extends BaseModule {
                 $I->see($expectedValue, PluginPage::$globalPriceText);
             };
     }
-
-    public function validateAPICredentials()
-    {
-        //TODO: implement this method
-    }
-
 }
 
