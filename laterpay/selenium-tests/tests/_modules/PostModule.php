@@ -13,6 +13,12 @@ class PostModule extends BaseModule {
     public static $fieldContent = '#content_ifr';
     public static $fieldTeaser = '#laterpay_teaser_content';
     public static $fieldPrice = '#post-price';
+    public static $contentId = "#content";
+    public static $teaserContentId = "#postcueeditor";
+
+    //mcetabs
+    public static $contentText = "#content-html";
+    public static $teaserContentText = "#postcueeditor-html";
 
     //links
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
@@ -58,25 +64,26 @@ class PostModule extends BaseModule {
         $I->amGoingTo('Set post title');
         $I->fillField(PostModule::$fieldTitle, $title);
 
+        $content = str_replace(array("\r", "\n"), '', $content);
+
         $I->amGoingTo('Set post content');
-        $I->click(PostModule::$fieldContent);
-        $I->executeJS(" tinymce.activeEditor.selection.setContent('" . str_replace(array("\r", "\n"), '', $content) . "'); ");
+        $I->click(PostModule::$contentText);
+        $I->fillField(PostModule::$contentId, $content);
 
         //create teaser content
         if ($teaser) {
-
-            $I->amGoingTo('Set teaser content');
             $teaser_content = $this->_createTeaserContent($content, $teaser);
 
-            if ($I->tryClick($I, PostModule::$fieldContent))
-                $I->executeJS(" tinymce.activeEditor.selection.setContent('" . str_replace(array("\r", "\n"), '', $teaser_content) . "'); ");
+            $I->amGoingTo('Set teaser content');
+            $I->click(PostModule::$teaserContentText);
+            $I->fillField(PostModule::$teaserContentId, $teaser_content);
         }
 
         switch ($price_type) {
 
             case 'global default price':
                 $I->amGoingTo('Choose global default price type');
-                $I->click($I, PostModule::$linkGlobalDefaultPrice);
+                $I->tryClick($I, PostModule::$linkGlobalDefaultPrice);
                 break;
 
             case 'category default price':
