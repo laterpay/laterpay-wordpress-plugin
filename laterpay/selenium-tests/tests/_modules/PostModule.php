@@ -92,6 +92,11 @@ class PostModule extends BaseModule {
                 $I->click(PostModule::$linkIndividualPrice);
                 BackendModule::of($I)
                         ->validatePrice(PostModule::$fieldPrice);
+                //we can change only individual price
+                if ($price) {
+                    $I->amGoingTo('Set price');
+                    $I->fillField(PostModule::$fieldPrice, $price);
+                }
                 break;
 
             case 'individual dynamic price':
@@ -100,11 +105,6 @@ class PostModule extends BaseModule {
 
             default:
                 break;
-        }
-
-        if ($price) {
-            $I->amGoingTo('Set price');
-            $I->fillField(PostModule::$fieldPrice, $price);
         }
 
         //TODO: need to check this logic
