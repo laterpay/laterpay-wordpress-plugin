@@ -29,7 +29,6 @@ class SetupModule extends BaseModule {
     public static $globalDefaultPrice = '400';
     public static $globalDefaultCurrencyField = 'get_started[laterpay_currency]';
     public static $globalDefaultCurrency = 'EUR';
-    public static $pluginActivationDelay = 10;
     //expected
 
     public static $assertPluginName = 'laterpay';
@@ -146,22 +145,26 @@ class SetupModule extends BaseModule {
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
         $I->click(SetupModule::$pluginActivateFormButton);
+        $I->wait(BaseModule::$veryShortTimeout);
         $I->see(SetupModule::$assertNoLaterPayApiKey);
 
         $I->amGoingTo('Set wrong Merchant ID');
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantInvalidValue);
         $I->click(SetupModule::$pluginActivateFormButton);
+        $I->wait(BaseModule::$veryShortTimeout);
         $I->see(SetupModule::$assertInvalidMerchantId);
 
         $I->amGoingTo('Set Sandbox Merchant ID');
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
         $I->click(SetupModule::$pluginActivateFormButton);
+        $I->wait(BaseModule::$veryShortTimeout);
         $I->see(SetupModule::$assertEmptyDemoMerchantId);
 
         $I->amGoingTo('Set Sandbox Merchant ID and invalid API Key');
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyInvalidValue);
         $I->click(SetupModule::$pluginActivateFormButton);
+        $I->wait(BaseModule::$veryShortTimeout);
         $I->seeInPageSource(SetupModule::$assertInvalidDemoMerchantId);
 
         $I->amGoingTo('Set Sandbox Merchant ID and valid API Key');
@@ -175,7 +178,7 @@ class SetupModule extends BaseModule {
         $I->click(SetupModule::$pluginActivateFormButton);
 
         $I->amGoingTo('Check redirect to New Post page');
-        $I->wait(SetupModule::$pluginActivationDelay);
+        $I->wait(BaseModule::$shortTimeout);
         $I->seeCurrentUrlEquals(SetupModule::$pluginActivateSuccesRedirectUrl);
 
         return $this;
