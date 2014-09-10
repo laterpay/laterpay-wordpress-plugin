@@ -28,6 +28,7 @@ class SetupModule extends BaseModule {
     public static $pluginActivateFormButton = '.lp_activate-plugin-button';
     public static $globalDefaultPrice = '400';
     public static $globalDefaultCurrencyField = 'get_started[laterpay_currency]';
+    public static $globalDefaultCurrencySelect = 'laterpay_currency';
     public static $globalDefaultCurrency = 'EUR';
     //expected
 
@@ -60,6 +61,7 @@ class SetupModule extends BaseModule {
         '0.15' => array('0,15', '0.15', '0,15 EUR', '0,15EUR'),
         '5.00' => array('0;89', '550', '8,00', '9.00', '10EUR', '10 EUR')
     );
+    public static $assertCurrencySelected = 'The currency for this website is USD now.';
 
     /**
      * Uninstall
@@ -231,6 +233,30 @@ class SetupModule extends BaseModule {
         $I->cantSeeElement(SetupModule::$laterpayCancelLink);
         $I->see(SetupModule::$newGlobalDefaultPrice, SetupModule::$globalPriceText);
         $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . SetupModule::$newGlobalDefaultPrice);
+
+        return $this;
+    }
+
+    /**
+     * P.24
+     * Change Currency {new currency}
+     * {currency} = string
+     */
+    public function changeCurrency($currency = 'USD') {
+
+        $I = $this->BackendTester;
+
+        $I->amGoingTo('Change Currency');
+
+        $I->amOnPage(SetupModule::$pluginBackLink);
+
+        $I->click(SetupModule::$laterpayChangeLink);
+
+        $I->selectOption(SetupModule::$globalDefaultCurrencySelect, $currency);
+
+        $I->see(SetupModule::$assertCurrencySelected);
+
+        $I->canSeeOptionIsSelected(SetupModule::$globalDefaultCurrencySelect, $currency);
 
         return $this;
     }
