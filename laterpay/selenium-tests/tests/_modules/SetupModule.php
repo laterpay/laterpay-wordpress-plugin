@@ -2,6 +2,66 @@
 
 class SetupModule extends BaseModule {
 
+    public static $url_plugin_list = '/wp-admin/plugins.php';
+    public static $url_plugin_add = '/wp-admin/plugin-install.php';
+    public static $url_plugin_upload = '/wp-admin/plugin-install.php?tab=upload';
+    public static $pluginSearchField = 's';
+    public static $pluginSearchForm = '.search-form';
+    public static $pluginSearchValue = 'laterpay';
+    public static $pluginUploadField = 'pluginzip';
+    public static $pluginUploadFilename = 'laterpay.zip';
+    public static $pluginUploadSubmitField = 'install-plugin-submit';
+    public static $pluginDeactivateLink = '#laterpay .deactivate > a';
+    public static $pluginDeleteLink = '#laterpay .delete > a';
+    public static $pluginDeleteConfirmLink = '#submit';
+    public static $pluginActivateLink = '#laterpay .activate > a';
+    public static $pluginNavigationLabel = 'LaterPay';
+    public static $backNavigateTab = '#adminmenuwrap';
+    public static $pluginBackLink = '/wp-admin/admin.php?page=laterpay-plugin';
+    public static $laterpaySandboxMerchantField = 'get_started[laterpay_sandbox_merchant_id]';
+    public static $laterpaySandboxMerchantInvalidValue = 'a1b2c3d4e5f6g7h8i9j0';
+    public static $laterpaySandboxMerchantSandboxValue = 'LaterPay-WordPressDemo';
+    public static $laterpaySandboxApiKeyField = 'get_started[laterpay_sandbox_api_key]';
+    public static $laterpaySandboxApiKeyInitValue = 'a1b2c3d4e5f6g7h8i9j0';
+    public static $laterpaySandboxApiKeyInvalidValue = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5';
+    public static $laterpaySandboxApiKeyValidValue = 'decafbaddecafbaddecafbaddecafbad';
+    public static $pluginActivateFormButton = '.lp_activate-plugin-button';
+    public static $globalDefaultPrice = '400';
+    public static $globalDefaultCurrencyField = 'get_started[laterpay_currency]';
+    public static $globalDefaultCurrency = 'EUR';
+    public static $pluginActivationDelay = 10;
+    //expected
+
+    public static $assertPluginName = 'laterpay';
+    public static $assertInstalled = 'Plugin installed successfully';
+    public static $assertNoLaterPayApiKey = 'Please enter your LaterPay API key to activate LaterPay on this site.';
+    public static $assertInvalidMerchantId = 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!';
+    public static $assertEmptyDemoMerchantId = 'Please enter your LaterPay API key to activate LaterPay on this site.';
+    public static $assertInvalidDemoMerchantId = 'The API key you entered is not a valid LaterPay Sandbox API key!';
+    public static $assertFieldStepOneDone = 'span[class="lp_step-1 lp_step-done"]';
+    public static $pluginActivateSuccesRedirectUrl = '/wp-admin/post-new.php';
+    //second
+    public static $pluginPricingTab = 'a[text="Pricing"]';
+    public static $adminMenuPluginButton = '#toplevel_page_laterpay-plugin';
+    public static $pricingAddCategoryButton = '#add_category_button';
+    public static $pricingCategorySelect = '#select2-drop-mask';
+    public static $pricingSaveLink = ".edit-link .laterpay-save-link";
+    public static $pricingCancelLink = ".edit-link .laterpay-cancel-link";
+    public static $laterpayChangeLink = 'a[class="edit-link laterpay-change-link"]';
+    public static $globalDefaultPriceField = '#global-default-price';
+    public static $laterpaySaveLink = '.laterpay-save-link';
+    public static $laterpayCancelLink = '.laterpay-cancel-link';
+    public static $globalPriceText = '#laterpay-global-price-text';
+    public static $newGlobalDefaultPrice = '3';
+    //expected
+    public static $assertPluginListed = 'LaterPay';
+    public static $assertNewPriceSet = 'Every post costs ';
+    public static $assertNewPriceConfirmation = 'The global default price for all posts is ';
+    public static $priceValidationArray = array(
+        '0.15' => array('0,15', '0.15', '0,15 EUR', '0,15EUR'),
+        '5.00' => array('0;89', '550', '8,00', '9.00', '10EUR', '10 EUR')
+    );
+
     /**
      * Uninstall
      */
@@ -9,13 +69,13 @@ class SetupModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        $I->amOnPage(SetupPage::$url_plugin_list);
-        if ($I->hSee($I, SetupPage::$assertPluginName)) {
+        $I->amOnPage(SetupModule::$url_plugin_list);
+        if ($I->trySee($I, SetupModule::$assertPluginName)) {
 
             $I->amGoingTo('Remove plugin before install');
-            $I->hClick($I, SetupPage::$pluginDeactivateLink);
-            $I->hClick($I, SetupPage::$pluginDeleteLink);
-            $I->hClick($I, SetupPage::$pluginDeleteConfirmLink);
+            $I->tryClick($I, SetupModule::$pluginDeactivateLink);
+            $I->tryClick($I, SetupModule::$pluginDeleteLink);
+            $I->tryClick($I, SetupModule::$pluginDeleteConfirmLink);
         };
 
         return $this;
@@ -30,15 +90,15 @@ class SetupModule extends BaseModule {
         $I = $this->BackendTester;
 
         $I->amGoingTo('Install plugin');
-        $I->amOnPage(SetupPage::$url_plugin_add);
-        $I->amOnPage(SetupPage::$url_plugin_upload);
-        $I->attachFile(SetupPage::$pluginUploadField, SetupPage::$pluginUploadFilename);
-        $I->click(SetupPage::$pluginUploadSubmitField);
-        $I->see(SetupPage::$assertInstalled);
+        $I->amOnPage(SetupModule::$url_plugin_add);
+        $I->amOnPage(SetupModule::$url_plugin_upload);
+        $I->attachFile(SetupModule::$pluginUploadField, SetupModule::$pluginUploadFilename);
+        $I->click(SetupModule::$pluginUploadSubmitField);
+        $I->see(SetupModule::$assertInstalled);
 
         $I->amGoingTo('Check plugin listed');
-        $I->amOnPage(SetupPage::$url_plugin_list);
-        $I->see(SetupPage::$assertPluginListed);
+        $I->amOnPage(SetupModule::$url_plugin_list);
+        $I->see(SetupModule::$assertPluginListed);
 
         return $this;
     }
@@ -52,17 +112,17 @@ class SetupModule extends BaseModule {
         $I = $this->BackendTester;
 
         $I->amGoingTo('Activate plugin');
-        $I->amOnPage(SetupPage::$url_plugin_list);
-        $I->click(SetupPage::$pluginActivateLink);
-        $I->waitForElement(SetupPage::$pluginDeactivateLink);
+        $I->amOnPage(SetupModule::$url_plugin_list);
+        $I->click(SetupModule::$pluginActivateLink);
+        $I->waitForElement(SetupModule::$pluginDeactivateLink);
 
         $I->amGoingTo('Plugin link into navigation tab');
-        $I->amOnPage(SetupPage::$url_plugin_list);
-        $I->see(SetupPage::$pluginNavigationLabel, SetupPage::$backNavigateTab);
+        $I->amOnPage(SetupModule::$url_plugin_list);
+        $I->see(SetupModule::$pluginNavigationLabel, SetupModule::$backNavigateTab);
 
         //floated popup
-        if ($I->hSee('.wp-pointer-content'))
-            $I->hClick('.wp-pointer-content .close');
+        if ($I->trySee($I, '.wp-pointer-content'))
+            $I->tryClick($I, '.wp-pointer-content .close');
         return $this;
     }
 
@@ -76,51 +136,51 @@ class SetupModule extends BaseModule {
         $I = $this->BackendTester;
 
         if (!$price)
-            $price = SetupPage::$globalDefaultPrice;
+            $price = SetupModule::$globalDefaultPrice;
 
         if (!$currency)
-            $currency = SetupPage::$globalDefaultCurrency;
+            $currency = SetupModule::$globalDefaultCurrency;
 
         $I->amGoingTo('Set empty Merchant ID and API Key');
-        $I->amOnPage(SetupPage::$pluginBackLink);
-        $I->fillField(SetupPage::$laterpaySandboxMerchantField, '');
-        $I->fillField(SetupPage::$laterpaySandboxApiKeyField, '');
-        $I->click(SetupPage::$pluginActivateFormButton);
-        $I->see(SetupPage::$assertNoLaterPayApiKey);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
+        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
+        $I->click(SetupModule::$pluginActivateFormButton);
+        $I->see(SetupModule::$assertNoLaterPayApiKey);
 
         $I->amGoingTo('Set empty Merchant ID and API Key');
-        $I->amOnPage(SetupPage::$pluginBackLink);
-        $I->fillField(SetupPage::$laterpaySandboxMerchantField, SetupPage::$laterpaySandboxMerchantInvalidValue);
-        $I->click(SetupPage::$pluginActivateFormButton);
-        $I->see(SetupPage::$assertNoLaterPayApiKey);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantInvalidValue);
+        $I->click(SetupModule::$pluginActivateFormButton);
+        $I->see(SetupModule::$assertNoLaterPayApiKey);
 
         $I->amGoingTo('Set Sandbox Merchant ID and empty API Key');
-        $I->amOnPage(SetupPage::$pluginBackLink);
-        $I->fillField(SetupPage::$laterpaySandboxMerchantField, SetupPage::$laterpaySandboxMerchantSandboxValue);
-        $I->fillField(SetupPage::$laterpaySandboxApiKeyField, '');
-        $I->click(SetupPage::$pluginActivateFormButton);
-        $I->see(SetupPage::$assertEmptyDemoMerchantId);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
+        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
+        $I->click(SetupModule::$pluginActivateFormButton);
+        $I->see(SetupModule::$assertEmptyDemoMerchantId);
 
         $I->amGoingTo('Set Sandbox Merchant ID and invalid API Key');
-        $I->amOnPage(SetupPage::$pluginBackLink);
-        $I->fillField(SetupPage::$laterpaySandboxMerchantField, SetupPage::$laterpaySandboxMerchantSandboxValue);
-        $I->fillField(SetupPage::$laterpaySandboxApiKeyField, SetupPage::$laterpaySandboxApiKeyInvalidValue);
-        $I->click(SetupPage::$pluginActivateFormButton);
-        $I->seeInPageSource(SetupPage::$assertInvalidDemoMerchantId);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
+        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyInvalidValue);
+        $I->click(SetupModule::$pluginActivateFormButton);
+        $I->seeInPageSource(SetupModule::$assertInvalidDemoMerchantId);
 
         $I->amGoingTo('Set Sandbox Merchant ID and valid API Key');
-        $I->fillField(SetupPage::$laterpaySandboxMerchantField, SetupPage::$laterpaySandboxMerchantSandboxValue);
-        $I->fillField(SetupPage::$laterpaySandboxApiKeyField, SetupPage::$laterpaySandboxApiKeyValidValue);
-        //$I->seeElement(SetupPage::$assertFieldStepOneDone);
+        $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
+        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyValidValue);
+        //$I->seeElement(SetupModule::$assertFieldStepOneDone);
 
         $I->amGoingTo('Activate LaterPay');
-        $I->fillField(SetupPage::$globalDefaultPriceField, $price);
-        $I->selectOption(SetupPage::$globalDefaultCurrencyField, $currency);
-        $I->click(SetupPage::$pluginActivateFormButton);
+        $I->fillField(SetupModule::$globalDefaultPriceField, $price);
+        $I->selectOption(SetupModule::$globalDefaultCurrencyField, $currency);
+        $I->click(SetupModule::$pluginActivateFormButton);
 
         $I->amGoingTo('Check redirect to New Post page');
-        $I->wait(SetupPage::$pluginActivationDelay);
-        $I->seeCurrentUrlEquals(SetupPage::$pluginActivateSuccesRedirectUrl);
+        $I->wait(SetupModule::$pluginActivationDelay);
+        $I->seeCurrentUrlEquals(SetupModule::$pluginActivateSuccesRedirectUrl);
 
         return $this;
     }
@@ -135,43 +195,43 @@ class SetupModule extends BaseModule {
         $I = $this->BackendTester;
 
         if (!$price)
-            $price = PluginPage::$newGlobalDefaultPrice;
+            $price = SetupModule::$newGlobalDefaultPrice;
 
         $I->amGoingTo('Click on the “Change” link next to the global default price');
-        $I->amOnPage(PluginPage::$pluginBackLink);
-        $I->click(PluginPage::$laterpayChangeLink);
-        $I->seeElement(PluginPage::$globalDefaultPriceField);
-        $I->seeElement(PluginPage::$laterpaySaveLink);
-        $I->seeElement(PluginPage::$laterpayCancelLink);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->click(SetupModule::$laterpayChangeLink);
+        $I->seeElement(SetupModule::$globalDefaultPriceField);
+        $I->seeElement(SetupModule::$laterpaySaveLink);
+        $I->seeElement(SetupModule::$laterpayCancelLink);
 
         $I->amGoingTo('Price Validation');
-        BackendModule::of($I)->priceValidation();
+        BackendModule::of($I)->validatePrice();
 
         $I->amGoingTo('Click on the “Cancel”');
-        $I->amOnPage(PluginPage::$pluginBackLink);
-        $I->click(PluginPage::$laterpayChangeLink);
-        $I->click(PluginPage::$laterpayCancelLink);
-        $I->seeElement(PluginPage::$laterpayChangeLink);
-        $I->cantSeeElement(PluginPage::$laterpaySaveLink);
-        $I->cantSeeElement(PluginPage::$laterpayCancelLink);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->click(SetupModule::$laterpayChangeLink);
+        $I->click(SetupModule::$laterpayCancelLink);
+        $I->seeElement(SetupModule::$laterpayChangeLink);
+        $I->cantSeeElement(SetupModule::$laterpaySaveLink);
+        $I->cantSeeElement(SetupModule::$laterpayCancelLink);
 
         $I->amGoingTo('Click on the “Change””');
-        $I->amOnPage(PluginPage::$pluginBackLink);
-        $I->click(PluginPage::$laterpayChangeLink);
-        $I->cantSeeElement(PluginPage::$laterpayChangeLink);
-        $I->seeElement(PluginPage::$laterpaySaveLink);
-        $I->seeElement(PluginPage::$laterpayCancelLink);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->click(SetupModule::$laterpayChangeLink);
+        $I->cantSeeElement(SetupModule::$laterpayChangeLink);
+        $I->seeElement(SetupModule::$laterpaySaveLink);
+        $I->seeElement(SetupModule::$laterpayCancelLink);
 
         $I->amGoingTo('Set new price');
-        $I->amOnPage(PluginPage::$pluginBackLink);
-        $I->click(PluginPage::$laterpayChangeLink);
-        $I->fillField(PluginPage::$globalDefaultPriceField, $price);
-        $I->click(PluginPage::$laterpaySaveLink);
-        $I->seeElement(PluginPage::$laterpayChangeLink);
-        $I->cantSeeElement(PluginPage::$laterpaySaveLink);
-        $I->cantSeeElement(PluginPage::$laterpayCancelLink);
-        $I->see(PluginPage::$newGlobalDefaultPrice, PluginPage::$globalPriceText);
-        $I->seeInPageSource(PluginPage::$assertNewPriceConfirmation . PluginPage::$newGlobalDefaultPrice);
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->click(SetupModule::$laterpayChangeLink);
+        $I->fillField(SetupModule::$globalDefaultPriceField, $price);
+        $I->click(SetupModule::$laterpaySaveLink);
+        $I->seeElement(SetupModule::$laterpayChangeLink);
+        $I->cantSeeElement(SetupModule::$laterpaySaveLink);
+        $I->cantSeeElement(SetupModule::$laterpayCancelLink);
+        $I->see(SetupModule::$newGlobalDefaultPrice, SetupModule::$globalPriceText);
+        $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . SetupModule::$newGlobalDefaultPrice);
 
         return $this;
     }

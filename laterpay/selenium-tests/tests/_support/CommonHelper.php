@@ -10,11 +10,18 @@ class CommonHelper extends \Codeception\Module {
      * Usage examples:
       mod($I,'BackendModule','login');
       amOnPage(PostModule::$pagePostNew);
-      amOnPage(SetupPage::$pluginBackLink);
       amOnPage(PostModule::$pagePostList);
       click('a[class=".lp_activate-plugin-button"]');
       click(PostModule::$linkGlobalDefaultPrice);
+
       makeScreenshot(1);
+
+      fillField(PostModule::$fieldContent,1);
+
+      see('USD', PostModule::$visibleLaterpayPurchaseButton);
+
+      executeJS(" tinymce.activeEditor.selection.setContent('".str_replace(array("\r","\n"),'',BaseModule::$C1)."'); ");
+
       click('LaterPay WordPress Plugin Test Post');
       see(0.35, PostModule::$visibleLaterpayPurchaseButton);
       see('USD', PostModule::$visibleLaterpayPurchaseButton);
@@ -58,7 +65,7 @@ class CommonHelper extends \Codeception\Module {
      * @param \SetupTester $I
      * @param String $I
      */
-    public function hSee($I, $string) {
+    public function trySee($I, $string) {
 
         try {
 
@@ -75,7 +82,7 @@ class CommonHelper extends \Codeception\Module {
      * @param \SetupTester $I
      * @param String $I
      */
-    public function hClick($I, $string) {
+    public function tryClick($I, $string) {
 
         try {
 
@@ -90,7 +97,7 @@ class CommonHelper extends \Codeception\Module {
      * @param \SetupTester $I
      * @param String $I
      */
-    public function hCheckbox($I, $string) {
+    public function tryCheckbox($I, $string) {
 
         try {
 
@@ -100,6 +107,16 @@ class CommonHelper extends \Codeception\Module {
 
             return false;
         };
+    }
+
+    public function setVar($k, $v) {
+
+        $this->k = $v;
+    }
+
+    public function getVar($k) {
+
+        return $this->k;
     }
 
     /**

@@ -44,7 +44,7 @@ class SetupPluginCest {
 
         SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements(BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -56,7 +56,13 @@ class SetupPluginCest {
 
         BackendModule::of($I)->login();
 
-        PostModule::of($I)->checkTestPostForLaterPayElements(BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+        SetupModule::of($I)->checkIsTestMode();
+
+        /*
+         * $I->amOnPage('/wp-admin/post.php?post=11&action=edit');
+          $I->setVar('post', 10);
+          PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1);
+         */
     }
 
     /**
@@ -76,7 +82,7 @@ class SetupPluginCest {
 
         SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements(BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+        PostModule::of($I)->checkTestPostForLaterPayElements($postId, BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
     }
 
     /**

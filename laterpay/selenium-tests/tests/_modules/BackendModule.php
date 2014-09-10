@@ -2,6 +2,18 @@
 
 class BackendModule extends BaseModule {
 
+    //in
+    public static $URL = '/wp-admin/';
+    public static $usernameField = 'log';
+    public static $passwordField = 'pwd';
+    public static $usernameValue = 'admin';
+    public static $passwordValue = 'password';
+    public static $loginButton = 'wp-submit';
+    public static $logoutMenu = '#wp-admin-bar-my-account';
+    public static $logoutButton = '#wp-admin-bar-logout>a';
+    //expected
+    public static $expectedBackTitle = 'Dashboard';
+
     /**
      * Login
      */
@@ -11,13 +23,13 @@ class BackendModule extends BaseModule {
 
         $I->amGoingTo('Login backend');
 
-        $I->amOnPage(LoginPage::$URL);
+        $I->amOnPage(BackendModule::$URL);
 
-        if (!$I->hSee($I, LoginPage::$expectedBackTitle)) {
+        if (!$I->trySee($I, BackendModule::$expectedBackTitle)) {
 
-            $I->fillField(LoginPage::$usernameField, LoginPage::$usernameValue);
-            $I->fillField(LoginPage::$passwordField, LoginPage::$passwordValue);
-            $I->click(LoginPage::$loginButton);
+            $I->fillField(BackendModule::$usernameField, BackendModule::$usernameValue);
+            $I->fillField(BackendModule::$passwordField, BackendModule::$passwordValue);
+            $I->click(BackendModule::$loginButton);
         };
 
         return $this;
@@ -30,11 +42,11 @@ class BackendModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        if ($I->hSee($I, LoginPage::$expectedBackTitle)) {
+        if ($I->trySee($I, BackendModule::$expectedBackTitle)) {
 
-            $I->moveMouseOver(LoginPage::$logoutMenu);
+            $I->moveMouseOver(BackendModule::$logoutMenu);
 
-            $I->click(LoginPage::$logoutButton);
+            $I->click(BackendModule::$logoutButton);
         };
 
         return $this;
@@ -49,19 +61,20 @@ class BackendModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        foreach (PluginPage::$priceValidationArray as $expectedValue => $arrayOfInputValues)
+        foreach (SetupModule::$priceValidationArray as $expectedValue => $arrayOfInputValues)
             foreach ($arrayOfInputValues as $InputValue) {
 
                 if ($change_link)
-                    $I->hClick($I, $change_link);
+                    $I->tryClick($I, $change_link);
 
                 $I->fillField($price_input, $InputValue);
 
                 if ($confirmation_link)
                     $I->click($confirmation_link);
 
-                $I->see($expectedValue, PluginPage::$globalPriceText);
+                $I->see($expectedValue, SetupModule::$globalPriceText);
             };
     }
+
 }
 
