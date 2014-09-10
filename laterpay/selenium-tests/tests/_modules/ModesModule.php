@@ -79,7 +79,7 @@ payments are actually booked and credited to your account.';
         $I->click(self::$adminMenuPluginButton);
         $I->click(self::$pluginAccountTab);
 
-        $preview_mode = $I->executeJS('JQuery("' . self::$fieldTeaserContentChecked . '").val()');
+        $preview_mode = $I->executeJS('jQuery("' . self::$fieldTeaserContentChecked . '").val()');
 
         switch ($preview_mode) {
             case '0':
