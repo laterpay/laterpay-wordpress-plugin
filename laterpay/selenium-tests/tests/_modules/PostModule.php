@@ -7,13 +7,11 @@ class PostModule extends BaseModule {
     public static $pagePostList = '/wp-admin/edit.php';
     public static $pagePostEdit = '/wp-admin/post.php?post={post}&action=edit';
     public static $pagePostFrontView = '/?p={post}';
-
     //fields
     public static $fieldTitle = '#title';
     public static $fieldContent = '#content_ifr';
     public static $fieldTeaser = '#laterpay_teaser_content';
     public static $fieldPrice = '#post-price';
-
     //links
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
@@ -22,7 +20,6 @@ class PostModule extends BaseModule {
     public static $linkViewPost = '#view-post-btn a';
     public static $linkPreviewSwitcher = 'span[class="switch-handle"]';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
-
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
@@ -35,9 +32,8 @@ class PostModule extends BaseModule {
     public static $visibleInTablePostPrice = '.post-price';
     public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
-
     //messages
-    public static $messageShortcodeError          = "Shortcode error message";
+    public static $messageShortcodeError = "Shortcode error message";
 
     /**
      * P.26
@@ -214,6 +210,7 @@ class PostModule extends BaseModule {
         $I->see($price, PostModule::$pageListPriceCol);
         $I->see($price_type, PostModule::$pageListPricetypeCol);
 
+        $I->amGoingTo('Check If plugin is tested in live mode');
         if (!ModesModule::of($I)->checkIsTestMode()) {
 
             $previewModeTeaserOnly = ModesModule::of($I)->checkPreviewMode();

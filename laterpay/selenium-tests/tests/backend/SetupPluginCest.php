@@ -49,24 +49,6 @@ class SetupPluginCest {
 
     /**
      * @param \BackendTester $I
-     * @group dev
-     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/285
-     */
-    public function dev(BackendTester $I) {
-
-        BackendModule::of($I)->login();
-
-        SetupModule::of($I)->checkIsTestMode();
-
-        /*
-         * $I->amOnPage('/wp-admin/post.php?post=11&action=edit');
-          $I->setVar('post', 10);
-          PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1);
-         */
-    }
-
-    /**
-     * @param \BackendTester $I
      * @group UI3
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/285
      */
@@ -82,29 +64,27 @@ class SetupPluginCest {
 
         SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($postId, BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+        SetupModule::of($I)->changeCurrency('EUR');
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), BaseModule::$T1, 'global default price', 0.35, 'EUR', BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
      * @param \BackendTester $I
-     * @group UI4
+     * @group dev
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/285
      */
-    public function testCanPurchasePost(BackendTester $I) {
-
-        $I->wantToTest('UI4: Can I purchase a post?');
+    public function dev(BackendTester $I) {
 
         BackendModule::of($I)->login();
 
-        SetupModule::of($I)->uninstallPlugin()->installPlugin()->activatePlugin();
+        SetupModule::of($I)->checkIsTestMode();
 
-        SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
-
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
-
-        PostModule::of($I)->checkTestPostForLaterPayElements(BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
-
-        PostModule::of($I)->purchasePost(BaseModule::$T1);
+        /*
+         * $I->amOnPage('/wp-admin/post.php?post=11&action=edit');
+          $I->setVar('post', 10);
+          PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1);
+         */
     }
 
 }

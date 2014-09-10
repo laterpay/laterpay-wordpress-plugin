@@ -98,10 +98,10 @@ payments are actually booked and credited to your account.';
      * @return $this
      */
     public function switchToLiveMode() {
+
         $I = $this->BackendTester;
-        $I->amOnPage(self::$baseUrl);
-        $I->click(self::$adminMenuPluginButton);
-        $I->click(self::$pluginAccountTab);
+
+        $I->amGoingTo(ModesModule::$url_plugin_account);
 
         $I->click(self::$labelTest, self::$linkPluginModeToggle);
         $I->see(self::$messageArea, self::$messageErrorLiveMode);
@@ -182,7 +182,7 @@ payments are actually booked and credited to your account.';
      */
     public function checkIsTestMode() {
 
-        $testMode = false;
+        $testMode = true;
 
         $I = $this->BackendTester;
 
@@ -191,7 +191,7 @@ payments are actually booked and credited to your account.';
         $I->amGoingTo(ModesModule::$url_plugin_account);
 
         if ($I->tryCheckbox($I, ModesModule::$pluginModeCheckbox))
-            $testMode = true;
+            $testMode = false;
 
         $I->amGoingTo($returnUrl);
 
