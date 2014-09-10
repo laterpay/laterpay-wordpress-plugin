@@ -141,28 +141,24 @@ class SetupModule extends BaseModule {
         if (!$currency)
             $currency = SetupModule::$globalDefaultCurrency;
 
-        $I->amGoingTo('Set empty Merchant ID and API Key');
+        $I->amGoingTo('Empty Merchant ID and API Key fields');
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
         $I->click(SetupModule::$pluginActivateFormButton);
         $I->see(SetupModule::$assertNoLaterPayApiKey);
 
-        $I->amGoingTo('Set empty Merchant ID and API Key');
-        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->amGoingTo('Set wrong Merchant ID');
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantInvalidValue);
         $I->click(SetupModule::$pluginActivateFormButton);
-        $I->see(SetupModule::$assertNoLaterPayApiKey);
+        $I->see(SetupModule::$assertInvalidMerchantId);
 
-        $I->amGoingTo('Set Sandbox Merchant ID and empty API Key');
-        $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->amGoingTo('Set Sandbox Merchant ID');
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
-        $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
         $I->click(SetupModule::$pluginActivateFormButton);
         $I->see(SetupModule::$assertEmptyDemoMerchantId);
 
         $I->amGoingTo('Set Sandbox Merchant ID and invalid API Key');
-        $I->amOnPage(SetupModule::$pluginBackLink);
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyInvalidValue);
         $I->click(SetupModule::$pluginActivateFormButton);
