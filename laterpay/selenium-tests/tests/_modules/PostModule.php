@@ -107,14 +107,14 @@ class PostModule extends BaseModule {
                 break;
         }
 
-        //TODO: need to check this logic
         if ($categories) {
             $I->amGoingTo('Set categories to post');
-            if (!is_array($categories))
-                $categories[] = $categories;
-
-            foreach ($categories as $category_name) {
-                $this->assignPostToCategory($title, $category_name);
+            if (is_array($categories)) {
+                foreach ($categories as $category_name) {
+                    $this->assignPostToCategory($title, $category_name);
+                }
+            } else {
+                $this->assignPostToCategory($title, $categories);
             }
         }
 
@@ -134,11 +134,6 @@ class PostModule extends BaseModule {
 
         //TODO: Same names can present on post page
         $I->see($title, PostModule::$visibleInTablePostTitle);
-
-        if ($price)
-            $I->see($price, PostModule::$visibleInTablePostPrice);
-
-        $I->see($title);
 
         return $this;
     }
@@ -267,7 +262,7 @@ class PostModule extends BaseModule {
         $I = $this->BackendTester;
 
         //TODO: we need to do only unassign operation
-        $I->executeJS("jQuery('#categorychecklist label:contains('" . $category . "')').trigger('click')");
+        $I->executeJS("jQuery('#categorychecklist label:contains(\"" . $category . "\")').trigger('click')");
 
         return $this;
     }
@@ -282,7 +277,7 @@ class PostModule extends BaseModule {
         $I = $this->BackendTester;
 
         //TODO: we need to do only assign operation
-        $I->executeJS("jQuery('#categorychecklist label:contains('" . $category . "')').trigger('click')");
+        $I->executeJS("jQuery('#categorychecklist label:contains(\"" . $category . "\")').trigger('click')");
 
         return $this;
     }
