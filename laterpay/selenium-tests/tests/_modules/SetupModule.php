@@ -48,7 +48,7 @@ class SetupModule extends BaseModule {
     public static $pricingSaveLink = ".edit-link .laterpay-save-link";
     public static $pricingCancelLink = ".edit-link .laterpay-cancel-link";
     public static $laterpayChangeLink = 'a[class="edit-link laterpay-change-link"]';
-    public static $globalDefaultPriceField = '#global-default-price';
+    public static $globalDefaultPriceField = '#lp_global-default-price';
     public static $laterpaySaveLink = '.laterpay-save-link';
     public static $laterpayCancelLink = '.laterpay-cancel-link';
     public static $globalPriceText = '#laterpay-global-price-text';

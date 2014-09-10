@@ -7,11 +7,13 @@ class PostModule extends BaseModule {
     public static $pagePostList = '/wp-admin/edit.php';
     public static $pagePostEdit = '/wp-admin/post.php?post={post}&action=edit';
     public static $pagePostFrontView = '/?p={post}';
+
     //fields
     public static $fieldTitle = '#title';
     public static $fieldContent = '#content_ifr';
     public static $fieldTeaser = '#laterpay_teaser_content';
     public static $fieldPrice = '#post-price';
+
     //links
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
@@ -20,6 +22,7 @@ class PostModule extends BaseModule {
     public static $linkViewPost = '#view-post-btn a';
     public static $linkPreviewSwitcher = 'span[class="switch-handle"]';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
+
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
@@ -32,6 +35,9 @@ class PostModule extends BaseModule {
     public static $visibleInTablePostPrice = '.post-price';
     public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
+
+    //messages
+    public static $messageShortcodeError          = "Shortcode error message";
 
     /**
      * P.26
@@ -309,12 +315,8 @@ class PostModule extends BaseModule {
     public function changeIndividualPrice($post, $price) {
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Open post from list');
-        $I->amOnPage(PostModule::$pagePostList);
-
-        $postSelector = '#' . $post . ' ';
-        //post like post-1
-        $I->click($postSelector . self::$visibleInTablePostTitle);
+        $I->amGoingTo('Open post for edit');
+        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
         $I->amGoingTo('Change individual price');
         $I->click(PostModule::$linkIndividualPrice);
@@ -338,8 +340,9 @@ class PostModule extends BaseModule {
     public function checkIfFilesAreProtected($post, $price, $files) {
         $I = $this->BackendTester;
 
-        $I->amOnPage(self::$pagePostList);
-        $I->click($post . self::$visibleInTablePostTitle);
+        $I->amGoingTo('Open post for edit');
+        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+
         $I->click(self::$linkViewPost);
         $I->click(self::$linkPreviewSwitcher);
 
@@ -358,8 +361,9 @@ class PostModule extends BaseModule {
 
 
         if ($price > 0) {
-            $I->amOnPage(self::$pagePostList);
-            $I->click($post . self::$visibleInTablePostTitle);
+            $I->amGoingTo('Open post for edit');
+            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+
             $I->click(self::$linkViewPost);
             $I->click(self::$linkPreviewSwitcher);
             $I->see(self::$messageShortcodeError, self::$messageShortcodeError);
@@ -379,11 +383,10 @@ class PostModule extends BaseModule {
     public function checkIfWrongShortcodeIsDisplayedCorrectly($post, $price) {
         $I = $this->BackendTester;
 
-
-
         if ($price > 0) {
-            $I->amOnPage(self::$pagePostList);
-            $I->click($post . self::$visibleInTablePostTitle);
+            $I->amGoingTo('Open post for edit');
+            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+
             $I->click(self::$linkViewPost);
             $I->click(self::$linkPreviewSwitcher);
             $I->see(self::$messageShortcodeError, self::$messageShortcodeError);

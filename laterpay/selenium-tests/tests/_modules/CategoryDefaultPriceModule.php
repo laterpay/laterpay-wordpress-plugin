@@ -66,7 +66,7 @@ class CategoryDefaultPriceModule extends BaseModule {
         $messageCategoryPriceSaveText = str_replace(
                 array('{category_name}', '{category_price}'), array($category_name, $category_default_price), self::$messageCategoryPriceSave
         );
-        $I->waitForText($messageCategoryPriceSaveText, self::$shortTimeout, self::$message);
+        $I->waitForText($messageCategoryPriceSaveText, self::$shortTimeout, self::$messageArea);
 
         return $this;
     }
@@ -88,7 +88,7 @@ class CategoryDefaultPriceModule extends BaseModule {
         $I->amGoingTo('Delete category default price');
         //TODO: implement deletion of concrete category
         $I->click(self::$pricingDeleteLink);
-        $I->waitForText(self::$messageCategoryPriceDeleted, self::$shortTimeout, self::$message);
+        $I->waitForText(self::$messageCategoryPriceDeleted, self::$shortTimeout, self::$messageArea);
 
         return $this;
     }
@@ -125,7 +125,7 @@ class CategoryDefaultPriceModule extends BaseModule {
         $messageCategoryPriceChangeText = str_replace(
                 array('{category_name}', '{category_price}'), array($category_name, $new_category_default_price), self::$messageCategoryPriceSave
         );
-        $I->waitForText($messageCategoryPriceChangeText, self::$shortTimeout, self::$message);
+        $I->waitForText($messageCategoryPriceChangeText, self::$shortTimeout, self::$messageArea);
 
         return $this;
     }

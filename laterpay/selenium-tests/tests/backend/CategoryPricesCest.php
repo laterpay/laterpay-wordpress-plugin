@@ -36,7 +36,7 @@ class CategoryPricesCest {
 
         //TODO: Clarify post param 'test post 1'
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('post-1', 'category default price', 0.28, 'USD',
+            ->checkTestPostForLaterPayElements(1, 'category default price', 0.28, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -73,7 +73,7 @@ class CategoryPricesCest {
             ->changeCategoryDefaultPrice(BaseModule::$CAT1, 0.10);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('post-1', 'category default price', 0.10, 'USD',
+            ->checkTestPostForLaterPayElements(1, 'category default price', 0.10, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -107,7 +107,7 @@ class CategoryPricesCest {
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, BaseModule::$CAT1, 'global default price', 0.35, 60)
             ->assignPostToCategory(BaseModule::$T1, BaseModule::$CAT1)
-            ->checkTestPostForLaterPayElements('post-1', 'category default price', 0.28, 'USD',
+            ->checkTestPostForLaterPayElements(1, 'category default price', 0.28, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -152,7 +152,7 @@ class CategoryPricesCest {
             ->deleteCategoryDefaultPrice(BaseModule::$CAT1);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('post-1', 'category default price', 0.89, 'USD',
+            ->checkTestPostForLaterPayElements(1, 'category default price', 0.89, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -193,7 +193,7 @@ class CategoryPricesCest {
                              array( BaseModule::$CAT1, BaseModule::$CAT2, BaseModule::$CAT3),
                              'category default price', null, 60)
             ->unassignPostFromCategory(BaseModule::$T1, BaseModule::$CAT1)
-            ->checkTestPostForLaterPayElements('post-1', 'category default price', 0.89, 'USD',
+            ->checkTestPostForLaterPayElements(1, 'category default price', 0.89, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -232,7 +232,7 @@ class CategoryPricesCest {
             ->deleteCategoryDefaultPrice(BaseModule::$CAT1);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements('post-1', 'global default price', 0.35, 'USD',
+            ->checkTestPostForLaterPayElements(1, 'global default price', 0.35, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
