@@ -64,13 +64,11 @@ class SetupPluginCest {
 
         SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
 
-<<<<<<< HEAD
         SetupModule::of($I)->changeCurrency('EUR');
 
         PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), BaseModule::$T1, 'global default price', 0.35, 'EUR', BaseModule::$T1, BaseModule::$C1);
-=======
+
         PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
->>>>>>> 13083810631e493346fe9517fdeb5af7bf83d37f
     }
 
     /**
