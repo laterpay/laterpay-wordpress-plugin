@@ -22,9 +22,7 @@ class CategoryPricesCest {
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
-            ->activatePlugin();
-
-        SetupModule::of($I)
+            ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
@@ -59,9 +57,7 @@ class CategoryPricesCest {
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
-            ->activatePlugin();
-
-        SetupModule::of($I)
+            ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
@@ -99,9 +95,7 @@ class CategoryPricesCest {
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
-            ->activatePlugin();
-
-        SetupModule::of($I)
+            ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
@@ -136,9 +130,7 @@ class CategoryPricesCest {
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
-            ->activatePlugin();
-
-        SetupModule::of($I)
+            ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
@@ -183,9 +175,7 @@ class CategoryPricesCest {
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
-            ->activatePlugin();
-
-        SetupModule::of($I)
+            ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
@@ -201,12 +191,8 @@ class CategoryPricesCest {
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1,
                              array( BaseModule::$CAT1, BaseModule::$CAT2, BaseModule::$CAT3),
-                             'category default price', null, 60);
-
-        PostModule::of($I)
-            ->unassignPostFromCategory(BaseModule::$T1, BaseModule::$CAT1);
-
-        PostModule::of($I)
+                             'category default price', null, 60)
+            ->unassignPostFromCategory(BaseModule::$T1, BaseModule::$CAT1)
             ->checkTestPostForLaterPayElements('post-1', 'category default price', 0.89, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
@@ -230,9 +216,7 @@ class CategoryPricesCest {
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
-            ->activatePlugin();
-
-        SetupModule::of($I)
+            ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)

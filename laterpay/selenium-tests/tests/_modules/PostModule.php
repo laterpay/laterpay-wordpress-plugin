@@ -246,6 +246,32 @@ class PostModule extends BaseModule {
     /**
      * @param $post
      * @param $price
+     * @return $this
+     */
+    public function changeIndividualPrice($post, $price) {
+        $I = $this->BackendTester;
+
+        $I->amGoingTo('Open post from list');
+        $I->amOnPage(PostModule::$pagePostList);
+
+        $postSelector = '#'. $post. ' ';
+        //post like post-1
+        $I->click($postSelector . self::$visibleInTablePostTitle);
+
+        $I->amGoingTo('Change individual price');
+        $I->click(PostModule::$linkIndividualPrice);
+        $I->fillField(PostModule::$fieldPrice, $price);
+
+        $I->amGoingTo('Update post');
+        $I->click(PostModule::$linkPublish);
+        $I->wait(PostModule::$veryShortTimeout);
+
+        return $this;
+    }
+
+    /**
+     * @param $post
+     * @param $price
      * @param $files
      * @return $this
      */
@@ -286,7 +312,7 @@ class PostModule extends BaseModule {
      * @param $price
      * @return $this
      */
-    public function CheckIfWrongShortcodeIsDisplayedCorrectly($post, $price)
+    public function checkIfWrongShortcodeIsDisplayedCorrectly($post, $price)
     {
         $I = $this->BackendTester;
 
