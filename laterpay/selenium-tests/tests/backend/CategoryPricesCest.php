@@ -36,7 +36,7 @@ class CategoryPricesCest {
 
         //TODO: Clarify post param 'test post 1'
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements(1, 'category default price', 0.28, 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.28, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
