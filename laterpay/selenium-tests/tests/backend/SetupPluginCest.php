@@ -102,7 +102,7 @@ class SetupPluginCest {
      * @group UI5
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/288
      */
-    public function testCanChangeDefaultPriceAndAapplyIt(BackendTester $I) {
+    public function testCanRemoveDefaultPriceAndAapplyIt(BackendTester $I) {
 
         $I->wantToTest('UI5: Can I change the global default price to 0.00 and is it applied to existing and new posts?');
 
@@ -126,6 +126,39 @@ class SetupPluginCest {
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
 
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI6
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/288
+     */
+    public function testCanChangeDefaultPriceAndAapplyIt(BackendTester $I) {
+
+        $I->wantToTest('UI5: Can I change the global default price to > 0.00 and is it applied to existing and new posts?');
+
+        $_price = '0.28';
+
+        BackendModule::of($I)->login();
+
+        SetupModule::of($I)->uninstallPlugin();
+
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        $_testPost1 = $I->getVar('post');
+
+        SetupModule::of($I)
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab('0.35', 'USD');
+
+        SetupModule::of($I)->changeGlobalDefaultPrice($_price);
+
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        $_testPost2 = $I->getVar('post');
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_price, 'USD', BaseModule::$T1, BaseModule::$C1);
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', $_price, 'USD', BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
