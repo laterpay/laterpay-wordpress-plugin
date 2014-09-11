@@ -56,6 +56,7 @@ class SetupModule extends BaseModule {
     public static $assertPluginListed = 'LaterPay';
     public static $assertNewPriceSet = 'Every post costs ';
     public static $assertNewPriceConfirmation = 'The global default price for all posts is ';
+    public static $assertFreePriceConfirmation = 'All posts are free by default now.';
     public static $priceValidationArray = array(
         '0.15' => array('0,15', '0.15', '0,15 EUR', '0,15EUR'),
         '5.00' => array('0;89', '550', '8,00', '9.00', '10EUR', '10 EUR')
@@ -229,7 +230,11 @@ class SetupModule extends BaseModule {
         $I->cantSeeLink(SetupModule::$laterpaySaveLink);
         $I->cantSeeLink(SetupModule::$laterpayCancelLink);
         $I->see($price, SetupModule::$globalPriceText);
-        $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . $price);
+
+        if ((int) $price > 0)
+            $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . $price);
+        else
+            $I->seeInPageSource(SetupModule::$assertFreePriceConfirmation);
 
         return $this;
     }
