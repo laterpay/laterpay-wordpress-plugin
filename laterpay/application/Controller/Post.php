@@ -568,26 +568,19 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_scripts() {
-        $laterpay_src       = 'static.laterpay.net';
-        $laterpay_config    = 'config.js';
-
-        if ( $this->config->get( 'script_debug_mode' ) ) {
-            $laterpay_src       = 'static.dev.laterpaytest.net';
-            $laterpay_config    = 'config-dev.js';
+        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
+            $laterpay_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
+        } elseif ( $this->config->get( 'script_debug_mode' ) ) {
+            $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
+        } else {
+            $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
         }
 
         wp_register_script(
             'laterpay-yui',
-            'https://' . $laterpay_src . '/yui/3.13.0/build/yui/yui-min.js',
+            $laterpay_src,
             array(),
-            $this->config->get( 'version' ),
-            false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
-        );
-        wp_register_script(
-            'laterpay-config',
-            'https://' . $laterpay_src . '/client/1.0.0/config.js',
-            array( 'laterpay-yui' ),
-            $this->config->get( 'version' ),
+            null,
             false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
         );
         wp_register_script(
@@ -632,7 +625,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         wp_enqueue_script( 'laterpay-yui' );
-        wp_enqueue_script( 'laterpay-config' );
         wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-post-view' );
     }
