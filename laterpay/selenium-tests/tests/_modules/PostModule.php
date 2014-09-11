@@ -14,11 +14,9 @@ class PostModule extends BaseModule {
     public static $fieldPrice = '#post-price';
     public static $contentId = "#content";
     public static $teaserContentId = "#postcueeditor";
-
     //mcetabs
     public static $contentText = "#content-html";
     public static $teaserContentText = "#postcueeditor-html";
-
     //links
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
@@ -245,9 +243,62 @@ class PostModule extends BaseModule {
      * @param $post
      * @return $this
      */
-    public function purchasePost($post) {
+    public function purchasePost($post, $price = null, $currency = null, $title = null, $content = null) {
 
         $I = $this->BackendTester;
+
+        $url = $I->grabFromCurrentUrl();
+
+        $previewModeTeaserOnly = ModesModule::of($I)->checkPreviewMode();
+
+        BackendModule::of($I)->logout();
+
+        $I->amGoingTo('Open the respective post');
+
+        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
+
+        $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+
+        if ($currency)
+            $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
+
+        if ($price)
+            $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
+
+        if ($previewModeTeaserOnly) {
+
+            $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
+            $I->see($price, 'a');
+            $I->see($currency, 'a');
+        } else {
+
+            $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
+            $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
+            $I->see($price, 'a');
+            $I->see($currency, 'a');
+        };
+
+        $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
+
+        $I->amGoingTo('Click the LaterPay Purchase Button and purchase the content');
+
+        $I->click(PostModule::$visibleLaterpayPurchaseButton);
+
+        $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+
+        $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseButton);
+
+        $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseLink);
+
+        $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
+
+        $I->see($content, PostModule::$visibleLaterpayTeaserContent);
+
+        $I->see($content, PostModule::$visibleLaterpayContent);
+
+        BackendModule::of($I)->login();
+
+        $I->amOnPage($url);
 
         return $this;
     }

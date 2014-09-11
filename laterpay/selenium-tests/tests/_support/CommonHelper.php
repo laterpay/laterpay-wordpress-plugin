@@ -82,6 +82,23 @@ class CommonHelper extends \Codeception\Module {
      * @param \SetupTester $I
      * @param String $I
      */
+    public function tryOption($I, $select, $option) {
+
+        try {
+
+            $I->seeOptionIsSelected($select, $option);
+            return true;
+        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
+
+            return false;
+        };
+    }
+
+    /**
+     * Helper to have ability non mandatory mouse click
+     * @param \SetupTester $I
+     * @param String $I
+     */
     public function tryClick($I, $string) {
 
         try {
