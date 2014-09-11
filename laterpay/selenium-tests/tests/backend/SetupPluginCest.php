@@ -84,15 +84,15 @@ class SetupPluginCest {
                 ->uninstallPlugin()
                 ->installPlugin()
                 ->activatePlugin()
-                ->goThroughGetStartedTab('0.35', 'USD');
+                ->goThroughGetStartedTab('0.35', 'EUR');
 
         ModesModule::of($I)->switchToLiveMode();
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), BaseModule::$T1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), BaseModule::$T1, 'global default price', 0.35, 'EUR', BaseModule::$T1, BaseModule::$C1, 60);
 
-        PostModule::of($I)->purchasePost($I->getVar('post'), '0.35', 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->purchasePost($I->getVar('post'), '0.35', 'EUR', BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -115,7 +115,7 @@ class SetupPluginCest {
                 ->activatePlugin()
                 ->goThroughGetStartedTab('0.35', 'USD');
 
-        SetupModule::of($I)->changeGlobalDefaultPrice(0);
+        SetupModule::of($I)->changeGlobalDefaultPrice('0.00');
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost2 = $I->getVar('post');
@@ -135,7 +135,7 @@ class SetupPluginCest {
 
         BackendModule::of($I)->login();
 
-        SetupModule::of($I)->changeGlobalDefaultPrice(0);
+        SetupModule::of($I)->changeGlobalDefaultPrice('0.00');
     }
 
 }
