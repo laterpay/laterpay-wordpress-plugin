@@ -58,9 +58,11 @@ class SetupPluginCest {
 
         BackendModule::of($I)->login();
 
+        SetupModule::of($I)->uninstallPlugin();
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
-        SetupModule::of($I)->uninstallPlugin()->installPlugin()->activatePlugin();
+        SetupModule::of($I)->installPlugin()->activatePlugin();
 
         SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
 
@@ -90,7 +92,7 @@ class SetupPluginCest {
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), BaseModule::$T1, 'global default price', 0.35, 'EUR', BaseModule::$T1, BaseModule::$C1, 60);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'EUR', BaseModule::$T1, BaseModule::$C1, 60);
 
         PostModule::of($I)->purchasePost($I->getVar('post'), '0.35', 'EUR', BaseModule::$T1, BaseModule::$C1);
     }
@@ -100,17 +102,18 @@ class SetupPluginCest {
      * @group UI5
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/288
      */
-    public function testCanChangeDefaultPriceAndAappliedIt(BackendTester $I) {
+    public function testCanChangeDefaultPriceAndAapplyIt(BackendTester $I) {
 
         $I->wantToTest('UI5: Can I change the global default price to 0.00 and is it applied to existing and new posts?');
 
         BackendModule::of($I)->login();
 
+        SetupModule::of($I)->uninstallPlugin();
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost1 = $I->getVar('post');
 
         SetupModule::of($I)
-                ->uninstallPlugin()
                 ->installPlugin()
                 ->activatePlugin()
                 ->goThroughGetStartedTab('0.35', 'USD');
@@ -120,9 +123,9 @@ class SetupPluginCest {
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost2 = $I->getVar('post');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, BaseModule::$T1, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, BaseModule::$T1, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
