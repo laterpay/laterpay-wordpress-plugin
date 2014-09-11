@@ -92,6 +92,8 @@ class CommonHelper extends \Codeception\Module {
 
             return false;
         };
+
+        return true;
     }
 
     /**

@@ -47,12 +47,11 @@ class SetupModule extends BaseModule {
     public static $pricingCategorySelect = '#select2-drop-mask';
     public static $pricingSaveLink = ".edit-link .laterpay-save-link";
     public static $pricingCancelLink = ".edit-link .laterpay-cancel-link";
-    public static $laterpayChangeLink = 'a[class="edit-link laterpay-change-link"]';
+    public static $laterpayChangeLink = 'Change';
     public static $globalDefaultPriceField = '#lp_global-default-price';
-    public static $laterpaySaveLink = '.laterpay-save-link';
-    public static $laterpayCancelLink = '.laterpay-cancel-link';
-    public static $globalPriceText = '#laterpay-global-price-text';
-    public static $newGlobalDefaultPrice = '3';
+    public static $laterpaySaveLink = 'Save';
+    public static $laterpayCancelLink = 'Cancel';
+    public static $globalPriceText = '#lp_global-price-text';
     //expected
     public static $assertPluginListed = 'LaterPay';
     public static $assertNewPriceSet = 'Every post costs ';
@@ -195,44 +194,42 @@ class SetupModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        if (!$price)
-            $price = SetupModule::$newGlobalDefaultPrice;
-
         $I->amGoingTo('Click on the “Change” link next to the global default price');
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
         $I->seeElement(SetupModule::$globalDefaultPriceField);
-        $I->seeElement(SetupModule::$laterpaySaveLink);
-        $I->seeElement(SetupModule::$laterpayCancelLink);
+        $I->seeLink(SetupModule::$laterpaySaveLink);
+        $I->seeLink(SetupModule::$laterpayCancelLink);
 
         $I->amGoingTo('Price Validation');
-        BackendModule::of($I)->validatePrice();
+        $I->amOnPage(SetupModule::$pluginBackLink);
+        BackendModule::of($I)->validatePrice(SetupModule::$globalDefaultPriceField, SetupModule::$laterpayChangeLink, SetupModule::$laterpaySaveLink);
 
         $I->amGoingTo('Click on the “Cancel”');
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
         $I->click(SetupModule::$laterpayCancelLink);
-        $I->seeElement(SetupModule::$laterpayChangeLink);
-        $I->cantSeeElement(SetupModule::$laterpaySaveLink);
-        $I->cantSeeElement(SetupModule::$laterpayCancelLink);
+        $I->seeLink(SetupModule::$laterpayChangeLink);
+        $I->cantSeeLink(SetupModule::$laterpaySaveLink);
+        $I->cantSeeLink(SetupModule::$laterpayCancelLink);
 
         $I->amGoingTo('Click on the “Change””');
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
-        $I->cantSeeElement(SetupModule::$laterpayChangeLink);
-        $I->seeElement(SetupModule::$laterpaySaveLink);
-        $I->seeElement(SetupModule::$laterpayCancelLink);
+        $I->cantSeeLink(SetupModule::$laterpayChangeLink);
+        $I->seeLink(SetupModule::$laterpaySaveLink);
+        $I->seeLink(SetupModule::$laterpayCancelLink);
 
         $I->amGoingTo('Set new price');
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
         $I->fillField(SetupModule::$globalDefaultPriceField, $price);
         $I->click(SetupModule::$laterpaySaveLink);
-        $I->seeElement(SetupModule::$laterpayChangeLink);
-        $I->cantSeeElement(SetupModule::$laterpaySaveLink);
-        $I->cantSeeElement(SetupModule::$laterpayCancelLink);
-        $I->see(SetupModule::$newGlobalDefaultPrice, SetupModule::$globalPriceText);
-        $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . SetupModule::$newGlobalDefaultPrice);
+        $I->seeLink(SetupModule::$laterpayChangeLink);
+        $I->cantSeeLink(SetupModule::$laterpaySaveLink);
+        $I->cantSeeLink(SetupModule::$laterpayCancelLink);
+        $I->see($price, SetupModule::$globalPriceText);
+        $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . $price);
 
         return $this;
     }
@@ -253,6 +250,7 @@ class SetupModule extends BaseModule {
         if (!$I->tryOption($I, SetupModule::$globalDefaultCurrencySelect, $currency)) {
 
             $I->selectOption(SetupModule::$globalDefaultCurrencySelect, $currency);
+            $I->wait(BaseModule::$veryShortTimeout);
             $I->seeInPageSource(str_replace('{currency}', $currency, SetupModule::$assertCurrencySelected));
             $I->seeOptionIsSelected(SetupModule::$globalDefaultCurrencySelect, $currency);
         };
