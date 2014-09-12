@@ -3,42 +3,43 @@
 class PostModule extends BaseModule {
 
     //pages
-    public static $pagePostNew = '/wp-admin/post-new.php';
-    public static $pagePostList = '/wp-admin/edit.php';
-    public static $pagePostEdit = '/wp-admin/post.php?post={post}&action=edit';
-    public static $pagePostFrontView = '/?p={post}';
+    public static $pagePostNew                      = '/wp-admin/post-new.php';
+    public static $pagePostList                     = '/wp-admin/edit.php';
+    public static $pagePostEdit                     = '/wp-admin/post.php?post={post}&action=edit';
+    public static $pagePostFrontView                = '/?p={post}';
     //fields
-    public static $fieldTitle = '#title';
-    public static $fieldContent = '#content_ifr';
-    public static $fieldTeaser = '#laterpay_teaser_content';
-    public static $fieldPrice = '#post-price';
-    public static $contentId = "#content";
-    public static $teaserContentId = "#postcueeditor";
+    public static $fieldTitle                       = '#title';
+    public static $fieldContent                     = '#content_ifr';
+    public static $fieldTeaser                      = '#laterpay_teaser_content';
+    public static $fieldPrice                       = '#post-price';
+    public static $contentId                        = '#content';
+    public static $teaserContentId                  = '#postcueeditor';
     //mcetabs
-    public static $contentText = "#content-html";
-    public static $teaserContentText = "#postcueeditor-html";
+    public static $contentText                      = '#content-html';
+    public static $teaserContentText                = '#postcueeditor-html';
     //links
-    public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
-    public static $linkIndividualPrice = '#lp_use-individual-price';
-    public static $linkAddMedia = '#insert-media-button';
-    public static $linkPublish = '#publish';
-    public static $linkViewPost = '#view-post-btn a';
-    public static $linkPreviewSwitcher = 'span[class="switch-handle"]';
-    public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
+    public static $linkGlobalDefaultPrice           = '#lp_use-global-default-price';
+    public static $linkIndividualPrice              = '#lp_use-individual-price';
+    public static $linkCategoryPrice                = '#lp_use-category-default-price';
+    public static $linkAddMedia                     = '#insert-media-button';
+    public static $linkPublish                      = '#publish';
+    public static $linkViewPost                     = '#view-post-btn a';
+    public static $linkPreviewSwitcher              = 'span[class="switch-handle"]';
+    public static $linkPreviewSwitcherElement       = 'preview_post_checkbox';
     //should be visible
-    public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
-    public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
-    public static $visibleLaterpayPurchaseButton = 'a[class="lp_purchase-link lp_button"]';
-    public static $visibleLaterpayPurchaseLink = 'lp_purchase-link';
-    public static $visibleLaterpayPurchaseBenefits = '.lp_benefits';
-    public static $visibleLaterpayTeaserContent = '.lp_teaser-content';
-    public static $visibleLaterpayContent = '.entry-content';
-    public static $visibleInTablePostTitle = '.post-title';
-    public static $visibleInTablePostPrice = '.post-price';
-    public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
-    public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
+    public static $visibleLaterpayWidgetContainer   = '#laterpay-widget-container';
+    public static $visibleLaterpayStatistics        = '.lp_post-statistics-details';
+    public static $visibleLaterpayPurchaseButton    = 'a[class="lp_purchase-link lp_button"]';
+    public static $visibleLaterpayPurchaseLink      = 'lp_purchase-link';
+    public static $visibleLaterpayPurchaseBenefits  = '.lp_benefits';
+    public static $visibleLaterpayTeaserContent     = '.lp_teaser-content';
+    public static $visibleLaterpayContent           = '.entry-content';
+    public static $visibleInTablePostTitle          = '.post-title';
+    public static $visibleInTablePostPrice          = '.post-price';
+    public static $pageListPriceCol                 = 'td[class="post_price column-post_price"]';
+    public static $pageListPricetypeCol             = 'td[class="post_price_type column-post_price_type"]';
     //messages
-    public static $messageShortcodeError = "Shortcode error message";
+    public static $messageShortcodeError            = 'Shortcode error message';
 
     /**
      * P.26
@@ -74,6 +75,17 @@ class PostModule extends BaseModule {
             $I->fillField(PostModule::$teaserContentId, $teaser_content);
         }
 
+        if ($categories) {
+            $I->amGoingTo('Set categories to post');
+            if (is_array($categories)) {
+                foreach ($categories as $category_name) {
+                    $this->assignPostToCategory($category_name);
+                }
+            } else {
+                $this->assignPostToCategory($categories);
+            }
+        }
+
         switch ($price_type) {
 
             case 'global default price':
@@ -83,6 +95,7 @@ class PostModule extends BaseModule {
 
             case 'category default price':
                 $I->amGoingTo('Choose category default price type');
+                $I->tryClick($I, PostModule::$linkCategoryPrice);
                 break;
 
             case 'individual price':
@@ -103,17 +116,6 @@ class PostModule extends BaseModule {
 
             default:
                 break;
-        }
-
-        if ($categories) {
-            $I->amGoingTo('Set categories to post');
-            if (is_array($categories)) {
-                foreach ($categories as $category_name) {
-                    $this->assignPostToCategory($title, $category_name);
-                }
-            } else {
-                $this->assignPostToCategory($title, $categories);
-            }
         }
 
         if ($files) {
@@ -304,31 +306,52 @@ class PostModule extends BaseModule {
     }
 
     /**
-     * @param $post
      * @param $category
+     * @param null $post
      * @return $this
      */
-    public function unassignPostFromCategory($category) {
+    public function unassignPostFromCategory($category, $post = null) {
 
         $I = $this->BackendTester;
 
-        //TODO: we need to do only unassign operation
-        $I->executeJS("jQuery('#categorychecklist label:contains(\"" . $category . "\")').trigger('click')");
+        if ((int) $post > 0) {
+            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+
+            $option = '#in-' . $category;
+            $I->uncheckOption($option);
+
+            $I->click(PostModule::$linkPublish);
+            $I->wait(PostModule::$veryShortTimeout);
+        } else {
+            $option = '#in-' . $category;
+            $I->uncheckOption($option);
+
+        }
 
         return $this;
     }
 
     /**
-     * @param $post
      * @param $category
+     * @param null $post
      * @return $this
      */
-    public function assignPostToCategory($category) {
+    public function assignPostToCategory($category, $post = null) {
 
         $I = $this->BackendTester;
 
-        //TODO: we need to do only assign operation
-        $I->executeJS("jQuery('#categorychecklist label:contains(\"" . $category . "\")').trigger('click')");
+        if ((int) $post > 0) {
+            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+
+            $option = '#in-' . $category;
+            $I->checkOption($option);
+
+            $I->click(PostModule::$linkPublish);
+            $I->wait(PostModule::$veryShortTimeout);
+        } else {
+            $option = '#in-' . $category;
+            $I->checkOption($option);
+        }
 
         return $this;
     }
