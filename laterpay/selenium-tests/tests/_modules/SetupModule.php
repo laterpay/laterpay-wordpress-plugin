@@ -231,10 +231,10 @@ class SetupModule extends BaseModule {
         $I->cantSeeLink(SetupModule::$laterpayCancelLink);
         $I->see($price, SetupModule::$globalPriceText);
 
-        if ((int) $price > 0)
-            $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . $price);
-        else
+        if ($price == '0.00')
             $I->seeInPageSource(SetupModule::$assertFreePriceConfirmation);
+        else
+            $I->seeInPageSource(SetupModule::$assertNewPriceConfirmation . $price);
 
         return $this;
     }

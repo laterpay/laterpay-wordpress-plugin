@@ -190,7 +190,7 @@ class PostModule extends BaseModule {
                 break;
         }
 
-        if ((int) $price > 0) {
+        if ($price != '0.00') {
 
             $I->amGoingTo('Switch Preview toggle to “Visitor”');
             $I->click(PostModule::$linkViewPost);
@@ -270,44 +270,55 @@ class PostModule extends BaseModule {
 
         $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
 
-        $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
-
         if ($currency)
             $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
 
-        if ($price)
-            $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
+        if ($price != '0.00') {
 
-        if ($previewModeTeaserOnly) {
+            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
 
-            $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
-            $I->see($price, 'a');
-            $I->see($currency, 'a');
-        } else {
+            if ($price)
+                $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
 
-            $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-            $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
-            $I->see($price, 'a');
-            $I->see($currency, 'a');
+            if ($previewModeTeaserOnly) {
+
+                $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
+                $I->see($price, 'a');
+                $I->see($currency, 'a');
+            } else {
+
+                $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
+                $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
+                $I->see($price, 'a');
+                $I->see($currency, 'a');
+            };
         };
 
         $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
 
-        $I->amGoingTo('Click the LaterPay Purchase Button and purchase the content');
+        if ($price != '0.00') {
 
-        $I->click(PostModule::$visibleLaterpayPurchaseButton);
+            $I->amGoingTo('Click the LaterPay Purchase Button and purchase the content');
 
-        $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+            $I->click(PostModule::$visibleLaterpayPurchaseButton);
 
-        $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseButton);
+            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
 
-        $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseLink);
+            $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseButton);
 
-        $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
+            $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseLink);
 
-        $I->see($content, PostModule::$visibleLaterpayTeaserContent);
+            $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
 
-        $I->see($content, PostModule::$visibleLaterpayContent);
+            $I->see($content, PostModule::$visibleLaterpayTeaserContent);
+
+            $I->see($content, PostModule::$visibleLaterpayContent);
+        } else {
+
+            $I->amGoingTo('
+                Skip because of empty price:
+                Click the LaterPay Purchase Button and purchase the content.');
+        };
 
         BackendModule::of($I)->login();
 

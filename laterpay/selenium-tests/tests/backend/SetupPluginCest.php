@@ -141,14 +141,14 @@ class SetupPluginCest {
     /**
      * @param \BackendTester $I
      * @group UI6
-     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/288
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/289
      */
     public function testCanChangeDefaultPriceAndAapplyIt(BackendTester $I) {
 
         $_priceBefore = '0.35';
         $_priceAfter = '0.28';
         $_currency = 'USD';
-        $I->wantToTest("UI5: Can I change the global default price $_priceBefore to $_priceAfter $_currency and is it applied to existing and new posts?");
+        $I->wantToTest('UI6: Can I change the global default price > 0 and is it applied to existing and new posts?');
 
         BackendModule::of($I)->login();
 
