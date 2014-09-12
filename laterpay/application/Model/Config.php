@@ -28,13 +28,14 @@
  *         ->set( 'first_name', 'Mildred' );
  *
  */
-class LaterPay_Model_Config {
+class LaterPay_Model_Config
+{
     /**
      * List of properties.
      *
      * @type array
      */
-    protected $properties = array ();
+    protected $properties = array();
 
     /**
      * Parent object.
@@ -48,13 +49,12 @@ class LaterPay_Model_Config {
     /**
      * Record of deleted properties.
      *
-     * Prevents access to the parent object's properties after deletion
-     * in this instance.
+     * Prevents access to the parent object's properties after deletion in this instance.
      *
      * @see  get()
      * @type array
      */
-    protected $deleted = array ();
+    protected $deleted = array();
 
     /**
      * Write and delete protection.
@@ -74,11 +74,9 @@ class LaterPay_Model_Config {
      * @return void|LaterPay_Model_Config
      */
     public function set( $name, $value ) {
-        if ( $this->frozen )
-            return $this->stop(
-                'This object has been frozen.
-                You cannot set properties anymore.'
-            );
+        if ( $this->frozen ) {
+            return $this->stop( 'This object has been frozen. You cannot change the parent anymore.' );
+        }
 
         $this->properties[ $name ] = $value;
         unset ( $this->deleted[ $name ] );
@@ -89,25 +87,24 @@ class LaterPay_Model_Config {
     /**
      * Import an array or an object as properties.
      *
-     * @param  array|object $var
+     * @param array|object $var
      *
      * @return void|LaterPay_Model_Config
      */
     public function import( $var ) {
-        if ( $this->frozen )
-            return $this->stop(
-                'This object has been frozen.
-                You cannot set properties anymore.'
-            );
+        if ( $this->frozen ) {
+            return $this->stop( 'This object has been frozen. You cannot change the parent anymore.' );
+        }
 
-        if ( ! is_array( $var ) and ! is_object( $var ) )
+        if ( ! is_array( $var ) and ! is_object( $var ) ) {
             return $this->stop(
-                'Cannot import this variable.
-                Use arrays and objects only, not a "' . gettype( $var ) . '".'
+                'Cannot import this variable. Use arrays and objects only, not a "' . gettype( $var ) . '".'
             );
+        }
 
-        foreach ( $var as $name => $value )
+        foreach ( $var as $name => $value ) {
             $this->properties[ $name ] = $value;
+        }
 
         return $this;
     }
@@ -117,20 +114,22 @@ class LaterPay_Model_Config {
      *
      * Might be taken from parent object.
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return mixed
      */
     public function get( $name ) {
-
-        if ( isset ( $this->properties[ $name ] ) )
+        if ( isset ( $this->properties[ $name ] ) ) {
             return $this->properties[ $name ];
+        }
 
-        if ( isset ( $this->deleted[ $name ] ) )
+        if ( isset ( $this->deleted[ $name ] ) ) {
             return NULL;
+        }
 
-        if ( NULL === $this->parent )
+        if ( NULL === $this->parent ) {
             return NULL;
+        }
 
         return $this->parent->get( $name );
     }
@@ -138,19 +137,19 @@ class LaterPay_Model_Config {
     /**
      * Get all properties.
      *
-     * @param  boolean $use_parent Get parent object's properties too.
+     * @param boolean $use_parent get parent object's properties too
      *
      * @return array
      */
     public function get_all( $use_parent = FALSE ) {
-        if ( ! $use_parent )
+        if ( ! $use_parent ) {
             return $this->properties;
+        }
 
         $parent_properties = $this->parent->get_all( TRUE );
         $all               = array_merge( $parent_properties, $this->properties );
 
-        // Strip out properties existing in the parent but deleted in this
-        // instance.
+        // strip out properties existing in the parent but deleted in this instance.
         return array_diff( $all, $this->deleted );
     }
 
@@ -164,15 +163,17 @@ class LaterPay_Model_Config {
      * @return boolean
      */
     public function has( $name ) {
-
-        if ( isset ( $this->properties[ $name ] ) )
+        if ( isset ( $this->properties[ $name ] ) ) {
             return TRUE;
+        }
 
-        if ( isset ( $this->deleted[ $name ] ) )
+        if ( isset ( $this->deleted[ $name ] ) ) {
             return FALSE;
+        }
 
-        if ( NULL === $this->parent )
+        if ( NULL === $this->parent ) {
             return FALSE;
+        }
 
         return $this->parent->has( $name );
     }
@@ -182,17 +183,14 @@ class LaterPay_Model_Config {
      *
      * Further calls to has() and get() will not take this property into account.
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return void|LaterPay_Model_Config
      */
     public function delete( $name ) {
-
-        if ( $this->frozen )
-            return $this->stop(
-                'This object has been frozen.
-                You cannot delete properties anymore.'
-            );
+        if ( $this->frozen ) {
+            return $this->stop( 'This object has been frozen. You cannot change the parent anymore.' );
+        }
 
         $this->deleted[ $name ] = TRUE;
         unset ( $this->properties[ $name ] );
@@ -203,17 +201,14 @@ class LaterPay_Model_Config {
     /**
      * Set parent object. Properties of this object will be inherited.
      *
-     * @param  LaterPay_Model_Config $object
+     * @param LaterPay_Model_Config $object
      *
      * @return LaterPay_Model_Config
      */
     public function set_parent( LaterPay_Model_Config $object ) {
-
-        if ( $this->frozen )
-            return $this->stop(
-                'This object has been frozen.
-                You cannot change the parent anymore.'
-            );
+        if ( $this->frozen ) {
+            return $this->stop( 'This object has been frozen. You cannot change the parent anymore.' );
+        }
 
         $this->parent = $object;
 
@@ -226,7 +221,6 @@ class LaterPay_Model_Config {
      * @return boolean
      */
     public function has_parent() {
-
         return NULL === $this->parent;
     }
 
@@ -236,7 +230,6 @@ class LaterPay_Model_Config {
      * @return LaterPay_Model_Config
      */
     public function freeze() {
-
         $this->frozen = TRUE;
 
         return $this;
@@ -248,7 +241,6 @@ class LaterPay_Model_Config {
      * @return boolean
      */
     public function is_frozen() {
-
         return $this->frozen;
     }
 
@@ -257,20 +249,21 @@ class LaterPay_Model_Config {
      *
      * Might be replaced by a child class.
      *
-     * @param  string $msg  Error message. Always be specific.
-     * @param  string $code Re-use the same code to group error messages.
+     * @param string $msg  Error message. Always be specific.
+     * @param string $code Re-use the same code to group error messages.
      *
      * @throws Exception
      *
      * @return void|WP_Error
      */
     protected function stop( $msg, $code = '' ) {
-
-        if ( '' === $code )
+        if ( '' === $code ) {
             $code = __CLASS__;
+        }
 
-        if ( class_exists( 'WP_Error' ) )
+        if ( class_exists( 'WP_Error' ) ) {
             return new WP_Error( $code, $msg );
+        }
 
         throw new Exception( $msg, $code );
     }
@@ -288,7 +281,6 @@ class LaterPay_Model_Config {
      * @return LaterPay_Model_Config
      */
     public function __set( $name, $value ) {
-
         return $this->set( $name,  $value );
     }
 
@@ -302,7 +294,6 @@ class LaterPay_Model_Config {
      * @return mixed
      */
     public function __get( $name ) {
-
         return $this->get( $name );
     }
 
@@ -316,7 +307,6 @@ class LaterPay_Model_Config {
      * @return boolean
      */
     public function __isset( $name ) {
-
         return $this->has( $name );
     }
 
