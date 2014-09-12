@@ -169,7 +169,7 @@
 
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
-    var $purchaseLink  = Y.one('.lp_purchase-link'),
+    var $purchaseLink   = Y.one('.lp_purchase-link'),
         ppuContext      = {
                             showCloseBtn        : true,
                             canSkipAddToInvoice : false

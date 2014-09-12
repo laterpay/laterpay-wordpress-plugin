@@ -36,12 +36,14 @@
                         <?php _e( 'Get immediate access to your purchase.<br> You are only buying this article, not a subscription.', 'laterpay' ); ?>
                     </p>
                 </li>
-                <li class="lp_benefit-pay-later">
-                    <h3><?php _e( 'Pay Later', 'laterpay' ); ?></h3>
-                    <p>
-                        <?php _e( 'Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay' ); ?>
-                    </p>
-                </li>
+                <?php if ( $laterpay['revenue_model'] !== 'ss' ): ?>
+                    <li class="lp_benefit-pay-later">
+                        <h3><?php _e( 'Pay Later', 'laterpay' ); ?></h3>
+                        <p>
+                            <?php _e( 'Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay' ); ?>
+                        </p>
+                    </li>
+                <?php endif; ?>
             </ul>
 
             <?php do_action( 'laterpay_purchase_button' ); ?>

@@ -63,9 +63,9 @@ class LaterPay_Model_CategoryPrice
     /**
      * Get categories with defined category default prices by list of category ids.
      *
-     * @param   array $ids
+     * @param array $ids
      *
-     * @return  array category_price_data
+     * @return array category_price_data
      */
     public function get_category_price_data_by_category_ids( $ids ) {
         global $wpdb;
@@ -177,7 +177,7 @@ class LaterPay_Model_CategoryPrice
      * @param float   $price       price for category
      * @param integer $id          id price for category
      *
-     * @return  int|false Number of rows affected/selected or false on error
+     * @return int|false number of rows affected / selected or false on error
      */
     public function set_category_price( $id_category, $price, $id = 0 ) {
         global $wpdb;
@@ -268,11 +268,11 @@ class LaterPay_Model_CategoryPrice
     }
 
     /**
-     * Check if category exists by getting the category id by category name.
+     * Check, if category exists by getting the category id by category name.
      *
      * @param string $name name category
      *
-     * @return integer category id
+     * @return integer category_id
      */
     public function check_existence_of_category_by_name( $name ) {
         global $wpdb;
@@ -302,9 +302,9 @@ class LaterPay_Model_CategoryPrice
     /**
      * Delete price by category id.
      *
-     * @param   integer $id category id
+     * @param integer $id category id
      *
-     * @return  int|false The number of rows updated, or false on error.
+     * @return int|false the number of rows updated, or false on error
      */
     public function delete_prices_by_category_id( $id ) {
         global $wpdb;

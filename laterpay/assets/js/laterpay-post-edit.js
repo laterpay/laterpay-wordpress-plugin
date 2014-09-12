@@ -6,8 +6,9 @@
                 // post price inputs
                 priceInput              : $('#lp_post-price input[name=post-price]'),
                 priceTypeInput          : $('#lp_post-price input[name=post_price_type]'),
+                revenueModel            : $('#lp_post-price .lp_post-revenue-model'),
 
-                // toggle for choosing pricing type
+                // button group for choosing pricing type
                 priceSection            : $('#lp_price-type'),
                 pricingTypeToggle       : $('#lp_price-type .lp-toggle'),
                 pricingTypeButtons      : $('#lp_price-type .lp-toggle a'),
@@ -31,6 +32,8 @@
                 disabled                : 'lp_disabled',
                 selectedCategory        : 'lp_selected-category',
                 dynamicPricingApplied   : 'lp_dynamic-pricing-applied',
+                payPerUse               : 'ppu',
+                singleSale              : 'ss',
             },
 
             bindEvents = function() {
@@ -44,6 +47,11 @@
 
                 // validate manually entered prices
                 $o.priceInput.blur(function() {setPrice($(this).val());});
+// TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
+// $o.priceInput.bind('input', function() {setPrice($(this).val());});
+
+                // validate choice of revenue model (validating the price switches the revenue model if required)
+                $(':radio', $o.revenueModel).change(function() {validatePrice($o.priceInput.val());});
 
                 // toggle dynamic pricing widget
                 $o.dynamicPricingToggle
@@ -69,7 +77,7 @@
                     return;
                 }
 
-                // set state of toggle
+                // set state of button group
                 $('.' + $o.selected, $o.pricingTypeToggle).removeClass($o.selected);
                 $clickedButton.addClass($o.selected);
                 $o.priceSection.removeClass($o.expanded);
@@ -83,6 +91,7 @@
                     $o.dynamicPricingToggle.show();
                     $o.priceTypeInput.val('individual price');
 
+                    // show / hide stuff
                     if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
                         renderDynamicPricingWidget();
                         $o.individualPriceDetails.show();
@@ -106,19 +115,23 @@
                 // case: global default price
                 else if (priceType === 'lp_use-global-default-price') {
                     setPrice($this.attr('data-price'));
+
+                    // show / hide stuff
                     $o.dynamicPricingToggle.hide();
                     $o.priceTypeInput.val('global default price');
                 }
 
-                // disable price input for all scenarios other than static individual price
+                // disable price input and hide revenue model for all scenarios other than static individual price
                 if (priceType === 'lp_use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
+                    $o.revenueModel.show();
                 } else {
                     if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                         disableDynamicPricing();
                     }
                     $o.priceInput.attr('disabled', 'disabled');
+                    $o.revenueModel.hide();
                 }
             },
 
@@ -146,14 +159,55 @@
                 }
                 // prevent negative prices
                 price = Math.abs(price);
-                // correct prices outside the allowed range of 0.05 - 5.00
-                if (price > 5) {
-                    price = 5;
+                // correct prices outside the allowed range of 0.05 - 149.49
+                if (price > 149.99) {
+                    price = 149.99;
                 } else if (price > 0 && price < 0.05) {
                     price = 0.05;
                 }
 
+                validateRevenueModel(price);
+
                 return price.toFixed(2);
+            },
+
+            validateRevenueModel = function(price) {
+                var currentRevenueModel = $(':radio:checked', $o.revenueModel).val(),
+                    $payPerUse          = $(':radio[value=' + $o.payPerUse + ']', $o.revenueModel),
+                    $singleSale         = $(':radio[value=' + $o.singleSale + ']', $o.revenueModel);
+
+                if ((price === 0 || price > 0.05) && price <= 5) {
+                    // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
+                    $payPerUse.removeAttr('disabled')
+                        .parent('label').removeClass($o.disabled);
+                } else {
+                    // disable Pay-per-Use
+                    $payPerUse.attr('disabled', 'disabled')
+                        .parent('label').addClass($o.disabled);
+                }
+
+                if (price > 1.49) {
+                    // enable Single Sale for prices > 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
+                    $singleSale.removeAttr('disabled')
+                        .parent('label').removeClass($o.disabled);
+                } else {
+                    // disable Single Sale
+                    $singleSale.attr('disabled', 'disabled')
+                        .parent('label').addClass($o.disabled);
+                }
+
+                // switch revenue model, if combination of price and revenue model is not allowed
+                if (price > 5 && currentRevenueModel == $o.payPerUse) {
+                    // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
+                    $singleSale.prop('checked', true);
+                } else if (price < 1.49 && currentRevenueModel == $o.singleSale) {
+                    // Single Sale purchases are not allowed for prices < 1.49 Euro
+                    $payPerUse.prop('checked', true);
+                }
+
+                // highlight current revenue model
+                $('label', $o.revenueModel).removeClass($o.selected);
+                $(':radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
             },
 
             updateSelectedCategory = function() {
@@ -265,6 +319,7 @@
             toggleDynamicPricing = function() {
                 if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     disableDynamicPricing();
+                    $o.revenueModel.show();
                 } else {
                     enableDynamicPricing();
                 }
@@ -277,6 +332,7 @@
                 $('#lp_dynamic-pricing').slideDown(250);
                 $('input[name=post_price_type]').val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
+                $o.revenueModel.hide();
             },
 
             disableDynamicPricing = function() {
