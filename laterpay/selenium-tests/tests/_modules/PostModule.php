@@ -23,7 +23,7 @@ class PostModule extends BaseModule {
     public static $linkAddMedia = '#insert-media-button';
     public static $linkPublish = '#publish';
     public static $linkViewPost = '#view-post-btn a';
-    public static $linkPreviewSwitcher = 'span[class="switch-handle"]';
+    public static $linkPreviewSwitcher = '.switch-handle';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
@@ -130,8 +130,7 @@ class PostModule extends BaseModule {
 
         $I->amOnPage(PostModule::$pagePostList);
 
-        //TODO: Same names can present on post page
-        $I->see($title, PostModule::$visibleInTablePostTitle);
+        $I->see($title);
 
         return $this;
     }
@@ -189,50 +188,62 @@ class PostModule extends BaseModule {
                 break;
         }
 
-        $I->amGoingTo('Switch Preview toggle to “Visitor”');
-        $I->click(PostModule::$linkViewPost);
-        if (!$I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
-            $I->click(PostModule::$linkPreviewSwitcher);
-        $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
-        $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
-        $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
-        //$I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
+        if ((int) $price > 0) {
 
-        $I->amGoingTo('Switch Preview toggle to “Admin”');
-        if ($I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
-            $I->click(PostModule::$linkPreviewSwitcher);
-        $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
-        $I->cantSee(PostModule::$visibleLaterpayPurchaseButton);
-        //$I->see(substr($content, 0, 255)); //while in admin mode text filled with amount <br\> inside, there`s no way to have text comparsion
-        $I->cantSee(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
-
-        $I->amGoingTo('Go to the Post Overview page');
-        $I->amOnPage(PostModule::$pagePostList);
-        $I->see($price, PostModule::$pageListPriceCol);
-        $I->see($price_type, PostModule::$pageListPricetypeCol);
-
-        $I->amGoingTo('Check If plugin is tested in live mode');
-        if (!ModesModule::of($I)->checkIsTestMode()) {
-
-            $previewModeTeaserOnly = ModesModule::of($I)->checkPreviewMode();
-            $I->amGoingTo('Check post on front');
-            BackendModule::of($I)->logout();
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
-            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
+            $I->amGoingTo('Switch Preview toggle to “Visitor”');
+            $I->click(PostModule::$linkViewPost);
+            if (!$I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
+                $I->click(PostModule::$linkPreviewSwitcher);
+            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
             $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
             $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
-            if ($previewModeTeaserOnly) {
+            //$I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
 
-                $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
-                $I->see($price, 'a');
-                $I->see($currency, 'a');
-            } else {
+            $I->amGoingTo('Switch Preview toggle to “Admin”');
+            if ($I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
+                $I->click(PostModule::$linkPreviewSwitcher);
+            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+            $I->cantSee(PostModule::$visibleLaterpayPurchaseButton);
+            //$I->see(substr($content, 0, 255)); //while in admin mode text filled with amount <br\> inside, there`s no way to have text comparsion
+            $I->cantSee(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
 
-                $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-                $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
-                $I->see($price, 'a');
-                $I->see($currency, 'a');
+            $I->amGoingTo('Go to the Post Overview page');
+            $I->amOnPage(PostModule::$pagePostList);
+            $I->see($price, PostModule::$pageListPriceCol);
+            $I->see($price_type, PostModule::$pageListPricetypeCol);
+
+            $I->amGoingTo('Check If plugin is tested in live mode');
+            if (!ModesModule::of($I)->checkIsTestMode()) {
+
+                $previewModeTeaserOnly = ModesModule::of($I)->checkPreviewMode();
+                $I->amGoingTo('Check post on front');
+                BackendModule::of($I)->logout();
+                $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
+                $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
+                $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
+                $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
+                if ($previewModeTeaserOnly) {
+
+                    $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
+                    $I->see($price, 'a');
+                    $I->see($currency, 'a');
+                } else {
+
+                    $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
+                    $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
+                    $I->see($price, 'a');
+                    $I->see($currency, 'a');
+                };
             };
+        } else {
+
+            $I->amGoingTo('
+                Skip because of empty price:
+                Switch Preview toggle to “Visitor”.
+                Switch Preview toggle to “Admin”.
+                Go to the Post Overview page.
+                Check If plugin is tested in live mode.
+                ');
         };
 
         return $this;

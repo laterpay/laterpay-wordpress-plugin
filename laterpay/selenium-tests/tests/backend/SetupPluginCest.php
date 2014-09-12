@@ -32,6 +32,8 @@ class SetupPluginCest {
      */
     public function testCanIsetCurrencyAndGlobalDefaultPrice(BackendTester $I) {
 
+        $_price = '0.35';
+        $_currency = 'USD';
         $I->wantToTest('UI2: Can I set the currency and global default price in the get started tab and is it applied to existing posts?');
 
         BackendModule::of($I)->login();
@@ -42,9 +44,9 @@ class SetupPluginCest {
 
         SetupModule::of($I)->installPlugin()->activatePlugin();
 
-        SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
+        SetupModule::of($I)->goThroughGetStartedTab($_price, $_currency);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -54,6 +56,9 @@ class SetupPluginCest {
      */
     public function testCanChangeCurrency(BackendTester $I) {
 
+        $_price = '0.35';
+        $_currencyBefore = 'USD';
+        $_currencyAfter = 'EUR';
         $I->wantToTest('UI3: Can I change the currency and is it applied to existing posts?');
 
         BackendModule::of($I)->login();
@@ -64,11 +69,11 @@ class SetupPluginCest {
 
         SetupModule::of($I)->installPlugin()->activatePlugin();
 
-        SetupModule::of($I)->goThroughGetStartedTab('0.35', 'USD');
+        SetupModule::of($I)->goThroughGetStartedTab($_price, $_currencyBefore);
 
-        SetupModule::of($I)->changeCurrency('EUR');
+        SetupModule::of($I)->changeCurrency($_currencyAfter);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'EUR', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currencyAfter, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -78,6 +83,8 @@ class SetupPluginCest {
      */
     public function testCanPurchasePost(BackendTester $I) {
 
+        $_price = '0.35';
+        $_currency = 'EUR';
         $I->wantToTest('UI4: Can I purchase a post?');
 
         BackendModule::of($I)->login();
@@ -86,15 +93,15 @@ class SetupPluginCest {
                 ->uninstallPlugin()
                 ->installPlugin()
                 ->activatePlugin()
-                ->goThroughGetStartedTab('0.35', 'EUR');
+                ->goThroughGetStartedTab($_price, $_currency);
 
         ModesModule::of($I)->switchToLiveMode();
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'EUR', BaseModule::$T1, BaseModule::$C1, 60);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->purchasePost($I->getVar('post'), '0.35', 'EUR', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->purchasePost($I->getVar('post'), $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -104,6 +111,9 @@ class SetupPluginCest {
      */
     public function testCanRemoveDefaultPriceAndAapplyIt(BackendTester $I) {
 
+        $_priceBefore = '0.35';
+        $_priceAfter = '0.00';
+        $_currency = 'USD';
         $I->wantToTest('UI5: Can I change the global default price to 0.00 and is it applied to existing and new posts?');
 
         BackendModule::of($I)->login();
@@ -116,16 +126,16 @@ class SetupPluginCest {
         SetupModule::of($I)
                 ->installPlugin()
                 ->activatePlugin()
-                ->goThroughGetStartedTab('0.35', 'USD');
+                ->goThroughGetStartedTab($_priceBefore, $_currency);
 
-        SetupModule::of($I)->changeGlobalDefaultPrice('0.00');
+        SetupModule::of($I)->changeGlobalDefaultPrice($_priceAfter);
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost2 = $I->getVar('post');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', 0, 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -135,9 +145,10 @@ class SetupPluginCest {
      */
     public function testCanChangeDefaultPriceAndAapplyIt(BackendTester $I) {
 
-        $I->wantToTest('UI5: Can I change the global default price to > 0.00 and is it applied to existing and new posts?');
-
-        $_price = '0.28';
+        $_priceBefore = '0.35';
+        $_priceAfter = '0.28';
+        $_currency = 'USD';
+        $I->wantToTest("UI5: Can I change the global default price $_priceBefore to $_priceAfter $_currency and is it applied to existing and new posts?");
 
         BackendModule::of($I)->login();
 
@@ -149,16 +160,16 @@ class SetupPluginCest {
         SetupModule::of($I)
                 ->installPlugin()
                 ->activatePlugin()
-                ->goThroughGetStartedTab('0.35', 'USD');
+                ->goThroughGetStartedTab($_priceBefore, $_currency);
 
-        SetupModule::of($I)->changeGlobalDefaultPrice($_price);
+        SetupModule::of($I)->changeGlobalDefaultPrice($_priceAfter);
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost2 = $I->getVar('post');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_price, 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', $_price, 'USD', BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -171,7 +182,7 @@ class SetupPluginCest {
 
         BackendModule::of($I)->login();
 
-        SetupModule::of($I)->changeGlobalDefaultPrice('0.00');
+        $I->comment(11);
     }
 
 }
