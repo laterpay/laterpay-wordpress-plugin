@@ -52,15 +52,28 @@ class LaterPay_Helper_File
         $path = $request->getServer('DOCUMENT_ROOT') . $uri;
         $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-        $config = laterpay_get_plugin_config();
-        $client = new LaterPay_Client( $config );
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client = new LaterPay_Client( 
+                $client_options['cp_key'], 
+                $client_options['api_key'], 
+                $client_options['api_root'], 
+                $client_options['web_root'], 
+                $client_options['token_name'] 
+        );
         $params = array(
             'aid'   => $post_id,
             'file'  => $file,
             'ext'   => '.' . $ext,
         );
         if ( $use_auth ) {
-            $client         = new LaterPay_Client( $config );
+            $client_options = LaterPay_Helper_Config::get_php_client_options();
+            $client = new LaterPay_Client( 
+                    $client_options['cp_key'], 
+                    $client_options['api_key'], 
+                    $client_options['api_root'], 
+                    $client_options['web_root'], 
+                    $client_options['token_name'] 
+            );
             $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
         }
@@ -78,8 +91,14 @@ class LaterPay_Helper_File
         // register libraries
         $request    = new LaterPay_Core_Request();
         $response   = new LaterPay_Core_Response();
-        $config     = laterpay_get_plugin_config();
-        $client     = new LaterPay_Client( $config );
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client = new LaterPay_Client( 
+                $client_options['cp_key'], 
+                $client_options['api_key'], 
+                $client_options['api_root'], 
+                $client_options['web_root'], 
+                $client_options['token_name'] 
+        );
 
         // request parameters
         $file       = $request->get_param( 'file' );     // required, relative file path

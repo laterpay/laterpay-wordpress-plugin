@@ -76,7 +76,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $hash   = $this->get_hash_by_url( $url );
         // update lptoken if we got it
         if ( isset( $_GET['lptoken'] ) ) {
-            $client = new LaterPay_Client( $this->config );
+            $client_options = LaterPay_Helper_Config::get_php_client_options();
+            $client = new LaterPay_Client( 
+                    $client_options['cp_key'], 
+                    $client_options['api_key'], 
+                    $client_options['api_root'], 
+                    $client_options['web_root'], 
+                    $client_options['token_name'] 
+            );
             $client->set_token( $_GET['lptoken'] );
         }
         // check if the parameters of $_GET are valid and not manipulated
@@ -126,7 +133,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        $laterpay_client = new LaterPay_Client( $this->config );
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client = new LaterPay_Client( 
+                $client_options['cp_key'], 
+                $client_options['api_key'], 
+                $client_options['api_root'], 
+                $client_options['web_root'], 
+                $client_options['token_name'] 
+        );
         if ( isset( $_GET[ 'lptoken' ] ) ) {
             $laterpay_client->set_token( $_GET['lptoken'], true );
         }
@@ -161,7 +175,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $posts;
         }
 
-        $laterpay_client    = new LaterPay_Client( $this->config );
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client = new LaterPay_Client( 
+                $client_options['cp_key'], 
+                $client_options['api_key'], 
+                $client_options['api_root'], 
+                $client_options['web_root'], 
+                $client_options['token_name'] 
+        );
         $access_result      = $laterpay_client->get_access( $post_ids );
 
         if ( empty( $access_result ) || ! array_key_exists( 'articles', $access_result ) ) {
@@ -200,7 +221,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $price  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
         if ( $price != 0 ) {
-            $laterpay_client    = new LaterPay_Client( $this->config );
+            $client_options = LaterPay_Helper_Config::get_php_client_options();
+            $laterpay_client = new LaterPay_Client( 
+                    $client_options['cp_key'], 
+                    $client_options['api_key'], 
+                    $client_options['api_root'], 
+                    $client_options['web_root'], 
+                    $client_options['token_name'] 
+            );
             $result             = $laterpay_client->get_access( array( $post_id ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
@@ -240,7 +268,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 
         $currency_model = new LaterPay_Model_Currency();
-        $client         = new LaterPay_Client( $this->config );
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client = new LaterPay_Client( 
+                $client_options['cp_key'], 
+                $client_options['api_key'], 
+                $client_options['api_root'], 
+                $client_options['web_root'], 
+                $client_options['token_name'] 
+        );
 
         // data to register purchase after redirect from LaterPay
         $url_params = array(
@@ -522,7 +557,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        $laterpay_client    = new LaterPay_Client( $this->config );
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $laterpay_client = new LaterPay_Client( 
+                $client_options['cp_key'], 
+                $client_options['api_key'], 
+                $client_options['api_root'], 
+                $client_options['web_root'], 
+                $client_options['token_name'] 
+        );
         $identify_link      = $laterpay_client->get_identify_url();
 
         $this->assign( 'post_id',       get_the_ID() );
@@ -606,7 +648,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
 
         // pass localized strings and variables to script
-        $client         = new LaterPay_Client( $this->config );
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client = new LaterPay_Client( 
+                $client_options['cp_key'], 
+                $client_options['api_key'], 
+                $client_options['api_root'], 
+                $client_options['web_root'], 
+                $client_options['token_name'] 
+        );
         $balance_url    = $client->get_controls_balance_url();
         wp_localize_script(
             'laterpay-post-view',

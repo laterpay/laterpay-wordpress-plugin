@@ -241,5 +241,6 @@ function laterpay_before_start() {
     }
 
     LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
-    LaterPay_AutoLoader::register_directory( $dir . 'library' );
+    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap');
+    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay');
 }
