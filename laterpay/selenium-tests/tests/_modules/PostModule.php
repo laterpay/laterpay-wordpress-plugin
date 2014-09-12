@@ -310,8 +310,6 @@ class PostModule extends BaseModule {
 
             $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
 
-            $I->see($content, PostModule::$visibleLaterpayTeaserContent);
-
             $I->see($content, PostModule::$visibleLaterpayContent);
         } else {
 
@@ -489,17 +487,6 @@ class PostModule extends BaseModule {
 
 
         return $this;
-    }
-
-    /**
-     * @param $content
-     * @param $teaser
-     * @return string
-     */
-    private function _createTeaserContent($content, $teaser) {
-        $teaser_content = explode(' ', strip_tags($content), $teaser);
-        array_pop($teaser_content);
-        return join(' ', $teaser_content) . '...';
     }
 
 }
