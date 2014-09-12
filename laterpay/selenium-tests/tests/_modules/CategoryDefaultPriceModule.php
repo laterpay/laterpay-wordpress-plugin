@@ -14,7 +14,7 @@ class CategoryDefaultPriceModule extends BaseModule {
 
     //messages
     public static $messageCategoryPriceSave     = "All posts in category {category_name} have a default price of {category_price}";
-    public static $messageCategoryPriceDeleted  = "The default price for this category was deleted.";
+    public static $messageCategoryPriceDeleted  = "The default price for category {category_name} was deleted.";
     public static $messageCategoryPriceChanged  = "All posts in category {category_name} have a default price of {category_price}";
 
     /**
@@ -96,10 +96,14 @@ class CategoryDefaultPriceModule extends BaseModule {
         $I->click(self::$adminMenuPluginButton);
         $I->click(self::$pluginPricingTab);
 
+        $messageCategoryPriceDeleteText = str_replace(
+            '{category_name}', $category_name, self::$messageCategoryPriceDeleted
+        );
+
         $I->amGoingTo('Delete category default price');
         //TODO: implement deletion of concrete category
         $I->click(self::$pricingDeleteLink);
-        $I->waitForText(self::$messageCategoryPriceDeleted, self::$shortTimeout, self::$messageArea);
+        $I->waitForText($messageCategoryPriceDeleteText, self::$shortTimeout, self::$messageArea);
 
         return $this;
     }

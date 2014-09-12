@@ -223,19 +223,20 @@ class CategoryPricesCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
+            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1);
 
         CategoryDefaultPriceModule::of($I)
             ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49);
 
         PostModule::of($I)
-            ->createTestPost(BaseModule::$T1, BaseModule::$C1, BaseModule::$CAT1, 'category default price', null, 60);
+            ->createTestPost(BaseModule::$T1, BaseModule::$C1, 'category-2', 'category default price', null, 60);
 
         CategoryDefaultPriceModule::of($I)
             ->deleteCategoryDefaultPrice(BaseModule::$CAT1);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements(1, 'global default price', 0.35, 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
