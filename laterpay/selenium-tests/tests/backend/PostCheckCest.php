@@ -56,9 +56,12 @@ class PostCheckCest {
             ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
+        CategoryModule::of($I)
+            ->createTestCategory('Uncategorized');
+
         PostModule::of($I)
-            ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.40, 60)
-            ->checkTestPostForLaterPayElements(1, 'individual price', 0.40, 'USD',
+            ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', 60)
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.40', 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
