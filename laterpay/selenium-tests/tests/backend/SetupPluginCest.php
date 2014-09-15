@@ -40,8 +40,6 @@ class SetupPluginCest {
 
         SetupModule::of($I)->uninstallPlugin();
 
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
-
         SetupModule::of($I)->installPlugin()->activatePlugin();
 
         SetupModule::of($I)->goThroughGetStartedTab($_price, $_currency);
@@ -66,8 +64,6 @@ class SetupPluginCest {
         SetupModule::of($I)->uninstallPlugin();
 
         CategoryModule::of($I)->createTestCategory('Uncategorized');
-
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
         SetupModule::of($I)->installPlugin()->activatePlugin();
 
@@ -99,8 +95,6 @@ class SetupPluginCest {
 
         ModesModule::of($I)->switchToLiveMode();
 
-        CategoryModule::of($I)->createTestCategory('Uncategorized');
-
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
         PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
@@ -123,8 +117,6 @@ class SetupPluginCest {
         BackendModule::of($I)->login();
 
         SetupModule::of($I)->uninstallPlugin();
-
-        CategoryModule::of($I)->createTestCategory('Uncategorized');
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost1 = $I->getVar('post');
@@ -160,8 +152,6 @@ class SetupPluginCest {
 
         SetupModule::of($I)->uninstallPlugin();
 
-        CategoryModule::of($I)->createTestCategory('Uncategorized');
-
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost1 = $I->getVar('post');
 
@@ -182,6 +172,29 @@ class SetupPluginCest {
 
     /**
      * @param \BackendTester $I
+     * @group UI21
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/304
+     */
+    public function testCanChangePreviewToTeaser(BackendTester $I) {
+
+        $_price = '0.35';
+        $_currency = 'EUR';
+        $I->wantToTest('UI21: Can I change the preview mode to “teaser only”?');
+
+        BackendModule::of($I)->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab($_price, $_currency);
+
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        $_testPost1 = $I->getVar('post');
+    }
+
+    /**
+     * @param \BackendTester $I
      * @group dev
      */
     public function dev(BackendTester $I) {
@@ -189,8 +202,6 @@ class SetupPluginCest {
         $I->wantToTest('Dev');
 
         BackendModule::of($I)->login();
-
-        PostModule::of($I)->checkTestPostForLaterPayElements(4, 'global default price', '0.35', 'EUR', BaseModule::$T1, BaseModule::$C1);
     }
 
 }

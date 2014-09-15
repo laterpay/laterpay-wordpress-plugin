@@ -16,7 +16,7 @@ modules:
          capabilities:
              unexpectedAlertBehaviour: 'accept'
       Db:
-        dsn: 'mysql:host=localhost;dbname=wordpress_trunk'
+        dsn: 'mysql:host=localhost;dbname=wordpress_develop'
         host: 'localhost'
         user: 'root'
         password: 'root'
