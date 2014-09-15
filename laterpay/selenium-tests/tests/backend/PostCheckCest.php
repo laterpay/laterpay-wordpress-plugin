@@ -184,6 +184,9 @@ class PostCheckCest {
         BackendModule::of($I)
             ->login();
 
+        CategoryModule::of($I)
+            ->createTestCategory('Uncategorized');
+
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
@@ -197,8 +200,8 @@ class PostCheckCest {
             ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49);
 
         PostModule::of($I)
-            ->createTestPost(BaseModule::$T1, BaseModule::$C1, BaseModule::$CAT1, 'category default price', 0.49, 60)
-            ->checkTestPostForLaterPayElements(1, 'category default price', 0.49, 'USD',
+            ->createTestPost(BaseModule::$T1, BaseModule::$C1, 'category-2', 'category default price', 0.49, 60)
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.49, 'USD',
                                                 BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
