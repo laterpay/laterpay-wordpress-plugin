@@ -1,7 +1,7 @@
-(function($) { $(document).ready(function() {
+(function($) {$(function() {
 
-    // encapsulate all LaterPay Javascript in function laterPayEditPost
-    function laterPayEditPost() {
+    // encapsulate all LaterPay Javascript in function laterPayPostEdit
+    function laterPayPostEdit() {
         var $o = {
                 // post price inputs
                 priceInput              : $('#lp_post-price input[name=post-price]'),
@@ -468,6 +468,6 @@
     }
 
     // initialize page
-    laterPayEditPost();
+    laterPayPostEdit();
 
 });})(jQuery);

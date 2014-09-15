@@ -1,7 +1,7 @@
-(function($) { $(document).ready(function() {
+(function($) {$(function() {
 
-        // encapsulate all LaterPay Javascript in function laterPayViewPost
-        function laterPayViewPost() {
+        // encapsulate all LaterPay Javascript in function laterPayPostView
+        function laterPayPostView() {
             var bindPurchaseEvents = function() {
                     // handle clicks on purchase links in test mode
                     $('.lp_purchase-link')
@@ -162,7 +162,7 @@
         }
 
         // initialize page
-        laterPayViewPost();
+        laterPayPostView();
 
 });})(jQuery);
 
