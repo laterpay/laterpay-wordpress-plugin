@@ -65,6 +65,8 @@ class SetupPluginCest {
 
         SetupModule::of($I)->uninstallPlugin();
 
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
         SetupModule::of($I)->installPlugin()->activatePlugin();
@@ -97,6 +99,8 @@ class SetupPluginCest {
 
         ModesModule::of($I)->switchToLiveMode();
 
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
         PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
@@ -119,6 +123,8 @@ class SetupPluginCest {
         BackendModule::of($I)->login();
 
         SetupModule::of($I)->uninstallPlugin();
+
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost1 = $I->getVar('post');
@@ -153,6 +159,8 @@ class SetupPluginCest {
         BackendModule::of($I)->login();
 
         SetupModule::of($I)->uninstallPlugin();
+
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
         $_testPost1 = $I->getVar('post');
