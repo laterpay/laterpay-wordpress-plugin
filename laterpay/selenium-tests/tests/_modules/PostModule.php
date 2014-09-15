@@ -11,7 +11,7 @@ class PostModule extends BaseModule {
     public static $fieldTitle = '#title';
     public static $fieldContent = '#content_ifr';
     public static $fieldTeaser = '#laterpay_teaser_content';
-    public static $fieldPrice = '#post-price';
+    public static $fieldPrice = 'input[name="post-price"]';
     public static $contentId = '#content';
     public static $teaserContentId = '#postcueeditor';
     //mcetabs
@@ -21,6 +21,7 @@ class PostModule extends BaseModule {
 
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
+    public static $linkCategoryPrice = '#lp_use-category-default-price';
     public static $linkAddMedia = '#insert-media-button';
     public static $linkPublish = '#publish';
     public static $linkViewPost = '#view-post-btn a';
@@ -101,8 +102,10 @@ class PostModule extends BaseModule {
             case 'individual price':
                 $I->amGoingTo('Choose individual price type');
                 $I->click(PostModule::$linkIndividualPrice);
-                BackendModule::of($I)
+                /* disable price validation for now
+                    BackendModule::of($I)
                         ->validatePrice(PostModule::$fieldPrice);
+                */
                 //we can change only individual price
                 if ($price) {
                     $I->amGoingTo('Set price');
@@ -487,6 +490,17 @@ class PostModule extends BaseModule {
 
 
         return $this;
+    }
+
+    /**
+     * @param $content
+     * @param $teaser
+     * @return string
+     */
+    private function _createTeaserContent($content, $teaser) {
+        $teaser_content = explode(' ', strip_tags($content), $teaser);
+        array_pop($teaser_content);
+        return join(' ', $teaser_content) . '...';
     }
 
 }
