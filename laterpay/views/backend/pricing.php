@@ -95,7 +95,7 @@
                     </div>
                     <a href="#" id="lp_add-category-link" class="lp_d-block lp_m-t1" data-icon="c"><?php _e( 'Set default price for another category', 'laterpay' ); ?></a>
 
-                    <form method="post" id="category-price-form-template" class="lp_category-price-form unsaved" style="display:none;">
+                    <form method="post" id="category-price-form-template" class="lp_category-price-form lp_unsaved" style="display:none;">
                         <input type="hidden" name="form"        value="price_category_form">
                         <input type="hidden" name="action"      value="laterpay_pricing">
                         <input type="hidden" name="category_id" value="">

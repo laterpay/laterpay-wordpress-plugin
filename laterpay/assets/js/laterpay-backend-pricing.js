@@ -135,7 +135,7 @@
             enterEditModeGlobalDefaultPrice = function() {
                 $o.globalDefaultPriceShowElements.hide();
                 $o.globalDefaultPriceEditElements.show(0, function() {
-                    setTimeout(function() { $o.globalDefaultPrice.focus(); }, 50);
+                    setTimeout(function() {$o.globalDefaultPrice.val($('#lp_global-price-text').text()).focus();}, 50);
                 });
                 $o.globalDefaultPriceForm.addClass($o.editing);
             },
@@ -144,6 +144,7 @@
                 $o.globalDefaultPriceShowElements.show();
                 $o.globalDefaultPriceEditElements.hide();
                 $o.globalDefaultPriceForm.removeClass($o.editing);
+                $o.globalDefaultPrice.val($('#lp_global-price-text').text());
             },
 
             saveGlobalDefaultPrice = function() {
@@ -215,7 +216,7 @@
             exitEditModeCategoryDefaultPrice = function($form, editAnotherCategory) {
                 $form.removeClass($o.editing);
 
-                if ($form.hasClass($o.lp_unsaved)) {
+                if ($form.hasClass($o.unsaved)) {
                     // remove form, if creating a new category default price has been canceled
                     $form.fadeOut(250, function() {
                         $(this).remove();
