@@ -30,7 +30,7 @@ class PostCheckCest {
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.00', 60)
-            ->checkTestPostForLaterPayElements($I->getVar('post')[0], 'individual price', '0.00', 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.00', 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -61,7 +61,7 @@ class PostCheckCest {
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', 60)
-            ->checkTestPostForLaterPayElements($I->getVar('post')[0], 'individual price', '0.40', 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.40', 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -88,6 +88,7 @@ class PostCheckCest {
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        $testPost1 = $I->getVar('post');
 
         SetupModule::of($I)
             ->installPlugin()
@@ -95,10 +96,13 @@ class PostCheckCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-            ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', null)
-            ->checkTestPostForLaterPayElements($I->getVar('post')[0], 'global default price', '0.35', 'USD',
+            ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', null);
+        $testPost2 = $I->getVar('post');
+
+        PostModule::of($I)
+            ->checkTestPostForLaterPayElements($testPost1, 'individual price', '0.35', 'USD',
                 BaseModule::$T1, BaseModule::$C1, 60)
-            ->checkTestPostForLaterPayElements($I->getVar('post')[1], 'individual price', '0.40', 'USD',
+            ->checkTestPostForLaterPayElements($testPost2, 'individual price', '0.40', 'USD',
                 BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
