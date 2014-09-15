@@ -30,7 +30,7 @@ class PostCheckCest {
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.00', 60)
-            ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.00', 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post')[0], 'individual price', '0.00', 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -61,7 +61,7 @@ class PostCheckCest {
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', 60)
-            ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.40', 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post')[0], 'individual price', '0.40', 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -83,6 +83,9 @@ class PostCheckCest {
         SetupModule::of($I)
             ->uninstallPlugin();
 
+        CategoryModule::of($I)
+            ->createTestCategory('Uncategorized');
+
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
@@ -92,10 +95,10 @@ class PostCheckCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-            ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.40, null)
-            ->checkTestPostForLaterPayElements(1, 'individual price', 0.40, 'USD',
+            ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', null)
+            ->checkTestPostForLaterPayElements($I->getVar('post')[0], 'global default price', '0.35', 'USD',
                 BaseModule::$T1, BaseModule::$C1, 60)
-            ->checkTestPostForLaterPayElements(2, 'individual price', 0.40, 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post')[1], 'individual price', '0.40', 'USD',
                 BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)

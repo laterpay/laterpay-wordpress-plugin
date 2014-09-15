@@ -398,7 +398,15 @@ class PostModule extends BaseModule {
         if (isset($array['post']))
             $postId = $array['post'];
 
-        $I->setVar('post', $postId);
+        try {
+            $postIdArr = $I->getVar('post');
+        } catch (Exception $e) {
+            $postIdArr = array();
+        }
+
+        array_push($postIdArr, $postId);
+
+        $I->setVar('post', $postIdArr);
 
         return $postId;
     }

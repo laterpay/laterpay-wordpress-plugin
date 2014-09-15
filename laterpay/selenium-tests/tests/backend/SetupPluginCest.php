@@ -40,13 +40,15 @@ class SetupPluginCest {
 
         SetupModule::of($I)->uninstallPlugin();
 
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
         SetupModule::of($I)->installPlugin()->activatePlugin();
 
         SetupModule::of($I)->goThroughGetStartedTab($_price, $_currency);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post')[0], 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -65,6 +67,8 @@ class SetupPluginCest {
 
         SetupModule::of($I)->uninstallPlugin();
 
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
         SetupModule::of($I)->installPlugin()->activatePlugin();
@@ -73,7 +77,7 @@ class SetupPluginCest {
 
         SetupModule::of($I)->changeCurrency($_currencyAfter);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currencyAfter, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post')[0], 'global default price', $_price, $_currencyAfter, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -97,11 +101,13 @@ class SetupPluginCest {
 
         ModesModule::of($I)->switchToLiveMode();
 
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post')[0], 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->purchasePost($I->getVar('post'), $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->purchasePost($I->getVar('post')[0], $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -121,7 +127,6 @@ class SetupPluginCest {
         SetupModule::of($I)->uninstallPlugin();
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
-        $_testPost1 = $I->getVar('post');
 
         SetupModule::of($I)
                 ->installPlugin()
@@ -130,12 +135,13 @@ class SetupPluginCest {
 
         SetupModule::of($I)->changeGlobalDefaultPrice($_priceAfter);
 
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
-        $_testPost2 = $I->getVar('post');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post')[0], 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post')[1], 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
@@ -155,7 +161,6 @@ class SetupPluginCest {
         SetupModule::of($I)->uninstallPlugin();
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
-        $_testPost1 = $I->getVar('post');
 
         SetupModule::of($I)
                 ->installPlugin()
@@ -164,12 +169,13 @@ class SetupPluginCest {
 
         SetupModule::of($I)->changeGlobalDefaultPrice($_priceAfter);
 
+        CategoryModule::of($I)->createTestCategory('Uncategorized');
+
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
-        $_testPost2 = $I->getVar('post');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post')[0], 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post')[1], 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
