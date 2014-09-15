@@ -64,8 +64,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
 
             switch ( $_POST['form'] ) {
                 // update presentation mode for paid content
-                case 'teaser_content_only':
-                    $result = update_option( 'laterpay_teaser_content_only', $_POST['teaser_content_only'] );
+                case 'paid_content_preview':
+                    $result = update_option( 'laterpay_teaser_content_only', $_POST['paid_content_preview'] );
                     if ( $result ) {
                         if ( get_option( 'laterpay_teaser_content_only' ) ) {
                             wp_send_json(

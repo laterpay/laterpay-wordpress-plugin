@@ -19,13 +19,13 @@
     <div class="lp_pagewrap">
         <div class="lp_row lp_fl-clearfix">
             <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
-            <form id="teaser_content_only" method="post">
-                <input type="hidden" name="form"    value="teaser_content_only">
+            <form id="laterpay_paid_content_preview_form" method="post">
+                <input type="hidden" name="form"    value="paid_content_preview">
                 <input type="hidden" name="action"  value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <label class="lp_fl-left">
                     <input type="radio"
-                            name="teaser_content_only"
+                            name="paid_content_preview"
                             value="1"
                             class="styled"
                             <?php if ( $show_teaser_content_only ): ?>checked<?php endif; ?>/>
@@ -34,7 +34,7 @@
                 </label>
                 <label class="lp_fl-left">
                     <input type="radio"
-                            name="teaser_content_only"
+                            name="paid_content_preview"
                             value="0"
                             class="styled"
                             <?php if ( ! $show_teaser_content_only ): ?>checked<?php endif; ?>/>
