@@ -121,17 +121,20 @@ class PostCheckCest {
         BackendModule::of($I)
             ->login();
 
+        CategoryModule::of($I)
+            ->createTestCategory('Uncategorized');
+
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
             ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
-        //TODO: Probably individual dynamic price
+        //TODO: Probably individual dynamic price and we need to implement this
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price',
                              'starts at 0.85 and goes to 0.05 after 5 days', null)
-            ->checkTestPostForLaterPayElements(1, 'individual price', 0.85, 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', 0.85, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -150,6 +153,10 @@ class PostCheckCest {
         BackendModule::of($I)
             ->login();
 
+        CategoryModule::of($I)
+            ->createTestCategory('Uncategorized')
+            ->createTestCategory(BaseModule::$CAT1);
+
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
@@ -157,8 +164,8 @@ class PostCheckCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-            ->createTestPost(BaseModule::$T1, BaseModule::$C1, BaseModule::$CAT1, 'global default price', 0.35, null)
-            ->checkTestPostForLaterPayElements(1, 'global default price', 0.35, 'USD',
+            ->createTestPost(BaseModule::$T1, BaseModule::$C1, 'category-2', 'global default price', 0.35)
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
