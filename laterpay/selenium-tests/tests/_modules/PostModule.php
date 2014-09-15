@@ -155,7 +155,7 @@ class PostModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Edit post');
+        $I->amGoingTo('Check post');
         if ((int) $post > 0) {
 
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
@@ -275,7 +275,7 @@ class PostModule extends BaseModule {
 
         if ($price != '0.00') {
 
-            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
 
             if ($price)
                 $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
@@ -302,7 +302,7 @@ class PostModule extends BaseModule {
 
             $I->click(PostModule::$visibleLaterpayPurchaseButton);
 
-            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
 
             $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseButton);
 
