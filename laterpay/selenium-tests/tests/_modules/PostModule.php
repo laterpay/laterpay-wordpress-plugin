@@ -2,22 +2,22 @@
 
 class PostModule extends BaseModule {
 
-    //pages
+//pages
     public static $pagePostNew = '/wp-admin/post-new.php';
     public static $pagePostList = '/wp-admin/edit.php';
     public static $pagePostEdit = '/wp-admin/post.php?post={post}&action=edit';
     public static $pagePostFrontView = '/?p={post}';
-    //fields
+//fields
     public static $fieldTitle = '#title';
     public static $fieldContent = '#content_ifr';
     public static $fieldTeaser = '#laterpay_teaser_content';
     public static $fieldPrice = 'input[name="post-price"]';
     public static $contentId = '#content';
     public static $teaserContentId = '#postcueeditor';
-    //mcetabs
+//mcetabs
     public static $contentText = '#content-html';
     public static $teaserContentText = '#postcueeditor-html';
-    //links
+//links
 
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
@@ -27,7 +27,7 @@ class PostModule extends BaseModule {
     public static $linkViewPost = '#view-post-btn a';
     public static $linkPreviewSwitcher = '.switch-handle';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
-    //should be visible
+//should be visible
     public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
     public static $visibleLaterpayPurchaseButton = 'a[class="lp_purchase-link lp_button"]';
@@ -39,7 +39,7 @@ class PostModule extends BaseModule {
     public static $visibleInTablePostPrice = '.post-price';
     public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
-    //messages
+//messages
     public static $messageShortcodeError = 'Shortcode error message';
 
     /**
@@ -67,7 +67,7 @@ class PostModule extends BaseModule {
         $I->click(PostModule::$contentText);
         $I->fillField(PostModule::$contentId, $content);
 
-        //create teaser content
+//create teaser content
         if ($teaser) {
             $teaser_content = $this->_createTeaserContent($content, $teaser);
 
@@ -103,10 +103,10 @@ class PostModule extends BaseModule {
                 $I->amGoingTo('Choose individual price type');
                 $I->click(PostModule::$linkIndividualPrice);
                 /* disable price validation for now
-                    BackendModule::of($I)
-                        ->validatePrice(PostModule::$fieldPrice);
-                */
-                //we can change only individual price
+                  BackendModule::of($I)
+                  ->validatePrice(PostModule::$fieldPrice);
+                 */
+//we can change only individual price
                 if ($price) {
                     $I->amGoingTo('Set price');
                     $I->fillField(PostModule::$fieldPrice, $price);
@@ -123,7 +123,7 @@ class PostModule extends BaseModule {
 
         if ($files) {
             $I->amGoingTo('Attach files to post');
-            //TODO: implement multiply files insertion and correct upload
+//TODO: implement multiply files insertion and correct upload
             $I->attachFile(PostModule::$linkAddMedia, $files);
         }
 
@@ -158,8 +158,7 @@ class PostModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Edit post');
-
+        $I->amGoingTo('Check post');
         if ((int) $post > 0) {
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
         } elseif ($title) {
@@ -300,7 +299,7 @@ class PostModule extends BaseModule {
 
         if ($price != '0.00') {
 
-            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
 
             if ($price)
                 $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
@@ -327,7 +326,7 @@ class PostModule extends BaseModule {
 
             $I->click(PostModule::$visibleLaterpayPurchaseButton);
 
-            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+            $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
 
             $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseButton);
 
@@ -522,7 +521,7 @@ class PostModule extends BaseModule {
     private function _createTeaserContent($content, $teaser) {
         $teaser_content = explode(' ', strip_tags($content), $teaser + 1);
         array_pop($teaser_content);
-        //original join(' ', $teaser_content) . '...' fix for laterpay teaser bug
+//original join(' ', $teaser_content) . '...' fix for laterpay teaser bug
         $result = join(' ', $teaser_content);
         $result = substr($result, 0, -1);
         return $result . '...';

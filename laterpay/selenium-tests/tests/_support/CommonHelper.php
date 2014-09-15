@@ -138,22 +138,5 @@ class CommonHelper extends \Codeception\Module {
         return $this->k;
     }
 
-    /**
-     * @param String $I
-     * @param String $I
-     */
-    public function _failed(\Codeception\TestCase $test, $fail) {
-
-        file_put_contents(\Codeception\Configuration::logDir() . basename($test->getFileName()) . '.page.debug.html', $fail);
-    }
-
-    /**
-     * @param String $I
-     */
-    public function log($message) {
-
-        file_put_contents(\Codeception\Configuration::logDir() . 'debug.html', $message);
-    }
-
 }
 

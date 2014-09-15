@@ -190,7 +190,7 @@ class SetupPluginCest {
 
         BackendModule::of($I)->login();
 
-        $I->comment(11);
+        PostModule::of($I)->checkTestPostForLaterPayElements(4, 'global default price', '0.35', 'EUR', BaseModule::$T1, BaseModule::$C1);
     }
 
 }
