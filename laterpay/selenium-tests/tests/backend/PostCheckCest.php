@@ -25,9 +25,6 @@ class PostCheckCest {
             ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
-        CategoryModule::of($I)
-            ->createTestCategory('Uncategorized');
-
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.00', 60)
             ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.00', 'USD',
@@ -56,9 +53,6 @@ class PostCheckCest {
             ->activatePlugin()
             ->goThroughGetStartedTab(0.35, 'USD');
 
-        CategoryModule::of($I)
-            ->createTestCategory('Uncategorized');
-
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', 60)
             ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.40', 'USD',
@@ -82,9 +76,6 @@ class PostCheckCest {
 
         SetupModule::of($I)
             ->uninstallPlugin();
-
-        CategoryModule::of($I)
-            ->createTestCategory('Uncategorized');
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1);
@@ -121,9 +112,6 @@ class PostCheckCest {
         BackendModule::of($I)
             ->login();
 
-        CategoryModule::of($I)
-            ->createTestCategory('Uncategorized');
-
         SetupModule::of($I)
             ->uninstallPlugin()
             ->installPlugin()
@@ -154,7 +142,6 @@ class PostCheckCest {
             ->login();
 
         CategoryModule::of($I)
-            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1);
 
         SetupModule::of($I)
@@ -183,9 +170,6 @@ class PostCheckCest {
 
         BackendModule::of($I)
             ->login();
-
-        CategoryModule::of($I)
-            ->createTestCategory('Uncategorized');
 
         SetupModule::of($I)
             ->uninstallPlugin()
@@ -228,9 +212,9 @@ class PostCheckCest {
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', 0.35, 60, SetupModule::$pluginUploadFilename)
-            ->checkTestPostForLaterPayElements(1, 'global default price', 0.35, 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD',
                                                 BaseModule::$T1, BaseModule::$C1, 60)
-            ->checkIfFilesAreProtected(1, 0.35, SetupModule::$pluginUploadFilename);
+            ->checkIfFilesAreProtected($I->getVar('post'), 0.35, SetupModule::$pluginUploadFilename);
 
         BackendModule::of($I)
             ->logout();
@@ -256,8 +240,8 @@ class PostCheckCest {
 
         PostModule::of($I)
             ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', 0.35, 60)
-            ->changeIndividualPrice(1, 0.69)
-            ->checkTestPostForLaterPayElements(1, 'individual price', 0.69, 'USD',
+            ->changeIndividualPrice($I->getVar('post'), 0.69)
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', 0.69, 'USD',
                                                 BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)

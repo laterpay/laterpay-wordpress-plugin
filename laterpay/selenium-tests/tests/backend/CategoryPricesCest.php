@@ -26,7 +26,6 @@ class CategoryPricesCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
-            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1);
 
         PostModule::of($I)
@@ -61,7 +60,6 @@ class CategoryPricesCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
-            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1);
 
         CategoryDefaultPriceModule::of($I)
@@ -100,7 +98,6 @@ class CategoryPricesCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
-            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1);
 
         PostModule::of($I)
@@ -137,7 +134,6 @@ class CategoryPricesCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
-            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1)
             ->createTestCategory(BaseModule::$CAT2)
             ->createTestCategory(BaseModule::$CAT3);
@@ -183,7 +179,6 @@ class CategoryPricesCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
-            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1)
             ->createTestCategory(BaseModule::$CAT2)
             ->createTestCategory(BaseModule::$CAT3);
@@ -225,7 +220,6 @@ class CategoryPricesCest {
             ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
-            ->createTestCategory('Uncategorized')
             ->createTestCategory(BaseModule::$CAT1);
 
         CategoryDefaultPriceModule::of($I)
