@@ -101,7 +101,7 @@ payments are actually booked and credited to your account.';
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo(ModesModule::$url_plugin_account);
+        $I->amOnPage(ModesModule::$url_plugin_account);
 
         $I->click(self::$labelTest, self::$linkPluginModeToggle);
         $I->see(self::$messageArea, self::$messageErrorLiveMode);
