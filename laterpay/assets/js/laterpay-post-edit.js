@@ -39,32 +39,46 @@
             bindEvents = function() {
                 // switch pricing type
                 $o.pricingTypeButtons
-                .mousedown(function() {switchPricingType(this);})
+                .mousedown(function() {
+                    switchPricingType(this);
+                })
                 .click(function(e) {e.preventDefault();});
 
                 // save pricing data
-                $('#post').submit(function() {saveDynamicPricingData();});
+                $('#post').submit(function() {
+                    saveDynamicPricingData();
+                });
 
                 // validate manually entered prices
-                $o.priceInput.blur(function() {setPrice($(this).val());});
-// TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
-// $o.priceInput.bind('input', function() {setPrice($(this).val());});
+                $o.priceInput.blur(function() {
+                    setPrice($(this).val());
+                });
+                // TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
+                // $o.priceInput.bind('input', function() {setPrice($(this).val());});
 
                 // validate choice of revenue model (validating the price switches the revenue model if required)
-                $(':radio', $o.revenueModel).change(function() {validatePrice($o.priceInput.val());});
+                $(':radio', $o.revenueModel).change(function() {
+                    validatePrice($o.priceInput.val());
+                });
 
                 // toggle dynamic pricing widget
                 $o.dynamicPricingToggle
-                .mousedown(function() {toggleDynamicPricing();})
+                .mousedown(function() {
+                    toggleDynamicPricing();
+                })
                 .click(function(e) {e.preventDefault();});
 
                 // update list of applicable category prices on change of categories list
                 $('.categorychecklist :checkbox')
-                .on('change', function() {updateApplicableCategoriesList();});
+                .on('change', function() {
+                    updateApplicableCategoriesList();
+                });
 
                 // apply category default prices when selecting one of the applicable categories
                 $o.categoryPriceDetails
-                .on('mousedown', 'a', function() {applyCategoryPrice(this);})
+                .on('mousedown', 'a', function() {
+                    applyCategoryPrice(this);
+                })
                 .on('click', 'a', function(e) {e.preventDefault();});
             },
 

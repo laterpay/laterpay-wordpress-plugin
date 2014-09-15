@@ -5,7 +5,9 @@
             var bindPurchaseEvents = function() {
                     // handle clicks on purchase links in test mode
                     $('.lp_purchase-link')
-                    .on('mousedown', function() {handlePurchaseInTestMode(this);})
+                    .on('mousedown', function() {
+                        handlePurchaseInTestMode(this);
+                    })
                     .on('click', function(e) {e.preventDefault();});
                 },
 

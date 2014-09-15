@@ -3,18 +3,21 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAppearance
     function laterPayBackendAppearance() {
         var $o = {
-                paidContentPreviewForm: $('#laterpay_paid_content_preview_form'),
+                form: $('#laterpay_paid_content_preview_form'),
             },
 
             bindEvents = function() {
-                $('input[name=paid_content_preview]', $o.paidContentPreviewForm)
-                .change(function() {saveAppearance();});
+                // switch paid content preview mode
+                $('input[name=paid_content_preview]', $o.form)
+                .change(function() {
+                    saveAppearance();
+                });
             },
 
             saveAppearance = function() {
                 $.post(
                     ajaxurl,
-                    $o.paidContentPreviewForm.serializeArray(),
+                    $o.form.serializeArray(),
                     function(data) {setMessage(data);}
                 );
             },
