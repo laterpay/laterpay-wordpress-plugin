@@ -4,22 +4,24 @@
     function laterPayBackendPricing() {
         var $o = {
                 // global default price
-                globalDefaultPriceForm          : $('#lp_global-price-form'),
-                globalDefaultPrice              : $('#lp_global-default-price'),
-                globalDefaultPriceEditElements  : $('#lp_global-price-text, #lp_global-price-form .lp_change-link'),
-                globalDefaultPriceShowElements  : $('#lp_global-default-price, #lp_global-price-form .lp_cancel-link, #lp_global-price-form .lp_save-link'),
+                globalDefaultPriceForm              : $('#lp_global-price-form'),
+                globalDefaultPrice                  : $('#lp_global-default-price'),
+                globalDefaultPriceShowElements      : $('#lp_global-price-text, #lp_global-price-form .lp_change-link'),
+                globalDefaultPriceEditElements      : $('#lp_global-default-price, #lp_global-price-form .lp_cancel-link, #lp_global-price-form .lp_save-link'),
 
                 // category default price
-                categoryDefaultPrices           : $('#lp_category-prices'),
-                addCategory                     : $('#lp_add-category-link'),
+                categoryDefaultPrices               : $('#lp_category-prices'),
+                addCategory                         : $('#lp_add-category-link'),
+                categoryDefaultPriceShowElements    : '.lp_category-title, .lp_category-price, .lp_change-link, .lp_delete-link',
+                categoryDefaultPriceEditElements    : '.lp_number-input, .lp_save-link, .lp_cancel-link',
 
                 // default currency
-                defaultCurrencyForm             : $('#lp_currency-form'),
-                defaultCurrency                 : $('#lp_currency-select'),
+                defaultCurrencyForm                 : $('#lp_currency-form'),
+                defaultCurrency                     : $('#lp_currency-select'),
 
                 // strings cached for better compression
-                editing                         : 'lp_editing',
-                unsaved                         : 'lp_unsaved',
+                editing                             : 'lp_editing',
+                unsaved                             : 'lp_unsaved',
             },
 
             bindEvents = function() {
@@ -54,33 +56,34 @@
                 .click(function(e) {e.preventDefault();});
 
                 // edit
-                $('.lp_change-link', $o.categoryDefaultPrices)
-                .on('mousedown', function() {
+                $o.categoryDefaultPrices
+                .on('mousedown', '.lp_change-link', function() {
                     var $form = $(this).parents('.lp_category-price-form');
                     editCategoryDefaultPrice($form);
                 })
                 .on('click', function(e) {e.preventDefault();});
 
                 // cancel
-                $('.lp_cancel-link', $o.categoryDefaultPrices)
-                .on('mousedown', function() {
+                $o.categoryDefaultPrices
+                .on('mousedown', '.lp_cancel-link', function() {
                     var $form = $(this).parents('.lp_category-price-form');
                     exitEditModeCategoryDefaultPrice($form);
                 })
                 .on('click', function(e) {e.preventDefault();});
 
                 // save
-                $('.lp_save-link', $o.categoryDefaultPrices)
-                .on('mousedown', function() {
+                $o.categoryDefaultPrices
+                .on('mousedown', '.lp_save-link', function() {
                     var $form = $(this).parents('.lp_category-price-form');
                     saveCategoryDefaultPrice($form);
                 })
                 .on('click', function(e) {e.preventDefault();});
 
                 // delete
-                $('.lp_delete-link', $o.categoryDefaultPrices)
-                .on('mousedown', function() {
-                    deleteCategoryDefaultPrice();
+                $o.categoryDefaultPrices
+                .on('mousedown', '.lp_delete-link', function() {
+                    var $form = $(this).parents('.lp_category-price-form');
+                    deleteCategoryDefaultPrice($form);
                 })
                 .on('click', function(e) {e.preventDefault();});
 
@@ -130,16 +133,16 @@
             },
 
             enterEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceEditElements.hide();
-                $o.globalDefaultPriceShowElements.show(0, function() {
+                $o.globalDefaultPriceShowElements.hide();
+                $o.globalDefaultPriceEditElements.show(0, function() {
                     setTimeout(function() { $o.globalDefaultPrice.focus(); }, 50);
                 });
                 $o.globalDefaultPriceForm.addClass($o.editing);
             },
 
             exitEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceEditElements.show();
-                $o.globalDefaultPriceShowElements.hide();
+                $o.globalDefaultPriceShowElements.show();
+                $o.globalDefaultPriceEditElements.hide();
                 $o.globalDefaultPriceForm.removeClass($o.editing);
             },
 
@@ -180,9 +183,9 @@
 
                 // initialize edit mode
                 $form.addClass($o.editing);
-                $('.lp_category-title, .lp_category-price, .lp_change-link, .lp_delete-link', $form).hide();
+                $($o.categoryDefaultPriceShowElements, $form).hide();
                 $o.addCategory.fadeOut(250);
-                $('.lp_number-input, .lp_save-link, .lp_cancel-link', $form).show();
+                $($o.categoryDefaultPriceEditElements, $form).show();
                 renderCategorySelect($form);
             },
 
@@ -197,6 +200,7 @@
                     function(r) {
                         if (r.success) {
                             $('.lp_category-price', $form).text(r.price);
+                            $('.lp_number-input', $form).val(r.price)
                             $('.lp_category-title', $form).text(r.category);
                             $('input[name=category_id]', $form).val(r.category_id);
                         }
@@ -210,6 +214,7 @@
 
             exitEditModeCategoryDefaultPrice = function($form, editAnotherCategory) {
                 $form.removeClass($o.editing);
+
                 if ($form.hasClass($o.lp_unsaved)) {
                     // remove form, if creating a new category default price has been canceled
                     $form.fadeOut(250, function() {
@@ -217,9 +222,9 @@
                     });
                 } else {
                     // hide form, if editing an existing category default price has been canceled
-                    $('.lp_number-input, .lp_save-link, .lp_cancel-link', $form).hide();
+                    $($o.categoryDefaultPriceEditElements, $form).hide();
                     $('.lp_category-select', $form).select2('destroy');
-                    $('.lp_category-title, .lp_category-price, .lp_change-link, .lp_delete-link', $form).show();
+                    $($o.categoryDefaultPriceShowElements, $form).show();
                     // reset value of price input to current category default price
                     $('.lp_number-input', $form).val($('.lp_category-price', $form).text());
                 }
@@ -228,9 +233,8 @@
                 }
             },
 
-            deleteCategoryDefaultPrice = function() {
-                var $form = $(this).parents('.lp_category-price-form');
-                $('input[name=form]', $form).val('price_category_form_delete');
+            deleteCategoryDefaultPrice = function($form) {
+                $('input[name="form"]', $form).val('price_category_form_delete');
 
                 $.post(
                     ajaxurl,
