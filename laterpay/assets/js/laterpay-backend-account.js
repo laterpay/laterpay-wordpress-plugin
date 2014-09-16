@@ -3,9 +3,11 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAccount
     function laterPayBackendAccount() {
         var $o = {
-                throttledFlashMessage   : null,
-                flashMessageTimeout     : 800,
-                requestSent             : false,
+                showMerchantContractsButton : $('#lp_request-live-credentials .button'),
+
+                throttledFlashMessage       : null,
+                flashMessageTimeout         : 800,
+                requestSent                 : false,
                 // TODO: extract common HTML elements
             },
 
@@ -37,7 +39,7 @@
                 };
 
                 // show LaterPay merchant contracts for requesting LIVE API credentials
-                $('#lp_request-live-credentials a')
+                $o.showMerchantContractsButton
                 .mousedown(function() {
                     showMerchantContracts();
                 })
@@ -194,8 +196,7 @@
             },
 
             showMerchantContracts = function() {
-                var $button                 = $(this),
-                    src                     = 'https://laterpay.net/terms/index.html?group=merchant-contract',
+                var src                     = 'https://laterpay.net/terms/index.html?group=merchant-contract',
                     viewportHeight          = parseInt($(window).height(), 10),
                     topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
                     iframeHeight            = viewportHeight - topMargin,
@@ -204,7 +205,7 @@
                     iframeOffset,
                     scrollPosition;
 
-                $button.fadeOut();
+                $o.showMerchantContractsButton.fadeOut();
 
                 // remove possibly existing iframe and insert a wrapper to display the iframe in
                 if ($('iframe', $iframeWrapper).length !== 0) {
@@ -235,12 +236,14 @@
                         'width="100%">' +
                     '</iframe>'
                 );
+
+                // close merchant contracts
                 $('.lp_close-iframe', $iframeWrapper).bind('click', function(e) {
                     $(this).fadeOut()
                         .parent('#lp_legal-docs-iframe').slideUp(400, function() {
                             $(this).remove();
                         });
-                    $button.fadeIn();
+                    $o.showMerchantContractsButton.fadeIn();
                     e.preventDefault();
                 });
             },
