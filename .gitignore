@@ -3,6 +3,6 @@
 /laterpay/codeception-tests/nbproject/private/
 /laterpay/selenium-tests/tests/nbproject/private/
 /laterpay/selenium-tests/tests/_data/laterpay.zip
-laterpay/selenium-tests/tests/_output
-laterpay/selenium-tests/tests/_data
+/laterpay/selenium-tests/tests/_output
+/laterpay/selenium-tests/tests/backend.suite.yml
 .idea

@@ -22,8 +22,7 @@ class ModesModule extends BaseModule {
     public static $pluginModeHidden = 'plugin_is_in_live_mode';
     //message
     public static $messageTeaserOnly = 'Visitors will now see only the teaser content of paid posts.';
-    public static $messageOverlay = 'Visitors will now see the teaser content of paid posts plus an
-    excerpt of the real content under an overlay.';
+    public static $messageOverlay = 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.';
     public static $messageTestMode = 'The LaterPay plugin is in TEST mode now.
     Payments are only simulated and not actually booked.';
     public static $messageErrorLiveMode = 'The LaterPay plugin needs valid API credentials to work.';
@@ -47,19 +46,35 @@ class ModesModule extends BaseModule {
      * @return $this
      */
     public function changePreviewMode($preview_mode) {
+
         $I = $this->BackendTester;
+
+        $I->amGoingTo('Change Preview Mode');
+
         $I->amOnPage(self::$baseUrl);
         $I->click(self::$adminMenuPluginButton);
         $I->click(self::$pluginAppearanceTab);
 
         switch ($preview_mode) {
             case 'teaser only':
-                $I->selectOption(self::$linkPreviewModeSwitcher, '1');
-                $I->see(self::$messageTeaserOnly, self::$messageArea);
+                if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '0')) {
+
+                    $I->selectOption(self::$linkPreviewModeSwitcher, '1');
+                    $I->seeInPageSource(self::$messageTeaserOnly);
+                } else {
+
+                    $I->comment('Teaser mode already set');
+                };
                 break;
             case 'overlay':
-                $I->selectOption(self::$linkPreviewModeSwitcher, '0');
-                $I->see(self::$messageOverlay, self::$messageArea);
+                if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '0')) {
+
+                    $I->selectOption(self::$linkPreviewModeSwitcher, '0');
+                    $I->seeInPageSource(self::$messageOverlay);
+                } else {
+
+                    $I->comment('Overview mode already set');
+                };
                 break;
             default:
                 break;

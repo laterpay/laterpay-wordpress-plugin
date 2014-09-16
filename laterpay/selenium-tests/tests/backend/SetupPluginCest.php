@@ -33,7 +33,7 @@ class SetupPluginCest {
     public function testCanIsetCurrencyAndGlobalDefaultPrice(BackendTester $I) {
 
         $_price = '0.35';
-        $_currency = 'USD';
+        $_currency = 'EUR';
         $I->wantToTest('UI2: Can I set the currency and global default price in the get started tab and is it applied to existing posts?');
 
         BackendModule::of($I)->login();
@@ -111,7 +111,7 @@ class SetupPluginCest {
 
         $_priceBefore = '0.35';
         $_priceAfter = '0.00';
-        $_currency = 'USD';
+        $_currency = 'EUR';
         $I->wantToTest('UI5: Can I change the global default price to 0.00 and is it applied to existing and new posts?');
 
         BackendModule::of($I)->login();
@@ -145,7 +145,7 @@ class SetupPluginCest {
 
         $_priceBefore = '0.35';
         $_priceAfter = '0.28';
-        $_currency = 'USD';
+        $_currency = 'EUR';
         $I->wantToTest('UI6: Can I change the global default price > 0 and is it applied to existing and new posts?');
 
         BackendModule::of($I)->login();
@@ -198,6 +198,32 @@ class SetupPluginCest {
 
     /**
      * @param \BackendTester $I
+     * @group UI22
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/305
+     */
+    public function testCanChangePreviewToOverlay(BackendTester $I) {
+
+        $_price = '0.35';
+        $_currency = 'EUR';
+        $I->wantToTest('UI22: Can I change the preview mode to “overlay”?');
+
+        BackendModule::of($I)->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab($_price, $_currency);
+
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+
+        ModesModule::of($I)->changePreviewMode('overlay');
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+    }
+
+    /**
+     * @param \BackendTester $I
      * @group dev
      */
     public function dev(BackendTester $I) {
@@ -207,6 +233,8 @@ class SetupPluginCest {
         BackendModule::of($I)->login();
 
         ModesModule::of($I)->changePreviewMode('teaser only');
+
+        ModesModule::of($I)->changePreviewMode('overlay');
     }
 
 }
