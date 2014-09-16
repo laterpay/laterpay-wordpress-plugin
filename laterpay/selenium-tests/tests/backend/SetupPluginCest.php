@@ -249,12 +249,12 @@ class SetupPluginCest {
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceOne);
         $_testPost1 = $I->getVar('post');
 
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceTwo);
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C2, null, 'individual price', $_priceTwo);
         $_testPost2 = $I->getVar('post');
 
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'individual price', $_priceOne, $_currency, BaseModule::$T1, BaseModule::$C1);
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'individual price', $_priceTwo, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'individual price', $_priceTwo, $_currency, BaseModule::$T1, BaseModule::$C2);
 
         PostModule::of($I)->checkIfCorrectShortcodeIsDisplayedCorrectly($_testPost2, $_priceTwo);
     }
@@ -265,11 +265,17 @@ class SetupPluginCest {
      */
     public function dev(BackendTester $I) {
 
-        $I->wantToTest('Dev');
+        $_price = '0.35';
+        $_currency = 'EUR';
+        $I->wantToTest('UI22: Can I change the preview mode to “overlay”?');
 
         BackendModule::of($I)->login();
 
-        PostModule::of($I)->checkIfCorrectShortcodeIsDisplayedCorrectly(1, '0.50');
+        $_testPost = 50;
+
+        ModesModule::of($I)->changePreviewMode('overlay');
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost, 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
 }

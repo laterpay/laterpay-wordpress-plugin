@@ -40,7 +40,7 @@ class PostModule extends BaseModule {
     public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
 //messages
-    public static $messageShortcodeError = 'Shortcode error message';
+    public static $messageShortcodeError = '.laterpay-shortcode-error';
 
     /**
      * P.26
@@ -158,7 +158,7 @@ class PostModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Check post');
+        $I->amGoingTo('Check Post For LaterPay Elements');
         if ((int) $post > 0) {
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
         } elseif ($title) {
@@ -477,12 +477,16 @@ class PostModule extends BaseModule {
 
         $I = $this->BackendTester;
 
+        $I->amGoingTo('Check how correct shortcode displayed');
+
         if ($price > 0) {
-            $I->amGoingTo('Open post for edit');
+
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
             $I->click(self::$linkViewPost);
             $I->click(self::$linkPreviewSwitcher);
+            $I->seeElement('div[class="lp_premium-file-box lp_content-type-gallery"]');
+            $I->see($price, '//*[@id="post-42"]/div/div[2]/div[1]/a');
         }
 
         return $this;
@@ -496,17 +500,19 @@ class PostModule extends BaseModule {
      * @return $this
      */
     public function checkIfWrongShortcodeIsDisplayedCorrectly($post, $price) {
+
         $I = $this->BackendTester;
 
+        $I->amGoingTo('Check how wrong shortcode displayed');
+
         if ($price > 0) {
-            $I->amGoingTo('Open post for edit');
+
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
             $I->click(self::$linkViewPost);
             $I->click(self::$linkPreviewSwitcher);
-            $I->see(self::$messageShortcodeError, self::$messageShortcodeError);
+            $I->seeElement(self::$messageShortcodeError);
         }
-
 
         return $this;
     }
