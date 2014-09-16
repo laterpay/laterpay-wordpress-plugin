@@ -40,6 +40,8 @@ class SetupPluginCest {
 
         SetupModule::of($I)->uninstallPlugin();
 
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+
         SetupModule::of($I)->installPlugin()->activatePlugin();
 
         SetupModule::of($I)->goThroughGetStartedTab($_price, $_currency);
@@ -62,8 +64,6 @@ class SetupPluginCest {
         BackendModule::of($I)->login();
 
         SetupModule::of($I)->uninstallPlugin();
-
-        CategoryModule::of($I)->createTestCategory('Uncategorized');
 
         SetupModule::of($I)->installPlugin()->activatePlugin();
 
