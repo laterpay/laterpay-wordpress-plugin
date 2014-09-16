@@ -133,7 +133,7 @@
                         lpVars.ajaxUrl,
                         requestVars,
                         function(data) {
-                            $placeholder.before(data).remove();
+                            $placeholder.before(data);
                         }
                     );
                 },
