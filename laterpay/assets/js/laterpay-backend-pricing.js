@@ -235,7 +235,7 @@
             },
 
             deleteCategoryDefaultPrice = function($form) {
-                $('input[name="form"]', $form).val('price_category_form_delete');
+                $('input[name=form]', $form).val('price_category_form_delete');
 
                 $.post(
                     ajaxurl,
