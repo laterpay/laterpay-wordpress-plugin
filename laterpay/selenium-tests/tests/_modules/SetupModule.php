@@ -31,7 +31,7 @@ class SetupModule extends BaseModule {
     public static $globalDefaultCurrencySelect = '#lp_currency-select';
     public static $globalDefaultCurrency = 'EUR';
     //expected
-
+    public static $linkDismissWPMessage = '.wp-pointer-content .close';
     public static $assertPluginName = 'laterpay';
     public static $assertInstalled = 'Plugin installed successfully';
     public static $assertNoLaterPayApiKey = 'Please enter your LaterPay API key to activate LaterPay on this site.';
@@ -144,6 +144,7 @@ class SetupModule extends BaseModule {
 
         $I->amGoingTo('Empty Merchant ID and API Key fields');
         $I->amOnPage(SetupModule::$pluginBackLink);
+        $I->tryClick($I, SetupModule::$linkDismissWPMessage);
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, '');
         $I->click(SetupModule::$pluginActivateFormButton);
