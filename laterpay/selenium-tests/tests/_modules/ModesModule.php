@@ -67,7 +67,7 @@ class ModesModule extends BaseModule {
                 };
                 break;
             case 'overlay':
-                if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '0')) {
+                if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '1')) {
 
                     $I->selectOption(self::$linkPreviewModeSwitcher, '0');
                     $I->seeInPageSource(self::$messageOverlay);
