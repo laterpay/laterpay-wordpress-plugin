@@ -219,10 +219,11 @@ class SetupPluginCest {
                 ->goThroughGetStartedTab($_price, $_currency);
 
         PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', $_price);
+        $_testPost = $I->getVar('post');
 
         ModesModule::of($I)->changePreviewMode('overlay');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost, 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
     }
 
     /**
