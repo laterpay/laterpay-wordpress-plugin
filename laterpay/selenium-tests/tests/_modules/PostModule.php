@@ -474,8 +474,8 @@ class PostModule extends BaseModule {
      * @return $this
      */
     public function checkIfCorrectShortcodeIsDisplayedCorrectly($post, $price) {
-        $I = $this->BackendTester;
 
+        $I = $this->BackendTester;
 
         if ($price > 0) {
             $I->amGoingTo('Open post for edit');
@@ -483,9 +483,7 @@ class PostModule extends BaseModule {
 
             $I->click(self::$linkViewPost);
             $I->click(self::$linkPreviewSwitcher);
-            $I->see(self::$messageShortcodeError, self::$messageShortcodeError);
         }
-
 
         return $this;
     }

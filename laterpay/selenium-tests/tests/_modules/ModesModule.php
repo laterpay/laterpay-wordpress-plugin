@@ -7,8 +7,8 @@ class ModesModule extends BaseModule {
     public static $linkPluginModeToggle = '#lp_plugin-mode-toggle';
     public static $url_plugin_account = '/wp-admin/admin.php?page=laterpay-account-tab';
     //data
-    public static $dataValidLiveMerchantId = 'a1b2c3d4e5f6g7h8i9j0k1';
-    public static $dataValidLiveApiKey = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6';
+    public static $dataValidLiveMerchantId = 'mVU6JuQ7Yao6DbzwATJPtX';
+    public static $dataValidLiveApiKey = 'd1e456a8b69e459fa64f6ab2a93baac4';
     public static $testData1 = 'a1b2c3d4e5f6g7h8i9j0';
     public static $testData2 = 'a1b2c3d4e5f6g7h8i9j0k1';
     public static $testData3 = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5';
@@ -60,6 +60,7 @@ class ModesModule extends BaseModule {
                 if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '0')) {
 
                     $I->selectOption(self::$linkPreviewModeSwitcher, '1');
+                    $I->wait(BaseModule::$shortTimeout);
                     $I->seeInPageSource(self::$messageTeaserOnly);
                 } else {
 
@@ -70,6 +71,7 @@ class ModesModule extends BaseModule {
                 if ($I->tryOption($I, self::$linkPreviewModeSwitcher, '1')) {
 
                     $I->selectOption(self::$linkPreviewModeSwitcher, '0');
+                    $I->wait(BaseModule::$shortTimeout);
                     $I->seeInPageSource(self::$messageOverlay);
                 } else {
 

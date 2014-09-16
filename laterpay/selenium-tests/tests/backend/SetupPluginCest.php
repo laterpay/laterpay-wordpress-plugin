@@ -56,6 +56,9 @@ class SetupPluginCest {
      */
     public function testCanChangeCurrency(BackendTester $I) {
 
+        $I->comment('Leave out this test for the moment, as we support only one currency at the moment');
+        return;
+
         $_price = '0.35';
         $_currencyBefore = 'USD';
         $_currencyAfter = 'EUR';
@@ -128,7 +131,7 @@ class SetupPluginCest {
 
         SetupModule::of($I)->changeGlobalDefaultPrice($_priceAfter);
 
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', $_priceAfter);
         $_testPost2 = $I->getVar('post');
 
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
@@ -162,7 +165,7 @@ class SetupPluginCest {
 
         SetupModule::of($I)->changeGlobalDefaultPrice($_priceAfter);
 
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', $_priceAfter);
         $_testPost2 = $I->getVar('post');
 
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'global default price', $_priceAfter, $_currency, BaseModule::$T1, BaseModule::$C1);
@@ -215,11 +218,44 @@ class SetupPluginCest {
                 ->activatePlugin()
                 ->goThroughGetStartedTab($_price, $_currency);
 
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', $_price);
 
         ModesModule::of($I)->changePreviewMode('overlay');
 
         PostModule::of($I)->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI23
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/306
+     */
+    public function testCorrectShortcodesRenderedProperlyWithinFreePost(BackendTester $I) {
+
+        $_priceOne = '0.00';
+        $_priceTwo = '0.55';
+        $_currency = 'EUR';
+        $I->wantToTest('UI23: Are correct shortcodes rendered properly within a free post?');
+
+        BackendModule::of($I)->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab($_priceOne, $_currency);
+
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceOne);
+        $_testPost1 = $I->getVar('post');
+
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceTwo);
+        $_testPost2 = $I->getVar('post');
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'individual price', $_priceOne, $_currency, BaseModule::$T1, BaseModule::$C1);
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'individual price', $_priceTwo, $_currency, BaseModule::$T1, BaseModule::$C1);
+
+        PostModule::of($I)->checkIfCorrectShortcodeIsDisplayedCorrectly($_testPost2, $_priceTwo);
     }
 
     /**
@@ -232,9 +268,7 @@ class SetupPluginCest {
 
         BackendModule::of($I)->login();
 
-        ModesModule::of($I)->changePreviewMode('teaser only');
-
-        ModesModule::of($I)->changePreviewMode('overlay');
+        PostModule::of($I)->checkIfCorrectShortcodeIsDisplayedCorrectly(1, '0.50');
     }
 
 }
