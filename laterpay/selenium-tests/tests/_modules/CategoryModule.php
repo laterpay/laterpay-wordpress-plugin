@@ -23,8 +23,34 @@ class CategoryModule extends BaseModule {
         $I->fillField(self::$elementCategoryNameId, $category_name);
         $I->click(self::$elementSubmitId);
         $I->see($category_name, self::$elementCategoriesTableSelector);
+        $this->_storeCreatedCategoryId();
 
         return $this;
+    }
+
+    /**
+     * @param $post
+     * @return $this
+     */
+    private function _storeCreatedCategoryId() {
+        $I = $this->BackendTester;
+
+        $I->click('.row-title');
+
+        $tagId = null;
+
+        $url = $I->grabFromCurrentUrl();
+
+        $url = substr($url, strpos($url, '?') + 1);
+
+        parse_str($url, $array);
+
+        if (isset($array['tag_ID']))
+            $tagId = $array['tag_ID'];
+
+        $I->setVar('category_id', $tagId);
+
+        return $tagId;
     }
 
 }

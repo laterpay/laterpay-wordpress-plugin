@@ -140,7 +140,7 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, 'category-2', 'global default price', 0.35)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'global default price', 0.35)
                 ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -171,7 +171,7 @@ class PostCheckCest {
                 ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49);
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, 'category-2', 'category default price', 0.49, 60)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'category default price', 0.49, 60)
                 ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.49, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
@@ -254,7 +254,7 @@ class PostCheckCest {
                 ->changePreviewMode('teaser_only');
 
         PostModule::of($I)
-                ->checkTestPostForLaterPayElements(1, 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
                 ->logout();
@@ -284,7 +284,7 @@ class PostCheckCest {
                 ->changePreviewMode('overlay');
 
         PostModule::of($I)
-                ->checkTestPostForLaterPayElements(1, 'global default price', 0.69, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.69, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
                 ->logout();
@@ -308,11 +308,17 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.00, 60)
-                ->createTestPost(BaseModule::$T2, BaseModule::$C2, null, 'individual price', 0.55, 60)
-                ->checkTestPostForLaterPayElements(1, 'individual price', 0.00, 'USD', BaseModule::$T1, BaseModule::$C1, 60)
-                ->checkTestPostForLaterPayElements(2, 'individual price', 0.55, 'USD', BaseModule::$T2, BaseModule::$C2, 60)
-                ->checkIfCorrectShortcodeIsDisplayedCorrectly('post-1', 0.55);
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.00', 60);
+        $testPost1 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T2, BaseModule::$C2, null, 'individual price', 0.55, 60);
+        $testPost2 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($testPost1, 'individual price', '0.00', 'USD', BaseModule::$T1, BaseModule::$C1, 60)
+                ->checkTestPostForLaterPayElements($testPost2, 'individual price', 0.55, 'USD', BaseModule::$T2, BaseModule::$C2, 60)
+                ->checkIfCorrectShortcodeIsDisplayedCorrectly($testPost1, 0.55);
 
         BackendModule::of($I)
                 ->logout();
@@ -336,11 +342,17 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.10, 60)
-                ->createTestPost(BaseModule::$T2, BaseModule::$C2, null, 'individual price', 0.55, 60)
-                ->checkTestPostForLaterPayElements(1, 'individual price', 0.10, 'USD', BaseModule::$T1, BaseModule::$C1, 60)
-                ->checkTestPostForLaterPayElements(2, 'individual price', 0.55, 'USD', BaseModule::$T2, BaseModule::$C2, 60)
-                ->checkIfCorrectShortcodeIsDisplayedCorrectly('post-1', 0.55);
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.10, 60);
+        $testPost1 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T2, BaseModule::$C2, null, 'individual price', 0.55, 60);
+        $testPost2 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($testPost1, 'individual price', 0.10, 'USD', BaseModule::$T1, BaseModule::$C1, 60)
+                ->checkTestPostForLaterPayElements($testPost2, 'individual price', 0.55, 'USD', BaseModule::$T2, BaseModule::$C2, 60)
+                ->checkIfCorrectShortcodeIsDisplayedCorrectly($testPost1, 0.55);
 
         BackendModule::of($I)
                 ->logout();
@@ -364,11 +376,17 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.00, 60)
-                ->createTestPost(BaseModule::$T3, BaseModule::$C3, null, 'individual price', 0.55, 60)
-                ->checkTestPostForLaterPayElements(1, 'individual price', 0.00, 'USD', BaseModule::$T1, BaseModule::$C1, 60)
-                ->checkTestPostForLaterPayElements(2, 'individual price', 0.55, 'USD', BaseModule::$T3, BaseModule::$C3, 60)
-                ->checkIfWrongShortcodeIsDisplayedCorrectly('post-1', 0.55);
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.00', 60);
+        $testPost1 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T3, BaseModule::$C3, null, 'individual price', 0.55, 60);
+        $testPost2 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($testPost1, 'individual price', '0.00', 'USD', BaseModule::$T1, BaseModule::$C1, 60)
+                ->checkTestPostForLaterPayElements($testPost2, 'individual price', 0.55, 'USD', BaseModule::$T3, BaseModule::$C3, 60)
+                ->checkIfWrongShortcodeIsDisplayedCorrectly($testPost1, 0.55);
 
         BackendModule::of($I)
                 ->logout();
@@ -392,11 +410,17 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.10, 60)
-                ->createTestPost(BaseModule::$T3, BaseModule::$C3, null, 'individual price', 0.55, 60)
-                ->checkTestPostForLaterPayElements(1, 'individual price', 0.10, 'USD', BaseModule::$T1, BaseModule::$C1, 60)
-                ->checkTestPostForLaterPayElements(2, 'individual price', 0.55, 'USD', BaseModule::$T3, BaseModule::$C3, 60)
-                ->checkIfWrongShortcodeIsDisplayedCorrectly('post-1', 0.55);
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.10', 60);
+        $testPost1 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T3, BaseModule::$C3, null, 'individual price', 0.55, 60);
+        $testPost2 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($testPost1, 'individual price', '0.10', 'USD', BaseModule::$T1, BaseModule::$C1, 60)
+                ->checkTestPostForLaterPayElements($testPost2, 'individual price', 0.55, 'USD', BaseModule::$T3, BaseModule::$C3, 60)
+                ->checkIfWrongShortcodeIsDisplayedCorrectly($testPost1, 0.55);
 
         BackendModule::of($I)
                 ->logout();
@@ -420,13 +444,13 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.10, 60);
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.10', 60);
 
         ModesModule::of($I)
                 ->switchToLiveMode();
 
         PostModule::of($I)
-                ->checkTestPostForLaterPayElements(1, 'individual price', 0.10, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.10', 'USD', BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
                 ->logout();
@@ -450,13 +474,13 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 0.10, 60);
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.10', 60);
 
         ModesModule::of($I)
                 ->switchToTestMode();
 
         PostModule::of($I)
-                ->checkTestPostForLaterPayElements(1, 'individual price', 0.10, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.10', 'USD', BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
                 ->logout();
