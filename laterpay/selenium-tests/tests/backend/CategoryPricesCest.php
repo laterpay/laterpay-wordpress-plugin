@@ -159,7 +159,7 @@ class CategoryPricesCest {
             ->deleteCategoryDefaultPrice(BaseModule::$CAT1);
 
         PostModule::of($I)
-            ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.89, 'USD',
+            ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.69, 'USD',
                                                BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
