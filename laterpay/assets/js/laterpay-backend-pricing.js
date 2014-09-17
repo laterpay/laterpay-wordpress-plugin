@@ -196,26 +196,29 @@
                 // fix invalid prices
                 $('.lp_number-input', $form).val(validatePrice($('.lp_number-input', $form).val()));
 
-                $form.removeClass($o.lp_unsaved);
                 $.post(
                     ajaxurl,
                     $form.serializeArray(),
                     function(r) {
                         if (r.success) {
+                            // update displayed price information
                             $('.lp_category-price', $form).text(r.price);
                             $('.lp_number-input', $form).val(r.price)
                             $('.lp_category-title', $form).text(r.category);
                             $('input[name=category_id]', $form).val(r.category_id);
+
+                            // mark the form as saved
+                            $form.removeClass($o.unsaved);
                         }
+                        exitEditModeCategoryDefaultPrice($form);
                         setMessage(r.message, r.success);
                     },
                     'json'
                 );
-
-                exitEditModeCategoryDefaultPrice($form);
             },
 
             exitEditModeCategoryDefaultPrice = function($form, editAnotherCategory) {
+                // mark the form as not being edited anymore
                 $form.removeClass($o.editing);
 
                 if ($form.hasClass($o.unsaved)) {
@@ -224,13 +227,17 @@
                         $(this).remove();
                     });
                 } else {
-                    // hide form, if editing an existing category default price has been canceled
+                    // hide form, if a new category default price has been saved
+                    // or editing an existing category default price has been canceled
                     $($o.categoryDefaultPriceEditElements, $form).hide();
                     $('.lp_category-select', $form).select2('destroy');
-                    $($o.categoryDefaultPriceShowElements, $form).show();
                     // reset value of price input to current category default price
                     $('.lp_number-input', $form).val($('.lp_category-price', $form).text());
+                    // show elements for displaying defined price again
+                    $($o.categoryDefaultPriceShowElements, $form).show();
                 }
+
+                // show 'Add' button again
                 if (!editAnotherCategory) {
                     $o.addCategory.fadeIn(250);
                 }
