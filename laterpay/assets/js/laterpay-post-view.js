@@ -1,11 +1,13 @@
-(function($) { $(document).ready(function() {
+(function($) {$(function() {
 
-        // encapsulate all LaterPay Javascript in function laterPayViewPost
-        function laterPayViewPost() {
+        // encapsulate all LaterPay Javascript in function laterPayPostView
+        function laterPayPostView() {
             var bindPurchaseEvents = function() {
                     // handle clicks on purchase links in test mode
                     $('.lp_purchase-link')
-                    .on('mousedown', function() {handlePurchaseInTestMode(this);})
+                    .on('mousedown', function() {
+                        handlePurchaseInTestMode(this);
+                    })
                     .on('click', function(e) {e.preventDefault();});
                 },
 
@@ -162,13 +164,14 @@
         }
 
         // initialize page
-        laterPayViewPost();
+        laterPayPostView();
 
 });})(jQuery);
 
 
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
+
     var $purchaseLink   = Y.one('.lp_purchase-link'),
         ppuContext      = {
                             showCloseBtn        : true,
@@ -213,4 +216,5 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
             frameborder : '0'
         }
     );
+
 });
