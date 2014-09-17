@@ -6,12 +6,6 @@
 
     &:before,
     &:after
-        -moz-transform                  translate3d(0, 0, 0)
-        -moz-transition-delay           0
-        -moz-transition                 0.25s ease
-        -webkit-transform               translate3d(0, 0, 0)
-        -webkit-transition-delay        0
-        -webkit-transition              0.25s ease
         opacity                         0
         pointer-events                  none
         position                        absolute
@@ -50,14 +44,10 @@
     &:focus:after
         opacity                         1
         visibility                      visible
-        -moz-transform                  translateY(-8px)
-        -webkit-transform               translateY(-8px)
         transform                       translateY(-8px)
 
     &:hover:before,
     &:hover:after
-        -moz-transition-delay           100ms
-        -webkit-transition-delay        100ms
         bottom                          100%
         left                            50%
         transition-delay                100ms

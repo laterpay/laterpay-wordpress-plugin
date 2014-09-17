@@ -1,0 +1,92 @@
+// universal vendor-prefixing
+vendorize(prop, args)
+    -webkit-{prop}                          args
+    -moz-{prop}                             args
+    -ms-{prop}                              args
+    -o-{prop}                               args
+    {prop}                                  args
+
+
+// border-radius
+border-radius()
+    vendorize('border-radius',              arguments)
+
+border-top-radius()
+    vendorize('border-top-left-radius',     arguments)
+    vendorize('border-top-right-radius',    arguments)
+
+border-top-radius()
+    vendorize('border-bottom-left-radius',  arguments)
+    vendorize('border-bottom-right-radius', arguments)
+
+
+// box-shadow
+box-shadow()
+    vendorize('box-shadow',                 arguments)
+
+
+// box model
+box(orient, pack, align)
+    display                                 -webkit-box
+    display                                 -moz-box
+    display                                 box
+    vendorize('box-orient',                 orient)
+    vendorize('box-pack',                   pack)
+    vendorize('box-align',                  align)
+    vendorize('box-lines',                  multiple)
+
+box-flex()
+    vendorize('box-flex',                   arguments)
+
+box-sizing()
+    vendorize('box-sizing',                 arguments)
+
+
+// animations and transforms
+animation()
+    vendorize('animation',                  arguments)
+
+transition()
+    vendorize('transition',                 arguments)
+
+transform()
+    vendorize('transform',                  arguments)
+
+transform-origin()
+    vendorize('transform-origin',           arguments)
+
+
+// backgrounds
+background-clip()
+    vendorize('background-clip',            arguments)
+
+background-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval, deprecatedWebkitStartPoint = false, deprecatedWebkitEndPoint = false)
+    background-color                        startColor
+    if deprecatedWebkitStartPoint && deprecatedWebkitEndPoint
+        background                          -webkit-gradient(linear, deprecatedWebkitStartPoint, deprecatedWebkitEndPoint, color-stop(startInterval, startColor), color-stop(endInterval, endColor))
+    background                              -webkit-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
+    background                              -moz-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
+    background                              -ms-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
+    background                              -o-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
+    background                              linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
+    -webkit-background-origin               padding-box
+
+linear-gradient(start_color, end_color, start = left top, end = left bottom)
+    mozstart = top if start = left top
+    background                              start_color
+    background                              -moz-linear-gradient(mozstart, start_color 0%, end_color 100%)
+    background                              -webkit-gradient(linear, start, end, color-stop(0%, start_color), color-stop(100%, end_color))
+
+
+// text
+user-select()
+    vendor('user-select',                   arguments)
+
+text-fill-color()
+    vendorize('text-fill-color',            arguments)
+
+
+// opacity
+opacity(arguments)
+    opacity                                 arguments
+    filter                                  unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round(arguments * 100) + ')')
