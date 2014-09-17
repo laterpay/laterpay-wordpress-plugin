@@ -10,8 +10,8 @@
 
                 // button group for choosing pricing type
                 priceSection            : $('#lp_price-type'),
-                pricingTypeToggle       : $('#lp_price-type .lp-toggle'),
-                pricingTypeButtons      : $('#lp_price-type .lp-toggle a'),
+                pricingTypeToggle       : $('#lp_price-type .lp-button-group'),
+                pricingTypeButtons      : $('#lp_price-type .lp-button-group a'),
                 individualPriceButton   : $('#lp_use-individual-price').parent(),
                 categoryPriceButton     : $('#lp_use-category-default-price').parent(),
                 globalPriceButton       : $('#lp_use-global-default-price').parent(),

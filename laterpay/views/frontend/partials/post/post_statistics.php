@@ -64,20 +64,20 @@
     </div>
     <div id="lp_plugin-preview-mode">
         <?php _e( 'Preview post as', 'laterpay' ); ?> <strong><?php _e( 'Admin', 'laterpay' ); ?></strong>
-        <div class="switch">
+        <div class="lp-toggle">
             <form id="lp_plugin-preview-mode-form" method="post">
                 <input type="hidden" name="action" value="laterpay_post_statistic_toggle_preview">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-                <label class="switch-label">
+                <label class="lp-toggle-label">
                     <input type="checkbox"
                             name="preview_post_checkbox"
-                            class="switch-input"
+                            class="lp-toggle-input"
                             <?php if ( $laterpay['preview_post_as_visitor'] == 1 ): ?>checked<?php endif; ?>>
                     <input type="hidden"
                             name="preview_post"
                             value="<?php if ( $laterpay['preview_post_as_visitor'] == 1 ) { echo 1; } else { echo 0; } ?>">
-                    <span class="switch-text" data-on="" data-off=""></span>
-                    <span class="switch-handle"></span>
+                    <span class="lp-toggle-text" data-on="" data-off=""></span>
+                    <span class="lp-toggle-handle"></span>
                 </label>
             </form>
         </div>

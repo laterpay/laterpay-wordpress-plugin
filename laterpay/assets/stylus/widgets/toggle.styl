@@ -1,6 +1,6 @@
 // iOS-style toggle rendered from a checkbox
 
-.switch
+.lp-toggle
     display                         inline-block
     margin                          0 0.25em
     position                        relative
@@ -11,7 +11,7 @@
         margin                      0
 
     // frame
-    .switch-label
+    .lp-toggle-label
         background-color            $background-lightest
         background-image            -webkit-linear-gradient(top, #eee, $background-lightest 25px)
         background-image            linear-gradient(to bottom, #eee, $background-lightest 25px)
@@ -28,14 +28,14 @@
         vertical-align              top
         width                       5em
 
-        .switch-input
+        .lp-toggle-input
             left                    0
             opacity                 0
             position                absolute
             top                     0
 
         // text within toggle
-        .switch-text
+        .lp-toggle-text
             background-color        #ccccd1
             border-radius           inherit
             box-shadow              inset 0 1px 2px rgba(0, 0, 0, 0.12),
@@ -74,7 +74,7 @@
                 opacity             0
 
         // toggle knob
-        .switch-handle
+        .lp-toggle-handle
             background-color        $background-lightest
             background-image        -webkit-linear-gradient(top, $background-lightest 40%, #f0f0f0)
             background-image        linear-gradient(to bottom, $background-lightest 40%, #f0f0f0)
@@ -103,8 +103,8 @@
                 width               1.1em
 
         // show 'on'-state when checked
-        .switch-input
-            &:checked ~ .switch-text
+        .lp-toggle-input
+            &:checked ~ .lp-toggle-text
                 background-color    #4fc270
                 box-shadow          inset 0 1px 2px rgba(0, 0, 0, 0.15),
                                     inset 0 0 3px rgba(0, 0, 0, 0.2)
@@ -116,7 +116,7 @@
                     opacity         1
 
 
-            &:checked ~ .switch-handle
+            &:checked ~ .lp-toggle-handle
                 box-shadow          -1px 1px 5px rgba(0, 0, 0, 0.2)
                 left                auto
                 right               0.4em

@@ -33,7 +33,7 @@
 </div>
 
 <div id="lp_price-type"<?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) ) ) { echo ' class="lp_expanded"'; } ?>>
-     <ul class="lp-toggle lp_fl-clearfix">
+     <ul class="lp-button-group lp_fl-clearfix">
         <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == 'individual price' || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'lp_selected'; } ?>">
             <a href="#" id="lp_use-individual-price" class="lp_use-individual-price"><?php _e( 'Individual Price', 'laterpay' ); ?></a>
         </li>

@@ -136,23 +136,23 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>
-            <?php _e( 'This site is in', 'laterpay' ); ?><div class="switch">
+            <?php _e( 'This site is in', 'laterpay' ); ?><div class="lp-toggle">
                 <form id="laterpay_plugin_mode" method="post">
                     <input type="hidden" name="form"    value="laterpay_plugin_mode">
                     <input type="hidden" name="action"  value="laterpay_account">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-                    <label class="switch-label">
+                    <label class="lp-toggle-label">
                         <input type="checkbox"
                                 name="plugin_is_in_live_mode_checkbox"
                                 id="lp_plugin-mode-toggle"
-                                class="switch-input"
+                                class="lp-toggle-input"
                                 <?php if ( $plugin_is_in_live_mode ): ?>checked<?php endif; ?>>
                         <input type="hidden"
                                 name="plugin_is_in_live_mode"
                                 id="lp_plugin-mode-hidden-input"
                                 value="<?php if ( $plugin_is_in_live_mode ) { echo 1; } else { echo 0; } ?>">
-                        <span class="switch-text" data-on="LIVE" data-off="TEST"></span>
-                        <span class="switch-handle"></span>
+                        <span class="lp-toggle-text" data-on="LIVE" data-off="TEST"></span>
+                        <span class="lp-toggle-handle"></span>
                     </label>
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>

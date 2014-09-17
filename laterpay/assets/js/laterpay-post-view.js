@@ -20,7 +20,7 @@
                     .on('click', function(e) {e.preventDefault();});
 
                     // toggle plugin preview mode between 'preview as visitor' and 'preview as admin'
-                    $('#lp_plugin-preview-mode-form .switch-input')
+                    $('#lp_plugin-preview-mode-form .lp-toggle-input')
                     .on('change', function() {
                         togglePluginPreviewMode();
                     });
@@ -102,7 +102,7 @@
 
                 togglePluginPreviewMode = function() {
                     var $form   = $('#lp_plugin-preview-mode-form'),
-                        $toggle = $('.switch-input', $form),
+                        $toggle = $('.lp-toggle-input', $form),
                         $input  = $('input[name=preview_post]', $form);
 
                     if ($toggle.prop('checked')) {
