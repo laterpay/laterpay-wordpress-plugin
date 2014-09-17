@@ -4,29 +4,31 @@
     function laterPayBackendGetStarted() {
         var $o = {
                 // plugin navigation
-                navigationTabs      : $('.lp_get-started-page .lp_nav-tabs li a'),
+                navigationTabs          : $('.lp_get-started-page .lp_nav-tabs li a'),
 
-                form                : $('#lp_get-started-form'),
+                form                    : $('#lp_get-started-form'),
 
                 // progress indicator (todo / done)
-                progressStepsTodo   : $('.lp_steps-background .lp_step-todo'),
-                progressStepOne     : $('.lp_steps-background .lp_step-1'),
+                progressStepsTodo       : $('.lp_steps-background .lp_step-todo'),
+                progressStepOne         : $('.lp_steps-background .lp_step-1'),
 
                 // LaterPay API credentials
-                apiCredentials      : $('.lp_api-key-input, .lp_merchant-id-input'),
-                merchantIdInput     : $('.lp_merchant-id-input'),
-                apiKeyInput         : $('.lp_api-key-input'),
+                apiCredentials          : $('.lp_api-key-input, .lp_merchant-id-input'),
+                merchantIdInput         : $('.lp_merchant-id-input'),
+                apiKeyInput             : $('.lp_api-key-input'),
 
                 // global default price
-                defaultPriceInput   : $('#lp_global-default-price'),
-                defaultPrice        : $('#lp_global-default-price').val(),
+                defaultPriceInput       : $('#lp_global-default-price'),
+                defaultPrice            : $('#lp_global-default-price').val(),
 
                 // activate button
-                activatePlugin      : $('.lp_activate-plugin-button'),
+                activatePlugin          : $('.lp_activate-plugin-button'),
+
+                throttledFlashMessage   : null,
 
                 // strings cached for better compression
-                todo                : 'lp_step-todo',
-                done                : 'lp_step-done',
+                todo                    : 'lp_step-todo',
+                done                    : 'lp_step-done',
             },
 
             bindEvents = function() {
@@ -60,7 +62,7 @@
                     idValue     = $o.merchantIdInput.val().trim();
 
                 // clear flash message timeout
-                window.clearTimeout(throttledFlashMessage);
+                window.clearTimeout($o.throttledFlashMessage);
 
                 // trim credential values
                 if (keyValue.length !== $o.apiKeyInput.val().length) {
@@ -82,13 +84,13 @@
                     // show error messages
                     if (idValue.length > 0 && idValue.length !== 22) {
                         // set timeout to throttle flash message
-                        throttledFlashMessage = window.setTimeout(function() {
+                        $o.throttledFlashMessage = window.setTimeout(function() {
                             setMessage(lpVars.i18nInvalidMerchantId, false);
                         }, 500);
                     }
                     if (keyValue.length > 0 && keyValue.length !== 32) {
                         // set timeout to throttle flash message
-                        throttledFlashMessage = window.setTimeout(function() {
+                        $o.throttledFlashMessage = window.setTimeout(function() {
                             setMessage(lpVars.i18nInvalidApiKey, false);
                         }, 500);
                     }
@@ -153,7 +155,7 @@
 
                 $.post(
                     ajaxurl,
-                    $form.serializeArray(),
+                    $o.form.serializeArray(),
                     function(data) {
                         window.location = 'post-new.php';
                     }
@@ -170,8 +172,6 @@
             },
 
             initializePage = function() {
-                var throttledFlashMessage;
-
                 bindEvents();
                 hideWordPressPointer();
             };
