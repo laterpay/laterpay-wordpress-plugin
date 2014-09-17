@@ -183,7 +183,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $client_options['web_root'],
                 $client_options['token_name']
         );
-        $access_result      = $laterpay_client->get_access( $post_ids );
+        $access_result = $laterpay_client->get_access( $post_ids );
 
         if ( empty( $access_result ) || ! array_key_exists( 'articles', $access_result ) ) {
             return $posts;
@@ -218,7 +218,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return (bool) $this->access[ $post_id ];
         }
 
-        $price  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
         if ( $price != 0 ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
@@ -229,7 +229,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     $client_options['web_root'],
                     $client_options['token_name']
             );
-            $result             = $laterpay_client->get_access( array( $post_id ) );
+            $result = $laterpay_client->get_access( array( $post_id ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 return false;
@@ -450,9 +450,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $purchase_link = $this->get_laterpay_purchase_link( $post_id );
 
         // get the teaser content
-        $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
-
-        // teaser content
         $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
 
         // output states
