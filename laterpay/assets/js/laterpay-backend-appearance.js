@@ -8,7 +8,7 @@
 
             bindEvents = function() {
                 // switch paid content preview mode
-                $('input[name=paid_content_preview]', $o.form)
+                $('.lp_js_toggle-preview-mode', $o.form)
                 .change(function() {
                     saveAppearance();
                 });
@@ -23,7 +23,7 @@
             },
 
             styleInputs = function() {
-                $('input[type=checkbox].styled, input[type=radio].styled').ezMark();
+                $('.lp_js_style-input').ezMark();
             },
 
             initializePage = function() {
