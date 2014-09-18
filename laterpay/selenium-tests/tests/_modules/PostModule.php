@@ -23,6 +23,7 @@ class PostModule extends BaseModule {
     //links
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
+    public static $linkDynamicPricing = '#lp_use-dynamic-pricing';
     public static $linkCategoryPrice = '#lp_use-category-default-price';
     public static $linkAddMedia = '#insert-media-button';
     public static $linkMediaRouter = '.media-router';
@@ -34,7 +35,7 @@ class PostModule extends BaseModule {
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
 
     //should be visible
-    public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
+    public static $visibleLaterpayWidgetContainer = '#lp_dynamic-pricing-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
     public static $visibleLaterpayPurchaseButton = 'a[class="lp_purchase-link lp_button"]';
     public static $visibleLaterpayPurchaseLink = 'lp_purchase-link';
@@ -132,8 +133,27 @@ class PostModule extends BaseModule {
                 }
                 break;
 
-            case 'individual dynamic price':
+            case 'dynamic individual price':
                 $I->amGoingTo('Choose individual dynamic price type');
+
+                if (is_array($price)) {
+                    $start_price = $price['start_price'];
+                    $period = $price['period'];
+                    $end_price = $price['end_price'];
+
+                    $I->click(PostModule::$linkIndividualPrice);
+                    $I->click(PostModule::$linkDynamicPricing);
+                    $I->executeJS("
+                        var new_data = [
+                            {x:0, y:$start_price},
+                            {x:1, y:$start_price},
+                            {x:$period, y:$end_price},
+                            {x:30, y:$end_price}
+                        ];
+                        window.lpc.set_data(new_data);
+                    ");
+                }
+
                 break;
 
             default:
@@ -207,9 +227,9 @@ class PostModule extends BaseModule {
                 $I->click(PostModule::$linkIndividualPrice);
                 break;
 
-            case 'individual dynamic price':
+            case 'dynamic individual price':
                 $I->click(PostModule::$linkIndividualPrice);
-                $I->see(PostModule::$visibleLaterpayWidgetContainer);
+                $I->seeElement(PostModule::$visibleLaterpayWidgetContainer);
                 break;
 
             default:
@@ -281,6 +301,9 @@ class PostModule extends BaseModule {
 
                     $I->comment('Overlay mode');
                     $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
+//                    if ($teaser) {
+//                        $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
+//                    }
                     $I->see($price, 'a');
                     $I->see($currency, 'a');
                 };

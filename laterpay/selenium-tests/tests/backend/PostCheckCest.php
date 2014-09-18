@@ -110,10 +110,15 @@ class PostCheckCest {
                 ->activatePlugin()
                 ->goThroughGetStartedTab(0.35, 'USD');
 
-        //TODO: Probably individual dynamic price and we need to implement this
+        $dynamic_price = array(
+            'start_price' => 0.85,
+            'period'      => 5,
+            'end_price'   => 0.05
+        );
+
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', 'starts at 0.85 and goes to 0.05 after 5 days', null)
-                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', 0.85, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'dynamic individual price', $dynamic_price, null)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'dynamic individual price', 0.85, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
 
         BackendModule::of($I)
                 ->logout();
