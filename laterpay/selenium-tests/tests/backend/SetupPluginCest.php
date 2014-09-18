@@ -265,17 +265,7 @@ class SetupPluginCest {
      */
     public function dev(BackendTester $I) {
 
-        $_price = '0.35';
-        $_currency = 'EUR';
-        $I->wantToTest('UI22: Can I change the preview mode to “overlay”?');
-
-        BackendModule::of($I)->login();
-
-        $_testPost = 50;
-
-        ModesModule::of($I)->changePreviewMode('overlay');
-
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost, 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->purschaseAtServer(104);
     }
 
 }

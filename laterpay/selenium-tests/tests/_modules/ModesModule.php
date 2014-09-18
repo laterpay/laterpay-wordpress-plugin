@@ -98,12 +98,12 @@ class ModesModule extends BaseModule {
         $I->click(self::$adminMenuPluginButton);
         $I->click(self::$pluginAccountTab);
 
-        $preview_mode = $I->executeJS('jQuery("' . self::$fieldTeaserContentChecked . '").val()');
+        $preview_mode = (int) $I->executeJS('jQuery("' . self::$fieldTeaserContentChecked . '").val()');
 
         switch ($preview_mode) {
-            case '0':
+            case 0:
                 return 'overlay';
-            case '1':
+            case 1:
                 return 'teaser_only';
             default: break;
         }

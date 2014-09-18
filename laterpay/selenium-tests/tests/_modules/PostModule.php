@@ -41,6 +41,15 @@ class PostModule extends BaseModule {
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
 //messages
     public static $messageShortcodeError = '.laterpay-shortcode-error';
+    //purschase at LaterPay server
+    public static $lpServerLinkJsGetter = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
+    public static $lpServerVisitorLoginFrameName = 'wrapper';
+    public static $lpServerVisitorEmailField = 'username';
+    public static $lpServerVisitorEmailValue = 'atsumarov@scnsoft.com';
+    public static $lpServerVisitorPasswordField = 'password';
+    public static $lpServerVisitorPasswordValue = 'atsumarov@scnsoft.com1';
+    public static $lpServerVisitorLoginBtn = 'Log In';
+    public static $lpServerVisitorBuyBtn = '#nextbuttons';
 
     /**
      * P.26
@@ -250,14 +259,15 @@ class PostModule extends BaseModule {
                 $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
                 $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
                 if ($previewModeTeaserOnly) {
+
+                    $I->comment('Teaser mode');
                     $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
                     $I->see($price, 'a');
                     $I->see($currency, 'a');
                 } else {
+
+                    $I->comment('Overlay mode');
                     $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-//                    if ($teaser) {
-//                        $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-//                    }
                     $I->see($price, 'a');
                     $I->see($currency, 'a');
                 };
@@ -284,13 +294,13 @@ class PostModule extends BaseModule {
 
         $I = $this->BackendTester;
 
+        $I->amGoingTo('purchase post');
+
         $url = $I->grabFromCurrentUrl();
 
-        $previewModeTeaserOnly = ModesModule::of($I)->checkPreviewMode();
+        $previewMode = ModesModule::of($I)->checkPreviewMode();
 
         BackendModule::of($I)->logout();
-
-        $I->amGoingTo('Open the respective post');
 
         $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
 
@@ -304,15 +314,15 @@ class PostModule extends BaseModule {
             if ($price)
                 $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
 
-            if ($previewModeTeaserOnly) {
+            if ($previewMode == 'teaser_only') {
 
                 $I->seeElement(PostModule::$visibleLaterpayPurchaseLink);
                 $I->see($price, 'a');
                 $I->see($currency, 'a');
-            } else {
+            } elseif ($previewMode == 'overlay') {
 
                 $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-                $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
+                ////CHECK TEASER HERE //$I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
                 $I->see($price, 'a');
                 $I->see($currency, 'a');
             };
@@ -324,7 +334,7 @@ class PostModule extends BaseModule {
 
             $I->amGoingTo('Click the LaterPay Purchase Button and purchase the content');
 
-            $I->click(PostModule::$visibleLaterpayPurchaseButton);
+            $this->purschaseAtServer($post);
 
             $I->cantSeeElementInDOM(PostModule::$visibleLaterpayStatistics);
 
@@ -334,7 +344,7 @@ class PostModule extends BaseModule {
 
             $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
 
-            $I->see($content, PostModule::$visibleLaterpayContent);
+            $I->see($content);
         } else {
 
             $I->amGoingTo('
@@ -345,6 +355,49 @@ class PostModule extends BaseModule {
         BackendModule::of($I)->login();
 
         $I->amOnPage($url);
+
+        return $this;
+    }
+
+    /**
+     * @param $category
+     * @param null $post
+     * Descriptoin:
+     * Proceed with post purschase throught LaterPay Server
+     * Can`t get iframe content with codeception. The iframe has no name attribute and target iframe placed into child iframe (document->iframe->iframe)
+     * Can`t use javascript while error "Blocked a frame from accessing a cross-origin frame."
+     * So used switching "WebDriver config url"
+     * As note: $I->executeJS(" document.getElementsByTagName('iframe')[0].contentDocument.getElementById('id_username').value = 'atsumarov@scnsoft.com'; ");
+     * @return $this
+     */
+    public function purschaseAtServer($post) {
+
+        $I = $this->BackendTester;
+
+        $I->amGoingTo('Purshase the post');
+
+        //It must be there. Cause of switching domain issue.
+        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
+
+        $laterpayPath = (string) $I->executeJS(PostModule::$lpServerLinkJsGetter);
+        $laterpayPathArray = (array) parse_url($laterpayPath);
+        $laterpayDomain = "{$laterpayPathArray['scheme']}://{$laterpayPathArray['host']}/";
+        $laterpayPage = str_replace($laterpayDomain, '', $laterpayPath);
+
+        $I->setDomain($laterpayDomain);
+        $I->amOnPage($laterpayPage);
+        $I->wait(PostModule::$averageTimeout);
+
+        $I->switchToIFrame(PostModule::$lpServerVisitorLoginFrameName);
+        $I->fillField(PostModule::$lpServerVisitorEmailField, PostModule::$lpServerVisitorEmailValue);
+        $I->fillField(PostModule::$lpServerVisitorPasswordField, PostModule::$lpServerVisitorPasswordValue);
+        $I->click(PostModule::$lpServerVisitorLoginBtn);
+
+        $I->wait(PostModule::$shortTimeout);
+        $I->tryClick($I, PostModule::$lpServerVisitorBuyBtn);
+
+        $I->setDomain();
+        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
 
         return $this;
     }
