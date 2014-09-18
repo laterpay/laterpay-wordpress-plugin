@@ -2,32 +2,38 @@
 
 class PostModule extends BaseModule {
 
-//pages
+    //pages
     public static $pagePostNew = '/wp-admin/post-new.php';
     public static $pagePostList = '/wp-admin/edit.php';
     public static $pagePostEdit = '/wp-admin/post.php?post={post}&action=edit';
     public static $pagePostFrontView = '/?p={post}';
-//fields
+
+    //fields
     public static $fieldTitle = '#title';
     public static $fieldContent = '#content_ifr';
     public static $fieldTeaser = '#laterpay_teaser_content';
     public static $fieldPrice = 'input[name="post-price"]';
     public static $contentId = '#content';
     public static $teaserContentId = '#postcueeditor';
-//mcetabs
+
+    //mcetabs
     public static $contentText = '#content-html';
     public static $teaserContentText = '#postcueeditor-html';
-//links
 
+    //links
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
     public static $linkCategoryPrice = '#lp_use-category-default-price';
     public static $linkAddMedia = '#insert-media-button';
+    public static $linkMediaRouter = '.media-router';
+    public static $linkAttachFile = '.browser.button.button-hero';
+    public static $linkAddFileLinkToContent = '.media-toolbar-primary .media-button-insert';
     public static $linkPublish = '#publish';
     public static $linkViewPost = '#view-post-btn a';
     public static $linkPreviewSwitcher = '.switch-handle';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
-//should be visible
+
+    //should be visible
     public static $visibleLaterpayWidgetContainer = '#laterpay-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
     public static $visibleLaterpayPurchaseButton = 'a[class="lp_purchase-link lp_button"]';
@@ -39,7 +45,8 @@ class PostModule extends BaseModule {
     public static $visibleInTablePostPrice = '.post-price';
     public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
-//messages
+
+    //messages
     public static $messageShortcodeError = '.laterpay-shortcode-error';
     //purschase at LaterPay server
     public static $lpServerLinkJsGetter = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
@@ -50,6 +57,9 @@ class PostModule extends BaseModule {
     public static $lpServerVisitorPasswordValue = 'atsumarov@scnsoft.com1';
     public static $lpServerVisitorLoginBtn = 'Log In';
     public static $lpServerVisitorBuyBtn = '#nextbuttons';
+
+    //file
+    public static $samplePdfFile = 'pdf-sample.pdf';
 
     /**
      * P.26
@@ -76,7 +86,7 @@ class PostModule extends BaseModule {
         $I->click(PostModule::$contentText);
         $I->fillField(PostModule::$contentId, $content);
 
-//create teaser content
+        //create teaser content
         if ($teaser) {
             $teaser_content = $this->_createTeaserContent($content, $teaser);
 
@@ -88,8 +98,8 @@ class PostModule extends BaseModule {
         if ($categories) {
             $I->amGoingTo('Set categories to post');
             if (is_array($categories)) {
-                foreach ($categories as $category_name) {
-                    $this->assignPostToCategory($category_name);
+                foreach ($categories as $category_id) {
+                    $this->assignPostToCategory($category_id);
                 }
             } else {
                 $this->assignPostToCategory($categories);
@@ -115,7 +125,7 @@ class PostModule extends BaseModule {
                   BackendModule::of($I)
                   ->validatePrice(PostModule::$fieldPrice);
                  */
-//we can change only individual price
+                //we can change only individual price
                 if ($price) {
                     $I->amGoingTo('Set price');
                     $I->fillField(PostModule::$fieldPrice, $price);
@@ -132,8 +142,11 @@ class PostModule extends BaseModule {
 
         if ($files) {
             $I->amGoingTo('Attach files to post');
-//TODO: implement multiply files insertion and correct upload
-            $I->attachFile(PostModule::$linkAddMedia, $files);
+            $I->click(PostModule::$linkAddMedia);
+            $I->click('Upload Files', PostModule::$linkMediaRouter);
+            //TODO: implement media file upload
+            $I->attachFile('tmpl-uploader-window', $files);
+            $I->click(PostModule::$linkAddFileLinkToContent);
         }
 
         $I->amGoingTo('Publish post');
@@ -360,7 +373,7 @@ class PostModule extends BaseModule {
     }
 
     /**
-     * @param $category
+     * @param $category_id
      * @param null $post
      * Descriptoin:
      * Proceed with post purschase throught LaterPay Server
@@ -407,20 +420,20 @@ class PostModule extends BaseModule {
      * @param null $post
      * @return $this
      */
-    public function unassignPostFromCategory($category, $post = null) {
+    public function unassignPostFromCategory($category_id, $post = null) {
 
         $I = $this->BackendTester;
 
         if ((int) $post > 0) {
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
-            $option = '#in-' . $category;
+            $option = '#in-category-' . $category_id;
             $I->uncheckOption($option);
 
             $I->click(PostModule::$linkPublish);
             $I->wait(PostModule::$veryShortTimeout);
         } else {
-            $option = '#in-' . $category;
+            $option = '#in-category-' . $category_id;
             $I->uncheckOption($option);
         }
 
@@ -428,24 +441,24 @@ class PostModule extends BaseModule {
     }
 
     /**
-     * @param $category
+     * @param $category_id
      * @param null $post
      * @return $this
      */
-    public function assignPostToCategory($category, $post = null) {
+    public function assignPostToCategory($category_id, $post = null) {
 
         $I = $this->BackendTester;
 
         if ((int) $post > 0) {
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
-            $option = '#in-' . $category;
+            $option = '#in-category-' . $category_id;
             $I->checkOption($option);
 
             $I->click(PostModule::$linkPublish);
             $I->wait(PostModule::$veryShortTimeout);
         } else {
-            $option = '#in-' . $category;
+            $option = '#in-category-' . $category_id;
             $I->checkOption($option);
         }
 
@@ -503,11 +516,10 @@ class PostModule extends BaseModule {
      * P.40
      * Check if Files are Protected
      * @param $post
-     * @param $price
-     * @param $files
+     * @param $file
      * @return $this
      */
-    public function checkIfFilesAreProtected($post, $price, $files) {
+    public function checkIfFilesAreProtected($post, $file) {
         $I = $this->BackendTester;
 
         $I->amGoingTo('Open post for edit');
@@ -527,19 +539,18 @@ class PostModule extends BaseModule {
      * @return $this
      */
     public function checkIfCorrectShortcodeIsDisplayedCorrectly($post, $price) {
-
         $I = $this->BackendTester;
 
         $I->amGoingTo('Check how correct shortcode displayed');
 
         if ($price > 0) {
 
-            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
-            $I->click(self::$linkViewPost);
-            $I->click(self::$linkPreviewSwitcher);
-            $I->seeElement('div[class="lp_premium-file-box lp_content-type-gallery"]');
-            $I->see($price, '//*[@id="post-42"]/div/div[2]/div[1]/a');
+             $I->click(self::$linkViewPost);
+             $I->click(self::$linkPreviewSwitcher);
+             $I->seeElement('div[class="lp_premium-file-box lp_content-type-gallery"]');
+             $I->see($price, '//*[@id="post-42"]/div/div[2]/div[1]/a');
         }
 
         return $this;
@@ -578,7 +589,7 @@ class PostModule extends BaseModule {
     private function _createTeaserContent($content, $teaser) {
         $teaser_content = explode(' ', strip_tags($content), $teaser + 1);
         array_pop($teaser_content);
-//original join(' ', $teaser_content) . '...' fix for laterpay teaser bug
+        //original join(' ', $teaser_content) . '...' fix for laterpay teaser bug
         $result = join(' ', $teaser_content);
         $result = substr($result, 0, -1);
         return $result . '...';
