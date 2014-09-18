@@ -10,7 +10,7 @@
         <?php echo $top_nav; ?>
     </div>
 
-    <div class="lp_progress lp_ta-center">
+    <div id="lp_js_progress-indicator" class="lp_progress lp_ta-center">
         <span class="lp_progress-background lp_d-inl-block lp_p-rel">
             <span id="lp_js_step-1" class="lp_step-1 lp_step-done lp_d-block lp_p-abs"></span>
             <span id="lp_js_step-2" class="lp_step-2 lp_step-done lp_d-block lp_p-abs"></span>

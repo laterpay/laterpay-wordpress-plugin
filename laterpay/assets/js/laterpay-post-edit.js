@@ -57,7 +57,7 @@
                 // $o.priceInput.bind('input', function() {setPrice($(this).val());});
 
                 // validate choice of revenue model (validating the price switches the revenue model if required)
-                $(':radio', $o.revenueModel).change(function() {
+                $('input:radio', $o.revenueModel).change(function() {
                     validatePrice($o.priceInput.val());
                 });
 
@@ -186,9 +186,9 @@
             },
 
             validateRevenueModel = function(price) {
-                var currentRevenueModel = $(':radio:checked', $o.revenueModel).val(),
-                    $payPerUse          = $(':radio[value=' + $o.payPerUse + ']', $o.revenueModel),
-                    $singleSale         = $(':radio[value=' + $o.singleSale + ']', $o.revenueModel);
+                var currentRevenueModel = $('input:radio:checked', $o.revenueModel).val(),
+                    $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
+                    $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
                 if ((price === 0 || price > 0.05) && price <= 5) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
@@ -221,7 +221,7 @@
 
                 // highlight current revenue model
                 $('label', $o.revenueModel).removeClass($o.selected);
-                $(':radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
+                $('input:radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
             },
 
             updateSelectedCategory = function() {

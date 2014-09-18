@@ -9,7 +9,7 @@
                 form                    : $('#lp_js_get-started-form'),
 
                 // progress indicator (todo / done)
-                progressIndicator       : $('#lp_js_step-1, #lp_js_step-2, #lp_js_step-3'),
+                progressIndicator       : $('#lp_js_progress-indicator'),
                 progressStepOne         : $('#lp_js_step-1'),
 
                 // LaterPay API credentials
@@ -169,8 +169,9 @@
 
             hideWordPressPointer = function() {
                 // hide pointer hinting at the LaterPay plugin while viewing the getStarted tab
-                if (typeof($().pointer) !== 'undefined' && $('#toplevel_page_laterpay-laterpay-admin').data('wpPointer')) {
-                    $('#toplevel_page_laterpay-laterpay-admin').data('wpPointer').pointer.hide();
+// FIXME: race condition??
+                if (typeof($().pointer) !== 'undefined' && $('#toplevel_page_laterpay-plugin').data('wpPointer')) {
+                    $('#toplevel_page_laterpay-plugin').data('wpPointer').pointer.hide();
                 }
             },
 
