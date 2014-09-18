@@ -2,9 +2,34 @@
 
         // encapsulate all LaterPay Javascript in function laterPayPostView
         function laterPayPostView() {
-            var bindPurchaseEvents = function() {
+            var $o = {
+                    // post statistics pane
+                    postStatisticsPane              : $('#lp_js_post-statistics')
+
+                    // post preview mode
+                    postPreviewModeForm             : $('#lp_plugin-preview-mode-form'),
+                    postPreviewModeToggle           : $('#lp_js_toggle-post-preview-mode'),
+                    postPreviewModeInput            : $('#lp_js_preview-post-input'),
+
+                    // post statistics pane visibility
+                    postStatisticsVisibilityForm    : $('#lp_js_toggle-post-statistics-visibility-form'),
+                    postStatisticsVisibilityToggle  : $('#lp_js_toggle-post-statistics-visibility')
+                    postStatisticsVisibilityInput   : $('#lp_js_hide-statistics-pane-input'),
+
+                    // placeholders for caching compatibility mode
+                    postContentPlaceholder          : $('#lp_js_post-content-placeholder'),
+                    postStatisticsPlaceholder       : $('#lp_js_post-statistics-placeholder'),
+
+                    // purchase buttons and purchase links
+                    purchaseLink                    : $('.lp_js_do-purchase'),
+
+                    // strings cached for better compression
+                    hidden                          : 'lp_hidden',
+                },
+
+                bindPurchaseEvents = function() {
                     // handle clicks on purchase links in test mode
-                    $('.lp_purchase-link')
+                    $o.purchaseLink
                     .on('mousedown', function() {
                         handlePurchaseInTestMode(this);
                     })
@@ -13,33 +38,30 @@
 
                 bindPostStatisticsEvents = function() {
                     // toggle visibility of post statistics pane
-                    $('#lp_toggle-post-statistics-visibility')
+                    $o.postStatisticsVisibilityToggle
                     .on('mousedown', function() {
                         togglePostStatisticsVisibility();
                     })
                     .on('click', function(e) {e.preventDefault();});
 
                     // toggle plugin preview mode between 'preview as visitor' and 'preview as admin'
-                    $('#lp_plugin-preview-mode-form .lp-toggle-input')
+                    $o.postPreviewModeToggle
                     .on('change', function() {
-                        togglePluginPreviewMode();
+                        togglePostPreviewMode();
                     });
                 },
 
                 loadPostStatistics = function() {
-                    var $placeholder    = $('#lp_post-statistics-placeholder'),
-                        requestVars     = {
-                                            action  : 'laterpay_post_statistic_render',
-                                            post_id : lpVars.post_id,
-                                            nonce   : lpVars.nonces.statistic
-                                          };
-
                     $.get(
                         lpVars.ajaxUrl,
-                        requestVars,
+                        {
+                            action  : 'laterpay_post_statistic_render',
+                            post_id : lpVars.post_id,
+                            nonce   : lpVars.nonces.statistic
+                        },
                         function(data) {
                             if (data) {
-                                $placeholder.before(data).remove();
+                                $o.postStatisticsPlaceholder.before(data).remove();
                                 renderPostStatisticsPane();
                             }
                         }
@@ -47,13 +69,11 @@
                 },
 
                 renderPostStatisticsPane = function() {
-                    var $postStatisticsPane = $('.lp_post-statistics');
-
                     // bind events to post statistics pane
                     bindPostStatisticsEvents();
 
                     // render sparklines within post statistics pane
-                    $('.lp_sparkline-bar', $postStatisticsPane).peity('bar', {
+                    $('.lp_sparkline-bar', $o.postStatisticsPane).peity('bar', {
                         delimiter   : ';',
                         width       : 182,
                         height      : 42,
@@ -73,7 +93,7 @@
                                     }
                     });
 
-                    $('.lp_sparkline-background-bar', $postStatisticsPane).peity('bar', {
+                    $('.lp_sparkline-background-bar', $o.postStatisticsPane).peity('bar', {
                         delimiter   : ';',
                         width       : 182,
                         height      : 42,
@@ -83,38 +103,31 @@
                 },
 
                 togglePostStatisticsVisibility = function() {
-                    var $form   = $('#lp_toggle-post-statistics-visibility-form'),
-                        $pane   = $('.lp_post-statistics'),
-                        $input  = $('input[name=hide_statistics_pane]'),
-                        doHide  = $pane.hasClass('lp_hidden') ? '0' : '1';
+                    var doHide = $o.postStatisticsPane.hasClass($o.hidden) ? '0' : '1';
 
-                    $input.val(doHide);
+                    $o.postStatisticsVisibilityInput.val(doHide);
 
                     // toggle the visibility
-                    $pane.toggleClass('lp_hidden');
+                    $o.postStatisticsPane.toggleClass($o.hidden);
 
                     // save the state
                     $.post(
                         lpVars.ajaxUrl,
-                        $form.serializeArray()
+                        $o.postStatisticsVisibilityForm.serializeArray()
                     );
                 },
 
-                togglePluginPreviewMode = function() {
-                    var $form   = $('#lp_plugin-preview-mode-form'),
-                        $toggle = $('.lp-toggle-input', $form),
-                        $input  = $('input[name=preview_post]', $form);
-
-                    if ($toggle.prop('checked')) {
-                        $input.val(1);
+                togglePostPreviewMode = function() {
+                    if ($o.postPreviewModeToggle.prop('checked')) {
+                        $o.postPreviewModeInput.val(1);
                     } else {
-                        $input.val(0);
+                        $o.postPreviewModeInput.val(0);
                     }
 
                     // save the state and reload the page in the new preview mode
                     $.post(
                         lpVars.ajaxUrl,
-                        $form.serializeArray(),
+                        $o.postPreviewModeForm.serializeArray(),
                         function() {
                             window.location.reload();
                         }
@@ -122,18 +135,15 @@
                 },
 
                 loadPostContent = function() {
-                    var $placeholder    = $('#lp_post-content-placeholder'),
-                        requestVars     = {
-                                            action  : 'laterpay_post_load_purchased_content',
-                                            post_id : lpVars.post_id,
-                                            nonce   : lpVars.nonces.content
-                                          };
-
                     $.get(
                         lpVars.ajaxUrl,
-                        requestVars,
-                        function(data) {
-                            $placeholder.before(data);
+                        {
+                            action  : 'laterpay_post_load_purchased_content',
+                            post_id : lpVars.post_id,
+                            nonce   : lpVars.nonces.content
+                        },
+                        function(postContent) {
+                            $o.postContentPlaceholder.before(postContent);
                         }
                     );
                 },
@@ -147,13 +157,13 @@
 
                 initializePage = function() {
                     // load post content via Ajax, if plugin is in caching compatible mode
-                    // (recognizable by the presence of lp_post-content-placeholder
-                    if ($('#lp_post-content-placeholder').length == 1) {
+                    // (recognizable by the presence of lp_js_post-content-placeholder
+                    if ($o.postContentPlaceholder.length == 1) {
                         loadPostContent();
                     }
 
                     // render the post statistics pane, if a placeholder exists for it
-                    if ($('#lp_post-statistics-placeholder').length == 1) {
+                    if ($o.postStatisticsPlaceholder.length == 1) {
                         loadPostStatistics();
                     }
 
@@ -172,7 +182,7 @@
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
 
-    var $purchaseLink   = Y.one('.lp_purchase-link'),
+    var $purchaseLink   = Y.one('.lp_js_do-purchase'),
         ppuContext      = {
                             showCloseBtn        : true,
                             canSkipAddToInvoice : false
@@ -192,13 +202,13 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
                 event.preventDefault();
                 alert(lpVars.i18nAlert);
             },
-            '.lp_purchase-link'
+            '.lp_js_do-purchase'
         );
 
         return;
     }
 
-    dm.attachToLinks('.lp_purchase-link', ppuContext.showCloseBtn);
+    dm.attachToLinks('.lp_js_do-purchase', ppuContext.showCloseBtn);
 
     // render invoice indicator iframe
     if (!lpVars || !lpVars.lpBalanceUrl) {
