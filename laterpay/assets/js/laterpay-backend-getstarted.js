@@ -4,25 +4,24 @@
     function laterPayBackendGetStarted() {
         var $o = {
                 // plugin navigation
-                navigationTabs          : $('.lp_get-started-page .lp_nav-tabs li a'),
+                navigationTabs          : $('#lp_js_tab-navigation a'),
 
-                form                    : $('#lp_get-started-form'),
+                form                    : $('#lp_js_get-started-form'),
 
                 // progress indicator (todo / done)
-                progressStepsTodo       : $('.lp_steps-background .lp_step-todo'),
-                progressStepOne         : $('.lp_steps-background .lp_step-1'),
+                progressIndicator       : $('#lp_js_step-1, #lp_js_step-2, #lp_js_step-3'),
+                progressStepOne         : $('#lp_js_step-1'),
 
                 // LaterPay API credentials
-                apiCredentials          : $('.lp_api-key-input, .lp_merchant-id-input'),
-                merchantIdInput         : $('.lp_merchant-id-input'),
-                apiKeyInput             : $('.lp_api-key-input'),
+                apiCredentials          : $('.lp_js_validate-api-credentials'),
+                merchantIdInput         : $('#lp_js_merchant-id-input'),
+                apiKeyInput             : $('#lp_js_api-key-input'),
 
                 // global default price
-                defaultPriceInput       : $('#lp_global-default-price'),
-                defaultPrice            : $('#lp_global-default-price').val(),
+                defaultPriceInput       : $('#lp_js_global-default-price'),
 
                 // activate button
-                activatePlugin          : $('.lp_activate-plugin-button'),
+                activatePlugin          : $('#lp_js_activate-plugin'),
 
                 throttledFlashMessage   : null,
 
@@ -39,7 +38,7 @@
 
                 // validate entered global default price
                 $o.defaultPriceInput.blur(function() {
-                    $o.defaultPriceInput.val(validatePrice($o.defaultPrice));
+                    validateGlobalDefaultPrice();
                 });
 
                 // activate LaterPay plugin in TEST mode
@@ -99,6 +98,11 @@
                 }
             },
 
+            validateGlobalDefaultPrice = function() {
+                var validatedPrice = validatePrice($o.defaultPriceInput.val());
+                $o.defaultPriceInput.val(validatedPrice);
+            },
+
             validatePrice = function(price) {
                 var corrected;
 
@@ -112,8 +116,8 @@
                 }
                 // prevent non-number prices
                 if (isNaN(price)) {
-                    price = 0;
-                    corrected = true;
+                    price       = 0;
+                    corrected   = true;
                 }
                 // prevent negative prices
                 price = Math.abs(price);
@@ -147,11 +151,10 @@
                     return;
                 }
 
-                // validate price
-                $o.defaultPriceInput.val(validatePrice($o.defaultPrice));
+                validateGlobalDefaultPrice();
 
-                // update progress indicator
-                $o.progressStepsTodo.removeClass($o.todo).addClass($o.done);
+                // mark all steps of progress indicator as done
+                $('.' + $o.todo, $o.progressIndicator).removeClass($o.todo).addClass($o.done);
 
                 $.post(
                     ajaxurl,

@@ -1,7 +1,7 @@
 // 'Get Started' tab in plugin backend
 
 // disabled tabs of other backend pages --------------------------------------------------------------------------------
-.lp_nav-tabs.lp_get-started-page li:not(.current)
+.lp_nav-tabs li:not(.lp_current)
     opacity                         0.34
 
     a:hover
@@ -92,11 +92,11 @@
         p
             line-height             6.75em
 
-        #lp_global-default-price
+        .lp_number-input
             border-radius           4px 0 0 4px
             padding                 $fs-05
 
-        select.lp_input
+        select
             border-radius           0 4px 4px 0
             margin-left             -5px
             padding                 0.25em
@@ -107,7 +107,7 @@
         &:before
             background              url(../../img/get-started-arrowhead-last.png) 100% 50% no-repeat
 
-        .lp_activate-plugin-button
+        .button
             height                  3em
             line-height             3em
             vertical-align          inherit
