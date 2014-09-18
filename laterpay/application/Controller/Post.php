@@ -298,7 +298,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'title'         => $post->post_title,
         );
 
-        if ( $revenue_model == 'ss' ) {
+        if ( $revenue_model == 'sis' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {

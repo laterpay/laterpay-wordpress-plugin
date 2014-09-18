@@ -36,7 +36,7 @@
                         <?php _e( 'Get immediate access to your purchase.<br> You are only buying this article, not a subscription.', 'laterpay' ); ?>
                     </p>
                 </li>
-                <?php if ( $laterpay['revenue_model'] !== 'ss' ): ?>
+                <?php if ( $laterpay['revenue_model'] !== 'sis' ): ?>
                     <li class="lp_benefit-pay-later">
                         <h3><?php _e( 'Pay Later', 'laterpay' ); ?></h3>
                         <p>

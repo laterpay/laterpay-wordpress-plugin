@@ -23,10 +23,10 @@
             <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' checked'; } ?>>PPU
         </label>
         <label  class="lp_d-block lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
-                        <?php if ( $laterpay_post_revenue_model == 'ss') { echo ' lp_selected'; } ?>
+                        <?php if ( $laterpay_post_revenue_model == 'sis') { echo ' lp_selected'; } ?>
                         <?php if ( $laterpay_price < 1.49) { echo ' lp_disabled'; } ?>"
                 data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
-            <input type="radio" name="post_revenue_model" value="ss"<?php if ( $laterpay_post_revenue_model == 'ss') { echo ' checked'; } ?>>SS
+            <input type="radio" name="post_revenue_model" value="sis"<?php if ( $laterpay_post_revenue_model == 'sis') { echo ' checked'; } ?>>SIS
         </label>
     </div>
     <input type="hidden" name="post_price_type" value="<?php echo $laterpay_post_price_type ?>">
