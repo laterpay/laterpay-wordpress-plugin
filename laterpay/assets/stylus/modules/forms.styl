@@ -66,22 +66,20 @@ input[type=text][required] + label[placeholder]
     pointer-events                  none
 
     &:before
-        background                  linear-gradient(to bottom, rgba(255,255,255,0) 46%, rgba(255,255,255,1) 47%)
-        filter                      unquote('progid:DXImageTransform.Microsoft.gradient(startColorstr="#00ffffff", endColorstr="#ffffff", GradientType=0)')
+        linear-gradient             rgba(255,255,255,0), 46%, rgba(255,255,255,1), 47%
         background-repeat           no-repeat
         color                       #a5a5a5
         content                     attr(placeholder)
         display                     inline-block
         margin                      1.4em 0 0 0.5em
         padding                     0 3px
-        -webkit-transition          0.3s ease-in-out
-                transition          0.3s ease-in-out
+        transition                  0.3s ease-in-out
         white-space                 nowrap
 
 input[type=text][required]
     &:focus + label[placeholder]:before,
     &:valid + label[placeholder]:before
-        transform                   translate(-2px, -1.25em) scale(0.9, 0.9)
+        transform                   translate(-2px, -1.15em) scale(0.9, 0.9)
         transition-duration         0.2s
 
     &:focus + label[placeholder]:before

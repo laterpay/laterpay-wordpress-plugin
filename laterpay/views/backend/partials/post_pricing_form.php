@@ -16,7 +16,7 @@
         <span class="lp_currency lp_p-rel"><?php echo $laterpay_currency; ?></span>
     </p>
     <div class="lp_post-revenue-model lp_p-rel"<?php if ( $laterpay_post_price_type !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo ' style="display:none;"'; } ?>>
-        <label  class="lp_d-block lp_m-t125 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
+        <label  class="lp_d-block lp_m-t1 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
                         <?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' lp_selected'; } ?>
                         <?php if ( $laterpay_price > 5) { echo ' lp_disabled'; } ?>"
                 data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">

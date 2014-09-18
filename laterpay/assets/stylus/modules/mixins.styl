@@ -60,22 +60,11 @@ transform-origin()
 background-clip()
     vendorize('background-clip',            arguments)
 
-background-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval, deprecatedWebkitStartPoint = false, deprecatedWebkitEndPoint = false)
-    background-color                        startColor
-    if deprecatedWebkitStartPoint && deprecatedWebkitEndPoint
-        background                          -webkit-gradient(linear, deprecatedWebkitStartPoint, deprecatedWebkitEndPoint, color-stop(startInterval, startColor), color-stop(endInterval, endColor))
-    background                              -webkit-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
-    background                              -moz-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
-    background                              -ms-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
-    background                              -o-linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
-    background                              linear-gradient(startPoint, startColor, startInterval, endColor, endInterval)
-    -webkit-background-origin               padding-box
-
-linear-gradient(start_color, end_color, start = left top, end = left bottom)
-    mozstart = top if start = left top
-    background                              start_color
-    background                              -moz-linear-gradient(mozstart, start_color 0%, end_color 100%)
-    background                              -webkit-gradient(linear, start, end, color-stop(0%, start_color), color-stop(100%, end_color))
+linear-gradient(startColor, startInterval = 0%, endColor, endInterval = 100%, start = left top, end = left bottom)
+    mozStart = top if start = left top
+    background                              startColor
+    background                              -moz-linear-gradient(mozStart, startColor startInterval, endColor endInterval)
+    background                              -webkit-gradient(linear, start, end, color-stop(startInterval, startColor), color-stop(endInterval, endColor))
 
 
 // text

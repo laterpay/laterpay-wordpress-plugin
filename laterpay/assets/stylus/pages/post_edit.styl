@@ -125,7 +125,7 @@
         .lp_selected:hover
             background-color        $background-laterpay
 
-        .lp_selected
+        li.lp_selected
             box-shadow              inset 0 1px 3px rgba(0, 0, 0, 0.34)
 
             a,
@@ -174,21 +174,14 @@
                     color           #888
                     float           right
 
-            .lp_selected-category
-                background-color    transparent
+        .lp_selected-category,
+        .lp_selected-category:nth-child(even)
+            background-color        $background-highlight
 
-                a
-                    color           #444
-                    cursor          default
+            a
+                color               #444
+                cursor              default
 
-// TODO: this looks just a TINY little bit BAD:
-#lp_price-type #lp_price-type-details .lp_use-category-default-price li.lp_selected-category,
-#lp_price-type #lp_price-type-details .lp_use-category-default-price li.lp_selected-category:nth-child(2n)
-    background-color                $background-highlight
-
-    a
-        color                       #444
-// END TODO
 
 #lp_use-dynamic-pricing
     padding                         0.75em 0.25em 0
