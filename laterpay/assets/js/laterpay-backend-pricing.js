@@ -154,7 +154,7 @@
             enterEditModeGlobalDefaultPrice = function() {
                 $o.globalDefaultPriceShowElements.hide();
                 $o.globalDefaultPriceEditElements.show(0, function() {
-                    setTimeout(function() {$o.globalDefaultPrice.val($o.globalDefaultPriceDisplay.text()).focus();}, 50);
+                    setTimeout(function() {$o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text()).focus();}, 50);
                 });
                 $o.globalDefaultPriceForm.addClass($o.editing);
             },
@@ -163,7 +163,7 @@
                 $o.globalDefaultPriceShowElements.show();
                 $o.globalDefaultPriceEditElements.hide();
                 $o.globalDefaultPriceForm.removeClass($o.editing);
-                $o.globalDefaultPrice.val($o.globalDefaultPriceDisplay.text());
+                $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text());
             },
 
             saveGlobalDefaultPrice = function() {
