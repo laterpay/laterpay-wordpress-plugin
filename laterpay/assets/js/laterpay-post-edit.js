@@ -25,7 +25,6 @@
                 categoriesList          : $('#lp_js_category-price-details ul'),
                 categories              : $('#lp_js_category-price-details li'),
                 dynamicPricingToggle    : $('#lp_js_toggle-dynamic-pricing'),
-                dynamicPricingSection   : $('#lp_js_dynamic-pricing-details'),
                 dynamicPricingContainer : '#lp_js_dynamic-pricing-widget-container',
 
                 // strings cached for better compression
@@ -87,7 +86,7 @@
             switchPricingType = function(trigger) {
                 var $this           = $(trigger),
                     $clickedButton  = $this.parent('li'),
-                    priceType       = $this.attr('class');
+                    priceType       = $this.attr('id');
 
                 if ($clickedButton.hasClass($o.disabled) || $clickedButton.hasClass($o.selected)) {
                     return;
@@ -123,7 +122,7 @@
 
                     // show / hide stuff
                     $o.priceSection.addClass($o.expanded);
-                    $('.' + priceType, $o.details).show();
+                    $o.categoryPriceDetails.show();
                     $o.categories.slideDown(250);
                     $o.dynamicPricingToggle.hide();
                     $o.priceTypeInput.val('category default price');
@@ -350,7 +349,7 @@
                 renderDynamicPricingWidget();
                 $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
                 $o.priceInput.attr('disabled', 'disabled');
-                $o.dynamicPricingSection.slideDown(250);
+                $o.individualPriceDetails.slideDown(250);
                 $o.priceTypeInput.val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
                 $o.revenueModel.hide();
@@ -359,7 +358,7 @@
             disableDynamicPricing = function() {
                 $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
                 $o.priceInput.removeAttr('disabled');
-                $o.dynamicPricingSection.slideUp(250, function() {
+                $o.individualPriceDetails.slideUp(250, function() {
                     $($o.dynamicPricingContainer).empty();
                 });
                 $o.priceTypeInput.val('individual price');
