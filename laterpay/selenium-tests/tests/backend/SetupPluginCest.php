@@ -328,6 +328,39 @@ class SetupPluginCest {
 
     /**
      * @param \BackendTester $I
+     * @group UI26
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/309
+     */
+    public function testWrongShortcodesRenderedProperlyWithinPaidPost(BackendTester $I) {
+
+        $_priceOne = '0.00';
+        $_priceTwo = '0.55';
+        $_currency = 'EUR';
+        $I->wantToTest('UI26: Are wrong shortcodes rendered properly within a paid post?');
+
+        BackendModule::of($I)->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab($_priceOne, $_currency);
+
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceOne);
+        $_testPost1 = $I->getVar('post');
+
+        PostModule::of($I)->createTestPost(BaseModule::$T3, BaseModule::$C3, null, 'individual price', $_priceTwo);
+        $_testPost2 = $I->getVar('post');
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'individual price', $_priceOne, $_currency, BaseModule::$T1, BaseModule::$C1);
+
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'individual price', $_priceTwo, $_currency, BaseModule::$T3);
+
+        PostModule::of($I)->checkIfCorrectShortcodeIsDisplayedCorrectly($_testPost1, $_priceOne);
+    }
+
+    /**
+     * @param \BackendTester $I
      * @group dev
      */
     public function dev(BackendTester $I) {
