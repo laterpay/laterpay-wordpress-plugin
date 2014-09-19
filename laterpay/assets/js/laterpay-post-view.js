@@ -12,7 +12,7 @@
                     postPreviewModeInput            : $('#lp_js_preview-post-input'),
 
                     // post statistics pane visibility
-                    postStatisticsVisibilityForm    : $('#lp_js_toggle-post-statistics-visibility-form'),
+                    postStatisticsVisibilityForm    : $('#lp_js_post-statistics-visibility-form'),
                     postStatisticsVisibilityToggle  : $('#lp_js_toggle-post-statistics-visibility'),
                     postStatisticsVisibilityInput   : $('#lp_js_hide-statistics-pane-input'),
 
@@ -25,6 +25,16 @@
 
                     // strings cached for better compression
                     hidden                          : 'lp_is_hidden',
+                },
+
+                recachePostStatisticsPane = function() {
+                    $o.postStatisticsPane              = $('#lp_js_post-statistics');
+                    $o.postPreviewModeForm             = $('#lp_plugin-preview-mode-form');
+                    $o.postPreviewModeToggle           = $('#lp_js_toggle-post-preview-mode');
+                    $o.postPreviewModeInput            = $('#lp_js_preview-post-input');
+                    $o.postStatisticsVisibilityForm    = $('#lp_js_post-statistics-visibility-form');
+                    $o.postStatisticsVisibilityToggle  = $('#lp_js_toggle-post-statistics-visibility');
+                    $o.postStatisticsVisibilityInput   = $('#lp_js_hide-statistics-pane-input');
                 },
 
                 bindPurchaseEvents = function() {
@@ -69,6 +79,9 @@
                 },
 
                 renderPostStatisticsPane = function() {
+                    // make sure all objects are in the cache
+                    recachePostStatisticsPane();
+
                     // bind events to post statistics pane
                     bindPostStatisticsEvents();
 
@@ -104,7 +117,6 @@
 
                 togglePostStatisticsVisibility = function() {
                     var doHide = $o.postStatisticsPane.hasClass($o.hidden) ? '0' : '1';
-
                     $o.postStatisticsVisibilityInput.val(doHide);
 
                     // toggle the visibility
@@ -158,12 +170,12 @@
                 initializePage = function() {
                     // load post content via Ajax, if plugin is in caching compatible mode
                     // (recognizable by the presence of lp_js_post-content-placeholder
-                    if ($o.postContentPlaceholder.length == 1) {
+                    if ($('#lp_js_post-content-placeholder').length == 1) {
                         loadPostContent();
                     }
 
                     // render the post statistics pane, if a placeholder exists for it
-                    if ($o.postStatisticsPlaceholder.length == 1) {
+                    if ($('#lp_js_post-statistics-placeholder').length == 1) {
                         loadPostStatistics();
                     }
 

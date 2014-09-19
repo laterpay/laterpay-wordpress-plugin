@@ -109,15 +109,19 @@ class LaterPay_Helper_User
      */
     public static function statistics_pane_is_hidden() {
         if ( is_null( LaterPay_Helper_User::$_hide_statistics_pane ) ) {
-            $hide_statistics_pane   = 0;
-            $current_user           = wp_get_current_user();
+            $current_user = wp_get_current_user();
 
             if ( $current_user instanceof WP_User ) {
                 $hide_statistics_pane = get_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane' );
                 if ( ! empty( $hide_statistics_pane ) ) {
-                   $hide_statistics_pane = $hide_statistics_pane[0];
+                    $hide_statistics_pane = $hide_statistics_pane[0];
+                } else {
+                    $hide_statistics_pane = 0;
                 }
+            } else {
+                $hide_statistics_pane = 0;
             }
+
             LaterPay_Helper_User::$_hide_statistics_pane = $hide_statistics_pane;
         }
 

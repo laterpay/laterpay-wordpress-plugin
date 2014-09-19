@@ -3,7 +3,7 @@
 <?php $currency = $laterpay[ 'currency' ]; ?>
 
 <div id="lp_js_post-statistics" class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' lp_is_hidden'; ?>">
-    <form id="lp_toggle-post-statistics-visibility-form" method="post">
+    <form id="lp_js_post-statistics-visibility-form" method="post">
         <input type="hidden" name="action" value="laterpay_post_statistic_visibility">
         <input type="hidden" id="lp_js_hide-statistics-pane-input" name="hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
