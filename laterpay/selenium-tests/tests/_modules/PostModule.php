@@ -30,6 +30,7 @@ class PostModule extends BaseModule {
     public static $linkViewPost = '#view-post-btn a';
     public static $linkPreviewSwitcher = '.switch-handle';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
+    public static $linkShortCode = 'a[class="lp_purchase-link-without-function lp_button"]';
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#lp_dynamic-pricing-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
@@ -195,6 +196,8 @@ class PostModule extends BaseModule {
 
         $I = $this->BackendTester;
 
+        $content = str_replace("\r\n", '', $content);
+
         $I->amGoingTo('Check Post For LaterPay Elements');
         if ((int) $post > 0) {
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
@@ -264,9 +267,13 @@ class PostModule extends BaseModule {
             $I->amGoingTo('Switch Preview toggle to “Admin”');
             if ($I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
                 $I->click(PostModule::$linkPreviewSwitcher);
-            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
+            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
             $I->cantSee(PostModule::$visibleLaterpayPurchaseButton);
-            $I->see($content, PostModule::$visibleLaterpayContent);
+
+            //Must be there, such as contect with short codes can`t be checked
+            if ($content)
+                $I->seeInPageSource($content);
+
 //            if ($teaser) {
 //                $I->cantSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
 //            }
@@ -327,6 +334,8 @@ class PostModule extends BaseModule {
 
         $I->amGoingTo('purchase post');
 
+        $content = str_replace("\r\n", '', $content);
+
         $url = $I->grabFromCurrentUrl();
 
         $previewMode = ModesModule::of($I)->checkPreviewMode();
@@ -359,7 +368,7 @@ class PostModule extends BaseModule {
             };
         };
 
-        $I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
+        //$I->see(substr($content, 0, 60), PostModule::$visibleLaterpayTeaserContent);
 
         if ($price != '0.00') {
 
@@ -375,7 +384,7 @@ class PostModule extends BaseModule {
 
             $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
 
-            //$I->see($content);
+            $I->seeInPageSource($content);
         } else {
 
             $I->amGoingTo('
@@ -568,10 +577,12 @@ class PostModule extends BaseModule {
 
             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
-            $I->click(self::$linkViewPost);
-            $I->click(self::$linkPreviewSwitcher);
-            $I->seeElement('div[class="lp_premium-file-box lp_content-type-gallery"]');
-            $I->see($price, '//*[@id="post-42"]/div/div[2]/div[1]/a');
+            $I->click(PostModule::$linkViewPost);
+            if ((int) $price > 0)
+                $I->click(PostModule::$linkPreviewSwitcher); //In case of zero price stat tab not displayed
+
+            $I->see($price, PostModule::$linkShortCode);
+            $I->seeInPageSource('?p=' . $post, PostModule::$linkShortCode);
         }
 
         return $this;

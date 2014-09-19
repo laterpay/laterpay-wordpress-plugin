@@ -36,17 +36,14 @@ heading_text="Shortcode Heading" description_text="Shortcode Description" conten
     public static $C3 = 'Both wrong
 [laterpay_premium_download target_page_title="LaterPay WordPress Plugin Shortcode Test Wrong Title" target_page_id={Some nonexisting
 ID} heading_text="Shortcode Heading" description_text="Shortcode Description" content_type="gallery"]';
-
     //shared data
     public static $baseUrl = '/wp-admin/';
     public static $adminMenuPluginButton = '#toplevel_page_laterpay-plugin';
     public static $messageArea = "#message";
-
     //plugin tabs
     public static $pluginPricingTab = 'a[href$="laterpay-plugin"]';
     public static $pluginAppearanceTab = 'a[href$="laterpay-appearance-tab"]';
     public static $pluginAccountTab = 'a[href$="laterpay-account-tab"]';
-
     //timeouts
     public static $veryShortTimeout = 1;
     public static $shortTimeout = 5;

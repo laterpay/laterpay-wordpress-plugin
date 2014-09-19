@@ -9,6 +9,8 @@ class CommonHelper extends \Codeception\Module {
      * @param \Tester $I
      * Usage examples:
       mod($I,'BackendModule','login');
+      amOnPage(str_replace('{post}', 134, PostModule::$pagePostEdit));
+      makeScreenshot(2);
      */
     public function mod($I, $module, $method) {
 
