@@ -40,7 +40,7 @@ ul.lp_nav-tabs
             a
                 color       $clickable
 
-    .current
+    .lp_current
         background-color    $background
         border-radius       4px 4px 0 0
         border-top          4px solid $clickable
@@ -89,23 +89,23 @@ ul.lp_nav-tabs
 
 
 // flash messages ------------------------------------------------------------------------------------------------------
-#message
+.lp_flash-message
     box-shadow              0 1px 4px 0 rgba(0, 0, 0, 0.55)
     margin                  0
     opacity                 0.9
     position                absolute
     top                     1.25rem
     width                   96%
-    z-index                 111
+    z-index                 $zindex-overlayed_1
 
 
 // contextual help -----------------------------------------------------------------------------------------------------
 #screen-meta
     position                absolute
-    z-index                 3
+    z-index                 $zindex-elevated_1
 
 #contextual-help-link-wrap
-    z-index                 1
+    z-index                 $zindex-elevated_2
 
 
 // responsiveness ------------------------------------------------------------------------------------------------------

@@ -3,7 +3,13 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAccount
     function laterPayBackendAccount() {
         var $o = {
-                showMerchantContractsButton : $('#lp_request-live-credentials .button'),
+                // API credentials
+                // ...
+
+                // plugin mode
+                pluginModeToggle            : $('#lp_js_toggle-plugin-mode'),
+
+                showMerchantContractsButton : $('#lp_js_show-merchant-contracts'),
 
                 throttledFlashMessage       : null,
                 flashMessageTimeout         : 800,
@@ -13,7 +19,7 @@
 
             bindEvents = function() {
                 // validate and save entered LaterPay API Keys
-                $('.lp_api-key-input').bind('input', function() {
+                $('.lp_js_validate-api-key').bind('input', function() {
                     var $input = this;
                     setTimeout(function() {
                         validateAPIKey($input);
@@ -21,7 +27,7 @@
                 });
 
                 // validate and save entered LaterPay Merchant IDs
-                $('.lp_merchant-id-input').bind('input', function() {
+                $('.lp_js_validate-merchant-id').bind('input', function() {
                     var $input = this;
                     setTimeout(function() {
                         validateMerchantId($input);
@@ -29,7 +35,7 @@
                 });
 
                 // switch plugin between TEST and LIVE mode
-                $('#lp_plugin-mode-toggle').click(function() {
+                $o.pluginModeToggle.click(function() {
                     return togglePluginMode();
                 });
 
@@ -47,7 +53,7 @@
             },
 
             autofocusEmptyInput = function() {
-                var $inputs = $('.lp_api-key-input, .lp_merchant-id-input');
+                var $inputs = $('.lp_js_validate-api-key, .lp_js_validate-merchant-id');
                 for (var i = 0, l = $inputs.length; i < l; i++) {
                     if ($inputs.eq(i).val() === '') {
                         $inputs.eq(i).focus();
@@ -58,19 +64,19 @@
 
             togglePluginModeIndicators = function(mode) {
                 if (mode == 'live') {
-                    $('#lp_plugin-mode-test-text').hide();
-                    $('#lp_plugin-mode-live-text').show();
-                    $('.lp_plugin-mode-indicator').fadeOut();
+                    $('#lp_js_plugin-mode-test-text').hide();
+                    $('#lp_js_plugin-mode-live-text').show();
+                    $('#lp_js_plugin-mode-indicator').fadeOut();
                 } else {
-                    $('#lp_plugin-mode-live-text').hide();
-                    $('#lp_plugin-mode-test-text').show();
-                    $('.lp_plugin-mode-indicator').fadeIn();
+                    $('#lp_js_plugin-mode-live-text').hide();
+                    $('#lp_js_plugin-mode-test-text').show();
+                    $('#lp_js_plugin-mode-indicator').fadeIn();
                 }
             },
 
             togglePluginMode = function() {
-                var $toggle                 = $('#lp_plugin-mode-toggle'),
-                    $input                  = $('#lp_plugin-mode-hidden-input'),
+                var $toggle                 = $o.pluginModeToggle,
+                    $input                  = $('#lp_js_plugin-mode-hidden-input'),
                     testMode                = 0,
                     liveMode                = 1,
                     hasSwitchedToLiveMode   = $toggle.prop('checked');
@@ -175,14 +181,14 @@
                 if (
                     (
                         // plugin is in test mode, but there are no valid Sandbox API credentials
-                        !$('#lp_plugin-mode-toggle').prop('checked') &&
+                        !$o.pluginModeToggle.prop('checked') &&
                         (
                             $('#lp_sandbox-api-key').val().length     !== 32 ||
                             $('#lp_sandbox-merchant-id').val().length !== 22
                         )
                     ) || (
                         // plugin is in live mode, but there are no valid Live API credentials
-                        $('#lp_plugin-mode-toggle').prop('checked') &&
+                        $o.pluginModeToggle.prop('checked') &&
                         (
                             $('#lp_live-api-key').val().length        !== 32 ||
                             $('#lp_live-merchant-id').val().length    !== 22
@@ -212,7 +218,7 @@
                     $('iframe', $iframeWrapper).remove();
                 }
                 if ($iframeWrapper.length === 0) {
-                    $('.lp_credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
+                    $('#lp_js_credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
                         // scroll document so that iframe fills viewport
                         iframeOffset = $('#lp_legal-docs-iframe').offset();
                         scrollPosition = iframeOffset.top - topMargin;
@@ -228,7 +234,7 @@
                 // inject a new iframe into the wrapper with the requested src parameter
                 $iframeWrapper
                 .html(
-                    '<a href="#" class="lp_close-iframe">x</a>' +
+                    '<a href="#" id="lp_js_hide-merchant-contracts" class="lp_close-iframe">x</a>' +
                     '<iframe ' +
                         'src="' + src + '" ' +
                         'frameborder="0" ' +
@@ -238,7 +244,7 @@
                 );
 
                 // close merchant contracts
-                $('.lp_close-iframe', $iframeWrapper).bind('click', function(e) {
+                $('#lp_js_hide-merchant-contracts', $iframeWrapper).bind('click', function(e) {
                     $(this).fadeOut()
                         .parent('#lp_legal-docs-iframe').slideUp(400, function() {
                             $(this).remove();

@@ -1,7 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
 <a  href="#"
-    class="lp_purchase-link"
+    class="lp_js_do-purchase lp_purchase-link"
     data-laterpay="<?php echo $laterpay['link']; ?>"
     data-icon="b"
     data-post-id="<?php echo $laterpay['post_id']; ?>"

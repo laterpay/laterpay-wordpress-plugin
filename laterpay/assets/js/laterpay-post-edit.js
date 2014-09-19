@@ -4,34 +4,35 @@
     function laterPayPostEdit() {
         var $o = {
                 // post price inputs
-                priceInput              : $('#lp_post-price input[name=post-price]'),
-                priceTypeInput          : $('#lp_post-price input[name=post_price_type]'),
-                revenueModel            : $('#lp_post-price .lp_post-revenue-model'),
+                priceInput              : $('#lp_js_post-price-input'),
+                priceTypeInput          : $('#lp_js_post-price-type-input'),
+                revenueModel            : $('#lp_js_post-revenue-model'),
+                categoryInput           : $('#lp_js_post-default-category-input'),
 
                 // button group for choosing pricing type
-                priceSection            : $('#lp_price-type'),
-                pricingTypeToggle       : $('#lp_price-type .lp_button-group'),
-                pricingTypeButtons      : $('#lp_price-type .lp_button-group a'),
-                individualPriceButton   : $('#lp_use-individual-price').parent(),
-                categoryPriceButton     : $('#lp_use-category-default-price').parent(),
-                globalPriceButton       : $('#lp_use-global-default-price').parent(),
+                priceSection            : $('#lp_js_price-type'),
+                pricingTypeButtonGroup  : $('#lp_js_price-type-button-group'),
+                pricingTypeButtons      : $('.lp_js_price-type-button'),
+                individualPriceButton   : $('#lp_js_use-individual-price').parent(),
+                categoryPriceButton     : $('#lp_js_use-category-default-price').parent(),
+                globalPriceButton       : $('#lp_js_use-global-default-price').parent(),
 
                 // details sections for chosen pricing type
-                details                 : $('#lp_price-type-details'),
-                individualPriceDetails  : $('#lp_price-type-details .lp_use-individual-price'),
-                categoryPriceDetails    : $('#lp_price-type-details .lp_use-category-default-price'),
-                categoriesList          : $('#lp_price-type-details .lp_use-category-default-price ul'),
-                categories              : $('#lp_price-type-details .lp_use-category-default-price li'),
-                categoryInput           : $('input[name=laterpay_post_default_category]'),
-                dynamicPricingToggle    : $('#lp_use-dynamic-pricing'),
-                dynamicPricingContainer : $('#lp_dynamic-pricing-widget-container'),
+                details                 : $('#lp_js_price-type-details'),
+                detailsSections         : $('.lp_js_details-section'),
+                individualPriceDetails  : $('#lp_js_individual-price-details'),
+                categoryPriceDetails    : $('#lp_js_category-price-details'),
+                categoriesList          : $('#lp_js_category-price-details ul'),
+                categories              : $('#lp_js_category-price-details li'),
+                dynamicPricingToggle    : $('#lp_js_toggle-dynamic-pricing'),
+                dynamicPricingContainer : '#lp_js_dynamic-pricing-widget-container',
 
                 // strings cached for better compression
-                expanded                : 'lp_expanded',
-                selected                : 'lp_selected',
-                disabled                : 'lp_disabled',
+                expanded                : 'lp_is-expanded',
+                selected                : 'lp_is-selected',
+                disabled                : 'lp_is-disabled',
+                dynamicPricingApplied   : 'lp_is-with-dynamic-pricing',
                 selectedCategory        : 'lp_selected-category',
-                dynamicPricingApplied   : 'lp_dynamic-pricing-applied',
                 payPerUse               : 'ppu',
                 singleSale              : 'sis',
             },
@@ -57,7 +58,7 @@
                 // $o.priceInput.bind('input', function() {setPrice($(this).val());});
 
                 // validate choice of revenue model (validating the price switches the revenue model if required)
-                $(':radio', $o.revenueModel).change(function() {
+                $('input:radio', $o.revenueModel).change(function() {
                     validatePrice($o.priceInput.val());
                 });
 
@@ -69,7 +70,7 @@
                 .click(function(e) {e.preventDefault();});
 
                 // update list of applicable category prices on change of categories list
-                $('.categorychecklist :checkbox')
+                $('.categorychecklist input:checkbox')
                 .on('change', function() {
                     updateApplicableCategoriesList();
                 });
@@ -85,22 +86,22 @@
             switchPricingType = function(trigger) {
                 var $this           = $(trigger),
                     $clickedButton  = $this.parent('li'),
-                    priceType       = $this.attr('class');
+                    priceType       = $this.attr('id');
 
                 if ($clickedButton.hasClass($o.disabled) || $clickedButton.hasClass($o.selected)) {
                     return;
                 }
 
                 // set state of button group
-                $('.' + $o.selected, $o.pricingTypeToggle).removeClass($o.selected);
+                $('.' + $o.selected, $o.pricingTypeButtonGroup).removeClass($o.selected);
                 $clickedButton.addClass($o.selected);
                 $o.priceSection.removeClass($o.expanded);
 
-                // hide / show details sections
-                $('.lp_details-section', $o.details).hide();
+                // hide details sections
+                $o.detailsSections.hide();
 
                 // case: individual price
-                if (priceType === 'lp_use-individual-price') {
+                if (priceType === 'lp_js_use-individual-price') {
                     $o.priceSection.addClass($o.expanded);
                     $o.dynamicPricingToggle.show();
                     $o.priceTypeInput.val('individual price');
@@ -112,7 +113,7 @@
                     }
                 }
                 // case: category default price
-                else if (priceType === 'lp_use-category-default-price') {
+                else if (priceType === 'lp_js_use-category-default-price') {
                     updateSelectedCategory();
 
                     // set the price of the selected category
@@ -121,13 +122,13 @@
 
                     // show / hide stuff
                     $o.priceSection.addClass($o.expanded);
-                    $('.' + priceType, $o.details).show();
+                    $o.categoryPriceDetails.show();
                     $o.categories.slideDown(250);
                     $o.dynamicPricingToggle.hide();
                     $o.priceTypeInput.val('category default price');
                 }
                 // case: global default price
-                else if (priceType === 'lp_use-global-default-price') {
+                else if (priceType === 'lp_js_use-global-default-price') {
                     setPrice($this.attr('data-price'));
 
                     // show / hide stuff
@@ -136,7 +137,7 @@
                 }
 
                 // disable price input and hide revenue model for all scenarios other than static individual price
-                if (priceType === 'lp_use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                if (priceType === 'lp_js_use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
                     $o.revenueModel.show();
@@ -151,10 +152,6 @@
 
             setPrice = function(price) {
                 var validatedPrice = validatePrice(price);
-                // localize price
-                if (lpVars.locale == 'de_DE') {
-                    validatedPrice = validatedPrice.replace('.', ',');
-                }
                 $o.priceInput.val(validatedPrice);
             },
 
@@ -182,13 +179,21 @@
 
                 validateRevenueModel(price);
 
-                return price.toFixed(2);
+                // format price with two digits
+                price = price.toFixed(2);
+
+                // localize price
+                if (lpVars.locale == 'de_DE') {
+                    price = price.replace('.', ',');
+                }
+
+                return price;
             },
 
             validateRevenueModel = function(price) {
-                var currentRevenueModel = $(':radio:checked', $o.revenueModel).val(),
-                    $payPerUse          = $(':radio[value=' + $o.payPerUse + ']', $o.revenueModel),
-                    $singleSale         = $(':radio[value=' + $o.singleSale + ']', $o.revenueModel);
+                var currentRevenueModel = $('input:radio:checked', $o.revenueModel).val(),
+                    $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
+                    $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
                 if ((price === 0 || price > 0.05) && price <= 5) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
@@ -221,7 +226,7 @@
 
                 // highlight current revenue model
                 $('label', $o.revenueModel).removeClass($o.selected);
-                $(':radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
+                $('input:radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
             },
 
             updateSelectedCategory = function() {
@@ -283,28 +288,29 @@
 
                             if (data.length) {
                                 $o.categoryPriceButton.removeClass($o.disabled);
-                                $o.categories = $('#lp_price-type-details .lp_use-category-default-price li');
+                                // update cached selector
+                                $o.categories = $('#lp_js_category-price-details li');
                                 updateSelectedCategory();
                             } else {
                                 // disable the 'use category default price' button,
                                 // if no categories with an attached default price are applied to the current post
                                 $o.categoryPriceButton.addClass($o.disabled);
 
-                                // hide / details sections
-                                $('.lp_details-section', $o.details).hide();
+                                // hide details sections
+                                $o.detailsSections.hide();
 
                                 // if current pricing type is 'category default price'
                                 // fall back to global default price or an individual price of 0
                                 if ($o.categoryPriceButton.hasClass($o.selected)) {
-                                    $('.' + $o.selected, $o.pricingTypeToggle).removeClass($o.selected);
-                                    $('#lp_price-type').removeClass($o.expanded);
+                                    $('.' + $o.selected, $o.pricingTypeButtonGroup).removeClass($o.selected);
+                                    $o.priceSection.removeClass($o.expanded);
 
                                     if ($o.globalPriceButton.hasClass($o.disabled)) {
                                         $o.individualPriceButton.addClass($o.selected);
                                         $o.priceTypeInput.val('individual price');
                                         $o.dynamicPricingToggle.show();
                                         $o.priceInput.removeAttr('disabled');
-                                        setPrice('0.00');
+                                        setPrice(0);
                                     } else {
                                         $o.globalPriceButton.addClass($o.selected);
                                         $o.priceTypeInput.val('global default price');
@@ -343,8 +349,8 @@
                 renderDynamicPricingWidget();
                 $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
                 $o.priceInput.attr('disabled', 'disabled');
-                $('#lp_dynamic-pricing').slideDown(250);
-                $('input[name=post_price_type]').val('individual price, dynamic');
+                $o.individualPriceDetails.slideDown(250);
+                $o.priceTypeInput.val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
                 $o.revenueModel.hide();
             },
@@ -352,16 +358,16 @@
             disableDynamicPricing = function() {
                 $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
                 $o.priceInput.removeAttr('disabled');
-                $('#lp_dynamic-pricing').slideUp(250, function() {
-                    $o.dynamicPricingContainer.empty();
+                $o.individualPriceDetails.slideUp(250, function() {
+                    $($o.dynamicPricingContainer).empty();
                 });
-                $('input[name=post_price_type]').val('individual price');
+                $o.priceTypeInput.val('individual price');
                 $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
             },
 
             renderDynamicPricingWidget = function() {
                 var data    = lpVars.dynamicPricingData,
-                    lpc     = new LPCurve('#lp_dynamic-pricing-widget-container');
+                    lpc     = new LPCurve($o.dynamicPricingContainer);
                 window.lpc = lpc;
 
                 $o.priceInput.attr('disabled', 'disabled');

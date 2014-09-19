@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
 
 <a href="#"
-    class="lp_purchase-link lp_button"
+    class="lp_js_do-purchase lp_purchase-link lp_button"
     title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
     data-icon="b"
     data-laterpay="<?php echo $laterpay[ 'link' ]; ?>"

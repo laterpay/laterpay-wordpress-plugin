@@ -17,7 +17,7 @@
     right                           -5px
     top                             8em
     width                           333px
-    z-index                         111
+    z-index                         $zindex-overlayed_1
     transition                      0.25s ease-in-out
 
     h2
@@ -26,17 +26,17 @@
         line-height                 1
         margin                      0.4em 0 0.8em 6.75em
 
-    h2[data-icon]:before
-        display                     block
-        font-size                   6em
-        height                      0
-        left                        -1.03em
-        line-height                 0
-        position                    relative
-        top                         0.075em
+        &:before
+            display                 block
+            font-size               6em
+            height                  0
+            left                    -1.03em
+            line-height             0
+            position                relative
+            top                     0.075em
 
     // toggle visibility of statistics pane --------------------------------------------------------------------------------
-    #lp_toggle-post-statistics-visibility
+    .lp_post-statistics-visibility-toggle
         background-color            #e5e5e5
         border-radius               3px 0 0 3px
         height                      45px
@@ -48,36 +48,36 @@
         width                       45px
         transition                  0.25s ease-in-out
 
-    #lp_toggle-post-statistics-visibility[data-icon]:before
-        font-size                   25px
-        line-height                 42px
-        opacity                     0
-        padding-left                0.25em
-        position                    relative
-        transition                  0.1s ease-in-out
+        &:before
+            font-size               25px
+            line-height             42px
+            opacity                 0
+            padding-left            0.25em
+            position                relative
+            transition              0.1s ease-in-out
 
     &:hover
         // reveal link for hiding the statistics pane when it is hovered
-        #lp_toggle-post-statistics-visibility
+        .lp_post-statistics-visibility-toggle
             left                    -45px
 
-        #lp_toggle-post-statistics-visibility[data-icon]:before
-            opacity                 1
-            transition              0.25s ease-in-out 0.1s
+            &:before
+                opacity             1
+                transition          0.25s ease-in-out 0.1s
 
-    // remove dotted outline and box shadows from #lp_toggle-post-statistics-visibility link
-    a,
+    // remove dotted outline and box shadows from .lp_post-statistics-visibility-toggle link
+    .lp_post-statistics-visibility-toggle,
     &:focus,
     &:active,
     &:visited
-        box-shadow  none
-        outline     0 none
+        box-shadow                  none
+        outline                     0 none
 
 // hidden statistics pane
-.lp_post-statistics.lp_hidden
+.lp_post-statistics.lp_is_hidden
     right                           -345px
 
-    #lp_toggle-post-statistics-visibility
+    .lp_post-statistics-visibility-toggle
         box-shadow                  -1px 1px 6px rgba(0, 0, 0, 0.34)
         left                        -55px
         text-align                  left
@@ -139,13 +139,13 @@
                 border-bottom       1px solid #999
                 padding             0 3px
                 position            relative
-                z-index             1
+                z-index             $zindex-elevated_2
 
             .lp_sparkline-background-bar + svg.peity
                 border              0 none
                 left                0.92em
                 position            absolute
-                z-index             0
+                z-index             $zindex-elevated_1
 
             big
                 font-size           1.5em
@@ -201,7 +201,7 @@
             margin                  0
             padding                 0 0.5em
             position                relative
-            z-index                 112
+            z-index                 $zindex-overlayed_3
 
         hr
             background              #bbb none
@@ -210,7 +210,7 @@
             margin                  1em 0 0.5em
             position                relative
             top                     -1.66em
-            z-index                 111
+            z-index                 $zindex-overlayed_2
 
     small,
     .lp_post-statistics-separator p
@@ -218,7 +218,7 @@
 
 
 // statistics pane footer with toggle for previewing post as visitor or as admin ---------------------------------------
-.lp_post-statistics #lp_plugin-preview-mode
+.lp_post-statistics .lp_plugin-preview-mode
     background-color                #ffc600
     border-radius                   0 0 0 3px
     margin                          7px 0 0

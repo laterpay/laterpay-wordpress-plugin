@@ -2,7 +2,7 @@
 
 <div class="lp_page wp-core-ui">
 
-    <div id="message" style="display:none;">
+    <div id="lp_js_flash-message" class="lp_flash-message" style="display:none;">
         <p></p>
     </div>
 
@@ -27,7 +27,7 @@
                     <input type="radio"
                             name="paid_content_preview"
                             value="1"
-                            class="styled"
+                            class="lp_js_toggle-preview-mode lp_js_style-input"
                             <?php if ( $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content only', 'laterpay' ); ?>
                     <div class="lp_preview-mode-1"></div>
@@ -36,7 +36,7 @@
                     <input type="radio"
                             name="paid_content_preview"
                             value="0"
-                            class="styled"
+                            class="lp_js_toggle-preview-mode lp_js_style-input"
                             <?php if ( ! $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
                     <div class="lp_preview-mode-2"></div>

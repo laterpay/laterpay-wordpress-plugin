@@ -9,7 +9,7 @@
                 $slug = $plugin_page;
             }
         ?>
-        <li <?php if ( $current_page == $page['url'] || ( ! $num && $current_page == $plugin_page ) ): ?>class="current"<?php endif; ?>>
+        <li <?php if ( $current_page == $page['url'] || ( ! $num && $current_page == $plugin_page ) ): ?>class="lp_current"<?php endif; ?>>
             <a href="<?php echo add_query_arg(array('page' => $slug), admin_url('admin.php'));?>" class="lp_d-block">
                 <?php echo $page['title']; ?>
             </a>

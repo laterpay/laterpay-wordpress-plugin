@@ -1,25 +1,25 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="lp_page wp-core-ui lp_get-started-page">
+<div class="lp_page wp-core-ui">
 
-    <div id="message" style="display:none;">
+    <div id="lp_js_flash-message" class="lp_flash-message" style="display:none;">
         <p></p>
     </div>
 
-    <div class="lp_navigation lp_p-rel">
+    <div id="lp_js_tab-navigation" class="lp_navigation lp_p-rel">
         <?php echo $top_nav; ?>
     </div>
 
-    <div class="lp_progress lp_ta-center">
+    <div id="lp_js_progress-indicator" class="lp_progress lp_ta-center">
         <span class="lp_progress-background lp_d-inl-block lp_p-rel">
-            <span class="lp_step-1 lp_step-done lp_d-block lp_p-abs"></span>
-            <span class="lp_step-2 lp_step-done lp_d-block lp_p-abs"></span>
-            <span class="lp_step-3 lp_step-todo lp_d-block lp_p-abs"></span>
+            <span id="lp_js_step-1" class="lp_step-1 lp_step-done lp_d-block lp_p-abs"></span>
+            <span id="lp_js_step-2" class="lp_step-2 lp_step-done lp_d-block lp_p-abs"></span>
+            <span id="lp_js_step-3" class="lp_step-3 lp_step-todo lp_d-block lp_p-abs"></span>
         </span>
     </div>
 
     <div class="lp_pagewrap">
-        <form id="lp_get-started-form" method="post">
+        <form id="lp_js_get-started-form" method="post">
             <input type="hidden" name="form"    value="get_started_form">
             <input type="hidden" name="action"  value="laterpay_getstarted">
             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
@@ -31,7 +31,8 @@
                         <input type="text"
                                 maxlength="22"
                                 name="get_started[laterpay_sandbox_merchant_id]"
-                                class="lp_input lp_merchant-id-input"
+                                id="lp_js_merchant-id-input"
+                                class="lp_js_validate-api-credentials lp_input lp_merchant-id-input"
                                 value="<?php echo $config->get( 'api.sandbox_merchant_id' ); ?>"
                                 required>
                         <label alt="<?php _e( 'Paste Sandbox Merchant ID here', 'laterpay' ); ?>" placeholder="<?php _e( 'Sandbox Merchant ID', 'laterpay' ); ?>"></label>
@@ -39,8 +40,9 @@
                         <input type="text"
                                 maxlength="32"
                                 name="get_started[laterpay_sandbox_api_key]"
+                                id="lp_js_api-key-input"
+                                class="lp_js_validate-api-credentials lp_input lp_api-key-input"
                                 value="<?php echo $config->get( 'api.sandbox_api_key' ); ?>"
-                                class="lp_input lp_api-key-input"
                                 required>
                         <label alt="<?php _e( 'Paste Sandbox API Key here', 'laterpay' ); ?>" placeholder="<?php _e( 'Sandbox API Key', 'laterpay' ); ?>"></label>
                     </div>
@@ -59,7 +61,7 @@
                             <span class="lp_nowrap">
                                 <input type="text"
                                         name="get_started[laterpay_global_price]"
-                                        id="lp_global-default-price"
+                                        id="lp_js_global-default-price"
                                         class="lp_input lp_number-input"
                                         value="<?php echo $global_default_price; ?>"
                                         placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
@@ -81,7 +83,8 @@
                 <li class="lp_fl-left lp_w-1-3">
                     <div class="lp_setup-step lp_step-3 lp_p-rel lp_pd-r2 lp_ta-center">
                         <a  href="#"
-                            class="button button-primary lp_activate-plugin-button lp_pd-0-1 lp_p-rel lp_fw_b"
+                            id="lp_js_activate-plugin"
+                            class="button button-primary lp_pd-0-1 lp_p-rel lp_fw_b"
                             data-error="<?php _e( 'Please enter your LaterPay API key to activate LaterPay on this site.', 'laterpay' ); ?>">
                             <?php _e( 'Activate LaterPay Test Mode', 'laterpay' ); ?>
                         </a>

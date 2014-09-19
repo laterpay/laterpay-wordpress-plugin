@@ -9,7 +9,7 @@
     margin                          1em 0 0                                                         !important
     position                        relative                                                        !important
     text-decoration                 none                                                            !important
-    z-index                         1                                                               !important
+    z-index                         $zindex-elevated_1                                              !important
 
     // LaterPay logo (rendered in pseudo element from icon font)
     &:before
@@ -31,7 +31,7 @@
 // rendered as button --------------------------------------------------------------------------------------------------
 .lp_purchase-link.lp_button,
 .lp_purchase-link-without-function.lp_button
-    background                      linear-gradient(to bottom, $background-laterpay 0, $background-laterpay-darker 100%)    !important
+    linear-gradient                 $background-laterpay, 0%, $background-laterpay-darker, 100%     !important
     border-color                    #1c8069 #20947a                                                 !important
     border-radius                   5px                                                             !important
     border                          1px solid #20947a                                               !important
@@ -57,7 +57,7 @@
     &:hover,
     &:focus,
     &:active
-        background                  linear-gradient(to bottom, $background-laterpay-highlight 0, $background-laterpay 100%)     !important
+        linear-gradient             $background-laterpay-highlight, 0%, $background-laterpay, 100%  !important
         color                       $text-inverse                                                   !important
         text-decoration             none                                                            !important
 

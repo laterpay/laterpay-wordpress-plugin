@@ -2,13 +2,13 @@
 
 <?php $currency = $laterpay[ 'currency' ]; ?>
 
-<div class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' lp_hidden'; ?>">
-    <form id="lp_toggle-post-statistics-visibility-form" method="post">
-        <input type="hidden" name="action"                  value="laterpay_post_statistic_visibility">
-        <input type="hidden" name="hide_statistics_pane"    value="<?php echo $laterpay['hide_statistics_pane'];?>">
+<div id="lp_js_post-statistics" class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' lp_is_hidden'; ?>">
+    <form id="lp_js_post-statistics-visibility-form" method="post">
+        <input type="hidden" name="action" value="laterpay_post_statistic_visibility">
+        <input type="hidden" id="lp_js_hide-statistics-pane-input" name="hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
-    <a href="#" id="lp_toggle-post-statistics-visibility" data-icon="l"></a>
+    <a href="#" id="lp_js_toggle-post-statistics-visibility" class="lp_post-statistics-visibility-toggle" data-icon="l"></a>
     <h2 data-icon="a"><?php _e( 'Statistics for this Post', 'laterpay' ); ?></h2>
     <div class="lp_post-statistics-totals">
         <ul>
@@ -62,7 +62,7 @@
             </li>
         </ul>
     </div>
-    <div id="lp_plugin-preview-mode">
+    <div class="lp_plugin-preview-mode">
         <?php _e( 'Preview post as', 'laterpay' ); ?> <strong><?php _e( 'Admin', 'laterpay' ); ?></strong>
         <div class="lp-toggle">
             <form id="lp_plugin-preview-mode-form" method="post">
@@ -71,10 +71,12 @@
                 <label class="lp-toggle-label">
                     <input type="checkbox"
                             name="preview_post_checkbox"
+                            id="lp_js_toggle-post-preview-mode"
                             class="lp-toggle-input"
                             <?php if ( $laterpay['preview_post_as_visitor'] == 1 ): ?>checked<?php endif; ?>>
                     <input type="hidden"
                             name="preview_post"
+                            id="lp_js_preview-post-input"
                             value="<?php if ( $laterpay['preview_post_as_visitor'] == 1 ) { echo 1; } else { echo 0; } ?>">
                     <span class="lp-toggle-text" data-on="" data-off=""></span>
                     <span class="lp-toggle-handle"></span>
