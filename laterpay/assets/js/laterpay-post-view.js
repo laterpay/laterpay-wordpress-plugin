@@ -24,7 +24,7 @@
                     purchaseLink                    : $('.lp_js_do-purchase'),
 
                     // strings cached for better compression
-                    hidden                          : 'lp_hidden',
+                    hidden                          : 'lp_is_hidden',
                 },
 
                 bindPurchaseEvents = function() {
