@@ -39,8 +39,8 @@
                 currency                            : '.lp_js_currency',
 
                 // strings cached for better compression
-                editing                             : 'lp_js_editing',
-                unsaved                             : 'lp_js_unsaved',
+                editing                             : 'lp_is_editing',
+                unsaved                             : 'lp_is_unsaved',
             },
 
             bindEvents = function() {
@@ -200,7 +200,7 @@
 
             editCategoryDefaultPrice = function($form) {
                 // exit edit mode of all other category prices
-                $('.lp_js_category-default-price-form.lp_js_editing').each(function() {
+                $('.lp_js_category-default-price-form.lp_is_editing').each(function() {
                     exitEditModeCategoryDefaultPrice($(this), true);
                 });
 

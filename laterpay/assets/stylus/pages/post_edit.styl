@@ -67,7 +67,7 @@
             background-color        $clickable-highlight
             color                   $text-inverse
 
-    .lp_selected
+    .lp_is-selected
         background-color            $background-laterpay
         color                       $text-inverse
 
@@ -75,7 +75,7 @@
             background-color        $background-laterpay
             cursor                  default
 
-    .lp_disabled
+    .lp_is-disabled
         visibility                  hidden
 
     input[type=radio]
@@ -121,11 +121,11 @@
                 display             block
                 height              2.5em
 
-        .lp_selected,
-        .lp_selected:hover
+        .lp_is-selected,
+        .lp_is-selected:hover
             background-color        $background-laterpay
 
-        li.lp_selected
+        li.lp_is-selected
             box-shadow              inset 0 1px 3px rgba(0, 0, 0, 0.34)
 
             a,
@@ -134,7 +134,7 @@
                 cursor              default
                 text-shadow         none
 
-        .lp_disabled
+        .lp_is-disabled
             a
                 color               #d5d5d5
                 cursor              not-allowed

@@ -18,14 +18,14 @@
     </p>
     <div id="lp_js_post-revenue-model" class="lp_post-revenue-model lp_p-rel"<?php if ( $laterpay_post_price_type !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo ' style="display:none;"'; } ?>>
         <label  class="lp_d-block lp_m-t1 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
-                        <?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' lp_selected'; } ?>
-                        <?php if ( $laterpay_price > 5) { echo ' lp_disabled'; } ?>"
+                        <?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' lp_is-selected'; } ?>
+                        <?php if ( $laterpay_price > 5) { echo ' lp_is-disabled'; } ?>"
                 data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
             <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' checked'; } ?>>PPU
         </label>
         <label  class="lp_d-block lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
-                        <?php if ( $laterpay_post_revenue_model == 'sis') { echo ' lp_selected'; } ?>
-                        <?php if ( $laterpay_price < 1.49) { echo ' lp_disabled'; } ?>"
+                        <?php if ( $laterpay_post_revenue_model == 'sis') { echo ' lp_is-selected'; } ?>
+                        <?php if ( $laterpay_price < 1.49) { echo ' lp_is-disabled'; } ?>"
                 data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
             <input type="radio" name="post_revenue_model" value="sis"<?php if ( $laterpay_post_revenue_model == 'sis') { echo ' checked'; } ?>>SIS
         </label>
@@ -33,15 +33,15 @@
     <input type="hidden" name="post_price_type" id="lp_js_post-price-type-input" value="<?php echo $laterpay_post_price_type ?>">
 </div>
 
-<div id="lp_js_price-type" class="lp_price-type<?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) ) ) { echo ' lp_expanded'; } ?>">
+<div id="lp_js_price-type" class="lp_price-type<?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) ) ) { echo ' lp_is-expanded'; } ?>">
      <ul id="lp_js_price-type-button-group" class="lp_button-group lp_fl-clearfix">
-        <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == 'individual price' || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'lp_selected'; } ?>">
+        <li class="<?php if ( substr( $laterpay_post_price_type, 0, 16 ) == 'individual price' || ($laterpay_post_price_type == '' && ! ($laterpay_global_default_price > 0)) ) { echo 'lp_is-selected'; } ?>">
             <a href="#" id="lp_js_use-individual-price" class="lp_js_price-type-button lp_use-individual-price"><?php _e( 'Individual Price', 'laterpay' ); ?></a>
         </li>
-        <li class="<?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'lp_selected'; } ?><?php if ( ! count( $laterpay_category_prices ) ) { echo 'lp_disabled'; } ?>">
+        <li class="<?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( ! count( $laterpay_category_prices ) ) { echo 'lp_is-disabled'; } ?>">
             <a href="#" id="lp_js_use-category-default-price" class="lp_js_price-type-button lp_use-category-default-price"><?php _e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
-        <li class="<?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE || ($laterpay_post_price_type == '' && $laterpay_global_default_price > 0) ) { echo 'lp_selected'; } ?><?php if ( ! ($laterpay_global_default_price > 0) ) { echo 'lp_disabled'; } ?>">
+        <li class="<?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE || ($laterpay_post_price_type == '' && $laterpay_global_default_price > 0) ) { echo 'lp_is-selected'; } ?><?php if ( ! ($laterpay_global_default_price > 0) ) { echo 'lp_is-disabled'; } ?>">
             <a href="#" id="lp_js_use-global-default-price" class="lp_js_price-type-button lp_use-global-default-price" data-price="<?php echo LaterPay_Helper_View::format_number( $laterpay_global_default_price, 2 ); ?>"><?php _e( 'Global Default<span></span> Price', 'laterpay' ); ?></a>
         </li>
     </ul>
@@ -73,7 +73,7 @@
 </div>
 
 <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ): ?>
-    <a href="#" id="lp_js_toggle-dynamic-pricing" class="lp_dynamic-pricing-toggle lp_dynamic-pricing-applied lp_d-block">
+    <a href="#" id="lp_js_toggle-dynamic-pricing" class="lp_dynamic-pricing-toggle lp_is-with-dynamic-pricing lp_d-block">
         <?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
     </a>
 <?php else: ?>

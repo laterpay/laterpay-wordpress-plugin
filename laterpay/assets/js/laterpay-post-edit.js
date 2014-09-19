@@ -29,11 +29,11 @@
                 dynamicPricingContainer : '#lp_js_dynamic-pricing-widget-container',
 
                 // strings cached for better compression
-                expanded                : 'lp_expanded',
-                selected                : 'lp_selected',
-                disabled                : 'lp_disabled',
+                expanded                : 'lp_is-expanded',
+                selected                : 'lp_is-selected',
+                disabled                : 'lp_is-disabled',
                 selectedCategory        : 'lp_selected-category',
-                dynamicPricingApplied   : 'lp_dynamic-pricing-applied',
+                dynamicPricingApplied   : 'lp_is-with-dynamic-pricing',
                 payPerUse               : 'ppu',
                 singleSale              : 'sis',
             },
