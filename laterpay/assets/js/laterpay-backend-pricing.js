@@ -189,7 +189,7 @@
                 $o.addCategory.fadeOut(250);
 
                 // clone category default price template
-                var $form = categoryDefaultPriceTemplate
+                var $form = $o.categoryDefaultPriceTemplate
                             .clone()
                             .removeAttr('id')
                             .appendTo('#lp_js_category-default-prices-list')
