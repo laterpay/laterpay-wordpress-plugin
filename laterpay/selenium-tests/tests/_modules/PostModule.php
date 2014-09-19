@@ -259,10 +259,10 @@ class PostModule extends BaseModule {
             $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
             $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
             $teaser_content = null;
-//            if ($teaser) {
-//                $teaser_content = $this->_createTeaserContent($content, $teaser);
-//                $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-//            }
+            if ($teaser) {
+                $teaser_content = $this->_createTeaserContent($content, $teaser);
+                $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
+            }
 
             $I->amGoingTo('Switch Preview toggle to “Admin”');
             if ($I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
@@ -274,9 +274,9 @@ class PostModule extends BaseModule {
             if ($content)
                 $I->seeInPageSource($content);
 
-//            if ($teaser) {
-//                $I->cantSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-//            }
+            if ($teaser) {
+                $I->cantSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
+            }
 
             $I->amGoingTo('Go to the Post Overview page');
             $I->amOnPage(PostModule::$pagePostList);
@@ -303,9 +303,9 @@ class PostModule extends BaseModule {
 
                     $I->comment('Overlay mode');
                     $I->seeElement(PostModule::$visibleLaterpayPurchaseBenefits);
-//                    if ($teaser) {
-//                        $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-//                    }
+                    if ($teaser) {
+                        $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
+                    }
                     $I->see($price, 'a');
                     $I->see($currency, 'a');
                 };
@@ -619,12 +619,11 @@ class PostModule extends BaseModule {
      * @return string
      */
     private function _createTeaserContent($content, $teaser) {
-        $teaser_content = explode(' ', strip_tags($content), $teaser + 1);
+        //original $teaser_content = explode(' ', strip_tags($content), $teaser + 1);
+        $teaser_content = explode(' ', strip_tags($content), $teaser);
         array_pop($teaser_content);
-        //original join(' ', $teaser_content) . '...' fix for laterpay teaser bug
-        $result = join(' ', $teaser_content);
-        $result = substr($result, 0, -1);
-        return $result . '...';
+        //original join(' ', $teaser_content) . '...'
+        return join(' ', $teaser_content);
     }
 
 }
