@@ -246,7 +246,7 @@ class ModesModule extends BaseModule {
 
         $I->amGoingTo($returnUrl);
 
-        return $testMode;
+        return !$testMode;
     }
 
 }
