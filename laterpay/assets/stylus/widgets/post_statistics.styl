@@ -17,7 +17,7 @@
     right                           -5px
     top                             8em
     width                           333px
-    z-index                         111
+    z-index                         $zindex-overlayed_1
     transition                      0.25s ease-in-out
 
     h2
@@ -139,13 +139,13 @@
                 border-bottom       1px solid #999
                 padding             0 3px
                 position            relative
-                z-index             1
+                z-index             $zindex-elevated_2
 
             .lp_sparkline-background-bar + svg.peity
                 border              0 none
                 left                0.92em
                 position            absolute
-                z-index             0
+                z-index             $zindex-elevated_1
 
             big
                 font-size           1.5em
@@ -201,7 +201,7 @@
             margin                  0
             padding                 0 0.5em
             position                relative
-            z-index                 112
+            z-index                 $zindex-overlayed_3
 
         hr
             background              #bbb none
@@ -210,7 +210,7 @@
             margin                  1em 0 0.5em
             position                relative
             top                     -1.66em
-            z-index                 111
+            z-index                 $zindex-overlayed_2
 
     small,
     .lp_post-statistics-separator p

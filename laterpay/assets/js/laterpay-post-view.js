@@ -4,7 +4,7 @@
         function laterPayPostView() {
             var $o = {
                     // post statistics pane
-                    postStatisticsPane              : $('#lp_js_post-statistics')
+                    postStatisticsPane              : $('#lp_js_post-statistics'),
 
                     // post preview mode
                     postPreviewModeForm             : $('#lp_plugin-preview-mode-form'),
@@ -13,7 +13,7 @@
 
                     // post statistics pane visibility
                     postStatisticsVisibilityForm    : $('#lp_js_toggle-post-statistics-visibility-form'),
-                    postStatisticsVisibilityToggle  : $('#lp_js_toggle-post-statistics-visibility')
+                    postStatisticsVisibilityToggle  : $('#lp_js_toggle-post-statistics-visibility'),
                     postStatisticsVisibilityInput   : $('#lp_js_hide-statistics-pane-input'),
 
                     // placeholders for caching compatibility mode
