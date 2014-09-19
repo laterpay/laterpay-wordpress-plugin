@@ -7,7 +7,6 @@ class PostModule extends BaseModule {
     public static $pagePostList = '/wp-admin/edit.php';
     public static $pagePostEdit = '/wp-admin/post.php?post={post}&action=edit';
     public static $pagePostFrontView = '/?p={post}';
-
     //fields
     public static $fieldTitle = '#title';
     public static $fieldContent = '#content_ifr';
@@ -15,11 +14,9 @@ class PostModule extends BaseModule {
     public static $fieldPrice = 'input[name="post-price"]';
     public static $contentId = '#content';
     public static $teaserContentId = '#postcueeditor';
-
     //mcetabs
     public static $contentText = '#content-html';
     public static $teaserContentText = '#postcueeditor-html';
-
     //links
     public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
     public static $linkIndividualPrice = '#lp_use-individual-price';
@@ -33,12 +30,11 @@ class PostModule extends BaseModule {
     public static $linkViewPost = '#view-post-btn a';
     public static $linkPreviewSwitcher = '.switch-handle';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
-
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#lp_dynamic-pricing-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
     public static $visibleLaterpayPurchaseButton = 'a[class="lp_purchase-link lp_button"]';
-    public static $visibleLaterpayPurchaseLink = 'lp_purchase-link';
+    public static $visibleLaterpayPurchaseLink = '.lp_purchase-link';
     public static $visibleLaterpayPurchaseBenefits = '.lp_benefits';
     public static $visibleLaterpayTeaserContent = '.lp_teaser-content';
     public static $visibleLaterpayContent = '.entry-content';
@@ -46,11 +42,11 @@ class PostModule extends BaseModule {
     public static $visibleInTablePostPrice = '.post-price';
     public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
     public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
-
     //messages
     public static $messageShortcodeError = '.laterpay-shortcode-error';
     //purschase at LaterPay server
     public static $lpServerLinkJsGetter = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
+    public static $lpServerVisitorLoginLink = 'Log in to LaterPay';
     public static $lpServerVisitorLoginFrameName = 'wrapper';
     public static $lpServerVisitorEmailField = 'username';
     public static $lpServerVisitorEmailValue = 'atsumarov@scnsoft.com';
@@ -58,7 +54,6 @@ class PostModule extends BaseModule {
     public static $lpServerVisitorPasswordValue = 'atsumarov@scnsoft.com1';
     public static $lpServerVisitorLoginBtn = 'Log In';
     public static $lpServerVisitorBuyBtn = '#nextbuttons';
-
     //file
     public static $samplePdfFile = 'pdf-sample.pdf';
 
@@ -380,7 +375,7 @@ class PostModule extends BaseModule {
 
             $I->cantSeeElement(PostModule::$visibleLaterpayPurchaseBenefits);
 
-            $I->see($content);
+            //$I->see($content);
         } else {
 
             $I->amGoingTo('
@@ -410,6 +405,8 @@ class PostModule extends BaseModule {
 
         $I = $this->BackendTester;
 
+        BackendModule::of($I)->logout();
+
         $I->amGoingTo('Purshase the post');
 
         //It must be there. Cause of switching domain issue.
@@ -424,6 +421,7 @@ class PostModule extends BaseModule {
         $I->amOnPage($laterpayPage);
         $I->wait(PostModule::$averageTimeout);
 
+        $I->tryClick($I, PostModule::$lpServerVisitorLoginLink);
         $I->switchToIFrame(PostModule::$lpServerVisitorLoginFrameName);
         $I->fillField(PostModule::$lpServerVisitorEmailField, PostModule::$lpServerVisitorEmailValue);
         $I->fillField(PostModule::$lpServerVisitorPasswordField, PostModule::$lpServerVisitorPasswordValue);
@@ -568,12 +566,12 @@ class PostModule extends BaseModule {
 
         if ($price > 0) {
 
-             $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
+            $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
-             $I->click(self::$linkViewPost);
-             $I->click(self::$linkPreviewSwitcher);
-             $I->seeElement('div[class="lp_premium-file-box lp_content-type-gallery"]');
-             $I->see($price, '//*[@id="post-42"]/div/div[2]/div[1]/a');
+            $I->click(self::$linkViewPost);
+            $I->click(self::$linkPreviewSwitcher);
+            $I->seeElement('div[class="lp_premium-file-box lp_content-type-gallery"]');
+            $I->see($price, '//*[@id="post-42"]/div/div[2]/div[1]/a');
         }
 
         return $this;

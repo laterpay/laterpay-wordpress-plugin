@@ -20,6 +20,23 @@ class CommonHelper extends \Codeception\Module {
      * @param \SetupTester $I
      * @param String $I
      */
+    public function trySeeInField($I, $string, $value) {
+
+        try {
+
+            $I->seeInField($string, $value);
+            return true;
+        } catch (\PHPUnit_Framework_AssertionFailedError $f) {
+
+            return false;
+        };
+    }
+
+    /**
+     * Helper to have ability if-then-else condition
+     * @param \SetupTester $I
+     * @param String $I
+     */
     public function trySee($I, $string) {
 
         try {

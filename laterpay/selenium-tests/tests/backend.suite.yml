@@ -7,11 +7,11 @@ modules:
         - CommonHelper
     config:
       WebDriver:
-         url: 'https://src.wordpress-develop.dev/'
+         url: 'http://src.wordpress-develop.dev/'
          browser: firefox
          restart: false
          clear_cookies: false
-         window_size: 1440x900
+         window_size: 1280x1024
          wait: 5
          capabilities:
              unexpectedAlertBehaviour: 'accept'

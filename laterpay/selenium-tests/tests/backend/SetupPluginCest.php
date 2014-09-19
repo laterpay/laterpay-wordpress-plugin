@@ -265,7 +265,10 @@ class SetupPluginCest {
      */
     public function dev(BackendTester $I) {
 
-        PostModule::of($I)->purschaseAtServer(104);
+        //BackendModule::of($I)->logout();
+        //PostModule::of($I)->purchasePost(112, '0.35', 'EUR', BaseModule::$T1, BaseModule::$C1);
+        //PostModule::of($I)->purschaseAtServer(112);
+        //$I->comment($preview_mode);
     }
 
 }

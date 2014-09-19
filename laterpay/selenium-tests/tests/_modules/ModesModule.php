@@ -6,6 +6,7 @@ class ModesModule extends BaseModule {
     public static $linkPreviewModeSwitcher = 'input[name="teaser_content_only"]';
     public static $linkPluginModeToggle = '#lp_plugin-mode-toggle';
     public static $url_plugin_account = '/wp-admin/admin.php?page=laterpay-account-tab';
+    public static $url_plugin_appearence = '/wp-admin/admin.php?page=laterpay-appearance-tab';
     //data
     public static $dataValidLiveMerchantId = 'UKQwS7eSQVtkt8F8PmarM5';
     public static $dataValidLiveApiKey = '3ee4cf26cbe64ce7acc9f98001dc30e8';
@@ -94,21 +95,15 @@ class ModesModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        $I->amOnPage(self::$baseUrl);
-        $I->click(self::$adminMenuPluginButton);
-        $I->click(self::$pluginAccountTab);
+        $I->amOnPage(ModesModule::$url_plugin_appearence);
 
-        $preview_mode = (int) $I->executeJS('jQuery("' . self::$fieldTeaserContentChecked . '").val()');
+        if ($I->trySeeInField($I, 'input[name="teaser_content_only"]:checked', 0)) {
 
-        switch ($preview_mode) {
-            case 0:
-                return 'overlay';
-            case 1:
-                return 'teaser_only';
-            default: break;
-        }
+            return 'overlay';
+        } else {
 
-        return false;
+            return 'teaser_only';
+        };
     }
 
     /**
