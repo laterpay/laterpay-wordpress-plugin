@@ -201,12 +201,9 @@ class PostCheckCest {
                 ->goThroughGetStartedTab(0.35, 'USD');
 
         PostModule::of($I)
-                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', 0.35, 60, SetupModule::$pluginUploadFilename)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', 0.35, 60, PostModule::$samplePdfFile)
                 ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60)
-                ->checkIfFilesAreProtected($I->getVar('post'), 0.35, SetupModule::$pluginUploadFilename);
-
-        BackendModule::of($I)
-                ->logout();
+                ->checkIfFilesAreProtected($I->getVar('post'), PostModule::$samplePdfFile);
     }
 
     /**

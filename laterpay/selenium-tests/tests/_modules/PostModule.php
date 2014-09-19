@@ -14,6 +14,7 @@ class PostModule extends BaseModule {
     public static $fieldPrice = 'input[name="post-price"]';
     public static $contentId = '#content';
     public static $teaserContentId = '#postcueeditor';
+    public static $fileInput = 'input[type="file"]';
     //mcetabs
     public static $contentText = '#content-html';
     public static $teaserContentText = '#postcueeditor-html';
@@ -24,13 +25,14 @@ class PostModule extends BaseModule {
     public static $linkCategoryPrice = '#lp_use-category-default-price';
     public static $linkAddMedia = '#insert-media-button';
     public static $linkMediaRouter = '.media-router';
-    public static $linkAttachFile = '.browser.button.button-hero';
+    public static $linkAttachFile = '#__wp-uploader-id-1';
     public static $linkAddFileLinkToContent = '.media-toolbar-primary .media-button-insert';
     public static $linkPublish = '#publish';
     public static $linkViewPost = '#view-post-btn a';
     public static $linkPreviewSwitcher = '.switch-handle';
     public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
     public static $linkShortCode = 'a[class="lp_purchase-link-without-function lp_button"]';
+    public static $linkFileLink = 'a[href*="wp-admin/admin-ajax.php?action=laterpay_load_files"]';
     //should be visible
     public static $visibleLaterpayWidgetContainer = '#lp_dynamic-pricing-widget-container';
     public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
@@ -160,8 +162,8 @@ class PostModule extends BaseModule {
             $I->amGoingTo('Attach files to post');
             $I->click(PostModule::$linkAddMedia);
             $I->click('Upload Files', PostModule::$linkMediaRouter);
-            //TODO: implement media file upload
-            $I->attachFile('tmpl-uploader-window', $files);
+            $I->click(PostModule::$linkAttachFile);
+            $I->attachFile(PostModule::$fileInput, $files);
             $I->click(PostModule::$linkAddFileLinkToContent);
         }
 
@@ -545,17 +547,32 @@ class PostModule extends BaseModule {
      * P.40
      * Check if Files are Protected
      * @param $post
-     * @param $file
+     * @param $file_name
      * @return $this
      */
-    public function checkIfFilesAreProtected($post, $file) {
+    public function checkIfFilesAreProtected($post, $file_name) {
         $I = $this->BackendTester;
 
         $I->amGoingTo('Open post for edit');
         $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
         $I->click(self::$linkViewPost);
-        $I->click(self::$linkPreviewSwitcher);
+
+        //selected admin
+        $I->seeElement(self::$linkFileLink);
+        $parsed = explode('.', $file_name);
+        $link = $I->executeJS("var link = jQuery('a:contains(" . $parsed[0] . ")').attr('href'); return link;");
+
+        $I->amOnPage($link);
+        $I->wait(1);
+        //TODO: check that this is PDF file
+
+        BackendModule::of($I)
+            ->logout();
+
+        $I->amOnPage($link);
+        $I->wait(1);
+        $I->see('0');
 
         return $this;
     }
