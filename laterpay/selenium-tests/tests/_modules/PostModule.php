@@ -274,9 +274,8 @@ class PostModule extends BaseModule {
             if ($content)
                 $I->seeInPageSource($content);
 
-            if ($teaser) {
+            if ($teaser)
                 $I->cantSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
-            }
 
             $I->amGoingTo('Go to the Post Overview page');
             $I->amOnPage(PostModule::$pagePostList);
