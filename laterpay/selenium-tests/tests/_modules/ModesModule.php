@@ -243,11 +243,6 @@ class ModesModule extends BaseModule {
         $I->amOnPage(ModesModule::$url_plugin_account);
 
         $testMode = (int) $I->grabValueFrom(ModesModule::$pluginModeHidden);
-        $I->comment((string) $testMode);
-        if ($testMode == 0)
-            $testMode = true;
-        else
-            $testMode = false;
 
         $I->amGoingTo($returnUrl);
 
