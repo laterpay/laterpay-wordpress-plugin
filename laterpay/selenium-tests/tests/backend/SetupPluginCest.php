@@ -266,6 +266,7 @@ class SetupPluginCest {
      */
     public function testCorrectShortcodesRenderedProperlyWithinPaidPost(BackendTester $I) {
 
+
         $_priceOne = '0.00';
         $_priceTwo = '0.55';
         $_currency = 'EUR';
