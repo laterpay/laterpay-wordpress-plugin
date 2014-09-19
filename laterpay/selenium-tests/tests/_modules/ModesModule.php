@@ -14,6 +14,7 @@ class ModesModule extends BaseModule {
     public static $testData2 = 'a1b2c3d4e5f6g7h8i9j0k1';
     public static $testData3 = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5';
     public static $testData4 = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6';
+    public static $pluginSandobxLiveSwitcher = '.switch-text';
     //fields
     public static $fieldLaterpayLiveMerchantId = '#lp_live-merchant-id';
     public static $fieldLaterpayLiveApiKey = '#lp_live-api-key';
@@ -24,8 +25,7 @@ class ModesModule extends BaseModule {
     //message
     public static $messageTeaserOnly = 'Visitors will now see only the teaser content of paid posts.';
     public static $messageOverlay = 'Visitors will now see the teaser content of paid posts plus an excerpt of the real content under an overlay.';
-    public static $messageTestMode = 'The LaterPay plugin is in TEST mode now.
-    Payments are only simulated and not actually booked.';
+    public static $messageTestMode = 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.';
     public static $messageErrorLiveMode = 'The LaterPay plugin needs valid API credentials to work.';
     public static $messageLiveMode = 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.';
     public static $messageMerchantIdNotValid = 'The Merchant ID you entered is not a valid LaterPay Merchant ID!';
@@ -164,14 +164,23 @@ class ModesModule extends BaseModule {
      * @return $this
      */
     public function switchToTestMode() {
-        $I = $this->BackendTester;
-        $I->amOnPage(self::$baseUrl);
-        $I->click(self::$adminMenuPluginButton);
-        $I->click(self::$pluginAccountTab);
-        $I->click(self::$labelLive, self::$linkPluginModeToggle);
 
-        $I->see(self::$messageTestMode, self::$messageArea);
-        $I->see(self::$labelTest, self::$linkPluginModeToggle);
+        $I = $this->BackendTester;
+
+        if ($this->checkIsTestMode())
+            return $this;
+
+        $I->amOnPage(ModesModule::$url_plugin_account);
+
+        $I->fillField(self::$fieldLaterpayLiveMerchantId, self::$testData2);
+        $I->fillField(self::$fieldLaterpayLiveApiKey, self::$testData4);
+        $I->click(self::$pluginSandobxLiveSwitcher);
+        $I->wait(BaseModule::$shortTimeout);
+
+        //Commented, because this message can`t be shown, until there no valid live credentials. Because of checkbox already set to test mode and can`t be changed to trigger the message.
+        //$I->seeInPageSource(self::$messageTestMode);
+
+        $I->cantSeeCheckboxIsChecked(self::$linkPluginModeToggle);
 
         return $this;
     }
@@ -227,15 +236,17 @@ class ModesModule extends BaseModule {
      */
     public function checkIsTestMode() {
 
-        $testMode = true;
-
         $I = $this->BackendTester;
 
         $returnUrl = $I->grabFromCurrentUrl();
 
-        $I->amGoingTo(ModesModule::$url_plugin_account);
+        $I->amOnPage(ModesModule::$url_plugin_account);
 
-        if ($I->tryCheckbox($I, ModesModule::$pluginModeCheckbox))
+        $testMode = (int) $I->grabValueFrom(ModesModule::$pluginModeHidden);
+        $I->comment((string) $testMode);
+        if ($testMode == 0)
+            $testMode = true;
+        else
             $testMode = false;
 
         $I->amGoingTo($returnUrl);

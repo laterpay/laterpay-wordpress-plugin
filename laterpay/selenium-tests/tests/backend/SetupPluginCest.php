@@ -360,18 +360,6 @@ class SetupPluginCest {
     }
 
     /**
-     * @param \BackendTester $I
-     * @group dev
-     */
-    public function dev(BackendTester $I) {
-
-        //BackendModule::of($I)->logout();
-        //PostModule::of($I)->purchasePost(112, '0.35', 'EUR', BaseModule::$T1, BaseModule::$C1);
-        //PostModule::of($I)->purschaseAtServer(112);
-        //$I->comment($preview_mode);
-    }
-
-    /**
      * @param BackendTester $I
      * @group UI27
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/310
@@ -431,6 +419,17 @@ class SetupPluginCest {
 
         PostModule::of($I)
                 ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', $_priceTwo, $_currency, BaseModule::$T1, BaseModule::$C1, 60);
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group dev
+     */
+    public function dev(BackendTester $I) {
+
+        BackendModule::of($I)->login();
+
+        ModesModule::of($I)->switchToTestMode();
     }
 
 }
