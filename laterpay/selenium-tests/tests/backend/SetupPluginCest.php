@@ -371,5 +371,67 @@ class SetupPluginCest {
         //$I->comment($preview_mode);
     }
 
+    /**
+     * @param BackendTester $I
+     * @group UI27
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/310
+     */
+    public function testSwitchToLiveMode(BackendTester $I) {
+
+        $_priceOne = '0.35';
+        $_priceTwo = '0.10';
+        $_currency = 'EUR';
+        $I->wantToTest('UI27: Can I switch to live mode?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab($_priceOne, $_currency);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceTwo, 60);
+
+        ModesModule::of($I)
+                ->switchToLiveMode();
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', $_priceTwo, $_currency, BaseModule::$T1, BaseModule::$C1, 60);
+    }
+
+    /**
+     * @param BackendTester $I
+     * @group UI28
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/311
+     */
+    public function testSwitchToTestMode(BackendTester $I) {
+
+        $_priceOne = '0.35';
+        $_priceTwo = '0.10';
+        $_currency = 'EUR';
+        $I->wantToTest('UI28: Can I switch to test mode?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab($_priceOne, $_currency);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceTwo, 60);
+
+        ModesModule::of($I)
+                ->switchToTestMode();
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', $_priceTwo, $_currency, BaseModule::$T1, BaseModule::$C1, 60);
+    }
+
 }
 
