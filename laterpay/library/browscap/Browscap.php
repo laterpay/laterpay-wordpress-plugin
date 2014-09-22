@@ -101,9 +101,9 @@ class Browscap
      * is MINIMAL, so there is no reason to use the standard file whatsoever. Either go for light,
      * which is blazing fast, or get the full one. (note: light version doesn't work, a fix is on its way)
      */
-    public $remoteIniUrl = 'http://browscap.org/stream?q=PHP_BrowscapINI';
+    public $remoteIniUrl = 'http://browscap.org/stream?q=Lite_PHP_BrowsCapINI';
     public $remoteVerUrl = 'http://browscap.org/version';
-    public $timeout =60;
+    public $timeout = 60;
     public $updateInterval = 432000; // 5 days
     public $errorInterval = 7200; // 2 hours
     public $doAutoUpdate = true;
@@ -346,6 +346,9 @@ class Browscap
                 }
 
                 if (! $this->_loadCache($cache_file)) {
+                    if ( $this->silent ) {
+                        return array();
+                    }
                     throw new Exception('Cannot load this cache version - the cache format is not compatible.');
                 }
             }
