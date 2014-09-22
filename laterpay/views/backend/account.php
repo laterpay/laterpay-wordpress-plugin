@@ -8,7 +8,7 @@
 
     <div class="lp_navigation lp_p-rel">
         <a  href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
-            id="#lp_js_plugin-mode-indicator"
+            id="lp_js_plugin-mode-indicator"
             class="lp_plugin-mode-indicator lp_p-abs"
             <?php if ( $plugin_is_in_live_mode ): ?>style="display:none;"<?php endif; ?>
             data-icon="h">
