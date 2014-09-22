@@ -729,7 +729,7 @@ class SetupPluginCest {
                 ->activatePlugin()
                 ->goThroughGetStartedTab($_priceOne, $_currency);
 
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceOne);
+        PostModule::of($I)->createTestPost(BaseModule::$T2, BaseModule::$C2, null, 'individual price', $_priceOne);
         $_testPost1 = $I->getVar('post');
 
         PostModule::of($I)->createTestPost(BaseModule::$T2, BaseModule::$C2, null, 'individual price', $_priceTwo);
