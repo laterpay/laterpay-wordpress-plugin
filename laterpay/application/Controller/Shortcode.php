@@ -33,7 +33,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * Advanced example:
      * [laterpay_premium_download target_page_id="734" heading_text="Video footage of concert"
-     * description_text="Full HD video of the entire concept, including behind the scenes action."
+     * description_text="Full HD video of the entire concert, including behind the scenes action."
      * teaser_image_path="/uploads/images/concert-video-still.jpg"]
      *
      * @param array $atts
