@@ -25,6 +25,7 @@ class LaterPay_Helper_Browser
             if ( $config->has( 'browscap.manually_updated_copy' ) ) {
                 self::$browscap->localFile = $config->get( 'browscap.manually_updated_copy' );
             }
+            self::$browscap->silent = $config->get( 'browscap.silent' );
         }
 
         return self::$browscap->getBrowser( NULL, true );

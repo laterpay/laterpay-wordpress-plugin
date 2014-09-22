@@ -106,7 +106,7 @@ class Browscap
     public $timeout =60;
     public $updateInterval = 432000; // 5 days
     public $errorInterval = 7200; // 2 hours
-public $doAutoUpdate = true;
+    public $doAutoUpdate = true;
     public $updateMethod = null;
 
     /**
@@ -721,29 +721,13 @@ public $doAutoUpdate = true;
 
         // Save and return
         $result = (bool) file_put_contents($tmp_cache_path, $cache, LOCK_EX);
-        if ( $result && $this->validateCacheFile($tmp_cache_path) ) {
+        if ( $result ) {
             $result = (bool) file_put_contents($cache_path, $cache, LOCK_EX);
         }
         if ( file_exists($tmp_cache_path) ) {
             @unlink($tmp_cache_path);
         }
         return $result;
-    }
-
-    /**
-     * PHP file syntax check
-     *
-     * @param string $file
-     * @return boolean
-     */
-    protected function validateCacheFile($file) {
-        $command = 'php -l ' . escapeshellarg($file);
-        $return_var = 0;
-        ob_start();
-        @system($command, $return_var);
-        ob_end_clean();
-
-        return $return_var === 0;
     }
 
     /**
@@ -895,7 +879,7 @@ public $doAutoUpdate = true;
 
         $this->_cacheLoaded = false;
 
-        if ( ! $this->validateCacheFile($cache_file) ) {
+        if ( ! file_exists( $cache_file ) ) {
             return false;
         }
 
