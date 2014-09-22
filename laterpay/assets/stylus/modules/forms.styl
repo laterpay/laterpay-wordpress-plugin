@@ -52,7 +52,7 @@ input[type=text].lp_number-input
 .lp_input::-webkit-input-placeholder,
 .lp_input::-moz-placeholder,
 .lp_input:-ms-input-placeholder
-    color                           #a5a5a5
+    color                           $text-lighter
     line-height                     1
 
 
@@ -66,9 +66,9 @@ input[type=text][required] + label[placeholder]
     pointer-events                  none
 
     &:before
-        linear-gradient             rgba(255,255,255,0), 46%, rgba(255,255,255,1), 47%
+        linear-gradient             hsla(0,0%,100%,0), 46%, hsla(0,0%,100%,1), 47%
         background-repeat           no-repeat
-        color                       #a5a5a5
+        color                       $text-lighter
         content                     attr(placeholder)
         display                     inline-block
         margin                      1.4em 0 0 0.5em
@@ -136,7 +136,7 @@ label:hover .ez-mark
 .ez-checked.ez-checkbox svg .check,
 .ez-checked.ez-radio svg .dot
     display                         block
-    fill                            #666
+    fill                            hsl(0, 0%, 40%)
 
 .ez-hide
     opacity                         0
