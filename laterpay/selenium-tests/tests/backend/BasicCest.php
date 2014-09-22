@@ -735,7 +735,7 @@ class SetupPluginCest {
         PostModule::of($I)->createTestPost(BaseModule::$T2, BaseModule::$C2, null, 'individual price', $_priceTwo);
         $_testPost2 = $I->getVar('post');
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'individual price', $_priceOne, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->checkTestPostForLaterPayElements($_testPost1, 'individual price', $_priceOne, $_currency, BaseModule::$T2);
 
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'individual price', $_priceTwo, $_currency, BaseModule::$T2);
 
