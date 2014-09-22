@@ -304,6 +304,9 @@ class LaterPay_Helper_Browser
      */
     public static function is_crawler( $version = '' ) {
         $browserInfo = self::php_browser_info();
+        if ( empty($browserInfo) ) {
+            return true;
+        }
         if ( isset( $browserInfo['Crawler'] ) && ($browserInfo['Crawler'] == 1 || $browserInfo['Crawler'] == 'true') ) {
             if ( $version == '' ) :
                 return true;
