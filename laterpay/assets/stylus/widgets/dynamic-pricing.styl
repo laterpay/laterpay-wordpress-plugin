@@ -15,24 +15,24 @@ svg text
 
 .tick line,
 .x.axis path
-    stroke                  #666
+    stroke                  hsl(0, 0%, 40%)
     stroke-width            0.1px
 
 .x.axis path.domain,
 .y.axis path.domain
     stroke-dasharray        none
     stroke-width            1.5px
-    stroke                  #aaa
+    stroke                  hsl(0, 0%, 67%)
 
 .arrowhead
-    fill                    #aaa
+    fill                    hsl(0, 0%, 67%)
 
 .tick text
     display                 none
 
 circle
-    fill                    #222
-    stroke                  #f1f1f1
+    fill                    hsl(0, 0%, 13%)
+    stroke                  hsl(0, 0%, 95%)
     stroke-width            2px
     transition              all .5s
 
@@ -41,7 +41,7 @@ circle.circle-hidden
 
 .line
     fill                    none
-    stroke                  #222
+    stroke                  hsl(0, 0%, 13%)
     stroke-width            3px
 
 rect.start-price,
@@ -50,11 +50,11 @@ rect.x-drag-square,
 .x-triangle-bottom,
 path.start-price-triangle,
 path.end-price-triangle
-    fill                    #0073a4
+    fill                    $clickable
     opacity                 0.85
 
 rect.background
-    fill                    #f1f1f1
+    fill                    hsl(0, 0%, 95%)
 
 .dragging
     .tooltip,
@@ -64,14 +64,14 @@ rect.background
 .line-price
     cursor                  col-resize
     opacity                 0.01
-    stroke                  #fff
+    stroke                  hsl(0, 0%, 100%)
     stroke-width            8px
 
     .hidden
         display             none
 
 .line-price-visible
-    stroke                  #555
+    stroke                  hsl(0, 0%, 33%)
     stroke-dasharray        5
     stroke-width            1.5px
 
@@ -96,7 +96,7 @@ text.start-price-currency,
 text.end-price,
 text.end-price-currency
     cursor                  col-resize
-    fill                    #fff
+    fill                    hsl(0, 0%, 100%)
 
 text.start-price,
 text.start-price-currency,
@@ -119,5 +119,5 @@ text.end-price-currency
     font-weight             400
 
 text.default-price
-    fill                    #aaa
+    fill                    hsl(0, 0%, 67%)
     font-size               10px
