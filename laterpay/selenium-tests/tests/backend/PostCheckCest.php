@@ -232,5 +232,36 @@ class PostCheckCest {
                 ->logout();
     }
 
+    /**
+     * @param BackendTester $I
+     * @group UI29
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/312
+     */
+    public function testPriceInputsValidated(BackendTester $I) {
+        $I->wantToTest('Are the price inputs validated?');
+
+        BackendModule::of($I)
+            ->login();
+
+        SetupModule::of($I)
+            ->uninstallPlugin()
+            ->installPlugin()
+            ->activatePlugin()
+            ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+            ->createTestCategory(BaseModule::$CAT1);
+
+        SetupModule::of($I)->validateGlobalPrice();
+
+        CategoryDefaultPriceModule::of($I)->validateCategoryPrice();
+
+        PostModule::of($I)->validateIndividualPrice();
+
+        BackendModule::of($I)
+            ->logout();
+    }
+
+
 }
 

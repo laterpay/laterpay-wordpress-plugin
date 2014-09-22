@@ -203,10 +203,6 @@ class SetupModule extends BaseModule {
         $I->seeLink(SetupModule::$laterpaySaveLink);
         $I->seeLink(SetupModule::$laterpayCancelLink);
 
-        $I->amGoingTo('Price Validation');
-        $I->amOnPage(SetupModule::$pluginBackLink);
-        BackendModule::of($I)->validatePrice(SetupModule::$globalDefaultPriceField, SetupModule::$laterpayChangeLink, SetupModule::$laterpaySaveLink);
-
         $I->amGoingTo('Click on the “Cancel”');
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
@@ -264,5 +260,17 @@ class SetupModule extends BaseModule {
         return $this;
     }
 
+    /**
+     * To UI29
+     */
+    public function validateGlobalPrice()
+    {
+        $I = $this->BackendTester;
+
+        $I->amOnPage(SetupModule::$pluginBackLink);
+
+        $I->amGoingTo('Validate global price');
+        BackendModule::of($I)->validatePrice(SetupModule::$globalDefaultPriceField, SetupModule::$laterpayChangeLink, SetupModule::$laterpaySaveLink);
+    }
 }
 

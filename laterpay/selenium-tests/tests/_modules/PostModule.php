@@ -120,11 +120,6 @@ class PostModule extends BaseModule {
             case 'individual price':
                 $I->amGoingTo('Choose individual price type');
                 $I->click(PostModule::$linkIndividualPrice);
-                /* disable price validation for now
-                  BackendModule::of($I)
-                  ->validatePrice(PostModule::$fieldPrice);
-                 */
-                //we can change only individual price
                 if ($price) {
                     $I->amGoingTo('Set price');
                     $I->fillField(PostModule::$fieldPrice, $price);
@@ -640,6 +635,20 @@ class PostModule extends BaseModule {
         array_pop($teaser_content);
         //original join(' ', $teaser_content) . '...'
         return join(' ', $teaser_content);
+    }
+
+    /**
+     * To UI29
+     */
+    public function validateIndividualPrice()
+    {
+        $I = $this->BackendTester;
+        $I->amOnPage(PostModule::$pagePostNew);
+        $I->click(PostModule::$linkIndividualPrice);
+
+        $I->amGoingTo('Validate Individual Price');
+        BackendModule::of($I)
+            ->validatePrice(PostModule::$fieldPrice);
     }
 
 }

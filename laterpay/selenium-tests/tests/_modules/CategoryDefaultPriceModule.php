@@ -58,7 +58,6 @@ class CategoryDefaultPriceModule extends BaseModule {
         $I->click(self::$pricingCategorySelect);
         $I->wait(self::$veryShortTimeout);
         $I->click('.select2-results .select2-result');
-        //$I->executeJS("jQuery('#select2-drop li:contains(\"" . $category_name . "\")').trigger('click')");
         $I->fillField(self::$pricingPriceInput, $category_default_price);
         $I->click(self::$pricingSaveLink);
         $I->waitForText($messageCategoryPriceSaveText, self::$shortTimeout, self::$messageArea);
@@ -66,18 +65,6 @@ class CategoryDefaultPriceModule extends BaseModule {
         $I->seeElement(self::$pricingDeleteLink);
         $I->dontSeeElement(self::$pricingCancelLink);
         $I->dontSeeElement(self::$pricingSaveLink);
-
-        //we can validate price only after category default price was created
-        /* enable after input fixed
-            $I->amGoingTo('Validate Price');
-            BackendModule::of($I)
-                ->validatePrice(self::$pricingPriceInput, self::$pricingChangeLink, self::$pricingSaveLink);
-
-            $I->amGoingTo('Restore category default price');
-            $I->click(self::$pricingChangeLink);
-            $I->fillField(self::$pricingPriceInput, $category_default_price);
-            $I->click(self::$pricingSaveLink);
-        */
 
         return $this;
     }
@@ -145,5 +132,20 @@ class CategoryDefaultPriceModule extends BaseModule {
         return $this;
     }
 
+    /**
+     * To UI29
+     */
+    public function validateCategoryPrice()
+    {
+        $I = $this->BackendTester;
+
+        $I->amOnPage(self::$baseUrl);
+        $I->click(self::$adminMenuPluginButton);
+        $I->click(self::$pluginPricingTab);
+
+        $I->amGoingTo('Validate Category Price');
+        BackendModule::of($I)
+            ->validatePrice(self::$pricingPriceInput, self::$pricingChangeLink, self::$pricingSaveLink);
+    }
 }
 
