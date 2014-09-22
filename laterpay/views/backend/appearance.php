@@ -46,11 +46,11 @@
         <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
-            <h2><?php _e( 'Appearance on Post Level', 'laterpay' ); ?></h2>
+            <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
         </div>
 
         <div class="lp_row">
-            <h3><?php _e( 'Additional Paid Content', 'laterpay' ); ?></h3>
+            <h3><?php _e( 'Offer of Additional Paid Content', 'laterpay' ); ?></h3>
             <dfn class="lp_fl-clearfix">
                 <?php _e( 'Insert shortcode [laterpay_premium_download] into a post to render a box for selling additional paid content.', 'laterpay' ); ?>
             </dfn>
@@ -153,7 +153,7 @@
         </div>
 
         <div class="lp_row lp_fl-clearfix lp_m-b1">
-            <h3><?php _e( 'Current LaterPay Invoice Balance', 'laterpay' ); ?></h3>
+            <h3><?php _e( 'Display of LaterPay Invoice Balance', 'laterpay' ); ?></h3>
             <dfn class="lp_fl-clearfix">
                 <?php _e( 'Call action \'laterpay_invoice_indicator\' in your theme to show your users their LaterPay invoice balance.', 'laterpay' ); ?><br>
                 <?php _e( 'The LaterPay invoice indicator is served by LaterPay. Its styling can not be changed.', 'laterpay' ); ?>
