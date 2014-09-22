@@ -808,7 +808,7 @@ class SetupPluginCest {
 
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'individual price', $_priceTwo, $_currency, BaseModule::$T3);
 
-        PostModule::of($I)->checkIfWrongShortcodeIsDisplayedCorrectly($_testPost1, $_priceOne);
+        PostModule::of($I)->checkIfWrongShortcodeIsDisplayedCorrectly($_testPost2, $_priceTwo);
     }
 
     /**
