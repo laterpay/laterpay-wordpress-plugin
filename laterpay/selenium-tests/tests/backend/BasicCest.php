@@ -798,7 +798,7 @@ class SetupPluginCest {
                 ->activatePlugin()
                 ->goThroughGetStartedTab($_priceOne, $_currency);
 
-        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', $_priceOne);
+        PostModule::of($I)->createTestPost(BaseModule::$T3, BaseModule::$C3, null, 'individual price', $_priceOne);
         $_testPost1 = $I->getVar('post');
 
         PostModule::of($I)->createTestPost(BaseModule::$T3, BaseModule::$C3, null, 'individual price', $_priceTwo);
@@ -808,7 +808,7 @@ class SetupPluginCest {
 
         PostModule::of($I)->checkTestPostForLaterPayElements($_testPost2, 'individual price', $_priceTwo, $_currency, BaseModule::$T3);
 
-        PostModule::of($I)->checkIfWrongShortcodeIsDisplayedCorrectly($_testPost2, $_priceTwo);
+        PostModule::of($I)->checkIfWrongShortcodeIsDisplayedCorrectly($_testPost1, $_priceOne);
     }
 
     /**
