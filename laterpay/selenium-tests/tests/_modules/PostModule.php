@@ -186,7 +186,6 @@ class PostModule extends BaseModule {
      * @param $title
      * @param null $content
      * @param $teaser
-     *
      * @return $this
      */
     public function checkTestPostForLaterPayElements($post, $price_type = null, $price = null, $currency = null, $title = null, $content = null, $teaser = null) {
@@ -323,6 +322,7 @@ class PostModule extends BaseModule {
      * P.23
      * @param $post
      * @return $this
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function purchasePost($post, $price = null, $currency = null, $title = null, $content = null) {
 
@@ -405,6 +405,7 @@ class PostModule extends BaseModule {
      * So used switching "WebDriver config url"
      * As note: $I->executeJS(" document.getElementsByTagName('iframe')[0].contentDocument.getElementById('id_username').value = 'atsumarov@scnsoft.com'; ");
      * @return $this
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function purschaseAtServer($post) {
 
@@ -445,6 +446,7 @@ class PostModule extends BaseModule {
      * @param $category
      * @param null $post
      * @return $this
+     * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function unassignPostFromCategory($category_id, $post = null) {
 
@@ -470,6 +472,7 @@ class PostModule extends BaseModule {
      * @param $category_id
      * @param null $post
      * @return $this
+     * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function assignPostToCategory($category_id, $post = null) {
 
@@ -495,6 +498,7 @@ class PostModule extends BaseModule {
      * P.23
      * @param $post
      * @return $this
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     private function _storeCreatedPostId() {
 
@@ -520,6 +524,7 @@ class PostModule extends BaseModule {
      * @param $post
      * @param $price
      * @return $this
+     * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function changeIndividualPrice($post, $price) {
         $I = $this->BackendTester;
@@ -544,6 +549,7 @@ class PostModule extends BaseModule {
      * @param $post
      * @param $file_name
      * @return $this
+     * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function checkIfFilesAreProtected($post, $file_name) {
         $I = $this->BackendTester;
@@ -563,7 +569,7 @@ class PostModule extends BaseModule {
         //TODO: check that this is PDF file
 
         BackendModule::of($I)
-            ->logout();
+                ->logout();
 
         $I->amOnPage($link);
         $I->wait(1);
@@ -628,6 +634,7 @@ class PostModule extends BaseModule {
      * @param $content
      * @param $teaser
      * @return string
+     * @author Alex Vahura <avahura@scnsoft.com>
      */
     private function _createTeaserContent($content, $teaser) {
         //original $teaser_content = explode(' ', strip_tags($content), $teaser + 1);
@@ -639,16 +646,16 @@ class PostModule extends BaseModule {
 
     /**
      * To UI29
+     * @author Alex Vahura <avahura@scnsoft.com>
      */
-    public function validateIndividualPrice()
-    {
+    public function validateIndividualPrice() {
         $I = $this->BackendTester;
         $I->amOnPage(PostModule::$pagePostNew);
         $I->click(PostModule::$linkIndividualPrice);
 
         $I->amGoingTo('Validate Individual Price');
         BackendModule::of($I)
-            ->validatePrice(PostModule::$fieldPrice);
+                ->validatePrice(PostModule::$fieldPrice);
     }
 
 }

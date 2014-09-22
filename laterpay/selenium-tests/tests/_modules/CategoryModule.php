@@ -12,9 +12,10 @@ class CategoryModule extends BaseModule {
 
     /**
      * P.36
-     * Create Test Category 
+     * Create Test Category
      * @param $category_name
      * @return $this
+     * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function createTestCategory($category_name) {
         $I = $this->BackendTester;

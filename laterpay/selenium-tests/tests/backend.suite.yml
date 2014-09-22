@@ -1,10 +1,11 @@
 # dsn: 'mysql:host=localhost;dbname=wordpress_trunk' - must be set a fake database name, cush as framework fill drop all tables in it.
-#- Db
+#
 class_name: BackendTester
 modules:
     enabled:
         - WebDriver
         - CommonHelper
+        - Db
     config:
       WebDriver:
          url: 'http://src.wordpress-develop.dev/'

@@ -65,6 +65,7 @@ class SetupModule extends BaseModule {
 
     /**
      * Uninstall
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function uninstallPlugin() {
 
@@ -85,6 +86,7 @@ class SetupModule extends BaseModule {
     /**
      * P.16-17
      * Installation {version}
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function installPlugin($version = null) {
 
@@ -107,6 +109,7 @@ class SetupModule extends BaseModule {
     /**
      * P.18
      * Can the user activate the plugin successfully?
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function activatePlugin() {
 
@@ -131,6 +134,7 @@ class SetupModule extends BaseModule {
      * P.18-20
      * Go through Get Started Tab {global default price, currency}
      * Can the user successfully complete the “Get Started”
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function goThroughGetStartedTab($price = null, $currency = null) {
 
@@ -191,6 +195,7 @@ class SetupModule extends BaseModule {
      * P.21-22
      * Change Global Default Price {new global default price}
      * Can the user successfully change the global default price?
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function changeGlobalDefaultPrice($price = null) {
 
@@ -240,6 +245,7 @@ class SetupModule extends BaseModule {
      * P.24
      * Change Currency {new currency}
      * {currency} = string
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function changeCurrency($currency = 'USD') {
 
@@ -263,8 +269,7 @@ class SetupModule extends BaseModule {
     /**
      * To UI29
      */
-    public function validateGlobalPrice()
-    {
+    public function validateGlobalPrice() {
         $I = $this->BackendTester;
 
         $I->amOnPage(SetupModule::$pluginBackLink);
@@ -272,5 +277,6 @@ class SetupModule extends BaseModule {
         $I->amGoingTo('Validate global price');
         BackendModule::of($I)->validatePrice(SetupModule::$globalDefaultPriceField, SetupModule::$laterpayChangeLink, SetupModule::$laterpaySaveLink);
     }
+
 }
 

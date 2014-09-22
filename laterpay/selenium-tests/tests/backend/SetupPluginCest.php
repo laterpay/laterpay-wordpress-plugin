@@ -12,6 +12,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI1
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/284
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function installPlugin(BackendTester $I) {
 
@@ -29,6 +30,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI2
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/285
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCanIsetCurrencyAndGlobalDefaultPrice(BackendTester $I) {
 
@@ -53,6 +55,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI3
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/286
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCanChangeCurrency(BackendTester $I) {
 
@@ -81,6 +84,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI4
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/287
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCanPurchasePost(BackendTester $I) {
 
@@ -109,6 +113,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI5
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/288
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCanRemoveDefaultPriceAndAapplyIt(BackendTester $I) {
 
@@ -143,6 +148,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI6
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/289
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCanChangeDefaultPriceAndAapplyIt(BackendTester $I) {
 
@@ -175,8 +181,483 @@ class SetupPluginCest {
 
     /**
      * @param \BackendTester $I
+     * @group UI7
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/290
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCheckCategoryPriceAutoAppliedIfNewCategoryPriceCreatedCest(BackendTester $I) {
+        $I->wantToTest('Is a category default price automatically applied to a post with global default price, if a
+                        new category default price is created?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'global default price', 0.35, 60);
+
+        CategoryDefaultPriceModule::of($I)
+                ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.28);
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.28, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI8
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/291
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCheckIfCategoryPriceAppliedToPostIfChangedCest(BackendTester $I) {
+        $I->wantToTest('Can I change a category default price and is it applied to existing posts?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+
+        CategoryDefaultPriceModule::of($I)
+                ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.28);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'category default price', null, 60);
+
+        CategoryDefaultPriceModule::of($I)
+                ->changeCategoryDefaultPrice(BaseModule::$CAT1, '0.10');
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', '0.10', 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI9
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/292
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCheckIfCategoryPriceAppliedToPostWithGlobalDefaultPriceCest(BackendTester $I) {
+        $I->wantToTest('Is a category default price automatically applied to a post with global default price, if a
+                        a post is assigned to a category with global default price?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'global default price', 0.35, 60);
+
+        CategoryDefaultPriceModule::of($I)
+                ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.28);
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.28, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI10
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/293
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCheckPricesApplyingWithCategoryPriceDeletedCest(BackendTester $I) {
+        $I->wantToTest('Is the higher of two remaining category default prices automatically applied to a post
+                        with a category default price, if the currently applied category default price is deleted?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+        $category1 = $I->getVar('category_id');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT2);
+        $category2 = $I->getVar('category_id');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT3);
+        $category3 = $I->getVar('category_id');
+
+        CategoryDefaultPriceModule::of($I)
+                ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49)
+                ->createCategoryDefaultPrice(BaseModule::$CAT2, 0.69)
+                ->createCategoryDefaultPrice(BaseModule::$CAT3, 0.89);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, array($category1, $category2, $category3), 'category default price', 0.49, 60);
+
+        CategoryDefaultPriceModule::of($I)
+                ->deleteCategoryDefaultPrice(BaseModule::$CAT1);
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.69, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI11
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/294
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCheckPricesApplyingWithPostUnassignedFromCategoryCest(BackendTester $I) {
+        $I->wantToTest('Is the higher of two remaining category default prices automatically applied to a post
+                        with a category default price, if the post is unassigned from the category whose
+                        category default price is currently applied?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+        $category1 = $I->getVar('category_id');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT2);
+        $category2 = $I->getVar('category_id');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT3);
+        $category3 = $I->getVar('category_id');
+
+        CategoryDefaultPriceModule::of($I)
+                ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49)
+                ->createCategoryDefaultPrice(BaseModule::$CAT2, 0.69)
+                ->createCategoryDefaultPrice(BaseModule::$CAT3, 0.89);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, array($category1, $category2, $category3), 'category default price', null, 60)
+                ->unassignPostFromCategory($category1, $I->getVar('post'))
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.69, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI12
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/295
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCheckGlobalPriceApplyingIfUsedCategoryPriceDeletedCest(BackendTester $I) {
+        $I->wantToTest('Is the global default price automatically applied to a post with category default price, if
+                        the currently used category default price is deleted and the post is not assigned to any
+                        other category with category default price?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+
+        CategoryDefaultPriceModule::of($I)
+                ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'category default price', null, 60);
+
+        CategoryDefaultPriceModule::of($I)
+                ->deleteCategoryDefaultPrice(BaseModule::$CAT1);
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI13
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/296
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCreatePriceWithZeroIndividualPrice(BackendTester $I) {
+        $I->wantToTest('Can I create a free post, i.e. a post with an individual price of 0.00?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.00', 60)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.00', 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI14
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/297
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCreatePaidPostWithIndividualPrice(BackendTester $I) {
+        $I->wantToTest('Can I create a paid post with individual price,
+                        i.e. a post with an individual price of > 0.00?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', 60)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', '0.40', 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI15
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/298
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testIfTeaserContentAutomaticallyGeneratedForPosts(BackendTester $I) {
+        $I->wantToTest('Is the teaser content automatically generated both for existing and new posts?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin();
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1);
+        $testPost1 = $I->getVar('post');
+
+        SetupModule::of($I)
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.40', null);
+        $testPost2 = $I->getVar('post');
+
+        PostModule::of($I)
+                ->checkTestPostForLaterPayElements($testPost1, 'individual price', '0.35', 'USD', BaseModule::$T1, BaseModule::$C1, 60)
+                ->checkTestPostForLaterPayElements($testPost2, 'individual price', '0.40', 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI16
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/299
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCreatePaidPostWithDynamicPricing(BackendTester $I) {
+        $I->wantToTest('Can I create a paid post with dynamic pricing?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        $dynamic_price = array(
+            'start_price' => 0.85,
+            'period' => 5,
+            'end_price' => 0.05
+        );
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'dynamic individual price', $dynamic_price, null)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'dynamic individual price', 0.85, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI17
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/300
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCreatePaidPostWithGlobalDefaultPrice(BackendTester $I) {
+        $I->wantToTest('Can I create a paid post with global default price?');
+
+        BackendModule::of($I)
+                ->login();
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'global default price', 0.35)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
+     * @group UI18
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/301
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCreatePaidPostWithCategoryDefaultPrice(BackendTester $I) {
+        $I->wantToTest('Can I create a paid post with category default price?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+
+        CategoryDefaultPriceModule::of($I)
+                ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.49);
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, $I->getVar('category_id'), 'category default price', 0.49, 60)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.49, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param BackendTester $I
+     * @group UI19
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/302
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testCheckPluginProtectFilesInPaidPost(BackendTester $I) {
+        $I->wantToTest('Does the plugin protect files in a paid post?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', 0.35, 60, PostModule::$samplePdfFile)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'global default price', 0.35, 'USD', BaseModule::$T1, BaseModule::$C1, 60)
+                ->checkIfFilesAreProtected($I->getVar('post'), PostModule::$samplePdfFile);
+    }
+
+    /**
+     * @param BackendTester $I
+     * @group UI20
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/303
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testChangeIndividualPrice(BackendTester $I) {
+        $I->wantToTest('Can I change the individual price?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        PostModule::of($I)
+                ->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'global default price', 0.35, 60)
+                ->changeIndividualPrice($I->getVar('post'), 0.69)
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'individual price', 0.69, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
+     * @param \BackendTester $I
      * @group UI21
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/304
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCanChangePreviewToTeaser(BackendTester $I) {
 
@@ -203,6 +684,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI22
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/305
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCanChangePreviewToOverlay(BackendTester $I) {
 
@@ -230,6 +712,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI23
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/306
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCorrectShortcodesRenderedProperlyWithinFreePost(BackendTester $I) {
 
@@ -263,6 +746,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI24
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/307
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testCorrectShortcodesRenderedProperlyWithinPaidPost(BackendTester $I) {
 
@@ -297,6 +781,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI25
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/308
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testWrongShortcodesRenderedProperlyWithinFreePost(BackendTester $I) {
 
@@ -330,6 +815,7 @@ class SetupPluginCest {
      * @param \BackendTester $I
      * @group UI26
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/309
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testWrongShortcodesRenderedProperlyWithinPaidPost(BackendTester $I) {
 
@@ -363,6 +849,7 @@ class SetupPluginCest {
      * @param BackendTester $I
      * @group UI27
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/310
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testSwitchToLiveMode(BackendTester $I) {
 
@@ -394,6 +881,7 @@ class SetupPluginCest {
      * @param BackendTester $I
      * @group UI28
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/311
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function testSwitchToTestMode(BackendTester $I) {
 
@@ -422,8 +910,40 @@ class SetupPluginCest {
     }
 
     /**
+     * @param BackendTester $I
+     * @group UI29
+     * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/312
+     * @author Alex Vahura <avahura@scnsoft.com>
+     */
+    public function testPriceInputsValidated(BackendTester $I) {
+        $I->wantToTest('Are the price inputs validated?');
+
+        BackendModule::of($I)
+                ->login();
+
+        SetupModule::of($I)
+                ->uninstallPlugin()
+                ->installPlugin()
+                ->activatePlugin()
+                ->goThroughGetStartedTab(0.35, 'USD');
+
+        CategoryModule::of($I)
+                ->createTestCategory(BaseModule::$CAT1);
+
+        SetupModule::of($I)->validateGlobalPrice();
+
+        CategoryDefaultPriceModule::of($I)->validateCategoryPrice();
+
+        PostModule::of($I)->validateIndividualPrice();
+
+        BackendModule::of($I)
+                ->logout();
+    }
+
+    /**
      * @param \BackendTester $I
      * @group dev
+     * @author Alex Tsumarov <atsumarov@scnsoft.com>
      */
     public function dev(BackendTester $I) {
 
