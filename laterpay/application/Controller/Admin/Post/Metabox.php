@@ -92,7 +92,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      * @return void
      */
     public function add_meta_boxes() {
-        $post_types = $this->config->get( 'content.allowed_post_types' );
+        $post_types = $this->config->get( 'content.enabled_post_types' );
 
         foreach ( $post_types as $post_type ) {
             add_meta_box(

@@ -4,7 +4,7 @@
     function laterPayBackendAppearance() {
         var $o = {
                 preview_form: $('#laterpay_paid_content_preview_form'),
-				post_type_form: $('#laterpay_supported_post_types_form')
+				post_type_form: $('#laterpay_enabled_post_types_form')
             },
 
             bindEvents = function() {

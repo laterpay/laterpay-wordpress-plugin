@@ -209,7 +209,7 @@ add_filter( 'laterpay_get_content_settings', 'demo_filter_laterpay_get_content_s
  *    'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
  *    'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
  *    'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
- *    'content.allowed_post_types'                         => Array - allowed post_types that support LaterPay purchases
+ *    'content.enabled_post_types'                         => Array - allowed post_types that support LaterPay purchases
  *      'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
  *  )
  * @return Array $settings

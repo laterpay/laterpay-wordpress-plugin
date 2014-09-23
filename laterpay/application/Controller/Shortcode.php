@@ -66,7 +66,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                     );
         }
         if ( $page === null && $a[ 'target_page_title' ] !== '' ) {
-            $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.allowed_post_types' ) );
+            $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
         }
         // target_page_title was provided, but didn't work (no invalid target_page_id was provided)
         if ( $page === null && $error_reason == '' ) {
@@ -86,7 +86,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $page_id = $page->ID;
 
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
-        if ( ! in_array( $page->post_type, $this->config->get( 'content.allowed_post_types' ) ) )  {
+        if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ) ) )  {
             $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );

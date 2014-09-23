@@ -349,7 +349,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return bool true|false
      */
     protected function is_enabled_post_type( $post_type ) {
-        if ( ! in_array( $post_type, $this->config->get( 'content.allowed_post_types' ) ) ) {
+        if ( ! in_array( $post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
             return false;
         }
         return true;
