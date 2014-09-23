@@ -64,7 +64,7 @@ class LaterPay_Helper_Pricing
             'meta_query'        => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
             'cat'               => $category_id,
             'posts_per_page'    => '-1',
-            'post_type'         => $config->get( 'content.allowed_post_types' ),
+            'post_type'         => $config->get( 'content.enabled_post_types' ),
         );
         $posts      = get_posts( $post_args );
 
