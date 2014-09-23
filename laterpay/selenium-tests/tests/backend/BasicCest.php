@@ -186,7 +186,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCheckCategoryPriceAutoAppliedIfNewCategoryPriceCreatedCest(BackendTester $I) {
-        $I->wantToTest('Is a category default price automatically applied to a post with global default price, if a
+        $I->wantToTest('UI7: Is a category default price automatically applied to a post with global default price, if a
                         new category default price is created?');
 
         BackendModule::of($I)
@@ -221,7 +221,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCheckIfCategoryPriceAppliedToPostIfChangedCest(BackendTester $I) {
-        $I->wantToTest('Can I change a category default price and is it applied to existing posts?');
+        $I->wantToTest('UI8: Can I change a category default price and is it applied to existing posts?');
 
         BackendModule::of($I)
                 ->login();
@@ -258,7 +258,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCheckIfCategoryPriceAppliedToPostWithGlobalDefaultPriceCest(BackendTester $I) {
-        $I->wantToTest('Is a category default price automatically applied to a post with global default price, if a
+        $I->wantToTest('UI9: Is a category default price automatically applied to a post with global default price, if a
                         a post is assigned to a category with global default price?');
 
         BackendModule::of($I)
@@ -293,7 +293,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCheckPricesApplyingWithCategoryPriceDeletedCest(BackendTester $I) {
-        $I->wantToTest('Is the higher of two remaining category default prices automatically applied to a post
+        $I->wantToTest('UI10: Is the higher of two remaining category default prices automatically applied to a post
                         with a category default price, if the currently applied category default price is deleted?');
 
         BackendModule::of($I)
@@ -342,7 +342,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCheckPricesApplyingWithPostUnassignedFromCategoryCest(BackendTester $I) {
-        $I->wantToTest('Is the higher of two remaining category default prices automatically applied to a post
+        $I->wantToTest('UI11: Is the higher of two remaining category default prices automatically applied to a post
                         with a category default price, if the post is unassigned from the category whose
                         category default price is currently applied?');
 
@@ -388,7 +388,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCheckGlobalPriceApplyingIfUsedCategoryPriceDeletedCest(BackendTester $I) {
-        $I->wantToTest('Is the global default price automatically applied to a post with category default price, if
+        $I->wantToTest('UI12: Is the global default price automatically applied to a post with category default price, if
                         the currently used category default price is deleted and the post is not assigned to any
                         other category with category default price?');
 
@@ -427,7 +427,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCreatePriceWithZeroIndividualPrice(BackendTester $I) {
-        $I->wantToTest('Can I create a free post, i.e. a post with an individual price of 0.00?');
+        $I->wantToTest('UI13: Can I create a free post, i.e. a post with an individual price of 0.00?');
 
         BackendModule::of($I)
                 ->login();
@@ -453,7 +453,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCreatePaidPostWithIndividualPrice(BackendTester $I) {
-        $I->wantToTest('Can I create a paid post with individual price,
+        $I->wantToTest('UI14: Can I create a paid post with individual price,
                         i.e. a post with an individual price of > 0.00?');
 
         BackendModule::of($I)
@@ -480,7 +480,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testIfTeaserContentAutomaticallyGeneratedForPosts(BackendTester $I) {
-        $I->wantToTest('Is the teaser content automatically generated both for existing and new posts?');
+        $I->wantToTest('UI15: Is the teaser content automatically generated both for existing and new posts?');
 
         BackendModule::of($I)
                 ->login();
@@ -516,7 +516,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCreatePaidPostWithDynamicPricing(BackendTester $I) {
-        $I->wantToTest('Can I create a paid post with dynamic pricing?');
+        $I->wantToTest('UI16: Can I create a paid post with dynamic pricing?');
 
         BackendModule::of($I)
                 ->login();
@@ -548,7 +548,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCreatePaidPostWithGlobalDefaultPrice(BackendTester $I) {
-        $I->wantToTest('Can I create a paid post with global default price?');
+        $I->wantToTest('UI17: Can I create a paid post with global default price?');
 
         BackendModule::of($I)
                 ->login();
@@ -577,7 +577,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCreatePaidPostWithCategoryDefaultPrice(BackendTester $I) {
-        $I->wantToTest('Can I create a paid post with category default price?');
+        $I->wantToTest('UI18: Can I create a paid post with category default price?');
 
         BackendModule::of($I)
                 ->login();
@@ -609,7 +609,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testCheckPluginProtectFilesInPaidPost(BackendTester $I) {
-        $I->wantToTest('Does the plugin protect files in a paid post?');
+        $I->wantToTest('UI19: Does the plugin protect files in a paid post?');
 
         BackendModule::of($I)
                 ->login();
@@ -633,7 +633,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testChangeIndividualPrice(BackendTester $I) {
-        $I->wantToTest('Can I change the individual price?');
+        $I->wantToTest('UI20: Can I change the individual price?');
 
         BackendModule::of($I)
                 ->login();
@@ -916,7 +916,7 @@ class SetupPluginCest {
      * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function testPriceInputsValidated(BackendTester $I) {
-        $I->wantToTest('Are the price inputs validated?');
+        $I->wantToTest('UI29: Are the price inputs validated?');
 
         BackendModule::of($I)
                 ->login();
