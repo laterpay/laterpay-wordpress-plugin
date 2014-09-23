@@ -73,8 +73,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                             )
                         );
                         die;
-                    }
-                    else {
+                    } else {
                         update_option('laterpay_enabled_post_types', $_POST['enabled_post_types']);
 
                         wp_send_json(

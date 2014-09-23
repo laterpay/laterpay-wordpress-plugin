@@ -3,26 +3,28 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAppearance
     function laterPayBackendAppearance() {
         var $o = {
-                preview_form: $('#laterpay_paid_content_preview_form'),
-				post_type_form: $('#laterpay_enabled_post_types_form')
+                previewForm     : $('#laterpay_paid_content_preview_form'),
+				postTypeForm    : $('#laterpay_enabled_post_types_form')
             },
 
             bindEvents = function() {
                 // switch paid content preview mode
-                $('.lp_js_toggle-preview-mode', $o.preview_form)
+                $('.lp_js_toggle-preview-mode', $o.previewForm)
                 .change(function() {
                     saveAppearance();
                 });
 
-				$o.post_type_form.change( function(){
-					saveSupportedPostTypes();
+                // save post types LaterPay is enabled for
+				$o.postTypeForm
+                .change(function() {
+					saveEnabledPostTypes();
 				});
             },
 
-			saveSupportedPostTypes = function(){
+			saveEnabledPostTypes = function() {
 				$.post(
 					ajaxurl,
-					$o.post_type_form.serializeArray(),
+					$o.postTypeForm.serializeArray(),
 					function(data) {setMessage(data);}
 				);
 			},
@@ -30,7 +32,7 @@
             saveAppearance = function() {
                 $.post(
                     ajaxurl,
-                    $o.preview_form.serializeArray(),
+                    $o.previewForm.serializeArray(),
                     function(data) {setMessage(data);}
                 );
             },
