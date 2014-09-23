@@ -53,24 +53,22 @@
                 <input type="hidden" name="action"  value="laterpay_appearance">
                 <?php wp_nonce_field('laterpay_form'); ?>
                 <?php
-                $enabled_post_types   = $config->get( 'content.enabled_post_types' );
-                $all_post_types         = get_post_types( array( 'public' => true ), 'objects' );
-                foreach( $all_post_types as $slug => $post_type ) {
-                    ?>
-                    <div>
-                        <label for="supported_post_type_<?php echo $slug; ?>" >
-                            <input type="checkbox"
-                                   id="supported_post_type_<?php echo $slug; ?>"
-                                   name="enabled_post_types[]"
-                                   value="<?php echo $slug; ?>"
-                                   class="lp_js_style-input"
-                                   <?php echo ( in_array( $slug, $enabled_post_types ) ) ? ' checked="checked" ' : ''; ?>
-                            />
-                            <?php echo $post_type->labels->name; ?>
-                        </label>
-                    </div>
-                    <?php
-                }
+                    $enabled_post_types = $config->get( 'content.enabled_post_types' );
+                    $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
+                    foreach( $all_post_types as $slug => $post_type ) {
+                ?>
+                    <label for="supported_post_type_<?php echo $slug; ?>" class="lp_d-block lp_m-b025">
+                        <input type="checkbox"
+                               id="supported_post_type_<?php echo $slug; ?>"
+                               name="enabled_post_types[]"
+                               value="<?php echo $slug; ?>"
+                               class="lp_js_style-input"
+                               <?php echo ( in_array( $slug, $enabled_post_types ) ) ? ' checked="checked" ' : ''; ?>
+                        />
+                        <?php echo $post_type->labels->name; ?>
+                    </label>
+                <?php
+                    }
                 ?>
             </form>
         </div>
