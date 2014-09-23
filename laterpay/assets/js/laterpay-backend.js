@@ -17,7 +17,7 @@ function setMessage(message, success) {
     var $message        = jQuery('#lp_js_flash-message'),
         messageClass    = success ? 'updated' : 'error';
 
-    $message.attr('class', messageClass).find('p').html(message);
+    $message.addClass(messageClass).find('p').html(message);
     if (jQuery('p:hidden', $message)) {
         $message.slideDown(250);
     }
