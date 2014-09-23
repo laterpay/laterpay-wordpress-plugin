@@ -105,13 +105,20 @@ class LaterPay_Model_CategoryPrice
      * @return array categories
      */
     public function get_categories_without_price_by_term( $term, $limit, $excluding_id = 0 ) {
-        global $wpdb;
+        global $wpdb, $wp_version;
 
         if ( $excluding_id == '' ) {
             $excluding_id = 0;
         }
 
-        $term = like_escape( esc_sql( $term ) ) . '%';
+        if( version_compare( $wp_version, '4.0', '>=') ){
+            $term = $wpdb->esc_like( $term );
+        }
+        else {
+            $term = like_escape($term);
+        }
+        $term = esc_sql( $term ) . '%';
+
         $sql = "
             SELECT
                 tp.term_id AS id,
@@ -149,9 +156,16 @@ class LaterPay_Model_CategoryPrice
      * @return array categories
      */
     public function get_categories_by_term( $term, $limit ) {
-        global $wpdb;
+        global $wpdb, $wp_version;
 
-        $term = like_escape( esc_sql( $term ) ) . '%';
+        if( version_compare( $wp_version, '4.0', '>=') ){
+            $term = $wpdb->esc_like( $term );
+        }
+        else {
+            $term = like_escape($term);
+        }
+
+        $term = esc_sql( $term ) . '%';
         $sql = "
             SELECT
                 tm.term_id AS id,
