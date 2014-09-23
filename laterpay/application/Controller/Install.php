@@ -244,6 +244,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
         add_option( 'laterpay_live_api_key',             '' );
         add_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
         add_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
+        add_option( 'laterpay_supported_post_types',     get_post_types( array( 'public' => true ) ) );
+
         update_option( 'laterpay_version',               $this->config->version );
         // option 'laterpay_plugin_is_activated' is set to empty on installation, to be able to tell between a fresh
         // installation and an activated but deactivated installation, to lead the user through the get started process,

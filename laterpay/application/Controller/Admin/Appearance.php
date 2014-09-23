@@ -63,6 +63,30 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
             }
 
             switch ( $_POST['form'] ) {
+                // update the post types which laterpay supports for purchasing
+                case 'supported_post_types':
+                    if( !array_key_exists( 'supported_post_types', $_POST ) || !is_array( $_POST['supported_post_types' ] ) ){
+                        wp_send_json(
+                            array(
+                                'success' => false,
+                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                            )
+                        );
+                        die;
+                    }
+                    else {
+                        update_option('laterpay_supported_post_types', $_POST['supported_post_types']);
+
+                        wp_send_json(
+                            array(
+                                'success' => TRUE,
+                                'message' => __( 'Your changes have been saved', 'laterpay' )
+                            )
+                        );
+                        die;
+                    }
+                    break;
+
                 // update presentation mode for paid content
                 case 'paid_content_preview':
                     $result = update_option( 'laterpay_teaser_content_only', $_POST['paid_content_preview'] );

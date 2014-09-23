@@ -172,7 +172,7 @@ function laterpay_get_plugin_config() {
         'content.preview_word_count_min'                    => 26,
         'content.preview_word_count_max'                    => 200,
         'content.show_purchase_button'                      => true,
-        'content.allowed_post_types'                        => get_post_types( array( 'public' => true ) )
+        'content.allowed_post_types'                        => get_option( 'laterpay_supported_post_types', get_post_types( array( 'public' => true ) ) )
     );
 
     /**
