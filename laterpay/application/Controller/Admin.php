@@ -511,4 +511,17 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         return $pointers;
     }
 
+    /**
+     * Return all pointer constants from current class
+     *
+     * @return array $pointers
+     */
+    public static function get_all_pointers()
+    {
+        $reflection = new ReflectionClass(__CLASS__);
+        $classConstants = $reflection->getConstants();
+        $pointers = array_flip(array_filter(array_flip($classConstants), function($key) { return (strpos($key, 'POINTER') !== FALSE); }));
+        return $pointers;
+    }
+
 }
