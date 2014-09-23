@@ -65,7 +65,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
             switch ( $_POST['form'] ) {
                 // update the post types which laterpay supports for purchasing
                 case 'supported_post_types':
-                    if( !array_key_exists( 'supported_post_types', $_POST ) || !is_array( $_POST['supported_post_types' ] ) ){
+                    if ( ! array_key_exists( 'supported_post_types', $_POST ) || ! is_array( $_POST['supported_post_types' ] ) ) {
                         wp_send_json(
                             array(
                                 'success' => false,
@@ -73,9 +73,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                             )
                         );
                         die;
-                    }
-                    else {
-                        update_option('laterpay_supported_post_types', $_POST['supported_post_types']);
+                    } else {
+                        update_option( 'laterpay_supported_post_types', $_POST['supported_post_types'] );
 
                         wp_send_json(
                             array(
