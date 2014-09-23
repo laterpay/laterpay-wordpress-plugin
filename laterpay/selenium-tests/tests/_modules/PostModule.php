@@ -645,17 +645,16 @@ class PostModule extends BaseModule {
     }
 
     /**
-     * To UI29
+     * @param $post
      * @author Alex Vahura <avahura@scnsoft.com>
      */
-    public function validateIndividualPrice() {
+    public function validateIndividualPrice($post) {
         $I = $this->BackendTester;
-        $I->amOnPage(PostModule::$pagePostNew);
-        $I->click(PostModule::$linkIndividualPrice);
+        $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostEdit));
 
         $I->amGoingTo('Validate Individual Price');
         BackendModule::of($I)
-                ->validatePrice(PostModule::$fieldPrice);
+                ->validatePrice(PostModule::$fieldPrice, PostModule::$linkIndividualPrice, PostModule::$linkPublish);
     }
 
 }

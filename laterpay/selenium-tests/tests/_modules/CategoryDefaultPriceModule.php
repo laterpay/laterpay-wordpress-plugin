@@ -7,10 +7,12 @@ class CategoryDefaultPriceModule extends BaseModule {
     public static $pricingCategorySelect = '#lp_category-prices .select2-choice';
     public static $pricingCategoryValue = '#lp_category-prices .lp_category-title';
     public static $pricingSaveLink = "#lp_category-prices .unsaved .lp_save-link";
+    public static $pricingSaveLinkSaved = "#lp_category-prices .lp_save-link";
     public static $pricingCancelLink = "#lp_category-prices .unsaved .lp_cancel-link";
     public static $pricingChangeLink = "#lp_category-prices .lp_change-link";
     public static $pricingDeleteLink = "#lp_category-prices .lp_delete-link";
     public static $pricingPriceInput = "#lp_category-prices .unsaved .lp_number-input";
+    public static $pricingPriceInputSaved = "#lp_category-prices .lp_number-input";
     //messages
     public static $messageCategoryPriceSave = "All posts in category {category_name} have a default price of {category_price}";
     public static $messageCategoryPriceDeleted = "The default price for category {category_name} was deleted.";
@@ -147,7 +149,7 @@ class CategoryDefaultPriceModule extends BaseModule {
 
         $I->amGoingTo('Validate Category Price');
         BackendModule::of($I)
-                ->validatePrice(self::$pricingPriceInput, self::$pricingChangeLink, self::$pricingSaveLink);
+                ->validatePrice(self::$pricingPriceInputSaved, self::$pricingChangeLink, self::$pricingSaveLinkSaved);
     }
 
 }

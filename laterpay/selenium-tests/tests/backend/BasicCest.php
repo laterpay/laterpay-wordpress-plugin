@@ -919,25 +919,30 @@ class SetupPluginCest {
         $I->wantToTest('UI29: Are the price inputs validated?');
 
         BackendModule::of($I)
-                ->login();
+            ->login();
 
         SetupModule::of($I)
-                ->uninstallPlugin()
-                ->installPlugin()
-                ->activatePlugin()
-                ->goThroughGetStartedTab(0.35, 'USD');
+            ->uninstallPlugin()
+            ->installPlugin()
+            ->activatePlugin()
+            ->goThroughGetStartedTab(0.35, 'USD');
 
         CategoryModule::of($I)
-                ->createTestCategory(BaseModule::$CAT1);
+            ->createTestCategory(BaseModule::$CAT1);
 
         SetupModule::of($I)->validateGlobalPrice();
 
+        CategoryDefaultPriceModule::of($I)
+            ->createCategoryDefaultPrice(BaseModule::$CAT1, 0.35);
+
         CategoryDefaultPriceModule::of($I)->validateCategoryPrice();
 
-        PostModule::of($I)->validateIndividualPrice();
+        PostModule::of($I)->createTestPost(BaseModule::$T1, BaseModule::$C1, null, 'individual price', '0.35');
+
+        PostModule::of($I)->validateIndividualPrice($I->getVar('post'));
 
         BackendModule::of($I)
-                ->logout();
+            ->logout();
     }
 
     /**
