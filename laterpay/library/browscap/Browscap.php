@@ -742,7 +742,7 @@ public $doAutoUpdate = true;
         ob_start();
         @system($command, $return_var);
         ob_end_clean();
-return true;
+
         return $return_var === 0;
     }
 
