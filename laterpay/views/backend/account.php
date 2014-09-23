@@ -145,7 +145,7 @@
                     <label class="lp-toggle-label">
                         <input type="checkbox"
                                 name="plugin_is_in_live_mode_checkbox"
-                                id="lp_js_toggle-plugin-mode "
+                                id="lp_js_toggle-plugin-mode"
                                 class="lp-toggle-input"
                                 <?php if ( $plugin_is_in_live_mode ): ?>checked<?php endif; ?>>
                         <input type="hidden"

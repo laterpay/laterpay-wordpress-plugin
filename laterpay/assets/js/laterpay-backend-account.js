@@ -35,8 +35,8 @@
                 });
 
                 // switch plugin between TEST and LIVE mode
-                $o.pluginModeToggle.click(function() {
-                    return togglePluginMode();
+                $o.pluginModeToggle.change(function() {
+                    togglePluginMode();
                 });
 
                 // ask user for confirmation, if he tries to leave the page without a set of valid API credentials
