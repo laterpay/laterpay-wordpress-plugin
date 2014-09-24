@@ -118,21 +118,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         // return categories that match a given search term
         if ( isset( $_GET['term'] ) ) {
             $category_price_model = new LaterPay_Model_CategoryPrice();
-            if ( isset( $_GET['get'] ) && $_GET['get'] ) {
-                wp_send_json(
-                    $category_price_model->get_categories_by_term( $_GET['term'], 1 )
-                );
-            } else {
-                if ( isset( $_GET['category'] ) ) {
-                    wp_send_json(
-                        $category_price_model->get_categories_without_price_by_term( $_GET['term'], 10, (int) $_GET['category'] )
-                    );
-                } else {
-                    wp_send_json(
-                       $category_price_model->get_categories_without_price_by_term( $_GET['term'], 10 )
-                    );
-                }
+            $args = array();
+            if( !empty( $GET[ 'term' ] ) ){
+                $args[ 'name__like' ] = $_GET['term'];
             }
+            wp_send_json(
+               $category_price_model->get_categories_without_price_by_term( $args )
+            );
             die;
         }
 
@@ -143,6 +135,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
             )
         );
+        die;
     }
 
     /**

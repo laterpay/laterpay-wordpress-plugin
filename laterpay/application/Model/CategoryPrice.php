@@ -98,53 +98,39 @@ class LaterPay_Model_CategoryPrice
     /**
      * Get categories without defined category default prices by search term.
      *
-     * @param string $term         term string to find categories
-     * @param int    $limit        limit categories
-     * @param int    $excluding_id excluding id
-     *
-     * @return array categories
+     * @param array $args       query args for get_categories
+     * @return array $categories
      */
-    public function get_categories_without_price_by_term( $term, $limit, $excluding_id = 0 ) {
-        global $wpdb, $wp_version;
+    public function get_categories_without_price_by_term( $args ) {
+        $default_args = array(
+            'hide_empty'    => false,
+            'number'        => 10
+        );
 
-        if ( $excluding_id == '' ) {
-            $excluding_id = 0;
-        }
+        $args = wp_parse_args(
+            $args,
+            $default_args
+        );
 
-        if( version_compare( $wp_version, '4.0', '>=') ){
-            $term = $wpdb->esc_like( $term );
-        }
-        else {
-            $term = like_escape($term);
-        }
-        $term = esc_sql( $term ) . '%';
+        add_filter( 'terms_clauses', array( $this, 'filter_terms_clauses_for_categories_without_price' ) );
+        $categories = get_categories( $args );
+        remove_filter( 'terms_clauses', array( $this, 'filter_terms_clauses_for_categories_without_price' ) );
 
-        $sql = "
-            SELECT
-                tp.term_id AS id,
-                tm.name AS text
-            FROM
-                {$this->term_table} AS tm
-                LEFT JOIN
-                    {$this->term_table_prices} AS tp
-                ON
-                    tp.term_id = tm.term_id
-            WHERE
-                (
-                    tp.term_id IS NULL
-                    AND name LIKE %s
-                ) OR (
-                    tp.term_id = %d
-                    AND name LIKE %s
-                )
-            ORDER BY
-                name
-            LIMIT
-                %d
-            ;
-        ";
-        $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $excluding_id, $term, $limit ) );
         return $categories;
+    }
+
+    /**
+     * Filter for get_categories_without_price_by_term() to load all categories without a price
+     *
+     * @wp-hook terms_clauses
+     *
+     * @param   array $clauses
+     * @return  array $clauses
+     */
+    public function filter_terms_clauses_for_categories_without_price( $clauses ){
+        $clauses[ 'join' ]      .= " LEFT JOIN " . $this->term_table_prices . " AS tp ON tp.term_id = t.term_id ";
+        $clauses[ 'where' ]     .= " AND tp.term_id IS NULL ";
+        return $clauses;
     }
 
     /**
@@ -153,6 +139,7 @@ class LaterPay_Model_CategoryPrice
      * @param string $term  term string to find categories
      * @param int    $limit limit categories
      *
+     * @deprecated please use get_terms( 'category', array( 'name__like' => '$term', 'number' => $limit, 'fields' => 'id=>name' ) );
      * @return array categories
      */
     public function get_categories_by_term( $term, $limit ) {
@@ -172,8 +159,14 @@ class LaterPay_Model_CategoryPrice
                 tm.name AS text
             FROM
                 {$this->term_table} AS tm
+            INNER JOIN
+                {$wpdb->term_taxonomy} as tt
+            ON
+                tt.term_id = tm.term_id
             WHERE
                 tm.name LIKE %s
+            AND
+                tt.taxonomy = 'category'
             ORDER BY
                 name
             LIMIT
