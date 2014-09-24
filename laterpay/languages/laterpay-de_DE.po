@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Mon Sep 22 2014 19:43:52 GMT+0200 (CEST)\n"
-"Last-Translator: tester <twoldrich@laterpay.net>\n"
+"PO-Revision-Date: Wed Sep 24 2014 16:34:09 GMT+0200 (CEST)\n"
+"Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -238,11 +238,15 @@ msgstr "Nur Teaser"
 msgid "Teaser content + full content, covered by overlay"
 msgstr "Teaser + Auszug unter Overlay"
 
-#: ../views/backend/appearance.php:49
+#: ../views/backend/appearance.php:50
+msgid "Enabled Post Types"
+msgstr "Aktivierte Post-Types"
+
+#: ../views/backend/appearance.php:79
 msgid "LaterPay Invoice Indicator"
 msgstr "LaterPay Rechnungsanzeige"
 
-#: ../views/backend/appearance.php:51
+#: ../views/backend/appearance.php:81
 msgid ""
 "Insert this HTML snippet into your theme to show your users their LaterPay "
 "invoice balance."
@@ -250,7 +254,7 @@ msgstr ""
 "Fügen Sie diesen HTML-Schnipsel in Ihr Theme ein, um Ihren Nutzern deren "
 "LaterPay Rechnungsstand anzuzeigen."
 
-#: ../views/backend/appearance.php:52
+#: ../views/backend/appearance.php:82
 msgid ""
 "The LaterPay invoice indicator is served by LaterPay. Its styling can not be "
 "changed."
@@ -307,7 +311,7 @@ msgstr ""
 "Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
 "API Zugangsdaten abzurufen."
 
-#: ../views/backend/account.php:139 ../application/Controller/Admin.php:407
+#: ../views/backend/account.php:139 ../application/Controller/Admin.php:420
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
@@ -337,7 +341,7 @@ msgstr ""
 "<strong>\n"
 "reguläre Besucher nicht sichtbar</strong>."
 
-#: ../views/backend/pricing.php:23 ../application/Controller/Admin.php:253
+#: ../views/backend/pricing.php:23 ../application/Controller/Admin.php:266
 msgid "Global Default Price"
 msgstr "Standardpreis"
 
@@ -360,7 +364,7 @@ msgstr "Speichern"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ../views/backend/pricing.php:57 ../application/Controller/Admin.php:267
+#: ../views/backend/pricing.php:57 ../application/Controller/Admin.php:280
 msgid "Category Default Prices"
 msgstr "Kategorie-Standardpreise"
 
@@ -400,7 +404,7 @@ msgstr ""
 "Sie können individuelle Preise für Beiträge setzen,<br> wenn Sie einen "
 "Beitrag erstellen oder bearbeiten."
 
-#: ../views/backend/pricing.php:148 ../application/Controller/Admin.php:285
+#: ../views/backend/pricing.php:148 ../application/Controller/Admin.php:298
 msgid "Currency"
 msgstr "Währung"
 
@@ -528,7 +532,7 @@ msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen.
 
 #: ../application/Controller/Post.php:654 ..
 #: application/Controller/Admin/GetStarted.php:37 ..
-#: application/Controller/Admin/Pricing.php:181
+#: application/Controller/Admin/Pricing.php:176
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
@@ -589,9 +593,41 @@ msgid ""
 "                                            Nevertheless, we highly "
 "recommend manually creating the teaser for each post, to increase your sales."
 "\n"
+"                                        </p>\n"
+"                                        <p>\n"
+"                                            <strong>PPU (Pay-per-"
+"Use)</strong><br>\n"
+"                                            If you choose to sell your "
+"content as <strong>Pay-per-Use</strong>, a user pays the purchased content "
+"<strong>later</strong>. The purchase is added to his LaterPay invoice and he "
+"has to log in to LaterPay and pay, once his invoice has reached 5.00 EUR."
+"<br>\n"
+"                                            LaterPay "
+"<strong>recommends</strong> Pay-per-Use for all prices up to 5.00 EUR as "
+"they deliver the <strong>best purchase experience</strong> for your users."
+"<br>\n"
+"                                            PPU is possible for prices "
+"between (including) <strong>0.05 EUR</strong> and (including) <strong>5.00 "
+"EUR</strong>.\n"
+"                                        </p>\n"
+"                                        <p>\n"
+"                                            <strong>SIS (Single "
+"Sale)</strong><br>\n"
+"                                            If you sell your content as "
+"<strong>Single Sale</strong>, a user has to <strong>log in</strong> to "
+"LaterPay and <strong>pay</strong> for your content "
+"<strong>immediately</strong>.<br>\n"
+"                                            Single Sales are especially "
+"suitable for higher-value content and / or content that immediately "
+"occasions costs (e. g. license fees for a video stream).<br>\n"
+"                                            A Single Sales is possible "
+"between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 "
+"EUR</strong>.<br>\n"
+"                                            Single Sales are currently "
+"available for <strong>individual prices</strong> and will soon be "
+"implemented for the global default price and category default prices.\n"
 "                                        </p>"
 msgstr ""
-"\n"
 "<p>\n"
 "<strong>Preissetzung</strong><br>\n"
 "Sie können einen individuellen Preis für jeden Beitrag setzen.<br>\n"
@@ -623,9 +659,34 @@ msgstr ""
 "<br>\n"
 "Wir empfehlen jedoch, für jeden Beitrag einen separaten Teaser zu erstellen, "
 "um die Attraktivität des Beitrags zu steigern.\n"
+"</p>\n"
+"<p>\n"
+"<strong>PPU (Pay-per-Use)</strong><br>\n"
+"Wenn Sie Ihre Inhalte als Pay-per-Use verkaufen, bezahlen Ihre Nutzer die "
+"gekauften Inhalte <strong>später</strong>: Der Einkauf wird der LaterPay "
+"Rechnung des Nutzers hinzugefügt und er muss sich erst bei LaterPay "
+"einloggen und bezahlen, wenn die Rechnung 5,00 EUR erreicht hat.<br>\n"
+"LaterPay <strong>empfiehlt</strong> Pay-per-Use für alle Preise bis 5,00 EUR,"
+" da sie die <strong>beste Kauferfahrung</strong> für Ihre Nutzer bieten.<br>\n"
+"PPU ist bei Preisen zwischen (einschließlich) <strong>0,05 EUR</strong> und "
+"<strong>5,00 EUR</strong> möglich.\n"
+"</p>\n"
+"<p>\n"
+"<strong>SIS (Single Sale)</strong><br>\n"
+"Bei einem <strong>Single Sale</strong> muss sich der Nutzer "
+"<strong>sofort</strong> beim Kauf in sein LaterPay Konto "
+"<strong>einloggen</strong> und <strong>bezahlen</strong>.<br>\n"
+"Single Sales eignen sich besonders für höherwertige Inhalte und/oder für "
+"solche, bei deren Verkauf Ihnen unmittelbare Kosten entstehen (z. B. "
+"Lizenzgebühren für einen Videostream).<br>\n"
+"Ein Single Sale ist bei Preisen zwischen (einschließlich) <strong>1,49 "
+"EUR</strong> und (einschließlich) <strong>149,99 EUR</strong> möglich.<br>\n"
+"Single Sales sind derzeit für <strong>individuelle Preise</strong> verfügbar "
+"und werden bald auch für den Standardpreis und Kategorie-Standardpreise zur "
+"Verfügung stehen.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:254
+#: ../application/Controller/Admin.php:267
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -648,7 +709,7 @@ msgstr ""
 "die kein Kategorie-Standardpreis oder individueller Preis gesetzt wurde.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:268
+#: ../application/Controller/Admin.php:281
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -683,7 +744,7 @@ msgstr ""
 "kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:286
+#: ../application/Controller/Admin.php:299
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -712,11 +773,11 @@ msgstr ""
 "dollar betragen. \n"
 "</p>"
 
-#: ../application/Controller/Admin.php:310
+#: ../application/Controller/Admin.php:323
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../application/Controller/Admin.php:311
+#: ../application/Controller/Admin.php:324
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -764,11 +825,11 @@ msgstr ""
 "</li>\n"
 "</ul>\n"
 
-#: ../application/Controller/Admin.php:335
+#: ../application/Controller/Admin.php:348
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../application/Controller/Admin.php:336
+#: ../application/Controller/Admin.php:349
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -793,11 +854,11 @@ msgstr ""
 "aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:358
+#: ../application/Controller/Admin.php:371
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../application/Controller/Admin.php:359
+#: ../application/Controller/Admin.php:372
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -921,7 +982,7 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
-#: ../application/Controller/Admin.php:408
+#: ../application/Controller/Admin.php:421
 msgid ""
 "\n"
 "                                                    <p>You can run the "
@@ -993,14 +1054,15 @@ msgstr ""
 #: ../application/Controller/Statistics.php:88 ..
 #: application/Controller/Admin/GetStarted.php:115 ..
 #: application/Controller/Admin/Account.php:96 ..
-#: application/Controller/Admin/Appearance.php:89 ..
-#: application/Controller/Admin/Appearance.php:100 ..
+#: application/Controller/Admin/Appearance.php:72 ..
+#: application/Controller/Admin/Appearance.php:112 ..
+#: application/Controller/Admin/Appearance.php:123 ..
 #: application/Controller/Admin/Pricing.php:112 ..
-#: application/Controller/Admin/Pricing.php:143 ..
-#: application/Controller/Admin/Pricing.php:250 ..
-#: application/Controller/Admin/Pricing.php:279 ..
-#: application/Controller/Admin/Pricing.php:339 ..
-#: application/Controller/Admin/Pricing.php:400
+#: application/Controller/Admin/Pricing.php:137 ..
+#: application/Controller/Admin/Pricing.php:245 ..
+#: application/Controller/Admin/Pricing.php:274 ..
+#: application/Controller/Admin/Pricing.php:334 ..
+#: application/Controller/Admin/Pricing.php:395
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
@@ -1136,11 +1198,15 @@ msgstr ""
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: ../application/Controller/Admin/Appearance.php:74
+#: ../application/Controller/Admin/Appearance.php:82
+msgid "Your changes have been saved"
+msgstr "Ihre Änderungen wurden gespeichert."
+
+#: ../application/Controller/Admin/Appearance.php:97
 msgid "Visitors will now see only the teaser content of paid posts."
 msgstr "Besucher sehen ab jetzt nur den Teaser eines kostenpflichtigen Beitrags."
 
-#: ../application/Controller/Admin/Appearance.php:81
+#: ../application/Controller/Admin/Appearance.php:104
 msgid ""
 "Visitors will now see the teaser content of paid posts plus an excerpt of "
 "the real content under an overlay."
@@ -1148,39 +1214,39 @@ msgstr ""
 "Besucher sehen ab jetzt den Teaser eines kostenpflichtigen Beitrags und "
 "einen Auszug des Artikels unter einem Overlay."
 
-#: ../application/Controller/Admin/Pricing.php:161
+#: ../application/Controller/Admin/Pricing.php:156
 #, php-format
 msgid "The currency for this website is %s now."
 msgstr "Die Währung für diese Website ist jetzt %s."
 
-#: ../application/Controller/Admin/Pricing.php:194
+#: ../application/Controller/Admin/Pricing.php:189
 msgid "All posts are free by default now."
 msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
 
-#: ../application/Controller/Admin/Pricing.php:197
+#: ../application/Controller/Admin/Pricing.php:192
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:224
+#: ../application/Controller/Admin/Pricing.php:219
 msgid "The price you tried to set is not within the allowed range of 0 to 5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist nicht im erlaubten Bereich von 0 bis "
 "5,00."
 
-#: ../application/Controller/Admin/Pricing.php:268 ..
-#: application/Controller/Admin/Pricing.php:352
+#: ../application/Controller/Admin/Pricing.php:263 ..
+#: application/Controller/Admin/Pricing.php:347
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: ../application/Controller/Admin/Pricing.php:296 ..
-#: application/Controller/Admin/Pricing.php:319 ..
-#: application/Controller/Admin/Pricing.php:374
+#: ../application/Controller/Admin/Pricing.php:291 ..
+#: application/Controller/Admin/Pricing.php:314 ..
+#: application/Controller/Admin/Pricing.php:369
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:456
+#: ../application/Controller/Admin/Pricing.php:451
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."

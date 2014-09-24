@@ -235,6 +235,19 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                             by default, the LaterPay plugin uses the first 60 words of each post as teaser content.
                                             <br>
                                             Nevertheless, we highly recommend manually creating the teaser for each post, to increase your sales.
+                                        </p>
+                                        <p>
+                                            <strong>PPU (Pay-per-Use)</strong><br>
+                                            If you choose to sell your content as <strong>Pay-per-Use</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 EUR.<br>
+                                            LaterPay <strong>recommends</strong> Pay-per-Use for all prices up to 5.00 EUR as they deliver the <strong>best purchase experience</strong> for your users.<br>
+                                            PPU is possible for prices between (including) <strong>0.05 EUR</strong> and (including) <strong>5.00 EUR</strong>.
+                                        </p>
+                                        <p>
+                                            <strong>SIS (Single Sale)</strong><br>
+                                            If you sell your content as <strong>Single Sale</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
+                                            Single Sales are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
+                                            A Single Sales is possible between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 EUR</strong>.<br>
+                                            Single Sales are currently available for <strong>individual prices</strong> and will soon be implemented for the global default price and category default prices.
                                         </p>',
                                     'laterpay'
                                    ),
