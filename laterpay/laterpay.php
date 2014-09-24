@@ -91,7 +91,6 @@ function laterpay_get_plugin_config() {
     $config->set( 'debug_mode',         defined( 'WP_DEBUG' ) && WP_DEBUG );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
-
     // plugin headers
     $plugin_headers = get_file_data(
         __FILE__,
