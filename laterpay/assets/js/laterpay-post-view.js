@@ -155,7 +155,7 @@
                             nonce   : lpVars.nonces.content
                         },
                         function(postContent) {
-                            $o.postContentPlaceholder.before(postContent);
+                            $o.postContentPlaceholder.html(postContent);
                         }
                     );
                 },
