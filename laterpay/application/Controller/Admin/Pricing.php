@@ -119,7 +119,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         if ( isset( $_GET['term'] ) ) {
             $category_price_model = new LaterPay_Model_CategoryPrice();
             $args = array();
-            if( !empty( $GET[ 'term' ] ) ){
+            if( !empty( $_GET[ 'term' ] ) ){
                 $args[ 'name__like' ] = $_GET['term'];
             }
             wp_send_json(
