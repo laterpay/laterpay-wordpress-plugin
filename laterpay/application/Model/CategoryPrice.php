@@ -174,7 +174,6 @@ class LaterPay_Model_CategoryPrice
             ;
         ";
         $categories = $wpdb->get_results( $wpdb->prepare( $sql, $term, $limit ) );
-        print_r( $categories );
         return $categories;
     }
 
