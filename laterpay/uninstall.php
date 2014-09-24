@@ -90,12 +90,19 @@ LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
 // delete_user_meta can't remove these pointers without damaging other data,
 // also we need to use prefix ',' before pointer names to remove them properly from string
 $pointers = LaterPay_Controller_Admin::get_all_pointers();
-foreach ($pointers as $pointer) {
+
+if ( ! empty( $pointers ) && is_array( $pointers ) ) {
+    $replace_string = 'meta_value';
+
+    foreach ($pointers as $pointer) {
+        $replace_string = "REPLACE($replace_string, ',$pointer', '')";
+    }
+
     $sql = "
         UPDATE
             $table_usermeta
         SET
-            meta_value = REPLACE(meta_value, ',$pointer', '')
+            meta_value = $replace_string
         WHERE
             meta_key = 'dismissed_wp_pointers'
         ;
