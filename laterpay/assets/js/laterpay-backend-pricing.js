@@ -187,7 +187,6 @@
 
             addCategoryDefaultPrice = function() {
                 $o.addCategory.fadeOut(250);
-
                 // clone category default price template
                 var $form = $o.categoryDefaultPriceTemplate
                             .clone()
@@ -285,7 +284,7 @@
             formatSelect2Selection = function(data, container) {
                 var $form = $(container).parent().parent().parent();
                 $form.find('input[name=category]').val(data.text);
-
+				$form.find('input[name=category_id]' ).val(data.id);
                 return data.text;
             },
 
@@ -297,19 +296,28 @@
                                         data        : function(term) {
                                                         return {
                                                             term        : term,
-                                                            action      : 'laterpay_pricing',
-                                                            category    : $(this).parent().find($o.categoryId).val()
+                                                            action      : 'laterpay_pricing'
                                                         };
                                                     },
-                                        results     : function(data) { return { results: data }; },
+                                        results     : function(data) {
+											var return_data = [];
+											$.each( data, function( index ) {
+												var term = data[ index ];
+												return_data.push( {
+													id : term.term_id,
+													text : term.name
+												} );
+											} );
+											return { results: return_data };
+										},
                                         dataType    : 'json'
                                     },
                     initSelection   : function(element, callback) {
                                         var id = $(element).val();
                                         if (id !== '') {
-                                            var data = { text: id };
-                                            callback(data);
-                                        }
+											var data = {text: id};
+											callback( data );
+										}
                                     },
                     formatResult    : function(data) { return data.text; },
                     formatSelection : formatSelect2Selection,
