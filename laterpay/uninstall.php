@@ -76,7 +76,9 @@ if ( ! empty( $role ) ) {
     $role->remove_cap( 'laterpay_edit_individual_price' );
 }
 
-//register Laterpay autoload
+// remove all dismissed LaterPay pointers
+
+// register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
 if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
@@ -85,19 +87,19 @@ if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
 
 LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
 
-//get all Laterpay pointers
+// delete_user_meta can't remove these pointers without damaging other data,
+// also we need to use prefix ',' before pointer names to remove them properly from string
 $pointers = LaterPay_Controller_Admin::get_all_pointers();
-
-// Remove dismissed Laterpay pointers, delete_user_meta can't remove these pointers without damaging other data
-// Also we need to use prefix "," before pointer names to remove them properly from string
 foreach ($pointers as $pointer) {
-    $sql = "UPDATE
-                $table_usermeta
-            SET
-                meta_value = REPLACE(meta_value, ',$pointer', '')
-            WHERE
-                meta_key = 'dismissed_wp_pointers'
-            ;
-            ";
+    $sql = "
+        UPDATE
+            $table_usermeta
+        SET
+            meta_value = REPLACE(meta_value, ',$pointer', '')
+        WHERE
+            meta_key = 'dismissed_wp_pointers'
+        ;
+    ";
+
     $wpdb->query( $sql );
 }
