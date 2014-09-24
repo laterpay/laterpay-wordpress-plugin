@@ -57,6 +57,7 @@ ID} heading_text="Shortcode Heading" description_text="Shortcode Description" co
     protected $BackendTester;
 
     /**
+     * Constructor
      * @param \BackendTester $I
      */
     public function __construct($I) {
@@ -64,6 +65,7 @@ ID} heading_text="Shortcode Heading" description_text="Shortcode Description" co
     }
 
     /**
+     * Create new instance
      * @param \BackendTester $I
      * @return static
      */

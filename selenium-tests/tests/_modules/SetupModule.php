@@ -64,8 +64,8 @@ class SetupModule extends BaseModule {
     public static $assertCurrencySelected = 'The currency for this website is {currency} now.';
 
     /**
-     * Uninstall
-     * @author Alex Tsumarov <atsumarov@scnsoft.com>
+     * Uninstall Laterpay plugin
+     * @return $this
      */
     public function uninstallPlugin() {
 
@@ -74,7 +74,7 @@ class SetupModule extends BaseModule {
         $I->amOnPage(SetupModule::$url_plugin_list);
         if ($I->trySee($I, SetupModule::$assertPluginName)) {
 
-            $I->amGoingTo('Remove plugin before install');
+            //Remove plugin before install
             $I->tryClick($I, SetupModule::$pluginDeactivateLink);
             $I->tryClick($I, SetupModule::$pluginDeleteLink);
             $I->tryClick($I, SetupModule::$pluginDeleteConfirmLink);
@@ -84,22 +84,22 @@ class SetupModule extends BaseModule {
     }
 
     /**
-     * P.16-17
-     * Installation {version}
-     * @author Alex Tsumarov <atsumarov@scnsoft.com>
+     * Install Laterpay plugin
+     * @param null $version
+     * @return $this
      */
     public function installPlugin($version = null) {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Install plugin');
+        //Install plugin
         $I->amOnPage(SetupModule::$url_plugin_add);
         $I->amOnPage(SetupModule::$url_plugin_upload);
         $I->attachFile(SetupModule::$pluginUploadField, SetupModule::$pluginUploadFilename);
         $I->click(SetupModule::$pluginUploadSubmitField);
         $I->see(SetupModule::$assertInstalled);
 
-        $I->amGoingTo('Check plugin listed');
+        //Check plugin listed
         $I->amOnPage(SetupModule::$url_plugin_list);
         $I->see(SetupModule::$assertPluginListed);
 
@@ -107,34 +107,35 @@ class SetupModule extends BaseModule {
     }
 
     /**
-     * P.18
-     * Can the user activate the plugin successfully?
-     * @author Alex Tsumarov <atsumarov@scnsoft.com>
+     * Activate Laterpay plugin
+     * @return $this
      */
     public function activatePlugin() {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Activate plugin');
+        //Activate plugin
         $I->amOnPage(SetupModule::$url_plugin_list);
         $I->click(SetupModule::$pluginActivateLink);
         $I->waitForElement(SetupModule::$pluginDeactivateLink);
 
-        $I->amGoingTo('Plugin link into navigation tab');
+        //Plugin link into navigation tab
         $I->amOnPage(SetupModule::$url_plugin_list);
         $I->see(SetupModule::$pluginNavigationLabel, SetupModule::$backNavigateTab);
 
         //floated popup
         if ($I->trySee($I, '.wp-pointer-content'))
             $I->tryClick($I, '.wp-pointer-content .close');
+
         return $this;
     }
 
     /**
-     * P.18-20
      * Go through Get Started Tab {global default price, currency}
      * Can the user successfully complete the “Get Started”
-     * @author Alex Tsumarov <atsumarov@scnsoft.com>
+     * @param null $price
+     * @param null $currency
+     * @return $this
      */
     public function goThroughGetStartedTab($price = null, $currency = null) {
 
@@ -146,7 +147,7 @@ class SetupModule extends BaseModule {
         if (!$currency)
             $currency = SetupModule::$globalDefaultCurrency;
 
-        $I->amGoingTo('Empty Merchant ID and API Key fields');
+        //Empty Merchant ID and API Key fields
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->tryClick($I, SetupModule::$linkDismissWPMessage);
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, '');
@@ -155,36 +156,36 @@ class SetupModule extends BaseModule {
         $I->wait(BaseModule::$veryShortTimeout);
         $I->see(SetupModule::$assertNoLaterPayApiKey);
 
-        $I->amGoingTo('Set wrong Merchant ID');
+        //Set wrong Merchant ID
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantInvalidValue);
         $I->click(SetupModule::$pluginActivateFormButton);
         $I->wait(BaseModule::$veryShortTimeout);
         $I->see(SetupModule::$assertInvalidMerchantId);
 
-        $I->amGoingTo('Set Sandbox Merchant ID');
+        //Set Sandbox Merchant ID
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
         $I->click(SetupModule::$pluginActivateFormButton);
         $I->wait(BaseModule::$veryShortTimeout);
         $I->see(SetupModule::$assertEmptyDemoMerchantId);
 
-        $I->amGoingTo('Set Sandbox Merchant ID and invalid API Key');
+        //Set Sandbox Merchant ID and invalid API Key
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyInvalidValue);
         $I->click(SetupModule::$pluginActivateFormButton);
         $I->wait(BaseModule::$veryShortTimeout);
         $I->seeInPageSource(SetupModule::$assertInvalidDemoMerchantId);
 
-        $I->amGoingTo('Set Sandbox Merchant ID and valid API Key');
+        //Set Sandbox Merchant ID and valid API Key
         $I->fillField(SetupModule::$laterpaySandboxMerchantField, SetupModule::$laterpaySandboxMerchantSandboxValue);
         $I->fillField(SetupModule::$laterpaySandboxApiKeyField, SetupModule::$laterpaySandboxApiKeyValidValue);
         //$I->seeElement(SetupModule::$assertFieldStepOneDone);
 
-        $I->amGoingTo('Activate LaterPay');
+        //Activate LaterPay
         $I->fillField(SetupModule::$globalDefaultPriceField, $price);
         $I->selectOption(SetupModule::$globalDefaultCurrencyField, $currency);
         $I->click(SetupModule::$pluginActivateFormButton);
 
-        $I->amGoingTo('Check redirect to New Post page');
+        //Check redirect to New Post page
         $I->wait(BaseModule::$shortTimeout);
         $I->seeCurrentUrlEquals(SetupModule::$pluginActivateSuccesRedirectUrl);
 
@@ -192,23 +193,23 @@ class SetupModule extends BaseModule {
     }
 
     /**
-     * P.21-22
      * Change Global Default Price {new global default price}
      * Can the user successfully change the global default price?
-     * @author Alex Tsumarov <atsumarov@scnsoft.com>
+     * @param null $price
+     * @return $this
      */
     public function changeGlobalDefaultPrice($price = null) {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Click on the “Change” link next to the global default price');
+        //Click on the “Change” link next to the global default price
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
         $I->seeElement(SetupModule::$globalDefaultPriceField);
         $I->seeLink(SetupModule::$laterpaySaveLink);
         $I->seeLink(SetupModule::$laterpayCancelLink);
 
-        $I->amGoingTo('Click on the “Cancel”');
+        //Click on the “Cancel”
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
         $I->click(SetupModule::$laterpayCancelLink);
@@ -216,14 +217,14 @@ class SetupModule extends BaseModule {
         $I->cantSeeLink(SetupModule::$laterpaySaveLink);
         $I->cantSeeLink(SetupModule::$laterpayCancelLink);
 
-        $I->amGoingTo('Click on the “Change””');
+        //Click on the “Change”
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
         $I->cantSeeLink(SetupModule::$laterpayChangeLink);
         $I->seeLink(SetupModule::$laterpaySaveLink);
         $I->seeLink(SetupModule::$laterpayCancelLink);
 
-        $I->amGoingTo('Set new price');
+        //Set new price
         $I->amOnPage(SetupModule::$pluginBackLink);
         $I->click(SetupModule::$laterpayChangeLink);
         $I->fillField(SetupModule::$globalDefaultPriceField, $price);
@@ -242,16 +243,16 @@ class SetupModule extends BaseModule {
     }
 
     /**
-     * P.24
      * Change Currency {new currency}
      * {currency} = string
-     * @author Alex Tsumarov <atsumarov@scnsoft.com>
+     * @param string $currency
+     * @return $this
      */
     public function changeCurrency($currency = 'USD') {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Change Currency');
+        //Change Currency
 
         $I->amOnPage(SetupModule::$pluginBackLink);
 
@@ -267,15 +268,18 @@ class SetupModule extends BaseModule {
     }
 
     /**
-     * To UI29
+     * Validate Global Price
+     * @return $this
      */
     public function validateGlobalPrice() {
         $I = $this->BackendTester;
 
         $I->amOnPage(SetupModule::$pluginBackLink);
 
-        $I->amGoingTo('Validate global price');
+        //Validate global price
         BackendModule::of($I)->validatePrice(SetupModule::$globalDefaultPriceField, SetupModule::$laterpayChangeLink, SetupModule::$laterpaySaveLink);
+
+        return $this;
     }
 
 }

@@ -41,7 +41,6 @@ class ModesModule extends BaseModule {
     public static $labelLive = 'LIVE';
 
     /**
-     * P.25
      * Change Preview Mode {preview mode}
      * @param $preview_mode
      * @return $this
@@ -50,7 +49,7 @@ class ModesModule extends BaseModule {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Change Preview Mode');
+        //Change Preview Mode
 
         $I->amOnPage(self::$baseUrl);
         $I->click(self::$adminMenuPluginButton);
@@ -87,7 +86,6 @@ class ModesModule extends BaseModule {
     }
 
     /**
-     * P.30
      * Switch to Live Mode
      * @return $this
      */
@@ -97,17 +95,12 @@ class ModesModule extends BaseModule {
 
         $I->amOnPage(ModesModule::$url_plugin_appearence);
 
-        if ($I->trySeeInField($I, 'input[name="teaser_content_only"]:checked', 0)) {
+        if ($I->trySeeInField($I, 'input[name="teaser_content_only"]:checked', 0)) return 'overlay';
 
-            return 'overlay';
-        } else {
-
-            return 'teaser_only';
-        };
+        return 'teaser_only';
     }
 
     /**
-     * P.30
      * Switch to Live Mode
      * Changes of specification.
      * 1. "The toggle text is still “TEST”" replaced with "checkbox is checked test".
@@ -119,13 +112,13 @@ class ModesModule extends BaseModule {
 
         $I->amOnPage(ModesModule::$url_plugin_account);
 
-        $I->amGoingTo('Reset plugin Live credentials');
+        //Reset plugin Live credentials
         $I->fillField(self::$fieldLaterpayLiveMerchantId, '');
         $I->fillField(self::$fieldLaterpayLiveApiKey, '');
         if ($I->tryCheckbox($I, self::$linkPluginModeToggle))
             $I->click(self::$linkPluginModeToggle);
 
-        $I->amGoingTo('Start verify plugin switch to Live mode');
+        //Start verify plugin switch to Live mode
         $I->click(self::$linkPluginModeToggle);
         $I->wait(BaseModule::$shortTimeout);
         $I->seeInPageSource(self::$messageErrorLiveMode);
@@ -133,21 +126,21 @@ class ModesModule extends BaseModule {
 
         $this->validateAPICredentials(self::$fieldLaterpayLiveMerchantId, self::$fieldLaterpayLiveApiKey);
 
-        $I->amGoingTo('Set invalid merchant');
+        //Set invalid merchant
         $I->fillField(self::$fieldLaterpayLiveMerchantId, self::$dataValidLiveMerchantId);
         $I->click(self::$linkPluginModeToggle);
         $I->wait(BaseModule::$shortTimeout);
         $I->seeInPageSource(self::$messageErrorLiveMode);
         $I->cantSeeCheckboxIsChecked(self::$linkPluginModeToggle);
 
-        $I->amGoingTo('Set invalid key');
+        //Set invalid key
         $I->fillField(self::$fieldLaterpayLiveApiKey, self::$testData2);
         $I->click(self::$linkPluginModeToggle);
         $I->wait(BaseModule::$shortTimeout);
         $I->seeInPageSource(self::$messageErrorLiveMode);
         $I->cantSeeCheckboxIsChecked(self::$linkPluginModeToggle);
 
-        $I->amGoingTo('Set valid merchant and key');
+        //Set valid merchant and key
         $I->fillField(self::$fieldLaterpayLiveMerchantId, self::$dataValidLiveMerchantId);
         $I->fillField(self::$fieldLaterpayLiveApiKey, self::$dataValidLiveApiKey);
         $I->click(self::$linkPluginModeToggle);
@@ -159,7 +152,6 @@ class ModesModule extends BaseModule {
     }
 
     /**
-     * P.32
      * Switch to Test Mode
      * @return $this
      */
@@ -186,7 +178,6 @@ class ModesModule extends BaseModule {
     }
 
     /**
-     * P.45
      * Validate API Credentials
      * @param $merchant_id_input
      * @param $api_key_input
@@ -198,7 +189,7 @@ class ModesModule extends BaseModule {
 
         $I->amOnPage(ModesModule::$url_plugin_account);
 
-        $I->amGoingTo('Reset plugin Live credentials if it is.');
+        //Reset plugin Live credentials if it is.
         $I->fillField(self::$fieldLaterpayLiveMerchantId, '');
         $I->fillField(self::$fieldLaterpayLiveApiKey, '');
         if ($I->tryCheckbox($I, self::$linkPluginModeToggle))
@@ -232,19 +223,16 @@ class ModesModule extends BaseModule {
     }
 
     /**
-     * Ruturn true in case of test mode
+     * Check if test mode
+     * @return bool
      */
     public function checkIsTestMode() {
 
         $I = $this->BackendTester;
 
-        $returnUrl = $I->grabFromCurrentUrl();
-
         $I->amOnPage(ModesModule::$url_plugin_account);
 
         $testMode = (int) $I->grabValueFrom(ModesModule::$pluginModeHidden);
-
-        $I->amGoingTo($returnUrl);
 
         return !$testMode;
     }

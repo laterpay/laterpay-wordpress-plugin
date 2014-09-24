@@ -16,12 +16,13 @@ class BackendModule extends BaseModule {
 
     /**
      * Login
+     * @return $this
      */
     public function login() {
 
         $I = $this->BackendTester;
 
-        $I->amGoingTo('Login backend');
+        //Login backend
 
         $I->amOnPage(BackendModule::$URL);
 
@@ -37,6 +38,7 @@ class BackendModule extends BaseModule {
 
     /**
      * Logout
+     * @return $this
      */
     public function logout() {
 
@@ -53,9 +55,11 @@ class BackendModule extends BaseModule {
     }
 
     /**
-     * P.43-44
      * Price Validation {price input, confirmation link, change link}
      * Is a price validated successfully?
+     * @param $price_input
+     * @param null $change_link
+     * @param null $confirmation_link
      */
     public function validatePrice($price_input, $change_link = null, $confirmation_link = null) {
 

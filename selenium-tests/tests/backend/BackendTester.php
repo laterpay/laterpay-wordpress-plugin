@@ -2118,7 +2118,7 @@ class BackendTester extends \Codeception\Actor
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      * Helper to have ability if-then-else condition
-     * @param \SetupTester $I
+     * @param \BackendTester $I
      * @param String $I
      * @see \Codeception\Module\CommonHelper::trySeeInField()
      */
@@ -2131,7 +2131,7 @@ class BackendTester extends \Codeception\Actor
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      * Helper to have ability if-then-else condition
-     * @param \SetupTester $I
+     * @param \BackendTester $I
      * @param String $I
      * @see \Codeception\Module\CommonHelper::trySee()
      */
@@ -2144,7 +2144,7 @@ class BackendTester extends \Codeception\Actor
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      * Helper to have ability non mandatory mouse click
-     * @param \SetupTester $I
+     * @param \BackendTester $I
      * @param String $I
      * @see \Codeception\Module\CommonHelper::tryOption()
      */
@@ -2157,7 +2157,7 @@ class BackendTester extends \Codeception\Actor
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      * Helper to have ability non mandatory mouse click
-     * @param \SetupTester $I
+     * @param \BackendTester $I
      * @param String $I
      * @see \Codeception\Module\CommonHelper::tryClick()
      */
@@ -2170,7 +2170,7 @@ class BackendTester extends \Codeception\Actor
      * [!] Method is generated. Documentation taken from corresponding module.
      *
      * Helper to have ability non mandatory mouse click
-     * @param \SetupTester $I
+     * @param \BackendTester $I
      * @param String $I
      * @see \Codeception\Module\CommonHelper::tryCheckbox()
      */

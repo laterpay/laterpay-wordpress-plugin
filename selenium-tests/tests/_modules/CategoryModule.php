@@ -11,11 +11,9 @@ class CategoryModule extends BaseModule {
     public static $expectedMessage = 'The Categories Table on this page now contains a category named';
 
     /**
-     * P.36
      * Create Test Category
      * @param $category_name
      * @return $this
-     * @author Alex Vahura <avahura@scnsoft.com>
      */
     public function createTestCategory($category_name) {
         $I = $this->BackendTester;
@@ -30,6 +28,7 @@ class CategoryModule extends BaseModule {
     }
 
     /**
+     * Store created category Id
      * @param $post
      * @return $this
      */

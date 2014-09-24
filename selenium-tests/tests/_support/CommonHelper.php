@@ -5,12 +5,12 @@ namespace Codeception\Module;
 class CommonHelper extends \Codeception\Module {
 
     /**
-     * For test development purposes. Runs DevPage::start()
-     * @param \Tester $I
+     * For test development purposes.
      * Usage examples:
-      mod($I,'BackendModule','login');
-      amOnPage(str_replace('{post}', 134, PostModule::$pagePostEdit));
-      makeScreenshot(2);
+     * mod($I,'BackendModule','login');
+     * amOnPage(str_replace('{post}', 134, PostModule::$pagePostEdit));
+     * makeScreenshot(2);
+     * @param \BackendTester $I
      */
     public function mod($I, $module, $method) {
 
@@ -18,8 +18,8 @@ class CommonHelper extends \Codeception\Module {
     }
 
     /**
-     * Helper to have ability if-then-else condition
-     * @param \SetupTester $I
+     * Helper to have ability if-then-else condition for seeInField method
+     * @param \BackendTester $I
      * @param String $I
      */
     public function trySeeInField($I, $string, $value) {
@@ -35,8 +35,8 @@ class CommonHelper extends \Codeception\Module {
     }
 
     /**
-     * Helper to have ability if-then-else condition
-     * @param \SetupTester $I
+     * Helper to have ability if-then-else condition for see method
+     * @param \BackendTester $I
      * @param String $I
      */
     public function trySee($I, $string) {
@@ -52,8 +52,8 @@ class CommonHelper extends \Codeception\Module {
     }
 
     /**
-     * Helper to have ability non mandatory mouse click
-     * @param \SetupTester $I
+     * Helper to have ability non mandatory mouse click for seeOptionIsSelected method
+     * @param \BackendTester $I
      * @param String $I
      */
     public function tryOption($I, $select, $option) {
@@ -71,8 +71,8 @@ class CommonHelper extends \Codeception\Module {
     }
 
     /**
-     * Helper to have ability non mandatory mouse click
-     * @param \SetupTester $I
+     * Helper to have ability non mandatory mouse click for click method
+     * @param \BackendTester $I
      * @param String $I
      */
     public function tryClick($I, $string) {
@@ -86,8 +86,8 @@ class CommonHelper extends \Codeception\Module {
     }
 
     /**
-     * Helper to have ability non mandatory mouse click
-     * @param \SetupTester $I
+     * Helper to have ability non mandatory mouse click for seeCheckboxIsChecked method
+     * @param \BackendTester $I
      * @param String $I
      */
     public function tryCheckbox($I, $string) {
@@ -102,16 +102,11 @@ class CommonHelper extends \Codeception\Module {
         };
     }
 
-    public function setVar($k, $v) {
-
-        $this->k = $v;
-    }
-
-    public function getVar($k) {
-
-        return $this->k;
-    }
-
+    /**
+     * set webdriver domain
+     * @param null $url
+     * @return void
+     */
     public function setDomain($url = null) {
 
         if ($url) {
