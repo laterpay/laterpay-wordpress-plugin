@@ -108,6 +108,8 @@ class Browscap
     public $errorInterval = 7200; // 2 hours
     public $doAutoUpdate = true;
     public $updateMethod = null;
+    
+    public $usedProperties = array('Parent', 'Crawler', 'Cookies');
 
     /**
      * The path of the local version of the browscap.ini file from which to
@@ -585,8 +587,6 @@ class Browscap
 
         $tmp_user_agents = array_keys($browsers);
 
-        usort($tmp_user_agents, array($this, 'compareBcStrings'));
-
         $user_agents_keys = array_flip($tmp_user_agents);
 
         if ( version_compare(PHP_VERSION, '5.3.0', '>=') ) {
@@ -649,8 +649,10 @@ class Browscap
                     continue;
                 }
 
-                $key           = $properties_keys[$key];
-                $browser[$key] = $value;
+                if ( in_array($key, $this->usedProperties) ) {
+                    $key           = $properties_keys[$key];
+                    $browser[$key] = $value;
+                }
             }
 
             unset($browsers[$tmp_user_agents[$i]]);

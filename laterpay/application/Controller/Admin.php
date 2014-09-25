@@ -97,14 +97,11 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         );
         wp_enqueue_script( 'laterpay-backend' );
 
-        // load HTML5 shim for IE <= 9 only
-        if ( LaterPay_Helper_Browser::is_ie() && LaterPay_Helper_Browser::get_browser_major_version() <= 9 ) {
-            wp_register_script(
-                'html5-shim-ie',
-                'http://html5shim.googlecode.com/svn/trunk/html5.js'
-            );
-            wp_enqueue_script( 'html5-shim-ie' );
-        }
+        wp_register_script(
+            'html5-shim-ie',
+            'http://html5shim.googlecode.com/svn/trunk/html5.js'
+        );
+        wp_enqueue_script( 'html5-shim-ie' );
     }
 
     /**
