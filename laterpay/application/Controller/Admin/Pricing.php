@@ -170,7 +170,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $delocalized_global_price   = (float) str_replace( ',', '.', $_POST['laterpay_global_price'] );
         $global_price_revenue_model = (string) $_POST['laterpay_global_price_revenue_model'];
 
-        if ( ( $delocalized_global_price > 5 || $delocalized_global_price < 0 ) || ! in_array( $global_price_revenue_model, array('ppm', 'sis') ) ) {
+        if ( ( $delocalized_global_price > 5 || $delocalized_global_price < 0 ) || ! in_array( $global_price_revenue_model, array('ppu', 'sis') ) ) {
             wp_send_json(
                 array(
                     'success'                       => false,
@@ -218,7 +218,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
         $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
 
-        if ( $delocalized_category_price > 5 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) || ! in_array( $category_price_revenue_model, array('ppm', 'sis') ) ) {
+        if ( $delocalized_category_price > 5 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) || ! in_array( $category_price_revenue_model, array('ppu', 'sis') ) ) {
             wp_send_json(
                 array(
                     'success' => false,
