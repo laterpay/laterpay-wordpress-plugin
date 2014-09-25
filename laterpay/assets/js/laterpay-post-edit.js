@@ -34,7 +34,7 @@
                 dynamicPricingApplied   : 'lp_is-with-dynamic-pricing',
                 selectedCategory        : 'lp_selected-category',
                 payPerUse               : 'ppu',
-                singleSale              : 'sis',
+                singleSale              : 'sis'
             },
 
             bindEvents = function() {

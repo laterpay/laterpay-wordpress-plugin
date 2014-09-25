@@ -246,6 +246,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // category default price data
         $category_price_data    = null;
         $category_default_price = null;
+        $category_default_price_revenue_model = null;
         $categories_of_post     = wp_get_post_categories( $post->ID );
         if ( ! empty( $categories_of_post ) ) {
             $laterpay_category_model    = new LaterPay_Model_CategoryPrice();
@@ -253,11 +254,13 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             // if the post has a category defined from which to use the category default price then let's get that price
             if ( $post_default_category > 0 ) {
                 $category_default_price = (float) $laterpay_category_model->get_price_by_category_id( $post_default_category );
+                $category_default_price_revenue_model = (string) $laterpay_category_model->get_revenue_model_by_category_id( $post_default_category );
             }
         }
 
         // global default price
         $global_default_price = get_option( 'laterpay_global_price' );
+        $global_default_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
 
         /**
          * TODO: optimize the current approach:
@@ -346,14 +349,16 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
 
-        $this->assign( 'laterpay_post_price_type',       $post_price_type );
-        $this->assign( 'laterpay_post_revenue_model',    $post_revenue_model );
-        $this->assign( 'laterpay_price',                 $price );
-        $this->assign( 'laterpay_currency',              get_option( 'laterpay_currency' ) );
-        $this->assign( 'laterpay_category_prices',       $category_price_data );
-        $this->assign( 'laterpay_post_default_category', (int) $post_default_category );
-        $this->assign( 'laterpay_global_default_price',  $global_default_price );
-        $this->assign( 'laterpay_dynamic_pricing_data',  json_encode( $dynamic_pricing_data ) );
+        $this->assign( 'laterpay_post_price_type',                      $post_price_type );
+        $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
+        $this->assign( 'laterpay_price',                                $price );
+        $this->assign( 'laterpay_currency',                             get_option( 'laterpay_currency' ) );
+        $this->assign( 'laterpay_category_prices',                      $category_price_data );
+        $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
+        $this->assign( 'laterpay_global_default_price',                 $global_default_price );
+        $this->assign( 'laterpay_dynamic_pricing_data',                 json_encode( $dynamic_pricing_data ) );
+        $this->assign( 'laterpay_global_default_price_revenue_model',   $global_default_price_revenue_model);
+        $this->assign( 'laterpay_category_default_price_revenue_model', $category_default_price_revenue_model);
 
         $this->render( 'backend/partials/post_pricing_form' );
     }

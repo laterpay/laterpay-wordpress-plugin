@@ -196,6 +196,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
                 term_id           INT(11)         NOT NULL,
                 price             DOUBLE          NOT NULL DEFAULT '0',
+                revenue_model     ENUM('ppu', 'sis') DEFAULT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );
@@ -243,21 +244,22 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
             )
         );
 
-        add_option( 'laterpay_teaser_content_only',      '1' );
-        add_option( 'laterpay_plugin_is_in_live_mode',   '0' );
-        add_option( 'laterpay_sandbox_merchant_id',      '' );
-        add_option( 'laterpay_sandbox_api_key',          '' );
-        add_option( 'laterpay_live_merchant_id',         '' );
-        add_option( 'laterpay_live_api_key',             '' );
-        add_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
-        add_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
-        add_option( 'laterpay_enabled_post_types',     get_post_types( array( 'public' => true ) ) );
+        add_option( 'laterpay_teaser_content_only',         '1' );
+        add_option( 'laterpay_plugin_is_in_live_mode',      '0' );
+        add_option( 'laterpay_sandbox_merchant_id',         '' );
+        add_option( 'laterpay_sandbox_api_key',             '' );
+        add_option( 'laterpay_live_merchant_id',            '' );
+        add_option( 'laterpay_live_api_key',                '' );
+        add_option( 'laterpay_global_price',                $this->config->get( 'currency.default_price' ) );
+        add_option( 'laterpay_global_price_revenue_model',  '');
+        add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
+        add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
 
-        update_option( 'laterpay_version',               $this->config->version );
+        update_option( 'laterpay_version',                  $this->config->version );
         // option 'laterpay_plugin_is_activated' is set to empty on installation, to be able to tell between a fresh
         // installation and an activated but deactivated installation, to lead the user through the get started process,
         // if it is a fresh installation
-        add_option( 'laterpay_plugin_is_activated',      '' );
+        add_option( 'laterpay_plugin_is_activated',         '' );
 
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();

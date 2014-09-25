@@ -41,7 +41,8 @@ class LaterPay_Model_CategoryPrice
             SELECT
                 tm.name AS category_name,
                 tm.term_id AS category_id,
-                tp.price AS category_price
+                tp.price AS category_price,
+                tp.revenue_model AS revenue_model
             FROM
                 {$this->term_table} AS tm
                 LEFT JOIN
@@ -76,7 +77,8 @@ class LaterPay_Model_CategoryPrice
             SELECT
                 tm.name AS category_name,
                 tm.term_id AS category_id,
-                tp.price AS category_price
+                tp.price AS category_price,
+                tp.revenue_model AS revenue_model
             FROM
                 {$this->term_table} AS tm
                 LEFT JOIN
@@ -180,26 +182,29 @@ class LaterPay_Model_CategoryPrice
     /**
      * Set category default price.
      *
-     * @param integer $id_category id category
-     * @param float   $price       price for category
-     * @param integer $id          id price for category
+     * @param integer $id_category      id category
+     * @param float   $price            price for category
+     * @param string  $revenue_model    revenue model of category
+     * @param integer $id               id price for category
      *
      * @return int|false number of rows affected / selected or false on error
      */
-    public function set_category_price( $id_category, $price, $id = 0 ) {
+    public function set_category_price( $id_category, $price, $revenue_model, $id = 0 ) {
         global $wpdb;
 
         if ( ! empty( $id ) ) {
             return $wpdb->update(
                 $this->term_table_prices,
                 array(
-                    'term_id'   => $id_category,
-                    'price'     => $price,
+                    'term_id'       => $id_category,
+                    'price'         => $price,
+                    'revenue_model' => $revenue_model,
                 ),
                 array( 'ID' => $id ),
                 array(
                     '%d',
                     '%f',
+                    '%s',
                 ),
                 array( '%d' )
             );
@@ -207,12 +212,14 @@ class LaterPay_Model_CategoryPrice
             return $wpdb->insert(
                 $this->term_table_prices,
                 array(
-                    'term_id'   => $id_category,
-                    'price'     => $price,
+                    'term_id'       => $id_category,
+                    'price'         => $price,
+                    'revenue_model' => $revenue_model,
                 ),
                 array(
                     '%d',
                     '%f',
+                    '%s'
                 )
             );
         }
@@ -272,6 +279,34 @@ class LaterPay_Model_CategoryPrice
         }
 
         return $price->price;
+    }
+
+    /**
+     * Get revenue model by category id.
+     *
+     * @param integer $id  category id
+     *
+     * @return string|null category renevue model
+     */
+    public function get_revenue_model_by_category_id( $id ) {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                revenue_model
+            FROM
+                {$this->term_table_prices}
+            WHERE
+                term_id = %d
+            ;
+        ";
+        $revenue_model = $wpdb->get_row( $wpdb->prepare( $sql, $id ) );
+
+        if ( empty( $revenue_model ) ) {
+            return null;
+        }
+
+        return $revenue_model->revenue_model;
     }
 
     /**
