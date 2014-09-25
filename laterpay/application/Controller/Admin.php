@@ -519,21 +519,16 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     public static function get_all_pointers() {
         $reflection     = new ReflectionClass( __CLASS__ );
         $classConstants = $reflection->getConstants();
-        $pointers       = array_flip( array_filter( array_flip( $classConstants ), array( __CLASS__ , 'get_all_pointers_callback' ) ) );
+        $pointers = array();
+
+        if ( $classConstants ) {
+            foreach (array_keys($classConstants) as $key_value) {
+                if ( strpos( $key_value, 'POINTER') !== FALSE ) {
+                    $pointers[] = $classConstants[$key_value];
+                }
+            }
+        }
 
         return $pointers;
     }
-
-    /**
-     * Get all pointers callback function
-     *
-     * @param $key
-     *
-     * @return bool
-     */
-    public static function get_all_pointers_callback($key)
-    {
-        return strpos( $key, 'POINTER') !== FALSE;
-    }
-
 }
