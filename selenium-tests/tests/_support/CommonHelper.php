@@ -118,5 +118,25 @@ class CommonHelper extends \Codeception\Module {
         };
     }
 
+    /**
+     * Save variable
+     * @param null $url
+     * @return void
+     */
+    public function setVar($k, $v) {
+
+        $this->k = $v;
+    }
+
+    /**
+     * Get variable
+     * @param null $url
+     * @return void
+     */
+    public function getVar($k) {
+
+        return $this->k;
+    }
+
 }
 

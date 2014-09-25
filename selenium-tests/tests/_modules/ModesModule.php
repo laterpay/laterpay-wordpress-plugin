@@ -95,7 +95,8 @@ class ModesModule extends BaseModule {
 
         $I->amOnPage(ModesModule::$url_plugin_appearence);
 
-        if ($I->trySeeInField($I, 'input[name="teaser_content_only"]:checked', 0)) return 'overlay';
+        if ($I->trySeeInField($I, 'input[name="teaser_content_only"]:checked', 0))
+            return 'overlay';
 
         return 'teaser_only';
     }
@@ -120,8 +121,7 @@ class ModesModule extends BaseModule {
 
         //Start verify plugin switch to Live mode
         $I->click(self::$linkPluginModeToggle);
-        $I->wait(BaseModule::$shortTimeout);
-        $I->seeInPageSource(self::$messageErrorLiveMode);
+        $I->waitForText(self::$messageErrorLiveMode, BaseModule::$averageTimeout);
         $I->cantSeeCheckboxIsChecked(self::$linkPluginModeToggle);
 
         $this->validateAPICredentials(self::$fieldLaterpayLiveMerchantId, self::$fieldLaterpayLiveApiKey);
@@ -129,23 +129,20 @@ class ModesModule extends BaseModule {
         //Set invalid merchant
         $I->fillField(self::$fieldLaterpayLiveMerchantId, self::$dataValidLiveMerchantId);
         $I->click(self::$linkPluginModeToggle);
-        $I->wait(BaseModule::$shortTimeout);
-        $I->seeInPageSource(self::$messageErrorLiveMode);
+        $I->waitForText(self::$messageErrorLiveMode, BaseModule::$averageTimeout);
         $I->cantSeeCheckboxIsChecked(self::$linkPluginModeToggle);
 
         //Set invalid key
         $I->fillField(self::$fieldLaterpayLiveApiKey, self::$testData2);
         $I->click(self::$linkPluginModeToggle);
-        $I->wait(BaseModule::$shortTimeout);
-        $I->seeInPageSource(self::$messageErrorLiveMode);
+        $I->waitForText(self::$messageErrorLiveMode, BaseModule::$averageTimeout);
         $I->cantSeeCheckboxIsChecked(self::$linkPluginModeToggle);
 
         //Set valid merchant and key
         $I->fillField(self::$fieldLaterpayLiveMerchantId, self::$dataValidLiveMerchantId);
         $I->fillField(self::$fieldLaterpayLiveApiKey, self::$dataValidLiveApiKey);
         $I->click(self::$linkPluginModeToggle);
-        $I->wait(BaseModule::$shortTimeout);
-        $I->seeInPageSource(self::$messageLiveMode);
+        $I->waitForText(self::$messageLiveMode, BaseModule::$averageTimeout);
         $I->seeCheckboxIsChecked(self::$linkPluginModeToggle);
 
         return $this;

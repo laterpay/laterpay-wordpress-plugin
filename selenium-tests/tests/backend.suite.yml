@@ -3,7 +3,7 @@ modules:
     enabled:
         - WebDriver
         - CommonHelper
-        - Db
+#        - Db
     config:
         WebDriver:
             url: 'http://src.wordpress-develop.dev/'
@@ -17,7 +17,7 @@ env:
     firefox_aws:
         config:
             WebDriver:
-                url: 'http://54.235.193.4/'
+                url: 'http://src.wordpress-develop.dev/'
                 browser: firefox
                 restart: false
                 clear_cookies: false

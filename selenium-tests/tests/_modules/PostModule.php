@@ -245,20 +245,21 @@ class PostModule extends BaseModule {
             $I->seeInField(PostModule::$fieldTitle, $title);
 
         if ($price != '0.00') {
-            //Switch Preview toggle to “Visitor”
+
+            $I->comment('Switch Preview toggle to “Visitor”');
             $I->click(PostModule::$linkViewPost);
             if (!$I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
                 $I->click(PostModule::$linkPreviewSwitcher);
-            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics); /* It`s not a best way to check, such as hidden elements will pass the test too. But used iframe doesn`t has a name attribute, so there`s no way to switch to it (see $I->switchToIFrame usage). */
-            $I->see($currency, PostModule::$visibleLaterpayPurchaseButton);
-            $I->see($price, PostModule::$visibleLaterpayPurchaseButton);
+            $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
+            $I->see($currency);
+            $I->see($price);
             $teaser_content = null;
             if ($teaser) {
                 $teaser_content = $this->_createTeaserContent($content, $teaser);
                 $I->see($teaser_content, PostModule::$visibleLaterpayTeaserContent);
             }
 
-            //Switch Preview toggle to “Admin”
+            $I->comment('Switch Preview toggle to “Admin”');
             if ($I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
                 $I->click(PostModule::$linkPreviewSwitcher);
             $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
@@ -271,7 +272,7 @@ class PostModule extends BaseModule {
             if ($teaser)
                 $I->cantSee($teaser_content, PostModule::$visibleLaterpayTeaserContent);
 
-            //Go to the Post Overview page
+            $I->comment('Go to the Post Overview page');
             $I->amOnPage(PostModule::$pagePostList);
             $I->see($price, PostModule::$pageListPriceCol);
             $I->see($price_type, PostModule::$pageListPricetypeCol);
@@ -393,7 +394,6 @@ class PostModule extends BaseModule {
         BackendModule::of($I)->logout();
 
         //Purshase the post
-
         //It must be there. Cause of switching domain issue.
         $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
 
