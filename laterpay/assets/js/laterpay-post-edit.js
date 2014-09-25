@@ -195,7 +195,7 @@
                     $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
                     $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
-                if ((price === 0 || price > 0.05) && price <= 5) {
+                if ((price === 0 || price >= 0.05) && price <= 5) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
