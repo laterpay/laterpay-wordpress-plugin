@@ -45,18 +45,17 @@
                 <input type="radio" name="post_revenue_model" value="sis"<?php if ( $laterpay_category_default_price_revenue_model == 'sis' || ( ! $laterpay_category_default_price_revenue_model && $laterpay_price > 5 ) ) { echo ' checked'; } ?>>SIS
             </label>
 
-        <?php elseif ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE && $laterpay_price > 0.00 ) : ?>
+        <?php elseif ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) : ?>
             <label  class="lp_d-block lp_m-t125 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
-                            <?php if ( $laterpay_global_default_price_revenue_model == 'ppu' || ( ! $laterpay_global_default_price_revenue_model && $laterpay_price <= 5 ) ) { echo ' lp_is-selected'; } ?>
-                            <?php if ( $laterpay_price > 5) { echo ' lp_is-disabled'; } ?>"
+                            <?php if ( $laterpay_global_default_price_revenue_model == 'ppu' || ( ! $laterpay_global_default_price_revenue_model && $laterpay_price < 5 ) ) { echo ' lp_is-selected'; } ?>"
                     data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
-                <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_global_default_price_revenue_model == 'ppu' || ( ! $laterpay_global_default_price_revenue_model && $laterpay_price <= 5 ) ) { echo ' checked'; } ?>>PPU
+                <input type="radio" name="post_revenue_model" value="ppu"<?php if ( $laterpay_global_default_price_revenue_model == 'ppu' || ( ! $laterpay_global_default_price_revenue_model && $laterpay_price < 5 ) ) { echo ' checked'; } ?>>PPU
             </label>
             <label  class="lp_d-block lp_m-t125 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
-                            <?php if ( $laterpay_global_default_price_revenue_model == 'sis' || ( ! $laterpay_global_default_price_revenue_model && $laterpay_price > 5 ) ) { echo ' lp_is-selected'; } ?>
+                            <?php if ( $laterpay_global_default_price_revenue_model == 'sis') { echo ' lp_is-selected'; } ?>
                             <?php if ( $laterpay_price < 1.49) { echo ' lp_is-disabled'; } ?>"
                     data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
-                <input type="radio" name="post_revenue_model" value="sis"<?php if ( $laterpay_global_default_price_revenue_model == 'sis' || ( ! $laterpay_global_default_price_revenue_model && $laterpay_price > 5 ) ) { echo ' checked'; } ?>>SIS
+                <input type="radio" name="post_revenue_model" value="sis"<?php if ( $laterpay_global_default_price_revenue_model == 'sis' ) { echo ' checked'; } ?>>SIS
             </label>
         <?php endif; ?>
     </div>

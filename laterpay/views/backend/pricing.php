@@ -32,16 +32,15 @@
                         <p>
                             <?php _e( '<strong>Every post</strong> costs', 'laterpay' ); ?>
                             <label  class="lp_d-block lp_m-t125 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
-                                                <?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price <= 5 ) ) { echo ' lp_is-selected'; } ?>
-                                                <?php if ( $global_default_price > 5) { echo ' lp_is-disabled'; } ?>"
+                                                <?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' lp_is-selected'; } ?>"
                                     data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
-                                <input type="radio" name="laterpay_global_price_revenue_model" value="ppu"<?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price <= 5 ) ) { echo ' checked'; } ?>>PPU
+                                <input type="radio" name="laterpay_global_price_revenue_model" value="ppu"<?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' checked'; } ?>>PPU
                             </label>
                             <label  class="lp_d-block lp_m-t125 lp_m-b05 lp_pd-025-05 lp_b-r3 lp_ta-center lp_fw-b lp_tooltip
-                                                <?php if ( $global_default_price_revenue_model == 'sis' || ( ! $global_default_price_revenue_model && $global_default_price > 5 ) ) { echo ' lp_is-selected'; } ?>
+                                                <?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' lp_is-selected'; } ?>
                                                 <?php if ( $global_default_price < 1.49) { echo ' lp_is-disabled'; } ?>"
                                     data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
-                                <input type="radio" name="laterpay_global_price_revenue_model" value="sis"<?php if ( $global_default_price_revenue_model == 'sis' || ( ! $global_default_price_revenue_model && $global_default_price > 5 ) ) { echo ' checked'; } ?>>SIS
+                                <input type="radio" name="laterpay_global_price_revenue_model" value="sis"<?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' checked'; } ?>>SIS
                             </label>
                             <strong>
                                 <input  type="text"
