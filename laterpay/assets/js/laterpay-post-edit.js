@@ -144,9 +144,9 @@
                 } else {
                     if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                         disableDynamicPricing();
+                        $o.revenueModel.hide();
                     }
                     $o.priceInput.attr('disabled', 'disabled');
-                    $o.revenueModel.hide();
                 }
             },
 
