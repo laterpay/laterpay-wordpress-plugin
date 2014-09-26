@@ -34,21 +34,22 @@ class CategoryDefaultPriceModule extends BaseModule {
 
         //Add category default price
         $I->click(self::$pricingAddCategoryButton);
-        $I->seeElement(self::$pricingCategorySelect);
-        $I->seeElement(self::$pricingSaveLink);
-        $I->seeElement(self::$pricingCancelLink);
+        $I->waitForElement(self::$pricingCategorySelect, BaseModule::$shortTimeout);
+        $I->waitForElement(self::$pricingSaveLink, BaseModule::$shortTimeout);
+        $I->waitForElement(self::$pricingCancelLink, BaseModule::$shortTimeout);
 
         //Cancel category default price
         $I->click(self::$pricingCancelLink);
-        $I->seeElement(self::$pricingAddCategoryButton);
-        $I->dontSeeElement(self::$pricingCancelLink);
-        $I->dontSeeElement(self::$pricingSaveLink);
+        $I->waitForElement(self::$pricingAddCategoryButton);
+        $I->waitForElementNotVisible(self::$pricingCancelLink, BaseModule::$averageTimeout);
+        $I->waitForElementNotVisible(self::$pricingSaveLink, BaseModule::$averageTimeout);
 
         //Add category default price
         $I->click(self::$pricingAddCategoryButton);
-        $I->seeElement(self::$pricingCategorySelect);
-        $I->seeElement(self::$pricingSaveLink);
-        $I->seeElement(self::$pricingCancelLink);
+        $I->waitForElement(self::$pricingCategorySelect, BaseModule::$shortTimeout);
+        $I->waitForElement(self::$pricingSaveLink, BaseModule::$shortTimeout);
+        $I->waitForElement(self::$pricingCancelLink, BaseModule::$shortTimeout);
+
 
         $messageCategoryPriceSaveText = str_replace(
                 array('{category_name}', '{category_price}'), array($category_name, $category_default_price), self::$messageCategoryPriceSave
@@ -61,10 +62,10 @@ class CategoryDefaultPriceModule extends BaseModule {
         $I->fillField(self::$pricingPriceInput, $category_default_price);
         $I->click(self::$pricingSaveLink);
         $I->waitForText($messageCategoryPriceSaveText, self::$shortTimeout, self::$messageArea);
-        $I->seeElement(self::$pricingChangeLink);
-        $I->seeElement(self::$pricingDeleteLink);
-        $I->dontSeeElement(self::$pricingCancelLink);
-        $I->dontSeeElement(self::$pricingSaveLink);
+        $I->waitForElement(self::$pricingChangeLink, BaseModule::$shortTimeout);
+        $I->waitForElement(self::$pricingDeleteLink, BaseModule::$shortTimeout);
+        $I->waitForElementNotVisible(self::$pricingCancelLink, BaseModule::$shortTimeout);
+        $I->waitForElementNotVisible(self::$pricingSaveLink, BaseModule::$shortTimeout);
 
         return $this;
     }
