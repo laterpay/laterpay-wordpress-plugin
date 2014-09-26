@@ -142,7 +142,8 @@ class ModesModule extends BaseModule {
         $I->fillField(self::$fieldLaterpayLiveMerchantId, self::$dataValidLiveMerchantId);
         $I->fillField(self::$fieldLaterpayLiveApiKey, self::$dataValidLiveApiKey);
         $I->click(self::$linkPluginModeToggle);
-        $I->waitForText(self::$messageLiveMode, BaseModule::$averageTimeout);
+        $I->wait(BaseModule::$averageTimeout);
+        $I->seeInPageSource(self::$messageLiveMode);
         $I->seeCheckboxIsChecked(self::$linkPluginModeToggle);
 
         return $this;

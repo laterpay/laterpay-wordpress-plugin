@@ -287,6 +287,7 @@ class SetupPluginCest {
      * @ticket https://github.com/laterpay/laterpay-wordpress-plugin/issues/293
      */
     public function testCheckPricesApplyingWithCategoryPriceDeletedCest(BackendTester $I) {
+
         $I->wantToTest('UI10: Is the higher of two remaining category default prices automatically applied to a post
                         with a category default price, if the currently applied category default price is deleted?');
 
@@ -927,9 +928,9 @@ class SetupPluginCest {
         $_price = '0.35';
         $_currency = 'EUR';
 
-        BackendModule::of($I)->login();
+        //BackendModule::of($I)->login();
 
-        PostModule::of($I)->checkTestPostForLaterPayElements($_post, 'global default price', $_price, $_currency, BaseModule::$T1, BaseModule::$C1);
+        PostModule::of($I)->purschaseAtServer(262);
     }
 
 }

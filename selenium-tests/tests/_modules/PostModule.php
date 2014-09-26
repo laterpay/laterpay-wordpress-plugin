@@ -51,9 +51,9 @@ class PostModule extends BaseModule {
     public static $lpServerLinkJsGetter = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
     public static $lpServerVisitorLoginLink = 'Log in to LaterPay';
     public static $lpServerVisitorLoginFrameName = 'wrapper';
-    public static $lpServerVisitorEmailField = 'username';
+    public static $lpServerVisitorEmailField = '#id_username';
     public static $lpServerVisitorEmailValue = 'atsumarov@scnsoft.com';
-    public static $lpServerVisitorPasswordField = 'password';
+    public static $lpServerVisitorPasswordField = '#id_password';
     public static $lpServerVisitorPasswordValue = 'atsumarov@scnsoft.com1';
     public static $lpServerVisitorLoginBtn = 'Log In';
     public static $lpServerVisitorBuyBtn = '#nextbuttons';
@@ -263,7 +263,7 @@ class PostModule extends BaseModule {
             if ($I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
                 $I->click(PostModule::$linkPreviewSwitcher);
             $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
-            $I->cantSee(PostModule::$visibleLaterpayPurchaseButton);
+            $I->waitForElementNotVisible(PostModule::$visibleLaterpayPurchaseButton, BaseModule::$shortTimeout);
 
             //Must be there, such as contect with short codes can`t be checked
             if ($content)
@@ -406,8 +406,14 @@ class PostModule extends BaseModule {
         $I->amOnPage($laterpayPage);
         $I->wait(PostModule::$averageTimeout);
 
-        $I->tryClick($I, PostModule::$lpServerVisitorLoginLink);
+        if ($I->trySee($I, PostModule::$lpServerVisitorLoginLink)) {
+
+            $I->tryClick($I, PostModule::$lpServerVisitorLoginLink);
+            $I->wait(BaseModule::$averageTimeout);
+        };
+
         $I->switchToIFrame(PostModule::$lpServerVisitorLoginFrameName);
+        $I->waitForElement(PostModule::$lpServerVisitorEmailField, BaseModule::$averageTimeout);
         $I->fillField(PostModule::$lpServerVisitorEmailField, PostModule::$lpServerVisitorEmailValue);
         $I->fillField(PostModule::$lpServerVisitorPasswordField, PostModule::$lpServerVisitorPasswordValue);
         $I->click(PostModule::$lpServerVisitorLoginBtn);
