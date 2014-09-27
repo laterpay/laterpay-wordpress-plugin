@@ -108,7 +108,7 @@ class Browscap
     public $errorInterval = 7200; // 2 hours
     public $doAutoUpdate = true;
     public $updateMethod = null;
-    
+
     public $usedProperties = array('Parent', 'Crawler', 'Cookies');
 
     /**
@@ -412,7 +412,7 @@ class Browscap
             }
             $array[$tmp_key] = $value;
         }
-        
+
         return $return_array ? $array : (object) $array;
     }
 
@@ -568,11 +568,11 @@ class Browscap
         unset($browsers[self::BROWSCAP_VERSION_KEY]);
 
         unset($browsers['DefaultProperties']['RenderingEngine_Description']);
-        /**/
+
         $tmp_user_agents = array_keys($browsers);
 
         $user_agents_keys = array_flip($tmp_user_agents);
-        
+
         if ( version_compare(PHP_VERSION, '5.3.0', '>=') ) {
             // convert to SplFixedArray (requires less memory)
             $tmp_user_agents        = SplFixedArray::fromArray($tmp_user_agents);
@@ -604,7 +604,7 @@ class Browscap
 
         // unset unnecessary variable(s) to optimize memory usage
         unset($data_user_agents);
-        /**/
+
         // get property data
         $data_properties = array_keys($browsers['DefaultProperties']);
 
@@ -635,11 +635,11 @@ class Browscap
                 $parent = isset($browsers[$parent]['Parent']) ? $browsers[$parent]['Parent'] : null;
             }
             $browser = array();
-            if ( isset($browser_properties['Crawler']) && $browser_properties['Crawler'] == 'true' ) 
+            if ( isset($browser_properties['Crawler']) && $browser_properties['Crawler'] == 'true' )
             {
                 foreach ($browser_properties as $key => $value) {
-                    if (! isset($properties_keys[$key]) 
-                            || ! in_array($key, $this->usedProperties) 
+                    if (! isset($properties_keys[$key])
+                            || ! in_array($key, $this->usedProperties)
                             ) {
                         continue;
                     }
@@ -649,7 +649,7 @@ class Browscap
                 $data_browsers[$i] = $browser;
             }
         }
-        
+
         // unset unnecessary variable(s) to optimize memory usage
         unset($browsers, $properties_keys);
 

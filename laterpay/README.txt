@@ -210,7 +210,7 @@ add_filter( 'laterpay_get_content_settings', 'demo_filter_laterpay_get_content_s
  *    'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
  *    'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
  *    'content.enabled_post_types'                         => Array - allowed post_types that support LaterPay purchases
- *      'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
+ *    'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
  *  )
  * @return Array $settings
  */
@@ -325,6 +325,19 @@ your theme after installing the LaterPay WordPress plugin.
 
 
 == Changelog ==
+
+= 0.9.8 (September 25, 2014): Bugfix Release =
+* Added option to sell content as single sale (SIS), allowing prices up to 149.99 Euro
+* Added configuration option for enabled post types in appearance tab
+* Ensured compatibility with WordPress 4.0
+* Added plugin icon for WordPress 4.0 plugins page
+* Rewrote all CSS using Stylus CSS preprocessor
+* Rewrote all Javascript to encapsulate all variables and functions
+* Added hint text for premium posts to feeds
+* Fixed bug caused by checking for edit_plugins capability, which might be disabled
+* Improved uninstall action
+* Extracted LaterPay PHP client into separate repository and included it as vendor library
+* Extensive refactoring plus various smaller bugfixes and improvements
 
 = 0.9.7.2: Migration to wordpress.org =
 
