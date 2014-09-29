@@ -217,12 +217,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function update_category_default_price() {
         $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
 
-        if ( ! empty( $_POST['category_id'] ) ) {
-            $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model_' . $_POST['category_id']];
-        } else {
-            $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
-        }
-
         if ( $delocalized_category_price > 5 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) ) {
             wp_send_json(
                 array(
