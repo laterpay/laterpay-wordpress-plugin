@@ -101,13 +101,15 @@ class Browscap
      * is MINIMAL, so there is no reason to use the standard file whatsoever. Either go for light,
      * which is blazing fast, or get the full one. (note: light version doesn't work, a fix is on its way)
      */
-    public $remoteIniUrl = 'http://browscap.org/stream?q=Lite_PHP_BrowsCapINI';
+    public $remoteIniUrl = 'http://browscap.org/stream?q=PHP_BrowsCapINI';
     public $remoteVerUrl = 'http://browscap.org/version';
     public $timeout = 60;
     public $updateInterval = 432000; // 5 days
     public $errorInterval = 7200; // 2 hours
     public $doAutoUpdate = true;
     public $updateMethod = null;
+
+    public $usedProperties = array('Parent', 'Crawler', 'Cookies');
 
     /**
      * The path of the local version of the browscap.ini file from which to
@@ -312,29 +314,23 @@ class Browscap
             $cache_file = $this->cacheDir . $this->cacheFilename;
             $ini_file   = $this->cacheDir . $this->iniFilename;
 
-            // Set the interval only if needed
-            if ($this->doAutoUpdate && file_exists($ini_file)) {
-                $interval = time() - filemtime($ini_file);
-            } else {
-                $interval = 0;
-            }
-
-            $update_cache = true;
-
-            if (file_exists($cache_file) && file_exists($ini_file) && ($interval <= $this->updateInterval)) {
-                if ($this->_loadCache($cache_file)) {
-                    $update_cache = false;
+            $update_cache = false;
+            if ( !$this->_loadCache($cache_file) ) {
+                if ( $this->doAutoUpdate ) {
+                    $update_cache = true;
+                } else {
+                    return array();
                 }
             }
 
-            if ($update_cache) {
+            if ( $update_cache ) {
                 try {
                     @ini_set( 'memory_limit', self::MEMORY_LIMIT );
                     $this->updateCache();
                 } catch (Exception $e) {
                     if (file_exists($ini_file)) {
                         // Adjust the filemtime to the $errorInterval
-                        touch($ini_file, time() - $this->updateInterval + $this->errorInterval);
+                        @touch($ini_file, time() - $this->updateInterval + $this->errorInterval);
                     } elseif ($this->silent) {
                         // Return an array if silent mode is active and the ini db doesn't exsist
                         return array();
@@ -395,17 +391,7 @@ class Browscap
                     trim(strtolower($pattern), self::REGEX_DELIMITER),
                     $this->_pregUnQuote($pattern, $simple_match ? false : $matches)
                 );
-
-                $browser = $value = $browser + unserialize($this->_browsers[$key]);
-
-                while (array_key_exists(3, $value)) {
-                    $value = unserialize($this->_browsers[$value[3]]);
-                    $browser += $value;
-                }
-
-                if (! empty($browser[3])) {
-                    $browser[3] = $this->_userAgents[$browser[3]];
-                }
+                $browser = $value = $browser + (!empty($this->_browsers[$key]) ? unserialize($this->_browsers[$key]) : array());
 
                 break;
             }
@@ -585,8 +571,6 @@ class Browscap
 
         $tmp_user_agents = array_keys($browsers);
 
-        usort($tmp_user_agents, array($this, 'compareBcStrings'));
-
         $user_agents_keys = array_flip($tmp_user_agents);
 
         if ( version_compare(PHP_VERSION, '5.3.0', '>=') ) {
@@ -643,18 +627,27 @@ class Browscap
         // get browser data
         $data_browsers = array();
         for ($i = 0, $j = $tmp_user_agents_count; $i < $j; $i++) {
-            $browser = array();
-            foreach ($browsers[$tmp_user_agents[$i]] as $key => $value) {
-                if (! isset($properties_keys[$key])) {
-                    continue;
-                }
-
-                $key           = $properties_keys[$key];
-                $browser[$key] = $value;
+            $browser_properties = $browsers[$tmp_user_agents[$i]];
+            $parent = isset($browsers[$tmp_user_agents[$i]]['Parent']) ? $browsers[$tmp_user_agents[$i]]['Parent'] : null;
+            while ( isset($parent) ) {
+                $parent = $tmp_user_agents[$parent];
+                $browser_properties += $browsers[$parent];
+                $parent = isset($browsers[$parent]['Parent']) ? $browsers[$parent]['Parent'] : null;
             }
-
-            unset($browsers[$tmp_user_agents[$i]]);
-            $data_browsers[] = $browser;
+            $browser = array();
+            if ( isset($browser_properties['Crawler']) && $browser_properties['Crawler'] == 'true' )
+            {
+                foreach ($browser_properties as $key => $value) {
+                    if (! isset($properties_keys[$key])
+                            || ! in_array($key, $this->usedProperties)
+                            ) {
+                        continue;
+                    }
+                    $key           = $properties_keys[$key];
+                    $browser[$key] = $value;
+                }
+                $data_browsers[$i] = $browser;
+            }
         }
 
         // unset unnecessary variable(s) to optimize memory usage
@@ -664,14 +657,14 @@ class Browscap
         file_put_contents($cache_path_browsers, $this->_array2string($data_browsers), LOCK_EX);
 
         // unset unnecessary variable(s) to optimize memory usage
-        unset($data_browsers);
 
         // prepare patterns
         $tmp_patterns = array();
         for ($i = 0, $j = $tmp_user_agents_count; $i < $j; $i++) {
-            if (empty($browsers[$tmp_user_agents[$i]]['Comment'])
+            if ((empty($browsers[$tmp_user_agents[$i]]['Comment'])
                 || false !== strpos($tmp_user_agents[$i], '*')
-                || false !== strpos($tmp_user_agents[$i], '?')
+                || false !== strpos($tmp_user_agents[$i], '?'))
+                && isset($data_browsers[$i])
             ) {
                 $pattern = $this->_pregQuote($tmp_user_agents[$i]);
 
@@ -692,7 +685,7 @@ class Browscap
         }
 
         // unset unnecessary variable(s) to optimize memory usage
-        unset($tmp_user_agents);
+        unset($tmp_user_agents, $data_browsers);
 
         // get pattern data
         $data_patterns = array();
@@ -981,7 +974,7 @@ class Browscap
 
             if ($remote_tmstp < $local_tmstp) {
                 // No update needed, return
-                touch($path);
+                @touch($path);
 
                 return false;
             }
@@ -1056,9 +1049,7 @@ class Browscap
         $strings = array();
 
         foreach ($array as $key => $value) {
-            if (is_int($key)) {
-                $key = '';
-            } elseif (ctype_digit((string)  $key) || '.0' === substr($key, -2)) {
+            if (ctype_digit((string)  $key) || '.0' === substr($key, -2)) {
                 $key = intval($key) . '=>';
             } else {
                 $key = "'" . str_replace("'", "\'", $key) . "'=>";

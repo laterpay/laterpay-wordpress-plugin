@@ -70,7 +70,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Process Ajax requests from pricing tab.
      *
-     * @return  void
+     * @return void
      */
     public function process_ajax_requests() {
         // save changes in submitted form
@@ -144,7 +144,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the currency used for all prices.
      *
-     * @return  void
+     * @return void
      */
     protected function update_currency() {
         update_option( 'laterpay_currency', $_POST['laterpay_currency'] );
@@ -164,7 +164,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the global price, which is by default applied to all posts.
      *
-     * @return  void
+     * @return void
      */
     protected function update_global_default_price() {
         $delocalized_global_price   = (float) str_replace( ',', '.', $_POST['laterpay_global_price'] );
@@ -212,7 +212,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the category price, which is by default applied to all posts in a given category.
      *
-     * @return  void
+     * @return void
      */
     protected function update_category_default_price() {
         $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
@@ -239,11 +239,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Update the category price, if a category price is already defined for a given category.
      *
-     * @return  void
+     * @return void
      */
     protected function update_existing_category_default_price() {
-
         $term = get_term_by( 'name', $_POST['category'], 'category' );
+
         if ( ! $term ) {
             wp_send_json(
                 array(
@@ -331,7 +331,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Set the category price, if a given category does not have a category price yet.
      *
-     * @return  void
+     * @return void
      */
     protected function set_new_category_default_price() {
         $term = get_term_by( 'name', $_POST['category'], 'category' );
@@ -407,7 +407,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             );
         }
 
-        // get all post with the deleted $category_id and loop through them
+        // get all posts with the deleted $category_id and loop through them
         $post_ids = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
         foreach ( $post_ids as $post_id ) {
             // check if the post has LaterPay pricing data
@@ -466,7 +466,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Process Ajax request for prices of applied categories.
+     * Process Ajax requests for prices of applied categories.
      *
      * @param array $category_ids
      *
