@@ -209,8 +209,8 @@
                         .parent('label').addClass($o.disabled);
                 }
 
-                if (price > 1.49) {
-                    // enable Single Sale for prices > 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
+                if (price >= 1.49) {
+                    // enable Single Sale for prices >= 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
                 } else {
