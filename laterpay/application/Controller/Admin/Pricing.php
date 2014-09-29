@@ -216,9 +216,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     protected function update_category_default_price() {
         $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
-        $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
 
-        if ( $delocalized_category_price > 5 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) || ! in_array( $category_price_revenue_model, array('ppu', 'sis') ) ) {
+        if ( ! empty( $_POST['category_id'] ) ) {
+            $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model_' . $_POST['category_id']];
+        } else {
+            $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
+        }
+
+        if ( $delocalized_category_price > 5 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -243,8 +248,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     protected function update_existing_category_default_price() {
         $term = get_term_by( 'name', $_POST['category'], 'category' );
+        $category_id = $_POST['category_id'];
+        $category_price_revenue_model = (string) $_POST["laterpay_category_price_revenue_model_$category_id"];
 
-        if ( ! $term ) {
+        if ( ! $term || ! in_array( $category_price_revenue_model, array('ppu', 'sis') ) ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -261,7 +268,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
 
         $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
-        $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
 
         if ( empty( $category_price_id ) && empty( $category_id ) ) {
             wp_send_json(
@@ -335,7 +341,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     protected function set_new_category_default_price() {
         $term = get_term_by( 'name', $_POST['category'], 'category' );
-        if ( ! $term ) {
+        $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
+
+        if ( ! $term || ! in_array( $category_price_revenue_model, array('ppu', 'sis') ) ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -343,11 +351,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 )
             );
         }
+
         $category_id                  = $term->term_id;
         $category_price_model         = new LaterPay_Model_CategoryPrice();
         $category_doesnt_exist        = $category_price_model->check_existence_of_category_by_name( $_POST['category'] );
         $delocalized_category_price   = (float) str_replace( ',', '.', $_POST['price'] );
-        $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
 
         if ( ! empty( $category_doesnt_exist ) || empty( $category_id ) ) {
             wp_send_json(
