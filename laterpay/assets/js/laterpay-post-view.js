@@ -224,21 +224,4 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
 
     dm.attachToLinks('.lp_js_do-purchase', ppuContext.showCloseBtn);
 
-    // render invoice indicator iframe
-    if (!lpVars || !lpVars.lpBalanceUrl) {
-        // don't render the invoice indicator, if no URL is provided in the variables
-        return;
-    }
-
-    new Y.LaterPay.IFrame(
-        Y.one('#laterpay-invoice-indicator'),
-        lpVars.lpBalanceUrl,
-        {
-            width       : '110',
-            height      : '30',
-            scrolling   : 'no',
-            frameborder : '0'
-        }
-    );
-
 });

@@ -58,7 +58,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->assign( 'categories_with_defined_price', $categories_with_defined_price );
         $this->assign( 'currencies',                    $currencies );
         $this->assign( 'standard_currency',             get_option( 'laterpay_currency' ) );
-        $this->assign( 'plugin_is_in_live_mode',        get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
+        $this->assign( 'plugin_is_in_live_mode',        $this->config->get( 'is_in_live_mode' ) );
         $this->assign( 'global_default_price',          LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
         $this->assign( 'top_nav',                       $this->get_menu() );
         $this->assign( 'admin_menu',                    LaterPay_Helper_View::get_admin_menu() );
