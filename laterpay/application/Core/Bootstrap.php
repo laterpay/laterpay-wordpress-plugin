@@ -52,6 +52,8 @@ class LaterPay_Core_Bootstrap
             if ( is_plugin_active( $this->config->plugin_base_name ) ) {
                 // add the admin panel
                 $admin_controller = new LaterPay_Controller_Admin( $this->config );
+
+                add_action('admin_head',                            array( $admin_controller, 'add_html5shiv_to_admin_head' ) );
                 add_action( 'admin_menu',                           array( $admin_controller, 'add_to_admin_panel' ) );
                 add_action( 'admin_print_footer_scripts',           array( $admin_controller, 'modify_footer' ) );
                 add_action( 'load-post.php',                        array( $admin_controller, 'help_wp_edit_post' ) );
