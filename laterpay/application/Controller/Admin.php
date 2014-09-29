@@ -100,12 +100,13 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Adding html5shiv to the admin_head()
+     * Add html5shiv to the admin_head() for Internet Explorer < 9.
      *
      * @wp-hook admin_head
+     *
      * @return void
      */
-    public function add_html5shiv_to_admin_head(){
+    public function add_html5shiv_to_admin_head() {
         ?>
         <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
