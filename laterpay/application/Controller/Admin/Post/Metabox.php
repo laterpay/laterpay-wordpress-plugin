@@ -223,25 +223,12 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         }
 
         $post_default_category              = array_key_exists( 'category_id',      $post_prices ) ? (int) $post_prices[ 'category_id' ] : 0;
-        $post_specific_price                = array_key_exists( 'price',            $post_prices ) ? $post_prices[ 'price' ] : '';
-        $post_price_type                    = array_key_exists( 'type',             $post_prices ) ? $post_prices[ 'type' ] : '';
         $post_revenue_model                 = array_key_exists( 'revenue_model',    $post_prices ) ? $post_prices[ 'revenue_model' ] : 'ppu';
         $start_price                        = array_key_exists( 'start_price',      $post_prices ) ? (float) $post_prices[ 'start_price' ] : '';
         $end_price                          = array_key_exists( 'end_price',        $post_prices ) ? (float) $post_prices[ 'end_price' ] : '';
         $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days',           $post_prices ) ? (float) $post_prices[ 'reach_end_price_after_days' ] : '';
         $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days',        $post_prices ) ? (float) $post_prices[ 'change_start_price_after_days' ] : '';
         $transitional_period_end_after_days = array_key_exists( 'transitional_period_end_after_days',   $post_prices ) ? (float) $post_prices[ 'transitional_period_end_after_days' ] : '';
-
-        /**
-         * TODO: optimize the current approach:
-         * If it's an existing value, if should have been saved with decimals,
-         * so '0' is a crappy way of knowing that 'Pricing Post' has never been set
-         */
-        if ( $post_specific_price == 0 ) {
-            $post_specific_price = null;
-        } else {
-            $post_specific_price = (float) $post_specific_price;
-        }
 
         // category default price data
         $category_price_data    = null;
@@ -256,49 +243,10 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             }
         }
 
-        // global default price
-        $global_default_price = get_option( 'laterpay_global_price' );
-
-        /**
-         * TODO: optimize the current approach:
-         * If it's an existing value, if should have been saved with decimals,
-         * so '0' is a crappy way of knowing that 'Pricing Post' has never been set
-         */
-        if ( $global_default_price == 0 ) {
-            $global_default_price = null;
-        } else {
-            $global_default_price = (float) $global_default_price;
-        }
-
-        switch ( $post_price_type ) {
-            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
-                $price = $post_specific_price;
-                break;
-
-            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                // current price
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_prices );
-                break;
-
-            case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
-                $price = $category_default_price;
-                break;
-
-            case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
-                $price = $global_default_price;
-                break;
-
-            default:
-                // new posts should use the global default price or 0, if there's no global default price
-                if ( is_null( $global_default_price ) ) {
-                    $price =  0.00;
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
-                } else {
-                    $price = $global_default_price;
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
-                }
-                break;
-        }
+        // get prices
+        $global_default_price = get_option('laterpay_global_price');
+        $price = LaterPay_Helper_Pricing::get_post_price($post->ID);
+        $post_price_type = LaterPay_Helper_Pricing::get_post_price_type($post->ID);
 
         // return dynamic pricing widget start values
         if ( $start_price === '' ) {
