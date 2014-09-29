@@ -218,6 +218,53 @@ class LaterPay_Helper_Pricing
     }
 
     /**
+     * Get post price type, depending on is the price type set or not. If not then depends of zero price or not.
+     *
+     * @param int $post_id
+     *
+     * @return string $post_price_type
+     */
+    public static function get_post_price_type($post_id) {
+
+        $cache_key = 'laterpay_post_price_type_' . $post_id;
+
+        // checks if the price is in cache and returns it
+        $post_price_type = wp_cache_get($cache_key, 'laterpay');
+        if ($post_price_type) {
+            //return $post_price_type;
+        }
+
+        $post = get_post($post_id);
+        $post_price = get_post_meta($post_id, LaterPay_Helper_Pricing::META_KEY, true);
+        if (!is_array($post_price)) {
+            $post_price = array();
+        }
+        $post_price_type = array_key_exists('type', $post_price) ? $post_price['type'] : '';
+
+        //if price list in list - leave it. If not - set to default or individual.
+        switch ($post_price_type) {
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
+                break;
+            default:
+                $global_default_price = get_option('laterpay_global_price');
+                if ($global_default_price > 0) {
+                    $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
+                } else {
+                    $post_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
+                }
+                break;
+        }
+
+        // add the price to the current post cache
+        wp_cache_set($cache_key, $post_price_type, 'laterpay');
+
+        return (string) $post_price_type;
+    }    
+    
+    /**
      * Get the current price for a post with dynamic pricing scheme defined.
      *
      * @param WP_Post $post
