@@ -139,6 +139,11 @@ class LaterPay_Core_Bootstrap
 
         // frontend actions
         if ( ! is_admin() ) {
+
+            $invoice_controller = new LaterPay_Controller_Invoice( $this->config );
+            add_action( 'laterpay_invoice_indicator',           array( $invoice_controller, 'the_invoice_indicator' ) );
+            add_action( 'wp_enqueue_scripts',                   array( $invoice_controller, 'add_frontend_scripts' ) );
+
             add_action( 'template_redirect',                    array( $post_controller, 'buy_post' ) );
             add_action( 'template_redirect',                    array( $post_controller, 'create_token' ) );
 
