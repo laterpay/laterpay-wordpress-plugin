@@ -1,4 +1,3 @@
-
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
 
@@ -18,6 +17,5 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
 			frameborder : '0'
 		}
 	);
-
 
 });

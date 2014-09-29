@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract {
+class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract
+{
 
     /**
      * Callback to generate a LaterPay invoice indicator button within the theme that can be freely positioned.
@@ -17,7 +18,6 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract {
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-invoice-indicator' );
-
     }
 
     /**
@@ -27,8 +27,7 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract {
      *
      * @return void
      */
-    public function add_frontend_scripts(){
-
+    public function add_frontend_scripts() {
         wp_register_script(
             'laterpay-yui',
             $this->config->get( 'laterpay_yui_js' ),
@@ -36,7 +35,6 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract {
             null,
             false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
         );
-
         wp_register_script(
             'laterpay-invoice-indicator',
             $this->config->get( 'js_url' ) . 'laterpay-invoice-indicator.js',
@@ -54,7 +52,7 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract {
             $client_options['web_root'],
             $client_options['token_name']
         );
-        $balance_url    = $client->get_controls_balance_url();
+        $balance_url = $client->get_controls_balance_url();
 
         wp_localize_script(
             'laterpay-invoice-indicator',
@@ -63,6 +61,5 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract {
                 'lpBalanceUrl'  => $balance_url
             )
         );
-
     }
 }
