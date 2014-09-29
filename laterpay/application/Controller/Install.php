@@ -244,7 +244,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
         add_option( 'laterpay_live_merchant_id',            '' );
         add_option( 'laterpay_live_api_key',                '' );
         add_option( 'laterpay_global_price',                $this->config->get( 'currency.default_price' ) );
-        add_option( 'laterpay_global_price_revenue_model',  '');
+        add_option( 'laterpay_global_price_revenue_model',  'ppu');
         add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
         add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
 

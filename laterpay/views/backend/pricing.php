@@ -31,8 +31,8 @@
                         <p>
                             <span id="lp_js_global-default-price-revenue-model-label" class="lp_revenue-model-label lp_m-r05"><?php echo $global_default_price_revenue_model; ?></span>
                             <label class="lp_revenue-model-label lp_js_global-default-price-revenue-model-label lp_m-r05
-                                    <?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo 'lp_is-selected'; } ?>
-                                    <?php if ( $global_default_price > 5) { echo 'lp_is-disabled'; } ?>"
+                                    <?php if ( $global_default_price_revenue_model == 'ppu' || ! $global_default_price_revenue_model ) { echo 'lp_is-selected'; } ?>
+                                    <?php if ( $global_default_price > 5 ) { echo 'lp_is-disabled'; } ?>"
                                     style="display:none;"
                                     data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
                                 <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenue-model-input" value="ppu"<?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' checked'; } ?>>PPU
