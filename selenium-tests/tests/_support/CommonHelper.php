@@ -120,7 +120,8 @@ class CommonHelper extends \Codeception\Module {
 
     /**
      * Save variable
-     * @param null $url
+     * @param string $url
+     * @param mixed $url
      * @return void
      */
     public function setVar($k, $v) {
@@ -131,7 +132,7 @@ class CommonHelper extends \Codeception\Module {
     /**
      * Get variable
      * @param null $url
-     * @return void
+     * @return mixed
      */
     public function getVar($k) {
 
