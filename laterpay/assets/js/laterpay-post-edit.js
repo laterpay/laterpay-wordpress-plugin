@@ -158,18 +158,22 @@
             validatePrice = function(price) {
                 // strip non-number characters
                 price = price.replace(/[^0-9\,\.]/g, '');
+
                 // convert price to proper float value
                 if (typeof price === 'string' && price.indexOf(',') > -1) {
                     price = parseFloat(price.replace(',', '.')).toFixed(2);
                 } else {
                     price = parseFloat(price).toFixed(2);
                 }
+
                 // prevent non-number prices
                 if (isNaN(price)) {
                     price = 0;
                 }
+
                 // prevent negative prices
                 price = Math.abs(price);
+
                 // correct prices outside the allowed range of 0.05 - 149.49
                 if (price > 149.99) {
                     price = 149.99;

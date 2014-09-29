@@ -100,12 +100,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 case 'price_category_form_delete':
                     $this->delete_category_default_price();
                     break;
-                case 'laterpay_get_category_prices':
-                    if( !array_key_exists( 'category_ids', $_POST ) )
-                        $_POST[ 'category_ids' ] = array();
-                    $this->get_category_prices( $_POST['category_ids'] );
 
+                case 'laterpay_get_category_prices':
+                    if ( !array_key_exists( 'category_ids', $_POST ) ) {
+                        $_POST[ 'category_ids' ] = array();
+                    }
+                    $this->get_category_prices( $_POST['category_ids'] );
                     break;
+
                 default:
                     wp_send_json(
                         array(
