@@ -95,7 +95,7 @@ function laterpay_get_plugin_config() {
 
     if ( $config->get( 'is_in_live_mode' ) ) {
         $laterpay_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
-    } elseif ( $this->config->get( 'script_debug_mode' ) ) {
+    } elseif ( $config->get( 'script_debug_mode' ) ) {
         $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
     } else {
         $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
