@@ -245,11 +245,11 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         }
 
 		// get price data
-        $global_default_price   = get_option( 'laterpay_global_price' );
+        $global_default_price               = get_option( 'laterpay_global_price' );
         $global_default_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
 
-        $price                  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-        $post_price_type        = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
+        $price              = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $post_price_type    = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
 
         // return dynamic pricing widget start values
         if ( $start_price === '' ) {

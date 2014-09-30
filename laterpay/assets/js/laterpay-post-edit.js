@@ -107,6 +107,9 @@
                     $o.dynamicPricingToggle.show();
                     $o.priceTypeInput.val('individual price');
 
+                    // validate price to enable all applicable revenue models
+                    validatePrice($o.priceInput.val());
+
                     // show / hide stuff
                     if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
                         renderDynamicPricingWidget();
@@ -117,9 +120,12 @@
                 else if (priceType === 'lp_js_use-category-default-price') {
                     updateSelectedCategory();
 
-                    // set the price of the selected category
-                    var price = $('.lp_selected-category a', $o.categoriesList).attr('data-price');
+                    // set the price and revenue model of the selected category
+                    var $category       = $('.lp_selected-category a', $o.categoriesList),
+                        price           = $category.attr('data-price'),
+                        revenueModel    = $category.attr('data-revenue-model');
                     setPrice(price);
+                    setRevenueModel(revenueModel, true);
 
                     // show / hide stuff
                     $o.priceSection.addClass($o.expanded);
@@ -130,8 +136,11 @@
                 }
                 // case: global default price
                 else if (priceType === 'lp_js_use-global-default-price') {
-                    setRevenueModel($this.attr('data-revenue-model'));
-                    setPrice($this.attr('data-price'));
+                    var price           = $this.attr('data-price'),
+                        revenueModel    = $this.attr('data-revenue-model');
+
+                    setPrice(price);
+                    setRevenueModel(revenueModel, true);
 
                     // show / hide stuff
                     $o.dynamicPricingToggle.hide();
@@ -155,11 +164,19 @@
                 $o.priceInput.val(validatedPrice);
             },
 
-            setRevenueModel = function(revenueModel) {
+            setRevenueModel = function(revenueModel, readOnly) {
                 $('label', $o.revenueModel).removeClass($o.selected);
+
+                if (readOnly) {
+                    // disable not-selected revenue model
+                    $('input:radio[value!=' + revenueModel + ']', $o.revenueModel).parent('label').addClass($o.disabled);
+                }
+
+                // enable and check selected revenue model
                 $('input:radio[value=' + revenueModel + ']', $o.revenueModel)
                 .prop('checked', 'checked')
                     .parent('label')
+                    .removeClass($o.disabled)
                     .addClass($o.selected);
             },
 
@@ -258,9 +275,14 @@
                     $o.categoryInput.val($firstCategory.data('category'));
                 }
 
-                // also update the price, if the selected category has changed in pricing mode 'category default price'
+                // also update the price and revenue model, if the selected category has changed in pricing mode 'category default price'
                 if ($o.categoryPriceButton.hasClass($o.selected)) {
-                    setPrice($('.lp_selected-category a', $o.categoriesList).attr('data-price'));
+                    var $category       = $('.lp_selected-category a', $o.categoriesList),
+                        price           = $category.attr('data-price'),
+                        revenueModel    = $category.attr('data-revenue-model');
+
+                    setPrice(price);
+                    setRevenueModel(revenueModel, true);
                 }
             },
 
@@ -290,8 +312,8 @@
                         if (data) {
                             data.forEach(function(category) {
                                 categoriesList +=   '<li data-category="' + category.category_id + '">' +
-                                                        '<a href="#" data-price="' + category.category_price + '">' +
-                                                            '<span>' + category.category_price + ' ' + lpVars.currency + '</span>' +
+                                                        '<a href="#" data-price="' + category.category_price + '" data-revenue-model="' + category.revenue_model + '">' +
+                                                            '<span>' + parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency + '</span>' +
                                                             category.category_name +
                                                         '</a>' +
                                                     '</li>';
@@ -318,15 +340,19 @@
                                     $o.priceSection.removeClass($o.expanded);
 
                                     if ($o.globalPriceButton.hasClass($o.disabled)) {
+                                        // case: fall back to individual price
                                         $o.individualPriceButton.addClass($o.selected);
                                         $o.priceTypeInput.val('individual price');
                                         $o.dynamicPricingToggle.show();
                                         $o.priceInput.removeAttr('disabled');
                                         setPrice(0);
+                                        setRevenueModel($o.payPerUse, false);
                                     } else {
+                                        // case: fall back to global default price
                                         $o.globalPriceButton.addClass($o.selected);
                                         $o.priceTypeInput.val('global default price');
                                         setPrice(lpVars.globalDefaultPrice);
+                                        setRevenueModel($('a', $o.globalPriceButton).attr('data-revenue-model'), true);
                                     }
                                 }
                             }
@@ -337,15 +363,18 @@
             },
 
             applyCategoryPrice = function(trigger) {
-                var $this       = $(trigger),
-                    $category   = $this.parent(),
-                    category    = $category.attr('data-category'),
-                    price       = $this.attr('data-price');
+                var $this           = $(trigger),
+                    $category       = $this.parent(),
+                    category        = $category.attr('data-category'),
+                    price           = $this.attr('data-price'),
+                    revenueModel    = $this.attr('data-revenue-model');
 
                 $o.categories.removeClass($o.selectedCategory);
                 $category.addClass($o.selectedCategory);
                 $o.categoryInput.val(category);
+
                 setPrice(price);
+                setRevenueModel(revenueModel, true);
             },
 
             toggleDynamicPricing = function() {
