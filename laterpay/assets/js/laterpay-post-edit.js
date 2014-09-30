@@ -51,11 +51,12 @@
                 });
 
                 // validate manually entered prices
-                $o.priceInput.blur(function() {
-                    setPrice($(this).val());
-                });
-                // TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
-                // $o.priceInput.bind('input', function() {setPrice($(this).val());});
+                // (function is only triggered 800ms after the keyup)
+                $o.priceInput.keyup(
+                    debounce(function() {
+                        setPrice($(this).val());
+                    }, 800)
+                );
 
                 // validate choice of revenue model (validating the price switches the revenue model if required)
                 $('input:radio', $o.revenueModel).change(function() {
@@ -157,7 +158,7 @@
 
             validatePrice = function(price) {
                 // strip non-number characters
-                price = price.replace(/[^0-9\,\.]/g, '');
+                price = price.toString().replace(/[^0-9\,\.]/g, '');
 
                 // convert price to proper float value
                 if (typeof price === 'string' && price.indexOf(',') > -1) {
@@ -376,83 +377,11 @@
 
                 $o.priceInput.attr('disabled', 'disabled');
 
-                if (data.length === 4)
+                if (data.length === 4) {
                     lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
-                else
+                } else {
                     lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
-
-                // FIXME: selectors like $('select') will blow up like a nuclear power plant
-                // when used within WordPress installations with who knows what plugins and modifications
-                // $('.blockbuster').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1.8},
-                //         {x:  6, y: 1.8},
-                //         {x: 11, y: 0.6},
-                //         {x: 30, y: 0.6}
-                //     ])
-                //     .interpolate('linear')
-                //     .plot();
-
-                //     $('select').val('linear');
-
-                //     return false;
-                // });
-
-                // $('.long-tail').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1.8},
-                //         {x:  3, y: 1.8},
-                //         {x: 14, y: 0.6},
-                //         {x: 30, y: 0.6}
-                //     ])
-                //     .interpolate('linear')
-                //     .plot();
-
-                //     $('select').val('linear');
-
-                //     return false;
-                // });
-
-                // $('.breaking-news').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1.8},
-                //         {x:  3, y: 1.8},
-                //         {x: 30, y: 0.6}
-                //     ])
-                //     .interpolate('step-before')
-                //     .plot();
-
-                //     $('select').val('step-before');
-
-                //     return false;
-                // });
-
-                // $('.teaser').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 0.6},
-                //         {x:  3, y: 0.6},
-                //         {x: 30, y: 1.8}
-                //     ])
-                //     .interpolate('step-before')
-                //     .plot();
-
-                //     $('select').val('step-before');
-
-                //     return false;
-                // });
-
-                // $('.flat').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1},
-                //         {x:  3, y: 1},
-                //         {x: 14, y: 1},
-                //         {x: 30, y: 1}
-                //     ])
-                //     .interpolate('linear')
-                //     .plot();
-
-                //     return false;
-                // });
+                }
             },
 
             saveDynamicPricingData = function() {
@@ -478,6 +407,21 @@
                 }
 
                 return true;
+            },
+
+            // throttle the execution of a function by a given delay
+            debounce = function(fn, delay) {
+              var timer = null;
+              return function () {
+                var context = this,
+                    args    = arguments;
+
+                clearTimeout(timer);
+
+                timer = setTimeout(function() {
+                  fn.apply(context, args);
+                }, delay);
+              };
             },
 
             initializePage = function() {

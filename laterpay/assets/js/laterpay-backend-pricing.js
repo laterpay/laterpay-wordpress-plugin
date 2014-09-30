@@ -65,7 +65,7 @@
                 // validate price and revenue model when entering a price
                 // (function is only triggered 800ms after the keyup)
                 $('body').on('keyup', $o.priceInput, debounce(function() {
-                      validatePrice($(this).parents('form'));
+                        validatePrice($(this).parents('form'));
                     }, 800)
                 );
 
