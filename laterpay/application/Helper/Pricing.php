@@ -218,6 +218,53 @@ class LaterPay_Helper_Pricing
     }
 
     /**
+     * Get the post price type. Returns global default price or individual price, if no valid type is set.
+     *
+     * @param int $post_id
+     *
+     * @return string $post_price_type
+     */
+    public static function get_post_price_type( $post_id ) {
+        $cache_key = 'laterpay_post_price_type_' . $post_id;
+
+        // get the price from the cache, if it exists
+        $post_price_type = wp_cache_get( $cache_key, 'laterpay' );
+        if ( $post_price_type ) {
+            return $post_price_type;
+        }
+
+        $post       = get_post( $post_id );
+        $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
+        if ( ! is_array( $post_price ) ) {
+            $post_price = array();
+        }
+        $post_price_type = array_key_exists( 'type', $post_price ) ? $post_price['type'] : '';
+
+        // set a price type (global default price or individual price), if the returned post price type is invalid
+        switch ( $post_price_type ) {
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
+                break;
+
+            default:
+                $global_default_price = get_option( 'laterpay_global_price' );
+                if ( $global_default_price > 0 ) {
+                    $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
+                } else {
+                    $post_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
+                }
+                break;
+        }
+
+        // cache the post price type
+        wp_cache_set( $cache_key, $post_price_type, 'laterpay' );
+
+        return (string) $post_price_type;
+    }
+
+    /**
      * Get the current price for a post with dynamic pricing scheme defined.
      *
      * @param WP_Post $post
