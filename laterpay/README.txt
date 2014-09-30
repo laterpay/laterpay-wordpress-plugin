@@ -326,17 +326,21 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
-= 0.9.8 (September 25, 2014): Bugfix Release =
+= 0.9.8 (September 30, 2014): Single Sales Release =
 * Added option to sell content as single sale (SIS), allowing prices up to 149.99 Euro
 * Added configuration option for enabled post types in appearance tab
+* Added the action 'laterpay_invoice_indicator' to render the invoice indicator from within a theme
+* Huge improvements on RAM consumption and CPU usage
 * Ensured compatibility with WordPress 4.0
 * Added plugin icon for WordPress 4.0 plugins page
 * Rewrote all CSS using Stylus CSS preprocessor
 * Rewrote all Javascript to encapsulate all variables and functions
 * Added hint text for premium posts to feeds
 * Fixed bug caused by checking for edit_plugins capability, which might be disabled
+* Restricted querying for categories to taxonomy 'category'
 * Improved uninstall action
 * Extracted LaterPay PHP client into separate repository and included it as vendor library
+* Fixed paths to LaterPay libraries depending on plugin mode
 * Extensive refactoring plus various smaller bugfixes and improvements
 
 = 0.9.7.2: Migration to wordpress.org =
