@@ -4,7 +4,10 @@
     function laterPayBackendPricing() {
         var $o = {
                 revenueModel                            : '.lp_js_revenue-model',
+                revenueModelLabel                       : '.lp_js_revenue-model-label',
+                revenueModelLabelDisplay                : '.lp_js_revenue-model-label-display',
                 revenueModelInput                       : '.lp_js_revenue-model-input',
+                priceInput                              : '.lp_js_price-input',
 
                 // global default price
                 globalDefaultPriceForm                  : $('#lp_js_global-default-price-form'),
@@ -27,7 +30,7 @@
                 cancelEditingCategoryDefaultPrice       : '.lp_js_cancel-editing-category-default-price',
                 saveCategoryDefaultPrice                : '.lp_js_save-category-default-price',
                 deleteCategoryDefaultPrice              : '.lp_js_delete-category-default-price',
-                categoryDefaultPriceShowElements        : '.lp_js_category-title, .lp_js_revenue-model-label, .lp_js_category-default-price-display, .lp_js_edit-category-default-price, .lp_js_delete-category-default-price',
+                categoryDefaultPriceShowElements        : '.lp_js_category-title, .lp_js_revenue-model-label-display, .lp_js_category-default-price-display, .lp_js_edit-category-default-price, .lp_js_delete-category-default-price',
                 categoryDefaultPriceEditElements        : '.lp_js_category-default-price-input, .lp_js_revenue-model, .lp_js_save-category-default-price, .lp_js_cancel-editing-category-default-price',
 
                 categoryTitle                           : '.lp_js_category-title',
@@ -49,17 +52,22 @@
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
-
             },
 
             bindEvents = function() {
-// // TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
-// // $o.priceInput.bind('input', function() {setPrice($(this).val());});
-                // validate price and choice of revenue model for both global and category default prices
+                // global default price and category default price events ----------------------------------------------
+                // validate price and choice of revenue model when switching revenue model
                 // (validating the price switches the revenue model if required)
                 $('body').on('change', $o.revenueModelInput, function() {
                     validatePrice($(this).parents('form'));
                 });
+
+                // validate price and revenue model when entering a price
+                // (function is only triggered 800ms after the keyup)
+                $('body').on('keyup', $o.priceInput, debounce(function() {
+                      validatePrice($(this).parents('form'));
+                    }, 800)
+                );
 
                 // global default price events -------------------------------------------------------------------------
                 // edit
@@ -68,12 +76,6 @@
                     enterEditModeGlobalDefaultPrice();
                 })
                 .click(function(e) {e.preventDefault();});
-
-                // validate price and revenue model
-                $o.globalDefaultPriceInput
-                .blur(function() {
-                    validatePrice($o.globalDefaultPriceForm);
-                });
 
                 // cancel
                 $o.cancelEditingGlobalDefaultPrice
@@ -99,38 +101,31 @@
 
                 // edit
                 $o.categoryDefaultPrices
-                .on('mousedown', $o.editCategoryDefaultPrice, function() {
+                .on('click', $o.editCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     editCategoryDefaultPrice($form);
-                })
-                .on('click', function(e) {e.preventDefault();});
+                });
 
                 // cancel
                 $o.categoryDefaultPrices
-                .on('mousedown', $o.cancelEditingCategoryDefaultPrice, function() {
+                .on('click', $o.cancelEditingCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     exitEditModeCategoryDefaultPrice($form);
-                })
-                .on('click', function(e) {e.preventDefault();});
-
-                // validate price and revenue model
-                // ...
+                });
 
                 // save
                 $o.categoryDefaultPrices
-                .on('mousedown', $o.saveCategoryDefaultPrice, function() {
+                .on('click', $o.saveCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     saveCategoryDefaultPrice($form);
-                })
-                .on('click', function(e) {e.preventDefault();});
+                });
 
                 // delete
                 $o.categoryDefaultPrices
-                .on('mousedown', $o.deleteCategoryDefaultPrice, function() {
+                .on('click', $o.deleteCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     deleteCategoryDefaultPrice($form);
-                })
-                .on('click', function(e) {e.preventDefault();});
+                });
 
                 // default currency events -----------------------------------------------------------------------------
                 // switch default currency
@@ -240,7 +235,15 @@
                 $o.globalDefaultPriceShowElements.show();
                 $o.globalDefaultPriceEditElements.hide();
                 $o.globalDefaultPriceForm.removeClass($o.editing);
+                // reset value of price input to current global default price
                 $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text());
+                // reset revenue model input to current revenue model
+                var currentRevenueModel = $o.globalDefaultPriceRevenueModelDisplay.text().toLowerCase();
+                $($o.revenueModelLabel, $o.globalDefaultPriceForm).removeClass($o.selected);
+                $('.lp_js_revenue-model-input[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
+                .prop('checked', 'checked')
+                    .parent('label')
+                    .addClass($o.selected);
             },
 
             saveGlobalDefaultPrice = function() {
@@ -301,7 +304,7 @@
                         if (r.success) {
                             // update displayed price information
                             $($o.categoryDefaultPriceDisplay, $form).text(r.price);
-                            $('.lp_js_revenue-model-label', $form).text(r.revenue_model);
+                            $($o.revenueModelLabelDisplay, $form).text(r.revenue_model);
                             $($o.categoryDefaultPriceInput, $form).val(r.price)
                             $($o.categoryTitle, $form).text(r.category);
                             $($o.categoryId, $form).val(r.category_id);
@@ -332,6 +335,13 @@
                     $($o.selectCategory, $form).select2('destroy');
                     // reset value of price input to current category default price
                     $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text());
+                    // reset revenue model input to current revenue model
+                    var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).text().toLowerCase();
+                    $($o.revenueModelLabel, $form).removeClass($o.selected);
+                    $('.lp_js_revenue-model-input[value=' + currentRevenueModel + ']', $form)
+                    .prop('checked', 'checked')
+                        .parent('label')
+                        .addClass($o.selected);
                     // show elements for displaying defined price again
                     $($o.categoryDefaultPriceShowElements, $form).show();
                 }
@@ -420,6 +430,21 @@
                     },
                     'json'
                 );
+            },
+
+            // throttle the execution of a function by a given delay
+            debounce = function(fn, delay) {
+              var timer = null;
+              return function () {
+                var context = this,
+                    args    = arguments;
+
+                clearTimeout(timer);
+
+                timer = setTimeout(function() {
+                  fn.apply(context, args);
+                }, delay);
+              };
             },
 
             initializePage = function() {

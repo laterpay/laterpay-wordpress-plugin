@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Wed Sep 24 2014 16:34:09 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Tue Sep 30 2014 16:32:09 GMT+0200 (CEST)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -175,8 +175,8 @@ msgstr ""
 msgid "The default price for posts is"
 msgstr "Der Standardpreis für Beiträge ist"
 
-#: ../views/backend/getstarted.php:67 ../views/backend/pricing.php:41 ..
-#: views/backend/pricing.php:84 ../views/backend/pricing.php:119 ..
+#: ../views/backend/getstarted.php:67 ../views/backend/pricing.php:55 ..
+#: views/backend/pricing.php:112 ../views/backend/pricing.php:160 ..
 #: views/backend/partials/post_pricing_form.php:15
 msgid "0.00"
 msgstr "0,00"
@@ -248,11 +248,11 @@ msgstr "LaterPay Rechnungsanzeige"
 
 #: ../views/backend/appearance.php:81
 msgid ""
-"Insert this HTML snippet into your theme to show your users their LaterPay "
+"Insert this PHP snippet into your theme to show your users their LaterPay "
 "invoice balance."
 msgstr ""
-"Fügen Sie diesen HTML-Schnipsel in Ihr Theme ein, um Ihren Nutzern deren "
-"LaterPay Rechnungsstand anzuzeigen."
+"Fügen Sie dieses PHP-Snippet in Ihr Theme ein, um Ihren Nutzern den "
+"aktuellen Stand ihrer LaterPay Rechnung anzuzeigen."
 
 #: ../views/backend/appearance.php:82
 msgid ""
@@ -311,7 +311,7 @@ msgstr ""
 "Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
 "API Zugangsdaten abzurufen."
 
-#: ../views/backend/account.php:139 ../application/Controller/Admin.php:420
+#: ../views/backend/account.php:139 ../application/Controller/Admin.php:427
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
@@ -341,74 +341,78 @@ msgstr ""
 "<strong>\n"
 "reguläre Besucher nicht sichtbar</strong>."
 
-#: ../views/backend/pricing.php:23 ../application/Controller/Admin.php:266
+#: ../views/backend/pricing.php:23 ../application/Controller/Admin.php:273
 msgid "Global Default Price"
 msgstr "Standardpreis"
 
-#: ../views/backend/pricing.php:33
-msgid "<strong>Every post</strong> costs"
-msgstr "<strong>Jeder Beitrag</strong> kostet"
-
-#: ../views/backend/pricing.php:46 ../views/backend/pricing.php:91 ..
-#: views/backend/pricing.php:126
-msgid "Change"
-msgstr "Ändern"
-
-#: ../views/backend/pricing.php:47 ../views/backend/pricing.php:89 ..
-#: views/backend/pricing.php:124
-msgid "Save"
-msgstr "Speichern"
-
-#: ../views/backend/pricing.php:48 ../views/backend/pricing.php:90 ..
-#: views/backend/pricing.php:125
+#: ../views/backend/pricing.php:32 ../views/backend/pricing.php:118 ..
+#: views/backend/pricing.php:166
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ../views/backend/pricing.php:57 ../application/Controller/Admin.php:280
+#: ../views/backend/pricing.php:33 ../views/backend/pricing.php:117 ..
+#: views/backend/pricing.php:165
+msgid "Save"
+msgstr "Speichern"
+
+#: ../views/backend/pricing.php:47
+msgid "<strong>Every post</strong> costs"
+msgstr "<strong>Jeder Beitrag</strong> kostet"
+
+#: ../views/backend/pricing.php:60 ../views/backend/pricing.php:119 ..
+#: views/backend/pricing.php:167
+msgid "Change"
+msgstr "Ändern"
+
+#: ../views/backend/pricing.php:69 ../application/Controller/Admin.php:287
 msgid "Category Default Prices"
 msgstr "Kategorie-Standardpreise"
 
-#: ../views/backend/pricing.php:59
+#: ../views/backend/pricing.php:71
 msgid "Category default prices overwrite global default prices."
 msgstr "Kategorie-Standardpreise überschreiben den Standardpreis."
 
-#: ../views/backend/pricing.php:62
+#: ../views/backend/pricing.php:74
 msgid "Every post in category"
 msgstr "Jeder Beitrag in der Kategorie"
 
-#: ../views/backend/pricing.php:76 ../views/backend/pricing.php:112
+#: ../views/backend/pricing.php:105 ../views/backend/pricing.php:153
 msgid "costs"
 msgstr "kostet"
 
-#: ../views/backend/pricing.php:92 ../views/backend/pricing.php:127
+#: ../views/backend/pricing.php:120 ../views/backend/pricing.php:168
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../views/backend/pricing.php:98
+#: ../views/backend/pricing.php:126
 msgid "Set default price for another category"
 msgstr "Standardpreis für weitere Kategorie setzen"
 
-#: ../views/backend/pricing.php:135
+#: ../views/backend/pricing.php:176
 msgid "Individual Prices"
 msgstr "Individuelle Preise"
 
-#: ../views/backend/pricing.php:137
+#: ../views/backend/pricing.php:178
 msgid "Individual prices overwrite global and category default prices."
 msgstr ""
 "Individuelle Preise überschreiben den Standardpreis und Kategorie-"
 "Standardpreise."
 
-#: ../views/backend/pricing.php:140
+#: ../views/backend/pricing.php:181
 msgid "You can set individual prices for posts,<br>when adding or editing a post."
 msgstr ""
 "Sie können individuelle Preise für Beiträge setzen,<br> wenn Sie einen "
 "Beitrag erstellen oder bearbeiten."
 
-#: ../views/backend/pricing.php:148 ../application/Controller/Admin.php:298
+#: ../views/backend/pricing.php:198
+msgid "The user has to log in to LaterPay and pay immediately."
+msgstr "Der Nutzer muss sich bei LaterPay einloggen und sofort bezahlen."
+
+#: ../views/backend/pricing.php:207 ../application/Controller/Admin.php:305
 msgid "Currency"
 msgstr "Währung"
 
-#: ../views/backend/pricing.php:155
+#: ../views/backend/pricing.php:214
 msgid "All prices are given in"
 msgstr "Alle Preise sind festgelegt in"
 
@@ -450,32 +454,36 @@ msgstr ""
 "Um Ihren Nutzern eine bessere Vorstellung davon zu geben, was sie kaufen, "
 "sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
 
-#: ../views/backend/partials/post_pricing_form.php:23
+#: ../views/backend/partials/post_pricing_form.php:24 ..
+#: views/backend/partials/post_pricing_form.php:37 ..
+#: views/backend/partials/post_pricing_form.php:49
 msgid "Pay-per-Use: users pay purchased content later"
 msgstr "Pay-per-Use: Nutzer bezahlen den gekauften Inhalt später"
 
-#: ../views/backend/partials/post_pricing_form.php:29
+#: ../views/backend/partials/post_pricing_form.php:30 ..
+#: views/backend/partials/post_pricing_form.php:42 ..
+#: views/backend/partials/post_pricing_form.php:54
 msgid "Single Sale: users pay purchased content immediately"
 msgstr "Single Sale: Nutzer bezahlen den gekauften Inhalt sofort"
 
-#: ../views/backend/partials/post_pricing_form.php:39
+#: ../views/backend/partials/post_pricing_form.php:65
 msgid "Individual Price"
 msgstr "Individueller Preis"
 
-#: ../views/backend/partials/post_pricing_form.php:42
+#: ../views/backend/partials/post_pricing_form.php:68
 msgid "Category Default Price"
 msgstr "Kategorie- preis"
 
-#: ../views/backend/partials/post_pricing_form.php:45
+#: ../views/backend/partials/post_pricing_form.php:71
 msgid "Global Default<span></span> Price"
 msgstr "Standard- preis"
 
-#: ../views/backend/partials/post_pricing_form.php:77 ..
+#: ../views/backend/partials/post_pricing_form.php:103 ..
 #: application/Controller/Admin/Post/Metabox.php:71
 msgid "Remove dynamic pricing"
 msgstr "Dynamische Preissetzung entfernen"
 
-#: ../views/backend/partials/post_pricing_form.php:84 ..
+#: ../views/backend/partials/post_pricing_form.php:110 ..
 #: application/Controller/Admin/Post/Metabox.php:70
 msgid "Add dynamic pricing"
 msgstr "Dynamische Preissetzung hinzufügen"
@@ -496,7 +504,7 @@ msgstr "Darstellung"
 msgid "Account"
 msgstr "Konto"
 
-#: ../application/Controller/Install.php:38
+#: ../application/Controller/Install.php:39
 #, php-format
 msgid ""
 "<p>LaterPay: Your server <strong>does not</strong> meet the minimum "
@@ -506,12 +514,7 @@ msgstr ""
 "Mindestanforderung</strong> von %s-Version %s oder neuer. Sie verwenden %s-"
 "Version %s.</p>"
 
-#: ../application/Controller/Install.php:51
-#, php-format
-msgid "<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>"
-msgstr "<p>LaterPay: Verzeichnis %s <strong>ist nicht beschreibbar</strong>.</p>"
-
-#: ../application/Controller/Install.php:62
+#: ../application/Controller/Install.php:56
 msgid ""
 "The LaterPay plugin could not be installed. Please fix the reported issues "
 "and try again."
@@ -519,20 +522,19 @@ msgstr ""
 "Das LaterPay Plugin konnte nicht installiert werden. Bitte beheben Sie die "
 "genannten Probleme und versuchen Sie es erneut."
 
-#: ../application/Controller/Post.php:497
+#: ../application/Controller/Post.php:499
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:653
+#: ../application/Controller/Post.php:638
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:654 ..
-#: application/Controller/Admin/GetStarted.php:37 ..
-#: application/Controller/Admin/Pricing.php:176
+#: ../application/Controller/Post.php:639 ..
+#: application/Controller/Admin/GetStarted.php:37
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
@@ -548,11 +550,11 @@ msgstr "%s : <code>%s</code> nicht gefunden"
 msgid "LaterPay Plugin Settings"
 msgstr "LaterPay-Plugin-Einstellungen"
 
-#: ../application/Controller/Admin.php:214
+#: ../application/Controller/Admin.php:221
 msgid "LaterPay"
 msgstr "LaterPay"
 
-#: ../application/Controller/Admin.php:215
+#: ../application/Controller/Admin.php:222
 msgid ""
 "\n"
 "                                        <p>\n"
@@ -686,7 +688,7 @@ msgstr ""
 "Verfügung stehen.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:267
+#: ../application/Controller/Admin.php:274
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -709,7 +711,7 @@ msgstr ""
 "die kein Kategorie-Standardpreis oder individueller Preis gesetzt wurde.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:281
+#: ../application/Controller/Admin.php:288
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -744,7 +746,7 @@ msgstr ""
 "kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:299
+#: ../application/Controller/Admin.php:306
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -773,11 +775,11 @@ msgstr ""
 "dollar betragen. \n"
 "</p>"
 
-#: ../application/Controller/Admin.php:323
+#: ../application/Controller/Admin.php:330
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../application/Controller/Admin.php:324
+#: ../application/Controller/Admin.php:331
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -825,11 +827,11 @@ msgstr ""
 "</li>\n"
 "</ul>\n"
 
-#: ../application/Controller/Admin.php:348
+#: ../application/Controller/Admin.php:355
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../application/Controller/Admin.php:349
+#: ../application/Controller/Admin.php:356
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -854,11 +856,11 @@ msgstr ""
 "aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:371
+#: ../application/Controller/Admin.php:378
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../application/Controller/Admin.php:372
+#: ../application/Controller/Admin.php:379
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -982,7 +984,7 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
-#: ../application/Controller/Admin.php:421
+#: ../application/Controller/Admin.php:428
 msgid ""
 "\n"
 "                                                    <p>You can run the "
@@ -1052,17 +1054,17 @@ msgstr ""
 "                                                    </p>"
 
 #: ../application/Controller/Statistics.php:88 ..
-#: application/Controller/Admin/GetStarted.php:115 ..
+#: application/Controller/Admin/GetStarted.php:124 ..
 #: application/Controller/Admin/Account.php:96 ..
 #: application/Controller/Admin/Appearance.php:72 ..
 #: application/Controller/Admin/Appearance.php:112 ..
 #: application/Controller/Admin/Appearance.php:123 ..
-#: application/Controller/Admin/Pricing.php:112 ..
-#: application/Controller/Admin/Pricing.php:137 ..
-#: application/Controller/Admin/Pricing.php:245 ..
-#: application/Controller/Admin/Pricing.php:274 ..
-#: application/Controller/Admin/Pricing.php:334 ..
-#: application/Controller/Admin/Pricing.php:395
+#: application/Controller/Admin/Pricing.php:115 ..
+#: application/Controller/Admin/Pricing.php:140 ..
+#: application/Controller/Admin/Pricing.php:256 ..
+#: application/Controller/Admin/Pricing.php:285 ..
+#: application/Controller/Admin/Pricing.php:348 ..
+#: application/Controller/Admin/Pricing.php:411
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
@@ -1077,7 +1079,7 @@ msgstr "Aktualisiert."
 #: application/Controller/Admin/GetStarted.php:74 ..
 #: application/Controller/Admin/Account.php:63 ..
 #: application/Controller/Admin/Appearance.php:57 ..
-#: application/Controller/Admin/Pricing.php:82
+#: application/Controller/Admin/Pricing.php:83
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
@@ -1214,39 +1216,40 @@ msgstr ""
 "Besucher sehen ab jetzt den Teaser eines kostenpflichtigen Beitrags und "
 "einen Auszug des Artikels unter einem Overlay."
 
-#: ../application/Controller/Admin/Pricing.php:156
+#: ../application/Controller/Admin/Pricing.php:159
 #, php-format
 msgid "The currency for this website is %s now."
 msgstr "Die Währung für diese Website ist jetzt %s."
 
-#: ../application/Controller/Admin/Pricing.php:189
+#: ../application/Controller/Admin/Pricing.php:182 ..
+#: application/Controller/Admin/Pricing.php:228
+msgid "The price you tried to set is outside the allowed range of 0 or 0.05-149.99."
+msgstr ""
+"Der Preis, den Sie zu setzen versuchen, liegt außerhalb des erlaubten "
+"Bereichs von 0 oder 0,05-149,99."
+
+#: ../application/Controller/Admin/Pricing.php:196
 msgid "All posts are free by default now."
 msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
 
-#: ../application/Controller/Admin/Pricing.php:192
+#: ../application/Controller/Admin/Pricing.php:199
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:219
-msgid "The price you tried to set is not within the allowed range of 0 to 5.00."
-msgstr ""
-"Der Preis, den Sie setzen möchten, ist nicht im erlaubten Bereich von 0 bis "
-"5,00."
-
-#: ../application/Controller/Admin/Pricing.php:263 ..
-#: application/Controller/Admin/Pricing.php:347
+#: ../application/Controller/Admin/Pricing.php:274 ..
+#: application/Controller/Admin/Pricing.php:362
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: ../application/Controller/Admin/Pricing.php:291 ..
-#: application/Controller/Admin/Pricing.php:314 ..
-#: application/Controller/Admin/Pricing.php:369
+#: ../application/Controller/Admin/Pricing.php:302 ..
+#: application/Controller/Admin/Pricing.php:326 ..
+#: application/Controller/Admin/Pricing.php:385
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:451
+#: ../application/Controller/Admin/Pricing.php:467
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."
