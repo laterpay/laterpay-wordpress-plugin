@@ -406,11 +406,8 @@ class PostModule extends BaseModule {
         $I->amOnPage($laterpayPage);
         $I->wait(PostModule::$averageTimeout);
 
-        if ($I->trySee($I, PostModule::$lpServerVisitorLoginLink)) {
-
-            $I->tryClick($I, PostModule::$lpServerVisitorLoginLink);
-            $I->wait(BaseModule::$averageTimeout);
-        };
+        $I->tryClick($I, PostModule::$lpServerVisitorLoginLink);
+        $I->wait(BaseModule::$averageTimeout);
 
         $I->switchToIFrame(PostModule::$lpServerVisitorLoginFrameName);
         $I->waitForElement(PostModule::$lpServerVisitorEmailField, BaseModule::$averageTimeout);
