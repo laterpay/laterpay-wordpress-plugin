@@ -50,6 +50,7 @@ class PostModule extends BaseModule {
     //purschase at LaterPay server
     public static $lpServerLinkJsGetter = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
     public static $lpServerVisitorLoginLink = 'Log in to LaterPay';
+    public static $lpServerVisitorLoginClass = '.selen-button-login';
     public static $lpServerVisitorLoginFrameName = 'wrapper';
     public static $lpServerVisitorEmailField = '#id_username';
     public static $lpServerVisitorEmailValue = 'atsumarov@scnsoft.com';
@@ -406,6 +407,7 @@ class PostModule extends BaseModule {
         $I->amOnPage($laterpayPage);
         $I->wait(PostModule::$averageTimeout);
 
+        $I->tryClick($I, PostModule::$lpServerVisitorLoginClass);
         $I->tryClick($I, PostModule::$lpServerVisitorLoginLink);
         $I->wait(BaseModule::$averageTimeout);
 
