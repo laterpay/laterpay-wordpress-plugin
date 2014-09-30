@@ -169,10 +169,11 @@
 
             hideWordPressPointer = function() {
                 // hide pointer hinting at the LaterPay plugin while viewing the getStarted tab
-// FIXME: race condition??
-                if (typeof($().pointer) !== 'undefined' && $('#toplevel_page_laterpay-plugin').data('wpPointer')) {
-                    $('#toplevel_page_laterpay-plugin').data('wpPointer').pointer.hide();
-                }
+                setTimeout(function() {
+                    if (typeof($().pointer) !== 'undefined' && $('#toplevel_page_laterpay-plugin').data('wpPointer')) {
+                        $('#toplevel_page_laterpay-plugin').data('wpPointer').pointer.hide();
+                    }
+                }, 200);
             },
 
             initializePage = function() {

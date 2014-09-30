@@ -51,11 +51,12 @@
                 });
 
                 // validate manually entered prices
-                $o.priceInput.blur(function() {
-                    setPrice($(this).val());
-                });
-                // TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
-                // $o.priceInput.bind('input', function() {setPrice($(this).val());});
+                // (function is only triggered 800ms after the keyup)
+                $o.priceInput.keyup(
+                    debounce(function() {
+                        setPrice($(this).val());
+                    }, 800)
+                );
 
                 // validate choice of revenue model (validating the price switches the revenue model if required)
                 $('input:radio', $o.revenueModel).change(function() {
@@ -106,6 +107,9 @@
                     $o.dynamicPricingToggle.show();
                     $o.priceTypeInput.val('individual price');
 
+                    // validate price to enable all applicable revenue models
+                    validatePrice($o.priceInput.val());
+
                     // show / hide stuff
                     if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
                         renderDynamicPricingWidget();
@@ -116,9 +120,12 @@
                 else if (priceType === 'lp_js_use-category-default-price') {
                     updateSelectedCategory();
 
-                    // set the price of the selected category
-                    var price = $('.lp_selected-category a', $o.categoriesList).attr('data-price');
+                    // set the price and revenue model of the selected category
+                    var $category       = $('.lp_selected-category a', $o.categoriesList),
+                        price           = $category.attr('data-price'),
+                        revenueModel    = $category.attr('data-revenue-model');
                     setPrice(price);
+                    setRevenueModel(revenueModel, true);
 
                     // show / hide stuff
                     $o.priceSection.addClass($o.expanded);
@@ -129,22 +136,24 @@
                 }
                 // case: global default price
                 else if (priceType === 'lp_js_use-global-default-price') {
-                    setPrice($this.attr('data-price'));
+                    var price           = $this.attr('data-price'),
+                        revenueModel    = $this.attr('data-revenue-model');
+
+                    setPrice(price);
+                    setRevenueModel(revenueModel, true);
 
                     // show / hide stuff
                     $o.dynamicPricingToggle.hide();
                     $o.priceTypeInput.val('global default price');
                 }
 
-                // disable price input and hide revenue model for all scenarios other than static individual price
+                // disable price input for all scenarios other than static individual price
                 if (priceType === 'lp_js_use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
-                    $o.revenueModel.show();
                 } else {
                     if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                         disableDynamicPricing();
-                        $o.revenueModel.hide();
                     }
                     $o.priceInput.attr('disabled', 'disabled');
                 }
@@ -155,9 +164,25 @@
                 $o.priceInput.val(validatedPrice);
             },
 
+            setRevenueModel = function(revenueModel, readOnly) {
+                $('label', $o.revenueModel).removeClass($o.selected);
+
+                if (readOnly) {
+                    // disable not-selected revenue model
+                    $('input:radio[value!=' + revenueModel + ']', $o.revenueModel).parent('label').addClass($o.disabled);
+                }
+
+                // enable and check selected revenue model
+                $('input:radio[value=' + revenueModel + ']', $o.revenueModel)
+                .prop('checked', 'checked')
+                    .parent('label')
+                    .removeClass($o.disabled)
+                    .addClass($o.selected);
+            },
+
             validatePrice = function(price) {
                 // strip non-number characters
-                price = price.replace(/[^0-9\,\.]/g, '');
+                price = price.toString().replace(/[^0-9\,\.]/g, '');
 
                 // convert price to proper float value
                 if (typeof price === 'string' && price.indexOf(',') > -1) {
@@ -250,9 +275,14 @@
                     $o.categoryInput.val($firstCategory.data('category'));
                 }
 
-                // also update the price, if the selected category has changed in pricing mode 'category default price'
+                // also update the price and revenue model, if the selected category has changed in pricing mode 'category default price'
                 if ($o.categoryPriceButton.hasClass($o.selected)) {
-                    setPrice($('.lp_selected-category a', $o.categoriesList).attr('data-price'));
+                    var $category       = $('.lp_selected-category a', $o.categoriesList),
+                        price           = $category.attr('data-price'),
+                        revenueModel    = $category.attr('data-revenue-model');
+
+                    setPrice(price);
+                    setRevenueModel(revenueModel, true);
                 }
             },
 
@@ -282,8 +312,8 @@
                         if (data) {
                             data.forEach(function(category) {
                                 categoriesList +=   '<li data-category="' + category.category_id + '">' +
-                                                        '<a href="#" data-price="' + category.category_price + '">' +
-                                                            '<span>' + category.category_price + ' ' + lpVars.currency + '</span>' +
+                                                        '<a href="#" data-price="' + category.category_price + '" data-revenue-model="' + category.revenue_model + '">' +
+                                                            '<span>' + parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency + '</span>' +
                                                             category.category_name +
                                                         '</a>' +
                                                     '</li>';
@@ -310,15 +340,19 @@
                                     $o.priceSection.removeClass($o.expanded);
 
                                     if ($o.globalPriceButton.hasClass($o.disabled)) {
+                                        // case: fall back to individual price
                                         $o.individualPriceButton.addClass($o.selected);
                                         $o.priceTypeInput.val('individual price');
                                         $o.dynamicPricingToggle.show();
                                         $o.priceInput.removeAttr('disabled');
                                         setPrice(0);
+                                        setRevenueModel($o.payPerUse, false);
                                     } else {
+                                        // case: fall back to global default price
                                         $o.globalPriceButton.addClass($o.selected);
                                         $o.priceTypeInput.val('global default price');
                                         setPrice(lpVars.globalDefaultPrice);
+                                        setRevenueModel($('a', $o.globalPriceButton).attr('data-revenue-model'), true);
                                     }
                                 }
                             }
@@ -329,15 +363,18 @@
             },
 
             applyCategoryPrice = function(trigger) {
-                var $this       = $(trigger),
-                    $category   = $this.parent(),
-                    category    = $category.attr('data-category'),
-                    price       = $this.attr('data-price');
+                var $this           = $(trigger),
+                    $category       = $this.parent(),
+                    category        = $category.attr('data-category'),
+                    price           = $this.attr('data-price'),
+                    revenueModel    = $this.attr('data-revenue-model');
 
                 $o.categories.removeClass($o.selectedCategory);
                 $category.addClass($o.selectedCategory);
                 $o.categoryInput.val(category);
+
                 setPrice(price);
+                setRevenueModel(revenueModel, true);
             },
 
             toggleDynamicPricing = function() {
@@ -376,83 +413,11 @@
 
                 $o.priceInput.attr('disabled', 'disabled');
 
-                if (data.length === 4)
+                if (data.length === 4) {
                     lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
-                else
+                } else {
                     lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
-
-                // FIXME: selectors like $('select') will blow up like a nuclear power plant
-                // when used within WordPress installations with who knows what plugins and modifications
-                // $('.blockbuster').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1.8},
-                //         {x:  6, y: 1.8},
-                //         {x: 11, y: 0.6},
-                //         {x: 30, y: 0.6}
-                //     ])
-                //     .interpolate('linear')
-                //     .plot();
-
-                //     $('select').val('linear');
-
-                //     return false;
-                // });
-
-                // $('.long-tail').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1.8},
-                //         {x:  3, y: 1.8},
-                //         {x: 14, y: 0.6},
-                //         {x: 30, y: 0.6}
-                //     ])
-                //     .interpolate('linear')
-                //     .plot();
-
-                //     $('select').val('linear');
-
-                //     return false;
-                // });
-
-                // $('.breaking-news').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1.8},
-                //         {x:  3, y: 1.8},
-                //         {x: 30, y: 0.6}
-                //     ])
-                //     .interpolate('step-before')
-                //     .plot();
-
-                //     $('select').val('step-before');
-
-                //     return false;
-                // });
-
-                // $('.teaser').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 0.6},
-                //         {x:  3, y: 0.6},
-                //         {x: 30, y: 1.8}
-                //     ])
-                //     .interpolate('step-before')
-                //     .plot();
-
-                //     $('select').val('step-before');
-
-                //     return false;
-                // });
-
-                // $('.flat').click(function() {
-                //     lpc.set_data([
-                //         {x:  0, y: 1},
-                //         {x:  3, y: 1},
-                //         {x: 14, y: 1},
-                //         {x: 30, y: 1}
-                //     ])
-                //     .interpolate('linear')
-                //     .plot();
-
-                //     return false;
-                // });
+                }
             },
 
             saveDynamicPricingData = function() {
@@ -478,6 +443,21 @@
                 }
 
                 return true;
+            },
+
+            // throttle the execution of a function by a given delay
+            debounce = function(fn, delay) {
+              var timer = null;
+              return function () {
+                var context = this,
+                    args    = arguments;
+
+                clearTimeout(timer);
+
+                timer = setTimeout(function() {
+                  fn.apply(context, args);
+                }, delay);
+              };
             },
 
             initializePage = function() {

@@ -240,15 +240,16 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             $category_price_data        = $laterpay_category_model->get_category_price_data_by_category_ids( $categories_of_post );
             // if the post has a category defined from which to use the category default price then let's get that price
             if ( $post_default_category > 0 ) {
-                $category_default_price = (float) $laterpay_category_model->get_price_by_category_id( $post_default_category );
                 $category_default_price_revenue_model = (string) $laterpay_category_model->get_revenue_model_by_category_id( $post_default_category );
             }
         }
 
 		// get price data
-        $global_default_price   = get_option( 'laterpay_global_price' );
-        $price                  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-        $post_price_type        = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
+        $global_default_price               = get_option( 'laterpay_global_price' );
+        $global_default_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
+
+        $price              = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $post_price_type    = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
 
         // return dynamic pricing widget start values
         if ( $start_price === '' ) {
