@@ -3,6 +3,7 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendPricing
     function laterPayBackendPricing() {
         var $o = {
+                revenueModel                            : '.lp_js_revenue-model',
                 revenueModelInput                       : '.lp_js_revenue-model-input',
 
                 // global default price
@@ -14,7 +15,7 @@
                 cancelEditingGlobalDefaultPrice         : $('#lp_js_cancel-editing-global-default-price'),
                 saveGlobalDefaultPrice                  : $('#lp_js_save-global-default-price'),
                 globalDefaultPriceShowElements          : $('#lp_js_global-default-price-text, #lp_js_edit-global-default-price, #lp_js_global-default-price-revenue-model-label'),
-                globalDefaultPriceEditElements          : $('#lp_js_global-default-price, .lp_js_global-default-price-revenue-model-label, #lp_js_cancel-editing-global-default-price, #lp_js_save-global-default-price'),
+                globalDefaultPriceEditElements          : $('#lp_js_global-default-price, #lp_js_global-default-price-revenue-model, #lp_js_cancel-editing-global-default-price, #lp_js_save-global-default-price'),
 
                 // category default price
                 categoryDefaultPrices                   : $('#lp_js_category-default-prices-list'),
@@ -26,8 +27,8 @@
                 cancelEditingCategoryDefaultPrice       : '.lp_js_cancel-editing-category-default-price',
                 saveCategoryDefaultPrice                : '.lp_js_save-category-default-price',
                 deleteCategoryDefaultPrice              : '.lp_js_delete-category-default-price',
-                categoryDefaultPriceShowElements        : '.lp_js_category-title, .lp_js_category-default-price-display, .lp_js_edit-category-default-price, .lp_js_delete-category-default-price',
-                categoryDefaultPriceEditElements        : '.lp_js_category-default-price-input, .lp_js_save-category-default-price, .lp_js_cancel-editing-category-default-price',
+                categoryDefaultPriceShowElements        : '.lp_js_category-title, .lp_js_revenue-model-label, .lp_js_category-default-price-display, .lp_js_edit-category-default-price, .lp_js_delete-category-default-price',
+                categoryDefaultPriceEditElements        : '.lp_js_category-default-price-input, .lp_js_revenue-model, .lp_js_save-category-default-price, .lp_js_cancel-editing-category-default-price',
 
                 categoryTitle                           : '.lp_js_category-title',
                 categoryDefaultPriceDisplay             : '.lp_js_category-default-price-display',
@@ -54,20 +55,20 @@
             bindEvents = function() {
 // DIRRRTY:
 // validate price and revenue model
-$o.globalDefaultPriceInput.blur(function() {
-    validatePrice($(this).parents('form'));
-});
-$($o.categoryDefaultPriceInput).blur(function() {
-    validatePrice($(this).parents('form'));
-});
+// $o.globalDefaultPriceInput.blur(function() {
+//     validatePrice($o.globalDefaultPriceForm);
+// });
+// $($o.categoryDefaultPriceInput).blur(function() {
+//     validatePrice($(this).parents('form'));
+// });
 
 // // TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
 // // $o.priceInput.bind('input', function() {setPrice($(this).val());});
 
-// validate choice of revenue model (validating the price switches the revenue model if required)
-$($o.revenueModelInput).change(function() {
-    validatePrice($(this).parents('form'));
-});
+                // validate choice of revenue model (validating the price switches the revenue model if required)
+                $('body').on('change', $o.revenueModelInput, function() {
+                    validatePrice($(this).parents('form'));
+                });
 
                 // global default price events -------------------------------------------------------------------------
                 // edit
@@ -80,7 +81,7 @@ $($o.revenueModelInput).change(function() {
                 // validate price and revenue model
                 $o.globalDefaultPriceInput
                 .blur(function() {
-                    validatePrice();
+                    validatePrice($o.globalDefaultPriceForm);
                 });
 
                 // cancel
@@ -120,6 +121,9 @@ $($o.revenueModelInput).change(function() {
                     exitEditModeCategoryDefaultPrice($form);
                 })
                 .on('click', function(e) {e.preventDefault();});
+
+                // validate price and revenue model
+                // ...
 
                 // save
                 $o.categoryDefaultPrices
@@ -192,10 +196,10 @@ $($o.revenueModelInput).change(function() {
 
             validateRevenueModel = function(price, $form) {
                 var currentRevenueModel = $($o.revenueModel + ':checked', $form).val(),
-                    $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $form),
-                    $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $form);
+                    $payPerUse          = $('.lp_js_revenue-model-input[value=' + $o.payPerUse + ']', $form),
+                    $singleSale         = $('.lp_js_revenue-model-input[value=' + $o.singleSale + ']', $form);
 
-                if ((price === 0 || price >= 0.05) && price <= 5) {
+                if (price === 0 || (price >= 0.05 && price <= 5)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
@@ -218,15 +222,15 @@ $($o.revenueModelInput).change(function() {
                 // switch revenue model, if combination of price and revenue model is not allowed
                 if (price > 5 && currentRevenueModel == $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
-                    $singleSale.prop('checked', true);
+                    $singleSale.attr('checked', 'checked');
                 } else if (price < 1.49 && currentRevenueModel == $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
-                    $payPerUse.prop('checked', true);
+                    $payPerUse.attr('checked', 'checked');
                 }
 
                 // highlight current revenue model
-                $('label', $o.revenueModel).removeClass($o.selected);
-                $('input:radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
+                $('label', $form).removeClass($o.selected);
+                $('.lp_js_revenue-model-input:checked', $form).parent('label').addClass($o.selected);
             },
 
             enterEditModeGlobalDefaultPrice = function() {
@@ -302,6 +306,7 @@ $($o.revenueModelInput).change(function() {
                         if (r.success) {
                             // update displayed price information
                             $($o.categoryDefaultPriceDisplay, $form).text(r.price);
+                            $('.lp_js_revenue-model-label', $form).text(r.revenue_model);
                             $($o.categoryDefaultPriceInput, $form).val(r.price)
                             $($o.categoryTitle, $form).text(r.category);
                             $($o.categoryId, $form).val(r.category_id);
@@ -380,17 +385,19 @@ $($o.revenueModelInput).change(function() {
                                                         };
                                                     },
                                         results     : function(data) {
-                                            var return_data = [];
-                                            $.each( data, function(index) {
-                                                var term = data[ index ];
-                                                return_data.push({
-                                                    id     : term.term_id,
-                                                    text   : term.name
-                                                });
-                                            } );
-                                            return {results: return_data};
-                                        },
-                                        dataType    : 'json'
+                                                            var return_data = [];
+
+                                                            $.each( data, function(index) {
+                                                                var term = data[ index ];
+                                                                return_data.push({
+                                                                    id     : term.term_id,
+                                                                    text   : term.name
+                                                                });
+                                                            } );
+
+                                                            return {results: return_data};
+                                                        },
+                                                        dataType    : 'json'
                                     },
                     initSelection   : function(element, callback) {
                                         var id = $(element).val();
