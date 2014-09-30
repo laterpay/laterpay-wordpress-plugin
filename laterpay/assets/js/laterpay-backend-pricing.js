@@ -53,19 +53,10 @@
             },
 
             bindEvents = function() {
-// DIRRRTY:
-// validate price and revenue model
-// $o.globalDefaultPriceInput.blur(function() {
-//     validatePrice($o.globalDefaultPriceForm);
-// });
-// $($o.categoryDefaultPriceInput).blur(function() {
-//     validatePrice($(this).parents('form'));
-// });
-
 // // TODO: something more dynamic would be nice, but 'input' needs to be throttled with a timeout
 // // $o.priceInput.bind('input', function() {setPrice($(this).val());});
-
-                // validate choice of revenue model (validating the price switches the revenue model if required)
+                // validate price and choice of revenue model for both global and category default prices
+                // (validating the price switches the revenue model if required)
                 $('body').on('change', $o.revenueModelInput, function() {
                     validatePrice($(this).parents('form'));
                 });
@@ -150,7 +141,8 @@
             },
 
             validatePrice = function($form) {
-                var price = $('.lp_number-input', $form).val(),
+                var $priceInput = $('.lp_number-input', $form),
+                    price       = $priceInput.val(),
                     corrected;
 
                 // strip non-number characters
@@ -190,6 +182,9 @@
                 if (lpVars.locale == 'de_DE') {
                     price = price.replace('.', ',');
                 }
+
+                // update price input
+                $priceInput.val(price);
 
                 return price;
             },
