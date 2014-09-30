@@ -130,6 +130,7 @@
                 }
                 // case: global default price
                 else if (priceType === 'lp_js_use-global-default-price') {
+                    setRevenueModel($this.attr('data-revenue-model'));
                     setPrice($this.attr('data-price'));
 
                     // show / hide stuff
@@ -137,15 +138,13 @@
                     $o.priceTypeInput.val('global default price');
                 }
 
-                // disable price input and hide revenue model for all scenarios other than static individual price
+                // disable price input for all scenarios other than static individual price
                 if (priceType === 'lp_js_use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
-                    $o.revenueModel.show();
                 } else {
                     if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                         disableDynamicPricing();
-                        $o.revenueModel.hide();
                     }
                     $o.priceInput.attr('disabled', 'disabled');
                 }
@@ -154,6 +153,14 @@
             setPrice = function(price) {
                 var validatedPrice = validatePrice(price);
                 $o.priceInput.val(validatedPrice);
+            },
+
+            setRevenueModel = function(revenueModel) {
+                $('label', $o.revenueModel).removeClass($o.selected);
+                $('input:radio[value=' + revenueModel + ']', $o.revenueModel)
+                .prop('checked', 'checked')
+                    .parent('label')
+                    .addClass($o.selected);
             },
 
             validatePrice = function(price) {
