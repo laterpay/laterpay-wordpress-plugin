@@ -158,18 +158,22 @@
             validatePrice = function(price) {
                 // strip non-number characters
                 price = price.replace(/[^0-9\,\.]/g, '');
+
                 // convert price to proper float value
                 if (typeof price === 'string' && price.indexOf(',') > -1) {
                     price = parseFloat(price.replace(',', '.')).toFixed(2);
                 } else {
                     price = parseFloat(price).toFixed(2);
                 }
+
                 // prevent non-number prices
                 if (isNaN(price)) {
                     price = 0;
                 }
+
                 // prevent negative prices
                 price = Math.abs(price);
+
                 // correct prices outside the allowed range of 0.05 - 149.49
                 if (price > 149.99) {
                     price = 149.99;
@@ -195,7 +199,7 @@
                     $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
                     $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
-                if ((price === 0 || price >= 0.05) && price <= 5) {
+                if (price === 0 || (price >= 0.05 && price <= 5)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
@@ -205,8 +209,8 @@
                         .parent('label').addClass($o.disabled);
                 }
 
-                if (price > 1.49) {
-                    // enable Single Sale for prices > 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
+                if (price >= 1.49) {
+                    // enable Single Sale for prices >= 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
                 } else {

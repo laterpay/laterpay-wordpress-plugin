@@ -147,10 +147,9 @@ class LaterPay_Model_CategoryPrice
     public function get_categories_by_term( $term, $limit ) {
         global $wpdb, $wp_version;
 
-        if( version_compare( $wp_version, '4.0', '>=') ){
+        if ( version_compare( $wp_version, '4.0', '>=') ) {
             $term = $wpdb->esc_like( $term );
-        }
-        else {
+        } else {
             $term = like_escape($term);
         }
 

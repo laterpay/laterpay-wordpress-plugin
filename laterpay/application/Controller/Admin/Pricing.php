@@ -100,12 +100,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 case 'price_category_form_delete':
                     $this->delete_category_default_price();
                     break;
-                case 'laterpay_get_category_prices':
-                    if( !array_key_exists( 'category_ids', $_POST ) )
-                        $_POST[ 'category_ids' ] = array();
-                    $this->get_category_prices( $_POST['category_ids'] );
 
+                case 'laterpay_get_category_prices':
+                    if ( !array_key_exists( 'category_ids', $_POST ) ) {
+                        $_POST[ 'category_ids' ] = array();
+                    }
+                    $this->get_category_prices( $_POST['category_ids'] );
                     break;
+
                 default:
                     wp_send_json(
                         array(
@@ -170,13 +172,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $delocalized_global_price   = (float) str_replace( ',', '.', $_POST['laterpay_global_price'] );
         $global_price_revenue_model = (string) $_POST['laterpay_global_price_revenue_model'];
 
-        if ( ( $delocalized_global_price > 5 || $delocalized_global_price < 0 ) || ! in_array( $global_price_revenue_model, array('ppu', 'sis') ) ) {
+        // TODO: this is just a dirty hack to allow saving Single Sale prices
+        if ( ( $delocalized_global_price > 149.99 || $delocalized_global_price < 0 ) || ! in_array( $global_price_revenue_model, array('ppu', 'sis') ) ) {
             wp_send_json(
                 array(
                     'success'                       => false,
                     'laterpay_global_price'         => get_option( 'laterpay_global_price' ),
                     'laterpay_price_revenue_model'  => get_option( 'laterpay_global_price_revenue_model' ),
-                    'message'                       => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
+                    'message'                       => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' )
                 )
             );
         }
@@ -217,11 +220,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function update_category_default_price() {
         $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
 
-        if ( $delocalized_category_price > 5 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) ) {
+        // TODO: this is just a dirty hack to allow saving Single Sale prices
+        if ( $delocalized_category_price > 149.99 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) ) {
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'The price you tried to set is not within the allowed range of 0 to 5.00.', 'laterpay' )
+                    'message' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' )
                 )
             );
         }

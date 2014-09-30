@@ -28,18 +28,22 @@
                         <input type="hidden" name="form"    value="global_price_form">
                         <input type="hidden" name="action"  value="laterpay_pricing">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+
+                        <a href="#" id="lp_js_cancel-editing-global-default-price" class="lp_edit-link lp_cancel-link lp_fl-right" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                        <a href="#" id="lp_js_save-global-default-price" class="lp_edit-link lp_save-link lp_fl-right" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
                         <p>
-                            <label  class="lp_m-t125 lp_m-b05 lp_b-r3 lp_fw-b lp_tooltip
-                                                <?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' lp_is-selected'; } ?>"
-                                    data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
-                                <input type="radio" name="laterpay_global_price_revenue_model" value="ppu"<?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' checked'; } ?>>PPU
-                            </label>
-                            <label  class="lp_m-t125 lp_m-b05 lp_b-r3 lp_fw-b lp_tooltip
-                                                <?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' lp_is-selected'; } ?>
-                                                <?php if ( $global_default_price < 1.49) { echo ' lp_is-disabled'; } ?>"
-                                    data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
-                                <input type="radio" name="laterpay_global_price_revenue_model" value="sis"<?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' checked'; } ?>>SIS
-                            </label>
+                            <span id="lp_js_global-default-price-revenue-model-label" class="lp_revenue-model-label lp_m-r025"><?php echo $global_default_price_revenue_model; ?></span>
+                            <span id="lp_js_global-default-price-revenue-model" class="lp_js_revenue-model lp_revenue-model lp_p-rel lp_fl-left" style="display:none;">
+                                <label class="lp_revenue-model-label lp_js_global-default-price-revenue-model-label lp_m-r05 lp_m-b025
+                                        <?php if ( $global_default_price_revenue_model == 'ppu' || ! $global_default_price_revenue_model ) { echo 'lp_is-selected'; } ?>
+                                        <?php if ( $global_default_price > 5 ) { echo 'lp_is-disabled'; } ?>">
+                                    <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenue-model-input" value="ppu"<?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' checked'; } ?>>PPU
+                                </label><label class="lp_revenue-model-label lp_js_global-default-price-revenue-model-label lp_m-r05 lp_m-b025
+                                        <?php if ( $global_default_price_revenue_model == 'sis' ) { echo 'lp_is-selected'; } ?>
+                                        <?php if ( $global_default_price < 1.49) { echo 'lp_is-disabled'; } ?>">
+                                    <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenue-model-input" value="sis"<?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' checked'; } ?>>SIS
+                                </label>
+                            </span>
                             <?php _e( '<strong>Every post</strong> costs', 'laterpay' ); ?>
                             <strong>
                                 <input  type="text"
@@ -54,8 +58,6 @@
                                 <span class="lp_js_currency lp_currency"><?php echo $standard_currency; ?></span>
                             </strong>
                             <a href="#" id="lp_js_edit-global-default-price" class="lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                            <a href="#" id="lp_js_save-global-default-price" class="lp_edit-link lp_save-link" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
-                            <a href="#" id="lp_js_cancel-editing-global-default-price" class="lp_edit-link lp_cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                         </p>
                     </form>
 
@@ -79,22 +81,23 @@
                                     <input type="hidden" name="category_id" class="lp_js_category-id" value="<?php echo $category->category_id; ?>">
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                                    <?php $category_price = LaterPay_Helper_View::format_number( (float) $category->category_price, 2 ); ?>
-                                    <?php $category_revenue_model = $category->revenue_model; ?>
+                                    <?php $category_price           = LaterPay_Helper_View::format_number( (float) $category->category_price, 2 ); ?>
+                                    <?php $category_revenue_model   = $category->revenue_model; ?>
 
-                                    <label  class="lp_m-t125 lp_m-b05 lp_b-r3 lp_fw-b lp_tooltip
-                                                <?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo ' lp_is-selected'; } ?>
-                                                <?php if ( $category_price > 5) { echo ' lp_is-disabled'; } ?>"
-                                            data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
-                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo $category->category_id; ?>" value="ppu"<?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 )) { echo ' checked'; } ?>>PPU
-                                    </label>
-                                    <label  class="lp_m-t125 lp_m-b05 lp_b-r3 lp_fw-b lp_tooltip
-                                                <?php if ( $category_revenue_model == 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo ' lp_is-selected'; } ?>
-                                                <?php if ( $category_price < 1.49) { echo ' lp_is-disabled'; } ?>"
-                                            data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
-                                        <input type="radio" name="laterpay_category_price_revenue_model_<?php echo $category->category_id; ?>" value="sis"<?php if ( $category_revenue_model == 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo ' checked'; } ?>>SIS
-                                    </label>
+                                    <div class="lp_js_revenue-model lp_revenue-model lp_p-rel lp_fl-left" style="display:none;">
+                                        <label class="lp_revenue-model-label lp_m-r05 lp_m-b025
+                                                    <?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo 'lp_is-selected'; } ?>
+                                                    <?php if ( $category_price > 5) { echo 'lp_is-disabled'; } ?>">
+                                            <input type="radio" name="laterpay_category_price_revenue_model_<?php echo $category->category_id; ?>" class="lp_js_revenue-model-input" value="ppu"<?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 )) { echo ' checked'; } ?>>PPU
+                                        </label>
+                                        <label class="lp_revenue-model-label lp_m-r05 lp_m-b025
+                                                    <?php if ( $category_revenue_model == 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo 'lp_is-selected'; } ?>
+                                                    <?php if ( $category_price < 1.49) { echo 'lp_is-disabled'; } ?>">
+                                            <input type="radio" name="laterpay_category_price_revenue_model_<?php echo $category->category_id; ?>" class="lp_js_revenue-model-input" value="sis"<?php if ( $category_revenue_model == 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo ' checked'; } ?>>SIS
+                                        </label>
+                                    </div>
 
+                                    <span class="lp_js_revenue-model-label lp_revenue-model-label"><?php echo $category_revenue_model; ?></span>
                                     <strong>
                                         <input type="hidden" name="category" value="<?php echo $category->category_name; ?>" class="lp_js_select-category">
                                         <span class="lp_js_category-title lp_category-title lp_d-inl-block"><?php echo $category->category_name; ?></span>
@@ -130,18 +133,19 @@
                         <p class="lp_m-t025">
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                            <label  class="lp_m-t125 lp_m-b05 lp_b-r3 lp_fw-b lp_tooltip
-                                                <?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' lp_is-selected'; } ?>"
-                                    data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
-                                <input type="radio" name="laterpay_category_price_revenue_model" value="ppu"<?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' checked'; } ?>>PPU
-                            </label>
-                            <label  class="lp_m-t125 lp_m-b05 lp_b-r3 lp_fw-b lp_tooltip
-                                                <?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' lp_is-selected'; } ?>
-                                                <?php if ( $global_default_price < 1.49) { echo ' lp_is-disabled'; } ?>"
-                                    data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
-                                <input type="radio" name="laterpay_category_price_revenue_model" value="sis"<?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' checked'; } ?>>SIS
-                            </label>
+                            <div class="lp_js_revenue-model lp_revenue-model lp_p-rel lp_fl-left">
+                                <label class="lp_revenue-model-label lp_m-r05 lp_m-b025
+                                        <?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo 'lp_is-selected'; } ?>">
+                                    <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenue-model-input" value="ppu"<?php if ( $global_default_price_revenue_model == 'ppu' || ( ! $global_default_price_revenue_model && $global_default_price < 5 ) ) { echo ' checked'; } ?>>PPU
+                                </label>
+                                <label class="lp_revenue-model-label lp_m-r05 lp_m-b025
+                                        <?php if ( $global_default_price_revenue_model == 'sis' ) { echo 'lp_is-selected'; } ?>
+                                        <?php if ( $global_default_price < 1.49) { echo 'lp_is-disabled'; } ?>">
+                                    <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenue-model-input" value="sis"<?php if ( $global_default_price_revenue_model == 'sis' ) { echo ' checked'; } ?>>SIS
+                                </label>
+                            </div>
 
+                            <span class="lp_js_revenue-model-label lp_revenue-model-label"></span>
                             <strong>
                                 <input type="hidden" name="category" value="" class="lp_js_select-category">
                                 <span class="lp_js_category-title lp_category-title lp_d-inl-block"></span>
@@ -180,22 +184,21 @@
             </li>
         </ul>
 
-        <!-- Legend -->
-        <div class="lp_row">
-            <div>
-                <label>PPU</label>&nbsp;<strong>Pay-per-Use</strong>
-                <p>
-                    <?php _e( 'The user pays later once his LaterPay invoice reaches 5', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?><br/>
-                    <?php _e( 'You can choose PPU for prices up to 5.00', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?>
-                </p>
-            </div>
-            <div>
-                <label>SIS</label>&nbsp;<strong>Single Sale</strong>
-                <p>
-                    <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br/>
-                    <?php _e( 'You can choose SIS for prices from 1.49-149.99', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?>
-                </p>
-            </div>
+        <div class="lp_row lp_m-t3">
+            <p>
+                <span class="lp_revenue-model-label lp_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
+                <dfn>
+                    <?php _e( 'The user pays later once his LaterPay invoice reaches 5', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?><br>
+                    <?php _e( 'You can choose PPU for prices from 0.05 - 5.00', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?>
+                </dfn>
+            </p>
+            <p>
+                <span class="lp_revenue-model-label lp_m-r05">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
+                <dfn>
+                    <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
+                    <?php _e( 'You can choose SIS for prices from 1.49 - 149.99', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?>
+                </dfn>
+            </p>
         </div>
 
         <hr class="lp_m-1-0 lp_m-b3">

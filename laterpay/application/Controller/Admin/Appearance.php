@@ -65,7 +65,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
             switch ( $_POST['form'] ) {
                 // update the post types which laterpay supports for purchasing
                 case 'enabled_post_types':
-                    if( !array_key_exists( 'enabled_post_types', $_POST ) || !is_array( $_POST['enabled_post_types' ] ) ){
+                    if ( !array_key_exists( 'enabled_post_types', $_POST ) || !is_array( $_POST['enabled_post_types' ] ) ) {
                         wp_send_json(
                             array(
                                 'success' => false,
