@@ -195,37 +195,37 @@
             },
 
             validateRevenueModel = function(price, $form) {
-                var currentRevenueModel = $($o.revenueModel + ':checked', $form).val(),
+                var currentRevenueModel = $('input:radio:checked', $form).val(),
                     $payPerUse          = $('.lp_js_revenue-model-input[value=' + $o.payPerUse + ']', $form),
                     $singleSale         = $('.lp_js_revenue-model-input[value=' + $o.singleSale + ']', $form);
 
                 if (price === 0 || (price >= 0.05 && price <= 5)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
-                    $payPerUse.removeAttr('disabled')
+                    $payPerUse.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
                 } else {
                     // disable Pay-per-Use
-                    $payPerUse.attr('disabled', 'disabled')
+                    $payPerUse.prop('disabled', 'disabled')
                         .parent('label').addClass($o.disabled);
                 }
 
                 if (price >= 1.49) {
                     // enable Single Sale for prices >= 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
-                    $singleSale.removeAttr('disabled')
+                    $singleSale.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
                 } else {
                     // disable Single Sale
-                    $singleSale.attr('disabled', 'disabled')
+                    $singleSale.prop('disabled', 'disabled')
                         .parent('label').addClass($o.disabled);
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
                 if (price > 5 && currentRevenueModel == $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
-                    $singleSale.attr('checked', 'checked');
+                    $singleSale.prop('checked', 'checked');
                 } else if (price < 1.49 && currentRevenueModel == $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
-                    $payPerUse.attr('checked', 'checked');
+                    $payPerUse.prop('checked', 'checked');
                 }
 
                 // highlight current revenue model
