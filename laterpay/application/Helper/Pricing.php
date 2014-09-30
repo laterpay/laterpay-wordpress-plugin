@@ -230,7 +230,7 @@ class LaterPay_Helper_Pricing
         // get the price from the cache, if it exists
         $post_price_type = wp_cache_get( $cache_key, 'laterpay' );
         if ( $post_price_type ) {
-            //return $post_price_type;
+            return $post_price_type;
         }
 
         $post       = get_post( $post_id );
