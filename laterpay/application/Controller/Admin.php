@@ -400,7 +400,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                                             availability for this environment.
                                                         </li>
                                                         <li>
-                                                            The <strong>Live</strong> environment for production use.</br>
+                                                            The <strong>Live</strong> environment for production use.<br>
                                                             In this environment all transactions will be actually
                                                             processed and credited to your LaterPay merchant account.<br>
                                                             The LaterPay SLA for availability and response time apply.

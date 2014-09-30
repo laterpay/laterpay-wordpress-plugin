@@ -93,12 +93,21 @@ class LaterPay_Controller_Admin_GetStarted extends LaterPay_Controller_Abstract
             $global_default_price   = str_replace( ',', '.', wp_strip_all_tags( $_POST['get_started']['laterpay_global_price'], true ) );
             $currency               = $_POST['get_started']['laterpay_currency'];
 
+            // global default price revenue model
+            $global_default_price_revenue_model = '';
+            if ( $global_default_price > 0.05 && $global_default_price <= 5.00 ) {
+                $global_default_price_revenue_model = 'ppu';
+            } elseif ( $global_default_price > 5.00 ) {
+                $global_default_price_revenue_model = 'sis';
+            }
+
             // save initial settings
-            update_option( 'laterpay_sandbox_merchant_id',  $sandbox_merchant_id );
-            update_option( 'laterpay_sandbox_api_key',      $sandbox_api_key );
-            update_option( 'laterpay_global_price',         $global_default_price );
-            update_option( 'laterpay_currency',             $currency );
-            update_option( 'laterpay_plugin_is_activated',  '1' );
+            update_option( 'laterpay_sandbox_merchant_id',          $sandbox_merchant_id );
+            update_option( 'laterpay_sandbox_api_key',              $sandbox_api_key );
+            update_option( 'laterpay_global_price',                 $global_default_price );
+            update_option( 'laterpay_global_price_revenue_model',   $global_default_price_revenue_model );
+            update_option( 'laterpay_currency',                     $currency );
+            update_option( 'laterpay_plugin_is_activated',          '1' );
 
             // automatically dismiss pointer to LaterPay plugin after saving the initial settings
             $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
