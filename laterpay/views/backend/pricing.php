@@ -188,15 +188,15 @@
             <p>
                 <span class="lp_revenue-model-label lp_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
                 <dfn>
-                    <?php _e( 'The user pays later once his LaterPay invoice reaches 5', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?><br>
-                    <?php _e( 'You can choose PPU for prices from 0.05 - 5.00', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?>
+                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $standard_currency ), 'laterpay' ); ?><br>
+                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $standard_currency ), 'laterpay' ); ?>
                 </dfn>
             </p>
             <p>
                 <span class="lp_revenue-model-label lp_m-r05">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
                 <dfn>
                     <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
-                    <?php _e( 'You can choose SIS for prices from 1.49 - 149.99', 'laterpay' ); ?>&nbsp;<?php echo $standard_currency . '.'; ?>
+                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $standard_currency ), 'laterpay' ); ?>
                 </dfn>
             </p>
         </div>
