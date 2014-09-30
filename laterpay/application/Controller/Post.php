@@ -164,9 +164,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      */
     public function prefetch_post_access( $posts ) {
         $post_ids = array();
+        // as posts can also be loaded by widgets (e.g. recent posts and popular posts), we loop through all posts
+        // and bundle them in one API request to LaterPay, to avoid the overhead of multiple API requests
         foreach ( $posts as $post ) {
-            $price  = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-            if ( $price != 0 ) {
+            // add a post_ID to the array of posts to be queried for access, if it's purchasable and not loaded already
+            if ( ! array_key_exists( $post->ID, $this->access ) && LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0 ) {
                 $post_ids[] = $post->ID;
             }
         }
@@ -597,21 +599,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_scripts() {
-        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
-            $laterpay_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
-        } elseif ( $this->config->get( 'script_debug_mode' ) ) {
-            $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
-        } else {
-            $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
-        }
 
         wp_register_script(
             'laterpay-yui',
-            $laterpay_src,
+            $this->config->get( 'laterpay_yui_js' ),
             array(),
             null,
             false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
         );
+
         wp_register_script(
             'laterpay-peity',
             $this->config->get( 'js_url' ) . 'vendor/jquery.peity.min.js',
@@ -627,16 +623,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             true
         );
 
-        // pass localized strings and variables to script
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-        );
-        $balance_url    = $client->get_controls_balance_url();
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
@@ -649,7 +635,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'content'   => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
                     'statistic' => wp_create_nonce( 'laterpay_post_statistic_render' ),
                 ),
-                'lpBalanceUrl'  => $balance_url,
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
             )

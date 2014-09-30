@@ -76,9 +76,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         // load LaterPay-specific CSS
         wp_register_style(
             'laterpay-backend',
-            $this->config->css_url . 'laterpay-backend.css',
+            $this->config->get( 'css_url' ) . 'laterpay-backend.css',
             array(),
-            $this->config->version
+            $this->config->get( 'version' )
         );
         wp_register_style(
             'open-sans',
@@ -90,18 +90,28 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         // load LaterPay-specific JS
         wp_register_script(
             'laterpay-backend',
-            $this->config->js_url . 'laterpay-backend.js',
+            $this->config->get( 'js_url' ) . 'laterpay-backend.js',
             array( 'jquery' ),
-            $this->config->version,
+            $this->config->get( 'version' ),
             true
         );
         wp_enqueue_script( 'laterpay-backend' );
 
-        wp_register_script(
-            'html5-shim-ie',
-            'http://html5shim.googlecode.com/svn/trunk/html5.js'
-        );
-        wp_enqueue_script( 'html5-shim-ie' );
+    }
+
+    /**
+     * Add html5shiv to the admin_head() for Internet Explorer < 9.
+     *
+     * @wp-hook admin_head
+     *
+     * @return void
+     */
+    public function add_html5shiv_to_admin_head() {
+        ?>
+        <!--[if lt IE 9]>
+        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <?php
     }
 
     /**

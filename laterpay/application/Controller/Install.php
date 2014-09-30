@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
+class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
+{
 
     /**
      * Render admin notices if requirements are not fulfilled.
