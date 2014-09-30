@@ -73,6 +73,39 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
     /**
+     * Update the existing database-table for "terms_price" and set all prices to "ppu".
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_terms_price_table(){
+        global $wpdb;
+
+        $current_version = get_option('laterpay_version');
+        if ( version_compare( $current_version, '0.9.8', '<' ) ) {
+            return;
+        }
+
+        $table = $wpdb->prefix . 'laterpay_terms_price';
+
+        $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
+
+        // before version 0.9.8 we had no "revenue_model"-column
+        $is_update_to_date = false;
+        foreach( $columns as $column ){
+            if( $column->Field === 'revenue_model' ){
+                $is_update_to_date = true;
+            }
+        }
+
+        // if the table needs an update, add the "revenue_model"-column and set the current values to 'ppu'
+        if( !$is_update_to_date ){
+            $wpdb->query( "ALTER TABLE " . $table . "ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT  'ppu';" );
+        }
+
+    }
+
+    /**
      * Update the existing postmeta meta_keys, if current_version < 0.9.7.
      *
      * @wp-hook admin_notices
