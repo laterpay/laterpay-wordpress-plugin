@@ -165,8 +165,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     public function prefetch_post_access( $posts ) {
         $post_ids = array();
         foreach ( $posts as $post ) {
-            // Check if the post_ID is not already loaded and is purchasable.
-            if ( !array_key_exists( $post->ID, $this->access ) && LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0 ) {
+            // check, if the post_ID is not already loaded and is purchasable
+            if ( ! array_key_exists( $post->ID, $this->access ) && LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0 ) {
                 $post_ids[] = $post->ID;
             }
         }
