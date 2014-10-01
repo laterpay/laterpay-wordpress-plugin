@@ -330,7 +330,6 @@ class LaterPay_Helper_Pricing
      * @return string $revenue_model
      */
     public static function get_post_revenue_model( $post_id ) {
-
         $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
 
         if ( ! is_array( $post_price ) ) {
@@ -343,12 +342,13 @@ class LaterPay_Helper_Pricing
 
         // set a price type (global default price or individual price), if the returned post price type is invalid
         switch ( $post_price_type ) {
-            // Dynamic Price does currently not support SSI
+            // Dynamic Price does currently not support Single Sale as revenue model
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
                 $revenue_model = 'ppu';
                 break;
+
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
-                if( array_key_exists( 'revenue_model', $post_price ) ) {
+                if ( array_key_exists( 'revenue_model', $post_price ) ) {
                     $revenue_model = $post_price['revenue_model'];
                 }
                 break;
@@ -359,23 +359,21 @@ class LaterPay_Helper_Pricing
                     $revenue_model = $category_model->get_revenue_model_by_category_id( $post_price[ 'category_id' ] );
                 }
                 break;
+
             case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
                 $revenue_model = get_option( 'laterpay_global_price_revenue_model', 'ppu' );
                 break;
         }
 
-        // Fallback when the revenue_model is not correct.
-        if( !in_array( $revenue_model, array( 'ppu', 'ssi' ) ) ) {
-
+        // fallback in case the revenue_model is not correct
+        if ( ! in_array( $revenue_model, array( 'ppu', 'ssi' ) ) ) {
             $price = LaterPay_Helper_Pricing::get_post_price_type( $post_id );
 
-            if ( $price < 5.00 && $price > 0.05 ) {
+            if ( $price <= 5.00 && $price > 0.05 ) {
                 $revenue_model = 'ppu';
-            }
-            else if( $price > 5.00 && $price < 149.99 ){
+            } else if ( $price > 5.00 && $price < 149.99 ) {
                 $revenue_model = 'ssi';
             }
-
         }
 
         return $revenue_model;
