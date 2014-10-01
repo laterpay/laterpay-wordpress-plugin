@@ -3,63 +3,63 @@
 class PostModule extends BaseModule {
 
     //pages
-    public static $pagePostNew = '/wp-admin/post-new.php';
-    public static $pagePostList = '/wp-admin/edit.php';
-    public static $pagePostEdit = '/wp-admin/post.php?post={post}&action=edit';
-    public static $pagePostFrontView = '/?p={post}';
+    public static $pagePostNew                     = '/wp-admin/post-new.php';
+    public static $pagePostList                    = '/wp-admin/edit.php';
+    public static $pagePostEdit                    = '/wp-admin/post.php?post={post}&action=edit';
+    public static $pagePostFrontView               = '/?p={post}';
     //fields
-    public static $fieldTitle = '#title';
-    public static $fieldContent = '#content_ifr';
-    public static $fieldTeaser = '#laterpay_teaser_content';
-    public static $fieldPrice = 'input[name="post-price"]';
-    public static $contentId = '#content';
-    public static $teaserContentId = '#postcueeditor';
-    public static $fileInput = 'input[type="file"]';
+    public static $fieldTitle                      = '#title';
+    public static $fieldContent                    = '#content_ifr';
+    public static $fieldTeaser                     = '#laterpay_teaser_content';
+    public static $fieldPrice                      = 'input[name="post-price"]';
+    public static $contentId                       = '#content';
+    public static $teaserContentId                 = '#postcueeditor';
+    public static $fileInput                       = 'input[type="file"]';
     //mcetabs
-    public static $contentText = '#content-html';
-    public static $teaserContentText = '#postcueeditor-html';
+    public static $contentText                     = '#content-html';
+    public static $teaserContentText               = '#postcueeditor-html';
     //links
-    public static $linkGlobalDefaultPrice = '#lp_use-global-default-price';
-    public static $linkIndividualPrice = '#lp_use-individual-price';
-    public static $linkDynamicPricing = '#lp_use-dynamic-pricing';
-    public static $linkCategoryPrice = '#lp_use-category-default-price';
-    public static $linkAddMedia = '#insert-media-button';
-    public static $linkMediaRouter = '.media-router';
-    public static $linkAttachFile = '#__wp-uploader-id-1';
-    public static $linkAddFileLinkToContent = '.media-toolbar-primary .media-button-insert';
-    public static $linkPublish = '#publish';
-    public static $linkViewPost = '#view-post-btn a';
-    public static $linkPreviewSwitcher = '.switch-handle';
-    public static $linkPreviewSwitcherElement = 'preview_post_checkbox';
-    public static $linkShortCode = 'a[class="lp_purchase-link-without-function lp_button"]';
-    public static $linkFileLink = 'a[href*="wp-admin/admin-ajax.php?action=laterpay_load_files"]';
+    public static $linkGlobalDefaultPrice          = '#lp_use-global-default-price';
+    public static $linkIndividualPrice             = '#lp_use-individual-price';
+    public static $linkDynamicPricing              = '#lp_use-dynamic-pricing';
+    public static $linkCategoryPrice               = '#lp_use-category-default-price';
+    public static $linkAddMedia                    = '#insert-media-button';
+    public static $linkMediaRouter                 = '.media-router';
+    public static $linkAttachFile                  = '#__wp-uploader-id-1';
+    public static $linkAddFileLinkToContent        = '.media-toolbar-primary .media-button-insert';
+    public static $linkPublish                     = '#publish';
+    public static $linkViewPost                    = '#view-post-btn a';
+    public static $linkPreviewSwitcher             = '.switch-handle';
+    public static $linkPreviewSwitcherElement      = 'preview_post_checkbox';
+    public static $linkShortCode                   = 'a[class="lp_purchase-link-without-function lp_button"]';
+    public static $linkFileLink                    = 'a[href*="wp-admin/admin-ajax.php?action=laterpay_load_files"]';
     //should be visible
-    public static $visibleLaterpayWidgetContainer = '#lp_dynamic-pricing-widget-container';
-    public static $visibleLaterpayStatistics = '.lp_post-statistics-details';
-    public static $visibleLaterpayPurchaseButton = 'a[class="lp_purchase-link lp_button"]';
-    public static $visibleLaterpayPurchaseLink = '.lp_purchase-link';
+    public static $visibleLaterpayWidgetContainer  = '#lp_dynamic-pricing-widget-container';
+    public static $visibleLaterpayStatistics       = '.lp_post-statistics-details';
+    public static $visibleLaterpayPurchaseButton   = 'a[class="lp_purchase-link lp_button"]';
+    public static $visibleLaterpayPurchaseLink     = '.lp_purchase-link';
     public static $visibleLaterpayPurchaseBenefits = '.lp_benefits';
-    public static $visibleLaterpayTeaserContent = '.lp_teaser-content';
-    public static $visibleLaterpayContent = '.entry-content';
-    public static $visibleInTablePostTitle = '.post-title';
-    public static $visibleInTablePostPrice = '.post-price';
-    public static $pageListPriceCol = 'td[class="post_price column-post_price"]';
-    public static $pageListPricetypeCol = 'td[class="post_price_type column-post_price_type"]';
+    public static $visibleLaterpayTeaserContent    = '.lp_teaser-content';
+    public static $visibleLaterpayContent          = '.entry-content';
+    public static $visibleInTablePostTitle         = '.post-title';
+    public static $visibleInTablePostPrice         = '.post-price';
+    public static $pageListPriceCol                = 'td[class="post_price column-post_price"]';
+    public static $pageListPricetypeCol            = 'td[class="post_price_type column-post_price_type"]';
     //messages
-    public static $messageShortcodeError = '.laterpay-shortcode-error';
+    public static $messageShortcodeError           = '.laterpay-shortcode-error';
     //purschase at LaterPay server
-    public static $lpServerLinkJsGetter = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
-    public static $lpServerVisitorLoginLink = 'Log in to LaterPay';
-    public static $lpServerVisitorLoginClass = '.selen-button-login';
-    public static $lpServerVisitorLoginFrameName = 'wrapper';
-    public static $lpServerVisitorEmailField = '#id_username';
-    public static $lpServerVisitorEmailValue = 'atsumarov@scnsoft.com';
-    public static $lpServerVisitorPasswordField = '#id_password';
-    public static $lpServerVisitorPasswordValue = 'atsumarov@scnsoft.com1';
-    public static $lpServerVisitorLoginBtn = 'Log In';
-    public static $lpServerVisitorBuyBtn = '#nextbuttons';
+    public static $lpServerLinkJsGetter            = " var str = jQuery('a[class=\"lp_purchase-link lp_button\"]').last().attr('data-laterpay'); return str; ";
+    public static $lpServerVisitorLoginLink        = 'Log in to LaterPay';
+    public static $lpServerVisitorLoginClass       = '.selen-button-login';
+    public static $lpServerVisitorLoginFrameName   = 'wrapper';
+    public static $lpServerVisitorEmailField       = '#id_username';
+    public static $lpServerVisitorEmailValue       = 'atsumarov@scnsoft.com';
+    public static $lpServerVisitorPasswordField    = '#id_password';
+    public static $lpServerVisitorPasswordValue    = 'atsumarov@scnsoft.com1';
+    public static $lpServerVisitorLoginBtn         = 'Log In';
+    public static $lpServerVisitorBuyBtn           = '#nextbuttons';
     //file
-    public static $samplePdfFile = 'pdf-sample.pdf';
+    public static $samplePdfFile                   = 'pdf-sample.pdf';
 
     /**
      * Create test post
@@ -132,8 +132,8 @@ class PostModule extends BaseModule {
 
                 if (is_array($price)) {
                     $start_price = $price['start_price'];
-                    $period = $price['period'];
-                    $end_price = $price['end_price'];
+                    $period      = $price['period'];
+                    $end_price   = $price['end_price'];
 
                     $I->click(PostModule::$linkIndividualPrice);
                     $I->click(PostModule::$linkDynamicPricing);
@@ -252,8 +252,8 @@ class PostModule extends BaseModule {
             if (!$I->tryCheckbox($I, PostModule::$linkPreviewSwitcherElement))
                 $I->click(PostModule::$linkPreviewSwitcher);
             $I->seeElementInDOM(PostModule::$visibleLaterpayStatistics);
-            $I->see($currency);
-            $I->see($price);
+            $I->seeInPageSource($currency);
+            $I->seeInPageSource($price);
             $teaser_content = null;
             if ($teaser) {
                 $teaser_content = $this->_createTeaserContent($content, $teaser);
@@ -398,10 +398,10 @@ class PostModule extends BaseModule {
         //It must be there. Cause of switching domain issue.
         $I->amOnPage(str_replace('{post}', $post, PostModule::$pagePostFrontView));
 
-        $laterpayPath = (string) $I->executeJS(PostModule::$lpServerLinkJsGetter);
+        $laterpayPath      = (string) $I->executeJS(PostModule::$lpServerLinkJsGetter);
         $laterpayPathArray = (array) parse_url($laterpayPath);
-        $laterpayDomain = "{$laterpayPathArray['scheme']}://{$laterpayPathArray['host']}/";
-        $laterpayPage = str_replace($laterpayDomain, '', $laterpayPath);
+        $laterpayDomain    = "{$laterpayPathArray['scheme']}://{$laterpayPathArray['host']}/";
+        $laterpayPage      = str_replace($laterpayDomain, '', $laterpayPath);
 
         $I->setDomain($laterpayDomain);
         $I->amOnPage($laterpayPage);
@@ -543,7 +543,7 @@ class PostModule extends BaseModule {
         //selected admin
         $I->seeElement(self::$linkFileLink);
         $parsed = explode('.', $file_name);
-        $link = $I->executeJS("var link = jQuery('a:contains(" . $parsed[0] . ")').attr('href'); return link;");
+        $link   = $I->executeJS("var link = jQuery('a:contains(" . $parsed[0] . ")').attr('href'); return link;");
 
         $I->amOnPage($link);
         $I->wait(1);
