@@ -176,7 +176,8 @@
                 $('input:radio[value=' + revenueModel + ']', $o.revenueModel)
                 .prop('checked', 'checked')
                     .parent('label')
-                    .removeClass($o.disabled);
+                    .removeClass($o.disabled)
+                    .addClass($o.selected);
             },
 
             validatePrice = function(price) {
