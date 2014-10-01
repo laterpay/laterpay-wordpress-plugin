@@ -500,8 +500,8 @@ class SetupPluginCest {
 
         $dynamic_price = array(
             'start_price' => 0.85,
-            'period' => 5,
-            'end_price' => 0.05
+            'period'      => 5,
+            'end_price'   => 0.05
         );
 
         PostModule::of($I)
@@ -889,8 +889,8 @@ class SetupPluginCest {
 
         $I->wantToTest('Dev');
 
-        $_post = 53;
-        $_price = '0.35';
+        $_post     = 53;
+        $_price    = '0.35';
         $_currency = 'EUR';
 
         //BackendModule::of($I)->login();
