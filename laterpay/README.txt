@@ -150,12 +150,13 @@ add_filter( 'laterpay_get_api_settings', 'demo_filter_laterpay_get_api_settings'
  *
  * @param array $settings array(
  *    'api.sandbox_url'           => String,
- *    'api.sandbox_web_url'       => String
- *    'api.live_url'              => String
- *    'api.live_web_url'          => String
+ *    'api.sandbox_web_url'       => String,
+ *    'api.live_url'              => String,
+ *    'api.live_web_url'          => String,
  *  )
  *
  * @return array $settings
+ */
 function demo_filter_laterpay_get_api_settings( array $settings ) {
   /* do something with settings */
 
@@ -314,10 +315,10 @@ your theme after installing the LaterPay WordPress plugin.
 == Screenshots ==
 
 1. Get started with three simple steps.
-2. LaterPay lets you easily enter teaser content and set an individual or...
-3. Dynamic price for your blogposts.
-4. In the Pricing tab, you can set default prices for the entire blog or specific categories.
-5. In the Appearance tab, you can choose between two preview modes for your content.
+2. LaterPay lets you easily enter teaser content and set an individual price starting at 0.05 EUR...
+3. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
+4. In the Pricing tab, you can set the default prices for the entire plugin or specific categories.
+5. In the Appearance tab, you can activate or deactivate LaterPay for individual custom post types and choose between two preview modes for your content.
 6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
 7. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
 8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
