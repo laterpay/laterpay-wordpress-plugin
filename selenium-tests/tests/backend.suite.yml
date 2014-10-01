@@ -14,7 +14,7 @@ modules:
             window_size: 1280x1024
             capabilities:
                 unexpectedAlertBehaviour: 'accept'
-                "max-duration": 86400
+                "max-duration": 7200
         Db:
             dsn: 'mysql:host=localhost;dbname=wordpress_default'
             host: 'localhost'
