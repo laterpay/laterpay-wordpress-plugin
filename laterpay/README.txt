@@ -326,6 +326,9 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.8.1 (September 30, 2014): Bugfix Release =
+* Made sure the LaterPay client is included in the release
+
 = 0.9.8 (September 30, 2014): Single Sales Release =
 * Added option to sell content as single sale (SIS), allowing prices up to 149.99 Euro
 * Added configuration option for enabled post types in appearance tab
