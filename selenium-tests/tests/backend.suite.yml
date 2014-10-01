@@ -3,7 +3,7 @@ modules:
     enabled:
         - WebDriver
         - CommonHelper
-#        - Db
+        - Db
     config:
         WebDriver:
             host: 'atsumarov:563a0772-2100-4fcc-b22f-df38c890d17b@ondemand.saucelabs.com'
@@ -17,8 +17,8 @@ modules:
         Db:
             dsn: 'mysql:host=localhost;dbname=wordpress_default'
             host: 'localhost'
-            user: 'root'
-            password: 'root'
+            user: 'wp'
+            password: 'wp'
             dump: tests/_data/refresh.sql
             populate: true
 env:
