@@ -61,8 +61,7 @@
         <li class="<?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( ! count( $laterpay_category_prices ) ) { echo 'lp_is-disabled'; } ?>">
             <a href="#"
                 id="lp_js_use-category-default-price"
-                class="lp_js_price-type-button lp_use-category-default-price"
-                data-revenue-model="<?php echo $laterpay_category_default_price_revenue_model; ?>"><?php _e( 'Category Default Price', 'laterpay' ); ?></a>
+                class="lp_js_price-type-button lp_use-category-default-price"><?php _e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
         <li class="<?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?>">
             <a href="#"
