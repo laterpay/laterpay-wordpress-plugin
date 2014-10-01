@@ -6,6 +6,7 @@ modules:
 #        - Db
     config:
         WebDriver:
+            host: 'atsumarov:563a0772-2100-4fcc-b22f-df38c890d17b@ondemand.saucelabs.com'
             url: 'http://src.wordpress-develop.dev/'
             browser: firefox
             restart: false
@@ -17,6 +18,7 @@ env:
     firefox_aws:
         config:
             WebDriver:
+                host: 'atsumarov:563a0772-2100-4fcc-b22f-df38c890d17b@ondemand.saucelabs.com'
                 url: 'http://src.wordpress-develop.dev/'
                 browser: firefox
                 restart: false

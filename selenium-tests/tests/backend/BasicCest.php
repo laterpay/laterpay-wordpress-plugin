@@ -311,7 +311,7 @@ class SetupPluginCest {
                 ->deleteCategoryDefaultPrice(BaseModule::$CAT1);
 
         PostModule::of($I)
-                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.69, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.89, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
     }
 
     /**
@@ -356,7 +356,7 @@ class SetupPluginCest {
         PostModule::of($I)
                 ->createTestPost(BaseModule::$T1, BaseModule::$C1, array($category1, $category2, $category3), 'category default price', null, 60)
                 ->unassignPostFromCategory($category1, $I->getVar('post'))
-                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.69, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
+                ->checkTestPostForLaterPayElements($I->getVar('post'), 'category default price', 0.89, 'USD', BaseModule::$T1, BaseModule::$C1, 60);
     }
 
     /**
