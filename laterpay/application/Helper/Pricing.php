@@ -344,7 +344,9 @@ class LaterPay_Helper_Pricing
         // set a price type (global default price or individual price), if the returned post price type is invalid
         switch ( $post_price_type ) {
             // Dynamic Price does currently not support SSI
-            // case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
+            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
+                $revenue_model = 'ppu';
+                break;
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
                 if( array_key_exists( 'revenue_model', $post_price ) ) {
                     $revenue_model = $post_price['revenue_model'];
