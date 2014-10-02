@@ -278,12 +278,20 @@ function laterpay_get_logger(){
         return $logger;
     }
 
-    // LaterPay WordPress Handler to show the DebugBar in wp_footer
-    $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
-    $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
+    $config     = laterpay_get_plugin_config();
+    $handlers   = array();
 
-    $handlers = array();
-    $handlers[] = $wp_handler;
+    if ( $config->get( 'debug_mode' ) ) {
+
+        // LaterPay WordPress Handler to show the DebugBar in wp_footer
+        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
+        $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
+
+        $handlers[] = $wp_handler;
+
+    } else {
+        $handlers[] = new LaterPay_Core_Logger_Handler_Null();
+    }
 
     // Adding some additional Processors for more detailed log-entries
     $processors = array(
