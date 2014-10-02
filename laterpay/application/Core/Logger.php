@@ -305,7 +305,7 @@ class LaterPay_Core_Logger
      * @return string $level_name
      */
     public function get_level_name( $level ) {
-        return $this->levels [$level ];
+        return $this->levels[ $level ];
     }
 
 }
