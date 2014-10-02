@@ -258,10 +258,15 @@ function laterpay_before_start() {
     LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap');
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay');
+
+    // boot-up the logger on "plugins_loaded","register_activation_hook","register_deactivation_hook" event
+    // to register the required script- and style-filters
+    laterpay_get_logger();
 }
 
 
 /**
+ * Function to get Logger-Object
  *
  * @return LaterPay_Core_Logger
  */
@@ -273,12 +278,14 @@ function laterpay_get_logger(){
         return $logger;
     }
 
+    // LaterPay WordPress Handler to show the DebugBar in wp_footer
     $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
     $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
 
     $handlers = array();
     $handlers[] = $wp_handler;
 
+    // Adding some additional Processors for more detailed log-entries
     $processors = array(
         new LaterPay_Core_Logger_Processor_Web(),
         new LaterPay_Core_Logger_Processor_MemoryUsage(),
@@ -286,7 +293,6 @@ function laterpay_get_logger(){
     );
 
     $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
-
 
     // cache the config
     wp_cache_set( 'logger', $logger, 'laterpay' );
