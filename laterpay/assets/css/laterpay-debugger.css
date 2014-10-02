@@ -32,7 +32,12 @@
 	}
 
 #lp_debugger table {
-	border:0;
+	background: #fff;
+	border:0
+}
+
+#lp_debugger th {
+	width:25%;
 }
 
 #lp_debugger th, #lp_debugger td {
@@ -50,16 +55,16 @@
 	overflow: auto;
 }
 
-.lp_debugger_row {
-	background: #fff;
-	border: 1px solid #ccc;
+.lp_debugger_tab {
 	margin-bottom: 1em;
 }
-	.lp_debugger_row_inner {
-		padding:1em;
+
+	.lp_debugger_tab_headline {
+		font-size: 120%;
+		padding: 0.5em 0 0 0.5em;
 	}
 
-	.lp_debugger_row_headline {
-		font-size:95%;
-		margin:0 0 1em;
-	}
+
+.lp_debugger_tab_content {
+	display:none;
+}

@@ -53,68 +53,177 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
      */
     public function render_records(){
 
-        if ( count( $this->records ) < 1 ){
-            return;
-        }
+        // log file and dir
+        $log_dir    = $this->config->get( 'log_dir' ) . date( 'Y/m/d/' );
+        $log_file   = time() . '.php';
 
-        /*
-         *
-        $dir    = $this->config->get( 'log_dir' ) . date( 'Y/m/d/' );
-        $file   = time() . '.php';
-        wp_mkdir_p( $dir );
+        $tabs = array();
+        $tabs[ 'logger' ] = $this->get_logger_tab();
+        $tabs[ 'request' ] = $this->get_request_tab();
+        $tabs[ 'server' ] = $this->get_server_tab();
+        $tabs[ 'session' ] = $this->get_session_tab();
 
-        // store the records to a log file for later use
-        $content = 'return ' . var_export( $this->records, true ) . ';';
-        file_put_contents( $dir . $file, $content );
-        */
         ?>
         <section id="lp_debugger">
             <h1 data-icon="a" class="lp_debugger_headline"><?php _e( ' Debugger', 'laterpay' ); ?></h1>
-            <?php
-            foreach( $this->records as $record ){
-                echo '<div class="lp_debugger_row">';
-                echo '<div class="lp_debugger_row_inner">';
-                echo '<h2 class="lp_debugger_row_headline">' . $record[ 'message' ] . '</h1>';
-                echo '<table class="lp_debugger_detail_table">';
-                foreach( $record as $key => $value ){
-                    $this->render_row( $key, $value );
+            <p>
+                <?php printf(
+                    __( 'Logfile: <code>%s</code>', 'laterpay' ),
+                    $log_file
+                );
+                ?>
+            </p>
+                <?php
+                foreach( $tabs as $key => $tab ){
+                    if ( empty( $tab[ 'content' ] ) ){
+                        continue;
+                    }
+                    $id = 'lp_debugger_tab_' . $key;
+                    echo '<div id="'. $id . '" class="lp_debugger_tab">';
+                    echo '<h2 class="lp_debugger_tab_headline"><a class="lp_debugger_tab_link" href="#' . $id . '">' . $tab[ 'name' ] . '</a></h2>';
+                    echo '<div class="lp_debugger_tab_content">' . $tab[ 'content' ] . '</div>';
+                    echo '</div>';
                 }
-                echo '</table>';
-                echo '</div>';
-                echo '</div>';
-            }
-            ?>
-
+                ?>
+            <script async>
+                (function($) {
+                    $( '.lp_debugger_tab_link' ).on( 'click', function(e){
+                        var target = $(this ).attr('href');
+                        console.log(target);
+                        $(target).children('.lp_debugger_tab_content').toggle();
+                    });
+                } )(jQuery);
+            </script>
+            </div>
         </section>
         <?php
+
+        // creating the log-file
+        wp_mkdir_p( $log_dir );
+
+        // store the records to a log file for later use
+        $content = "<?php  \n return " . var_export( $tabs, true ) . ";";
+        file_put_contents( $log_dir . $log_file, $content );
+
+
     }
 
     /**
      *
-     * @param   string $key
-     * @param   mixed $value
-     *
-     * @return void
+     * @return array $tab
      */
-    protected function render_row( $key, $value ){
-        echo '<tr>';
-        echo '<th>' . $key . '</th>';
-        echo '<td>';
-        switch ( $key ) {
-            case 'datetime':
-                echo $value->format( 'Y-m-d H:i:s' );
-                break;
-            case 'context':
-                echo "<pre>";
-                print_r( $value );
-                echo "</pre>";
-                break;
-            default:
-                echo $value;
+    protected function get_logger_tab(){
+        $output = '';
 
+        foreach( $this->records as $record ){
+            $output .= '<table class="lp_debugger_detail_table">';
+            $output .= $this->get_table_row( __( 'Pid', 'laterpay' ) , $record[ 'pid' ] );
+            $output .= $this->get_table_row( __( 'Message', 'laterpay' ) , $record[ 'message' ] );
+            $output .= $this->get_table_row( __( 'Level Name', 'laterpay' ) , $record[ 'level_name' ] );
+            $output .= $this->get_table_row( __( 'Date', 'laterpay' ) , $record[ 'datetime' ]->format( 'd.m.Y H:i:s') );
+            $output .= $this->get_table_row( __( 'Message', 'laterpay' ) , $record[ 'message' ] );
+
+            if ( array_key_exists( 'context', $record ) ) {
+                $inner = '<pre>' . print_r( $record[ 'context' ], true ) . '</pre>';
+                $output .= $this->get_table_row( __( 'Context', 'laterpay' ), $inner, false);
+            }
+            $output .= '</table>';
         }
-        echo '</td>';
-        echo '</tr>';
+
+        return array(
+            'name'      => __( 'Logger', 'laterpay' ),
+            'content'   => $output
+        );
+    }
+
+    /**
+     *
+     * @return array $tab
+     */
+     protected function get_request_tab(){
+        $output = '';
+
+        if( ! empty( $_REQUEST  ) ){
+            $output .= '<table class="lp_debugger_detail_table">';
+            foreach ( $_REQUEST as $key => $value ) {
+                $output .= $this->get_table_row( $key, $value );
+            }
+            $output .= '</table>';
+        }
+
+        return array(
+            'name'     => __( 'Request', 'laterpay' ),
+            'content'  => $output
+        );
+
+    }
+
+    /**
+     *
+     * @return array $tab
+     */
+    protected function get_server_tab(){
+        $output = '';
+
+        if ( ! empty( $_SERVER ) ) {
+            $output .= '<table class="lp_debugger_detail_table">';
+            foreach ( $_SERVER as $key => $value ) {
+                $output .= $this->get_table_row( $key, $value );
+            }
+            $output .= '</table>';
+        }
+
+        return array(
+            'name'     => __( 'Server', 'laterpay' ),
+            'content'  => $output
+        );
+    }
+
+
+    /**
+     *
+     * @return array $tab
+     */
+    protected function get_session_tab(){
+        $output = '';
+
+        if( ! empty( $_SESSION ) ){
+            $output .= '<table class="lp_debugger_detail_table">';
+            foreach ( $_SESSION as $key => $value ) {
+                $output .= $this->get_table_row( $key, $value );
+            }
+            $output .= '</table>';
+        }
+
+        return array(
+            'name'     => __( 'Session', 'laterpay' ),
+            'content'  => $output
+        );
+    }
+
+    /**
+     *
+     * @param string $th
+     * @param string $td
+     * @param bool $escape
+     *
+     * @return string $output
+     */
+    protected function get_table_row( $th, $td, $escape = true ){
+
+        $th = htmlspecialchars( $th, ENT_NOQUOTES, 'UTF-8' );
+
+        if( $escape ){
+            $td = htmlspecialchars( $td, ENT_NOQUOTES, 'UTF-8');
+        }
+
+        $output = '';
+        $output .= '<tr>';
+        $output .= '<th>' . $th . '</th>';
+        $output .= '<td>' . $td . '</td>';
+        $output .= '</tr>';
+
+        return $output;
     }
 
     /**

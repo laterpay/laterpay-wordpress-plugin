@@ -41,20 +41,21 @@ class LaterPay_Core_Logger
     /**
      * @var array
      */
-    protected static $_options = array();
+    protected static $options = array();
 
     /**
      * @var string
      */
-    protected static $_name = 'default';
+    protected static $name = 'default';
 
     public static function init( $name, array $params ) {
-        self::$_name = $name;
+        self::$name = $name;
         if ( isset( $params[$name] ) ) {
-            self::$_options = $params[$name];
+            self::$options = $params[$name];
         } else {
-            self::$_options = array();
+            self::$options = array();
         }
+        self::get_handler();
     }
 
     /**
@@ -123,7 +124,7 @@ class LaterPay_Core_Logger
             'context'       => $context,
             'level'         => $level,
             'level_name'    => self::get_level_name( $level ),
-            'channel'       => self::$_name,
+            'channel'       => self::$name,
             'datetime'      => $date,
         );
         try {
