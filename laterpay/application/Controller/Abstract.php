@@ -54,7 +54,7 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+            laterpay_get_logger()->error( $msg, array( 'view_file' => $view_file ) );
 
             return;
         }
@@ -92,7 +92,7 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+            laterpay_get_logger()->error( $msg, array( 'view_file' => $view_file ) );
 
             return '';
         }

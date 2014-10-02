@@ -124,7 +124,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'is_crawler'        => $browser_is_crawler
         );
 
-        LaterPay_Core_Logger::debug(
+        laterpay_get_logger()->info(
             __METHOD__,
             $context
         );
@@ -208,7 +208,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     public function has_access_to_post( WP_Post $post ) {
         $post_id = $post->ID;
 
-        LaterPay_Core_Logger::debug(
+        laterpay_get_logger()->info(
             __METHOD__,
             array(
                 'post' => $post
@@ -331,7 +331,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $url = get_permalink( $data[ 'post_id' ] );
 
         if ( ! $url ) {
-            LaterPay_Core_Logger::error(
+            laterpay_get_logger()->error(
                 __METHOD__ . ' could not find an URL for the given post_id',
                 array( 'data' => $data )
             );

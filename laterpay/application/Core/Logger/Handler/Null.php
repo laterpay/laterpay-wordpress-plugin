@@ -20,12 +20,7 @@ class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Handler_Abs
         if ( $record['level'] < $this->level ) {
             return false;
         }
-
         return true;
-    }
-
-    protected function write( array $record ) {
-        // do nothing
     }
 
 }

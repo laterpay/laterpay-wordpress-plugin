@@ -259,3 +259,37 @@ function laterpay_before_start() {
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap');
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay');
 }
+
+
+/**
+ *
+ * @return LaterPay_Core_Logger
+ */
+function laterpay_get_logger(){
+
+    // check, if the config is in cache -> don't load it again.
+    $logger = wp_cache_get( 'logger', 'laterpay' );
+    if ( is_a( $logger, 'LaterPay_Core_Logger' ) ) {
+        return $logger;
+    }
+
+    $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
+    $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
+
+    $handlers = array();
+    $handlers[] = $wp_handler;
+
+    $processors = array(
+        new LaterPay_Core_Logger_Processor_Web(),
+        new LaterPay_Core_Logger_Processor_MemoryUsage(),
+        new LaterPay_Core_Logger_Processor_MemoryPeakUsage()
+    );
+
+    $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
+
+
+    // cache the config
+    wp_cache_set( 'logger', $logger, 'laterpay' );
+
+    return $logger;
+}

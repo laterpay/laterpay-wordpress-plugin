@@ -1,7 +1,11 @@
 <?php
 
-abstract class LaterPay_Core_Logger_Handler_Abstract
-{
+abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Logger_Handler_Interface {
+    /**
+     * @var FormatterInterface
+     */
+    protected $formatter;
+    protected $processors = array();
 
     protected $level = LaterPay_Core_Logger::DEBUG;
 
@@ -12,25 +16,14 @@ abstract class LaterPay_Core_Logger_Handler_Abstract
         $this->level = $level;
     }
 
-    public function handle( array $record ) {
-        if ( $record['level'] < $this->level ) {
-            return false;
-        }
-
-        $record['formatted'] = $this->get_formatted($record);
-        $this->write($record);
-
-        return true;
-    }
-
     /**
-     * Writes the record to the log of the implementing handler.
-     *
-     * @param array $record
-     *
-     * @return void
+     * {@inheritdoc}
      */
-    abstract protected function write( array $record );
+    public function handle_batch( array $records ) {
+        foreach ( $records as $record ) {
+            $this->handle($record);
+        }
+    }
 
     protected function get_formatted( array $record ) {
         $output = "%datetime%:%pid%.%channel%.%level_name%: %message% %context%\n";
@@ -100,6 +93,85 @@ abstract class LaterPay_Core_Logger_Handler_Abstract
         }
 
         return '[unknown(' . gettype( $data ) . ')]';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function is_handling( array $record ) {
+        return $record[ 'level' ] >= $this->level;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function push_processor( $callback ) {
+        if (!is_callable($callback)) {
+            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), '.var_export($callback, true).' given');
+        }
+        array_unshift( $this->processors, $callback );
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function pop_processor() {
+        if ( !$this->processors ) {
+            throw new \LogicException('You tried to pop from an empty processor stack.');
+        }
+
+        return array_shift( $this->processors );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function set_formatter( LaterPay_Core_Logger_Formatter_Interface $formatter ) {
+        $this->formatter = $formatter;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get_formatter() {
+        if (!$this->formatter) {
+            $this->formatter = $this->get_default_formatter();
+        }
+
+        return $this->formatter;
+    }
+
+    /**
+     * Sets minimum logging level at which this handler will be triggered.
+     *
+     * @param  integer $level
+     * @return self
+     */
+    public function set_level( $level ) {
+        $this->level = $level;
+        return $this;
+    }
+
+    /**
+     * Gets minimum logging level at which this handler will be triggered.
+     *
+     * @return integer
+     */
+    public function get_level() {
+        return $this->level;
+    }
+
+    /**
+     * Gets the default formatter.
+     *
+     * @return LaterPay_Core_Logger_Formatter_Interface
+     */
+    protected function get_default_formatter() {
+        return new LaterPay_Core_Logger_Formatter_Normalizer();
     }
 
 }

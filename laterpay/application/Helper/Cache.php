@@ -24,7 +24,7 @@ class LaterPay_Helper_Cache
             $reset = xcache_clear_cache();
         }
 
-        LaterPay_Core_Logger::debug( 'LaterPay_Cache_Helper::reset_opcode_cache', array( $reset ) );
+        laterpay_get_logger()->debug( 'LaterPay_Cache_Helper::reset_opcode_cache', array( $reset ) );
 
         return $reset;
     }
