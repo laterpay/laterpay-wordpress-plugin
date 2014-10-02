@@ -7,6 +7,8 @@ Feel free to fork the plugin and adapt it to your needs.
 
 Please get involved in this project and contribute back changes other users would also benefit from.
 
+## Test results
+<h2>Smoke test result by Travis about the last push: <a target=_blank href='https://travis-ci.org/AlexandrTsumarov-ScienceSoft/tests'><img src='https://api.travis-ci.org/AlexandrTsumarov-ScienceSoft/tests.svg'></a></h2>
 
 ## Installation
 
