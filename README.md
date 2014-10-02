@@ -1,20 +1,13 @@
-laterpay-wordpress-plugin
+Selenium test results for laterpay-wordpress-plugin
 =========================
-
-This is the official LaterPay plugin for selling digital content with WordPress.
-
-Feel free to fork the plugin and adapt it to your needs.
-
-Please get involved in this project and contribute back changes other users would also benefit from.
-
-## Test results
 <h3>Smoke test status for last push (by Travis): <img src='https://api.travis-ci.org/AlexandrTsumarov-ScienceSoft/tests.svg'></h3>
 <ul>
-<li><a target=_blank href='http://htmlpreview.github.io/?https://raw.githubusercontent.com/AlexandrTsumarov-ScienceSoft/reports/master/current/firefox_win/report.html'>Report for firefox, windows 7, UI1</a></li>
-<li><a target=_blank href='http://htmlpreview.github.io/?https://raw.githubusercontent.com/AlexandrTsumarov-ScienceSoft/reports/master/current/safari_mac/report.html'>Report for safari, mac, UI1</a></li>
+<li><a target=_blank href='http://htmlpreview.github.io/?https://raw.githubusercontent.com/AlexandrTsumarov-ScienceSoft/reports/master/current/firefox_win/report.html'>Detailed report for firefox, windows 7, UI1</a></li>
+<li><a target=_blank href='http://htmlpreview.github.io/?https://raw.githubusercontent.com/AlexandrTsumarov-ScienceSoft/reports/master/current/safari_mac/report.html'>Detailed report for safari, mac, UI1</a></li>
 </ul>
-How does the smoke tests works:
-* Travis catch the event - push build or pull request
+
+Smoke tests scenario:
+* Travis catch the event - pull request or push
 * Created Travis VM and cloned plugin and Selenium test sources
 * Created new plugin.zip with plugin which will be used for testing
 * Run test scopes listed at "script:" at .travis.yml
