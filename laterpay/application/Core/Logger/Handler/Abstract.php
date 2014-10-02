@@ -1,6 +1,6 @@
 <?php
 
-abstract class LaterPay_Core_Logger_Abstract
+abstract class LaterPay_Core_Logger_Handler_Abstract
 {
 
     protected $level = LaterPay_Core_Logger::DEBUG;
@@ -18,7 +18,6 @@ abstract class LaterPay_Core_Logger_Abstract
         }
 
         $record['formatted'] = $this->get_formatted($record);
-
         $this->write($record);
 
         return true;

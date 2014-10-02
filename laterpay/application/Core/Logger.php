@@ -31,12 +31,12 @@ class LaterPay_Core_Logger
     /**
      * @var LaterPay_Core_Logger
      */
-    protected static $_instance;
+    protected static $handler;
 
     /**
      * @var null|string
      */
-    protected static $_uniqid = null;
+    protected static $unique_id = null;
 
     /**
      * @var array
@@ -59,46 +59,24 @@ class LaterPay_Core_Logger
 
     /**
      *
-     * @param LaterPay_Core_Logger $instance
-     *
-     * @return void
+     * @return LaterPay_Core_Logger_Handler_Abstract
      */
-    public static function set_instance( $instance ) {
-        self::$_instance = $instance;
-    }
-
-    /**
-     *
-     * @return LaterPay_Core_Logger|LaterPay_Core_Logger_Handler_Null|LaterPay_Core_Logger_Handler_Stream
-     */
-    public static function get_instance() {
-        /**
-         * Contains the full path with filename to logfile.
-         *
-         * @var string $log_file
-         *
-         * @return string $log_file
-         */
-        $log_file = apply_filters(
-            'laterpay_log_file',
-            '/var/log/laterpay_api.log'
-        );
-
-        if ( empty( self::$_instance ) ) {
+    public static function get_handler() {
+        if ( empty( self::$handler ) ) {
             try {
                 if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
                     // log to stream, if WordPress debug mode is activated (WP_DEBUG == true)
-                    self::$_instance = new LaterPay_Core_Logger_Handler_Stream( $log_file );
+                    self::$handler = new LaterPay_Core_Logger_Handler_WordPress();
                 } else {
                     // do nothing with log data otherwise
-                    self::$_instance = new LaterPay_Core_Logger_Handler_Null();
+                    self::$handler = new LaterPay_Core_Logger_Handler_Null();
                 }
             } catch ( Exception $e ) {
-                self::$_instance = new LaterPay_Core_Logger_Handler_Null();
+                self::$handler = new LaterPay_Core_Logger_Handler_Null();
             }
         }
 
-        return self::$_instance;
+        return self::$handler;
     }
 
     /**
@@ -135,22 +113,21 @@ class LaterPay_Core_Logger
      * @return boolean
      */
     public static function log( $level, $message, array $context = array() ) {
-        if ( ! self::$_uniqid ) {
-            self::$_uniqid = uniqid( getmypid() . '_' );
+        if ( ! self::$unique_id ) {
+            self::$unique_id = uniqid( getmypid() . '_' );
         }
         $date = new DateTime();
         $record = array(
             'message'       => (string) $message,
-            'pid'           => self::$_uniqid,
+            'pid'           => self::$unique_id,
             'context'       => $context,
             'level'         => $level,
             'level_name'    => self::get_level_name( $level ),
             'channel'       => self::$_name,
             'datetime'      => $date,
-            'extra'         => array(),
         );
         try {
-            $result = self::get_instance()->handle( $record );
+            $result = self::get_handler()->handle( $record );
         } catch ( Exception $e ) {
             return false;
         }

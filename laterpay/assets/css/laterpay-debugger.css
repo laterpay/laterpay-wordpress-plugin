@@ -1,0 +1,65 @@
+#lp_debugger {
+	width: 500px;
+	height: 400px;
+	background: #e6e6e6;
+	box-shadow: 1px 1px 6px rgba(0,0,0,0.34);
+	color:#545454;
+	padding: 1em;
+	position: fixed;
+	left: 0;
+	bottom:0;
+	z-index: 9999;
+	overflow-y: auto;
+	overflow-x:hidden;
+	border-radius:0 0 0 3px;
+}
+
+	.lp_debugger_headline {
+		font-size: 1.25em;
+		font-weight: 400;
+		line-height: 1;
+		margin: .4em 0 .8em 6.75em;
+	}
+
+	.lp_debugger_headline:before {
+		display: block;
+		font-size: 6em;
+		height: 0;
+		line-height: 0;
+		position: relative;
+		top: .075em;
+		left: -1.1em;
+	}
+
+#lp_debugger table {
+	border:0;
+}
+
+#lp_debugger th, #lp_debugger td {
+	padding:0.5em;
+	border:0;
+}
+
+#lp_debugger pre {
+	border: 1px solid #ccc;
+	background: #f1f1f1;
+	font-family: monospace, serif;
+	font-size: 13px;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	overflow: auto;
+}
+
+.lp_debugger_row {
+	background: #fff;
+	border: 1px solid #ccc;
+	margin-bottom: 1em;
+}
+	.lp_debugger_row_inner {
+		padding:1em;
+	}
+
+	.lp_debugger_row_headline {
+		font-size:95%;
+		margin:0 0 1em;
+	}
