@@ -25,8 +25,9 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         $this->config = laterpay_get_plugin_config();
 
-        add_filter( 'wp_footer',            array( $this, 'render_records' ), 99999 );
-        add_action( 'wp_enqueue_scripts',   array( $this, 'add_frontend_scripts' ) );
+        add_action( 'wp_footer',            array( $this, 'render_records' ), 99999 );
+        add_action( 'wp_enqueue_scripts',   array( $this, 'register_scripts' ) );
+
     }
 
     /**
@@ -112,7 +113,14 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         echo '</tr>';
     }
 
-    public function add_frontend_scripts(){
+    /**
+     * Registering our laterpay-scripts
+     *
+     * @wp-hook wp_enqueue_scripts
+     *
+     * @return void
+     */
+    public function register_scripts(){
 
         wp_register_style(
             'laterpay-debugger',
@@ -122,10 +130,9 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             false
         );
 
-        if( $this->config->get( 'debug_mode' ) ){
+        if ( $this->config->get( 'debug_mode' ) ){
             wp_enqueue_style( 'laterpay-debugger' );
         }
-
     }
 
 }
