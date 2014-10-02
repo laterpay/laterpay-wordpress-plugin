@@ -16,8 +16,8 @@ modules:
                 unexpectedAlertBehaviour: 'accept'
                 "max-duration": 7200
         Db:
-            dsn: 'mysql:host=localhost;dbname=wordpress_default'
-            host: 'localhost'
+            dsn: 'mysql:host=54.235.193.4;dbname=wordpress_default'
+            host: '54.235.193.4'
             user: 'wp'
             password: 'wp'
             dump: tests/_data/refresh.sql
