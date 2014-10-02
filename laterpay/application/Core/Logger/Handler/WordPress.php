@@ -53,6 +53,10 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
      */
     public function render_records(){
 
+        if ( count( $this->records ) < 1 ){
+            return;
+        }
+
         /*
          *
         $dir    = $this->config->get( 'log_dir' ) . date( 'Y/m/d/' );
