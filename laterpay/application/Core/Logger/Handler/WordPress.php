@@ -52,6 +52,8 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
      */
     public function render_records(){
 
+        /*
+         *
         $dir    = $this->config->get( 'log_dir' ) . date( 'Y/m/d/' );
         $file   = time() . '.php';
         wp_mkdir_p( $dir );
@@ -59,7 +61,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         // store the records to a log file for later use
         $content = 'return ' . var_export( $this->records, true ) . ';';
         file_put_contents( $dir . $file, $content );
-
+        */
         ?>
         <section id="lp_debugger">
             <h1 data-icon="a" class="lp_debugger_headline"><?php _e( ' Debugger', 'laterpay' ); ?></h1>
