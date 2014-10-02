@@ -177,6 +177,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $posts;
         }
 
+        laterpay_get_logger()->info(
+            __METHOD__,
+            array( 'post_ids' => $post_ids )
+        );
+
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
                 $client_options['cp_key'],
@@ -234,12 +239,25 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $result = $laterpay_client->get_access( array( $post_id ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
+                laterpay_get_logger()->warning(
+                    __METHOD__ . ' - post not found ',
+                    array(
+                        'result' => $result
+                    )
+                );
                 return false;
             }
 
             if ( array_key_exists( $post_id, $result[ 'articles' ] ) ) {
                 $access = (bool) $result[ 'articles' ][ $post_id ][ 'access' ];
                 $this->access[ $post_id ] = $access;
+
+                laterpay_get_logger()->info(
+                    __METHOD__ . ' - post has access',
+                    array(
+                        'result' => $result
+                    )
+                );
 
                 return $access;
             }
@@ -298,6 +316,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'vat'           => $this->config->get( 'currency.default_vat' ),
             'url'           => $url . '&hash=' . $hash,
             'title'         => $post->post_title,
+        );
+
+        laterpay_get_logger()->info(
+            __METHOD__,
+            $params
         );
 
         if ( $revenue_model == 'sis' ) {
@@ -406,6 +429,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
         );
 
+        laterpay_get_logger()->info(
+            __METHOD__,
+            $view_args
+        );
+
         $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/post/purchase_button' );
@@ -435,6 +463,17 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post_id = $post->ID;
 
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
+
+            $context = array(
+                'post'                  => $post,
+                'supported_post_types'  => $this->config->get( 'content.enabled_post_types' )
+            );
+
+            laterpay_get_logger()->info(
+                __METHOD__ . ' - post_type not supported ',
+                $context
+            );
+
             return $content;
         }
 
@@ -445,6 +484,17 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // return the content, if no price was found for the post
         if ( $price == 0 ) {
+
+            $context = array(
+                'post'  => $post,
+                'price' => $price,
+            );
+
+            laterpay_get_logger()->info(
+                __METHOD__ . ' - post is not purchasable',
+                $context
+            );
+
             return $content;
         }
 
@@ -514,6 +564,21 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
          * ...caching is not activated or caching is activated and content is loaded via Ajax request
          */
         if ( $access && ! $preview_post_as_visitor && ( ! $caching_is_active || $is_ajax_and_caching_is_active ) ) {
+
+            $context = array(
+                'post'                          => $post,
+                'access'                        => $access,
+                'preview_post_as_visitor'       => $preview_post_as_visitor,
+                'caching_is_active'             => $caching_is_active,
+                'is_ajax_and_caching_is_active' => $is_ajax_and_caching_is_active,
+
+            );
+
+            laterpay_get_logger()->info(
+                __METHOD__ . ' - returned full encrypted content',
+                $context
+            );
+
             return $content;
         }
 
