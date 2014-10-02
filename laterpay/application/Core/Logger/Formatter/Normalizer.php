@@ -11,7 +11,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
      * @param string $date_format The format of the timestamp: one supported by DateTime::format
      */
     public function __construct( $date_format = null ) {
-        $this->date_format = $date_format === null ?: self::SIMPLE_DATE;
+        $this->date_format = ( $date_format === null ) ? self::SIMPLE_DATE : $date_format;
     }
 
     /**

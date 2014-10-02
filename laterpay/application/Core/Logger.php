@@ -172,8 +172,7 @@ class LaterPay_Core_Logger
             $this->push_handler( new LaterPay_Core_Logger_Handler_Null( ) );
         }
 
-        $date_time = new DateTime();
-        $date_time->setTimezone( $this->timezone );
+        $date_time = new DateTime( 'now', $this->timezone );
 
         $record = array(
             'message'       => (string) $message,
