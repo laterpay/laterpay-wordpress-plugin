@@ -82,6 +82,8 @@ class CommonHelper extends \Codeception\Module {
             $I->click($string);
         } catch (\PHPUnit_Framework_AssertionFailedError $f) {
 
+        } catch (Exception $e) {
+
         };
     }
 
