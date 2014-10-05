@@ -37,7 +37,7 @@
     <script>
         jQuery(document).ready(function($) {
             if (typeof(jQuery().pointer) !== 'undefined') {
-                jQuery('#laterpay_pricing_post_content')
+                jQuery('#lp_post-pricing')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',
                     position: {
@@ -65,7 +65,7 @@
     <script>
         jQuery(document).ready(function($) {
             if (typeof(jQuery().pointer) !== 'undefined') {
-                jQuery('#laterpay_teaser_content')
+                jQuery('#lp_post-teaser')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',
                     position: {
