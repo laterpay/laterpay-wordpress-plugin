@@ -121,7 +121,7 @@ class LaterPay_Core_Bootstrap
         $post_controller = new LaterPay_Controller_Post( $this->config );
         // add Ajax hooks for frontend
         add_action( 'wp_ajax_laterpay_post_load_purchased_content',          array( $post_controller, 'ajax_load_purchased_content' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );        
 
         // Ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
@@ -137,6 +137,8 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistics_controller, 'ajax_render_tab' ) );
         add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistics_controller, 'ajax_toggle_visibility' ) );
         add_action( 'wp_ajax_laterpay_post_statistic_toggle_preview',   array( $statistics_controller, 'ajax_toggle_preview' ) );
+        add_action( 'wp_ajax_laterpay_post_track_views',                array( $statistics_controller, 'ajax_track_views' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_track_views',         array( $statistics_controller, 'ajax_track_views' ) );
 
         // frontend actions
         if ( ! is_admin() ) {
