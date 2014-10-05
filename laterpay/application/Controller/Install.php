@@ -135,6 +135,19 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( $prepared_sql );
         }
     }
+    
+    /**
+     * Update the existing options while update
+     * 
+     * @deprecated since version 1.0
+     * @return void
+     */
+    protected function maybe_update_options() {
+        $current_version = get_option('laterpay_version');
+        if ( version_compare( $current_version, '0.9.8.1', '>=' ) ) {
+            delete_option( 'laterpay_plugin_is_activated' );
+        }
+    }
 
     /**
      * Migrate old postmeta data to a single postmeta array.
@@ -273,8 +286,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         add_option( 'laterpay_teaser_content_only',         '1' );
         add_option( 'laterpay_plugin_is_in_live_mode',      '0' );
-        add_option( 'laterpay_sandbox_merchant_id',         '' );
-        add_option( 'laterpay_sandbox_api_key',             '' );
+        add_option( 'laterpay_sandbox_merchant_id',         $this->config->get( 'api.sandbox_merchant_id' ) );
+        add_option( 'laterpay_sandbox_api_key',             $this->config->get( 'api.sandbox_api_key' ) );
         add_option( 'laterpay_live_merchant_id',            '' );
         add_option( 'laterpay_live_api_key',                '' );
         add_option( 'laterpay_global_price',                $this->config->get( 'currency.default_price' ) );
@@ -283,23 +296,18 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
 
         update_option( 'laterpay_version',                  $this->config->version );
-        // option 'laterpay_plugin_is_activated' is set to empty on installation, to be able to tell between a fresh
-        // installation and an activated but deactivated installation, to lead the user through the get started process,
-        // if it is a fresh installation
-        add_option( 'laterpay_plugin_is_activated',         '' );
-
+        
+        // update/remove plugin options
+        $this->maybe_update_options();
+        
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();
-
-        // re-activate deactivated installation
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        if ( $activated == '0' ) {
-            update_option( 'laterpay_plugin_is_activated', '1' );
-        }
 
         // update capabilities
         $laterpay_capabilities = new LaterPay_Core_Capabilities();
         $laterpay_capabilities->populate_roles();
     }
+    
+    
 
 }
