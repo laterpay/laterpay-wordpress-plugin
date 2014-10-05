@@ -117,16 +117,12 @@ class LaterPay_Controller_Abstract
         if ( empty( $file ) ) {
             $file = 'backend/partials/navigation';
         }
-        $activated      = get_option( 'laterpay_plugin_is_activated', '' );
+        
         $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;
         $menu           = LaterPay_Helper_View::get_admin_menu();
-        if ( $activated ) {
-            unset( $menu['get_started'] );
-        }
         $this->assign( 'menu',         $menu );
         $this->assign( 'current_page', $current_page );
         $this->assign( 'plugin_page',  LaterPay_Helper_View::$pluginPage );
-        $this->assign( 'activated',    $activated );
 
         return $this->get_text_view( $file );
     }

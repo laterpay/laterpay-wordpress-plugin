@@ -62,10 +62,6 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_plugin_admin_assets' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
 
-                // add Ajax hooks for tabs in plugin backend
-                $admin_get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
-                add_action( 'wp_ajax_laterpay_getstarted',          array( $admin_get_started_controller, 'process_ajax_requests' ) );
-
                 $admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
                 add_action( 'wp_ajax_laterpay_pricing',             array( $admin_pricing_controller, 'process_ajax_requests' ) );
                 add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'process_ajax_requests' ) );
@@ -179,17 +175,12 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Callback to deactivate the plugin.
-     * Sets option 'laterpay_plugin_is_activated' to false, if the installation was successfully activated at that time.
      *
      * @wp-hook register_deactivation_hook
      *
      * @return void
      */
     public function deactivate() {
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        if ( $activated == '1' ) {
-            update_option( 'laterpay_plugin_is_activated', '0' );
-        }
     }
 
 }

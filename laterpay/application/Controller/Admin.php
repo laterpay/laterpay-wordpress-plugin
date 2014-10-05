@@ -24,21 +24,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             81
         );
 
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        // don't render submenu links, if the plugin was never activated before
-        if ( $activated === '' ) {
-            return;
-        }
         $page_number    = 0;
         $menu           = LaterPay_Helper_View::get_admin_menu();
         foreach ( $menu as $name => $page ) {
-            // don't render 'get started' submenu link, if the plugin was activated before
-            if ( $activated !== '' && $name == 'get_started' ) {
-                continue;
-            }
-
             $slug = ! $page_number ? $plugin_page : $page['url'];
-
             $page_id = add_submenu_page(
                 $plugin_page,
                 $page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
@@ -128,31 +117,13 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             $tab = $_GET['tab'];
         }
 
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-
-        // always return the get started tab, if the plugin has never been activated before
-        if ( $activated === '' ) {
-            $tab            = 'get_started';
-            $_GET['tab']    = 'get_started';
-        }
         // return default tab, if no specific tab is requested
         if ( empty( $tab ) ) {
             $tab            = 'pricing';
             $_GET['tab']    = 'pricing';
         }
-        // return default tab, if plugin is already activated and get started tab is requested
-        if ( $activated == '1' && $tab == 'get_started' ) {
-            $tab            = 'pricing';
-            $_GET['tab']    = 'pricing';
-        }
 
         switch ( $tab ) {
-            // render get started tab
-            case 'get_started':
-                $get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
-                $get_started_controller->render_page();
-                break;
-
             default:
 
             // render pricing tab
@@ -187,9 +158,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             case 'wp_edit_post':
             case 'wp_add_post':
                 $this->render_add_edit_post_page_help();
-                break;
-
-            case 'get_started':
                 break;
 
             case 'pricing':
@@ -514,10 +482,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
         $pointers = array();
 
-        if (
-            get_option( 'laterpay_plugin_is_activated', '' ) == '' &&
-            ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers )
-        ) {
+        if ( ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers ) ) {
             $pointers[] = LaterPay_Controller_Admin::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page
