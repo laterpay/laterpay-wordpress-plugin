@@ -22,25 +22,23 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         $this->config = laterpay_get_plugin_config();
 
-        add_action('wp_footer', array($this, 'render_records'), 1000);
-        add_action('admin_footer', array($this, 'render_records'), 1000);
-        add_action('wp_enqueue_scripts', array($this, 'register_scripts'));
-        add_action('admin_enqueue_scripts', array($this, 'register_scripts'));
-        add_action('admin_bar_menu', array( &$this, 'admin_bar_menu' ), 1000);
-
-
+        add_action( 'wp_footer',             array( $this, 'render_records' ), 1000 );
+        add_action( 'admin_footer',          array( $this, 'render_records' ), 1000 );
+        add_action( 'wp_enqueue_scripts',    array( $this, 'register_scripts' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ) );
+        add_action( 'admin_bar_menu',        array( &$this, 'admin_bar_menu' ), 1000 );
     }
 
     public function admin_bar_menu() {
         global $wp_admin_bar;
 
         $args = array(
-            'id'        => 'lp_debugger_admin_bar_menu',
+            'id'        => 'lp_js_debugger-admin-bar-menu',
             'parent'    => 'top-secondary',
             'title'     => __( 'LaterPay Debugger', 'laterpay' )
         );
-        $wp_admin_bar->add_menu($args);
 
+        $wp_admin_bar->add_menu( $args );
     }
 
     /**
@@ -116,16 +114,14 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             'laterpay-debugger',
             $this->config->get( 'css_url' ) . 'laterpay-debugger.css',
             array(),
-            false,
-            false
+            $this->config->version
         );
 
         wp_register_script(
             'laterpay-debugger',
             $this->config->get( 'js_url' ) . 'laterpay-debugger.js',
             array( 'jquery' ),
-            false,
-            true
+            $this->config->version
         );
 
         if ( $this->config->get( 'debug_mode' ) ) {

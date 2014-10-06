@@ -2,7 +2,7 @@
 
         function laterPayDebugger() {
 			var $o = {
-					menuItem: $( '#wp-admin-bar-lp_debugger_admin_bar_menu' ),
+					menuItem: $( '#wp-admin-bar-lp_js_debugger-admin-bar-menu' ),
 					debugger: $( '.lp_debugger' ),
 
 					hiddenClass: 'lp_debugger_is_hidden',

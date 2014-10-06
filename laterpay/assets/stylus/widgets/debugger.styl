@@ -3,37 +3,94 @@
 // debugger pane header with LaterPay vector logo ----------------------------------------------------------------------
 .lp_debugger,
 .lp_debugger h2
-    font-family                     'Helvetica Neue', Helvetica, Arial, sans-serif
+    font-family             'Helvetica Neue', Helvetica, Arial, sans-serif
 
 .lp_debugger
-    background-color                hsl(0, 0%, 90%)
-    bottom                          0
-    box-shadow                      -1px 1px 6px hsla(0, 0%, 0%, 0.34)
-    font-size                       14px
-    height                          400px
-    line-height                     1.5
-    padding                         7px 5px 0 0
-    position                        fixed
-    z-index                         $zindex-overlayed_1
-    transition                      0.25s ease-in-out
+    background-color        hsl(0, 0%, 90%)
+    bottom                  0
+    box-shadow              -1px 1px 6px hsla(0, 0%, 0%, 0.34)
+    font-size               14px
+    height                  400px
+    line-height             1.5
+    overflow-y              scroll
+    position                fixed
+    transition              0.25s ease-in-out
+    width                   100%
+    z-index                 $zindex-overlayed_1
 
     h2
-        font-size                   1.25em
-        font-weight                 400
-        line-height                 1
-        margin                      0.4em 0 0.8em 6.75em
+        font-size           1.25em
+        font-weight         400
+        line-height         1
+        margin              0.4em 0 0.8em 6.75em
 
         &:before
-            display                 block
-            font-size               6em
-            height                  0
-            left                    -1.03em
-            line-height             0
-            position                relative
-            top                     0.075em
+            display         block
+            font-size       6em
+            height          0
+            left            -1.03em
+            line-height     0
+            position        relative
+            top             0.075em
 
+.lp_debugger_is_hidden
+    bottom                  -400px
+
+
+// debugger pane tabs --------------------------------------------------------------------------------------------------
 .lp_debugger-tabs
+    margin                  0
 
 .lp_debugger-tab
+    float                   left
+    list-style              none outside none
+    margin                  0 $fs-05 0 0
+    padding                 0
 
+    a
+        padding             $fs-05 $fs-1
+
+
+// debugging messages --------------------------------------------------------------------------------------------------
 .lp_debugger-content
+    margin                  $fs-1
+
+    table,
+    th,
+    td
+        border              0 none
+
+    th,
+    td
+        padding             $fs-025
+
+    th
+        color               $text-lighter
+        font-weight         normal
+        min-width           6em
+        padding-left        $fs-05
+
+    .lp_log-entry-table
+        border-left-width       3px
+
+    .lp_log-level-100
+        border-left-color       #cccccc
+    .lp_log-level-200
+        border-left-color       #468847
+    .lp_log-level-250
+        border-left-color       #3a87ad
+    .lp_log-level-200
+        border-left-color       #c09853
+    .lp_log-level-400
+        border-left-color       #f0ad4e
+    .lp_log-level-500
+        border-left-color       #FF7708
+    .lp_log-level-550
+        border-left-color       #C12A19
+    .lp_log-level-600
+        border-left-color       #000000
+
+
+// admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
+.ab-item
+    cursor                  pointer

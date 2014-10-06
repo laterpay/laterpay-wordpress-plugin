@@ -4,20 +4,6 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 {
 
     /**
-     * Translate log levels to HTML color priorities.
-     */
-    private $log_levels = array(
-        LaterPay_Core_Logger::DEBUG     => '#cccccc',
-        LaterPay_Core_Logger::INFO      => '#468847',
-        LaterPay_Core_Logger::NOTICE    => '#3a87ad',
-        LaterPay_Core_Logger::WARNING   => '#c09853',
-        LaterPay_Core_Logger::ERROR     => '#f0ad4e',
-        LaterPay_Core_Logger::CRITICAL  => '#FF7708',
-        LaterPay_Core_Logger::ALERT     => '#C12A19',
-        LaterPay_Core_Logger::EMERGENCY => '#000000',
-    );
-
-    /**
      * Create an HTML table row.
      *
      * @param  string $th       Row header content
@@ -30,10 +16,15 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         $th = htmlspecialchars( $th, ENT_NOQUOTES, 'UTF-8' );
 
         if ( $escapeTd ) {
-            $td = '<pre>' . htmlspecialchars( $td, ENT_NOQUOTES, 'UTF-8' ) . '</pre>';
+            $td = htmlspecialchars( $td, ENT_NOQUOTES, 'UTF-8' );
         }
 
-        return "<tr>\n<th>$th:</th>\n<td>" . $td . "</td>\n</tr>";
+        $html = "<tr>
+                    <th>$th</th>
+                    <td>$td</td>
+                </tr>";
+
+        return $html;
     }
 
     /**
@@ -44,9 +35,9 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return mixed The formatted record
      */
     public function format( array $record ) {
-        $output = '<table class="lp_log-level-' . $record['level'] . '">';
+        $output = '<table class="lp_log-entry-table lp_log-level-' . $record['level'] . '">';
 
-        $output .= $this->add_row( $record['level_name'],   (string) $record['message'] );
+        $output .= $this->add_row( $record['level_name'], (string) $record['message'] );
         $output .= $this->add_row( 'Time',      $record['datetime']->format( $this->date_format ) );
         $output .= $this->add_row( 'Channel',   $record['channel'] );
 
@@ -98,7 +89,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         $data = $this->normalize( $data );
         if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) ) {
-            return json_encode( $data, 'JSON_PRETTY_PRINT' | 'JSON_UNESCAPED_SLASHES' | 'JSON_UNESCAPED_UNICODE' );
+            return json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
         }
 
         return str_replace( '\\/', '/', json_encode( $data ) );
