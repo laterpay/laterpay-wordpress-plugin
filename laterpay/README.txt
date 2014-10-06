@@ -314,15 +314,14 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Screenshots ==
 
-1. Get started with three simple steps.
-2. LaterPay lets you easily enter teaser content and set an individual price starting at 0.05 EUR...
-3. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
-4. In the Pricing tab, you can set the default prices for the entire plugin or specific categories.
-5. In the Appearance tab, you can activate or deactivate LaterPay for individual custom post types and choose between two preview modes for your content.
-6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
-7. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
-8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
-9. The statistics pane provides sales statistics for each post.
+1. LaterPay lets you easily enter teaser content and set an individual price for a post starting at 0.05 EUR...
+2. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
+3. In the Pricing tab, you can set the default prices for the entire plugin or specific categories.
+4. In the Appearance tab, you can activate or deactivate LaterPay for individual custom post types and choose between two preview modes for your content.
+5. Option 1 shows only a post's teaser content and a LaterPay purchase link.
+6. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
+7. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
+8. The statistics pane provides sales statistics for each post.
 
 
 == Changelog ==
