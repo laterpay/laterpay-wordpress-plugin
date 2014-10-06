@@ -124,7 +124,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'is_crawler'        => $browser_is_crawler
         );
 
-        laterpay_get_logger()->info(
+        $this->logger->info(
             __METHOD__,
             $context
         );
@@ -177,7 +177,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $posts;
         }
 
-        laterpay_get_logger()->info(
+        $this->logger->info(
             __METHOD__,
             array( 'post_ids' => $post_ids )
         );
@@ -213,7 +213,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     public function has_access_to_post( WP_Post $post ) {
         $post_id = $post->ID;
 
-        laterpay_get_logger()->info(
+        $this->logger->info(
             __METHOD__,
             array(
                 'post' => $post
@@ -239,7 +239,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $result = $laterpay_client->get_access( array( $post_id ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
-                laterpay_get_logger()->warning(
+                $this->logger->warning(
                     __METHOD__ . ' - post not found ',
                     array(
                         'result' => $result
@@ -252,7 +252,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $access = (bool) $result[ 'articles' ][ $post_id ][ 'access' ];
                 $this->access[ $post_id ] = $access;
 
-                laterpay_get_logger()->info(
+                $this->logger->info(
                     __METHOD__ . ' - post has access',
                     array(
                         'result' => $result
@@ -318,7 +318,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'title'         => $post->post_title,
         );
 
-        laterpay_get_logger()->info(
+        $this->logger->info(
             __METHOD__,
             $params
         );
@@ -354,7 +354,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $url = get_permalink( $data[ 'post_id' ] );
 
         if ( ! $url ) {
-            laterpay_get_logger()->error(
+            $this->logger->error(
                 __METHOD__ . ' could not find an URL for the given post_id',
                 array( 'data' => $data )
             );
@@ -429,7 +429,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
         );
 
-        laterpay_get_logger()->info(
+        $this->logger->info(
             __METHOD__,
             $view_args
         );
@@ -469,7 +469,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'supported_post_types'  => $this->config->get( 'content.enabled_post_types' )
             );
 
-            laterpay_get_logger()->info(
+            $this->logger->info(
                 __METHOD__ . ' - post_type not supported ',
                 $context
             );
@@ -490,7 +490,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'price' => $price,
             );
 
-            laterpay_get_logger()->info(
+            $this->logger->info(
                 __METHOD__ . ' - post is not purchasable',
                 $context
             );
@@ -574,7 +574,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
             );
 
-            laterpay_get_logger()->info(
+            $this->logger->info(
                 __METHOD__ . ' - returned full encrypted content',
                 $context
             );

@@ -18,6 +18,7 @@ class LaterPay_Core_Logger_Processor_Introspection {
      */
     public function __invoke(array $record)
     {
+
         // return if the level is not high enough
         if ($record['level'] < $this->level) {
             return $record;
