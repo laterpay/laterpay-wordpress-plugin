@@ -44,37 +44,64 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
      * @return void
      */
     public function render_records() {
-        $tabs            = array();
-        $tabs['logger']  = $this->get_logger_tab();
         ?>
         <section id="lp_debugger">
             <div class="lp_debugger_inner">
                 <h1 data-icon="a" class="lp_debugger_headline"><?php _e(' Debugger', 'laterpay'); ?></h1>
                 <?php
-                foreach ($tabs as $key => $tab) {
-                    if (empty($tab['content'])){
+                $id = 'lp_debugger_tab';
+
+                echo '<div id="'. $id . '_logger" class="lp_debugger_tab">';
+                echo '<h2 class="lp_debugger_tab_headline"><a class="lp_debugger_tab_link" href="#' . $id . '_logger">' . __('Logger', 'laterpay') . '</a></h2>';
+                echo '<div class="lp_debugger_tab_content">' . $this->get_formatter()->format_batch( $this->records ) . '</div>';
+                echo '</div>';
+
+                $tabs = $this->get_tabs();
+                foreach( $tabs as $key => $tab ){
+                    if ( empty( $tab[ 'content' ] ) ) {
                         continue;
                     }
-                    $id = 'lp_debugger_tab_' . $key;
-                    echo '<div id="' . $id . '" class="lp_debugger_tab">';
-                    //echo '<h2 class="lp_debugger_tab_headline"><a class="lp_debugger_tab_link" href="#' . $id . '">' . $tab['name'] . '</a></h2>';
-                    echo '<div class="lp_debugger_tab_content">' . $this->get_formatter()->format_batch( $tab[ 'content' ] ) . '</div>';
+
+                    echo '<div id="' . $id . '_' . $key .'" class="lp_debugger_tab">';
+                    echo '<h2 class="lp_debugger_tab_headline"><a class="lp_debugger_tab_link" href="#' . $id . '_' . $key .'">' . $tab[ 'name' ] . '</a></h2>';
+
+                    echo '<div class="lp_debugger_tab_content">';
+                    echo '<table>';
+                    foreach ( $tab[ 'content' ] as $k => $value) { ?>
+                        <tr>
+                            <th><?php echo $k; ?></th>
+                            <td><pre><?php echo print_r( $value, true ); ?></pre></td>
+                        </tr>
+                    <?php }
+                    echo '</table>';
+                    echo '</div>';
                     echo '</div>';
                 }
+
                 ?>
             </div>
         </section>
         <?php
     }
 
-    /**
-     *
-     * @return array $tab
-     */
-    protected function get_logger_tab() {
+    protected function get_tabs(){
         return array(
-            'name' => __('Logger', 'laterpay'),
-            'content' => $this->records
+            array(
+                'name'      => 'Request',
+                'content'   => $_REQUEST,
+            ),
+            array(
+                'name'      => 'Server',
+                'content'   => $_SERVER,
+            ),
+            array(
+                'name'      => 'Session',
+                'content'   => isset($_SESSION) ? $_SESSION :  array(),
+            ),
+            array(
+                'name'      => 'Cookies',
+                'content'   => $_COOKIE,
+            ),
         );
     }
 
