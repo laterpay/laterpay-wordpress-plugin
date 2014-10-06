@@ -63,33 +63,49 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
      */
     public function render_records() {
         ?>
-            <div class="lp_debugger">
-                <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
-                <ul class="lp_debugger-tabs">
-                    <li id="lp_debugger-tab-logger" class="lp_debugger-tab">
-                        <a href="#lp_debugger-tab-logger"><?php _e( 'Logger', 'laterpay' ); ?></a>
-                        <div class="lp_debugger-content">
-                            <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
-                        </div>
+            <div class="lp_debugger lp_is_hidden">
+                <header>
+                    <a class="lp_js_close-debugger lp_close-link lp_fl-right lp_b-r3" data-icon="e"></a>
+                    <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
+                </header>
+
+                <ul class="lp_debugger-tabs lp_fl-clearfix">
+                    <li class="lp_is_selected">
+                        <a href="#"><?php _e( 'Messages', 'laterpay' ); ?></a>
                     </li>
                     <?php
-                    foreach ( $this->get_tabs() as $key => $tab ) {
-                        if ( empty( $tab[ 'content' ] ) ) {
-                            continue;
-                        }
+                        foreach ( $this->get_tabs() as $key => $tab ) {
+                            if ( empty( $tab[ 'content' ] ) ) {
+                                continue;
+                            }
                     ?>
-                        <li id="lp_debugger-tab-<?php echo $key; ?>" class="lp_debugger-tab">
-                            <a href="#lp_debugger-tab-<?php echo $key; ?>"><?php _e( $tab[ 'name' ], 'laterpay' ); ?></a>
-                            <div class="lp_debugger-content">
-                                <table>
+                        <li>
+                            <a href="#"><?php _e( $tab[ 'name' ], 'laterpay' ); ?></a>
+                        </li>
+                    <?php } ?>
+                </ul>
+
+                <ul class="lp_debugger-content-list">
+                    <li class="lp_debugger-content">
+                        <ul>
+                            <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
+                        </ul>
+                    </li>
+                    <?php
+                        foreach ( $this->get_tabs() as $key => $tab ) {
+                            if ( empty( $tab[ 'content' ] ) ) {
+                                continue;
+                            }
+                    ?>
+                        <li class="lp_debugger-content lp_is_hidden">
+                            <table>
                                 <?php foreach ( $tab[ 'content' ] as $key => $value  ) { ?>
                                     <tr>
                                         <th><?php echo $key; ?></th>
-                                        <td><pre><?php print_r( $value ); ?></pre></td>
+                                        <td><?php print_r( $value ); ?></td>
                                     </tr>
                                 <?php } ?>
-                                </table>
-                            </div>
+                            </table>
                         </li>
                     <?php } ?>
                 </ul>

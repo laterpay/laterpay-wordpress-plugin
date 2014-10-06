@@ -3,94 +3,167 @@
 // debugger pane header with LaterPay vector logo ----------------------------------------------------------------------
 .lp_debugger,
 .lp_debugger h2
-    font-family             'Helvetica Neue', Helvetica, Arial, sans-serif
+    font-family                     'Helvetica Neue', Helvetica, Arial, sans-serif
 
 .lp_debugger
-    background-color        hsl(0, 0%, 90%)
-    bottom                  0
-    box-shadow              -1px 1px 6px hsla(0, 0%, 0%, 0.34)
-    font-size               14px
-    height                  400px
-    line-height             1.5
-    overflow-y              scroll
-    position                fixed
-    transition              0.25s ease-in-out
-    width                   100%
-    z-index                 $zindex-overlayed_1
+    background-color                hsl(0, 0%, 90%)
+    bottom                          0
+    box-shadow                      -1px 1px 6px hsla(0, 0%, 0%, 0.34)
+    font-size                       14px
+    max-height                      30em
+    min-height                      20em
+    line-height                     1.3
+    overflow-y                      scroll
+    position                        fixed
+    transition                      0.25s ease-in-out
+    width                           100%
+    z-index                         $zindex-topmost_1
+
+    a
+        outline                     0 none
+
+        &:hover,
+        &:focus,
+        &:active
+            outline                 0 none
 
     h2
-        font-size           1.25em
-        font-weight         400
-        line-height         1
-        margin              0.4em 0 0.8em 6.75em
+        display                     inline-block
+        font-size                   1.25em
+        font-weight                 400
+        margin                      0.5em 0 0.5em 6.75em
 
         &:before
-            display         block
-            font-size       6em
-            height          0
-            left            -1.03em
-            line-height     0
-            position        relative
-            top             0.075em
+            display                 block
+            font-size               6em
+            height                  0
+            left                    -1.02em
+            line-height             0
+            position                relative
+            top                     0.08em
+            z-index                 $zindex-recessed
 
-.lp_debugger_is_hidden
-    bottom                  -400px
+    .lp_close-link
+        color                       $clickable
+        cursor                      pointer
+        font-weight                 bold
+        height                      2em
+        line-height                 2em
+        margin                      $fs-025 $fs-025 0 0
+        text-align                  center
+        width                       2em
+
+        &:before
+            line-height             2em
+            padding                 0 0 0 0.1em
+            top                     auto
+
+        &:hover
+            background-color        $clickable-highlight
+            color                   $text-inverse
+
+.lp_debugger.lp_is_hidden
+    bottom                          -400px
 
 
 // debugger pane tabs --------------------------------------------------------------------------------------------------
 .lp_debugger-tabs
-    margin                  0
+    border-bottom                   1px solid $border-darker
+    margin                          0 $fs-075 $fs-025
 
-.lp_debugger-tab
-    float                   left
-    list-style              none outside none
-    margin                  0 $fs-05 0 0
-    padding                 0
+    li
+        border                      1px solid transparent
+        border-radius               3px 3px 0 0
+        float                       left
+        list-style                  none outside none
+        margin                      0 2px -1px 0
+        padding                     0
+
+        &:hover
+            border-color            $border-darker $border-darker hsl(0, 0%, 90%)
+
+    .lp_is_selected
+        border-color                $border-darker $border-darker hsl(0, 0%, 90%)
+
+        a,
+        &:hover a
+            color                   $text-lighter
+            cursor                  default
 
     a
-        padding             $fs-05 $fs-1
+        color                       $clickable
+        display                     block
+        padding                     $fs-05 $fs-1
+
+        &:hover
+            color                   $clickable-highlight
 
 
 // debugging messages --------------------------------------------------------------------------------------------------
-.lp_debugger-content
-    margin                  $fs-1
+.lp_debugger-content-list
+    margin                          0 $fs-075 $fs-1
+    padding                         0
+
+    ul,
+    li
+        margin                      0
+        padding                     0
+
+    li
+        list-style                  none outside none
+
+    .lp_debugger-content li
+        border-bottom               1px solid $border
+
+    .lp_is_hidden
+        display                     none
 
     table,
     th,
     td
-        border              0 none
+        border                      0 none
+
+    table
+        margin                      0
 
     th,
     td
-        padding             $fs-025
+        border-collapse             collapse
+        padding                     $fs-05
 
     th
-        color               $text-lighter
-        font-weight         normal
-        min-width           6em
-        padding-left        $fs-05
+        color                       $text-lighter
+        font-weight                 normal
+        max-width                   12em
+        overflow                    hidden
+        padding-left                $fs-05
+        text-overflow               ellipsis
+        width                       12em
 
-    .lp_log-entry-table
-        border-left-width       3px
+    thead td
+        &:last-child
+            color                   $text-lighter
+            text-align              right
+            width                   4em
 
     .lp_log-level-100
-        border-left-color       #cccccc
+        color                       #cccccc
     .lp_log-level-200
-        border-left-color       #468847
+        color                       #468847
     .lp_log-level-250
-        border-left-color       #3a87ad
+        color                       #3a87ad
     .lp_log-level-200
-        border-left-color       #c09853
+        color                       #c09853
     .lp_log-level-400
-        border-left-color       #f0ad4e
+        color                       #f0ad4e
     .lp_log-level-500
-        border-left-color       #FF7708
+        color                       #FF7708
     .lp_log-level-550
-        border-left-color       #C12A19
+        color                       #C12A19
     .lp_log-level-600
-        border-left-color       #000000
+        color                       #000000
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
 .ab-item
-    cursor                  pointer
+    cursor                          pointer

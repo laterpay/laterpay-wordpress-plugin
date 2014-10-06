@@ -3,7 +3,7 @@
 class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_Formatter_Interface
 {
 
-    const SIMPLE_DATE = "Y-m-d H:i:s";
+    const SIMPLE_DATE = 'H:i:s j.m.Y';
 
     protected $date_format;
 

@@ -74,12 +74,12 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update the existing database-table for "terms_price" and set all prices to "ppu".
+     * Update the existing database-table for 'terms_price' and set all prices to 'ppu'.
      * @wp-hook admin_notices
      *
      * @return void
      */
-    public function maybe_update_terms_price_table(){
+    public function maybe_update_terms_price_table() {
         global $wpdb;
 
         $current_version = get_option('laterpay_version');
@@ -87,14 +87,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             return;
         }
 
-        $table = $wpdb->prefix . 'laterpay_terms_price';
+        $table      = $wpdb->prefix . 'laterpay_terms_price';
+        $columns    = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
 
-        $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
-
-        // before version 0.9.8 we had no "revenue_model"-column
+        // before version 0.9.8 we had no "revenue_model" column
         $is_up_to_date = false;
-        foreach( $columns as $column ){
-            if( $column->Field === 'revenue_model' ){
+        foreach ( $columns as $column ) {
+            if ( $column->Field === 'revenue_model' ) {
                 $is_up_to_date = true;
             }
         }
@@ -107,11 +106,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             )
         );
 
-        // if the table needs an update, add the "revenue_model"-column and set the current values to 'ppu'
-        if( !$is_up_to_date ){
+        // if the table needs an update, add the "revenue_model" column and set the current values to 'ppu'
+        if ( ! $is_up_to_date ) {
             $wpdb->query( "ALTER TABLE " . $table . "ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT  'ppu';" );
         }
-
     }
 
     /**
