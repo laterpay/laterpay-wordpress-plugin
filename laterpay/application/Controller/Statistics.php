@@ -9,7 +9,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      * @return bool
      */
     protected function check_requirements( $post = null ) {
-        if ( empty($post_id) ) {
+        if ( empty($post) ) {
             // check, if we're on a singular page
             if ( ! is_singular() ) {
                 return false;
