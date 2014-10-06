@@ -52,9 +52,9 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                 <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 <ul class="lp_debugger-tabs">
                     <li id="lp_debugger-tab-logger" class="lp_debugger-tab">
-                        <a href="#lp_debugger-tab-logger"><?php e( 'Logger', 'laterpay' ); ?></a>
+                        <a href="#lp_debugger-tab-logger"><?php _e( 'Logger', 'laterpay' ); ?></a>
                         <div class="lp_debugger-content">
-                            <?php echo $this->get_formatter()->format_batch( $this->records ) ); ?>
+                            <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
                         </div>
                     </li>
                 </ul>
@@ -78,7 +78,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             ),
             array(
                 'name'      => 'Session',
-                'content'   => isset( $_SESSION ) ? $_SESSION :  array(),
+                'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
                 'name'      => 'Cookies',
