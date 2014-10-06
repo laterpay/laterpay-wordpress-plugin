@@ -72,11 +72,34 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                             <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
                         </div>
                     </li>
+                    <?php
+                    foreach ( $this->get_tabs() as $key => $tab ) {
+                        if ( empty( $tab[ 'content' ] ) ) {
+                            continue;
+                        }
+                    ?>
+                        <li id="lp_debugger-tab-<?php echo $key; ?>" class="lp_debugger-tab">
+                            <a href="#lp_debugger-tab-<?php echo $key; ?>"><?php _e( $tab[ 'name' ], 'laterpay' ); ?></a>
+                            <div class="lp_debugger-content">
+                                <table>
+                                <?php foreach ( $tab[ 'content' ] as $key => $value  ) { ?>
+                                    <tr>
+                                        <th><?php echo $key; ?></th>
+                                        <td><pre><?php print_r( $value ); ?></pre></td>
+                                    </tr>
+                                <?php } ?>
+                                </table>
+                            </div>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
         <?php
     }
 
+    /**
+     * @return array $tabs
+     */
     protected function get_tabs() {
         return array(
             array(

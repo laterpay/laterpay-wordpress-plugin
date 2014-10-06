@@ -35,6 +35,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return mixed The formatted record
      */
     public function format( array $record ) {
+        $output = '';
         $output = '<table class="lp_log-entry-table lp_log-level-' . $record['level'] . '">';
 
         $output .= $this->add_row( $record['level_name'], (string) $record['message'] );
