@@ -24,8 +24,8 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         add_action( 'wp_footer',             array( $this, 'render_records' ), 1000 );
         add_action( 'admin_footer',          array( $this, 'render_records' ), 1000 );
-        add_action( 'wp_enqueue_scripts',    array( $this, 'register_scripts' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ) );
+        add_action( 'wp_enqueue_scripts',    array( $this, 'load_assets' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
         add_action( 'admin_bar_menu',        array( &$this, 'admin_bar_menu' ), 1000 );
     }
 
@@ -119,36 +119,120 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     protected function get_tabs() {
         return array(
             array(
-                'name'      => 'Get Data',
-                'content'   => $_GET,
+                'name'      => __( 'Requests', 'laterpay' ),
+                'content'   => array_merge( $_GET, $_POST ),
             ),
             array(
-                'name'      => 'Post Data',
-                'content'   => $_POST
-            ),
-            array(
-                'name'      => 'Server',
-                'content'   => $_SERVER,
-            ),
-            array(
-                'name'      => 'Session',
+                'name'      => __( 'Session', 'laterpay' ),
                 'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
-                'name'      => 'Cookies',
+                'name'      => __( 'Cookies', 'laterpay' ),
                 'content'   => $_COOKIE,
+            ),
+            array(
+                'name'      => __( 'System Config', 'laterpay' ),
+                'content'   => $this->get_system_info(),
+            ),
+            array(
+                'name'      => __( 'Plugin Config', 'laterpay' ),
+                'content'   => laterpay_get_plugin_config(),
             ),
         );
     }
 
+    public function get_system_info() {
+        // get theme data
+        if ( get_bloginfo( 'version' ) < '3.4' ) {
+            $theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
+            $theme      = $theme_data['Name'] . ' ' . $theme_data['Version'];
+        } else {
+            $theme_data = wp_get_theme();
+            $theme      = $theme_data->Name . ' ' . $theme_data->Version;
+        }
+
+        // get active plugin data
+        $installed_plugins  = get_plugins();
+        $active_plugins     = get_option( 'active_plugins', array() );
+        $plugins            = array();
+
+        foreach ( $installed_plugins as $plugin_path => $plugin ) {
+            if ( ! in_array( $plugin_path, $active_plugins ) ) {
+                continue;
+            }
+
+            array_push( $plugins, $plugin['Name'] . ' ' . $plugin['Version'] );
+        }
+
+        // get active network plugin data
+        if ( is_multisite() ) {
+            $network_plugins        = wp_get_active_network_plugins();
+            $active_network_plugins = get_site_option( 'active_sitewide_plugins', array() );
+
+            foreach ( $plugins as $plugin_path ) {
+                $plugin_base = plugin_basename( $plugin_path );
+                if ( ! array_key_exists( $plugin_base, $active_network_plugins ) ) {
+                    continue;
+                }
+
+                $network_plugin = get_plugin_data( $plugin_path );
+
+                array_push( $network_plugins, $network_plugin['Name'] . ' ' . $network_plugin['Version'] );
+            }
+        }
+
+        // collect system info
+        $system_info = array(
+            'WordPress version'         => get_bloginfo( 'version' ),
+            'Multisite'                 => is_multisite() ? __( 'yes', 'laterpay' ) : __( 'no', 'laterpay' ),
+            'WordPress memory limit'    => ( $this->let_to_num( WP_MEMORY_LIMIT ) / ( 1024 ) ) . 'MB',
+            'Active plugins'            => implode( ', ', $plugins ),
+            'Network active plugins'    => is_multisite() ? $network_plugins : __( 'none', 'laterpay' ),
+            'Registered post types'     => implode( ', ', get_post_types( array( 'public' => true ) ) ),
+            'Active theme'              => $theme,
+            'PHP version'               => PHP_VERSION,
+            'PHP memory limit'          => ini_get( 'memory_limit' ),
+            'PHP modules'               => implode( ', ', get_loaded_extensions() ),
+            'Web server info'           => $_SERVER['SERVER_SOFTWARE'],
+        );
+
+        return $system_info;
+    }
+
     /**
-     * Load stylesheets for debug window
+     * Convert sizes.
+     *
+     * @param  unknown $v
+     *
+     * @return int|string
+     */
+    static function let_to_num( $v ) {
+        $l   = substr( $v, -1 );
+        $ret = substr( $v, 0, -1 );
+
+        switch ( strtoupper( $l ) ) {
+            case 'P': // fall-through
+            case 'T': // fall-through
+            case 'G': // fall-through
+            case 'M': // fall-through
+            case 'K': // fall-through
+                $ret *= 1024;
+                break;
+            default:
+                break;
+        }
+
+        return $ret;
+    }
+
+    /**
+     * Load CSS and JS for debug pane.
      *
      * @wp-hook wp_enqueue_scripts
      *
      * @return void
      */
-    public function register_scripts() {
+    public function load_assets() {
         wp_register_style(
             'laterpay-debugger',
             $this->config->get( 'css_url' ) . 'laterpay-debugger.css',
