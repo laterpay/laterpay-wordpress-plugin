@@ -22,8 +22,25 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         $this->config = laterpay_get_plugin_config();
 
-        add_action( 'wp_footer',            array( $this, 'render_records' ), 99999 );
-        add_action( 'wp_enqueue_scripts',   array( $this, 'register_scripts' ) );
+        add_action('wp_footer', array($this, 'render_records'), 1000);
+        add_action('admin_footer', array($this, 'render_records'), 1000);
+        add_action('wp_enqueue_scripts', array($this, 'register_scripts'));
+        add_action('admin_enqueue_scripts', array($this, 'register_scripts'));
+        add_action('admin_bar_menu', array( &$this, 'admin_bar_menu' ), 1000);
+
+
+    }
+
+    public function admin_bar_menu() {
+        global $wp_admin_bar;
+
+        $args = array(
+            'id'        => 'lp_debugger_admin_bar_menu',
+            'parent'    => 'top-secondary',
+            'title'     => __( 'LaterPay Debugger', 'laterpay' )
+        );
+        $wp_admin_bar->add_menu($args);
+
     }
 
     /**
@@ -52,9 +69,9 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                 <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 <ul class="lp_debugger-tabs">
                     <li id="lp_debugger-tab-logger" class="lp_debugger-tab">
-                        <a href="#lp_debugger-tab-logger"><?php e( 'Logger', 'laterpay' ); ?></a>
+                        <a href="#lp_debugger-tab-logger"><?php _e( 'Logger', 'laterpay' ); ?></a>
                         <div class="lp_debugger-content">
-                            <?php echo $this->get_formatter()->format_batch( $this->records ) ); ?>
+                            <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
                         </div>
                     </li>
                 </ul>
@@ -103,8 +120,17 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             false
         );
 
+        wp_register_script(
+            'laterpay-debugger',
+            $this->config->get( 'js_url' ) . 'laterpay-debugger.js',
+            array( 'jquery' ),
+            false,
+            true
+        );
+
         if ( $this->config->get( 'debug_mode' ) ) {
             wp_enqueue_style( 'laterpay-debugger' );
+            wp_enqueue_script( 'laterpay-debugger' );
         }
     }
 
