@@ -11,27 +11,48 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
     protected function check_requirements() {
         // check, if we're on a singular page
         if ( ! is_singular() ) {
+            $this->logger->warning(
+                __METHOD__ . ' - !is_singular'
+            );
             return false;
         }
 
         // check, if we have a post
         $post = get_post();
         if ( $post === null ) {
+            $this->logger->warning(
+                __METHOD__ . ' - post === null'
+            );
             return false;
         }
 
         // check, if the current post_type is an allowed post_type
-        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+        $enabled_post_types = $this->config->get( 'content.enabled_post_types' );
+        if ( ! in_array( $post->post_type, $enabled_post_types ) ) {
+            $this->logger->warning(
+                __METHOD__ . ' - post_type not enabled',
+                array(
+                    'post_type'         => $post->post_type,
+                    'enabled_post_types'=> $enabled_post_types,
+                )
+            );
             return false;
         }
 
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable() ){
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ){
+            $this->logger->warning(
+                __METHOD__ . ' - post is not purchasable',
+                array(
+                    'post' => $post,
+                )
+            );
             return false;
         }
 
         // check, if logging is enabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
+            $this->logger->warning( __METHOD__ . ' - access logging is not enabled' );
             return false;
         }
 

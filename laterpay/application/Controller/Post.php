@@ -97,6 +97,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'hash'          => $_GET[ 'hash' ],
             );
 
+            $this->logger->info(
+                __METHOD__ . ' - set payment history',
+                $data
+            );
+
             $payment_history_model = new LaterPay_Model_Payments_History();
             $payment_history_model->set_payment_history( $data );
         }

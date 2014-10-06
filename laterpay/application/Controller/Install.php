@@ -92,15 +92,23 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
 
         // before version 0.9.8 we had no "revenue_model"-column
-        $is_update_to_date = false;
+        $is_up_to_date = false;
         foreach( $columns as $column ){
             if( $column->Field === 'revenue_model' ){
-                $is_update_to_date = true;
+                $is_up_to_date = true;
             }
         }
 
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'current_version'   => $current_version,
+                'is_up_to_date'     => $is_up_to_date
+            )
+        );
+
         // if the table needs an update, add the "revenue_model"-column and set the current values to 'ppu'
-        if( !$is_update_to_date ){
+        if( !$is_up_to_date ){
             $wpdb->query( "ALTER TABLE " . $table . "ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT  'ppu';" );
         }
 
@@ -126,6 +134,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             'Teaser content'    => 'laterpay_post_teaser',
             'Pricing Post'      => 'laterpay_post_pricing',
             'Pricing Post Type' => 'laterpay_post_pricing_type'
+        );
+
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'current_version'   => $current_version,
+                'meta_key_mapping'  => $meta_key_mapping
+            )
         );
 
         $sql = "UPDATE " . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
@@ -199,6 +215,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         // cancel the installation process, if the requirements check returns errors
         $notices = (array) $this->check_requirements();
         if ( count( $notices ) ) {
+            $this->logger->warning( __METHOD__, $notices );
             return;
         }
 
