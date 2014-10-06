@@ -185,7 +185,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         $system_info = array(
             'WordPress version'         => get_bloginfo( 'version' ),
             'Multisite'                 => is_multisite() ? __( 'yes', 'laterpay' ) : __( 'no', 'laterpay' ),
-            'WordPress memory limit'    => ( $this->let_to_num( WP_MEMORY_LIMIT ) / ( 1024 ) ) . 'MB',
+            'WordPress memory limit'    => ( $this->let_to_num( WP_MEMORY_LIMIT ) / ( 1024 ) ) . ' MB',
             'Active plugins'            => implode( ', ', $plugins ),
             'Network active plugins'    => is_multisite() ? $network_plugins : __( 'none', 'laterpay' ),
             'Registered post types'     => implode( ', ', get_post_types( array( 'public' => true ) ) ),
