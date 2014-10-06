@@ -1,6 +1,8 @@
 language: php
 php:
 - 5.5
+git:
+  submodules: false
 env:
   global:
   - secure: RSmkhgR2Ekhlig+EMjDwMrOBoNNtaEfKpRa5guUB7+WbaqpOxkJLiI77Hm0sg0r7SqGexjif+lyK82BI16Ro1WDKPK1QcIfOUjxcX1NG8I92JMGJaKVd6MhHOiUNHVMJgvxJBao9OAllhmgiJoN/pu+432gXnJcUyYIT2jTz8zg=
