@@ -18,7 +18,7 @@ class LaterPay_Core_Logger_Processor_MemoryUsage extends LaterPay_Core_Logger_Pr
 
         $record['extra'] = array_merge(
             $record['extra'],
-            array( 'memory_usage' => $formatted )
+            array( 'memory_usage' => $formatted, )
         );
 
         return $record;

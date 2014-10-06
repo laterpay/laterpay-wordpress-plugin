@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handler_Abstract {
+class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handler_Abstract
+{
 
     /**
      *
@@ -16,75 +17,52 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     /**
      * @param integer $level The minimum logging level at which this handler will be triggered
      */
-    public function __construct($level = LaterPay_Core_Logger::DEBUG) {
-        parent::__construct($level, FALSE);
+    public function __construct( $level = LaterPay_Core_Logger::DEBUG ) {
+        parent::__construct( $level, false );
 
         $this->config = laterpay_get_plugin_config();
 
-        add_action('wp_footer', array($this, 'render_records'), 99999);
-        add_action('wp_enqueue_scripts', array($this, 'register_scripts'));
-
+        add_action( 'wp_footer',            array( $this, 'render_records' ), 99999 );
+        add_action( 'wp_enqueue_scripts',   array( $this, 'register_scripts' ) );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function handle(array $record) {
-        if ($record['level'] < $this->level){
-            return FALSE;
+    public function handle( array $record ) {
+        if ( $record['level'] < $this->level ) {
+            return false;
         }
+
         $this->records[] = $record;
-        return TRUE;
+
+        return true;
     }
 
     /**
-     * Callback to Render all Records to footer
+     * Callback to render all records to footer.
      *
      * @wp-hook wp_footer
+     *
      * @return void
      */
     public function render_records() {
         ?>
-        <section id="lp_debugger">
-            <div class="lp_debugger_inner">
-                <h1 data-icon="a" class="lp_debugger_headline"><?php _e(' Debugger', 'laterpay'); ?></h1>
-                <?php
-                $id = 'lp_debugger_tab';
-
-                echo '<div id="'. $id . '_logger" class="lp_debugger_tab">';
-                echo '<h2 class="lp_debugger_tab_headline"><a class="lp_debugger_tab_link" href="#' . $id . '_logger">' . __('Logger', 'laterpay') . '</a></h2>';
-                echo '<div class="lp_debugger_tab_content">' . $this->get_formatter()->format_batch( $this->records ) . '</div>';
-                echo '</div>';
-
-                $tabs = $this->get_tabs();
-                foreach( $tabs as $key => $tab ){
-                    if ( empty( $tab[ 'content' ] ) ) {
-                        continue;
-                    }
-
-                    echo '<div id="' . $id . '_' . $key .'" class="lp_debugger_tab">';
-                    echo '<h2 class="lp_debugger_tab_headline"><a class="lp_debugger_tab_link" href="#' . $id . '_' . $key .'">' . $tab[ 'name' ] . '</a></h2>';
-
-                    echo '<div class="lp_debugger_tab_content">';
-                    echo '<table>';
-                    foreach ( $tab[ 'content' ] as $k => $value) { ?>
-                        <tr>
-                            <th><?php echo $k; ?></th>
-                            <td><pre><?php echo print_r( $value, true ); ?></pre></td>
-                        </tr>
-                    <?php }
-                    echo '</table>';
-                    echo '</div>';
-                    echo '</div>';
-                }
-
-                ?>
+            <div class="lp_debugger">
+                <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
+                <ul class="lp_debugger-tabs">
+                    <li id="lp_debugger-tab-logger" class="lp_debugger-tab">
+                        <a href="#lp_debugger-tab-logger"><?php e( 'Logger', 'laterpay' ); ?></a>
+                        <div class="lp_debugger-content">
+                            <?php echo $this->get_formatter()->format_batch( $this->records ) ); ?>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </section>
         <?php
     }
 
-    protected function get_tabs(){
+    protected function get_tabs() {
         return array(
             array(
                 'name'      => 'Get Data',
@@ -100,7 +78,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             ),
             array(
                 'name'      => 'Session',
-                'content'   => isset($_SESSION) ? $_SESSION :  array(),
+                'content'   => isset( $_SESSION ) ? $_SESSION :  array(),
             ),
             array(
                 'name'      => 'Cookies',
@@ -110,20 +88,23 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     }
 
     /**
-     * Registering our laterpay-scripts
+     * Load stylesheets for debug window
      *
      * @wp-hook wp_enqueue_scripts
      *
      * @return void
      */
     public function register_scripts() {
-
         wp_register_style(
-            'laterpay-debugger', $this->config->get('css_url') . 'laterpay-debugger.css', array(), FALSE, FALSE
+            'laterpay-debugger',
+            $this->config->get( 'css_url' ) . 'laterpay-debugger.css',
+            array(),
+            false,
+            false
         );
 
-        if ($this->config->get('debug_mode')){
-            wp_enqueue_style('laterpay-debugger');
+        if ( $this->config->get( 'debug_mode' ) ) {
+            wp_enqueue_style( 'laterpay-debugger' );
         }
     }
 

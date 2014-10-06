@@ -42,13 +42,12 @@ class LaterPay_Core_Logger_Processor_Web
     }
 
     /**
-     * @param  array $record
+     * @param array $record
      *
      * @return array
      */
     public function __invoke( array $record ) {
-        // skip processing if for some reason request data
-        // is not present (CLI or wonky SAPIs)
+        // skip processing if for some reason request data is not present (CLI or wonky SAPIs)
         if ( ! isset( $this->server_data['REQUEST_URI'] ) ) {
             return $record;
         }
@@ -59,8 +58,8 @@ class LaterPay_Core_Logger_Processor_Web
     }
 
     /**
-     * @param  string $extraName
-     * @param  string $serverName
+     * @param string $extraName
+     * @param string $serverName
      *
      * @return $this
      */
@@ -71,7 +70,7 @@ class LaterPay_Core_Logger_Processor_Web
     }
 
     /**
-     * @param  array $extra
+     * @param array $extra
      *
      * @return array
      */
