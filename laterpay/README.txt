@@ -118,14 +118,11 @@ Some plugin features may not be available for certain user roles, based on the W
 # Upload the LaterPay WordPress plugin on the ‘Install Plugins’ page of your WordPress installation
   (/wp-admin/plugin-install.php?tab=upload) and activate it on the ‘Plugins’ page (/wp-admin/plugins.php).
   The WordPress plugin will show up in the admin sidebar with a callout pointing at it.
-# Click on the LaterPay entry in the admin sidebar. You will be taken to the ‘Get Started’ page.
-# Choose a global default price on the ‘Get Started’ page. This price will be set for all your blog posts.
-  If you choose 0.00 Euro, all posts remain free. You can later adjust your prices in detail.
-  After clicking the ‘Activate LaterPay in Test Mode’ button, LaterPay is active on your blog in Test mode.
-  In Test mode, the plugin is not visible to visitors, but only to admins.
+# The plugin is now in Test mode, i.e. the plugin is not visible to visitors, but only to admins.
   You can test and configure everything to your liking.
   If you want to start earning money, you have to first register a LaterPay merchant account and request your
   Live API credentials.
+# Click on the LaterPay entry in the admin sidebar to adjust the plugin preferences and prices.
 
 The plugin will notify you about available updates that you can install with a single click.
 
