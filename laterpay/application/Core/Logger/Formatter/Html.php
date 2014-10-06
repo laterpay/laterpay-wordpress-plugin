@@ -44,7 +44,8 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return mixed The formatted record
      */
     public function format( array $record ) {
-        $output = '<table class="lp_log-level-' . $record['level'] . '">';
+        $output = '';
+        $output .= '<table class="lp_log-level-' . $record['level'] . '">';
 
         $output .= $this->add_row( $record['level_name'],   (string) $record['message'] );
         $output .= $this->add_row( 'Time',      $record['datetime']->format( $this->date_format ) );
@@ -98,7 +99,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         $data = $this->normalize( $data );
         if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) ) {
-            return json_encode( $data, 'JSON_PRETTY_PRINT' | 'JSON_UNESCAPED_SLASHES' | 'JSON_UNESCAPED_UNICODE' );
+            return json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
         }
 
         return str_replace( '\\/', '/', json_encode( $data ) );
