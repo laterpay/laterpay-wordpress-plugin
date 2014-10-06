@@ -95,7 +95,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             ),
             array(
                 'name'      => 'Session',
-                'content'   => isset( $_SESSION ) ? $_SESSION :  array(),
+                'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
                 'name'      => 'Cookies',
