@@ -87,8 +87,12 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     protected function get_tabs(){
         return array(
             array(
-                'name'      => 'Request',
-                'content'   => $_REQUEST,
+                'name'      => 'Get Data',
+                'content'   => $_GET,
+            ),
+            array(
+                'name'      => 'Post Data',
+                'content'   => $_POST
             ),
             array(
                 'name'      => 'Server',
