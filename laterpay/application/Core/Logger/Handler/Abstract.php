@@ -1,6 +1,8 @@
 <?php
 
-abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Logger_Handler_Interface {
+abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Logger_Handler_Interface
+{
+
     /**
      * @var FormatterInterface
      */
@@ -21,14 +23,14 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      */
     public function handle_batch( array $records ) {
         foreach ( $records as $record ) {
-            $this->handle($record);
+            $this->handle( $record );
         }
     }
 
     protected function get_formatted( array $record ) {
         $output = "%datetime%:%pid%.%channel%.%level_name%: %message% %context%\n";
         foreach ( $record as $var => $val ) {
-            $output = str_replace('%'.$var.'%', $this->convert_to_string($val), $output);
+            $output = str_replace( '%' . $var . '%', $this->convert_to_string( $val ), $output );
         }
 
         return $output;
@@ -107,8 +109,8 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      * {@inheritdoc}
      */
     public function push_processor( $callback ) {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), '.var_export($callback, true).' given');
+        if ( ! is_callable( $callback ) ) {
+            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), ' . var_export( $callback, true ) . ' given' );
         }
         array_unshift( $this->processors, $callback );
 
@@ -119,8 +121,8 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      * {@inheritdoc}
      */
     public function pop_processor() {
-        if ( !$this->processors ) {
-            throw new \LogicException('You tried to pop from an empty processor stack.');
+        if ( ! $this->processors ) {
+            throw new \LogicException( 'You tried to pop from an empty processor stack.' );
         }
 
         return array_shift( $this->processors );
@@ -138,7 +140,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      * {@inheritdoc}
      */
     public function get_formatter() {
-        if (!$this->formatter) {
+        if ( ! $this->formatter ) {
             $this->formatter = $this->get_default_formatter();
         }
 

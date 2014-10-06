@@ -1,8 +1,7 @@
 <?php
 
-
-interface LaterPay_Core_Logger_Handler_Interface {
-
+interface LaterPay_Core_Logger_Handler_Interface
+{
 
     /**
      * Checks whether the given record will be handled by this handler.
@@ -17,7 +16,7 @@ interface LaterPay_Core_Logger_Handler_Interface {
      *
      * @return Boolean
      */
-    public function is_handling(array $record);
+    public function is_handling( array $record );
 
     /**
      * Handles a record.
@@ -29,26 +28,28 @@ interface LaterPay_Core_Logger_Handler_Interface {
      * Unless the bubbling is interrupted (by returning true), the Logger class will keep on
      * calling further handlers in the stack with a given log record.
      *
-     * @param  array   $record The record to handle
+     * @param array $record The record to handle
+     *
      * @return Boolean true means that this handler handled the record, and that bubbling is not permitted.
      *                        false means the record was either not processed or that this handler allows bubbling.
      */
-    public function handle(array $record);
+    public function handle( array $record );
 
     /**
      * Handles a set of records at once.
      *
      * @param array $records The records to handle (an array of record arrays)
      */
-    public function handle_batch(array $records);
+    public function handle_batch( array $records );
 
     /**
      * Adds a processor in the stack.
      *
-     * @param  callable $callback
+     * @param callable $callback
+     *
      * @return self
      */
-    public function push_processor($callback);
+    public function push_processor( $callback );
 
     /**
      * Removes the processor on top of the stack and returns it.
@@ -60,10 +61,11 @@ interface LaterPay_Core_Logger_Handler_Interface {
     /**
      * Sets the formatter.
      *
-     * @param  LaterPay_Core_Logger_Formatter_Interface $formatter
+     * @param LaterPay_Core_Logger_Formatter_Interface $formatter
+     *
      * @return self
      */
-    public function set_formatter(LaterPay_Core_Logger_Formatter_Interface $formatter);
+    public function set_formatter( LaterPay_Core_Logger_Formatter_Interface $formatter );
 
     /**
      * Gets the formatter.
@@ -71,6 +73,5 @@ interface LaterPay_Core_Logger_Handler_Interface {
      * @return LaterPay_Core_Logger_Formatter_Interface
      */
     public function get_formatter();
-
 
 }
