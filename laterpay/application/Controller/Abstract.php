@@ -18,12 +18,20 @@ class LaterPay_Controller_Abstract
     protected $config;
 
     /**
+     * Contains the Logger-Instance.
+     *
+     * @var LaterPay_Core_Logger
+     */
+    protected $logger;
+    /**
      * @param   LaterPay_Model_Config $config
      *
      * @return  LaterPay_Controller_Abstract
      */
     public function __construct( LaterPay_Model_Config $config ) {
         $this->config = $config;
+        $this->logger = laterpay_get_logger();
+
         // assigning the config to our view
         $this->assign( 'config', $this->config );
     }
@@ -54,10 +62,19 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+            $this->logger->error(
+                __METHOD__ . ' - ' . $msg,
+                array( 'view_file' => $view_file )
+            );
 
             return;
         }
+
+        $this->logger->info(
+            __METHOD__ . ' - ' . $file,
+            $this->variables
+        );
+
         include_once( $view_file );
     }
 
@@ -92,7 +109,7 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+            $this->logger->error( $msg, array( 'view_file' => $view_file ) );
 
             return '';
         }

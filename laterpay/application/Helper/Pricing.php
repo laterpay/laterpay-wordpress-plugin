@@ -104,11 +104,11 @@ class LaterPay_Helper_Pricing
      *
      * @return array $updated_post_ids all updated post_ids
      */
-    public static function apply_category_price_to_posts_with_global_price( $category_id ){
+    public static function apply_category_price_to_posts_with_global_price( $category_id ) {
         $updated_post_ids   = array();
         $post_ids           = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
 
-        foreach( $post_ids as $post_id ){
+        foreach ( $post_ids as $post_id ) {
             $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
             if ( ! is_array( $post_price ) ) {
                 continue;
