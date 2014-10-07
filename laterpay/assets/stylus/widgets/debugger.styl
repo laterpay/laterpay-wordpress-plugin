@@ -147,7 +147,7 @@
         list-style                  none outside none
 
     .lp_debugger-content li
-        border-bottom               1px solid $border
+        border-bottom               1px solid darken($border, 3%)
 
     .lp_is_hidden
         display                     none
@@ -174,15 +174,27 @@
         text-overflow               ellipsis
         width                       12em
 
-    thead td
-        &:last-child
+    thead
+        td,
+        th
+            transition              background-color 0.25s
+
+        &:hover td,
+        &:hover th
+            background-color        $background-highlight
+
+        td:last-child
             color                   $text-lighter
             text-align              right
             width                   4em
 
+    .lp_log-entry-table tbody th,
+    .lp_log-entry-table tbody td
+        padding                     0 $fs-05 $fs-025
+
     .lp_log-level:before
         display                     inline-block
-        margin-right                $fs-05
+        margin-right                $fs-075
         width                       $fs-15
 
     .lp_log-level-100:before
