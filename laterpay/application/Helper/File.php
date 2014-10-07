@@ -18,12 +18,44 @@ class LaterPay_Helper_File
     const SCRIPT_PATH = 'admin-ajax.php?action=laterpay_load_files';
 
     /**
-     * File types protected against direct download from paid posts without purchasing.
+     * Check url to encrypt. has to be encrypted any files, placed on server.
+     * @param int    $post_id
+     * @param string $content
+     * @param string $use_auth
      *
-     * @var string
+     * @return string $content
      */
-    protected static $protected_file_types = '3gpp|aac|avi|divx|doc|docx|epup|flv|gif|jpeg|jpg|mobi|mov|mp3|mp4|mp4|mpg|ogg|pdf|png|ppt|pptx|rar|rtf|tif|tiff|txt|wav|wmv|xls|xlsx|zip';
-
+    public static function check_url_encrypt($uri) {
+        
+		$upload_dir         = wp_upload_dir();
+        $upload_url         = parse_url($upload_dir['baseurl']);
+		$upload_url         = $upload_url['path'];
+		$upload_url         = ltrim($upload_url, '/');
+		
+		$content_url        = content_url();
+		$content_url        = parse_url($content_url);
+		$content_url        = $content_url['path'];
+		$content_url        = ltrim($content_url, '/');
+		
+		$includes_url       = includes_url();
+		$includes_url       = parse_url($includes_url);
+		$includes_url       = $includes_url['path'];
+		$includes_url       = ltrim($includes_url, '/');
+		
+		if (strstr( $uri, $upload_url )) {
+            
+			return true;
+        }elseif (strstr( $uri, $content_url )) {
+		
+			return true;
+		}elseif (strstr( $uri, $includes_url )) {
+		
+			return true;
+		};
+		
+		return false;
+    }		
+	
     /**
      * Generate an encrypted URL for a file within a paid post that has a protected file type.
      *
@@ -34,16 +66,19 @@ class LaterPay_Helper_File
      * @return string $url
      */
     public static function get_encrypted_resource_url( $post_id, $url, $use_auth ) {
-        $new_url            = admin_url( self::SCRIPT_PATH );
-        $blog_url_parts     = parse_url( get_bloginfo('wpurl') );
-        $resource_url_parts = parse_url( $url );
-        if ( $blog_url_parts['host'] != $resource_url_parts['host'] ) {
-            return $url;
-        }
-        $uri = $resource_url_parts['path'];
-        if ( ! preg_match( '/.*\.(' . self::$protected_file_types . ')/i', $uri ) ) {
-            return $url;
-        }
+	
+		//encrypt any files placed at server
+		$resource_url_parts = parse_url($url);
+		$uri                = $resource_url_parts['path'];
+		$blog_url_parts     = parse_url(get_bloginfo('wpurl'));
+		if ($blog_url_parts['host'] != $resource_url_parts['host']) {
+			return $url;
+        };
+		if(!self::check_url_encrypt($uri)){
+			return $url;
+		};	
+		
+		$new_url            = admin_url( self::SCRIPT_PATH );
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
         $file = base64_encode( $cipher->encrypt( $uri ) );
