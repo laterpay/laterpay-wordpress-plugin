@@ -4,7 +4,7 @@ class LaterPay_Core_Logger_Processor_MemoryPeakUsage extends LaterPay_Core_Logge
 {
 
     /**
-     * @param  array $record
+     * @param array $record
      *
      * @return array
      */

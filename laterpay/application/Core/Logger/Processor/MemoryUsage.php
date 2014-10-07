@@ -8,7 +8,7 @@
 class LaterPay_Core_Logger_Processor_MemoryUsage extends LaterPay_Core_Logger_Processor_Memory
 {
     /**
-     * @param  array $record
+     * @param array $record
      *
      * @return array
      */

@@ -66,7 +66,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             <div class="lp_debugger lp_is_hidden">
                 <header>
                     <a class="lp_js_close-debugger lp_close-link lp_fl-right" data-icon="l"></a>
-                    <div class="lp_fl-right"><?php echo __( 'Peak memory usage:', 'laterpay' ) . ' ' . number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB'; ?></div>
+                    <div class="lp_fl-right"><?php echo __( 'Memory Usage:', 'laterpay' ) . ' ' . number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB'; ?></div>
                     <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 </header>
 
@@ -144,13 +144,8 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
     public function get_system_info() {
         // get theme data
-        if ( get_bloginfo( 'version' ) < '3.4' ) {
-            $theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
-            $theme      = $theme_data['Name'] . ' ' . $theme_data['Version'];
-        } else {
-            $theme_data = wp_get_theme();
-            $theme      = $theme_data->Name . ' ' . $theme_data->Version;
-        }
+        $theme_data = wp_get_theme();
+        $theme      = $theme_data->Name . ' ' . $theme_data->Version;
 
         // get active plugin data
         $installed_plugins  = get_plugins();

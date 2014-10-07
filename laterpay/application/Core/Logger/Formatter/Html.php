@@ -31,7 +31,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         $output .= '<table class="lp_log-entry-table">';
 
         // generate thead of log record
-        $output .= $this->add_head_row( (string) $record['message'], $record['level'], $record['datetime']->format( 'H:i:s' ) );
+        $output .= $this->add_head_row( (string) $record['message'], $record['level'] );
 
         // // generate tbody of log record with details
         // $output .= '<tbody>';
@@ -69,15 +69,16 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      *
      * @param string   $message  log message
      * @param int      $level    log level
-     * @param datetime $datetime date and time of log event
      *
      * @return string
      */
-    private function add_head_row( $message = '', $level, $datetime ) {
+    private function add_head_row( $message = '', $level ) {
+        $show_details_link = '<a href="#" class="lp_js_toggle-log-details" data-icon="l">' . __( 'Details', 'laterpay' ) . '</a>';
+
         $html = "<thead>
                     <tr>
                         <td><span class=\"lp_log-level $level\"></span>$message</td>
-                        <td>$datetime</td>
+                        <td>$show_details_link</td>
                     </tr>
                 </thead>";
 
