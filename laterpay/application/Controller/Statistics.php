@@ -12,6 +12,12 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         if ( empty($post) ) {
             // check, if we're on a singular page
             if ( ! is_singular() ) {
+                $this->logger->warning(
+                    __METHOD__. ' - !is_singular',
+                    array(
+                        'post' => $post
+                    )
+                );
                 return false;
             }
 
@@ -22,17 +28,32 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             }
         }
         // check, if the current post_type is an allowed post_type
-        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+        $allowed_post_types = $this->config->get( 'content.enabled_post_types' );
+        if ( ! in_array( $post->post_type, $allowed_post_types ) ) {
+            $this->logger->warning(
+                __METHOD__. ' - post is not purchasable',
+                array(
+                    'post' => $post,
+                    'allowed_post_types' => $allowed_post_types
+                )
+            );
             return false;
         }
 
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable() ){
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ){
+            $this->logger->warning(
+                __METHOD__. ' - post is not purchasable',
+                array(
+                    'post' => $post
+                )
+            );
             return false;
         }
 
         // check, if logging is enabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
+            $this->logger->warning( __METHOD__. ' - access logging is not enabled' );
             return false;
         }
 
@@ -52,6 +73,13 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         }
 
         $post_id = get_the_ID();
+
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'post_id' => $post_id
+            )
+        );
 
         LaterPay_Helper_Statistics::track( $post_id );
     }
