@@ -136,7 +136,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             ),
             array(
                 'name'      => __( 'Plugin Config', 'laterpay' ),
-                'content'   => laterpay_get_plugin_config(),
+                'content'   => $this->config->get_all(),
             ),
         );
     }
