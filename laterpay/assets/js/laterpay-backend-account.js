@@ -63,7 +63,7 @@
             },
 
             togglePluginModeIndicators = function(mode) {
-                if (mode == 'live') {
+                if (mode === 'live') {
                     $('#lp_js_plugin-mode-test-text').hide();
                     $('#lp_js_plugin-mode-live-text').show();
                     $('#lp_js_plugin-mode-indicator').fadeOut();

@@ -181,13 +181,13 @@
                 initializePage = function() {
                     // load post content via Ajax, if plugin is in caching compatible mode
                     // (recognizable by the presence of lp_js_post-content-placeholder
-                    if ($('#lp_js_post-content-placeholder').length == 1) {
+                    if ($('#lp_js_post-content-placeholder').length === 1) {
                         loadPostContent();
                         trackViews();
                     }
 
                     // render the post statistics pane, if a placeholder exists for it
-                    if ($('#lp_js_post-statistics-placeholder').length == 1) {
+                    if ($('#lp_js_post-statistics-placeholder').length === 1) {
                         loadPostStatistics();
                     }
 
