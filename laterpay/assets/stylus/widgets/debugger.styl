@@ -102,13 +102,31 @@
             color                   $text
             cursor                  default
 
+        span,
+        &:hover span
+            background-color        lighten($text, 20%)
+
     a
         color                       $clickable
         display                     block
+        height                      $fs-15
         padding                     $fs-05 $fs-1
 
         &:hover
             color                   $clickable-highlight
+
+            span
+                background-color    $clickable-highlight
+
+        span
+            background-color        $clickable
+            border-radius           2px
+            color                   $text-inverse
+            display                 inline-block
+            margin-left             $fs-05
+            min-width               $fs-075
+            padding                 1px 5px
+            text-align              center
 
 
 // debugging messages --------------------------------------------------------------------------------------------------

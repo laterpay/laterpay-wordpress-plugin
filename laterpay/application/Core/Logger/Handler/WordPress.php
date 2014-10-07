@@ -72,7 +72,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
                 <ul class="lp_debugger-tabs lp_fl-clearfix">
                     <li class="lp_is_selected">
-                        <a href="#"><?php _e( 'Messages', 'laterpay' ); ?></a>
+                        <a href="#"><?php echo sprintf( __( 'Messages<span>%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
                     </li>
                     <?php
                         foreach ( $this->get_tabs() as $key => $tab ) {
@@ -128,7 +128,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                 'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
-                'name'      => __( 'Cookies', 'laterpay' ),
+                'name'      => sprintf( __( 'Cookies<span>%s</span>', 'laterpay' ), count( $_COOKIE ) ),
                 'content'   => $_COOKIE,
             ),
             array(
