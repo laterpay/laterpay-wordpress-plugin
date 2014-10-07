@@ -6,11 +6,11 @@
     font-family                     'Helvetica Neue', Helvetica, Arial, sans-serif
 
 .lp_debugger
-    background-color                hsl(0, 0%, 90%)
+    background-color                $background-darker
     bottom                          0
     box-shadow                      -1px 1px 6px hsla(0, 0%, 0%, 0.34)
     font-size                       14px
-    height                          34em
+    height                          35em
     line-height                     1.3
     overflow-y                      hidden
     position                        fixed
@@ -19,6 +19,7 @@
     z-index                         $zindex-topmost_1
 
     header
+        background-color            darken($background-darker, 13%)
         height                      2.5em
 
         div
@@ -49,7 +50,6 @@
             line-height             0
             position                relative
             top                     0.08em
-            z-index                 $zindex-recessed
 
     .lp_close-link
         color                       $clickable
@@ -72,7 +72,7 @@
             color                   $clickable-highlight
 
 .lp_debugger.lp_is_hidden
-    bottom                          -31.5em
+    bottom                          -32.5em
 
     .lp_close-link
         transform                   rotate(-90deg)
@@ -81,7 +81,9 @@
 // debugger pane tabs --------------------------------------------------------------------------------------------------
 .lp_debugger-tabs
     border-bottom                   1px solid $border-darker
-    margin                          0 $fs-075 0
+    margin                          $fs-075 $fs-075 0
+    position                        relative
+    z-index                         $zindex-base
 
     li
         border                      1px solid transparent
@@ -134,7 +136,7 @@
     margin                          0 $fs-075 $fs-1
     padding                         $fs-025 0 0
     overflow-y						scroll
-    height							29em
+    height							28.75em
 
     ul,
     li
@@ -178,22 +180,35 @@
             text-align              right
             width                   4em
 
-    .lp_log-level-100
+    .lp_log-level:before
+        display                     inline-block
+        margin-right                $fs-05
+        width                       $fs-15
+
+    .lp_log-level-100:before
         color                       #cccccc
-    .lp_log-level-200
+        content                     'icon'
+    .lp_log-level-200:before
         color                       #468847
-    .lp_log-level-250
+        content                     'icon'
+    .lp_log-level-250:before
         color                       #3a87ad
-    .lp_log-level-200
+        content                     'icon'
+    .lp_log-level-300:before
         color                       #c09853
-    .lp_log-level-400
+        content                     'icon'
+    .lp_log-level-400:before
         color                       #f0ad4e
-    .lp_log-level-500
+        content                     'icon'
+    .lp_log-level-500:before
         color                       #FF7708
-    .lp_log-level-550
+        content                     'icon'
+    .lp_log-level-550:before
         color                       #C12A19
-    .lp_log-level-600
+        content                     'icon'
+    .lp_log-level-600:before
         color                       #000000
+        content                     'icon here'
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------

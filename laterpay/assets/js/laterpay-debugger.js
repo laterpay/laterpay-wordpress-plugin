@@ -4,9 +4,10 @@
 		var $o = {
 				menuItem 		: $('#wp-admin-bar-lp_js_debugger-admin-bar-menu'),
 				debugger 		: $('.lp_debugger'),
-				closeLink 		: '.lp_close-link',
+				debuggerHeader 	: 'header',
 				tabs 			: $('.lp_debugger-tabs li'),
 				content 		: $('.lp_debugger-content'),
+				detailsLink 	: $('.lp_js_toggle-log-details'),
 
 				hidden 			: 'lp_is_hidden',
 				selected		: 'lp_is_selected',
@@ -25,15 +26,15 @@
 				// toggle visibility of debugger pane
 				$o.menuItem
 				.mousedown(function() {
-					handleMenuItemEvent(this);
+					toggleDebuggerVisibility(this);
 				})
 				.click(function(e) {e.preventDefault();})
 				.attr({'role': 'button'});
 
-				// close debugger pane
-				$($o.closeLink, $o.debugger)
+				// toggle visibility of debugger pane
+				$($o.debuggerHeader, $o.debugger)
 				.mousedown(function() {
-					handleMenuItemEvent(this);
+					toggleDebuggerVisibility(this);
 				})
 				.click(function(e) {e.preventDefault();});
 
@@ -43,9 +44,16 @@
 					switchTab($(this));
 				})
 				.click(function(e) {e.preventDefault();});
+
+				// toggle log message details
+				$o.detailsLink
+				.mousedown(function() {
+					toggleMessageDetails($(this));
+				})
+				.click(function(e) {e.preventDefault();});
 			},
 
-			handleMenuItemEvent = function() {
+			toggleDebuggerVisibility = function() {
 				if ($o.debugger.hasClass($o.hidden)) {
 					$o.debugger.removeClass($o.hidden).attr($o.visibleAttr);
 				} else {
@@ -53,8 +61,8 @@
 				}
 			},
 
-			switchTab = function($this) {
-				var currentTab 	= $this.parent('li'),
+			switchTab = function($trigger) {
+				var currentTab 	= $trigger.parent('li'),
 					tabIndex 	= $o.tabs.index(currentTab);
 
 				$o.tabs.removeClass($o.selected);
@@ -63,6 +71,15 @@
 				// show / hide tab content
 				$o.content.addClass($o.hidden);
 				$o.content.eq(tabIndex).removeClass($o.hidden);
+			},
+
+			toggleMessageDetails = function($trigger) {
+				var $messageBody = $trigger.parents('table').find('tbody');
+				if ($messageBody.is(':hidden')) {
+					$messageBody.slideDown(400);
+				} else {
+					$messageBody.slideUp(400);
+				}
 			},
 
 			initialize = function() {

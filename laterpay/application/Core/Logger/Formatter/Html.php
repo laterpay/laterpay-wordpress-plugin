@@ -33,30 +33,30 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         // generate thead of log record
         $output .= $this->add_head_row( (string) $record['message'], $record['level'] );
 
-        // // generate tbody of log record with details
-        // $output .= '<tbody>';
-        // $output .= $this->add_row( 'Channel',   $record['channel'] );
+        // generate tbody of log record with details
+        $output .= '<tbody style="display:none;">';
+        $output .= $this->add_row( 'Channel',   $record['channel'] );
 
-        // if ( $record[ 'context' ] ) {
-        //     $embedded_table = '<table>';
-        //     foreach ( $record['context'] as $key => $value ) {
-        //         $embedded_table .= $this->add_row( $key, $this->convert_to_string( $value ) );
-        //     }
-        //     $embedded_table .= '</table>';
+        if ( $record[ 'context' ] ) {
+            $embedded_table = '<table>';
+            foreach ( $record['context'] as $key => $value ) {
+                $embedded_table .= $this->add_row( $key, $this->convert_to_string( $value ) );
+            }
+            $embedded_table .= '</table>';
 
-        //     $output .= $this->add_row( 'Context', $embedded_table, false );
-        // }
+            $output .= $this->add_row( 'Context', $embedded_table, false );
+        }
 
-        // if ( $record['extra'] ) {
-        //     $embedded_table = '<table>';
-        //     foreach ( $record['extra'] as $key => $value ) {
-        //         $embedded_table .= $this->add_row( $key, $this->convert_to_string( $value ) );
-        //     }
-        //     $embedded_table .= '</table>';
+        if ( $record['extra'] ) {
+            $embedded_table = '<table>';
+            foreach ( $record['extra'] as $key => $value ) {
+                $embedded_table .= $this->add_row( $key, $this->convert_to_string( $value ) );
+            }
+            $embedded_table .= '</table>';
 
-        //     $output .= $this->add_row( 'Extra', $embedded_table, false );
-        // }
-        // $output .= '</tbody>';
+            $output .= $this->add_row( 'Extra', $embedded_table, false );
+        }
+        $output .= '</tbody>';
 
         $output .= '</table>';
         $output .= '</li>';
@@ -77,7 +77,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         $html = "<thead>
                     <tr>
-                        <td><span class=\"lp_log-level $level\"></span>$message</td>
+                        <td><span class=\"lp_log-level lp_log-level-$level\"></span>$message</td>
                         <td>$show_details_link</td>
                     </tr>
                 </thead>";
