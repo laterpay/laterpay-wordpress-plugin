@@ -193,34 +193,32 @@
         padding                     0 $fs-05 $fs-025
 
     .lp_log-level:before
-        display                     inline-block
-        margin-right                $fs-075
-        width                       $fs-15
+        font-size                   $fs-175
+        height                      0
+        line-height                 0
+        margin-right                $fs-025
+        position                    relative
+        top                         0.23em
 
+    // infos
     .lp_log-level-100:before
-        color                       #cccccc
-        content                     'icon'
     .lp_log-level-200:before
-        color                       #468847
-        content                     'icon'
     .lp_log-level-250:before
-        color                       #3a87ad
-        content                     'icon'
+        color                       $text-lighter
+        content                     'm'
+
+    // warnings
     .lp_log-level-300:before
-        color                       #c09853
-        content                     'icon'
+        color                       hsl(39, 100%, 50%)
+        content                     'n'
+
+    // errors
     .lp_log-level-400:before
-        color                       #f0ad4e
-        content                     'icon'
     .lp_log-level-500:before
-        color                       #FF7708
-        content                     'icon'
     .lp_log-level-550:before
-        color                       #C12A19
-        content                     'icon'
     .lp_log-level-600:before
-        color                       #000000
-        content                     'icon here'
+        color                       hsl(6, 100%, 50%)
+        content                     'o'
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------

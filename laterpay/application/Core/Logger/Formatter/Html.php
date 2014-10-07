@@ -77,7 +77,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         $html = "<thead>
                     <tr>
-                        <td><span class=\"lp_log-level lp_log-level-$level\"></span>$message</td>
+                        <td><span class=\"lp_log-level lp_log-level-$level lp_vector-icon\"></span>$message</td>
                         <td>$show_details_link</td>
                     </tr>
                 </thead>";
