@@ -62,10 +62,19 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            $this->logger->error( $msg, array( 'view_file' => $view_file ) );
+            $this->logger->error(
+                __METHOD__ . ' - ' . $msg,
+                array( 'view_file' => $view_file )
+            );
 
             return;
         }
+
+        $this->logger->info(
+            __METHOD__ . ' - ' . $file,
+            $this->variables
+        );
+
         include_once( $view_file );
     }
 
