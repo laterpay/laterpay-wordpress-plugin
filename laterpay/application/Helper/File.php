@@ -18,12 +18,10 @@ class LaterPay_Helper_File
     const SCRIPT_PATH = 'admin-ajax.php?action=laterpay_load_files';
 
     /**
-     * Check url to encrypt. has to be encrypted any files, placed on server.
-     * @param int    $post_id
-     * @param string $content
-     * @param string $use_auth
+     * Decide does the uri has to be encrypted.
+     * @param string $uri
      *
-     * @return string $content
+     * @return boolean
      */
     public static function check_url_encrypt($uri) {
         
