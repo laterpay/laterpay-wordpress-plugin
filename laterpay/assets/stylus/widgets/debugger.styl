@@ -59,6 +59,8 @@
         line-height                 2em
         margin                      $fs-025 $fs-025 0 0
         text-align                  center
+        transform                   rotate(90deg)
+        transition                  transform 0.2s
         width                       2em
 
         &:before
@@ -67,17 +69,19 @@
             top                     auto
 
         &:hover
-            background-color        $clickable-highlight
-            color                   $text-inverse
+            color                   $clickable-highlight
 
 .lp_debugger.lp_is_hidden
     bottom                          -31.5em
+
+    .lp_close-link
+        transform                   rotate(-90deg)
 
 
 // debugger pane tabs --------------------------------------------------------------------------------------------------
 .lp_debugger-tabs
     border-bottom                   1px solid $border-darker
-    margin                          0 $fs-075 $fs-025
+    margin                          0 $fs-075 0
 
     li
         border                      1px solid transparent
@@ -110,9 +114,9 @@
 // debugging messages --------------------------------------------------------------------------------------------------
 .lp_debugger-content-list
     margin                          0 $fs-075 $fs-1
-    padding                         0
+    padding                         $fs-025 0 0
     overflow-y						scroll
-    height							25em
+    height							29em
 
     ul,
     li

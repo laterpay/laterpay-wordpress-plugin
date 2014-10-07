@@ -65,7 +65,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         ?>
             <div class="lp_debugger lp_is_hidden">
                 <header>
-                    <a class="lp_js_close-debugger lp_close-link lp_fl-right lp_b-r3" data-icon="e"></a>
+                    <a class="lp_js_close-debugger lp_close-link lp_fl-right" data-icon="l"></a>
                     <div class="lp_fl-right"><?php echo __( 'Peak memory usage:', 'laterpay' ) . ' ' . number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB'; ?></div>
                     <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 </header>
