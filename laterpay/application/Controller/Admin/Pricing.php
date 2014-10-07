@@ -81,6 +81,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 );
             }
             switch ( $_POST['form'] ) {
+                case 'currency_form':
+                    $this->update_currency();
+                    break;
 
                 case 'global_price_form':
                     $this->update_global_default_price();
@@ -93,6 +96,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 case 'price_category_form_delete':
                     $this->delete_category_default_price();
                     break;
+
                 case 'laterpay_get_category_prices':
                     if( !array_key_exists( 'category_ids', $_POST ) )
                         $_POST[ 'category_ids' ] = array();
@@ -135,6 +139,26 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             array(
                 'success' => false,
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+            )
+        );
+    }
+
+    /**
+    * Update the currency used for all prices.
+    *
+    * @return void
+    */
+    protected function update_currency() {
+        update_option( 'laterpay_currency', $_POST['laterpay_currency'] );
+
+        wp_send_json(
+            array(
+                'success'           => true,
+                'laterpay_currency' => get_option( 'laterpay_currency' ),
+                'message'           => sprintf(
+                                            __( 'The currency for this website is %s now.', 'laterpay' ),
+                                            get_option( 'laterpay_currency' )
+                                        )
             )
         );
     }

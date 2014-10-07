@@ -2,11 +2,10 @@
 
 class LaterPay_Helper_Pricing
 {
-
-    const TYPE_DEFAULT_PRICE = 'global default price';
-    const TYPE_CATEGORY_PRICE = 'category default price';
+    const TYPE_DEFAULT_PRICE    = 'global default price';
+    const TYPE_CATEGORY_PRICE   = 'category default price';
     const TYPE_INDIVIDUAL_PRICE = 'individual price';
-    const TYPE_DYNAMIC_PRICE = 'individual price, dynamic';
+    const TYPE_DYNAMIC_PRICE    = 'individual price, dynamic';
 
     const META_KEY = 'laterpay_post_prices';
 
