@@ -24,21 +24,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             81
         );
 
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        // don't render submenu links, if the plugin was never activated before
-        if ( $activated === '' ) {
-            return;
-        }
         $page_number    = 0;
         $menu           = LaterPay_Helper_View::get_admin_menu();
         foreach ( $menu as $name => $page ) {
-            // don't render 'get started' submenu link, if the plugin was activated before
-            if ( $activated !== '' && $name == 'get_started' ) {
-                continue;
-            }
-
             $slug = ! $page_number ? $plugin_page : $page['url'];
-
             $page_id = add_submenu_page(
                 $plugin_page,
                 $page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
@@ -128,31 +117,13 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             $tab = $_GET['tab'];
         }
 
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-
-        // always return the get started tab, if the plugin has never been activated before
-        if ( $activated === '' ) {
-            $tab            = 'get_started';
-            $_GET['tab']    = 'get_started';
-        }
         // return default tab, if no specific tab is requested
         if ( empty( $tab ) ) {
             $tab            = 'pricing';
             $_GET['tab']    = 'pricing';
         }
-        // return default tab, if plugin is already activated and get started tab is requested
-        if ( $activated == '1' && $tab == 'get_started' ) {
-            $tab            = 'pricing';
-            $_GET['tab']    = 'pricing';
-        }
 
         switch ( $tab ) {
-            // render get started tab
-            case 'get_started':
-                $get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
-                $get_started_controller->render_page();
-                break;
-
             default:
 
             // render pricing tab
@@ -189,9 +160,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                 $this->render_add_edit_post_page_help();
                 break;
 
-            case 'get_started':
-                break;
-
             case 'pricing':
                 $this->render_pricing_tab_help();
                 break;
@@ -223,16 +191,15 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                         <p>
                                             <strong>Setting Prices</strong><br>
                                             You can set an individual price for each post.<br>
-                                            Possible prices are either 0 Euro (free) or any value between 0.05 Euro (inclusive) and 5.00 Euro (inclusive).<br>
+                                            Possible prices are either 0 Euro (free) or any value between 0.05 Euro (inclusive) and 149.99 Euro (inclusive).<br>
                                             If you set an individual price, category default prices you might have set for the post\'s category(s)
                                             won\'t apply anymore, unless you make the post use a category default price.
                                         </p>
                                         <p>
-                                            <strong>Advanced Pricing Options</strong><br>
-                                            You can define advanced price settings for each post to adjust prices automatically over time.<br>
-                                            Choose from several presets and adjust them according to your needs.
+                                            <strong>Dynamic Pricing Options</strong><br>
+                                            You can define dynamic price settings for each post to adjust prices automatically over time.<br>
                                             <br>
-                                            For example, you could sell a breaking news post for 0.49 Euro (high interest within the first 24 hours)
+                                            For example, you could sell a "breaking news" post for 0.49 Euro (high interest within the first 24 hours)
                                             and automatically reduce the price to 0.05 Euro on the second day.
                                         </p>
                                         <p>
@@ -305,7 +272,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                    'title'   => __( 'Currency', 'laterpay' ),
                                    'content' => __( '
                                                     <p>
-                                                        You can choose between different currencies for your blog.<br>
+                                                        Currently, the plugin only supports Euro as default currency, but
+                                                        you will soon be able to choose between different currencies for your blog.<br>
                                                         Changing the standard currency will not convert the prices you
                                                         have set.
                                                         Only the currency code next to the price is changed.<br>
@@ -514,10 +482,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
         $pointers = array();
 
-        if (
-            get_option( 'laterpay_plugin_is_activated', '' ) == '' &&
-            ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers )
-        ) {
+        if ( ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers ) ) {
             $pointers[] = LaterPay_Controller_Admin::ADMIN_MENU_POINTER;
         }
         // add pointers to LaterPay features on add / edit post page

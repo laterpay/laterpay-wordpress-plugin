@@ -8,51 +8,31 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      *
      * @return bool
      */
-    protected function check_requirements() {
-        // check, if we're on a singular page
-        if ( ! is_singular() ) {
-            $this->logger->warning(
-                __METHOD__ . ' - !is_singular'
-            );
-            return false;
-        }
+    protected function check_requirements( $post = null ) {
+        if ( empty($post) ) {
+            // check, if we're on a singular page
+            if ( ! is_singular() ) {
+                return false;
+            }
 
-        // check, if we have a post
-        $post = get_post();
-        if ( $post === null ) {
-            $this->logger->warning(
-                __METHOD__ . ' - post === null'
-            );
-            return false;
+            // check, if we have a post
+            $post = get_post();
+            if ( $post === null ) {
+                return false;
+            }
         }
-
         // check, if the current post_type is an allowed post_type
-        $enabled_post_types = $this->config->get( 'content.enabled_post_types' );
-        if ( ! in_array( $post->post_type, $enabled_post_types ) ) {
-            $this->logger->warning(
-                __METHOD__ . ' - post_type not enabled',
-                array(
-                    'post_type'         => $post->post_type,
-                    'enabled_post_types'=> $enabled_post_types,
-                )
-            );
+        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
             return false;
         }
 
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ){
-            $this->logger->warning(
-                __METHOD__ . ' - post is not purchasable',
-                array(
-                    'post' => $post,
-                )
-            );
+        if ( ! LaterPay_Helper_Pricing::is_purchasable() ){
             return false;
         }
 
         // check, if logging is enabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
-            $this->logger->warning( __METHOD__ . ' - access logging is not enabled' );
             return false;
         }
 
@@ -74,6 +54,36 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $post_id = get_the_ID();
 
         LaterPay_Helper_Statistics::track( $post_id );
+    }
+    
+    /**
+     * Ajax method to track unique visitors when caching compatible mode is enabled.
+     *
+     * @wp-hook wp_ajax_laterpay_post_load_track_views, wp_ajax_nopriv_laterpay_post_load_track_views
+     *
+     * @return void
+     */
+    public function ajax_track_views() {
+        if ( ! isset( $_POST[ 'action' ] ) || $_POST[ 'action' ] !== 'laterpay_post_track_views' ) {
+            exit;
+        }
+
+        if ( ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], $_POST[ 'action' ] ) ) {
+            exit;
+        }
+
+        if ( ! isset( $_POST[ 'post_id' ] ) ) {
+            return;
+        }
+
+        $post_id    = absint( $_POST[ 'post_id' ] );
+        $post       = get_post( $post_id );
+        
+        if ( $this->check_requirements($post) ) {
+            LaterPay_Helper_Statistics::track( $post_id );
+        }
+        
+        exit;
     }
 
     /**

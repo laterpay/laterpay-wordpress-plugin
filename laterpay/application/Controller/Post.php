@@ -704,6 +704,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'nonces'        => array(
                     'content'   => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
                     'statistic' => wp_create_nonce( 'laterpay_post_statistic_render' ),
+                    'tracking'  => wp_create_nonce( 'laterpay_post_track_views' ),
                 ),
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )

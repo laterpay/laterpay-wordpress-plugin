@@ -62,10 +62,6 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_plugin_admin_assets' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
 
-                // add Ajax hooks for tabs in plugin backend
-                $admin_get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
-                add_action( 'wp_ajax_laterpay_getstarted',          array( $admin_get_started_controller, 'process_ajax_requests' ) );
-
                 $admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
                 add_action( 'wp_ajax_laterpay_pricing',             array( $admin_pricing_controller, 'process_ajax_requests' ) );
                 add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'process_ajax_requests' ) );
@@ -121,7 +117,7 @@ class LaterPay_Core_Bootstrap
         $post_controller = new LaterPay_Controller_Post( $this->config );
         // add Ajax hooks for frontend
         add_action( 'wp_ajax_laterpay_post_load_purchased_content',          array( $post_controller, 'ajax_load_purchased_content' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );        
 
         // Ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
@@ -137,6 +133,8 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistics_controller, 'ajax_render_tab' ) );
         add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistics_controller, 'ajax_toggle_visibility' ) );
         add_action( 'wp_ajax_laterpay_post_statistic_toggle_preview',   array( $statistics_controller, 'ajax_toggle_preview' ) );
+        add_action( 'wp_ajax_laterpay_post_track_views',                array( $statistics_controller, 'ajax_track_views' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_track_views',         array( $statistics_controller, 'ajax_track_views' ) );
 
         // frontend actions
         if ( ! is_admin() ) {
@@ -179,17 +177,12 @@ class LaterPay_Core_Bootstrap
 
     /**
      * Callback to deactivate the plugin.
-     * Sets option 'laterpay_plugin_is_activated' to false, if the installation was successfully activated at that time.
      *
      * @wp-hook register_deactivation_hook
      *
      * @return void
      */
     public function deactivate() {
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        if ( $activated == '1' ) {
-            update_option( 'laterpay_plugin_is_activated', '0' );
-        }
     }
 
 }

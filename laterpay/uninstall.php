@@ -40,7 +40,6 @@ $sql = "DELETE FROM
 $wpdb->query( $sql );
 
 // remove global settings from wp_options table
-delete_option( 'laterpay_plugin_is_activated' );
 delete_option( 'laterpay_teaser_content_only' );
 delete_option( 'laterpay_plugin_is_in_live_mode' );
 delete_option( 'laterpay_sandbox_merchant_id' );

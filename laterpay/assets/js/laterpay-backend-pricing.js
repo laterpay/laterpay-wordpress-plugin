@@ -409,6 +409,20 @@
                                         if (id !== '') {
                                             var data = {text: id};
                                             callback(data);
+                                        } else {
+                                            $.get(
+                                                ajaxurl,
+                                                {
+                                                    term    : '',
+                                                    action  : 'laterpay_pricing'
+                                                },
+                                                function(data) {
+                                                    if (data && data[0] !== undefined) {
+                                                        var term = data[0];
+                                                        callback({text: term.name});
+                                                    }
+                                                }
+                                            );
                                         }
                                     },
                     formatResult    : function(data) {return data.text;},
