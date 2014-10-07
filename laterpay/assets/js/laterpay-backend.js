@@ -14,10 +14,10 @@ function setMessage(message, success) {
         }
     }
 
-    var $message        = jQuery('#message'),
+    var $message        = jQuery('#lp_js_flash-message'),
         messageClass    = success ? 'updated' : 'error';
 
-    $message.attr('class', messageClass).find('p').html(message);
+    $message.addClass(messageClass).find('p').html(message);
     if (jQuery('p:hidden', $message)) {
         $message.slideDown(250);
     }
@@ -25,7 +25,7 @@ function setMessage(message, success) {
 }
 
 function clearMessage() {
-    jQuery('#message').slideUp(250);
+    jQuery('#lp_js_flash-message').slideUp(250);
 }
 
 jQuery.noConflict();

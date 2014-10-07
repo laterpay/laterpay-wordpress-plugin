@@ -1,0 +1,81 @@
+// universal vendor-prefixing
+vendorize(prop, args)
+    -webkit-{prop}                          args
+    -moz-{prop}                             args
+    -ms-{prop}                              args
+    -o-{prop}                               args
+    {prop}                                  args
+
+
+// border-radius
+border-radius()
+    vendorize('border-radius',              arguments)
+
+border-top-radius()
+    vendorize('border-top-left-radius',     arguments)
+    vendorize('border-top-right-radius',    arguments)
+
+border-top-radius()
+    vendorize('border-bottom-left-radius',  arguments)
+    vendorize('border-bottom-right-radius', arguments)
+
+
+// box-shadow
+box-shadow()
+    vendorize('box-shadow',                 arguments)
+
+
+// box model
+box(orient, pack, align)
+    display                                 -webkit-box
+    display                                 -moz-box
+    display                                 box
+    vendorize('box-orient',                 orient)
+    vendorize('box-pack',                   pack)
+    vendorize('box-align',                  align)
+    vendorize('box-lines',                  multiple)
+
+box-flex()
+    vendorize('box-flex',                   arguments)
+
+box-sizing()
+    vendorize('box-sizing',                 arguments)
+
+
+// animations and transforms
+animation()
+    vendorize('animation',                  arguments)
+
+transition()
+    vendorize('transition',                 arguments)
+
+transform()
+    vendorize('transform',                  arguments)
+
+transform-origin()
+    vendorize('transform-origin',           arguments)
+
+
+// backgrounds
+background-clip()
+    vendorize('background-clip',            arguments)
+
+linear-gradient(startColor, startInterval = 0%, endColor, endInterval = 100%, start = left top, end = left bottom)
+    mozStart = top if start = left top
+    background                              startColor
+    background                              -moz-linear-gradient(mozStart, startColor startInterval, endColor endInterval)
+    background                              -webkit-gradient(linear, start, end, color-stop(startInterval, startColor), color-stop(endInterval, endColor))
+
+
+// text
+user-select()
+    vendor('user-select',                   arguments)
+
+text-fill-color()
+    vendorize('text-fill-color',            arguments)
+
+
+// opacity
+opacity(arguments)
+    opacity                                 arguments
+    filter                                  unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round(arguments * 100) + ')')

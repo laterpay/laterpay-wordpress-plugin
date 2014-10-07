@@ -6,13 +6,13 @@ class LaterPay_Helper_User
     protected static $_preview_post_as_visitor  = null;
     protected static $_hide_statistics_pane     = null;
 
-	/**
-	 * @param string           $capability
-	 * @param WP_Post|int|null $post
-	 * @param boolean          $strict
+    /**
+     * @param string           $capability
+     * @param WP_Post|int|null $post
+     * @param boolean          $strict
      *
-	 * @return bool
-	 */
+     * @return bool
+     */
     public static function can( $capability, $post = null, $strict = true ) {
         $allowed = false;
 
@@ -79,15 +79,15 @@ class LaterPay_Helper_User
         return in_array( $role, (array) $user->roles );
     }
 
-	/**
-	 * Check if the current user wants to preview the post as it renders for an admin or as it renders for a visitor.
-	 *
-	 * @param   null|WP_Post $post
+    /**
+     * Check if the current user wants to preview the post as it renders for an admin or as it renders for a visitor.
      *
-	 * @return  bool
-	 */
+     * @param null|WP_Post $post
+     *
+     * @return bool
+     */
     public static function preview_post_as_visitor( $post = null ) {
-        if ( is_null( self::$_preview_post_as_visitor ) ) {
+        if ( is_null( LaterPay_Helper_User::$_preview_post_as_visitor ) ) {
             $preview_post_as_visitor = 0;
             $current_user            = wp_get_current_user();
             if ( $current_user instanceof WP_User ) {
@@ -96,31 +96,36 @@ class LaterPay_Helper_User
                    $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
             }
-            self::$_preview_post_as_visitor = $preview_post_as_visitor && self::can( 'laterpay_read_post_statistics', $post );
+            LaterPay_Helper_User::$_preview_post_as_visitor = $preview_post_as_visitor && LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
         }
 
-        return self::$_preview_post_as_visitor;
+        return LaterPay_Helper_User::$_preview_post_as_visitor;
     }
 
     /**
      * Check if the current user has hidden the post statistics pane.
      *
-     * @return  bool
+     * @return bool
      */
     public static function statistics_pane_is_hidden() {
-        if ( is_null( self::$_hide_statistics_pane ) ) {
-            $hide_statistics_pane = 0;
+        if ( is_null( LaterPay_Helper_User::$_hide_statistics_pane ) ) {
             $current_user = wp_get_current_user();
+
             if ( $current_user instanceof WP_User ) {
                 $hide_statistics_pane = get_user_meta( $current_user->ID, 'laterpay_hide_statistics_pane' );
                 if ( ! empty( $hide_statistics_pane ) ) {
-                   $hide_statistics_pane = $hide_statistics_pane[0];
+                    $hide_statistics_pane = $hide_statistics_pane[0];
+                } else {
+                    $hide_statistics_pane = 0;
                 }
+            } else {
+                $hide_statistics_pane = 0;
             }
-            self::$_hide_statistics_pane = $hide_statistics_pane;
+
+            LaterPay_Helper_User::$_hide_statistics_pane = $hide_statistics_pane;
         }
 
-        return self::$_hide_statistics_pane;
+        return LaterPay_Helper_User::$_hide_statistics_pane;
     }
 
 }

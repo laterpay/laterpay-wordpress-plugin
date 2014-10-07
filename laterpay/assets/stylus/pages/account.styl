@@ -1,0 +1,59 @@
+// 'Account' tab in plugin backend
+
+// API credentials -----------------------------------------------------------------------------------------------------
+.lp_w-1-2
+    ul.lp_fl-clearfix
+        margin                  1.25em 0 -0.8em
+
+        .lp_background-icon-spacer
+            width               84px
+
+    fieldset
+        min-height              165px
+
+        form:first-of-type
+            margin-top          2em
+
+// render icons from icon font in pseudo elements
+.lp_w-1-2.lp_sandbox-credentials[data-icon],
+.lp_w-1-2.lp_live-credentials[data-icon]
+    &:before
+        color                   $border
+        position                absolute
+        z-index                 $zindex-recessed
+
+.lp_w-1-2.lp_sandbox-credentials[data-icon]:before
+    font-size                   90px
+    left                        26px
+    top                         57px
+
+.lp_w-1-2.lp_live-credentials[data-icon]:before
+    font-size                   75px
+    left                        15px
+    top                         72px
+
+
+// legal documents viewer ----------------------------------------------------------------------------------------------
+.lp_request-live-credentials
+    margin                      0.1em 0 0 1px
+
+
+// responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1050px)
+    .lp_w-1-2
+        .lp_sandbox-credentials[data-icon]:before
+            font-size           75px
+            left                24px
+            top                 61px
+
+        .lp_live-credentials[data-icon]:before
+            font-size           60px
+            left                14px
+            top                 79px
+
+    .lp_background-icon-spacer
+        width                   70px
+
+    input.lp_api-key-input[type=text],
+    input.lp_merchant-id-input[type=text]
+        width                   290px

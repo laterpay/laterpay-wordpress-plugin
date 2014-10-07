@@ -3,12 +3,12 @@
 class LaterPay_Helper_Cache
 {
 
-	/**
-	 * Reset cache, if it exists.
-	 *
-	 * @return bool|void
-	 */
-	public static function reset_opcode_cache() {
+    /**
+     * Reset cache, if it exists.
+     *
+     * @return bool|void
+     */
+    public static function reset_opcode_cache() {
         $reset = false;
 
         if ( function_exists( 'opcache_reset' ) ) {
@@ -24,14 +24,14 @@ class LaterPay_Helper_Cache
             $reset = xcache_clear_cache();
         }
 
-        LaterPay_Core_Logger::debug( 'LaterPay_Cache_Helper::reset_opcode_cache', array( $reset ) );
+        laterpay_get_logger()->debug( 'LaterPay_Cache_Helper::reset_opcode_cache', array( $reset ) );
 
         return $reset;
     }
 
 
     /**
-     * Check if a known page caching plugin is active.
+     * Check, if a known page caching plugin is active.
      *
      * @return bool
      */
@@ -61,4 +61,5 @@ class LaterPay_Helper_Cache
 
         return $caching_plugin_is_active;
     }
+
 }

@@ -66,7 +66,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                     );
         }
         if ( $page === null && $a[ 'target_page_title' ] !== '' ) {
-            $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.allowed_post_types' ) );
+            $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
         }
         // target_page_title was provided, but didn't work (no invalid target_page_id was provided)
         if ( $page === null && $error_reason == '' ) {
@@ -76,21 +76,38 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                     );
         }
         if ( $page === null ) {
-            $error_message  = '<div class="laterpay-shortcode-error">';
+            $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
+
+            $this->logger->error(
+                __METHOD__ . ' - ' . $error_reason,
+                array(
+                    'args'   => $a
+                )
+            );
 
             return $error_message;
         }
         $page_id = $page->ID;
 
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
-        if ( ! in_array( $page->post_type, $this->config->get( 'content.allowed_post_types' ) ) )  {
-            $error_message  = '<div class="laterpay-shortcode-error">';
+        if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ) ) )  {
+
+            $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+
+            $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-            $error_message .= __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+            $error_message .= $error_reason;
             $error_message .= '</div>';
+
+            $this->logger->error(
+                __METHOD__ . ' - ' . $error_reason,
+                array(
+                    'args'   => $a
+                )
+            );
 
             return $error_message;
         }
@@ -161,14 +178,26 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $heading        = esc_attr( $a['heading_text'] );
         $description    = esc_attr( $a['description_text'] );
 
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'image_path'    => $image_path,
+                'heading'       => $heading,
+                'description'   => $description,
+                'price_tag'     => $price_tag,
+                'content_type'  => $content_type,
+                'content_types' => $content_types,
+            )
+        );
+
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = "<div class=\"laterpay-premium-file-link\" style=\"background-image:url($image_path)\">";
+            $html = "<div class=\"lp_premium-file-box\" style=\"background-image:url($image_path)\">";
         } else {
-            $html = "<div class=\"laterpay-premium-file-link $content_type\">";
+            $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
         }
-        $html .= "    <a href=\"$page_url\" class=\"laterpay-premium-file-button\" data-icon=\"b\">$price_tag</a>";
-        $html .= '    <div class="details">';
+        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$price_tag</a>";
+        $html .= '    <div class="lp_premium-file-details">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
             $html .= "    <p>$description</p>";
@@ -193,7 +222,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
-        return '<div class="laterpay-premium-file-link-wrapper">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
     }
 
 }

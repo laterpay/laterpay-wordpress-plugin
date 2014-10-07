@@ -3,29 +3,29 @@
 class LaterPay_Helper_Statistics
 {
 
-	/**
-	 * @var string|wpdb
-	 */
-	public static $wpdb = '';
+    /**
+     * @var string|wpdb
+     */
+    public static $wpdb = '';
 
-	/**
-	 * @var array
-	 */
-	protected static $stat = array();
+    /**
+     * @var array
+     */
+    protected static $stat = array();
 
-	/**
-	 * @var array
-	 */
-	protected static $options = array(
+    /**
+     * @var array
+     */
+    protected static $options = array(
         'secret'            => AUTH_SALT,
         'session_duration'  => 2678400,  // one month
     );
 
-	/**
-	 *
-	 * @return  string $unique_id
-	 */
-	protected static function get_unique_id() {
+    /**
+     *
+     * @return  string $unique_id
+     */
+    protected static function get_unique_id() {
         return str_replace( '.', '', uniqid( rand( 0, 2147483647 ), true ) );
     }
 

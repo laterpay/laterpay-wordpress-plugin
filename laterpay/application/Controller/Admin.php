@@ -17,33 +17,22 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         add_menu_page(
             __( 'LaterPay Plugin Settings', 'laterpay' ),
             'LaterPay',
-            'edit_plugins',
+            'activate_plugins',
             $plugin_page,
             array( $this, 'run' ),
             'dashicons-laterpay-logo',
             81
         );
 
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        // don't render submenu links, if the plugin was never activated before
-        if ( $activated === '' ) {
-            return;
-        }
         $page_number    = 0;
         $menu           = LaterPay_Helper_View::get_admin_menu();
         foreach ( $menu as $name => $page ) {
-            // don't render 'get started' submenu link, if the plugin was activated before
-            if ( $activated !== '' && $name == 'get_started' ) {
-                continue;
-            }
-
             $slug = ! $page_number ? $plugin_page : $page['url'];
-
             $page_id = add_submenu_page(
                 $plugin_page,
                 $page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
                 $page['title'],
-                'edit_plugins',
+                'activate_plugins',
                 $slug,
                 array( $this, 'run_' . $name )
             );
@@ -76,9 +65,9 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         // load LaterPay-specific CSS
         wp_register_style(
             'laterpay-backend',
-            $this->config->css_url . 'laterpay-backend.css',
+            $this->config->get( 'css_url' ) . 'laterpay-backend.css',
             array(),
-            $this->config->version
+            $this->config->get( 'version' )
         );
         wp_register_style(
             'open-sans',
@@ -90,21 +79,28 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         // load LaterPay-specific JS
         wp_register_script(
             'laterpay-backend',
-            $this->config->js_url . 'laterpay-backend.js',
+            $this->config->get( 'js_url' ) . 'laterpay-backend.js',
             array( 'jquery' ),
-            $this->config->version,
+            $this->config->get( 'version' ),
             true
         );
         wp_enqueue_script( 'laterpay-backend' );
 
-        // load HTML5 shim for IE <= 9 only
-        if ( LaterPay_Helper_Browser::is_ie() && LaterPay_Helper_Browser::get_browser_major_version() <= 9 ) {
-            wp_register_script(
-                'html5-shim-ie',
-                'http://html5shim.googlecode.com/svn/trunk/html5.js'
-            );
-            wp_enqueue_script( 'html5-shim-ie' );
-        }
+    }
+
+    /**
+     * Add html5shiv to the admin_head() for Internet Explorer < 9.
+     *
+     * @wp-hook admin_head
+     *
+     * @return void
+     */
+    public function add_html5shiv_to_admin_head() {
+        ?>
+        <!--[if lt IE 9]>
+        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <?php
     }
 
     /**
@@ -121,31 +117,13 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             $tab = $_GET['tab'];
         }
 
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-
-        // always return the get started tab, if the plugin has never been activated before
-        if ( $activated === '' ) {
-            $tab            = 'get_started';
-            $_GET['tab']    = 'get_started';
-        }
         // return default tab, if no specific tab is requested
         if ( empty( $tab ) ) {
             $tab            = 'pricing';
             $_GET['tab']    = 'pricing';
         }
-        // return default tab, if plugin is already activated and get started tab is requested
-        if ( $activated == '1' && $tab == 'get_started' ) {
-            $tab            = 'pricing';
-            $_GET['tab']    = 'pricing';
-        }
 
         switch ( $tab ) {
-            // render get started tab
-            case 'get_started':
-                $get_started_controller = new LaterPay_Controller_Admin_GetStarted( $this->config );
-                $get_started_controller->render_page();
-                break;
-
             default:
 
             // render pricing tab
@@ -182,9 +160,6 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                 $this->render_add_edit_post_page_help();
                 break;
 
-            case 'get_started':
-                break;
-
             case 'pricing':
                 $this->render_pricing_tab_help();
                 break;
@@ -216,16 +191,15 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                         <p>
                                             <strong>Setting Prices</strong><br>
                                             You can set an individual price for each post.<br>
-                                            Possible prices are either 0 Euro (free) or any value between 0.05 Euro (inclusive) and 5.00 Euro (inclusive).<br>
+                                            Possible prices are either 0 Euro (free) or any value between 0.05 Euro (inclusive) and 149.99 Euro (inclusive).<br>
                                             If you set an individual price, category default prices you might have set for the post\'s category(s)
                                             won\'t apply anymore, unless you make the post use a category default price.
                                         </p>
                                         <p>
-                                            <strong>Advanced Pricing Options</strong><br>
-                                            You can define advanced price settings for each post to adjust prices automatically over time.<br>
-                                            Choose from several presets and adjust them according to your needs.
+                                            <strong>Dynamic Pricing Options</strong><br>
+                                            You can define dynamic price settings for each post to adjust prices automatically over time.<br>
                                             <br>
-                                            For example, you could sell a breaking news post for 0.49 Euro (high interest within the first 24 hours)
+                                            For example, you could sell a "breaking news" post for 0.49 Euro (high interest within the first 24 hours)
                                             and automatically reduce the price to 0.05 Euro on the second day.
                                         </p>
                                         <p>
@@ -235,6 +209,19 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                             by default, the LaterPay plugin uses the first 60 words of each post as teaser content.
                                             <br>
                                             Nevertheless, we highly recommend manually creating the teaser for each post, to increase your sales.
+                                        </p>
+                                        <p>
+                                            <strong>PPU (Pay-per-Use)</strong><br>
+                                            If you choose to sell your content as <strong>Pay-per-Use</strong>, a user pays the purchased content <strong>later</strong>. The purchase is added to his LaterPay invoice and he has to log in to LaterPay and pay, once his invoice has reached 5.00 EUR.<br>
+                                            LaterPay <strong>recommends</strong> Pay-per-Use for all prices up to 5.00 EUR as they deliver the <strong>best purchase experience</strong> for your users.<br>
+                                            PPU is possible for prices between (including) <strong>0.05 EUR</strong> and (including) <strong>5.00 EUR</strong>.
+                                        </p>
+                                        <p>
+                                            <strong>SIS (Single Sale)</strong><br>
+                                            If you sell your content as <strong>Single Sale</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
+                                            Single Sales are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
+                                            A Single Sales is possible between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 EUR</strong>.<br>
+                                            Single Sales are currently available for <strong>individual prices</strong> and will soon be implemented for the global default price and category default prices.
                                         </p>',
                                     'laterpay'
                                    ),
@@ -285,7 +272,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                    'title'   => __( 'Currency', 'laterpay' ),
                                    'content' => __( '
                                                     <p>
-                                                        You can choose between different currencies for your blog.<br>
+                                                        Currently, the plugin only supports Euro as default currency, but
+                                                        you will soon be able to choose between different currencies for your blog.<br>
                                                         Changing the standard currency will not convert the prices you
                                                         have set.
                                                         Only the currency code next to the price is changed.<br>
@@ -380,7 +368,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                                             availability for this environment.
                                                         </li>
                                                         <li>
-                                                            The <strong>Live</strong> environment for production use.</br>
+                                                            The <strong>Live</strong> environment for production use.<br>
                                                             In this environment all transactions will be actually
                                                             processed and credited to your LaterPay merchant account.<br>
                                                             The LaterPay SLA for availability and response time apply.
@@ -437,30 +425,19 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add WordPress pointers to pages.
      *
-     * @return  void
+     * @return void
      */
     public function modify_footer() {
-        $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-        $pointers = array();
+        $pointers = LaterPay_Controller_Admin::get_pointers_to_be_shown();
 
-        // add pointer to LaterPay plugin in admin menu
-        if (
-            get_option( 'laterpay_plugin_is_activated', '' ) == '' &&
-            ! in_array( self::ADMIN_MENU_POINTER, $dismissed_pointers )
-        ) {
-            $pointers[] = self::ADMIN_MENU_POINTER;
-        }
-        // add pointers to LaterPay features on add / edit post page
-        if ( ! in_array( self::POST_PRICE_BOX_POINTER, $dismissed_pointers ) ) {
-            $pointers[] = self::POST_PRICE_BOX_POINTER;
-        }
-        if ( ! in_array( self::POST_TEASER_CONTENT_POINTER, $dismissed_pointers ) ) {
-            $pointers[] = self::POST_TEASER_CONTENT_POINTER;
+        // don't render the partial, if there are no pointers to be shown
+        if ( empty( $pointers ) ) {
+            return;
         }
 
         $this->assign( 'pointers', $pointers );
 
-        echo $this->get_text_view( 'backend/partials/footer' );
+        echo $this->get_text_view( 'backend/partials/pointer_scripts' );
     }
 
     /**
@@ -485,8 +462,58 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_admin_pointers_script() {
+        $pointers = LaterPay_Controller_Admin::get_pointers_to_be_shown();
+
+        // don't enqueue the assets, if there are no pointers to be shown
+        if ( empty( $pointers ) ) {
+            return;
+        }
+
         wp_enqueue_script( 'wp-pointer' );
         wp_enqueue_style( 'wp-pointer' );
     }
 
+    /**
+     * Return the pointers that have not been shown yet.
+     *
+     * @return array $pointers
+     */
+    public function get_pointers_to_be_shown() {
+        $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+        $pointers = array();
+
+        if ( ! in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $dismissed_pointers ) ) {
+            $pointers[] = LaterPay_Controller_Admin::ADMIN_MENU_POINTER;
+        }
+        // add pointers to LaterPay features on add / edit post page
+        if ( ! in_array( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER, $dismissed_pointers ) ) {
+            $pointers[] = LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER;
+        }
+        if ( ! in_array( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER, $dismissed_pointers ) ) {
+            $pointers[] = LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER;
+        }
+
+        return $pointers;
+    }
+
+    /**
+     * Return all pointer constants from current class.
+     *
+     * @return array $pointers
+     */
+    public static function get_all_pointers() {
+        $reflection     = new ReflectionClass( __CLASS__ );
+        $class_constants = $reflection->getConstants();
+        $pointers = array();
+
+        if ( $class_constants ) {
+            foreach (array_keys($class_constants) as $key_value) {
+                if ( strpos( $key_value, 'POINTER') !== FALSE ) {
+                    $pointers[] = $class_constants[$key_value];
+                }
+            }
+        }
+
+        return $pointers;
+    }
 }

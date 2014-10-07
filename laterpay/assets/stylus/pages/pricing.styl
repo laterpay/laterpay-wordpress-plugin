@@ -1,0 +1,46 @@
+// 'Pricing' tab in plugin backend
+
+// price type sections -------------------------------------------------------------------------------------------------
+ul.lp_row h2 + hr
+    height                  2px
+
+ul.lp_row li:nth-child(1) h2 + hr
+    background-color        hsl(0, 0%, 83%)
+
+ul.lp_row li:nth-child(2) h2 + hr
+    background-color        hsl(0, 0%, 65%)
+
+ul.lp_row li:nth-child(3) h2 + hr
+    background-color        hsl(0, 0%, 46%)
+
+.lp_spacer
+    height                  2.4em
+
+.lp_revenue-model
+    width                   3.5em
+
+span.lp_revenue-model-label
+    background-color        hsl(0, 0%, 83%)
+    color                   $text-inverse
+    padding                 1px $fs-025
+
+
+// category default prices ---------------------------------------------------------------------------------------------
+.select2-container,
+.select2-drop,
+.select2-search,
+.select2-search input
+    margin-bottom           32px
+    width                   10rem
+
+.lp_category-title
+    min-width               8.75em
+
+
+// responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1279px)
+    .lp_edit-link
+        margin-left        $fs-05
+
+    ul.lp_row li:nth-child(3) br
+        display            none

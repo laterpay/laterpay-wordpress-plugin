@@ -24,9 +24,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             'laterpay-backend-account',
             'lpVars',
             array(
-                'i18nApiKeyInvalid'         => __( 'The API key you entered is not a valid LaterPay API key! ', 'laterpay' ),
-                'i18nMerchantIdInvalid'     => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID! ', 'laterpay' ),
-                'i18nLiveApiDataRequired'   => __( 'Switching into Live mode requires a valid Live Merchant ID and Live API Key.', 'laterpay' ),
+                'i18nApiKeyInvalid'         => __( 'The API key you entered is not a valid LaterPay API key!', 'laterpay' ),
+                'i18nMerchantIdInvalid'     => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
                 'i18nPreventUnload'         => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
             )
         );
@@ -42,7 +41,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         $this->assign( 'sandbox_api_key',        get_option( 'laterpay_sandbox_api_key' ) );
         $this->assign( 'live_merchant_id',       get_option( 'laterpay_live_merchant_id' ) );
         $this->assign( 'live_api_key',           get_option( 'laterpay_live_api_key' ) );
-        $this->assign( 'plugin_is_in_live_mode', get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
+        $this->assign( 'plugin_is_in_live_mode', $this->config->get( 'is_in_live_mode' ) );
         $this->assign( 'top_nav',                $this->get_menu() );
         $this->assign( 'admin_menu',             LaterPay_Helper_View::get_admin_menu() );
 
@@ -57,7 +56,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     public static function process_ajax_requests() {
         if ( isset( $_POST['form'] ) ) {
             // check for required capabilities to perform action
-            if ( ! current_user_can( 'edit_plugins' ) ) {
+            if ( ! current_user_can( 'activate_plugins' ) ) {
                 wp_send_json(
                     array(
                         'success' => false,
@@ -97,6 +96,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                         )
                     );
+
                     die;
             }
         }
@@ -130,10 +130,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID! ', 'laterpay' )
+                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay' )
                 )
             );
         }
+
         die;
     }
 
@@ -165,10 +166,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'The API key you entered is not a valid LaterPay Sandbox API key! ', 'laterpay' )
+                    'message' => __( 'The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay' )
                 )
             );
         }
+
         die;
     }
 
@@ -200,10 +202,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Live Merchant ID! ', 'laterpay' )
+                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Live Merchant ID!', 'laterpay' )
                 )
             );
         }
+
         die;
     }
 
@@ -235,10 +238,11 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'The API key you entered is not a valid LaterPay Live API key! ', 'laterpay' )
+                    'message' => __( 'The API key you entered is not a valid LaterPay Live API key!', 'laterpay' )
                 )
             );
         }
+
         die;
     }
 
@@ -255,29 +259,32 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
                 wp_send_json(
                     array(
-                        'success' => true,
-                        'message' => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
+                        'success'   => true,
+                        'mode'      => 'live',
+                        'message'   => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
                     )
                 );
             } else {
                 wp_send_json(
                     array(
-                        'success' => true,
-                        'message' => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
+                        'success'   => true,
+                        'mode'      => 'test',
+                        'message'   => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
                     )
                 );
             }
         } else {
             wp_send_json(
                 array(
-                    'success' => false,
-                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                    'success'   => false,
+                    'mode'      => 'test',
+                    'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
                 )
             );
         }
+
         die;
     }
-
 
     /**
      * Validate format of LaterPay Merchant ID (uuid).

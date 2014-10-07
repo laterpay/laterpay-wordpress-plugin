@@ -1,3 +1,3 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<?php echo '<div class="laterpay-teaser-content">' . $laterpay['teaser_content'] . '</div>'; ?>
+<div class="lp_teaser-content"><?php echo $laterpay['teaser_content']; ?></div>

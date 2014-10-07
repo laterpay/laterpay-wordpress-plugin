@@ -44,4 +44,5 @@ class LaterPay_Core_Capabilities
             $role->add_cap( 'laterpay_edit_individual_price' );
         }
     }
+
 }

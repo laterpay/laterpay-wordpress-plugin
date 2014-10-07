@@ -13,15 +13,15 @@ class LaterPay_Core_Auth_Hmac
     protected static $hashAlgo = 'sha224';
     protected static $useBase64 = false;
 
-	/**
-	 * constructor for class Token
-	 *
-	 * @param string $privateKey File name of private pem key
-	 * @param boolean  $isPacked   key must be packed
-	 *
-	 * @throws Exception
-	 * @return \LaterPay_Core_Auth_Hmac
-	 */
+    /**
+     * constructor for class Token
+     *
+     * @param string $privateKey File name of private pem key
+     * @param boolean  $isPacked   key must be packed
+     *
+     * @throws Exception
+     * @return \LaterPay_Core_Auth_Hmac
+     */
     public function __construct( $privateKey = null, $isPacked = false ) {
         if ( ( $privateKey === null ) && ( self::$privateKey === null ) ) {
 

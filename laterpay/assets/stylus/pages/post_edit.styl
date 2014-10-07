@@ -1,0 +1,173 @@
+// add / edit post page in WordPress backend
+
+// LaterPay vector logo for pricing and teaser metabox -----------------------------------------------------------------
+#lp_post-pricing,
+#lp_post-teaser
+    h3 span
+        left                        6.25em
+        position                    relative
+
+#lp_post-pricing h3 span:before,
+#lp_post-teaser h3 span:before
+    -moz-osx-font-smoothing         grayscale
+    -webkit-font-smoothing          antialiased
+    content                         'a'
+    font-family                     laterpay-wordpress-icons !important
+    font-size                       6em
+    font-style                      normal !important
+    font-variant                    normal !important
+    font-weight                     normal !important
+    left                            -1.05em
+    line-height                     0
+    position                        absolute
+    speak                           none
+    text-transform                  none !important
+    top                             0.106em
+
+#lp_post-teaser h3 span:before
+    top                             0.11em
+
+
+// pricing metabox -----------------------------------------------------------------------------------------------------
+#lp_post-pricing a
+    text-decoration                 none
+
+    // remove dotted outline and box shadows from links
+    &:focus,
+    &:active,
+    &:visited
+        box-shadow                  none
+        outline                     0 none
+
+// enter / display post price section
+.lp_post-price .lp_number-input
+    padding                         0.1em 0.35em
+    transition-duration             0.4s
+    width                           3.9em
+
+    &:disabled
+        border-color                transparent
+        color                       hsl(0, 0%, 20%)
+        transition-duration         0.4s
+
+.lp_currency
+    bottom                          0.75em
+    color                           $text-lightest
+    font-size                       1.5em
+
+.lp_post-revenue-model
+    width                           3em
+
+// select price type section
+.lp_price-type
+    border                          1px solid $border
+    border-radius                   3px
+
+    // switch for selecting price type
+    ul.lp_button-group
+        background-color            hsl(0, 0%, 91%)
+        margin                      0
+        padding                     0
+
+        li
+            box-shadow              inset 1px 0 0 hsl(0, 0%, 87%),
+                                    inset 0 1px 0 hsla(0, 0%, 100%, 0.55)
+            float                   left
+            line-height             1.25
+            margin                  0
+            padding                 0.5em 0
+            text-align              center
+            width                   33.333%
+
+            &:first-child
+                border-radius       2px 0 0 2px
+                box-shadow          inset 1px 1px 0 hsla(0, 0%, 100%, 0.55)
+
+            &:last-child
+                border-radius       0 2px 2px 0
+                box-shadow          inset 1px 0 0 hsl(0, 0%, 87%),
+                                    inset -1px 1px 0 hsla(0, 0%, 100%, 0.55)
+
+            &:hover
+                background-color    $clickable-highlight
+
+                a
+                    color           $text-inverse
+
+            a
+                display             block
+                height              2.5em
+
+        .lp_is-selected,
+        .lp_is-selected:hover
+            background-color        $background-laterpay
+
+        li.lp_is-selected
+            box-shadow              inset 0 1px 3px hsla(0, 0%, 0%, 0.34)
+
+            a,
+            &:hover a
+                color               $text-inverse
+                cursor              default
+                text-shadow         none
+
+        .lp_is-disabled
+            a
+                color               hsl(0, 0%, 84%)
+                cursor              not-allowed
+                visibility          visible
+
+            &:hover
+                background-color    hsl(0, 0%, 91%)
+
+                a
+                    color           hsl(0, 0%, 84%)
+                    cursor          not-allowed
+
+
+    // details for selected price type
+    .lp_price-type-details .lp_use-category-default-price
+        ul,
+        li
+            margin                  0
+            padding                 0
+
+        li
+            border-top              1px solid $border-lightest
+
+            &:nth-child(even)
+                background-color    hsl(0, 0%, 97%)
+
+            &:last-child
+                border-radius       0 0 1px 1px
+
+            &:hover
+                background-color    $background-highlight
+
+            a
+                display             block
+                padding             0.5em 0.75em
+
+                span
+                    color           hsl(0, 0%, 53%)
+                    float           right
+
+        .lp_selected-category,
+        .lp_selected-category:nth-child(even)
+            background-color        $background-highlight
+
+            a
+                color               hsl(0, 0%, 27%)
+                cursor              default
+
+
+.lp_dynamic-pricing-toggle
+    padding                         0.75em 0.25em 0
+
+
+// teaser content metabox ----------------------------------------------------------------------------------------------
+#lp_post-teaser dfn
+    color                           hsl(0, 0%, 60%)
+    display                         block
+    font-style                      italic
+    margin                          1em 0
