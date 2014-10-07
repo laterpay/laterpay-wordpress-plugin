@@ -134,7 +134,7 @@
 // debugging messages --------------------------------------------------------------------------------------------------
 .lp_debugger-content-list
     margin                          0 $fs-075 $fs-1
-    padding                         $fs-025 0 0
+    padding                         0
     overflow-y						scroll
     height							28.75em
 
@@ -219,6 +219,12 @@
     .lp_log-level-600:before
         color                       hsl(6, 100%, 50%)
         content                     'o'
+
+    a
+        color                       $clickable
+
+        &:hover
+            color                   $clickable-highlight
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
