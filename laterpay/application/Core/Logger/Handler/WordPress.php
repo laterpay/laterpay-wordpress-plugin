@@ -66,6 +66,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             <div class="lp_debugger lp_is_hidden">
                 <header>
                     <a class="lp_js_close-debugger lp_close-link lp_fl-right lp_b-r3" data-icon="e"></a>
+                    <div class="lp_fl-right"><?php echo __( 'Peak memory usage:', 'laterpay' ) . ' ' . number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB'; ?></div>
                     <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 </header>
 
@@ -185,7 +186,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         $system_info = array(
             'WordPress version'         => get_bloginfo( 'version' ),
             'Multisite'                 => is_multisite() ? __( 'yes', 'laterpay' ) : __( 'no', 'laterpay' ),
-            'WordPress memory limit'    => ( $this->let_to_num( WP_MEMORY_LIMIT ) / ( 1024 ) ) . ' MB',
+            'WordPress memory limit'    => ( $this->let_to_num( WP_MEMORY_LIMIT ) / 1024 ) . ' MB',
             'Active plugins'            => implode( ', ', $plugins ),
             'Network active plugins'    => is_multisite() ? $network_plugins : __( 'none', 'laterpay' ),
             'Registered post types'     => implode( ', ', get_post_types( array( 'public' => true ) ) ),
@@ -198,6 +199,8 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         return $system_info;
     }
+
+
 
     /**
      * Convert sizes.
