@@ -19,12 +19,18 @@ class LaterPay_Helper_File
 
     /**
      * Decide does the uri has to be encrypted.
-     * @param string $uri
+     * @param array $uri
      *
      * @return boolean
      */
-    public static function check_url_encrypt($uri) {
+    public static function check_url_encrypt($resource_url_parts) {
         
+		$blog_url_parts     = parse_url(get_bloginfo('wpurl'));
+		if ($blog_url_parts['host'] != $resource_url_parts['host']) {
+			return false;
+        };
+		$uri                = $resource_url_parts['path'];
+		
 		$upload_dir         = wp_upload_dir();
         $upload_url         = parse_url($upload_dir['baseurl']);
 		$upload_url         = $upload_url['path'];
@@ -67,16 +73,13 @@ class LaterPay_Helper_File
 	
 		//encrypt any files placed at server
 		$resource_url_parts = parse_url($url);
-		$uri                = $resource_url_parts['path'];
-		$blog_url_parts     = parse_url(get_bloginfo('wpurl'));
-		if ($blog_url_parts['host'] != $resource_url_parts['host']) {
-			return $url;
-        };
-		if(!self::check_url_encrypt($uri)){
+		if(!self::check_url_encrypt($resource_url_parts)){
 			return $url;
 		};	
 		
 		$new_url            = admin_url( self::SCRIPT_PATH );
+		$uri                = $resource_url_parts['path'];
+		
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
         $file = base64_encode( $cipher->encrypt( $uri ) );
