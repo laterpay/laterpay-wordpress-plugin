@@ -16,28 +16,51 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
         $this->set_field(
             'form',
             array(
-                'eq' => 'enabled_post_types'
+                'validators' => array(
+                    'is_string',
+                    'cmp' => array(
+                        array(
+                            'eq' => 'enabled_post_types'
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             'action',
             array(
-                'eq' => 'laterpay_appearance'
+                'validators' => array(
+                    'is_string',
+                    'cmp' => array(
+                        array(
+                            'eq' => 'laterpay_appearance'
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             '_wpnonce',
             array(
-                'ne' => null
+                'validators' => array(
+                    'is_string',
+                    'cmp' => array(
+                        array(
+                            'ne' => null
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             'enabled_post_types',
             array(
-                'is_array'
+                'validators' => array(
+                    'is_array'
+                )
             )
         );
     }

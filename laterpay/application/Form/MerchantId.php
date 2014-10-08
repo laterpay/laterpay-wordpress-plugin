@@ -3,7 +3,7 @@
 /**
  * LaterPay api key form class
  */
-class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
+class LaterPay_Form_MerchantId extends LaterPay_Form_Abstract
 {
 
     /**
@@ -20,7 +20,7 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'paid_content_preview'
+                            'like' => 'merchant_id'
                         )
                     )
                 )
@@ -34,7 +34,7 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_appearance'
+                            'eq' => 'laterpay_account'
                         )
                     )
                 )
@@ -56,15 +56,17 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'paid_content_preview',
+            'merchant_id',
             array(
                 'validators' => array(
-                    'is_int',
-                    'in_array' => array( 0, 1 )
+                    'is_string',
+                    'strlen' => array( 'lte' => 22 )
                 ),
                 'filters' => array(
-                    'to_int'
-                )
+                    'to_string',
+                    'text'
+                ),
+                'not_strict_name' => true
             )
         );
     }

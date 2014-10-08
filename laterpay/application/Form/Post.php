@@ -16,49 +16,71 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         $this->set_field(
             '_wpnonce',
             array(
-                'ne' => null
+                'validators' => array(
+                    'is_string',
+                    'cmp' => array(
+                        array(
+                            'ne' => null
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             'laterpay_pricing_post_content_box_nonce',
             array(
-                'ne' => null
+                'validators' => array(
+                    'is_string',
+                    'cmp' => array(
+                        array(
+                            'ne' => null
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             'post-price',
             array(
-                'is_float',
-            ),
-            array(
-                'to_float',
-                'format_num' => 2
+                'validators' => array(
+                    'is_float'
+                ),
+                'filters' => array(
+                    'format_num' => 2,
+                    'to_float'
+                )
             )
         );
 
         $this->set_field(
             'post_revenue_model',
             array(
-                'in_array' => array( 'ppu', 'sis' )
+                'validators' => array(
+                    'in_array' => array( 'ppu', 'sis' )
+                )
             )
         );
 
         $this->set_field(
             'post_price_type',
             array(
-                'in_array' => array( 'individual price', 'category default price', 'global default price' )
+                'validators' => array(
+                    'in_array' => array( 'individual price', 'category default price', 'global default price' )
+                )
             )
         );
 
         $this->set_field(
             'laterpay_post_default_category',
             array(
-                'is_int'
-            ),
-            array(
-                'to_int'
+                'validators' => array(
+                    'is_int'
+                ),
+                'filters' => array(
+                    'to_int'
+                )
             )
         );
     }

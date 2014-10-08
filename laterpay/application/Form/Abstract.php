@@ -49,9 +49,9 @@ abstract class LaterPay_Form_Abstract
         // type    - replace type (str_replace, preg_replace)
         // search  - searched value or pattern
         // replace - replacement
-        'replace'    => array('LaterPay_Form_Abstract', 'replace_filter'),
-        // format number to passed amount of numbers after point
-        'format_num' => array('LaterPay_Helper_View', 'format_number')
+        'replace'    => array( 'LaterPay_Form_Abstract', 'replace_filter' ),
+        // format number with given decimal places
+        'format_num' => array( 'LaterPay_Helper_View', 'format_number' )
     );
 
     /**
@@ -397,7 +397,7 @@ abstract class LaterPay_Form_Abstract
                 break;
             // search if string present in value
             case 'like':
-                $result = ( strpos($first_value, $second_value ) !== false );
+                $result = ( strpos( $first_value, $second_value ) !== false );
                 break;
             default:
                 // Incorrect comparison operator, do nothing
