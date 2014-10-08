@@ -128,6 +128,15 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         // don't add the statistics pane placeholder to the footer, if the user is not logged in
         if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
+
+            $this->logger->warning(
+                __METHOD__ . ' - user cannot read post statistics',
+                array(
+                    'post_id'       => get_the_ID(),
+                    'current_user'  => wp_get_current_user()
+                )
+            );
+
             return;
         }
 
