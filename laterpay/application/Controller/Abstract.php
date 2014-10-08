@@ -109,10 +109,18 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            $this->logger->error( $msg, array( 'view_file' => $view_file ) );
+            $this->logger->error(
+                __METHOD__ . ' - ' . $msg,
+                array( 'view_file' => $view_file )
+            );
 
             return '';
         }
+
+        $this->logger->info(
+            __METHOD__ . ' - ' . $file,
+            $this->variables
+        );
 
         ob_start();
         include( $view_file );
@@ -137,9 +145,20 @@ class LaterPay_Controller_Abstract
         
         $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;
         $menu           = LaterPay_Helper_View::get_admin_menu();
+        $plugin_page    = LaterPay_Helper_View::$pluginPage;
+
         $this->assign( 'menu',         $menu );
         $this->assign( 'current_page', $current_page );
-        $this->assign( 'plugin_page',  LaterPay_Helper_View::$pluginPage );
+        $this->assign( 'plugin_page',  $plugin_page );
+
+        $this->logger->info(
+            __METHOD__ . ' - ' . $file,
+            array(
+                'current_page' => $current_page,
+                'menu'          => $menu,
+                'plugin_page'   => $plugin_page
+            )
+        );
 
         return $this->get_text_view( $file );
     }
