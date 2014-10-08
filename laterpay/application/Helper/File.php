@@ -37,7 +37,7 @@ class LaterPay_Helper_File {
         };
         $uri = $resource_url_parts['path'];
 
-        if (!self::$protected_file_urls) {
+        if (!self::$protected_urls) {
 
             $upload_dir = wp_upload_dir();
             $upload_url = parse_url($upload_dir['baseurl']);
