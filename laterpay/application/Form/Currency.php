@@ -17,6 +17,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
             'form',
             array(
                 'validators' => array(
+                    'is_string',
                     'cmp' => array(
                         array(
                             'eq' => 'currency_form'
@@ -30,6 +31,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
             'action',
             array(
                 'validators' => array(
+                    'is_string',
                     'cmp' => array(
                         array(
                             'eq' => 'laterpay_pricing'
@@ -43,6 +45,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
             '_wpnonce',
             array(
                 'validators' => array(
+                    'is_string',
                     'cmp' => array(
                         array(
                             'ne' => null
@@ -56,6 +59,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
             'laterpay_currency',
             array(
                 'validators' => array(
+                    'is_string',
                     'in_array' => array( 'USD', 'EUR' )
                 )
             )

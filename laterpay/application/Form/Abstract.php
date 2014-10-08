@@ -9,14 +9,14 @@ abstract class LaterPay_Form_Abstract
     /**
      * Form fields
      *
-     * @var
+     * @var array
      */
     protected $_fields;
 
     /**
      * Array of no strict names
      *
-     * @var
+     * @var array
      */
     protected $_nostrict;
 
@@ -49,9 +49,9 @@ abstract class LaterPay_Form_Abstract
         // type    - replace type (str_replace, preg_replace)
         // search  - searched value or pattern
         // replace - replacement
-        'replace'    => 'LaterPay_Form_Abstract::replace_filter',
-        // format number to passed amount of numbers after point ( pls use to_float before usage )
-        'format_num' => 'LaterPay_Helper_View::format_number'
+        'replace'    => array('LaterPay_Form_Abstract', 'replace_filter'),
+        // format number to passed amount of numbers after point
+        'format_num' => array('LaterPay_Helper_View', 'format_number')
     );
 
     /**
@@ -102,7 +102,7 @@ abstract class LaterPay_Form_Abstract
             return false;
         } else {
             // field name
-            $current_field                    = $this->_fields[$name];
+            $current_field                    = array();
             // validators
             $current_field['validators']      = isset( $options['validators'] ) ? $options['validators'] : array();
             // filters (sanitize)
@@ -116,6 +116,8 @@ abstract class LaterPay_Form_Abstract
             if ( isset( $options['not_strict_name'] ) && $options['not_strict_name'] ) {
                 $this->_set_nostrict( $name );
             }
+
+            $this->_fields[$name] = $current_field;
         }
 
         return true;
@@ -146,6 +148,18 @@ abstract class LaterPay_Form_Abstract
         }
 
         return null;
+    }
+
+    /**
+     * Set field value
+     *
+     * @param $field_name
+     * @param $value
+     * @return void
+     */
+    protected function _set_field_value( $field_name, $value ) {
+
+        $this->_fields[$field_name]['value'] = $value;
     }
 
     /**
@@ -186,7 +200,10 @@ abstract class LaterPay_Form_Abstract
                 $validators = $field['validators'];
                 foreach ( $validators as $validator_key => $validator_value ) {
                     $validator_option = is_int( $validator_key ) ? $validator_value : $validator_key;
-                    $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_value);
+                    $validator_params = is_int( $validator_key ) ? null : $validator_value;
+                    $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
+//                    var_dump($field['value']);
+//                    var_dump($validator_option, $is_valid);
                     if ( ! $is_valid ) {
                         // Data not valid
                         return false;
@@ -207,11 +224,12 @@ abstract class LaterPay_Form_Abstract
 
         // get all form filters
         if ( is_array( $this->_fields ) ) {
-            foreach ( $this->_fields as $field ) {
+            foreach ( $this->_fields as $name => $field ) {
                 $filters = $field['filters'];
                 foreach ( $filters as $filter_key => $filter_value ) {
                     $filter_option = is_int( $filter_key ) ? $filter_value : $filter_key;
-                    $field['value'] = $this->sanitize_value( $field['value'], $filter_option, $filter_value );
+                    $filter_params = is_int( $filter_key ) ? null : $filter_value;
+                    $this->_set_field_value( $name, $this->sanitize_value( $this->_fields[$name]['value'], $filter_option, $filter_params ));
                 }
             }
         }
@@ -232,9 +250,9 @@ abstract class LaterPay_Form_Abstract
 
         if ( $sanitizer && is_callable( $sanitizer ) ) {
             if ( $filter_params ) {
-                $value = $sanitizer( $value, $filter_params );
+                $value = call_user_func( $sanitizer, $value, $filter_params );
             } else {
-                $value = $sanitizer( $value );
+                $value = call_user_func( $sanitizer, $value );
             }
         }
 
@@ -279,7 +297,7 @@ abstract class LaterPay_Form_Abstract
                         foreach ( $validator_params as $validators_set) {
                             foreach ($validators_set as $operator => $param ) {
                                 $is_valid = $this->compare_values( $operator, $value, $param );
-                                // if comparison not valid break the loop and got to the next validation set
+                                // if comparison not valid break the loop and go to the next validation set
                                 if ( ! $is_valid ) {
                                     break;
                                 }
@@ -310,7 +328,7 @@ abstract class LaterPay_Form_Abstract
                 if ( $validator_params ) {
                     if ( is_array( $validator_params ) ) {
                         foreach ( $validator_params as $extra_validator => $validator_data ) {
-                            // use recursion and call extra validator
+                            // recursively call extra validator
                             $is_valid = $this->validate_value( strlen( $value ), $extra_validator, $validator_data );
                             // break loop if something not valid
                             if ( ! $is_valid ) {
@@ -377,6 +395,10 @@ abstract class LaterPay_Form_Abstract
             case 'lte':
                 $result = ( $first_value <= $second_value );
                 break;
+            // search if string present in value
+            case 'like':
+                $result = ( strpos($first_value, $second_value ) !== false );
+                break;
             default:
                 // Incorrect comparison operator, do nothing
             break;
@@ -399,13 +421,13 @@ abstract class LaterPay_Form_Abstract
             foreach ($data as $name => $value) {
                 // Set only if name field was created
                 if ( isset( $this->_fields[$name] ) ) {
-                    $this->_fields[$name]['value'] = $value;
+                    $this->_set_field_value( $name, $value );
                     continue;
                 } elseif ( isset( $this->_nostrict ) && is_array( $this->_nostrict ) ) {
                     // If field name no strict
                     foreach ( $this->_nostrict as $field_name ) {
                         if ( strpos( $name, $field_name ) !== false ) {
-                            $this->_fields[$field_name]['value'] = $value;
+                            $this->_set_field_value( $field_name, $value );
                             break;
                         }
                     }
@@ -420,11 +442,11 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Get form data
+     * Get form values
      *
      * @return array
      */
-    public function get_data() {
+    public function get_form_values() {
 
         $data = array();
 

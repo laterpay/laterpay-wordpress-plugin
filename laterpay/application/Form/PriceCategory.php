@@ -17,13 +17,13 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             'form',
             array(
                 'validators' => array(
+                    'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'price_category_form'
+                            'like' => 'price_category_form'
                         )
                     )
-                ),
-                'not_strict_name' => true
+                )
             )
         );
 
@@ -31,6 +31,7 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             'action',
             array(
                 'validators' => array(
+                    'is_string',
                     'cmp' => array(
                         array(
                             'eq' => 'laterpay_pricing'
@@ -57,7 +58,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             '_wpnonce',
             array(
                 'validators' => array(
-                    'comparison' => array(
+                    'is_string',
+                    'cmp' => array(
                         array(
                             'ne' => null
                         )
@@ -70,6 +72,7 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             'laterpay_category_price_revenue_model',
             array(
                 'validators' => array(
+                    'is_string',
                     'in_array' => array( 'ppu', 'sis' )
                 ),
                 'filters' => array(
@@ -114,8 +117,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                         'search'  => ',',
                         'replace' => '.'
                     ),
-                    'to_float',
-                    'format_num' => 2
+                    'format_num' => 2,
+                    'to_float'
                 )
             )
         );

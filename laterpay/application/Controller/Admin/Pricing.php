@@ -330,7 +330,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             array(
                 'success'       => true,
                 'category'      => $category,
-                'price'         => $delocalized_category_price,
+                'price'         => $_POST['price'],
                 'currency'      => get_option('laterpay_currency'),
                 'category_id'   => $category_id,
                 'revenue_model' => $category_price_revenue_model,
