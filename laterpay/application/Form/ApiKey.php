@@ -60,7 +60,7 @@ class LaterPay_Form_ApiKey extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'strlen' => array( 'lte' => 32 )
+                    'match' => '/[a-z0-9]{32}/'
                 ),
                 'filters' => array(
                     'to_string',

@@ -49,7 +49,7 @@ abstract class LaterPay_Form_Abstract
         // type    - replace type (str_replace, preg_replace)
         // search  - searched value or pattern
         // replace - replacement
-        'replace'    => array( 'LaterPay_Form_Abstract', 'replace_filter' ),
+        'replace'    => array( 'LaterPay_Form_Abstract', 'replace' ),
         // format number with given decimal places
         'format_num' => array( 'LaterPay_Helper_View', 'format_number' )
     );
@@ -266,7 +266,7 @@ abstract class LaterPay_Form_Abstract
      * @param $options
      * @return mixed
      */
-    public static function replace_filter( $value, $options ) {
+    public static function replace( $value, $options ) {
 
         if ( is_array( $options ) && isset( $options['type'] ) && is_callable( $options['type'] ) ) {
             $value = $options['type']( $options['search'], $options['replace'], $value );
@@ -349,6 +349,13 @@ abstract class LaterPay_Form_Abstract
             // check if value is array
             case 'is_array':
                 $is_valid = is_array( $value );
+                break;
+            case 'match':
+                if ( $validator_params ) {
+                    if ( ! is_array( $validator_params ) ) {
+                        $is_valid = preg_match( $validator_params, $value );
+                    }
+                }
                 break;
             default:
                 // Incorrect validator specified, do nothing

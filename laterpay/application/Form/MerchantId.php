@@ -60,7 +60,7 @@ class LaterPay_Form_MerchantId extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'strlen' => array( 'lte' => 22 )
+                    'match' => '/[a-zA-Z0-9\-]{22}/'
                 ),
                 'filters' => array(
                     'to_string',
