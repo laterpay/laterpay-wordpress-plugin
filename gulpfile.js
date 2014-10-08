@@ -6,6 +6,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     csso            = require('gulp-csso'),
     del             = require('del'),
     fixmyjs         = require('gulp-fixmyjs'),
+    git             = require('gulp-git'),
     gulp            = require('gulp'),
     // include         = require('gulp-file-include'),
     jshint          = require('gulp-jshint'),
@@ -84,6 +85,11 @@ gulp.task('fileformat', function() {
             .pipe(lintspaces.reporter());
 });
 
+// update git submodules
+gulp.task('updateSubmodules', function() {
+    git.updateSubmodule({args: '--init'});
+});
+
 
 // COMMANDS --------------------------------------------------------------------
 // gulp.task('browserSync', function() {
@@ -100,4 +106,9 @@ gulp.task('default', ['fileformat'], function() {
     gulp.watch(p.allfiles,  ['fileformat']);
     gulp.watch(p.stylus,    ['css']);
     gulp.watch(p.sourceJS,  ['js']);
+});
+
+// build project for release
+gulp.task('build', ['updateSubmodules'], function() {
+    // do stuff
 });

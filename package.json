@@ -19,6 +19,7 @@
     "gulp-csso": "^0.2.9",
     "gulp-filesize": "0.0.6",
     "gulp-fixmyjs": "0.0.10",
+    "gulp-git": "^0.5.2",
     "gulp-jshint": "^1.8.5",
     "gulp-lintspaces": "^0.2.2",
     "gulp-notify": "^2.0.0",
