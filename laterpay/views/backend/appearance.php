@@ -83,7 +83,7 @@
                 <div class="lp_triangle lp_outer-triangle"><div class="lp_triangle"></div></div>
                 <?php _e( '[laterpay_premium_download target_page_id="<dfn>127</dfn>" target_page_title="<dfn>Event video footage</dfn>" content_type="<dfn>video</dfn>" teaser_image_path="<dfn>/uploads/images/concert-video-still.jpg</dfn>" heading_text="<dfn>Video footage of concert</dfn>" description_text="<dfn>Full HD video of the entire concert, including behind the scenes action.</dfn>"]', 'laterpay' ) ?>
             </code>
-            <table>
+            <table class="lp_m-b1">
                 <tr>
                     <td>
                         <img class="lp_ui-element-preview-large" src="<?php echo $config->get( 'image_url' ) . 'shortcode-2x.png'; ?>">
@@ -157,7 +157,7 @@
                 <div class="lp_triangle lp_outer-triangle"><div class="lp_triangle"></div></div>
                 <?php _e( '[laterpay_box_wrapper]<dfn>[laterpay_premium_download &hellip;][laterpay_premium_download &hellip;]</dfn>[/laterpay_box_wrapper]', 'laterpay' ) ?>
             </code>
-            <img class="lp_ui-element-preview-large" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
+            <img class="lp_ui-element-preview-large lp_m-t05" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
         </div>
         <hr class="lp_m-1-0 lp_m-b3">
 
