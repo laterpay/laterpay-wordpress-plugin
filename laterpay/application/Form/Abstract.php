@@ -55,15 +55,6 @@ abstract class LaterPay_Form_Abstract
     );
 
     /**
-     * Default validators set
-     *
-     * @var array
-     */
-    public static $validators = array(
-
-    );
-
-    /**
      * Constructor
      *
      * @param array $data
