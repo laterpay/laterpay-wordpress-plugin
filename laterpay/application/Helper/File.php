@@ -23,55 +23,60 @@ class LaterPay_Helper_File
      * @var null, array
      */
     private static $protected_urls = null;
-	
+
     /**
-     * Decide what uri have to be encrypted.
+     * Decide, if an URI should be encrypted.
+     *
      * @param array $resource_url_parts
      *
      * @return boolean
      */
-    public static function check_url_encrypt($resource_url_parts) {
-
-        $blog_url_parts = parse_url(get_bloginfo('wpurl'));
-        if ($blog_url_parts['host'] != $resource_url_parts['host']) {
+    public static function check_url_encrypt( $resource_url_parts ) {
+        // get path of resource
+        $blog_url_parts = parse_url( get_bloginfo( 'wpurl' ) );
+        if ( $blog_url_parts['host'] != $resource_url_parts['host'] ) {
+            // don't encrypt, because resource is not located at current host
             return false;
         };
         $uri = $resource_url_parts['path'];
 
-        if (!self::$protected_urls) {
-
+        if ( ! self::$protected_urls ) {
+            // add path of wp-uploads folder to $protected_urls
             $upload_dir = wp_upload_dir();
-            $upload_url = parse_url($upload_dir['baseurl']);
+            $upload_url = parse_url( $upload_dir['baseurl'] );
             $upload_url = $upload_url['path'];
-            $upload_url = ltrim($upload_url, '/');
+            $upload_url = ltrim( $upload_url, '/' );
             self::$protected_urls['upload_url'] = $upload_url;
 
+            // add path of wp-content folder to $protected_urls
             $content_url = content_url();
-            $content_url = parse_url($content_url);
+            $content_url = parse_url( $content_url );
             $content_url = $content_url['path'];
-            $content_url = ltrim($content_url, '/');
+            $content_url = ltrim( $content_url, '/' );
             self::$protected_urls['content_url'] = $content_url;
 
+            // add path of wp-includes folder to $protected_urls
             $includes_url = includes_url();
-            $includes_url = parse_url($includes_url);
+            $includes_url = parse_url( $includes_url );
             $includes_url = $includes_url['path'];
-            $includes_url = ltrim($includes_url, '/');
+            $includes_url = ltrim( $includes_url, '/' );
             self::$protected_urls['includes_url'] = $includes_url;
         };
 
-        foreach (self::$protected_urls as $protected_name => $protected_url) {
-
-            if (strstr($uri, $protected_url)) {
-
+        // check, if resource is located inside one of the protected folders
+        foreach ( self::$protected_urls as $protected_name => $protected_url ) {
+            if ( strstr( $uri, $protected_url ) ) {
+                // encrypt, because URI is among the protected URIs
                 return true;
             };
         };
 
+        // don't encrypt, if we could not determine that it should be encrypted
         return false;
-    }	
+    }
 
     /**
-     * Generate an encrypted URL for a file within a paid post that has a protected file type.
+     * Return an encrypted URL, if a file should be secured against direct access.
      *
      * @param int      $post_id
      * @param string   $url
@@ -80,31 +85,30 @@ class LaterPay_Helper_File
      * @return string $url
      */
     public static function get_encrypted_resource_url( $post_id, $url, $use_auth ) {
-        
-		//encrypt any files placed at server
-        $resource_url_parts = parse_url($url);
-        if (!self::check_url_encrypt($resource_url_parts)) {
+        $resource_url_parts = parse_url( $url );
+        if ( ! self::check_url_encrypt( $resource_url_parts ) ) {
+            // return unmodified URl, if file should not be encrypted
             return $url;
         };
 
-        $new_url = admin_url(self::SCRIPT_PATH);
-        $uri     = $resource_url_parts['path'];
-		
-        $cipher = new Crypt_AES();
-        $cipher->setKey( SECURE_AUTH_SALT );
-        $file = base64_encode( $cipher->encrypt( $uri ) );
+        $new_url    = admin_url( self::SCRIPT_PATH );
+        $uri        = $resource_url_parts['path'];
 
-        $request = new LaterPay_Core_Request();
-        $path = $request->getServer('DOCUMENT_ROOT') . $uri;
-        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $cipher     = new Crypt_AES();
+        $cipher->setKey( SECURE_AUTH_SALT );
+        $file       = base64_encode( $cipher->encrypt( $uri ) );
+
+        $request    = new LaterPay_Core_Request();
+        $path       = $request->gethost( 'DOCUMENT_ROOT' ) . $uri;
+        $ext        = pathinfo( $path, PATHINFO_EXTENSION );
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $client = new LaterPay_Client( 
-                $client_options['cp_key'], 
-                $client_options['api_key'], 
-                $client_options['api_root'], 
-                $client_options['web_root'], 
-                $client_options['token_name'] 
+        $client = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
         );
         $params = array(
             'aid'   => $post_id,
@@ -113,12 +117,12 @@ class LaterPay_Helper_File
         );
         if ( $use_auth ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $client = new LaterPay_Client( 
-                    $client_options['cp_key'], 
-                    $client_options['api_key'], 
-                    $client_options['api_root'], 
-                    $client_options['web_root'], 
-                    $client_options['token_name'] 
+            $client = new LaterPay_Client(
+                    $client_options['cp_key'],
+                    $client_options['api_key'],
+                    $client_options['api_root'],
+                    $client_options['web_root'],
+                    $client_options['token_name']
             );
             $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
@@ -138,12 +142,12 @@ class LaterPay_Helper_File
         $request    = new LaterPay_Core_Request();
         $response   = new LaterPay_Core_Response();
         $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $client = new LaterPay_Client( 
-                $client_options['cp_key'], 
-                $client_options['api_key'], 
-                $client_options['api_root'], 
-                $client_options['web_root'], 
-                $client_options['token_name'] 
+        $client = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
         );
 
         // request parameters
@@ -193,7 +197,7 @@ class LaterPay_Helper_File
         }
 
         if ( ! empty( $hmac ) && ! empty( $ts ) ) {
-            if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
+            if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $_host['REQUEST_METHOD'] ) ) {
                 laterpay_get_logger()->error( 'RESOURCE:: invalid $hmac or $ts has expired' );
                 $response->set_http_response_code( 401 );
                 $response->send_response();
@@ -291,7 +295,7 @@ class LaterPay_Helper_File
         }
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
-        $file = $request->getServer( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
+        $file = $request->gethost( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
 
         return $file;
     }
