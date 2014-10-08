@@ -64,7 +64,7 @@ class LaterPay_Model_Post_Views
         $sql =  $wpdb->prepare(
             $sql,
             (int) $data['post_id'],
-            (int) $data['user_id'],
+            $data['user_id'],
             date( 'Y-m-d H:i:s', $data['date'] ),
             $data['ip']
         );

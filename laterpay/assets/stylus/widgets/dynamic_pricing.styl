@@ -1,0 +1,123 @@
+// dynamic pricing widget for defining a price curve using a d3.js widget
+
+#container
+    margin-top              0.5em
+
+svg text
+    user-select             none
+
+.lp_dynamic-pricing-widget
+    height                  240px
+    width                   254px
+
+.axis path
+    fill                    none
+
+.tick line,
+.x.axis path
+    stroke                  hsl(0, 0%, 40%)
+    stroke-width            0.1px
+
+.x.axis path.domain,
+.y.axis path.domain
+    stroke-dasharray        none
+    stroke-width            1.5px
+    stroke                  hsl(0, 0%, 67%)
+
+.arrowhead
+    fill                    hsl(0, 0%, 67%)
+
+.tick text
+    display                 none
+
+circle
+    fill                    hsl(0, 0%, 13%)
+    stroke                  hsl(0, 0%, 95%)
+    stroke-width            2px
+    transition              all .5s
+
+circle.circle-hidden
+    display                 none
+
+.line
+    fill                    none
+    stroke                  hsl(0, 0%, 13%)
+    stroke-width            3px
+
+rect.start-price,
+rect.end-price,
+rect.x-drag-square,
+.x-triangle-bottom,
+path.start-price-triangle,
+path.end-price-triangle
+    fill                    $clickable
+    opacity                 0.85
+
+rect.background
+    fill                    hsl(0, 0%, 95%)
+
+.dragging
+    .tooltip,
+    .pointer
+        opacity             0
+
+.line-price
+    cursor                  col-resize
+    opacity                 0.01
+    stroke                  hsl(0, 0%, 100%)
+    stroke-width            8px
+
+    .hidden
+        display             none
+
+.line-price-visible
+    stroke                  hsl(0, 0%, 33%)
+    stroke-dasharray        5
+    stroke-width            1.5px
+
+    .hidden
+        display             none
+
+.lp_dynamic-pricing-widget.ew-resize,
+rect.x-drag-square,
+.x-triangle-bottom
+    cursor                  col-resize
+
+.x-triangle-bottom.hidden,
+rect.x-drag-square.hidden,
+.x-text.hidden,
+.x-text-days.hidden
+    display                 none
+
+.x-text,
+.x-text-days,
+text.start-price,
+text.start-price-currency,
+text.end-price,
+text.end-price-currency
+    cursor                  col-resize
+    fill                    hsl(0, 0%, 100%)
+
+text.start-price,
+text.start-price-currency,
+text.end-price,
+text.end-price-currency,
+rect.end-price,
+rect.start-price
+    cursor                  row-resize
+
+text.x-text,
+text.start-price,
+text.end-price
+    font-size               12px
+    font-weight             600
+
+text.x-text-days,
+text.start-price-currency,
+text.end-price-currency
+    font-size               9px
+    font-weight             400
+
+text.default-price
+    fill                    hsl(0, 0%, 67%)
+    font-size               10px

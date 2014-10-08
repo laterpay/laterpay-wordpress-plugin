@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
+class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
+{
 
     /**
      * Render admin notices if requirements are not fulfilled.
@@ -46,13 +47,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
         if ( ! $installed_wp_is_compatible ) {
             $notices[] = sprintf( $template, 'Wordpress', $required_wp_version, 'Wordpress', $installed_wp_version );
         }
-        
-        // check file / folder permissions
-        $template = __( '<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>', 'laterpay' );
-        $file = dirname( $this->config->plugin_file_path ) . DIRECTORY_SEPARATOR . 'cache';
-        if ( ! is_writable( $file ) ) {
-           $notices[] = sprintf( $template, $file );
-        }
 
         // deactivate plugin if requirements are not fulfilled
         if ( count( $notices ) > 0 ) {
@@ -80,6 +74,45 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
     }
 
     /**
+     * Update the existing database-table for 'terms_price' and set all prices to 'ppu'.
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_terms_price_table() {
+        global $wpdb;
+
+        $current_version = get_option('laterpay_version');
+        if ( version_compare( $current_version, '0.9.8', '<' ) ) {
+            return;
+        }
+
+        $table      = $wpdb->prefix . 'laterpay_terms_price';
+        $columns    = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
+
+        // before version 0.9.8 we had no "revenue_model" column
+        $is_up_to_date = false;
+        foreach ( $columns as $column ) {
+            if ( $column->Field === 'revenue_model' ) {
+                $is_up_to_date = true;
+            }
+        }
+
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'current_version'   => $current_version,
+                'is_up_to_date'     => $is_up_to_date
+            )
+        );
+
+        // if the table needs an update, add the "revenue_model" column and set the current values to 'ppu'
+        if ( ! $is_up_to_date ) {
+            $wpdb->query( "ALTER TABLE " . $table . "ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT  'ppu';" );
+        }
+    }
+
+    /**
      * Update the existing postmeta meta_keys, if current_version < 0.9.7.
      *
      * @wp-hook admin_notices
@@ -101,11 +134,32 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
             'Pricing Post Type' => 'laterpay_post_pricing_type'
         );
 
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'current_version'   => $current_version,
+                'meta_key_mapping'  => $meta_key_mapping
+            )
+        );
+
         $sql = "UPDATE " . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
 
         foreach( $meta_key_mapping as $before => $after ) {
             $prepared_sql = $wpdb->prepare( $sql, array( $after, $before ) );
             $wpdb->query( $prepared_sql );
+        }
+    }
+    
+    /**
+     * Update the existing options while update
+     * 
+     * @deprecated since version 1.0
+     * @return void
+     */
+    protected function maybe_update_options() {
+        $current_version = get_option('laterpay_version');
+        if ( version_compare( $current_version, '0.9.8.1', '>=' ) ) {
+            delete_option( 'laterpay_plugin_is_activated' );
         }
     }
 
@@ -172,6 +226,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
         // cancel the installation process, if the requirements check returns errors
         $notices = (array) $this->check_requirements();
         if ( count( $notices ) ) {
+            $this->logger->warning( __METHOD__, $notices );
             return;
         }
 
@@ -196,6 +251,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
                 term_id           INT(11)         NOT NULL,
                 price             DOUBLE          NOT NULL DEFAULT '0',
+                revenue_model     ENUM('ppu', 'sis') DEFAULT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );
@@ -243,32 +299,30 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract {
             )
         );
 
-        add_option( 'laterpay_teaser_content_only',      '1' );
-        add_option( 'laterpay_plugin_is_in_live_mode',   '0' );
-        add_option( 'laterpay_sandbox_merchant_id',      '' );
-        add_option( 'laterpay_sandbox_api_key',          '' );
-        add_option( 'laterpay_live_merchant_id',         '' );
-        add_option( 'laterpay_live_api_key',             '' );
-        add_option( 'laterpay_global_price',             $this->config->get( 'currency.default_price' ) );
-        add_option( 'laterpay_currency',                 $this->config->get( 'currency.default' ) );
-        update_option( 'laterpay_version',               $this->config->version );
-        // option 'laterpay_plugin_is_activated' is set to empty on installation, to be able to tell between a fresh
-        // installation and an activated but deactivated installation, to lead the user through the get started process,
-        // if it is a fresh installation
-        add_option( 'laterpay_plugin_is_activated',      '' );
+        add_option( 'laterpay_teaser_content_only',         '1' );
+        add_option( 'laterpay_plugin_is_in_live_mode',      '0' );
+        add_option( 'laterpay_sandbox_merchant_id',         $this->config->get( 'api.sandbox_merchant_id' ) );
+        add_option( 'laterpay_sandbox_api_key',             $this->config->get( 'api.sandbox_api_key' ) );
+        add_option( 'laterpay_live_merchant_id',            '' );
+        add_option( 'laterpay_live_api_key',                '' );
+        add_option( 'laterpay_global_price',                $this->config->get( 'currency.default_price' ) );
+        add_option( 'laterpay_global_price_revenue_model',  'ppu');
+        add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
+        add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
 
+        update_option( 'laterpay_version',                  $this->config->version );
+        
+        // update/remove plugin options
+        $this->maybe_update_options();
+        
         // clear opcode cache
         LaterPay_Helper_Cache::reset_opcode_cache();
-
-        // re-activate deactivated installation
-        $activated = get_option( 'laterpay_plugin_is_activated', '' );
-        if ( $activated == '0' ) {
-            update_option( 'laterpay_plugin_is_activated', '1' );
-        }
 
         // update capabilities
         $laterpay_capabilities = new LaterPay_Core_Capabilities();
         $laterpay_capabilities->populate_roles();
     }
+    
+    
 
 }

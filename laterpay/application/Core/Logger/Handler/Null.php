@@ -3,7 +3,7 @@
 /**
  * Do nothing with log data.
  */
-class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Abstract
+class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Handler_Abstract
 {
 
     /**
@@ -20,12 +20,7 @@ class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Abstract
         if ( $record['level'] < $this->level ) {
             return false;
         }
-
         return true;
-    }
-
-    protected function write( array $record ) {
-        // do nothing
     }
 
 }

@@ -92,7 +92,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      * @return void
      */
     public function add_meta_boxes() {
-        $post_types = $this->config->get( 'content.allowed_post_types' );
+        $post_types = $this->config->get( 'content.enabled_post_types' );
 
         foreach ( $post_types as $post_type ) {
             add_meta_box(
@@ -124,6 +124,15 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      */
     public function render_teaser_content_box( $post ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post ) ) {
+
+            $this->logger->warning(
+                __METHOD__ . ' - current user can not edit teaser content',
+                array(
+                    'post'          => $post,
+                    'current_user'  => wp_get_current_user()
+                )
+            );
+
             return;
         }
 
@@ -223,8 +232,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         }
 
         $post_default_category              = array_key_exists( 'category_id',      $post_prices ) ? (int) $post_prices[ 'category_id' ] : 0;
-        $post_specific_price                = array_key_exists( 'price',            $post_prices ) ? $post_prices[ 'price' ] : '';
-        $post_price_type                    = array_key_exists( 'type',             $post_prices ) ? $post_prices[ 'type' ] : '';
         $post_revenue_model                 = array_key_exists( 'revenue_model',    $post_prices ) ? $post_prices[ 'revenue_model' ] : 'ppu';
         $start_price                        = array_key_exists( 'start_price',      $post_prices ) ? (float) $post_prices[ 'start_price' ] : '';
         $end_price                          = array_key_exists( 'end_price',        $post_prices ) ? (float) $post_prices[ 'end_price' ] : '';
@@ -232,72 +239,32 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days',        $post_prices ) ? (float) $post_prices[ 'change_start_price_after_days' ] : '';
         $transitional_period_end_after_days = array_key_exists( 'transitional_period_end_after_days',   $post_prices ) ? (float) $post_prices[ 'transitional_period_end_after_days' ] : '';
 
-        /**
-         * TODO: optimize the current approach:
-         * If it's an existing value, if should have been saved with decimals,
-         * so '0' is a crappy way of knowing that 'Pricing Post' has never been set
-         */
-        if ( $post_specific_price == 0 ) {
-            $post_specific_price = null;
-        } else {
-            $post_specific_price = (float) $post_specific_price;
-        }
-
         // category default price data
         $category_price_data    = null;
         $category_default_price = null;
+        $category_default_price_revenue_model = null;
         $categories_of_post     = wp_get_post_categories( $post->ID );
         if ( ! empty( $categories_of_post ) ) {
             $laterpay_category_model    = new LaterPay_Model_CategoryPrice();
             $category_price_data        = $laterpay_category_model->get_category_price_data_by_category_ids( $categories_of_post );
             // if the post has a category defined from which to use the category default price then let's get that price
             if ( $post_default_category > 0 ) {
-                $category_default_price = (float) $laterpay_category_model->get_price_by_category_id( $post_default_category );
+                $category_default_price_revenue_model = (string) $laterpay_category_model->get_revenue_model_by_category_id( $post_default_category );
             }
         }
 
-        // global default price
-        $global_default_price = get_option( 'laterpay_global_price' );
+		// get price data
+        $global_default_price               = get_option( 'laterpay_global_price' );
+        $global_default_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
 
-        /**
-         * TODO: optimize the current approach:
-         * If it's an existing value, if should have been saved with decimals,
-         * so '0' is a crappy way of knowing that 'Pricing Post' has never been set
-         */
-        if ( $global_default_price == 0 ) {
-            $global_default_price = null;
-        } else {
-            $global_default_price = (float) $global_default_price;
-        }
+        $price              = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $post_price_type    = LaterPay_Helper_Pricing::get_post_price_type( $post->ID );
 
-        switch ( $post_price_type ) {
-            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
-                $price = $post_specific_price;
-                break;
-
-            case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                // current price
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_prices );
-                break;
-
-            case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
-                $price = $category_default_price;
-                break;
-
-            case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
-                $price = $global_default_price;
-                break;
-
-            default:
-                // new posts should use the global default price or 0, if there's no global default price
-                if ( is_null( $global_default_price ) ) {
-                    $price =  0.00;
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
-                } else {
-                    $price = $global_default_price;
-                    $post_price_type = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
-                }
-                break;
+        // set post revenue model according to the selected price type
+        if ( $post_price_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
+            $post_revenue_model = $category_default_price_revenue_model;
+        } elseif ( $post_price_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
+            $post_revenue_model = $global_default_price_revenue_model;
         }
 
         // return dynamic pricing widget start values
@@ -346,14 +313,16 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
 
-        $this->assign( 'laterpay_post_price_type',       $post_price_type );
-        $this->assign( 'laterpay_post_revenue_model',    $post_revenue_model );
-        $this->assign( 'laterpay_price',                 $price );
-        $this->assign( 'laterpay_currency',              get_option( 'laterpay_currency' ) );
-        $this->assign( 'laterpay_category_prices',       $category_price_data );
-        $this->assign( 'laterpay_post_default_category', (int) $post_default_category );
-        $this->assign( 'laterpay_global_default_price',  $global_default_price );
-        $this->assign( 'laterpay_dynamic_pricing_data',  json_encode( $dynamic_pricing_data ) );
+        $this->assign( 'laterpay_post_price_type',                      $post_price_type );
+        $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
+        $this->assign( 'laterpay_price',                                $price );
+        $this->assign( 'laterpay_currency',                             get_option( 'laterpay_currency' ) );
+        $this->assign( 'laterpay_category_prices',                      $category_price_data );
+        $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
+        $this->assign( 'laterpay_global_default_price',                 $global_default_price );
+        $this->assign( 'laterpay_dynamic_pricing_data',                 json_encode( $dynamic_pricing_data ) );
+        $this->assign( 'laterpay_global_default_price_revenue_model',   $global_default_price_revenue_model);
+        $this->assign( 'laterpay_category_default_price_revenue_model', $category_default_price_revenue_model);
 
         $this->render( 'backend/partials/post_pricing_form' );
     }

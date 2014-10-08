@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 3.9.2
+Tested up to: 4.0
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -118,14 +118,11 @@ Some plugin features may not be available for certain user roles, based on the W
 # Upload the LaterPay WordPress plugin on the ‘Install Plugins’ page of your WordPress installation
   (/wp-admin/plugin-install.php?tab=upload) and activate it on the ‘Plugins’ page (/wp-admin/plugins.php).
   The WordPress plugin will show up in the admin sidebar with a callout pointing at it.
-# Click on the LaterPay entry in the admin sidebar. You will be taken to the ‘Get Started’ page.
-# Choose a global default price on the ‘Get Started’ page. This price will be set for all your blog posts.
-  If you choose 0.00 Euro, all posts remain free. You can later adjust your prices in detail.
-  After clicking the ‘Activate LaterPay in Test Mode’ button, LaterPay is active on your blog in Test mode.
-  In Test mode, the plugin is not visible to visitors, but only to admins.
+# The plugin is now in Test mode, i.e. the plugin is not visible to visitors, but only to admins.
   You can test and configure everything to your liking.
   If you want to start earning money, you have to first register a LaterPay merchant account and request your
   Live API credentials.
+# Click on the LaterPay entry in the admin sidebar to adjust the plugin preferences and prices.
 
 The plugin will notify you about available updates that you can install with a single click.
 
@@ -150,12 +147,13 @@ add_filter( 'laterpay_get_api_settings', 'demo_filter_laterpay_get_api_settings'
  *
  * @param array $settings array(
  *    'api.sandbox_url'           => String,
- *    'api.sandbox_web_url'       => String
- *    'api.live_url'              => String
- *    'api.live_web_url'          => String
+ *    'api.sandbox_web_url'       => String,
+ *    'api.live_url'              => String,
+ *    'api.live_web_url'          => String,
  *  )
  *
  * @return array $settings
+ */
 function demo_filter_laterpay_get_api_settings( array $settings ) {
   /* do something with settings */
 
@@ -209,8 +207,8 @@ add_filter( 'laterpay_get_content_settings', 'demo_filter_laterpay_get_content_s
  *    'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
  *    'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
  *    'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
- *    'content.allowed_post_types'                         => Array - allowed post_types that support LaterPay purchases
- *      'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
+ *    'content.enabled_post_types'                         => Array - allowed post_types that support LaterPay purchases
+ *    'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
  *  )
  * @return Array $settings
  */
@@ -313,18 +311,37 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Screenshots ==
 
-1. Get started with three simple steps.
-2. LaterPay lets you easily enter teaser content and set an individual or...
-3. Dynamic price for your blogposts.
-4. In the Pricing tab, you can set default prices for the entire blog or specific categories.
-5. In the Appearance tab, you can choose between two preview modes for your content.
-6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
-7. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
-8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
-9. The statistics pane provides sales statistics for each post.
+1. LaterPay lets you easily enter teaser content and set an individual price for a post starting at 0.05 EUR...
+2. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
+3. In the Pricing tab, you can set the default prices for the entire plugin or specific categories.
+4. In the Appearance tab, you can activate or deactivate LaterPay for individual custom post types and choose between two preview modes for your content.
+5. Option 1 shows only a post's teaser content and a LaterPay purchase link.
+6. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
+7. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
+8. The statistics pane provides sales statistics for each post.
 
 
 == Changelog ==
+
+= 0.9.8.1 (September 30, 2014): Bugfix Release =
+* Made sure the LaterPay client is included in the release
+
+= 0.9.8 (September 30, 2014): Single Sales Release =
+* Added option to sell content as single sale (SIS), allowing prices up to 149.99 Euro
+* Added configuration option for enabled post types in appearance tab
+* Added the action 'laterpay_invoice_indicator' to render the invoice indicator from within a theme
+* Huge improvements on RAM consumption and CPU usage
+* Ensured compatibility with WordPress 4.0
+* Added plugin icon for WordPress 4.0 plugins page
+* Rewrote all CSS using Stylus CSS preprocessor
+* Rewrote all Javascript to encapsulate all variables and functions
+* Added hint text for premium posts to feeds
+* Fixed bug caused by checking for edit_plugins capability, which might be disabled
+* Restricted querying for categories to taxonomy 'category'
+* Improved uninstall action
+* Extracted LaterPay PHP client into separate repository and included it as vendor library
+* Fixed paths to LaterPay libraries depending on plugin mode
+* Extensive refactoring plus various smaller bugfixes and improvements
 
 = 0.9.7.2: Migration to wordpress.org =
 

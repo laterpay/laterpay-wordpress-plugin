@@ -37,7 +37,7 @@
 .lp_paid-content
     bottom                              1em                                                         !important
     margin-bottom                       5em                                                         !important
-    min-height                          400px                                                       !important
+    min-height                          500px                                                       !important
     position                            relative                                                    !important
     top                                 0                                                           !important
 
@@ -73,7 +73,7 @@
             position                    relative                                                    !important
 
             header
-                background              hsl(135, 55%, 67%) url(../../img/benefits-header.png) 50% 50% / 100% no-repeat !important
+                background              hsl(135, 38%, 49%) url(../../img/benefits-header.png) 50% 50% / 100% no-repeat !important
                 border-radius           5px 5px 0 0                                                 !important
                 left                    0                                                           !important
                 padding                 1.5em 0                                                     !important
@@ -114,7 +114,7 @@
                 padding                 0 0 0 80px                                                  !important
 
                 h3
-                    color               hsl(135, 55%, 67%)                                          !important
+                    color               hsl(135, 38%, 49%)                                          !important
                     font-size           1.25em                                                      !important
                     font-style          normal                                                      !important
                     font-weight         bold                                                        !important
@@ -136,7 +136,7 @@
                 background-image        url(../img/laterpay-icon-pay.svg)                           !important
 
             svg.lp_teaser-overlay-icons
-                fill                    hsl(135, 55%, 67%)                                          !important
+                fill                    hsl(135, 38%, 49%)                                          !important
 
             .lp_purchase-link.lp_button
                 display                 inline-block                                                !important
@@ -188,8 +188,8 @@
 .lp_content-type-text
     background-image                    url(../img/premium-text.png)                                !important
 
-.lp_content-type-music
-    background-image                    url(../img/premium-music.png)                               !important
+.lp_content-type-audio
+    background-image                    url(../img/premium-audio.png)                               !important
 
 .lp_content-type-video
     background-image                    url(../img/premium-video.png)                               !important
@@ -204,8 +204,8 @@
     // serve retina images for hires displays
     .lp_content-type-text
         background-image                url(../img/premium-text_2x.png)                             !important
-    .lp_content-type-music
-        background-image                url(../img/premium-music_2x.png)                            !important
+    .lp_content-type-audio
+        background-image                url(../img/premium-audio_2x.png)                            !important
     .lp_content-type-video
         background-image                url(../img/premium-video_2x.png)                            !important
     .lp_content-type-gallery
@@ -230,6 +230,7 @@
     line-height                         1.2                                                         !important
     padding                             10px                                                        !important
     position                            absolute                                                    !important
+    width                               100%                                                        !important
 
     h3
         color                           $text                                                       !important
@@ -251,7 +252,7 @@
 
 // error messages displayed instead of broken shortcodes
 .lp_shortcode-error
-    background-color                    hsl(0, 57%, 90%)                                            !important
+    background-color                    hsl(0, 73%, 64%)                                            !important
     border-radius                       3px                                                         !important
     color                               $text-inverse                                               !important
     margin                              1em 2em                                                     !important
@@ -269,3 +270,9 @@
 
         li br
             display                     none                                                        !important
+
+        .lp_purchase-link.lp_button
+            margin-left                 2em                                                         !important
+
+    .lp_paid-content
+        min-height                      580px                                                       !important

@@ -3,8 +3,8 @@
 <?php
     // plugin menu pointer
     if ( in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $pointers ) ):
-        $pointer_content = '<h3>' . __( 'Activate LaterPay Plugin', 'laterpay' ) . '</h3>';
-        $pointer_content .= '<p>' . __( 'Welcome to LaterPay! Please enter your LaterPay API credentials to activate the plugin now.', 'laterpay' ) . '</p>';
+        $pointer_content = '<h3>' . __( 'Welcome to LaterPay', 'laterpay' ) . '</h3>';
+        $pointer_content .= '<p>' . __( 'Set the most appropriate settings for you.', 'laterpay' ) . '</p>';
 ?>
     <script>
         jQuery(document).ready(function($) {
@@ -37,7 +37,7 @@
     <script>
         jQuery(document).ready(function($) {
             if (typeof(jQuery().pointer) !== 'undefined') {
-                jQuery('#laterpay_pricing_post_content')
+                jQuery('#lp_post-pricing')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',
                     position: {
@@ -65,7 +65,7 @@
     <script>
         jQuery(document).ready(function($) {
             if (typeof(jQuery().pointer) !== 'undefined') {
-                jQuery('#laterpay_teaser_content')
+                jQuery('#lp_post-teaser')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',
                     position: {

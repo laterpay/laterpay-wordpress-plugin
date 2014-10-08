@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Mon Sep 22 2014 19:43:52 GMT+0200 (CEST)\n"
-"Last-Translator: tester <twoldrich@laterpay.net>\n"
+"PO-Revision-Date: Mon Oct 06 2014 11:39:18 GMT+0200 (CEST)\n"
+"Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -137,85 +137,6 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie 5 Euro erreicht haben.<br> Erst dann müssen "
 "Sie sich registrieren und bezahlen."
 
-#: ../views/backend/getstarted.php:38 ../views/backend/account.php:46
-msgid "Paste Sandbox Merchant ID here"
-msgstr "Sandbox Merchant ID hier einfügen"
-
-#: ../views/backend/getstarted.php:38
-msgid "Sandbox Merchant ID"
-msgstr "Sandbox Merchant ID"
-
-#: ../views/backend/getstarted.php:47 ../views/backend/account.php:67
-msgid "Paste Sandbox API Key here"
-msgstr "Sandbox API Key hier einfügen"
-
-#: ../views/backend/getstarted.php:47
-msgid "Sandbox API Key"
-msgstr "Sandbox API Key"
-
-#: ../views/backend/getstarted.php:50
-msgid ""
-"You can try the plugin immediately<br> with the provided Sandbox API "
-"credentials."
-msgstr ""
-"Sie können das Plugin sofort testen<br> mit den mitgelieferten Sandbox API "
-"Zugangsdaten."
-
-#: ../views/backend/getstarted.php:53
-msgid ""
-"To actually sell content, you first have to register with LaterPay as a "
-"merchant and request your Live API credentials at <a href=\"https://merchant."
-"laterpay.net\" target=\"blank\">merchant.laterpay.net</a>."
-msgstr ""
-"Um Inhalte an Besucher zu verkaufen, müssen Sie sich zuerst bei LaterPay als "
-"Händler registrieren und Ihre Live API Zugangsdaten anfordern auf <a "
-"href=\"https://merchant.laterpay.net\" target=\"blank\">merchant.laterpay.net</a>"
-
-#: ../views/backend/getstarted.php:60
-msgid "The default price for posts is"
-msgstr "Der Standardpreis für Beiträge ist"
-
-#: ../views/backend/getstarted.php:67 ../views/backend/pricing.php:41 ..
-#: views/backend/pricing.php:84 ../views/backend/pricing.php:119 ..
-#: views/backend/partials/post_pricing_form.php:15
-msgid "0.00"
-msgstr "0,00"
-
-#: ../views/backend/getstarted.php:79
-msgid ""
-"Set a <strong>default price</strong> for all posts (0 makes everything free)."
-"<br>You can set more advanced prices later."
-msgstr ""
-"Setzen Sie einen <strong>Standardpreis</strong> für alle Beiträge (bei 0 "
-"sind alle Beiträge kostenlos). Sie können die Preise später im Detail "
-"anpassen."
-
-#: ../views/backend/getstarted.php:88
-msgid "Please enter your LaterPay API key to activate LaterPay on this site."
-msgstr ""
-"Bitte geben Sie Ihren LaterPay API Key ein, um LaterPay auf dieser Seite zu "
-"aktivieren."
-
-#: ../views/backend/getstarted.php:89
-msgid "Activate LaterPay Test Mode"
-msgstr "LaterPay Testmodus aktivieren"
-
-#: ../views/backend/getstarted.php:93
-msgid ""
-"In Test Mode, LaterPay is not visible for regular visitors, but only for "
-"admins. Payments are only simulated and not actually booked."
-msgstr ""
-"Im Testmodus ist LaterPay nur für Administratoren und nicht für Besucher "
-"sichtbar. Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
-
-#: ../views/backend/getstarted.php:96
-msgid ""
-"Activate the plugin and go to the “Add Post” page,<br>where you can check "
-"out your new options."
-msgstr ""
-"Nach dem Aktivieren können Sie Ihre neuen Möglichkeiten auf der \"Neuen "
-"Beitrag erstellen\"-Seite ausprobieren."
-
 #: ../views/backend/appearance.php:12 ../views/backend/account.php:15 ..
 #: views/backend/pricing.php:12
 msgid "<strong>Test</strong> mode"
@@ -238,19 +159,23 @@ msgstr "Nur Teaser"
 msgid "Teaser content + full content, covered by overlay"
 msgstr "Teaser + Auszug unter Overlay"
 
-#: ../views/backend/appearance.php:49
+#: ../views/backend/appearance.php:50
+msgid "Enabled Post Types"
+msgstr "Aktivierte Post-Types"
+
+#: ../views/backend/appearance.php:79
 msgid "LaterPay Invoice Indicator"
 msgstr "LaterPay Rechnungsanzeige"
 
-#: ../views/backend/appearance.php:51
+#: ../views/backend/appearance.php:81
 msgid ""
-"Insert this HTML snippet into your theme to show your users their LaterPay "
+"Insert this PHP snippet into your theme to show your users their LaterPay "
 "invoice balance."
 msgstr ""
-"Fügen Sie diesen HTML-Schnipsel in Ihr Theme ein, um Ihren Nutzern deren "
-"LaterPay Rechnungsstand anzuzeigen."
+"Fügen Sie dieses PHP-Snippet in Ihr Theme ein, um Ihren Nutzern den "
+"aktuellen Stand ihrer LaterPay Rechnung anzuzeigen."
 
-#: ../views/backend/appearance.php:52
+#: ../views/backend/appearance.php:82
 msgid ""
 "The LaterPay invoice indicator is served by LaterPay. Its styling can not be "
 "changed."
@@ -270,9 +195,17 @@ msgstr "Sandbox"
 msgid "for testing purposes"
 msgstr "Testumgebung für die Integration und Konfiguration des Plugins"
 
+#: ../views/backend/account.php:46
+msgid "Paste Sandbox Merchant ID here"
+msgstr "Sandbox Merchant ID hier einfügen"
+
 #: ../views/backend/account.php:46 ../views/backend/account.php:95
 msgid "Merchant ID"
 msgstr "Merchant ID"
+
+#: ../views/backend/account.php:67
+msgid "Paste Sandbox API Key here"
+msgstr "Sandbox API Key hier einfügen"
 
 #: ../views/backend/account.php:67 ../views/backend/account.php:116
 msgid "API Key"
@@ -307,7 +240,7 @@ msgstr ""
 "Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
 "API Zugangsdaten abzurufen."
 
-#: ../views/backend/account.php:139 ../application/Controller/Admin.php:407
+#: ../views/backend/account.php:139 ../application/Controller/Admin.php:395
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
@@ -337,88 +270,94 @@ msgstr ""
 "<strong>\n"
 "reguläre Besucher nicht sichtbar</strong>."
 
-#: ../views/backend/pricing.php:23 ../application/Controller/Admin.php:253
+#: ../views/backend/pricing.php:23 ../application/Controller/Admin.php:240
 msgid "Global Default Price"
 msgstr "Standardpreis"
 
-#: ../views/backend/pricing.php:33
-msgid "<strong>Every post</strong> costs"
-msgstr "<strong>Jeder Beitrag</strong> kostet"
-
-#: ../views/backend/pricing.php:46 ../views/backend/pricing.php:91 ..
-#: views/backend/pricing.php:126
-msgid "Change"
-msgstr "Ändern"
-
-#: ../views/backend/pricing.php:47 ../views/backend/pricing.php:89 ..
-#: views/backend/pricing.php:124
-msgid "Save"
-msgstr "Speichern"
-
-#: ../views/backend/pricing.php:48 ../views/backend/pricing.php:90 ..
-#: views/backend/pricing.php:125
+#: ../views/backend/pricing.php:32 ../views/backend/pricing.php:118 ..
+#: views/backend/pricing.php:166
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ../views/backend/pricing.php:57 ../application/Controller/Admin.php:267
+#: ../views/backend/pricing.php:33 ../views/backend/pricing.php:117 ..
+#: views/backend/pricing.php:165
+msgid "Save"
+msgstr "Speichern"
+
+#: ../views/backend/pricing.php:47
+msgid "<strong>Every post</strong> costs"
+msgstr "<strong>Jeder Beitrag</strong> kostet"
+
+#: ../views/backend/pricing.php:55 ../views/backend/pricing.php:112 ..
+#: views/backend/pricing.php:160 ../views/backend/partials/post_pricing_form.php:
+#: 15
+msgid "0.00"
+msgstr "0,00"
+
+#: ../views/backend/pricing.php:60 ../views/backend/pricing.php:119 ..
+#: views/backend/pricing.php:167
+msgid "Change"
+msgstr "Ändern"
+
+#: ../views/backend/pricing.php:69 ../application/Controller/Admin.php:254
 msgid "Category Default Prices"
 msgstr "Kategorie-Standardpreise"
 
-#: ../views/backend/pricing.php:59
+#: ../views/backend/pricing.php:71
 msgid "Category default prices overwrite global default prices."
 msgstr "Kategorie-Standardpreise überschreiben den Standardpreis."
 
-#: ../views/backend/pricing.php:62
+#: ../views/backend/pricing.php:74
 msgid "Every post in category"
 msgstr "Jeder Beitrag in der Kategorie"
 
-#: ../views/backend/pricing.php:76 ../views/backend/pricing.php:112
+#: ../views/backend/pricing.php:105 ../views/backend/pricing.php:153
 msgid "costs"
 msgstr "kostet"
 
-#: ../views/backend/pricing.php:92 ../views/backend/pricing.php:127
+#: ../views/backend/pricing.php:120 ../views/backend/pricing.php:168
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../views/backend/pricing.php:98
+#: ../views/backend/pricing.php:126
 msgid "Set default price for another category"
 msgstr "Standardpreis für weitere Kategorie setzen"
 
-#: ../views/backend/pricing.php:135
+#: ../views/backend/pricing.php:176
 msgid "Individual Prices"
 msgstr "Individuelle Preise"
 
-#: ../views/backend/pricing.php:137
+#: ../views/backend/pricing.php:178
 msgid "Individual prices overwrite global and category default prices."
 msgstr ""
 "Individuelle Preise überschreiben den Standardpreis und Kategorie-"
 "Standardpreise."
 
-#: ../views/backend/pricing.php:140
+#: ../views/backend/pricing.php:181
 msgid "You can set individual prices for posts,<br>when adding or editing a post."
 msgstr ""
 "Sie können individuelle Preise für Beiträge setzen,<br> wenn Sie einen "
 "Beitrag erstellen oder bearbeiten."
 
-#: ../views/backend/pricing.php:148 ../application/Controller/Admin.php:285
+#: ../views/backend/pricing.php:198
+msgid "The user has to log in to LaterPay and pay immediately."
+msgstr "Der Nutzer muss sich bei LaterPay einloggen und sofort bezahlen."
+
+#: ../views/backend/pricing.php:207 ../application/Controller/Admin.php:272
 msgid "Currency"
 msgstr "Währung"
 
-#: ../views/backend/pricing.php:155
+#: ../views/backend/pricing.php:214
 msgid "All prices are given in"
 msgstr "Alle Preise sind festgelegt in"
 
 #: ../views/backend/partials/pointer_scripts.php:6
-msgid "Activate LaterPay Plugin"
-msgstr "LaterPay Plugin aktivieren"
+msgid "Welcome to LaterPay"
+msgstr "Willkommen bei LaterPay"
 
 #: ../views/backend/partials/pointer_scripts.php:7
-msgid ""
-"Welcome to LaterPay! Please enter your LaterPay API credentials to activate "
-"the plugin now."
-msgstr ""
-"Willkommen bei LaterPay! Geben Sie hier Ihre LaterPay API Zugangsdaten ein, "
-"um das Plugin zu aktivieren."
+msgid "Set the most appropriate settings for you."
+msgstr "Passen Sie das LaterPay Plugin Ihren Bedürfnissen an."
 
 #: ../views/backend/partials/pointer_scripts.php:34
 msgid "Set a Price for this Post"
@@ -446,53 +385,49 @@ msgstr ""
 "Um Ihren Nutzern eine bessere Vorstellung davon zu geben, was sie kaufen, "
 "sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
 
-#: ../views/backend/partials/post_pricing_form.php:23
+#: ../views/backend/partials/post_pricing_form.php:29
 msgid "Pay-per-Use: users pay purchased content later"
 msgstr "Pay-per-Use: Nutzer bezahlen den gekauften Inhalt später"
 
-#: ../views/backend/partials/post_pricing_form.php:29
+#: ../views/backend/partials/post_pricing_form.php:42
 msgid "Single Sale: users pay purchased content immediately"
 msgstr "Single Sale: Nutzer bezahlen den gekauften Inhalt sofort"
 
-#: ../views/backend/partials/post_pricing_form.php:39
+#: ../views/backend/partials/post_pricing_form.php:59
 msgid "Individual Price"
 msgstr "Individueller Preis"
 
-#: ../views/backend/partials/post_pricing_form.php:42
+#: ../views/backend/partials/post_pricing_form.php:64
 msgid "Category Default Price"
 msgstr "Kategorie- preis"
 
-#: ../views/backend/partials/post_pricing_form.php:45
+#: ../views/backend/partials/post_pricing_form.php:71
 msgid "Global Default<span></span> Price"
 msgstr "Standard- preis"
 
-#: ../views/backend/partials/post_pricing_form.php:77 ..
+#: ../views/backend/partials/post_pricing_form.php:105 ..
 #: application/Controller/Admin/Post/Metabox.php:71
 msgid "Remove dynamic pricing"
 msgstr "Dynamische Preissetzung entfernen"
 
-#: ../views/backend/partials/post_pricing_form.php:84 ..
+#: ../views/backend/partials/post_pricing_form.php:112 ..
 #: application/Controller/Admin/Post/Metabox.php:70
 msgid "Add dynamic pricing"
 msgstr "Dynamische Preissetzung hinzufügen"
 
 #: ../application/Helper/View.php:18
-msgid "Get started"
-msgstr "Los geht's"
-
-#: ../application/Helper/View.php:19
 msgid "Pricing"
 msgstr "Preise"
 
-#: ../application/Helper/View.php:20
+#: ../application/Helper/View.php:19
 msgid "Appearance"
 msgstr "Darstellung"
 
-#: ../application/Helper/View.php:21
+#: ../application/Helper/View.php:20
 msgid "Account"
 msgstr "Konto"
 
-#: ../application/Controller/Install.php:38
+#: ../application/Controller/Install.php:39
 #, php-format
 msgid ""
 "<p>LaterPay: Your server <strong>does not</strong> meet the minimum "
@@ -502,12 +437,7 @@ msgstr ""
 "Mindestanforderung</strong> von %s-Version %s oder neuer. Sie verwenden %s-"
 "Version %s.</p>"
 
-#: ../application/Controller/Install.php:51
-#, php-format
-msgid "<p>LaterPay: Directory %s <strong>is not writable</strong>.</p>"
-msgstr "<p>LaterPay: Verzeichnis %s <strong>ist nicht beschreibbar</strong>.</p>"
-
-#: ../application/Controller/Install.php:62
+#: ../application/Controller/Install.php:56
 msgid ""
 "The LaterPay plugin could not be installed. Please fix the reported issues "
 "and try again."
@@ -515,20 +445,18 @@ msgstr ""
 "Das LaterPay Plugin konnte nicht installiert werden. Bitte beheben Sie die "
 "genannten Probleme und versuchen Sie es erneut."
 
-#: ../application/Controller/Post.php:497
+#: ../application/Controller/Post.php:499
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:653
+#: ../application/Controller/Post.php:639
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:654 ..
-#: application/Controller/Admin/GetStarted.php:37 ..
-#: application/Controller/Admin/Pricing.php:181
+#: ../application/Controller/Post.php:640
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
@@ -540,15 +468,15 @@ msgstr ""
 msgid "%s : <code>%s</code> not found"
 msgstr "%s : <code>%s</code> nicht gefunden"
 
-#: ../application/Controller/Admin.php:18 ../application/Controller/Admin.php:44
+#: ../application/Controller/Admin.php:18 ../application/Controller/Admin.php:33
 msgid "LaterPay Plugin Settings"
 msgstr "LaterPay-Plugin-Einstellungen"
 
-#: ../application/Controller/Admin.php:214
+#: ../application/Controller/Admin.php:189
 msgid "LaterPay"
 msgstr "LaterPay"
 
-#: ../application/Controller/Admin.php:215
+#: ../application/Controller/Admin.php:190
 msgid ""
 "\n"
 "                                        <p>\n"
@@ -557,7 +485,7 @@ msgid ""
 "                                            You can set an individual price "
 "for each post.<br>\n"
 "                                            Possible prices are either 0 "
-"Euro (free) or any value between 0.05 Euro (inclusive) and 5.00 Euro "
+"Euro (free) or any value between 0.05 Euro (inclusive) and 149.99 Euro "
 "(inclusive).<br>\n"
 "                                            If you set an individual price, "
 "category default prices you might have set for the post's category(s)\n"
@@ -565,15 +493,13 @@ msgid ""
 "make the post use a category default price.\n"
 "                                        </p>\n"
 "                                        <p>\n"
-"                                            <strong>Advanced Pricing "
+"                                            <strong>Dynamic Pricing "
 "Options</strong><br>\n"
-"                                            You can define advanced price "
+"                                            You can define dynamic price "
 "settings for each post to adjust prices automatically over time.<br>\n"
-"                                            Choose from several presets and "
-"adjust them according to your needs.\n"
 "                                            <br>\n"
 "                                            For example, you could sell a "
-"breaking news post for 0.49 Euro (high interest within the first 24 hours)\n"
+"\"breaking news\" post for 0.49 Euro (high interest within the first 24 hours)\n"
 "                                            and automatically reduce the "
 "price to 0.05 Euro on the second day.\n"
 "                                        </p>\n"
@@ -589,14 +515,46 @@ msgid ""
 "                                            Nevertheless, we highly "
 "recommend manually creating the teaser for each post, to increase your sales."
 "\n"
+"                                        </p>\n"
+"                                        <p>\n"
+"                                            <strong>PPU (Pay-per-"
+"Use)</strong><br>\n"
+"                                            If you choose to sell your "
+"content as <strong>Pay-per-Use</strong>, a user pays the purchased content "
+"<strong>later</strong>. The purchase is added to his LaterPay invoice and he "
+"has to log in to LaterPay and pay, once his invoice has reached 5.00 EUR."
+"<br>\n"
+"                                            LaterPay "
+"<strong>recommends</strong> Pay-per-Use for all prices up to 5.00 EUR as "
+"they deliver the <strong>best purchase experience</strong> for your users."
+"<br>\n"
+"                                            PPU is possible for prices "
+"between (including) <strong>0.05 EUR</strong> and (including) <strong>5.00 "
+"EUR</strong>.\n"
+"                                        </p>\n"
+"                                        <p>\n"
+"                                            <strong>SIS (Single "
+"Sale)</strong><br>\n"
+"                                            If you sell your content as "
+"<strong>Single Sale</strong>, a user has to <strong>log in</strong> to "
+"LaterPay and <strong>pay</strong> for your content "
+"<strong>immediately</strong>.<br>\n"
+"                                            Single Sales are especially "
+"suitable for higher-value content and / or content that immediately "
+"occasions costs (e. g. license fees for a video stream).<br>\n"
+"                                            A Single Sales is possible "
+"between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 "
+"EUR</strong>.<br>\n"
+"                                            Single Sales are currently "
+"available for <strong>individual prices</strong> and will soon be "
+"implemented for the global default price and category default prices.\n"
 "                                        </p>"
 msgstr ""
-"\n"
 "<p>\n"
 "<strong>Preissetzung</strong><br>\n"
 "Sie können einen individuellen Preis für jeden Beitrag setzen.<br>\n"
 "Mögliche Preise sind entweder 0 Euro (kostenlos) oder jeder Preis zwischen 0,"
-"05 Euro (einschließlich) und 5,00 Euro (einschließlich).<br>\n"
+"05 Euro (einschließlich) und 149,99 Euro (einschließlich).<br>\n"
 "Wenn Sie einen individuellen Preis setzen, ist ein eventuell gesetzter "
 "Kategorie-Standardpreis für diesen Beitrag nicht mehr gültig,\n"
 "bis Sie den Kategorie-Standardpreis wieder für diesen Beitrag anwenden.\n"
@@ -605,10 +563,7 @@ msgstr ""
 "<strong>Dynamische Preissetzung</strong><br>\n"
 "Sie können die dynamische Preissetzung verwenden, um den Preis eines "
 "Beitrags automatisch mit der Zeit anzupassen.<br>\n"
-"Wählen Sie eine der verschiedenen Voreinstellungen und passen Sie sie Ihren "
-"Bedürfnissen an.\n"
-"<br>\n"
-"Sie können z. B. einen Breaking News Beitrag für 0,49 Euro (auf Grund "
+"Sie können z. B. einen \"Breaking News\" Beitrag für 0,49 Euro (auf Grund "
 "größeren Interesses in den ersten 24 Stunden)\n"
 "und den Preis automatisch am nächsten Tag auf 0,05 Euro reduzieren.\n"
 "</p>\n"
@@ -623,9 +578,34 @@ msgstr ""
 "<br>\n"
 "Wir empfehlen jedoch, für jeden Beitrag einen separaten Teaser zu erstellen, "
 "um die Attraktivität des Beitrags zu steigern.\n"
+"</p>\n"
+"<p>\n"
+"<strong>PPU (Pay-per-Use)</strong><br>\n"
+"Wenn Sie Ihre Inhalte als Pay-per-Use verkaufen, bezahlen Ihre Nutzer die "
+"gekauften Inhalte <strong>später</strong>: Der Einkauf wird der LaterPay "
+"Rechnung des Nutzers hinzugefügt und er muss sich erst bei LaterPay "
+"einloggen und bezahlen, wenn die Rechnung 5,00 EUR erreicht hat.<br>\n"
+"LaterPay <strong>empfiehlt</strong> Pay-per-Use für alle Preise bis 5,00 EUR,"
+" da sie die <strong>beste Kauferfahrung</strong> für Ihre Nutzer bieten.<br>\n"
+"PPU ist bei Preisen zwischen (einschließlich) <strong>0,05 EUR</strong> und "
+"<strong>5,00 EUR</strong> möglich.\n"
+"</p>\n"
+"<p>\n"
+"<strong>SIS (Single Sale)</strong><br>\n"
+"Bei einem <strong>Single Sale</strong> muss sich der Nutzer "
+"<strong>sofort</strong> beim Kauf in sein LaterPay Konto "
+"<strong>einloggen</strong> und <strong>bezahlen</strong>.<br>\n"
+"Single Sales eignen sich besonders für höherwertige Inhalte und/oder für "
+"solche, bei deren Verkauf Ihnen unmittelbare Kosten entstehen (z. B. "
+"Lizenzgebühren für einen Videostream).<br>\n"
+"Ein Single Sale ist bei Preisen zwischen (einschließlich) <strong>1,49 "
+"EUR</strong> und (einschließlich) <strong>149,99 EUR</strong> möglich.<br>\n"
+"Single Sales sind derzeit für <strong>individuelle Preise</strong> verfügbar "
+"und werden bald auch für den Standardpreis und Kategorie-Standardpreise zur "
+"Verfügung stehen.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:254
+#: ../application/Controller/Admin.php:241
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -648,7 +628,7 @@ msgstr ""
 "die kein Kategorie-Standardpreis oder individueller Preis gesetzt wurde.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:268
+#: ../application/Controller/Admin.php:255
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -683,12 +663,14 @@ msgstr ""
 "kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:286
+#: ../application/Controller/Admin.php:273
 msgid ""
 "\n"
 "                                                    <p>\n"
-"                                                        You can choose "
-"between different currencies for your blog.<br>\n"
+"                                                        Currently, the "
+"plugin only supports Euro as default currency, but\n"
+"                                                        you will soon be "
+"able to choose between different currencies for your blog.<br>\n"
 "                                                        Changing the "
 "standard currency will not convert the prices you\n"
 "                                                        have set.\n"
@@ -703,7 +685,9 @@ msgid ""
 "                                                    </p>"
 msgstr ""
 "<p>\n"
-"Sie können zwischen verschiedenen Währungen für Ihr Blog wählen.<br>\n"
+"Im Moment unterstützt das Plugin nur Euro als Standardwährung, Sie werden "
+"aber bald die Möglichkeit haben, zwischen verschiedenen Währungen für Ihr "
+"Blog zu wählen.<br>\n"
 "Wenn Sie die Währung Ihres Blogs ändern, werden bereits gesetzte Preise "
 "nicht umgerechnet.\n"
 "Nur die angezeigte Währung ändert sich.<br>\n"
@@ -712,11 +696,11 @@ msgstr ""
 "dollar betragen. \n"
 "</p>"
 
-#: ../application/Controller/Admin.php:310
+#: ../application/Controller/Admin.php:298
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../application/Controller/Admin.php:311
+#: ../application/Controller/Admin.php:299
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -764,11 +748,11 @@ msgstr ""
 "</li>\n"
 "</ul>\n"
 
-#: ../application/Controller/Admin.php:335
+#: ../application/Controller/Admin.php:323
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../application/Controller/Admin.php:336
+#: ../application/Controller/Admin.php:324
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -793,11 +777,11 @@ msgstr ""
 "aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:358
+#: ../application/Controller/Admin.php:346
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../application/Controller/Admin.php:359
+#: ../application/Controller/Admin.php:347
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -836,7 +820,7 @@ msgid ""
 "                                                        </li>\n"
 "                                                        <li>\n"
 "                                                            The "
-"<strong>Live</strong> environment for production use.</br>\n"
+"<strong>Live</strong> environment for production use.<br>\n"
 "                                                            In this "
 "environment all transactions will be actually\n"
 "                                                            processed and "
@@ -895,7 +879,7 @@ msgstr ""
 "                                                        </li>\n"
 "                                                        <li>\n"
 "                                                            Die "
-"<strong>Live</strong>-Umgebung für den Produktivbetrieb.</br>\n"
+"<strong>Live</strong>-Umgebung für den Produktivbetrieb.<br>\n"
 "                                                            In dieser "
 "Umgebung werden alle Transaktionen gebucht und Ihrem\n"
 "LaterPay Händlerkonto gutgeschrieben.<br>\n"
@@ -921,7 +905,7 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
-#: ../application/Controller/Admin.php:408
+#: ../application/Controller/Admin.php:396
 msgid ""
 "\n"
 "                                                    <p>You can run the "
@@ -990,32 +974,31 @@ msgstr ""
 "konfigurieren, bevor Sie es auf Ihrem Produktivsystem aktivieren. \n"
 "                                                    </p>"
 
-#: ../application/Controller/Statistics.php:88 ..
-#: application/Controller/Admin/GetStarted.php:115 ..
+#: ../application/Controller/Statistics.php:119 ..
 #: application/Controller/Admin/Account.php:96 ..
-#: application/Controller/Admin/Appearance.php:89 ..
-#: application/Controller/Admin/Appearance.php:100 ..
-#: application/Controller/Admin/Pricing.php:112 ..
-#: application/Controller/Admin/Pricing.php:143 ..
-#: application/Controller/Admin/Pricing.php:250 ..
-#: application/Controller/Admin/Pricing.php:279 ..
-#: application/Controller/Admin/Pricing.php:339 ..
-#: application/Controller/Admin/Pricing.php:400
+#: application/Controller/Admin/Appearance.php:72 ..
+#: application/Controller/Admin/Appearance.php:112 ..
+#: application/Controller/Admin/Appearance.php:123 ..
+#: application/Controller/Admin/Pricing.php:115 ..
+#: application/Controller/Admin/Pricing.php:140 ..
+#: application/Controller/Admin/Pricing.php:256 ..
+#: application/Controller/Admin/Pricing.php:285 ..
+#: application/Controller/Admin/Pricing.php:348 ..
+#: application/Controller/Admin/Pricing.php:411
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: ../application/Controller/Statistics.php:129 ..
-#: application/Controller/Statistics.php:180
+#: ../application/Controller/Statistics.php:160 ..
+#: application/Controller/Statistics.php:211
 msgid "Updated."
 msgstr "Aktualisiert."
 
-#: ../application/Controller/Statistics.php:144 ..
-#: application/Controller/Admin/GetStarted.php:74 ..
+#: ../application/Controller/Statistics.php:175 ..
 #: application/Controller/Admin/Account.php:63 ..
 #: application/Controller/Admin/Appearance.php:57 ..
-#: application/Controller/Admin/Pricing.php:82
+#: application/Controller/Admin/Pricing.php:83
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
@@ -1044,22 +1027,6 @@ msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
 msgid "LaterPay has been disabled for the post type of the target page."
 msgstr "LaterPay wurde für den Post-Type der Zielseite deaktiviert."
 
-#: ../application/Controller/Admin/GetStarted.php:38 ..
-#: application/Controller/Admin/Account.php:133
-msgid "The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!"
-msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Sandbox Merchant ID!"
-
-#: ../application/Controller/Admin/GetStarted.php:39 ..
-#: application/Controller/Admin/Account.php:169
-msgid "The API key you entered is not a valid LaterPay Sandbox API key!"
-msgstr "Der eingegebene API Key ist kein gültiger LaterPay Sandbox API Key!"
-
-#: ../application/Controller/Admin/GetStarted.php:40
-msgid "Please fill in this page before proceeding to other settings pages."
-msgstr ""
-"Bitte füllen Sie zunächst diese Seite aus, bevor Sie weitere Einstellungen "
-"vornehmen."
-
 #: ../application/Controller/Admin/Account.php:27
 msgid "The API key you entered is not a valid LaterPay API key!"
 msgstr "Der eingegebene API Key ist kein gültiger LaterPay API Key!"
@@ -1080,6 +1047,10 @@ msgstr "Die Sandbox Merchant ID wurde überprüft und gespeichert."
 msgid "The Sandbox Merchant ID has been removed."
 msgstr "Die Sandbox Merchant ID wurde entfernt."
 
+#: ../application/Controller/Admin/Account.php:133
+msgid "The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!"
+msgstr "Die eingegebene Merchant ID ist keine gültige LaterPay Sandbox Merchant ID!"
+
 #: ../application/Controller/Admin/Account.php:154
 msgid "Your Sandbox API key is valid. You can now make TEST transactions."
 msgstr ""
@@ -1089,6 +1060,10 @@ msgstr ""
 #: ../application/Controller/Admin/Account.php:162
 msgid "The Sandbox API key has been removed."
 msgstr "Der Sandbox API Key wurde entfernt."
+
+#: ../application/Controller/Admin/Account.php:169
+msgid "The API key you entered is not a valid LaterPay Sandbox API key!"
+msgstr "Der eingegebene API Key ist kein gültiger LaterPay Sandbox API Key!"
 
 #: ../application/Controller/Admin/Account.php:190
 msgid "Live Merchant ID verified and saved."
@@ -1136,11 +1111,15 @@ msgstr ""
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: ../application/Controller/Admin/Appearance.php:74
+#: ../application/Controller/Admin/Appearance.php:82
+msgid "Your changes have been saved"
+msgstr "Ihre Änderungen wurden gespeichert."
+
+#: ../application/Controller/Admin/Appearance.php:97
 msgid "Visitors will now see only the teaser content of paid posts."
 msgstr "Besucher sehen ab jetzt nur den Teaser eines kostenpflichtigen Beitrags."
 
-#: ../application/Controller/Admin/Appearance.php:81
+#: ../application/Controller/Admin/Appearance.php:104
 msgid ""
 "Visitors will now see the teaser content of paid posts plus an excerpt of "
 "the real content under an overlay."
@@ -1148,39 +1127,40 @@ msgstr ""
 "Besucher sehen ab jetzt den Teaser eines kostenpflichtigen Beitrags und "
 "einen Auszug des Artikels unter einem Overlay."
 
-#: ../application/Controller/Admin/Pricing.php:161
+#: ../application/Controller/Admin/Pricing.php:159
 #, php-format
 msgid "The currency for this website is %s now."
 msgstr "Die Währung für diese Website ist jetzt %s."
 
-#: ../application/Controller/Admin/Pricing.php:194
+#: ../application/Controller/Admin/Pricing.php:182 ..
+#: application/Controller/Admin/Pricing.php:228
+msgid "The price you tried to set is outside the allowed range of 0 or 0.05-149.99."
+msgstr ""
+"Der Preis, den Sie zu setzen versuchen, liegt außerhalb des erlaubten "
+"Bereichs von 0 oder 0,05-149,99."
+
+#: ../application/Controller/Admin/Pricing.php:196
 msgid "All posts are free by default now."
 msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
 
-#: ../application/Controller/Admin/Pricing.php:197
+#: ../application/Controller/Admin/Pricing.php:199
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:224
-msgid "The price you tried to set is not within the allowed range of 0 to 5.00."
-msgstr ""
-"Der Preis, den Sie setzen möchten, ist nicht im erlaubten Bereich von 0 bis "
-"5,00."
-
-#: ../application/Controller/Admin/Pricing.php:268 ..
-#: application/Controller/Admin/Pricing.php:352
+#: ../application/Controller/Admin/Pricing.php:274 ..
+#: application/Controller/Admin/Pricing.php:362
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: ../application/Controller/Admin/Pricing.php:296 ..
-#: application/Controller/Admin/Pricing.php:319 ..
-#: application/Controller/Admin/Pricing.php:374
+#: ../application/Controller/Admin/Pricing.php:302 ..
+#: application/Controller/Admin/Pricing.php:326 ..
+#: application/Controller/Admin/Pricing.php:385
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:456
+#: ../application/Controller/Admin/Pricing.php:467
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."

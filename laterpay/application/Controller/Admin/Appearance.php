@@ -34,7 +34,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        $this->assign( 'plugin_is_in_live_mode',     get_option( 'laterpay_plugin_is_in_live_mode' ) == 1 );
+        $this->assign( 'plugin_is_in_live_mode',     $this->config->get( 'is_in_live_mode' ) );
         $this->assign( 'show_teaser_content_only',   get_option( 'laterpay_teaser_content_only' ) == 1 );
         $this->assign( 'top_nav',                    $this->get_menu() );
         $this->assign( 'admin_menu',                 LaterPay_Helper_View::get_admin_menu() );
@@ -63,6 +63,29 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
             }
 
             switch ( $_POST['form'] ) {
+                // update the post types which laterpay supports for purchasing
+                case 'enabled_post_types':
+                    if ( !array_key_exists( 'enabled_post_types', $_POST ) || !is_array( $_POST['enabled_post_types' ] ) ) {
+                        wp_send_json(
+                            array(
+                                'success' => false,
+                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                            )
+                        );
+                        die;
+                    } else {
+                        update_option('laterpay_enabled_post_types', $_POST['enabled_post_types']);
+
+                        wp_send_json(
+                            array(
+                                'success' => TRUE,
+                                'message' => __( 'Your changes have been saved', 'laterpay' )
+                            )
+                        );
+                        die;
+                    }
+                    break;
+
                 // update presentation mode for paid content
                 case 'paid_content_preview':
                     $result = update_option( 'laterpay_teaser_content_only', $_POST['paid_content_preview'] );

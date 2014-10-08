@@ -18,12 +18,20 @@ class LaterPay_Controller_Abstract
     protected $config;
 
     /**
+     * Contains the Logger-Instance.
+     *
+     * @var LaterPay_Core_Logger
+     */
+    protected $logger;
+    /**
      * @param   LaterPay_Model_Config $config
      *
      * @return  LaterPay_Controller_Abstract
      */
     public function __construct( LaterPay_Model_Config $config ) {
         $this->config = $config;
+        $this->logger = laterpay_get_logger();
+
         // assigning the config to our view
         $this->assign( 'config', $this->config );
     }
@@ -54,10 +62,19 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+            $this->logger->error(
+                __METHOD__ . ' - ' . $msg,
+                array( 'view_file' => $view_file )
+            );
 
             return;
         }
+
+        $this->logger->info(
+            __METHOD__ . ' - ' . $file,
+            $this->variables
+        );
+
         include_once( $view_file );
     }
 
@@ -92,10 +109,18 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            LaterPay_Core_Logger::error( $msg, array( 'view_file' => $view_file ) );
+            $this->logger->error(
+                __METHOD__ . ' - ' . $msg,
+                array( 'view_file' => $view_file )
+            );
 
             return '';
         }
+
+        $this->logger->info(
+            __METHOD__ . ' - ' . $file,
+            $this->variables
+        );
 
         ob_start();
         include( $view_file );
@@ -117,16 +142,23 @@ class LaterPay_Controller_Abstract
         if ( empty( $file ) ) {
             $file = 'backend/partials/navigation';
         }
-        $activated      = get_option( 'laterpay_plugin_is_activated', '' );
+        
         $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;
         $menu           = LaterPay_Helper_View::get_admin_menu();
-        if ( $activated ) {
-            unset( $menu['get_started'] );
-        }
+        $plugin_page    = LaterPay_Helper_View::$pluginPage;
+
         $this->assign( 'menu',         $menu );
         $this->assign( 'current_page', $current_page );
-        $this->assign( 'plugin_page',  LaterPay_Helper_View::$pluginPage );
-        $this->assign( 'activated',    $activated );
+        $this->assign( 'plugin_page',  $plugin_page );
+
+        $this->logger->info(
+            __METHOD__ . ' - ' . $file,
+            array(
+                'current_page' => $current_page,
+                'menu'          => $menu,
+                'plugin_page'   => $plugin_page
+            )
+        );
 
         return $this->get_text_view( $file );
     }

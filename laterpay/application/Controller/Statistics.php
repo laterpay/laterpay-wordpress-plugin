@@ -8,30 +8,52 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      *
      * @return bool
      */
-    protected function check_requirements() {
-        // check, if we're on a singular page
-        if ( ! is_singular() ) {
-            return false;
-        }
+    protected function check_requirements( $post = null ) {
+        if ( empty($post) ) {
+            // check, if we're on a singular page
+            if ( ! is_singular() ) {
+                $this->logger->warning(
+                    __METHOD__. ' - !is_singular',
+                    array(
+                        'post' => $post
+                    )
+                );
+                return false;
+            }
 
-        // check, if we have a post
-        $post = get_post();
-        if ( $post === null ) {
-            return false;
+            // check, if we have a post
+            $post = get_post();
+            if ( $post === null ) {
+                return false;
+            }
         }
-
         // check, if the current post_type is an allowed post_type
-        if ( ! in_array( $post->post_type, $this->config->get( 'content.allowed_post_types' ) ) ) {
+        $allowed_post_types = $this->config->get( 'content.enabled_post_types' );
+        if ( ! in_array( $post->post_type, $allowed_post_types ) ) {
+            $this->logger->warning(
+                __METHOD__. ' - post is not purchasable',
+                array(
+                    'post' => $post,
+                    'allowed_post_types' => $allowed_post_types
+                )
+            );
             return false;
         }
 
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable() ){
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ){
+            $this->logger->warning(
+                __METHOD__. ' - post is not purchasable',
+                array(
+                    'post' => $post
+                )
+            );
             return false;
         }
 
         // check, if logging is enabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
+            $this->logger->warning( __METHOD__. ' - access logging is not enabled' );
             return false;
         }
 
@@ -52,7 +74,44 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         $post_id = get_the_ID();
 
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'post_id' => $post_id
+            )
+        );
+
         LaterPay_Helper_Statistics::track( $post_id );
+    }
+    
+    /**
+     * Ajax method to track unique visitors when caching compatible mode is enabled.
+     *
+     * @wp-hook wp_ajax_laterpay_post_load_track_views, wp_ajax_nopriv_laterpay_post_load_track_views
+     *
+     * @return void
+     */
+    public function ajax_track_views() {
+        if ( ! isset( $_POST[ 'action' ] ) || $_POST[ 'action' ] !== 'laterpay_post_track_views' ) {
+            exit;
+        }
+
+        if ( ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], $_POST[ 'action' ] ) ) {
+            exit;
+        }
+
+        if ( ! isset( $_POST[ 'post_id' ] ) ) {
+            return;
+        }
+
+        $post_id    = absint( $_POST[ 'post_id' ] );
+        $post       = get_post( $post_id );
+        
+        if ( $this->check_requirements($post) ) {
+            LaterPay_Helper_Statistics::track( $post_id );
+        }
+        
+        exit;
     }
 
     /**
@@ -69,6 +128,15 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         // don't add the statistics pane placeholder to the footer, if the user is not logged in
         if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', get_the_ID() ) ) {
+
+            $this->logger->warning(
+                __METHOD__ . ' - user cannot read post statistics',
+                array(
+                    'post_id'       => get_the_ID(),
+                    'current_user'  => wp_get_current_user()
+                )
+            );
+
             return;
         }
 
@@ -241,20 +309,23 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         // get historical performance data for post
         $payments_history_model = new LaterPay_Model_Payments_History();
         $post_views_model       = new LaterPay_Model_Post_Views();
+        $currency_model         = new LaterPay_Model_Currency();
 
         // get total revenue and total sales
         $total = array();
         $history_total = (array) $payments_history_model->get_total_history_by_post_id( $post->ID );
         foreach ( $history_total as $item ) {
-            $total[$item->currency]['sum']      = round( $item->sum, 2 );
-            $total[$item->currency]['quantity'] = $item->quantity;
+            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
+            $total[$currency_short_name]['sum']      = round( $item->sum, 2 );
+            $total[$currency_short_name]['quantity'] = $item->quantity;
         }
 
         // get revenue
         $last30DaysRevenue = array();
         $history_last30DaysRevenue = (array) $payments_history_model->get_last_30_days_history_by_post_id( $post->ID );
         foreach ( $history_last30DaysRevenue as $item ) {
-            $last30DaysRevenue[$item->currency][$item->date] = array(
+            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
+            $last30DaysRevenue[$currency_short_name][$item->date] = array(
                 'sum'       => round( $item->sum, 2 ),
                 'quantity'  => $item->quantity,
             );
@@ -263,8 +334,9 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $todayRevenue = array();
         $history_todayRevenue = (array) $payments_history_model->get_todays_history_by_post_id( $post->ID );
         foreach ( $history_todayRevenue as $item ) {
-            $todayRevenue[$item->currency]['sum']       = round( $item->sum, 2 );
-            $todayRevenue[$item->currency]['quantity']  = $item->quantity;
+            $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
+            $todayRevenue[$currency_short_name]['sum']       = round( $item->sum, 2 );
+            $todayRevenue[$currency_short_name]['quantity']  = $item->quantity;
         }
 
         // get visitors

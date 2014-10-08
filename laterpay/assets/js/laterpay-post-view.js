@@ -155,11 +155,22 @@
                             nonce   : lpVars.nonces.content
                         },
                         function(postContent) {
-                            $o.postContentPlaceholder.before(postContent);
+                            if (postContent) {
+                                $o.postContentPlaceholder.html(postContent);
+                            }
                         }
                     );
                 },
-
+                trackViews = function() {
+                    $.post(
+                        lpVars.ajaxUrl,
+                        {
+                            action  : 'laterpay_post_track_views',
+                            post_id : lpVars.post_id,
+                            nonce   : lpVars.nonces.tracking
+                        }
+                    );
+                },
                 handlePurchaseInTestMode = function(trigger) {
                     if ($(trigger).data('preview-as-visitor')) {
                         // show alert instead of loading LaterPay purchase dialogs
@@ -172,6 +183,7 @@
                     // (recognizable by the presence of lp_js_post-content-placeholder
                     if ($('#lp_js_post-content-placeholder').length == 1) {
                         loadPostContent();
+                        trackViews();
                     }
 
                     // render the post statistics pane, if a placeholder exists for it
@@ -221,22 +233,5 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
     }
 
     dm.attachToLinks('.lp_js_do-purchase', ppuContext.showCloseBtn);
-
-    // render invoice indicator iframe
-    if (!lpVars || !lpVars.lpBalanceUrl) {
-        // don't render the invoice indicator, if no URL is provided in the variables
-        return;
-    }
-
-    new Y.LaterPay.IFrame(
-        Y.one('#laterpay-invoice-indicator'),
-        lpVars.lpBalanceUrl,
-        {
-            width       : '110',
-            height      : '30',
-            scrolling   : 'no',
-            frameborder : '0'
-        }
-    );
 
 });

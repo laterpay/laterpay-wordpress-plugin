@@ -43,14 +43,38 @@
                 </label>
             </form>
         </div>
+
         <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
-            <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
+            <h2><?php _e( 'Enabled Post Types', 'laterpay' ); ?></h2>
+            <form id="laterpay_enabled_post_types_form" method="post">
+                <input type="hidden" name="form"    value="enabled_post_types">
+                <input type="hidden" name="action"  value="laterpay_appearance">
+                <?php wp_nonce_field('laterpay_form'); ?>
+                <?php
+                    $enabled_post_types = $config->get( 'content.enabled_post_types' );
+                    $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
+                    foreach( $all_post_types as $slug => $post_type ) {
+                ?>
+                    <label for="supported_post_type_<?php echo $slug; ?>" class="lp_d-block lp_m-b025">
+                        <input type="checkbox"
+                               id="supported_post_type_<?php echo $slug; ?>"
+                               name="enabled_post_types[]"
+                               value="<?php echo $slug; ?>"
+                               class="lp_js_style-input"
+                               <?php echo ( in_array( $slug, $enabled_post_types ) ) ? ' checked="checked" ' : ''; ?>
+                        />
+                        <?php echo $post_type->labels->name; ?>
+                    </label>
+                <?php
+                    }
+                ?>
+            </form>
         </div>
 
         <div class="lp_row">
-            <h3><?php _e( 'Offer of Additional Paid Content', 'laterpay' ); ?></h3>
+            <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
             <dfn class="lp_fl-clearfix">
                 <?php _e( 'Insert shortcode [laterpay_premium_download] into a post to render a box for selling additional paid content.', 'laterpay' ); ?>
             </dfn>

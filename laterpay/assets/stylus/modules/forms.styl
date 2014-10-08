@@ -148,7 +148,38 @@ label:hover .ez-mark
     padding                         0.5em 0
 
 
-// fieldsets -------------------------------------------------------------------------------------------------------
+// revenue model labels ------------------------------------------------------------------------------------------------
+.lp_revenue-model-label
+    background-color                $background-darker
+    border-radius                   3px
+    color                           $clickable
+    display                         inline-block
+    font-weight                     bold
+    padding                         $fs-025 $fs-05
+    text-align                      center
+    text-transform                  uppercase
+    width                           2em
+
+    input[type=radio]
+        display                     none
+
+label.lp_revenue-model-label:hover
+    background-color                $clickable-highlight
+    color                           $text-inverse
+
+.lp_is-disabled
+    visibility                      hidden
+
+.lp_is-selected
+    background-color                $background-laterpay
+    color                           $text-inverse
+
+    &:hover
+        background-color            $background-laterpay
+        cursor                      default
+
+
+// fieldsets -----------------------------------------------------------------------------------------------------------
 fieldset
     padding                         0.5em 1em 0.8em
 

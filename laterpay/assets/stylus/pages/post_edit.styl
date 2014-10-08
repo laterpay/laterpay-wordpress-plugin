@@ -58,29 +58,6 @@
 .lp_post-revenue-model
     width                           3em
 
-    label
-        background-color            $background-darker
-        color                       $clickable
-        width                       2em
-
-        &:hover
-            background-color        $clickable-highlight
-            color                   $text-inverse
-
-    .lp_is-selected
-        background-color            $background-laterpay
-        color                       $text-inverse
-
-        &:hover
-            background-color        $background-laterpay
-            cursor                  default
-
-    .lp_is-disabled
-        visibility                  hidden
-
-    input[type=radio]
-        display                     none
-
 // select price type section
 .lp_price-type
     border                          1px solid $border
@@ -138,6 +115,7 @@
             a
                 color               hsl(0, 0%, 84%)
                 cursor              not-allowed
+                visibility          visible
 
             &:hover
                 background-color    hsl(0, 0%, 91%)
