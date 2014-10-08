@@ -81,16 +81,33 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $error_message .= $error_reason;
             $error_message .= '</div>';
 
+            $this->logger->error(
+                __METHOD__ . ' - ' . $error_reason,
+                array(
+                    'args'   => $a
+                )
+            );
+
             return $error_message;
         }
         $page_id = $page->ID;
 
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
         if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ) ) )  {
+
+            $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+
             $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-            $error_message .= __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
+            $error_message .= $error_reason;
             $error_message .= '</div>';
+
+            $this->logger->error(
+                __METHOD__ . ' - ' . $error_reason,
+                array(
+                    'args'   => $a
+                )
+            );
 
             return $error_message;
         }
@@ -160,6 +177,18 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $image_path     = esc_url( $a['teaser_image_path'] );
         $heading        = esc_attr( $a['heading_text'] );
         $description    = esc_attr( $a['description_text'] );
+
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'image_path'    => $image_path,
+                'heading'       => $heading,
+                'description'   => $description,
+                'price_tag'     => $price_tag,
+                'content_type'  => $content_type,
+                'content_types' => $content_types,
+            )
+        );
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {

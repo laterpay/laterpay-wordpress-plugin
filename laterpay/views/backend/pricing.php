@@ -203,6 +203,8 @@
 
         <hr class="lp_m-1-0 lp_m-b3">
 
+<?php # commented out as long as there is only a single currency ?>
+<?php /* ?>
         <div class="lp_row">
             <h2><?php _e( 'Currency', 'laterpay' ); ?></h2>
             <form id="lp_js_default-currency-form" method="post">
@@ -223,5 +225,7 @@
                 </div>
             </form>
         </div>
+<?php */ ?>
+
     </div>
 </div>

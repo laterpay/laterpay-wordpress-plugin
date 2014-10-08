@@ -124,6 +124,15 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      */
     public function render_teaser_content_box( $post ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post ) ) {
+
+            $this->logger->warning(
+                __METHOD__ . ' - current user can not edit teaser content',
+                array(
+                    'post'          => $post,
+                    'current_user'  => wp_get_current_user()
+                )
+            );
+
             return;
         }
 

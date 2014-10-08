@@ -22,21 +22,33 @@
                     <?php _e( 'Read Now, Pay Later', 'laterpay' ); ?>
                 </h2>
             </header>
-
             <ul class="lp_fl-clearfix">
-                <li class="lp_benefit-buy-now">
-                    <h3><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
-                    <p>
-                        <?php _e( 'Just agree to pay later.<br> No upfront registration and payment.', 'laterpay' ); ?>
-                    </p>
-                </li>
-                <li class="lp_benefit-use-immediately">
-                    <h3><?php _e( 'Read Immediately', 'laterpay' ); ?></h3>
-                    <p>
-                        <?php _e( 'Get immediate access to your purchase.<br> You are only buying this article, not a subscription.', 'laterpay' ); ?>
-                    </p>
-                </li>
-                <?php if ( $laterpay['revenue_model'] !== 'sis' ): ?>
+                <?php if ( $laterpay['revenue_model'] == 'sis' ): ?>
+					<li class="lp_benefit-buy-now">
+                        <h3><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
+                        <p>
+                            <?php _e( 'Buy this post now with LaterPay and <br>pay with a payment method you trust.', 'laterpay' ); ?>
+                        </p>
+                    </li>
+                    <li class="lp_benefit-use-immediately">
+                        <h3><?php _e( 'Read Immediately', 'laterpay' ); ?></h3>
+                        <p>
+                            <?php _e( 'Immediately access your purchase. <br>You only buy this post. No subscription, no fees.', 'laterpay' ); ?>
+                        </p>
+                    </li>
+				<?php else: ?>
+		    		<li class="lp_benefit-buy-now">
+                        <h3><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
+                        <p>
+                            <?php _e( 'Just agree to pay later.<br> No upfront registration and payment.', 'laterpay' ); ?>
+                        </p>
+                    </li>
+                    <li class="lp_benefit-use-immediately">
+                        <h3><?php _e( 'Read Immediately', 'laterpay' ); ?></h3>
+                        <p>
+                            <?php _e( 'Get immediate access to your purchase.<br> You are only buying this article, not a subscription.', 'laterpay' ); ?>
+                        </p>
+                    </li>
                     <li class="lp_benefit-pay-later">
                         <h3><?php _e( 'Pay Later', 'laterpay' ); ?></h3>
                         <p>

@@ -3,16 +3,17 @@
     font-family         laterpay-wordpress-icons
     font-style          normal
     font-weight         normal
-    src                 url(../fonts/laterpay-wordpress-icons_v096.eot)
-    src                 url(../fonts/laterpay-wordpress-icons_v096.eot?#iefix)                   format('embedded-opentype'),
-                        url(../fonts/laterpay-wordpress-icons_v096.woff)                         format('woff'),
-                        url(../fonts/laterpay-wordpress-icons_v096.ttf)                          format('truetype'),
-                        url(../fonts/laterpay-wordpress-icons_v096.svg#laterpay-wordpress-icons) format('svg')
+    src                 url(../fonts/laterpay-wordpress-icons_v098.eot)
+    src                 url(../fonts/laterpay-wordpress-icons_v098.eot?#iefix)                   format('embedded-opentype'),
+                        url(../fonts/laterpay-wordpress-icons_v098.woff)                         format('woff'),
+                        url(../fonts/laterpay-wordpress-icons_v098.ttf)                          format('truetype'),
+                        url(../fonts/laterpay-wordpress-icons_v098.svg#laterpay-wordpress-icons) format('svg')
 
 
 // render vector icons from icon font ----------------------------------------------------------------------------------
 // inject vector icon in pseudo element when 'data-icon' attribute is applied to an element
-[data-icon]:before
+[data-icon]:before,
+.lp_vector-icon
     -moz-osx-font-smoothing grayscale
     -webkit-font-smoothing  antialiased
     content             attr(data-icon)
@@ -47,3 +48,8 @@
 // 'k' - live-mode
 //
 // 'l' - 'hide' icon (used in statistics pane)
+//
+// debugger icons
+// 'm' - info
+// 'n' - warning
+// 'o' - error

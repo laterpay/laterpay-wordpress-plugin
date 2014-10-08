@@ -83,6 +83,10 @@ function laterpay_get_plugin_config() {
     $config->set( 'view_dir',           plugin_dir_path( __FILE__ ) . 'views/' );
     $config->set( 'cache_dir',          plugin_dir_path( __FILE__ ) . 'cache/' );
 
+    $upload_dir = wp_upload_dir();
+    $config->set( 'log_dir',            $upload_dir[ 'basedir' ] . '/laterpay_log/' );
+    $config->set( 'log_url',            $upload_dir[ 'baseurl' ] . '/laterpay_log/' );
+
     $plugin_url = $config->get( 'plugin_url' );
     $config->set( 'css_url',    $plugin_url . 'assets/css/' );
     $config->set( 'js_url',     $plugin_url . 'assets/js/' );
@@ -119,7 +123,7 @@ function laterpay_get_plugin_config() {
     $config->import( $plugin_headers );
 
     /**
-     * LaterPay API endpoints and API default settings
+     * LaterPay API endpoints and API default settings.
      *
      * @var array
      */
@@ -132,7 +136,7 @@ function laterpay_get_plugin_config() {
     );
 
     /**
-     * plugin filter for manipulating the API endpoint URLs.
+     * Plugin filter for manipulating the API endpoint URLs.
      *
      * @param array $api_settings
      *
@@ -182,11 +186,11 @@ function laterpay_get_plugin_config() {
         'content.preview_word_count_min'                    => 26,
         'content.preview_word_count_max'                    => 200,
         'content.show_purchase_button'                      => true,
-        'content.enabled_post_types'                        => get_option( 'laterpay_enabled_post_types', get_post_types( array( 'public' => true ) ) )
+        'content.enabled_post_types'                        => get_option( 'laterpay_enabled_post_types', get_post_types( array( 'public' => true ) ) ),
     );
 
     /**
-     * Content filter to change the settings for preview output
+     * Content filter to change the settings for preview output.
      *
      * @var array $content_settings
      *
@@ -254,4 +258,49 @@ function laterpay_before_start() {
     LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap');
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay');
+
+    // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
+    // to register the required script and style filters
+    laterpay_get_logger();
+}
+
+/**
+ * Get logger object.
+ *
+ * @return LaterPay_Core_Logger
+ */
+function laterpay_get_logger() {
+    // check, if the config is in cache -> don't load it again.
+    $logger = wp_cache_get( 'logger', 'laterpay' );
+    if ( is_a( $logger, 'LaterPay_Core_Logger' ) ) {
+        return $logger;
+    }
+
+    $config     = laterpay_get_plugin_config();
+    $handlers   = array();
+
+    if ( $config->get( 'debug_mode' ) ) {
+        // LaterPay WordPress Handler to show the DebugBar in wp_footer
+        $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
+        $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
+
+        $handlers[] = $wp_handler;
+    } else {
+        $handlers[] = new LaterPay_Core_Logger_Handler_Null();
+    }
+
+    // Adding some additional Processors for more detailed log-entries
+    $processors = array(
+        new LaterPay_Core_Logger_Processor_Web(),
+        new LaterPay_Core_Logger_Processor_MemoryUsage(),
+        new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
+        new LaterPay_Core_Logger_Processor_Introspection( )
+    );
+
+    $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
+
+    // cache the config
+    wp_cache_set( 'logger', $logger, 'laterpay' );
+
+    return $logger;
 }
