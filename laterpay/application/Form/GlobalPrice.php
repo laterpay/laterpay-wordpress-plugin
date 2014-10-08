@@ -16,39 +16,76 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
         $this->set_field(
             'form',
             array(
-                'eq' => 'global_price_form'
+                'validators' => array(
+                    'cmp' => array(
+                        array(
+                            'eq' => 'global_price_form'
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             'action',
             array(
-                'eq' => 'laterpay_pricing'
+                'validators' => array(
+                    'cmp' => array(
+                        array(
+                            'eq' => 'laterpay_pricing'
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             '_wpnonce',
             array(
-                'ne' => null
+                'validators' => array(
+                    'cmp' => array(
+                        array(
+                            'ne' => null
+                        )
+                    )
+                )
             )
         );
 
         $this->set_field(
             'laterpay_global_price_revenue_model',
             array(
-                'in_array' => array( 'ppu', 'sis' )
+                'validators' => array(
+                    'in_array' => array( 'ppu', 'sis' )
+                ),
+                'filters' => array(
+                    'to_string'
+                )
             )
         );
 
         $this->set_field(
             'laterpay_global_price',
             array(
-                'is_float',
-            ),
-            array(
-                'to_float',
-                'format_num' => 2
+                'validators' => array(
+                    'is_float',
+                    // TODO: this is just a dirty hack to allow saving Single Sale prices
+                    'cmp' => array(
+                        array(
+                            'lte'  => 149.99,
+                            'gt'   => 0
+                        )
+                    )
+                ),
+                'filters' => array(
+                    'replace' => array(
+                        'type'    => 'str_replace',
+                        'search'  => ',',
+                        'replace' => '.'
+                    ),
+                    'to_float',
+                    'format_num' => 2
+                )
             )
         );
     }
