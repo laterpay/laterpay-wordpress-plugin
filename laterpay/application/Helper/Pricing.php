@@ -2,7 +2,6 @@
 
 class LaterPay_Helper_Pricing
 {
-
     const TYPE_GLOBAL_DEFAULT_PRICE     = 'global default price';
     const TYPE_CATEGORY_DEFAULT_PRICE   = 'category default price';
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';

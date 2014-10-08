@@ -52,11 +52,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $category_price_model           = new LaterPay_Model_CategoryPrice();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
-        $currency_model                 = new LaterPay_Model_Currency();
-        $currencies                     = $currency_model->get_currencies();
 
         $this->assign( 'categories_with_defined_price', $categories_with_defined_price );
-        $this->assign( 'currencies',                    $currencies );
         $this->assign( 'standard_currency',             get_option( 'laterpay_currency' ) );
         $this->assign( 'plugin_is_in_live_mode',        $this->config->get( 'is_in_live_mode' ) );
         $this->assign( 'global_default_price',          LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
@@ -156,9 +153,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'success'           => true,
                 'laterpay_currency' => get_option( 'laterpay_currency' ),
                 'message'           => sprintf(
-                    __( 'The currency for this website is %s now.', 'laterpay' ),
-                    get_option( 'laterpay_currency' )
-                )
+                                            __( 'The currency for this website is %s now.', 'laterpay' ),
+                                            get_option( 'laterpay_currency' )
+                                        )
             )
         );
     }

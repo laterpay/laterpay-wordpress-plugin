@@ -47,6 +47,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_notices',                        array( $install_controller, 'check_for_updates' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_meta_keys' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_terms_price_table' ) );
+                add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_currency_to_euro' ) );
             }
 
             // add the plugin, if it is active and all checks are ok
@@ -117,7 +118,7 @@ class LaterPay_Core_Bootstrap
         $post_controller = new LaterPay_Controller_Post( $this->config );
         // add Ajax hooks for frontend
         add_action( 'wp_ajax_laterpay_post_load_purchased_content',          array( $post_controller, 'ajax_load_purchased_content' ) );
-        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );        
+        add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );
 
         // Ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
