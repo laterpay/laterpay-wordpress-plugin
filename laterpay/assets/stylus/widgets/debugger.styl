@@ -27,6 +27,7 @@
             padding                 0 0.5em
 
     a
+        box-shadow                  none
         outline                     0 none
         text-decoration             none
 
@@ -40,6 +41,7 @@
         display                     inline-block
         font-size                   1.25em
         font-weight                 400
+        line-height                 1
         margin                      0.5em 0 0.5em 6.75em
 
         &:before
@@ -156,14 +158,16 @@
     th,
     td
         border                      0 none
+        border-collapse             collapse
 
     table
         margin                      0
+        width                       100%
 
     th,
     td
-        border-collapse             collapse
         padding                     $fs-05
+        text-align                  left
 
     th
         color                       $text-lighter
