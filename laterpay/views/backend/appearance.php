@@ -54,7 +54,7 @@
                 <?php
                     $enabled_post_types = $config->get( 'content.enabled_post_types' );
                     $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
-                    foreach( $all_post_types as $slug => $post_type ) {
+                    foreach ( $all_post_types as $slug => $post_type ) {
                 ?>
                     <label for="supported_post_type_<?php echo $slug; ?>" class="lp_d-block lp_m-b025">
                         <input type="checkbox"
@@ -95,10 +95,8 @@
                                     <pre>target_page_id</pre>
                                 </td>
                                 <td>
-                                    The ID of the page that contains the paid content.<br>
-                                    <dfn data-icon="n">Page IDs are unique within a WordPress blog and should thus be used instead of the target_page_title.<br>
-                                        If both target_page_id and target_page_title are provided, the target_page_title will be ignored.
-                                    </dfn>
+                                    <?php _e( 'The ID of the page that contains the paid content.', 'laterpay'); ?><br>
+                                    <dfn data-icon="n"><?php _e( 'Page IDs are unique within a WordPress blog and should thus be used instead of the target_page_title.<br> If both target_page_id and target_page_title are provided, the target_page_title will be ignored.', 'laterpay'); ?></dfn>
                                 </td>
                             </tr>
                             <tr>
@@ -106,8 +104,8 @@
                                     <pre>target_page_title</pre>
                                 </td>
                                 <td>
-                                    The title of the page that contains the paid content.<br>
-                                    <dfn data-icon="n">Changing the title of the linked post requires updating the shortcode accordingly.</dfn>
+                                    <?php _e( 'The title of the page that contains the paid content.', 'laterpay'); ?><br>
+                                    <dfn data-icon="n"><?php _e( 'Changing the title of the linked post requires updating the shortcode accordingly.', 'laterpay'); ?></dfn>
                                 </td>
                             </tr>
                             <tr>
@@ -115,8 +113,8 @@
                                     <pre>content_type</pre>
                                 </td>
                                 <td>
-                                    Content type of the linked content.<br>
-                                    Choose between 'music', 'video', 'text', 'gallery', and 'file' to display the corresponding default teaser image provided by the plugin.
+                                    <?php _e( 'Content type of the linked content.', 'laterpay'); ?><br>
+                                    <?php _e( 'Choose between \'music\', \'video\', \'text\', \'gallery\', and \'file\' to display the corresponding default teaser image provided by the plugin.', 'laterpay'); ?>
                                 </td>
                             </tr>
                             <tr>
@@ -124,7 +122,7 @@
                                     <pre>teaser_image_path</pre>
                                 </td>
                                 <td>
-                                    Path to a 300 x 300 px image that should be used instead of the default LaterPay teaser image.
+                                    <?php _e( 'Path to a 300 x 300 px image that should be used instead of the default LaterPay teaser image.', 'laterpay'); ?>
                                 </td>
                             </tr>
                             <tr>
@@ -132,7 +130,7 @@
                                     <pre>heading_text</pre>
                                 </td>
                                 <td>
-                                    Text that should be displayed as heading in the box rendered by the shortcode. The heading is limited to one line.
+                                    <?php _e( 'Text that should be displayed as heading in the box rendered by the shortcode. The heading is limited to one line.', 'laterpay'); ?>
                                 </td>
                             </tr>
                             <tr>
@@ -140,7 +138,7 @@
                                     <pre>description_text</pre>
                                 </td>
                                 <td>
-                                    Text that provides additional information on the paid content.
+                                    <?php _e( 'Text that provides additional information on the paid content.', 'laterpay'); ?>
                                 </td>
                             </tr>
                         </table>
