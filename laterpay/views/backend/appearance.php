@@ -86,7 +86,7 @@
             </code>
             <table class="lp_m-b1">
                 <tr>
-                    <td>
+                    <td class="lp_pd-l0">
                         <img class="lp_ui-element-preview-large" src="<?php echo $config->get( 'image_url' ) . 'shortcode-2x.png'; ?>">
                     </td>
                     <td>

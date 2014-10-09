@@ -361,9 +361,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             );
         }
 
-        $category = $price_category_form->get_field_value('category');
-        $term = get_term_by( 'name', $category, 'category' );
-        $category_price_revenue_model = $price_category_form->get_field_value('laterpay_category_price_revenue_model');
+        $category                       = $price_category_form->get_field_value( 'category' );
+        $term                           = get_term_by( 'name', $category, 'category' );
+        $category_price_revenue_model   = $price_category_form->get_field_value( 'laterpay_category_price_revenue_model' );
 
         if ( ! $term ) {
             wp_send_json(
@@ -377,7 +377,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $category_id                  = $term->term_id;
         $category_price_model         = new LaterPay_Model_CategoryPrice();
         $category_doesnt_exist        = $category_price_model->check_existence_of_category_by_name( $category );
-        $delocalized_category_price   = $price_category_form->get_field_value('price');
+        $delocalized_category_price   = $price_category_form->get_field_value( 'price' );
 
         if ( ! empty( $category_doesnt_exist ) || empty( $category_id ) ) {
             wp_send_json(
@@ -406,12 +406,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'revenue_model'     => $category_price_revenue_model,
                 'updated_post_ids'  => $updated_post_ids,
                 'message'           => sprintf(
-                    __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
-                    $category,
-                    $formatted_category_price,
-                    $currency_name
-                ),
-
+                                            __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
+                                            $category,
+                                            $formatted_category_price,
+                                            $currency_name
+                                        ),
             )
         );
     }
@@ -422,7 +421,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function delete_category_default_price() {
-
         $price_category_delete_form = new LaterPay_Form_PriceCategory();
 
         if ( ! $price_category_delete_form->is_valid( $_POST ) ) {
@@ -437,8 +435,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $category_id = $price_category_delete_form->get_field_value( 'category_id' );
 
         // delete the category_price
-        $category_price_model = new LaterPay_Model_CategoryPrice();
-        $success = $category_price_model->delete_prices_by_category_id( $category_id );
+        $category_price_model   = new LaterPay_Model_CategoryPrice();
+        $success                = $category_price_model->delete_prices_by_category_id( $category_id );
 
         if ( ! $success ) {
             wp_send_json(
@@ -452,17 +450,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         // get all posts with the deleted $category_id and loop through them
         $post_ids = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
         foreach ( $post_ids as $post_id ) {
-            // check if the post has LaterPay pricing data
+            // check, if the post has LaterPay pricing data
             $post_price = get_post_meta( $post_id, 'laterpay_post_prices', true );
             if ( ! is_array( $post_price ) ) {
                 continue;
             }
-            // check if the post uses a category default price
+
+            // check, if the post uses a category default price
             if ( $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
                 continue;
             }
 
-            // check if the post has the deleted category_id as category default price
+            // check, if the post has the deleted category_id as category default price
             if ( (int) $post_price[ 'category_id' ] !== $category_id ) {
                 continue;
             }

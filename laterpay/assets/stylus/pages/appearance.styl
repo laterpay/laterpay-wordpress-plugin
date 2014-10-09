@@ -3,45 +3,72 @@
 // content preview mode ------------------------------------------------------------------------------------------------
 .lp_preview-mode-1,
 .lp_preview-mode-2
-    background-repeat   no-repeat
-    height              208px
-    margin              0.5em 4em 0.25em 1.75em
-    width               300px
+    background-repeat       no-repeat
+    height                  208px
+    margin                  0.5em 4em 0.25em 1.75em
+    width                   300px
 
 .lp_preview-mode-1
-    background-image    url(../../img/preview-mode-1.png)
+    background-image        url(../../img/preview-mode-1.png)
 
 .lp_preview-mode-2
-    background-image    url(../../img/preview-mode-2.png)
+    background-image        url(../../img/preview-mode-2.png)
 
 
-// invoice indicator code snippet --------------------------------------------------------------------------------------
-.lp_invoice-indicator-img
-    height              29px
-    width               110px
+// code snippets -------------------------------------------------------------------------------------------------------
+.lp_ui-element-preview-large
+    width                   300px
+
+.lp_ui-element-preview-small
+    width                   110px
 
 .lp_code-snippet
-    background-color    $background-lightest
-    border              1px solid $border-darker
-    border-radius       3px
-    margin              0.75em 0 0 125px
-    max-width           540px
-    padding             0.75em 1em 0.5em
-    position            relative
+    background-color        $background-lightest
+    border                  1px solid $border-darker
+    border-radius           3px
+    margin                  $fs-075 0 0 125px
+    max-width               415px
+    padding                 $fs-075 $fs-1 $fs-05
+    position                relative
+
+.lp_shown-above
+    margin                  $fs-075 0 $fs-05
+    max-width               540px
+
+    .lp_triangle
+        border-color        $background-lightest transparent transparent transparent
+        bottom              -8px
+        left                -9px
+        top                 auto
+
+    .lp_outer-triangle
+        border-right-color  transparent
+        border-top-color    hsl(0, 0%, 77%)
+        bottom              -20px
+        left                70px
+        top                 auto
 
 .lp_triangle
-    border              9px solid $background-lightest
-    border-color        transparent $background-lightest transparent transparent
-    height              0
-    left                -8px
-    position            absolute
-    top                 -9px
-    width               0
-    z-index             $zindex-elevated_2
+    border                  9px solid $background-lightest
+    border-color            transparent $background-lightest transparent transparent
+    height                  0
+    left                    -8px
+    position                absolute
+    top                     -9px
+    width                   0
+    z-index                 $zindex-elevated_2
 
 .lp_outer-triangle
-    border-right-color  hsl(0, 0%, 77%)
-    border-width        10px
-    left                -20px
-    top                 7px
-    z-index             $zindex-elevated_1
+    border-right-color      hsl(0, 0%, 77%)
+    border-width            10px
+    left                    -20px
+    top                     7px
+    z-index                 $zindex-elevated_1
+
+table
+    td
+        padding                 $fs-05
+        vertical-align          top
+
+    pre
+        margin                  0
