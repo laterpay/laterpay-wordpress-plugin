@@ -34,16 +34,16 @@ class LaterPay_Helper_File
     public static function check_url_encrypt( $resource_url_parts ) {
         // get path of resource
         $blog_url_parts = parse_url( get_bloginfo( 'wpurl' ) );
-		if(!$blog_url_parts)
+		if ( ! $blog_url_parts )
 			return false;
-			
+
         if ( $blog_url_parts['host'] != $resource_url_parts['host'] ) {
             // don't encrypt, because resource is not located at current host
             return false;
         }
         $uri = $resource_url_parts['path'];
 
-        if ( ! isset(self::$protected_urls ) ) {
+        if ( ! isset( self::$protected_urls ) ) {
             // add path of wp-uploads folder to $protected_urls
             $upload_dir = wp_upload_dir();
             $upload_url = parse_url( $upload_dir['baseurl'] );
@@ -102,17 +102,17 @@ class LaterPay_Helper_File
         $file       = base64_encode( $cipher->encrypt( $uri ) );
 
 		$request    = new LaterPay_Core_Request();
-        $path       = $request->getServer('DOCUMENT_ROOT') . $uri;
+        $path       = $request->getServer( 'DOCUMENT_ROOT' ) . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
-		
+
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
         );
         $params = array(
             'aid'   => $post_id,
@@ -122,11 +122,11 @@ class LaterPay_Helper_File
         if ( $use_auth ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $client = new LaterPay_Client(
-                    $client_options['cp_key'],
-                    $client_options['api_key'],
-                    $client_options['api_root'],
-                    $client_options['web_root'],
-                    $client_options['token_name']
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
             );
             $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
@@ -147,11 +147,11 @@ class LaterPay_Helper_File
         $response   = new LaterPay_Core_Response();
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
         );
 
         // request parameters
@@ -290,7 +290,6 @@ class LaterPay_Helper_File
 
         $file = base64_decode( $file );
         if ( empty( $file ) ) {
-
             laterpay_get_logger()->error( 'RESOURCE:: cannot decode $file - empty result' );
 
             $response->set_http_response_code( 500 );
