@@ -48,6 +48,11 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'is_float'
                 ),
                 'filters' => array(
+                    'replace' => array(
+                        'type'    => 'str_replace',
+                        'search'  => ',',
+                        'replace' => '.'
+                    ),
                     'format_num' => 2,
                     'to_float'
                 )

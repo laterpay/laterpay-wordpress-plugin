@@ -48,47 +48,58 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
      * @return void
      */
     public static function process_ajax_requests() {
-        if ( isset( $_POST['form'] ) ) {
-            // check for required capabilities to perform action
-            if ( ! current_user_can( 'activate_plugins' ) ) {
-                wp_send_json(
-                    array(
-                        'success' => false,
-                        'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
-                    )
-                );
-            }
-            if ( function_exists('check_admin_referer') ) {
-                check_admin_referer( 'laterpay_form' );
-            }
+        // check for required capabilities to perform action
+        if ( ! current_user_can( 'activate_plugins' ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
+                )
+            );
+        }
 
-            switch ( $_POST['form'] ) {
-                // update the post types which laterpay supports for purchasing
-                case 'enabled_post_types':
-                    if ( !array_key_exists( 'enabled_post_types', $_POST ) || !is_array( $_POST['enabled_post_types' ] ) ) {
-                        wp_send_json(
-                            array(
-                                'success' => false,
-                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                            )
-                        );
-                        die;
-                    } else {
-                        update_option('laterpay_enabled_post_types', $_POST['enabled_post_types']);
+        if ( function_exists( 'check_admin_referer' ) ) {
+            check_admin_referer( 'laterpay_form' );
+        }
 
-                        wp_send_json(
-                            array(
-                                'success' => TRUE,
-                                'message' => __( 'Your changes have been saved', 'laterpay' )
-                            )
-                        );
-                        die;
-                    }
-                    break;
+        switch ( $_POST['form'] ) {
+            // update the post types which LaterPay supports for purchasing
+            case 'enabled_post_types':
+                $enabled_post_types_form = new LaterPay_Form_EnabledPostTypes();
 
-                // update presentation mode for paid content
-                case 'paid_content_preview':
-                    $result = update_option( 'laterpay_teaser_content_only', $_POST['paid_content_preview'] );
+                if ( ! $enabled_post_types_form->is_valid( $_POST ) ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                        )
+                    );
+                } else {
+                    update_option( 'laterpay_enabled_post_types', $enabled_post_types_form->get_field_value( 'enabled_post_types' ) );
+
+                    wp_send_json(
+                        array(
+                            'success' => TRUE,
+                            'message' => __( 'Your changes have been saved', 'laterpay' )
+                        )
+                    );
+                }
+                break;
+
+            // update presentation mode for paid content
+            case 'paid_content_preview':
+                $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
+
+                if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                        )
+                    );
+                } else {
+                    $result = update_option( 'laterpay_teaser_content_only', $paid_content_preview_form->get_field_value( 'paid_content_preview' ) );
+
                     if ( $result ) {
                         if ( get_option( 'laterpay_teaser_content_only' ) ) {
                             wp_send_json(
@@ -105,27 +116,21 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                                 )
                             );
                         }
-                    } else {
-                        wp_send_json(
-                            array(
-                                'success' => false,
-                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                            )
-                        );
                     }
-                    die;
-                    break;
+                }
+                break;
 
-                default:
-                    wp_send_json(
-                        array(
-                            'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                        )
-                    );
-                    break;
-            }
+            default:
+                wp_send_json(
+                    array(
+                        'success' => false,
+                        'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                    )
+                );
+                break;
         }
+
+        die;
     }
 
 }

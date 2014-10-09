@@ -51,7 +51,9 @@ abstract class LaterPay_Form_Abstract
         // replace - replacement
         'replace'    => array( 'LaterPay_Form_Abstract', 'replace' ),
         // format number with given decimal places
-        'format_num' => array( 'LaterPay_Helper_View', 'format_number' )
+        'format_num' => array( 'LaterPay_Helper_View', 'format_number' ),
+        // strip slashes
+        'unslash'   => 'wp_unslash'
     );
 
     /**
