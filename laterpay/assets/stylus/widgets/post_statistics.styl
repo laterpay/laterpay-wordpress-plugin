@@ -39,6 +39,7 @@
     .lp_post-statistics-visibility-toggle
         background-color            $background-darker
         border-radius               3px 0 0 3px
+        color                       $clickable
         height                      45px
         left                        0
         position                    absolute
@@ -55,6 +56,9 @@
             padding-left            0.25em
             position                relative
             transition              0.1s ease-in-out
+
+        &:hover
+            color                   $clickable-highlight
 
     &:hover
         // reveal link for hiding the statistics pane when it is hovered

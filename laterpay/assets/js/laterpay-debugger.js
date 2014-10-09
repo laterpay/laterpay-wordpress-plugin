@@ -2,26 +2,26 @@
 
     function laterPayDebugger() {
         var $o = {
-                menuItem        : $('#wp-admin-bar-lp_js_debugger-admin-bar-menu'),
-                debugger        : $('.lp_debugger'),
-                debuggerHeader  : 'header',
-                tabs            : $('.lp_debugger-tabs li'),
-                content         : $('.lp_debugger-content'),
-                logMessage      : '.lp_log-entry-table',
-                detailsLink     : $('.lp_js_toggle-log-details'),
-                logDetails      : '.lp_js_log-entry-details',
+                menuItem            : $('#wp-admin-bar-lp_js_debugger-admin-bar-menu'),
+                debugger            : $('.lp_debugger'),
+                debuggerHeader      : 'header',
+                tabs                : $('.lp_debugger-tabs li'),
+                content             : $('.lp_debugger-content'),
+                logMessage          : '.lp_log-entry-table',
+                logMessageHeader    : $('.lp_log-entry-table thead'),
+                logDetails          : '.lp_js_log-entry-details',
 
-                hidden          : 'lp_is_hidden',
-                selected        : 'lp_is_selected',
+                hidden              : 'lp_is_hidden',
+                selected            : 'lp_is_selected',
 
-                hiddenAttr      : {
-                                    'aria-hidden'   : true,
-                                    'aria-visible'  : false
-                                  },
-                visibleAttr     : {
-                                    'aria-hidden'   : false,
-                                    'aria-visible'  : true
-                                  }
+                hiddenAttr          : {
+                                        'aria-hidden'   : true,
+                                        'aria-visible'  : false
+                                      },
+                visibleAttr         : {
+                                        'aria-hidden'   : false,
+                                        'aria-visible'  : true
+                                      }
             },
 
             bindEvents = function() {
@@ -48,7 +48,7 @@
                 .click(function(e) {e.preventDefault();});
 
                 // toggle log message details
-                $o.detailsLink
+                $o.logMessageHeader
                 .mousedown(function() {
                     toggleMessageDetails($(this));
                 })

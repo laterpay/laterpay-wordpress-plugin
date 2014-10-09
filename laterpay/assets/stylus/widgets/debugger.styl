@@ -181,6 +181,8 @@
         width                       12em
 
     thead
+        cursor                      pointer
+
         td,
         th
             transition              background-color 0.25s
@@ -237,11 +239,9 @@
         color                       $clickable
         padding                     $fs-05
 
-        &:before
-            transform               rotate(30deg)
-
-        &:hover
-            color                   $clickable-highlight
+    &:hover a,
+    a:hover
+        color                       $clickable-highlight
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
