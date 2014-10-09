@@ -13,22 +13,12 @@ class LaterPay_Model_Payments_History
     public $table;
 
     /**
-     * Name of currency table.
-     *
-     * @var string
-     *
-     * @access public
-     */
-    public $table_currency;
-
-    /**
      * Constructor for class LaterPay_Payments_History_Model, load table names.
      */
     function __construct() {
         global $wpdb;
 
         $this->table = $wpdb->prefix . 'laterpay_payment_history';
-        $this->table_currency = $wpdb->prefix . 'laterpay_currency';
     }
 
     /**
@@ -93,15 +83,11 @@ class LaterPay_Model_Payments_History
 
         $sql = "
             SELECT
-                wlc.short_name AS currency,
+                wlph.currency_id,
                 SUM(wlph.price) AS sum,
                 COUNT(wlph.id) AS quantity
             FROM
                 {$this->table} AS wlph
-                LEFT JOIN
-                    {$this->table_currency} AS wlc
-                ON
-                    wlph.currency_id = wlc.id
             WHERE
                 wlph.mode = %s
                 AND wlph.post_id = %d
@@ -134,15 +120,11 @@ class LaterPay_Model_Payments_History
 
         $sql = "
             SELECT
-                wlc.short_name AS currency,
+                wlph.currency_id,
                 SUM(wlph.price) AS sum,
                 COUNT(wlph.id) AS quantity
             FROM
                 {$this->table} AS wlph
-                LEFT JOIN
-                    {$this->table_currency} AS wlc
-                ON
-                    wlph.currency_id = wlc.id
             WHERE
                 wlph.mode = %s
                 AND wlph.post_id = %d
@@ -178,16 +160,12 @@ class LaterPay_Model_Payments_History
 
         $sql = "
             SELECT
+                wlph.currency_id,
                 DATE(wlph.date) AS date,
                 SUM(wlph.price) AS sum,
-                COUNT(wlph.id) AS quantity,
-                wlc.short_name AS currency
+                COUNT(wlph.id) AS quantity
             FROM
                 {$this->table} AS wlph
-                LEFT JOIN
-                    {$this->table_currency} AS wlc
-                ON
-                    wlph.currency_id = wlc.id
             WHERE
                 wlph.mode = %s
                 AND wlph.post_id = %d

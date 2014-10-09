@@ -52,14 +52,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $category_price_model           = new LaterPay_Model_CategoryPrice();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
-        $currency_model                 = new LaterPay_Model_Currency();
-        $currencies                     = $currency_model->get_currencies();
 
-        $this->assign( 'categories_with_defined_price', $categories_with_defined_price );
-        $this->assign( 'currencies',                    $currencies );
-        $this->assign( 'standard_currency',             get_option( 'laterpay_currency' ) );
-        $this->assign( 'plugin_is_in_live_mode',        $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'global_default_price',          LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
+        $this->assign( 'categories_with_defined_price',         $categories_with_defined_price );
+        $this->assign( 'standard_currency',                     get_option( 'laterpay_currency' ) );
+        $this->assign( 'plugin_is_in_live_mode',                $this->config->get( 'is_in_live_mode' ) );
+        $this->assign( 'global_default_price',                  LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
         $this->assign( 'global_default_price_revenue_model',    get_option( 'laterpay_global_price_revenue_model' ) );
         $this->assign( 'top_nav',                               $this->get_menu() );
         $this->assign( 'admin_menu',                            LaterPay_Helper_View::get_admin_menu() );
@@ -149,16 +146,27 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function update_currency() {
-        update_option( 'laterpay_currency', $_POST['laterpay_currency'] );
+        $currency_form = new LaterPay_Form_Currency();
+
+        if ( ! $currency_form->is_valid( $_POST ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
+                )
+            );
+        }
+
+        update_option( 'laterpay_currency', $currency_form->get_field_value('laterpay_currency') );
 
         wp_send_json(
             array(
                 'success'           => true,
                 'laterpay_currency' => get_option( 'laterpay_currency' ),
                 'message'           => sprintf(
-                    __( 'The currency for this website is %s now.', 'laterpay' ),
-                    get_option( 'laterpay_currency' )
-                )
+                                            __( 'The currency for this website is %s now.', 'laterpay' ),
+                                            get_option( 'laterpay_currency' )
+                                        )
             )
         );
     }
@@ -169,11 +177,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function update_global_default_price() {
-        $delocalized_global_price = (float) str_replace( ',', '.', $_POST['laterpay_global_price'] );
-        $global_price_revenue_model = (string) $_POST['laterpay_global_price_revenue_model'];
 
-        // TODO: this is just a dirty hack to allow saving Single Sale prices
-        if ( ( $delocalized_global_price > 149.99 || $delocalized_global_price < 0 ) || ! in_array( $global_price_revenue_model, array('ppu', 'sis') ) ) {
+        $global_price_form = new LaterPay_Form_GlobalPrice();
+
+        if ( ! $global_price_form->is_valid( $_POST ) ) {
             wp_send_json(
                 array(
                     'success'                       => false,
@@ -183,6 +190,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 )
             );
         }
+
+        $delocalized_global_price = $global_price_form->get_field_value('laterpay_global_price');
+        $global_price_revenue_model = $global_price_form->get_field_value('laterpay_global_price_revenue_model');
 
         update_option( 'laterpay_global_price', $delocalized_global_price );
         update_option( 'laterpay_global_price_revenue_model', $global_price_revenue_model );
@@ -218,17 +228,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function update_category_default_price() {
-        $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
-
-        // TODO: this is just a dirty hack to allow saving Single Sale prices
-        if ( $delocalized_category_price > 149.99 || ( $delocalized_category_price < 0.05 && $delocalized_category_price != 0 ) ) {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' )
-                )
-            );
-        }
 
         if ( ! empty( $_POST['category_id'] ) ) {
             $this->update_existing_category_default_price();
@@ -245,11 +244,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function update_existing_category_default_price() {
-        $term = get_term_by( 'name', $_POST['category'], 'category' );
-        $category_id = $_POST['category_id'];
-        $category_price_revenue_model = (string) $_POST["laterpay_category_price_revenue_model_$category_id"];
 
-        if ( ! $term || ! in_array( $category_price_revenue_model, array('ppu', 'sis') ) ) {
+        $price_category_form = new LaterPay_Form_PriceCategory();
+
+        if ( ! $price_category_form->is_valid( $_POST ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' )
+                )
+            );
+        }
+
+        $category = $price_category_form->get_field_value('category');
+        $term = get_term_by( 'name', $category, 'category' );
+        $category_price_revenue_model = $price_category_form->get_field_value('laterpay_category_price_revenue_model');
+
+        if ( ! $term ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -265,7 +276,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $currency_model             = new LaterPay_Model_Currency();
         $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
 
-        $delocalized_category_price = (float) str_replace( ',', '.', $_POST['price'] );
+        $delocalized_category_price = $price_category_form->get_field_value('price');
 
         if ( empty( $category_price_id ) && empty( $category_id ) ) {
             wp_send_json(
@@ -294,13 +305,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success'       => true,
-                        'category'      => $_POST['category'],
+                        'category'      => $category,
                         'price'         => $formatted_category_price,
                         'currency'      => get_option( 'laterpay_currency' ),
                         'category_id'   => $category_id,
                         'message'       => sprintf(
                             __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
-                            $_POST['category'],
+                            $category,
                             $formatted_category_price,
                             $currency_name
                         )
@@ -317,14 +328,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success'       => true,
-                'category'      => $_POST['category'],
+                'category'      => $category,
                 'price'         => $_POST['price'],
                 'currency'      => get_option('laterpay_currency'),
                 'category_id'   => $category_id,
                 'revenue_model' => $category_price_revenue_model,
                 'message'       => sprintf(
                     __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
-                    $_POST['category'],
+                    $category,
                     $formatted_category_price,
                     $currency_name
                 )
@@ -338,10 +349,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function set_new_category_default_price() {
-        $term = get_term_by( 'name', $_POST['category'], 'category' );
-        $category_price_revenue_model = (string) $_POST['laterpay_category_price_revenue_model'];
 
-        if ( ! $term || ! in_array( $category_price_revenue_model, array('ppu', 'sis') ) ) {
+        $price_category_form = new LaterPay_Form_PriceCategory();
+
+        if ( ! $price_category_form->is_valid( $_POST ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' )
+                )
+            );
+        }
+
+        $category                       = $price_category_form->get_field_value( 'category' );
+        $term                           = get_term_by( 'name', $category, 'category' );
+        $category_price_revenue_model   = $price_category_form->get_field_value( 'laterpay_category_price_revenue_model' );
+
+        if ( ! $term ) {
             wp_send_json(
                 array(
                     'success' => false,
@@ -352,8 +376,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $category_id                  = $term->term_id;
         $category_price_model         = new LaterPay_Model_CategoryPrice();
-        $category_doesnt_exist        = $category_price_model->check_existence_of_category_by_name( $_POST['category'] );
-        $delocalized_category_price   = (float) str_replace( ',', '.', $_POST['price'] );
+        $category_doesnt_exist        = $category_price_model->check_existence_of_category_by_name( $category );
+        $delocalized_category_price   = $price_category_form->get_field_value( 'price' );
 
         if ( ! empty( $category_doesnt_exist ) || empty( $category_id ) ) {
             wp_send_json(
@@ -375,19 +399,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success'           => true,
-                'category'          => $_POST['category'],
+                'category'          => $category,
                 'price'             => $formatted_category_price,
                 'currency'          => get_option( 'laterpay_currency' ),
                 'category_id'       => $category_id,
                 'revenue_model'     => $category_price_revenue_model,
                 'updated_post_ids'  => $updated_post_ids,
                 'message'           => sprintf(
-                    __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
-                    $_POST['category'],
-                    $formatted_category_price,
-                    $currency_name
-                ),
-
+                                            __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
+                                            $category,
+                                            $formatted_category_price,
+                                            $currency_name
+                                        ),
             )
         );
     }
@@ -398,11 +421,22 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function delete_category_default_price() {
-        $category_id = absint( $_POST['category_id'] );
+        $price_category_delete_form = new LaterPay_Form_PriceCategory();
+
+        if ( ! $price_category_delete_form->is_valid( $_POST ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
+                )
+            );
+        }
+
+        $category_id = $price_category_delete_form->get_field_value( 'category_id' );
 
         // delete the category_price
-        $category_price_model = new LaterPay_Model_CategoryPrice();
-        $success = $category_price_model->delete_prices_by_category_id( $category_id );
+        $category_price_model   = new LaterPay_Model_CategoryPrice();
+        $success                = $category_price_model->delete_prices_by_category_id( $category_id );
 
         if ( ! $success ) {
             wp_send_json(
@@ -416,17 +450,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         // get all posts with the deleted $category_id and loop through them
         $post_ids = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
         foreach ( $post_ids as $post_id ) {
-            // check if the post has LaterPay pricing data
+            // check, if the post has LaterPay pricing data
             $post_price = get_post_meta( $post_id, 'laterpay_post_prices', true );
             if ( ! is_array( $post_price ) ) {
                 continue;
             }
-            // check if the post uses a category default price
+
+            // check, if the post uses a category default price
             if ( $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
                 continue;
             }
 
-            // check if the post has the deleted category_id as category default price
+            // check, if the post has the deleted category_id as category default price
             if ( (int) $post_price[ 'category_id' ] !== $category_id ) {
                 continue;
             }
@@ -465,7 +500,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'success' => true,
                 'message' => sprintf(
                                 __( 'The default price for category %s was deleted.', 'laterpay' ),
-                                $_POST['category']
+                                $price_category_delete_form->get_field_value( 'category' )
                             ),
             )
         );

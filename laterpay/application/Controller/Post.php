@@ -623,8 +623,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      */
     public function modify_footer() {
         if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
+            $this->logger->warning( __METHOD__ . ' - !is_singular or post is not purchasable' );
             return;
         }
+
+        $this->logger->info( __METHOD__ );
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
@@ -650,6 +653,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_stylesheets() {
+        $this->logger->info( __METHOD__ );
+
         wp_register_style(
             'laterpay-post-view',
             $this->config->css_url . 'laterpay-post-view.css',
@@ -669,6 +674,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_frontend_scripts() {
+        $this->logger->info( __METHOD__ );
 
         wp_register_script(
             'laterpay-yui',
@@ -713,6 +719,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // only enqueue the scripts, if the current post is purchasable
         if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
+            $this->logger->warning( __METHOD__ . ' - !is_singular or post is not purchasable' );
             return;
         }
 
