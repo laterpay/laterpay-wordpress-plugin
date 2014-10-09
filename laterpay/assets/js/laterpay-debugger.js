@@ -76,9 +76,9 @@
             toggleMessageDetails = function($trigger) {
                 var $messageBody = $trigger.parents('table').find('tbody');
                 if ($messageBody.is(':hidden')) {
-                    $messageBody.slideDown(250);
+                    $messageBody.show(0);
                 } else {
-                    $messageBody.slideUp(250);
+                    $messageBody.hide(0);
                 }
             },
 

@@ -20,6 +20,7 @@
 
     header
         background-color            darken($background-darker, 13%)
+        cursor                      pointer
         height                      2.5em
 
         div
@@ -53,7 +54,6 @@
 
     .lp_close-link
         color                       $clickable
-        cursor                      pointer
         font-weight                 bold
         height                      2em
         line-height                 2em
@@ -135,6 +135,7 @@
 .lp_debugger-content-list
     margin                          0 $fs-075 $fs-1
     padding                         0
+    overflow-x                      hidden
     overflow-y						scroll
     height							28.75em
 
@@ -188,9 +189,13 @@
             text-align              right
             width                   4em
 
-    .lp_log-entry-table tbody th,
-    .lp_log-entry-table tbody td
-        padding                     0 $fs-05 $fs-025
+    .lp_log-entry-table
+        tbody th,
+        tbody td
+            padding                 0 $fs-05 $fs-025
+
+        tbody th
+            padding-left            2.25em
 
     .lp_log-level:before
         font-size                   $fs-175
