@@ -82,6 +82,9 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                                     array(
                                         'lte' => 5.00,
                                         'gte' => 0.05
+                                    ),
+                                    array(
+                                         'eq'   => 0.00
                                     )
                                 )
                             )
@@ -106,7 +109,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                             'gte'  => 0.05
                         ),
                         array(
-                            'eq'   => 0
+                            'eq'   => 0.00
                         )
                     )
                 ),
