@@ -11,14 +11,14 @@ abstract class LaterPay_Form_Abstract
      *
      * @var array
      */
-    protected $_fields;
+    protected $fields;
 
     /**
      * Array of no strict names
      *
      * @var array
      */
-    protected $_nostrict;
+    protected $nostrict;
 
     /**
      * Default filters set
@@ -88,30 +88,44 @@ abstract class LaterPay_Form_Abstract
      */
     public function set_field( $name, $options = array() ) {
 
+        $fields = $this->get_fields();
+
         // Check if field already exists
-        if ( isset( $this->_fields[$name]) ) {
+        if ( isset( $fields[$name] ) ) {
             return false;
         } else {
             // field name
-            $current_field                    = array();
+            $data                = array();
             // validators
-            $current_field['validators']      = isset( $options['validators'] ) ? $options['validators'] : array();
+            $data['validators']  = isset( $options['validators'] ) ? $options['validators'] : array();
             // filters (sanitize)
-            $current_field['filters']         = isset( $options['filters'] ) ? $options['filters'] : array();
+            $data['filters']     = isset( $options['filters'] ) ? $options['filters'] : array();
             // default value
-            $current_field['value']           = isset( $options['default_value'] ) ? $options['default_value'] : null;
+            $data['value']       = isset( $options['default_value'] ) ? $options['default_value'] : null;
             // do not apply filters to null value
-            $current_field['can_be_null']     = isset( $options['can_be_null'] ) ? $options['can_be_null'] : false;
+            $data['can_be_null'] = isset( $options['can_be_null'] ) ? $options['can_be_null'] : false;
 
             // name not strict, value searched in data by part of the name (for dynamic params)
             if ( isset( $options['not_strict_name'] ) && $options['not_strict_name'] ) {
-                $this->_set_nostrict( $name );
+                $this->set_nostrict( $name );
             }
 
-            $this->_fields[$name] = $current_field;
+            $this->save_field_data( $name, $data );
         }
 
         return true;
+    }
+
+    /**
+     * Save data in field
+     *
+     * @param $name
+     * @param $data
+     * @return void
+     */
+    protected function save_field_data( $name, $data ) {
+
+        $this->fields[$name] = $data;
     }
 
     /**
@@ -121,7 +135,17 @@ abstract class LaterPay_Form_Abstract
      */
     public function get_fields() {
 
-        return $this->_fields;
+        return $this->fields;
+    }
+
+    /**
+     * Get all filters
+     *
+     * @return array
+     */
+    protected function get_filters() {
+
+        return self::$filters;
     }
 
     /**
@@ -148,9 +172,9 @@ abstract class LaterPay_Form_Abstract
      * @param $value
      * @return void
      */
-    protected function _set_field_value( $field_name, $value ) {
+    protected function set_field_value( $field_name, $value ) {
 
-        $this->_fields[$field_name]['value'] = $value;
+        $this->fields[$field_name]['value'] = $value;
     }
 
     /**
@@ -159,13 +183,13 @@ abstract class LaterPay_Form_Abstract
      * @param $name
      * @return void
      */
-    protected function _set_nostrict( $name ) {
+    protected function set_nostrict( $name ) {
 
-        if ( ! isset( $this->_nostrict ) ) {
-            $this->_nostrict = array();
+        if ( ! isset( $this->nostrict ) ) {
+            $this->nostrict = array();
         }
 
-        array_push( $this->_nostrict, $name );
+        array_push( $this->nostrict, $name );
     }
 
     /**
@@ -182,12 +206,14 @@ abstract class LaterPay_Form_Abstract
             $this->set_data( $data );
         }
 
+        $fields = $this->get_fields();
+
         // Set to false by default, probably data missed
         $is_valid = false;
 
         // Validation logic
-        if ( is_array( $this->_fields ) ) {
-            foreach ( $this->_fields as $field ) {
+        if ( is_array( $fields ) ) {
+            foreach ( $fields as $field ) {
                 $validators = $field['validators'];
                 foreach ( $validators as $validator_key => $validator_value ) {
                     $validator_option = is_int( $validator_key ) ? $validator_value : $validator_key;
@@ -211,16 +237,18 @@ abstract class LaterPay_Form_Abstract
      *
      * @return void
      */
-    protected function _sanitize() {
+    protected function sanitize() {
+
+        $fields = $this->get_fields();
 
         // get all form filters
-        if ( is_array( $this->_fields ) ) {
-            foreach ( $this->_fields as $name => $field ) {
+        if ( is_array( $fields ) ) {
+            foreach ( $fields as $name => $field ) {
                 $filters = $field['filters'];
                 foreach ( $filters as $filter_key => $filter_value ) {
                     $filter_option = is_int( $filter_key ) ? $filter_value : $filter_key;
                     $filter_params = is_int( $filter_key ) ? null : $filter_value;
-                    $this->_set_field_value( $name, $this->sanitize_value( $this->_fields[$name]['value'], $filter_option, $filter_params ));
+                    $this->set_field_value( $name, $this->sanitize_value( $this->get_field_value( $name ), $filter_option, $filter_params ) );
                 }
             }
         }
@@ -236,8 +264,11 @@ abstract class LaterPay_Form_Abstract
      */
     public function sanitize_value( $value, $filter, $filter_params = null ) {
 
+        //get filters
+        $filters = $this->get_filters();
+
         // sanitize value according to selected filter
-        $sanitizer = isset( self::$filters[$filter] ) ? self::$filters[$filter] : '';
+        $sanitizer = isset( $filters[$filter] ) ? $filters[$filter] : '';
 
         if ( $sanitizer && is_callable( $sanitizer ) ) {
             if ( $filter_params ) {
@@ -414,18 +445,20 @@ abstract class LaterPay_Form_Abstract
      */
     public function set_data( $data ) {
 
+        $fields = $this->get_fields();
+
         // Set data and sanitize it
         if ( is_array( $data ) ) {
             foreach ($data as $name => $value) {
                 // Set only if name field was created
-                if ( isset( $this->_fields[$name] ) ) {
-                    $this->_set_field_value( $name, $value );
+                if ( isset( $fields[$name] ) ) {
+                    $this->set_field_value( $name, $value );
                     continue;
-                } elseif ( isset( $this->_nostrict ) && is_array( $this->_nostrict ) ) {
+                } elseif ( isset( $this->nostrict ) && is_array( $this->nostrict ) ) {
                     // If field name no strict
-                    foreach ( $this->_nostrict as $field_name ) {
+                    foreach ( $this->nostrict as $field_name ) {
                         if ( strpos( $name, $field_name ) !== false ) {
-                            $this->_set_field_value( $field_name, $value );
+                            $this->set_field_value( $field_name, $value );
                             break;
                         }
                     }
@@ -433,7 +466,7 @@ abstract class LaterPay_Form_Abstract
             }
 
             // Sanitize data if filters was specified
-            $this->_sanitize();
+            $this->sanitize();
         }
 
         return $this;
@@ -446,9 +479,10 @@ abstract class LaterPay_Form_Abstract
      */
     public function get_form_values() {
 
+        $fields = $this->get_fields();
         $data = array();
 
-        foreach ( $this->_fields as $name => $field_data) {
+        foreach ( $fields as $name => $field_data) {
             $data[$name] = $field_data['value'];
         }
 
