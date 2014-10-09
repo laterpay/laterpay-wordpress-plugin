@@ -51,7 +51,6 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         $output .= '</td></tr></table>';
         $output .= '</tbody>';
-
         $output .= '</table>';
         $output .= '</li>';
 

@@ -28,6 +28,7 @@
             padding                 0 0.5em
 
     a
+        box-shadow                  none
         outline                     0 none
         text-decoration             none
 
@@ -137,8 +138,8 @@
     margin                          0 $fs-075 $fs-1
     padding                         0
     overflow-x                      hidden
-    overflow-y						scroll
-    height							28.75em
+    overflow-y                      scroll
+    height                          28.75em
 
     ul,
     li
@@ -158,14 +159,16 @@
     th,
     td
         border                      0 none
+        border-collapse             collapse
 
     table
         margin                      0
+        width                       100%
 
     th,
     td
-        border-collapse             collapse
         padding                     $fs-05
+        text-align                  left
 
     th
         color                       $text-lighter
@@ -197,6 +200,8 @@
 
         tbody th
             padding-left            2.25em
+            padding-left            2.75em
+            width                   12em
 
     .lp_log-level:before
         font-size                   $fs-175
@@ -228,6 +233,9 @@
 
     a
         color                       $clickable
+
+        &:before
+            transform               rotate(30deg)
 
         &:hover
             color                   $clickable-highlight
