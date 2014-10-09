@@ -101,8 +101,8 @@ class LaterPay_Helper_File
         $cipher->setKey( SECURE_AUTH_SALT );
         $file       = base64_encode( $cipher->encrypt( $uri ) );
 
-		$request = new LaterPay_Core_Request();
-        $path = $request->getServer('DOCUMENT_ROOT') . $uri;
+		$request    = new LaterPay_Core_Request();
+        $path       = $request->getServer('DOCUMENT_ROOT') . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
 		
 
@@ -299,7 +299,7 @@ class LaterPay_Helper_File
         }
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
-		$file = $request->getServer( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
+		$file   = $request->getServer( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
 
         return $file;
     }
