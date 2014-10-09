@@ -158,39 +158,60 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
-     * Save teaser content.
+     * Check the permissions on saving the metaboxes.
      *
      * @wp-hook save_post
+     *
+     * @param int $post_id
+     *
+     * @return bool true|false
+     */
+    protected function has_permission( $post_id ) {
+        // autosave -> do nothing
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return false;
+        }
+
+        // Ajax -> do nothing
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            return false;
+        }
+
+        // no post found -> do nothing
+        $post = get_post( $post_id );
+        if ( $post === null ) {
+            return false;
+        }
+
+        // check if the current post type is enabled
+        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Save teaser content.
+     *
+     * @wp-hook save_post, edit_attachment
      *
      * @param int $post_id
      *
      * @return void
      */
     public function save_teaser_content_box( $post_id ) {
-
         // nonce not valid -> do nothing
         if ( ! isset( $_POST['laterpay_teaser_content_box_nonce'] ) || ! wp_verify_nonce( $_POST['laterpay_teaser_content_box_nonce'], $this->config->get( 'plugin_base_name' ) ) ) {
             return;
         }
 
-        // autosave -> do nothing
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return;
-        }
-
-        // Ajax -> do nothing
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            return;
-        }
-
-        // no post found -> do nothing
-        $post = get_post( $post_id );
-        if ( $post === null ) {
-            return;
-        }
-
         // no rights to edit -> do nothing
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
+            return;
+        }
+
+        if ( ! $this->has_permission( $post_id ) ) {
             return;
         }
 
@@ -330,7 +351,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     /**
      * Save pricing of post.
      *
-     * @wp-hook save_post
+     * @wp-hook save_post, edit_attachments
      *
      * @param int $post_id
      *
@@ -342,18 +363,12 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        // check for required capabilities to perform action
+        // no rights to edit -> do nothing
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post_id ) ) {
             return;
         }
 
-        // autosave -> do nothing
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return;
-        }
-
-        // Ajax -> do nothing
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+        if ( ! $this->has_permission( $post_id ) ) {
             return;
         }
 

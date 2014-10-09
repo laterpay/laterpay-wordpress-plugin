@@ -93,8 +93,11 @@ class LaterPay_Core_Bootstrap
 
             // save the teaser
             add_action( 'save_post',                        array( $post_metabox_controller, 'save_teaser_content_box' ) );
+            add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_teaser_content_box' ) );
+
             // save the pricing
             add_action( 'save_post',                        array( $post_metabox_controller, 'save_post_pricing_form') );
+            add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_post_pricing_form') );
 
             // load scripts for the admin pages
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
