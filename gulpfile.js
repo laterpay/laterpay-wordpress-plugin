@@ -4,6 +4,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     // changed         = require('gulp-changed'),
     concat          = require('gulp-concat'),
     csso            = require('gulp-csso'),
+    csslint         = require('gulp-csslint'),
     del             = require('del'),
     fixmyjs         = require('gulp-fixmyjs'),
     git             = require('gulp-git'),
@@ -44,9 +45,12 @@ gulp.task('css', function() {
         .pipe(soften(4))
         .pipe(stylus({                                              // process Stylus sources to CSS
             linenos: true,                                          // make line numbers available in browser dev tools
+            urlFunc: 'inline-image',                                // inline images where defined by background-image inline-image([url])
             // TODO: generate sourcemap
         }))
         .on('error', notify.onError())
+        .pipe(csslint())                                            // lint with CSSLint
+        .pipe(csslint.reporter())
         // .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 7'))
         .pipe(csso())                                               // compress with csso
         .pipe(gulp.dest(p.distCss))                                 // move to target folder
@@ -111,4 +115,5 @@ gulp.task('default', ['fileformat'], function() {
 // build project for release
 gulp.task('build', ['updateSubmodules'], function() {
     // do stuff
+    // git archive is the right option to export the entire repo
 });

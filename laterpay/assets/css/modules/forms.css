@@ -1,0 +1,248 @@
+
+/* line 286 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+
+/* line 1 : /Users/dominikrodler/github/laterpay-wordpress-plugin/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+
+/* line 2 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text].lp_input,
+input[type=number].lp_input,
+textarea.lp_input,
+select.lp_input {
+  background-color: $background-lightest;
+  border-radius: 4px;
+  border: 2px solid $border;
+  box-shadow: none;
+  line-height: 1;
+  margin: 0;
+  padding: 0.5em;
+}
+
+/* line 14 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text].lp_input:focus,
+input[type=number].lp_input:focus,
+textarea.lp_input:focus,
+select.lp_input:focus {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-color: $clickable-highlight;
+}
+
+/* line 19 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text].lp_input:disabled,
+input[type=number].lp_input:disabled,
+textarea.lp_input:disabled,
+select.lp_input:disabled {
+  cursor: not-allowed;
+}
+
+/* line 22 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+select.lp_input {
+  height: auto;
+  margin-left: 2px;
+  padding: 0.25em;
+  position: relative;
+  top: -1px;
+}
+
+/* line 32 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text].lp_api-key-input,
+input[type=text].lp_merchant-id-input {
+  padding-left: 2.8em;
+  width: 22em;
+}
+
+/* line 38 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text].lp_number-input {
+  padding: 0.25em 0.35em;
+  text-align: right;
+  width: 4em;
+}
+
+/* line 44 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_input-icon {
+  color: $border;
+  font-size: 2em;
+  margin: 0.04em 0 0 0.35em;
+  position: absolute;
+}
+
+/* line 52 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_input::-webkit-input-placeholder,
+.lp_input::-moz-placeholder,
+.lp_input:-ms-input-placeholder {
+  color: $text-lighter;
+  line-height: 1;
+}
+
+/* line 60 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text][required] + label[placeholder] {
+  display: block;
+  line-height: 1;
+  margin-bottom: 1em;
+  margin-top: webkit-calc(-5em);
+  margin-top: calc(-3em - 2px);
+  pointer-events: none;
+}
+
+/* line 68 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text][required] + label[placeholder]:before {
+  linear-gradient: rgba(255,255,255,0), 46%, #fff, 47%;
+  background-repeat: no-repeat;
+  color: $text-lighter;
+  content: attr(placeholder);
+  display: inline-block;
+  margin: 1.4em 0 0 0.5em;
+  padding: 0 3px;
+  transition: 0.3s ease-in-out;
+  white-space: nowrap;
+}
+
+/* line 79 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+
+/* line 80 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text][required]:focus + label[placeholder]:before,
+input[type=text][required]:valid + label[placeholder]:before {
+  transform: translate(-2px, -1.15em) scale(0.9, 0.9);
+  transition-duration: 0.2s;
+}
+
+/* line 85 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text][required]:focus + label[placeholder]:before {
+  color: $clickable-highlight;
+}
+
+/* line 88 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+input[type=text][required]:invalid + label[placeholder][alt]:before {
+  content: attr(alt);
+}
+
+/* line 91 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_input-icon + input[type=text][required] + label[placeholder]:before {
+  margin: 1.4em 0 0 -webkit-calc(3em - 1px);
+  margin: 1.4em 0 0 calc(3em - 1px);
+}
+
+/* line 97 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark {
+  *display: inline;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0.1em;
+  position: relative;
+  width: 1.5em;
+  z-index: $zindex-elevated_1;
+  zoom: 1;
+}
+
+/* line 107 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark input[type=radio],
+.ez-mark input[type=checkbox] {
+  cursor: pointer;
+  left: -0.3rem;
+  opacity: 0;
+  position: relative;
+  top: -0.75rem;
+}
+
+/* line 115 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark svg {
+  height: 1.5em;
+  position: absolute;
+}
+
+/* line 119 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark svg .frame {
+  fill: $border-darker;
+}
+
+/* line 122 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark svg .frameBack {
+  fill: $background-lightest;
+}
+
+/* line 125 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark svg .check {
+  display: none;
+}
+
+/* line 128 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark svg .dot {
+  display: none;
+}
+
+/* line 131 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+
+/* line 133 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-mark :hover svg .frame,
+label:hover .ez-mark svg .frame {
+  fill: $clickable-highlight;
+}
+
+/* line 136 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-checked.ez-checkbox svg .check,
+.ez-checked.ez-radio svg .dot {
+  display: block;
+  fill: #666;
+}
+
+/* line 141 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.ez-hide {
+  opacity: 0;
+}
+
+/* line 146 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_edit-link {
+  margin-left: 1em;
+  padding: 0.5em 0;
+}
+
+/* line 152 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_revenue-model-label {
+  background-color: $background-darker;
+  border-radius: 3px;
+  color: $clickable;
+  display: inline-block;
+  font-weight: bold;
+  padding: $fs-025 $fs-05;
+  text-align: center;
+  text-transform: uppercase;
+  width: 2em;
+}
+
+/* line 163 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_revenue-model-label input[type=radio] {
+  display: none;
+}
+
+/* line 166 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+label.lp_revenue-model-label:hover {
+  background-color: $clickable-highlight;
+  color: $text-inverse;
+}
+
+/* line 170 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_is-disabled {
+  visibility: hidden;
+}
+
+/* line 173 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_is-selected {
+  background-color: $background-laterpay;
+  color: $text-inverse;
+}
+
+/* line 177 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+.lp_is-selected:hover {
+  background-color: $background-laterpay;
+  cursor: default;
+}
+
+/* line 183 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+fieldset {
+  padding: 0.5em 1em 0.8em;
+}
+
+/* line 186 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/forms.styl */
+legend {
+  margin-left: -0.5em;
+}

@@ -1,0 +1,69 @@
+
+/* line 286 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+
+/* line 1 : /Users/dominikrodler/github/laterpay-wordpress-plugin/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+
+/* line 4 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+ul.lp_row h2 + hr {
+  height: 2px;
+}
+
+/* line 7 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+ul.lp_row li:nth-child(1) h2 + hr {
+  background-color: #d4d4d4;
+}
+
+/* line 10 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+ul.lp_row li:nth-child(2) h2 + hr {
+  background-color: #a6a6a6;
+}
+
+/* line 13 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+ul.lp_row li:nth-child(3) h2 + hr {
+  background-color: #757575;
+}
+
+/* line 16 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+.lp_spacer {
+  height: 2.4em;
+}
+
+/* line 19 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+.lp_revenue-model {
+  width: 3.5em;
+}
+
+/* line 22 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+span.lp_revenue-model-label {
+  background-color: #d4d4d4;
+  color: $text-inverse;
+  padding: 1px $fs-025;
+}
+
+/* line 29 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+.select2-container,
+.select2-drop,
+.select2-search,
+.select2-search input {
+  margin-bottom: 32px;
+  width: 10rem;
+}
+
+/* line 36 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+.lp_category-title {
+  min-width: 8.75em;
+}
+
+/* line 41 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+@media (max-width: 1279px) {
+
+/* line 42 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+  .lp_edit-link {
+    margin-left: $fs-05;
+  }
+
+/* line 45 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
+  ul.lp_row li:nth-child(3) br {
+    display: none;
+  }
+}

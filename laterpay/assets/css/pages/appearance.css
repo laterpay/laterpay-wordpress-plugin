@@ -1,0 +1,101 @@
+
+/* line 286 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+
+/* line 1 : /Users/dominikrodler/github/laterpay-wordpress-plugin/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+
+/* line 4 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_preview-mode-1,
+.lp_preview-mode-2 {
+  background-repeat: no-repeat;
+  height: 208px;
+  margin: 0.5em 4em 0.25em 1.75em;
+  width: 300px;
+}
+
+/* line 11 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_preview-mode-1 {
+  background-image: inline-image('../../img/preview-mode-1.png');
+}
+
+/* line 14 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_preview-mode-2 {
+  background-image: inline-image('../../img/preview-mode-2.png');
+}
+
+/* line 19 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_ui-element-preview-large {
+  width: 300px;
+}
+
+/* line 22 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_ui-element-preview-small {
+  width: 110px;
+}
+
+/* line 25 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_code-snippet {
+  background-color: $background-lightest;
+  border: 1px solid $border-darker;
+  border-radius: 3px;
+  margin: $fs-075 0 0 125px;
+  max-width: 415px;
+  padding: $fs-075 $fs-1 $fs-05;
+  position: relative;
+}
+
+/* line 34 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_shown-above {
+  margin: $fs-075 0 $fs-05;
+  max-width: 540px;
+}
+
+/* line 38 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_shown-above .lp_triangle {
+  border-color: $background-lightest transparent transparent transparent;
+  bottom: -8px;
+  left: -9px;
+  top: auto;
+}
+
+/* line 44 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_shown-above .lp_outer-triangle {
+  border-right-color: transparent;
+  border-top-color: #c4c4c4;
+  bottom: -20px;
+  left: 70px;
+  top: auto;
+}
+
+/* line 51 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_triangle {
+  border: 9px solid $background-lightest;
+  border-color: transparent $background-lightest transparent transparent;
+  height: 0;
+  left: -8px;
+  position: absolute;
+  top: -9px;
+  width: 0;
+  z-index: $zindex-elevated_2;
+}
+
+/* line 61 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+.lp_outer-triangle {
+  border-right-color: #c4c4c4;
+  border-width: 10px;
+  left: -20px;
+  top: 7px;
+  z-index: $zindex-elevated_1;
+}
+
+/* line 68 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+
+/* line 69 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+table td {
+  padding: $fs-05;
+  vertical-align: top;
+}
+
+/* line 73 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/appearance.styl */
+table pre {
+  margin: 0;
+}
