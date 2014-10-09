@@ -70,19 +70,19 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
             switch ( $_POST['form'] ) {
                 case 'laterpay_sandbox_merchant_id':
-                    self::_update_sandbox_merchant_id();
+                    self::_update_merchant_id();
                     break;
 
                 case 'laterpay_sandbox_api_key':
-                    self::_update_sandbox_api_key();
+                    self::_update_api_key();
                     break;
 
                 case 'laterpay_live_merchant_id':
-                    self::_update_live_merchant_id();
+                    self::_update_merchant_id( true );
                     break;
 
                 case 'laterpay_live_api_key':
-                    self::_update_live_api_key();
+                    self::_update_api_key( true );
                     break;
 
                 case 'laterpay_plugin_mode':
@@ -103,34 +103,39 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay Sandbox Merchant ID, required for making test transactions against Sandbox environment.
+     * Update LaterPay Merchant ID, required for making test transactions against Sandbox or Live environments.
      *
+     * @param null $is_live
      * @return void
      */
-    protected static function _update_sandbox_merchant_id() {
-        $sandbox_merchant_id = wp_strip_all_tags( $_POST['laterpay_sandbox_merchant_id'], true );
+    protected static function _update_merchant_id( $is_live = null ) {
 
-        if ( self::is_valid_merchant_id( $sandbox_merchant_id ) ) {
-            update_option( 'laterpay_sandbox_merchant_id', $sandbox_merchant_id );
+        $merchant_id_form = new LaterPay_Form_MerchantId( $_POST );
+
+        $merchant_id = $merchant_id_form->get_field_value('merchant_id');
+        $merchant_id_type = $is_live ? 'live' : 'sandbox';
+
+        if ( $merchant_id_form->is_valid() ) {
+            update_option( sprintf( 'laterpay_%s_merchant_id', $merchant_id_type ), $merchant_id );
             wp_send_json(
                 array(
                     'success' => true,
-                    'message' => __( 'Sandbox Merchant ID verified and saved.', 'laterpay' )
+                    'message' => __( ucfirst( $merchant_id_type ) . ' Merchant ID verified and saved.', 'laterpay' )
                 )
             );
-        } elseif ( strlen( $sandbox_merchant_id ) == 0 ) {
-            update_option( 'laterpay_sandbox_merchant_id', '' );
+        } elseif ( strlen( $merchant_id ) == 0 ) {
+            update_option( sprintf( 'laterpay_%s_merchant_id', $merchant_id_type ), '' );
             wp_send_json(
                 array(
                     'success' => true,
-                    'message' => __( 'The Sandbox Merchant ID has been removed.', 'laterpay' )
+                    'message' => __( sprintf( 'The %s Merchant ID has been removed.',ucfirst( $merchant_id_type ) ), 'laterpay' )
                 )
             );
         } else {
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Sandbox Merchant ID!', 'laterpay' )
+                    'message' => __( sprintf( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!',ucfirst( $merchant_id_type ) ), 'laterpay' )
                 )
             );
         }
@@ -139,106 +144,40 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay Sandbox API Key, required for making test transactions against Sandbox environment.
+     * Update LaterPay API Key, required for making test transactions against Sandbox or Live environments.
      *
+     * @param null $is_live
      * @return void
      */
-    protected static function _update_sandbox_api_key() {
-        $sandbox_api_key = wp_strip_all_tags( $_POST['laterpay_sandbox_api_key'], true );
+    protected static function _update_api_key( $is_live = null ) {
 
-        if ( self::is_valid_api_key( $sandbox_api_key ) ) {
-            update_option( 'laterpay_sandbox_api_key', $sandbox_api_key );
+        $api_key_form = new LaterPay_Form_ApiKey( $_POST );
+
+        $api_key = $api_key_form->get_field_value('api_key');
+        $api_key_type = $is_live ? 'live' : 'sandbox';
+        $transaction_type = $is_live ? 'REAL' : 'TEST';
+
+        if ( $api_key_form->is_valid() ) {
+            update_option( sprintf( 'laterpay_%s_api_key', $api_key_type ), $api_key );
             wp_send_json(
                 array(
                     'success' => true,
-                    'message' => __( 'Your Sandbox API key is valid. You can now make TEST transactions.', 'laterpay' )
+                    'message' => __( sprintf( 'Your %s API key is valid. You can now make %s transactions.' , ucfirst( $api_key_type ), $transaction_type ), 'laterpay' )
                 )
             );
-        } elseif ( strlen( $sandbox_api_key ) == 0 ) {
-            update_option( 'laterpay_sandbox_api_key', '' );
+        } elseif ( strlen( $api_key ) == 0 ) {
+            update_option( sprintf( 'laterpay_%s_api_key', $api_key_type ), '' );
             wp_send_json(
                 array(
                     'success' => true,
-                    'message' => __( 'The Sandbox API key has been removed.', 'laterpay' )
+                    'message' => __( sprintf( 'The %s API key has been removed.', ucfirst( $api_key_type ) ), 'laterpay' )
                 )
             );
         } else {
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'The API key you entered is not a valid LaterPay Sandbox API key!', 'laterpay' )
-                )
-            );
-        }
-
-        die;
-    }
-
-    /**
-     * Update LaterPay Live Merchant ID, required for making real transactions against production environment.
-     *
-     * @return void
-     */
-    protected static function _update_live_merchant_id() {
-        $live_merchant_id = wp_strip_all_tags( $_POST['laterpay_live_merchant_id'], true );
-
-        if ( self::is_valid_merchant_id( $live_merchant_id ) ) {
-            update_option( 'laterpay_live_merchant_id', $live_merchant_id );
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'message' => __( 'Live Merchant ID verified and saved.', 'laterpay' )
-                )
-            );
-        } elseif ( strlen( $live_merchant_id ) == 0 ) {
-            update_option( 'laterpay_live_merchant_id', '' );
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'message' => __( 'The Live Merchant ID has been removed.', 'laterpay' )
-                )
-            );
-        } else {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => __( 'The Merchant ID you entered is not a valid LaterPay Live Merchant ID!', 'laterpay' )
-                )
-            );
-        }
-
-        die;
-    }
-
-    /**
-     * Update LaterPay Live API Key, required for making real transactions against production environment.
-     *
-     * @return void
-     */
-    protected static function _update_live_api_key() {
-        $live_api_key = wp_strip_all_tags( $_POST['laterpay_live_api_key'], true );
-
-        if ( self::is_valid_api_key( $live_api_key ) ) {
-            update_option( 'laterpay_live_api_key', $live_api_key );
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'message' => __( 'Live API key verified and saved. You can now make REAL transactions.', 'laterpay' )
-                )
-            );
-        } elseif ( strlen( $live_api_key ) == 0 ) {
-            update_option( 'laterpay_live_api_key', '' );
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'message' => __( 'The Live API key has been removed.', 'laterpay' )
-                )
-            );
-        } else {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => __( 'The API key you entered is not a valid LaterPay Live API key!', 'laterpay' )
+                    'message' => __( sprintf( 'The API key you entered is not a valid LaterPay %s API key!', ucfirst( $api_key_type ) ), 'laterpay' )
                 )
             );
         }
@@ -252,7 +191,19 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * @return void
      */
     protected static function _update_plugin_mode() {
-        $plugin_mode    = absint( $_POST['plugin_is_in_live_mode'] );
+
+        $plugin_mode_form = new LaterPay_Form_PluginMode();
+
+        if ( ! $plugin_mode_form->is_valid( $_POST ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
+                )
+            );
+        }
+
+        $plugin_mode    = $plugin_mode_form->get_field_value( 'plugin_is_in_live_mode' );
         $result         = update_option( 'laterpay_plugin_is_in_live_mode', $plugin_mode );
 
         if ( $result ) {
@@ -284,33 +235,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         }
 
         die;
-    }
-
-    /**
-     * Validate format of LaterPay Merchant ID (uuid).
-     *
-     * Format: 22 characters, alphanumeric with upper- and lowercase characters
-     * Special feature: our demo LaterPay Merchant ID also contains a hyphen :-)
-     *
-     * @param string|int $merchant_id
-     *
-     * @return int
-     */
-    public static function is_valid_merchant_id( $merchant_id ) {
-        return preg_match( '/[a-zA-Z0-9\-]{22}/', $merchant_id );
-    }
-
-    /**
-     * Validate format of LaterPay API key (shared secret).
-     *
-     * Format: 32 characters, alphanumeric with only lowercase characters
-     *
-     * @param string|int $api_key
-     *
-     * @return int
-     */
-    public static function is_valid_api_key( $api_key ) {
-        return preg_match( '/[a-z0-9]{32}/', $api_key );
     }
 
 }
