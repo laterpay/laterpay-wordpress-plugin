@@ -158,42 +158,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
-     * Checks the permissions on saving the metaboxes
-     *
-     * @param int $post_id
-     *
-     * @return bool true|false
-     */
-    protected function has_permission( $post_id ){
-
-        // autosave -> do nothing
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-            return false;
-        }
-
-        // Ajax -> do nothing
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            return false;
-        }
-
-        // no post found -> do nothing
-        $post = get_post( $post_id );
-        if ( $post === null ) {
-            return false;
-        }
-
-        // check if the current post type is enabled
-        if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Save teaser content.
      *
-     * @wp-hook save_post, edit_attachment
+     * @wp-hook save_post
      *
      * @param int $post_id
      *
@@ -206,7 +173,19 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        if ( ! $this->has_permission( $post_id ) ) {
+        // autosave -> do nothing
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        // Ajax -> do nothing
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            return;
+        }
+
+        // no post found -> do nothing
+        $post = get_post( $post_id );
+        if ( $post === null ) {
             return;
         }
 
@@ -351,7 +330,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     /**
      * Save pricing of post.
      *
-     * @wp-hook save_post, edit_attachments
+     * @wp-hook save_post
      *
      * @param int $post_id
      *
@@ -368,7 +347,13 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        if ( ! $this->has_permission( $post_id ) ) {
+        // autosave -> do nothing
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        // Ajax -> do nothing
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             return;
         }
 

@@ -56,11 +56,11 @@ class LaterPay_Core_Logger
     protected $processors;
 
     /**
-     * @param string $name                                          The logging channel
-     * @param LaterPay_Core_Logger_Handler_Interface[] $handlers    Optional stack of handlers, the first one in the array is called first, etc.
-     * @param callable[] $processors                                Optional array of processors
+     * @param string $name       The logging channel
+     * @param LaterPay_Core_Logger_Handler_Interface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
+     * @param callable[] $processors Optional array of processors
      */
-    public function __construct( $name = 'default', array $handlers = array(), array $processors = array() ) {
+    public function __construct($name = 'default', array $handlers = array(), array $processors = array()) {
         $this->name = $name;
         $this->handlers = $handlers;
         $this->processors = $processors;
@@ -96,7 +96,6 @@ class LaterPay_Core_Logger
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
-     *
      * @return Boolean Whether the record has been processed
      */
     public function info( $message, array $context = array() ) {
@@ -108,7 +107,6 @@ class LaterPay_Core_Logger
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
-     *
      * @return Boolean Whether the record has been processed
      */
     public function notice( $message, array $context = array() ) {
@@ -120,7 +118,6 @@ class LaterPay_Core_Logger
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
-     *
      * @return Boolean Whether the record has been processed
      */
     public function warning( $message, array $context = array() ) {
@@ -132,7 +129,6 @@ class LaterPay_Core_Logger
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
-     *
      * @return Boolean Whether the record has been processed
      */
     public function critical( $message, array $context = array() ) {
@@ -155,13 +151,12 @@ class LaterPay_Core_Logger
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
-     *
      * @return Boolean Whether the record has been processed
      */
     public function emergency( $message, array $context = array() ) {
         return $this->add_record( self::EMERGENCY, $message, $context );
     }
-
+    
     /**
      * Add a record to the log.
      *
@@ -173,7 +168,7 @@ class LaterPay_Core_Logger
      */
     public function add_record( $level, $message, array $context = array() ) {
 
-        if ( ! $this->handlers ) {
+        if ( !$this->handlers ) {
             $this->push_handler( new LaterPay_Core_Logger_Handler_Null( ) );
         }
 
@@ -189,7 +184,7 @@ class LaterPay_Core_Logger
             'extra'         => array(),
         );
 
-        // check, if any handler will handle this message
+        // check if any handler will handle this message
         $handler_key = null;
         foreach ( $this->handlers as $key => $handler ) {
             if ( $handler->is_handling( $record ) ) {
@@ -197,47 +192,48 @@ class LaterPay_Core_Logger
                 break;
             }
         }
-
+        // none found
         if ( $handler_key === null ) {
-            // none found
             return false;
         }
 
         // found at least one, process message and dispatch it
         foreach ( $this->processors as $processor ) {
+
             $record = call_user_func($processor, $record);
         }
-        while ( isset( $this->handlers[$handler_key] ) && $this->handlers[ $handler_key]->handle( $record ) === false ) {
+        while ( isset( $this->handlers[$handler_key] ) && $this->handlers[ $handler_key]->handle( $record ) === false) {
             $handler_key++;
         }
 
         return true;
+
     }
 
     /**
      * @return string
      */
-    public function get_name() {
+    public function get_name(){
         return $this->name;
     }
 
     /**
-     * Pushes a handler onto the stack.
+     * Pushes a handler on to the stack.
      *
      * @param LaterPay_Core_Logger_Handler_Interface $handler
      */
-    public function push_handler( LaterPay_Core_Logger_Handler_Interface $handler ) {
+    public function push_handler( LaterPay_Core_Logger_Handler_Interface $handler) {
         array_unshift( $this->handlers, $handler );
     }
 
     /**
-     * Pops a handler from the stack.
+     * Pops a handler from the stack
      *
      * @return LaterPay_Core_Logger_Handler_Interface
      */
     public function pop_handler() {
         if ( ! $this->handlers ) {
-            throw new \LogicException( 'You tried to pop from an empty handler stack.' );
+            throw new \LogicException('You tried to pop from an empty handler stack.');
         }
         return array_shift( $this->handlers );
     }
@@ -250,13 +246,13 @@ class LaterPay_Core_Logger
     }
 
     /**
-     * Adds a processor onto the stack.
+     * Adds a processor on to the stack.
      *
      * @param callable $callback
      */
     public function push_processor( $callback ) {
         if ( ! is_callable( $callback ) ) {
-            throw new \InvalidArgumentException( 'Processors must be valid callables (callback or object with an __invoke method), ' . var_export( $callback, true ) . ' given' );
+            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), '.var_export($callback, true).' given');
         }
         array_unshift( $this->processors, $callback );
     }
@@ -268,7 +264,7 @@ class LaterPay_Core_Logger
      */
     public function pop_processor() {
         if ( ! $this->processors ) {
-            throw new \LogicException( 'You tried to pop from an empty processor stack.' );
+            throw new \LogicException('You tried to pop from an empty processor stack.');
         }
 
         return array_shift( $this->processors );
@@ -284,8 +280,7 @@ class LaterPay_Core_Logger
     /**
      * Checks whether the Logger has a handler that listens on the given level
      *
-     * @param integer $level
-     *
+     * @param  integer $level
      * @return Boolean
      */
     public function is_handling( $level ) {

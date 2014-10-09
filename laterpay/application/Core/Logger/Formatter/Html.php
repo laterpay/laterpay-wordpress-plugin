@@ -6,7 +6,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
     /**
      * Format a set of log records.
      *
-     * @param array $records A set of records to format
+     * @param  array $records A set of records to format
      *
      * @return mixed The formatted set of records
      */
@@ -22,7 +22,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
     /**
      * Format a log record.
      *
-     * @param array $record A record to format
+     * @param  array $record A record to format
      *
      * @return mixed The formatted record
      */
@@ -35,20 +35,29 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         // generate tbody of log record with details
         $output .= '<tbody style="display:none;">';
+        $output .= $this->add_row( 'Channel',   $record['channel'] );
 
         if ( $record[ 'context' ] ) {
+            $embedded_table = '<table>';
             foreach ( $record['context'] as $key => $value ) {
-                $output .= $this->add_row( $key, $this->convert_to_string( $value ) );
+                $embedded_table .= $this->add_row( $key, $this->convert_to_string( $value ) );
             }
+            $embedded_table .= '</table>';
+
+            $output .= $this->add_row( 'Context', $embedded_table, false );
         }
 
         if ( $record['extra'] ) {
+            $embedded_table = '<table>';
             foreach ( $record['extra'] as $key => $value ) {
-                $output .= $this->add_row( $key, $this->convert_to_string( $value ) );
+                $embedded_table .= $this->add_row( $key, $this->convert_to_string( $value ) );
             }
-        }
+            $embedded_table .= '</table>';
 
+            $output .= $this->add_row( 'Extra', $embedded_table, false );
+        }
         $output .= '</tbody>';
+
         $output .= '</table>';
         $output .= '</li>';
 
