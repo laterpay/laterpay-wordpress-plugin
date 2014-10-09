@@ -44,7 +44,7 @@ class LaterPay_Helper_File
         $uri = $resource_url_parts['path'];
 
         if ( ! isset( self::$protected_urls ) ) {
-			self::$protected_urls = array();
+            self::$protected_urls = array();
             // add path of wp-uploads folder to $protected_urls
             $upload_dir = wp_upload_dir();
             $upload_url = parse_url( $upload_dir['baseurl'] );
