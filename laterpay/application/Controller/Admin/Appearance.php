@@ -48,25 +48,23 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
      * @return void
      */
     public static function process_ajax_requests() {
-
         // check for required capabilities to perform action
         if ( ! current_user_can( 'activate_plugins' ) ) {
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( "You don't have sufficient user capabilities to do this.", 'laterpay' )
+                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
                 )
             );
         }
 
-        if ( function_exists('check_admin_referer') ) {
+        if ( function_exists( 'check_admin_referer' ) ) {
             check_admin_referer( 'laterpay_form' );
         }
 
         switch ( $_POST['form'] ) {
-            // update the post types which laterpay supports for purchasing
+            // update the post types which LaterPay supports for purchasing
             case 'enabled_post_types':
-
                 $enabled_post_types_form = new LaterPay_Form_EnabledPostTypes();
 
                 if ( ! $enabled_post_types_form->is_valid( $_POST ) ) {
@@ -77,7 +75,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                         )
                     );
                 } else {
-                    update_option('laterpay_enabled_post_types', $enabled_post_types_form->get_field_value( 'enabled_post_types' ) );
+                    update_option( 'laterpay_enabled_post_types', $enabled_post_types_form->get_field_value( 'enabled_post_types' ) );
 
                     wp_send_json(
                         array(
@@ -90,7 +88,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
 
             // update presentation mode for paid content
             case 'paid_content_preview':
-
                 $paid_content_preview_form = new LaterPay_Form_PaidContentPreview();
 
                 if ( ! $paid_content_preview_form->is_valid( $_POST ) ) {
@@ -121,7 +118,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                         }
                     }
                 }
-
                 break;
 
             default:
@@ -131,7 +127,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                         'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
                     )
                 );
-
                 break;
         }
 
