@@ -48,7 +48,7 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Enabled Post Types', 'laterpay' ); ?></h2>
-            <dfn class="lp_d-block lp_m-b025"><?php _e( 'Check all built-in and custom post types, for which you want to enable payments with LaterPay.', 'laterpay' ); ?></dfn>
+            <dfn class="lp_d-block lp_m-b025"><?php _e( 'Check all built-in and custom post types, for which you want to enable purchases with LaterPay.', 'laterpay' ); ?></dfn>
             <form id="laterpay_enabled_post_types_form" method="post">
                 <input type="hidden" name="form"    value="enabled_post_types">
                 <input type="hidden" name="action"  value="laterpay_appearance">
