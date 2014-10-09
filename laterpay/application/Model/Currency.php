@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Model_Currency {
+class LaterPay_Model_Currency
+{
 
     /**
      * Contains all currencies.

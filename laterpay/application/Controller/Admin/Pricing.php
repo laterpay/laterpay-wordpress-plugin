@@ -53,10 +53,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $category_price_model           = new LaterPay_Model_CategoryPrice();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
 
-        $this->assign( 'categories_with_defined_price', $categories_with_defined_price );
-        $this->assign( 'standard_currency',             get_option( 'laterpay_currency' ) );
-        $this->assign( 'plugin_is_in_live_mode',        $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'global_default_price',          LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
+        $this->assign( 'categories_with_defined_price',         $categories_with_defined_price );
+        $this->assign( 'standard_currency',                     get_option( 'laterpay_currency' ) );
+        $this->assign( 'plugin_is_in_live_mode',                $this->config->get( 'is_in_live_mode' ) );
+        $this->assign( 'global_default_price',                  LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
         $this->assign( 'global_default_price_revenue_model',    get_option( 'laterpay_global_price_revenue_model' ) );
         $this->assign( 'top_nav',                               $this->get_menu() );
         $this->assign( 'admin_menu',                            LaterPay_Helper_View::get_admin_menu() );
@@ -146,7 +146,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function update_currency() {
-
         $currency_form = new LaterPay_Form_Currency();
 
         if ( ! $currency_form->is_valid( $_POST ) ) {
