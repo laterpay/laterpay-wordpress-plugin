@@ -379,6 +379,32 @@ abstract class LaterPay_Form_Abstract
                     }
                 }
                 break;
+            case 'depends':
+                if ( $validator_params ) {
+                    if ( is_array( $validator_params ) ) {
+                        //get all dependency
+                        foreach ( $validator_params as $dependency ) {
+                            // if dependency match
+                            if ( $value === $dependency['value'] ) {
+                                // loop for dependencies conditions and check if all of them is valid
+                                foreach ( $dependency['conditions'] as $vkey => $vparams ) {
+                                    $extra_validator = is_int($vkey) ? $vparams : $vkey;
+                                    $validator_data = is_int($vkey) ? null : $vparams;
+                                    // recursively call extra validator
+                                    $is_valid = $this->validate_value( $this->get_field_value( $dependency['field'] ), $extra_validator, $validator_data );
+                                    // break loop if something not valid
+                                    if ( ! $is_valid ) {
+                                        break;
+                                    }
+                                }
+
+                                // dependency was matched, break process
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
             default:
                 // Incorrect validator specified, do nothing
                 break;
@@ -400,13 +426,13 @@ abstract class LaterPay_Form_Abstract
         $result = false;
 
         switch( $comparison_operator ) {
-            // equal ==
+            // equal ===
             case 'eq':
-                $result = ( $first_value == $second_value );
+                $result = ( $first_value === $second_value );
                 break;
-            // not equal !=
+            // not equal !==
             case 'ne':
-                $result = ( $first_value != $second_value );
+                $result = ( $first_value !== $second_value );
                 break;
             // greater than >
             case 'gt':
