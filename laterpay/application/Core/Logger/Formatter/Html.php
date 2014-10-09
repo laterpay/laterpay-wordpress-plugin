@@ -34,7 +34,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         $output .= $this->add_head_row( (string) $record['message'], $record['level'] );
 
         // generate tbody of log record with details
-        $output .= '<tbody style="display:none;">';
+        $output .= '<tbody class="lp_js_log-entry-details" style="display:none;">';
         $output .= '<tr><td colspan="2"><table>';
 
         if ( $record['context'] ) {

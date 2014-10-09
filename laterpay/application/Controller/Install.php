@@ -152,8 +152,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     public function maybe_update_currency_to_euro() {
         global $wpdb;
 
+        $current_version = $this->config->get( 'version' );
+
         // check, if the current version is greater than or equal 0.9.8
-        if ( version_compare( $this->config->get( 'version' ), '0.9.8', '>=' ) ) {
+        if ( version_compare( $current_version, '0.9.8', '>=' ) ) {
 
             // map old values to new ones
             $meta_key_mapping = array(

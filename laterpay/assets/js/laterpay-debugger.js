@@ -7,7 +7,9 @@
                 debuggerHeader  : 'header',
                 tabs            : $('.lp_debugger-tabs li'),
                 content         : $('.lp_debugger-content'),
+                logMessage      : '.lp_log-entry-table',
                 detailsLink     : $('.lp_js_toggle-log-details'),
+                logDetails      : '.lp_js_log-entry-details',
 
                 hidden          : 'lp_is_hidden',
                 selected        : 'lp_is_selected',
@@ -74,11 +76,14 @@
             },
 
             toggleMessageDetails = function($trigger) {
-                var $messageBody = $trigger.parents('table').find('tbody');
+                var $messageBody = $trigger.parents($o.logMessage).find($o.logDetails);
                 if ($messageBody.is(':hidden')) {
+                    // hide all open log details
+                    $($o.logDetails, $o.content).hide(0);
+                    // show current log details
                     $messageBody.show(0);
                 } else {
-                    $messageBody.hide(0);
+                    $($o.logDetails, $o.content).hide(0);
                 }
             },
 
