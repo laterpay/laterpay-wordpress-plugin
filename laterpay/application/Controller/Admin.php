@@ -246,10 +246,47 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     protected function render_dashboard_tab_help() {
         $screen = get_current_screen();
         $screen->add_help_tab( array(
-                                   'id'      => 'laterpay_dashboard_tab_help_TODO',
-                                   'title'   => __( 'TODO!', 'laterpay' ),
+                                   'id'      => 'laterpay_dashboard_tab_help_conversion',
+                                   'title'   => __( 'Conversion', 'laterpay' ),
                                    'content' => __( '
-                                                    <p>TODO!</p>',
+                                                    <p>
+                                                        The <strong>Conversion</strong> (short for Conversion Rate) is the share of visitors of a specific post who actually <strong>bought</strong> the post.<br>
+                                                        A conversion of 100% would mean that every user who has visited a post page and has read the teaser content had bought the post with LaterPay.<br>
+                                                        The conversion rate is one of the most important metrics for selling your content successfully: It indicates, if the price is perceived as adequate and if your content fits your audience\'s interests.
+                                                    </p>
+                                                    <p>
+                                                        The metric <strong>New Customers</strong> indicates the share of your customers who bought with LaterPay for the first time in the reporting period.<br>
+                                                        Please note that this is only an approximate value.
+                                                    </p>',
+                                                    'laterpay'
+                                                ),
+                               ) );
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_dashboard_tab_help_items_sold',
+                                   'title'   => __( 'Items Sold', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        The column <strong>Items Sold</strong> provides an overview of all your sales in the reporting period.
+                                                    </p>
+                                                    <p>
+                                                        <strong>AVG Items Sold</strong> (short for Average Items Sold) indicates how many posts you sold on average per day in the reporting period.
+                                                    </p>',
+                                                    'laterpay'
+                                                ),
+                               ) );
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_dashboard_tab_help_gross_revenue',
+                                   'title'   => __( 'Gross Revenue', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        <strong>Gross Revenue</strong> is the value of all purchases for which your users have committed themselves to pay later (or paid immediately in case of a Single Sale).
+                                                    </p>
+                                                    <p>
+                                                        <strong>AVG Items Sold</strong> (short for Average Items Sold) indicates the average revenue per day in the reporting period.
+                                                    </p>
+                                                    <p>
+                                                        Please note that this <strong>is not the amount of money you will receive with your next LaterPay payout</strong>, as a user will have to pay his invoices only once it reaches 5.00 € and LaterPay will deduct a fee of 15% for each actually paid purchase.
+                                                    </p>',
                                                     'laterpay'
                                                 ),
                                ) );
