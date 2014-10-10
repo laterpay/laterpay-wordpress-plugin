@@ -25,15 +25,15 @@
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
                         <li>
-                            <big>6,123</big>
+                            <big id="lp_js_total-impressions">6,123</big>
                             <?php _e( 'Impressions', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big>6.3<small>%</small></big>
+                            <big id="lp_js_conversion">6.3<small>%</small></big>
                             <?php _e( 'Conversion', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big>17<small>%</small></big>
+                            <big id="lp_js_share-of-new-customers">17<small>%</small></big>
                             <?php _e( 'New Customers', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -45,11 +45,11 @@
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
                         <li>
-                            <big id="id_avg_items_sold"></big>
+                            <big id="lp_js_avg-items-sold"></big>
                             <?php _e( 'AVG Items Sold', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big id="id_total_items_sold"></big>
+                            <big id="lp_js_total-items-sold"></big>
                             <?php _e( 'Total Items Sold', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -61,11 +61,11 @@
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
                         <li>
-                            <big><span id="id_avg_revenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
+                            <big><span id="lp_js_avg-revenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'AVG Purchase', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="id_total_revenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
+                            <big><span id="lp_js_total-revenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'Total Revenue', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -80,7 +80,7 @@
                     <?php foreach ( $laterpay['best_converting_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?><small>%</small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
@@ -90,7 +90,7 @@
                     <?php foreach ( $laterpay['least_converting_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?><small>%</small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
@@ -102,7 +102,7 @@
                     <?php foreach ( $laterpay['most_selling_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
@@ -112,7 +112,7 @@
                     <?php foreach ( $laterpay['least_selling_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
@@ -124,7 +124,7 @@
                     <?php foreach ( $laterpay['most_revenue_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <strong class="lp_value"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
@@ -134,7 +134,7 @@
                     <?php foreach ( $laterpay['least_revenue_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <strong class="lp_value"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>

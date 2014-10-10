@@ -395,16 +395,12 @@ ul.lp_nav-tabs .lp_current:hover a,ul.lp_nav-tabs .lp_current a{color:#545454;cu
 /* line 75 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
 .lp_top-bottom-list .peity{float:right;margin:0 14px}
 /* line 79 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
-.lp_top-bottom-list .lp_value{color:#ababab;float:left;margin:0 .4em 0 0;text-align:right;width:32px;}
+.lp_top-bottom-list .lp_value{color:#ababab;float:left;margin:0 .4em 0 0;text-align:right;width:70px;}
 /* line 86 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
 .lp_top-bottom-list .lp_value small{color:#ccc;font-size:11.200000000000001px;padding:0 0 0 2px}
 /* line 91 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
-.lp_top-bottom-list .lp_value-1{width:33px}
-/* line 93 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
-.lp_top-bottom-list .lp_value-2{width:20px}
-/* line 95 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
-.lp_top-bottom-list .lp_value-3{width:68px}
-/* line 102 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
+.lp_top-bottom-list .lp_value-narrow{width:42px}
+/* line 98 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/dashboard.styl */
 
 /* line 4 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/pages/pricing.styl */
 

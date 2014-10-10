@@ -39,10 +39,10 @@
                     plot_timeformat,
                     plot_mode;
 
-                $('#id_avg_items_sold').html(avg_items_sold.toFixed(1));
-                $('#id_total_items_sold').html(total_items_sold);
-                $('#id_total_revenue').html(total_revenue.toFixed(2));
-                $('#id_avg_revenue').html(avg_revenue.toFixed(2));
+                $('#lp_js_avg-items-sold').html(avg_items_sold.toFixed(1));
+                $('#lp_js_total-items-sold').html(total_items_sold);
+                $('#lp_js_total-revenue').html(total_revenue.toFixed(2));
+                $('#lp_js_avg-revenue').html(avg_revenue.toFixed(2));
 
                 if (interval === '7days'){
                     plot_timeformat = "%a";
