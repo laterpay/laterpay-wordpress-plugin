@@ -15,6 +15,7 @@ class LaterPay_Helper_View
      */
     public static function get_admin_menu() {
         return array(
+            'dashboard'     => array( 'url' => 'laterpay-dashboard-tab',    'title' => __( 'Dashboard', 'laterpay' ) ),
             'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
             'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __( 'Appearance', 'laterpay' ) ),
             'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __( 'Account', 'laterpay' ) ),
@@ -93,12 +94,11 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Check if plugin is fully functional.
+     * Check, if plugin is fully functional.
      *
      * @return bool
      */
     public static function plugin_is_working() {
-
         $modeIsLive = get_option( 'laterpay_plugin_is_in_live_mode' );
         $sandboxKey = get_option( 'laterpay_sandbox_api_key' );
         $liveKey    = get_option( 'laterpay_live_api_key' );

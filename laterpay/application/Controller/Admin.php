@@ -10,7 +10,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Show plugin in administrator panel.
      *
-     * @return  void
+     * @return void
      */
     public function add_to_admin_panel() {
         $plugin_page = LaterPay_Helper_View::$pluginPage;
@@ -119,12 +119,18 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         // return default tab, if no specific tab is requested
         if ( empty( $tab ) ) {
-            $tab            = 'pricing';
-            $_GET['tab']    = 'pricing';
+            $tab            = 'dashboard';
+            $_GET['tab']    = 'dashboard';
         }
 
         switch ( $tab ) {
             default:
+
+            // render dashboard tab
+            case 'dashboard':
+                $dashboard_controller = new LaterPay_Controller_Admin_Dashboard( $this->config );
+                $dashboard_controller->render_page();
+                break;
 
             // render pricing tab
             case 'pricing':
@@ -160,6 +166,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                 $this->render_add_edit_post_page_help();
                 break;
 
+            case 'dashboard':
+                $this->render_dashboard_tab_help();
+                break;
+
             case 'pricing':
                 $this->render_pricing_tab_help();
                 break;
@@ -180,7 +190,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add contextual help for add / edit post page.
      *
-     * @return  void
+     * @return void
      */
     protected function render_add_edit_post_page_help() {
         $screen = get_current_screen();
@@ -225,6 +235,23 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                         </p>',
                                     'laterpay'
                                    ),
+                               ) );
+    }
+
+    /**
+     * Add contextual help for dashboard tab.
+     *
+     * @return  void
+     */
+    protected function render_dashboard_tab_help() {
+        $screen = get_current_screen();
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_dashboard_tab_help_TODO',
+                                   'title'   => __( 'TODO!', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>TODO!</p>',
+                                                    'laterpay'
+                                                ),
                                ) );
     }
 
@@ -441,7 +468,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Load LaterPay stylesheet with LaterPay vector icon on all pages where the admin menu is visible.
+     * Load LaterPay stylesheet with LaterPay vector logo on all pages where the admin menu is visible.
      *
      * @return void
      */
