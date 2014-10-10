@@ -253,17 +253,20 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                                     ),
                                 );
 
-        // TODO: wrap everything in array 'laterpay'
-        $this->assign( 'plugin_is_in_live_mode',    $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'top_nav',                   $this->get_menu() );
-        $this->assign( 'admin_menu',                LaterPay_Helper_View::get_admin_menu() );
-        $this->assign( 'currency',                  get_option( 'laterpay_currency' ) );
-        $this->assign( 'best_converting_items',     $best_converting_items );
-        $this->assign( 'least_converting_items',    $least_converting_items );
-        $this->assign( 'most_selling_items',        $most_selling_items );
-        $this->assign( 'least_selling_items',       $least_selling_items );
-        $this->assign( 'most_revenue_items',        $most_revenue_items );
-        $this->assign( 'least_revenue_items',       $least_revenue_items );
+        // assign all required vars to the view template
+        $view_args = array(
+            'plugin_is_in_live_mode'    => $this->config->get( 'is_in_live_mode' ),
+            'top_nav'                   => $this->get_menu(),
+            'admin_menu'                => LaterPay_Helper_View::get_admin_menu(),
+            'currency'                  => get_option( 'laterpay_currency' ),
+            'best_converting_items'     => $best_converting_items,
+            'least_converting_items'    => $least_converting_items,
+            'most_selling_items'        => $most_selling_items,
+            'least_selling_items'       => $least_selling_items,
+            'most_revenue_items'        => $most_revenue_items,
+            'least_revenue_items'       => $least_revenue_items,
+        );
+        $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/dashboard' );
     }

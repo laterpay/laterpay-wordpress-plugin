@@ -7,13 +7,13 @@
     </div>
 
     <div class="lp_navigation lp_p-rel">
-        <?php if ( ! $plugin_is_in_live_mode ): ?>
-            <a href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator lp_p-abs" data-icon="h">
+        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
+            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator lp_p-abs" data-icon="h">
                 <h2><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
                 <span><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
             </a>
         <?php endif; ?>
-        <?php echo $top_nav; ?>
+        <?php echo $laterpay['top_nav']; ?>
     </div>
 
     <div class="lp_wrap">
@@ -61,11 +61,11 @@
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
                         <li>
-                            <big><span id="id_avg_revenue"></span><small><?php echo $currency; ?></small></big>
+                            <big><span id="id_avg_revenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'AVG Purchase', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="id_total_revenue"></span><small><?php echo $currency; ?></small></big>
+                            <big><span id="id_total_revenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'Total Revenue', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -77,20 +77,20 @@
             <div class="lp_w-1-3">
                 <h3><?php _e( 'Best-converting Items', 'laterpay' ); ?></h3>
                 <ol class="lp_top-bottom-list">
-                    <?php foreach ( $best_converting_items as $item ): ?>
+                    <?php foreach ( $laterpay['best_converting_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $currency; ?></small></strong>
+                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
                 <h3><?php _e( 'Least-converting Items', 'laterpay' ); ?></h3>
                 <ol class="lp_top-bottom-list">
-                    <?php foreach ( $least_converting_items as $item ): ?>
+                    <?php foreach ( $laterpay['least_converting_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $currency; ?></small></strong>
+                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
@@ -99,20 +99,20 @@
             <div class="lp_w-1-3">
                 <h3><?php _e( 'Best-selling Items', 'laterpay' ); ?></h3>
                 <ol class="lp_top-bottom-list">
-                    <?php foreach ( $most_selling_items as $item ): ?>
+                    <?php foreach ( $laterpay['most_selling_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $currency; ?></small></strong>
+                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
                 <h3><?php _e( 'Least-selling Items', 'laterpay' ); ?></h3>
                 <ol class="lp_top-bottom-list">
-                    <?php foreach ( $least_selling_items as $item ): ?>
+                    <?php foreach ( $laterpay['least_selling_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $currency; ?></small></strong>
+                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
@@ -121,20 +121,20 @@
             <div class="lp_w-1-3">
                 <h3><?php _e( 'Most Revenue-generating Items', 'laterpay' ); ?></h3>
                 <ol class="lp_top-bottom-list">
-                    <?php foreach ( $most_revenue_items as $item ): ?>
+                    <?php foreach ( $laterpay['most_revenue_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $currency; ?></small></strong>
+                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
                 <h3><?php _e( 'Least Revenue-generating Items', 'laterpay' ); ?></h3>
                 <ol class="lp_top-bottom-list">
-                    <?php foreach ( $least_revenue_items as $item ): ?>
+                    <?php foreach ( $laterpay['least_revenue_items'] as $item ): ?>
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $currency; ?></small></strong>
+                            <strong class="lp_value lp_value-3"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
                             <i><?php echo $item['title']; ?></i>
                         </li>
                     <?php endforeach; ?>
