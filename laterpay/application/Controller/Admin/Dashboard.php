@@ -12,7 +12,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         // load page-specific JS
         wp_register_script(
             'laterpay-flot',
-            $this->config->js_url . 'vendor/jquery.laterpay-flot.min.js',
+            $this->config->js_url . 'vendor/jquery.flot.min.js',
             array( 'jquery' ),
             $this->config->version,
             true
@@ -59,9 +59,211 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        $this->assign( 'plugin_is_in_live_mode', $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'top_nav',                $this->get_menu() );
-        $this->assign( 'admin_menu',             LaterPay_Helper_View::get_admin_menu() );
+        // Mock data:
+        $best_converting_items  = array(
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                );
+        $least_converting_items = array(
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                );
+        $most_selling_items     = array(
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                );
+        $least_selling_items    = array(
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                );
+        $most_revenue_items     = array(
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                );
+        $least_revenue_items    = array(
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                    array(
+                                        'sparkline' => '5,3,6,9,6,5,9',
+                                        'amount'    => '6.8',
+                                        'title'     => 'Video Tutorial 12',
+                                    ),
+                                );
+
+        // TODO: wrap everything in array 'laterpay'
+        $this->assign( 'plugin_is_in_live_mode',    $this->config->get( 'is_in_live_mode' ) );
+        $this->assign( 'top_nav',                   $this->get_menu() );
+        $this->assign( 'admin_menu',                LaterPay_Helper_View::get_admin_menu() );
+        $this->assign( 'currency',                  get_option( 'laterpay_currency' ) );
+        $this->assign( 'best_converting_items',     $best_converting_items );
+        $this->assign( 'least_converting_items',    $least_converting_items );
+        $this->assign( 'most_selling_items',        $most_selling_items );
+        $this->assign( 'least_selling_items',       $least_selling_items );
+        $this->assign( 'most_revenue_items',        $most_revenue_items );
+        $this->assign( 'least_revenue_items',       $least_revenue_items );
 
         $this->render( 'backend/dashboard' );
     }

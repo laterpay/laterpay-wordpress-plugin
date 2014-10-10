@@ -62,7 +62,7 @@
                       bars: {
                         show:       true,
                         barWidth:   0.7,
-                        fillColor:  '#eee',
+                        fillColor:  '#e3e3e3',
                         lineWidth:  0,
                         align:      'center',
                         horizontal: false
@@ -73,7 +73,7 @@
                       bars: {
                         show:       true,
                         barWidth:   0.35,
-                        fillColor:  '#7a4b1b',
+                        fillColor:  '#52CB75',
                         lineWidth:  0,
                         align:      'center',
                         horizontal: false
@@ -116,7 +116,7 @@
                 $.plot($('#lp_js_graph-units'),
                   [ {
                       data: last_items_sold,
-                      color: '#7a4b1b',
+                      color: '#52CB75',
                       lines: {
                       show:      true,
                       lineWidth: 1.5,
@@ -128,26 +128,26 @@
                       radius:    3,
                       lineWidth: 0,
                       fill:      true,
-                      fillColor: '#7a4b1b'
+                      fillColor: '#52CB75'
                     }
                     },
-                    //{
-                      //data: conversionData_total,
-                      //color: '#7a4b1b',
-                      //lines: {
-                      //show:      true,
-                      //lineWidth: 1.5,
-                      //fill:      false,
-                      //gaps:      true,
-                    //},
-                    //points: {
-                      //show:      true,
-                      //radius:    3,
-                      //lineWidth: 0,
-                      //fill:      true,
-                      //fillColor: '#7a4b1b'
-                    //}
-                    //}
+                    {
+                      data: conversionData_total,
+                      color: '#52CB75',
+                      lines: {
+                      show:      true,
+                      lineWidth: 1.5,
+                      fill:      false,
+                      gaps:      true,
+                    },
+                    points: {
+                        show:      true,
+                        radius:    3,
+                        lineWidth: 0,
+                        fill:      true,
+                        fillColor: '#52CB75'
+                    }
+                    }
                   ],
                   {
                     legend: {show: false},
@@ -186,7 +186,7 @@
                 $.plot($('#lp_js_graph-revenue'),
                   [ {
                       data: last_amounts,
-                      color: '#7a4b1b',
+                      color: '#52CB75',
                       lines: {
                       show:      true,
                       lineWidth: 1.5,
@@ -198,12 +198,12 @@
                       radius:    3,
                       lineWidth: 0,
                       fill:      true,
-                      fillColor: '#7a4b1b'
+                      fillColor: '#52CB75'
                     }
                     },
                     //{
                       //data: conversionData_total,
-                      //color: '#7a4b1b',
+                      //color: '#52CB75',
                       //lines: {
                       //show:      true,
                       //lineWidth: 1.5,
@@ -215,7 +215,7 @@
                       //radius:    3,
                       //lineWidth: 0,
                       //fill:      true,
-                      //fillColor: '#7a4b1b'
+                      //fillColor: '#52CB75'
                     //}
                     //}
                   ],
@@ -254,10 +254,11 @@
                 );
 
                 // sparklines
-                $('.peity-bar').peity('bar', {
-                  colours:    [ '#ddd' ],
-                  width:      34,
-                  height:     14,
+                $('.lp_sparkline-bar').peity('bar', {
+                    width       : 34,
+                    height      : 14,
+                    gap         : 1,
+                    fill        : function() { return '#ccc'; }
                 });
             },
 

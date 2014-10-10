@@ -1,65 +1,101 @@
 // 'Dashboard' tab in plugin backend
 
-// Stuff ---------------------------------------------------------------------------------------------------------------
-// stuff
+// Diagrams ------------------------------------------------------------------------------------------------------------
+.lp_w-1-3
+    float                           left
+
+    h2
+        margin                      $fs-1 0 0.4em
+        text-align                  center
+
+.lp_dashboard-graph
+    height                          15 * $fs-1
+    margin                          0 $fs-1 0 0
+
+/* statistics rows */
+.lp_statistics-row
+    background                      $background-darker
+    border-radius                   3px     // TODO
+    margin                          $fs-1 $fs-1 $fs-1 0
+
+    h2
+        position                    relative
+        top                         $fs-15
+
+    ul
+        margin                      0 $fs-1 0 0
+        padding                     0
+
+    li
+        border-right                1px solid $border-lightest      // TODO
+        color                       $text-lighter
+        float                       left
+        list-style-type             none
+        margin                      $fs-025 0
+        padding                     $fs-05 $fs-05 0 $fs-075
+        text-align                  right
+
+        &:last-child
+            border                  0 none
+
+    big
+        color                       $text
+        display                     block
+        font-size                   $fs-15
+
+    small,
+    big small
+        color                       $text-lighter
+        font-size                   $fs-1
+
+    big small
+        font-size                   0.667em
+        padding                     0 0 0 2px
 
 
+// Top / bottom lists --------------------------------------------------------------------------------------------------
+.lp_w-1-3 h3
+    margin                          0 0 $fs-025
 
+.lp_top-bottom-list
+    margin                          0 0 $fs-1
+    padding                         0
 
+    li
+        clear                       left
+        list-style-type             none
 
-h1 i {font-style:normal;}
+    i
+        display                     block
+        font-style                  normal
+        overflow                    hidden
+        text-overflow               ellipsis
+        white-space                 nowrap
 
-.switcher {float:right; margin:1.6em 0 0 0; padding:0;}
-.switcher li {background-color:#e5e5e5; float:left; list-style-type:none; margin:0;}
-.switcher li:first-child {border-radius:6px 0 0 6px;}
-.switcher li:last-child {border-radius:0 6px 6px 0;}
-.switcher li.selected {background-color:#eee;}
-.switcher .selected big,
-.switcher .selected a:hover big,
-.switcher .selected small {color:#e5e5e5;}
-.switcher a {border-right:1px solid #eee; display:block; padding:.5em 1em 0.2em; width:65px;}
-.switcher li:last-child a {border:0 none;}
-.switcher a:hover big {color:#54cc76;}
-.switcher big,
-.switcher small {display:block; text-align:right;}
-.switcher big {color:#4fc270; font-size:1.5em;}
-.switcher div:hover {background-color:#54cc76;}
-.switcher small {color:#aaa;}
+    .peity
+        float                       right
+        margin                      0 $fs-1
 
-.dashboard-graph {height:210px; margin:0 1em 0 0;}
+    .lp_value
+        color                       $text-lighter
+        float                       left
+        margin                      0 0.4em 0 0
+        text-align                  right
+        width                       32px
 
-.highlighted-box {background-color:rgba(246, 226, 118, 0.89); left:27%; position:absolute; top:24%; z-index:2;}
+        small
+            color                   $text-lightest
+            font-size               $fs-08
+            padding                 0 0 0 2px
 
-ol {margin:0 0 1.5em; padding:0;}
-ol li {list-style-type:none;}
-.top-bottom-list i {display:block; font-style:normal; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-.top-bottom-list .peity {float:right; margin:0 1em;}
-.top-bottom-list .value {color:#aaa; float:left; margin:0 0.4em 0 0; text-align:right; width:32px;}
-.value.value-1 {width:33px;}
-.value.value-2 {width:20px;}
-.value.value-3 {width:68px;}
-.top-bottom-list .value small {color:#c5c5c5; font-size:.8em; padding:0 0 0 2px;}
+    .lp_value-1
+        width                       33px
+    .lp_value-2
+        width                       20px
+    .lp_value-3
+        width                       68px
 
-
-
-.statistics-row {background:#e5e5e5; border-radius:3px; margin:1em 1em 1.5em 0;}
-.statistics-row h2 {position:relative; top:1.3em;}
-.statistics-row ul {margin:0 1em 0 0; padding:0;}
-.statistics-row li {
-    border-right:1px solid #eee;
-    color:#aaa;
-    float:left;
-    list-style-type:none;
-    margin:.25em 0;
-    padding:.5em 0.5em 0 0.75em;
-    text-align:right;
-}
-.statistics-row li:last-child {border:0 none;}
-.statistics-row big {color:#555; display:block; font-size:1.5em; height:1em;}
-.statistics-row small,
-.statistics-row big small {color:#aaa; font-size:1em;}
-.statistics-row big small {font-size:.667em; padding:0 0 0 2px;}
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
-@media (max-width:1050px)
-    // stuff
+@media (max-width 1050px)
+    // do stuff
