@@ -81,7 +81,7 @@
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
                             <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?><small>%</small></strong>
-                            <i><?php echo $item['title']; ?></i>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -91,7 +91,7 @@
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
                             <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?><small>%</small></strong>
-                            <i><?php echo $item['title']; ?></i>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -103,7 +103,7 @@
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
                             <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?></strong>
-                            <i><?php echo $item['title']; ?></i>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -113,7 +113,7 @@
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
                             <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?></strong>
-                            <i><?php echo $item['title']; ?></i>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -125,7 +125,7 @@
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
                             <strong class="lp_value"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
-                            <i><?php echo $item['title']; ?></i>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -135,7 +135,7 @@
                         <li>
                             <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
                             <strong class="lp_value"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
-                            <i><?php echo $item['title']; ?></i>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>

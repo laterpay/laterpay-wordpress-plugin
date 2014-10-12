@@ -12,22 +12,21 @@
     height                          15 * $fs-1
     margin                          0 $fs-1 0 0
 
+.lp_dashboard-graph + .lp_statistics-row
+    margin                          $fs-075 $fs-1 $fs-125 0
+
 /* statistics rows */
 .lp_statistics-row
     background                      $background-darker
-    border-radius                   3px     // TODO
+    border-radius                   3px
     margin                          $fs-1 $fs-1 $fs-1 0
-
-    h2
-        position                    relative
-        top                         $fs-15
 
     ul
         margin                      0 $fs-1 0 0
         padding                     0
 
     li
-        border-right                1px solid $border-lightest      // TODO
+        border-right                1px solid $background
         color                       $text-lighter
         float                       left
         list-style-type             none
@@ -50,13 +49,11 @@
 
     big small
         font-size                   0.667em
+        line-height                 1
         padding                     0 0 0 2px
 
 
 // Top / bottom lists --------------------------------------------------------------------------------------------------
-.lp_w-1-3 h3
-    margin                          0 0 $fs-025
-
 .lp_top-bottom-list
     margin                          0 0 $fs-1
     padding                         0
@@ -64,6 +61,11 @@
     li
         clear                       left
         list-style-type             none
+        padding                     2px 0 2px
+
+        &:hover
+            background-color        $background-highlight
+            border-radius           3px
 
     i
         display                     block
@@ -71,6 +73,9 @@
         overflow                    hidden
         text-overflow               ellipsis
         white-space                 nowrap
+
+    a
+        display                     block
 
     .peity
         float                       right
@@ -86,6 +91,7 @@
         small
             color                   $text-lightest
             font-size               $fs-08
+            line-height             1
             padding                 0 0 0 2px
 
     .lp_value-narrow
@@ -94,4 +100,4 @@
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width 1050px)
-    // do stuff
+    // TODO
