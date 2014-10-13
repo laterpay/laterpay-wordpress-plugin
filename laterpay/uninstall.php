@@ -90,7 +90,7 @@ $pointers = LaterPay_Controller_Admin::get_all_pointers();
 if ( ! empty( $pointers ) && is_array( $pointers ) ) {
     $replace_string = 'meta_value';
 
-    foreach ($pointers as $pointer) {
+    foreach ( $pointers as $pointer ) {
         $replace_string = "REPLACE($replace_string, ',$pointer', '')";
     }
 

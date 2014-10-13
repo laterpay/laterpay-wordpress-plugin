@@ -215,7 +215,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        if ( isset( $_POST['laterpay_post_teaser'] ) && !empty( $_POST[ 'laterpay_post_teaser' ] ) ) {
+        if ( isset( $_POST['laterpay_post_teaser'] ) && ! empty( $_POST[ 'laterpay_post_teaser' ] ) ) {
             $new_meta_value = wpautop( $_POST['laterpay_post_teaser'] );
         } else {
             $new_meta_value = LaterPay_Helper_String::truncate(
@@ -294,40 +294,40 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                                             array( 'x' => 0,  'y' => 0.99 ),
                                             array( 'x' => 13, 'y' => 0.99 ),
                                             array( 'x' => 18, 'y' => 0.29 ),
-                                            array( 'x' => 30, 'y' => 0.29 )
+                                            array( 'x' => 30, 'y' => 0.29 ),
                                         );
         } elseif ( $transitional_period_end_after_days === '' ) {
             $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
-                    'y' => $start_price
+                    'y' => $start_price,
                 ),
                 array(
                     'x' => $change_start_price_after_days,
-                    'y' => $start_price
+                    'y' => $start_price,
                 ),
                 array(
                     'x' => $reach_end_price_after_days,
-                    'y' => $end_price
+                    'y' => $end_price,
                 )
             );
         } else {
             $dynamic_pricing_data = array(
                 array(
                     'x' => 0,
-                    'y' => $start_price
+                    'y' => $start_price,
                 ),
                 array(
                     'x' => $change_start_price_after_days,
-                    'y' => $start_price
+                    'y' => $start_price,
                 ),
                 array(
                     'x' => $transitional_period_end_after_days,
-                    'y' => $end_price
+                    'y' => $end_price,
                 ),
                 array(
                     'x' => $reach_end_price_after_days,
-                    'y' => $end_price
+                    'y' => $end_price,
                 )
             );
         }
@@ -342,8 +342,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
         $this->assign( 'laterpay_global_default_price',                 $global_default_price );
         $this->assign( 'laterpay_dynamic_pricing_data',                 json_encode( $dynamic_pricing_data ) );
-        $this->assign( 'laterpay_global_default_price_revenue_model',   $global_default_price_revenue_model);
-        $this->assign( 'laterpay_category_default_price_revenue_model', $category_default_price_revenue_model);
+        $this->assign( 'laterpay_global_default_price_revenue_model',   $global_default_price_revenue_model );
+        $this->assign( 'laterpay_category_default_price_revenue_model', $category_default_price_revenue_model );
 
         $this->render( 'backend/partials/post_pricing_form' );
     }

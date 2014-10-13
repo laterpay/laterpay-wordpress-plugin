@@ -61,7 +61,7 @@ class LaterPay_Model_Post_Views
                 count = count + 1
             ;
         ";
-        $sql =  $wpdb->prepare(
+        $sql = $wpdb->prepare(
             $sql,
             (int) $data['post_id'],
             $data['user_id'],

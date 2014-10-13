@@ -36,10 +36,10 @@ class LaterPay_Core_Logger_Processor_Memory
             return $bytes;
         }
 
-        if ( $bytes > 1024*1024 ) {
-            return round( $bytes/1024/1024, 2 ) . ' MB';
+        if ( $bytes > 1024 * 1024 ) {
+            return round( $bytes / 1024 / 1024, 2 ) . ' MB';
         } elseif ( $bytes > 1024 ) {
-            return round( $bytes/1024, 2 ) . ' KB';
+            return round( $bytes / 1024, 2 ) . ' KB';
         }
 
         return $bytes . ' B';
