@@ -250,7 +250,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                    'title'   => __( 'Conversion', 'laterpay' ),
                                    'content' => __( '
                                                     <p>
-                                                        The <strong>Conversion</strong> (short for Conversion Rate) is the share of visitors of a specific post who actually <strong>bought</strong> the post.<br>
+                                                        The <strong>Conversion</strong> (short for Conversion Rate) is the share of visitors of a specific post, who actually <strong>bought</strong> the post.<br>
                                                         A conversion of 100% would mean that every user who has visited a post page and has read the teaser content had bought the post with LaterPay.<br>
                                                         The conversion rate is one of the most important metrics for selling your content successfully: It indicates, if the price is perceived as adequate and if your content fits your audience\'s interests.
                                                     </p>
@@ -276,16 +276,16 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_dashboard_tab_help_gross_revenue',
-                                   'title'   => __( 'Gross Revenue', 'laterpay' ),
+                                   'title'   => __( 'Committed Revenue', 'laterpay' ),
                                    'content' => __( '
                                                     <p>
-                                                        <strong>Gross Revenue</strong> is the value of all purchases for which your users have committed themselves to pay later (or paid immediately in case of a Single Sale).
+                                                        <strong>Committed Revenue</strong> is the value of all purchases, for which your users have committed themselves to pay later (or paid immediately in case of a Single Sale purchase).
                                                     </p>
                                                     <p>
-                                                        <strong>AVG Items Sold</strong> (short for Average Items Sold) indicates the average revenue per day in the reporting period.
+                                                        <strong>AVG Revenue</strong> (short for Average Revenue) indicates the average revenue per day in the reporting period.
                                                     </p>
                                                     <p>
-                                                        Please note that this <strong>is not the amount of money you will receive with your next LaterPay payout</strong>, as a user will have to pay his invoices only once it reaches 5.00 € and LaterPay will deduct a fee of 15% for each actually paid purchase.
+                                                        Please note that this <strong>is not the amount of money you will receive with your next LaterPay payout</strong>, as a user will have to pay his invoice only once it reaches 5.00 € and LaterPay will deduct a fee of 15% for each purchase that was actually paid.
                                                     </p>',
                                                     'laterpay'
                                                 ),
