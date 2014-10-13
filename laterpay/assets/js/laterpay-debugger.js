@@ -28,7 +28,7 @@
                 // toggle visibility of debugger pane
                 $o.menuItem
                 .mousedown(function() {
-                    toggleDebuggerVisibility();
+                    toggleDebuggerVisibility(this);
                 })
                 .click(function(e) {e.preventDefault();})
                 .attr({'role': 'button'});
@@ -36,7 +36,7 @@
                 // toggle visibility of debugger pane
                 $($o.debuggerHeader, $o.debugger)
                 .mousedown(function() {
-                    toggleDebuggerVisibility();
+                    toggleDebuggerVisibility(this);
                 })
                 .click(function(e) {e.preventDefault();});
 
@@ -53,11 +53,6 @@
                     toggleMessageDetails($(this));
                 })
                 .click(function(e) {e.preventDefault();});
-
-                // display Javascript errors
-                window.onerror = function(errorMsg, url, lineNumber) {
-                    displayJavascriptErrors(errorMsg, url, lineNumber);
-                }
             },
 
             toggleDebuggerVisibility = function() {
@@ -90,29 +85,6 @@
                 } else {
                     $($o.logDetails, $o.content).hide(0);
                 }
-            },
-
-            displayJavascriptErrors = function(errorMsg, url, lineNumber) {
-                var file        = url.substring(url.lastIndexOf('/') + 1),
-                    logMessage  =   '<li>' +
-                                        '<table class="lp_log-entry-table">' +
-                                            '<thead>' +
-                                                '<tr>' +
-                                                    '<td><span class="lp_log-level lp_log-level-500 lp_vector-icon"></span>Javascript Error: ' + errorMsg + '</td>' +
-                                                    '<td>' + file + ' (line ' + lineNumber + ')</td>' +
-                                                '</li>' +
-                                            '</thead>' +
-                                        '</table>' +
-                                    '</tr>';
-
-                $o.content.eq(0).find('ul').prepend(logMessage);
-
-                // show debugger pane, if it's hidden
-                if ($o.debugger.hasClass($o.hidden)) {
-                    $o.debugger.removeClass($o.hidden).attr($o.visibleAttr);
-                }
-
-                return false;
             },
 
             initialize = function() {

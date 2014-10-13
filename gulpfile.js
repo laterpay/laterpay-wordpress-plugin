@@ -26,17 +26,17 @@ var autoprefixer    = require('gulp-autoprefixer'),
     // uncss           = require('gulp-uncss'),
     p               = {
                         allfiles    : ['./laterpay/**/*.php', './laterpay/assets/stylus/**/*.styl', './laterpay/assets/js/*.js'],
-                        srcStylus   : './laterpay/assets/stylus/**/*.styl', // TODO: not sure about the **; I'd rather exclude subfolders like 'vendor'
+                        srcStylus   : './laterpay/assets/stylus/*.styl',
                         srcJS       : './laterpay/assets/js_src/**/*.js',
-                        distJs      : './laterpay/assets/js',
-                        distCss     : './laterpay/assets/css',
+                        distJs      : './laterpay/assets/js/',
+                        distCss     : './laterpay/assets/css/',
                     };
 
 
 // TASKS -----------------------------------------------------------------------
 // clean up the target directories
 gulp.task('clean', function(cb) {
-    del([p.distJs, p.distCss], cb);
+    del([p.distJs + '*.js', p.distCss + '*.css'], cb);
 });
 
 // CSS related tasks
