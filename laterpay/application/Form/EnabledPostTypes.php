@@ -7,12 +7,11 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
     public function init() {
-
         $this->set_field(
             'form',
             array(
@@ -20,9 +19,9 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'enabled_post_types'
-                        )
-                    )
+                            'eq' => 'enabled_post_types',
+                        ),
+                    ),
                 )
             )
         );
@@ -34,9 +33,9 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_appearance'
-                        )
-                    )
+                            'eq' => 'laterpay_appearance',
+                        ),
+                    ),
                 )
             )
         );
@@ -48,9 +47,9 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
+                            'ne' => null,
+                        ),
+                    ),
                 )
             )
         );
@@ -59,8 +58,8 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
             'enabled_post_types',
             array(
                 'validators' => array(
-                    'is_array'
-                )
+                    'is_array',
+                ),
             )
         );
     }

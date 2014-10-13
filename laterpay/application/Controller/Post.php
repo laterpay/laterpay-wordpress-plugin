@@ -260,13 +260,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $this->logger->info(
                     __METHOD__ . ' - post has access',
                     array(
-                        'result' => $result
+                        'result' => $result,
                     )
                 );
 
                 return $access;
             }
-
         }
 
         return false;

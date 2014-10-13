@@ -7,12 +7,11 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
     public function init() {
-
         $this->set_field(
             '_wpnonce',
             array(
@@ -20,10 +19,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -34,10 +33,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -51,11 +50,11 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'replace' => array(
                         'type'    => 'str_replace',
                         'search'  => ',',
-                        'replace' => '.'
+                        'replace' => '.',
                     ),
                     'format_num' => 2,
-                    'to_float'
-                )
+                    'to_float',
+                ),
             )
         );
 
@@ -63,8 +62,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'post_revenue_model',
             array(
                 'validators' => array(
-                    'in_array' => array( 'ppu', 'sis' )
-                )
+                    'in_array' => array( 'ppu', 'sis' ),
+                ),
             )
         );
 
@@ -72,8 +71,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'post_price_type',
             array(
                 'validators' => array(
-                    'in_array' => array( 'individual price', 'category default price', 'global default price' )
-                )
+                    'in_array' => array( 'individual price', 'category default price', 'global default price' ),
+                ),
             )
         );
 
@@ -85,7 +84,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                 ),
                 'filters' => array(
                     'to_int'
-                )
+                ),
             )
         );
     }

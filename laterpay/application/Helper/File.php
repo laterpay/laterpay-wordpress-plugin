@@ -173,7 +173,7 @@ class LaterPay_Helper_File
                 'lptoken'   => $lptoken,
                 'hmac'      => $hmac,
                 'ts'        => $ts,
-                'auth'      => $auth
+                'auth'      => $auth,
             )
         );
 

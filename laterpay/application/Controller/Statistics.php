@@ -15,7 +15,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 $this->logger->warning(
                     __METHOD__. ' - !is_singular',
                     array(
-                        'post' => $post
+                        'post' => $post,
                     )
                 );
                 return false;
@@ -34,7 +34,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 __METHOD__. ' - post is not purchasable',
                 array(
                     'post' => $post,
-                    'allowed_post_types' => $allowed_post_types
+                    'allowed_post_types' => $allowed_post_types,
                 )
             );
             return false;
@@ -45,7 +45,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             $this->logger->warning(
                 __METHOD__. ' - post is not purchasable',
                 array(
-                    'post' => $post
+                    'post' => $post,
                 )
             );
             return false;
@@ -83,7 +83,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         LaterPay_Helper_Statistics::track( $post_id );
     }
-    
+
     /**
      * Ajax method to track unique visitors when caching compatible mode is enabled.
      *
@@ -106,11 +106,11 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         $post_id    = absint( $_POST[ 'post_id' ] );
         $post       = get_post( $post_id );
-        
-        if ( $this->check_requirements($post) ) {
+
+        if ( $this->check_requirements( $post ) ) {
             LaterPay_Helper_Statistics::track( $post_id );
         }
-        
+
         exit;
     }
 
@@ -209,7 +209,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
     public function ajax_toggle_visibility() {
         $error = array(
             'success' => false,
-            'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' )
+            'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
         );
 
         // check the admin referer
@@ -286,7 +286,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
             'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
             'currency'                  => get_option( 'laterpay_currency' ),
-            'post_id'                   => $post_id
+            'post_id'                   => $post_id,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -374,13 +374,13 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         // assign variables
         $statistic_args = array(
-            'total'             => $total,
-            'last30DaysRevenue' => $last30DaysRevenue,
-            'todayRevenue'      => $todayRevenue,
-            'last30DaysBuyers'  => $last30DaysBuyers,
-            'todayBuyers'       => $todayBuyers,
-            'last30DaysVisitors'=> $last30DaysVisitors,
-            'todayVisitors'     => $todayVisitors,
+            'total'                 => $total,
+            'last30DaysRevenue'     => $last30DaysRevenue,
+            'todayRevenue'          => $todayRevenue,
+            'last30DaysBuyers'      => $last30DaysBuyers,
+            'todayBuyers'           => $todayBuyers,
+            'last30DaysVisitors'    => $last30DaysVisitors,
+            'todayVisitors'         => $todayVisitors,
         );
 
         $this->assign( 'statistic', $statistic_args );

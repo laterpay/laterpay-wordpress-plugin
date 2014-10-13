@@ -150,7 +150,7 @@ class LaterPay_Helper_Statistics
         );
         list( $data['ip'], $longOtherIp ) = self::get_ip_2_long_remote_ip();
 
-        $model->update_post_views($data);
+        $model->update_post_views( $data );
     }
 
     /**

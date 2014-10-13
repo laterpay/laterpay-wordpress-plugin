@@ -152,7 +152,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $content = get_post_meta( $post->ID, 'laterpay_post_teaser', true );
         $editor_id = 'postcueeditor';
 
-        echo '<dfn>' . __("This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . '</dfn>';
+        echo '<dfn>' . __( "This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . '</dfn>';
         wp_editor( $content, $editor_id, $settings );
         echo '<input type="hidden" name="laterpay_teaser_content_box_nonce" value="' . wp_create_nonce( $this->config->get( 'plugin_base_name' ) ) . '" />';
     }
@@ -309,7 +309,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 array(
                     'x' => $reach_end_price_after_days,
                     'y' => $end_price,
-                )
+                ),
             );
         } else {
             $dynamic_pricing_data = array(
@@ -328,7 +328,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 array(
                     'x' => $reach_end_price_after_days,
                     'y' => $end_price,
-                )
+                ),
             );
         }
 

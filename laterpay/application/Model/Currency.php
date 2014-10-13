@@ -13,7 +13,7 @@ class LaterPay_Model_Currency
             'id'            => 2,
             'short_name'    => 'EUR',
             'full_name'     => 'Euro',
-        )
+        ),
     );
 
     /**
@@ -42,13 +42,11 @@ class LaterPay_Model_Currency
     public function get_short_name_by_currency_id( $currency_id ) {
         $short_name = null;
 
-        foreach( $this->currencies as $currency ) {
-
+        foreach ( $this->currencies as $currency ) {
             if ( (int) $currency[ 'id' ] === (int) $currency_id ) {
                 $short_name = $currency[ 'short_name' ];
                 break;
             }
-
         }
 
         return $short_name;

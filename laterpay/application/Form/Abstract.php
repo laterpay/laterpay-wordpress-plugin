@@ -53,7 +53,7 @@ abstract class LaterPay_Form_Abstract
         // format number with given decimal places
         'format_num' => array( 'LaterPay_Helper_View', 'format_number' ),
         // strip slashes
-        'unslash'   => 'wp_unslash'
+        'unslash'   => 'wp_unslash',
     );
 
     /**
@@ -216,7 +216,7 @@ abstract class LaterPay_Form_Abstract
                 foreach ( $validators as $validator_key => $validator_value ) {
                     $validator_option   = is_int( $validator_key ) ? $validator_value : $validator_key;
                     $validator_params   = is_int( $validator_key ) ? null             : $validator_value;
-                    $is_valid           = $this->validate_value( $field['value'], $validator_option, $validator_params);
+                    $is_valid           = $this->validate_value( $field['value'], $validator_option, $validator_params );
 
                     if ( ! $is_valid ) {
                         // data not valid
@@ -312,8 +312,8 @@ abstract class LaterPay_Form_Abstract
                     if ( is_array( $validator_params ) ) {
                         // OR realization, all validators inside validators set used like AND
                         // if at least one set correct then validation is passed
-                        foreach ( $validator_params as $validators_set) {
-                            foreach ($validators_set as $operator => $param ) {
+                        foreach ( $validator_params as $validators_set ) {
+                            foreach ( $validators_set as $operator => $param ) {
                                 $is_valid = $this->compare_values( $operator, $value, $param );
                                 // break the loop and go to the next validation set, if comparison is not valid
                                 if ( ! $is_valid ) {
@@ -392,8 +392,8 @@ abstract class LaterPay_Form_Abstract
                             if ( $value === $dependency['value'] ) {
                                 // loop through dependency conditions and check, if all of them are valid
                                 foreach ( $dependency['conditions'] as $vkey => $vparams ) {
-                                    $extra_validator = is_int($vkey) ? $vparams : $vkey;
-                                    $validator_data = is_int($vkey) ? null : $vparams;
+                                    $extra_validator = is_int( $vkey ) ? $vparams : $vkey;
+                                    $validator_data = is_int( $vkey ) ? null : $vparams;
                                     // recursively call extra validator
                                     $is_valid = $this->validate_value( $this->get_field_value( $dependency['field'] ), $extra_validator, $validator_data );
                                     // break loop, if something is invalid
@@ -485,7 +485,7 @@ abstract class LaterPay_Form_Abstract
 
         // set data and sanitize it
         if ( is_array( $data ) ) {
-            foreach ($data as $name => $value) {
+            foreach ( $data as $name => $value ) {
                 // set only, if name field was created
                 if ( isset( $fields[$name] ) ) {
                     $this->set_field_value( $name, $value );

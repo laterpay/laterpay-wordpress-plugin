@@ -149,7 +149,7 @@ class LaterPay_Helper_Pricing
 
         $post_price = array(
             'type'          => LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
-            'category_id'   => (int) $category_id
+            'category_id'   => (int) $category_id,
         );
 
         return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_price );

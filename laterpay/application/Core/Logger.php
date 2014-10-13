@@ -205,7 +205,7 @@ class LaterPay_Core_Logger
 
         // found at least one, process message and dispatch it
         foreach ( $this->processors as $processor ) {
-            $record = call_user_func($processor, $record);
+            $record = call_user_func( $processor, $record );
         }
         while ( isset( $this->handlers[$handler_key] ) && $this->handlers[ $handler_key]->handle( $record ) === false ) {
             $handler_key++;

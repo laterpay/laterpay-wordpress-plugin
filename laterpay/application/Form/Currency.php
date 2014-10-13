@@ -7,12 +7,11 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
     public function init() {
-
         $this->set_field(
             'form',
             array(
@@ -20,9 +19,9 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'currency_form'
-                        )
-                    )
+                            'eq' => 'currency_form',
+                        ),
+                    ),
                 )
             )
         );
@@ -34,9 +33,9 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_pricing'
-                        )
-                    )
+                            'eq' => 'laterpay_pricing',
+                        ),
+                    ),
                 )
             )
         );
@@ -48,9 +47,9 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
+                            'ne' => null,
+                        ),
+                    ),
                 )
             )
         );
@@ -60,8 +59,8 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'USD', 'EUR' )
-                )
+                    'in_array' => array( 'EUR' ),
+                ),
             )
         );
     }

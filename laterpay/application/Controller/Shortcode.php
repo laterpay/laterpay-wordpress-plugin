@@ -84,7 +84,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
                 array(
-                    'args'   => $a
+                    'args' => $a,
                 )
             );
 
@@ -105,7 +105,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
                 array(
-                    'args'   => $a
+                    'args' => $a,
                 )
             );
 

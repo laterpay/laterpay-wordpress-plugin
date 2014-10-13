@@ -110,12 +110,13 @@ gulp.task('fileformat', function() {
 // check PHP coding standards
 gulp.task('sniffphp', function() {
     return gulp.src(p.phpfiles)
+            .soften(4)
             .pipe(phpcs({
                 bin             : '/usr/local/bin/phpcs',
                 standard        : 'WordPress',
                 warningSeverity : 0
             }))
-            .pipe(phpcs.reporter('log'));
+            .pipe(phpcs.reporter());
 });
 
 // update git submodules
