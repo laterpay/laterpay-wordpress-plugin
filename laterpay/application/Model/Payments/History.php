@@ -20,8 +20,6 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * Name of payments history table.
      *
      * @var string
-     *
-     * @access public
      */
     public $table;
 
@@ -36,16 +34,18 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
-     * Adding the "date"-Column to the allowed columsn
+     * Add the 'date' column to the allowed columns.
      *
      * @wp-hook date_query_valid_columns
      *
      * @param array $columns
+     *
      * @return array $columns
      */
     public function add_date_query_column( $columns ) {
         $columns[] = 'date';
         $columns[] = $this->table . '.' . 'date';
+
         return $columns;
     }
 
@@ -54,7 +54,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @param array $data payment data
      *
-     * @access public
+     * @return void
      */
     public function set_payment_history( $data ) {
         global $wpdb;
@@ -96,12 +96,9 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @param int $post_id
      *
-     * @access public
-     *
      * @return array history
      */
     public function get_total_history_by_post_id( $post_id ) {
-
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $mode = 'live';
         } else {
@@ -128,8 +125,6 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * Get today's history by post id.
      *
      * @param int $post_id
-     *
-     * @access public
      *
      * @return array history
      */
@@ -164,8 +159,15 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         return $this->get_results( $args );
     }
 
-    public function get_least_revenue_posts( $days = 8, $count = 10 ) {
-
+    /**
+     * Get posts that generated the least revenue x days back.
+     *
+     * @param int $days
+     * @param int $count
+     *
+     * @return array $results
+     */
+    public function get_least_revenue_generating_posts( $days = 8, $count = 10 ) {
         $args = array(
             'where' => array(
                 'mode'      => 'live',
@@ -202,13 +204,19 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         return $results;
     }
 
-
-    public function get_best_revenue_posts( $days = 8, $count = 10 ) {
-
+    /**
+     * Get posts that generated the most revenue x days back.
+     *
+     * @param int $days
+     * @param int $count
+     *
+     * @return array $results
+     */
+    public function get_most_revenue_generating_posts( $days = 8, $count = 10 ) {
         $args = array(
             'where' => array(
-                'mode'      => 'live',
-                'date'      => array(
+                'mode' => 'live',
+                'date' => array(
                     array(
                         'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
                     )
@@ -230,8 +238,8 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline      = $this->get_sparkline( $data->post_id, $days );
-            $data->sparkline= implode( ',', $sparkline );
+            $sparkline          = $this->get_sparkline( $data->post_id, $days );
+            $data->sparkline    = implode( ',', $sparkline );
 
             $data->amount = round( $data->amount, 2 );
 
@@ -246,12 +254,9 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @param int $post_id id post
      *
-     * @access public
-     *
      * @return array history
      */
     public function get_last_30_days_history_by_post_id( $post_id ) {
-
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $mode = 'live';
         } else {
@@ -278,7 +283,6 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         );
 
         return $this->get_results( $args );
-
     }
 
     /**
@@ -286,8 +290,6 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @param string $mode mode (live or test)
      * @param string $hash hash for date payment
-     *
-     * @access public
      *
      * @return array payment
      */
@@ -303,24 +305,25 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
-     * Returns the post view-quantity.
+     * Get post views count.
      *
      * @return array $results
      */
-    public function get_post_payment_quantity( ){
+    public function get_post_payment_quantity() {
         $args = array( 'fields' => array( 'COUNT(id) AS quantity' ) );
+
         return $this->get_results( $args );
     }
 
     /**
-     * Returns the best viewed posts x days back
+     * Get most sold posts x days back.
      *
      * @param int $days
      * @param int $count
+     *
      * @return array $results
      */
     public function get_best_selling_posts( $days = 8, $count = 10 ) {
-
         $args = array(
             'where' => array(
                 'date' => array(
@@ -349,14 +352,14 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
-     * Returns the least buyed posts x days back
+     * Get least sold posts x days back.
      *
      * @param int $days
      * @param int $count
+     *
      * @return array $results
      */
     public function get_least_selling_posts( $days = 8, $count = 10 ) {
-
         $args = array(
             'where' => array(
                 'date' => array(

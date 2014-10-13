@@ -60,15 +60,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $this->load_assets();
 
         $post_views_model       = new LaterPay_Model_Post_Views();
-        $best_converting_items  = $post_views_model->get_best_viewed_posts();
+        $best_converting_items  = $post_views_model->get_most_viewed_posts();
         $least_converting_items = $post_views_model->get_least_viewed_posts();
         $total_viewed_items     = $post_views_model->get_post_view_quantity();
 
         $history_model          = new LaterPay_Model_Payments_History();
         $most_selling_items     = $history_model->get_best_selling_posts();
         $least_selling_items    = $history_model->get_least_selling_posts();
-        $most_revenue_items     = $history_model->get_best_revenue_posts();
-        $least_revenue_items    = $history_model->get_least_revenue_posts();
+        $most_revenue_items     = $history_model->get_most_revenue_generating_posts();
+        $least_revenue_items    = $history_model->get_least_revenue_generating_posts();
 
         // assign all required vars to the view template
         $view_args = array(

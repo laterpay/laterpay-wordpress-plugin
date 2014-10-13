@@ -26,11 +26,12 @@ class LaterPay_Helper_Query
     /**
      * @return string $sql
      */
-    public function build_from( ){
+    public function build_from() {
         $sql = ' FROM ' . $this->table;
-        if( $this->table_short !== '' ){
+        if ( $this->table_short !== '' ) {
             $sql .= ' AS ' . $this->table_short;
         }
+
         return $sql;
     }
 
@@ -38,37 +39,41 @@ class LaterPay_Helper_Query
      *
      * @return string $suffix
      */
-    public function get_row_suffix(){
+    public function get_row_suffix() {
         $suffix = '';
-        if( !empty( $this->short_from ) ){
+        if ( ! empty( $this->short_from ) ) {
             $suffix = $this->short_from . '.';
-        }
-        else if( !empty( $this->from ) ){
+        } else if ( ! empty( $this->from ) ) {
             $suffix = $this->from . '.';
         }
+
         return $suffix;
     }
 
     /**
+     * Add a LIMIT clause to a query.
      *
      * @param int $limit
+     *
      * @return string $sql
      */
-    public static function build_limit( $limit ){
-        if ( empty( $limit ) ){
+    public static function build_limit( $limit ) {
+        if ( empty( $limit ) ) {
             return '';
         }
+
         return ' LIMIT ' . absint( $limit ) . ' ';
     }
 
     /**
+     * Add a ORDER BY clause to a query.
      *
      * @param string $order_by
      * @param string $order
      *
      * @return string $sql
      */
-    public function build_order_by( $order_by, $order = 'ASC' ){
+    public function build_order_by( $order_by, $order = 'ASC' ) {
         if ( empty( $order_by ) ) {
             return '';
         }
@@ -76,62 +81,69 @@ class LaterPay_Helper_Query
         if ( ! in_array( $order, array( 'ASC', 'DESC' ) ) ) {
             $order = 'ASC';
         }
-        return $sql . ' ' . $order . ' ' ;
+
+        return $sql . ' ' . $order . ' ';
     }
 
     /**
+     * Add a GROUP BY clause to a query.
      *
      * @param string $group
+     *
      * @return string $sql
      */
-    public function build_group_by( $group ){
+    public function build_group_by( $group ) {
         if ( empty( $group ) ) {
             return '';
         }
+
         return ' GROUP BY ' . $group;
     }
 
     /**
+     * Add a SELECT clause to a query.
      *
      * @param array $fields
+     *
      * @return string $sql
      */
-    public function build_select( $fields = array() ){
+    public function build_select( $fields = array() ) {
         if ( empty( $fields ) ) {
             return ' SELECT * ';
         }
+
         return ' SELECT ' . implode( ', ', $fields );
     }
 
     /**
+     * Add a WHERE clause to a query.
      *
      * @param array $where
+     *
      * @return string $sql
      */
-    public function build_where( $where = array() ){
+    public function build_where( $where = array() ) {
         global $wpdb;
 
         $sql = ' WHERE 1=1 ';
 
-        foreach( $where as $key => $value ){
+        foreach ( $where as $key => $value ) {
             $type = ( array_key_exists( $key, $this->field_types ) ) ? $this->field_types[ $key ] : '%s';
-            if( $type === 'date' ) {
+            if ( $type === 'date' ) {
                 $date_query = new WP_Date_Query( $value, $this->get_row_suffix() . $key );
                 $sql .= $date_query->get_sql();
-            }
-            else {
-                $sql .= ' AND ' . $this->get_row_suffix() . $key . " = " . $wpdb->prepare( $type, $value ) . " ";
+            } else {
+                $sql .= ' AND ' . $this->get_row_suffix() . $key . ' = ' . $wpdb->prepare( $type, $value ) . ' ';
             }
         }
         return $sql;
     }
 
-
-
     /**
-     * Returns the post view-quantity.
+     * Get the results of a query.
      *
      * @param array $args
+     *
      * @return array $results
      */
     public function get_results( $args = array() ) {
@@ -182,12 +194,12 @@ class LaterPay_Helper_Query
     /**
      * @return string $query
      */
-    public function get_last_query(){
+    public function get_last_query() {
         return $this->last_query;
     }
 
     /**
-     * Returns the Sparkline for the given $post_id, for x days.
+     * Get sparkline data for the given $post_id for x days back.
      *
      * @param int $post_id
      * @param int $days
@@ -198,9 +210,8 @@ class LaterPay_Helper_Query
         $sparkline = array();
 
         for ($i = 1; $i <= (int) $days; $i ++) {
-
             $args = array(
-                'fields'    => array( 'COUNT(*) AS quantity' ),
+                'fields' => array( 'COUNT(*) AS quantity' ),
                 'where' => array(
                     'date' => array(
                         array(
@@ -219,12 +230,12 @@ class LaterPay_Helper_Query
             } else {
                 $sparkline[] = $day_post_views[0]->quantity;
             }
-
         }
-        // reverse the sorting of $sparkline, to start with today-$days
+
+        // reverse the order of $sparkline, to start today - $days days
         $sparkline = array_reverse( $sparkline );
+
         return $sparkline;
     }
-
 
 }
