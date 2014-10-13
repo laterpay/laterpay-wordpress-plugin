@@ -1,22 +1,20 @@
-var autoprefixer    = require('gulp-autoprefixer'),
-    base64          = require('gulp-base64'),
+var // autoprefixer    = require('gulp-autoprefixer'),
+    // base64          = require('gulp-base64'),
     // bundle          = require('gulp-bundle-assets'),
     cached          = require('gulp-cached'),
     // changed         = require('gulp-changed'),
-    csslint         = require('gulp-csslint'),
+    // csslint         = require('gulp-csslint'),
     del             = require('del'),
-    docco           = require('gulp-docco'),
-    fixmyjs         = require('gulp-fixmyjs'),
+    // docco           = require('gulp-docco'),
+    // fixmyjs         = require('gulp-fixmyjs'),
     git             = require('gulp-git'),
     gulp            = require('gulp'),
     // include         = require('gulp-file-include'),
     jshint          = require('gulp-jshint'),
     lintspaces      = require('gulp-lintspaces'),
     notify          = require('gulp-notify'),
-    Pageres         = require('pageres'),
+    // Pageres         = require('pageres'),
     phpcs           = require('gulp-phpcs'),
-    rename          = require('gulp-rename'),
-    size            = require('gulp-size'),
     // sourcemaps      = require('gulp-sourcemaps'),
     soften          = require('gulp-soften'),
     stripDebug      = require('gulp-strip-debug'),
@@ -129,14 +127,6 @@ gulp.task('updateSubmodules', function() {
 
 
 // COMMANDS --------------------------------------------------------------------
-// gulp.task('browserSync', function() {
-//     browserSync({
-//         server: {
-//             baseDir: './laterpay/'
-//         }
-//     });
-// });
-
 gulp.task('default', ['clean', 'css-watch', 'js-watch'], function() {
     // watch for changes
     gulp.watch(p.allfiles,  ['fileformat']);
@@ -157,7 +147,6 @@ gulp.task('precommit', ['sniffphp'], function() {
 });
 
 // build project for release
-// gulp.task('build', ['clean', 'updateSubmodules', 'css', 'js'], function() {
 gulp.task('build', ['clean', 'updateSubmodules'], function() {
     // TODO: git archive is the right option to export the entire repo
     gulp.start('svg-build');
