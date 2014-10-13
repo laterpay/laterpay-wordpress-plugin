@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="lp_w-1-3">
-                <h2><?php _e( 'Gross Revenue', 'laterpay' ); ?></h2>
+                <h2><?php _e( 'Committed Revenue', 'laterpay' ); ?></h2>
                 <div id="lp_js_graph-revenue" class="lp_dashboard-graph"></div>
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
