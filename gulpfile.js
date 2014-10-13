@@ -34,47 +34,63 @@ var autoprefixer    = require('gulp-autoprefixer'),
 
 
 // TASKS -----------------------------------------------------------------------
-// clean up the target directories
+// clean up all files in the target directories
 gulp.task('clean', function(cb) {
     del([p.distJs + '*.js', p.distCss + '*.css'], cb);
 });
 
 // CSS related tasks
-gulp.task('css', function() {
+gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
         .pipe(soften(4))
         .pipe(stylus({                                              // process Stylus sources to CSS
             linenos: true,                                          // make line numbers available in browser dev tools
-            compress: true,
             // urlFunc: 'inline-image',                                // inline images where defined by background-image inline-image([url])
             // TODO: generate sourcemap
+        }))
+        .on('error', notify.onError())
+        .pipe(gulp.dest(p.distCss));                                 // move to target folder
+        // .pipe(reload({stream: true}));
+});
+
+gulp.task('css-build', function() {
+    gulp.src(p.srcStylus)
+        .pipe(soften(4))
+        .pipe(stylus({                                              // process Stylus sources to CSS
+            linenos: false,                                         // make line numbers available in browser dev tools
+            compress: true,
+            // urlFunc: 'inline-image',                                // inline images where defined by background-image inline-image([url])
         }))
         .on('error', notify.onError())
         // .pipe(csslint())                                            // lint with CSSLint
         // .pipe(csslint.reporter())
         // .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 7')) // vendorize properties for supported browsers
         // .pipe(csso())                                               // compress with csso
-        .pipe(gulp.dest(p.distCss))                                 // move to target folder
-        .pipe(size())                                               // output size of created files
-        .pipe(notify({message: 'CSS task complete :-)'}));
-        // .pipe(reload({stream: true}));
+        .pipe(gulp.dest(p.distCss));                                 // move to target folder
 });
 
 // Javascript related tasks
-gulp.task('js', function() {
+gulp.task('js-watch', function() {
+    gulp.src(p.srcJS)
+        .pipe(cached('hinting'))                                // only process modified files
+            .pipe(soften(4))
+            .pipe(jshint('.jshintrc'))                          // lint with JSHint
+            .pipe(jshint.reporter(stylish))                     // output JSHint results
+            // .pipe(fixmyjs())                                    // fix JSHint errors if possible
+            .pipe(gulp.dest(p.distJs))                          // move to target folder
+            .pipe(notify({message: 'JS task complete :-)'}));
+});
+
+gulp.task('js-build', function() {
     gulp.src(p.srcJS)
         .pipe(soften(4))
-        .pipe(cached('hinting'))                                // only process modified files
-            // .pipe(stripDebug())                                 // remove console, alert, and debugger statements
-            // .pipe(jshint('.jshintrc'))                          // lint with JSHint
-            // .pipe(jshint.reporter(stylish))                     // output JSHint results
-            // .pipe(fixmyjs())                                    // fix JSHint errors if possible
-            // .pipe(concat('main.js'))                         // concatenate files
-            // .pipe(uglify())                                     // compress with uglify
-            // .pipe(rename({suffix: '.min'}))                     // add '.min' suffix to compressed files
-            .pipe(gulp.dest(p.distJs))                          // move to target folder
-            .pipe(size())                                       // output size of created files
-            .pipe(notify({message: 'JS task complete :-)'}));
+        .pipe(stripDebug())                                 // remove console, alert, and debugger statements
+        .pipe(jshint('.jshintrc'))                          // lint with JSHint
+        .pipe(jshint.reporter(stylish))                     // output JSHint results
+        // .pipe(fixmyjs())                                    // fix JSHint errors if possible
+        // .pipe(concat('main.js'))                         // concatenate files
+        .pipe(uglify())                                     // compress with uglify
+        .pipe(gulp.dest(p.distJs));                          // move to target folder;
 });
 
 // ensure consistent whitespace etc. in files
@@ -105,17 +121,17 @@ gulp.task('updateSubmodules', function() {
 //     });
 // });
 
-gulp.task('default', ['clean', 'css', 'js'], function() {
+gulp.task('default', ['clean', 'css-watch', 'js-watch'], function() {
     // watch for changes
     gulp.watch(p.allfiles,  ['fileformat']);
-    gulp.watch(p.stylus,    ['css']);
-    gulp.watch(p.srcJS,     ['js']);
+    gulp.watch(p.stylus,    ['css-watch']);
+    gulp.watch(p.srcJS,     ['js-watch']);
 });
 
 // build project for release
 // gulp.task('build', ['clean', 'updateSubmodules', 'css', 'js'], function() {
-gulp.task('build', ['clean', 'updateSubmodules'], function() {
+gulp.task('build', ['clean', 'updateSubmodules', 'fileformat'], function() {
     // git archive is the right option to export the entire repo
-    gulp.start('css');
-    gulp.start('js');
+    gulp.start('css-build');
+    gulp.start('js-build');
 });

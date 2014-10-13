@@ -1,24 +1,2 @@
-
-/* line 26 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/laterpay-admin.styl */
-
-/* line 1 : /Users/dominikrodler/github/laterpay-wordpress-plugin/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
-
-/* line 3 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/laterpay-admin.styl */
 @charset "UTF-8";
-
-/* line 286 : /Users/dominikrodler/github/laterpay-wordpress-plugin/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
-
-/* line 2 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/variables.styl */
-
-/* line 75 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/variables.styl */
-
-/* line 2 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/vector_icons.styl */
-@font-face{font-family:laterpay-wordpress-icons;font-style:normal;font-weight:normal;src:url("../fonts/laterpay-wordpress-icons_v098.eot");src:url("../fonts/laterpay-wordpress-icons_v098.eot?#iefix") format('embedded-opentype'),url("../fonts/laterpay-wordpress-icons_v098.woff") format('woff'),url("../fonts/laterpay-wordpress-icons_v098.ttf") format('truetype'),url("../fonts/laterpay-wordpress-icons_v098.svg#laterpay-wordpress-icons") format('svg')}
-/* line 15 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/modules/vector_icons.styl */
-[data-icon]:before,.lp_vector-icon{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;content:attr(data-icon);font-family:laterpay-wordpress-icons !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;line-height:1;padding-right:.25em;position:relative;speak:none;text-transform:none !important;top:.1em}
-/* line 10 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/laterpay-admin.styl */
-#adminmenu div.wp-menu-image.dashicons-laterpay-logo:before{content:'b' !important;font-family:laterpay-wordpress-icons !important;font-size:33px !important;font-weight:400 !important;line-height:.6 !important;left:-5px !important;position:relative !important}
-/* line 21 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/laterpay-admin.styl */
-.column-post_price{text-align:right;width:75px}
-/* line 25 : /Users/dominikrodler/github/laterpay-wordpress-plugin/laterpay/assets/stylus/laterpay-admin.styl */
-.column-post_price span{color:#ababab}
+@font-face{font-family:laterpay-wordpress-icons;font-style:normal;font-weight:normal;src:url("../fonts/laterpay-wordpress-icons_v098.eot");src:url("../fonts/laterpay-wordpress-icons_v098.eot?#iefix") format('embedded-opentype'),url("../fonts/laterpay-wordpress-icons_v098.woff") format('woff'),url("../fonts/laterpay-wordpress-icons_v098.ttf") format('truetype'),url("../fonts/laterpay-wordpress-icons_v098.svg#laterpay-wordpress-icons") format('svg')}[data-icon]:before,.lp_vector-icon{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;content:attr(data-icon);font-family:laterpay-wordpress-icons !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;line-height:1;padding-right:.25em;position:relative;speak:none;text-transform:none !important;top:.1em}#adminmenu div.wp-menu-image.dashicons-laterpay-logo:before{content:'b' !important;font-family:laterpay-wordpress-icons !important;font-size:33px !important;font-weight:400 !important;line-height:.6 !important;left:-5px !important;position:relative !important}.column-post_price{text-align:right;width:75px}.column-post_price span{color:#ababab}
