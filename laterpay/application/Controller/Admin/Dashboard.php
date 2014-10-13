@@ -59,319 +59,16 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        // Mock data:
-        $best_converting_items  = array(
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '19.3',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                );
-        $least_converting_items = array(
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '2.1',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                );
-        $most_selling_items     = array(
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '3,268',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                );
-        $least_selling_items    = array(
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '5',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                );
-        $most_revenue_items     = array(
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1,256',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                );
-        $least_revenue_items    = array(
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                    array(
-                                        'sparkline' => '5,3,6,9,6,5,9',
-                                        'amount'    => '1.32',
-                                        'title'     => 'Video Tutorial 12',
-                                    ),
-                                );
+        $post_views_model       = new LaterPay_Model_Post_Views();
+        $best_converting_items  = $post_views_model->get_best_viewed_posts();
+        $least_converting_items = $post_views_model->get_least_viewed_posts();
+        $total_viewed_items     = $post_views_model->get_post_view_quantity();
+
+        $history_model          = new LaterPay_Model_Payments_History();
+        $most_selling_items     = $history_model->get_best_selling_posts();
+        $least_selling_items    = $history_model->get_least_selling_posts();
+        $most_revenue_items     = $history_model->get_best_revenue_posts();
+        $least_revenue_items    = $history_model->get_least_revenue_posts();
 
         // assign all required vars to the view template
         $view_args = array(
@@ -379,12 +76,17 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'top_nav'                   => $this->get_menu(),
             'admin_menu'                => LaterPay_Helper_View::get_admin_menu(),
             'currency'                  => get_option( 'laterpay_currency' ),
+
             'best_converting_items'     => $best_converting_items,
             'least_converting_items'    => $least_converting_items,
+            'total_viewed_items'        => $total_viewed_items,
+
             'most_selling_items'        => $most_selling_items,
             'least_selling_items'       => $least_selling_items,
+
             'most_revenue_items'        => $most_revenue_items,
             'least_revenue_items'       => $least_revenue_items,
+
         );
         $this->assign( 'laterpay', $view_args );
 

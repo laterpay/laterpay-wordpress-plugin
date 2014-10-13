@@ -79,9 +79,9 @@
                 <ol class="lp_top-bottom-list">
                     <?php foreach ( $laterpay['best_converting_items'] as $item ): ?>
                         <li>
-                            <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?><small>%</small></strong>
-                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
+                            <span class="lp_sparkline-bar"><?php echo $item->sparkline; ?></span>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item->amount; ?><small>%</small></strong>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo get_the_title( $item->post_id ); ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -89,9 +89,9 @@
                 <ol class="lp_top-bottom-list">
                     <?php foreach ( $laterpay['least_converting_items'] as $item ): ?>
                         <li>
-                            <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?><small>%</small></strong>
-                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
+                            <span class="lp_sparkline-bar"><?php echo $item->sparkline; ?></span>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item->amount; ?><small>%</small></strong>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo get_the_title( $item->post_id ); ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -101,9 +101,9 @@
                 <ol class="lp_top-bottom-list">
                     <?php foreach ( $laterpay['most_selling_items'] as $item ): ?>
                         <li>
-                            <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?></strong>
-                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
+                            <span class="lp_sparkline-bar"><?php echo $item->sparkline; ?></span>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item->amount; ?></strong>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo get_the_title( $item->post_id ); ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -111,9 +111,9 @@
                 <ol class="lp_top-bottom-list">
                     <?php foreach ( $laterpay['least_selling_items'] as $item ): ?>
                         <li>
-                            <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value lp_value-narrow"><?php echo $item['amount']; ?></strong>
-                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
+                            <span class="lp_sparkline-bar"><?php echo $item->sparkline; ?></span>
+                            <strong class="lp_value lp_value-narrow"><?php echo $item->amount; ?></strong>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo get_the_title( $item->post_id ); ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -123,9 +123,9 @@
                 <ol class="lp_top-bottom-list">
                     <?php foreach ( $laterpay['most_revenue_items'] as $item ): ?>
                         <li>
-                            <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
-                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
+                            <span class="lp_sparkline-bar"><?php echo $item->sparkline; ?></span>
+                            <strong class="lp_value"><?php echo $item->amount; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo get_the_title( $item->post_id ); ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>
@@ -133,9 +133,9 @@
                 <ol class="lp_top-bottom-list">
                     <?php foreach ( $laterpay['least_revenue_items'] as $item ): ?>
                         <li>
-                            <span class="lp_sparkline-bar"><?php echo $item['sparkline']; ?></span>
-                            <strong class="lp_value"><?php echo $item['amount']; ?><small><?php echo $laterpay['currency']; ?></small></strong>
-                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo $item['title']; ?></a></i>
+                            <span class="lp_sparkline-bar"><?php echo $item->sparkline; ?></span>
+                            <strong class="lp_value"><?php echo $item->amount; ?><small><?php echo $laterpay['currency']; ?></small></strong>
+                            <i><a href="#" class="lp_js_toggle-item-details"><?php echo get_the_title( $item->post_id ); ?></a></i>
                         </li>
                     <?php endforeach; ?>
                 </ol>

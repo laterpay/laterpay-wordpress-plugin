@@ -1,16 +1,29 @@
 <?php
 
-class LaterPay_Model_Post_Views
+class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 {
 
     /**
      * Name of PostViews table.
-     *
      * @var string
-     *
-     * @access public
      */
-    public $table;
+    protected $table;
+
+    /**
+     * {@inhertidoc}
+     */
+    protected $table_short = 'wplpv';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $field_types = array(
+        'post_id'   => '%d',
+        'date'      => 'date',
+        'user_id'   => '%d',
+        'count'     => '%d',
+        'ip'        => '%s'
+    );
 
     /**
      * Constructor for class LaterPay_Post_Views_Model, load table name.
@@ -18,30 +31,33 @@ class LaterPay_Model_Post_Views
     function __construct() {
         global $wpdb;
         $this->table = $wpdb->prefix . 'laterpay_post_views';
+
+        add_filter( 'date_query_valid_columns', array( $this, 'add_date_query_column' ) );
+    }
+
+    /**
+     * Adding the "date"-Column to the allowed columsn
+     *
+     * @wp-hook date_query_valid_columns
+     *
+     * @param array $columns
+     * @return array $columns
+     */
+    public function add_date_query_column( $columns ) {
+        $columns[] = 'date';
+        $columns[] = $this->table . '.' . 'date';
+        return $columns;
     }
 
     /**
      * Get post views.
      *
-     * @access public
-     *
+     * @param int $post_id
      * @return array views
      */
     public function get_post_view_data( $post_id ) {
-        global $wpdb;
-
-        $sql = "
-            SELECT
-                *
-            FROM
-                {$this->table}
-            WHERE
-                post_id = %d
-            ;
-        ";
-        $views = $wpdb->get_results( $wpdb->prepare( $sql, (int) $post_id ) );
-
-        return $views;
+        $where = array( 'post_id' => (int) $post_id );
+        return $this->get_results( $where );
     }
 
     /**
@@ -76,41 +92,126 @@ class LaterPay_Model_Post_Views
     /**
      * Get last 30 days' history by post id.
      *
-     * @param int $post_id id post
-     *
-     * @return array history
+     * @param int $post_id
+     * @return array $results
      */
     public function get_last_30_days_history( $post_id ) {
-        global $wpdb;
 
-        $sql = "
-            SELECT
-                DATE(wlpv.date) AS date,
-                COUNT(*) AS quantity
-            FROM
-                {$this->table} AS wlpv
-            WHERE
-                wlpv.post_id = %d
-                AND wlpv.date
-                    BETWEEN DATE(SUBDATE('%s', INTERVAL 30 DAY))
-                    AND '%s'
-            GROUP BY
-                DATE(wlpv.date)
-            ORDER BY
-                DATE(wlpv.date) ASC
-            ;
-        ";
-
-        $history = $wpdb->get_results(
-            $wpdb->prepare(
-                $sql,
-                (int) $post_id,
-                date( 'Y-m-d 00:00:00' ),
-                date( 'Y-m-d 23:59:59' )
-            )
+        $args = array(
+            'where' => array(
+                'post_id'   => (int) $post_id,
+                'date'      => array(
+                    array(
+                        'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( 30 )
+                    )
+                )
+            ),
+            'order_by'  => 'DATE(date)',
+            'order'     => 'ASC',
+            'group_by'  => 'DATE(date)',
+            'fields'    => array( 'DATE(date) AS date', 'COUNT(*) as quantity' )
         );
+        return $this->get_results( $args );
 
-        return $history;
+    }
+
+    /**
+     * Returns the post view-quantity.
+     *
+     * @return array $results
+     */
+    public function get_post_view_quantity( ){
+        $args = array( 'fields' => array( 'COUNT(*) AS quantity' ) );
+        return $this->get_results( $args );
+    }
+
+    /**
+     * Returns the best viewed posts x days back
+     *
+     * @param int $days
+     * @param int $count
+     * @return array $results
+     */
+    public function get_best_viewed_posts( $days = 8, $count = 10 ) {
+
+        $args = array(
+            'where' => array(
+                'date' => array(
+                    array(
+                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
+                    )
+                )
+            ),
+            'fields'    => array( 'post_id', 'COUNT(*) AS quantity' ),
+            'group_by'  => 'post_id',
+            'order_by'  => 'quantity',
+            'order'     => 'DESC',
+            'limit'     => (int) $count
+        );
+        $results = $this->get_results( $args );
+
+        // fetching the total count of post views
+        $total_quantity = $this->get_post_view_quantity();
+        $total_quantity = $total_quantity[0]->quantity;
+
+        foreach ( $results as $key => $data ) {
+
+            // the sparkline for the last x days
+            $sparkline      = $this->get_sparkline( $data->post_id, $days );
+            $data->sparkline= implode( ',', $sparkline );
+
+            // % amount
+            $data->amount       = $data->quantity * 100 / $total_quantity;
+            $data->amount       = number_format( $data->amount, 2 );
+
+            $results[ $key ] = $data;
+        }
+
+        return $results;
+    }
+
+    /**
+     * Returns the least viewed posts x days back
+     *
+     * @param int $days
+     * @param int $count
+     * @return array $results
+     */
+    public function get_least_viewed_posts( $days = 8, $count = 10 ) {
+
+        $args = array(
+            'where' => array(
+                'date' => array(
+                    array(
+                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
+                    )
+                )
+            ),
+            'fields'    => array( 'post_id', 'COUNT(*) AS quantity' ),
+            'group_by'  => 'post_id',
+            'order_by'  => 'quantity',
+            'order'     => 'ASC',
+            'limit'     => (int) $count
+        );
+        $results = $this->get_results( $args );
+
+        $total_quantity = $this->get_post_view_quantity();
+        $total_quantity = $total_quantity[0]->quantity;
+
+        foreach ( $results as $key => $data ) {
+            // the sparkline for the last x days
+            $sparkline      = $this->get_sparkline( $data->post_id, $days );
+            $data->sparkline= implode( ',', $sparkline );
+
+            // % amount
+            $data->amount       = $data->quantity * 100 / $total_quantity;
+            $data->amount       = number_format( $data->amount, 2 );
+
+            $results[ $key ] = $data;
+        }
+
+        return $results;
     }
 
     /**
@@ -121,31 +222,19 @@ class LaterPay_Model_Post_Views
      * @return array history
      */
     public function get_todays_history( $post_id ) {
-        global $wpdb;
-
-        $sql = "
-            SELECT
-                COUNT(*) AS quantity
-            FROM
-                {$this->table} AS wlpv
-            WHERE
-                wlpv.post_id = %d
-                AND wlpv.date
-                    BETWEEN '%s'
-                    AND '%s'
-            ;
-        ";
-
-        $history = $wpdb->get_results(
-            $wpdb->prepare(
-                $sql,
-                (int) $post_id,
-                date( 'Y-m-d 00:00:00' ),
-                date( 'Y-m-d 23:59:59' )
+        $args = array(
+            'fields'=> array( 'COUNT(*) AS quantity' ),
+            'where' => array(
+                'post_id'   => (int) $post_id,
+                'date'      => array(
+                    array(
+                        'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( 0 ) // start of today
+                    )
+                )
             )
         );
-
-        return $history;
+        return $this->get_results( $args );
     }
 
 }
