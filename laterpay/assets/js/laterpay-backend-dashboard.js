@@ -7,13 +7,7 @@
             },
 
             bindEvents = function() {
-                // // validate and save entered LaterPay API Keys
-                // $('.lp_js_validate-api-key').bind('input', function() {
-                //     var $input = this;
-                //     setTimeout(function() {
-                //         validateAPIKey($input);
-                //     }, 50);
-                // });
+                // stuff
             },
 
             renderDashboard = function() {
