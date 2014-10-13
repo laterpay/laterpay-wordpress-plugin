@@ -13,6 +13,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     jshint          = require('gulp-jshint'),
     lintspaces      = require('gulp-lintspaces'),
     notify          = require('gulp-notify'),
+    phpcs           = require('gulp-phpcs'),
     // reload          = browserSync.reload,
     rename          = require('gulp-rename'),
     size            = require('gulp-size'),
@@ -23,9 +24,9 @@ var autoprefixer    = require('gulp-autoprefixer'),
     stylus          = require('gulp-stylus'),
     // svgmin          = requre('gulp-svgmin'),
     uglify          = require('gulp-uglify'),
-    // uncss           = require('gulp-uncss'),
     p               = {
                         allfiles    : ['./laterpay/**/*.php', './laterpay/assets/stylus/**/*.styl', './laterpay/assets/js/*.js'],
+                        phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
                         srcStylus   : './laterpay/assets/stylus/*.styl',
                         srcJS       : './laterpay/assets/js_src/**/*.js',
                         distJs      : './laterpay/assets/js/',
@@ -106,6 +107,17 @@ gulp.task('fileformat', function() {
             .pipe(lintspaces.reporter());
 });
 
+// check PHP coding standards
+gulp.task('sniffphp', function() {
+    return gulp.src(p.phpfiles)
+            .pipe(phpcs({
+                bin             : '/usr/local/bin/phpcs',
+                standard        : 'WordPress',
+                warningSeverity : 0
+            }))
+            .pipe(phpcs.reporter('log'));
+});
+
 // update git submodules
 gulp.task('updateSubmodules', function() {
     git.updateSubmodule({args: '--init'});
@@ -130,7 +142,7 @@ gulp.task('default', ['clean', 'css-watch', 'js-watch'], function() {
 
 // build project for release
 // gulp.task('build', ['clean', 'updateSubmodules', 'css', 'js'], function() {
-gulp.task('build', ['clean', 'updateSubmodules', 'fileformat'], function() {
+gulp.task('build', ['clean', 'updateSubmodules', 'fileformat', 'sniffphp'], function() {
     // git archive is the right option to export the entire repo
     gulp.start('css-build');
     gulp.start('js-build');
