@@ -26,33 +26,34 @@ var autoprefixer    = require('gulp-autoprefixer'),
     // uncss           = require('gulp-uncss'),
     p               = {
                         allfiles    : ['./laterpay/**/*.php', './laterpay/assets/stylus/**/*.styl', './laterpay/assets/js/*.js'],
-                        stylus      : './laterpay/assets/stylus/**/*.styl', // TODO: not sure about the **; I'd rather exclude subfolders like 'vendor'
-                        sourceJS    : './laterpay/assets/js/**/*.js',
+                        srcStylus   : './laterpay/assets/stylus/**/*.styl', // TODO: not sure about the **; I'd rather exclude subfolders like 'vendor'
+                        srcJS       : './laterpay/assets/js_src/**/*.js',
                         distJs      : './laterpay/assets/js',
                         distCss     : './laterpay/assets/css',
                     };
 
 
 // TASKS -----------------------------------------------------------------------
-// // clean up the target directories       -> rather use gulp-clean
-// gulp.task('clean', function(cb) {
-//     del([p.distCss, p.distJs], cb)
-// });
+// clean up the target directories
+gulp.task('clean', function(cb) {
+    del([p.distJs, p.distCss], cb);
+});
 
 // CSS related tasks
 gulp.task('css', function() {
-    gulp.src(p.stylus)
+    gulp.src(p.srcStylus)
         .pipe(soften(4))
         .pipe(stylus({                                              // process Stylus sources to CSS
             linenos: true,                                          // make line numbers available in browser dev tools
-            urlFunc: 'inline-image',                                // inline images where defined by background-image inline-image([url])
+            compress: true,
+            // urlFunc: 'inline-image',                                // inline images where defined by background-image inline-image([url])
             // TODO: generate sourcemap
         }))
         .on('error', notify.onError())
-        .pipe(csslint())                                            // lint with CSSLint
-        .pipe(csslint.reporter())
-        // .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 7'))
-        .pipe(csso())                                               // compress with csso
+        // .pipe(csslint())                                            // lint with CSSLint
+        // .pipe(csslint.reporter())
+        // .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 7')) // vendorize properties for supported browsers
+        // .pipe(csso())                                               // compress with csso
         .pipe(gulp.dest(p.distCss))                                 // move to target folder
         .pipe(size())                                               // output size of created files
         .pipe(notify({message: 'CSS task complete :-)'}));
@@ -61,12 +62,12 @@ gulp.task('css', function() {
 
 // Javascript related tasks
 gulp.task('js', function() {
-    gulp.src(p.sourceJS)
+    gulp.src(p.srcJS)
         .pipe(soften(4))
         .pipe(cached('hinting'))                                // only process modified files
             // .pipe(stripDebug())                                 // remove console, alert, and debugger statements
-            .pipe(jshint('.jshintrc'))                          // lint with JSHint
-            .pipe(jshint.reporter(stylish))                     // output JSHint results
+            // .pipe(jshint('.jshintrc'))                          // lint with JSHint
+            // .pipe(jshint.reporter(stylish))                     // output JSHint results
             // .pipe(fixmyjs())                                    // fix JSHint errors if possible
             // .pipe(concat('main.js'))                         // concatenate files
             // .pipe(uglify())                                     // compress with uglify
@@ -104,16 +105,17 @@ gulp.task('updateSubmodules', function() {
 //     });
 // });
 
-// gulp.task('default', ['clean', 'fileformat', 'css', 'js'], function() {
-gulp.task('default', ['fileformat'], function() {
+gulp.task('default', ['clean', 'css', 'js'], function() {
     // watch for changes
     gulp.watch(p.allfiles,  ['fileformat']);
     gulp.watch(p.stylus,    ['css']);
-    gulp.watch(p.sourceJS,  ['js']);
+    gulp.watch(p.srcJS,     ['js']);
 });
 
 // build project for release
-gulp.task('build', ['updateSubmodules'], function() {
-    // do stuff
+// gulp.task('build', ['clean', 'updateSubmodules', 'css', 'js'], function() {
+gulp.task('build', ['clean', 'updateSubmodules'], function() {
     // git archive is the right option to export the entire repo
+    gulp.start('css');
+    gulp.start('js');
 });
