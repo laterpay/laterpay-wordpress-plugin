@@ -550,7 +550,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $this->logger->info( __METHOD__, array('content' => $view_args['teaser_content'] ) );
         // start collecting the output
         $html = '';
 
