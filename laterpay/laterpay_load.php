@@ -28,7 +28,7 @@ class LaterPay_AutoLoader
         $class = self::get_class_relative_path( $class );
 
         foreach ( LaterPay_AutoLoader::$namespaces as $namespace ) {
-            if ( strpos($class, $namespace['name']) !== false ) {
+            if ( strpos( $class, $namespace['name'] ) !== false ) {
                 $relative_path = str_replace( $namespace['name'], '', $class );
                 $relative_path = trim( $relative_path, DIRECTORY_SEPARATOR );
                 $file = $namespace['path'] . DIRECTORY_SEPARATOR . $relative_path . '.php';

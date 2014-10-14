@@ -128,9 +128,13 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
         add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
-        // add filters to override post content
-        // we're using the filters in Ajax requests, so they have to stay outside the is_admin()-check
-        add_filter( 'the_content',                              array( $post_controller, 'modify_post_content' ) );
+        /**
+         * ->   add filters to override post content
+         * ->   we're using these filters in Ajax requests, so they have to stay outside the is_admin() check
+         * ->   the priority has to be 1 (first filter triggered)
+         *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
+         */
+        add_filter( 'the_content',                              array( $post_controller, 'modify_post_content' ), 1 );
         add_filter( 'wp_footer',                                array( $post_controller, 'modify_footer' ) );
 
         $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
