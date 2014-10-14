@@ -53,7 +53,7 @@ abstract class LaterPay_Form_Abstract
         // format number with given decimal places
         'format_num' => array( 'LaterPay_Helper_View', 'format_number' ),
         // strip slashes
-        'unslash'   => 'wp_unslash'
+        'unslash'    => 'wp_unslash'
     );
 
     /**
@@ -195,6 +195,42 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
+     * Check if field value is null and can be null
+     *
+     * @param $field
+     * @return bool
+     */
+    protected function check_if_field_can_be_null( $field ) {
+
+        $fields = $this->get_fields();
+
+        if ( isset( $fields[$field] ) && $fields[$field]['can_be_null'] && $fields[$field]['value'] === null ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Add condition to the field validation
+     *
+     * @param $field
+     * @param array $condition
+     * @return void
+     */
+    public function add_validation( $field, $condition = array() ) {
+
+        $fields = $this->get_fields();
+
+        if( isset( $fields[$field] ) ) {
+            if ( is_array( $condition ) && ! empty( $condition ) ) {
+                // condition should be correct
+                array_push( $fields[$field]['validators'], $condition );
+            }
+        }
+    }
+
+    /**
      * Validate data in fields
      *
      * @param $data
@@ -215,17 +251,19 @@ abstract class LaterPay_Form_Abstract
 
         // Validation logic
         if ( is_array( $fields ) ) {
-            foreach ( $fields as $field ) {
-                $validators = $field['validators'];
-                foreach ( $validators as $validator_key => $validator_value ) {
-                    $validator_option = is_int( $validator_key ) ? $validator_value : $validator_key;
-                    $validator_params = is_int( $validator_key ) ? null : $validator_value;
-                    $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
-//                    var_dump($field['value']);
-//                    var_dump($validator_option, $is_valid);
-                    if ( ! $is_valid ) {
-                        // Data not valid
-                        return false;
+            foreach ( $fields as $name => $field ) {
+                if ( ! $this->check_if_field_can_be_null( $name ) ) {
+                    $validators = $field['validators'];
+                    foreach ( $validators as $validator_key => $validator_value ) {
+                        $validator_option = is_int( $validator_key ) ? $validator_value : $validator_key;
+                        $validator_params = is_int( $validator_key ) ? null : $validator_value;
+                        $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
+//                        var_dump($field['value']);
+//                        var_dump($validator_option, $is_valid);
+                        if ( ! $is_valid ) {
+                            // Data not valid
+                            return false;
+                        }
                     }
                 }
             }
@@ -246,11 +284,13 @@ abstract class LaterPay_Form_Abstract
         // get all form filters
         if ( is_array( $fields ) ) {
             foreach ( $fields as $name => $field ) {
-                $filters = $field['filters'];
-                foreach ( $filters as $filter_key => $filter_value ) {
-                    $filter_option = is_int( $filter_key ) ? $filter_value : $filter_key;
-                    $filter_params = is_int( $filter_key ) ? null : $filter_value;
-                    $this->set_field_value( $name, $this->sanitize_value( $this->get_field_value( $name ), $filter_option, $filter_params ) );
+                if ( ! $this->check_if_field_can_be_null( $name ) ) {
+                    $filters = $field['filters'];
+                    foreach ( $filters as $filter_key => $filter_value ) {
+                        $filter_option = is_int( $filter_key ) ? $filter_value : $filter_key;
+                        $filter_params = is_int( $filter_key ) ? null : $filter_value;
+                        $this->set_field_value( $name, $this->sanitize_value( $this->get_field_value( $name ), $filter_option, $filter_params ) );
+                    }
                 }
             }
         }
@@ -314,23 +354,21 @@ abstract class LaterPay_Form_Abstract
         switch( $validator ) {
             // compare value with set
             case 'cmp':
-                if ( $validator_params ) {
-                    if ( is_array( $validator_params ) ) {
-                        // OR realization, all validators inside validators set used like AND
-                        // if at least one set correct then validation passed
-                        foreach ( $validator_params as $validators_set) {
-                            foreach ($validators_set as $operator => $param ) {
-                                $is_valid = $this->compare_values( $operator, $value, $param );
-                                // if comparison not valid break the loop and go to the next validation set
-                                if ( ! $is_valid ) {
-                                    break;
-                                }
-                            }
-
-                            // if comparison valid after full validation set check then do not need to check others
-                            if ( $is_valid ) {
+                if ( $validator_params && is_array( $validator_params ) ) {
+                    // OR realization, all validators inside validators set used like AND
+                    // if at least one set correct then validation passed
+                    foreach ( $validator_params as $validators_set) {
+                        foreach ($validators_set as $operator => $param ) {
+                            $is_valid = $this->compare_values( $operator, $value, $param );
+                            // if comparison not valid break the loop and go to the next validation set
+                            if ( ! $is_valid ) {
                                 break;
                             }
+                        }
+
+                        // if comparison valid after full validation set check then do not need to check others
+                        if ( $is_valid ) {
+                            break;
                         }
                     }
                 }
@@ -349,25 +387,21 @@ abstract class LaterPay_Form_Abstract
                 break;
             // check string length
             case 'strlen':
-                if ( $validator_params ) {
-                    if ( is_array( $validator_params ) ) {
-                        foreach ( $validator_params as $extra_validator => $validator_data ) {
-                            // recursively call extra validator
-                            $is_valid = $this->validate_value( strlen( $value ), $extra_validator, $validator_data );
-                            // break loop if something not valid
-                            if ( ! $is_valid ) {
-                                break;
-                            }
+                if ( $validator_params && is_array( $validator_params ) ) {
+                    foreach ( $validator_params as $extra_validator => $validator_data ) {
+                        // recursively call extra validator
+                        $is_valid = $this->validate_value( strlen( $value ), $extra_validator, $validator_data );
+                        // break loop if something not valid
+                        if ( ! $is_valid ) {
+                            break;
                         }
                     }
                 }
                 break;
             // check if value in array
             case 'in_array':
-                if ( $validator_params ) {
-                    if ( is_array( $validator_params ) ) {
-                        $is_valid = in_array( $value, $validator_params );
-                    }
+                if ( $validator_params && is_array( $validator_params ) ) {
+                    $is_valid = in_array( $value, $validator_params );
                 }
                 break;
             // check if value is array
@@ -375,35 +409,42 @@ abstract class LaterPay_Form_Abstract
                 $is_valid = is_array( $value );
                 break;
             case 'match':
-                if ( $validator_params ) {
-                    if ( ! is_array( $validator_params ) ) {
-                        $is_valid = preg_match( $validator_params, $value );
-                    }
+                if ( $validator_params && ! is_array( $validator_params ) ) {
+                    $is_valid = preg_match( $validator_params, $value );
                 }
                 break;
             case 'depends':
+                if ( $validator_params && is_array( $validator_params ) ) {
+                    //get all dependency
+                    foreach ( $validator_params as $dependency ) {
+                        // if dependency match
+                        if ( $value === $dependency['value'] ) {
+                            // loop for dependencies conditions and check if all of them is valid
+                            foreach ( $dependency['conditions'] as $vkey => $vparams ) {
+                                $extra_validator = is_int($vkey) ? $vparams : $vkey;
+                                $validator_data = is_int($vkey) ? null : $vparams;
+                                // recursively call extra validator
+                                $is_valid = $this->validate_value( $this->get_field_value( $dependency['field'] ), $extra_validator, $validator_data );
+                                // break loop if something not valid
+                                if ( ! $is_valid ) {
+                                    break;
+                                }
+                            }
+
+                            // dependency matched, break process
+                            break;
+                        }
+                    }
+                }
+                break;
+            case 'verify_nonce':
                 if ( $validator_params ) {
                     if ( is_array( $validator_params ) ) {
-                        //get all dependency
-                        foreach ( $validator_params as $dependency ) {
-                            // if dependency match
-                            if ( $value === $dependency['value'] ) {
-                                // loop for dependencies conditions and check if all of them is valid
-                                foreach ( $dependency['conditions'] as $vkey => $vparams ) {
-                                    $extra_validator = is_int($vkey) ? $vparams : $vkey;
-                                    $validator_data = is_int($vkey) ? null : $vparams;
-                                    // recursively call extra validator
-                                    $is_valid = $this->validate_value( $this->get_field_value( $dependency['field'] ), $extra_validator, $validator_data );
-                                    // break loop if something not valid
-                                    if ( ! $is_valid ) {
-                                        break;
-                                    }
-                                }
-
-                                // dependency matched, break process
-                                break;
-                            }
+                        if ( isset( $validator_params['action'] ) ) {
+                            wp_verify_nonce( $value, $validator_params['action'] );
                         }
+                    } else {
+                        wp_verify_nonce( $value );
                     }
                 }
                 break;

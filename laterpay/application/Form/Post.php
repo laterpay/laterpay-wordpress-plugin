@@ -42,6 +42,20 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
+            'laterpay_teaser_content_box_nonce',
+            array(
+                'validators' => array(
+                    'is_string',
+                    'cmp' => array(
+                        array(
+                            'ne' => null
+                        )
+                    )
+                )
+            )
+        );
+
+        $this->set_field(
             'post-price',
             array(
                 'validators' => array(
@@ -63,7 +77,40 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'post_revenue_model',
             array(
                 'validators' => array(
-                    'in_array' => array( 'ppu', 'sis' )
+                    'is_string',
+                    'in_array' => array( 'ppu', 'sis' ),
+                    'depends' => array(
+                        array(
+                            'field' => 'price',
+                            'value' => 'sis',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 149.99,
+                                        'gte' => 1.49
+                                    )
+                                )
+                            )
+                        ),
+                        array(
+                            'field' => 'price',
+                            'value' => 'ppu',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 5.00,
+                                        'gte' => 0.05
+                                    ),
+                                    array(
+                                        'eq'  => 0.00
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                'filters' => array(
+                    'to_string'
                 )
             )
         );
@@ -72,8 +119,25 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'post_price_type',
             array(
                 'validators' => array(
+                    'is_string',
                     'in_array' => array( 'individual price', 'category default price', 'global default price' )
+                ),
+                'filters'    => array(
+                    'to_string'
                 )
+            )
+        );
+
+        $this->set_field(
+            'laterpay_post_teaser',
+            array(
+                'validators' => array(
+                    'is_string'
+                ),
+                'filters'    => array(
+                    'to_string'
+                ),
+                'can_be_null' => true
             )
         );
 
