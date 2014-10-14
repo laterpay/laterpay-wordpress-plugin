@@ -3,7 +3,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
     // bundle          = require('gulp-bundle-assets'),
     cached          = require('gulp-cached'),
     // changed         = require('gulp-changed'),
-    // csslint         = require('gulp-csslint'),
+    csslint         = require('gulp-csslint'),
     del             = require('del'),
     // docco           = require('gulp-docco'),
     // fixmyjs         = require('gulp-fixmyjs'),
@@ -15,6 +15,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
     notify          = require('gulp-notify'),
     // Pageres         = require('pageres'),
     phpcs           = require('gulp-phpcs'),
+    prettify        = require('gulp-jsbeautifier'),
     // sourcemaps      = require('gulp-sourcemaps'),
     soften          = require('gulp-soften'),
     stripDebug      = require('gulp-strip-debug'),
@@ -26,9 +27,9 @@ var // autoprefixer    = require('gulp-autoprefixer'),
                         allfiles    : ['./laterpay/**/*.php', './laterpay/assets/stylus/**/*.styl', './laterpay/assets/js/*.js'],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
                         srcStylus   : './laterpay/assets/stylus/*.styl',
-                        srcJS       : './laterpay/assets/js_src/*.js',
+                        srcJS       : './laterpay/assets/js_src/',
                         srcSVG      : './laterpay/assets/img/**/*.svg',
-                        distJs      : './laterpay/assets/js/',
+                        distJS      : './laterpay/assets/js/',
                         distCss     : './laterpay/assets/css/',
                         distSVG     : './laterpay/assets/img/',
                     };
@@ -37,7 +38,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
 // TASKS -----------------------------------------------------------------------
 // clean up all files in the target directories
 gulp.task('clean', function(cb) {
-    del([p.distJs + '*.js', p.distCss + '*.css'], cb);
+    del([p.distJS + '*.js', p.distCss + '*.css'], cb);
 });
 
 // CSS related tasks
@@ -69,24 +70,31 @@ gulp.task('css-build', function() {
 
 // Javascript related tasks
 gulp.task('js-watch', function() {
-    gulp.src(p.srcJS)
+    gulp.src(p.srcJS + '*.js')
         .pipe(cached('hinting'))                                                // only process modified files
             .pipe(soften(4))
             .pipe(jshint('.jshintrc'))                                          // lint with JSHint
             .pipe(jshint.reporter(stylish))                                     // output JSHint results
             // .pipe(fixmyjs())                                                 // fix JSHint errors, if possible
-            .pipe(gulp.dest(p.distJs))                                          // move to target folder
+            .pipe(gulp.dest(p.distJS))                                          // move to target folder
             .pipe(notify({message: 'JS task complete :-)'}));
 });
 
 gulp.task('js-build', function() {
-    gulp.src(p.srcJS)
+    gulp.src(p.srcJS + '*.js')
         .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
-        // .pipe(jshint('.jshintrc'))                                              // lint with JSHint
-        // .pipe(jshint.reporter(stylish))                                         // output JSHint results
         // .pipe(fixmyjs())                                                     // fix JSHint errors if possible
         .pipe(uglify())                                                         // compress with uglify
-        .pipe(gulp.dest(p.distJs));                                             // move to target folder
+        .pipe(gulp.dest(p.distJS));                                             // move to target folder
+});
+
+gulp.task('js-format', function() {
+    return gulp.src(p.srcJS + '*.js')
+            .pipe(prettify({
+                config  : '.jsbeautifyrc',
+                mode    : 'VERIFY_AND_WRITE'
+            }))
+            .pipe(gulp.dest(p.srcJS));
 });
 
 // Image related tasks
@@ -129,14 +137,14 @@ gulp.task('updateSubmodules', function() {
 // COMMANDS --------------------------------------------------------------------
 gulp.task('default', ['clean', 'css-watch', 'js-watch'], function() {
     // watch for changes
-    gulp.watch(p.allfiles,  ['fileformat']);
-    gulp.watch(p.stylus,    ['css-watch']);
-    gulp.watch(p.srcJS,     ['js-watch']);
+    gulp.watch(p.allfiles,          ['fileformat']);
+    gulp.watch(p.stylus,            ['css-watch']);
+    gulp.watch(p.srcJS + '*.js',    ['js-watch']);
 });
 
 // check code quality before git commit
-gulp.task('precommit', ['sniffphp'], function() {
-    gulp.src(p.srcJS)
+gulp.task('precommit', ['sniffphp', 'js-format'], function() {
+    gulp.src(p.srcJS + '*.js')
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish));
         // .pipe(fixmyjs())

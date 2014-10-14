@@ -14,6 +14,7 @@
     "gulp-docco": "0.0.4",
     "gulp-fixmyjs": "0.0.10",
     "gulp-git": "^0.5.2",
+    "gulp-jsbeautifier": "0.0.3",
     "gulp-jshint": "^1.8.5",
     "gulp-lintspaces": "^0.2.2",
     "gulp-notify": "^2.0.0",
