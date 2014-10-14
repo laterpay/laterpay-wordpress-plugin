@@ -206,7 +206,9 @@
                     viewportHeight          = parseInt($(window).height(), 10),
                     topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
                     iframeHeight            = viewportHeight - topMargin,
-                    $iframeWrapperObject    = $('<div id="lp_legal-docs-iframe" style="height:' + iframeHeight + 'px;"></div>'),
+                    $iframeWrapperObject    = $('<div id="lp_legal-docs-iframe" style="height:' +
+                                                iframeHeight +
+                                              'px;"></div>'),
                     $iframeWrapper          = $('#lp_legal-docs-iframe'),
                     iframeOffset,
                     scrollPosition;

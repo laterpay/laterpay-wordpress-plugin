@@ -96,6 +96,7 @@ var LPCurve = function(container) {
 
 LPCurve.prototype.interpolate = function(i) {
     this.interpolation = i;
+
     return this;
 };
 
@@ -105,11 +106,13 @@ LPCurve.prototype.setPrice = function(min, max, defaultPrice) {
     if (defaultPrice) {
         this.defaultPrice = defaultPrice;
     }
+
     return this;
 };
 
-LPCurve.prototype.set_data = function(data, parsingFormat) {
+LPCurve.prototype.set_data = function(data) {
     this.data = data;
+
     return this;
 };
 
@@ -192,11 +195,10 @@ LPCurve.prototype.plot = function() {
     // PRICE CURVE
     // -------------------------------------------------------------------------------------------------------
     // D3.js provides us with a Path Data Generator Function for lines
-    var pathEl  = svg.select('path.line').node(),
-        line    = d3.svg.line()
-                  .interpolate(this.interpolation)
-                  .x(function(d) { return xScale(d.x); })
-                  .y(function(d) { return yScale(d.y); });
+    var line = d3.svg.line()
+              .interpolate(this.interpolation)
+              .x(function(d) { return xScale(d.x); })
+              .y(function(d) { return yScale(d.y); });
 
     // .attr('d', lineFunction(lineData)) is where the magic happens.
     // This is where we send the data to the accessor function which returns the SVG Path Commands.
@@ -322,7 +324,9 @@ LPCurve.prototype.plot = function() {
     var xDragSquare = svg.selectAll('.x-drag-square').data((self.data).slice(1, end));
 
     xDragSquare.enter().append('rect').attr('class', function(point, index) {
-        if (index == self.data.length - 2) return 'x-drag-square hidden';
+        if (index === self.data.length - 2) {
+            return 'x-drag-square hidden';
+        }
         return 'x-drag-square';
     }).call(dragXAxisBehavior);
 
@@ -341,7 +345,9 @@ LPCurve.prototype.plot = function() {
     var xTriangleBottom = svg.selectAll('.x-triangle-bottom').data((self.data).slice(1, end));
 
     xTriangleBottom.enter().append('path').attr('class', function(point, index) {
-        if (index == self.data.length - 2) return 'x-triangle-bottom hidden';
+        if (index === self.data.length - 2) {
+            return 'x-triangle-bottom hidden';
+        }
         return 'x-triangle-bottom';
     }).call(dragXAxisBehavior);
 
@@ -357,7 +363,9 @@ LPCurve.prototype.plot = function() {
     var xTextDays = svg.selectAll('.x-text-days').data((self.data).slice(1, end));
 
     xTextDays.enter().append('text').attr('class', function(point, index) {
-        if (index == self.data.length - 2) return 'x-text-days hidden';
+        if (index === self.data.length - 2) {
+            return 'x-text-days hidden';
+        }
         return 'x-text-days';
     }).call(dragXAxisBehavior);
 
@@ -375,7 +383,9 @@ LPCurve.prototype.plot = function() {
     var xText = svg.selectAll('.x-text').data((self.data).slice(1, end));
 
     xText.enter().append('text').attr('class', function(point, index) {
-        if (index == self.data.length - 2) return 'x-text hidden';
+        if (index === self.data.length - 2) {
+            return 'x-text hidden';
+        }
         return 'x-text';
     }).call(dragXAxisBehavior);
 
@@ -393,7 +403,9 @@ LPCurve.prototype.plot = function() {
     // VERTICAL LINES
     // -------------------------------------------------------------------------------------------------------
     priceLineVisible.enter().append('line').attr('class', function(point, index) {
-            if (index == self.data.length - 2) return 'line-price-visible hidden';
+            if (index === self.data.length - 2) {
+                return 'line-price-visible hidden';
+            }
             return 'line-price-visible';
         });
     priceLineVisible.exit().remove();
@@ -408,7 +420,9 @@ LPCurve.prototype.plot = function() {
         });
 
     priceLine.enter().append('line').attr('class', function(point, index) {
-        if (index == self.data.length - 2) return 'line-price hidden';
+        if (index === self.data.length - 2) {
+            return 'line-price hidden';
+        }
         return 'line-price';
     }).call(dragXAxisBehavior);
 
@@ -429,7 +443,9 @@ LPCurve.prototype.plot = function() {
     // Then we append a circle for each element in data
     point.enter().append('circle')
         .attr('class', function(point,index) {
-            if (index === 0 || index == self.data.length - 1) return 'draggable circle-hidden';
+            if (index === 0 || index === self.data.length - 1) {
+                return 'draggable circle-hidden';
+            }
             return 'draggable';
         })
         .attr('r', 0)
@@ -447,24 +463,26 @@ LPCurve.prototype.plot = function() {
     // -------------------------------------------------------------------------------------------------------
     function dragEndPoint(d, i) {
         var p = yScale.invert(d3.event.y);
-        if (p < yExtent[0])
+        if (p < yExtent[0]) {
             p = yExtent[0];
-        if (p > yExtent[1])
+        }
+        if (p > yExtent[1]) {
             p = yExtent[1];
+        }
         d.y = p;
 
         // we have to keep the starting price in sync with the first / second point
-        if (i === 0 && self.data[0].x == d.x) {
+        if (i === 0 && self.data[0].x === d.x) {
             // the second check is to make sure we are dragging the first point
             // since the squares have only one element of the data array, i is always 0
             self.data[1].y = d.y;
-        } else if (i == 1) {
+        } else if (i === 1) {
             self.data[0].y = d.y;
         }
         // we have to keep in sync starting price with the last/last-1 point
-        else if (i === 0 && self.data[self.data.length-1].x == d.x) {
+        else if (i === 0 && self.data[self.data.length-1].x === d.x) {
             self.data[self.data.length - 2].y = d.y;
-        } else if (i == self.data.length - 2) {
+        } else if (i === self.data.length - 2) {
             self.data[self.data.length - 1].y = d.y;
         }
 
@@ -499,8 +517,8 @@ LPCurve.prototype.plot = function() {
 
     function dragDays(d, i) {
         var targetDate          = xScale.invert(d3.event.x),
-            isDraggingLastPoint = (i == self.data.length - 2),
-            isDragHandler = (i == self.data.length - 3),
+            isDraggingLastPoint = (i === self.data.length - 2),
+            isDragHandler = (i === self.data.length - 3),
             cappedTargetDate;
 
 
@@ -512,7 +530,8 @@ LPCurve.prototype.plot = function() {
                     cappedTargetDate = Math.max(cappedTargetDate, 29.51); // minimum 30 days
                     cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum 60 days
                     d.x = cappedTargetDate;
-                    xScale.domain(d3.extent(self.data, function(d) { return d.x; })); // restore the value of the xScale since it could have changed
+                    // restore the xScale value, as it could have changed
+                    xScale.domain(d3.extent(self.data, function(d) { return d.x; }));
                     self.plot();
                 };
             clearInterval(dragInterval);
@@ -530,14 +549,16 @@ LPCurve.prototype.plot = function() {
             }
 
             d.x = cappedTargetDate;
-            xScale.domain(d3.extent(self.data, function(d) { return d.x; })); // restore the value of the xScale since it could have changed
+            // restore the xScale value, as it could have changed
+            xScale.domain(d3.extent(self.data, function(d) { return d.x; }));
             self.plot();
         } else {
             cappedTargetDate = targetDate;
             cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
             cappedTargetDate = Math.min(cappedTargetDate, self.data[i+2].x - 0.51);
             d.x = cappedTargetDate;
-            xScale.domain(d3.extent(self.data, function(d) { return d.x; })); // restore the value of the xScale since it could have changed
+            // restore the xScale value, as it could have changed
+            xScale.domain(d3.extent(self.data, function(d) { return d.x; }));
             self.plot();
         }
     }

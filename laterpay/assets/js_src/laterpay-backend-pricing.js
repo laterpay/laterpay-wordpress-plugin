@@ -174,7 +174,7 @@
                 price = price.toFixed(2);
 
                 // localize price
-                if (lpVars.locale == 'de_DE') {
+                if (lpVars.locale === 'de_DE') {
                     price = price.replace('.', ',');
                 }
 
@@ -210,10 +210,10 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > 5 && currentRevenueModel == $o.payPerUse) {
+                if (price > 5 && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', 'checked');
-                } else if (price < 1.49 && currentRevenueModel == $o.singleSale) {
+                } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', 'checked');
                 }
@@ -226,7 +226,9 @@
             enterEditModeGlobalDefaultPrice = function() {
                 $o.globalDefaultPriceShowElements.hide();
                 $o.globalDefaultPriceEditElements.show(0, function() {
-                    setTimeout(function() {$o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text()).focus();}, 50);
+                    setTimeout(function() {
+                        $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text()).focus();
+                    }, 50);
                 });
                 $o.globalDefaultPriceForm.addClass($o.editing);
             },
@@ -257,7 +259,7 @@
                     function(r) {
                         if (r.success) {
                             $o.globalDefaultPriceDisplay.html(r.laterpay_global_price);
-                            $o.globalDefaultPriceRevenueModelDisplay.text(r.laterpay_price_revenue_model)
+                            $o.globalDefaultPriceRevenueModelDisplay.text(r.laterpay_price_revenue_model);
                         }
                         setMessage(r.message, r.success);
                         exitEditModeGlobalDefaultPrice();
@@ -305,7 +307,7 @@
                             // update displayed price information
                             $($o.categoryDefaultPriceDisplay, $form).text(r.price);
                             $($o.revenueModelLabelDisplay, $form).text(r.revenue_model);
-                            $($o.categoryDefaultPriceInput, $form).val(r.price)
+                            $($o.categoryDefaultPriceInput, $form).val(r.price);
                             $($o.categoryTitle, $form).text(r.category);
                             $($o.categoryId, $form).val(r.category_id);
 

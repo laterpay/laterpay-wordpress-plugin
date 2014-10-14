@@ -87,7 +87,9 @@
             switchPricingType = function(trigger) {
                 var $this           = $(trigger),
                     $clickedButton  = $this.parent('li'),
-                    priceType       = $this.attr('id');
+                    priceType       = $this.attr('id'),
+                    price,
+                    revenueModel;
 
                 if ($clickedButton.hasClass($o.disabled) || $clickedButton.hasClass($o.selected)) {
                     return;
@@ -121,9 +123,9 @@
                     updateSelectedCategory();
 
                     // set the price and revenue model of the selected category
-                    var $category       = $('.lp_selected-category a', $o.categoriesList),
-                        price           = $category.attr('data-price'),
-                        revenueModel    = $category.attr('data-revenue-model');
+                    var $category   = $('.lp_selected-category a', $o.categoriesList);
+                    price           = $category.attr('data-price');
+                    revenueModel    = $category.attr('data-revenue-model');
                     setPrice(price);
                     setRevenueModel(revenueModel, true);
 
@@ -136,8 +138,8 @@
                 }
                 // case: global default price
                 else if (priceType === 'lp_js_use-global-default-price') {
-                    var price           = $this.attr('data-price'),
-                        revenueModel    = $this.attr('data-revenue-model');
+                    price           = $this.attr('data-price');
+                    revenueModel    = $this.attr('data-revenue-model');
 
                     setPrice(price);
                     setRevenueModel(revenueModel, true);
@@ -148,7 +150,10 @@
                 }
 
                 // disable price input for all scenarios other than static individual price
-                if (priceType === 'lp_js_use-individual-price' && !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                if (
+                    priceType === 'lp_js_use-individual-price' &&
+                    !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)
+                ) {
                     $o.priceInput.removeAttr('disabled');
                     setTimeout(function() {$o.priceInput.focus();}, 50);
                 } else {
@@ -169,7 +174,8 @@
 
                 if (readOnly) {
                     // disable not-selected revenue model
-                    $('input:radio[value!=' + revenueModel + ']', $o.revenueModel).parent('label').addClass($o.disabled);
+                    $('input:radio[value!=' + revenueModel + ']', $o.revenueModel)
+                        .parent('label').addClass($o.disabled);
                 }
 
                 // enable and check selected revenue model
@@ -212,7 +218,7 @@
                 price = price.toFixed(2);
 
                 // localize price
-                if (lpVars.locale == 'de_DE') {
+                if (lpVars.locale === 'de_DE') {
                     price = price.replace('.', ',');
                 }
 
@@ -235,7 +241,8 @@
                 }
 
                 if (price >= 1.49) {
-                    // enable Single Sale for prices >= 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
+                    // enable Single Sale for prices >= 1.49 Euro
+                    // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
                 } else {
@@ -245,10 +252,10 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > 5 && currentRevenueModel == $o.payPerUse) {
+                if (price > 5 && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
-                } else if (price < 1.49 && currentRevenueModel == $o.singleSale) {
+                } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', true);
                 }
@@ -267,15 +274,20 @@
                     return;
                 }
 
-                if (typeof(selectedCategoryId) !== 'undefined' && $('[data-category=' + selectedCategoryId + ']', $o.categories.parent()).length) {
-                    $('[data-category=' + selectedCategoryId + ']', $o.categories.parent()).addClass($o.selectedCategory);
+                if (
+                    typeof(selectedCategoryId) !== 'undefined' &&
+                    $('[data-category=' + selectedCategoryId + ']', $o.categories.parent()).length
+                ) {
+                    $('[data-category=' + selectedCategoryId + ']', $o.categories.parent())
+                    .addClass($o.selectedCategory);
                 } else {
                     // select the first category in the list, if none is selected
                     $firstCategory.addClass($o.selectedCategory);
                     $o.categoryInput.val($firstCategory.data('category'));
                 }
 
-                // also update the price and revenue model, if the selected category has changed in pricing mode 'category default price'
+                // also update price and revenue model, if the selected category has changed
+                // in pricing mode 'category default price'
                 if ($o.categoryPriceButton.hasClass($o.selected)) {
                     var $category       = $('.lp_selected-category a', $o.categoriesList),
                         price           = $category.attr('data-price'),
