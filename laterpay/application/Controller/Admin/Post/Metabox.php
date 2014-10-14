@@ -216,8 +216,10 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         }
 
         if ( isset( $_POST['laterpay_post_teaser'] ) && !empty( $_POST[ 'laterpay_post_teaser' ] ) ) {
-            $new_meta_value = wpautop( $_POST['laterpay_post_teaser'] );
+            // we're using the wpautop() in frontend on the 'the_content'-Filter
+            $new_meta_value = $_POST['laterpay_post_teaser'];
         } else {
+            $post = get_post( $post_id );
             $new_meta_value = LaterPay_Helper_String::truncate(
                 $post->post_content,
                 $this->config->get( 'content.auto_generated_teaser_content_word_count' ),
