@@ -46,20 +46,23 @@
                 .click(function(e) {e.preventDefault();});
 
                 // save pricing data
-                $('#post').submit(function() {
+                $('#post')
+                .submit(function() {
                     saveDynamicPricingData();
                 });
 
                 // validate manually entered prices
                 // (function is only triggered 800ms after the keyup)
-                $o.priceInput.keyup(
+                $o.priceInput
+                .keyup(
                     debounce(function() {
                         setPrice($(this).val());
                     }, 800)
                 );
 
                 // validate choice of revenue model (validating the price switches the revenue model if required)
-                $('input:radio', $o.revenueModel).change(function() {
+                $('input:radio', $o.revenueModel)
+                .change(function() {
                     validatePrice($o.priceInput.val());
                 });
 
@@ -303,7 +306,6 @@
                     l                   = $selectedCategories.length,
                     categoryIds         = [],
                     categoriesList      = '',
-                    selectedCategoryId  = $o.categoryInput.val(),
                     i, categoryId;
 
                 for (i = 0; i < l; i++) {
