@@ -3,8 +3,6 @@
 class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 {
 
-    private $filter_done = false;
-
     /**
      * Contains the access state for all loaded posts.
      *
