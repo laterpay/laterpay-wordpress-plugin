@@ -73,9 +73,11 @@ gulp.task('js-watch', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(cached('hinting'))                                                // only process modified files
             .pipe(soften(4))
+            .pipe(fixmyjs({                                                         // fix JSHint errors if possible
+                lookup: false
+            }))
             .pipe(jshint('.jshintrc'))                                          // lint with JSHint
             .pipe(jshint.reporter(stylish))                                     // output JSHint results
-            // .pipe(fixmyjs())                                                 // fix JSHint errors, if possible
             .pipe(gulp.dest(p.distJS))                                          // move to target folder
             .pipe(notify({message: 'JS task complete :-)'}));
 });
@@ -83,8 +85,12 @@ gulp.task('js-watch', function() {
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
-        .pipe(fixmyjs())                                                     // fix JSHint errors if possible
+        .pipe(fixmyjs({                                                         // fix JSHint errors if possible
+            lookup: false
+        }))
         .pipe(uglify())                                                         // compress with uglify
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter(stylish))
         .pipe(gulp.dest(p.distJS));                                             // move to target folder
 });
 
@@ -145,9 +151,11 @@ gulp.task('default', ['clean', 'css-watch', 'js-watch'], function() {
 // check code quality before git commit
 gulp.task('precommit', ['sniffphp', 'js-format'], function() {
     gulp.src(p.srcJS + '*.js')
+        .pipe(fixmyjs({                                                         // fix JSHint errors if possible
+            lookup: false
+        }))
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish));
-        // .pipe(fixmyjs())
 
     gulp.src(p.srcStylus)
         .pipe(csslint())
