@@ -176,18 +176,18 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             //The post purschased already
             switch ($content_type) {
                 case 'file':
-                    $button_label = 'Download now';
+                    $button_label = __('Download now', 'laterpay');
                     break;
                 case 'video':
                 case 'gallery':
-                    $button_label = 'Watch now';
+                    $button_label = __('Watch now', 'laterpay');
                     break;
                 case 'music':
                 case 'audio':
-                    $button_label = 'Listen now';
+                    $button_label = __('Listen now', 'laterpay');
                     break;
                 default:
-                    $button_label = 'Read now';
+                    $button_label = __('Read now', 'laterpay');
                     break;
             };
             $button_page_url = '';
