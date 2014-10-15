@@ -6,7 +6,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
     csslint         = require('gulp-csslint'),
     del             = require('del'),
     // docco           = require('gulp-docco'),
-    // fixmyjs         = require('gulp-fixmyjs'),
+    fixmyjs         = require('gulp-fixmyjs'),
     git             = require('gulp-git'),
     gulp            = require('gulp'),
     // include         = require('gulp-file-include'),
@@ -83,7 +83,7 @@ gulp.task('js-watch', function() {
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
-        // .pipe(fixmyjs())                                                     // fix JSHint errors if possible
+        .pipe(fixmyjs())                                                     // fix JSHint errors if possible
         .pipe(uglify())                                                         // compress with uglify
         .pipe(gulp.dest(p.distJS));                                             // move to target folder
 });
