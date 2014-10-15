@@ -16,47 +16,48 @@ class LaterPay_Helper_Post {
      *
      * @return boolean success
      */
-    public static function has_access_to_post(WP_Post $post) {
-
+    public static function has_access_to_post( WP_Post $post ) {
         $post_id = $post->ID;
 
         laterpay_get_logger()->info(
-                __METHOD__, array(
-            'post' => $post
-                )
+            __METHOD__,
+            array( 'post' => $post )
         );
 
-        // access was already checked
-        if (array_key_exists($post_id, self::$access)) {
+        if ( array_key_exists( $post_id, self::$access ) ) {
+            // access was already checked
             return (bool) self::$access[$post_id];
         }
 
-        $price = LaterPay_Helper_Pricing::get_post_price($post->ID);
+        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
-        if ($price != 0) {
+        if ( $price > 0 ) {
             $client_options  = LaterPay_Helper_Config::get_php_client_options();
             $laterpay_client = new LaterPay_Client(
-                    $client_options['cp_key'], $client_options['api_key'], $client_options['api_root'], $client_options['web_root'], $client_options['token_name']
-            );
-            $result          = $laterpay_client->get_access(array($post_id));
+                                    $client_options['cp_key'],
+                                    $client_options['api_key'],
+                                    $client_options['api_root'],
+                                    $client_options['web_root'],
+                                    $client_options['token_name']
+                                );
+            $result          = $laterpay_client->get_access( array( $post_id ) );
 
-            if (empty($result) || !array_key_exists('articles', $result)) {
+            if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
-                        __METHOD__ . ' - post not found ', array(
-                    'result' => $result
-                        )
+                    __METHOD__ . ' - post not found ',
+                    array( 'result' => $result )
                 );
+
                 return false;
             }
 
-            if (array_key_exists($post_id, $result['articles'])) {
+            if ( array_key_exists( $post_id, $result['articles'] ) ) {
                 $access = (bool) $result['articles'][$post_id]['access'];
                 self::$access[$post_id] = $access;
 
                 laterpay_get_logger()->info(
-                        __METHOD__ . ' - post has access', array(
-                    'result' => $result
-                        )
+                    __METHOD__ . ' - post has access',
+                    array( 'result' => $result )
                 );
 
                 return $access;
@@ -71,44 +72,52 @@ class LaterPay_Helper_Post {
      *
      * @param int $post_id
      *
-     * @return string url || empty string if something went wrong
+     * @return string url || empty string, if something went wrong
      */
-    public static function get_laterpay_purchase_link($post_id) {
-        $post = get_post($post_id);
-        if ($post === null) {
+    public static function get_laterpay_purchase_link( $post_id ) {
+        $post = get_post( $post_id );
+        if ( $post === null ) {
             return '';
         }
 
         // re-set the post_id
         $post_id = $post->ID;
 
-        $currency      = get_option('laterpay_currency');
-        $price         = LaterPay_Helper_Pricing::get_post_price($post_id);
-        $revenue_model = LaterPay_Helper_Pricing::get_post_revenue_model($post_id);
+        $currency       = get_option( 'laterpay_currency' );
+        $price          = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 
         $currency_model = new LaterPay_Model_Currency();
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client         = new LaterPay_Client(
-                $client_options['cp_key'], $client_options['api_key'], $client_options['api_root'], $client_options['web_root'], $client_options['token_name']
-        );
+                                $client_options['cp_key'],
+                                $client_options['api_key'],
+                                $client_options['api_root'],
+                                $client_options['web_root'],
+                                $client_options['token_name']
+                            );
 
         // data to register purchase after redirect from LaterPay
         $url_params = array(
             'post_id'     => $post_id,
-            'id_currency' => $currency_model->get_currency_id_by_iso4217_code($currency),
+            'id_currency' => $currency_model->get_currency_id_by_iso4217_code( $currency ),
             'price'       => $price,
             'date'        => time(),
             'buy'         => 'true',
-            'ip'          => ip2long($_SERVER['REMOTE_ADDR']),
+            'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
-        if ($post->post_type == 'attachment') {
-
-            //Used $use_auth == true instead of LaterPay_Helper_Post::has_access_to_post() because after purchase post will be accessible anyway and now it`s not.
-            $url = LaterPay_Helper_File::get_encrypted_resource_url($post_id, wp_get_attachment_url($post_id), true, 'attachment');
+        if ( $post->post_type == 'attachment' ) {
+            // used $use_auth == true instead of LaterPay_Helper_Post::has_access_to_post(),
+            //  because after purchase post will be accessible anyway and now it's not
+            $url = LaterPay_Helper_File::get_encrypted_resource_url(
+                                            $post_id,
+                                            wp_get_attachment_url( $post_id ),
+                                            true,
+                                            'attachment'
+                                        );
         } else {
-
-            $url  = self::get_after_purchase_redirect_url($url_params);
-            $hash = self::get_hash_by_url($url);
+            $url  = self::get_after_purchase_redirect_url( $url_params );
+            $hash = self::get_hash_by_url( $url );
             $url  = $url . '&hash=' . $hash;
         };
 
@@ -116,21 +125,21 @@ class LaterPay_Helper_Post {
         $params = array(
             'article_id' => $post_id,
             'pricing'    => $currency . ( $price * 100 ),
-            'vat'        => laterpay_get_plugin_config()->get('currency.default_vat'),
+            'vat'        => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
             'url'        => $url,
             'title'      => $post->post_title,
         );
 
         laterpay_get_logger()->info(
-                __METHOD__, $params
+            __METHOD__, $params
         );
 
-        if ($revenue_model == 'sis') {
+        if ( $revenue_model == 'sis' ) {
             // Single Sale purchase
-            return $client->get_buy_url($params);
+            return $client->get_buy_url( $params );
         } else {
             // Pay-per-Use purchase
-            return $client->get_add_url($params);
+            return $client->get_add_url( $params );
         }
     }
 
@@ -141,8 +150,8 @@ class LaterPay_Helper_Post {
      *
      * @return string $hash
      */
-    public static function get_hash_by_url($url) {
-        return md5(md5($url) . wp_salt());
+    public static function get_hash_by_url( $url ) {
+        return md5( md5( $url ) . wp_salt() );
     }
 
     /**
@@ -152,17 +161,19 @@ class LaterPay_Helper_Post {
      *
      * @return string $url
      */
-    public static function get_after_purchase_redirect_url(array $data) {
-        $url = get_permalink($data['post_id']);
+    public static function get_after_purchase_redirect_url( array $data ) {
+        $url = get_permalink( $data['post_id'] );
 
-        if (!$url) {
+        if ( ! $url ) {
             laterpay_get_logger()->error(
-                    __METHOD__ . ' could not find an URL for the given post_id', array('data' => $data)
+                __METHOD__ . ' could not find an URL for the given post_id',
+                array( 'data' => $data )
             );
+
             return $url;
         }
 
-        $url = add_query_arg($data, $url);
+        $url = add_query_arg( $data, $url );
 
         return $url;
     }
