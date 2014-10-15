@@ -12,18 +12,18 @@ class LaterPay_Form_StatisticsVisibility extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
-
         $this->set_field(
             'hide_statistics_pane',
             array(
                 'validators' => array(
-                    'is_int'
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_int'
+                    'to_int',
                 ),
-                'can_be_null'
+                'can_be_null',
             )
         );
     }
 }
+

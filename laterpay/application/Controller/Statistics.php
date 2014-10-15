@@ -15,7 +15,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 $this->logger->warning(
                     __METHOD__. ' - !is_singular',
                     array(
-                        'post' => $post
+                        'post' => $post,
                     )
                 );
                 return false;
@@ -34,7 +34,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 __METHOD__. ' - post is not purchasable',
                 array(
                     'post' => $post,
-                    'allowed_post_types' => $allowed_post_types
+                    'allowed_post_types' => $allowed_post_types,
                 )
             );
             return false;
@@ -45,7 +45,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             $this->logger->warning(
                 __METHOD__. ' - post is not purchasable',
                 array(
-                    'post' => $post
+                    'post' => $post,
                 )
             );
             return false;
@@ -77,7 +77,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $this->logger->info(
             __METHOD__,
             array(
-                'post_id' => $post_id
+                'post_id' => $post_id,
             )
         );
 
@@ -99,7 +99,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             $post_id    = $statistic_form->get_field_value( 'post_id' );
             $post       = get_post( $post_id );
 
-            if ( $this->check_requirements($post) ) {
+            if ( $this->check_requirements( $post ) ) {
                 LaterPay_Helper_Statistics::track( $post_id );
             }
         }
@@ -126,7 +126,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 __METHOD__ . ' - user cannot read post statistics',
                 array(
                     'post_id'       => get_the_ID(),
-                    'current_user'  => wp_get_current_user()
+                    'current_user'  => wp_get_current_user(),
                 )
             );
 
@@ -150,7 +150,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         $error = array(
             'success' => false,
-            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
         );
 
         // check the admin referer
@@ -191,7 +191,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => true,
-                'message' => __( 'Updated.', 'laterpay' )
+                'message' => __( 'Updated.', 'laterpay' ),
             )
         );
     }
@@ -210,7 +210,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $current_user = wp_get_current_user();
         $error = array(
             'success' => false,
-            'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' )
+            'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' ),
         );
 
         // check the admin referer
@@ -235,7 +235,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => true,
-                'message' => __( 'Updated.', 'laterpay' )
+                'message' => __( 'Updated.', 'laterpay' ),
             )
         );
     }
@@ -253,7 +253,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         $condition = array(
             'verify_nonce' => array(
-                'action' => $statistic_form->get_field_value( 'action' )
+                'action' => $statistic_form->get_field_value( 'action' ),
             )
         );
         $statistic_form->add_validation( 'nonce', $condition );
@@ -262,9 +262,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
             $post_id = $statistic_form->get_field_value( 'post_id' );
             $post = get_post( $post_id );
-            if ( $post === null ) {
-                exit;
-            }
 
             if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
                 exit;
@@ -275,7 +272,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
                 'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
                 'currency'                  => get_option( 'laterpay_currency' ),
-                'post_id'                   => $post_id
+                'post_id'                   => $post_id,
             );
             $this->assign( 'laterpay', $view_args );
 

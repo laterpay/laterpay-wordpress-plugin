@@ -12,7 +12,6 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
-
         $this->set_field(
             'form',
             array(
@@ -69,3 +68,4 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
         );
     }
 }
+

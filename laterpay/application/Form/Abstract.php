@@ -53,7 +53,7 @@ abstract class LaterPay_Form_Abstract
         // format number with given decimal places
         'format_num' => array( 'LaterPay_Helper_View', 'format_number' ),
         // strip slashes
-        'unslash'    => 'wp_unslash'
+        'unslash'    => 'wp_unslash',
     );
 
     /**
@@ -64,7 +64,6 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     public final function __construct( $data = array() ) {
-
         // Call init method from child class
         $this->init();
 
@@ -89,7 +88,6 @@ abstract class LaterPay_Form_Abstract
      * @return bool    field was created or already exists
      */
     public function set_field( $name, $options = array() ) {
-
         $fields = $this->get_fields();
 
         // Check if field already exists
@@ -126,7 +124,6 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     protected function save_field_data( $name, $data ) {
-
         $this->fields[$name] = $data;
     }
 
@@ -136,7 +133,6 @@ abstract class LaterPay_Form_Abstract
      * @return array
      */
     public function get_fields() {
-
         return $this->fields;
     }
 
@@ -146,7 +142,6 @@ abstract class LaterPay_Form_Abstract
      * @return array
      */
     protected function get_filters() {
-
         return self::$filters;
     }
 
@@ -157,7 +152,6 @@ abstract class LaterPay_Form_Abstract
      * @return mixed
      */
     public function get_field_value( $field_name ) {
-
         $fields = $this->get_fields();
 
         if ( isset( $fields[$field_name] ) ) {
@@ -175,7 +169,6 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     protected function set_field_value( $field_name, $value ) {
-
         $this->fields[$field_name]['value'] = $value;
     }
 
@@ -186,7 +179,6 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     protected function set_nostrict( $name ) {
-
         if ( ! isset( $this->nostrict ) ) {
             $this->nostrict = array();
         }
@@ -201,7 +193,6 @@ abstract class LaterPay_Form_Abstract
      * @return bool
      */
     protected function check_if_field_can_be_null( $field ) {
-
         $fields = $this->get_fields();
 
         if ( $fields[$field]['can_be_null'] ) {
@@ -219,7 +210,6 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     public function add_validation( $field, $condition = array() ) {
-
         $fields = $this->get_fields();
 
         if( isset( $fields[$field] ) ) {
@@ -238,7 +228,6 @@ abstract class LaterPay_Form_Abstract
      * @return bool is data valid
      */
     public function is_valid( $data = array() ) {
-
         // If data passed set data to the form
         if ( ! empty( $data ) ) {
             $this->set_data( $data );
@@ -282,7 +271,6 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     protected function sanitize() {
-
         $fields = $this->get_fields();
 
         // get all form filters
@@ -315,7 +303,6 @@ abstract class LaterPay_Form_Abstract
      * @return mixed
      */
     public function sanitize_value( $value, $filter, $filter_params = null ) {
-
         //get filters
         $filters = $this->get_filters();
 
@@ -341,7 +328,6 @@ abstract class LaterPay_Form_Abstract
      * @return mixed
      */
     public static function replace( $value, $options ) {
-
         if ( is_array( $options ) && isset( $options['type'] ) && is_callable( $options['type'] ) ) {
             $value = $options['type']( $options['search'], $options['replace'], $value );
         }
@@ -358,7 +344,6 @@ abstract class LaterPay_Form_Abstract
      * @return bool
      */
     public function validate_value( $value, $validator, $validator_params = null ) {
-
         $is_valid = false;
 
         switch( $validator ) {
@@ -458,6 +443,10 @@ abstract class LaterPay_Form_Abstract
                     }
                 }
                 break;
+            case 'post_exist':
+                $post = get_post( $value );
+                $is_valid = $post !== null;
+                break;
             default:
                 // Incorrect validator specified, do nothing
                 break;
@@ -475,7 +464,6 @@ abstract class LaterPay_Form_Abstract
      * @return bool
      */
     protected function compare_values($comparison_operator, $first_value, $second_value) {
-
         $result = false;
 
         switch( $comparison_operator ) {
@@ -523,7 +511,6 @@ abstract class LaterPay_Form_Abstract
      * @return $this
      */
     public function set_data( $data ) {
-
         $fields = $this->get_fields();
 
         // Set data and sanitize it
@@ -557,7 +544,6 @@ abstract class LaterPay_Form_Abstract
      * @return array
      */
     public function get_form_values() {
-
         $fields = $this->get_fields();
         $data = array();
 
@@ -568,3 +554,4 @@ abstract class LaterPay_Form_Abstract
         return $data;
     }
 }
+

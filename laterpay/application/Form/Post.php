@@ -12,7 +12,6 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
      * @return void
      */
     public function init() {
-
         $this->set_field(
             '_wpnonce',
             array(
@@ -20,10 +19,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -34,10 +33,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -48,10 +47,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -65,12 +64,12 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'replace' => array(
                         'type'    => 'str_replace',
                         'search'  => ',',
-                        'replace' => '.'
+                        'replace' => '.',
                     ),
                     'format_num' => 2,
-                    'to_float'
+                    'to_float',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -88,10 +87,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                                 'cmp' => array(
                                     array(
                                         'lte' => 149.99,
-                                        'gte' => 1.49
-                                    )
-                                )
-                            )
+                                        'gte' => 1.49,
+                                    ),
+                                ),
+                            ),
                         ),
                         array(
                             'field' => 'price',
@@ -100,19 +99,19 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                                 'cmp' => array(
                                     array(
                                         'lte' => 5.00,
-                                        'gte' => 0.05
+                                        'gte' => 0.05,
                                     ),
                                     array(
-                                        'eq'  => 0.00
-                                    )
-                                )
-                            )
-                        )
-                    )
+                                        'eq'  => 0.00,
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'filters' => array(
                     'to_string',
-                    'unslash'
+                    'unslash',
                 )
             )
         );
@@ -122,13 +121,13 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'individual price', 'category default price', 'global default price' )
+                    'in_array' => array( 'individual price', 'category default price', 'global default price' ),
                 ),
                 'filters'    => array(
                     'to_string',
-                    'unslash'
+                    'unslash',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -136,12 +135,12 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'laterpay_post_teaser',
             array(
                 'validators' => array(
-                    'is_string'
+                    'is_string',
                 ),
                 'filters'    => array(
-                    'to_string'
+                    'to_string',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -149,13 +148,13 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'laterpay_start_price',
             array(
                 'validators' => array(
-                    'is_string'
+                    'is_string',
                 ),
                 'filters' => array(
                     'to_string',
-                    'unslash'
+                    'unslash',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -163,13 +162,13 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'laterpay_end_price',
             array(
                 'validators' => array(
-                    'is_string'
+                    'is_string',
                 ),
                 'filters' => array(
                     'to_string',
-                    'unslash'
+                    'unslash',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -177,12 +176,12 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'laterpay_change_start_price_after_days',
             array(
                 'validators' => array(
-                    'is_int'
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_int'
+                    'to_int',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -190,12 +189,12 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'laterpay_transitional_period_end_after_days',
             array(
                 'validators' => array(
-                    'is_int'
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_int'
+                    'to_int',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -203,12 +202,12 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'laterpay_reach_end_price_after_days',
             array(
                 'validators' => array(
-                    'is_int'
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_int'
+                    'to_int',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -216,14 +215,15 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'laterpay_post_default_category',
             array(
                 'validators' => array(
-                    'is_int'
+                    'is_int',
                 ),
                 'filters' => array(
                     'unslash',
-                    'to_int'
+                    'to_int',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
     }
 }
+
