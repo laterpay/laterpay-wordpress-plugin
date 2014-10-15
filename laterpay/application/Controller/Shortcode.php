@@ -169,6 +169,42 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         } else {
             $content_type = 'text';
         }
+		
+		//Create a shortcode link
+        $access = LaterPay_Helper_Post::has_access_to_post($page);
+        if ($access) {
+            //The post purschased already
+            switch ($content_type) {
+                case 'file':
+                    $button_label = 'Download now';
+                    break;
+                case 'video':
+                case 'gallery':
+                    $button_label = 'Watch now';
+                    break;
+                case 'music':
+                case 'audio':
+                    $button_label = 'Listen now';
+                    break;
+                default:
+                    $button_label = 'Read now';
+                    break;
+            };
+            $button_page_url = '';
+            if ($page->post_type == 'attachment') {
+                //Link for purchased attachment
+                $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url($page_id, wp_get_attachment_url($page->ID), $access, 'attachment');
+            } else {
+                //Link for purchased post
+                $button_page_url = $page_url;
+            }
+            $html_button = "    <a href=\"$button_page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+        } else {
+            //The post is not purchased yet
+            $button_page_url = $page_url;
+            $button_label    = $price_tag;
+            $html_button     = $this->the_purchase_button($page);
+        }
 
         // escape user input
         $image_path     = esc_url( $a['teaser_image_path'] );
@@ -193,7 +229,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         } else {
             $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
         }
-        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$price_tag</a>";
+        $html .= $html_button;
         $html .= '    <div class="lp_premium-file-details">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
@@ -221,5 +257,43 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     function render_premium_download_box_wrapper( $atts, $content = null ) {
         return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
     }
+	
+    /**
+     * Callback to generate a LaterPay purchase button within the theme that can be freely positioned.
+     * When doing this, you should set config option 'content.show_purchase_button' to FALSE to disable the default
+     * rendering of a purchase button at the beginning of the post content, thus avoiding multiple purchase buttons
+     * on the post page.
+     *
+     * @wp-hook laterpay_purchase_button
+     *
+     * @return void
+     */
+    public function the_purchase_button($post) {
+        // check, if the current post is purchasable
+        if (!LaterPay_Helper_Pricing::is_purchasable($post)) {
+            return;
+        }
+
+        // check, if the current post was already purchased
+        if (LaterPay_Helper_Post::has_access_to_post($post)) {
+            return;
+        }
+
+        $view_args = array(
+            'post_id'                 => $post->ID,
+            'link'                    => LaterPay_Helper_Post::get_laterpay_purchase_link($post->ID),
+            'currency'                => get_option('laterpay_currency'),
+            'price'                   => LaterPay_Helper_Pricing::get_post_price($post->ID),
+            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor($post),
+        );
+
+        laterpay_get_logger()->info(
+                __METHOD__, $view_args
+        );
+
+        $this->assign('laterpay', $view_args);
+
+        return $this->get_text_view('frontend/partials/post/shortcode_purchase_button');
+    }	
 
 }

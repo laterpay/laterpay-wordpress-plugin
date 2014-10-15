@@ -38,7 +38,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             exit;
         }
 
-        if ( ! is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
+        if ( ! is_user_logged_in() && ! LaterPay_Helper_Post::has_access_to_post( $post ) ) {
             // check access to paid post for not logged in users only
             exit;
         } else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ) {
@@ -72,8 +72,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'buy'         => $_GET[ 'buy' ],
             'ip'          => $_GET[ 'ip' ],
         );
-        $url    = $this->get_after_purchase_redirect_url( $url_data );
-        $hash   = $this->get_hash_by_url( $url );
+        $url    = LaterPay_Helper_Post::get_after_purchase_redirect_url( $url_data );
+        $hash   = LaterPay_Helper_Post::get_hash_by_url( $url );
         // update lptoken if we got it
         if ( isset( $_GET['lptoken'] ) ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
@@ -209,168 +209,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check, if user has access to a post.
-     *
-     * @param WP_Post $post
-     *
-     * @return boolean success
-     */
-    public function has_access_to_post( WP_Post $post ) {
-        $post_id = $post->ID;
-
-        $this->logger->info(
-            __METHOD__,
-            array(
-                'post' => $post
-            )
-        );
-
-        // access was already checked
-        if ( array_key_exists( $post_id, $this->access ) ) {
-            return (bool) $this->access[ $post_id ];
-        }
-
-        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-
-        if ( $price != 0 ) {
-            $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                    $client_options['cp_key'],
-                    $client_options['api_key'],
-                    $client_options['api_root'],
-                    $client_options['web_root'],
-                    $client_options['token_name']
-            );
-            $result = $laterpay_client->get_access( array( $post_id ) );
-
-            if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
-                $this->logger->warning(
-                    __METHOD__ . ' - post not found ',
-                    array(
-                        'result' => $result
-                    )
-                );
-                return false;
-            }
-
-            if ( array_key_exists( $post_id, $result[ 'articles' ] ) ) {
-                $access = (bool) $result[ 'articles' ][ $post_id ][ 'access' ];
-                $this->access[ $post_id ] = $access;
-
-                $this->logger->info(
-                    __METHOD__ . ' - post has access',
-                    array(
-                        'result' => $result,
-                    )
-                );
-
-                return $access;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Get the LaterPay purchase link for a post.
-     *
-     * @param int $post_id
-     *
-     * @return string url || empty string if something went wrong
-     */
-    public function get_laterpay_purchase_link( $post_id ) {
-        $post = get_post( $post_id );
-        if ( $post === null ) {
-            return '';
-        }
-
-        // re-set the post_id
-        $post_id        = $post->ID;
-
-        $currency       = get_option( 'laterpay_currency' );
-        $price          = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
-
-        $currency_model = new LaterPay_Model_Currency();
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-        );
-
-        // data to register purchase after redirect from LaterPay
-        $url_params = array(
-            'post_id'     => $post_id,
-            'id_currency' => $currency_model->get_currency_id_by_iso4217_code( $currency ),
-            'price'       => $price,
-            'date'        => time(),
-            'buy'         => 'true',
-            'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
-        );
-        $url    = $this->get_after_purchase_redirect_url( $url_params );
-        $hash   = $this->get_hash_by_url( $url );
-
-        // parameters for LaterPay purchase form
-        $params = array(
-            'article_id'    => $post_id,
-            'pricing'       => $currency . ( $price * 100 ),
-            'vat'           => $this->config->get( 'currency.default_vat' ),
-            'url'           => $url . '&hash=' . $hash,
-            'title'         => $post->post_title,
-        );
-
-        $this->logger->info(
-            __METHOD__,
-            $params
-        );
-
-        if ( $revenue_model == 'sis' ) {
-            // Single Sale purchase
-            return $client->get_buy_url( $params );
-        } else {
-            // Pay-per-Use purchase
-            return $client->get_add_url( $params );
-        }
-    }
-
-    /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    protected function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
-    }
-
-    /**
-     * Generate the URL to which the user is redirected to after buying a given post.
-     *
-     * @param array $data
-     *
-     * @return string $url
-     */
-    protected function get_after_purchase_redirect_url( array $data ) {
-        $url = get_permalink( $data[ 'post_id' ] );
-
-        if ( ! $url ) {
-            $this->logger->error(
-                __METHOD__ . ' could not find an URL for the given post_id',
-                array( 'data' => $data )
-            );
-            return $url;
-        }
-
-        $url = add_query_arg( $data, $url );
-
-        return $url;
-    }
-
-    /**
      * Check, if LaterPay is enabled for the given post type.
      *
      * @param string $post_type
@@ -421,13 +259,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post = get_post();
 
         // check, if the current post was already purchased
-        if ( $this->has_access_to_post( $post ) ) {
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
             return;
         }
 
         $view_args = array(
             'post_id'                   => $post->ID,
-            'link'                      => $this->get_laterpay_purchase_link( $post->ID ),
+            'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
             'currency'                  => get_option( 'laterpay_currency' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
@@ -507,7 +345,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get purchase link
-        $purchase_link = $this->get_laterpay_purchase_link( $post_id );
+        $purchase_link = LaterPay_Helper_Post::get_laterpay_purchase_link( $post_id );
 
         // get the teaser content
         $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
@@ -522,7 +360,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
 
         // check, if user has access to content (because he already bought it)
-        $access = $this->has_access_to_post( $post );
+        $access = LaterPay_Helper_Post::has_access_to_post( $post );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ( $user_can_read_statistics ) {
