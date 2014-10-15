@@ -30,7 +30,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
                         srcJS       : './laterpay/assets/js_src/',
                         srcSVG      : './laterpay/assets/img/**/*.svg',
                         distJS      : './laterpay/assets/js/',
-                        distCss     : './laterpay/assets/css/',
+                        distCSS     : './laterpay/assets/css/',
                         distSVG     : './laterpay/assets/img/',
                     };
 
@@ -38,7 +38,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
 // TASKS -----------------------------------------------------------------------
 // clean up all files in the target directories
 gulp.task('clean', function(cb) {
-    del([p.distJS + '*.js', p.distCss + '*.css'], cb);
+    del([p.distJS + '*.js', p.distCSS + '*.css'], cb);
 });
 
 // CSS related tasks
@@ -50,7 +50,7 @@ gulp.task('css-watch', function() {
             // TODO: generate sourcemap
         }))
         .on('error', notify.onError())
-        .pipe(gulp.dest(p.distCss));                                            // move to target folder
+        .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
 gulp.task('css-build', function() {
@@ -65,7 +65,7 @@ gulp.task('css-build', function() {
         // }))
         .on('error', notify.onError())
         // .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 7'))  // vendorize properties for supported browsers
-        .pipe(gulp.dest(p.distCss));                                            // move to target folder
+        .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
 // Javascript related tasks
@@ -73,11 +73,6 @@ gulp.task('js-watch', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(cached('hinting'))                                                // only process modified files
             .pipe(soften(4))
-            .pipe(fixmyjs({                                                         // fix JSHint errors if possible
-                lookup: false
-            }))
-            .pipe(jshint('.jshintrc'))                                          // lint with JSHint
-            .pipe(jshint.reporter(stylish))                                     // output JSHint results
             .pipe(gulp.dest(p.distJS))                                          // move to target folder
             .pipe(notify({message: 'JS task complete :-)'}));
 });
@@ -88,9 +83,9 @@ gulp.task('js-build', function() {
         .pipe(fixmyjs({                                                         // fix JSHint errors if possible
             lookup: false
         }))
-        .pipe(uglify())                                                         // compress with uglify
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish))
+        .pipe(uglify())                                                         // compress with uglify
         .pipe(gulp.dest(p.distJS));                                             // move to target folder
 });
 
@@ -157,7 +152,7 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish));
 
-    gulp.src(p.srcStylus)
+    gulp.src(p.distCSS + '*.css')
         .pipe(csslint())
         .pipe(csslint.reporter());
 });
