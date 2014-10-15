@@ -204,7 +204,7 @@ abstract class LaterPay_Form_Abstract
 
         $fields = $this->get_fields();
 
-        if ( isset( $fields[$field] ) && $fields[$field]['can_be_null'] && $fields[$field]['value'] === null ) {
+        if ( $fields[$field]['can_be_null'] ) {
             return true;
         }
 
@@ -252,18 +252,22 @@ abstract class LaterPay_Form_Abstract
         // Validation logic
         if ( is_array( $fields ) ) {
             foreach ( $fields as $name => $field ) {
-                if ( ! $this->check_if_field_can_be_null( $name ) ) {
-                    $validators = $field['validators'];
-                    foreach ( $validators as $validator_key => $validator_value ) {
-                        $validator_option = is_int( $validator_key ) ? $validator_value : $validator_key;
-                        $validator_params = is_int( $validator_key ) ? null : $validator_value;
-                        $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
+                $validators = $field['validators'];
+                foreach ( $validators as $validator_key => $validator_value ) {
+                    $validator_option = is_int( $validator_key ) ? $validator_value : $validator_key;
+                    $validator_params = is_int( $validator_key ) ? null : $validator_value;
+
+                    // continue loop if field can be null and has null value
+                    if ( $this->check_if_field_can_be_null( $name ) && $this->get_field_value( $name ) === null ) {
+                        continue;
+                    }
+
+                    $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
 //                        var_dump($field['value']);
 //                        var_dump($validator_option, $is_valid);
-                        if ( ! $is_valid ) {
-                            // Data not valid
-                            return false;
-                        }
+                    if ( ! $is_valid ) {
+                        // Data not valid
+                        return false;
                     }
                 }
             }
@@ -289,6 +293,12 @@ abstract class LaterPay_Form_Abstract
                     foreach ( $filters as $filter_key => $filter_value ) {
                         $filter_option = is_int( $filter_key ) ? $filter_value : $filter_key;
                         $filter_params = is_int( $filter_key ) ? null : $filter_value;
+
+                        // continue loop if field can be null and has null value
+                        if ( $this->check_if_field_can_be_null( $name ) && $this->get_field_value( $name ) === null ) {
+                            continue;
+                        }
+
                         $this->set_field_value( $name, $this->sanitize_value( $this->get_field_value( $name ), $filter_option, $filter_params ) );
                     }
                 }

@@ -69,7 +69,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     ),
                     'format_num' => 2,
                     'to_float'
-                )
+                ),
+                'can_be_null' => true
             )
         );
 
@@ -110,7 +111,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     )
                 ),
                 'filters' => array(
-                    'to_string'
+                    'to_string',
+                    'unslash'
                 )
             )
         );
@@ -123,8 +125,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'in_array' => array( 'individual price', 'category default price', 'global default price' )
                 ),
                 'filters'    => array(
-                    'to_string'
-                )
+                    'to_string',
+                    'unslash'
+                ),
+                'can_be_null' => true
             )
         );
 
@@ -142,14 +146,83 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_post_default_category',
+            'laterpay_start_price',
+            array(
+                'validators' => array(
+                    'is_string'
+                ),
+                'filters' => array(
+                    'to_string',
+                    'unslash'
+                ),
+                'can_be_null' => true
+            )
+        );
+
+        $this->set_field(
+            'laterpay_end_price',
+            array(
+                'validators' => array(
+                    'is_string'
+                ),
+                'filters' => array(
+                    'to_string',
+                    'unslash'
+                ),
+                'can_be_null' => true
+            )
+        );
+
+        $this->set_field(
+            'laterpay_change_start_price_after_days',
             array(
                 'validators' => array(
                     'is_int'
                 ),
                 'filters' => array(
                     'to_int'
-                )
+                ),
+                'can_be_null' => true
+            )
+        );
+
+        $this->set_field(
+            'laterpay_transitional_period_end_after_days',
+            array(
+                'validators' => array(
+                    'is_int'
+                ),
+                'filters' => array(
+                    'to_int'
+                ),
+                'can_be_null' => true
+            )
+        );
+
+        $this->set_field(
+            'laterpay_reach_end_price_after_days',
+            array(
+                'validators' => array(
+                    'is_int'
+                ),
+                'filters' => array(
+                    'to_int'
+                ),
+                'can_be_null' => true
+            )
+        );
+
+        $this->set_field(
+            'laterpay_post_default_category',
+            array(
+                'validators' => array(
+                    'is_int'
+                ),
+                'filters' => array(
+                    'unslash',
+                    'to_int'
+                ),
+                'can_be_null' => true
             )
         );
     }
