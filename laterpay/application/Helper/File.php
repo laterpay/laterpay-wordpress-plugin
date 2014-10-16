@@ -18,7 +18,14 @@ class LaterPay_Helper_File
     const SCRIPT_PATH = 'admin-ajax.php?action=laterpay_load_files';
 
     /**
-     * Cache protected urls
+     * Default file disposition.
+     *
+     * @var string
+     */
+    const DEFAULT_FILE_DISPOSITION = 'inline';
+
+    /**
+     * Cache protected urls.
      *
      * @var null, array
      */
@@ -34,8 +41,9 @@ class LaterPay_Helper_File
     public static function check_url_encrypt( $resource_url_parts ) {
         // get path of resource
         $blog_url_parts = parse_url( get_bloginfo( 'wpurl' ) );
-		if ( ! $blog_url_parts )
-			return false;
+        if ( ! $blog_url_parts ) {
+            return false;
+        }
 
         if ( $blog_url_parts['host'] != $resource_url_parts['host'] ) {
             // don't encrypt, because resource is not located at current host
@@ -82,13 +90,14 @@ class LaterPay_Helper_File
     /**
      * Return an encrypted URL, if a file should be secured against direct access.
      *
-     * @param int      $post_id
-     * @param string   $url
-     * @param boolean  $use_auth
+     * @param int           $post_id
+     * @param string        $url
+     * @param boolean       $use_auth
+     * @param string|null   $set_file_disposition
      *
      * @return string $url
      */
-    public static function get_encrypted_resource_url( $post_id, $url, $use_auth ) {
+    public static function get_encrypted_resource_url( $post_id, $url, $use_auth, $set_file_disposition = null ) {
         $resource_url_parts = parse_url( $url );
         if ( ! self::check_url_encrypt( $resource_url_parts ) ) {
             // return unmodified URl, if file should not be encrypted
@@ -102,7 +111,7 @@ class LaterPay_Helper_File
         $cipher->setKey( SECURE_AUTH_SALT );
         $file       = base64_encode( $cipher->encrypt( $uri ) );
 
-		$request    = new LaterPay_Core_Request();
+        $request    = new LaterPay_Core_Request();
         $path       = $request->getServer( 'DOCUMENT_ROOT' ) . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
 
@@ -120,6 +129,9 @@ class LaterPay_Helper_File
             'file'  => $file,
             'ext'   => '.' . $ext,
         );
+        if ( isset( $set_file_disposition ) ) {
+            $params['file_disposition'] = $set_file_disposition;
+        }
         if ( $use_auth ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $client = new LaterPay_Client(
@@ -156,13 +168,14 @@ class LaterPay_Helper_File
         );
 
         // request parameters
-        $file       = $request->get_param( 'file' );     // required, relative file path
-        $aid        = $request->get_param( 'aid' );      // required, article id
-        $mt         = $request->get_param( 'mt' );       // optional, need to convert file to requested type
-        $lptoken    = $request->get_param( 'lptoken' );  // optional, to update token
-        $hmac       = $request->get_param( 'hmac' );     // required, token to validate request
-        $ts         = $request->get_param( 'ts' );       // required, timestamp
-        $auth       = $request->get_param( 'auth' );     // required, need to bypass API::get_access calls
+        $file               = $request->get_param( 'file' );                // required, relative file path
+        $aid                = $request->get_param( 'aid' );                 // required, article id
+        $mt                 = $request->get_param( 'mt' );                  // optional, need to convert file to requested type
+        $lptoken            = $request->get_param( 'lptoken' );             // optional, to update token
+        $hmac               = $request->get_param( 'hmac' );                // required, token to validate request
+        $ts                 = $request->get_param( 'ts' );                  // required, timestamp
+        $auth               = $request->get_param( 'auth' );                // required, need to bypass API::get_access calls
+        $file_disposition   = $request->get_param( 'file_disposition' );    // optional, required for attachments
 
         laterpay_get_logger()->debug(
             'RESOURCE::incoming parameters',
@@ -202,7 +215,7 @@ class LaterPay_Helper_File
         }
 
         if ( ! empty( $hmac ) && ! empty( $ts ) ) {
-			if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
+            if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
                 laterpay_get_logger()->error( 'RESOURCE:: invalid $hmac or $ts has expired' );
                 $response->set_http_response_code( 401 );
                 $response->send_response();
@@ -248,7 +261,7 @@ class LaterPay_Helper_File
             $tokenInstance = new LaterPay_Core_Auth_Hmac( $api_key );
             if ( $tokenInstance->validate_token( $client->get_laterpay_token(), time(), $auth ) ) {
                 laterpay_get_logger()->error( 'RESOURCE:: Auth param is valid. Sending file.' );
-                $this->send_response( $file, $mt );
+                $this->send_response( $file, $mt, $file_disposition );
                 exit();
             }
             laterpay_get_logger()->debug( 'RESOURCE:: Auth param is not valid.' );
@@ -267,7 +280,7 @@ class LaterPay_Helper_File
         // send file
         if ( $access ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Has access - sending file.' );
-            $this->send_response( $file, $mt );
+            $this->send_response( $file, $mt, $file_disposition );
         } else {
             laterpay_get_logger()->error( 'RESOURCE:: Doesn\'t have access. Finish.' );
             $response->set_http_response_code( 403 );
@@ -299,7 +312,7 @@ class LaterPay_Helper_File
         }
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
-		$file   = $request->getServer( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
+        $file   = $request->getServer( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
 
         return $file;
     }
@@ -307,16 +320,21 @@ class LaterPay_Helper_File
     /**
      * Send a secured file to the user.
      *
-     * @param string $file
+     * @param string      $file
+     * @param string      $mt
+     * @param string|null $disposition
      *
      * @return void
      */
-    protected function send_response( $file ) {
+    protected function send_response( $file, $mt = null, $disposition = null ) {
         $response = new LaterPay_Core_Response();
+
+        if ( empty( $disposition ) ) {
+            $disposition = self::DEFAULT_FILE_DISPOSITION;
+        }
 
         $file = $this->get_decrypted_file_name( $file );
         if ( ! file_exists( $file ) ) {
-
             laterpay_get_logger()->error( 'RESOURCE:: file not found', array( 'file' => $file ) );
 
             $response->set_http_response_code( 404 );
@@ -329,7 +347,7 @@ class LaterPay_Helper_File
         $filename = basename( $file );
 
         $response->set_header( 'Content-Type', $filetype['type'] );
-        $response->set_header( 'Content-Disposition', 'inline; filename="' . $filename .'"' );
+        $response->set_header( 'Content-Disposition', $disposition . '; filename="' . $filename . '"' );
         $response->set_header( 'Content-Length', $fsize );
         $response->setBody( $data );
         $response->set_http_response_code( 200 );
