@@ -211,7 +211,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             // the user has not purchased the item yet
             $button_page_url = $page_url;
             $button_label    = $price_tag;
-            $html_button     = $this->the_purchase_button( $page );
+            // hide purchase button for administrator preview
+            if (current_user_can('administrator')) {
+                $html_button = '';
+            } else {
+                $html_button = $this->the_purchase_button($page);
+            }
         }
 
         // escape user input

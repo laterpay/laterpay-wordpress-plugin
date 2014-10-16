@@ -107,12 +107,10 @@ class LaterPay_Helper_Post {
             'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
         if ( $post->post_type == 'attachment' ) {
-            // used $use_auth == true instead of LaterPay_Helper_Post::has_access_to_post(),
-            //  because after purchase post will be accessible anyway and now it's not
             $url = LaterPay_Helper_File::get_encrypted_resource_url(
                                             $post_id,
                                             wp_get_attachment_url( $post_id ),
-                                            true,
+                                            false,
                                             'attachment'
                                         );
         } else {
