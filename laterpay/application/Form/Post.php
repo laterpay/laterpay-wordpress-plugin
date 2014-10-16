@@ -81,7 +81,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'in_array' => array( 'ppu', 'sis' ),
                     'depends' => array(
                         array(
-                            'field' => 'price',
+                            'field' => 'post-price',
                             'value' => 'sis',
                             'conditions' => array(
                                 'cmp' => array(
@@ -103,6 +103,9 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                                     ),
                                     array(
                                         'eq'  => 0.00,
+                                    ),
+                                    array(
+                                        'eq'  => null,
                                     ),
                                 ),
                             ),
@@ -139,8 +142,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                 ),
                 'filters'    => array(
                     'to_string',
-                ),
-                'can_be_null' => true,
+                )
             )
         );
 
@@ -153,8 +155,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                 'filters' => array(
                     'to_string',
                     'unslash',
-                ),
-                'can_be_null' => true,
+                )
             )
         );
 
@@ -167,8 +168,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                 'filters' => array(
                     'to_string',
                     'unslash',
-                ),
-                'can_be_null' => true,
+                )
             )
         );
 
@@ -180,8 +180,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                 ),
                 'filters' => array(
                     'to_int',
-                ),
-                'can_be_null' => true,
+                )
             )
         );
 
@@ -193,8 +192,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                 ),
                 'filters' => array(
                     'to_int',
-                ),
-                'can_be_null' => true,
+                )
             )
         );
 
@@ -206,8 +204,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                 ),
                 'filters' => array(
                     'to_int',
-                ),
-                'can_be_null' => true,
+                )
             )
         );
 

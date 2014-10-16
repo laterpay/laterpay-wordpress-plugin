@@ -280,19 +280,17 @@ abstract class LaterPay_Form_Abstract
         // get all form filters
         if ( is_array( $fields ) ) {
             foreach ( $fields as $name => $field ) {
-                if ( ! $this->check_if_field_can_be_null( $name ) ) {
-                    $filters = $field['filters'];
-                    foreach ( $filters as $filter_key => $filter_value ) {
-                        $filter_option = is_int( $filter_key ) ? $filter_value : $filter_key;
-                        $filter_params = is_int( $filter_key ) ? null : $filter_value;
+                $filters = $field['filters'];
+                foreach ( $filters as $filter_key => $filter_value ) {
+                    $filter_option = is_int( $filter_key ) ? $filter_value : $filter_key;
+                    $filter_params = is_int( $filter_key ) ? null : $filter_value;
 
-                        // continue loop if field can be null and has null value
-                        if ( $this->check_if_field_can_be_null( $name ) && $this->get_field_value( $name ) === null ) {
-                            continue;
-                        }
-
-                        $this->set_field_value( $name, $this->sanitize_value( $this->get_field_value( $name ), $filter_option, $filter_params ) );
+                    // continue loop if field can be null and has null value
+                    if ( $this->check_if_field_can_be_null( $name ) && $this->get_field_value( $name ) === null ) {
+                        continue;
                     }
+
+                    $this->set_field_value( $name, $this->sanitize_value( $this->get_field_value( $name ), $filter_option, $filter_params ) );
                 }
             }
         }

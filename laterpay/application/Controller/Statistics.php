@@ -92,7 +92,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      * @return void
      */
     public function ajax_track_views() {
-
         $statistic_form = new LaterPay_Form_Statistics();
 
         if ( $statistic_form->is_valid( $_POST ) ) {
@@ -144,7 +143,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      * @return void
      */
     public function ajax_toggle_preview() {
-
         $statistics_preview_form = new LaterPay_Form_StatisticsPreview( $_POST );
         $preview_post = $statistics_preview_form->get_field_value( 'preview_post' );
 
@@ -204,7 +202,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      * @return void
      */
     public function ajax_toggle_visibility() {
-
         $statistics_visibility_form = new LaterPay_Form_StatisticsVisibility();
 
         $current_user = wp_get_current_user();
@@ -248,7 +245,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
      * @return void
      */
     public function ajax_render_tab() {
-
         $statistic_form = new LaterPay_Form_Statistics( $_GET );
 
         $condition = array(
