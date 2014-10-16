@@ -7,7 +7,7 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
@@ -72,8 +72,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'ppu', 'sis' ),
-                    'depends' => array(
+                    'in_array'  => array( 'ppu', 'sis' ),
+                    'depends'   => array(
                         array(
                             'field' => 'price',
                             'value' => 'sis',
@@ -96,7 +96,7 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                                         'gte' => 0.05,
                                     ),
                                     array(
-                                        'eq'   => 0.00,
+                                        'eq' => 0.00,
                                     ),
                                 ),
                             ),
@@ -116,7 +116,7 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                 'validators'    => array(
                     'is_string',
                 ),
-                'filters'       => array(
+                'filters' => array(
                     'to_string',
                     'text',
                 ),
@@ -131,11 +131,11 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                     // TODO: this is just a dirty hack to allow saving Single Sale prices
                     'cmp' => array(
                         array(
-                            'lte'  => 149.99,
-                            'gte'  => 0.05,
+                            'lte' => 149.99,
+                            'gte' => 0.05,
                         ),
                         array(
-                            'eq'   => 0.00,
+                            'eq'  => 0.00,
                         ),
                     ),
                 ),

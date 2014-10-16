@@ -323,6 +323,14 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.8.2 (October 9, 2014): Integration Support Release =
+* Added debugger pane to help with integration of plugin (pane is displayed in debug mode: define('WP_DEBUG', true);)
+* Documented UI options and shortcode usage in appearance tab
+* Made post statistics logging compatible with page caching
+* Ensured that LaterPay can be enabled on attachment pages
+* Extended file protection in paid posts to all files on current host
+* Disabled option to select currency as currently only Euro is supported
+
 = 0.9.8.1 (September 30, 2014): Bugfix Release =
 * Made sure the LaterPay client is included in the release
 

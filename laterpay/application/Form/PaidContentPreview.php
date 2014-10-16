@@ -7,7 +7,7 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
@@ -19,10 +19,10 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'paid_content_preview'
-                        )
-                    )
-                )
+                            'eq' => 'paid_content_preview',
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -33,10 +33,10 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_appearance'
-                        )
-                    )
-                )
+                            'eq' => 'laterpay_appearance',
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -47,10 +47,10 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -59,11 +59,11 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array( 0, 1 )
+                    'in_array' => array( 0, 1 ),
                 ),
                 'filters' => array(
                     'to_int'
-                )
+                ),
             )
         );
     }

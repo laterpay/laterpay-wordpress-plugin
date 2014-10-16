@@ -93,7 +93,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     wp_send_json(
                         array(
                             'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                         )
                     );
 
@@ -106,14 +106,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * Update LaterPay Merchant ID, required for making test transactions against Sandbox or Live environments.
      *
      * @param null $is_live
+     *
      * @return void
      */
     protected static function update_merchant_id( $is_live = null ) {
-
         $merchant_id_form = new LaterPay_Form_MerchantId( $_POST );
 
-        $merchant_id = $merchant_id_form->get_field_value('merchant_id');
-        $merchant_id_type = $is_live ? 'live' : 'sandbox';
+        $merchant_id        = $merchant_id_form->get_field_value( 'merchant_id' );
+        $merchant_id_type   = $is_live ? 'live' : 'sandbox';
 
         if ( $merchant_id_form->is_valid() ) {
             update_option( sprintf( 'laterpay_%s_merchant_id', $merchant_id_type ), $merchant_id );
@@ -123,7 +123,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message' => sprintf(
                         __( '%s Merchant ID verified and saved.', 'laterpay' ),
                         ucfirst( $merchant_id_type )
-                    )
+                    ),
                 )
             );
         } elseif ( strlen( $merchant_id ) == 0 ) {
@@ -134,7 +134,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message' => sprintf(
                         __( 'The %s Merchant ID has been removed.', 'laterpay' ),
                         ucfirst( $merchant_id_type )
-                    )
+                    ),
                 )
             );
         } else {
@@ -144,7 +144,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message' => sprintf(
                         __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
                         ucfirst( $merchant_id_type )
-                    )
+                    ),
                 )
             );
         }
@@ -156,15 +156,15 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * Update LaterPay API Key, required for making test transactions against Sandbox or Live environments.
      *
      * @param null $is_live
+     *
      * @return void
      */
     protected static function update_api_key( $is_live = null ) {
-
         $api_key_form = new LaterPay_Form_ApiKey( $_POST );
 
-        $api_key = $api_key_form->get_field_value('api_key');
-        $api_key_type = $is_live ? 'live' : 'sandbox';
-        $transaction_type = $is_live ? 'REAL' : 'TEST';
+        $api_key            = $api_key_form->get_field_value( 'api_key' );
+        $api_key_type       = $is_live ? 'live' : 'sandbox';
+        $transaction_type   = $is_live ? 'REAL' : 'TEST';
 
         if ( $api_key_form->is_valid() ) {
             update_option( sprintf( 'laterpay_%s_api_key', $api_key_type ), $api_key );
@@ -174,7 +174,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message' => sprintf(
                         __( 'Your %s API key is valid. You can now make %s transactions.', 'laterpay' ),
                         ucfirst( $api_key_type ), $transaction_type
-                    )
+                    ),
                 )
             );
         } elseif ( strlen( $api_key ) == 0 ) {
@@ -185,7 +185,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message' => sprintf(
                         __( 'The %s API key has been removed.', 'laterpay' ),
                         ucfirst( $api_key_type )
-                    )
+                    ),
                 )
             );
         } else {
@@ -195,7 +195,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message' => sprintf(
                         __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
                         ucfirst( $api_key_type )
-                    )
+                    ),
                 )
             );
         }
@@ -209,7 +209,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * @return void
      */
     protected static function update_plugin_mode() {
-
         $plugin_mode_form = new LaterPay_Form_PluginMode();
 
         if ( ! $plugin_mode_form->is_valid( $_POST ) ) {

@@ -57,7 +57,7 @@ abstract class LaterPay_Form_Abstract
     );
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array $data
      *
@@ -67,7 +67,7 @@ abstract class LaterPay_Form_Abstract
         // Call init method from child class
         $this->init();
 
-        // Set data into form if it specified
+        // set data to form, if specified
         if ( ! empty( $data ) ) {
             $this->set_data( $data );
         }
@@ -81,29 +81,30 @@ abstract class LaterPay_Form_Abstract
     abstract protected function init();
 
     /**
-     * Set new field, options for its validation and filter options (sanitizer)
+     * Set new field, options for its validation, and filter options (sanitizer).
      *
-     * @param          $name
-     * @param array    $options
-     * @return bool    field was created or already exists
+     * @param       $name
+     * @param array $options
+     *
+     * @return bool field was created or already exists
      */
     public function set_field( $name, $options = array() ) {
         $fields = $this->get_fields();
 
-        // Check if field already exists
+        // check, if field already exists
         if ( isset( $fields[$name] ) ) {
             return false;
         } else {
             // field name
             $data                = array();
             // validators
-            $data['validators']  = isset( $options['validators'] ) ? $options['validators'] : array();
+            $data['validators']  = isset( $options['validators'] )      ? $options['validators']    : array();
             // filters (sanitize)
-            $data['filters']     = isset( $options['filters'] ) ? $options['filters'] : array();
+            $data['filters']     = isset( $options['filters'] )         ? $options['filters']       : array();
             // default value
-            $data['value']       = isset( $options['default_value'] ) ? $options['default_value'] : null;
+            $data['value']       = isset( $options['default_value'] )   ? $options['default_value'] : null;
             // do not apply filters to null value
-            $data['can_be_null'] = isset( $options['can_be_null'] ) ? $options['can_be_null'] : false;
+            $data['can_be_null'] = isset( $options['can_be_null'] )     ? $options['can_be_null']   : false;
 
             // name not strict, value searched in data by part of the name (for dynamic params)
             if ( isset( $options['not_strict_name'] ) && $options['not_strict_name'] ) {
@@ -117,10 +118,11 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Save data in field
+     * Save data in field.
      *
      * @param $name
      * @param $data
+     *
      * @return void
      */
     protected function save_field_data( $name, $data ) {
@@ -128,7 +130,7 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Get all fields
+     * Get all fields.
      *
      * @return array
      */
@@ -137,7 +139,7 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Get all filters
+     * Get all filters.
      *
      * @return array
      */
@@ -146,9 +148,10 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Get field value
+     * Get field value.
      *
      * @param $field_name
+     *
      * @return mixed
      */
     public function get_field_value( $field_name ) {
@@ -162,10 +165,11 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Set field value
+     * Set field value.
      *
      * @param $field_name
      * @param $value
+     *
      * @return void
      */
     protected function set_field_value( $field_name, $value ) {
@@ -173,9 +177,10 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Add field name to nostrict array
+     * Add field name to nostrict array.
      *
      * @param $name
+     *
      * @return void
      */
     protected function set_nostrict( $name ) {
@@ -235,10 +240,10 @@ abstract class LaterPay_Form_Abstract
 
         $fields = $this->get_fields();
 
-        // Set to false by default, probably data missed
+        // set to false by default, probably data missed
         $is_valid = false;
 
-        // Validation logic
+        // validation logic
         if ( is_array( $fields ) ) {
             foreach ( $fields as $name => $field ) {
                 $validators = $field['validators'];
@@ -252,10 +257,9 @@ abstract class LaterPay_Form_Abstract
                     }
 
                     $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
-//                        var_dump($field['value']);
-//                        var_dump($validator_option, $is_valid);
+
                     if ( ! $is_valid ) {
-                        // Data not valid
+                        // data not valid
                         return false;
                     }
                 }
@@ -266,7 +270,7 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Apply filters to form data
+     * Apply filters to form data.
      *
      * @return void
      */
@@ -295,15 +299,16 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Apply filter to the value
+     * Apply filter to the value.
      *
      * @param $value
      * @param $filter
      * @param null $filter_params
+     *
      * @return mixed
      */
     public function sanitize_value( $value, $filter, $filter_params = null ) {
-        //get filters
+        // get filters
         $filters = $this->get_filters();
 
         // sanitize value according to selected filter
@@ -321,10 +326,11 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Call str_replace with array of options
+     * Call str_replace with array of options.
      *
      * @param $value
      * @param $options
+     *
      * @return mixed
      */
     public static function replace( $value, $options ) {
@@ -336,17 +342,18 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Validate value by selected validator and its value optionally
+     * Validate value by selected validator and its value optionally.
      *
      * @param $value
      * @param $validator
      * @param null $validator_param
+     *
      * @return bool
      */
     public function validate_value( $value, $validator, $validator_params = null ) {
         $is_valid = false;
 
-        switch( $validator ) {
+        switch ( $validator ) {
             // compare value with set
             case 'cmp':
                 if ( $validator_params && is_array( $validator_params ) ) {
@@ -368,18 +375,22 @@ abstract class LaterPay_Form_Abstract
                     }
                 }
                 break;
-            // check if value is int
+
+            // check, if value is an int
             case 'is_int':
                 $is_valid = is_int( $value );
                 break;
-            // check if value is string
+
+            // check, if value is a string
             case 'is_string':
                 $is_valid = is_string( $value );
                 break;
-            // check if value is float
+
+            // check, if value is a float
             case 'is_float':
                 $is_valid = is_float( $value );
                 break;
+
             // check string length
             case 'strlen':
                 if ( $validator_params && is_array( $validator_params ) ) {
@@ -393,21 +404,25 @@ abstract class LaterPay_Form_Abstract
                     }
                 }
                 break;
-            // check if value in array
+
+            // check, if value is in array
             case 'in_array':
                 if ( $validator_params && is_array( $validator_params ) ) {
                     $is_valid = in_array( $value, $validator_params );
                 }
                 break;
-            // check if value is array
+
+            // check if value is an array
             case 'is_array':
                 $is_valid = is_array( $value );
                 break;
+
             case 'match':
                 if ( $validator_params && ! is_array( $validator_params ) ) {
                     $is_valid = preg_match( $validator_params, $value );
                 }
                 break;
+
             case 'depends':
                 if ( $validator_params && is_array( $validator_params ) ) {
                     //get all dependency
@@ -448,7 +463,7 @@ abstract class LaterPay_Form_Abstract
                 $is_valid = $post !== null;
                 break;
             default:
-                // Incorrect validator specified, do nothing
+                // incorrect validator specified, do nothing
                 break;
         }
 
@@ -456,55 +471,63 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Compare 2 values
+     * Compare two values
      *
      * @param $comparison_operator
      * @param $first_value
      * @param $second_value
+     *
      * @return bool
      */
-    protected function compare_values($comparison_operator, $first_value, $second_value) {
+    protected function compare_values( $comparison_operator, $first_value, $second_value ) {
         $result = false;
 
-        switch( $comparison_operator ) {
+        switch ( $comparison_operator ) {
             // equal ===
             case 'eq':
                 $result = ( $first_value === $second_value );
                 break;
+
             // not equal !==
             case 'ne':
                 $result = ( $first_value !== $second_value );
                 break;
+
             // greater than >
             case 'gt':
                 $result = ( $first_value > $second_value );
                 break;
+
             // greater than or equal >=
             case 'gte':
                 $result = ( $first_value >= $second_value );
                 break;
+
             // less than <
             case 'lt':
                 $result = ( $first_value < $second_value );
                 break;
+
             // less than or equal <=
             case 'lte':
                 $result = ( $first_value <= $second_value );
                 break;
+
             // search if string present in value
             case 'like':
                 $result = ( strpos( $first_value, $second_value ) !== false );
                 break;
+
             default:
-                // Incorrect comparison operator, do nothing
-            break;
+                // incorrect comparison operator, do nothing
+                break;
         }
 
         return $result;
     }
 
     /**
-     * Set data into fields and sanitize
+     * Set data into fields and sanitize it.
      *
      * @param $data
      *
@@ -513,15 +536,15 @@ abstract class LaterPay_Form_Abstract
     public function set_data( $data ) {
         $fields = $this->get_fields();
 
-        // Set data and sanitize it
+        // set data and sanitize it
         if ( is_array( $data ) ) {
-            foreach ($data as $name => $value) {
-                // Set only if name field was created
+            foreach ( $data as $name => $value ) {
+                // set only, if name field was created
                 if ( isset( $fields[$name] ) ) {
                     $this->set_field_value( $name, $value );
                     continue;
                 } elseif ( isset( $this->nostrict ) && is_array( $this->nostrict ) ) {
-                    // If field name no strict
+                    // if field name is not strict
                     foreach ( $this->nostrict as $field_name ) {
                         if ( strpos( $name, $field_name ) !== false ) {
                             $this->set_field_value( $field_name, $value );
@@ -531,7 +554,7 @@ abstract class LaterPay_Form_Abstract
                 }
             }
 
-            // Sanitize data if filters was specified
+            // sanitize data, if filters were specified
             $this->sanitize();
         }
 
@@ -539,15 +562,15 @@ abstract class LaterPay_Form_Abstract
     }
 
     /**
-     * Get form values
+     * Get form values.
      *
      * @return array
      */
     public function get_form_values() {
         $fields = $this->get_fields();
-        $data = array();
+        $data   = array();
 
-        foreach ( $fields as $name => $field_data) {
+        foreach ( $fields as $name => $field_data ) {
             $data[$name] = $field_data['value'];
         }
 

@@ -7,7 +7,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
@@ -83,7 +83,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                                         'gte' => 0.05,
                                     ),
                                     array(
-                                         'eq'   => 0.00,
+                                         'eq' => 0.00,
                                     ),
                                 ),
                             ),
@@ -104,11 +104,11 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                     // TODO: this is just a dirty hack to allow saving Single Sale prices
                     'cmp' => array(
                         array(
-                            'lte'  => 149.99,
-                            'gte'  => 0.05,
+                            'lte' => 149.99,
+                            'gte' => 0.05,
                         ),
                         array(
-                            'eq'   => 0.00,
+                            'eq' => 0.00,
                         ),
                     ),
                 ),

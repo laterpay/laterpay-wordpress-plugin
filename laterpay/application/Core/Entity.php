@@ -501,10 +501,10 @@ class LaterPay_Core_Entity
     protected function __to_xml( array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
         $xml = '';
         if ( $addOpenTag ) {
-            $xml.= '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+            $xml .= '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         }
         if ( ! empty( $rootName ) ) {
-            $xml.= '<' . $rootName . '>' . "\n";
+            $xml .= '<' . $rootName . '>' . "\n";
         }
         $xmlModel = new Varien_Simplexml_Element( '<node></node>' );
         $arrData = $this->to_array( $arrAttributes );
@@ -514,10 +514,10 @@ class LaterPay_Core_Entity
             } else {
                 $fieldValue = $xmlModel->xmlentities( $fieldValue );
             }
-            $xml.= "<$fieldName>$fieldValue</$fieldName>" . "\n";
+            $xml .= "<$fieldName>$fieldValue</$fieldName>" . "\n";
         }
         if ( ! empty( $rootName ) ) {
-            $xml.= '</' . $rootName . '>' . "\n";
+            $xml .= '</' . $rootName . '>' . "\n";
         }
 
         return $xml;

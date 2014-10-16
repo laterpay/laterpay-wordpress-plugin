@@ -1,13 +1,13 @@
 <?php
 
 /**
- * LaterPay api key form class
+ * LaterPay API key form class
  */
 class LaterPay_Form_MerchantId extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */

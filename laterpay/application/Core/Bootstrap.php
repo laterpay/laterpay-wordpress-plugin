@@ -55,7 +55,7 @@ class LaterPay_Core_Bootstrap
                 // add the admin panel
                 $admin_controller = new LaterPay_Controller_Admin( $this->config );
 
-                add_action('admin_head',                            array( $admin_controller, 'add_html5shiv_to_admin_head' ) );
+                add_action( 'admin_head',                           array( $admin_controller, 'add_html5shiv_to_admin_head' ) );
                 add_action( 'admin_menu',                           array( $admin_controller, 'add_to_admin_panel' ) );
                 add_action( 'admin_print_footer_scripts',           array( $admin_controller, 'modify_footer' ) );
                 add_action( 'load-post.php',                        array( $admin_controller, 'help_wp_edit_post' ) );
@@ -92,7 +92,8 @@ class LaterPay_Core_Bootstrap
             add_action( 'add_meta_boxes',                   array( $post_metabox_controller, 'add_meta_boxes' ) );
 
             // save laterpay post data
-            add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data') );
+            add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+            add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
 
             // load scripts for the admin pages
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
@@ -123,9 +124,13 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
         add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
-        // add filters to override post content
-        // we're using the filters in Ajax requests, so they have to stay outside the is_admin()-check
-        add_filter( 'the_content',                              array( $post_controller, 'modify_post_content' ) );
+        /**
+         * ->   add filters to override post content
+         * ->   we're using these filters in Ajax requests, so they have to stay outside the is_admin() check
+         * ->   the priority has to be 1 (first filter triggered)
+         *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
+         */
+        add_filter( 'the_content',                              array( $post_controller, 'modify_post_content' ), 1 );
         add_filter( 'wp_footer',                                array( $post_controller, 'modify_footer' ) );
 
         $statistics_controller = new LaterPay_Controller_Statistics( $this->config );

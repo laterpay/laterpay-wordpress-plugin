@@ -7,7 +7,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
@@ -59,10 +59,11 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'USD', 'EUR' ),
+                    'in_array' => array( 'EUR' ),
                 ),
             )
         );
     }
 }
+
 

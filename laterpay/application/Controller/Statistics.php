@@ -83,7 +83,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         LaterPay_Helper_Statistics::track( $post_id );
     }
-    
+
     /**
      * Ajax method to track unique visitors when caching compatible mode is enabled.
      *
@@ -103,7 +103,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 LaterPay_Helper_Statistics::track( $post_id );
             }
         }
-        
+
         exit;
     }
 
@@ -210,7 +210,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $current_user = wp_get_current_user();
         $error = array(
             'success' => false,
-            'message' => __("You don't have sufficient user capabilities to do this.", 'laterpay' ),
+            'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
         );
 
         // check the admin referer
@@ -275,9 +275,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 'post_id'                   => $post_id,
             );
             $this->assign( 'laterpay', $view_args );
-
-            $this->initialize_post_statistics( $post );
-            wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
         }
 
         exit;
@@ -362,13 +359,13 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         // assign variables
         $statistic_args = array(
-            'total'             => $total,
-            'last30DaysRevenue' => $last30DaysRevenue,
-            'todayRevenue'      => $todayRevenue,
-            'last30DaysBuyers'  => $last30DaysBuyers,
-            'todayBuyers'       => $todayBuyers,
-            'last30DaysVisitors'=> $last30DaysVisitors,
-            'todayVisitors'     => $todayVisitors,
+            'total'                 => $total,
+            'last30DaysRevenue'     => $last30DaysRevenue,
+            'todayRevenue'          => $todayRevenue,
+            'last30DaysBuyers'      => $last30DaysBuyers,
+            'todayBuyers'           => $todayBuyers,
+            'last30DaysVisitors'    => $last30DaysVisitors,
+            'todayVisitors'         => $todayVisitors,
         );
 
         $this->assign( 'statistic', $statistic_args );

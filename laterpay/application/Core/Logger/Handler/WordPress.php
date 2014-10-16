@@ -54,6 +54,35 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         return true;
     }
 
+
+    /**
+     * Load CSS and JS for debug pane.
+     *
+     * @wp-hook wp_enqueue_scripts
+     *
+     * @return void
+     */
+    public function load_assets() {
+        wp_register_style(
+            'laterpay-debugger',
+            $this->config->get( 'css_url' ) . 'laterpay-debugger.css',
+            array(),
+            $this->config->version
+        );
+
+        wp_register_script(
+            'laterpay-debugger',
+            $this->config->get( 'js_url' ) . 'laterpay-debugger.js',
+            array( 'jquery' ),
+            $this->config->version
+        );
+
+        if ( $this->config->get( 'debug_mode' ) ) {
+            wp_enqueue_style( 'laterpay-debugger' );
+            wp_enqueue_script( 'laterpay-debugger' );
+        }
+    }
+
     /**
      * Callback to render all records to footer.
      *
@@ -65,7 +94,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         ?>
             <div class="lp_debugger lp_is_hidden">
                 <header>
-                    <a class="lp_js_close-debugger lp_close-link lp_fl-right" data-icon="l"></a>
+                    <a href="#" class="lp_js_close-debugger lp_close-link lp_fl-right" data-icon="l"></a>
                     <div class="lp_fl-right"><?php echo sprintf( __( '%s Memory Usage', 'laterpay' ), number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB' ); ?></div>
                     <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 </header>
@@ -195,12 +224,10 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         return $system_info;
     }
 
-
-
     /**
      * Convert sizes.
      *
-     * @param  unknown $v
+     * @param unknown $v
      *
      * @return int|string
      */
@@ -222,33 +249,4 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         return $ret;
     }
-
-    /**
-     * Load CSS and JS for debug pane.
-     *
-     * @wp-hook wp_enqueue_scripts
-     *
-     * @return void
-     */
-    public function load_assets() {
-        wp_register_style(
-            'laterpay-debugger',
-            $this->config->get( 'css_url' ) . 'laterpay-debugger.css',
-            array(),
-            $this->config->version
-        );
-
-        wp_register_script(
-            'laterpay-debugger',
-            $this->config->get( 'js_url' ) . 'laterpay-debugger.js',
-            array( 'jquery' ),
-            $this->config->version
-        );
-
-        if ( $this->config->get( 'debug_mode' ) ) {
-            wp_enqueue_style( 'laterpay-debugger' );
-            wp_enqueue_script( 'laterpay-debugger' );
-        }
-    }
-
 }

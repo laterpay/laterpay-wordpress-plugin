@@ -38,7 +38,7 @@
                                 <span class="lp_input-icon lp_merchant-id-icon" data-icon="i"></span>
                                 <input type="text"
                                     maxlength="22"
-                                    id="lp_sandbox-merchant-id"
+                                    id="lp_js_sandbox-merchant-id"
                                     name="laterpay_sandbox_merchant_id"
                                     class="lp_js_validate-merchant-id lp_input lp_merchant-id-input"
                                     value="<?php echo $sandbox_merchant_id; ?>"
@@ -59,7 +59,7 @@
                                 <span class="lp_input-icon lp_api-key-icon" data-icon="j"></span>
                                 <input type="text"
                                     maxlength="32"
-                                    id="lp_sandbox-api-key"
+                                    id="lp_js_sandbox-api-key"
                                     name="laterpay_sandbox_api_key"
                                     class="lp_js_validate-api-key lp_input lp_api-key-input"
                                     value="<?php echo $sandbox_api_key; ?>"
@@ -87,7 +87,7 @@
                                 <span class="lp_input-icon lp_merchant-id-icon live" data-icon="i"></span>
                                 <input type="text"
                                     maxlength="22"
-                                    id="lp_live-merchant-id"
+                                    id="lp_js_live-merchant-id"
                                     name="laterpay_live_merchant_id"
                                     class="lp_js_validate-merchant-id lp_input lp_merchant-id-input"
                                     value="<?php echo $live_merchant_id; ?>"
@@ -109,7 +109,7 @@
                                 <input type="text"
                                     maxlength="32"
                                     name="laterpay_live_api_key"
-                                    id="lp_live-api-key"
+                                    id="lp_js_live-api-key"
                                     class="lp_js_validate-api-key lp_input lp_api-key-input"
                                     value="<?php echo $live_api_key; ?>"
                                     required>

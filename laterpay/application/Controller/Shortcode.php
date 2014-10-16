@@ -15,8 +15,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * Shortcode [laterpay] is an alias for shortcode [laterpay_premium_download].
      *
      * The shortcode [laterpay_premium_download] accepts various parameters:
-     * - target_page_title: the title of the page that contains the paid content
-     * - target_page_id: the WordPress id of the page that contains the paid content
+     * - target_post_title: the title of the page that contains the paid content
+     * - target_post_id: the WordPress id of the page that contains the paid content
      * - heading_text: the text that should be displayed as heading in the teaser box;
      *   restricted to one line
      * - description_text: text that provides additional information on the paid content;
@@ -27,12 +27,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * - teaser_image_path: path to an image that should be used instead of the default LaterPay teaser image
      *
      * Basic example:
-     * [laterpay_premium_download target_page_title="Event video footage"]
+     * [laterpay_premium_download target_post_title="Event video footage"]
      * or:
-     * [laterpay_premium_download target_page_id="734"]
+     * [laterpay_premium_download target_post_id="734"]
      *
      * Advanced example:
-     * [laterpay_premium_download target_page_id="734" heading_text="Video footage of concert"
+     * [laterpay_premium_download target_post_id="734" heading_text="Video footage of concert"
      * description_text="Full HD video of the entire concept, including behind the scenes action."
      * teaser_image_path="/uploads/images/concert-video-still.jpg"]
      *
@@ -41,38 +41,37 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string $html
      */
     public function render_premium_download_box( $atts ) {
-        $a = shortcode_atts(array(
-                                'target_page_title' => '',
-                                'target_page_id'    => '',
-                                'target_page_title' => '',
+        $a = shortcode_atts( array(
+                                'target_post_id'    => '',
+                                'target_post_title' => '',
                                 'heading_text'      => __( 'Additional Premium Content', 'laterpay' ),
                                 'description_text'  => '',
                                 'content_type'      => '',
                                 'teaser_image_path' => '',
-                            ), $atts);
+                            ), $atts );
 
         $error_reason = '';
 
         // get URL for target page
         $page = null;
-        if ( $a[ 'target_page_id' ] !== '' ) {
-            $page = get_post( absint( $a[ 'target_page_id' ] ) );
+        if ( $a[ 'target_post_id' ] !== '' ) {
+            $page = get_post( absint( $a[ 'target_post_id' ] ) );
         }
-        // target_page_id was provided, but didn't work
-        if ( $page === null && $a[ 'target_page_id' ] !== '' ) {
+        // target_post_id was provided, but didn't work
+        if ( $page === null && $a[ 'target_post_id' ] !== '' ) {
             $error_reason = sprintf(
-                                    __( 'We couldn\'t find a page for target_page_id="%s" on this site.', 'laterpay' ),
-                                    absint( $a[ 'target_page_id' ] )
+                                    __( 'We couldn\'t find a page for target_post_id="%s" on this site.', 'laterpay' ),
+                                    absint( $a[ 'target_post_id' ] )
                                     );
         }
-        if ( $page === null && $a[ 'target_page_title' ] !== '' ) {
-            $page = get_page_by_title( $a['target_page_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
+        if ( $page === null && $a[ 'target_post_title' ] !== '' ) {
+            $page = get_page_by_title( $a['target_post_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
         }
-        // target_page_title was provided, but didn't work (no invalid target_page_id was provided)
+        // target_post_title was provided, but didn't work (no invalid target_post_id was provided)
         if ( $page === null && $error_reason == '' ) {
             $error_reason = sprintf(
-                                    __( 'We couldn\'t find a page for target_page_title="%s" on this site.', 'laterpay' ),
-                                    esc_html( $a[ 'target_page_title' ] )
+                                    __( 'We couldn\'t find a page for target_post_title="%s" on this site.', 'laterpay' ),
+                                    esc_html( $a[ 'target_post_title' ] )
                                     );
         }
         if ( $page === null ) {
@@ -84,7 +83,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
                 array(
-                    'args'   => $a
+                    'args' => $a,
                 )
             );
 
@@ -104,9 +103,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
-                array(
-                    'args'   => $a
-                )
+                array( 'args' => $a, )
             );
 
             return $error_message;
@@ -214,7 +211,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * Important: Avoid line breaks between the shortcodes as WordPress will replace them with <br> tags
      *
      * Example:
-     * [laterpay_box_wrapper][laterpay_premium_download target_page_title="Vocabulary list"][laterpay_premium_download target_page_title="Excercises"][/laterpay_box_wrapper]
+     * [laterpay_box_wrapper][laterpay_premium_download target_post_title="Vocabulary list"][laterpay_premium_download target_post_title="Excercises"][/laterpay_box_wrapper]
      *
      * @param  array   $atts
      * @param  string  $content

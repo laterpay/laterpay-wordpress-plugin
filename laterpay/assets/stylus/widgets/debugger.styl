@@ -19,7 +19,8 @@
     z-index                         $zindex-topmost_1
 
     header
-        background-color            darken($background-darker, 13%)
+        background-color            darken(hsl(0, 0%, 89%), 13%)
+        cursor                      pointer
         height                      2.5em
 
         div
@@ -27,6 +28,7 @@
             padding                 0 0.5em
 
     a
+        box-shadow                  none
         outline                     0 none
         text-decoration             none
 
@@ -40,6 +42,7 @@
         display                     inline-block
         font-size                   1.25em
         font-weight                 400
+        line-height                 1
         margin                      0.5em 0 0.5em 6.75em
 
         &:before
@@ -53,7 +56,6 @@
 
     .lp_close-link
         color                       $clickable
-        cursor                      pointer
         font-weight                 bold
         height                      2em
         line-height                 2em
@@ -106,7 +108,7 @@
 
         span,
         &:hover span
-            background-color        lighten($text, 20%)
+            background-color        lighten(hsl(0, 0%, 33%), 20%)
 
     a
         color                       $clickable
@@ -135,8 +137,9 @@
 .lp_debugger-content-list
     margin                          0 $fs-075 $fs-1
     padding                         0
-    overflow-y						scroll
-    height							28.75em
+    overflow-x                      hidden
+    overflow-y                      scroll
+    height                          29em
 
     ul,
     li
@@ -147,7 +150,7 @@
         list-style                  none outside none
 
     .lp_debugger-content li
-        border-bottom               1px solid darken($border, 3%)
+        border-bottom               1px solid darken(hsl(0, 0%, 87%), 3%)
 
     .lp_is_hidden
         display                     none
@@ -156,14 +159,17 @@
     th,
     td
         border                      0 none
+        border-collapse             collapse
 
     table
         margin                      0
+        width                       100%
 
     th,
     td
-        border-collapse             collapse
         padding                     $fs-05
+        text-align                  left
+        vertical-align              top
 
     th
         color                       $text-lighter
@@ -175,6 +181,8 @@
         width                       12em
 
     thead
+        cursor                      pointer
+
         td,
         th
             transition              background-color 0.25s
@@ -185,12 +193,19 @@
 
         td:last-child
             color                   $text-lighter
+            max-width               8em
+            padding-right           0
             text-align              right
-            width                   4em
 
-    .lp_log-entry-table tbody th,
-    .lp_log-entry-table tbody td
-        padding                     0 $fs-05 $fs-025
+    .lp_log-entry-table
+        tbody th,
+        tbody td
+            padding                 0 $fs-05 $fs-025
+
+        tbody th
+            padding-left            2.25em
+            padding-left            2.75em
+            width                   12em
 
     .lp_log-level:before
         font-size                   $fs-175
@@ -222,9 +237,11 @@
 
     a
         color                       $clickable
+        padding                     $fs-05
 
-        &:hover
-            color                   $clickable-highlight
+    &:hover a,
+    a:hover
+        color                       $clickable-highlight
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------

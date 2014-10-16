@@ -4,7 +4,7 @@
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
  * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay GmbH and Mihail Turalenka
- * Version: 0.9.8.1
+ * Version: 0.9.8.2
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  * Domain Path: /languages
@@ -90,7 +90,7 @@ function laterpay_get_plugin_config() {
     $plugin_url = $config->get( 'plugin_url' );
     $config->set( 'css_url',    $plugin_url . 'assets/css/' );
     $config->set( 'js_url',     $plugin_url . 'assets/js/' );
-    $config->set( 'image_url',  $plugin_url . 'assets/images/' );
+    $config->set( 'image_url',  $plugin_url . 'assets/img/' );
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
@@ -109,7 +109,7 @@ function laterpay_get_plugin_config() {
     // plugin headers
     $plugin_headers = get_file_data(
         __FILE__,
-        array (
+        array(
             'plugin_name'       => 'Plugin Name',
             'plugin_uri'        => 'Plugin URI',
             'description'       => 'Description',
@@ -132,7 +132,7 @@ function laterpay_get_plugin_config() {
         'api.sandbox_web_url'       => 'https://web.sandbox.laterpaytest.net',
         'api.live_url'              => 'https://api.laterpay.net',
         'api.live_web_url'          => 'https://web.laterpay.net',
-        'api.merchant_backend_url'  => 'https://merchant.laterpay.net/'
+        'api.merchant_backend_url'  => 'https://merchant.laterpay.net/',
     );
 
     /**
@@ -256,8 +256,8 @@ function laterpay_before_start() {
     }
 
     LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
-    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap');
-    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay');
+    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap' );
+    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
 
     // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
     // to register the required script and style filters
@@ -280,7 +280,7 @@ function laterpay_get_logger() {
     $handlers   = array();
 
     if ( $config->get( 'debug_mode' ) ) {
-        // LaterPay WordPress Handler to show the DebugBar in wp_footer
+        // LaterPay WordPress handler to render the debugger pane
         $wp_handler = new LaterPay_Core_Logger_Handler_WordPress();
         $wp_handler->set_formatter( new LaterPay_Core_Logger_Formatter_Html() );
 
@@ -289,12 +289,12 @@ function laterpay_get_logger() {
         $handlers[] = new LaterPay_Core_Logger_Handler_Null();
     }
 
-    // Adding some additional Processors for more detailed log-entries
+    // add additional processors for more detailed log entries
     $processors = array(
         new LaterPay_Core_Logger_Processor_Web(),
         new LaterPay_Core_Logger_Processor_MemoryUsage(),
         new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
-        new LaterPay_Core_Logger_Processor_Introspection( )
+        new LaterPay_Core_Logger_Processor_Introspection(),
     );
 
     $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );

@@ -67,7 +67,7 @@
         <div class="lp-toggle">
             <form id="lp_plugin-preview-mode-form" method="post">
                 <input type="hidden" name="action" value="laterpay_post_statistic_toggle_preview">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <label class="lp-toggle-label">
                     <input type="checkbox"
                             name="preview_post_checkbox"

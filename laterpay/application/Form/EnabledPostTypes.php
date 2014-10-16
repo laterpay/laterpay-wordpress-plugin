@@ -7,7 +7,7 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */

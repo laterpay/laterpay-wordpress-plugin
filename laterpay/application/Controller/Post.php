@@ -260,13 +260,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $this->logger->info(
                     __METHOD__ . ' - post has access',
                     array(
-                        'result' => $result
+                        'result' => $result,
                     )
                 );
 
                 return $access;
             }
-
         }
 
         return false;
@@ -457,14 +456,18 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @wp-hook the_content
      *
      * @param string $content
+     * @internal WP_Embed $wp_embed
      *
      * @return string $content
      */
     public function modify_post_content( $content ) {
+        global $wp_embed;
+
         $post = get_post();
         if ( $post === null ) {
             return $content;
         }
+
         $post_id = $post->ID;
 
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
@@ -528,12 +531,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // encrypt files contained in premium posts
         $content = LaterPay_Helper_File::get_encrypted_content( $post_id, $content, $access );
+        $content = $wp_embed->autoembed( $content );
 
         // assign all required vars to the view templates
         $view_args = array(
             'post_id'                   => $post_id,
             'content'                   => $content,
-            'teaser_content'            => $teaser_content,
+            'teaser_content'            => $wp_embed->autoembed( $teaser_content ),
             'teaser_content_only'       => $teaser_content_only,
             'currency'                  => $currency,
             'price'                     => $price,
@@ -564,9 +568,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         /**
          * return the full encrypted content, if ...
-         * ...the post was bought by user
-         * ...logged_in_user does not preview the post as visitor
-         * ...caching is not activated or caching is activated and content is loaded via Ajax request
+         * ...the post was bought by a user
+         * ...and logged_in_user does not preview the post as visitor
+         * ...and caching is not activated or caching is activated and content is loaded via Ajax request
          */
         if ( $access && ! $preview_post_as_visitor && ( ! $caching_is_active || $is_ajax_and_caching_is_active ) ) {
 
