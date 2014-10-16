@@ -41,8 +41,9 @@ class LaterPay_Helper_File
     public static function check_url_encrypt( $resource_url_parts ) {
         // get path of resource
         $blog_url_parts = parse_url( get_bloginfo( 'wpurl' ) );
-        if ( ! $blog_url_parts )
+        if ( ! $blog_url_parts ) {
             return false;
+        }
 
         if ( $blog_url_parts['host'] != $resource_url_parts['host'] ) {
             // don't encrypt, because resource is not located at current host

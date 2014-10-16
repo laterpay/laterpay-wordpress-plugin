@@ -44,7 +44,7 @@ class LaterPay_Helper_Post {
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
-                    __METHOD__ . ' - post not found ',
+                    __METHOD__ . ' - post not found.',
                     array( 'result' => $result )
                 );
 
@@ -56,7 +56,7 @@ class LaterPay_Helper_Post {
                 self::$access[$post_id] = $access;
 
                 laterpay_get_logger()->info(
-                    __METHOD__ . ' - post has access',
+                    __METHOD__ . ' - post has access.',
                     array( 'result' => $result )
                 );
 
@@ -164,7 +164,7 @@ class LaterPay_Helper_Post {
 
         if ( ! $url ) {
             laterpay_get_logger()->error(
-                __METHOD__ . ' could not find an URL for the given post_id',
+                __METHOD__ . ' could not find an URL for the given post_id.',
                 array( 'data' => $data )
             );
 

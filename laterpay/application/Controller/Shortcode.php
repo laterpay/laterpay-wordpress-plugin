@@ -170,7 +170,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $content_type = 'text';
         }
 
-		// create a shortcode link
+        // create a shortcode link
         $access = LaterPay_Helper_Post::has_access_to_post( $page );
         if ( $access ) {
             // the user has already purchased the item
@@ -212,10 +212,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $button_page_url = $page_url;
             $button_label    = $price_tag;
             // hide purchase button for administrator preview
-            if (current_user_can('administrator')) {
+            if ( current_user_can( 'administrator' ) ) {
                 $html_button = '';
             } else {
-                $html_button = $this->the_purchase_button($page);
+                $html_button = $this->the_purchase_button( $page );
             }
         }
 
@@ -303,7 +303,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
 
         laterpay_get_logger()->info(
-                __METHOD__, $view_args
+            __METHOD__,
+            $view_args
         );
 
         $this->assign( 'laterpay', $view_args );
