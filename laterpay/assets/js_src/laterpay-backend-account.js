@@ -11,7 +11,7 @@
 
                 showMerchantContractsButton : $('#lp_js_show-merchant-contracts'),
 
-                throttledFlashMessage       : null,
+                throttledFlashMessage       : undefined,
                 flashMessageTimeout         : 800,
                 requestSent                 : false,
                 // TODO: extract common HTML elements

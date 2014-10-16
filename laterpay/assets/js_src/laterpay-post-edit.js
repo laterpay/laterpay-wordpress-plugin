@@ -461,7 +461,7 @@
 
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
-              var timer = null;
+              var timer = undefined;
               return function () {
                 var context = this,
                     args    = arguments;
