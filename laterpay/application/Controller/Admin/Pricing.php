@@ -253,6 +253,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             );
         }
 
+        $post_category_id               = $price_category_form->get_field_value( 'category_id' );
         $category                       = $price_category_form->get_field_value( 'category' );
         $term                           = get_term_by( 'name', $category, 'category' );
         $category_price_revenue_model   = $price_category_form->get_field_value( 'laterpay_category_price_revenue_model' );
@@ -282,9 +283,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     'message' => __( 'There is no such category on this website.', 'laterpay' )
                 )
             );
-        } else if ( ! empty( $category_id ) && $category_id != $_POST['category_id'] ) {
-            $category_price_model->delete_prices_by_category_id( $_POST['category_id'] );
-            $category_price_id = $category_price_model->get_price_id_by_category_id( $_POST['category_id'] );
+        } else if ( ! empty( $category_id ) && $category_id != $post_category_id ) {
+            $category_price_model->delete_prices_by_category_id( $post_category_id );
+            $category_price_id = $category_price_model->get_price_id_by_category_id( $post_category_id );
 
             if ( $category_price_id ) {
                 wp_send_json(
