@@ -64,7 +64,7 @@ class LaterPay_Core_Logger
         $this->name = $name;
         $this->handlers = $handlers;
         $this->processors = $processors;
-        $this->timezone = new DateTimeZone( date_default_timezone_get() ?: 'UTC' );
+        $this->timezone = new DateTimeZone( date_default_timezone_get() ? date_default_timezone_get() : 'UTC' );
     }
 
     /**
