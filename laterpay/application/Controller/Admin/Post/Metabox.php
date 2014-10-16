@@ -362,20 +362,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      *
      * @return void
      */
-<<<<<<< HEAD
     public function save_laterpay_post_data( $post_id ) {
-=======
-    public function save_post_pricing_form( $post_id ) {
-        // nonce not valid -> do nothing
-        if ( ! isset( $_POST['laterpay_pricing_post_content_box_nonce'] ) || ! wp_verify_nonce( $_POST['laterpay_pricing_post_content_box_nonce'], $this->config->plugin_base_name ) ) {
-            return;
-        }
-
-        // no rights to edit -> do nothing
-        if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post_id ) ) {
-            return;
-        }
->>>>>>> master
 
         if ( ! $this->has_permission( $post_id ) ) {
             return;
