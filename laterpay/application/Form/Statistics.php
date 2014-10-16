@@ -27,7 +27,7 @@ class LaterPay_Form_Statistics extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            '_wpnonce',
+            'nonce',
             array(
                 'validators' => array(
                     'is_string',

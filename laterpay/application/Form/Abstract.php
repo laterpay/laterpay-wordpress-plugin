@@ -257,7 +257,6 @@ abstract class LaterPay_Form_Abstract
                     }
 
                     $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
-
                     if ( ! $is_valid ) {
                         // data not valid
                         return false;

@@ -157,7 +157,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             wp_send_json( $error );
         }
 
-        if ( ! $preview_post ) {
+        if ( $preview_post === null ) {
             $error[ 'code' ] = 2;
             wp_send_json( $error );
         }
@@ -255,7 +255,6 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $statistic_form->add_validation( 'nonce', $condition );
 
         if ( $statistic_form->is_valid() ) {
-
             $post_id = $statistic_form->get_field_value( 'post_id' );
             $post = get_post( $post_id );
 
@@ -271,6 +270,9 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 'post_id'                   => $post_id,
             );
             $this->assign( 'laterpay', $view_args );
+
+            $this->initialize_post_statistics( $post );
+            wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
         }
 
         exit;
