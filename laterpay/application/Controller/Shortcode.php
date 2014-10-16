@@ -279,11 +279,15 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return void
      */
     public function the_purchase_button( $post ) {
-        // check, if the current post is purchasable
-        LaterPay_Helper_Pricing::is_purchasable( $post ) || return;
+        // don't render the purchase button, if the current post is not purchasable
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
+            return;
+        };
 
-        // check, if the current post was already purchased
-        LaterPay_Helper_Post::has_access_to_post( $post ) || return;
+        // don't render the purchase button, if the current post was already purchased
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
+            return;
+        };
 
         $view_args = array(
             'post_id'                 => $post->ID,
