@@ -40,6 +40,11 @@
                 categoryDefaultPriceInput               : '.lp_js_category-default-price-input',
                 categoryId                              : '.lp_js_category-id',
 
+                // bulk price editor
+                bulkPriceForm                           : $('#lp_js_bulk-price-form'),
+                bulkPriceAction                         : $('#lp_js_change-bulk-action'),
+                bulkPriceSelector                       : $('#lp_js_change-bulk-selector'),
+
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
                 defaultCurrency                         : $('#lp_js_change-default-currency'),
@@ -51,7 +56,7 @@
                 payPerUse                               : 'ppu',
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
-                disabled                                : 'lp_is-disabled',
+                disabled                                : 'lp_is-disabled'
             },
 
             bindEvents = function() {
@@ -125,6 +130,26 @@
                 .on('click', $o.deleteCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     deleteCategoryDefaultPrice($form);
+                });
+
+                // bulk price editor events ----------------------------------------------------------------------
+                // choose action
+                $o.bulkPriceAction
+                .on('change', function(e) {
+                    // hide some fields if needed, change separator and add currency percent option
+                });
+
+                // choose selector
+                $o.bulkPriceSelector
+                .on('change', function(e) {
+                    // show categories if needed, change separator and add currency percent option
+                });
+
+                // press apply
+                $o.bulkPriceForm
+                .on('submit', function(e) {
+                    e.preventDefault();
+                    // ajax request
                 });
 
                 // default currency events -----------------------------------------------------------------------------
@@ -419,6 +444,7 @@
                                                     action  : 'laterpay_pricing'
                                                 },
                                                 function(data) {
+                                                    console.log(data);
                                                     if (data && data[0] !== undefined) {
                                                         var term = data[0];
                                                         callback({text: term.name});

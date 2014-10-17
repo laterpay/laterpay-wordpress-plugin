@@ -53,6 +53,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $category_price_model           = new LaterPay_Model_CategoryPrice();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
 
+        $bulk_actions = array(
+            'set'      => 'Set price of',
+            'increase' => 'Increase price of',
+            'reduce'   => 'Reduce price of',
+            'free'     => 'Make free',
+        );
+        $bulk_selectors = array(
+            'all'             => 'All posts',
+            'in_category'     => 'All posts in category',
+            'not_in_category' => 'All posts NOT in category',
+        );
+        $bulk_categories = get_categories();
+
         $this->assign( 'categories_with_defined_price',         $categories_with_defined_price );
         $this->assign( 'standard_currency',                     get_option( 'laterpay_currency' ) );
         $this->assign( 'plugin_is_in_live_mode',                $this->config->get( 'is_in_live_mode' ) );
@@ -60,6 +73,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->assign( 'global_default_price_revenue_model',    get_option( 'laterpay_global_price_revenue_model' ) );
         $this->assign( 'top_nav',                               $this->get_menu() );
         $this->assign( 'admin_menu',                            LaterPay_Helper_View::get_admin_menu() );
+        $this->assign( 'bulk_actions',                          $bulk_actions );
+        $this->assign( 'bulk_selectors',                        $bulk_selectors );
+        $this->assign( 'bulk_categories',                       $bulk_categories );
 
         $this->render( 'backend/pricing' );
     }
@@ -103,6 +119,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         $_POST[ 'category_ids' ] = array();
                     }
                     $this->get_category_prices( $_POST['category_ids'] );
+                    break;
+
+                case 'bulk_price_form':
+                    $this->change_posts_individual_price();
                     break;
 
                 default:
@@ -521,4 +541,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json( $categories_price_data );
     }
 
+    /**
+     * Apply new prices as individual to posts according to the bulk form settings
+     *
+     * @return void
+     */
+    protected function change_posts_individual_price() {
+        $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
+
+        if( $bulk_price_form->is_valid() ) {
+            // process
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+            )
+        );
+    }
 }

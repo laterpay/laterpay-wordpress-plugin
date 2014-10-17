@@ -203,6 +203,52 @@
 
         <hr class="lp_m-1-0 lp_m-b3">
 
+        <div class="lp_row">
+            <h2><?php _e( 'Bulk price editor', 'laterpay' ); ?></h2>
+            <form id="lp_js_bulk-price-form" method="post">
+                <input type="hidden" name="form" value="bulk_price_form">
+                <input type="hidden" name="action" value="laterpay_pricing">
+                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                <div>
+                    <p>
+                        <select name="bulk_action" id="lp_js_change-bulk-action" class="lp_input">
+                            <?php foreach ( $bulk_actions as $action_value => $action_name ): ?>
+                                <option value="<?php echo $action_value; ?>">
+                                    <?php echo $action_name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="bulk_selector" id="lp_js_change-bulk-selector" class="lp_input">
+                            <?php foreach ( $bulk_selectors as $selector_value => $selector_name ): ?>
+                                <option value="<?php echo $selector_value; ?>">
+                                    <?php echo $selector_name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="bulk_category" class="lp_input" style="display:none;">
+                            <?php foreach ( $bulk_categories as $category ): ?>
+                                <option value="<?php echo $category->term_id; ?>">
+                                    <?php echo $category->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <span id="bulk_separator">to</span>
+                        <input  type="text"
+                                name="bulk_price"
+                                class="lp_input lp_number-input"
+                                value="<?php echo $global_default_price; ?>"
+                                placeholder="0.00">
+                        <select name="bulk_currency" class="lp_input">
+                            <option value="<?php echo $standard_currency; ?>">
+                                <?php echo $standard_currency; ?>
+                            </option>
+                        </select>
+                        <button id="bulk_submit" type="submit">Apply</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+
 <?php # commented out as long as there is only a single currency ?>
 <?php /* ?>
         <div class="lp_row">

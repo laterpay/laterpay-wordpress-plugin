@@ -50,7 +50,7 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                     'to_int'
                 ),
                 'can_be_null' => true,
-            ),
+            )
         );
 
         $this->set_field(
