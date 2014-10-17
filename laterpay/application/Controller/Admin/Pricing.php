@@ -54,15 +54,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
 
         $bulk_actions = array(
-            'set'      => 'Set price of',
-            'increase' => 'Increase price of',
-            'reduce'   => 'Reduce price of',
-            'free'     => 'Make free',
+            'set'      => __( "Set price of", 'laterpay' ),
+            'increase' => __( "Increase price of", 'laterpay' ),
+            'reduce'   => __( "Reduce price of", 'laterpay' ),
+            'free'     => __( "Make free", 'laterpay' ),
         );
         $bulk_selectors = array(
-            'all'             => 'All posts',
-            'in_category'     => 'All posts in category',
-            'not_in_category' => 'All posts NOT in category',
+            'all'             => __( "All posts", 'laterpay' ),
+            'in_category'     => __( "All posts in category", 'laterpay' ),
+            'not_in_category' => __( "All posts NOT in category", 'laterpay' ),
         );
         $bulk_categories = get_categories();
 
