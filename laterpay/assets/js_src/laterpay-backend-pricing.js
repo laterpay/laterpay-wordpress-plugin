@@ -135,13 +135,13 @@
                 // bulk price editor events ----------------------------------------------------------------------
                 // choose action
                 $o.bulkPriceAction
-                .on('change', function(e) {
+                .on('change', function() {
                     // hide some fields if needed, change separator and add currency percent option
                 });
 
                 // choose selector
                 $o.bulkPriceSelector
-                .on('change', function(e) {
+                .on('change', function() {
                     // show categories if needed, change separator and add currency percent option
                 });
 

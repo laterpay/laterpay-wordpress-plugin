@@ -211,39 +211,39 @@
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <div>
                     <p>
-                        <select name="bulk_action" id="lp_js_change-bulk-action" class="lp_input">
+                        <select name="bulk_action" id="lp_js_change-bulk-action" class="lp_input lp_js_change-bulk-action">
                             <?php foreach ( $bulk_actions as $action_value => $action_name ): ?>
                                 <option value="<?php echo $action_value; ?>">
                                     <?php echo $action_name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <select name="bulk_selector" id="lp_js_change-bulk-selector" class="lp_input">
+                        <select name="bulk_selector" id="lp_js_change-bulk-selector" class="lp_input lp_js_change-bulk-selector">
                             <?php foreach ( $bulk_selectors as $selector_value => $selector_name ): ?>
                                 <option value="<?php echo $selector_value; ?>">
                                     <?php echo $selector_name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <select name="bulk_category" class="lp_input" style="display:none;">
+                        <select name="bulk_category" class="lp_input lp_js_bulk_category" style="display:none;">
                             <?php foreach ( $bulk_categories as $category ): ?>
                                 <option value="<?php echo $category->term_id; ?>">
                                     <?php echo $category->name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <span id="bulk_separator">to</span>
+                        <span class="lp_js_bulk_separator">to</span>
                         <input  type="text"
                                 name="bulk_price"
-                                class="lp_input lp_number-input"
+                                class="lp_input lp_number-input lp_js_bulk_price"
                                 value="<?php echo $global_default_price; ?>"
                                 placeholder="0.00">
-                        <select name="bulk_currency" class="lp_input">
+                        <select name="bulk_currency" class="lp_input lp_js_bulk_currency">
                             <option value="<?php echo $standard_currency; ?>">
                                 <?php echo $standard_currency; ?>
                             </option>
                         </select>
-                        <button id="bulk_submit" type="submit">Apply</button>
+                        <button class="lp_js_bulk_submit" type="submit">Apply</button>
                     </p>
                 </div>
             </form>
