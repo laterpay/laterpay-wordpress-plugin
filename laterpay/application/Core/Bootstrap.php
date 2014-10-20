@@ -128,6 +128,20 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
         add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
+        // Cache Helper to purge the cache on update_option()
+        $cache_helper = new LaterPay_Helper_Cache();
+        $options = array(
+            'laterpay_global_price',
+            'laterpay_global_price_revenue_model',
+            'laterpay_currency',
+            'laterpay_enabled_post_types',
+            'laterpay_teaser_content_only',
+            'laterpay_plugin_is_in_live_mode'
+        );
+        foreach ( $options as $option_name ) {
+            add_action( 'update_option_' . $option_name, array( $cache_helper, 'purge_cache' ) );
+        }
+
         /**
          * ->   add filters to override post content
          * ->   we're using these filters in Ajax requests, so they have to stay outside the is_admin() check

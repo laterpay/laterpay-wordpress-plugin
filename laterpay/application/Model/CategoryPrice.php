@@ -197,7 +197,7 @@ class LaterPay_Model_CategoryPrice
         global $wpdb;
 
         if ( ! empty( $id ) ) {
-            return $wpdb->update(
+            $success = $wpdb->update(
                 $this->term_table_prices,
                 array(
                     'term_id'       => $id_category,
@@ -213,7 +213,7 @@ class LaterPay_Model_CategoryPrice
                 array( '%d' )
             );
         } else {
-            return $wpdb->insert(
+            $success = $wpdb->insert(
                 $this->term_table_prices,
                 array(
                     'term_id'       => $id_category,
@@ -227,6 +227,9 @@ class LaterPay_Model_CategoryPrice
                 )
             );
         }
+
+        LaterPay_Helper_Cache::purge_cache();
+        return $success;
     }
 
     /**
@@ -359,7 +362,9 @@ class LaterPay_Model_CategoryPrice
             'term_id' => (int) $id,
         );
 
-        return $wpdb->delete( $this->term_table_prices, $where, '%d' );
+        $success = $wpdb->delete( $this->term_table_prices, $where, '%d' );
+        LaterPay_Helper_Cache::purge_cache();
+        return $success;
     }
 
 }
