@@ -7,6 +7,7 @@ select.lp_input
     border-radius                   4px
     border                          2px solid $border
     box-shadow                      none
+    height                          calc(2em + 4px)
     line-height                     1
     margin                          0
     padding                         0.5em
@@ -61,7 +62,6 @@ input[type=text][required] + label[placeholder]
     display                         block
     line-height                     1
     margin-bottom                   1em
-    margin-top                      webkit-calc(-3em - 2px)
     margin-top                      calc(-3em - 2px)
     pointer-events                  none
 
@@ -89,7 +89,6 @@ input[type=text][required]
         content                     attr(alt)
 
 .lp_input-icon + input[type=text][required] + label[placeholder]:before
-    margin                          1.4em 0 0 -webkit-calc(3em - 1px)
     margin                          1.4em 0 0 calc(3em - 1px)
 
 
