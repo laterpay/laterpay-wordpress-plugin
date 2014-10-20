@@ -63,12 +63,11 @@ class LaterPay_Helper_Cache
     }
 
     /**
-     * Purges the cache, if a known cache plugin is active.
+     * Purge the cache, if a known cache plugin is active.
      *
      * @return void
      */
-    public static function purge_cache(){
-
+    public static function purge_cache() {
         /**
          * custom action for other cache plugins to purge their cache
          */
@@ -91,7 +90,6 @@ class LaterPay_Helper_Cache
         else if ( class_exists( 'Cachify' ) && method_exists( 'Cachify', 'flush_total_cache' ) ) {
             Cachify::flush_total_cache();
         }
-
     }
 
 }

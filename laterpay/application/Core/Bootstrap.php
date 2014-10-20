@@ -128,7 +128,7 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
         add_action( 'wp_ajax_nopriv_laterpay_load_files',       array( $file_helper, 'load_file' ) );
 
-        // Cache Helper to purge the cache on update_option()
+        // cache helper to purge the cache on update_option()
         $cache_helper = new LaterPay_Helper_Cache();
         $options = array(
             'laterpay_global_price',
@@ -162,25 +162,25 @@ class LaterPay_Core_Bootstrap
         if ( ! is_admin() ) {
 
             $invoice_controller = new LaterPay_Controller_Invoice( $this->config );
-            add_action( 'laterpay_invoice_indicator',           array( $invoice_controller, 'the_invoice_indicator' ) );
-            add_action( 'wp_enqueue_scripts',                   array( $invoice_controller, 'add_frontend_scripts' ) );
+            add_action( 'laterpay_invoice_indicator',   array( $invoice_controller, 'the_invoice_indicator' ) );
+            add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );
 
-            add_action( 'template_redirect',                    array( $post_controller, 'buy_post' ) );
-            add_action( 'template_redirect',                    array( $post_controller, 'create_token' ) );
+            add_action( 'template_redirect',            array( $post_controller, 'buy_post' ) );
+            add_action( 'template_redirect',            array( $post_controller, 'create_token' ) );
 
             // add custom action to echo the LaterPay purchase button
-            add_action( 'laterpay_purchase_button',             array( $post_controller, 'the_purchase_button' ) );
+            add_action( 'laterpay_purchase_button',     array( $post_controller, 'the_purchase_button' ) );
 
             // prefetch the post_access for loops
-            add_filter( 'the_posts',                            array( $post_controller, 'prefetch_post_access' ) );
+            add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
 
             // register the frontend scripts
-            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_stylesheets' ) );
-            add_action( 'wp_enqueue_scripts',       array( $post_controller, 'add_frontend_scripts' ) );
+            add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_stylesheets' ) );
+            add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_scripts' ) );
 
             // setup unique visitors tracking
-            add_action( 'template_redirect',                    array( $statistics_controller, 'add_unique_visitors_tracking' ) );
-            add_action( 'wp_footer',                            array( $statistics_controller, 'modify_footer' ) );
+            add_action( 'template_redirect',            array( $statistics_controller, 'add_unique_visitors_tracking' ) );
+            add_action( 'wp_footer',                    array( $statistics_controller, 'modify_footer' ) );
 
         }
     }
