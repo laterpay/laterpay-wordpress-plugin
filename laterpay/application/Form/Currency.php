@@ -61,6 +61,9 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                     'is_string',
                     'in_array' => array( 'EUR' ),
                 ),
+                'filters' => array(
+                    'to_string',
+                ),
             )
         );
     }

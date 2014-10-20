@@ -43,7 +43,12 @@
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulk-price-form'),
                 bulkPriceAction                         : $('#lp_js_change-bulk-action'),
-                bulkPriceSelector                       : $('#lp_js_change-bulk-selector'),
+                bulkPriceSelector                       : $('#lp_js_select-bulk-objects'),
+                bulkPriceCategory                       : $('#lp_js_select-bulk-objects-category'),
+                bulkPriceAmount                         : $('#lp_js_set-bulk-change-amount'),
+                bulkPriceAmountModifier                 : $('#lp_js_bulk-amount-modifier'),
+                bulkPriceCurrency                       : $('#lp_js_set-bulk-change-unit'),
+                bulkPriceApplyOperation                 : $('#lp_js_apply-bulk-operation'),
 
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
@@ -133,23 +138,19 @@
                 });
 
                 // bulk price editor events ----------------------------------------------------------------------
-                // choose action
-                $o.bulkPriceAction
+                // on action of selector changes
+                $o.bulkPriceAction.add($o.bulkPriceSelector)
                 .on('change', function() {
-                    // hide some fields if needed, change separator and add currency percent option
-                });
-
-                // choose selector
-                $o.bulkPriceSelector
-                .on('change', function() {
-                    // show categories if needed, change separator and add currency percent option
+                    var action   = $o.bulkPriceAction.val();
+                    var selector = $o.bulkPriceSelector.val();
+                    bulkOptionsChangeProcessing( action, selector );
                 });
 
                 // press apply
                 $o.bulkPriceForm
                 .on('submit', function(e) {
                     e.preventDefault();
-                    // ajax request
+                    applyBulkPrice();
                 });
 
                 // default currency events -----------------------------------------------------------------------------
@@ -489,11 +490,65 @@
               };
             },
 
+            applyBulkPrice = function() {
+                $.post(
+                    ajaxurl,
+                    $o.bulkPriceForm.serializeArray(),
+                    function(r) {
+                        setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
+            },
+
+            bulkOptionsChangeProcessing = function(action, selector) {
+                // hide some fields if needed, change separator and add currency percent option
+                var showCategory = ( selector == 'in_category' || selector == 'not_in_category' );
+
+                // clear currency options
+                $o.bulkPriceCurrency.find('option').each( function(){
+                    if ( $(this).text() == '%') {
+                        $(this).remove();
+                    }
+                });
+
+                switch(action) {
+                    case 'set':
+                        $o.bulkPriceAmountModifier.show().text( 'to' );
+                        $o.bulkPriceAmount.show();
+                        $o.bulkPriceCurrency.show();
+                        showCategory ? $o.bulkPriceCategory.show() : $o.bulkPriceCategory.hide();
+                        break;
+                    case 'increase':
+                    case 'reduce':
+                        $o.bulkPriceAmountModifier.show().text( 'by' );
+                        $o.bulkPriceAmount.show();
+                        $o.bulkPriceCurrency.show();
+                        $o.bulkPriceCurrency.append( $('<option>', {
+                            value: 'percent',
+                            text:  '%'
+                        }));
+                        showCategory ? $o.bulkPriceCategory.show() : $o.bulkPriceCategory.hide();
+                        break;
+                    case 'free':
+                        $o.bulkPriceAmountModifier.hide();
+                        $o.bulkPriceAmount.hide();
+                        $o.bulkPriceCurrency.hide();
+                        showCategory ? $o.bulkPriceCategory.show() : $o.bulkPriceCategory.hide();
+                        break;
+                    default:
+                        break;
+                }
+            },
+
             initializePage = function() {
                 bindEvents();
             };
 
         initializePage();
+
+        // trigger action change after page loaded (if we reload current page our selected values saved in browser)
+        $o.bulkPriceAction.trigger("change");
     }
 
     // initialize page

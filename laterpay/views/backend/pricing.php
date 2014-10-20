@@ -211,39 +211,40 @@
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <div>
                     <p>
-                        <select name="bulk_action" id="lp_js_change-bulk-action" class="lp_input lp_js_change-bulk-action">
+                        <select name="bulk_action" id="lp_js_change-bulk-action" class="lp_input">
                             <?php foreach ( $bulk_actions as $action_value => $action_name ): ?>
                                 <option value="<?php echo $action_value; ?>">
                                     <?php echo $action_name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <select name="bulk_selector" id="lp_js_change-bulk-selector" class="lp_input lp_js_change-bulk-selector">
+                        <select name="bulk_selector" id="lp_js_select-bulk-objects" class="lp_input">
                             <?php foreach ( $bulk_selectors as $selector_value => $selector_name ): ?>
                                 <option value="<?php echo $selector_value; ?>">
                                     <?php echo $selector_name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <select name="bulk_category" class="lp_input lp_js_bulk_category" style="display:none;">
+                        <select name="bulk_category" id="lp_js_select-bulk-objects-category" class="lp_input" style="display:none;">
                             <?php foreach ( $bulk_categories as $category ): ?>
                                 <option value="<?php echo $category->term_id; ?>">
                                     <?php echo $category->name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <span class="lp_js_bulk_separator">to</span>
+                        <span id="lp_js_bulk-amount-modifier">to</span>
                         <input  type="text"
                                 name="bulk_price"
-                                class="lp_input lp_number-input lp_js_bulk_price"
+                                class="lp_input lp_number-input"
+                                id="lp_js_set-bulk-change-amount"
                                 value="<?php echo $global_default_price; ?>"
                                 placeholder="0.00">
-                        <select name="bulk_currency" class="lp_input lp_js_bulk_currency">
+                        <select name="bulk_currency" id="lp_js_set-bulk-change-unit" class="lp_input">
                             <option value="<?php echo $standard_currency; ?>">
                                 <?php echo $standard_currency; ?>
                             </option>
                         </select>
-                        <button class="lp_js_bulk_submit" type="submit">Apply</button>
+                        <button id="lp_js_apply-bulk-operation" type="submit">Apply</button>
                     </p>
                 </div>
             </form>

@@ -366,7 +366,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function set_new_category_default_price() {
-
         $price_category_form = new LaterPay_Form_PriceCategory();
 
         if ( ! $price_category_form->is_valid( $_POST ) ) {
@@ -549,8 +548,86 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function change_posts_individual_price() {
         $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
 
-        if( $bulk_price_form->is_valid() ) {
-            // process
+        if ( $bulk_price_form->is_valid() ) {
+            // use selector to determine scope of posts
+            $posts = null;
+            $selector = $bulk_price_form->get_field_value( 'bulk_selector' );
+            if ( $selector != 'all' ) {
+                $is_in_category = ( $selector == 'in_category' );
+                $category_id = $bulk_price_form->get_field_value( 'bulk_category' );
+                $posts = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( ( $is_in_category ? 1 : (-1) ) * $category_id );
+            } else {
+                $posts = LaterPay_Helper_Pricing::get_all_posts_with_price();
+            }
+
+            if ( $posts ) {
+                // use action and apply changes for each post
+                $action = $bulk_price_form->get_field_value( 'bulk_action' );
+                $is_percent = ( $bulk_price_form->get_field_value( 'bulk_currency' ) == 'percent' );
+                $price = $bulk_price_form->get_field_value( 'bulk_price' );
+
+                foreach ( $posts as $post ) {
+                    $post_id = is_int( $post ) ? $post : $post->ID;
+                    $post_meta = get_post_meta( $post_id, 'laterpay_post_prices', true );
+                    $meta_values = $post_meta ? $post_meta : array();
+                    $meta_values['type']  = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
+                    $current_post_price = LaterPay_Helper_Pricing::get_post_price( $post_id );
+                    $current_revenue_model = isset( $meta_values['revenue_model'] ) ? $meta_values['revenue_model'] : 'ppu';
+
+                    // calculate new price and revenue
+                    $new_price = null;
+                    switch ( $action ) {
+                        case 'set':
+                            $new_price = $price;
+                            break;
+                        case 'increase':
+                            if ( $is_percent ) {
+                                $new_price = $current_post_price + $current_post_price * $price / 100;
+                            } else {
+                                $new_price = $current_post_price + $price;
+                            }
+                            break;
+                        case 'reduce':
+                            if ( $is_percent ) {
+                                $new_price = $current_post_price - $current_post_price * $price / 100;
+                            } else {
+                                $new_price = $current_post_price - $price;
+                            }
+                            break;
+                        case 'free':
+                            $new_price = 0.00;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if ( $new_price === null ) {
+                        wp_send_json(
+                            array(
+                                'success' => false,
+                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                            )
+                        );
+                    }
+
+                    $meta_values['price'] = $new_price;
+                    $meta_values['revenue_model'] = LaterPay_Helper_Pricing::check_and_correct_post_revenue_model( $current_revenue_model, $meta_values['price'] );
+
+                    // save post meta
+                    update_post_meta(
+                        $post_id,
+                        'laterpay_post_prices',
+                        $meta_values
+                    );
+                }
+
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Posts was succefully updated.', 'laterpay' )
+                    )
+                );
+            }
         }
 
         wp_send_json(
