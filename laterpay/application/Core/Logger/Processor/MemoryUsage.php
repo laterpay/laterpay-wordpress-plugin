@@ -5,14 +5,12 @@
  * @see Monolog\Processor\MemoryProcessor::__construct() for options
  * @author Rob Jensen
  */
-class LaterPay_Core_Logger_Processor_MemoryUsage extends LaterPay_Core_Logger_Processor_Memory
+class LaterPay_Core_Logger_Processor_MemoryUsage extends LaterPay_Core_Logger_Processor_Memory implements LaterPay_Core_Logger_Processor_Interface
 {
     /**
-     * @param array $record
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function __invoke( array $record ) {
+    public function process( array $record ) {
         $bytes      = memory_get_usage( $this->real_usage );
         $formatted  = $this->format_bytes( $bytes );
 

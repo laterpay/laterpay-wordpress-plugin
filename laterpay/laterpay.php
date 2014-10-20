@@ -294,7 +294,6 @@ function laterpay_get_logger() {
         new LaterPay_Core_Logger_Processor_Web(),
         new LaterPay_Core_Logger_Processor_MemoryUsage(),
         new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
-        new LaterPay_Core_Logger_Processor_Introspection(),
     );
 
     $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
