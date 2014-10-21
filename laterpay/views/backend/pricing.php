@@ -243,6 +243,7 @@
                             <option value="<?php echo $standard_currency; ?>">
                                 <?php echo $standard_currency; ?>
                             </option>
+                            <option value="percent">%</option>
                         </select>
                         <button id="lp_js_apply-bulk-operation" type="submit">Apply</button>
                     </p>
