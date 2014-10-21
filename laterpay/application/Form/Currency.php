@@ -22,7 +22,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                             'eq' => 'currency_form',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -36,7 +36,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                             'eq' => 'laterpay_pricing',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -50,7 +50,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -68,3 +68,5 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
         );
     }
 }
+
+

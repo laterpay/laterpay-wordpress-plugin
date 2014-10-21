@@ -111,7 +111,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     break;
 
                 case 'price_category_form':
-                    $this->update_category_default_price();
+                    $this->set_category_default_price();
                     break;
 
                 case 'price_category_form_delete':
@@ -246,130 +246,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update the category price, which by default is applied to all posts in a given category.
-     *
-     * @return void
-     */
-    protected function update_category_default_price() {
-        if ( ! empty( $_POST['category_id'] ) ) {
-            $this->update_existing_category_default_price();
-            die;
-        } else {
-            $this->set_new_category_default_price();
-            die;
-        }
-    }
-
-    /**
-     * Update the category price, if a category price is already defined for a given category.
-     *
-     * @return void
-     */
-    protected function update_existing_category_default_price() {
-        $price_category_form = new LaterPay_Form_PriceCategory();
-
-        if ( ! $price_category_form->is_valid( $_POST ) ) {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' )
-                )
-            );
-        }
-
-        $category                       = $price_category_form->get_field_value( 'category' );
-        $term                           = get_term_by( 'name', $category, 'category' );
-        $category_price_revenue_model   = $price_category_form->get_field_value( 'laterpay_category_price_revenue_model' );
-
-        if ( ! $term ) {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                )
-            );
-        }
-
-        $category_id                = $term->term_id;
-        $category_price_model       = new LaterPay_Model_CategoryPrice();
-        $category_price_id          = $category_price_model->get_price_id_by_category_id( $category_id );
-
-        $currency_model             = new LaterPay_Model_Currency();
-        $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
-
-        $delocalized_category_price = $price_category_form->get_field_value( 'price' );
-
-        if ( empty( $category_price_id ) && empty( $category_id ) ) {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => __( 'There is no such category on this website.', 'laterpay' )
-                )
-            );
-        } else if ( ! empty( $category_id ) && $category_id != $_POST['category_id'] ) {
-            $category_price_model->delete_prices_by_category_id( $_POST['category_id'] );
-            $category_price_id = $category_price_model->get_price_id_by_category_id( $_POST['category_id'] );
-
-            if ( $category_price_id ) {
-                wp_send_json(
-                    array(
-                        'success' => false,
-                        'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
-                    )
-                );
-            } else {
-                $category_price_model->set_category_price( $category_id, $delocalized_category_price, $category_price_revenue_model );
-
-                $category_price             = $category_price_model->get_price_by_category_id( $category_id );
-                $formatted_category_price   = LaterPay_Helper_View::format_number( (float) $category_price, 2 );
-
-                wp_send_json(
-                    array(
-                        'success'       => true,
-                        'category'      => $category,
-                        'price'         => $formatted_category_price,
-                        'currency'      => get_option( 'laterpay_currency' ),
-                        'category_id'   => $category_id,
-                        'message'       => sprintf(
-                            __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
-                            $category,
-                            $formatted_category_price,
-                            $currency_name
-                        )
-                    )
-                );
-            }
-        }
-
-        $category_price_model->set_category_price( $category_id, $delocalized_category_price, $category_price_revenue_model, $category_price_id );
-
-        $category_price             = $category_price_model->get_price_by_category_id( $category_id );
-        $formatted_category_price   = LaterPay_Helper_View::format_number( (float) $category_price, 2 );
-
-        wp_send_json(
-            array(
-                'success'       => true,
-                'category'      => $category,
-                'price'         => $_POST['price'],
-                'currency'      => get_option( 'laterpay_currency' ),
-                'category_id'   => $category_id,
-                'revenue_model' => $category_price_revenue_model,
-                'message'       => sprintf(
-                    __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
-                    $category,
-                    $formatted_category_price,
-                    $currency_name
-                )
-            )
-        );
-    }
-
-    /**
      * Set the category price, if a given category does not have a category price yet.
      *
      * @return void
      */
-    protected function set_new_category_default_price() {
+    protected function set_category_default_price() {
+
         $price_category_form = new LaterPay_Form_PriceCategory();
 
         if ( ! $price_category_form->is_valid( $_POST ) ) {
@@ -381,9 +263,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             );
         }
 
+        $post_category_id               = $price_category_form->get_field_value( 'category_id' );
         $category                       = $price_category_form->get_field_value( 'category' );
         $term                           = get_term_by( 'name', $category, 'category' );
         $category_price_revenue_model   = $price_category_form->get_field_value( 'laterpay_category_price_revenue_model' );
+        $updated_post_ids               = null;
 
         if ( ! $term ) {
             wp_send_json(
@@ -396,31 +280,33 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $category_id                  = $term->term_id;
         $category_price_model         = new LaterPay_Model_CategoryPrice();
-        $category_doesnt_exist        = $category_price_model->check_existence_of_category_by_name( $category );
+        $category_price_id            = $category_price_model->get_price_id_by_category_id( $category_id );
         $delocalized_category_price   = $price_category_form->get_field_value( 'price' );
 
-        if ( ! empty( $category_doesnt_exist ) || empty( $category_id ) ) {
+        if ( empty( $category_id ) ) {
             wp_send_json(
                 array(
                     'success' => false,
                     'message' => __( 'There is no such category on this website.', 'laterpay' )
                 )
             );
-        } else {
-            $category_price_model->set_category_price( $category_id, $delocalized_category_price, $category_price_revenue_model );
         }
 
-        $category_price             = $category_price_model->get_price_by_category_id( $category_id );
-        $formatted_category_price   = LaterPay_Helper_View::format_number( (float) $category_price, 2 );
+        if ( ! $post_category_id ) {
+            $category_price_model->set_category_price( $category_id, $delocalized_category_price, $category_price_revenue_model );
+            $updated_post_ids = LaterPay_Helper_Pricing::apply_category_price_to_posts_with_global_price( $category_id );
+        } else {
+            $category_price_model->set_category_price( $category_id, $delocalized_category_price, $category_price_revenue_model, $category_price_id );
+        }
+
         $currency_model             = new LaterPay_Model_Currency();
         $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
-        $updated_post_ids           = LaterPay_Helper_Pricing::apply_category_price_to_posts_with_global_price( $category_id );
 
         wp_send_json(
             array(
                 'success'           => true,
                 'category'          => $category,
-                'price'             => $formatted_category_price,
+                'price'             => $delocalized_category_price,
                 'currency'          => get_option( 'laterpay_currency' ),
                 'category_id'       => $category_id,
                 'revenue_model'     => $category_price_revenue_model,
@@ -428,7 +314,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'message'           => sprintf(
                                             __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
                                             $category,
-                                            $formatted_category_price,
+                                            $delocalized_category_price,
                                             $currency_name
                                         ),
             )

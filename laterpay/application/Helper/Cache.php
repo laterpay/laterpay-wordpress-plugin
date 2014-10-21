@@ -62,4 +62,34 @@ class LaterPay_Helper_Cache
         return $caching_plugin_is_active;
     }
 
+    /**
+     * Purge the cache, if a known cache plugin is active.
+     *
+     * @return void
+     */
+    public static function purge_cache() {
+        /**
+         * custom action for other cache plugins to purge their cache
+         */
+        do_action( 'laterpay_purge_cache' );
+
+        // W3 Total Cache
+        if ( function_exists( 'w3tc_pgcache_flush' ) ) {
+            w3tc_pgcache_flush();
+        }
+        // WP Super Cache
+        else if ( function_exists( 'wp_cache_clean_cache' ) ) {
+            global $file_prefix;
+            wp_cache_clean_cache( $file_prefix );
+        }
+        // Quick Cache
+        else if ( class_exists( 'quick_cache' ) && method_exists( 'quick_cache', 'clear' ) ) {
+            quick_cache::clear();
+        }
+        // Cachify
+        else if ( class_exists( 'Cachify' ) && method_exists( 'Cachify', 'flush_total_cache' ) ) {
+            Cachify::flush_total_cache();
+        }
+    }
+
 }

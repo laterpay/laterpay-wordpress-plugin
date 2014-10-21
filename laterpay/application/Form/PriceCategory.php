@@ -44,10 +44,10 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             'category_id',
             array(
                 'validators' => array(
-                    'is_int'
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_int'
+                    'to_int',
                 ),
                 'can_be_null' => true,
             )
@@ -101,10 +101,10 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                                 ),
                             ),
                         ),
-                    )
+                    ),
                 ),
                 'filters' => array(
-                    'to_string'
+                    'to_string',
                 ),
                 'not_strict_name' => true,
             )
@@ -113,8 +113,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
         $this->set_field(
             'category',
             array(
-                'validators' => array(
-                    'is_string'
+                'validators'    => array(
+                    'is_string',
                 ),
                 'filters' => array(
                     'to_string',
@@ -152,3 +152,4 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
         );
     }
 }
+

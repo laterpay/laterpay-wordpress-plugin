@@ -22,7 +22,7 @@ class LaterPay_Form_ApiKey extends LaterPay_Form_Abstract
                             'like' => 'api_key',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -36,7 +36,7 @@ class LaterPay_Form_ApiKey extends LaterPay_Form_Abstract
                             'eq' => 'laterpay_account',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -50,7 +50,7 @@ class LaterPay_Form_ApiKey extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -70,3 +70,4 @@ class LaterPay_Form_ApiKey extends LaterPay_Form_Abstract
         );
     }
 }
+

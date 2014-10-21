@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Core_Logger_Processor_Web
+class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Processor_Interface
 {
 
     /**
@@ -42,11 +42,9 @@ class LaterPay_Core_Logger_Processor_Web
     }
 
     /**
-     * @param array $record
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function __invoke( array $record ) {
+    public function process( array $record ) {
         // skip processing if for some reason request data is not present (CLI or wonky SAPIs)
         if ( ! isset( $this->server_data['REQUEST_URI'] ) ) {
             return $record;

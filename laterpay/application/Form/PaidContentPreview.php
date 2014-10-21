@@ -68,3 +68,4 @@ class LaterPay_Form_PaidContentPreview extends LaterPay_Form_Abstract
         );
     }
 }
+
