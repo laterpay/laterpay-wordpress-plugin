@@ -40,7 +40,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_localize_script(
             'laterpay-backend-pricing',
             'lpVars',
-            array( 'locale' => get_locale() )
+            array(
+                'locale'            => get_locale(),
+                'i18nModifierTo'    => __( 'to', 'laterpay' ),
+                'i18nModifierBy'    => __( 'by', 'laterpay' ),
+            )
         );
     }
 
@@ -53,6 +57,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $category_price_model           = new LaterPay_Model_CategoryPrice();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
 
+        $bulk_actions = array(
+            'set'      => __( 'Set price of', 'laterpay' ),
+            'increase' => __( 'Increase price of', 'laterpay' ),
+            'reduce'   => __( 'Reduce price of', 'laterpay' ),
+            'free'     => __( 'Make free', 'laterpay' ),
+        );
+        $bulk_selectors = array(
+            'all'             => __( 'All posts', 'laterpay' ),
+            'in_category'     => __( 'All posts in category', 'laterpay' ),
+            'not_in_category' => __( 'All posts NOT in category', 'laterpay' ),
+        );
+        $bulk_categories = get_categories();
+
         $this->assign( 'categories_with_defined_price',         $categories_with_defined_price );
         $this->assign( 'standard_currency',                     get_option( 'laterpay_currency' ) );
         $this->assign( 'plugin_is_in_live_mode',                $this->config->get( 'is_in_live_mode' ) );
@@ -60,6 +77,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->assign( 'global_default_price_revenue_model',    get_option( 'laterpay_global_price_revenue_model' ) );
         $this->assign( 'top_nav',                               $this->get_menu() );
         $this->assign( 'admin_menu',                            LaterPay_Helper_View::get_admin_menu() );
+        $this->assign( 'bulk_actions',                          $bulk_actions );
+        $this->assign( 'bulk_selectors',                        $bulk_selectors );
+        $this->assign( 'bulk_categories',                       $bulk_categories );
 
         $this->render( 'backend/pricing' );
     }
@@ -103,6 +123,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         $_POST[ 'category_ids' ] = array();
                     }
                     $this->get_category_prices( $_POST['category_ids'] );
+                    break;
+
+                case 'bulk_price_form':
+                    $this->change_posts_individual_price();
                     break;
 
                 default:
@@ -406,4 +430,107 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json( $categories_price_data );
     }
 
+    /**
+     * Apply new prices to posts as individual prices as specified in the bulk form settings.
+     *
+     * @return void
+     */
+    protected function change_posts_individual_price() {
+        $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
+
+        if ( $bulk_price_form->is_valid() ) {
+            // read scope of posts to be processed from selector
+            $posts    = null;
+            $selector = $bulk_price_form->get_field_value( 'bulk_selector' );
+            if ( $selector != 'all' ) {
+                $is_in_category = ( $selector == 'in_category' );
+                $category_id    = $bulk_price_form->get_field_value( 'bulk_category' );
+                $posts          = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( ( $is_in_category ? 1 : (-1) ) * $category_id );
+            } else {
+                $posts          = LaterPay_Helper_Pricing::get_all_posts_with_price();
+            }
+
+            if ( $posts ) {
+                // perform action on each post
+                $action     = $bulk_price_form->get_field_value( 'bulk_action' );
+                $is_percent = ( $bulk_price_form->get_field_value( 'bulk_change_unit' ) == 'percent' );
+                $price      = $bulk_price_form->get_field_value( 'bulk_price' );
+
+                foreach ( $posts as $post ) {
+                    $post_id                = is_int( $post ) ? $post : $post->ID;
+                    $post_meta              = get_post_meta( $post_id, 'laterpay_post_prices', true );
+                    $meta_values            = $post_meta ? $post_meta : array();
+                    $meta_values['type']    = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
+                    $current_post_price     = LaterPay_Helper_Pricing::get_post_price( $post_id );
+                    $current_revenue_model  = isset( $meta_values['revenue_model'] ) ? $meta_values['revenue_model'] : 'ppu';
+
+                    // calculate new price and revenue model
+                    $new_price = null;
+                    switch ( $action ) {
+                        case 'set':
+                            $new_price = $price;
+                            break;
+
+                        case 'increase':
+                            if ( $is_percent ) {
+                                $new_price = $current_post_price + $current_post_price * $price / 100;
+                            } else {
+                                $new_price = $current_post_price + $price;
+                            }
+                            break;
+
+                        case 'reduce':
+                            if ( $is_percent ) {
+                                $new_price = $current_post_price - $current_post_price * $price / 100;
+                            } else {
+                                $new_price = $current_post_price - $price;
+                            }
+                            break;
+
+                        case 'free':
+                            $new_price = 0.00;
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    if ( $new_price === null ) {
+                        wp_send_json(
+                            array(
+                                'success' => false,
+                                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                            )
+                        );
+                    }
+
+                    $meta_values['price']           = $new_price;
+                    $meta_values['revenue_model']   = LaterPay_Helper_Pricing::check_and_correct_post_revenue_model(
+                                                            $current_revenue_model,
+                                                            $meta_values['price']
+                                                        );
+
+                    update_post_meta(
+                        $post_id,
+                        'laterpay_post_prices',
+                        $meta_values
+                    );
+                }
+
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Posts were successfully updated.', 'laterpay' )
+                    )
+                );
+            }
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+            )
+        );
+    }
 }

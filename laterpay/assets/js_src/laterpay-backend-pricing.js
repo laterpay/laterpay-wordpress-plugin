@@ -40,6 +40,16 @@
                 categoryDefaultPriceInput               : '.lp_js_category-default-price-input',
                 categoryId                              : '.lp_js_category-id',
 
+                // bulk price editor
+                bulkPriceForm                           : $('#lp_js_bulk-price-form'),
+                bulkPriceAction                         : $('#lp_js_change-bulk-action'),
+                bulkPriceObjects                        : $('#lp_js_select-bulk-objects'),
+                bulkPriceObjectsCategory                : $('#lp_js_select-bulk-objects-category'),
+                bulkPriceChangeAmountModifier           : $('#lp_js_bulk-amount-modifier'),
+                bulkPriceChangeAmount                   : $('#lp_js_set-bulk-change-amount'),
+                bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
+                bulkPriceSubmit                         : $('#lp_js_apply-bulk-operation'),
+
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
                 defaultCurrency                         : $('#lp_js_change-default-currency'),
@@ -51,7 +61,7 @@
                 payPerUse                               : 'ppu',
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
-                disabled                                : 'lp_is-disabled',
+                disabled                                : 'lp_is-disabled'
             },
 
             bindEvents = function() {
@@ -127,6 +137,20 @@
                     deleteCategoryDefaultPrice($form);
                 });
 
+                // bulk price editor events ----------------------------------------------------------------------
+                // select action or objects
+                $o.bulkPriceAction.add($o.bulkPriceObjects)
+                .on('change', function() {
+                    handleBulkEditorSettingsUpdate($o.bulkPriceAction.val(), $o.bulkPriceObjects.val());
+                });
+
+                // execute bulk operation
+                $o.bulkPriceForm
+                .on('submit', function(e) {
+                    applyBulkOperation();
+                    e.preventDefault();
+                });
+
                 // default currency events -----------------------------------------------------------------------------
                 // switch default currency
                 $o.defaultCurrency
@@ -200,7 +224,8 @@
                 }
 
                 if (price >= 1.49) {
-                    // enable Single Sale for prices >= 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
+                    // enable Single Sale for prices >= 1.49 Euro
+                    // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
                 } else {
@@ -419,6 +444,7 @@
                                                     action  : 'laterpay_pricing'
                                                 },
                                                 function(data) {
+                                                    console.log(data);
                                                     if (data && data[0] !== undefined) {
                                                         var term = data[0];
                                                         callback({text: term.name});
@@ -450,7 +476,7 @@
 
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
-              var timer = undefined;
+              var timer;
               return function () {
                 var context = this,
                     args    = arguments;
@@ -463,8 +489,65 @@
               };
             },
 
+            applyBulkOperation = function() {
+                $.post(
+                    ajaxurl,
+                    $o.bulkPriceForm.serializeArray(),
+                    function(r) {
+                        setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
+            },
+
+            handleBulkEditorSettingsUpdate =function(action, selector) {
+                // hide some fields if needed, change separator, and add percent unit option
+                var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
+
+                // clear currency options
+                $o.bulkPriceChangeUnit.find('option').each(function() {
+                    if ($(this).text() === '%') {
+                        $(this).remove();
+                    }
+                });
+
+                switch (action) {
+                    case 'set':
+                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierTo).show();
+                        $o.bulkPriceChangeAmount.show();
+                        $o.bulkPriceChangeUnit.show();
+                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
+                        break;
+
+                    case 'increase':
+                    case 'reduce':
+                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierBy).show();
+                        $o.bulkPriceChangeAmount.show();
+                        $o.bulkPriceChangeUnit.show();
+                        $o.bulkPriceChangeUnit.append($('<option>', {
+                            value   : 'percent',
+                            text    :  '%'
+                        }));
+                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
+                        break;
+
+                    case 'free':
+                        $o.bulkPriceChangeAmountModifier.hide();
+                        $o.bulkPriceChangeAmount.hide();
+                        $o.bulkPriceChangeUnit.hide();
+                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
+                        break;
+
+                    default:
+                        break;
+                }
+            },
+
             initializePage = function() {
                 bindEvents();
+
+                // trigger change event of bulk price editor on page load
+                $o.bulkPriceAction.change();
             };
 
         initializePage();
