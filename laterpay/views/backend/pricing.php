@@ -239,10 +239,11 @@
                                 id="lp_js_set-bulk-change-amount"
                                 value="<?php echo $global_default_price; ?>"
                                 placeholder="0.00">
-                        <select name="bulk_currency" id="lp_js_set-bulk-change-unit" class="lp_input">
+                        <select name="bulk_change_unit" id="lp_js_set-bulk-change-unit" class="lp_input">
                             <option value="<?php echo $standard_currency; ?>">
                                 <?php echo $standard_currency; ?>
                             </option>
+                            <option value="percent">%</option>
                         </select>
                         <button id="lp_js_apply-bulk-operation" type="submit">Apply</button>
                     </p>

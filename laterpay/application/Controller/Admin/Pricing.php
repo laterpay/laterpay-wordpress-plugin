@@ -40,7 +40,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_localize_script(
             'laterpay-backend-pricing',
             'lpVars',
-            array( 'locale' => get_locale() )
+            array(
+                'locale'     => get_locale(),
+                'toModifier' => __( "to", 'laterpay' ),
+                'byModifier' => __( "by", 'laterpay' ),
+            )
         );
     }
 
@@ -550,20 +554,20 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         if ( $bulk_price_form->is_valid() ) {
             // use selector to determine scope of posts
-            $posts = null;
+            $posts    = null;
             $selector = $bulk_price_form->get_field_value( 'bulk_selector' );
             if ( $selector != 'all' ) {
                 $is_in_category = ( $selector == 'in_category' );
                 $category_id    = $bulk_price_form->get_field_value( 'bulk_category' );
                 $posts          = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( ( $is_in_category ? 1 : (-1) ) * $category_id );
             } else {
-                $posts = LaterPay_Helper_Pricing::get_all_posts_with_price();
+                $posts          = LaterPay_Helper_Pricing::get_all_posts_with_price();
             }
 
             if ( $posts ) {
                 // perform action on each post
                 $action     = $bulk_price_form->get_field_value( 'bulk_action' );
-                $is_percent = ( $bulk_price_form->get_field_value( 'bulk_currency' ) == 'percent' );
+                $is_percent = ( $bulk_price_form->get_field_value( 'bulk_change_unit' ) == 'percent' );
                 $price      = $bulk_price_form->get_field_value( 'bulk_price' );
 
                 foreach ( $posts as $post ) {

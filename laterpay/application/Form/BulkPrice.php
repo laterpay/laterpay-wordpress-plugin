@@ -110,7 +110,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'bulk_currency',
+            'bulk_change_unit',
             array(
                 'validators' => array(
                     'is_string',
