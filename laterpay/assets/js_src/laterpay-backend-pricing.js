@@ -545,12 +545,12 @@
 
             initializePage = function() {
                 bindEvents();
+
+                // trigger change event of bulk price editor on page load
+                $o.bulkPriceAction.change();
             };
 
         initializePage();
-
-        // trigger action change after page loaded
-        $o.bulkPriceAction.change();
     }
 
     // initialize page
