@@ -33,20 +33,20 @@ class LaterPay_Helper_Statistics
      * Wrapper for inet_pton() with fallback.
      *
      * @param string $ip
+     *
      * @return string $ip
      */
     protected static function inet_pton( $ip ) {
-
-        // does the inet_pton function exists and php wasn't compiled with --disable-ipv6 option
-        if( function_exists( 'inet_pton' ) && defined('AF_INET6') ){
+        // use inet_pton function, if it exists and PHP wasn't compiled with --disable-ipv6 option
+        if ( function_exists( 'inet_pton' ) && defined( 'AF_INET6' ) ) {
             return inet_pton( $ip );
         }
 
         // IPv4
         if ( strpos( $ip, '.' ) !== false ) {
-            if ( strpos( $ip, ':' ) === false )
+            if ( strpos( $ip, ':' ) === false ) {
                 $ip = pack( 'N', ip2long( $ip ) );
-            else {
+            } else {
                 $ip = explode( ':', $ip );
                 $ip = pack( 'N', ip2long( $ip[count( $ip ) - 1] ) );
             }
@@ -58,15 +58,16 @@ class LaterPay_Helper_Statistics
             $res        = '';
             $replaced   = 0;
             foreach ( $ip as $seg ) {
-                if ( $seg != '' )
+                if ( $seg != '' ) {
                     $res .= str_pad( $seg, 4, '0', STR_PAD_LEFT );
-                elseif ( $replaced == 0 ) {
+                } elseif ( $replaced == 0 ) {
                     for ( $i = 0; $i <= $parts; $i++ ) {
                         $res .= '0000';
                     }
                     $replaced = 1;
-                } elseif ( $replaced == 1 )
+                } elseif ( $replaced == 1 ) {
                     $res .= '0000';
+                }
             }
             $ip = pack( 'H' . strlen( $res ), $res );
         }
@@ -77,7 +78,7 @@ class LaterPay_Helper_Statistics
     /**
      * Try to find the user's REAL IP address.
      *
-     * @return  string $ip
+     * @return string $ip
      */
     protected static function get_ip_2_long_remote_ip() {
         $long_ip = array( 0, 0 );
@@ -113,9 +114,9 @@ class LaterPay_Helper_Statistics
     /**
      * Core tracking functionality.
      *
-     * @param   string|int $post_id
+     * @param string|int $post_id
      *
-     * @return  void
+     * @return void
      */
     public static function track( $post_id = '' ) {
         if ( empty( $post_id ) ) {
@@ -163,9 +164,9 @@ class LaterPay_Helper_Statistics
     /**
      * Get full URL.
      *
-     * @param   array $s $_SERVER
+     * @param array $s $_SERVER
      *
-     * @return  string $url
+     * @return string $url
      */
     public static function get_full_url( $s ) {
         if ( ! empty( $s['HTTPS'] ) && $s['HTTPS'] == 'on' ) {
