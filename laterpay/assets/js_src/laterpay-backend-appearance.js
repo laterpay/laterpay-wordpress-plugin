@@ -3,8 +3,12 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAppearance
     function laterPayBackendAppearance() {
         var $o = {
-                previewForm     : $('#laterpay_paid_content_preview_form'),
-                postTypeForm    : $('#laterpay_enabled_post_types_form')
+                previewForm   : $('#laterpay_paid_content_preview_form'),
+                postTypeForm  : $('#laterpay_enabled_post_types_form'),
+
+                // ratings
+                ratingsToggle : $('#lp_js_enable-ratings-toggle'),
+                ratingsForm   : $('#lp_js_laterpay-ratings-form')
             },
 
             bindEvents = function() {
@@ -18,6 +22,11 @@
                 $o.postTypeForm
                 .change(function() {
                     saveEnabledPostTypes();
+                });
+
+                // save ratings
+                $o.ratingsToggle.change(function() {
+                    saveRatings();
                 });
             },
 
@@ -33,6 +42,14 @@
                 $.post(
                     ajaxurl,
                     $o.previewForm.serializeArray(),
+                    function(data) {setMessage(data);}
+                );
+            },
+
+            saveRatings = function() {
+                $.post(
+                    ajaxurl,
+                    $o.ratingsForm.serializeArray(),
                     function(data) {setMessage(data);}
                 );
             },

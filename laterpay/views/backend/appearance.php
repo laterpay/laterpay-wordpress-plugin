@@ -75,6 +75,27 @@
         <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
+            <h2><?php _e( 'Enable Ratings', 'laterpay' ); ?></h2>
+            <?php _e( 'Ratings are', 'laterpay' ); ?><div class="lp-toggle">
+                <form id="lp_js_laterpay-ratings-form" method="post">
+                    <input type="hidden" name="form"    value="ratings">
+                    <input type="hidden" name="action"  value="laterpay_appearance">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                    <label class="lp-toggle-label" style="width: 7.2em;">
+                        <input type="checkbox"
+                               name="enable_ratings"
+                               id="lp_js_enable-ratings-toggle"
+                               class="lp-toggle-input"
+                               <?php if ( $is_ratings_enabled ): ?>checked<?php endif; ?>>
+                        <span class="lp-toggle-text" data-on="Enabled" data-off="Disabled"></span>
+                        <span class="lp-toggle-handle"></span>
+                    </label>
+                </form>
+            </div><?php _e( 'for your posts.', 'laterpay' ); ?>
+        </div>
+        <hr class="lp_m-1-0 lp_m-b3">
+
+        <div class="lp_row">
             <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
             <h3><?php _e( 'Offer of Additional Paid Content', 'laterpay' ); ?></h3>
             <dfn class="lp_fl-clearfix">
