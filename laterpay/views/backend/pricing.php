@@ -204,7 +204,7 @@
         <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
-            <h2><?php _e( 'Bulk price editor', 'laterpay' ); ?></h2>
+            <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>
             <form id="lp_js_bulk-price-form" method="post">
                 <input type="hidden" name="form" value="bulk_price_form">
                 <input type="hidden" name="action" value="laterpay_pricing">
@@ -232,7 +232,7 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <span id="lp_js_bulk-amount-modifier"><?php _e( 'to', 'laterpay' ); ?></span>
+                        <span id="lp_js_bulk-amount-modifier" class="lp_d-inl-block lp_m-r025 lp_m-l025"><?php _e( 'to', 'laterpay' ); ?></span>
                         <input  type="text"
                                 name="bulk_price"
                                 id="lp_js_set-bulk-change-amount"
@@ -245,7 +245,7 @@
                             </option>
                             <option value="percent">%</option>
                         </select>
-                        <button id="lp_js_apply-bulk-operation" type="submit"><?php _e( 'Apply', 'laterpay' ); ?></button>
+                        <button id="lp_js_apply-bulk-operation" class="button button-primary lp_m-l2" type="submit"><?php _e( 'Apply', 'laterpay' ); ?></button>
                     </p>
                 </div>
             </form>
