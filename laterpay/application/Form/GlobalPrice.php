@@ -22,7 +22,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                             'eq' => 'global_price_form',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -36,7 +36,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                             'eq' => 'laterpay_pricing',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -50,7 +50,7 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -119,9 +119,10 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
                         'replace' => '.',
                     ),
                     'format_num' => 2,
-                    'to_float'
+                    'to_float',
                 ),
             )
         );
     }
 }
+

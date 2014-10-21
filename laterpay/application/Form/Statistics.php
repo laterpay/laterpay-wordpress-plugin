@@ -1,31 +1,17 @@
 <?php
 
 /**
- * LaterPay plugin mode form class
+ * LaterPay api key form class
  */
-class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
+class LaterPay_Form_Statistics extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method.
+     * Implementation of abstract method
      *
      * @return void
      */
     public function init() {
-        $this->set_field(
-            'form',
-            array(
-                'validators' => array(
-                    'is_string',
-                    'cmp' => array(
-                        array(
-                            'eq' => 'laterpay_plugin_mode',
-                        ),
-                    ),
-                ),
-            )
-        );
-
         $this->set_field(
             'action',
             array(
@@ -33,7 +19,7 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_account',
+                            'eq' => 'laterpay_post_statistic_render',
                         ),
                     ),
                 ),
@@ -41,7 +27,7 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            '_wpnonce',
+            'nonce',
             array(
                 'validators' => array(
                     'is_string',
@@ -55,11 +41,11 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'plugin_is_in_live_mode',
+            'post_id',
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array( 0, 1 ),
+                    'post_exist',
                 ),
                 'filters' => array(
                     'to_int',

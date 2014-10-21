@@ -22,7 +22,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                             'eq' => 'currency_form',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -36,7 +36,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                             'eq' => 'laterpay_pricing',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -50,7 +50,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -59,9 +59,14 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'EUR' ),
+                    'in_array' => array( get_option( 'laterpay_currency' ) ),
+                ),
+                'filters' => array(
+                    'to_string',
                 ),
             )
         );
     }
 }
+
+
