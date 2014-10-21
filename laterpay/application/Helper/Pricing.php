@@ -369,9 +369,9 @@ class LaterPay_Helper_Pricing
 
             $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
 
-            if ( ( $price <= 5.00 && $price > 0.05 ) || $price == 0.00 ) {
+            if ( ( $price >= 0.05 && $price <= 5.00 ) || $price == 0.00 ) {
                 $revenue_model = 'ppu';
-            } else if ( $price > 5.00 && $price < 149.99 ) {
+            } else if ( $price > 5.00 && $price <= 149.99 ) {
                 $revenue_model = 'sis';
             }
         }
@@ -381,7 +381,7 @@ class LaterPay_Helper_Pricing
 
     /**
      * Return the revenue model of the post.
-     * Validates and if required corrects the given combination of price and revenue model.
+     * Validates and - if required - corrects the given combination of price and revenue model.
      *
      * @param string $revenue_model
      * @param float  $price
@@ -392,15 +392,15 @@ class LaterPay_Helper_Pricing
         if ( $revenue_model == 'ppu' ) {
             if ( $price == 0.00 || ( $price >= 0.05 && $price <= 5.00 ) ) {
                 return 'ppu';
+            } else {
+                return 'sis';
             }
-
-            return 'sis';
         } else {
             if ( $price >= 1.49 && $price <= 149.99 ) {
                 return 'sis';
+            } else {
+                return 'ppu';
             }
-
-            return 'ppu';
         }
 
     }
