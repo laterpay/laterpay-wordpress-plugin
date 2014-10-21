@@ -158,8 +158,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Check the permissions on saving the metaboxes.
      *
      * @wp-hook save_post
@@ -240,7 +238,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
->>>>>>> master
      * Callback for add_meta_box to render form for pricing of post.
      *
      * @param WP_Post $post
