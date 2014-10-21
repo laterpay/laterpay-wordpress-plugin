@@ -114,7 +114,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'EUR', 'percent' ),
+                    'in_array' => array( get_option( 'laterpay_currency' ), 'percent' ),
                 ),
                 'filters' => array(
                     'to_string',
