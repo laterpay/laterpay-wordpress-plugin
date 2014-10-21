@@ -137,7 +137,7 @@
                     deleteCategoryDefaultPrice($form);
                 });
 
-                // bulk price editor events ----------------------------------------------------------------------
+                // bulk price editor events ----------------------------------------------------------------------------
                 // select action or objects
                 $o.bulkPriceAction.add($o.bulkPriceObjects)
                 .on('change', function() {
