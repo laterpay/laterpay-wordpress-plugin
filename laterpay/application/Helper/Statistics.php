@@ -121,7 +121,7 @@ class LaterPay_Helper_Statistics
         if ( empty( $post_id ) ) {
             return;
         }
-        self::get_ip_2_long_remote_ip();
+
         // ignore Firefox / Safari prefetching requests (X-Moz: Prefetch and X-purpose: Preview)
         if ( (isset( $_SERVER['HTTP_X_MOZ'] ) && strtolower( $_SERVER['HTTP_X_MOZ'] ) == 'prefetch' ) ||
             (isset( $_SERVER['HTTP_X_PURPOSE'] ) && strtolower( $_SERVER['HTTP_X_PURPOSE'] ) == 'preview' ) ) {
