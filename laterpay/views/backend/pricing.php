@@ -232,11 +232,11 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <span id="lp_js_bulk-amount-modifier">to</span>
+                        <span id="lp_js_bulk-amount-modifier"><?php _e( 'to', 'laterpay' ); ?></span>
                         <input  type="text"
                                 name="bulk_price"
-                                class="lp_input lp_number-input"
                                 id="lp_js_set-bulk-change-amount"
+                                class="lp_input lp_number-input"
                                 value="<?php echo $global_default_price; ?>"
                                 placeholder="0.00">
                         <select name="bulk_change_unit" id="lp_js_set-bulk-change-unit" class="lp_input">
@@ -245,7 +245,7 @@
                             </option>
                             <option value="percent">%</option>
                         </select>
-                        <button id="lp_js_apply-bulk-operation" type="submit">Apply</button>
+                        <button id="lp_js_apply-bulk-operation" type="submit"><?php _e( 'Apply', 'laterpay' ); ?></button>
                     </p>
                 </div>
             </form>

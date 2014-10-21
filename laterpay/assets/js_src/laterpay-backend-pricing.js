@@ -42,13 +42,13 @@
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulk-price-form'),
-                bulkPriceChangeAction                   : $('#lp_js_change-bulk-action'),
-                bulkPriceSelectObjects                  : $('#lp_js_select-bulk-objects'),
-                bulkPriceSelectObjectsCategory          : $('#lp_js_select-bulk-objects-category'),
+                bulkPriceAction                         : $('#lp_js_change-bulk-action'),
+                bulkPriceObjects                        : $('#lp_js_select-bulk-objects'),
+                bulkPriceObjectsCategory                : $('#lp_js_select-bulk-objects-category'),
+                bulkPriceChangeAmountModifier           : $('#lp_js_bulk-amount-modifier'),
                 bulkPriceChangeAmount                   : $('#lp_js_set-bulk-change-amount'),
-                bulkPriceAmountModifier                 : $('#lp_js_bulk-amount-modifier'),
                 bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
-                bulkPriceApplyOperation                 : $('#lp_js_apply-bulk-operation'),
+                bulkPriceSubmit                         : $('#lp_js_apply-bulk-operation'),
 
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
@@ -138,17 +138,17 @@
                 });
 
                 // bulk price editor events ----------------------------------------------------------------------
-                // change action or selector
-                $o.bulkPriceChangeAction.add($o.bulkPriceSelectObjects)
+                // select action or objects
+                $o.bulkPriceAction.add($o.bulkPriceObjects)
                 .on('change', function() {
-                    bulkOptionsChangeProcessing( $o.bulkPriceChangeAction.val(), $o.bulkPriceSelectObjects.val() );
+                    handleBulkEditorSettingsUpdate($o.bulkPriceChangeAction.val(), $o.bulkPriceObjects.val());
                 });
 
-                // press apply
+                // execute bulk operation
                 $o.bulkPriceForm
                 .on('submit', function(e) {
+                    applyBulkOperation();
                     e.preventDefault();
-                    applyBulkPrice();
                 });
 
                 // default currency events -----------------------------------------------------------------------------
@@ -488,7 +488,7 @@
               };
             },
 
-            applyBulkPrice = function() {
+            applyBulkOperation = function() {
                 $.post(
                     ajaxurl,
                     $o.bulkPriceForm.serializeArray(),
@@ -499,41 +499,44 @@
                 );
             },
 
-            bulkOptionsChangeProcessing = function(action, selector) {
-                // hide some fields if needed, change separator and add percent unit option
-                var showCategory = ( selector == 'in_category' || selector == 'not_in_category' );
+            handleBulkEditorSettingsUpdate =function(action, selector {
+                // hide some fields if needed, change separator, and add percent unit option
+                var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
 
                 // clear currency options
-                $o.bulkPriceChangeUnit.find('option').each( function(){
-                    if ( $(this).text() == '%') {
+                $o.bulkPriceChangeUnit.find('option').each(function() {
+                    if ($(this).text() === '%') {
                         $(this).remove();
                     }
                 });
 
-                switch(action) {
+                switch (action) {
                     case 'set':
-                        $o.bulkPriceAmountModifier.show().text( lpVars.toModifier );
+                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierTo).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
-                        showCategory ? $o.bulkPriceSelectObjectsCategory.show() : $o.bulkPriceSelectObjectsCategory.hide();
+                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
+
                     case 'increase':
                     case 'reduce':
-                        $o.bulkPriceAmountModifier.show().text( lpVars.byModifier );
+                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierBy).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
-                        $o.bulkPriceChangeUnit.append( $('<option>', {
-                            value: 'percent',
-                            text:  '%'
+                        $o.bulkPriceChangeUnit.append($('<option>', {
+                            value   : 'percent',
+                            text    :  '%'
                         }));
-                        showCategory ? $o.bulkPriceSelectObjectsCategory.show() : $o.bulkPriceSelectObjectsCategory.hide();
+                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
+
                     case 'free':
-                        $o.bulkPriceAmountModifier.hide();
+                        $o.bulkPriceChangeAmountModifier.hide();
                         $o.bulkPriceChangeAmount.hide();
                         $o.bulkPriceChangeUnit.hide();
-                        showCategory ? $o.bulkPriceSelectObjectsCategory.show() : $o.bulkPriceSelectObjectsCategory.hide();
+                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
+
                     default:
                         break;
                 }
