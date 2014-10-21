@@ -141,7 +141,7 @@
                 // select action or objects
                 $o.bulkPriceAction.add($o.bulkPriceObjects)
                 .on('change', function() {
-                    handleBulkEditorSettingsUpdate($o.bulkPriceChangeAction.val(), $o.bulkPriceObjects.val());
+                    handleBulkEditorSettingsUpdate($o.bulkPriceAction.val(), $o.bulkPriceObjects.val());
                 });
 
                 // execute bulk operation
@@ -550,7 +550,7 @@
         initializePage();
 
         // trigger action change after page loaded
-        $o.bulkPriceChangeAction.change();
+        $o.bulkPriceAction.change();
     }
 
     // initialize page
