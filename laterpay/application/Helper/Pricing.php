@@ -324,7 +324,7 @@ class LaterPay_Helper_Pricing
     /**
      * Get revenue model of post price (Pay-per-Use or Single Sale).
      *
-     * @param int  $post_id
+     * @param int $post_id
      *
      * @return string $revenue_model
      */
@@ -380,7 +380,8 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Check if revenue model of post correct for passed price value and return new revenue model.
+     * Return the revenue model of the post.
+     * Validates and if required corrects the given combination of price and revenue model.
      *
      * @param string $revenue_model
      * @param float  $price
@@ -388,16 +389,17 @@ class LaterPay_Helper_Pricing
      * @return string $revenue_model
      */
     public static function check_and_correct_post_revenue_model( $revenue_model, $price ) {
-
         if ( $revenue_model == 'ppu' ) {
             if ( $price == 0.00 || ( $price >= 0.05 && $price <= 5.00 ) ) {
                 return 'ppu';
             }
+
             return 'sis';
         } else {
             if ( $price >= 1.49 && $price <= 149.99 ) {
                 return 'sis';
             }
+
             return 'ppu';
         }
 
