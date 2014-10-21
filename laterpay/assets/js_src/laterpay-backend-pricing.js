@@ -224,7 +224,8 @@
                 }
 
                 if (price >= 1.49) {
-                    // enable Single Sale for prices >= 1.49 Euro (prices > 149.99 Euro are fixed by validatePrice already)
+                    // enable Single Sale for prices >= 1.49 Euro
+                    // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeProp('disabled')
                         .parent('label').removeClass($o.disabled);
                 } else {
@@ -475,7 +476,7 @@
 
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
-              var timer = undefined;
+              var timer;
               return function () {
                 var context = this,
                     args    = arguments;
@@ -499,7 +500,7 @@
                 );
             },
 
-            handleBulkEditorSettingsUpdate =function(action, selector {
+            handleBulkEditorSettingsUpdate =function(action, selector) {
                 // hide some fields if needed, change separator, and add percent unit option
                 var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
 
