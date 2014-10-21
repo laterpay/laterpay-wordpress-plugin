@@ -57,7 +57,14 @@ class LaterPay_Form_Ratings extends LaterPay_Form_Abstract
         $this->set_field(
             'enable_ratings',
             array(
-
+                'validators' => array(
+                    'is_string',
+                    'in_array' => array( 'on' ),
+                ),
+                'filters' => array(
+                    'to_string',
+                ),
+                'can_be_null' => true,
             )
         );
     }

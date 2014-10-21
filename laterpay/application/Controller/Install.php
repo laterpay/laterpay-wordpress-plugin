@@ -315,7 +315,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_global_price_revenue_model',  'ppu' );
         add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
         add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
-        add_option( 'laterpay_ratings',                     '0' );
+        add_option( 'laterpay_ratings',                     false );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );

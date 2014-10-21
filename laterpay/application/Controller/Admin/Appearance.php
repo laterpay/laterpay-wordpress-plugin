@@ -132,7 +132,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                         )
                     );
                 } else {
-                    $result = update_option( 'laterpay_ratings', $ratings_form->get_field_value( 'enable_ratings' ) );
+                    $result = update_option( 'laterpay_ratings', !! $ratings_form->get_field_value( 'enable_ratings' ) );
 
                     if ( $result ) {
                         if ( get_option( 'laterpay_ratings' ) ) {
