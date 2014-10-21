@@ -22,7 +22,7 @@ class LaterPay_Form_MerchantId extends LaterPay_Form_Abstract
                             'like' => 'merchant_id',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -70,3 +70,4 @@ class LaterPay_Form_MerchantId extends LaterPay_Form_Abstract
         );
     }
 }
+

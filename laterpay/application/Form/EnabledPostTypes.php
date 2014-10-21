@@ -22,7 +22,7 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
                             'eq' => 'enabled_post_types',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -36,7 +36,7 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
                             'eq' => 'laterpay_appearance',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -50,7 +50,7 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -64,3 +64,4 @@ class LaterPay_Form_EnabledPostTypes extends LaterPay_Form_Abstract
         );
     }
 }
+
