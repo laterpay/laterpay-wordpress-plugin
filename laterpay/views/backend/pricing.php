@@ -232,7 +232,7 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <span id="lp_js_bulk-amount-modifier" class="lp_d-inl-block lp_m-r025 lp_m-l025"><?php _e( 'to', 'laterpay' ); ?></span>
+                        <span id="lp_js_bulk-amount-modifier" class="lp_d-inl-block lp_m-r05 lp_m-l05"><?php _e( 'to', 'laterpay' ); ?></span>
                         <input  type="text"
                                 name="bulk_price"
                                 id="lp_js_set-bulk-change-amount"
