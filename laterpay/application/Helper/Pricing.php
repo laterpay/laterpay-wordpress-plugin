@@ -404,4 +404,28 @@ class LaterPay_Helper_Pricing
         }
 
     }
+
+    /**
+     * Select among passed categories ones with category default price and return array of their ids
+     *
+     * @param array $categories
+     * @return array
+     */
+    public static function get_categories_with_price( $categories) {
+        $categories_with_price = array();
+        $ids                   = array();
+
+        if ( is_array( $categories ) ) {
+            foreach ( $categories as $category ) {
+                $ids[] = $category->term_id;
+            }
+        }
+
+        if ( $ids ) {
+            $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+            $categories_with_price   = $laterpay_category_model->get_category_price_data_by_category_ids( $ids );
+        }
+
+        return $categories_with_price;
+    }
 }
