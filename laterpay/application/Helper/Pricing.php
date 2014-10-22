@@ -406,9 +406,11 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Select among passed categories ones with category default price and return array of their ids
+     * Select categories from a given list of categories that have a category default price
+     * and return an array of their ids.
      *
      * @param array $categories
+     *
      * @return array
      */
     public static function get_categories_with_price( $categories) {

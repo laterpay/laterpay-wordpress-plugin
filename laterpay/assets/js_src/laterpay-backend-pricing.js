@@ -145,10 +145,15 @@
                     handleBulkEditorSettingsUpdate($o.bulkPriceAction.val(), $o.bulkPriceObjects.val());
                 });
 
-                // set correct modifier on category with price select change
+                // update displayed price of the category to be reset
                 $o.bulkPriceObjectsCategoryWithPrice
                 .on('change', function() {
-                    $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.toCategoryDefaultPrice + ' ' + $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' + lpVars.i18nStandartCurrency);
+                    $o.bulkPriceChangeAmountModifier.show()
+                    .text(
+                        lpVars.i18nModifier.toCategoryDefaultPrice + ' ' +
+                        $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
+                        lpVars.defaultCurrency
+                    );
                 });
 
                 // execute bulk operation
@@ -522,7 +527,7 @@
                         .end()
                         .addClass($o.disabled);
 
-                // enable not_in_category selector if it was disabled
+                // enable not_in_category selector, if it was disabled
                 $o.bulkPriceObjects.find('option').each(function() {
                     if ($(this).val() === 'not_in_category') {
                         $(this).prop('disabled', false);
@@ -568,13 +573,18 @@
                                 $(this).prop('disabled', true);
                             }
                         });
-                        if ( ! showCategory ) {
-                            $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.toGlobalDefaultPrice + ' ' + lpVars.i18nGlobalDefaultPrice + ' ' + lpVars.i18nStandartCurrency);
+                        if (!showCategory) {
+                            $o.bulkPriceChangeAmountModifier.show()
+                            .text(
+                                lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
+                                lpVars.GlobalDefaultPrice + ' ' +
+                                lpVars.defaultCurrency
+                            );
                         } else {
-                            $o.bulkPriceObjectsCategoryWithPrice.show();
-                            $o.bulkPriceObjectsCategoryWithPrice.change();
+                            $o.bulkPriceObjectsCategoryWithPrice.show().change();
                         }
                         break;
+
                     default:
                         break;
                 }

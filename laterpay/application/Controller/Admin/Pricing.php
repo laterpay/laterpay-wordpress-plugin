@@ -49,10 +49,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'laterpay-backend-pricing',
             'lpVars',
             array(
-                'locale'                 => get_locale(),
-                'i18nModifier'           => $modifiers,
-                'i18nGlobalDefaultPrice' => get_option( 'laterpay_global_price' ),
-                'i18nStandartCurrency'   => get_option( 'laterpay_currency' ),
+                'locale'                => get_locale(),
+                'i18nModifier'          => $modifiers,
+                'globalDefaultPrice'    => get_option( 'laterpay_global_price' ),
+                'defaultCurrency'       => get_option( 'laterpay_currency' ),
             )
         );
     }
