@@ -239,7 +239,7 @@
                                 class="lp_input lp_number-input"
                                 value="<?php echo $global_default_price; ?>"
                                 placeholder="0.00">
-                        <select name="bulk_change_unit" id="lp_js_set-bulk-change-unit" class="lp_input">
+                        <select name="bulk_change_unit" id="lp_js_set-bulk-change-unit" class="lp_input lp_bulk-price-unit lp_is-disabled">
                             <option value="<?php echo $standard_currency; ?>">
                                 <?php echo $standard_currency; ?>
                             </option>
