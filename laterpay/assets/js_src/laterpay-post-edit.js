@@ -421,25 +421,24 @@
             },
 
             renderDynamicPricingWidget = function() {
-
-                var data    = lpVars.dynamicPricingData,
-                    lpc     = new LPCurve($o.dynamicPricingContainer);
+                var data        = lpVars.dynamicPricingData,
+                    lpc         = new LPCurve($o.dynamicPricingContainer),
+                    startPrice  = lpVars.dynamicPricingData[0].y,
+                    endPrice    = lpVars.dynamicPricingData[3].y,
+                    minPrice    = 0,
+                    maxPrice    = 5;
                 window.lpc = lpc;
 
                 $o.priceInput.attr('disabled', 'disabled');
-                
-                var start_price = lpVars.dynamicPricingData[0].y;
-                var end_price   = lpVars.dynamicPricingData[3].y;
-                var minPrice = 0;
-                var maxPrice = 5;
-                if( start_price > lpVars.limits.price_revenue_ppusis_max || end_price > lpVars.limits.price_revenue_ppusis_max ){
-                    //SIS
+
+                if (startPrice > lpVars.limits.price_revenue_ppusis_max || endPrice > lpVars.limits.price_revenue_ppusis_max) {
+                    // Single Sale
                     maxPrice = lpVars.limits.price_revenue_sis_max;
-                }else if( start_price >= lpVars.limits.price_revenue_sis_min || end_price >= lpVars.limits.price_revenue_sis_min ){
-                    //PPU && SIS
+                } else if (startPrice >= lpVars.limits.price_revenue_sis_min || endPrice >= lpVars.limits.price_revenue_sis_min) {
+                    // Pay-per-Use and Single Sale
                     maxPrice = lpVars.limits.price_revenue_ppusis_max;
-                }else{
-                    //PPU
+                } else {
+                    // Pay-per-Use
                     maxPrice = lpVars.limits.price_revenue_ppu_max;
                 }
 

@@ -285,21 +285,21 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             $post_revenue_model = $global_default_price_revenue_model;
         }
 
-        //set dynamic price data with defaults or values was already set
-        $dynamic_pricing_data = LaterPay_Helper_Pricing::get_dynamic_prices($post);
-		
-        //set limits to use them with javascript
+        // set dynamic price data with defaults or values already set
+        $dynamic_pricing_data = LaterPay_Helper_Pricing::get_dynamic_prices( $post );
+
+        // set limits for use by Javascript
         $dynamic_pricing_limits = array(
-            'price_revenue_ppu_min' => LaterPay_Helper_Pricing::price_revenue_ppu_min,
-            'price_revenue_ppu_max' => LaterPay_Helper_Pricing::price_revenue_ppu_max,
-            'price_revenue_ppusis_max' => LaterPay_Helper_Pricing::price_revenue_ppusis_max,
-            'price_revenue_sis_min'=> LaterPay_Helper_Pricing::price_revenue_sis_min,
-            'price_revenue_sis_max'=> LaterPay_Helper_Pricing::price_revenue_sis_max,
-            'price_ppu_end'=> LaterPay_Helper_Pricing::price_ppu_end,
-            'price_ppusis_end'=> LaterPay_Helper_Pricing::price_ppusis_end,
-            'price_sis_end'=> LaterPay_Helper_Pricing::price_sis_end,
-            'price_start_day'=> LaterPay_Helper_Pricing::price_start_day,
-            'price_end_day'=> LaterPay_Helper_Pricing::price_end_day
+            'price_revenue_ppu_min'     => LaterPay_Helper_Pricing::price_revenue_ppu_min,
+            'price_revenue_ppu_max'     => LaterPay_Helper_Pricing::price_revenue_ppu_max,
+            'price_revenue_ppusis_max'  => LaterPay_Helper_Pricing::price_revenue_ppusis_max,
+            'price_revenue_sis_min'     => LaterPay_Helper_Pricing::price_revenue_sis_min,
+            'price_revenue_sis_max'     => LaterPay_Helper_Pricing::price_revenue_sis_max,
+            'price_ppu_end'             => LaterPay_Helper_Pricing::price_ppu_end,
+            'price_ppusis_end'          => LaterPay_Helper_Pricing::price_ppusis_end,
+            'price_sis_end'             => LaterPay_Helper_Pricing::price_sis_end,
+            'price_start_day'           => LaterPay_Helper_Pricing::price_start_day,
+            'price_end_day'             => LaterPay_Helper_Pricing::price_end_day,
         );
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
@@ -320,7 +320,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
-     * Save laterpay post data.
+     * Save LaterPay post data.
      *
      * @wp-hook save_post, edit_attachments
      *
@@ -395,9 +395,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
                 // apply dynamic individual price
                 if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
-                    
 					if ( isset( $_POST[ 'laterpay_start_price' ] ) && isset( $_POST[ 'laterpay_end_price' ] ) ){
-                        list($meta_values[ 'start_price' ],$meta_values[ 'end_price' ]) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $_POST[ 'laterpay_start_price' ], $_POST[ 'laterpay_end_price' ] );
+                        list( $meta_values[ 'start_price' ], $meta_values[ 'end_price' ] ) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $_POST[ 'laterpay_start_price' ], $_POST[ 'laterpay_end_price' ] );
                     }
 
                     if ( $post_form->get_field_value( 'laterpay_change_start_price_after_days' ) ) {
@@ -446,5 +445,5 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return update_post_meta( $post_id, $name, $meta_value );
         }
     }
-	
+
 }
