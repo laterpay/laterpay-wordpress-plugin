@@ -413,7 +413,7 @@ class LaterPay_Helper_Pricing
      *
      * @return array
      */
-    public static function get_categories_with_price( $categories) {
+    public static function get_categories_with_price( $categories ) {
         $categories_with_price = array();
         $ids                   = array();
 

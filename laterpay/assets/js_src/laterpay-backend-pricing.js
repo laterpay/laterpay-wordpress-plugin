@@ -512,6 +512,16 @@
                 );
             },
 
+            disableCategoryOptionsIfNoCategories = function() {
+                if (!$o.bulkPriceObjectsCategory.length) {
+                    $o.bulkPriceObjects.find('option').each(function() {
+                        if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
+                            $(this).prop('disabled', true);
+                        }
+                    });
+                }
+            },
+
             handleBulkEditorSettingsUpdate = function(action, selector) {
                 // hide some fields if needed, change separator, and add percent unit option
                 var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
@@ -527,11 +537,9 @@
                         .end()
                         .addClass($o.disabled);
 
-                // enable not_in_category selector, if it was disabled
+                // enable selector, if it was disabled
                 $o.bulkPriceObjects.find('option').each(function() {
-                    if ($(this).val() === 'not_in_category') {
-                        $(this).prop('disabled', false);
-                    }
+                    $(this).prop('disabled', false);
                 });
 
                 // hide some of bulk price editor settings
@@ -545,6 +553,7 @@
                         $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.to);
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
@@ -559,17 +568,26 @@
                             value   : 'percent',
                             text    :  '%'
                         }));
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'free':
+                        if (!$o.bulkPriceObjectsCategory.length) {
+                            $o.bulkPriceObjects.find('option').each(function() {
+                                if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
+                                    $(this).prop('disabled', true);
+                                }
+                            });
+                        }
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'reset':
                         $o.bulkPriceObjectsCategory.hide();
                         $o.bulkPriceObjects.find('option').each(function() {
-                            if ($(this).val() === 'not_in_category') {
+                            if ($(this).val() === 'not_in_category' || ( $(this).val() === 'in_category' && !$o.bulkPriceObjectsCategoryWithPrice.length ) ) {
                                 $(this).prop('disabled', true);
                             }
                         });
@@ -577,7 +595,7 @@
                             $o.bulkPriceChangeAmountModifier.show()
                             .text(
                                 lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
-                                lpVars.GlobalDefaultPrice + ' ' +
+                                lpVars.globalDefaultPrice + ' ' +
                                 lpVars.defaultCurrency
                             );
                         } else {

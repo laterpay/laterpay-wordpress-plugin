@@ -78,7 +78,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'in_category'     => __( 'All posts in category', 'laterpay' ),
             'not_in_category' => __( 'All posts NOT in category', 'laterpay' ),
         );
-        $bulk_categories = get_categories();
+        $bulk_categories = get_categories( array( 'hide_empty'    => false ) );
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
 
         $this->assign( 'categories_with_defined_price',         $categories_with_defined_price );
