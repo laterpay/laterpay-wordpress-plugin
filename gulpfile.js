@@ -46,7 +46,7 @@ gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
         .pipe(soften(4))
         .pipe(stylus({                                                          // process Stylus sources to CSS
-            linenos: true,                                                      // make line numbers available in browser dev tools
+            linenos: true                                                       // make line numbers available in browser dev tools
             // TODO: generate sourcemap
         }))
         .on('error', notify.onError())
@@ -71,15 +71,15 @@ gulp.task('css-build', function() {
 // Javascript related tasks
 gulp.task('js-watch', function() {
     gulp.src(p.srcJS + '*.js')
-        .pipe(cached('hinting'))                                                // only process modified files
+        // .pipe(cached('hinting'))                                                // only process modified files
             .pipe(soften(4))
-            .pipe(gulp.dest(p.distJS))                                          // move to target folder
-            .pipe(notify({message: 'JS task complete :-)'}));
+            .pipe(gulp.dest(p.distJS));                                          // move to target folder
+            // .pipe(notify({message: 'JS task complete :-)'}));
 });
 
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
-        .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
+        // .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
         // .pipe(fixmyjs({                                                         // fix JSHint errors if possible
         //     lookup: false
         // }))

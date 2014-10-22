@@ -246,6 +246,7 @@
                             <option value="percent">%</option>
                         </select>
                         <button id="lp_js_apply-bulk-operation" class="button button-primary lp_m-l2" type="submit"><?php _e( 'Apply', 'laterpay' ); ?></button>
+                        <a href="#" id="lp_js_save-bulk-operation" class="lp_d-inl-block lp_m-l1 lp_pd-0-05"><?php _e( 'Save', 'laterpay' ); ?></a>
                     </p>
                 </div>
             </form>

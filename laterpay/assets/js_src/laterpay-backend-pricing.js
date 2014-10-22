@@ -49,6 +49,8 @@
                 bulkPriceChangeAmount                   : $('#lp_js_set-bulk-change-amount'),
                 bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
                 bulkPriceSubmit                         : $('#lp_js_apply-bulk-operation'),
+                bulkSaveOperationLink                   : $('#lp_js_save-bulk-operation'),
+                bulkRemoveOperationLink                 : '.lp_js_remove-bulk-operation',
 
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
@@ -148,6 +150,22 @@
                 $o.bulkPriceForm
                 .on('submit', function(e) {
                     applyBulkOperation();
+                    e.preventDefault();
+                });
+
+                // save bulk operation for re-use
+                $o.bulkSaveOperationLink
+                .mousedown(function() {
+                    saveBulkOperation();
+                })
+                .click(function() {return false;});
+
+                // remove saved bulk operation
+                $('body')
+                .on('click', $o.bulkRemoveOperationLink, function(e) {
+                    $(this).parent().fadeOut(400, function() {
+                      $(this).remove();
+                    });
                     e.preventDefault();
                 });
 
@@ -500,7 +518,7 @@
                 );
             },
 
-            handleBulkEditorSettingsUpdate =function(action, selector) {
+            handleBulkEditorSettingsUpdate = function(action, selector) {
                 // hide some fields if needed, change separator, and add percent unit option
                 var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
 
@@ -547,6 +565,26 @@
                     default:
                         break;
                 }
+            },
+
+            saveBulkOperation = function() {
+                var description = [
+                        $o.bulkPriceAction.find('option:selected').text(),
+                        $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
+                        ( $.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ? '' : $o.bulkPriceObjectsCategory.find('option:selected').text(),
+                        $o.bulkPriceChangeAmountModifier.text(),
+                        $o.bulkPriceChangeAmount.val(),
+                        $o.bulkPriceChangeUnit.find('option:selected').text(),
+                    ],
+                    operation;
+
+                description = $.trim(description.join(' ').replace(/\s+/g, ' '));
+                operation = '<p class="lp_bulk-operation">' +
+                                '<a href="#" class="lp_js_remove-bulk-operation">Remove</a>' +
+                                description +
+                            '</p>';
+
+                $o.bulkPriceForm.after(operation);
             },
 
             initializePage = function() {
