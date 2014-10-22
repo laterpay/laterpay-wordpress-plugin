@@ -6,6 +6,17 @@ class LaterPay_Helper_Pricing
     const TYPE_CATEGORY_DEFAULT_PRICE   = 'category default price';
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
+	
+    const price_revenue_ppu_min = 0.05;
+    const price_revenue_ppu_max = 1.48;
+    const price_revenue_ppusis_max = 5.00;
+    const price_revenue_sis_min = 1.49;
+    const price_revenue_sis_max = 149.49;
+    const price_ppu_end = 0.05;
+    const price_ppusis_end = 1.49;
+    const price_sis_end = 5.01;
+    const price_start_day = 13;
+    const price_end_day = 18;    	
 
     const META_KEY = 'laterpay_post_prices';
 
@@ -404,4 +415,144 @@ class LaterPay_Helper_Pricing
         }
 
     }
+	
+     /**
+     * Return data for dynamic prices. It might be values already set or defaults.
+     *
+     * @param WP_Post $post
+     *
+     * @return array
+     */
+    public static function get_dynamic_prices( $post ) {
+        
+        $dynamic_pricing_data = array();
+        
+        if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
+            return;
+        }
+
+        $post_prices = get_post_meta( $post->ID, 'laterpay_post_prices', true );
+        if ( ! is_array( $post_prices ) ) {
+            $post_prices = array();
+        }
+        
+        $post_price                         = array_key_exists( 'price',      $post_prices ) ? (float) $post_prices[ 'price' ] : '';
+        $start_price                        = array_key_exists( 'start_price',      $post_prices ) ? (float) $post_prices[ 'start_price' ] : '';
+        $end_price                          = array_key_exists( 'end_price',        $post_prices ) ? (float) $post_prices[ 'end_price' ] : '';
+        $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days',           $post_prices ) ? (float) $post_prices[ 'reach_end_price_after_days' ] : '';
+        $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days',        $post_prices ) ? (float) $post_prices[ 'change_start_price_after_days' ] : '';
+        $transitional_period_end_after_days = array_key_exists( 'transitional_period_end_after_days',   $post_prices ) ? (float) $post_prices[ 'transitional_period_end_after_days' ] : '';
+        
+        // return dynamic pricing widget start values
+        if ( $start_price === '' ) {
+            
+            if( $post_price > self::price_revenue_ppusis_max ){
+                //SIS, if the price >= 5.01
+                $end_price = self::price_sis_end;
+            }elseif( $post_price > self::price_revenue_sis_min ){
+                //SIS or PPU, if the 1.49 >= price >= 5.00
+                $end_price = self::price_ppusis_end;
+            }else{
+                //PPU, if the 1.48 >= price
+                $end_price = self::price_ppu_end;
+            }
+            
+            $dynamic_pricing_data = array(
+                                            array( 'x' => 0,  'y' => $post_price ),
+                                            array( 'x' => self::price_start_day, 'y' => $post_price ),
+                                            array( 'x' => self::price_end_day, 'y' => $end_price ),
+                                            array( 'x' => 30, 'y' => $end_price ),
+                                        );
+        } elseif ( $transitional_period_end_after_days === '' ) {
+            $dynamic_pricing_data = array(
+                array(
+                    'x' => 0,
+                    'y' => $start_price,
+                ),
+                array(
+                    'x' => $change_start_price_after_days,
+                    'y' => $start_price,
+                ),
+                array(
+                    'x' => $reach_end_price_after_days,
+                    'y' => $end_price,
+                ),
+            );
+        } else {
+            $dynamic_pricing_data = array(
+                array(
+                    'x' => 0,
+                    'y' => $start_price,
+                ),
+                array(
+                    'x' => $change_start_price_after_days,
+                    'y' => $start_price,
+                ),
+                array(
+                    'x' => $transitional_period_end_after_days,
+                    'y' => $end_price,
+                ),
+                array(
+                    'x' => $reach_end_price_after_days,
+                    'y' => $end_price,
+                ),
+            );
+        }        
+        
+        return $dynamic_pricing_data;
+    }
+    
+     /**
+     * Return adjusted prices
+     *
+     * @param float $start
+     * @param float $end
+     *
+     * @return array
+     */    
+    public static function adjust_dynamic_price_points( $start, $end ){
+        
+        if( $start >= self::price_sis_end || $end >= self::price_sis_end ){
+            //SIS
+            if( $start != 0 && $start < self::price_sis_end )
+                $start = self::price_sis_end;
+            if( $end != 0 && $end < self::price_sis_end )
+                $end = self::price_sis_end;
+        }elseif( ( $start >= self::price_revenue_sis_min && $start <= self::price_revenue_ppusis_max ) || ( $end >= self::price_revenue_sis_min && $end <= self::price_revenue_ppusis_max ) ){
+            //SIS or PPU
+            if( $start != 0 ){
+                
+                if( $start < self::price_revenue_sis_min )
+                    $start = self::price_revenue_sis_min;
+                if( $start > self::price_revenue_ppusis_max )
+                    $start = self::price_revenue_ppusis_max;
+            };
+            if( $end != 0 ){
+                
+                if( $end < self::price_revenue_sis_min )
+                    $end = self::price_revenue_sis_min;
+                if( $end > self::price_revenue_ppusis_max )
+                    $end = self::price_revenue_ppusis_max;
+            }
+        }else{
+            
+            //SIS or PPU
+            if( $start != 0 ){
+                
+                if( $start < self::price_revenue_ppu_min )
+                    $start = self::price_revenue_ppu_min;
+                if( $start > self::price_revenue_ppu_max )
+                    $start = self::price_revenue_ppu_max;
+            };
+            if( $end != 0 ){
+                
+                if( $end < self::price_revenue_ppu_min )
+                    $end = self::price_revenue_ppu_min;
+                if( $end > self::price_revenue_ppu_max )
+                    $end = self::price_revenue_ppu_max;
+            }
+        }
+        
+        return array( $start, $end );
+    }	
 }

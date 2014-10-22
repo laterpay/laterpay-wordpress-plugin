@@ -3,7 +3,7 @@
 <script>
     var lpVars = window.lpVars || {};
     lpVars.dynamicPricingData = <?php echo $laterpay_dynamic_pricing_data; ?>;
-	lpVars.dynamicPricingLimits = <?php echo $laterpay_dynamic_pricing_limits; ?>;
+	lpVars.limits = <?php echo $laterpay_dynamic_pricing_limits; ?>;
 </script>
 
 <div class="lp_post-price lp_fl-clearfix">
