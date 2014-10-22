@@ -512,11 +512,15 @@
                 var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
 
                 // clear currency options
-                $o.bulkPriceChangeUnit.find('option').each(function() {
-                    if ($(this).text() === '%') {
-                        $(this).remove();
-                    }
-                });
+                $o.bulkPriceChangeUnit
+                    .find('option')
+                    .each(function() {
+                        if ($(this).text() === '%') {
+                            $(this).remove();
+                        }
+                    })
+                        .end()
+                        .addClass($o.disabled);
 
                 // enable not_in_category selector if it was disabled
                 $o.bulkPriceObjects.find('option').each(function() {
@@ -544,7 +548,9 @@
                         $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.by);
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
-                        $o.bulkPriceChangeUnit.append($('<option>', {
+                        $o.bulkPriceChangeUnit
+                        .removeClass($o.disabled)
+                        .append($('<option>', {
                             value   : 'percent',
                             text    :  '%'
                         }));
