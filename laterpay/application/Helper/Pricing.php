@@ -404,4 +404,24 @@ class LaterPay_Helper_Pricing
         }
 
     }
+
+    /**
+     * Correct price
+     *
+     * @param  float $price
+     * @return float
+     */
+    public static function correct_price( $price ) {
+        $result_price = 0.00;
+
+        if ( $price == 0.00 || ( $price >= 0.05 && $price <= 149.99 ) ) {
+            $result_price = LaterPay_Helper_View::format_number( $price, 2 );
+        }
+
+        if ( $price > 149.99 ) {
+            $result_price = 149.99;
+        }
+
+        return $result_price;
+    }
 }

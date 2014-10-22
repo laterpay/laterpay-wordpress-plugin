@@ -440,14 +440,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         if ( $bulk_price_form->is_valid() ) {
             // read scope of posts to be processed from selector
-            $posts    = null;
-            $selector = $bulk_price_form->get_field_value( 'bulk_selector' );
+            $posts          = null;
+            $selector       = $bulk_price_form->get_field_value( 'bulk_selector' );
+            $affect_all     = false;
+            // each non individual price value should affect only once
+            $affected_types = array();
+
             if ( $selector != 'all' ) {
                 $is_in_category = ( $selector == 'in_category' );
                 $category_id    = $bulk_price_form->get_field_value( 'bulk_category' );
                 $posts          = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( ( $is_in_category ? 1 : (-1) ) * $category_id );
             } else {
                 $posts          = LaterPay_Helper_Pricing::get_all_posts_with_price();
+                $affect_all     = true;
             }
 
             if ( $posts ) {
@@ -462,13 +467,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $meta_values            = $post_meta ? $post_meta : array();
                     $meta_values['type']    = LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE;
                     $current_post_price     = LaterPay_Helper_Pricing::get_post_price( $post_id );
+                    $current_post_type      = LaterPay_Helper_Pricing::get_post_price_type( $post_id );
                     $current_revenue_model  = isset( $meta_values['revenue_model'] ) ? $meta_values['revenue_model'] : 'ppu';
 
                     // calculate new price and revenue model
                     $new_price = null;
                     switch ( $action ) {
                         case 'set':
-                            $new_price = $price;
+                            $new_price = LaterPay_Helper_Pricing::correct_price( $price );
+                            if ( $affect_all ) {
+                                $meta_values['type'] = $current_post_type;
+                                LaterPay_Helper_Pricing::correct_price_type_value( $post_id, $new_price );
+                            }
                             break;
 
                         case 'increase':
@@ -477,6 +487,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                             } else {
                                 $new_price = $current_post_price + $price;
                             }
+                            $new_price = LaterPay_Helper_Pricing::correct_price( $new_price );
+                            if ( $affect_all ) {
+                                $meta_values['type'] = $current_post_type;
+                            }
                             break;
 
                         case 'reduce':
@@ -484,6 +498,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                                 $new_price = $current_post_price - $current_post_price * $price / 100;
                             } else {
                                 $new_price = $current_post_price - $price;
+                            }
+                            $new_price = LaterPay_Helper_Pricing::correct_price( $new_price );
+                            if ( $affect_all ) {
+                                $meta_values['type'] = $current_post_type;
                             }
                             break;
 
@@ -508,7 +526,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $meta_values['revenue_model']   = LaterPay_Helper_Pricing::check_and_correct_post_revenue_model(
                                                             $current_revenue_model,
                                                             $meta_values['price']
-                                                        );
+                                                      );
 
                     update_post_meta(
                         $post_id,
