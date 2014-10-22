@@ -192,52 +192,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
-     * Save teaser content.
-     *
-     * @wp-hook save_post, edit_attachment
-     *
-     * @param int $post_id
-     *
-     * @return void
-     */
-    public function save_teaser_content_box( $post_id ) {
-        // nonce not valid -> do nothing
-        if ( ! isset( $_POST['laterpay_teaser_content_box_nonce'] ) || ! wp_verify_nonce( $_POST['laterpay_teaser_content_box_nonce'], $this->config->get( 'plugin_base_name' ) ) ) {
-            return;
-        }
-
-        // no rights to edit -> do nothing
-        if ( ! LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
-            return;
-        }
-
-        if ( ! $this->has_permission( $post_id ) ) {
-            return;
-        }
-
-        if ( isset( $_POST['laterpay_post_teaser'] ) && ! empty( $_POST[ 'laterpay_post_teaser' ] ) ) {
-            // we're using the wpautop() in frontend on the 'the_content' filter
-            $new_meta_value = $_POST['laterpay_post_teaser'];
-        } else {
-            $post = get_post( $post_id );
-            $new_meta_value = LaterPay_Helper_String::truncate(
-                $post->post_content,
-                $this->config->get( 'content.auto_generated_teaser_content_word_count' ),
-                array (
-                    'html'  => true,
-                    'words' => true,
-                )
-            );
-        }
-
-        $this->set_post_meta(
-            'laterpay_post_teaser',
-            $new_meta_value,
-            $post_id
-        );
-    }
-
-    /**
      * Callback for add_meta_box to render form for pricing of post.
      *
      * @param WP_Post $post
