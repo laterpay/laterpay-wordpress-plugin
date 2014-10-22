@@ -44,6 +44,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'locale'            => get_locale(),
                 'i18nModifierTo'    => __( 'to', 'laterpay' ),
                 'i18nModifierBy'    => __( 'by', 'laterpay' ),
+                'i18nDelete'        => __( 'Delete', 'laterpay' ),
             )
         );
     }

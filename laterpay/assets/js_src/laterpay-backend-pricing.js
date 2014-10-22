@@ -45,12 +45,12 @@
                 bulkPriceAction                         : $('#lp_js_change-bulk-action'),
                 bulkPriceObjects                        : $('#lp_js_select-bulk-objects'),
                 bulkPriceObjectsCategory                : $('#lp_js_select-bulk-objects-category'),
-                bulkPriceChangeAmountModifier           : $('#lp_js_bulk-amount-modifier'),
+                bulkPriceChangeAmountPreposition        : $('#lp_js_bulk-amount-preposition'),
                 bulkPriceChangeAmount                   : $('#lp_js_set-bulk-change-amount'),
                 bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
                 bulkPriceSubmit                         : $('#lp_js_apply-bulk-operation'),
                 bulkSaveOperationLink                   : $('#lp_js_save-bulk-operation'),
-                bulkRemoveOperationLink                 : '.lp_js_remove-bulk-operation',
+                bulkDeleteOperationLink                 : '.lp_js_delete-bulk-operation',
 
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
@@ -158,16 +158,16 @@
                 .mousedown(function() {
                     saveBulkOperation();
                 })
-                .click(function() {return false;});
+                .click(function(e) {e.preventDefault();});
 
-                // remove saved bulk operation
+                // delete saved bulk operation
                 $('body')
-                .on('click', $o.bulkRemoveOperationLink, function(e) {
-                    $(this).parent().fadeOut(400, function() {
-                      $(this).remove();
+                .on('mousedown', $o.bulkDeleteOperationLink, function() {
+                    $(this).parent().fadeOut(250, function() {
+                        $(this).remove();
                     });
-                    e.preventDefault();
-                });
+                })
+                .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
 
                 // default currency events -----------------------------------------------------------------------------
                 // switch default currency
@@ -535,7 +535,7 @@
 
                 switch (action) {
                     case 'set':
-                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierTo).show();
+                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifierTo).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
@@ -543,7 +543,7 @@
 
                     case 'increase':
                     case 'reduce':
-                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierBy).show();
+                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifierBy).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
                         $o.bulkPriceChangeUnit
@@ -556,7 +556,7 @@
                         break;
 
                     case 'free':
-                        $o.bulkPriceChangeAmountModifier.hide();
+                        $o.bulkPriceChangeAmountPreposition.hide();
                         $o.bulkPriceChangeAmount.hide();
                         $o.bulkPriceChangeUnit.hide();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
@@ -568,19 +568,26 @@
             },
 
             saveBulkOperation = function() {
-                var description = [
-                        $o.bulkPriceAction.find('option:selected').text(),
-                        $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
-                        ( $.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ? '' : $o.bulkPriceObjectsCategory.find('option:selected').text(),
-                        $o.bulkPriceChangeAmountModifier.text(),
-                        $o.bulkPriceChangeAmount.val(),
-                        $o.bulkPriceChangeUnit.find('option:selected').text(),
-                    ],
+                var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free')
+                                    ? 'Make'
+                                    : $o.bulkPriceAction.find('option:selected').text(),
+                    objects     = $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
+                    category    = ($.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ?
+                                    '' :
+                                    '"' + $.trim($o.bulkPriceObjectsCategory.find('option:selected').text()) + '"',
+                    preposition = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                                    '' :
+                                    $o.bulkPriceChangeAmountPreposition.text(),
+                    amount      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                                    '' :
+                                    $o.bulkPriceChangeAmount.val() + $o.bulkPriceChangeUnit.find('option:selected').text(),
+                    actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ? 'free' : '',
+                    description = [action, objects, category, preposition, amount, actionExt],
                     operation;
 
                 description = $.trim(description.join(' ').replace(/\s+/g, ' '));
                 operation = '<p class="lp_bulk-operation">' +
-                                '<a href="#" class="lp_js_remove-bulk-operation">Remove</a>' +
+                                '<a href="#" class="lp_js_delete-bulk-operation">' + lpVars.i18nDelete + '</a>' +
                                 description +
                             '</p>';
 
