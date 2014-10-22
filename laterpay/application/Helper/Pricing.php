@@ -450,4 +450,15 @@ class LaterPay_Helper_Pricing
 
         return $result_price;
     }
+
+    /**
+     * Change default price value of current post's price type
+     *
+     * @param  $post_id
+     * @param  $price
+     * @return void
+     */
+    public static function change_post_price_type_value( $post_id, $price ) {
+
+    }
 }
