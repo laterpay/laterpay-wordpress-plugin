@@ -312,7 +312,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
         $this->assign( 'laterpay_global_default_price',                 $global_default_price );
         $this->assign( 'laterpay_dynamic_pricing_data',                 json_encode( $dynamic_pricing_data ) );
-		$this->assign( 'laterpay_dynamic_pricing_limits',               json_encode( $dynamic_pricing_limits ) );
+        $this->assign( 'laterpay_dynamic_pricing_limits',               json_encode( $dynamic_pricing_limits ) );
         $this->assign( 'laterpay_global_default_price_revenue_model',   $global_default_price_revenue_model );
         $this->assign( 'laterpay_category_default_price_revenue_model', $category_default_price_revenue_model );
 
