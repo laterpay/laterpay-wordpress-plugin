@@ -388,7 +388,7 @@ class LaterPay_Helper_Pricing
      *
      * @return string $revenue_model
      */
-    public static function check_and_correct_post_revenue_model( $revenue_model, $price ) {
+    public static function ensure_valid_revenue_model( $revenue_model, $price ) {
         if ( $revenue_model == 'ppu' ) {
             if ( $price == 0.00 || ( $price >= 0.05 && $price <= 5.00 ) ) {
                 return 'ppu';
@@ -409,7 +409,7 @@ class LaterPay_Helper_Pricing
      * Select categories from a given list of categories that have a category default price
      * and return an array of their ids.
      *
-     * @param  array $categories
+     * @param array $categories
      *
      * @return array
      */
@@ -432,12 +432,13 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Correct price
+     * Assign a valid amount to the price, if it is outside of the allowed range.
      *
-     * @param  float $price
+     * @param float $price
+     *
      * @return float
      */
-    public static function correct_price( $price ) {
+    public static function ensure_valid_price( $price ) {
         $result_price = 0.00;
 
         if ( $price == 0.00 || ( $price >= 0.05 && $price <= 149.99 ) ) {
@@ -452,10 +453,11 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Change default price value of current post's price type
+     * Change default price of current post's price type.
      *
-     * @param  $post_id
-     * @param  $price
+     * @param int $post_id
+     * @param float $price
+     *
      * @return void
      */
     public static function change_post_price_type_value( $post_id, $price ) {
