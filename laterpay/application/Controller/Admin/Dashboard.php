@@ -125,11 +125,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     /**
      * Ajax-Callback to refresh the dashboard-data
      *
-     * @wp-hook wp_ajax_laterpay_refresh_dashboard_data
+     * @wp-hook wp_ajax_laterpay_get_dashboard_data
      *
      * @return void
      */
-    public function ajax_refresh_dashboard_data(){
+    public function ajax_get_dashboard_data(){
 
        // check if the _wpnonce isset
        if( ! isset( $_POST[ '_wpnonce' ] ) || empty( $_POST[ '_wpnonce' ] ) ) {
@@ -160,10 +160,18 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $count = absint( $_POST[ 'count' ] );
         }
 
-        // trigger refresh
-        $this->refresh_dashboard_data( $days, $count );
+        $refresh = true;
+        if ( isset( $_POST[ 'refresh' ] ) ) {
+           $refresh = (bool) $_POST[ 'refresh' ];
+        }
 
         $cache_filename = $this->get_cache_filename( $days, $count );
+
+        if( $refresh || ! file_exists( $this->cache_dir . $cache_filename ) ) {
+            $this->refresh_dashboard_data( $days, $count );
+            // when refresh == false and the file not exists, we've to refresh the cache
+            $refresh = true;
+        }
 
         // load the refreshed data
         $data = $this->load_cache_data( $this->cache_dir . $cache_filename );
@@ -177,10 +185,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             ) );
         }
 
+        $msg = __( "Cache successfully reloaded", 'laterpay' );
+        if ( !$refresh ) {
+            $msg = __( "Data successfully loaded", 'laterpay' );
+        }
+
         // return the cached data and success message
         wp_send_json( array(
               'success' => true,
-              'message' => __( "Cache successfully reloaded", 'laterpay' ),
+              'message' => $msg,
               'data'    => $data
         ) );
 
