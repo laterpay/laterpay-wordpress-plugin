@@ -16,6 +16,7 @@
             },
 
             renderDashboard = function(data) {
+console.log(data);
                 // some mock data:
                 var last_items_sold         = [[1412294400000, 0], [1412380800000, 0], [1412467200000, 0], [1412553600000, 0], [1412640000000, 0], [1412726400000, 0], [1412812800000, 0], [1412899200000, 0]],
                     last_amounts            = [[1412294400000, 0.0], [1412380800000, 0.0], [1412467200000, 0.0], [1412553600000, 0.0], [1412640000000, 0.0], [1412726400000, 0.0], [1412812800000, 0.0], [1412899200000, 0.0]],
@@ -40,12 +41,7 @@
                     plot_timeformat,
                     plot_mode;
 
-                $('#lp_js_avg-items-sold').html(avg_items_sold.toFixed(1));
-                $('#lp_js_total-items-sold').html(total_items_sold);
-                $('#lp_js_total-revenue').html(total_revenue.toFixed(2));
-                $('#lp_js_avg-revenue').html(avg_revenue.toFixed(2));
-
-                if (interval === '7days'){
+                if (interval === '7days') {
                     plot_timeformat = '%a';
                     plot_mode       = 'time';
                 } else if (interval === '30days') {
@@ -253,6 +249,15 @@
                   }
                 );
 
+                // big KPIs
+                $('#lp_js_total-impressions').text(data.total_viewed_items[0].quantity);
+
+                $('#lp_js_avg-items-sold').text(avg_items_sold.toFixed(1));
+                $('#lp_js_total-items-sold').text(total_items_sold);
+
+                $('#lp_js_total-revenue').text(total_revenue.toFixed(2));
+                $('#lp_js_avg-revenue').text(avg_revenue.toFixed(2));
+
                 // sparklines
                 $('.lp_sparkline-bar').peity('bar', {
                     width       : 34,
@@ -260,6 +265,9 @@
                     gap         : 1,
                     fill        : function() { return '#ccc'; }
                 });
+
+                // best / worst lists
+                // ...
             },
 
             fetchDashboardData = function() {
@@ -270,12 +278,11 @@
                         '_wpnonce'  : lpVars.nonces.dashboard,
                         'days'      : 8,    // how many days we want to go back - default: 8
                         'count'     : 10,   // number of items, the top {n} items - default: 10
-                        // 'refresh'   : 1,    // on default 1 (true), 0 (false) only loads the cached data
+                        'refresh'   : 1,    // on default 1 (true), 0 (false) only loads the cached data
                     },
-                    function(data) {
-console.log(data);
-                        if (success) {
-                            renderDashboard(data);
+                    function(response) {
+                        if (response.success) {
+                            renderDashboard(response.data);
                         }
                     },
                     'json'

@@ -18,7 +18,7 @@
 
     <div class="lp_wrap">
 
-    <a href="#" id="lp_js_refresh-dashboard">Refresh</a>
+        <a href="#" id="lp_js_refresh-dashboard">Refresh</a>
 
         <div class="lp_row">
             <div class="lp_w-1-3">
@@ -78,8 +78,8 @@
         <div class="lp_row">
             <div class="lp_w-1-3">
                 <h3><?php _e( 'Best-converting Items', 'laterpay' ); ?></h3>
-                <?php if( empty( $laterpay['best_converting_items'] ) ) : ?>
-                    <p><?php _e( 'No data available', 'laterpay' ); ?></p>
+                <?php if ( empty( $laterpay['best_converting_items'] ) ) : ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 <?php else: ?>
                     <ol class="lp_top-bottom-list">
                         <?php foreach ( $laterpay['best_converting_items'] as $item ): ?>
@@ -92,8 +92,8 @@
                     </ol>
                 <?php endif; ?>
                 <h3><?php _e( 'Least-converting Items', 'laterpay' ); ?></h3>
-                <?php if( empty( $laterpay['least_converting_items'] ) ) : ?>
-                    <p><?php _e( 'No data available', 'laterpay' ); ?></p>
+                <?php if ( empty( $laterpay['least_converting_items'] ) ) : ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 <?php else: ?>
                     <ol class="lp_top-bottom-list">
                         <?php foreach ( $laterpay['least_converting_items'] as $item ): ?>
@@ -108,8 +108,8 @@
             </div>
             <div class="lp_w-1-3">
                 <h3><?php _e( 'Most-selling Items', 'laterpay' ); ?></h3>
-                <?php if( empty( $laterpay['most_selling_items'] ) ) : ?>
-                    <p><?php _e( 'No data available', 'laterpay' ); ?></p>
+                <?php if ( empty( $laterpay['most_selling_items'] ) ) : ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 <?php else: ?>
                     <ol class="lp_top-bottom-list">
                         <?php foreach ( $laterpay['most_selling_items'] as $item ): ?>
@@ -122,8 +122,8 @@
                     </ol>
                 <?php endif; ?>
                 <h3><?php _e( 'Least-selling Items', 'laterpay' ); ?></h3>
-                <?php if( empty( $laterpay['least_selling_items'] ) ) : ?>
-                    <p><?php _e( 'No data available', 'laterpay' ); ?></p>
+                <?php if ( empty( $laterpay['least_selling_items'] ) ) : ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 <?php else: ?>
                     <ol class="lp_top-bottom-list">
                         <?php foreach ( $laterpay['least_selling_items'] as $item ): ?>
@@ -138,8 +138,8 @@
             </div>
             <div class="lp_w-1-3">
                 <h3><?php _e( 'Most Revenue-generating Items', 'laterpay' ); ?></h3>
-                <?php if( empty( $laterpay['most_revenue_items'] ) ) : ?>
-                    <p><?php _e( 'No data available', 'laterpay' ); ?></p>
+                <?php if ( empty( $laterpay['most_revenue_items'] ) ) : ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 <?php else: ?>
                     <ol class="lp_top-bottom-list">
                         <?php foreach ( $laterpay['most_revenue_items'] as $item ): ?>
@@ -152,8 +152,8 @@
                     </ol>
                 <?php endif; ?>
                 <h3><?php _e( 'Least Revenue-generating Items', 'laterpay' ); ?></h3>
-                <?php if( empty( $laterpay['least_revenue_items'] ) ) : ?>
-                    <p><?php _e( 'No data available', 'laterpay' ); ?></p>
+                <?php if ( empty( $laterpay['least_revenue_items'] ) ) : ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 <?php else: ?>
                     <ol class="lp_top-bottom-list">
                         <?php foreach ( $laterpay['least_revenue_items'] as $item ): ?>
