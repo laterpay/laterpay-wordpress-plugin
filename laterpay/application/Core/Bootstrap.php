@@ -111,6 +111,10 @@ class LaterPay_Core_Bootstrap
             }
         }
 
+        $dashboard_controller = new LaterPay_Controller_Admin_Dashboard( $this->config );
+        add_action( 'laterpay_refresh_dashboard_data',          array( $dashboard_controller, 'refresh_dashboard_data' ), 10, 2 );
+        add_action( 'wp_ajax_laterpay_refresh_dashboard_data',  array( $dashboard_controller, 'ajax_refresh_dashboard_data' ) );
+
         // add the shortcodes
         $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
         add_shortcode( 'laterpay_premium_download',             array( $shortcode_controller, 'render_premium_download_box' ) );
@@ -177,6 +181,11 @@ class LaterPay_Core_Bootstrap
     public function activate() {
         $install_controller = new LaterPay_Controller_Install( $this->config );
         $install_controller->install();
+
+
+        // registering the dashboard refresh cron-job
+        wp_schedule_event( time(), 'hourly', 'laterpay_refresh_dashboard_data' );
+
     }
 
     /**
@@ -187,6 +196,10 @@ class LaterPay_Core_Bootstrap
      * @return void
      */
     public function deactivate() {
+
+        // un-registering the dashboard cron-job
+        wp_clear_scheduled_hook( 'laterpay_refresh_dashboard_data' );
+
     }
 
 }

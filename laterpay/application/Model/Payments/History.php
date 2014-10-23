@@ -387,4 +387,45 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         return $results;
     }
 
+    /**
+     * Get sparkline data for the given $post_id for x days back.
+     *
+     * @param int $post_id
+     * @param int $days
+     *
+     * @return array $sparkline
+     */
+    public function get_sparkline( $post_id, $days ) {
+        $sparkline = array();
+
+        for ($i = 1; $i <= (int) $days; $i ++) {
+            $args = array(
+                'fields' => array( 'COUNT(*) AS quantity' ),
+                'where' => array(
+                    'date' => array(
+                        array(
+                            'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $i ),
+                            'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $i ),
+                        )
+                    ),
+                    'post_id' => (int) $post_id
+                )
+            );
+
+            $day_post_views = $this->get_results( $args );
+
+            if ( empty( $day_post_views ) ) {
+                $sparkline[] = 0;
+            } else {
+                $sparkline[] = $day_post_views[0]->quantity;
+            }
+        }
+
+        // reverse the order of $sparkline, to start today - $days days
+        $sparkline = array_reverse( $sparkline );
+
+        return $sparkline;
+    }
+
+
 }
