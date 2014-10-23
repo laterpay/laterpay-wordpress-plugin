@@ -453,20 +453,19 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Change default price of current post's price type.
+     * Change default price of given post's price type.
      *
-     * @param int $post_id
+     * @param int   $post_id
      * @param float $price
      *
      * @return void
      */
-    public static function change_post_price_type_value( $post_id, $price ) {
-
+    public static function update_default_price_of_applied_price_type( $post_id, $price ) {
         $post_meta = get_post_meta( $post_id, 'laterpay_post_prices', true );
 
         if ( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
             update_option( 'laterpay_global_price', $price );
-        } elseif( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
+        } elseif ( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
             $category_id                  = $post_meta['category_id'];
             $category_price_model         = new LaterPay_Model_CategoryPrice();
             $category_price_id            = $category_price_model->get_price_id_by_category_id( $category_id );
