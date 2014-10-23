@@ -41,6 +41,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string $html
      */
     public function render_premium_download_box( $atts ) {
+        // check if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
         $a = shortcode_atts( array(
                                 'target_post_id'    => '',
                                 'target_post_title' => '',
@@ -219,6 +223,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
+        // check if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
         return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
     }
 

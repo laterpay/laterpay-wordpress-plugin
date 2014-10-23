@@ -45,6 +45,7 @@
                 bulkPriceAction                         : $('#lp_js_change-bulk-action'),
                 bulkPriceObjects                        : $('#lp_js_select-bulk-objects'),
                 bulkPriceObjectsCategory                : $('#lp_js_select-bulk-objects-category'),
+                bulkPriceObjectsCategoryWithPrice       : $('#lp_js_select-bulk-objects-category-with-price'),
                 bulkPriceChangeAmountModifier           : $('#lp_js_bulk-amount-modifier'),
                 bulkPriceChangeAmount                   : $('#lp_js_set-bulk-change-amount'),
                 bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
@@ -142,6 +143,17 @@
                 $o.bulkPriceAction.add($o.bulkPriceObjects)
                 .on('change', function() {
                     handleBulkEditorSettingsUpdate($o.bulkPriceAction.val(), $o.bulkPriceObjects.val());
+                });
+
+                // update displayed price of the category to be reset
+                $o.bulkPriceObjectsCategoryWithPrice
+                .on('change', function() {
+                    $o.bulkPriceChangeAmountModifier.show()
+                    .text(
+                        lpVars.i18nModifier.toCategoryDefaultPrice + ' ' +
+                        $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
+                        lpVars.defaultCurrency
+                    );
                 });
 
                 // execute bulk operation
@@ -500,42 +512,95 @@
                 );
             },
 
-            handleBulkEditorSettingsUpdate =function(action, selector) {
+            disableCategoryOptionsIfNoCategories = function() {
+                if (!$o.bulkPriceObjectsCategory.length) {
+                    $o.bulkPriceObjects.find('option').each(function() {
+                        if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
+                            $(this).prop('disabled', true);
+                        }
+                    });
+                }
+            },
+
+            handleBulkEditorSettingsUpdate = function(action, selector) {
                 // hide some fields if needed, change separator, and add percent unit option
                 var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
 
                 // clear currency options
-                $o.bulkPriceChangeUnit.find('option').each(function() {
-                    if ($(this).text() === '%') {
-                        $(this).remove();
-                    }
+                $o.bulkPriceChangeUnit
+                    .find('option')
+                    .each(function() {
+                        if ($(this).text() === '%') {
+                            $(this).remove();
+                        }
+                    })
+                        .end()
+                        .addClass($o.disabled);
+
+                // enable selector, if it was disabled
+                $o.bulkPriceObjects.find('option').each(function() {
+                    $(this).prop('disabled', false);
                 });
+
+                // hide some of bulk price editor settings
+                $o.bulkPriceObjectsCategoryWithPrice.hide();
+                $o.bulkPriceChangeAmountModifier.hide();
+                $o.bulkPriceChangeAmount.hide();
+                $o.bulkPriceChangeUnit.hide();
 
                 switch (action) {
                     case 'set':
-                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierTo).show();
+                        $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.to);
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'increase':
                     case 'reduce':
-                        $o.bulkPriceChangeAmountModifier.text(lpVars.i18nModifierBy).show();
+                        $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.by);
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
-                        $o.bulkPriceChangeUnit.append($('<option>', {
+                        $o.bulkPriceChangeUnit
+                        .removeClass($o.disabled)
+                        .append($('<option>', {
                             value   : 'percent',
                             text    :  '%'
                         }));
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'free':
-                        $o.bulkPriceChangeAmountModifier.hide();
-                        $o.bulkPriceChangeAmount.hide();
-                        $o.bulkPriceChangeUnit.hide();
+                        if (!$o.bulkPriceObjectsCategory.length) {
+                            $o.bulkPriceObjects.find('option').each(function() {
+                                if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
+                                    $(this).prop('disabled', true);
+                                }
+                            });
+                        }
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
+                        break;
+
+                    case 'reset':
+                        $o.bulkPriceObjectsCategory.hide();
+                        $o.bulkPriceObjects.find('option').each(function() {
+                            if ($(this).val() === 'not_in_category' || ( $(this).val() === 'in_category' && !$o.bulkPriceObjectsCategoryWithPrice.length ) ) {
+                                $(this).prop('disabled', true);
+                            }
+                        });
+                        if (!showCategory) {
+                            $o.bulkPriceChangeAmountModifier.show()
+                            .text(
+                                lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
+                                lpVars.globalDefaultPrice + ' ' +
+                                lpVars.defaultCurrency
+                            );
+                        } else {
+                            $o.bulkPriceObjectsCategoryWithPrice.show().change();
+                        }
                         break;
 
                     default:

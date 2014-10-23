@@ -58,7 +58,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
             'bulk_action',
             array(
                 'validators' => array(
-                    'in_array' => array( 'set', 'increase', 'reduce', 'free' ),
+                    'in_array' => array( 'set', 'increase', 'reduce', 'free', 'reset' ),
                 ),
                 'filters' => array(
                     'to_string',
@@ -92,6 +92,31 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
+            'bulk_category_with_price',
+            array(
+                'validators' => array(
+                    'is_int',
+                    'depends'   => array(
+                        array(
+                            'field' => 'bulk_selector',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'ne' => 'not_in_category',
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                'filters' => array(
+                    'to_int'
+                ),
+                'can_be_null' => true,
+            )
+        );
+
+        $this->set_field(
             'bulk_price',
             array(
                 'validators' => array(
@@ -105,7 +130,8 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                     ),
                     'format_num' => 2,
                     'to_float',
-                )
+                ),
+                'can_be_null',
             )
         );
 
