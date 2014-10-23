@@ -197,7 +197,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         } else {
             $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
         }
-        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$price_tag</a>";
+        // create a shortcode link
+        $html .= $this->getShortcodeLink( $page, $content_type, $page_url, $price_tag );
         $html .= '    <div class="lp_premium-file-details">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
@@ -230,4 +231,129 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
     }
 
+    /**
+     * Create shortcode link as html anchor
+     *
+     * @param WP_Post $post
+     * @param string $content_type
+     * @param string $page_url
+     * @param string $price_tag
+     *
+     * @return string
+     */    
+    private function getShortcodeLink( WP_Post $post, $content_type, $page_url, $price_tag ){
+
+        $html_button = '';
+        
+        $access = LaterPay_Helper_Post::has_access_to_post( $post );
+        
+        if ( $access ) {
+            // the user has already purchased the item
+            switch ( $content_type ) {
+                case 'file':
+                    $button_label = __( 'Download now', 'laterpay' );
+                    break;
+
+                case 'video':
+                case 'gallery':
+                    $button_label = __(' Watch now', 'laterpay' );
+                    break;
+
+                case 'music':
+                case 'audio':
+                    $button_label = __(' Listen now', 'laterpay' );
+                    break;
+
+                default:
+                    $button_label = __(' Read now', 'laterpay' );
+                    break;
+            };
+            $button_page_url = '';
+            if ( $post->post_type == 'attachment' ) {
+                // render link to purchased attachment
+                $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                                                                                    $post->ID,
+                                                                                    wp_get_attachment_url( $post->ID ),
+                                                                                    $access,
+                                                                                    'attachment'
+                                                                                );
+            } else {
+                // render link to purchased post
+                $button_page_url = $page_url;
+            }
+            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+        } else {
+            // the user has not purchased the item yet
+            $button_page_url = $page_url;
+            $button_label    = $price_tag;
+            // hide purchase button for administrator preview
+            if (current_user_can('administrator')) {
+                $html_button = '';
+            } else {
+                $view_args = LaterPay_Helper_Post::the_purchase_button_args($post);
+                if( is_array($view_args) ){
+                    $this->assign( 'laterpay', $view_args );
+                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_button' );
+                };
+            }
+        }        
+        
+        return $html_button;
+    }
+    
+/**
+     * Load LaterPay Javascript libraries.
+     *
+     * @wp-hook wp_enqueue_scripts
+     *
+     * @return void
+     */
+    public function add_frontend_scripts() {
+        $this->logger->info( __METHOD__ );
+
+        wp_register_script(
+            'laterpay-yui',
+            $this->config->get( 'laterpay_yui_js' ),
+            array(),
+            null,
+            false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
+        );
+        wp_register_script(
+            'laterpay-peity',
+            $this->config->get( 'js_url' ) . 'vendor/jquery.peity.min.js',
+            array( 'jquery' ),
+            $this->config->get( 'version' ),
+            true
+        );
+        wp_register_script(
+            'laterpay-shortcodes',
+            $this->config->get( 'js_url' ) . 'laterpay-shortcodes.js',
+            array( 'jquery', 'laterpay-peity' ),
+            $this->config->get( 'version' ),
+            true
+        );
+
+        wp_localize_script(
+            'laterpay',
+            'lpVars',
+            array(
+                'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+                'post_id'       => get_the_ID(),
+                'debug'         => (bool) $this->config->get( 'debug_mode' ),
+                'caching'       => (bool) $this->config->get( 'caching.compatible_mode' ),
+                'nonces'        => array(
+                    'content'   => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
+                    'statistic' => wp_create_nonce( 'laterpay_post_statistic_render' ),
+                    'tracking'  => wp_create_nonce( 'laterpay_post_track_views' ),
+                ),
+                'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
+                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
+            )
+        );
+        
+        wp_enqueue_script( 'laterpay-yui' );
+        wp_enqueue_script( 'laterpay-peity' );
+        wp_enqueue_script( 'laterpay-shortcodes' );
+    }    
+    
 }

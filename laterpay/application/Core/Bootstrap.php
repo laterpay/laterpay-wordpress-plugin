@@ -173,6 +173,7 @@ class LaterPay_Core_Bootstrap
             // register the frontend scripts
             add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_stylesheets' ) );
             add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_scripts' ) );
+            add_action( 'wp_enqueue_scripts',       array( $shortcode_controller, 'add_frontend_scripts' ) );
 
             // setup unique visitors tracking
             add_action( 'template_redirect',            array( $statistics_controller, 'add_unique_visitors_tracking' ) );
