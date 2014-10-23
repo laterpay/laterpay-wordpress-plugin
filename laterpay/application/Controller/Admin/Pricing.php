@@ -537,19 +537,22 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     // correct price value
                     $new_price = LaterPay_Helper_Pricing::correct_price( $new_price );
 
-                    // if affect all - change default price value of current post's price type
-                    if ( $affect_all && $action !== 'reset' ) {
-                        $meta_values['type'] = $current_post_type;
-                        $category            = $bulk_price_form->get_field_value( 'bulk_category' );
-                        $incoming_data       = array(
-                            'type'     => $current_post_type,
-                            'category' => $category,
-                        );
-                        // change only if price type was not affected earlier
-                        if ( ! $this->check_if_price_type_was_affected( $affected_price_types, $incoming_data ) ) {
-                            LaterPay_Helper_Pricing::change_post_price_type_value( $post_id, $new_price );
-                            // add incoming data to the affected array
-                            $affected_price_types[] = $incoming_data;
+                    // apply this check only for global and category price type
+                    if ( $current_post_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE || $current_post_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
+                        // if affect all - change default price value of current post's price type
+                        if ( $affect_all && $action !== 'reset' ) {
+                            $meta_values['type'] = $current_post_type;
+                            $category            = $bulk_price_form->get_field_value( 'bulk_category' );
+                            $incoming_data       = array(
+                                'type'     => $current_post_type,
+                                'category' => $category,
+                            );
+                            // change only if price type was not affected earlier
+                            if ( ! $this->check_if_price_type_was_affected( $affected_price_types, $incoming_data ) ) {
+                                LaterPay_Helper_Pricing::change_post_price_type_value( $post_id, $new_price );
+                                // add incoming data to the affected array
+                                $affected_price_types[] = $incoming_data;
+                            }
                         }
                     }
 
