@@ -620,7 +620,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success' => true,
-                        'message' => trim( preg_replace( '/\s+/g', ' ', join( ' ', $message_parts ) ) ) . '.',
+                        'message' => trim( preg_replace( '/\s+/', ' ', join( ' ', $message_parts ) ) ) . '.',
                     )
                 );
             }
