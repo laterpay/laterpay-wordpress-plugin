@@ -7,7 +7,6 @@ class LaterPay_Helper_Pricing
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
-<<<<<<< HEAD
     const ppu_min         = 0.05;
     const ppu_max         = 1.48;
     const ppusis_max      = 5.00;
@@ -19,8 +18,6 @@ class LaterPay_Helper_Pricing
     const price_start_day               = 13;
     const price_end_day                 = 18;
 
-=======
->>>>>>> origin/master
     const META_KEY                      = 'laterpay_post_prices';
 
     /**
@@ -419,7 +416,6 @@ class LaterPay_Helper_Pricing
 
     }
 
-<<<<<<< HEAD
      /**
      * Return data for dynamic prices. Can be values already set or defaults.
      *
@@ -580,7 +576,7 @@ class LaterPay_Helper_Pricing
         }
 
         return array( $start, $end );
-=======
+    }
     /**
      * Select categories from a given list of categories that have a category default price
      * and return an array of their ids.
@@ -663,6 +659,6 @@ class LaterPay_Helper_Pricing
                 $category_price_id
             );
         }
->>>>>>> origin/master
+
     }
 }
