@@ -10,7 +10,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     /**
      * {@inheritdoc}
      */
-    protected function initialize(){
+    protected function initialize() {
         $this->cache_dir  = $this->config->get( 'cache_dir' ) . 'cron/' . gmdate( 'Y/m/d' ) . '/';
 
     }
@@ -60,9 +60,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'laterpay-backend-dashboard',
             'lpVars',
             array(
-                'nonces' => array(
-                    'dashboard' => wp_create_nonce( $this->ajax_nonce )
-                )
+                'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+                'nonces'    => array(
+                                    'dashboard' => wp_create_nonce( $this->ajax_nonce )
+                                )
             )
         );
     }
@@ -73,7 +74,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        // get the cache filename - by default 8 days back and max. 10 items
+        // get the cache filename - by default 8 days back and a maximum of 10 items
         $cache_filename         = $this->get_cache_filename( 8, 10 );
 
         // contains the state, if the cache file was generated for today
@@ -82,7 +83,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $cache_file_is_broken   = false;
         $cache_data             = array();
 
-        // loading the cache-data
+        // load the cache data
         if ( $cache_file_exists ) {
             $cache_data           = $this->load_cache_data( $this->cache_dir . $cache_filename );
             // the cached data will be empty, if it is not serializable
@@ -96,13 +97,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'currency'                  => get_option( 'laterpay_currency' ),
 
             // in wp-config.php the user can disable the WP-Cron completely OR replace it with real server crons.
-            // this view-var can be used to show additional information that *maybe* the dashboard-data will not refresh automatically
+            // this view variable can be used to show additional information that *maybe* the dashboard
+            // data will not refresh automatically
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
 
             'cache_file_exists'         => $cache_file_exists,
             'cache_file_is_broken'      => $cache_file_is_broken,
 
-            // default-items which will be overwritten after loading the cached data
+            // default items which will be overwritten after loading the cached data
             'best_converting_items'     => array(),
             'least_converting_items'    => array(),
             'total_viewed_items'        => array(),
@@ -115,7 +117,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         );
 
-        // merge the cached data with the default-args and assign it to the view
+        // merge the cached data with the default args and assign it to the view
         $view_args = wp_parse_args( $cache_data, $default_args );
         $this->assign( 'laterpay', $view_args );
 
@@ -123,15 +125,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Ajax-Callback to refresh the dashboard-data
+     * Ajax callback to refresh the dashboard data.
      *
      * @wp-hook wp_ajax_laterpay_get_dashboard_data
      *
      * @return void
      */
-    public function ajax_get_dashboard_data(){
-
-       // check if the _wpnonce isset
+    public function ajax_get_dashboard_data() {
+       // check, if the _wpnonce is set
        if( ! isset( $_POST[ '_wpnonce' ] ) || empty( $_POST[ '_wpnonce' ] ) ) {
             wp_send_json( array(
                 'success' => false,
@@ -140,7 +141,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             ) );
        }
 
-        // check if the _wpnonce is valid
+        // check. if the _wpnonce is valid
         $nonce = $_POST[ '_wpnonce' ];
         if( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             wp_send_json( array(
@@ -156,7 +157,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         }
 
         $count = 10;
-        if( isset( $_POST[ 'count' ] ) ) {
+        if ( isset( $_POST[ 'count' ] ) ) {
             $count = absint( $_POST[ 'count' ] );
         }
 
@@ -167,27 +168,27 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $cache_filename = $this->get_cache_filename( $days, $count );
 
-        if( $refresh || ! file_exists( $this->cache_dir . $cache_filename ) ) {
+        if ( $refresh || ! file_exists( $this->cache_dir . $cache_filename ) ) {
             $this->refresh_dashboard_data( $days, $count );
-            // when refresh == false and the file not exists, we've to refresh the cache
+            // refresh the cache, if refresh == false and the file doesn't exist
             $refresh = true;
         }
 
         // load the refreshed data
         $data = $this->load_cache_data( $this->cache_dir . $cache_filename );
 
-        // check if the cached data is valid
+        // check, if the cached data is valid
         if ( empty( $data ) ) {
             wp_send_json( array(
                 'success' => false,
-                'message' => __( "Error on cache reload", 'laterpay' ),
+                'message' => __( 'Error on cache reload', 'laterpay' ),
                 'step'    => 3,
             ) );
         }
 
-        $msg = __( "Cache successfully reloaded", 'laterpay' );
-        if ( !$refresh ) {
-            $msg = __( "Data successfully loaded", 'laterpay' );
+        $msg = __( 'Cache successfully reloaded', 'laterpay' );
+        if ( ! $refresh ) {
+            $msg = __( 'Data successfully loaded', 'laterpay' );
         }
 
         // return the cached data and success message
@@ -200,8 +201,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Callback for wp-ajax and wp-cron to refresh the today dashboard data.
-     * The Cron-Job provides two params for {x} days back and {n} count of items to
+     * Callback for wp-ajax and wp-cron to refresh today's dashboard data.
+     * The Cron job provides two params for {x} days back and {n} count of items to
      * register your own cron with custom params to cache data.
      *
      * @wp-hook laterpay_refresh_dashboard_data
@@ -211,50 +212,49 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function refresh_dashboard_data( $days = 8, $count = 10 ){
-
+    public function refresh_dashboard_data( $days = 8, $count = 10 ) {
         $data = $this->get_dashboard_data( $days, $count );
 
-        // creating the cache dir if not exists
+        // create the cache dir, if it doesn't exist
         wp_mkdir_p( $this->cache_dir );
 
         $cache_filename = $this->get_cache_filename( $days, $count );
 
-        // writing the data to cache-dir
+        // write the data to the cache dir
         file_put_contents(
             $this->cache_dir . $cache_filename,
             serialize( $data )
         );
-
     }
 
     /**
-     * Helper-Function to load the cached data by a given file-path
+     * Helper function to load the cached data by a given file path.0
      *
-     * @param   string $file_path
-     * @return  array $cache_data   array with cached data or empty array on failure
+     * @param string $file_path
+     *
+     * @return array $cache_data array with cached data or empty array on failure
      */
-    protected function load_cache_data( $file_path ){
+    protected function load_cache_data( $file_path ) {
         $cache_data = file_get_contents( $file_path );
         $cache_data = maybe_unserialize( $cache_data );
-        if ( !is_array( $cache_data ) ) {
+        if ( ! is_array( $cache_data ) ) {
             $cache_data = array();
         }
+
         return $cache_data;
     }
 
     /**
-     * Helper-Function to load the complete Dasboard-data.
+     * Helper function to load the complete dashboard data.
      *
      * @param int $days     how many days we want to go back - default: 8
      * @param int $count    number of items, the top {n} items - default: 10
      *
      * @return array $data
      */
-    protected function get_dashboard_data( $days = 8, $count = 10 ){
-
-        $post_views_model       = new LaterPay_Model_Post_Views();
-        $history_model          = new LaterPay_Model_Payments_History();
+    protected function get_dashboard_data( $days = 8, $count = 10 ) {
+        $post_views_model   = new LaterPay_Model_Post_Views();
+        $history_model      = new LaterPay_Model_Payments_History();
 
         $data = array(
             'best_converting_items'     => $post_views_model->get_most_viewed_posts( $days, $count ),
@@ -272,14 +272,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Returns the Cache-Filename by the given days and count of the loaded data.
+     * Return the cache file name for the given days and item count.
      *
      * @param int $days
      * @param int $count
      *
      * @return string $cache_filename
      */
-    protected function get_cache_filename( $days, $count ){
+    protected function get_cache_filename( $days, $count ) {
         return $days . '-' . $count . '.cache';
     }
 

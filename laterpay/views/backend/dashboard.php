@@ -18,6 +18,8 @@
 
     <div class="lp_wrap">
 
+    <a href="#" id="lp_js_refresh-dashboard">Refresh</a>
+
         <div class="lp_row">
             <div class="lp_w-1-3">
                 <h2><?php _e( 'Conversion', 'laterpay' ); ?></h2>

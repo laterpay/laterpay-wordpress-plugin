@@ -7,10 +7,15 @@
             },
 
             bindEvents = function() {
-                // stuff
+                // refresh dashboard
+                $('#lp_js_refresh-dashboard')
+                .click(function(e) {
+                    fetchDashboardData();
+                    e.preventDefault();
+                });
             },
 
-            renderDashboard = function() {
+            renderDashboard = function(data) {
                 // some mock data:
                 var last_items_sold         = [[1412294400000, 0], [1412380800000, 0], [1412467200000, 0], [1412553600000, 0], [1412640000000, 0], [1412726400000, 0], [1412812800000, 0], [1412899200000, 0]],
                     last_amounts            = [[1412294400000, 0.0], [1412380800000, 0.0], [1412467200000, 0.0], [1412553600000, 0.0], [1412640000000, 0.0], [1412726400000, 0.0], [1412812800000, 0.0], [1412899200000, 0.0]],
@@ -41,12 +46,11 @@
                 $('#lp_js_avg-revenue').html(avg_revenue.toFixed(2));
 
                 if (interval === '7days'){
-                    plot_timeformat = "%a";
-                    plot_mode = "time";
-
-                } else if (interval === '30days'){
-                    plot_timeformat = "%m/%d";
-                    plot_mode = "time";
+                    plot_timeformat = '%a';
+                    plot_mode       = 'time';
+                } else if (interval === '30days') {
+                    plot_timeformat = '%m/%d';
+                    plot_mode       = 'time';
                 } else {
                     plot_mode = null;
                 }
@@ -256,6 +260,26 @@
                     gap         : 1,
                     fill        : function() { return '#ccc'; }
                 });
+            },
+
+            fetchDashboardData = function() {
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        'action'    : 'laterpay_get_dashboard_data',
+                        '_wpnonce'  : lpVars.nonces.dashboard,
+                        'days'      : 8,    // how many days we want to go back - default: 8
+                        'count'     : 10,   // number of items, the top {n} items - default: 10
+                        // 'refresh'   : 1,    // on default 1 (true), 0 (false) only loads the cached data
+                    },
+                    function(data) {
+console.log(data);
+                        if (success) {
+                            renderDashboard(data);
+                        }
+                    },
+                    'json'
+                );
             },
 
             initializePage = function() {

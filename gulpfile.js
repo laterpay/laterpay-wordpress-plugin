@@ -46,7 +46,7 @@ gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
         .pipe(soften(4))
         .pipe(stylus({                                                          // process Stylus sources to CSS
-            linenos: true,                                                      // make line numbers available in browser dev tools
+            linenos: true                                                       // make line numbers available in browser dev tools
             // TODO: generate sourcemap
         }))
         .on('error', notify.onError())
