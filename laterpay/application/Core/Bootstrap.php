@@ -78,6 +78,13 @@ class LaterPay_Core_Bootstrap
 
         // migrate multiple pricing postmeta from older plugin versions to an array
         add_filter( 'get_post_metadata', array( $install_controller, 'migrate_pricing_post_meta' ), 10, 4 );
+        
+        // add the shortcodes
+        $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
+        add_shortcode( 'laterpay_premium_download',             array( $shortcode_controller, 'render_premium_download_box' ) );
+        add_shortcode( 'laterpay_box_wrapper',                  array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
+        // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
+        add_shortcode( 'laterpay',                              array( $shortcode_controller, 'render_premium_download_box' ) );
 
         // check if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
@@ -106,13 +113,6 @@ class LaterPay_Core_Bootstrap
                 add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
             }
         }
-
-        // add the shortcodes
-        $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
-        add_shortcode( 'laterpay_premium_download',             array( $shortcode_controller, 'render_premium_download_box' ) );
-        add_shortcode( 'laterpay_box_wrapper',                  array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
-        // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
-        add_shortcode( 'laterpay',                              array( $shortcode_controller, 'render_premium_download_box' ) );
 
         $post_controller = new LaterPay_Controller_Post( $this->config );
         // add Ajax hooks for frontend
