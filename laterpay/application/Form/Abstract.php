@@ -425,7 +425,7 @@ abstract class LaterPay_Form_Abstract
                     //get all dependency
                     foreach ( $validator_params as $dependency ) {
                         // if dependency match
-                        if ( $value === $dependency['value'] ) {
+                        if ( ! isset( $dependency['value'] ) || $value === $dependency['value'] ) {
                             // loop for dependencies conditions and check if all of them is valid
                             foreach ( $dependency['conditions'] as $vkey => $vparams ) {
                                 $extra_validator = is_int($vkey) ? $vparams : $vkey;

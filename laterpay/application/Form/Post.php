@@ -116,6 +116,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'to_string',
                     'unslash',
                 ),
+                'can_be_null' => true,
             )
         );
 
@@ -124,7 +125,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'individual price', 'category default price', 'global default price' ),
+                    'in_array' => array( 'individual price', 'individual price, dynamic', 'category default price', 'global default price' ),
                 ),
                 'filters'    => array(
                     'to_string',

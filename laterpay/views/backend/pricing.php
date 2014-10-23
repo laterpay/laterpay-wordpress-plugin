@@ -225,6 +225,8 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
+
+                        <?php if ( $bulk_categories ): ?>
                         <select name="bulk_category" id="lp_js_select-bulk-objects-category" class="lp_input" style="display:none;">
                             <?php foreach ( $bulk_categories as $category ): ?>
                                 <option value="<?php echo $category->term_id; ?>">
@@ -232,6 +234,19 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <?php endif; ?>
+
+                        <?php if ( $bulk_categories_with_price ): ?>
+                        <select name="bulk_category_with_price" id="lp_js_select-bulk-objects-category-with-price" class="lp_input" style="display:none;">
+                            <?php foreach ( $bulk_categories_with_price as $category_with_price ): ?>
+                                <option value="<?php echo $category_with_price->category_id; ?>"
+                                        data-price="<?php echo LaterPay_Helper_View::format_number( $category_with_price->category_price, 2 ); ?>">
+                                    <?php echo $category_with_price->category_name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php endif; ?>
+
                         <span id="lp_js_bulk-amount-preposition" class="lp_d-inl-block lp_m-r05 lp_m-l05"><?php _e( 'to', 'laterpay' ); ?></span>
                         <input  type="text"
                                 name="bulk_price"

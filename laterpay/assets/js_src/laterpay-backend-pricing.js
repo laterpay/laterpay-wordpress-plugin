@@ -45,6 +45,7 @@
                 bulkPriceAction                         : $('#lp_js_change-bulk-action'),
                 bulkPriceObjects                        : $('#lp_js_select-bulk-objects'),
                 bulkPriceObjectsCategory                : $('#lp_js_select-bulk-objects-category'),
+                bulkPriceObjectsCategoryWithPrice       : $('#lp_js_select-bulk-objects-category-with-price'),
                 bulkPriceChangeAmountPreposition        : $('#lp_js_bulk-amount-preposition'),
                 bulkPriceChangeAmount                   : $('#lp_js_set-bulk-change-amount'),
                 bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
@@ -144,6 +145,17 @@
                 $o.bulkPriceAction.add($o.bulkPriceObjects)
                 .on('change', function() {
                     handleBulkEditorSettingsUpdate($o.bulkPriceAction.val(), $o.bulkPriceObjects.val());
+                });
+
+                // update displayed price of the category to be reset
+                $o.bulkPriceObjectsCategoryWithPrice
+                .on('change', function() {
+                    $o.bulkPriceChangeAmountPreposition.show()
+                    .text(
+                        lpVars.i18nModifier.toCategoryDefaultPrice + ' ' +
+                        $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
+                        lpVars.defaultCurrency
+                    );
                 });
 
                 // execute bulk operation
@@ -518,6 +530,22 @@
                 );
             },
 
+            disableCategoryOptionsIfNoCategories = function() {
+                if (!$o.bulkPriceObjectsCategory.length) {
+                    $o.bulkPriceObjects.find('option').each(function() {
+                        if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
+                            $(this).prop('disabled', true);
+                        }
+                    });
+                } else if ( $o.bulkPriceObjectsCategory.find('option').length == 1 ) {
+                    $o.bulkPriceObjects.find('option').each(function() {
+                        if ($(this).val() === 'not_in_category') {
+                            $(this).prop('disabled', true);
+                        }
+                    });
+                }
+            },
+
             handleBulkEditorSettingsUpdate = function(action, selector) {
                 // hide some fields if needed, change separator, and add percent unit option
                 var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
@@ -533,17 +561,30 @@
                         .end()
                         .addClass($o.disabled);
 
+                // enable selector, if it was disabled
+                $o.bulkPriceObjects.find('option').each(function() {
+                    $(this).prop('disabled', false);
+                });
+
+                // hide some of bulk price editor settings
+                $o.bulkPriceObjectsCategory.prop('disabled', false);
+                $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', true).hide();
+                $o.bulkPriceChangeAmountPreposition.hide();
+                $o.bulkPriceChangeAmount.hide();
+                $o.bulkPriceChangeUnit.hide();
+
                 switch (action) {
                     case 'set':
-                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifierTo).show();
+                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifier.to).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'increase':
                     case 'reduce':
-                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifierBy).show();
+                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifier.by).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
                         $o.bulkPriceChangeUnit
@@ -552,14 +593,40 @@
                             value   : 'percent',
                             text    :  '%'
                         }));
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'free':
-                        $o.bulkPriceChangeAmountPreposition.hide();
-                        $o.bulkPriceChangeAmount.hide();
-                        $o.bulkPriceChangeUnit.hide();
+                        if (!$o.bulkPriceObjectsCategory.length) {
+                            $o.bulkPriceObjects.find('option').each(function() {
+                                if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
+                                    $(this).prop('disabled', true);
+                                }
+                            });
+                        }
+                        disableCategoryOptionsIfNoCategories();
                         showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
+                        break;
+
+                    case 'reset':
+                        $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
+                        $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false);
+                        $o.bulkPriceObjects.find('option').each(function() {
+                            if ($(this).val() === 'not_in_category' || ( $(this).val() === 'in_category' && !$o.bulkPriceObjectsCategoryWithPrice.length ) ) {
+                                $(this).prop('disabled', true);
+                            }
+                        });
+                        if (!showCategory) {
+                            $o.bulkPriceChangeAmountPreposition.show()
+                            .text(
+                                lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
+                                lpVars.globalDefaultPrice + ' ' +
+                                lpVars.defaultCurrency
+                            );
+                        } else {
+                            $o.bulkPriceObjectsCategoryWithPrice.show().change();
+                        }
                         break;
 
                     default:
@@ -568,9 +635,9 @@
             },
 
             saveBulkOperation = function() {
-                var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free')
-                                    ? 'Make'
-                                    : $o.bulkPriceAction.find('option:selected').text(),
+                var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                                    'Make' :
+                                    $o.bulkPriceAction.find('option:selected').text(),
                     objects     = $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
                     category    = ($.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ?
                                     '' :

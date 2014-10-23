@@ -209,10 +209,10 @@
                 price = Math.abs(price);
 
                 // correct prices outside the allowed range of 0.05 - 149.49
-                if (price > 149.99) {
-                    price = 149.99;
-                } else if (price > 0 && price < 0.05) {
-                    price = 0.05;
+                if (price > lpVars.limits.sis_max) {
+                    price = lpVars.limits.sis_max;
+                } else if (price > 0 && price < lpVars.limits.ppu_min) {
+                    price = lpVars.limits.ppu_min;
                 }
 
                 validateRevenueModel(price);
@@ -233,7 +233,7 @@
                     $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
                     $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
-                if (price === 0 || (price >= 0.05 && price <= 5)) {
+                if (price === 0 || (price >= lpVars.limits.ppu_min && price < lpVars.limits.price_sis_end)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
@@ -243,7 +243,7 @@
                         .parent('label').addClass($o.disabled);
                 }
 
-                if (price >= 1.49) {
+                if (price >= lpVars.limits.sis_min) {
                     // enable Single Sale for prices >= 1.49 Euro
                     // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeAttr('disabled')
@@ -255,10 +255,10 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > 5 && currentRevenueModel === $o.payPerUse) {
+                if (price >= lpVars.limits.ppusis_max && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
-                } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
+                } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', true);
                 }
@@ -421,16 +421,31 @@
             },
 
             renderDynamicPricingWidget = function() {
-                var data    = lpVars.dynamicPricingData,
-                    lpc     = new LPCurve($o.dynamicPricingContainer);
+                var data        = lpVars.dynamicPricingData,
+                    lpc         = new LPCurve($o.dynamicPricingContainer),
+                    startPrice  = lpVars.dynamicPricingData[0].y,
+                    endPrice    = lpVars.dynamicPricingData[3].y,
+                    minPrice    = 0,
+                    maxPrice    = 5;
                 window.lpc = lpc;
 
                 $o.priceInput.attr('disabled', 'disabled');
 
-                if (data.length === 4) {
-                    lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).plot();
+                if (startPrice > lpVars.limits.ppusis_max || endPrice > lpVars.limits.ppusis_max) {
+                    // Single Sale
+                    maxPrice = lpVars.limits.sis_max;
+                } else if (startPrice >= lpVars.limits.sis_min || endPrice >= lpVars.limits.sis_min) {
+                    // Pay-per-Use and Single Sale
+                    maxPrice = lpVars.limits.ppusis_max;
                 } else {
-                    lpc.set_data(data).setPrice(0, 5, lpVars.globalDefaultPrice).interpolate('step-before').plot();
+                    // Pay-per-Use
+                    maxPrice = lpVars.limits.ppu_max;
+                }
+
+                if (data.length === 4) {
+                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice).plot();
+                } else {
+                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice).interpolate('step-before').plot();
                 }
             },
 
