@@ -443,7 +443,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Bulk price editor functional.
+     * Update post prices in bulk.
      *
      * @return void
      */
@@ -451,12 +451,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
 
         if ( $bulk_price_form->is_valid() ) {
-            // read scope of posts to be processed from selector
+            // get scope of posts to be processed from selector
             $posts                = null;
             $selector             = $bulk_price_form->get_field_value( 'bulk_selector' );
-            $affect_all           = false;
-            // each non individual price value should affect only once
-            $affected_price_types = array();
+            $update_all           = false;
+            // make sure that each non-individual price is updated only once
+            $updated_price_types = array();
 
             if ( $selector != 'all' ) {
                 $is_in_category = ( $selector === 'in_category' );
@@ -464,11 +464,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 $posts          = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( ( $is_in_category ? 1 : (-1) ) * $category_id );
             } else {
                 $posts          = LaterPay_Helper_Pricing::get_all_posts_with_price();
-                $affect_all     = true;
+                $update_all     = true;
             }
 
             if ( $posts ) {
-                // perform action on each post
+                // perform update on each post
                 $action     = $bulk_price_form->get_field_value( 'bulk_action' );
                 $is_percent = ( $bulk_price_form->get_field_value( 'bulk_change_unit' ) == 'percent' );
                 $price      = $bulk_price_form->get_field_value( 'bulk_price' );
@@ -510,7 +510,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                             break;
 
                         case 'reset':
-                            if ( $selector === 'all' ) {
+                            if ( $update_all ) {
                                 $meta_values['type']        = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
                                 $new_price                  = get_option( 'laterpay_global_price' );
                             } else {
@@ -525,6 +525,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                             break;
                     }
 
+                    // handle missing price
                     if ( $new_price === null ) {
                         wp_send_json(
                             array(
@@ -535,29 +536,29 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     }
 
                     // correct price value
-                    $new_price = LaterPay_Helper_Pricing::correct_price( $new_price );
+                    $new_price = LaterPay_Helper_Pricing::ensure_valid_price( $new_price );
 
                     // apply this check only for global and category price type
                     if ( $current_post_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE || $current_post_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
-                        // if affect all - change default price value of current post's price type
-                        if ( $affect_all && $action !== 'reset' ) {
+                        // update default price of current post's price type, if all post prices have to be updated
+                        if ( $update_all && $action !== 'reset' ) {
                             $meta_values['type'] = $current_post_type;
                             $category            = $bulk_price_form->get_field_value( 'bulk_category' );
                             $incoming_data       = array(
                                 'type'     => $current_post_type,
                                 'category' => $category,
                             );
-                            // change only if price type was not affected earlier
-                            if ( ! $this->check_if_price_type_was_affected( $affected_price_types, $incoming_data ) ) {
+                            // change only if price type was not updated already
+                            if ( ! $this->check_if_price_type_was_updated( $updated_price_types, $incoming_data ) ) {
                                 LaterPay_Helper_Pricing::change_post_price_type_value( $post_id, $new_price );
-                                // add incoming data to the affected array
-                                $affected_price_types[] = $incoming_data;
+                                // add incoming data to the array of updated price types
+                                $updated_price_types[] = $incoming_data;
                             }
                         }
                     }
 
                     $meta_values['price']           = $new_price;
-                    $meta_values['revenue_model']   = LaterPay_Helper_Pricing::check_and_correct_post_revenue_model(
+                    $meta_values['revenue_model']   = LaterPay_Helper_Pricing::ensure_valid_revenue_model(
                                                             $current_revenue_model,
                                                             $meta_values['price']
                                                       );
@@ -587,22 +588,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Check if price type was changed earlier or not
+     * Check, if price type was updated already.
      *
-     * @param array $affected_array
+     * @param array $updated_array
      * @param array $incoming_array
-     * @return bool $is_affected
+     *
+     * @return bool $is_updated
      */
-    protected function check_if_price_type_was_affected( $affected_array, $incoming_array ) {
-        $is_affected = false;
+    protected function check_if_price_type_was_updated( $updated_array, $incoming_array ) {
+        $is_updated = false;
 
-        foreach( $affected_array as $data ) {
+        foreach( $updated_array as $data ) {
             if ( ! array_diff_assoc( $data, $incoming_array ) ) {
-                $is_affected = true;
+                $is_updated = true;
                 break;
             }
         }
 
-        return $is_affected;
+        return $is_updated;
     }
 }
