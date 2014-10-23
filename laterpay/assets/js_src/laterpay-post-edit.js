@@ -209,10 +209,10 @@
                 price = Math.abs(price);
 
                 // correct prices outside the allowed range of 0.05 - 149.49
-                if (price > lpVars.limits.price_revenue_sis_max) {
-                    price = lpVars.limits.price_revenue_sis_max;
-                } else if (price > 0 && price < lpVars.limits.price_revenue_ppu_min) {
-                    price = lpVars.limits.price_revenue_ppu_min;
+                if (price > lpVars.limits.sis_max) {
+                    price = lpVars.limits.sis_max;
+                } else if (price > 0 && price < lpVars.limits.ppu_min) {
+                    price = lpVars.limits.ppu_min;
                 }
 
                 validateRevenueModel(price);
@@ -233,7 +233,7 @@
                     $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
                     $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
 
-                if (price === 0 || (price >= lpVars.limits.price_revenue_ppu_min && price < lpVars.limits.price_sis_end)) {
+                if (price === 0 || (price >= lpVars.limits.ppu_min && price < lpVars.limits.price_sis_end)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
                     $payPerUse.removeAttr('disabled')
                         .parent('label').removeClass($o.disabled);
@@ -243,7 +243,7 @@
                         .parent('label').addClass($o.disabled);
                 }
 
-                if (price >= lpVars.limits.price_revenue_sis_min) {
+                if (price >= lpVars.limits.sis_min) {
                     // enable Single Sale for prices >= 1.49 Euro
                     // (prices > 149.99 Euro are fixed by validatePrice already)
                     $singleSale.removeAttr('disabled')
@@ -255,10 +255,10 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price >= lpVars.limits.price_revenue_ppusis_max && currentRevenueModel === $o.payPerUse) {
+                if (price >= lpVars.limits.ppusis_max && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
-                } else if (price < lpVars.limits.price_revenue_sis_min && currentRevenueModel === $o.singleSale) {
+                } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $payPerUse.prop('checked', true);
                 }
@@ -431,15 +431,15 @@
 
                 $o.priceInput.attr('disabled', 'disabled');
 
-                if (startPrice > lpVars.limits.price_revenue_ppusis_max || endPrice > lpVars.limits.price_revenue_ppusis_max) {
+                if (startPrice > lpVars.limits.ppusis_max || endPrice > lpVars.limits.ppusis_max) {
                     // Single Sale
-                    maxPrice = lpVars.limits.price_revenue_sis_max;
-                } else if (startPrice >= lpVars.limits.price_revenue_sis_min || endPrice >= lpVars.limits.price_revenue_sis_min) {
+                    maxPrice = lpVars.limits.sis_max;
+                } else if (startPrice >= lpVars.limits.sis_min || endPrice >= lpVars.limits.sis_min) {
                     // Pay-per-Use and Single Sale
-                    maxPrice = lpVars.limits.price_revenue_ppusis_max;
+                    maxPrice = lpVars.limits.ppusis_max;
                 } else {
                     // Pay-per-Use
-                    maxPrice = lpVars.limits.price_revenue_ppu_max;
+                    maxPrice = lpVars.limits.ppu_max;
                 }
 
                 if (data.length === 4) {

@@ -290,11 +290,11 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         // set limits for use by Javascript
         $dynamic_pricing_limits = array(
-            'price_revenue_ppu_min'     => LaterPay_Helper_Pricing::price_revenue_ppu_min,
-            'price_revenue_ppu_max'     => LaterPay_Helper_Pricing::price_revenue_ppu_max,
-            'price_revenue_ppusis_max'  => LaterPay_Helper_Pricing::price_revenue_ppusis_max,
-            'price_revenue_sis_min'     => LaterPay_Helper_Pricing::price_revenue_sis_min,
-            'price_revenue_sis_max'     => LaterPay_Helper_Pricing::price_revenue_sis_max,
+            'ppu_min'     => LaterPay_Helper_Pricing::ppu_min,
+            'ppu_max'     => LaterPay_Helper_Pricing::ppu_max,
+            'ppusis_max'  => LaterPay_Helper_Pricing::ppusis_max,
+            'sis_min'     => LaterPay_Helper_Pricing::sis_min,
+            'sis_max'     => LaterPay_Helper_Pricing::sis_max,
             'price_ppu_end'             => LaterPay_Helper_Pricing::price_ppu_end,
             'price_ppusis_end'          => LaterPay_Helper_Pricing::price_ppusis_end,
             'price_sis_end'             => LaterPay_Helper_Pricing::price_sis_end,

@@ -7,11 +7,11 @@ class LaterPay_Helper_Pricing
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
-    const price_revenue_ppu_min         = 0.05;
-    const price_revenue_ppu_max         = 1.48;
-    const price_revenue_ppusis_max      = 5.00;
-    const price_revenue_sis_min         = 1.49;
-    const price_revenue_sis_max         = 149.49;
+    const ppu_min         = 0.05;
+    const ppu_max         = 1.48;
+    const ppusis_max      = 5.00;
+    const sis_min         = 1.49;
+    const sis_max         = 149.49;
     const price_ppu_end                 = 0.05;
     const price_ppusis_end              = 1.49;
     const price_sis_end                 = 5.01;
@@ -444,10 +444,10 @@ class LaterPay_Helper_Pricing
 
         // return dynamic pricing widget start values
         if ( $start_price === '' ) {
-            if ( $post_price > self::price_revenue_ppusis_max ) {
+            if ( $post_price > self::ppusis_max ) {
                 // Single Sale (sis), if price >= 5.01
                 $end_price = self::price_sis_end;
-            } elseif ( $post_price > self::price_revenue_sis_min ) {
+            } elseif ( $post_price > self::sis_min ) {
                 // Single Sale or Pay-per-Use, if 1.49 >= price <= 5.00
                 $end_price = self::price_ppusis_end;
             } else {
@@ -508,7 +508,12 @@ class LaterPay_Helper_Pricing
                 ),
             );
         }
-
+        
+        //Every zero by Y-axe must be presented as 0.00 for d3.dynamic.widget plot
+        foreach( $dynamic_pricing_data as $index => $point )
+            if( $point['y'] == 0 )
+                $dynamic_pricing_data[$index]['y'] = floatval($point['y']);
+				
         return $dynamic_pricing_data;
     }
 
@@ -530,42 +535,42 @@ class LaterPay_Helper_Pricing
                 $end = self::price_sis_end;
             }
         } elseif (
-            ( $start >= self::price_revenue_sis_min && $start <= self::price_revenue_ppusis_max ) ||
-                ( $end >= self::price_revenue_sis_min && $end <= self::price_revenue_ppusis_max )
+            ( $start >= self::sis_min && $start <= self::ppusis_max ) ||
+                ( $end >= self::sis_min && $end <= self::ppusis_max )
             ) {
             // SIS or PPU
             if ( $start != 0 ) {
-                if ( $start < self::price_revenue_sis_min ) {
-                    $start = self::price_revenue_sis_min;
+                if ( $start < self::sis_min ) {
+                    $start = self::sis_min;
                 }
-                if ( $start > self::price_revenue_ppusis_max ) {
-                    $start = self::price_revenue_ppusis_max;
+                if ( $start > self::ppusis_max ) {
+                    $start = self::ppusis_max;
                 }
             };
             if ( $end != 0 ) {
-                if ( $end < self::price_revenue_sis_min ) {
-                    $end = self::price_revenue_sis_min;
+                if ( $end < self::sis_min ) {
+                    $end = self::sis_min;
                 }
-                if ( $end > self::price_revenue_ppusis_max ) {
-                    $end = self::price_revenue_ppusis_max;
+                if ( $end > self::ppusis_max ) {
+                    $end = self::ppusis_max;
                 }
             }
         } else {
             // SIS or PPU
             if ( $start != 0 ) {
-                if ( $start < self::price_revenue_ppu_min ) {
-                    $start = self::price_revenue_ppu_min;
+                if ( $start < self::ppu_min ) {
+                    $start = self::ppu_min;
                 }
-                if ( $start > self::price_revenue_ppu_max ) {
-                    $start = self::price_revenue_ppu_max;
+                if ( $start > self::ppu_max ) {
+                    $start = self::ppu_max;
                 }
             };
             if ( $end != 0 ) {
-                if ( $end < self::price_revenue_ppu_min ) {
-                    $end = self::price_revenue_ppu_min;
+                if ( $end < self::ppu_min ) {
+                    $end = self::ppu_min;
                 }
-                if ( $end > self::price_revenue_ppu_max ) {
-                    $end = self::price_revenue_ppu_max;
+                if ( $end > self::ppu_max ) {
+                    $end = self::ppu_max;
                 }
             }
         }
