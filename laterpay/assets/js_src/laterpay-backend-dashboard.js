@@ -2,8 +2,17 @@
 
     // encapsulate all LaterPay Javascript in function laterPayBackendDashboard
     function laterPayBackendDashboard() {
-        var $o = {
-                // stuff
+        var i, l,
+            $o = {
+                daysBack            : 8,
+                itemsPerList        : 10,
+                list                : [],
+                bestConvertingList  : $('#lp_js_best-converting-list'),
+                leastConvertingList : $('#lp_js_least-converting-list'),
+                bestSellingList     : $('#lp_js_best-selling-list'),
+                leastSellingList    : $('#lp_js_least-selling-list'),
+                bestGrossingList    : $('#lp_js_best-grossing-list'),
+                leastGrossingList   : $('#lp_js_least-grossing-list'),
             },
 
             bindEvents = function() {
@@ -16,11 +25,9 @@
             },
 
             renderDashboard = function(data) {
-console.log(data);
                 // some mock data:
                 var last_items_sold         = [[1412294400000, 0], [1412380800000, 0], [1412467200000, 0], [1412553600000, 0], [1412640000000, 0], [1412726400000, 0], [1412812800000, 0], [1412899200000, 0]],
                     last_amounts            = [[1412294400000, 0.0], [1412380800000, 0.0], [1412467200000, 0.0], [1412553600000, 0.0], [1412640000000, 0.0], [1412726400000, 0.0], [1412812800000, 0.0], [1412899200000, 0.0]],
-                    interval                = '7days',
                     conversionData_perDay   = [[1, 13], [2, 16], [3, 14], [4, 12], [5, 17], [6, 15], [7, 12]],
                     conversionData_total    = [[1, 13], [2, 29], [3, 43], [4, 55], [5, 72], [6, 87], [7, 99]];
 
@@ -41,10 +48,10 @@ console.log(data);
                     plot_timeformat,
                     plot_mode;
 
-                if (interval === '7days') {
+                if ($o.daysBack === 8) {
                     plot_timeformat = '%a';
                     plot_mode       = 'time';
-                } else if (interval === '30days') {
+                } else if ($o.daysBack === 31) {
                     plot_timeformat = '%m/%d';
                     plot_mode       = 'time';
                 } else {
@@ -88,7 +95,7 @@ console.log(data);
                     yaxis: {
                         font: {color: '#bbb'},
                           ticks: 5,
-                      tickFormatter: function (v) {return v + " %";},
+                      tickFormatter: function (v) {return v + ' %';},
                           min: 0,
                           max: 100,
                       reserveSpace: true,
@@ -250,13 +257,13 @@ console.log(data);
                 );
 
                 // big KPIs
-                $('#lp_js_total-impressions').text(data.total_viewed_items[0].quantity);
+                // $('#lp_js_total-impressions').text(data.total_viewed_items[0].quantity);
 
-                $('#lp_js_avg-items-sold').text(avg_items_sold.toFixed(1));
-                $('#lp_js_total-items-sold').text(total_items_sold);
+                // $('#lp_js_avg-items-sold').text(avg_items_sold.toFixed(1));
+                // $('#lp_js_total-items-sold').text(total_items_sold);
 
-                $('#lp_js_total-revenue').text(total_revenue.toFixed(2));
-                $('#lp_js_avg-revenue').text(avg_revenue.toFixed(2));
+                // $('#lp_js_total-revenue').text(total_revenue.toFixed(2));
+                // $('#lp_js_avg-revenue').text(avg_revenue.toFixed(2));
 
                 // sparklines
                 $('.lp_sparkline-bar').peity('bar', {
@@ -267,7 +274,41 @@ console.log(data);
                 });
 
                 // best / worst lists
-                // ...
+                if (data) { // TODO: this should be removed as soon as all data are rendered via JS
+                    renderTopBottomList($o.bestConvertingList,  data.best_converting_items);
+                    renderTopBottomList($o.leastConvertingList, data.least_converting_items);
+                    renderTopBottomList($o.bestSellingList,     data.most_selling_items);
+                    renderTopBottomList($o.leastSellingList,    data.least_selling_items);
+                    renderTopBottomList($o.bestGrossingList,    data.most_revenue_items);
+                    renderTopBottomList($o.leastGrossingList,   data.least_revenue_items);
+                }
+            },
+
+            renderTopBottomList = function($list, data) {
+                $o.list = [];
+
+                i = 0;
+                l = 10;//data.length;
+
+                if (l > 0) {
+                    // create list item for each data set
+                    for (; i < l; i++) {
+                        $o.list.push(renderListItem('Dummy Item', 66, 'EUR', []));    // TODO: use actual data
+                    }
+                } else {
+                    $o.list = ['<dfn>No datazzz available</dfn>'];
+                }
+
+                // replace existing HTML
+                $list.html($o.list.join());
+            },
+
+            renderListItem = function(itemName, kpiValue, kpiUnit, sparklineData) {
+                return '<li>' +
+                            '<span class="lp_sparkline-bar">' + sparklineData + '</span>' +
+                            '<strong class="lp_value">' + kpiValue + '<small>' + kpiUnit + '</small></strong>' +
+                            '<i><a href="#" class="lp_js_toggle-item-details">' + itemName + '</a></i>' +
+                        '</li>';
             },
 
             fetchDashboardData = function() {
@@ -276,8 +317,8 @@ console.log(data);
                     {
                         'action'    : 'laterpay_get_dashboard_data',
                         '_wpnonce'  : lpVars.nonces.dashboard,
-                        'days'      : 8,    // how many days we want to go back - default: 8
-                        'count'     : 10,   // number of items, the top {n} items - default: 10
+                        'days'      : $o.daysBack,
+                        'count'     : $o.itemsPerList,
                         'refresh'   : 1,    // on default 1 (true), 0 (false) only loads the cached data
                     },
                     function(response) {
