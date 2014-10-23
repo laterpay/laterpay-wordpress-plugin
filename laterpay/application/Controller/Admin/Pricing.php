@@ -37,11 +37,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-backend-pricing' );
 
         // array of modifiers for bulk price editor
-        $modifiers = array(
-            'to'                     => __( 'to', 'laterpay' ),
-            'by'                     => __( 'by', 'laterpay' ),
-            'toGlobalDefaultPrice'   => __( 'to global default price of', 'laterpay' ),
-            'toCategoryDefaultPrice' => __( 'to category default price of', 'laterpay' ),
+        $i18n = array(
+            'to'                        => __( 'to', 'laterpay' ),
+            'by'                        => __( 'by', 'laterpay' ),
+            'toGlobalDefaultPrice'      => __( 'to global default price of', 'laterpay' ),
+            'toCategoryDefaultPrice'    => __( 'to category default price of', 'laterpay' ),
+            'updatePrices'              => __( 'Update Prices', 'laterpay' ),
+            'delete'                    => __( 'Delete', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
@@ -50,7 +52,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'lpVars',
             array(
                 'locale'                => get_locale(),
-                'i18nModifier'          => $modifiers,
+                'i18n'          => $i18n,
                 'globalDefaultPrice'    => get_option( 'laterpay_global_price' ),
                 'defaultCurrency'       => get_option( 'laterpay_currency' ),
             )

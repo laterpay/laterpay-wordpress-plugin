@@ -51,7 +51,8 @@
                 bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
                 bulkPriceSubmit                         : $('#lp_js_apply-bulk-operation'),
                 bulkSaveOperationLink                   : $('#lp_js_save-bulk-operation'),
-                bulkDeleteOperationLink                 : '.lp_js_delete-bulk-operation',
+                bulkDeleteOperationLink                 : '.lp_js_delete-saved-bulk-operation',
+                bulkApplySavedOperationLink             : '.lp_js_apply-saved-bulk-operation',
 
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
@@ -152,7 +153,7 @@
                 .on('change', function() {
                     $o.bulkPriceChangeAmountPreposition.show()
                     .text(
-                        lpVars.i18nModifier.toCategoryDefaultPrice + ' ' +
+                        lpVars.i18n.toCategoryDefaultPrice + ' ' +
                         $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
                         lpVars.defaultCurrency
                     );
@@ -172,12 +173,17 @@
                 })
                 .click(function(e) {e.preventDefault();});
 
+                // execute saved bulk operation
+                $('body')
+                .on('mousedown', $o.bulkApplySavedOperationLink, function() {
+                    applySavedBulkOperation($(this).parent());
+                })
+                .on('click', $o.bulkApplySavedOperationLink, function(e) {e.preventDefault();});
+
                 // delete saved bulk operation
                 $('body')
                 .on('mousedown', $o.bulkDeleteOperationLink, function() {
-                    $(this).parent().fadeOut(250, function() {
-                        $(this).remove();
-                    });
+                    deleteSavedBulkOperation($(this).parent());
                 })
                 .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
 
@@ -519,10 +525,10 @@
               };
             },
 
-            applyBulkOperation = function() {
+            applyBulkOperation = function(data) {
                 $.post(
                     ajaxurl,
-                    $o.bulkPriceForm.serializeArray(),
+                    data || $o.bulkPriceForm.serializeArray(),
                     function(r) {
                         setMessage(r.message, r.success);
                     },
@@ -575,7 +581,7 @@
 
                 switch (action) {
                     case 'set':
-                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifier.to).show();
+                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18n.to).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
                         disableCategoryOptionsIfNoCategories();
@@ -584,7 +590,7 @@
 
                     case 'increase':
                     case 'reduce':
-                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18nModifier.by).show();
+                        $o.bulkPriceChangeAmountPreposition.text(lpVars.i18n.by).show();
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
                         $o.bulkPriceChangeUnit
@@ -620,7 +626,7 @@
                         if (!showCategory) {
                             $o.bulkPriceChangeAmountPreposition.show()
                             .text(
-                                lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
+                                lpVars.i18n.toGlobalDefaultPrice + ' ' +
                                 lpVars.globalDefaultPrice + ' ' +
                                 lpVars.defaultCurrency
                             );
@@ -654,11 +660,24 @@
 
                 description = $.trim(description.join(' ').replace(/\s+/g, ' '));
                 operation = '<p class="lp_bulk-operation">' +
-                                '<a href="#" class="lp_js_delete-bulk-operation">' + lpVars.i18nDelete + '</a>' +
-                                description +
+                                '<a href="#" class="lp_js_delete-saved-bulk-operation lp_edit-link lp_delete-link" data-icon="g">' + lpVars.i18n.delete + '</a>' +
+                                '<a href="#" class="lp_js_apply-saved-bulk-operation button button-primary lp_m-l2">' + lpVars.i18n.updatePrices + '</a>' +
+                                '<span>' + description + '</span>' +
                             '</p>';
 
                 $o.bulkPriceForm.after(operation);
+            },
+
+            applySavedBulkOperation = function($item) {
+                var data = undefined; // TODO: get saved form data from $item
+
+                applyBulkOperation(data);
+            },
+
+            deleteSavedBulkOperation = function($item) {
+                $item.fadeOut(250, function() {
+                    $item.remove();
+                });
             },
 
             initializePage = function() {
