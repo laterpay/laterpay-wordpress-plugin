@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Oct 10 2014 16:48:16 GMT+0200 (CEST)\n"
+
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -46,7 +46,7 @@ msgstr "%s<small>%s</small>"
 msgid "Statistics for this Post"
 msgstr "Statistik für diesen Beitrag"
 
-#: ../views/frontend/partials/post/post_statistics.php:17 ..
+
 #: views/backend/dashboard.php:69
 msgid "Total Revenue"
 msgstr "Gesamt-Umsatz"
@@ -63,7 +63,7 @@ msgstr "Letzte 30 Tage"
 msgid "Today"
 msgstr "Heute"
 
-#: ../views/frontend/partials/post/post_statistics.php:38 ..
+
 #: views/backend/dashboard.php:59
 msgid "Revenue"
 msgstr "Umsatz"
@@ -155,13 +155,13 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie 5 Euro erreicht haben.<br> Erst dann müssen "
 "Sie sich registrieren und bezahlen."
 
-#: ../views/backend/dashboard.php:12 ../views/backend/appearance.php:12 ..
-#: views/backend/account.php:15 ../views/backend/pricing.php:12
+
+
 msgid "<strong>Test</strong> mode"
 msgstr "<strong>Test</strong>-Modus"
 
-#: ../views/backend/dashboard.php:13 ../views/backend/appearance.php:13 ..
-#: views/backend/account.php:16 ../views/backend/pricing.php:13
+
+
 msgid "Earn money in <i>live mode</i>"
 msgstr "Verdienen Sie Geld im <i>Live-Modus</i>"
 
@@ -455,7 +455,7 @@ msgstr ""
 "Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
 "API Zugangsdaten abzurufen."
 
-#: ../views/backend/account.php:139 ../application/Controller/Admin.php:422
+
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
@@ -485,7 +485,7 @@ msgstr ""
 "<strong>\n"
 "reguläre Besucher nicht sichtbar</strong>."
 
-#: ../views/backend/pricing.php:23 ../application/Controller/Admin.php:267
+
 msgid "Global Default Price"
 msgstr "Standardpreis"
 
@@ -514,7 +514,7 @@ msgstr "0,00"
 msgid "Change"
 msgstr "Ändern"
 
-#: ../views/backend/pricing.php:69 ../application/Controller/Admin.php:281
+
 msgid "Category Default Prices"
 msgstr "Kategorie-Standardpreise"
 
@@ -939,11 +939,11 @@ msgstr ""
 "kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:299
+
 msgid "Currency"
 msgstr "Währung"
 
-#: ../application/Controller/Admin.php:300
+
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -976,11 +976,11 @@ msgstr ""
 "dollar betragen. \n"
 "</p>"
 
-#: ../application/Controller/Admin.php:325
+
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../application/Controller/Admin.php:326
+
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1028,11 +1028,11 @@ msgstr ""
 "</li>\n"
 "</ul>\n"
 
-#: ../application/Controller/Admin.php:350
+
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../application/Controller/Admin.php:351
+
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1057,11 +1057,11 @@ msgstr ""
 "aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:373
+
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../application/Controller/Admin.php:374
+
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1185,7 +1185,7 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
-#: ../application/Controller/Admin.php:423
+
 msgid ""
 "\n"
 "                                                    <p>You can run the "
@@ -1256,9 +1256,9 @@ msgstr ""
 
 #: ../application/Controller/Statistics.php:156 ..
 #: application/Controller/Admin/Account.php:96 ..
-#: application/Controller/Admin/Appearance.php:74 ..
-#: application/Controller/Admin/Appearance.php:97 ..
-#: application/Controller/Admin/Appearance.php:127 ..
+
+
+
 #: application/Controller/Admin/Pricing.php:112 ..
 #: application/Controller/Admin/Pricing.php:137 ..
 #: application/Controller/Admin/Pricing.php:267 ..
@@ -1277,7 +1277,7 @@ msgstr "Aktualisiert."
 
 #: ../application/Controller/Statistics.php:212 ..
 #: application/Controller/Admin/Account.php:63 ..
-#: application/Controller/Admin/Appearance.php:56 ..
+
 #: application/Controller/Admin/Pricing.php:80
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
@@ -1345,15 +1345,15 @@ msgstr ""
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: ../application/Controller/Admin/Appearance.php:83
+
 msgid "Your changes have been saved"
 msgstr "Ihre Änderungen wurden gespeichert."
 
-#: ../application/Controller/Admin/Appearance.php:108
+
 msgid "Visitors will now see only the teaser content of paid posts."
 msgstr "Besucher sehen ab jetzt nur den Teaser eines kostenpflichtigen Beitrags."
 
-#: ../application/Controller/Admin/Appearance.php:115
+
 msgid ""
 "Visitors will now see the teaser content of paid posts plus an excerpt of "
 "the real content under an overlay."

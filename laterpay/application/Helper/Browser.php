@@ -7,7 +7,7 @@ class LaterPay_Helper_Browser
      * @var Browscap $browscap library
      */
     protected static $browscap = null;
-    
+
     /**
      * @var array|null $browser information
      */
@@ -33,7 +33,7 @@ class LaterPay_Helper_Browser
 
         return self::$browscap;
     }
-    
+
     /**
      * Return array of all browser infos.
      *
@@ -42,7 +42,7 @@ class LaterPay_Helper_Browser
      * @return array
      */
     public static function php_browser_info() {
-        if ( is_null(self::$browser) ) {
+        if ( is_null( self::$browser ) ) {
             self::$browser = self::php_browscap()->getBrowser( NULL, true );
         }
 

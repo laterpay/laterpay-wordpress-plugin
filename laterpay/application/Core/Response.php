@@ -11,7 +11,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         parent::_construct();
         $this->set_data( 'headers', array() );
         $this->set_data( 'body', '' );
-        $this->set_data( 'http_response_code', 200) ; // HTTP response code to use in headers
+        $this->set_data( 'http_response_code', 200 ) ; // HTTP response code to use in headers
     }
 
     /**
@@ -55,7 +55,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
                 }
             }
         }
-        $headers[] = array (
+        $headers[] = array(
             'name'      => $name,
             'value'     => $value,
             'replace'   => $replace,
@@ -77,7 +77,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         $httpCodeSent = false;
         foreach ( $this->get_data_set_default( 'headers', array() ) as $header ) {
             if ( ! $httpCodeSent ) {
-                header( $header['name'] . ': ' . $header['value'], $header['replace'], $this->get_data('http_response_code') );
+                header( $header['name'] . ': ' . $header['value'], $header['replace'], $this->get_data( 'http_response_code' ) );
                 $httpCodeSent = true;
             } else {
                 header( $header['name'] . ': ' . $header['value'], $header['replace'] );

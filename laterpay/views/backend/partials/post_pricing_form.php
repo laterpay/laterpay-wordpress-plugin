@@ -21,8 +21,8 @@
     <div id="lp_js_post-revenue-model" class="lp_post-revenue-model lp_p-rel">
             <label class="lp_revenue-model-label lp_m-t125 lp_m-b05 lp_tooltip
                     <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) : ?>
-                        <?php if ( $laterpay_post_revenue_model == 'ppu') { echo ' lp_is-selected'; } ?>
-                        <?php if ( $laterpay_price > 5) { echo ' lp_is-disabled'; } ?>
+                        <?php if ( $laterpay_post_revenue_model == 'ppu' ) { echo ' lp_is-selected'; } ?>
+                        <?php if ( $laterpay_price > 5 ) { echo ' lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay_post_revenue_model == 'sis' || $laterpay_price > 5 ) { echo ' lp_is-disabled'; } ?>
                     <?php endif; ?>"
@@ -30,7 +30,7 @@
                 <input type="radio"
                     name="post_revenue_model"
                     value="ppu"
-                    <?php if ( $laterpay_post_revenue_model == 'ppu') { echo 'checked'; } ?>>PPU
+                    <?php if ( $laterpay_post_revenue_model == 'ppu' ) { echo 'checked'; } ?>>PPU
             </label>
             <label class="lp_revenue-model-label lp_tooltip
                     <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) : ?>
@@ -43,7 +43,7 @@
                 <input type="radio"
                     name="post_revenue_model"
                     value="sis"
-                    <?php if ( $laterpay_post_revenue_model == 'sis') { echo 'checked'; } ?>>SIS
+                    <?php if ( $laterpay_post_revenue_model == 'sis' ) { echo 'checked'; } ?>>SIS
             </label>
     </div>
     <?php endif; ?>

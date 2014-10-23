@@ -74,7 +74,7 @@ class LaterPay_Helper_View
      * @return string
      */
     public static function get_days_statistics_as_string( $statistic, $type = 'quantity', $delimiter = ',' ) {
-        $today  = date('Y-m-d');
+        $today  = date( 'Y-m-d' );
         $date   = self::get_date_days_ago( date( $today ), 30 );
 
         $result = '';

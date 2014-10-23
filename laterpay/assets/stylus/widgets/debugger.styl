@@ -19,7 +19,7 @@
     z-index                         $zindex-topmost_1
 
     header
-        background-color            darken($background-darker, 13%)
+        background-color            darken(hsl(0, 0%, 89%), 13%)
         cursor                      pointer
         height                      2.5em
 
@@ -108,12 +108,11 @@
 
         span,
         &:hover span
-            background-color        lighten($text, 20%)
+            background-color        lighten(hsl(0, 0%, 33%), 20%)
 
     a
         color                       $clickable
         display                     block
-        height                      $fs-15
         padding                     $fs-05 $fs-1
 
         &:hover
@@ -150,7 +149,7 @@
         list-style                  none outside none
 
     .lp_debugger-content li
-        border-bottom               1px solid darken($border, 3%)
+        border-bottom               1px solid darken(hsl(0, 0%, 87%), 3%)
 
     .lp_is_hidden
         display                     none

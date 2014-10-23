@@ -101,6 +101,7 @@ class LaterPay_Helper_File
         $cipher     = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
         $file       = base64_encode( $cipher->encrypt( $uri ) );
+        $file       = strtr($file, '+/', '-_');
 
 		$request    = new LaterPay_Core_Request();
         $path       = $request->getServer( 'DOCUMENT_ROOT' ) . $uri;
@@ -173,7 +174,7 @@ class LaterPay_Helper_File
                 'lptoken'   => $lptoken,
                 'hmac'      => $hmac,
                 'ts'        => $ts,
-                'auth'      => $auth
+                'auth'      => $auth,
             )
         );
 
@@ -288,7 +289,7 @@ class LaterPay_Helper_File
     protected function get_decrypted_file_name( $file ) {
         $request    = new LaterPay_Core_Request();
         $response   = new LaterPay_Core_Response();
-
+        $file = strtr($file, '-_', '+/');
         $file = base64_decode( $file );
         if ( empty( $file ) ) {
             laterpay_get_logger()->error( 'RESOURCE:: cannot decode $file - empty result' );

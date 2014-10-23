@@ -7,12 +7,11 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
     public function init() {
-
         $this->set_field(
             'form',
             array(
@@ -20,10 +19,10 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_plugin_mode'
-                        )
-                    )
-                )
+                            'eq' => 'laterpay_plugin_mode',
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -34,10 +33,10 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_account'
-                        )
-                    )
-                )
+                            'eq' => 'laterpay_account',
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -48,10 +47,10 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -60,12 +59,13 @@ class LaterPay_Form_PluginMode extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array( 0, 1 )
+                    'in_array' => array( 0, 1 ),
                 ),
                 'filters' => array(
-                    'to_int'
-                )
+                    'to_int',
+                ),
             )
         );
     }
 }
+

@@ -149,7 +149,7 @@ class LaterPay_Helper_Pricing
 
         $post_price = array(
             'type'          => LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
-            'category_id'   => (int) $category_id
+            'category_id'   => (int) $category_id,
         );
 
         return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_price );
@@ -360,22 +360,74 @@ class LaterPay_Helper_Pricing
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE:
-                $revenue_model = get_option( 'laterpay_global_price_revenue_model', 'ppu' );
+                $revenue_model = get_option( 'laterpay_global_price_revenue_model' );
                 break;
         }
 
         // fallback in case the revenue_model is not correct
-        if ( ! in_array( $revenue_model, array( 'ppu', 'ssi' ) ) ) {
-            $price = LaterPay_Helper_Pricing::get_post_price_type( $post_id );
+        if ( ! in_array( $revenue_model, array( 'ppu', 'sis' ) ) ) {
 
-            if ( $price <= 5.00 && $price > 0.05 ) {
+            $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
+
+            if ( ( $price >= 0.05 && $price <= 5.00 ) || $price == 0.00 ) {
                 $revenue_model = 'ppu';
-            } else if ( $price > 5.00 && $price < 149.99 ) {
-                $revenue_model = 'ssi';
+            } else if ( $price > 5.00 && $price <= 149.99 ) {
+                $revenue_model = 'sis';
             }
         }
 
         return $revenue_model;
     }
 
+    /**
+     * Return the revenue model of the post.
+     * Validates and - if required - corrects the given combination of price and revenue model.
+     *
+     * @param string $revenue_model
+     * @param float  $price
+     *
+     * @return string $revenue_model
+     */
+    public static function check_and_correct_post_revenue_model( $revenue_model, $price ) {
+        if ( $revenue_model == 'ppu' ) {
+            if ( $price == 0.00 || ( $price >= 0.05 && $price <= 5.00 ) ) {
+                return 'ppu';
+            } else {
+                return 'sis';
+            }
+        } else {
+            if ( $price >= 1.49 && $price <= 149.99 ) {
+                return 'sis';
+            } else {
+                return 'ppu';
+            }
+        }
+
+    }
+
+    /**
+     * Select categories from a given list of categories that have a category default price
+     * and return an array of their ids.
+     *
+     * @param array $categories
+     *
+     * @return array
+     */
+    public static function get_categories_with_price( $categories) {
+        $categories_with_price = array();
+        $ids                   = array();
+
+        if ( is_array( $categories ) ) {
+            foreach ( $categories as $category ) {
+                $ids[] = $category->term_id;
+            }
+        }
+
+        if ( $ids ) {
+            $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+            $categories_with_price   = $laterpay_category_model->get_category_price_data_by_category_ids( $ids );
+        }
+
+        return $categories_with_price;
+    }
 }

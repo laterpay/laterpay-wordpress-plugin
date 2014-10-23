@@ -14,6 +14,9 @@
         form:first-of-type
             margin-top          2em
 
+// Chrome browser hack
+.lp_w-1-2 fieldset form:first-of-type:not(*:root) {display:inline;}
+
 // render icons from icon font in pseudo elements
 .lp_w-1-2.lp_sandbox-credentials[data-icon],
 .lp_w-1-2.lp_live-credentials[data-icon]
