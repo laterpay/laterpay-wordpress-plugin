@@ -329,8 +329,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             'laterpay-shortcodes',
             $this->config->get( 'js_url' ) . 'laterpay-shortcodes.js',
             array( 'jquery', 'laterpay-peity' ),
-            $this->config->get( 'version' ),
-            true
+                $this->config->get( 'version' ),
+                false
         );
 
         wp_localize_script(

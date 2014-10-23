@@ -1,19 +1,19 @@
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
 
-    var $purchaseLink   = Y.one('.lp_js_do-purchase-by-shortcode'),
+    var $purchaseShortcodeLink   = Y.one('.lp_js_do-purchase-by-shortcode'),
         ppuContext      = {
                             showCloseBtn        : true,
                             canSkipAddToInvoice : false
                           },
         dm              = new Y.LaterPay.DialogManager();
 
-    if (!$purchaseLink) {
+    if (!$purchaseShortcodeLink) {
         // don't register the dialogs, if there's no purchase link in the page
         return;
     }
 
-    if ($purchaseLink.getData('preview-as-visitor')) {
+    if ($purchaseShortcodeLink.getData('preview-as-visitor')) {
         // bind event to purchase link and return, if 'preview as visitor' is activated for admins
         Y.one(Y.config.doc).delegate(
             'click',
