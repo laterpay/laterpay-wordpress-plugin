@@ -462,5 +462,16 @@ class LaterPay_Helper_Pricing
      */
     public static function change_post_price_type_value( $post_id, $price ) {
 
+        $post_meta = get_post_meta( $post_id, 'laterpay_post_prices', true );
+
+        if ( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
+            update_option( 'laterpay_global_price', $price );
+        } elseif( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
+            $category_id                  = $post_meta['category_id'];
+            $category_price_model         = new LaterPay_Model_CategoryPrice();
+            $category_price_id            = $category_price_model->get_price_id_by_category_id( $category_id );
+            $category_price_revenue_model = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $post_meta['revenue_model'], $price );
+            $category_price_model->set_category_price( $category_id, $price, $category_price_revenue_model, $category_price_id );
+        }
     }
 }
