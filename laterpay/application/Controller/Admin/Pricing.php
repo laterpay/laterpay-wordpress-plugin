@@ -313,12 +313,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $currency_model             = new LaterPay_Model_Currency();
         $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
+        $localized_category_price   = LaterPay_Helper_View::format_number( $delocalized_category_price, 2 );
 
         wp_send_json(
             array(
                 'success'           => true,
                 'category'          => $category,
-                'price'             => $delocalized_category_price,
+                'price'             => $localized_category_price,
                 'currency'          => get_option( 'laterpay_currency' ),
                 'category_id'       => $category_id,
                 'revenue_model'     => $category_price_revenue_model,
@@ -326,7 +327,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'message'           => sprintf(
                                             __( 'All posts in category %s have a default price of %s %s now.', 'laterpay' ),
                                             $category,
-                                            $delocalized_category_price,
+                                            $localized_category_price,
                                             $currency_name
                                         ),
             )
