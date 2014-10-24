@@ -519,6 +519,12 @@
                             $(this).prop('disabled', true);
                         }
                     });
+                } else if ( $o.bulkPriceObjectsCategory.find('option').length == 1 ) {
+                    $o.bulkPriceObjects.find('option').each(function() {
+                        if ($(this).val() === 'not_in_category') {
+                            $(this).prop('disabled', true);
+                        }
+                    });
                 }
             },
 
@@ -543,7 +549,8 @@
                 });
 
                 // hide some of bulk price editor settings
-                $o.bulkPriceObjectsCategoryWithPrice.hide();
+                $o.bulkPriceObjectsCategory.prop('disabled', false);
+                $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', true).hide();
                 $o.bulkPriceChangeAmountModifier.hide();
                 $o.bulkPriceChangeAmount.hide();
                 $o.bulkPriceChangeUnit.hide();
@@ -585,7 +592,8 @@
                         break;
 
                     case 'reset':
-                        $o.bulkPriceObjectsCategory.hide();
+                        $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
+                        $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false);
                         $o.bulkPriceObjects.find('option').each(function() {
                             if ($(this).val() === 'not_in_category' || ( $(this).val() === 'in_category' && !$o.bulkPriceObjectsCategoryWithPrice.length ) ) {
                                 $(this).prop('disabled', true);
