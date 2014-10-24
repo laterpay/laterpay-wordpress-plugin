@@ -7,11 +7,11 @@ class LaterPay_Helper_Pricing
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
-    const ppu_min         = 0.05;
-    const ppu_max         = 1.48;
-    const ppusis_max      = 5.00;
-    const sis_min         = 1.49;
-    const sis_max         = 149.49;
+    const ppu_min                       = 0.05;
+    const ppu_max                       = 1.48;
+    const ppusis_max                    = 5.00;
+    const sis_min                       = 1.49;
+    const sis_max                       = 149.99;
     const price_ppu_end                 = 0.05;
     const price_ppusis_end              = 1.49;
     const price_sis_end                 = 5.01;
@@ -283,15 +283,7 @@ class LaterPay_Helper_Pricing
      * @return float price
      */
     public static function get_dynamic_price( $post, $post_price ) {
-        if ( function_exists( 'date_diff' ) ) {
-            $date_time = new DateTime( date( 'Y-m-d' ) );
-            $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
-        } else {
-            $d1 = strtotime( date( 'Y-m-d' ) );
-            $d2 = strtotime( $post->post_date );
-            $diff_secs = abs( $d1 - $d2 );
-            $days_since_publication = floor( $diff_secs / ( 3600 * 24 ) );
-        }
+        $days_since_publication = self::dynamic_price_days_after_publication($post);
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_price[ 'start_price' ];
@@ -312,6 +304,30 @@ class LaterPay_Helper_Pricing
 
         return $rounded_price;
     }
+	
+    /**
+     * Get the current days count after publication.
+     *
+     * @param WP_Post $post
+     *
+     * @return int days
+     */    
+    public static function dynamic_price_days_after_publication($post){
+        
+        $days_since_publication = 0;
+        
+        if ( function_exists( 'date_diff' ) ) {
+            $date_time = new DateTime( date( 'Y-m-d' ) );
+            $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
+        } else {
+            $d1 = strtotime( date( 'Y-m-d' ) );
+            $d2 = strtotime( $post->post_date );
+            $diff_secs = abs( $d1 - $d2 );
+            $days_since_publication = floor( $diff_secs / ( 3600 * 24 ) );
+        }        
+        
+        return $days_since_publication;
+    }	
 
     /**
      * Calculate transitional price between start price and end price based on linear equation.
