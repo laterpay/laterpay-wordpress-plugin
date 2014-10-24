@@ -201,7 +201,6 @@
             </p>
         </div>
 
-<?php # commented out until release 0.9.9 ?>
         <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">

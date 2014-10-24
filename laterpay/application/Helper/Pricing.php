@@ -513,7 +513,7 @@ class LaterPay_Helper_Pricing
         foreach( $dynamic_pricing_data as $index => $point )
             if( $point['y'] == 0 )
                 $dynamic_pricing_data[$index]['y'] = floatval($point['y']);
-				
+
         return $dynamic_pricing_data;
     }
 
@@ -614,7 +614,7 @@ class LaterPay_Helper_Pricing
         $result_price = 0.00;
 
         if ( $price == 0.00 || ( $price >= 0.05 && $price <= 149.99 ) ) {
-            $result_price = LaterPay_Helper_View::format_number( $price, 2 );
+            $result_price = number_format( $price, 2 );
         }
 
         if ( $price > 149.99 ) {
@@ -659,6 +659,5 @@ class LaterPay_Helper_Pricing
                 $category_price_id
             );
         }
-
     }
 }
