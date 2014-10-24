@@ -242,6 +242,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // set dynamic price data with defaults or values already set
         $dynamic_pricing_data = LaterPay_Helper_Pricing::get_dynamic_prices( $post );
 
+        // get number of days since publication to render an indicator in the dynamic pricing widget
+        $days_after_publication = LaterPay_Helper_Pricing::dynamic_price_days_after_publication( $post );
+
         // set limits for use by Javascript
         $dynamic_pricing_limits = array(
             'ppu_min'     => LaterPay_Helper_Pricing::ppu_min,
@@ -254,6 +257,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             'price_sis_end'             => LaterPay_Helper_Pricing::price_sis_end,
             'price_start_day'           => LaterPay_Helper_Pricing::price_start_day,
             'price_end_day'             => LaterPay_Helper_Pricing::price_end_day,
+			'pubDays'                   => $days_after_publication,
+            'todayPrice'                => $price,
         );
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';

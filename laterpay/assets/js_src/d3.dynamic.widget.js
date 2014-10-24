@@ -16,6 +16,8 @@ var LPCurve = function(container) {
     this.interpolation      = 'linear';
     this.minPrice           = 0;
     this.maxPrice           = 5;
+    this.todayPrice         = 0;
+    this.pubDays            = 0;
     this.defaultPrice       = 0.99;
     this.i18nDefaultPrice   = lpVars.i18nDefaultPrice;
     this.currency           = lpVars.currency;
@@ -112,6 +114,13 @@ LPCurve.prototype.setPrice = function(min, max, defaultPrice) {
 
 LPCurve.prototype.set_data = function(data) {
     this.data = data;
+
+    return this;
+};
+
+LPCurve.prototype.set_today = function(pubDays,todayPrice) {
+    this.pubDays           = pubDays;
+    this.todayPrice         = todayPrice;
 
     return this;
 };
@@ -228,6 +237,7 @@ LPCurve.prototype.plot = function() {
     var end                 = self.data.length,
         point               = svg.selectAll('circle.draggable').data((self.data)),
         priceLine           = svg.selectAll('.line-price').data((self.data).slice(1, end)),
+        todayLine           = svg.selectAll('.today-price-line').data((self.data).slice(1, end)),
         priceLineVisible    = svg.selectAll('.line-price-visible').data((self.data).slice(1, end));
 
     // START PRICE
@@ -459,6 +469,34 @@ LPCurve.prototype.plot = function() {
         });
 
     point.exit().remove();
+
+    // TODAY LINE
+    // -------------------------------------------------------------------------------------------------------
+    // Only shown, if the post was already published
+    if ( this.pubDays > 0 ) {
+        // LINE
+        todayLine.enter().append('line').attr('class', 'line-today-price-visible');
+        todayLine.exit().remove();
+        todayLine
+          .transition().duration()
+          .attr({
+            x1: function() { return xScale(lpc.pubDays); },
+            y1: function() { return yScale(0); },
+            x2: function() { return xScale(lpc.pubDays); },
+            y2: function() { return yScale(lpc.maxPrice); },
+        });
+        // POINT
+        point.enter().append('circle').attr('class', 'point-today').attr('r', 0).call(dragYAxisBehavior);
+        point
+            .transition().duration(dragging ? 0 : 250)
+            .attr({
+                r   : 5,
+                cx  : function() { return xScale(lpc.pubDays); },
+                cy  : function() { return yScale(lpc.todayPrice); },
+            });
+        point.exit().remove();
+    }
+
     // DRAG POINTS Y AXIS 'price' FUNCTIONS
     // -------------------------------------------------------------------------------------------------------
     function dragEndPoint(d, i) {
