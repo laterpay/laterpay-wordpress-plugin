@@ -58,7 +58,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // backward compatibility for attribute 'target_page_title'
         if ( array_key_exists( 'target_page_title', $a ) ) {
-            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' ),
+            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
 
             _deprecated_argument(
                 __FUNCTION__,
@@ -76,7 +76,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // backward compatibility for attribute 'target_page_id'
         if ( array_key_exists( 'target_page_id', $a ) ) {
-            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' ),
+            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
 
             _deprecated_argument(
                 __FUNCTION__,
