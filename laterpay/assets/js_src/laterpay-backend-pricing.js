@@ -512,25 +512,16 @@
                 );
             },
 
-            disableCategoryOptionsIfNoCategories = function() {
-                if (!$o.bulkPriceObjectsCategory.length) {
-                    $o.bulkPriceObjects.find('option').each(function() {
-                        if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
-                            $(this).prop('disabled', true);
-                        }
-                    });
-                } else if ( $o.bulkPriceObjectsCategory.find('option').length == 1 ) {
-                    $o.bulkPriceObjects.find('option').each(function() {
-                        if ($(this).val() === 'not_in_category') {
-                            $(this).prop('disabled', true);
-                        }
-                    });
-                }
+            addInCategoryOption = function() {
+                $o.bulkPriceObjects.append($('<option>', {
+                    value   : 'in_category',
+                    text    :  lpVars.inCategoryLabel
+                }));
             },
 
             handleBulkEditorSettingsUpdate = function(action, selector) {
                 // hide some fields if needed, change separator, and add percent unit option
-                var showCategory = ( selector === 'in_category' || selector === 'not_in_category' );
+                var showCategory = ( selector === 'in_category' );
 
                 // clear currency options
                 $o.bulkPriceChangeUnit
@@ -543,13 +534,8 @@
                         .end()
                         .addClass($o.disabled);
 
-                // enable selector, if it was disabled
-                $o.bulkPriceObjects.find('option').each(function() {
-                    $(this).prop('disabled', false);
-                });
-
                 // hide some of bulk price editor settings
-                $o.bulkPriceObjectsCategory.prop('disabled', false);
+                $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
                 $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', true).hide();
                 $o.bulkPriceChangeAmountModifier.hide();
                 $o.bulkPriceChangeAmount.hide();
@@ -560,8 +546,6 @@
                         $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.to);
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
-                        disableCategoryOptionsIfNoCategories();
-                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'increase':
@@ -575,39 +559,27 @@
                             value   : 'percent',
                             text    :  '%'
                         }));
-                        disableCategoryOptionsIfNoCategories();
-                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'free':
-                        if (!$o.bulkPriceObjectsCategory.length) {
-                            $o.bulkPriceObjects.find('option').each(function() {
-                                if ($(this).val() === 'not_in_category' || $(this).val() === 'in_category') {
-                                    $(this).prop('disabled', true);
-                                }
-                            });
+                        if ($o.bulkPriceObjectsCategory.length && showCategory) {
+                            $o.bulkPriceObjectsCategory.prop('disabled', false).show();
+                            addInCategoryOption();
                         }
-                        disableCategoryOptionsIfNoCategories();
-                        showCategory ? $o.bulkPriceObjectsCategory.show() : $o.bulkPriceObjectsCategory.hide();
                         break;
 
                     case 'reset':
-                        $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
-                        $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false);
-                        $o.bulkPriceObjects.find('option').each(function() {
-                            if ($(this).val() === 'not_in_category' || ( $(this).val() === 'in_category' && !$o.bulkPriceObjectsCategoryWithPrice.length ) ) {
-                                $(this).prop('disabled', true);
-                            }
-                        });
-                        if (!showCategory) {
-                            $o.bulkPriceChangeAmountModifier.show()
-                            .text(
-                                lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
-                                lpVars.globalDefaultPrice + ' ' +
-                                lpVars.defaultCurrency
-                            );
-                        } else {
+                        if ($o.bulkPriceObjectsCategoryWithPrice.length && showCategory) {
+                            $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false);
+                            addInCategoryOption();
                             $o.bulkPriceObjectsCategoryWithPrice.show().change();
+                        } else {
+                            $o.bulkPriceChangeAmountModifier.show()
+                                .text(
+                                    lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
+                                        lpVars.globalDefaultPrice + ' ' +
+                                        lpVars.defaultCurrency
+                                );
                         }
                         break;
 

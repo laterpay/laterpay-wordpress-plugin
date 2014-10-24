@@ -53,6 +53,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'i18nModifier'          => $modifiers,
                 'globalDefaultPrice'    => get_option( 'laterpay_global_price' ),
                 'defaultCurrency'       => get_option( 'laterpay_currency' ),
+                'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
             )
         );
     }
@@ -75,8 +76,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
         $bulk_selectors = array(
             'all'             => __( 'All posts', 'laterpay' ),
-            'in_category'     => __( 'All posts in category', 'laterpay' ),
-            'not_in_category' => __( 'All posts NOT in category', 'laterpay' ),
         );
         $bulk_categories = get_categories();
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
