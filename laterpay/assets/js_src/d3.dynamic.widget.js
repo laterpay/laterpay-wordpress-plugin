@@ -495,6 +495,16 @@ LPCurve.prototype.plot = function() {
                 cy  : function() { return yScale(lpc.todayPrice); },
             });
         point.exit().remove();
+        svg.append('text')
+                .attr('class', 'default-price')
+                .attr('text-anchor', 'end')
+                .text('today')
+                .datum({x:lpc.pubDays,y:lpc.todayPrice})
+                .call(dragYAxisBehavior)
+                .attr({
+            x: function()  { return xScale( parseInt(lpc.pubDays) + 2); },
+            y: function() { return yScale(-10); },
+        });
     }
 
     // DRAG POINTS Y AXIS 'price' FUNCTIONS
