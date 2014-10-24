@@ -54,6 +54,44 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                 'teaser_image_path' => '',
                             ), $atts );
 
+        $deprecated_template = __( '<code>%1$s</code> is deprecated, please use <code>%2$s</code>. <code>%1$s</code> will be removed in the next release.', 'laterpay' );
+
+        // backward compatibility for attribute 'target_page_title'
+        if ( array_key_exists( 'target_page_title', $a ) ) {
+            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' ),
+
+            _deprecated_argument(
+                __FUNCTION__,
+                $msg
+                '0.9.8.3'
+            );
+
+            $this->logger->warning(
+                __METHOD__ . ' - ' . $msg,
+                array( 'attrs' => $a )
+            );
+
+            $a[ 'target_post_title' ] = $a[ 'target_page_title' ];
+        }
+
+        // backward compatibility for attribute 'target_page_id'
+        if ( array_key_exists( 'target_page_id', $a ) ) {
+            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' ),
+
+            _deprecated_argument(
+                __FUNCTION__,
+                $msg,
+                '0.9.8.3'
+            );
+
+            $this->logger->warning(
+                __METHOD__ . ' - ' . $msg,
+                array( 'attrs' => $a )
+            );
+
+            $a[ 'target_page_id' ] = $a[ 'target_post_id' ];
+        }
+
         $error_reason = '';
 
         // get URL for target page
