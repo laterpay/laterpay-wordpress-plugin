@@ -323,6 +323,14 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.8.3 (October 24, 2014): Bugfix Release =
+* Fixed IPv6 bug in logger / debugger functionality
+* Fixed broken saving of global default and category default prices
+* Fixed loading of youtube videos in paid posts
+* Fixed displaying of custom teaser images in shortcode
+* Ensured shortcode plain text is hidden to visitors in test mode
+* Improved server-side validation of forms
+
 = 0.9.8.2 (October 9, 2014): Integration Support Release =
 * Added debugger pane to help with integration of plugin (pane is displayed in debug mode: define('WP_DEBUG', true);)
 * Documented UI options and shortcode usage in appearance tab
