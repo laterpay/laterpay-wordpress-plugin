@@ -441,14 +441,16 @@
                     // Pay-per-Use
                     maxPrice = lpVars.limits.ppu_max;
                 }
-                
-                if( lpVars.limits.pubDays > 0 )
-                    lpc.set_today( lpVars.limits.pubDays, lpVars.limits.todayPrice );
-                
+
+                if (lpVars.limits.pubDays > 0) {
+                    lpc.set_today(lpVars.limits.pubDays, lpVars.limits.todayPrice);
+                }
+
                 if (data.length === 4) {
                     lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice).plot();
                 } else {
-                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice).interpolate('step-before').plot();
+                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
+                        .interpolate('step-before').plot();
                 }
             },
 

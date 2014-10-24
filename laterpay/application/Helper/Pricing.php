@@ -283,7 +283,7 @@ class LaterPay_Helper_Pricing
      * @return float price
      */
     public static function get_dynamic_price( $post, $post_price ) {
-        $days_since_publication = self::dynamic_price_days_after_publication($post);
+        $days_since_publication = self::dynamic_price_days_after_publication( $post );
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_price[ 'start_price' ];
@@ -304,18 +304,17 @@ class LaterPay_Helper_Pricing
 
         return $rounded_price;
     }
-	
+
     /**
-     * Get the current days count after publication.
+     * Get the current days count since publication.
      *
      * @param WP_Post $post
      *
      * @return int days
-     */    
-    public static function dynamic_price_days_after_publication($post){
-        
+     */
+    public static function dynamic_price_days_after_publication( $post ) {
         $days_since_publication = 0;
-        
+
         if ( function_exists( 'date_diff' ) ) {
             $date_time = new DateTime( date( 'Y-m-d' ) );
             $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
@@ -324,10 +323,10 @@ class LaterPay_Helper_Pricing
             $d2 = strtotime( $post->post_date );
             $diff_secs = abs( $d1 - $d2 );
             $days_since_publication = floor( $diff_secs / ( 3600 * 24 ) );
-        }        
-        
+        }
+
         return $days_since_publication;
-    }	
+    }
 
     /**
      * Calculate transitional price between start price and end price based on linear equation.
@@ -524,12 +523,12 @@ class LaterPay_Helper_Pricing
                 ),
             );
         }
-        
+
         //Every zero by Y-axe must be presented as 0.00 for d3.dynamic.widget plot
         foreach( $dynamic_pricing_data as $index => $point )
             if( $point['y'] == 0 )
                 $dynamic_pricing_data[$index]['y'] = floatval($point['y']);
-				
+
         return $dynamic_pricing_data;
     }
 
