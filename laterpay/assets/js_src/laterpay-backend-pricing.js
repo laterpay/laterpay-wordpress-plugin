@@ -148,8 +148,7 @@
                 // update displayed price of the category to be reset
                 $o.bulkPriceObjectsCategoryWithPrice
                 .on('change', function() {
-                    $o.bulkPriceChangeAmountModifier.show()
-                    .text(
+                    $o.bulkPriceChangeAmountModifier.text(
                         lpVars.i18nModifier.toCategoryDefaultPrice + ' ' +
                         $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
                         lpVars.defaultCurrency
@@ -512,10 +511,12 @@
                 );
             },
 
-            addInCategoryOption = function() {
+            addInCategoryOption = function(need_to_select) {
+                is_selected = !!need_to_select;
                 $o.bulkPriceObjects.append($('<option>', {
-                    value   : 'in_category',
-                    text    :  lpVars.inCategoryLabel
+                    value    : 'in_category',
+                    text     : lpVars.inCategoryLabel,
+                    selected : is_selected
                 }));
             },
 
@@ -533,6 +534,15 @@
                     })
                         .end()
                         .addClass($o.disabled);
+
+                // clear object options
+                $o.bulkPriceObjects
+                    .find('option')
+                    .each(function() {
+                        if ($(this).val() === 'in_category') {
+                            $(this).remove();
+                        }
+                    });
 
                 // hide some of bulk price editor settings
                 $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
@@ -562,25 +572,29 @@
                         break;
 
                     case 'free':
-                        if ($o.bulkPriceObjectsCategory.length && showCategory) {
-                            $o.bulkPriceObjectsCategory.prop('disabled', false).show();
-                            addInCategoryOption();
+                        if ($o.bulkPriceObjectsCategory.length) {
+                            $o.bulkPriceObjectsCategory.prop('disabled', false);
+                            addInCategoryOption(showCategory);
+                            if (showCategory) {
+                                $o.bulkPriceObjectsCategory.show();
+                            }
                         }
                         break;
 
                     case 'reset':
-                        if ($o.bulkPriceObjectsCategoryWithPrice.length && showCategory) {
+                        $o.bulkPriceChangeAmountModifier.text(
+                            lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
+                                lpVars.globalDefaultPrice + ' ' +
+                                lpVars.defaultCurrency
+                        );
+                        if ($o.bulkPriceObjectsCategoryWithPrice.length) {
                             $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false);
-                            addInCategoryOption();
-                            $o.bulkPriceObjectsCategoryWithPrice.show().change();
-                        } else {
-                            $o.bulkPriceChangeAmountModifier.show()
-                                .text(
-                                    lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
-                                        lpVars.globalDefaultPrice + ' ' +
-                                        lpVars.defaultCurrency
-                                );
+                            addInCategoryOption(showCategory);
+                            if (showCategory) {
+                                $o.bulkPriceObjectsCategoryWithPrice.show().change();
+                            }
                         }
+                        $o.bulkPriceChangeAmountModifier.show();
                         break;
 
                     default:
