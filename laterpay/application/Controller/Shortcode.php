@@ -89,7 +89,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 array( 'attrs' => $a )
             );
 
-            $a[ 'target_page_id' ] = $a[ 'target_post_id' ];
+            $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
         }
 
         $error_reason = '';
@@ -124,9 +124,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
-                array(
-                    'args' => $a,
-                )
+                array( 'args' => $a, )
             );
 
             return $error_message;
