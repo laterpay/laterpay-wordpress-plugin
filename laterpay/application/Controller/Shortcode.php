@@ -62,7 +62,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             _deprecated_argument(
                 __FUNCTION__,
-                $msg
+                $msg,
                 '0.9.8.3'
             );
 
