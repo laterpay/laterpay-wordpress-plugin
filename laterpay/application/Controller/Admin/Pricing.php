@@ -517,10 +517,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 } else {
                     // create category default price if not exists if update
                     if ( $category_id !== null ) {
-                        $category_price = $category_price_model->get_price_by_category_id( $category_id );
-                        if ( $category_price === null ) {
-                            $category_price_model->set_category_price( $category_id, 0, 'ppu' );
-                        }
+                        $category_price_id = $category_price_model->get_price_id_by_category_id( $category_id );
+                        $category_price_model->set_category_price( $category_id, 0, 'ppu', $category_price_id );
                     }
                 }
             }
