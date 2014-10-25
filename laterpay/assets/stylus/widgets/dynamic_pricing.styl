@@ -24,7 +24,7 @@ svg text
     stroke-width            1.5px
     stroke                  hsl(0, 0%, 67%)
 
-.arrowhead
+.lp_dynamic-pricing-widget-arrowhead
     fill                    hsl(0, 0%, 67%)
 
 .tick text
@@ -53,10 +53,10 @@ path.end-price-triangle
     fill                    $clickable
     opacity                 0.85
 
-rect.background
+rect.lp_dynamic-pricing-widget-background
     fill                    hsl(0, 0%, 95%)
 
-.dragging
+.lp_is_dragging
     .tooltip,
     .pointer
         opacity             0
@@ -67,7 +67,7 @@ rect.background
     stroke                  hsl(0, 0%, 100%)
     stroke-width            8px
 
-    .hidden
+    .lp_is_hidden
         display             none
 
 .line-price-visible
@@ -75,18 +75,25 @@ rect.background
     stroke-dasharray        5
     stroke-width            1.5px
 
-    .hidden
+    .lp_is_hidden
         display             none
+
+.lp_current-price-line
+    stroke                  $background-laterpay
+    stroke-width            1.5px
+
+.lp_current-price-point
+    fill                    $background-laterpay
 
 .lp_dynamic-pricing-widget.ew-resize,
 rect.x-drag-square,
 .x-triangle-bottom
     cursor                  col-resize
 
-.x-triangle-bottom.hidden,
-rect.x-drag-square.hidden,
-.x-text.hidden,
-.x-text-days.hidden
+.x-triangle-bottom.lp_is_hidden,
+rect.x-drag-square.lp_is_hidden,
+.x-text.lp_is_hidden,
+.x-text-days.lp_is_hidden
     display                 none
 
 .x-text,
@@ -118,6 +125,6 @@ text.end-price-currency
     font-size               9px
     font-weight             400
 
-text.default-price
+text.lp_default-price
     fill                    hsl(0, 0%, 67%)
     font-size               10px

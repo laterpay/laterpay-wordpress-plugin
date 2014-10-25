@@ -79,6 +79,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 'currency'          => get_option( 'laterpay_currency' ),
                 'i18nDefaultPrice'  => __( 'default price', 'laterpay' ),
                 'i18nDays'          => __( 'days', 'laterpay' ),
+                'i18nToday'         => __( 'Today', 'laterpay' ),
                 'l10n_print_after'  => 'jQuery.extend(lpVars, laterpay_d3_dynamic_pricing_widget)',
             )
         );
