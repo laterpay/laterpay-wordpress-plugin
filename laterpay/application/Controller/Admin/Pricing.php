@@ -515,13 +515,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     // set global price to 0
                     update_option( 'laterpay_global_price', 0 );
                 } else {
-                    // create category default price if not exists if update
+                    // create selected category default price if not exists or update it
                     if ( $category_id !== null ) {
                         $category_price_id = $category_price_model->get_price_id_by_category_id( $category_id );
                         $category_price_model->set_category_price( $category_id, 0, 'ppu', $category_price_id );
                     }
                 }
             }
+            // end of preposts actions
 
             if ( $posts ) {
                 // get and update pricing data of each affected post
@@ -612,17 +613,16 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
                     // process global default price and category default prices
                     if (
-                            $current_post_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ||
-                            $current_post_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE
-                        ) {
+                           $current_post_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ||
+                           $current_post_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE
+                       ) {
                         // update default price of current post's price type, if all post prices have to be updated
                         if ( $update_all && $action !== 'reset' ) {
                             // keep price type of post
                             $meta_values['type']    = $current_post_type;
-                            $category               = $bulk_price_form->get_field_value( 'bulk_category' );
                             $incoming_data          = array(
                                                             'type'     => $current_post_type,
-                                                            'category' => $category,
+                                                            'category' => $category_id,
                                                         );
                             // change price type, if it was not updated already
                             if ( ! $this->check_if_price_type_was_updated( $updated_price_types, $incoming_data ) ) {
