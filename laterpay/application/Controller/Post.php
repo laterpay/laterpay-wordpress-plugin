@@ -720,13 +720,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
             )
         );
-
-        // only enqueue the scripts, if the current post is purchasable
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
-            $this->logger->warning( __METHOD__ . ' - !is_singular or post is not purchasable' );
-            return;
-        }
-
+        
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-post-view' );
