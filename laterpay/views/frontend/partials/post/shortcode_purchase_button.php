@@ -5,8 +5,8 @@
 ?>
 
 <a href="#"
-   class="lp_purchase-link-without-function lp_js_do-purchase lp_purchase-link lp_button"
-   title="<?php echo __('Buy now with LaterPay', 'laterpay'); ?>"
+   class="lp_js_do-purchase lp_purchase-link lp_button"
+   title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
    data-icon="b"
    data-laterpay="<?php echo $laterpay['link']; ?>"
    data-post-id="<?php echo $laterpay['post_id']; ?>"

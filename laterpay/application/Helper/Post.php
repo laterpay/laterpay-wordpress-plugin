@@ -175,9 +175,9 @@ class LaterPay_Helper_Post {
 
         return $url;
     }
-    
+
     /**
-     * Prepare the purchase button
+     * Prepare the purchase button.
      *
      * @wp-hook laterpay_purchase_button
      *
@@ -205,7 +205,8 @@ class LaterPay_Helper_Post {
         );
 
         laterpay_get_logger()->info(
-                __METHOD__, $view_args
+            __METHOD__,
+            $view_args
         );
 
         return $view_args;
