@@ -12,7 +12,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         // load page-specific CSS
         wp_register_style(
             'laterpay-select2',
-            $this->config->get( 'css_url' ). 'vendor/select2.min.css',
+            $this->config->get( 'css_url' ) . 'vendor/select2.min.css',
             array(),
             $this->config->get( 'version' )
         );
@@ -36,12 +36,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-select2' );
         wp_enqueue_script( 'laterpay-backend-pricing' );
 
-        // array of modifiers for bulk price editor
-        $modifiers = array(
-            'to'                     => __( 'to', 'laterpay' ),
-            'by'                     => __( 'by', 'laterpay' ),
-            'toGlobalDefaultPrice'   => __( 'to global default price of', 'laterpay' ),
-            'toCategoryDefaultPrice' => __( 'to category default price of', 'laterpay' ),
+        // translations for bulk price editor
+        $i18n = array(
+            'to'                        => __( 'to', 'laterpay' ),
+            'by'                        => __( 'by', 'laterpay' ),
+            'toGlobalDefaultPrice'      => __( 'to global default price of', 'laterpay' ),
+            'toCategoryDefaultPrice'    => __( 'to category default price of', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
@@ -49,11 +49,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'laterpay-backend-pricing',
             'lpVars',
             array(
-                'locale'             => get_locale(),
-                'i18nModifier'       => $modifiers,
-                'globalDefaultPrice' => LaterPay_Helper_View::format_number( (float)get_option( 'laterpay_global_price' ), 2 ),
-                'defaultCurrency'    => get_option( 'laterpay_currency' ),
-                'inCategoryLabel'    => __( 'All posts in category', 'laterpay' ),
+                'locale'                => get_locale(),
+                'i18n'                  => $i18n,
+                'globalDefaultPrice'    => LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ),
+                'defaultCurrency'       => get_option( 'laterpay_currency' ),
+                'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
             )
         );
     }
@@ -471,13 +471,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $updated_price_types  = array();
             // flash messages
             $message_parts        = array(
-                                      'all'       => __( 'The prices of all posts', 'laterpay' ),
-                                      'category'  => '',
-                                      'have_been' => __( 'have been', 'laterpay' ),
-                                      'action'    => __( 'set', 'laterpay' ),
-                                      'modifier'  => __( 'to', 'laterpay' ),
-                                      'amount'    => '',
-                                      'unit'      => '',
+                                      'all'         => __( 'The prices of all posts', 'laterpay' ),
+                                      'category'    => '',
+                                      'have_been'   => __( 'have been', 'laterpay' ),
+                                      'action'      => __( 'set', 'laterpay' ),
+                                      'preposition' => __( 'to', 'laterpay' ),
+                                      'amount'      => '',
+                                      'unit'        => '',
                                   );
 
             if ( ! $update_all ) {
@@ -496,34 +496,35 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 $posts = LaterPay_Helper_Pricing::get_all_posts_with_price();
             }
 
-            // preposts actions
-            // remove all category prices if update all on action reset
+            // update global default price and category default prices
+            // remove all category prices, if 'reset all posts' was selected
             if ( $update_all && $action === 'reset' ) {
                 $category_price_model->delete_all_category_prices();
             }
 
-            // make free global default price and category default price if update all on action free
+            // set global default price and all category default prices to 0, if 'make all posts free' was selected
             if ( $action === 'free' ) {
                 if ( $update_all ) {
-                    // set all category prices to 0 value
+                    // set global default price to 0
+                    update_option( 'laterpay_global_price', 0 );
+
+                    // set all category prices to 0
                     $categories = $category_price_model->get_categories_with_defined_price();
                     if ( $categories ) {
                         foreach ( $categories as $category ) {
                             $category_price_model->set_category_price( $category->category_id, 0, 'ppu', $category->id );
                         }
                     }
-                    // set global price to 0
-                    update_option( 'laterpay_global_price', 0 );
                 } else {
-                    // create selected category default price if not exists or update it
+                    // update default price of selected category, or create one, if it doesn't exist
                     if ( $category_id !== null ) {
                         $category_price_id = $category_price_model->get_price_id_by_category_id( $category_id );
                         $category_price_model->set_category_price( $category_id, 0, 'ppu', $category_price_id );
                     }
                 }
             }
-            // end of preposts actions
 
+            // update individual post prices
             if ( $posts ) {
                 // get and update pricing data of each affected post
                 foreach ( $posts as $post ) {
@@ -541,26 +542,26 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         case 'set':
                             $new_price                  = $price;
                             // set message parts
-                            $message_parts['action']    = __( 'set', 'laterpay' );
-                            $message_parts['modifier']  = __( 'to', 'laterpay' );
-                            $message_parts['amount']    = LaterPay_Helper_View::format_number( $new_price, 2 );
-                            $message_parts['unit']      = $change_unit;
+                            $message_parts['action']        = __( 'set', 'laterpay' );
+                            $message_parts['preposition']   = __( 'to', 'laterpay' );
+                            $message_parts['amount']        = LaterPay_Helper_View::format_number( $new_price, 2 );
+                            $message_parts['unit']          = $change_unit;
                             break;
 
                         case 'increase':
                         case 'reduce':
-                            $is_reduce                  = ( $action === 'reduce' );
-                            $change_amount              = $is_percent ? $current_post_price * $price / 100 : $price;
-                            $new_price                  = $is_reduce ? $current_post_price - $change_amount : $current_post_price + $change_amount;
+                            $is_reduce                      = ( $action === 'reduce' );
+                            $change_amount                  = $is_percent ? $current_post_price * $price / 100 : $price;
+                            $new_price                      = $is_reduce ? $current_post_price - $change_amount : $current_post_price + $change_amount;
                             // set message parts
-                            $message_parts['action']    = $is_reduce ? __( 'decreased', 'laterpay' ) : __( 'increased', 'laterpay' );
-                            $message_parts['modifier']  = __( 'by', 'laterpay' );
-                            $message_parts['amount']    = $is_percent ? $price : LaterPay_Helper_View::format_number( $price, 2 );
-                            $message_parts['unit']      = $is_percent ? '%' : $change_unit;
+                            $message_parts['action']        = $is_reduce ? __( 'decreased', 'laterpay' ) : __( 'increased', 'laterpay' );
+                            $message_parts['preposition']   = __( 'by', 'laterpay' );
+                            $message_parts['amount']        = $is_percent ? $price : LaterPay_Helper_View::format_number( $price, 2 );
+                            $message_parts['unit']          = $is_percent ? '%' : $change_unit;
                             break;
 
                         case 'free':
-                            $new_price                  = 0;
+                            $new_price                      = 0;
                             if ( ! $update_all &&
                                 ( $current_post_type == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ||
                                   $current_post_type == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE )
@@ -569,18 +570,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                                 $meta_values['category_id'] = $category_id;
                                 $new_price                  = $category_price_model->get_price_by_category_id( $meta_values['category_id'] );
                             }
-                            $message_parts['all']       = __( 'All posts', 'laterpay' );
-                            $message_parts['action']    = __( 'made free', 'laterpay' );
-                            $message_parts['modifier']  = '';
+                            $message_parts['all']           = __( 'All posts', 'laterpay' );
+                            $message_parts['action']        = __( 'made free', 'laterpay' );
+                            $message_parts['preposition']   = '';
                             break;
 
                         case 'reset':
-                            $message_parts['action']    = __( 'reset', 'laterpay' );
+                            $message_parts['action']        = __( 'reset', 'laterpay' );
                             if ( $update_all ) {
                                 $meta_values['type']        = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
                                 $new_price                  = get_option( 'laterpay_global_price' );
                                 // set message parts
-                                $message_parts['modifier']  = __( 'to global default price of', 'laterpay' );
+                                $message_parts['preposition'] = __( 'to global default price of', 'laterpay' );
                                 $message_parts['amount']    = LaterPay_Helper_View::format_number( $new_price, 2 );
                                 $message_parts['unit']      = $default_currency;
                             } else {
@@ -588,7 +589,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                                 $meta_values['category_id'] = $category_id;
                                 $new_price                  = $category_price_model->get_price_by_category_id( $meta_values['category_id'] );
                                 // set message parts
-                                $message_parts['modifier']  = __( 'to category default price of', 'laterpay' );
+                                $message_parts['preposition'] = __( 'to category default price of', 'laterpay' );
                                 $message_parts['amount']    = LaterPay_Helper_View::format_number( $new_price, 2 );
                                 $message_parts['unit']      = $default_currency;
                             }

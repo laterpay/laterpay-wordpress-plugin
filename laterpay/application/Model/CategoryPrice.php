@@ -39,7 +39,7 @@ class LaterPay_Model_CategoryPrice
         global $wpdb;
         $sql = "
             SELECT
-                tp.id   AS id,
+                tp.id AS id,
                 tm.name AS category_name,
                 tm.term_id AS category_id,
                 tp.price AS category_price,

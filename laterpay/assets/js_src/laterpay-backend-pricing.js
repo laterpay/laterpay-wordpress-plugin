@@ -17,8 +17,13 @@
                 editGlobalDefaultPrice                  : $('#lp_js_edit-global-default-price'),
                 cancelEditingGlobalDefaultPrice         : $('#lp_js_cancel-editing-global-default-price'),
                 saveGlobalDefaultPrice                  : $('#lp_js_save-global-default-price'),
-                globalDefaultPriceShowElements          : $('#lp_js_global-default-price-text, #lp_js_edit-global-default-price, #lp_js_global-default-price-revenue-model-label'),
-                globalDefaultPriceEditElements          : $('#lp_js_global-default-price, #lp_js_global-default-price-revenue-model, #lp_js_cancel-editing-global-default-price, #lp_js_save-global-default-price'),
+                globalDefaultPriceShowElements          : $('#lp_js_global-default-price-text,' +
+                                                            ' #lp_js_edit-global-default-price,' +
+                                                            '#lp_js_global-default-price-revenue-model-label'),
+                globalDefaultPriceEditElements          : $('#lp_js_global-default-price,' +
+                                                            '#lp_js_global-default-price-revenue-model,' +
+                                                            '#lp_js_cancel-editing-global-default-price,' +
+                                                            '#lp_js_save-global-default-price'),
 
                 // category default price
                 categoryDefaultPrices                   : $('#lp_js_category-default-prices-list'),
@@ -30,8 +35,15 @@
                 cancelEditingCategoryDefaultPrice       : '.lp_js_cancel-editing-category-default-price',
                 saveCategoryDefaultPrice                : '.lp_js_save-category-default-price',
                 deleteCategoryDefaultPrice              : '.lp_js_delete-category-default-price',
-                categoryDefaultPriceShowElements        : '.lp_js_category-title, .lp_js_revenue-model-label-display, .lp_js_category-default-price-display, .lp_js_edit-category-default-price, .lp_js_delete-category-default-price',
-                categoryDefaultPriceEditElements        : '.lp_js_category-default-price-input, .lp_js_revenue-model, .lp_js_save-category-default-price, .lp_js_cancel-editing-category-default-price',
+                categoryDefaultPriceShowElements        : '.lp_js_category-title,' +
+                                                            '.lp_js_revenue-model-label-display,' +
+                                                            '.lp_js_category-default-price-display,' +
+                                                            '.lp_js_edit-category-default-price,' +
+                                                            '.lp_js_delete-category-default-price',
+                categoryDefaultPriceEditElements        : '.lp_js_category-default-price-input,' +
+                                                            '.lp_js_revenue-model,' +
+                                                            '.lp_js_save-category-default-price,' +
+                                                            '.lp_js_cancel-editing-category-default-price',
 
                 categoryTitle                           : '.lp_js_category-title',
                 categoryDefaultPriceDisplay             : '.lp_js_category-default-price-display',
@@ -149,7 +161,7 @@
                 $o.bulkPriceObjectsCategoryWithPrice
                 .on('change', function() {
                     $o.bulkPriceChangeAmountModifier.text(
-                        lpVars.i18nModifier.toCategoryDefaultPrice + ' ' +
+                        lpVars.i18n.toCategoryDefaultPrice + ' ' +
                         $o.bulkPriceObjectsCategoryWithPrice.find(':selected').attr('data-price') + ' ' +
                         lpVars.defaultCurrency
                     );
@@ -511,12 +523,11 @@
                 );
             },
 
-            addInCategoryOption = function(need_to_select) {
-                is_selected = !!need_to_select;
+            addOptionInCategory = function(categoryToBeSelected) {
                 $o.bulkPriceObjects.append($('<option>', {
                     value    : 'in_category',
                     text     : lpVars.inCategoryLabel,
-                    selected : is_selected
+                    selected : !!categoryToBeSelected   // coerce categoryToBeSelected to Boolean
                 }));
             },
 
@@ -553,14 +564,14 @@
 
                 switch (action) {
                     case 'set':
-                        $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.to);
+                        $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18n.to);
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
                         break;
 
                     case 'increase':
                     case 'reduce':
-                        $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18nModifier.by);
+                        $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18n.by);
                         $o.bulkPriceChangeAmount.show();
                         $o.bulkPriceChangeUnit.show();
                         $o.bulkPriceChangeUnit
@@ -574,7 +585,7 @@
                     case 'free':
                         if ($o.bulkPriceObjectsCategory.length) {
                             $o.bulkPriceObjectsCategory.prop('disabled', false);
-                            addInCategoryOption(showCategory);
+                            addOptionInCategory(showCategory);
                             if (showCategory) {
                                 $o.bulkPriceObjectsCategory.show();
                             }
@@ -583,13 +594,13 @@
 
                     case 'reset':
                         $o.bulkPriceChangeAmountModifier.text(
-                            lpVars.i18nModifier.toGlobalDefaultPrice + ' ' +
+                            lpVars.i18n.toGlobalDefaultPrice + ' ' +
                                 lpVars.globalDefaultPrice + ' ' +
                                 lpVars.defaultCurrency
                         );
                         if ($o.bulkPriceObjectsCategoryWithPrice.length) {
                             $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false);
-                            addInCategoryOption(showCategory);
+                            addOptionInCategory(showCategory);
                             if (showCategory) {
                                 $o.bulkPriceObjectsCategoryWithPrice.show().change();
                             }
