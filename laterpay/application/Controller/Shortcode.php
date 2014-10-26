@@ -89,7 +89,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 array( 'attrs' => $a )
             );
 
-            $a[ 'target_page_id' ] = $a[ 'target_post_id' ];
+            $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
         }
 
         $error_reason = '';
@@ -124,9 +124,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
-                array(
-                    'args' => $a,
-                )
+                array( 'args' => $a, )
             );
 
             return $error_message;
@@ -235,7 +233,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         } else {
             $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
         }
-        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$price_tag</a>";
+        // create a shortcode link
+        $html .= $this->getShortcodeLink( $page, $content_type, $page_url, $price_tag );
         $html .= '    <div class="lp_premium-file-details">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
@@ -266,6 +265,77 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             return;
         }
         return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
+    }
+
+    /**
+     * Create shortcode link.
+     *
+     * @param WP_Post   $post
+     * @param string    $content_type
+     * @param string    $page_url
+     * @param string    $price_tag
+     *
+     * @return string
+     */
+    private function getShortcodeLink( WP_Post $post, $content_type, $page_url, $price_tag ) {
+        $html_button = '';
+
+        $access = LaterPay_Helper_Post::has_access_to_post( $post );
+
+        if ( $access ) {
+            // the user has already purchased the item
+            switch ( $content_type ) {
+                case 'file':
+                    $button_label = __( 'Download now', 'laterpay' );
+                    break;
+
+                case 'video':
+                case 'gallery':
+                    $button_label = __( 'Watch now', 'laterpay' );
+                    break;
+
+                case 'music':
+                case 'audio':
+                    $button_label = __( 'Listen now', 'laterpay' );
+                    break;
+
+                default:
+                    $button_label = __( 'Read now', 'laterpay' );
+                    break;
+            };
+
+            $button_page_url = '';
+
+            if ( $post->post_type == 'attachment' ) {
+                // render link to purchased attachment
+                $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                                                                                    $post->ID,
+                                                                                    wp_get_attachment_url( $post->ID ),
+                                                                                    $access,
+                                                                                    'attachment'
+                                                                                );
+            } else {
+                // render link to purchased post
+                $button_page_url = $page_url;
+            }
+            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+        } else {
+            // the user has not purchased the item yet
+            $button_page_url = $page_url;
+            $button_label    = $price_tag;
+            // hide purchase button for administrator preview
+            if ( current_user_can( 'administrator' ) ) {
+                $html_button = '';
+            } else {
+                $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
+                if ( is_array( $view_args ) ) {
+                    $this->assign( 'laterpay', $view_args );
+                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_button' );
+                };
+            }
+        }
+
+        return $html_button;
     }
 
 }

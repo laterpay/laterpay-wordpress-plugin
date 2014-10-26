@@ -18,7 +18,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
     prettify        = require('gulp-jsbeautifier'),
     // sourcemaps      = require('gulp-sourcemaps'),
     soften          = require('gulp-soften'),
-    stripDebug      = require('gulp-strip-debug'),
+    // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
     svgmin          = require('gulp-svgmin'),
@@ -79,7 +79,8 @@ gulp.task('js-watch', function() {
 
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
-        .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
+        // can't use stripDebug, as it kills the one alert we are using on purpose in laterpay-post-view.js
+        // .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
         // .pipe(fixmyjs({                                                         // fix JSHint errors if possible
         //     lookup: false
         // }))
