@@ -259,16 +259,34 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $post_views_model   = new LaterPay_Model_Post_Views();
         $history_model      = new LaterPay_Model_Payments_History();
 
+        $total_items_sold       = $history_model->get_total_items_sold();
+        $total_items_sold       = $total_items_sold->quantity;
+
+        $total_revenue_items    = $history_model->get_total_revenue_items();
+        $total_revenue_items    = $total_revenue_items->amount;
+
+        $impressions            = $post_views_model->get_total_post_impression();
+        $impressions            = $impressions->quantity;
+
+        $avg_purchase           = $total_items_sold / $total_revenue_items;
+        $conversion             = $total_items_sold / $impressions;
+
         $data = array(
+
             'best_converting_items'     => $post_views_model->get_most_viewed_posts( $days, $count ),
             'least_converting_items'    => $post_views_model->get_least_viewed_posts( $days, $count ),
-            'total_viewed_items'        => $post_views_model->get_post_view_quantity(),
 
             'most_selling_items'        => $history_model->get_best_selling_posts( $days, $count ),
             'least_selling_items'       => $history_model->get_least_selling_posts( $days, $count ),
 
             'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $days, $count ),
-            'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $days, $count )
+            'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $days, $count ),
+
+            'impressions'               => $impressions,
+            'conversion'                => $conversion,
+            'total_items_sold'          => $total_items_sold,
+            'total_revenue'             => $total_revenue_items,
+            'avg_purchase'              => $avg_purchase
         );
 
         return $data;

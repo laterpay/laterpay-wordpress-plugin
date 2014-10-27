@@ -122,14 +122,13 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     }
 
     /**
-     * Get post views count.
+     * Get number of page views of posts that are purchasable.
      *
-     * @return array $results
+     * @return array $result
      */
-    public function get_post_view_quantity() {
-        $args = array( 'fields' => array( 'COUNT(*) AS quantity' ) );
-
-        return $this->get_results( $args );
+    public function get_total_post_impression() {
+        $args = array( 'fields' => array( 'SUM(count) AS quantity' ) );
+       return $this->get_row( $args );
     }
 
     /**
@@ -149,7 +148,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
                     )
                 )
             ),
-            'fields'    => array( 'post_id', 'COUNT(*) AS quantity' ),
+            'fields'    => array( 'post_id', 'SUM(count) AS quantity' ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
             'order'     => 'DESC',
@@ -158,8 +157,8 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         $results = $this->get_results( $args );
 
         // fetch the total count of post views
-        $total_quantity = $this->get_post_view_quantity();
-        $total_quantity = $total_quantity[0]->quantity;
+        $total_quantity = $this->get_total_post_impression();
+        $total_quantity = $total_quantity->quantity;
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
@@ -193,7 +192,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
                     )
                 )
             ),
-            'fields'    => array( 'post_id', 'COUNT(*) AS quantity' ),
+            'fields'    => array( 'post_id', 'SUM(count) AS quantity' ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
             'order'     => 'ASC',
@@ -201,8 +200,8 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         );
         $results = $this->get_results( $args );
 
-        $total_quantity = $this->get_post_view_quantity();
-        $total_quantity = $total_quantity[0]->quantity;
+        $total_quantity = $this->get_total_post_impression();
+        $total_quantity = $total_quantity->quantity;
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
@@ -228,7 +227,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
      */
     public function get_todays_history( $post_id ) {
         $args = array(
-            'fields'=> array( 'COUNT(*) AS quantity' ),
+            'fields'=> array( 'SUM(count) AS quantity' ),
             'where' => array(
                 'post_id'   => (int) $post_id,
                 'date'      => array(
@@ -256,7 +255,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 
         for ($i = 1; $i <= (int) $days; $i ++) {
             $args = array(
-                'fields' => array( 'COUNT(*) AS quantity' ),
+                'fields' => array( 'SUM(count) AS quantity' ),
                 'where' => array(
                     'date' => array(
                         array(

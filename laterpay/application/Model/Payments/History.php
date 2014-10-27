@@ -305,14 +305,24 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
-     * Get post views count.
+     * Get number of purchased items.
      *
-     * @return array $results
+     * @return array $result
      */
-    public function get_post_payment_quantity() {
+    public function get_total_items_sold() {
         $args = array( 'fields' => array( 'COUNT(id) AS quantity' ) );
+        return $this->get_row( $args );
+    }
 
-        return $this->get_results( $args );
+
+    /**
+     * Get sum of prices of purchased items.
+     *
+     * @return array $result
+     */
+    public function get_total_revenue_items() {
+        $args = array( 'fields' => array( 'sum(price) AS amount' ) );
+        return $this->get_row( $args );
     }
 
     /**
