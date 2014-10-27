@@ -268,7 +268,7 @@
                 $o.totalItemsSoldKPI.text('33,333');    // TODO: use actual data
 
                 $o.avgRevenueKPI.text('3.33');          // TODO: use actual data
-                $o.totalRevenueKPI.text('3333.33');     // TODO: use actual data
+                $o.totalRevenueKPI.text('3.333.33');     // TODO: use actual data
 
                 // sparklines
                 $('.lp_sparkline-bar').peity('bar', {
