@@ -559,20 +559,20 @@
                 $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
                 $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', true).hide();
                 $o.bulkPriceChangeAmountModifier.hide();
-                $o.bulkPriceChangeAmount.hide();
-                $o.bulkPriceChangeUnit.hide();
+                $o.bulkPriceChangeAmount.prop('disabled', true).hide();
+                $o.bulkPriceChangeUnit.prop('disabled', true).hide();
 
                 switch (action) {
                     case 'set':
                         $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18n.to);
-                        $o.bulkPriceChangeAmount.show();
-                        $o.bulkPriceChangeUnit.show();
+                        $o.bulkPriceChangeAmount.prop('disabled', false).show();
+                        $o.bulkPriceChangeUnit.prop('disabled', false).show();
                         break;
 
                     case 'increase':
                     case 'reduce':
                         $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18n.by);
-                        $o.bulkPriceChangeAmount.show();
+                        $o.bulkPriceChangeAmount.prop('disabled', false).show();
                         $o.bulkPriceChangeUnit.show();
                         $o.bulkPriceChangeUnit
                         .removeClass($o.disabled)
@@ -584,10 +584,9 @@
 
                     case 'free':
                         if ($o.bulkPriceObjectsCategory.length) {
-                            $o.bulkPriceObjectsCategory.prop('disabled', false);
                             addOptionInCategory(showCategory);
                             if (showCategory) {
-                                $o.bulkPriceObjectsCategory.show();
+                                $o.bulkPriceObjectsCategory.prop('disabled', false).show();
                             }
                         }
                         break;
@@ -599,10 +598,9 @@
                                 lpVars.defaultCurrency
                         );
                         if ($o.bulkPriceObjectsCategoryWithPrice.length) {
-                            $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false);
                             addOptionInCategory(showCategory);
                             if (showCategory) {
-                                $o.bulkPriceObjectsCategoryWithPrice.show().change();
+                                $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', false).show().change();
                             }
                         }
                         $o.bulkPriceChangeAmountModifier.show();
