@@ -626,53 +626,22 @@ class LaterPay_Helper_Pricing
      * @return float
      */
     public static function ensure_valid_price( $price ) {
-        $result_price = 0.00;
+        $validated_price = 0;
 
-        if ( $price == 0.00 || ( $price >= 0.05 && $price <= 149.99 ) ) {
-            $result_price = number_format( $price, 2 );
+        // set all prices between 0.01 and 0.04 to lowest possible price of 0.05
+        if ( $price > 0 && $price < 0.05 ) {
+            $validated_price = 0.05;
         }
 
+        if ( $price == 0 || ( $price >= 0.05 && $price <= 149.99 ) ) {
+            $validated_price = $price;
+        }
+
+        // set all prices greater 149.99 to highest possible price of 149.99
         if ( $price > 149.99 ) {
-            $result_price = 149.99;
+            $validated_price = 149.99;
         }
 
-        return $result_price;
-    }
-
-    /**
-     * Change default price of given post's price type.
-     *
-     * @param int   $post_id
-     * @param float $price
-     *
-     * @return void
-     */
-    public static function update_default_price_of_applied_price_type( $post_id, $price ) {
-        $post_meta = get_post_meta( $post_id, 'laterpay_post_prices', true );
-
-        if ( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
-            update_option( 'laterpay_global_price', $price );
-            $global_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
-            $valid_global_revenue_model = LaterPay_Helper_Pricing::ensure_valid_revenue_model(
-                                                $global_price_revenue_model,
-                                                $price
-                                            );
-            update_option( 'laterpay_global_price_revenue_model', $valid_global_revenue_model );
-        } elseif ( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
-            $category_id                  = $post_meta['category_id'];
-            $category_price_model         = new LaterPay_Model_CategoryPrice();
-            $category_price_id            = $category_price_model->get_price_id_by_category_id( $category_id );
-            $category_price_revenue_model = $category_price_model->get_revenue_model_by_category_id( $category_id );
-            $valid_category_revenue_model = LaterPay_Helper_Pricing::ensure_valid_revenue_model(
-                                                $category_price_revenue_model,
-                                                $price
-                                            );
-            $category_price_model->set_category_price(
-                $category_id,
-                $price,
-                $valid_category_revenue_model,
-                $category_price_id
-            );
-        }
+        return $validated_price;
     }
 }

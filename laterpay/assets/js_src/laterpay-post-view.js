@@ -39,11 +39,11 @@
 
             bindPurchaseEvents = function() {
                 // handle clicks on purchase links in test mode
-                $o.purchaseLink
-                .on('mousedown', function() {
+                $('body')
+                .on('mousedown', $o.purchaseLink, function() {
                     handlePurchaseInTestMode(this);
                 })
-                .on('click', function(e) {e.preventDefault();});
+                .on('click', $o.purchaseLink, function(e) {e.preventDefault();});
             },
 
             bindPostStatisticsEvents = function() {

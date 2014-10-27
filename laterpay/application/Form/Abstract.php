@@ -440,6 +440,8 @@ abstract class LaterPay_Form_Abstract
 
                             // dependency matched, break process
                             break;
+                        } else {
+                            $is_valid = true;
                         }
                     }
                 }
