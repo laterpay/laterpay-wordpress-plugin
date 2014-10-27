@@ -506,7 +506,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $message_parts['action']        = __( 'set', 'laterpay' );
                     $message_parts['preposition']   = __( 'to', 'laterpay' );
                     $message_parts['amount']        = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::ensure_valid_price( $new_price ), 2 );
-                    $message_parts['unit']          = $change_unit;
+                    $message_parts['unit']          = $default_currency;
                     break;
 
                 case 'increase':
@@ -517,7 +517,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $global_price                   = get_option( 'laterpay_global_price' );
                     $change_amount                  = $is_percent ? $global_price * $price / 100 : $price;
                     $new_price                      = $is_reduction ? $global_price - $change_amount : $global_price + $change_amount;
+                    $global_price_revenue           = LaterPay_Helper_Pricing::ensure_valid_revenue_model( get_option( 'laterpay_global_price_revenue_model' ), $new_price );
                     update_option( 'laterpay_global_price', LaterPay_Helper_Pricing::ensure_valid_price( $new_price ) );
+                    update_option( 'laterpay_global_price_revenue_model', $global_price_revenue );
 
                     // process category default prices
                     $categories                     = $category_price_model->get_categories_with_defined_price();
@@ -669,7 +671,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function update_global_and_categories_prices_with_new_price( $price ) {
+        $global_revenue_model = LaterPay_Helper_Pricing::ensure_valid_revenue_model( get_option( 'laterpay_global_price_revenue_model' ), $price );
         update_option( 'laterpay_global_price', $price );
+        update_option( 'laterpay_global_price_revenue_model', $global_revenue_model );
 
         // update all category prices
         $category_price_model = new LaterPay_Model_CategoryPrice();

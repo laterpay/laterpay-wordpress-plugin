@@ -566,14 +566,14 @@
                     case 'set':
                         $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18n.to);
                         $o.bulkPriceChangeAmount.prop('disabled', false).show();
-                        $o.bulkPriceChangeUnit.prop('disabled', false).show();
+                        $o.bulkPriceChangeUnit.show();
                         break;
 
                     case 'increase':
                     case 'reduce':
                         $o.bulkPriceChangeAmountModifier.show().text(lpVars.i18n.by);
                         $o.bulkPriceChangeAmount.prop('disabled', false).show();
-                        $o.bulkPriceChangeUnit.show();
+                        $o.bulkPriceChangeUnit.prop('disabled', false).show();
                         $o.bulkPriceChangeUnit
                         .removeClass($o.disabled)
                         .append($('<option>', {
