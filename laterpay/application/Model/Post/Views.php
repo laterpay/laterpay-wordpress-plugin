@@ -122,11 +122,11 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     }
 
     /**
-     * Get post views count.
+     * Get number of page views of posts that are purchasable.
      *
      * @return array $result
      */
-    public function get_post_view_quantity() {
+    public function get_total_post_impression() {
         $args = array( 'fields' => array( 'SUM(count) AS quantity' ) );
        return $this->get_row( $args );
     }
@@ -157,7 +157,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         $results = $this->get_results( $args );
 
         // fetch the total count of post views
-        $total_quantity = $this->get_post_view_quantity();
+        $total_quantity = $this->get_total_post_impression();
         $total_quantity = $total_quantity->quantity;
 
         foreach ( $results as $key => $data ) {
@@ -200,7 +200,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         );
         $results = $this->get_results( $args );
 
-        $total_quantity = $this->get_post_view_quantity();
+        $total_quantity = $this->get_total_post_impression();
         $total_quantity = $total_quantity->quantity;
 
         foreach ( $results as $key => $data ) {
