@@ -626,16 +626,22 @@ class LaterPay_Helper_Pricing
      * @return float
      */
     public static function ensure_valid_price( $price ) {
-        $result_price = 0;
+        $validated_price = 0;
+
+        // set all prices between 0.01 and 0.04 to lowest possible price of 0.05
+        if ( $price > 0 && $price < 0.05 ) {
+            $validated_price = 0.05;
+        }
 
         if ( $price == 0 || ( $price >= 0.05 && $price <= 149.99 ) ) {
-            $result_price = $price;
+            $validated_price = $price;
         }
 
+        // set all prices greater 149.99 to highest possible price of 149.99
         if ( $price > 149.99 ) {
-            $result_price = 149.99;
+            $validated_price = 149.99;
         }
 
-        return $result_price;
+        return $validated_price;
     }
 }
