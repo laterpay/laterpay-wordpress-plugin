@@ -335,7 +335,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                                         Please note, that the bulk price editor can change prices only within the allowed price ranges:
                                                         <ul>
                                                             <li>
-                                                                If the result of a price change would be <strong>< 0.05 EUR</strong>, this price is changed to <strong>0.00 EUR (free)</strong>.
+                                                                If the result of a price change would be <strong>< 0.05 EUR</strong>, this price is changed to <strong>0.05 EUR</strong>.
                                                             </li>
                                                             <li>
                                                                 If the result of a price change would be <strong>> 149.99 EUR</strong>, this price is changed to <strong>149.99 EUR</strong>.
