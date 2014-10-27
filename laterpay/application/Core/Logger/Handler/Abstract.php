@@ -110,7 +110,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      */
     public function push_processor( $callback ) {
         if ( ! is_callable( $callback ) ) {
-            throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), ' . var_export( $callback, true ) . ' given' );
+            throw new \InvalidArgumentException( 'Processors must be valid callables (callback or object with an __invoke method), ' . var_export( $callback, true ) . ' given' );
         }
         array_unshift( $this->processors, $callback );
 

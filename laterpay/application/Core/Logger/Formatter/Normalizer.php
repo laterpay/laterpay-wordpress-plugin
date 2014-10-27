@@ -62,7 +62,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
                 return $this->normalize_exception( $data );
             }
 
-            return sprintf( "[object] (%s: %s)", get_class( $data ), $this->to_json( $data, true ) );
+            return sprintf( '[object] (%s: %s)', get_class( $data ), $this->to_json( $data, true ) );
         }
 
         if ( is_resource( $data ) ) {
@@ -74,7 +74,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
 
     protected function normalize_exception( Exception $e ) {
         $data = array(
-            'class'     => get_class($e),
+            'class'     => get_class( $e ),
             'message'   => $e->getMessage(),
             'file'      => $e->getFile() . ':' . $e->getLine(),
         );
@@ -95,7 +95,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
         return $data;
     }
 
-    protected function to_json($data, $ignoreErrors = false) {
+    protected function to_json( $data, $ignoreErrors = false ) {
         // suppress json_encode errors since it's twitchy with some inputs
         if ( $ignoreErrors ) {
             if ( version_compare( PHP_VERSION, '5.4.0', '>=' ) ) {

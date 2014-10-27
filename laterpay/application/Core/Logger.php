@@ -51,20 +51,20 @@ class LaterPay_Core_Logger
      *
      * To process records of a single handler instead, add the processor on that specific handler
      *
-     * @var callable[]
+     * @var LaterPay_Core_Logger_Processor_Interface[]
      */
     protected $processors;
 
     /**
-     * @param string $name                                          The logging channel
-     * @param LaterPay_Core_Logger_Handler_Interface[] $handlers    Optional stack of handlers, the first one in the array is called first, etc.
-     * @param callable[] $processors                                Optional array of processors
+     * @param string $name                                           The logging channel
+     * @param LaterPay_Core_Logger_Handler_Interface[] $handlers     Optional stack of handlers, the first one in the array is called first, etc.
+     * @param LaterPay_Core_Logger_Processor_Interface[] $processors Optional array of processors
      */
     public function __construct( $name = 'default', array $handlers = array(), array $processors = array() ) {
         $this->name = $name;
         $this->handlers = $handlers;
         $this->processors = $processors;
-        $this->timezone = new DateTimeZone( date_default_timezone_get() ?: 'UTC' );
+        $this->timezone = new DateTimeZone( date_default_timezone_get() ? date_default_timezone_get() : 'UTC' );
     }
 
     /**
@@ -205,7 +205,7 @@ class LaterPay_Core_Logger
 
         // found at least one, process message and dispatch it
         foreach ( $this->processors as $processor ) {
-            $record = call_user_func($processor, $record);
+            $record = $processor->process( $record );
         }
         while ( isset( $this->handlers[$handler_key] ) && $this->handlers[ $handler_key]->handle( $record ) === false ) {
             $handler_key++;
@@ -252,12 +252,9 @@ class LaterPay_Core_Logger
     /**
      * Adds a processor onto the stack.
      *
-     * @param callable $callback
+     * @param LaterPay_Core_Logger_Processor_Interface $callback
      */
-    public function push_processor( $callback ) {
-        if ( ! is_callable( $callback ) ) {
-            throw new \InvalidArgumentException( 'Processors must be valid callables (callback or object with an __invoke method), ' . var_export( $callback, true ) . ' given' );
-        }
+    public function push_processor( LaterPay_Core_Logger_Processor_Interface $callback ) {
         array_unshift( $this->processors, $callback );
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-class LaterPay_Core_Logger_Processor_Introspection
+class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logger_Processor_Interface
 {
 
     private $level;
@@ -13,10 +13,9 @@ class LaterPay_Core_Logger_Processor_Introspection
     }
 
     /**
-     * @param  array $record
-     * @return array
+     * {@inheritdoc}
      */
-    public function __invoke(array $record) {
+    public function process( array $record ) {
 
         // return, if the level is not high enough
         if ( $record['level'] < $this->level ) {
@@ -46,8 +45,8 @@ class LaterPay_Core_Logger_Processor_Introspection
         $record['extra'] = array_merge(
             $record['extra'],
             array(
-                'file'      => isset( $trace[$i-1]['file'] )    ? $trace[$i-1]['file']      : null,
-                'line'      => isset( $trace[$i-1]['line'] )    ? $trace[$i-1]['line']      : null,
+                'file'      => isset( $trace[$i - 1]['file'] )  ? $trace[$i - 1]['file']    : null,
+                'line'      => isset( $trace[$i - 1]['line'] )  ? $trace[$i - 1]['line']    : null,
                 'class'     => isset( $trace[$i]['class'] )     ? $trace[$i]['class']       : null,
                 'function'  => isset( $trace[$i]['function'] )  ? $trace[$i]['function']    : null,
             )

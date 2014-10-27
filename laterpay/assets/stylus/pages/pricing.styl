@@ -37,6 +37,21 @@ span.lp_revenue-model-label
     min-width               8.75em
 
 
+// bulk price editor ---------------------------------------------------------------------------------------------------
+.button.button-primary.lp_m-l2
+    margin-left             $fs-2
+
+.lp_bulk-price-unit.lp_is-disabled
+    appearance              none    // remove arrows from select
+    background-color        transparent
+    border-color            transparent
+    color                   hsl(0, 0%, 20%)
+
+    // remove arrows from select in IE
+    &::-ms-expand
+        display             none
+
+
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px)
     .lp_edit-link

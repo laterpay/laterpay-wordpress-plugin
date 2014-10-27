@@ -1,14 +1,12 @@
 <?php
 
-class LaterPay_Core_Logger_Processor_MemoryPeakUsage extends LaterPay_Core_Logger_Processor_Memory
+class LaterPay_Core_Logger_Processor_MemoryPeakUsage extends LaterPay_Core_Logger_Processor_Memory implements LaterPay_Core_Logger_Processor_Interface
 {
 
     /**
-     * @param array $record
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function __invoke( array $record ) {
+    public function process( array $record ) {
         $bytes      = memory_get_peak_usage( $this->real_usage );
         $formatted  = $this->format_bytes( $bytes );
 

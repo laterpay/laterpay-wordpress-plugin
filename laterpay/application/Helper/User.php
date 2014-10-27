@@ -16,7 +16,7 @@ class LaterPay_Helper_User
     public static function can( $capability, $post = null, $strict = true ) {
         $allowed = false;
 
-        if ( ! function_exists( 'wp_get_current_user' )) {
+        if ( ! function_exists( 'wp_get_current_user' ) ) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
 

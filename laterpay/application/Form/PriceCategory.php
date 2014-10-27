@@ -7,12 +7,11 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method
+     * Implementation of abstract method.
      *
      * @return void
      */
     public function init() {
-
         $this->set_field(
             'form',
             array(
@@ -20,10 +19,10 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'like' => 'price_category_form'
-                        )
-                    )
-                )
+                            'like' => 'price_category_form',
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -34,10 +33,10 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_pricing'
-                        )
-                    )
-                )
+                            'eq' => 'laterpay_pricing',
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -45,12 +44,12 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             'category_id',
             array(
                 'validators' => array(
-                    'is_int'
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_int'
+                    'to_int',
                 ),
-                'can_be_null' => true
+                'can_be_null' => true,
             )
         );
 
@@ -61,10 +60,10 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'ne' => null
-                        )
-                    )
-                )
+                            'ne' => null,
+                        ),
+                    ),
+                ),
             )
         );
 
@@ -73,8 +72,8 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'ppu', 'sis' ),
-                    'depends' => array(
+                    'in_array'  => array( 'ppu', 'sis' ),
+                    'depends'   => array(
                         array(
                             'field' => 'price',
                             'value' => 'sis',
@@ -82,10 +81,10 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                                 'cmp' => array(
                                     array(
                                         'lte' => 149.99,
-                                        'gte' => 1.49
-                                    )
-                                )
-                            )
+                                        'gte' => 1.49,
+                                    ),
+                                ),
+                            ),
                         ),
                         array(
                             'field' => 'price',
@@ -94,20 +93,20 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                                 'cmp' => array(
                                     array(
                                         'lte' => 5.00,
-                                        'gte' => 0.05
+                                        'gte' => 0.05,
                                     ),
                                     array(
-                                        'eq'   => 0.00
-                                    )
-                                )
-                            )
-                        )
-                    )
+                                        'eq' => 0.00,
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'filters' => array(
-                    'to_string'
+                    'to_string',
                 ),
-                'not_strict_name' => true
+                'not_strict_name' => true,
             )
         );
 
@@ -115,12 +114,12 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             'category',
             array(
                 'validators'    => array(
-                    'is_string'
+                    'is_string',
                 ),
-                'filters'       => array(
+                'filters' => array(
                     'to_string',
-                    'text'
-                )
+                    'text',
+                ),
             )
         );
 
@@ -132,24 +131,25 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
                     // TODO: this is just a dirty hack to allow saving Single Sale prices
                     'cmp' => array(
                         array(
-                            'lte'  => 149.99,
-                            'gte'  => 0.05
+                            'lte' => 149.99,
+                            'gte' => 0.05,
                         ),
                         array(
-                            'eq'   => 0.00
-                        )
-                    )
+                            'eq'  => 0.00,
+                        ),
+                    ),
                 ),
                 'filters' => array(
                     'replace' => array(
                         'type'    => 'str_replace',
                         'search'  => ',',
-                        'replace' => '.'
+                        'replace' => '.',
                     ),
                     'format_num' => 2,
-                    'to_float'
-                )
+                    'to_float',
+                ),
             )
         );
     }
 }
+
