@@ -201,6 +201,8 @@
             </p>
         </div>
 
+<?php # commented out until release 0.9.9 ?>
+<?php /* ?>
         <hr class="lp_m-1-0 lp_m-b3">
 
         <div class="lp_row">
@@ -225,6 +227,8 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
+
+                        <?php if ( $bulk_categories ): ?>
                         <select name="bulk_category" id="lp_js_select-bulk-objects-category" class="lp_input" style="display:none;">
                             <?php foreach ( $bulk_categories as $category ): ?>
                                 <option value="<?php echo $category->term_id; ?>">
@@ -232,14 +236,27 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <span id="lp_js_bulk-amount-modifier" class="lp_d-inl-block lp_m-r025 lp_m-l025"><?php _e( 'to', 'laterpay' ); ?></span>
+                        <?php endif; ?>
+
+                        <?php if ( $bulk_categories_with_price ): ?>
+                        <select name="bulk_category_with_price" id="lp_js_select-bulk-objects-category-with-price" class="lp_input" style="display:none;">
+                            <?php foreach ( $bulk_categories_with_price as $category_with_price ): ?>
+                                <option value="<?php echo $category_with_price->category_id; ?>"
+                                        data-price="<?php echo LaterPay_Helper_View::format_number( $category_with_price->category_price, 2 ); ?>">
+                                    <?php echo $category_with_price->category_name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php endif; ?>
+
+                        <span id="lp_js_bulk-amount-modifier" class="lp_d-inl-block lp_m-r05 lp_m-l05"><?php _e( 'to', 'laterpay' ); ?></span>
                         <input  type="text"
                                 name="bulk_price"
                                 id="lp_js_set-bulk-change-amount"
                                 class="lp_input lp_number-input"
                                 value="<?php echo $global_default_price; ?>"
                                 placeholder="0.00">
-                        <select name="bulk_change_unit" id="lp_js_set-bulk-change-unit" class="lp_input">
+                        <select name="bulk_change_unit" id="lp_js_set-bulk-change-unit" class="lp_input lp_bulk-price-unit lp_is-disabled">
                             <option value="<?php echo $standard_currency; ?>">
                                 <?php echo $standard_currency; ?>
                             </option>
@@ -250,6 +267,7 @@
                 </div>
             </form>
         </div>
+<?php */ ?>
 
 <?php # commented out as long as there is only a single currency ?>
 <?php /* ?>
