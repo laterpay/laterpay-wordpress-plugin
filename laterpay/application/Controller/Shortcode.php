@@ -324,15 +324,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $button_page_url = $page_url;
             $button_label    = $price_tag;
             // hide purchase button for administrator preview
-            if ( current_user_can( 'administrator' ) ) {
-                $html_button = '';
-            } else {
-                $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
-                if ( is_array( $view_args ) ) {
-                    $this->assign( 'laterpay', $view_args );
-                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_button' );
-                };
-            }
+            $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
+            if ( is_array( $view_args ) ) {
+                $this->assign( 'laterpay', $view_args );
+                $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_button' );
+            };
         }
 
         return $html_button;
