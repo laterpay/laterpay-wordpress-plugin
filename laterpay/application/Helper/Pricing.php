@@ -524,10 +524,11 @@ class LaterPay_Helper_Pricing
             );
         }
 
-        //Every zero by Y-axe must be presented as 0.00 for d3.dynamic.widget plot
-        foreach( $dynamic_pricing_data as $index => $point )
-            if( $point['y'] == 0 )
-                $dynamic_pricing_data[$index]['y'] = floatval($point['y']);
+        // d3.dynamic.widget needs zero values for the y-axis formatted as 0.00
+        foreach ( $dynamic_pricing_data as $index => $point )
+            if ( $point['y'] == 0 ) {
+                $dynamic_pricing_data[$index]['y'] = floatval( $point['y'] );
+            }
 
         return $dynamic_pricing_data;
     }
