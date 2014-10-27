@@ -149,6 +149,57 @@ class LaterPay_Helper_Query
     public function get_results( $args = array() ) {
         global $wpdb;
 
+        $query              = $this->create_query( $args );
+        $this->last_query   = $query;
+        $results            = $wpdb->get_results( $query );
+
+        $logger = laterpay_get_logger();
+        $logger->info(
+            __METHOD__,
+            array(
+                'args'      => $args,
+                'query'     => $query,
+                'results'   => $results
+            )
+        );
+
+        return $results;
+    }
+
+    /**
+     * Get a single row-result of a query.
+     *
+     * @param array $args
+     *
+     * @return array $result
+     */
+    public function get_row( $args = array() ) {
+        global $wpdb;
+
+        $query              = $this->create_query( $args );
+        $this->last_query   = $query;
+        $result             = $wpdb->get_row( $query );
+
+        $logger = laterpay_get_logger();
+        $logger->info(
+            __METHOD__,
+            array(
+                'args'      => $args,
+                'query'     => $query,
+                'results'   => $result
+            )
+        );
+
+        return $result;
+    }
+
+    /**
+     * Creating a query.
+     *
+     * @param array $args
+     * @return string $query
+     */
+    protected function create_query( $args = array() ) {
         $default_args = array(
             'fields'    => array('*'),
             'limit'     => '',
@@ -173,22 +224,7 @@ class LaterPay_Helper_Query
         $query .= $group;
         $query .= $order;
         $query .= $limit;
-
-        $this->last_query = $query;
-
-        $results = $wpdb->get_results( $query );
-
-        $logger = laterpay_get_logger();
-        $logger->info(
-            __METHOD__,
-            array(
-                'args'      => $args,
-                'query'     => $query,
-                'results'   => $results
-            )
-        );
-
-        return $results;
+        return $query;
     }
 
     /**
