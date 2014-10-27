@@ -23,19 +23,19 @@
         <div class="lp_row">
             <div class="lp_w-1-3">
                 <h2><?php _e( 'Conversion', 'laterpay' ); ?></h2>
-                <div id="lp_js_graph-conversion" class="lp_dashboard-graph"></div>
+                <div id="lp_js_conversion-diagram" class="lp_dashboard-graph"></div>
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
                         <li>
-                            <big id="lp_js_total-impressions">6,123</big>
+                            <big><span id="lp_js_total-impressions"></span></big>
                             <?php _e( 'Impressions', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big id="lp_js_conversion">6.3<small>%</small></big>
+                            <big><span id="lp_js_avg-conversion"></span><small>%</small></big>
                             <?php _e( 'Conversion', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big id="lp_js_share-of-new-customers">17<small>%</small></big>
+                            <big><span id="lp_js_share-of-new-customers"></span><small>%</small></big>
                             <?php _e( 'New Customers', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -43,15 +43,15 @@
             </div>
             <div class="lp_w-1-3">
                 <h2><?php _e( 'Items Sold', 'laterpay' ); ?></h2>
-                <div id="lp_js_graph-units" class="lp_dashboard-graph"></div>
+                <div id="lp_js_sales-diagram" class="lp_dashboard-graph"></div>
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
                         <li>
-                            <big id="lp_js_avg-items-sold"></big>
+                            <big><span id="lp_js_avg-items-sold"></span></big>
                             <?php _e( 'AVG Items Sold', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big id="lp_js_total-items-sold"></big>
+                            <big><span id="lp_js_total-items-sold"></span></big>
                             <?php _e( 'Total Items Sold', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -59,7 +59,7 @@
             </div>
             <div class="lp_w-1-3">
                 <h2><?php _e( 'Committed Revenue', 'laterpay' ); ?></h2>
-                <div id="lp_js_graph-revenue" class="lp_dashboard-graph"></div>
+                <div id="lp_js_revenue-diagram" class="lp_dashboard-graph"></div>
                 <div class="lp_statistics-row lp_fl-clearfix">
                     <ul>
                         <li>

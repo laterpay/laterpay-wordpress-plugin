@@ -63,7 +63,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
                 'nonces'    => array(
                                     'dashboard' => wp_create_nonce( $this->ajax_nonce )
-                                )
+                                ),
+                'i18n'      => array(
+                                     'noData'    => __( 'No data available', 'laterpay' ),
+                                ),
             )
         );
     }

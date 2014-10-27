@@ -7,6 +7,24 @@
                 daysBack            : 8,
                 itemsPerList        : 10,
                 list                : [],
+
+                // diagrams
+                conversionDiagram   : $('#lp_js_conversion-diagram'),
+                salesDiagram        : $('#lp_js_sales-diagram'),
+                revenueDiagram      : $('#lp_js_revenue-diagram'),
+
+                // main KPIs
+                totalImpressionsKPI : $('#lp_js_total-impressions'),
+                avgConversionKPI    : $('#lp_js_avg-conversion'),
+                newCustomersKPI     : $('#lp_js_share-of-new-customers'),
+
+                avgItemsSoldKPI     : $('#lp_js_avg-items-sold'),
+                totalItemsSoldKPI   : $('#lp_js_total-items-sold'),
+
+                avgRevenueKPI       : $('#lp_js_avg-revenue'),
+                totalRevenueKPI     : $('#lp_js_total-revenue'),
+
+                // top / bottom lists
                 bestConvertingList  : $('#lp_js_best-converting-list'),
                 leastConvertingList : $('#lp_js_least-converting-list'),
                 bestSellingList     : $('#lp_js_best-selling-list'),
@@ -29,22 +47,7 @@
                 var last_items_sold         = [[1412294400000, 0], [1412380800000, 0], [1412467200000, 0], [1412553600000, 0], [1412640000000, 0], [1412726400000, 0], [1412812800000, 0], [1412899200000, 0]],
                     last_amounts            = [[1412294400000, 0.0], [1412380800000, 0.0], [1412467200000, 0.0], [1412553600000, 0.0], [1412640000000, 0.0], [1412726400000, 0.0], [1412812800000, 0.0], [1412899200000, 0.0]],
                     conversionData_perDay   = [[1, 13], [2, 16], [3, 14], [4, 12], [5, 17], [6, 15], [7, 12]],
-                    conversionData_total    = [[1, 13], [2, 29], [3, 43], [4, 55], [5, 72], [6, 87], [7, 99]];
-
-                // compute averages and sums of items sold and revenue
-                var value_sum           = function(list) {
-                                                var i       = 0,
-                                                    total   = 0,
-                                                    l       = list.length;
-                                                for (; i < l; i++) {
-                                                    total = total + list[i][1];
-                                                }
-                                                return total;
-                                            },
-                    total_items_sold    = value_sum(last_items_sold),
-                    avg_items_sold      = total_items_sold / last_items_sold.length,
-                    total_revenue       = value_sum(last_amounts),
-                    avg_revenue         = total_revenue / last_amounts.length,
+                    conversionData_total    = [[1, 13], [2, 29], [3, 43], [4, 55], [5, 72], [6, 87], [7, 99]],
                     plot_timeformat,
                     plot_mode;
 
@@ -59,7 +62,7 @@
                 }
 
                 // flot diagrams
-                $.plot($('#lp_js_graph-conversion'),
+                $.plot($o.conversionDiagram,
                   [ {
                       data: [[1, 100], [2, 100], [3, 100], [4, 100], [5, 100], [6, 100], [7, 100]],
                       bars: {
@@ -116,7 +119,7 @@
                   }
                 );
 
-                $.plot($('#lp_js_graph-units'),
+                $.plot($o.salesDiagram,
                   [ {
                       data: last_items_sold,
                       color: '#52CB75',
@@ -186,7 +189,7 @@
                   }
                 );
 
-                $.plot($('#lp_js_graph-revenue'),
+                $.plot($o.revenueDiagram,
                   [ {
                       data: last_amounts,
                       color: '#52CB75',
@@ -257,13 +260,15 @@
                 );
 
                 // big KPIs
-                // $('#lp_js_total-impressions').text(data.total_viewed_items[0].quantity);
+                $o.totalImpressionsKPI.text('3,333');   // TODO: use actual data
+                $o.avgConversionKPI.text('3.3');        // TODO: use actual data
+                $o.newCustomersKPI.text('33');          // TODO: use actual data
 
-                // $('#lp_js_avg-items-sold').text(avg_items_sold.toFixed(1));
-                // $('#lp_js_total-items-sold').text(total_items_sold);
+                $o.avgItemsSoldKPI.text('3.3');         // TODO: use actual data
+                $o.totalItemsSoldKPI.text('33,333');    // TODO: use actual data
 
-                // $('#lp_js_total-revenue').text(total_revenue.toFixed(2));
-                // $('#lp_js_avg-revenue').text(avg_revenue.toFixed(2));
+                $o.avgRevenueKPI.text('3.33');          // TODO: use actual data
+                $o.totalRevenueKPI.text('3333.33');     // TODO: use actual data
 
                 // sparklines
                 $('.lp_sparkline-bar').peity('bar', {
@@ -274,7 +279,7 @@
                 });
 
                 // best / worst lists
-                if (data) { // TODO: this should be removed as soon as all data are rendered via JS
+                if (data) { // TODO: this if statement should be removed as soon as all data are rendered client-side
                     renderTopBottomList($o.bestConvertingList,  data.best_converting_items);
                     renderTopBottomList($o.leastConvertingList, data.least_converting_items);
                     renderTopBottomList($o.bestSellingList,     data.most_selling_items);
@@ -296,7 +301,7 @@
                         $o.list.push(renderListItem('Dummy Item', 66, 'EUR', []));    // TODO: use actual data
                     }
                 } else {
-                    $o.list = ['<dfn>No datazzz available</dfn>'];
+                    $o.list = ['<dfn>' + lpVars.i18n.noData + '</dfn>'];
                 }
 
                 // replace existing HTML
@@ -319,7 +324,7 @@
                         '_wpnonce'  : lpVars.nonces.dashboard,
                         'days'      : $o.daysBack,
                         'count'     : $o.itemsPerList,
-                        'refresh'   : 1,    // on default 1 (true), 0 (false) only loads the cached data
+                        'refresh'   : 1,    // 1 (true): refresh data, 0 (false): only load the cached data; default: 1
                     },
                     function(response) {
                         if (response.success) {
