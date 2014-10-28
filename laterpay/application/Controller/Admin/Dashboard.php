@@ -99,8 +99,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        echo "<pre>" . print_r( $this->get_dashboard_data(), true ). "</pre>";
-
         $view_args = array(
             'plugin_is_in_live_mode'    => $this->config->get( 'is_in_live_mode' ),
             'top_nav'                   => $this->get_menu(),
