@@ -21,7 +21,7 @@
                 postStatisticsPlaceholder       : $('#lp_js_post-statistics-placeholder'),
 
                 // purchase buttons and purchase links
-                purchaseLink                    : $('.lp_js_do-purchase'),
+                purchaseLink                    : '.lp_js_do-purchase',
 
                 // strings cached for better compression
                 hidden                          : 'lp_is_hidden',
