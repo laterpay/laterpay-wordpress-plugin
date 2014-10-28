@@ -265,15 +265,15 @@
                 );
 
                 // big KPIs
-                $o.totalImpressionsKPI.text(data.impressions);
-                $o.avgConversionKPI.text(data.conversion);
-                $o.newCustomersKPI.text(data.new_customers);
+                $o.totalImpressionsKPI.text(data.impressions || 0);
+                $o.avgConversionKPI.text(data.conversion || 0);
+                $o.newCustomersKPI.text(data.new_customers || 0);
 
-                $o.avgItemsSoldKPI.text(data.avg_purchase);
-                $o.totalItemsSoldKPI.text(data.total_items_sold);
+                $o.avgItemsSoldKPI.text(data.avg_purchase || 0);
+                $o.totalItemsSoldKPI.text(data.total_items_sold || 0);
 
-                $o.avgRevenueKPI.text(data.avg_revenue);
-                $o.totalRevenueKPI.text(data.total_revenue);
+                $o.avgRevenueKPI.text(data.avg_revenue || 0);
+                $o.totalRevenueKPI.text(data.total_revenue || 0);
 
                 // sparklines
                 $('.lp_sparkline-bar').peity('bar', {
