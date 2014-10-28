@@ -153,23 +153,25 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     /**
      * Get number of page views of posts that are purchasable.
      *
+     * @param array $args
      * @return array $result
      */
-    public function get_total_post_impression() {
-        $args = array( 'fields' => array( 'SUM(count) AS quantity' ) );
-       return $this->get_row( $args );
+    public function get_total_post_impression( $args = array() ) {
+        $default_args = array( 'fields' => array( 'SUM(count) AS quantity' ) );
+        $args = wp_parse_args( $args, $default_args );
+        return $this->get_row( $args );
     }
 
     /**
-     * Get most viewed posts x days back.
+     * Get most viewed posts x days back. By default 8 days back with max. 10 posts.
      *
+     * @param array $args
      * @param int $days
-     * @param int $count
      *
      * @return array $results
      */
-    public function get_most_viewed_posts( $days = 8, $count = 10 ) {
-        $args = array(
+    public function get_most_viewed_posts( $args = array(), $days = 8 ) {
+        $default_args = array(
             'where' => array(
                 'date' => array(
                     array(
@@ -181,8 +183,10 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
             'order'     => 'DESC',
-            'limit'     => (int) $count
+            'limit'     => (int)10
         );
+        $args = wp_parse_args( $args, $default_args );
+
         $results = $this->get_results( $args );
 
         // fetch the total count of post views
@@ -205,15 +209,15 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     }
 
     /**
-     * Get least viewed posts x days back.
+     * Get least viewed posts x days back. By default 8 days back with max. 10 posts.
      *
-     * @param int $days
-     * @param int $count
+     * @param array $args
+     * @param integer $days
      *
      * @return array $results
      */
-    public function get_least_viewed_posts( $days = 8, $count = 10 ) {
-        $args = array(
+    public function get_least_viewed_posts( $args = array(), $days = 8 ) {
+        $default_args = array(
             'where' => array(
                 'date' => array(
                     array(
@@ -225,8 +229,11 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
             'order'     => 'ASC',
-            'limit'     => (int) $count
+            'limit'     => 10
         );
+
+        $args = wp_parse_args( $args, $default_args );
+
         $results = $this->get_results( $args );
 
         $total_quantity = $this->get_total_post_impression();

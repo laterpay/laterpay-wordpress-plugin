@@ -99,6 +99,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
+        echo "<pre>" . print_r( $this->get_dashboard_data(), true ). "</pre>";
+
         $view_args = array(
             'plugin_is_in_live_mode'    => $this->config->get( 'is_in_live_mode' ),
             'top_nav'                   => $this->get_menu(),
@@ -208,6 +210,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return void
      */
     public function refresh_dashboard_data( $days = 8, $count = 10 ) {
+
+        // setting the time limit to 0 do prevent timeouts in our cronjob
+        set_time_limit(0);
+
         $data = $this->get_dashboard_data( $days, $count );
 
         // create the cache dir, if it doesn't exist
@@ -270,17 +276,35 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $post_views_model       = new LaterPay_Model_Post_Views();
         $history_model          = new LaterPay_Model_Payments_History();
 
-        $total_items_sold       = $history_model->get_total_items_sold();
+        $args = array(
+            'where' => array(
+                'date' => array(
+                    array(
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
+                    )
+                )
+            )
+        );
+
+        $total_items_sold       = $history_model->get_total_items_sold( $args );
         $total_items_sold       = number_format_i18n( $total_items_sold->quantity );
 
-        $total_revenue_items    = $history_model->get_total_revenue_items();
+        $total_revenue_items    = $history_model->get_total_revenue_items( $args );
         $total_revenue_items    = number_format_i18n( $total_revenue_items->amount, 2 );
 
-        $impressions            = $post_views_model->get_total_post_impression();
+        $impressions            = $post_views_model->get_total_post_impression( $args );
         $impressions            = number_format_i18n( $impressions->quantity );
 
-        $avg_revenue            = number_format_i18n( $total_items_sold / $total_revenue_items, 1 );
-        $conversion             = number_format_i18n( $total_items_sold / $impressions, 1 );
+        $avg_revenue = 0;
+        if ( $total_revenue_items > 0 ) {
+            $avg_revenue = number_format_i18n($total_items_sold / $total_revenue_items, 1);
+        }
+
+        $conversion = 0;
+        if ( $impressions > 0 ) {
+            $conversion = number_format_i18n($total_items_sold / $impressions, 1);
+        }
 
         $args = array(
             'order_by'  => 'day',
@@ -295,19 +319,32 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         );
         $revenue_items_by_day       = $history_model->get_revenue_history( $args );
 
+        // search args for items with sparkline
+        $search_args = array(
+            'where' => array(
+                'date' => array(
+                    array(
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
+                    )
+                )
+            ),
+            'limit' => (int)$count
+        );
+
         $data = array(
 
             'converting_items_by_day'   => $converting_items_by_day,
-            'best_converting_items'     => $post_views_model->get_most_viewed_posts( $days, $count ),
-            'least_converting_items'    => $post_views_model->get_least_viewed_posts( $days, $count ),
+            'best_converting_items'     => $post_views_model->get_most_viewed_posts( $search_args, $days ),
+            'least_converting_items'    => $post_views_model->get_least_viewed_posts( $search_args, $days ),
 
             'selling_items_by_day'      => $selling_items_by_day,
-            'most_selling_items'        => $history_model->get_best_selling_posts( $days, $count ),
-            'least_selling_items'       => $history_model->get_least_selling_posts( $days, $count ),
+            'most_selling_items'        => $history_model->get_best_selling_posts( $search_args, $days ),
+            'least_selling_items'       => $history_model->get_least_selling_posts( $search_args, $days ),
 
             'revenue_items_by_day'      => $revenue_items_by_day,
-            'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $days, $count ),
-            'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $days, $count ),
+            'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $search_args, $days ),
+            'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $search_args, $days ),
 
             'impressions'               => $impressions,
             'conversion'                => $conversion,

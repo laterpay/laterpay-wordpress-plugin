@@ -225,13 +225,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     /**
      * Get posts that generated the least revenue x days back.
      *
+     * @param array $args
      * @param int $days
-     * @param int $count
      *
      * @return array $results
      */
-    public function get_least_revenue_generating_posts( $days = 8, $count = 10 ) {
-        $args = array(
+    public function get_least_revenue_generating_posts( $args = array(), $days = 8 ) {
+        $default_args = array(
             'where' => array(
                 'mode'      => 'live',
                 'date'      => array(
@@ -249,8 +249,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'SUM(price) AS amount',
                 'COUNT(id) as quantity'
             ),
-            'limit' => (int) $count
+            'limit' => 10
         );
+
+        wp_parse_args( $args, $default_args );
 
         $results = $this->get_results( $args );
 
@@ -270,13 +272,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     /**
      * Get posts that generated the most revenue x days back.
      *
+     * @param array $args
      * @param int $days
-     * @param int $count
      *
      * @return array $results
      */
-    public function get_most_revenue_generating_posts( $days = 8, $count = 10 ) {
-        $args = array(
+    public function get_most_revenue_generating_posts( $args = array(), $days = 8 ) {
+        $default_args = array(
             'where' => array(
                 'mode' => 'live',
                 'date' => array(
@@ -294,8 +296,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'SUM(price) AS amount',
                 'COUNT(id) as quantity'
             ),
-            'limit' => (int) $count
+            'limit' => 10
         );
+
+        $args = wp_parse_args( $args, $default_args );
 
         $results = $this->get_results( $args );
 
@@ -370,10 +374,14 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     /**
      * Get number of purchased items.
      *
+     * @param array $args
      * @return array $result
      */
-    public function get_total_items_sold() {
-        $args = array( 'fields' => array( 'COUNT(id) AS quantity' ) );
+    public function get_total_items_sold( $args = array() ) {
+        $default_args = array(
+            'fields' => array( 'COUNT(id) AS quantity' )
+        );
+        $args = wp_parse_args( $args, $default_args );
         return $this->get_row( $args );
     }
 
@@ -383,25 +391,26 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @return array $result
      */
-    public function get_total_revenue_items() {
-        $args = array( 'fields' => array( 'sum(price) AS amount' ) );
+    public function get_total_revenue_items( $args = array() ) {
+        $default_args = array(
+            'fields' => array( 'sum(price) AS amount' )
+        );
+        $args = wp_parse_args( $args, $default_args );
         return $this->get_row( $args );
     }
 
     /**
-     * Get most sold posts x days back.
+     * Get most sold posts x days back. By default 8 days back with max. 10 posts.
      *
-     * @param int $days
-     * @param int $count
-     *
+     * @param array $args
      * @return array $results
      */
-    public function get_best_selling_posts( $days = 8, $count = 10 ) {
-        $args = array(
+    public function get_best_selling_posts( $args = array() ) {
+        $default_args = array(
             'where' => array(
                 'date' => array(
                     array(
-                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
+                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( 8 )
                     )
                 )
             ),
@@ -409,8 +418,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'group_by'  => 'post_id',
             'order_by'  => 'amount',
             'order'     => 'DESC',
-            'limit'     => (int) $count
+            'limit'     => 10
         );
+        $args = wp_parse_args( $args, $default_args );
+
         $results = $this->get_results( $args );
 
         foreach ( $results as $key => $data ) {
@@ -425,15 +436,15 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
-     * Get least sold posts x days back.
+     * Get least sold posts x days back. By default 8 days back with max. 10 posts.
      *
-     * @param int $days
-     * @param int $count
+     * @param array $args
+     * @param integer $days
      *
      * @return array $results
      */
-    public function get_least_selling_posts( $days = 8, $count = 10 ) {
-        $args = array(
+    public function get_least_selling_posts( $args = array(), $days = 8 ) {
+        $default_args = array(
             'where' => array(
                 'date' => array(
                     array(
@@ -445,8 +456,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'group_by'  => 'post_id',
             'order_by'  => 'amount',
             'order'     => 'ASC',
-            'limit'     => (int) $count
+            'limit'     => 10
         );
+        $args = wp_parse_args( $args, $default_args );
+
         $results = $this->get_results( $args );
 
         foreach ( $results as $key => $data ) {
