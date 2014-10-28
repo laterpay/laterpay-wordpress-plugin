@@ -43,29 +43,21 @@
             },
 
             renderDashboard = function(data) {
-                // some mock data:
-                var last_items_sold         = [[1412294400000, 0], [1412380800000, 0], [1412467200000, 0], [1412553600000, 0], [1412640000000, 0], [1412726400000, 0], [1412812800000, 0], [1412899200000, 0]],
-                    last_amounts            = [[1412294400000, 0.0], [1412380800000, 0.0], [1412467200000, 0.0], [1412553600000, 0.0], [1412640000000, 0.0], [1412726400000, 0.0], [1412812800000, 0.0], [1412899200000, 0.0]],
-                    conversionData_perDay   = [[1, 13], [2, 16], [3, 14], [4, 12], [5, 17], [6, 15], [7, 12]],
-                    conversionData_total    = [[1, 13], [2, 29], [3, 43], [4, 55], [5, 72], [6, 87], [7, 99]],
-                    plot_timeformat,
-                    plot_mode;
+                var backgroundBars  = [],
+                    xAxisTicks      = [];
 
-                if ($o.daysBack === 8) {
-                    plot_timeformat = '%a';
-                    plot_mode       = 'time';
-                } else if ($o.daysBack === 31) {
-                    plot_timeformat = '%m/%d';
-                    plot_mode       = 'time';
-                } else {
-                    plot_mode = null;
+                i = 0;
+
+                for (; i < $o.daysBack; i++) {
+                    backgroundBars.push([i + 1, 100]);
+                    xAxisTicks.push([i + 1, 'Mon']);        // TODO: get real day names
                 }
 
                 // flot diagrams
                 $.plot($o.conversionDiagram,
                     [
                         {
-                            data            : [[1, 100], [2, 100], [3, 100], [4, 100], [5, 100], [6, 100], [7, 100]],
+                            data            : backgroundBars,
                             bars            : {
                                 show        : true,
                                 barWidth    : 0.7,
@@ -76,11 +68,11 @@
                             }
                         },
                         {
-                            data            : conversionData_perDay,
+                            data            : data.converting_items_by_day,
                             bars            : {
                                 show        : true,
                                 barWidth    : 0.35,
-                                fillColor   : '#52CB75',
+                                fillColor   : '#50C371',
                                 lineWidth   : 0,
                                 align       : 'center',
                                 horizontal  : false
@@ -97,14 +89,14 @@
                                 lineHeight  : 18,
                             },
                             show            : true,
-                            ticks           : [[1, 'Mon'], [2, 'Tue'], [3, 'Wed'], [4, 'Thu'], [5, 'Fri'], [6, 'Sat'], [7, 'Sun']],
+                            ticks           : xAxisTicks,
                         },
                         yaxis               : {
                             font            : {
                                 color       : '#bbb'
                             },
                             ticks           : 5,
-                            tickFormatter   : function (v) { return v + ' %'; },
+                            tickFormatter   : function(v) { return v + ' %'; },
                             min             : 0,
                             max             : 100,
                             reserveSpace    : true,
@@ -128,8 +120,8 @@
                 $.plot($o.salesDiagram,
                     [
                         {
-                            data            : last_items_sold,
-                            color           : '#52CB75',
+                            data            : data.selling_items_by_day,
+                            color           : '#50C371',
                             lines           : {
                                 show        : true,
                                 lineWidth   : 1.5,
@@ -141,26 +133,26 @@
                                 radius      : 3,
                                 lineWidth   : 0,
                                 fill        : true,
-                                fillColor   : '#52CB75',
+                                fillColor   : '#50C371',
                             }
                         },
-                        {
-                            data            : conversionData_total,
-                            color           : '#52CB75',
-                            lines           : {
-                                show        : true,
-                                lineWidth   : 1.5,
-                                fill        : false,
-                                gaps        : true,
-                            },
-                            points          : {
-                                show        : true,
-                                radius      : 3,
-                                lineWidth   : 0,
-                                fill        : true,
-                                fillColor   : '#52CB75',
-                            }
-                        }
+                        // {
+                        //     data            : data.selling_items_by_day,
+                        //     color           : '#50C371',
+                        //     lines           : {
+                        //         show        : true,
+                        //         lineWidth   : 1.5,
+                        //         fill        : false,
+                        //         gaps        : true,
+                        //     },
+                        //     points          : {
+                        //         show        : true,
+                        //         radius      : 3,
+                        //         lineWidth   : 0,
+                        //         fill        : true,
+                        //         fillColor   : '#50C371',
+                        //     }
+                        // }
                     ],
                     {
                         legend              : {
@@ -171,9 +163,8 @@
                                 color       : '#bbb',
                                 lineHeight  : 18,
                             },
-                            mode            : plot_mode,
-                            timeformat      : plot_timeformat,
-                            show            :  true,
+                            show            : true,
+                            ticks           : xAxisTicks,
                         },
                         yaxis               : {
                             font            : {
@@ -181,7 +172,7 @@
                             },
                             ticks           : 5,
                             min             : 0,
-                            // max             : 100,
+                            max             : 1000,
                             reserveSpace    : true,
                         },
                         series              : {
@@ -202,8 +193,8 @@
 
                 $.plot($o.revenueDiagram,
                     [   {
-                            data            : last_amounts,
-                            color           : '#52CB75',
+                            data            : data.revenue_items_by_day,
+                            color           : '#50C371',
                             lines           : {
                                 show        : true,
                                 lineWidth   : 1.5,
@@ -215,12 +206,12 @@
                                 radius      : 3,
                                 lineWidth   : 0,
                                 fill        : true,
-                                fillColor   : '#52CB75',
+                                fillColor   : '#50C371',
                             }
                         },
                         // {
                         //     data            : conversionData_total,
-                        //     color           : '#52CB75',
+                        //     color           : '#50C371',
                         //     lines           : {
                         //         show        : true,
                         //         lineWidth   : 1.5,
@@ -232,7 +223,7 @@
                         //         radius      : 3,
                         //         lineWidth   : 0,
                         //         fill        : true,
-                        //         fillColor   : '#52CB75',
+                        //         fillColor   : '#50C371',
                         //     }
                         // }
                     ],
@@ -246,8 +237,7 @@
                                 lineHeight  : 18,
                             },
                             show            : true,
-                            mode            : plot_mode,
-                            timeformat      : plot_timeformat,
+                            ticks           : xAxisTicks,
                         },
                         yaxis               : {
                             font            : {
@@ -255,7 +245,7 @@
                             },
                             ticks           : 5,
                             min             : 0,
-                            // max             : 100,
+                            max             : 1000,
                             reserveSpace    : true,
                         },
                         series              : {
@@ -277,12 +267,12 @@
                 // big KPIs
                 $o.totalImpressionsKPI.text(data.impressions);
                 $o.avgConversionKPI.text(data.conversion);
-                $o.newCustomersKPI.text('33');          // TODO: use actual data
+                $o.newCustomersKPI.text(data.new_customers);
 
                 $o.avgItemsSoldKPI.text(data.avg_purchase);
                 $o.totalItemsSoldKPI.text(data.total_items_sold);
 
-                $o.avgRevenueKPI.text('3.33');          // TODO: use actual data
+                $o.avgRevenueKPI.text(data.avg_revenue);
                 $o.totalRevenueKPI.text(data.total_revenue);
 
                 // sparklines
@@ -308,12 +298,18 @@
                 $o.list = [];
 
                 i = 0;
-                l = 10;//data.length;
+                l = data.length;
 
                 if (l > 0) {
                     // create list item for each data set
                     for (; i < l; i++) {
-                        $o.list.push(renderListItem('Dummy Item', 66, 'EUR', []));    // TODO: use actual data
+                        $o.list.push(renderListItem(
+                                        data.post_id,
+                                        data.post_title,
+                                        data.amount,
+                                        data.unit,
+                                        data.sparkline
+                                    ));
                     }
                 } else {
                     $o.list = ['<dfn>' + lpVars.i18n.noData + '</dfn>'];
@@ -323,7 +319,7 @@
                 $list.html($o.list.join());
             },
 
-            renderListItem = function(itemName, kpiValue, kpiUnit, sparklineData) {
+            renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
                 return '<li>' +
                             '<span class="lp_sparkline-bar">' + sparklineData + '</span>' +
                             '<strong class="lp_value">' + kpiValue + '<small>' + kpiUnit + '</small></strong>' +
