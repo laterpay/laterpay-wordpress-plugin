@@ -58,8 +58,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-backend-dashboard' );
 
-
-
         // get the cache filename - by default 8 days back and a maximum of 10 items
         $cache_filename = $this->get_cache_filename( 8, 10 );
 
@@ -75,6 +73,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             // the cached data will be empty, if it is not serializable
             $this->cache_file_is_broken = empty( $cache_data );
         }
+
+        $this->logger->info( __METHOD__ );
 
         // pass localized strings and variables to script
         wp_localize_script(
@@ -215,6 +215,17 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $cache_filename = $this->get_cache_filename( $days, $count );
 
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'days'          => $days,
+                'count'         => $count,
+                'data'          => $data,
+                'cache_filename'=> $cache_filename,
+                'cache_dir'     => $this->cache_dir
+            )
+        );
+
         // write the data to the cache dir
         file_put_contents(
             $this->cache_dir . $cache_filename,
@@ -235,6 +246,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         if ( ! is_array( $cache_data ) ) {
             $cache_data = array();
         }
+
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'file_path' => $file_path,
+                'cache_data'=> $cache_data,
+            )
+        );
 
         return $cache_data;
     }
