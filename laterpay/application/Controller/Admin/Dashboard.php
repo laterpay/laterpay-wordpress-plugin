@@ -110,7 +110,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             // default items which will be overwritten after loading the cached data
             'best_converting_items'     => array(),
             'least_converting_items'    => array(),
-            'total_viewed_items'        => array(),
 
             'most_selling_items'        => array(),
             'least_selling_items'       => array(),
@@ -118,6 +117,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'most_revenue_items'        => array(),
             'least_revenue_items'       => array(),
 
+            'impressions'               => array(),
+            'conversion'                => array(),
+            'new_customers'             => array(),
+
+            'avg_purchase'              => array(),
+            'total_items_sold'          => array(),
+
+            'avg_revenue'               => array(),
+            'total_revenue'             => array(),
         );
 
         // merge the cached data with the default args and assign it to the view
@@ -256,20 +264,20 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     protected function get_dashboard_data( $days = 8, $count = 10 ) {
-        $post_views_model   = new LaterPay_Model_Post_Views();
-        $history_model      = new LaterPay_Model_Payments_History();
+        $post_views_model       = new LaterPay_Model_Post_Views();
+        $history_model          = new LaterPay_Model_Payments_History();
 
         $total_items_sold       = $history_model->get_total_items_sold();
-        $total_items_sold       = $total_items_sold->quantity;
+        $total_items_sold       = number_format_i18n( $total_items_sold->quantity );
 
         $total_revenue_items    = $history_model->get_total_revenue_items();
-        $total_revenue_items    = $total_revenue_items->amount;
+        $total_revenue_items    = number_format_i18n( $total_revenue_items->amount, 2 );
 
         $impressions            = $post_views_model->get_total_post_impression();
-        $impressions            = $impressions->quantity;
+        $impressions            = number_format_i18n( $impressions->quantity );
 
-        $avg_purchase           = $total_items_sold / $total_revenue_items;
-        $conversion             = $total_items_sold / $impressions;
+        $avg_purchase           = number_format_i18n( $total_items_sold / $total_revenue_items, 1 );
+        $conversion             = number_format_i18n( $total_items_sold / $impressions, 1 );
 
         $args = array(
             'order_by'  => 'day',
@@ -298,11 +306,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $days, $count ),
             'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $days, $count ),
 
-            'conversion'                => round( $conversion ),
-            'impressions'               => round( $impressions ),
-            'total_items_sold'          => round( $total_items_sold ),
-            'total_revenue'             => round( $total_revenue_items, 2 ),
-            'avg_purchase'              => round( $avg_purchase, 2 )
+            'impressions'               => $impressions,
+            'conversion'                => $conversion,
+            'new_customers'             => array(), // TODO: get data
+
+            'avg_purchase'              => $avg_purchase,
+            'total_items_sold'          => $total_items_sold,
+
+            'avg_revenue'               => array(), // TODO: get data
+            'total_revenue'             => $total_revenue_items,
         );
 
         return $data;

@@ -63,219 +63,234 @@
 
                 // flot diagrams
                 $.plot($o.conversionDiagram,
-                  [ {
-                      data: [[1, 100], [2, 100], [3, 100], [4, 100], [5, 100], [6, 100], [7, 100]],
-                      bars: {
-                        show:       true,
-                        barWidth:   0.7,
-                        fillColor:  '#e3e3e3',
-                        lineWidth:  0,
-                        align:      'center',
-                        horizontal: false
-                      }
-                    },
+                    [
+                        {
+                            data            : [[1, 100], [2, 100], [3, 100], [4, 100], [5, 100], [6, 100], [7, 100]],
+                            bars            : {
+                                show        : true,
+                                barWidth    : 0.7,
+                                fillColor   : '#e3e3e3',
+                                lineWidth   : 0,
+                                align       : 'center',
+                                horizontal  : false
+                            }
+                        },
+                        {
+                            data            : conversionData_perDay,
+                            bars            : {
+                                show        : true,
+                                barWidth    : 0.35,
+                                fillColor   : '#52CB75',
+                                lineWidth   : 0,
+                                align       : 'center',
+                                horizontal  : false
+                            }
+                        }
+                    ],
                     {
-                      data: conversionData_perDay,
-                      bars: {
-                        show:       true,
-                        barWidth:   0.35,
-                        fillColor:  '#52CB75',
-                        lineWidth:  0,
-                        align:      'center',
-                        horizontal: false
-                      }
-                    } ],
-                  {
-                    legend: {show: false},
-                    xaxis: {
-                      font: {
-                        color: '#bbb',
-                        lineHeight: 18,
-                      },
-                      show:  true,
-                      ticks: [[1, 'Mon'], [2, 'Tue'], [3, 'Wed'], [4, 'Thu'], [5, 'Fri'], [6, 'Sat'], [7, 'Sun']],
-                    },
-                    yaxis: {
-                        font: {color: '#bbb'},
-                          ticks: 5,
-                      tickFormatter: function (v) {return v + ' %';},
-                          min: 0,
-                          max: 100,
-                      reserveSpace: true,
-                      },
-                    series: {
-                      shadowSize: 0,
-                    },
-                    grid: {
-                      borderWidth: {
-                          top:     0,
-                          right:   0,
-                          bottom:  1,
-                          left:    0,
-                      },
-                      borderColor: '#ccc',
-                      tickColor:   'rgba(247,247,247,0)',  // transparent
+                        legend              : {
+                            show            : false
+                        },
+                        xaxis               : {
+                            font            : {
+                                color       : '#bbb',
+                                lineHeight  : 18,
+                            },
+                            show            : true,
+                            ticks           : [[1, 'Mon'], [2, 'Tue'], [3, 'Wed'], [4, 'Thu'], [5, 'Fri'], [6, 'Sat'], [7, 'Sun']],
+                        },
+                        yaxis               : {
+                            font            : {
+                                color       : '#bbb'
+                            },
+                            ticks           : 5,
+                            tickFormatter   : function (v) { return v + ' %'; },
+                            min             : 0,
+                            max             : 100,
+                            reserveSpace    : true,
+                        },
+                        series              : {
+                            shadowSize      : 0,
+                        },
+                        grid                : {
+                            borderWidth     : {
+                                top         : 0,
+                                right       : 0,
+                                bottom      : 1,
+                                left        : 0,
+                            },
+                            borderColor     : '#ccc',
+                            tickColor       : 'rgba(247,247,247,0)',  // transparent
+                        }
                     }
-                  }
                 );
 
                 $.plot($o.salesDiagram,
-                  [ {
-                      data: last_items_sold,
-                      color: '#52CB75',
-                      lines: {
-                      show:      true,
-                      lineWidth: 1.5,
-                      fill:      false,
-                      gaps:      true,
-                    },
-                    points: {
-                      show:      true,
-                      radius:    3,
-                      lineWidth: 0,
-                      fill:      true,
-                      fillColor: '#52CB75'
-                    }
-                    },
+                    [
+                        {
+                            data            : last_items_sold,
+                            color           : '#52CB75',
+                            lines           : {
+                                show        : true,
+                                lineWidth   : 1.5,
+                                fill        : false,
+                                gaps        : true,
+                            },
+                            points          : {
+                                show        : true,
+                                radius      : 3,
+                                lineWidth   : 0,
+                                fill        : true,
+                                fillColor   : '#52CB75',
+                            }
+                        },
+                        {
+                            data            : conversionData_total,
+                            color           : '#52CB75',
+                            lines           : {
+                                show        : true,
+                                lineWidth   : 1.5,
+                                fill        : false,
+                                gaps        : true,
+                            },
+                            points          : {
+                                show        : true,
+                                radius      : 3,
+                                lineWidth   : 0,
+                                fill        : true,
+                                fillColor   : '#52CB75',
+                            }
+                        }
+                    ],
                     {
-                      data: conversionData_total,
-                      color: '#52CB75',
-                      lines: {
-                      show:      true,
-                      lineWidth: 1.5,
-                      fill:      false,
-                      gaps:      true,
-                    },
-                    points: {
-                        show:      true,
-                        radius:    3,
-                        lineWidth: 0,
-                        fill:      true,
-                        fillColor: '#52CB75'
+                        legend              : {
+                            show            : false
+                        },
+                        xaxis               : {
+                            font            : {
+                                color       : '#bbb',
+                                lineHeight  : 18,
+                            },
+                            mode            : plot_mode,
+                            timeformat      : plot_timeformat,
+                            show            :  true,
+                        },
+                        yaxis               : {
+                            font            : {
+                                color       : '#bbb'
+                            },
+                            ticks           : 5,
+                            min             : 0,
+                            // max             : 100,
+                            reserveSpace    : true,
+                        },
+                        series              : {
+                            shadowSize      : 0,
+                        },
+                        grid                : {
+                            borderWidth     : {
+                                top         : 0,
+                                right       : 0,
+                                bottom      : 1,
+                                left        : 0,
+                            },
+                            borderColor     : '#ccc',
+                            tickColor       : 'rgba(247,247,247,0)',  // transparent
+                        }
                     }
-                    }
-                  ],
-                  {
-                    legend: {show: false},
-                    xaxis: {
-                      font: {
-                        color: '#bbb',
-                        lineHeight: 18,
-                      },
-                      mode: plot_mode,
-                      timeformat: plot_timeformat,
-                      show:  true,
-                    },
-                    yaxis: {
-                      font: {color: '#bbb'},
-                      ticks: 5,
-                      min: 0,
-                      //max: 100,
-                      reserveSpace: true,
-                    },
-                    series: {
-                      shadowSize: 0,
-                    },
-                    grid: {
-                      borderWidth: {
-                        top:     0,
-                        right:   0,
-                        bottom:  1,
-                        left:    0,
-                      },
-                      borderColor: '#ccc',
-                      tickColor:   'rgba(247,247,247,0)',  // transparent
-                    }
-                  }
                 );
 
                 $.plot($o.revenueDiagram,
-                  [ {
-                      data: last_amounts,
-                      color: '#52CB75',
-                      lines: {
-                      show:      true,
-                      lineWidth: 1.5,
-                      fill:      false,
-                      gaps:      true,
-                    },
-                    points: {
-                      show:      true,
-                      radius:    3,
-                      lineWidth: 0,
-                      fill:      true,
-                      fillColor: '#52CB75'
+                    [   {
+                            data            : last_amounts,
+                            color           : '#52CB75',
+                            lines           : {
+                                show        : true,
+                                lineWidth   : 1.5,
+                                fill        : false,
+                                gaps        : true,
+                            },
+                            points          : {
+                                show        : true,
+                                radius      : 3,
+                                lineWidth   : 0,
+                                fill        : true,
+                                fillColor   : '#52CB75',
+                            }
+                        },
+                        // {
+                        //     data            : conversionData_total,
+                        //     color           : '#52CB75',
+                        //     lines           : {
+                        //         show        : true,
+                        //         lineWidth   : 1.5,
+                        //         fill        : false,
+                        //         gaps        : true,
+                        //     },
+                        //     points          : {
+                        //         show        : true,
+                        //         radius      : 3,
+                        //         lineWidth   : 0,
+                        //         fill        : true,
+                        //         fillColor   : '#52CB75',
+                        //     }
+                        // }
+                    ],
+                    {
+                        legend              : {
+                            show            : false
+                        },
+                        xaxis               : {
+                            font            : {
+                                color       : '#bbb',
+                                lineHeight  : 18,
+                            },
+                            show            : true,
+                            mode            : plot_mode,
+                            timeformat      : plot_timeformat,
+                        },
+                        yaxis               : {
+                            font            : {
+                                color       : '#bbb'
+                            },
+                            ticks           : 5,
+                            min             : 0,
+                            // max             : 100,
+                            reserveSpace    : true,
+                        },
+                        series              : {
+                            shadowSize      : 0,
+                        },
+                        grid                : {
+                            borderWidth     : {
+                                top         : 0,
+                                right       : 0,
+                                bottom      : 1,
+                                left        : 0,
+                            },
+                            borderColor     : '#ccc',
+                            tickColor       : 'rgba(247,247,247,0)',  // transparent
+                        }
                     }
-                    },
-                    //{
-                      //data: conversionData_total,
-                      //color: '#52CB75',
-                      //lines: {
-                      //show:      true,
-                      //lineWidth: 1.5,
-                      //fill:      false,
-                      //gaps:      true,
-                    //},
-                    //points: {
-                      //show:      true,
-                      //radius:    3,
-                      //lineWidth: 0,
-                      //fill:      true,
-                      //fillColor: '#52CB75'
-                    //}
-                    //}
-                  ],
-                  {
-                    legend: {show: false},
-                    xaxis: {
-                      font: {
-                        color: '#bbb',
-                        lineHeight: 18,
-                      },
-                      show:  true,
-                      mode: plot_mode,
-                      timeformat: plot_timeformat,
-                    },
-                    yaxis: {
-                      font: {color: '#bbb'},
-                      ticks: 5,
-                      min: 0,
-                      //max: 100,
-                      reserveSpace: true,
-                    },
-                    series: {
-                      shadowSize: 0,
-                    },
-                    grid: {
-                      borderWidth: {
-                        top:     0,
-                        right:   0,
-                        bottom:  1,
-                        left:    0,
-                      },
-                      borderColor: '#ccc',
-                      tickColor:   'rgba(247,247,247,0)',  // transparent
-                    }
-                  }
                 );
 
                 // big KPIs
-                $o.totalImpressionsKPI.text('3,333');   // TODO: use actual data
-                $o.avgConversionKPI.text('3.3');        // TODO: use actual data
+                $o.totalImpressionsKPI.text(data.impressions);
+                $o.avgConversionKPI.text(data.conversion);
                 $o.newCustomersKPI.text('33');          // TODO: use actual data
 
-                $o.avgItemsSoldKPI.text('3.3');         // TODO: use actual data
-                $o.totalItemsSoldKPI.text('33,333');    // TODO: use actual data
+                $o.avgItemsSoldKPI.text(data.avg_purchase);
+                $o.totalItemsSoldKPI.text(data.total_items_sold);
 
                 $o.avgRevenueKPI.text('3.33');          // TODO: use actual data
-                $o.totalRevenueKPI.text('3333.33');     // TODO: use actual data
+                $o.totalRevenueKPI.text(data.total_revenue);
 
                 // sparklines
                 $('.lp_sparkline-bar').peity('bar', {
-                    width       : 34,
-                    height      : 14,
-                    gap         : 1,
-                    fill        : function() { return '#ccc'; }
+                    width   : 34,
+                    height  : 14,
+                    gap     : 1,
+                    fill    : function() { return '#ccc'; }
                 });
 
                 // best / worst lists
