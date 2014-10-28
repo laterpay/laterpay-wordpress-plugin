@@ -3,6 +3,9 @@
 class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 {
 
+    private $cache_file_exists;
+    private $cache_file_is_broken;
+
     private $cache_dir;
 
     private $ajax_nonce = 'laterpay_dashboard';
@@ -55,6 +58,24 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-backend-dashboard' );
 
+
+
+        // get the cache filename - by default 8 days back and a maximum of 10 items
+        $cache_filename = $this->get_cache_filename( 8, 10 );
+
+        // contains the state, if the cache file was generated for today
+        $this->cache_file_exists      = file_exists( $this->cache_dir . $cache_filename );
+
+        $this->cache_file_is_broken = false;
+        $cache_data                 = array();
+
+        // load the cache data
+        if ( $this->cache_file_exists ) {
+            $cache_data           = $this->load_cache_data( $this->cache_dir . $cache_filename );
+            // the cached data will be empty, if it is not serializable
+            $this->cache_file_is_broken = empty( $cache_data );
+        }
+
         // pass localized strings and variables to script
         wp_localize_script(
             'laterpay-backend-dashboard',
@@ -67,6 +88,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'i18n'      => array(
                                      'noData'    => __( 'No data available', 'laterpay' ),
                                 ),
+                'data'      =>  $cache_data
             )
         );
     }
@@ -77,23 +99,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        // get the cache filename - by default 8 days back and a maximum of 10 items
-        $cache_filename         = $this->get_cache_filename( 8, 10 );
-
-        // contains the state, if the cache file was generated for today
-        $cache_file_exists      = file_exists( $this->cache_dir . $cache_filename );
-
-        $cache_file_is_broken   = false;
-        $cache_data             = array();
-
-        // load the cache data
-        if ( $cache_file_exists ) {
-            $cache_data           = $this->load_cache_data( $this->cache_dir . $cache_filename );
-            // the cached data will be empty, if it is not serializable
-            $cache_file_is_broken = empty( $cache_data );
-        }
-
-        $default_args = array(
+        $view_args = array(
             'plugin_is_in_live_mode'    => $this->config->get( 'is_in_live_mode' ),
             'top_nav'                   => $this->get_menu(),
             'admin_menu'                => LaterPay_Helper_View::get_admin_menu(),
@@ -103,36 +109,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             // this view variable can be used to show additional information that *maybe* the dashboard
             // data will not refresh automatically
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
+            'cache_file_exists'         => $this->cache_file_exists,
+            'cache_file_is_broken'      => $this->cache_file_is_broken,
 
-            'cache_file_exists'         => $cache_file_exists,
-            'cache_file_is_broken'      => $cache_file_is_broken,
-
-            // default items which will be overwritten after loading the cached data
-            'converting_items_by_day'   => array(),
-            'best_converting_items'     => array(),
-            'least_converting_items'    => array(),
-
-            'selling_items_by_day'      => array(),
-            'most_selling_items'        => array(),
-            'least_selling_items'       => array(),
-
-            'revenue_items_by_day'      => array(),
-            'most_revenue_items'        => array(),
-            'least_revenue_items'       => array(),
-
-            'impressions'               => array(),
-            'conversion'                => array(),
-            'new_customers'             => array(),
-
-            'avg_purchase'              => array(),
-            'total_items_sold'          => array(),
-
-            'avg_revenue'               => array(),
-            'total_revenue'             => array(),
         );
 
-        // merge the cached data with the default args and assign it to the view
-        $view_args = wp_parse_args( $cache_data, $default_args );
         $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/dashboard' );
