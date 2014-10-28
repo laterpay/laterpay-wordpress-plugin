@@ -142,6 +142,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $this->change_posts_price();
                     break;
 
+                case 'save_bulk_action':
+                    $this->save_bulk_action();
+                    break;
+
+                case 'remove_bulk_action':
+                    $this->remove_bulk_action();
+                    break;
+
                 default:
                     wp_send_json(
                         array(
@@ -686,5 +694,53 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 $category_price_model->set_category_price( $category->category_id, $price, $revenue_model, $category->id );
             }
         }
+    }
+
+    protected function save_bulk_operation() {
+        $save_bulk_operation_form = new LaterPay_Form_SaveBulkOperation( $_POST );
+        if ( $save_bulk_operation_form->is_valid() ) {
+            $bulk_operation_data  = $save_bulk_operation_form->get_field_value( 'data' );
+            $bulk_operation_model = new LaterPay_Model_BulkOperation();
+            $result               = $bulk_operation_model->save_bulk_operation( $bulk_operation_data );
+            if ( $result ) {
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
+                    )
+                );
+            }
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+            )
+        );
+    }
+
+    protected function remove_bulk_operation() {
+        $remove_bulk_operation_form = new LaterPay_Form_RemoveBulkOperation( $_POST );
+        if ( $remove_bulk_operation_form->is_valid() ) {
+            $bulk_operation_id = $remove_bulk_operation_form->get_field_value( 'operation_id' );
+            $bulk_operation_model = new LaterPay_Model_BulkOperation();
+            $result = $bulk_operation_model->delete_bulk_operation_by_id( $bulk_operation_id );
+            if ( $result ) {
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
+                    )
+                );
+            }
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+            )
+        );
     }
 }

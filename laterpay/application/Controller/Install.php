@@ -265,10 +265,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-        $table_currency     = $wpdb->prefix . 'laterpay_currency';
-        $table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
-        $table_history      = $wpdb->prefix . 'laterpay_payment_history';
-        $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
+        $table_currency        = $wpdb->prefix . 'laterpay_currency';
+        $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
+        $table_history         = $wpdb->prefix . 'laterpay_payment_history';
+        $table_post_views      = $wpdb->prefix . 'laterpay_post_views';
+        $table_bulk_operations = $wpdb->prefix . 'laterpay_bulk_operations';
 
         $sql = "
             CREATE TABLE $table_terms_price (
@@ -302,6 +303,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)   NOT NULL,
                 UNIQUE KEY  (post_id, user_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+        dbDelta( $sql );
+
+        $sql = "
+            CREATE TABLE $table_bulk_operations (
+                id                INT(11)         NOT NULL AUTO_INCREMENT,
+                data              VARBINARY(128)  NOT NULL,
+                PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
