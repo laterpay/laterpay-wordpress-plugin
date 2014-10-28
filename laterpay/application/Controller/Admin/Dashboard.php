@@ -271,22 +271,38 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $avg_purchase           = $total_items_sold / $total_revenue_items;
         $conversion             = $total_items_sold / $impressions;
 
+        $args = array(
+            'order_by'  => 'day',
+            'group_by'  => 'day',
+        );
+        $converting_items_by_day    = $post_views_model->get_history( $args );
+        $selling_items_by_day       = $history_model->get_history( $args );
+
+        $args = array(
+            'order_by'  => 'currency_id, day',
+            'group_by'  => 'day',
+        );
+        $revenue_items_by_day       = $history_model->get_revenue_history( $args );
+
         $data = array(
 
+            'converting_items_by_day'   => $converting_items_by_day,
             'best_converting_items'     => $post_views_model->get_most_viewed_posts( $days, $count ),
             'least_converting_items'    => $post_views_model->get_least_viewed_posts( $days, $count ),
 
+            'selling_items_by_day'      => $selling_items_by_day,
             'most_selling_items'        => $history_model->get_best_selling_posts( $days, $count ),
             'least_selling_items'       => $history_model->get_least_selling_posts( $days, $count ),
 
+            'revenue_items_by_day'      => $revenue_items_by_day,
             'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $days, $count ),
             'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $days, $count ),
 
-            'impressions'               => $impressions,
-            'conversion'                => $conversion,
-            'total_items_sold'          => $total_items_sold,
-            'total_revenue'             => $total_revenue_items,
-            'avg_purchase'              => $avg_purchase
+            'conversion'                => round( $conversion ),
+            'impressions'               => round( $impressions ),
+            'total_items_sold'          => round( $total_items_sold ),
+            'total_revenue'             => round( $total_revenue_items, 2 ),
+            'avg_purchase'              => round( $avg_purchase, 2 )
         );
 
         return $data;

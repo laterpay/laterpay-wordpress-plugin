@@ -92,6 +92,69 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
+     * Gets the history with default 8 days back.
+     *
+     * @param array $args
+     * @return array $results
+     */
+    public function get_history( $args = array() ) {
+        $default_args = array(
+            'where' => array(
+                'date'      => array(
+                    array(
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 8 )
+                    )
+                )
+            ),
+            'order'     => 'ASC',
+            'fields'    => array(
+                'COUNT(*)       AS quantity',
+                'DATE(date)     AS date',
+                'DAY(date)      AS day',
+                'DAYNAME(date)  AS day_name'
+            )
+        );
+
+        $args = wp_parse_args( $args, $default_args );
+
+        return $this->get_results( $args );
+    }
+
+    /**
+     * Gets the revenue history with default 8 days back.
+     *
+     * @param array $args
+     * @return array $results
+     */
+    public function get_revenue_history( $args = array() ) {
+        $default_args = array(
+            'where' => array(
+                'date'      => array(
+                    array(
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 8 )
+                    )
+                )
+            ),
+            'group_by'  => 'currency_id',
+            'order'     => 'ASC',
+            'fields'    => array(
+                'currency_id',
+                'SUM(price)     AS amount',
+                'COUNT(*)       AS quantity',
+                'DATE(date)     AS date',
+                'DAY(date)      AS day',
+                'DAYNAME(date)  AS day_name'
+            )
+        );
+
+        $args = wp_parse_args( $args, $default_args );
+
+        return $this->get_results( $args );
+    }
+
+    /**
      * Get total history by post id.
      *
      * @param int $post_id

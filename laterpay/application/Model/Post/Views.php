@@ -60,7 +60,6 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
      */
     public function get_post_view_data( $post_id ) {
         $where = array( 'post_id' => (int) $post_id );
-
         return $this->get_results( $where );
     }
 
@@ -92,6 +91,36 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         );
 
         return $wpdb->get_results( $sql );
+    }
+
+    /**
+     * Gets the history with default 8 days back.
+     *
+     * @param array $args
+     * @return array $results
+     */
+    public function get_history( $args = array() ) {
+        $default_args = array(
+            'where' => array(
+                'date'      => array(
+                    array(
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 8 )
+                    )
+                )
+            ),
+            'order'     => 'ASC',
+            'fields'    => array(
+                'SUM(count)     AS quantity',
+                'DATE(date)     AS date',
+                'DAY(date)      AS day',
+                'DAYNAME(date)  AS day_name'
+            )
+        );
+
+        $args = wp_parse_args( $args, $default_args );
+
+        return $this->get_results( $args );
     }
 
     /**
