@@ -324,7 +324,8 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
-= 0.9.9 (October 28, 2014): Sales Analytics Release =
+= 0.9.8.3 (October 28, 2014): Bugfix Release =
+* Added bulk price editor to make editing large numbers of posts easier
 * Fixed saving of global default and category default prices with German number format
 * Fixed bug where user was not immediately forwarded to purchases content but had to click purchase button a second time
 * Fixed IPv6 bug in logger / debugger functionality
