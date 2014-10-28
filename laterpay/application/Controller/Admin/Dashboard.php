@@ -222,11 +222,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $this->logger->info(
             __METHOD__,
             array(
-                'days'          => $days,
-                'count'         => $count,
-                'data'          => $data,
-                'cache_filename'=> $cache_filename,
-                'cache_dir'     => $this->cache_dir
+                'days'              => $days,
+                'count'             => $count,
+                'data'              => $data,
+                'cache_filename'    => $cache_filename,
+                'cache_dir'         => $this->cache_dir,
             )
         );
 
@@ -323,15 +323,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'date' => array(
                     array(
                         'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
-                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days ),
                     )
                 )
             ),
-            'limit' => (int)$count
+            'limit' => (int) $count,
         );
 
         $data = array(
-
             'converting_items_by_day'   => $converting_items_by_day,
             'best_converting_items'     => $post_views_model->get_most_viewed_posts( $search_args, $days ),
             'least_converting_items'    => $post_views_model->get_least_viewed_posts( $search_args, $days ),
@@ -346,9 +345,9 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
             'impressions'               => $impressions,
             'conversion'                => $conversion,
-            'new_customers'             => array(), // TODO: get data
+            'new_customers'             => '0', // TODO: get data
 
-            'avg_items_sold'            => '', // TODO: needs to be defined
+            'avg_items_sold'            => '0', // TODO: needs to be defined
             'total_items_sold'          => $total_items_sold,
 
             'avg_revenue'               => $avg_revenue,
