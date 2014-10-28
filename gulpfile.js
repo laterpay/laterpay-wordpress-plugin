@@ -18,7 +18,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
     prettify        = require('gulp-jsbeautifier'),
     // sourcemaps      = require('gulp-sourcemaps'),
     soften          = require('gulp-soften'),
-    stripDebug      = require('gulp-strip-debug'),
+    // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
     svgmin          = require('gulp-svgmin'),
@@ -31,7 +31,7 @@ var // autoprefixer    = require('gulp-autoprefixer'),
                         srcSVG      : './laterpay/assets/img/**/*.svg',
                         distJS      : './laterpay/assets/js/',
                         distCSS     : './laterpay/assets/css/',
-                        distSVG     : './laterpay/assets/img/',
+                        distSVG     : './laterpay/assets/img/'
                     };
 
 
@@ -79,6 +79,7 @@ gulp.task('js-watch', function() {
 
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
+        // can't use stripDebug, as it kills the one alert we are using on purpose in laterpay-post-view.js
         // .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
         // .pipe(fixmyjs({                                                         // fix JSHint errors if possible
         //     lookup: false
@@ -113,7 +114,7 @@ gulp.task('fileformat', function() {
                 spaces          : 4,
                 trailingspaces  : true,
                 newline         : true,
-                newlineMaximum  : 2,
+                newlineMaximum  : 2
             }))
             .pipe(lintspaces.reporter());
 });

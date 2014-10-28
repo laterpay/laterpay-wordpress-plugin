@@ -7,11 +7,11 @@ class LaterPay_Helper_Pricing
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
-    const ppu_min         = 0.05;
-    const ppu_max         = 1.48;
-    const ppusis_max      = 5.00;
-    const sis_min         = 1.49;
-    const sis_max         = 149.49;
+    const ppu_min                       = 0.05;
+    const ppu_max                       = 1.48;
+    const ppusis_max                    = 5.00;
+    const sis_min                       = 1.49;
+    const sis_max                       = 149.99;
     const price_ppu_end                 = 0.05;
     const price_ppusis_end              = 1.49;
     const price_sis_end                 = 5.01;
@@ -283,15 +283,7 @@ class LaterPay_Helper_Pricing
      * @return float price
      */
     public static function get_dynamic_price( $post, $post_price ) {
-        if ( function_exists( 'date_diff' ) ) {
-            $date_time = new DateTime( date( 'Y-m-d' ) );
-            $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
-        } else {
-            $d1 = strtotime( date( 'Y-m-d' ) );
-            $d2 = strtotime( $post->post_date );
-            $diff_secs = abs( $d1 - $d2 );
-            $days_since_publication = floor( $diff_secs / ( 3600 * 24 ) );
-        }
+        $days_since_publication = self::dynamic_price_days_after_publication( $post );
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_price[ 'start_price' ];
@@ -311,6 +303,29 @@ class LaterPay_Helper_Pricing
         }
 
         return $rounded_price;
+    }
+
+    /**
+     * Get the current days count since publication.
+     *
+     * @param WP_Post $post
+     *
+     * @return int days
+     */
+    public static function dynamic_price_days_after_publication( $post ) {
+        $days_since_publication = 0;
+
+        if ( function_exists( 'date_diff' ) ) {
+            $date_time = new DateTime( date( 'Y-m-d' ) );
+            $days_since_publication = $date_time->diff( new DateTime( date( 'Y-m-d', strtotime( $post->post_date ) ) ) )->format( '%a' );
+        } else {
+            $d1 = strtotime( date( 'Y-m-d' ) );
+            $d2 = strtotime( $post->post_date );
+            $diff_secs = abs( $d1 - $d2 );
+            $days_since_publication = floor( $diff_secs / ( 3600 * 24 ) );
+        }
+
+        return $days_since_publication;
     }
 
     /**
@@ -508,12 +523,13 @@ class LaterPay_Helper_Pricing
                 ),
             );
         }
-        
-        //Every zero by Y-axe must be presented as 0.00 for d3.dynamic.widget plot
-        foreach( $dynamic_pricing_data as $index => $point )
-            if( $point['y'] == 0 )
-                $dynamic_pricing_data[$index]['y'] = floatval($point['y']);
-				
+
+        // d3.dynamic.widget needs zero values for the y-axis formatted as 0.00
+        foreach ( $dynamic_pricing_data as $index => $point )
+            if ( $point['y'] == 0 ) {
+                $dynamic_pricing_data[$index]['y'] = floatval( $point['y'] );
+            }
+
         return $dynamic_pricing_data;
     }
 
@@ -611,54 +627,22 @@ class LaterPay_Helper_Pricing
      * @return float
      */
     public static function ensure_valid_price( $price ) {
-        $result_price = 0.00;
+        $validated_price = 0;
 
-        if ( $price == 0.00 || ( $price >= 0.05 && $price <= 149.99 ) ) {
-            $result_price = LaterPay_Helper_View::format_number( $price, 2 );
+        // set all prices between 0.01 and 0.04 to lowest possible price of 0.05
+        if ( $price > 0 && $price < 0.05 ) {
+            $validated_price = 0.05;
         }
 
+        if ( $price == 0 || ( $price >= 0.05 && $price <= 149.99 ) ) {
+            $validated_price = $price;
+        }
+
+        // set all prices greater 149.99 to highest possible price of 149.99
         if ( $price > 149.99 ) {
-            $result_price = 149.99;
+            $validated_price = 149.99;
         }
 
-        return $result_price;
-    }
-
-    /**
-     * Change default price of given post's price type.
-     *
-     * @param int   $post_id
-     * @param float $price
-     *
-     * @return void
-     */
-    public static function update_default_price_of_applied_price_type( $post_id, $price ) {
-        $post_meta = get_post_meta( $post_id, 'laterpay_post_prices', true );
-
-        if ( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
-            update_option( 'laterpay_global_price', $price );
-            $global_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
-            $valid_global_revenue_model = LaterPay_Helper_Pricing::ensure_valid_revenue_model(
-                                                $global_price_revenue_model,
-                                                $price
-                                            );
-            update_option( 'laterpay_global_price_revenue_model', $valid_global_revenue_model );
-        } elseif ( $post_meta['type'] == LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
-            $category_id                  = $post_meta['category_id'];
-            $category_price_model         = new LaterPay_Model_CategoryPrice();
-            $category_price_id            = $category_price_model->get_price_id_by_category_id( $category_id );
-            $category_price_revenue_model = $category_price_model->get_revenue_model_by_category_id( $category_id );
-            $valid_category_revenue_model = LaterPay_Helper_Pricing::ensure_valid_revenue_model(
-                                                $category_price_revenue_model,
-                                                $price
-                                            );
-            $category_price_model->set_category_price(
-                $category_id,
-                $price,
-                $valid_category_revenue_model,
-                $category_price_id
-            );
-        }
-
+        return $validated_price;
     }
 }

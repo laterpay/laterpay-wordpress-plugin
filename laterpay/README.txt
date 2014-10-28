@@ -323,6 +323,16 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.9 (October 28, 2014): Sales Analytics Release =
+* Fixed saving of global default and category default prices with German number format
+* Fixed bug where user was not immediately forwarded to purchases content but had to click purchase button a second time
+* Fixed IPv6 bug in logger / debugger functionality
+* Fixed plugin mode toggle
+* Fixed loading of youtube videos in paid posts
+* Fixed displaying of custom teaser images in laterpay_premium_download shortcode
+* Ensured shortcode plain text is hidden to visitors in test mode
+* Improved server-side validation of forms
+
 = 0.9.8.2 (October 9, 2014): Integration Support Release =
 * Added debugger pane to help with integration of plugin (pane is displayed in debug mode: define('WP_DEBUG', true);)
 * Documented UI options and shortcode usage in appearance tab

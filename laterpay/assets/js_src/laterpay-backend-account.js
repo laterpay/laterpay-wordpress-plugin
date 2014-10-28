@@ -183,15 +183,15 @@
                         // plugin is in test mode, but there are no valid Sandbox API credentials
                         !$o.pluginModeToggle.prop('checked') &&
                         (
-                            $('#lp_sandbox-api-key').val().length     !== 32 ||
-                            $('#lp_sandbox-merchant-id').val().length !== 22
+                            $('#lp_js_sandbox-api-key').val().length     !== 32 ||
+                            $('#lp_js_sandbox-merchant-id').val().length !== 22
                         )
                     ) || (
                         // plugin is in live mode, but there are no valid Live API credentials
                         $o.pluginModeToggle.prop('checked') &&
                         (
-                            $('#lp_live-api-key').val().length        !== 32 ||
-                            $('#lp_live-merchant-id').val().length    !== 22
+                            $('#lp_js_live-api-key').val().length        !== 32 ||
+                            $('#lp_js_live-merchant-id').val().length    !== 22
                         )
                     )
                 ) {
