@@ -279,7 +279,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $impressions            = $post_views_model->get_total_post_impression();
         $impressions            = number_format_i18n( $impressions->quantity );
 
-        $avg_purchase           = number_format_i18n( $total_items_sold / $total_revenue_items, 1 );
+        $avg_revenue            = number_format_i18n( $total_items_sold / $total_revenue_items, 1 );
         $conversion             = number_format_i18n( $total_items_sold / $impressions, 1 );
 
         $args = array(
@@ -313,10 +313,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'conversion'                => $conversion,
             'new_customers'             => array(), // TODO: get data
 
-            'avg_purchase'              => $avg_purchase,
+            'avg_items_sold'            => '', // TODO: needs to be defined
             'total_items_sold'          => $total_items_sold,
 
-            'avg_revenue'               => array(), // TODO: get data
+            'avg_revenue'               => $avg_revenue,
             'total_revenue'             => $total_revenue_items,
         );
 
