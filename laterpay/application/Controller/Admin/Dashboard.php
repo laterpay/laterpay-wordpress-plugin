@@ -108,12 +108,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'cache_file_is_broken'      => $cache_file_is_broken,
 
             // default items which will be overwritten after loading the cached data
+            'converting_items_by_day'   => array(),
             'best_converting_items'     => array(),
             'least_converting_items'    => array(),
 
+            'selling_items_by_day'      => array(),
             'most_selling_items'        => array(),
             'least_selling_items'       => array(),
 
+            'revenue_items_by_day'      => array(),
             'most_revenue_items'        => array(),
             'least_revenue_items'       => array(),
 
