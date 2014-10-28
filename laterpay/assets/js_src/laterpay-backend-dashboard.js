@@ -349,7 +349,7 @@
             initializePage = function() {
                 bindEvents();
 
-                renderDashboard();
+                renderDashboard(lpVars.data);
             };
 
         initializePage();
