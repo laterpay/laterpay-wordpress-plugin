@@ -43,6 +43,7 @@
                 .on('mousedown', $o.purchaseLink, function() {
                     handlePurchaseInTestMode(this);
                 })
+                .on('click', $o.purchaseLink, function(e) {e.preventDefault();});
             },
 
             bindPostStatisticsEvents = function() {
