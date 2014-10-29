@@ -307,7 +307,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         );
 
         // getting the user stats for the given params
-        $user_stats = $history_model->get_user_stats( array( 'where' => $where ) );
+        $user_stats = $history_model->get_user_stats( $args );
         $total_customers    = count( $user_stats );
         $new_customers      = 0;
         $returning_customers= 0;
