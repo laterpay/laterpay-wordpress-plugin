@@ -245,15 +245,34 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $cache_data array with cached data or empty array on failure
      */
     protected function load_cache_data( $file_path ) {
+
+        if ( !file_exists( $file_path ) ) {
+            $this->logger->error(
+                __METHOD__ . ' - cache-file not found',
+                array(
+                    'file_path' => $file_path,
+                )
+            );
+            return array();
+        }
+
         $cache_data = file_get_contents( $file_path );
         $cache_data = maybe_unserialize( $cache_data );
+
         if ( ! is_array( $cache_data ) ) {
-            $cache_data = array();
+            $this->logger->error(
+                __METHOD__ . ' - invalid cache data',
+                array(
+                    'file_path' => $file_path,
+                    'cache_data'=> $cache_data
+                )
+            );
+            return array();
+
         }
 
         $this->logger->info(
-            __METHOD__,
-            array(
+            __METHOD__, array(
                 'file_path' => $file_path,
                 'cache_data'=> $cache_data,
             )
@@ -274,16 +293,38 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $post_views_model       = new LaterPay_Model_Post_Views();
         $history_model          = new LaterPay_Model_Payments_History();
 
-        $args = array(
-            'where' => array(
-                'date' => array(
-                    array(
-                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
-                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
-                    )
+        $where = array(
+            'date' => array(
+                array(
+                    'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                    'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
                 )
             )
         );
+
+        $args = array(
+            'where' => $where,
+        );
+
+        // getting the user stats for the given params
+        $user_stats = $history_model->get_user_stats( array( 'where' => $where ) );
+        $total_customers    = count( $user_stats );
+        $new_customers      = 0;
+        $returning_customers= 0;
+        foreach ( $user_stats as $stat ) {
+
+            if ( (int) $stat->quantity === 1 ) {
+                $new_customers += 1;
+            } else {
+                $returning_customers += 1;
+            }
+
+        }
+
+        if ( $total_customers > 0 ) {
+            $new_customers      = round( $new_customers * 100 / $total_customers );
+            $returning_customers= round( $returning_customers * 100 / $total_customers );
+        }
 
         $total_items_sold       = $history_model->get_total_items_sold( $args );
         $total_items_sold       = number_format_i18n( $total_items_sold->quantity );
@@ -319,14 +360,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         // search args for items with sparkline
         $search_args = array(
-            'where' => array(
-                'date' => array(
-                    array(
-                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
-                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days ),
-                    )
-                )
-            ),
+            'where' => $where,
             'limit' => (int) $count,
         );
 
@@ -345,7 +379,9 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
             'impressions'               => $impressions,
             'conversion'                => $conversion,
-            'new_customers'             => '0', // TODO: get data
+
+            'new_customers'             => $new_customers,
+            'returning_customers'       => $returning_customers,
 
             'avg_items_sold'            => '0', // TODO: needs to be defined
             'total_items_sold'          => $total_items_sold,

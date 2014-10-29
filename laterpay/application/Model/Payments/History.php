@@ -92,6 +92,36 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
+     * Gets the user stats with default 8 days back.
+     *
+     * @param array $args
+     * @return array $results
+     */
+    public function get_user_stats( $args = array() ) {
+        $default_args = array(
+            'where' => array(
+                'date'      => array(
+                    array(
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 30 ), // end of today
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 38 )
+                    )
+                )
+            ),
+            'order_by'  => 'quantity',
+            'order'     => 'DESC',
+            'group_by'  => 'ip',
+            'fields'    => array(
+                'post_id',
+                'ip',
+                'COUNT(ip)  AS quantity',
+                'SUM(price) AS amount',
+            )
+        );
+        $args = wp_parse_args( $args, $default_args );
+        return $this->get_results( $args );
+    }
+
+    /**
      * Gets the history with default 8 days back.
      *
      * @param array $args
