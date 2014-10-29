@@ -318,12 +318,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 // render link to purchased post
                 $button_page_url = $page_url;
             }
-            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchase-link-shortcode lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
         } else {
             // the user has not purchased the item yet
             $button_page_url = $page_url;
             $button_label    = $price_tag;
-            // hide purchase button for administrator preview
             $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
             if ( is_array( $view_args ) ) {
                 $this->assign( 'laterpay', $view_args );
