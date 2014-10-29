@@ -220,10 +220,9 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         'click',
         function(event) {
             event.preventDefault();
-            if (event.currentTarget.getData('preview-as-visitor')) {    
+            if (event.currentTarget.getData('preview-as-visitor')) {
                 alert(lpVars.i18nAlert);
-            }
-            else {
+            } else {
                 var url = event.currentTarget.getAttribute('href');
                 if (event.currentTarget.hasAttribute('data-laterpay')) {
                     url = event.currentTarget.getAttribute('data-laterpay');
