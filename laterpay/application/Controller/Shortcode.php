@@ -52,6 +52,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                 'description_text'  => '',
                                 'content_type'      => '',
                                 'teaser_image_path' => '',
+                                // deprecated:
+                                'target_page_id'    => '',
+                                'target_page_title' => '',
                             ), $atts );
 
         $deprecated_template = __( '<code>%1$s</code> is deprecated, please use <code>%2$s</code>. <code>%1$s</code> will be removed in the next release.', 'laterpay' );
@@ -62,8 +65,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             _deprecated_argument(
                 __FUNCTION__,
-                $msg,
-                '0.9.8.3'
+                '0.9.8.3',
+                $msg
             );
 
             $this->logger->warning(
@@ -80,8 +83,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             _deprecated_argument(
                 __FUNCTION__,
-                $msg,
-                '0.9.8.3'
+                '0.9.8.3',
+                $msg
             );
 
             $this->logger->warning(
