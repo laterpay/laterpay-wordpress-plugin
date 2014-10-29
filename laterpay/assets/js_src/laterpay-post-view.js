@@ -21,7 +21,7 @@
                 postStatisticsPlaceholder       : $('#lp_js_post-statistics-placeholder'),
 
                 // purchase buttons and purchase links
-                purchaseLink                    : $('.lp_js_do-purchase'),
+                purchaseLink                    : '.lp_js_do-purchase',
 
                 // strings cached for better compression
                 hidden                          : 'lp_is_hidden',
@@ -212,12 +212,18 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
                             showCloseBtn        : true,
                             canSkipAddToInvoice : false
                           },
-        dm              = new Y.LaterPay.DialogManager();
+        dm              = new Y.LaterPay.DialogManager(),
+        ah              = new Y.LaterPay.AccountActionHandler(dm);
 
     if (!$purchaseLink) {
         // don't register the dialogs, if there's no purchase link in the page
         return;
     }
+
+    console.log( ah );
+    ah.on('laterpay.dialog.login',function(){ console.log('ok!'); });
+	ah.on('laterpay.dialog.signup',function(){ console.log('ok!'); });
+	ah.on('laterpay.purchase.complete',function(){ console.log('ok!'); });
 
     if ($purchaseLink.getData('preview-as-visitor')) {
         // bind event to purchase link and return, if 'preview as visitor' is activated for admins
