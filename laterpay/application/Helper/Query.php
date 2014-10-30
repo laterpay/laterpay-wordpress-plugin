@@ -234,4 +234,39 @@ class LaterPay_Helper_Query
         return $this->last_query;
     }
 
+    /**
+     * Building the sparkline by given wpdb-result with end- and start-timestamp
+     *
+     * @param array $items
+     * @param int $start_timestamp
+     * @param int $end_timestamp
+     *
+     * @return array $sparkline
+     */
+    protected function build_sparkline( $items, $start_timestamp, $end_timestamp ) {
+        $sparkline = array();
+
+        // sorting the results with date as $key
+        $days_sorted = LaterPay_Helper_Dashboard::sort_items_by_date( $items );
+
+        // getting the diff of days between end- and start-timestamp
+        $days_diff = ( ( $start_timestamp - $end_timestamp ) / 86400 );
+
+        // getting all days between start-timestamp - days diff
+        $days = LaterPay_Helper_Dashboard::get_days_as_array( $start_timestamp, $days_diff );
+
+        // looping through all found days and adding the found quantity or 0 to sparkline
+        foreach ( $days as $day_item ) {
+            $date = $day_item->date;
+            if ( array_key_exists( $date, $days_sorted ) ) {
+                $sparkline[] = $days_sorted[ $date ]->quantity;
+            } else {
+                $sparkline[] = 0;
+            }
+        }
+
+        $sparkline = array_reverse( $sparkline );
+        return $sparkline;
+    }
+
 }
