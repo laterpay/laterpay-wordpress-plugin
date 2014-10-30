@@ -75,6 +75,7 @@ var LPCurve = function(container) {
             ry      : 3,
         });
 
+    svg.insert('foreignObject').attr('class', 'start-input').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
     svg.append('text').attr('class', 'start-price').attr('text-anchor', 'end');
     svg.append('text').attr('class', 'start-price-currency').attr('text-anchor', 'end').text(this.currency);
     svg.append('path').attr('class', 'start-price-triangle');
@@ -88,6 +89,7 @@ var LPCurve = function(container) {
             ry      : 3,
         });
 
+    svg.insert('foreignObject').attr('class', 'end-input').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
     svg.append('text').attr('class', 'end-price').attr('text-anchor', 'end');
     svg.append('text').attr('class', 'end-price-currency').attr('text-anchor', 'end').text(this.currency);
     svg.append('path').attr('class', 'end-price-triangle');
@@ -95,6 +97,42 @@ var LPCurve = function(container) {
     this.svg = svg;
 
     jQuery(window).bind('resize', function() { self.plot(); });
+
+    // Events for start price input
+    jQuery('body').on('click','.start-price,.start-price-currency,.start-price-triangle',function(e){
+        lpc.toggle_start_input('show');
+    });
+    jQuery('.start-input input').change(function(e){
+        lpc.toggle_start_input('hide'); // have to leave one event only: update or focusout. Depends of point of view.
+    });
+    jQuery('.start-input input').focusout(function(e){
+        lpc.toggle_start_input('hide'); // have to leave one event only: update or focusout. Depends of point of view.
+    });
+    jQuery('.start-input input').keydown(function(e){
+        var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+        if(key == 13) {
+            e.preventDefault();
+            lpc.toggle_start_input('hide');
+        }
+    });
+    
+    // Events for end price input
+    jQuery('body').on('click','.end-price,.end-price-currency,.end-price-triangle',function(e){
+        lpc.toggle_end_input('show');
+    });
+    jQuery('.end-input input').change(function(e){
+        lpc.toggle_end_input('hide'); // have to leave one event only: update or focusout. Depends of point of view. 
+    });
+    jQuery('.end-input input').focusout(function(e){
+        lpc.toggle_end_input('hide'); // have to leave one event only: update or focusout. Depends of point of view.
+    });
+    jQuery('.end-input input').keydown(function(e){
+        var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+        if(key == 13) {
+            e.preventDefault();
+            lpc.toggle_end_input('hide');
+        }
+    });
 };
 
 LPCurve.prototype.interpolate = function(i) {
@@ -285,6 +323,16 @@ LPCurve.prototype.plot = function() {
             return  'M ' + x + ' ' + y + ' l 5 5 l -5 5 z';
         });
 
+    // START PRICE INPUT
+    svg.select('.start-input')
+        .datum((self.data)[0])
+        .call(dragYAxisBehavior)
+        .transition().duration(dragging ? 0 : 250)
+        .attr({
+            x: function()  { return -38; },
+            y: function(d) { return yScale(d.y) - 12.5; },
+        });
+
     // END PRICE
     // -------------------------------------------------------------------------------------------------------
     // SQUARE
@@ -293,7 +341,13 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function()  { return width + 18; },
+            x: function()  { 
+                if( jQuery('.end-input') && jQuery('.end-input').is(':visible') ){
+                    return width; 
+                }else{
+                    return width + 16; 
+                }
+            },
             y: function(d) { return yScale(d.y) - 15; },
         });
 
@@ -327,6 +381,22 @@ LPCurve.prototype.plot = function() {
             x = width + 18;
             y = yScale(d.y) + 5;
             return  'M ' + x + ' ' + y + ' l 0 -10 l -5 5 z';
+        });
+
+    // END PRICE INPUT
+    svg.select('.end-input')
+        .datum((self.data)[self.data.length - 1])
+        .call(dragYAxisBehavior)
+        .transition().duration(dragging ? 0 : 250)
+        .attr({
+            x: function()  { 
+                if( jQuery('.end-input') && jQuery('.end-input input').is(':visible') ){
+                    return width + 2;
+                }else{
+                    return width + 20; 
+                }
+            },
+            y: function(d) { return yScale(d.y) - 13; },
         });
 
     // Elements on top of the graphic
@@ -614,3 +684,99 @@ LPCurve.prototype.plot = function() {
         }
     }
 };
+
+LPCurve.prototype.toggle_start_input = function( action ){
+    
+    var drag_shake = 1;
+    
+    var data = lpc.get_data();
+    var plot_price = data[0].y;
+    var input_price = parseFloat( jQuery('.start-input input').val() );
+    
+    if( action == 'hide' ){
+            
+        if( input_price > this.maxPrice ){
+            
+            jQuery('.start-input input').val( this.maxPrice );
+            data[0].y = this.maxPrice;
+            data[1].y = this.maxPrice;
+            lpc.set_data(data).plot();
+        }else if( input_price < this.minPrice && input_price != 0 ){
+            
+            jQuery('.start-input input').val( this.minPrice );
+            data[0].y = this.minPrice;
+            data[1].y = this.minPrice;
+            lpc.set_data(data).plot();
+        }else{
+            
+            data[0].y = input_price;
+            data[1].y = input_price;
+            lpc.set_data(data).plot();
+        }
+        jQuery('rect.start-price').attr('width','32px');
+        jQuery('.start-input').hide();
+        jQuery('path.start-price-triangle,text.start-price-currency,text.start-price').show();
+    }else if( action == 'show' ){
+    
+        jQuery('rect.start-price').attr('width','50px');
+        jQuery('path.start-price-triangle,text.start-price-currency,text.start-price').hide();
+        jQuery('.start-input').show();
+        jQuery('.start-input input').val( plot_price.toFixed(2) );
+    }else if( action == 'update' ){
+        
+        if( jQuery('.start-input input').is(':visible') ){
+            var diff = Math.abs( plot_price - input_price );
+            if( diff > drag_shake ){
+                jQuery('.start-input input').val( plot_price.toFixed(2) );
+            }
+        }
+    }
+}
+
+LPCurve.prototype.toggle_end_input = function( action ){
+    
+    var drag_shake = 1;
+    
+    var data = lpc.get_data();
+    var plot_price = data[2].y;
+    var input_price = parseFloat( jQuery('.end-input input').val() );
+    var basic_x = jQuery(this.container).width() - margin.xAxis;
+    
+    if( action == 'hide' ){
+            
+        if( input_price > this.maxPrice ){
+            
+            jQuery('.end-input input').val( this.maxPrice );
+            data[0].y = this.maxPrice;
+            data[1].y = this.maxPrice;
+            lpc.set_data(data).plot();
+        }else if( input_price < this.minPrice && input_price != 0 ){
+            
+            jQuery('.end-input input').val( this.minPrice );
+            data[2].y = this.minPrice;
+            data[3].y = this.minPrice;
+            lpc.set_data(data).plot();
+        }else{
+            
+            data[2].y = input_price;
+            data[3].y = input_price;
+            lpc.set_data(data).plot();
+        }
+        jQuery('rect.end-price').attr('width', '32px' );
+        jQuery('.end-input').hide();
+        jQuery('path.end-price-triangle,text.end-price-currency,text.end-price').show();
+    }else if( action == 'show' ){
+    
+        jQuery('rect.end-price').attr( 'width', '50px' ).attr('x', basic_x );
+        jQuery('path.end-price-triangle,text.end-price-currency,text.end-price').hide();
+        jQuery('.end-input').attr('x', basic_x + 2 ).show();
+        jQuery('.end-input input').val( plot_price.toFixed(2) );
+    }else if( action == 'update' ){
+        
+        if( jQuery('.end-input input').is(':visible') ){
+            var diff = Math.abs( plot_price - input_price );
+            if( diff > drag_shake ){
+                jQuery('.end-input input').val( plot_price.toFixed(2) );
+            }
+        }
+    }
