@@ -40,8 +40,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-backend-dashboard' );
 
-        // get the cache filename - by default 7 days back and a maximum of 10 items
-        $cache_filename = $this->get_cache_filename( 7, 10 );
+        // get the cache filename - by default 8 days back and a maximum of 10 items
+        $cache_filename = $this->get_cache_filename( 8, 10 );
         $cache_dir      = $this->get_cache_dir();
 
         // contains the state, if the cache file was generated for today
@@ -284,7 +284,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      *
      * @return array $data
      */
-    protected function get_dashboard_data( $start_timestamp = null, $count = 10, $interval = 7 ) {
+    protected function get_dashboard_data( $start_timestamp = null, $count = 10, $interval = 8 ) {
         $post_views_model   = new LaterPay_Model_Post_Views();
         $history_model      = new LaterPay_Model_Payments_History();
 

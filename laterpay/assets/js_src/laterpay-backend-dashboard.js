@@ -46,8 +46,8 @@
                 var xAxisTicks      = data.converting_items_by_day.x,
                     backgroundBars  = [];
 
+                // generate an array of 100% values to use as background for percentage column charts
                 i = 0;
-
                 for (; i < $o.daysBack; i++) {
                     backgroundBars.push([i + 1, 100]);
                 }
@@ -283,14 +283,12 @@
                 });
 
                 // best / worst lists
-                if (data) { // TODO: this if statement should be removed as soon as all data are rendered client-side
-                    renderTopBottomList($o.bestConvertingList,  data.best_converting_items);
-                    renderTopBottomList($o.leastConvertingList, data.least_converting_items);
-                    renderTopBottomList($o.bestSellingList,     data.most_selling_items);
-                    renderTopBottomList($o.leastSellingList,    data.least_selling_items);
-                    renderTopBottomList($o.bestGrossingList,    data.most_revenue_items);
-                    renderTopBottomList($o.leastGrossingList,   data.least_revenue_items);
-                }
+                renderTopBottomList($o.bestConvertingList,  data.best_converting_items);
+                renderTopBottomList($o.leastConvertingList, data.least_converting_items);
+                renderTopBottomList($o.bestSellingList,     data.most_selling_items);
+                renderTopBottomList($o.leastSellingList,    data.least_selling_items);
+                renderTopBottomList($o.bestGrossingList,    data.most_revenue_items);
+                renderTopBottomList($o.leastGrossingList,   data.least_revenue_items);
             },
 
             renderTopBottomList = function($list, data) {
@@ -303,11 +301,11 @@
                     // create list item for each data set
                     for (; i < l; i++) {
                         $o.list.push(renderListItem(
-                                        data.post_id,
-                                        data.post_title,
-                                        data.amount,
-                                        data.unit,
-                                        data.sparkline
+                                        data[i].post_id,
+                                        data[i].post_title,
+                                        data[i].amount,
+                                        data[i].unit,
+                                        data[i].sparkline
                                     ));
                     }
                 } else {
