@@ -60,7 +60,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $deprecated_template = __( '<code>%1$s</code> is deprecated, please use <code>%2$s</code>. <code>%1$s</code> will be removed in the next release.', 'laterpay' );
 
         // backward compatibility for attribute 'target_page_title'
-        if ( array_key_exists( 'target_page_title', $a ) ) {
+        if ( ! empty( $a['target_page_title'] ) ) {
             $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
 
             _deprecated_argument(
@@ -74,11 +74,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 array( 'attrs' => $a )
             );
 
-            $a[ 'target_post_title' ] = $a[ 'target_page_title' ];
+            if ( empty( $a['target_post_title'] ) ) {
+                $a[ 'target_post_title' ] = $a[ 'target_page_title' ];
+            }
         }
 
         // backward compatibility for attribute 'target_page_id'
-        if ( array_key_exists( 'target_page_id', $a ) ) {
+        if ( ! empty( $a['target_page_id'] ) ) {
             $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
 
             _deprecated_argument(
@@ -92,7 +94,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 array( 'attrs' => $a )
             );
 
-            $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
+            if ( empty( $a['target_post_id'] ) ) {
+                $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
+            }
         }
 
         $error_reason = '';
