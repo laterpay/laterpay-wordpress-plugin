@@ -611,7 +611,7 @@ LPCurve.prototype.plot = function() {
     }
 
     function dragstartPoint() { self.dragging = true; jQuery(self.container).toggleClass('lp_is_dragging'); }
-    function dragendPoint() { self.dragging = false; jQuery(self.container).toggleClass('lp_is_dragging'); }
+    function dragendPoint() { self.dragging = false; jQuery(self.container).toggleClass('lp_is_dragging'); lpc.toggle_start_input('update'); lpc.toggle_end_input('update'); }
 
 
     // DRAG AXIS X 'days' FUNCTIONS
