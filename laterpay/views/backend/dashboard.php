@@ -18,8 +18,7 @@
 
     <div class="lp_wrap">
 
-    <h1><?php echo sprintf( __( '%s Performance of %s (%s)', 'laterpay' ), '8-days', get_option( 'blogname' ), '17.10. - 25.10.'  ); ?></h1>
-        <a href="#" id="lp_js_refresh-dashboard">Refresh</a>
+    <h1><?php echo sprintf( __( '%s Performance of %s (%s) %s', 'laterpay' ), '8-days', get_option( 'blogname' ), '17.10. - 25.10.', '<a href="#" id="lp_js_refresh-dashboard">Refresh</a>' ); ?></h1>
 
         <div class="lp_row">
             <div class="lp_w-1-3">
