@@ -43,14 +43,13 @@
             },
 
             renderDashboard = function(data) {
-                var backgroundBars  = [],
-                    xAxisTicks      = [];
+                var xAxisTicks      = data.converting_items_by_day.x,
+                    backgroundBars  = [];
 
                 i = 0;
 
                 for (; i < $o.daysBack; i++) {
                     backgroundBars.push([i + 1, 100]);
-                    xAxisTicks.push([i + 1, 'Mon']);        // TODO: get real day names
                 }
 
                 // flot diagrams
@@ -68,7 +67,7 @@
                             }
                         },
                         {
-                            data            : data.converting_items_by_day,
+                            data            : data.converting_items_by_day.y,
                             bars            : {
                                 show        : true,
                                 barWidth    : 0.35,
@@ -120,7 +119,7 @@
                 $.plot($o.salesDiagram,
                     [
                         {
-                            data            : data.selling_items_by_day,
+                            data            : data.selling_items_by_day.y,
                             color           : '#50C371',
                             lines           : {
                                 show        : true,
@@ -193,7 +192,7 @@
 
                 $.plot($o.revenueDiagram,
                     [   {
-                            data            : data.revenue_items_by_day,
+                            data            : data.revenue_items_by_day.y,
                             color           : '#50C371',
                             lines           : {
                                 show        : true,
