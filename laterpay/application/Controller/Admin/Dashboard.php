@@ -312,13 +312,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $new_customers      = 0;
         $returning_customers= 0;
         foreach ( $user_stats as $stat ) {
-
             if ( (int) $stat->quantity === 1 ) {
                 $new_customers += 1;
             } else {
                 $returning_customers += 1;
             }
-
         }
 
         if ( $total_customers > 0 ) {
@@ -335,9 +333,9 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $impressions            = $post_views_model->get_total_post_impression( $args );
         $impressions            = number_format_i18n( $impressions->quantity );
 
-        $avg_revenue = 0;
+        $avg_purchase = 0;
         if ( $total_revenue_items > 0 ) {
-            $avg_revenue = number_format_i18n($total_items_sold / $total_revenue_items, 1);
+            $avg_purchase = number_format_i18n($total_items_sold / $total_revenue_items, 1);
         }
 
         $conversion = 0;
@@ -345,18 +343,24 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $conversion = number_format_i18n($total_items_sold / $impressions, 1);
         }
 
+        $avg_items_sold = 0;
+        if ( $total_items_sold > 0 ) {
+            $avg_items_sold = number_format_i18n($total_items_sold / $days, 0);
+        }
+
         $args = array(
             'order_by'  => 'day',
             'group_by'  => 'day',
+            'where'     => $where
         );
-        $converting_items_by_day    = $post_views_model->get_history( $args );
-        $selling_items_by_day       = $history_model->get_history( $args );
+        $converting_items_by_day = $post_views_model->get_history( $args );
+        $converting_items_by_day = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $converting_items_by_day );
 
-        $args = array(
-            'order_by'  => 'currency_id, day',
-            'group_by'  => 'day',
-        );
-        $revenue_items_by_day       = $history_model->get_revenue_history( $args );
+        $selling_items_by_day = $history_model->get_history( $args );
+        $selling_items_by_day = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $selling_items_by_day );
+
+        $revenue_items_by_day = $history_model->get_revenue_history( $args );
+        $revenue_items_by_day = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $revenue_items_by_day );
 
         // search args for items with sparkline
         $search_args = array(
@@ -379,14 +383,13 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
             'impressions'               => $impressions,
             'conversion'                => $conversion,
-
             'new_customers'             => $new_customers,
             'returning_customers'       => $returning_customers,
 
-            'avg_items_sold'            => '0', // TODO: needs to be defined
+            'avg_items_sold'            => $avg_items_sold,
             'total_items_sold'          => $total_items_sold,
 
-            'avg_revenue'               => $avg_revenue,
+            'avg_purchase'              => $avg_purchase,
             'total_revenue'             => $total_revenue_items,
         );
 
