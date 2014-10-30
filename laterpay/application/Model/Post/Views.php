@@ -94,21 +94,13 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     }
 
     /**
-     * Gets the history with default 8 days back.
+     * Gets the history.
      *
      * @param array $args
      * @return array $results
      */
     public function get_history( $args = array() ) {
         $default_args = array(
-            'where' => array(
-                'date'      => array(
-                    array(
-                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
-                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 8 )
-                    )
-                )
-            ),
             'order'     => 'ASC',
             'fields'    => array(
                 'SUM(count)     AS quantity',
@@ -117,9 +109,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
                 'DAYNAME(date)  AS day_name'
             )
         );
-
         $args = wp_parse_args( $args, $default_args );
-
         return $this->get_results( $args );
     }
 
@@ -146,7 +136,6 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             'group_by'  => 'DATE(date)',
             'fields'    => array( 'DATE(date) AS date', 'COUNT(*) as quantity' )
         );
-
         return $this->get_results( $args );
     }
 
@@ -163,22 +152,17 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     }
 
     /**
-     * Get most viewed posts x days back. By default 8 days back with max. 10 posts.
+     * Get most viewed posts x days back. By default top 10 posts.
+     * Leave end- and start-timestamp empty to fetch the results without sparkline.
      *
      * @param array $args
-     * @param int $days
+     * @param int $start_timestamp
+     * @param int $end_timestamp
      *
      * @return array $results
      */
-    public function get_most_viewed_posts( $args = array(), $days = 8 ) {
+    public function get_most_viewed_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
         $default_args = array(
-            'where' => array(
-                'date' => array(
-                    array(
-                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
-                    )
-                )
-            ),
             'fields'    => array( 'post_id', 'SUM(count) AS quantity' ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
@@ -189,13 +173,17 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 
         $results = $this->get_results( $args );
 
+        if ( $end_timestamp === null || $start_timestamp === null ) {
+            return $results;
+        }
+
         // fetch the total count of post views
         $total_quantity = $this->get_total_post_impression();
         $total_quantity = $total_quantity->quantity;
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline          = $this->get_sparkline( $data->post_id, $days );
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
             $data->sparkline    = implode( ',', $sparkline );
 
             // % amount
@@ -209,22 +197,17 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     }
 
     /**
-     * Get least viewed posts x days back. By default 8 days back with max. 10 posts.
+     * Get least viewed posts x days back. By default with max. 10 posts.
+     * Leave end- and start-timestamp empty to fetch the results without sparkline.
      *
      * @param array $args
-     * @param integer $days
+     * @param int $start_timestamp
+     * @param int $end_timestamp
      *
      * @return array $results
      */
-    public function get_least_viewed_posts( $args = array(), $days = 8 ) {
+    public function get_least_viewed_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
         $default_args = array(
-            'where' => array(
-                'date' => array(
-                    array(
-                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
-                    )
-                )
-            ),
             'fields'    => array( 'post_id', 'SUM(count) AS quantity' ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
@@ -236,12 +219,16 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 
         $results = $this->get_results( $args );
 
+        if ( $end_timestamp === null || $start_timestamp === null ) {
+            return $results;
+        }
+
         $total_quantity = $this->get_total_post_impression();
         $total_quantity = $total_quantity->quantity;
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline          = $this->get_sparkline( $data->post_id, $days );
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
             $data->sparkline    = implode( ',', $sparkline );
 
             // % amount
@@ -274,7 +261,6 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
                 )
             )
         );
-
         return $this->get_results( $args );
     }
 
@@ -282,40 +268,31 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
      * Get sparkline data for the given $post_id for x days back.
      *
      * @param int $post_id
-     * @param int $days
+     * @param int $start_timestamp
+     * @param int $end_timestamp
      *
      * @return array $sparkline
      */
-    public function get_sparkline( $post_id, $days ) {
-        $sparkline = array();
-
-        for ($i = 1; $i <= (int) $days; $i ++) {
-            $args = array(
-                'fields' => array( 'SUM(count) AS quantity' ),
-                'where' => array(
-                    'date' => array(
-                        array(
-                            'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $i ),
-                            'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $i ),
-                        )
-                    ),
-                    'post_id' => (int) $post_id
-                )
-            );
-
-            $day_post_views = $this->get_results( $args );
-
-            if ( empty( $day_post_views ) ) {
-                $sparkline[] = 0;
-            } else {
-                $sparkline[] = $day_post_views[0]->quantity;
-            }
-        }
-
-        // reverse the order of $sparkline, to start today - $days days
-        $sparkline = array_reverse( $sparkline );
-
-        return $sparkline;
+    public function get_sparkline( $post_id, $start_timestamp, $end_timestamp ) {
+        $args = array(
+            'fields' => array(
+                'DAY(date)  AS day',
+                'DATE(date) AS date',
+                'SUM(count) AS quantity'
+            ),
+            'where' => array(
+                'date' => array(
+                    array(
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $end_timestamp ),
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $start_timestamp ),
+                    )
+                ),
+                'post_id' => (int) $post_id
+            ),
+            'group_by' => 'DAY(date)',
+            'order_by' => 'DATE(date)',
+        );
+        $results = $this->get_results( $args );
+        return $this->build_sparkline( $results, $start_timestamp, $end_timestamp );
     }
-
 }

@@ -13,36 +13,35 @@ class LaterPay_Helper_Dashboard {
      *                      ),
      *                      ..
      *                  )
-     * @param int $days
+     * @param array $days
      * @return array $data array(
      *                          'x' => [{key}, day-of-week-1]
      *                          'y' => [{key}, kpi-value-1]
      *                      );
      */
-    public static function convert_history_result_to_diagram_data( $items, $days = 8 ){
+    public static function convert_history_result_to_diagram_data( $items, $days ){
 
         $data = array(
             'x' => array(),
             'y' => array(),
         );
 
-        $last_days      = LaterPay_Helper_Dashboard::get_last_days( $days );
         $items_by_day   = LaterPay_Helper_Dashboard::sort_items_by_date( $items );
-        $items          = LaterPay_Helper_Dashboard::fill_empty_days( $items_by_day, $last_days );
+        $items          = LaterPay_Helper_Dashboard::fill_empty_days( $items_by_day, $days );
 
-        $i = 1;
-        foreach ( $items as $key => $item ) {
+        $key = 1;
+        foreach ( $items as $item ) {
             $data[ 'x' ][] = array(
-                $i,
-                $item[ 'day_name' ]
+                $key,
+                $item->day_name
             );
 
             $data[ 'y' ][] = array(
-                $i,
-                $item[ 'quantity' ]
+                $key,
+                $item->quantity
             );
 
-            $i++;
+            $key = $key + 1;
         }
 
         laterpay_get_logger()->info(
@@ -64,6 +63,7 @@ class LaterPay_Helper_Dashboard {
      *                          [quantity]  => 3
      *                          [day_name]  => Monday
      *                          [day]       => 27
+     *                          [date]      => 2014-10-27
      *                      ),
      *                      ..
      *                  )
@@ -89,26 +89,31 @@ class LaterPay_Helper_Dashboard {
     }
 
     /**
-     * Returns an array with {n} days back.
+     * Returns an array with all days within the given start- and end-timestamp.
      *
-     * @param int $days_back
+     * @param int $start_timestamp
+     * @param int $interval
      * @return array $last_days
      */
-    public static function get_last_days( $days_back ){
+    public static function get_days_as_array( $start_timestamp, $interval ){
         $last_days = array();
-        for ( $i = 0; $i < $days_back; $i++ ) {
-            $time_stamp     = strtotime( '-' . $i . ' days' );
-            $last_days[]    = array(
-                'date'      => gmdate( 'Y-m-d', $time_stamp ),
-                'day_name'  => gmdate( 'l', $time_stamp )
-            ) ;
+        for ( $i = 0; $i < $interval; $i++ ) {
+            $time_stamp     = strtotime( '-' . $i . ' days', $start_timestamp );
+
+            $item           = new stdClass();
+            $item->date     = gmdate( 'Y-m-d', $time_stamp );
+            $item->day_name = gmdate( 'l', $time_stamp );
+
+            $last_days[]    = $item;
         }
 
         laterpay_get_logger()->info(
             __METHOD__,
             array(
-                'days_back' => $days_back,
-                'last_days' => $last_days
+                'end_timestamp' => $start_timestamp,
+                'formatted_end_timestamp' => date( 'Y-m-d', $start_timestamp ),
+                'interval'      => $interval,
+                'last_days'     => $last_days
             )
         );
 
@@ -125,13 +130,15 @@ class LaterPay_Helper_Dashboard {
      */
     public static function fill_empty_days( $items, $last_days ) {
         foreach( $last_days as $day_item ) {
-            $date       = $day_item[ 'date' ];
-            $day_name   = $day_item[ 'day_name' ];
+            $date       = $day_item->date;
+            $day_name   = $day_item->day_name;
             if ( !array_key_exists( $date, $items ) ) {
-                $items[ $date ] = array(
-                    'day_name'   => $day_name,
-                    'quantity'   => 0
-                );
+
+                $item           = new stdClass();
+                $item->day_name = $day_name;
+                $item->quantity = 0;
+
+                $items[ $date ] = $item;
             }
         }
 
