@@ -302,6 +302,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             )
         );
 
+        // search args for metrics
         $args = array(
             'where' => $where,
         );
@@ -348,6 +349,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $avg_items_sold = number_format_i18n($total_items_sold / $days, 0);
         }
 
+        // search args for history items
         $args = array(
             'order_by'  => 'day',
             'group_by'  => 'day',
