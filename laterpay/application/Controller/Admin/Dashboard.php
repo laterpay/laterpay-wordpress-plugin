@@ -27,15 +27,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         // load page-specific JS
         wp_register_script(
             'laterpay-flot',
-            $this->config->js_url . 'vendor/jquery.flot.min.js',
+            $this->config->js_url . 'vendor/lp_jquery.flot.js',
             array( 'jquery' ),
-            $this->config->version,
-            true
-        );
-        wp_register_script(
-            'laterpay-flot-time',
-            $this->config->js_url . 'vendor/jquery.flot.time.js',
-            array( 'jquery', 'laterpay-flot' ),
             $this->config->version,
             true
         );
@@ -49,12 +42,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         wp_register_script(
             'laterpay-backend-dashboard',
             $this->config->js_url . 'laterpay-backend-dashboard.js',
-            array( 'jquery', 'laterpay-flot', 'laterpay-flot-time', 'laterpay-peity' ),
+            array( 'jquery', 'laterpay-flot', 'laterpay-peity' ),
             $this->config->version,
             true
         );
         wp_enqueue_script( 'laterpay-flot' );
-        wp_enqueue_script( 'laterpay-flot-time' );
         wp_enqueue_script( 'laterpay-peity' );
         wp_enqueue_script( 'laterpay-backend-dashboard' );
 
@@ -62,14 +54,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $cache_filename = $this->get_cache_filename( 8, 10 );
 
         // contains the state, if the cache file was generated for today
-        $this->cache_file_exists      = file_exists( $this->cache_dir . $cache_filename );
+        $this->cache_file_exists    = file_exists( $this->cache_dir . $cache_filename );
 
         $this->cache_file_is_broken = false;
         $cache_data                 = array();
 
         // load the cache data
         if ( $this->cache_file_exists ) {
-            $cache_data           = $this->load_cache_data( $this->cache_dir . $cache_filename );
+            $cache_data = $this->load_cache_data( $this->cache_dir . $cache_filename );
             // the cached data will be empty, if it is not serializable
             $this->cache_file_is_broken = empty( $cache_data );
         }
@@ -83,12 +75,12 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             array(
                 'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
                 'nonces'    => array(
-                                    'dashboard' => wp_create_nonce( $this->ajax_nonce )
+                                    'dashboard' => wp_create_nonce( $this->ajax_nonce ),
                                 ),
                 'i18n'      => array(
                                      'noData'   => __( 'No data available', 'laterpay' ),
                                 ),
-                'data'      =>  $cache_data
+                'data'      =>  $cache_data,
             )
         );
     }
@@ -208,8 +200,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return void
      */
     public function refresh_dashboard_data( $days = 8, $count = 10 ) {
-
-        // setting the time limit to 0 do prevent timeouts in our cronjob
+        // set the time limit to 0 to prevent timeouts in our cronjob
         set_time_limit(0);
 
         $data = $this->get_dashboard_data( $days, $count );
@@ -238,21 +229,19 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Helper function to load the cached data by a given file path.0
+     * Helper function to load the cached data by a given file path.
      *
      * @param string $file_path
      *
      * @return array $cache_data array with cached data or empty array on failure
      */
     protected function load_cache_data( $file_path ) {
-
         if ( !file_exists( $file_path ) ) {
             $this->logger->error(
                 __METHOD__ . ' - cache-file not found',
-                array(
-                    'file_path' => $file_path,
-                )
+                array( 'file_path' => $file_path )
             );
+
             return array();
         }
 
@@ -264,11 +253,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 __METHOD__ . ' - invalid cache data',
                 array(
                     'file_path' => $file_path,
-                    'cache_data'=> $cache_data
+                    'cache_data'=> $cache_data,
                 )
             );
-            return array();
 
+            return array();
         }
 
         $this->logger->info(
@@ -291,14 +280,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     protected function get_dashboard_data( $days = 8, $count = 10 ) {
-        $post_views_model       = new LaterPay_Model_Post_Views();
-        $history_model          = new LaterPay_Model_Payments_History();
+        $post_views_model   = new LaterPay_Model_Post_Views();
+        $history_model      = new LaterPay_Model_Payments_History();
 
         $where = array(
             'date' => array(
                 array(
-                    'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
-                    'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
+                    'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
+                    'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $days )
                 )
             )
         );
@@ -308,11 +297,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'where' => $where,
         );
 
-        // getting the user stats for the given params
-        $user_stats = $history_model->get_user_stats( $args );
-        $total_customers    = count( $user_stats );
-        $new_customers      = 0;
-        $returning_customers= 0;
+        // get the user stats for the given params
+        $user_stats             = $history_model->get_user_stats( $args );
+        $total_customers        = count( $user_stats );
+        $new_customers          = 0;
+        $returning_customers    = 0;
         foreach ( $user_stats as $stat ) {
             if ( (int) $stat->quantity === 1 ) {
                 $new_customers += 1;
@@ -322,18 +311,18 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         }
 
         if ( $total_customers > 0 ) {
-            $new_customers      = round( $new_customers * 100 / $total_customers );
-            $returning_customers= round( $returning_customers * 100 / $total_customers );
+            $new_customers          = round( $new_customers * 100 / $total_customers );
+            $returning_customers    = round( $returning_customers * 100 / $total_customers );
         }
 
-        $total_items_sold       = $history_model->get_total_items_sold( $args );
-        $total_items_sold       = number_format_i18n( $total_items_sold->quantity );
+        $total_items_sold           = $history_model->get_total_items_sold( $args );
+        $total_items_sold           = number_format_i18n( $total_items_sold->quantity );
 
-        $total_revenue_items    = $history_model->get_total_revenue_items( $args );
-        $total_revenue_items    = number_format_i18n( $total_revenue_items->amount, 2 );
+        $total_revenue_items        = $history_model->get_total_revenue_items( $args );
+        $total_revenue_items        = number_format_i18n( $total_revenue_items->amount, 2 );
 
-        $impressions            = $post_views_model->get_total_post_impression( $args );
-        $impressions            = number_format_i18n( $impressions->quantity );
+        $impressions                = $post_views_model->get_total_post_impression( $args );
+        $impressions                = number_format_i18n( $impressions->quantity );
 
         $avg_purchase = 0;
         if ( $total_revenue_items > 0 ) {
@@ -354,7 +343,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $args = array(
             'order_by'  => 'day',
             'group_by'  => 'day',
-            'where'     => $where
+            'where'     => $where,
         );
         $converting_items_by_day = $post_views_model->get_history( $args );
         $converting_items_by_day = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $converting_items_by_day );
