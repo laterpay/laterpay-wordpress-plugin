@@ -18,7 +18,14 @@
 
     <div class="lp_wrap">
 
-    <h1><?php echo sprintf( __( '%s Performance of %s (%s) %s', 'laterpay' ), '8-days', get_option( 'blogname' ), '17.10. - 25.10.', '<a href="#" id="lp_js_refresh-dashboard">Refresh</a>' ); ?></h1>
+    <h1><?php echo sprintf( __( '%s Dashboard of %s Sales between%s%s%s', 'laterpay' ),
+            '<select id="lp_js_select-dashboard-interval" class="lp_dashboard-interval-select lp_input"><option value="day">1 day</option><option value="week" selected>1 week</option><option value="weeks">2 weeks</option><option value="month">1 month</option></select>',
+            '<select id="lp_js_select-revenue-mode" class="lp_dashboard-revenue-mode-select lp_input"><option value="all">all</option><option value="ppu">PPU</option><option value="sis">SIS</option></select>',
+            '<a href="#" id="lp_js_load-previous-interval" class="lp_prevnext-link lp_tooltip" data-tooltip="Show week before"><div class="lp_triangle lp_triangle-left"></div></a>',
+            '17.10. - 24.10.',
+            '<a href="#" id="lp_js_load-next-interval" class="lp_prevnext-link lp_tooltip" data-tooltip="Show week after"><div class="lp_triangle lp_triangle-right"></div></a>'
+        ); ?></h1>
+        <!-- '<a href="#" id="lp_js_refresh-dashboard">Refresh</a>' -->
 
         <div class="lp_row">
             <div class="lp_w-1-3">

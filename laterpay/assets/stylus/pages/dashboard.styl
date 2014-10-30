@@ -1,9 +1,39 @@
 // 'Dashboard' tab in plugin backend
 
+
+// Heading -------------------------------------------------------------------------------------------------------------
 h1
     font-weight                     400
     margin                          $fs-2 0 $fs-05
     text-align                      center
+
+    .lp_prevnext-link
+        display                     inline-block
+        height                      1em
+        padding                     0 $fs-025
+        position                    relative
+        width                       $fs-125
+
+        &:hover
+
+            .lp_triangle-right
+                border-left-color   $clickable-highlight
+
+            .lp_triangle-left
+                border-right-color  $clickable-highlight
+
+    .lp_triangle
+        border                      $fs-08 solid $clickable
+        top                         0.25em
+
+    .lp_triangle-right
+        border-color                transparent transparent transparent $clickable
+        left                        inherit
+        right                       -($fs-05)
+
+    .lp_triangle-left
+        border-color                transparent $clickable transparent transparent
+        left                        -($fs-025)
 
 
 // Diagrams ------------------------------------------------------------------------------------------------------------

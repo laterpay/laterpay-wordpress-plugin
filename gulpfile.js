@@ -79,7 +79,7 @@ gulp.task('js-watch', function() {
 
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
-        .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
+        // .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
         // .pipe(fixmyjs({                                                         // fix JSHint errors if possible
         //     lookup: false
         // }))

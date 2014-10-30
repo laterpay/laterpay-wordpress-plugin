@@ -77,7 +77,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                                     'dashboard' => wp_create_nonce( $this->ajax_nonce )
                                 ),
                 'i18n'      => array(
-                                     'noData'    => __( 'No data available', 'laterpay' ),
+                                     'noData'   => __( 'No data available', 'laterpay' ),
                                 ),
                 'data'      =>  $cache_data
             )
@@ -278,7 +278,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         }
 
         $this->logger->info(
-            __METHOD__, array(
+            __METHOD__,
+            array(
                 'file_path' => $file_path,
                 'cache_data'=> $cache_data,
             )
