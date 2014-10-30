@@ -635,7 +635,7 @@
                 }
             },
 
-            saveBulkOperation = function() {
+            createSavedBulkRow = function( bulkOperationId ) {
                 var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
                                     'Make' :
                                     $o.bulkPriceAction.find('option:selected').text(),
@@ -655,12 +655,42 @@
 
                 description = $.trim(description.join(' ').replace(/\s+/g, ' '));
                 operation = '<p class="lp_bulk-operation">' +
-                                '<a href="#" class="lp_js_delete-saved-bulk-operation lp_edit-link lp_delete-link" data-icon="g">' + lpVars.i18n.delete + '</a>' +
-                                '<a href="#" class="lp_js_apply-saved-bulk-operation button button-primary lp_m-l2">' + lpVars.i18n.updatePrices + '</a>' +
+                                '<a href="#" class="lp_js_delete-saved-bulk-operation lp_edit-link lp_delete-link" data-icon="g" data-value="' +  bulkOperationId + '">' + lpVars.i18n.delete + '</a>' +
+                                '<a href="#" class="lp_js_apply-saved-bulk-operation button button-primary lp_m-l2" data-value="' +  bulkOperationId + '">' + lpVars.i18n.updatePrices + '</a>' +
                                 '<span>' + description + '</span>' +
                             '</p>';
 
                 $o.bulkPriceForm.after(operation);
+            },
+
+            saveBulkOperation = function() {
+                var action            = $o.bulkPriceAction.find('option:selected').val(),
+                    objects           = $o.bulkPriceObjects.find('option:selected').val(),
+                    category          = $o.bulkPriceObjectsCategory.length ? $o.bulkPriceObjectsCategory.find('option:selected').val() : undefined,
+                    categoryWithPrice = $o.bulkPriceObjectsCategoryWithPrice.length ? $o.bulkPriceObjectsCategoryWithPrice.find('option:selected').val() : undefined,
+                    amount            = $o.bulkPriceChangeAmount.length ? $o.bulkPriceChangeAmount.val() : undefined,
+                    changeUnit        = $o.bulkPriceChangeUnit.length ? $o.bulkPriceChangeUnit.find('option:selected').val() : undefined;
+
+                var result_array      = {
+                    action: action,
+                    objects: objects,
+                    category: category ? category : categoryWithPrice,
+                    amount: amount,
+                    unit: changeUnit
+                };
+
+                $.post(
+                    ajaxurl,
+                    result_array.serializeArray(),
+                    function(r) {
+                        if (r.success) {
+                            // create new saved row
+                            createSavedBulkRow(r.data.id);
+                        }
+                        setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
             },
 
             applySavedBulkOperation = function($item) {

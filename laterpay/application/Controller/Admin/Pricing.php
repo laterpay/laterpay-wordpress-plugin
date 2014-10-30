@@ -142,12 +142,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $this->change_posts_price();
                     break;
 
-                case 'save_bulk_action':
-                    $this->save_bulk_action();
+                case 'bulk_price_form_save':
+                    $this->save_bulk_operation();
                     break;
 
-                case 'remove_bulk_action':
-                    $this->remove_bulk_action();
+                case 'bulk_price_form_delete':
+                    $this->delete_bulk_operation();
                     break;
 
                 default:
@@ -720,8 +720,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
     }
 
-    protected function remove_bulk_operation() {
-        $remove_bulk_operation_form = new LaterPay_Form_RemoveBulkOperation( $_POST );
+    protected function delete_bulk_operation() {
+        $remove_bulk_operation_form = new LaterPay_Form_DeleteBulkOperation( $_POST );
         if ( $remove_bulk_operation_form->is_valid() ) {
             $bulk_operation_id = $remove_bulk_operation_form->get_field_value( 'operation_id' );
             $bulk_operation_model = new LaterPay_Model_BulkOperation();
@@ -730,7 +730,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success' => true,
-                        'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
+                        'message' => __( 'Bulk operation was successfully deleted.', 'laterpay' ),
                     )
                 );
             }
