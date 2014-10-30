@@ -383,7 +383,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'conversion'                => $conversion,
             'new_customers'             => $new_customers,
             'returning_customers'       => $returning_customers,
-            // most/least viewed posts
+            // most / least viewed posts
             'best_converting_items'     => $post_views_model->get_most_viewed_posts( $search_args, $start_timestamp, $end_timestamp ),
             'least_converting_items'    => $post_views_model->get_least_viewed_posts( $search_args, $start_timestamp, $end_timestamp ),
 
@@ -391,7 +391,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             // metrics
             'avg_items_sold'            => $avg_items_sold,
             'total_items_sold'          => $total_items_sold,
-            // beast/least selling posts
+            // beast / least selling posts
             'most_selling_items'        => $history_model->get_best_selling_posts( $search_args, $start_timestamp, $end_timestamp ),
             'least_selling_items'       => $history_model->get_least_selling_posts( $search_args, $start_timestamp, $end_timestamp ),
 
@@ -399,7 +399,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             // metrics
             'avg_purchase'              => $avg_purchase,
             'total_revenue'             => $total_revenue_items,
-            // most/least revenue generating posts
+            // most / least revenue generating posts
             'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $search_args, $start_timestamp, $end_timestamp ),
             'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $search_args, $start_timestamp, $end_timestamp ),
         );
