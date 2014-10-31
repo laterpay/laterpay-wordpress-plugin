@@ -78,7 +78,7 @@ class LaterPay_Core_Bootstrap
 
         // migrate multiple pricing postmeta from older plugin versions to an array
         add_filter( 'get_post_metadata', array( $install_controller, 'migrate_pricing_post_meta' ), 10, 4 );
-        
+
         // add the shortcodes
         $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
         add_shortcode( 'laterpay_premium_download',             array( $shortcode_controller, 'render_premium_download_box' ) );
@@ -101,6 +101,7 @@ class LaterPay_Core_Bootstrap
             // save laterpay post data
             add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
             add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+            add_action( 'transition_post_status',           array( $post_metabox_controller, 'update_post_publication_date' ), 10, 3 );
 
             // load scripts for the admin pages
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
