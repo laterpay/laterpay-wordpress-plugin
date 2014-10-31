@@ -707,9 +707,9 @@ LPCurve.prototype.toggleStartInput = function(action) {
 
     // convert price to proper float value
     if (inputPrice.indexOf(',') > -1) {
-        inputPrice = parseFloat(inputPrice.replace(',', '.')).toFixed(2);
+        inputPrice = parseFloat(inputPrice.replace(',', '.'));
     } else {
-        inputPrice = parseFloat(inputPrice).toFixed(2);
+        inputPrice = parseFloat(inputPrice);
     }
 
     if (action === 'hide') {
