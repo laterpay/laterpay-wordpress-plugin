@@ -198,7 +198,7 @@ LPCurve.prototype.plot = function() {
     // AXES
     // -------------------------------------------------------------------------------------------------------
     var xExtent = d3.extent(self.data, function(d) { return d.x; }),
-        yExtent = [this.minPrice, this.maxPrice],
+        yExtent = [0.00, this.maxPrice],
         xAxis   = d3.svg.axis()
                   .scale(xScale)
                   .tickSize(-height, 0, 0)
@@ -717,17 +717,16 @@ LPCurve.prototype.toggleStartInput = function(action) {
             jQuery('.start-input input').val(this.maxPrice);
             data[0].y = this.maxPrice;
             data[1].y = this.maxPrice;
-            lpc.set_data(data).plot();
         } else if (inputPrice < this.minPrice && inputPrice !== 0) {
             jQuery('.start-input input').val(this.minPrice);
             data[0].y = this.minPrice;
             data[1].y = this.minPrice;
-            lpc.set_data(data).plot();
         } else {
             data[0].y = inputPrice;
             data[1].y = inputPrice;
-            lpc.set_data(data).plot();
         }
+        if( inputPrice > -1 )
+            lpc.set_data(data);
         jQuery('rect.start-price').attr('width', '32px');
         jQuery('.start-input').hide();
         jQuery('path.start-price-triangle, text.start-price-currency, text.start-price').show();
@@ -765,20 +764,20 @@ LPCurve.prototype.toggleEndInput = function(action) {
             jQuery('.end-input input').val(this.maxPrice);
             data[0].y = this.maxPrice;
             data[1].y = this.maxPrice;
-            lpc.set_data(data).plot();
         } else if (inputPrice < this.minPrice && inputPrice !== 0) {
             jQuery('.end-input input').val( this.minPrice );
             data[2].y = this.minPrice;
             data[3].y = this.minPrice;
-            lpc.set_data(data).plot();
         } else {
             data[2].y = inputPrice;
             data[3].y = inputPrice;
-            lpc.set_data(data).plot();
         }
+        if( inputPrice > -1 )
+            lpc.set_data(data);
         jQuery('rect.end-price').attr('width', '32px');
         jQuery('.end-input').hide();
         jQuery('path.end-price-triangle, text.end-price-currency, text.end-price').show();
+        lpc.plot();
     } else if (action === 'show') {
         jQuery('rect.end-price').attr('width', '50px').attr('x', basicX);
         jQuery('path.end-price-triangle, text.end-price-currency, text.end-price').hide();
