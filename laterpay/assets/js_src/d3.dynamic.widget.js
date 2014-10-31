@@ -488,8 +488,9 @@ LPCurve.prototype.plot = function() {
     // VERTICAL LINES
     // -------------------------------------------------------------------------------------------------------
     priceLineVisible.enter().append('line').attr('class', function(point, index) {
+        // hide the third vertical dashed line - it's only there to work around technical restrictions
         if (index === self.data.length - 2) {
-            return 'line-price-visible lp_is_hidden';
+            return 'line-price lp_is_hidden';
         }
 
         return 'line-price-visible';
