@@ -434,12 +434,15 @@
                 if (startPrice > lpVars.limits.ppusis_max || endPrice > lpVars.limits.ppusis_max) {
                     // Single Sale
                     maxPrice = lpVars.limits.sis_max;
+                    minPrice = lpVars.limits.sis_min;
                 } else if (startPrice >= lpVars.limits.sis_min || endPrice >= lpVars.limits.sis_min) {
                     // Pay-per-Use and Single Sale
                     maxPrice = lpVars.limits.ppusis_max;
+                    minPrice = lpVars.limits.ppusis_min;
                 } else {
                     // Pay-per-Use
                     maxPrice = lpVars.limits.ppu_max;
+                    minPrice = lpVars.limits.ppu_min;
                 }
 
                 if (lpVars.limits.pubDays > 0) {
