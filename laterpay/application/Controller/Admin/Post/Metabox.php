@@ -265,6 +265,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
 
+        $this->assign( 'laterpay_post_id',                              $post->ID );
         $this->assign( 'laterpay_post_price_type',                      $post_price_type );
         $this->assign( 'laterpay_post_status',                          $post_status );
         $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
@@ -423,6 +424,11 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // skip infinite loop
         remove_action( 'publish_post', array( $this,'update_post_publication_date') );
 
+        // skip with no permission
+        if ( ! $this->has_permission( $post->ID ) ) {
+            return;
+        }              
+        
         // only update publication date for posts with dynamic pricing
         if ( LaterPay_Helper_Pricing::get_post_price_type($post->ID) != LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
             return;
@@ -438,19 +444,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        // skip with no permission
-        if ( ! $this->has_permission( $post->ID ) ) {
-            return;
-        }
-
-        $actual_date        = date( 'Y-m-d H:i:s' );
-        $actual_date_gmt    = gmdate( 'Y-m-d H:i:s' );
-        $post_update_data   = array(
-                                    'ID'            => $post->ID,
-                                    'post_date'     => $actual_date,
-                                    'post_date_gmt' => $actual_date_gmt,
-                                );
-
-        wp_update_post( $post_update_data );
+        LaterPay_Helper_Pricing::reset_post_publish_date( $post );
     }
 }

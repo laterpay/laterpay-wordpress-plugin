@@ -1,1 +1,542 @@
-!function(e){e(function(){function i(){var i={priceInput:e("#lp_js_post-price-input"),priceTypeInput:e("#lp_js_post-price-type-input"),revenueModel:e("#lp_js_post-revenue-model"),categoryInput:e("#lp_js_post-default-category-input"),priceSection:e("#lp_js_price-type"),pricingTypeButtonGroup:e("#lp_js_price-type-button-group"),pricingTypeButtons:e(".lp_js_price-type-button"),individualPriceButton:e("#lp_js_use-individual-price").parent(),categoryPriceButton:e("#lp_js_use-category-default-price").parent(),globalPriceButton:e("#lp_js_use-global-default-price").parent(),details:e("#lp_js_price-type-details"),detailsSections:e(".lp_js_details-section"),individualPriceDetails:e("#lp_js_individual-price-details"),categoryPriceDetails:e("#lp_js_category-price-details"),categoriesList:e("#lp_js_category-price-details ul"),categories:e("#lp_js_category-price-details li"),dynamicPricingToggle:e("#lp_js_toggle-dynamic-pricing"),dynamicPricingContainer:"#lp_js_dynamic-pricing-widget-container",expanded:"lp_is-expanded",selected:"lp_is-selected",disabled:"lp_is-disabled",dynamicPricingApplied:"lp_is-with-dynamic-pricing",selectedCategory:"lp_selected-category",payPerUse:"ppu",singleSale:"sis"},a=function(){i.pricingTypeButtons.mousedown(function(){t(this)}).click(function(e){e.preventDefault()}),e("#post").submit(function(){_()}),i.priceInput.keyup(m(function(){l(e(this).val())},800)),e("input:radio",i.revenueModel).change(function(){s(i.priceInput.val())}),i.dynamicPricingToggle.mousedown(function(){o()}).click(function(e){e.preventDefault()}),e(".categorychecklist input:checkbox").on("change",function(){p()}),i.categoryPriceDetails.on("mousedown","a",function(){d(this)}).on("click","a",function(e){e.preventDefault()})},t=function(a){var t,n,p=e(a),d=p.parent("li"),o=p.attr("id");if(!d.hasClass(i.disabled)&&!d.hasClass(i.selected)){if(e("."+i.selected,i.pricingTypeButtonGroup).removeClass(i.selected),d.addClass(i.selected),i.priceSection.removeClass(i.expanded),i.detailsSections.hide(),"lp_js_use-individual-price"===o)i.priceSection.addClass(i.expanded),i.dynamicPricingToggle.show(),i.priceTypeInput.val("individual price"),s(i.priceInput.val()),i.dynamicPricingToggle.text()===lpVars.i18nRemoveDynamicPricing&&(y(),i.individualPriceDetails.show());else if("lp_js_use-category-default-price"===o){c();var u=e(".lp_selected-category a",i.categoriesList);t=u.attr("data-price"),n=u.attr("data-revenue-model"),l(t),r(n,!0),i.priceSection.addClass(i.expanded),i.categoryPriceDetails.show(),i.categories.slideDown(250),i.dynamicPricingToggle.hide(),i.priceTypeInput.val("category default price")}else"lp_js_use-global-default-price"===o&&(t=p.attr("data-price"),n=p.attr("data-revenue-model"),l(t),r(n,!0),i.dynamicPricingToggle.hide(),i.priceTypeInput.val("global default price"));"lp_js_use-individual-price"!==o||i.dynamicPricingToggle.hasClass(i.dynamicPricingApplied)?(i.dynamicPricingToggle.hasClass(i.dynamicPricingApplied)&&g(),i.priceInput.attr("disabled","disabled")):(i.priceInput.removeAttr("disabled"),setTimeout(function(){i.priceInput.focus()},50))}},l=function(e){var a=s(e);i.priceInput.val(a)},r=function(a,t){e("label",i.revenueModel).removeClass(i.selected),t&&e("input:radio[value!="+a+"]",i.revenueModel).parent("label").addClass(i.disabled),e("input:radio[value="+a+"]",i.revenueModel).prop("checked","checked").parent("label").removeClass(i.disabled).addClass(i.selected)},s=function(e){return e=e.toString().replace(/[^0-9\,\.]/g,""),e="string"==typeof e&&e.indexOf(",")>-1?parseFloat(e.replace(",",".")).toFixed(2):parseFloat(e).toFixed(2),isNaN(e)&&(e=0),e=Math.abs(e),e>lpVars.limits.sis_max?e=lpVars.limits.sis_max:e>0&&e<lpVars.limits.ppu_min&&(e=lpVars.limits.ppu_min),n(e),e=e.toFixed(2),"de_DE"===lpVars.locale&&(e=e.replace(".",",")),e},n=function(a){var t=e("input:radio:checked",i.revenueModel).val(),l=e("input:radio[value="+i.payPerUse+"]",i.revenueModel),r=e("input:radio[value="+i.singleSale+"]",i.revenueModel);0===a||a>=lpVars.limits.ppu_min&&a<lpVars.limits.price_sis_end?l.removeAttr("disabled").parent("label").removeClass(i.disabled):l.attr("disabled","disabled").parent("label").addClass(i.disabled),a>=lpVars.limits.sis_min?r.removeAttr("disabled").parent("label").removeClass(i.disabled):r.attr("disabled","disabled").parent("label").addClass(i.disabled),a>=lpVars.limits.ppusis_max&&t===i.payPerUse?r.prop("checked",!0):a<lpVars.limits.sis_min&&t===i.singleSale&&l.prop("checked",!0),e("label",i.revenueModel).removeClass(i.selected),e("input:radio:checked",i.revenueModel).parent("label").addClass(i.selected)},c=function(){var a=i.categoryInput.val(),t=i.categories.first();if(!i.categories.length)return void i.categoryInput.val("");if("undefined"!=typeof a&&e("[data-category="+a+"]",i.categories.parent()).length?e("[data-category="+a+"]",i.categories.parent()).addClass(i.selectedCategory):(t.addClass(i.selectedCategory),i.categoryInput.val(t.data("category"))),i.categoryPriceButton.hasClass(i.selected)){var s=e(".lp_selected-category a",i.categoriesList),n=s.attr("data-price"),c=s.attr("data-revenue-model");l(n),r(c,!0)}},p=function(){var a,t,s=e("#categorychecklist :checkbox:checked"),n=s.length,p=[],d="";for(a=0;n>a;a++)t=parseInt(s.eq(a).val(),10),p.push(t);e.post(lpVars.ajaxUrl,{action:"laterpay_get_category_prices",form:"laterpay_get_category_prices",category_ids:p},function(a){a&&(a.forEach(function(e){d+='<li data-category="'+e.category_id+'"><a href="#" data-price="'+e.category_price+'" data-revenue-model="'+e.revenue_model+'"><span>'+parseFloat(e.category_price).toFixed(2)+" "+lpVars.currency+"</span>"+e.category_name+"</a></li>"}),i.categoriesList.html(d),a.length?(i.categoryPriceButton.removeClass(i.disabled),i.categories=e("#lp_js_category-price-details li"),c()):(i.categoryPriceButton.addClass(i.disabled),i.detailsSections.hide(),i.categoryPriceButton.hasClass(i.selected)&&(e("."+i.selected,i.pricingTypeButtonGroup).removeClass(i.selected),i.priceSection.removeClass(i.expanded),i.globalPriceButton.hasClass(i.disabled)?(i.individualPriceButton.addClass(i.selected),i.priceTypeInput.val("individual price"),i.dynamicPricingToggle.show(),i.priceInput.removeAttr("disabled"),l(0),r(i.payPerUse,!1)):(i.globalPriceButton.addClass(i.selected),i.priceTypeInput.val("global default price"),l(lpVars.globalDefaultPrice),r(e("a",i.globalPriceButton).attr("data-revenue-model"),!0)))))},"json")},d=function(a){var t=e(a),s=t.parent(),n=s.attr("data-category"),c=t.attr("data-price"),p=t.attr("data-revenue-model");i.categories.removeClass(i.selectedCategory),s.addClass(i.selectedCategory),i.categoryInput.val(n),l(c),r(p,!0)},o=function(){i.dynamicPricingToggle.hasClass(i.dynamicPricingApplied)?(g(),i.revenueModel.show()):u()},u=function(){y(),i.dynamicPricingToggle.addClass(i.dynamicPricingApplied),i.priceInput.attr("disabled","disabled"),i.individualPriceDetails.slideDown(250),i.priceTypeInput.val("individual price, dynamic"),i.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing),i.revenueModel.hide()},g=function(){i.dynamicPricingToggle.removeClass(i.dynamicPricingApplied),i.priceInput.removeAttr("disabled"),i.individualPriceDetails.slideUp(250,function(){e(i.dynamicPricingContainer).empty()}),i.priceTypeInput.val("individual price"),i.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing)},y=function(){var e=lpVars.dynamicPricingData,a=new LPCurve(i.dynamicPricingContainer),t=lpVars.dynamicPricingData[0].y,l=lpVars.dynamicPricingData[3].y,r=0,s=5;window.lpc=a,i.priceInput.attr("disabled","disabled"),t>lpVars.limits.ppusis_max||l>lpVars.limits.ppusis_max?(s=lpVars.limits.sis_max,r=lpVars.limits.sis_min):t>=lpVars.limits.sis_min||l>=lpVars.limits.sis_min?(s=lpVars.limits.ppusis_max,r=lpVars.limits.ppusis_min):(s=lpVars.limits.ppu_max,r=lpVars.limits.ppu_min),lpVars.limits.pubDays>0&&a.set_today(lpVars.limits.pubDays,lpVars.limits.todayPrice),4===e.length?a.set_data(e).setPrice(r,s,lpVars.globalDefaultPrice).plot():a.set_data(e).setPrice(r,s,lpVars.globalDefaultPrice).interpolate("step-before").plot()},_=function(){if(i.dynamicPricingToggle.hasClass(i.dynamicPricingApplied)){var a=window.lpc.get_data();return 4===window.lpc.get_data().length?(e("input[name=laterpay_start_price]").val(a[0].y),e("input[name=laterpay_end_price]").val(a[3].y),e("input[name=laterpay_change_start_price_after_days]").val(a[1].x),e("input[name=laterpay_transitional_period_end_after_days]").val(a[2].x),e("input[name=laterpay_reach_end_price_after_days]").val(a[3].x)):3===window.lpc.get_data().length&&(e("input[name=laterpay_start_price]").val(a[0].y),e("input[name=laterpay_end_price]").val(a[2].y),e("input[name=laterpay_change_start_price_after_days]").val(a[1].x),e("input[name=laterpay_transitional_period_end_after_days]").val(0),e("input[name=laterpay_reach_end_price_after_days]").val(a[2].x)),!0}},m=function(e,i){var a=void 0;return function(){var t=this,l=arguments;clearTimeout(a),a=setTimeout(function(){e.apply(t,l)},i)}},v=function(){a(),i.dynamicPricingToggle.hasClass(i.dynamicPricingApplied)&&y()};v()}i()})}(jQuery);
+(function($) {$(function() {
+
+    // encapsulate all LaterPay Javascript in function laterPayPostEdit
+    function laterPayPostEdit() {
+        var $o = {
+                // post price inputs
+                priceInput              : $('#lp_js_post-price-input'),
+                priceTypeInput          : $('#lp_js_post-price-type-input'),
+                revenueModel            : $('#lp_js_post-revenue-model'),
+                categoryInput           : $('#lp_js_post-default-category-input'),
+
+                // button group for choosing pricing type
+                priceSection            : $('#lp_js_price-type'),
+                pricingTypeButtonGroup  : $('#lp_js_price-type-button-group'),
+                pricingTypeButtons      : $('.lp_js_price-type-button'),
+                individualPriceButton   : $('#lp_js_use-individual-price').parent(),
+                categoryPriceButton     : $('#lp_js_use-category-default-price').parent(),
+                globalPriceButton       : $('#lp_js_use-global-default-price').parent(),
+
+                // details sections for chosen pricing type
+                details                 : $('#lp_js_price-type-details'),
+                detailsSections         : $('.lp_js_details-section'),
+                individualPriceDetails  : $('#lp_js_individual-price-details'),
+                categoryPriceDetails    : $('#lp_js_category-price-details'),
+                categoriesList          : $('#lp_js_category-price-details ul'),
+                categories              : $('#lp_js_category-price-details li'),
+                dynamicPricingToggle    : $('#lp_js_toggle-dynamic-pricing'),
+                dynamicPricingContainer : '#lp_js_dynamic-pricing-widget-container',
+                dynamicPricingResetDate : $('#lp_js_reset-dynamic-pricing'),
+
+                // strings cached for better compression
+                expanded                : 'lp_is-expanded',
+                selected                : 'lp_is-selected',
+                disabled                : 'lp_is-disabled',
+                dynamicPricingApplied   : 'lp_is-with-dynamic-pricing',
+                selectedCategory        : 'lp_selected-category',
+                payPerUse               : 'ppu',
+                singleSale              : 'sis'
+            },
+
+            bindEvents = function() {
+                // switch pricing type
+                $o.pricingTypeButtons
+                .mousedown(function() {
+                    switchPricingType(this);
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // save pricing data
+                $('#post')
+                .submit(function() {
+                    saveDynamicPricingData();
+                });
+
+                // validate manually entered prices
+                // (function is only triggered 800ms after the keyup)
+                $o.priceInput
+                .keyup(
+                    debounce(function() {
+                        setPrice($(this).val());
+                    }, 800)
+                );
+
+                // validate choice of revenue model (validating the price switches the revenue model if required)
+                $('input:radio', $o.revenueModel)
+                .change(function() {
+                    validatePrice($o.priceInput.val());
+                });
+
+                // toggle dynamic pricing widget
+                $o.dynamicPricingToggle
+                .mousedown(function() {
+                    toggleDynamicPricing();
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // reset dynamic pricing date
+                $o.dynamicPricingResetDate
+                .click(function(e) {
+                    var post_id = $(this).attr('post_id');
+                    resetPostDate(post_id);
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // update list of applicable category prices on change of categories list
+                $('.categorychecklist input:checkbox')
+                .on('change', function() {
+                    updateApplicableCategoriesList();
+                });
+
+                // apply category default prices when selecting one of the applicable categories
+                $o.categoryPriceDetails
+                .on('mousedown', 'a', function() {
+                    applyCategoryPrice(this);
+                })
+                .on('click', 'a', function(e) {e.preventDefault();});
+            },
+
+            switchPricingType = function(trigger) {
+                var $this           = $(trigger),
+                    $clickedButton  = $this.parent('li'),
+                    priceType       = $this.attr('id'),
+                    price,
+                    revenueModel;
+
+                if ($clickedButton.hasClass($o.disabled) || $clickedButton.hasClass($o.selected)) {
+                    return;
+                }
+
+                // set state of button group
+                $('.' + $o.selected, $o.pricingTypeButtonGroup).removeClass($o.selected);
+                $clickedButton.addClass($o.selected);
+                $o.priceSection.removeClass($o.expanded);
+
+                // hide details sections
+                $o.detailsSections.hide();
+
+                // case: individual price
+                if (priceType === 'lp_js_use-individual-price') {
+                    $o.priceSection.addClass($o.expanded);
+                    $o.dynamicPricingToggle.show();
+                    $o.priceTypeInput.val('individual price');
+
+                    // validate price to enable all applicable revenue models
+                    validatePrice($o.priceInput.val());
+
+                    // show / hide stuff
+                    if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
+                        renderDynamicPricingWidget();
+                        $o.individualPriceDetails.show();
+                    }
+                }
+                // case: category default price
+                else if (priceType === 'lp_js_use-category-default-price') {
+                    updateSelectedCategory();
+
+                    // set the price and revenue model of the selected category
+                    var $category   = $('.lp_selected-category a', $o.categoriesList);
+                    price           = $category.attr('data-price');
+                    revenueModel    = $category.attr('data-revenue-model');
+                    setPrice(price);
+                    setRevenueModel(revenueModel, true);
+
+                    // show / hide stuff
+                    $o.priceSection.addClass($o.expanded);
+                    $o.categoryPriceDetails.show();
+                    $o.categories.slideDown(250);
+                    $o.dynamicPricingToggle.hide();
+                    $o.priceTypeInput.val('category default price');
+                }
+                // case: global default price
+                else if (priceType === 'lp_js_use-global-default-price') {
+                    price           = $this.attr('data-price');
+                    revenueModel    = $this.attr('data-revenue-model');
+
+                    setPrice(price);
+                    setRevenueModel(revenueModel, true);
+
+                    // show / hide stuff
+                    $o.dynamicPricingToggle.hide();
+                    $o.priceTypeInput.val('global default price');
+                }
+
+                // disable price input for all scenarios other than static individual price
+                if (
+                    priceType === 'lp_js_use-individual-price' &&
+                    !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)
+                ) {
+                    $o.priceInput.removeAttr('disabled');
+                    setTimeout(function() {$o.priceInput.focus();}, 50);
+                } else {
+                    if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                        disableDynamicPricing();
+                    }
+                    $o.priceInput.attr('disabled', 'disabled');
+                }
+            },
+
+            setPrice = function(price) {
+                var validatedPrice = validatePrice(price);
+                $o.priceInput.val(validatedPrice);
+            },
+
+            setRevenueModel = function(revenueModel, readOnly) {
+                $('label', $o.revenueModel).removeClass($o.selected);
+
+                if (readOnly) {
+                    // disable not-selected revenue model
+                    $('input:radio[value!=' + revenueModel + ']', $o.revenueModel)
+                        .parent('label').addClass($o.disabled);
+                }
+
+                // enable and check selected revenue model
+                $('input:radio[value=' + revenueModel + ']', $o.revenueModel)
+                .prop('checked', 'checked')
+                    .parent('label')
+                    .removeClass($o.disabled)
+                    .addClass($o.selected);
+            },
+
+            validatePrice = function(price) {
+                // strip non-number characters
+                price = price.toString().replace(/[^0-9\,\.]/g, '');
+
+                // convert price to proper float value
+                if (typeof price === 'string' && price.indexOf(',') > -1) {
+                    price = parseFloat(price.replace(',', '.')).toFixed(2);
+                } else {
+                    price = parseFloat(price).toFixed(2);
+                }
+
+                // prevent non-number prices
+                if (isNaN(price)) {
+                    price = 0;
+                }
+
+                // prevent negative prices
+                price = Math.abs(price);
+
+                // correct prices outside the allowed range of 0.05 - 149.49
+                if (price > lpVars.limits.sis_max) {
+                    price = lpVars.limits.sis_max;
+                } else if (price > 0 && price < lpVars.limits.ppu_min) {
+                    price = lpVars.limits.ppu_min;
+                }
+
+                validateRevenueModel(price);
+
+                // format price with two digits
+                price = price.toFixed(2);
+
+                // localize price
+                if (lpVars.locale === 'de_DE') {
+                    price = price.replace('.', ',');
+                }
+
+                return price;
+            },
+
+            validateRevenueModel = function(price) {
+                var currentRevenueModel = $('input:radio:checked', $o.revenueModel).val(),
+                    $payPerUse          = $('input:radio[value=' + $o.payPerUse + ']', $o.revenueModel),
+                    $singleSale         = $('input:radio[value=' + $o.singleSale + ']', $o.revenueModel);
+
+                if (price === 0 || (price >= lpVars.limits.ppu_min && price < lpVars.limits.price_sis_end)) {
+                    // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
+                    $payPerUse.removeAttr('disabled')
+                        .parent('label').removeClass($o.disabled);
+                } else {
+                    // disable Pay-per-Use
+                    $payPerUse.attr('disabled', 'disabled')
+                        .parent('label').addClass($o.disabled);
+                }
+
+                if (price >= lpVars.limits.sis_min) {
+                    // enable Single Sale for prices >= 1.49 Euro
+                    // (prices > 149.99 Euro are fixed by validatePrice already)
+                    $singleSale.removeAttr('disabled')
+                        .parent('label').removeClass($o.disabled);
+                } else {
+                    // disable Single Sale
+                    $singleSale.attr('disabled', 'disabled')
+                        .parent('label').addClass($o.disabled);
+                }
+
+                // switch revenue model, if combination of price and revenue model is not allowed
+                if (price >= lpVars.limits.ppusis_max && currentRevenueModel === $o.payPerUse) {
+                    // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
+                    $singleSale.prop('checked', true);
+                } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {
+                    // Single Sale purchases are not allowed for prices < 1.49 Euro
+                    $payPerUse.prop('checked', true);
+                }
+
+                // highlight current revenue model
+                $('label', $o.revenueModel).removeClass($o.selected);
+                $('input:radio:checked', $o.revenueModel).parent('label').addClass($o.selected);
+            },
+
+            updateSelectedCategory = function() {
+                var selectedCategoryId  = $o.categoryInput.val(),
+                    $firstCategory      = $o.categories.first();
+
+                if (!$o.categories.length) {
+                    $o.categoryInput.val('');
+                    return;
+                }
+
+                if (
+                    typeof(selectedCategoryId) !== 'undefined' &&
+                    $('[data-category=' + selectedCategoryId + ']', $o.categories.parent()).length
+                ) {
+                    $('[data-category=' + selectedCategoryId + ']', $o.categories.parent())
+                    .addClass($o.selectedCategory);
+                } else {
+                    // select the first category in the list, if none is selected
+                    $firstCategory.addClass($o.selectedCategory);
+                    $o.categoryInput.val($firstCategory.data('category'));
+                }
+
+                // also update price and revenue model, if the selected category has changed
+                // in pricing mode 'category default price'
+                if ($o.categoryPriceButton.hasClass($o.selected)) {
+                    var $category       = $('.lp_selected-category a', $o.categoriesList),
+                        price           = $category.attr('data-price'),
+                        revenueModel    = $category.attr('data-revenue-model');
+
+                    setPrice(price);
+                    setRevenueModel(revenueModel, true);
+                }
+            },
+
+            updateApplicableCategoriesList = function() {
+                var $selectedCategories = $('#categorychecklist :checkbox:checked'),
+                    l                   = $selectedCategories.length,
+                    categoryIds         = [],
+                    categoriesList      = '',
+                    i, categoryId;
+
+                for (i = 0; i < l; i++) {
+                    categoryId = parseInt($selectedCategories.eq(i).val(), 10);
+                    categoryIds.push(categoryId);
+                }
+
+                // make Ajax request for prices and names of categories
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action          : 'laterpay_get_category_prices',
+                        form            : 'laterpay_get_category_prices',
+                        category_ids    : categoryIds
+                    },
+                    function(data) {
+                        // rebuild list of categories in category default pricing tab
+                        if (data) {
+                            data.forEach(function(category) {
+                                categoriesList +=   '<li data-category="' + category.category_id + '">' +
+                                                        '<a href="#" data-price="' + category.category_price + '" data-revenue-model="' + category.revenue_model + '">' +
+                                                            '<span>' + parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency + '</span>' +
+                                                            category.category_name +
+                                                        '</a>' +
+                                                    '</li>';
+                            });
+                            $o.categoriesList.html(categoriesList);
+
+                            if (data.length) {
+                                $o.categoryPriceButton.removeClass($o.disabled);
+                                // update cached selector
+                                $o.categories = $('#lp_js_category-price-details li');
+                                updateSelectedCategory();
+                            } else {
+                                // disable the 'use category default price' button,
+                                // if no categories with an attached default price are applied to the current post
+                                $o.categoryPriceButton.addClass($o.disabled);
+
+                                // hide details sections
+                                $o.detailsSections.hide();
+
+                                // if current pricing type is 'category default price'
+                                // fall back to global default price or an individual price of 0
+                                if ($o.categoryPriceButton.hasClass($o.selected)) {
+                                    $('.' + $o.selected, $o.pricingTypeButtonGroup).removeClass($o.selected);
+                                    $o.priceSection.removeClass($o.expanded);
+
+                                    if ($o.globalPriceButton.hasClass($o.disabled)) {
+                                        // case: fall back to individual price
+                                        $o.individualPriceButton.addClass($o.selected);
+                                        $o.priceTypeInput.val('individual price');
+                                        $o.dynamicPricingToggle.show();
+                                        $o.priceInput.removeAttr('disabled');
+                                        setPrice(0);
+                                        setRevenueModel($o.payPerUse, false);
+                                    } else {
+                                        // case: fall back to global default price
+                                        $o.globalPriceButton.addClass($o.selected);
+                                        $o.priceTypeInput.val('global default price');
+                                        setPrice(lpVars.globalDefaultPrice);
+                                        setRevenueModel($('a', $o.globalPriceButton).attr('data-revenue-model'), true);
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'json'
+                );
+            },
+
+            applyCategoryPrice = function(trigger) {
+                var $this           = $(trigger),
+                    $category       = $this.parent(),
+                    category        = $category.attr('data-category'),
+                    price           = $this.attr('data-price'),
+                    revenueModel    = $this.attr('data-revenue-model');
+
+                $o.categories.removeClass($o.selectedCategory);
+                $category.addClass($o.selectedCategory);
+                $o.categoryInput.val(category);
+
+                setPrice(price);
+                setRevenueModel(revenueModel, true);
+            },
+
+            toggleDynamicPricing = function() {
+                if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                    disableDynamicPricing();
+                    $o.revenueModel.show();
+                } else {
+                    enableDynamicPricing();
+                }
+            },
+
+            resetPostDate = function(post_id) {
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action          : 'laterpay_reset_date',
+                        form            : 'reset_post_publish_date',
+                        post_id         : post_id,
+                    },
+                    function(data) {
+                        if( data.success ){
+                            window.location.reload();
+                        }else if( data.message ){
+                            alert(data.message);
+                        }
+                    },
+                    'json'
+                );
+            },
+
+            enableDynamicPricing = function() {
+                renderDynamicPricingWidget();
+                $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
+                $o.priceInput.attr('disabled', 'disabled');
+                $o.individualPriceDetails.slideDown(250);
+                $o.priceTypeInput.val('individual price, dynamic');
+                $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
+                $o.revenueModel.hide();
+            },
+
+            disableDynamicPricing = function() {
+                $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
+                $o.priceInput.removeAttr('disabled');
+                $o.individualPriceDetails.slideUp(250, function() {
+                    $($o.dynamicPricingContainer).empty();
+                });
+                $o.priceTypeInput.val('individual price');
+                $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
+            },
+
+            renderDynamicPricingWidget = function() {
+                var data        = lpVars.dynamicPricingData,
+                    lpc         = new LPCurve($o.dynamicPricingContainer),
+                    startPrice  = lpVars.dynamicPricingData[0].y,
+                    endPrice    = lpVars.dynamicPricingData[3].y,
+                    minPrice    = 0,
+                    maxPrice    = 5;
+                window.lpc = lpc;
+
+                $o.priceInput.attr('disabled', 'disabled');
+
+                if (startPrice > lpVars.limits.ppusis_max || endPrice > lpVars.limits.ppusis_max) {
+                    // Single Sale
+                    maxPrice = lpVars.limits.sis_max;
+                    minPrice = lpVars.limits.sis_min;
+                } else if (startPrice >= lpVars.limits.sis_min || endPrice >= lpVars.limits.sis_min) {
+                    // Pay-per-Use and Single Sale
+                    maxPrice = lpVars.limits.ppusis_max;
+                    minPrice = lpVars.limits.ppusis_min;
+                } else {
+                    // Pay-per-Use
+                    maxPrice = lpVars.limits.ppu_max;
+                    minPrice = lpVars.limits.ppu_min;
+                }
+
+                if (lpVars.limits.pubDays > 0) {
+                    lpc.set_today(lpVars.limits.pubDays, lpVars.limits.todayPrice);
+                }
+
+                if (data.length === 4) {
+                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice).plot();
+                } else {
+                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
+                        .interpolate('step-before').plot();
+                }
+            },
+
+            saveDynamicPricingData = function() {
+                // don't try to save dynamic pricing data, if pricing type is not dynamic but static
+                if (!$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                    return;
+                }
+
+                // save dynamic pricing data
+                var data = window.lpc.get_data();
+                if (window.lpc.get_data().length === 4) {
+                    $('input[name=laterpay_start_price]').val(data[0].y);
+                    $('input[name=laterpay_end_price]').val(data[3].y);
+                    $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+                    $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
+                    $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
+                } else if (window.lpc.get_data().length === 3) {
+                    $('input[name=laterpay_start_price]').val(data[0].y);
+                    $('input[name=laterpay_end_price]').val(data[2].y);
+                    $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
+                    $('input[name=laterpay_transitional_period_end_after_days]').val(0);
+                    $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
+                }
+
+                return true;
+            },
+
+            // throttle the execution of a function by a given delay
+            debounce = function(fn, delay) {
+              var timer = undefined;
+              return function () {
+                var context = this,
+                    args    = arguments;
+
+                clearTimeout(timer);
+
+                timer = setTimeout(function() {
+                  fn.apply(context, args);
+                }, delay);
+              };
+            },
+
+            initializePage = function() {
+                bindEvents();
+
+                if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
+                    renderDynamicPricingWidget();
+                }
+            };
+
+        initializePage();
+    }
+
+    // initialize page
+    laterPayPostEdit();
+
+});})(jQuery);

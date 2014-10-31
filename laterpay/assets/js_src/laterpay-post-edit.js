@@ -26,6 +26,7 @@
                 categories              : $('#lp_js_category-price-details li'),
                 dynamicPricingToggle    : $('#lp_js_toggle-dynamic-pricing'),
                 dynamicPricingContainer : '#lp_js_dynamic-pricing-widget-container',
+                dynamicPricingResetDate : $('#lp_js_reset-dynamic-pricing'),
 
                 // strings cached for better compression
                 expanded                : 'lp_is-expanded',
@@ -70,6 +71,14 @@
                 $o.dynamicPricingToggle
                 .mousedown(function() {
                     toggleDynamicPricing();
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // reset dynamic pricing date
+                $o.dynamicPricingResetDate
+                .click(function(e) {
+                    var post_id = $(this).attr('post_id');
+                    resetPostDate(post_id);
                 })
                 .click(function(e) {e.preventDefault();});
 
@@ -398,6 +407,25 @@
                 } else {
                     enableDynamicPricing();
                 }
+            },
+
+            resetPostDate = function(post_id) {
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action          : 'laterpay_reset_date',
+                        form            : 'reset_post_publish_date',
+                        post_id         : post_id,
+                    },
+                    function(data) {
+                        if( data.success ){
+                            window.location.reload();
+                        }else if( data.message ){
+                            alert(data.message);
+                        }
+                    },
+                    'json'
+                );
             },
 
             enableDynamicPricing = function() {

@@ -652,4 +652,24 @@ class LaterPay_Helper_Pricing
 
         return $validated_price;
     }
+
+     /**
+     * Reset post publish date
+     *
+     * @param WP_Post $post
+     *
+     * @return void
+     */    
+    public static function reset_post_publish_date($post){
+        
+        $actual_date        = date( 'Y-m-d H:i:s' );
+        $actual_date_gmt    = gmdate( 'Y-m-d H:i:s' );
+        $post_update_data   = array(
+                                    'ID'            => $post->ID,
+                                    'post_date'     => $actual_date,
+                                    'post_date_gmt' => $actual_date_gmt,
+                                );
+
+        wp_update_post( $post_update_data );        
+    }
 }

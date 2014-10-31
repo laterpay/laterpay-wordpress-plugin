@@ -100,9 +100,13 @@
 </div>
 
 <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ): ?>
-    <?php if ( $laterpay_post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ):
-        _e( 'The dynamic pricing will <strong>start</strong>, once you have <strong>published</strong> this post.', 'laterpay' );
-    endif; ?>
+    <?php if ( $laterpay_post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ):?>
+        <?php _e( 'The dynamic pricing will <strong>start</strong>, once you have <strong>published</strong> this post.', 'laterpay' ); ?>
+    <?php else: ?>
+        <a href="#" id="lp_js_reset-dynamic-pricing" class="lp_dynamic-pricing-reset lp_is-with-dynamic-pricing lp_d-block" post_id="<?php echo $laterpay_post_id; ?>">
+            <?php _e( 'Restart dynamic pricing', 'laterpay' ); ?>
+        </a>
+    <?php endif; ?>
     <a href="#" id="lp_js_toggle-dynamic-pricing" class="lp_dynamic-pricing-toggle lp_is-with-dynamic-pricing lp_d-block">
         <?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
     </a>
