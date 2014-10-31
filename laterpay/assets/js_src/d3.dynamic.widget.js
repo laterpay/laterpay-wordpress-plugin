@@ -718,11 +718,12 @@ LPCurve.prototype.toggleStartInput = function(action) {
             data[0].y = this.minPrice;
             data[1].y = this.minPrice;
         } else {
-            data[0].y = inputPrice;
-            data[1].y = inputPrice;
+            if( inputPrice >= 0 ){
+                data[0].y = inputPrice;
+                data[1].y = inputPrice;
+            }
         }
-        if( inputPrice > -1 )
-            lpc.set_data(data);
+        lpc.set_data(data);
         jQuery('rect.start-price').attr('width', '32px');
         jQuery('.start-input').hide();
         jQuery('path.start-price-triangle, text.start-price-currency, text.start-price').show();
@@ -766,11 +767,12 @@ LPCurve.prototype.toggleEndInput = function(action) {
             data[2].y = this.minPrice;
             data[3].y = this.minPrice;
         } else {
-            data[2].y = inputPrice;
-            data[3].y = inputPrice;
+            if( inputPrice >= 0 ){
+                data[2].y = inputPrice;
+                data[3].y = inputPrice;
+            }
         }
-        if( inputPrice > -1 )
-            lpc.set_data(data);
+        lpc.set_data(data);
         jQuery('rect.end-price').attr('width', '32px');
         jQuery('.end-input').hide();
         jQuery('path.end-price-triangle, text.end-price-currency, text.end-price').show();
