@@ -52,18 +52,21 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                 'description_text'  => '',
                                 'content_type'      => '',
                                 'teaser_image_path' => '',
+                                // deprecated:
+                                'target_page_id'    => '',
+                                'target_page_title' => '',
                             ), $atts );
 
         $deprecated_template = __( '<code>%1$s</code> is deprecated, please use <code>%2$s</code>. <code>%1$s</code> will be removed in the next release.', 'laterpay' );
 
         // backward compatibility for attribute 'target_page_title'
-        if ( array_key_exists( 'target_page_title', $a ) ) {
+        if ( ! empty( $a['target_page_title'] ) ) {
             $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
 
             _deprecated_argument(
                 __FUNCTION__,
-                $msg,
-                '0.9.8.3'
+                '0.9.8.3',
+                $msg
             );
 
             $this->logger->warning(
@@ -71,17 +74,19 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 array( 'attrs' => $a )
             );
 
-            $a[ 'target_post_title' ] = $a[ 'target_page_title' ];
+            if ( empty( $a['target_post_title'] ) ) {
+                $a[ 'target_post_title' ] = $a[ 'target_page_title' ];
+            }
         }
 
         // backward compatibility for attribute 'target_page_id'
-        if ( array_key_exists( 'target_page_id', $a ) ) {
+        if ( ! empty( $a['target_page_id'] ) ) {
             $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
 
             _deprecated_argument(
                 __FUNCTION__,
-                $msg,
-                '0.9.8.3'
+                '0.9.8.3',
+                $msg
             );
 
             $this->logger->warning(
@@ -89,7 +94,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 array( 'attrs' => $a )
             );
 
-            $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
+            if ( empty( $a['target_post_id'] ) ) {
+                $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
+            }
         }
 
         $error_reason = '';
@@ -318,21 +325,16 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 // render link to purchased post
                 $button_page_url = $page_url;
             }
-            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchase-link-shortcode lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
         } else {
             // the user has not purchased the item yet
             $button_page_url = $page_url;
             $button_label    = $price_tag;
-            // hide purchase button for administrator preview
-            if ( current_user_can( 'administrator' ) ) {
-                $html_button = '';
-            } else {
-                $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
-                if ( is_array( $view_args ) ) {
-                    $this->assign( 'laterpay', $view_args );
-                    $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_button' );
-                };
-            }
+            $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
+            if ( is_array( $view_args ) ) {
+                $this->assign( 'laterpay', $view_args );
+                $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_button' );
+            };
         }
 
         return $html_button;

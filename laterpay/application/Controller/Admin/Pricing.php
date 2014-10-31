@@ -713,6 +713,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         }
     }
 
+    /**
+     * Save bulk operation
+     *
+     * @return void
+     */
     protected function save_bulk_operation() {
         $save_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
         if ( $save_bulk_operation_form->is_valid() ) {
@@ -744,6 +749,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
     }
 
+    /**
+     * Delete bulk operation
+     *
+     * @return void
+     */
     protected function delete_bulk_operation() {
         $remove_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
         if ( $remove_bulk_operation_form->is_valid() ) {

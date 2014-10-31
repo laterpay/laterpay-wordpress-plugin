@@ -7,6 +7,8 @@ class LaterPay_Helper_Pricing
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
+    const STATUS_POST_PUBLISHED         = 'publish';
+
     const ppu_min                       = 0.05;
     const ppu_max                       = 1.48;
     const ppusis_max                    = 5.00;
@@ -314,6 +316,11 @@ class LaterPay_Helper_Pricing
      */
     public static function dynamic_price_days_after_publication( $post ) {
         $days_since_publication = 0;
+
+        // unpublished posts always have 0 days after publication
+        if ( $post->post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
+            return $days_since_publication;
+        }
 
         if ( function_exists( 'date_diff' ) ) {
             $date_time = new DateTime( date( 'Y-m-d' ) );

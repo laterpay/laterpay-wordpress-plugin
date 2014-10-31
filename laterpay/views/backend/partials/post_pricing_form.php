@@ -20,7 +20,7 @@
 
     <div id="lp_js_post-revenue-model" class="lp_post-revenue-model lp_p-rel">
             <label class="lp_revenue-model-label lp_m-t125 lp_m-b05 lp_tooltip
-                    <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) : ?>
+                    <?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay_post_revenue_model == 'ppu' ) { echo ' lp_is-selected'; } ?>
                         <?php if ( $laterpay_price > 5 ) { echo ' lp_is-disabled'; } ?>
                     <?php else : ?>
@@ -33,7 +33,7 @@
                     <?php if ( $laterpay_post_revenue_model == 'ppu' ) { echo 'checked'; } ?>>PPU
             </label>
             <label class="lp_revenue-model-label lp_tooltip
-                    <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) : ?>
+                    <?php if ( in_array( $laterpay_post_price_type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay_post_revenue_model == 'sis' ) { echo ' lp_is-selected'; } ?>
                         <?php if ( $laterpay_price < LaterPay_Helper_Pricing::sis_min ) { echo ' lp_is-disabled'; } ?>
                     <?php else : ?>
@@ -100,6 +100,9 @@
 </div>
 
 <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ): ?>
+    <?php if ( $laterpay_post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ):
+        _e( 'The dynamic pricing will <strong>start</strong>, once you have <strong>published</strong> this post.', 'laterpay' );
+    endif; ?>
     <a href="#" id="lp_js_toggle-dynamic-pricing" class="lp_dynamic-pricing-toggle lp_is-with-dynamic-pricing lp_d-block">
         <?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
     </a>
