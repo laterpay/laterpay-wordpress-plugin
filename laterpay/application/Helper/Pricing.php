@@ -317,8 +317,8 @@ class LaterPay_Helper_Pricing
     public static function dynamic_price_days_after_publication( $post ) {
         $days_since_publication = 0;
 
-        // unpublished post always has a zero days after
-        if( $post->post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ){
+        // unpublished posts always have 0 days after publication
+        if ( $post->post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
             return $days_since_publication;
         }
 

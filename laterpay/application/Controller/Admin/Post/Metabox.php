@@ -409,7 +409,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
-     * Update publish date for post while it saving
+     * Update publication date of post during saving.
      *
      * @wp-hook publish_post
      *
@@ -419,35 +419,38 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      *
      * @return void
      */
-    public function update_post_publish_date( $status_after_update, $status_before_update, $post ) {
-
+    public function update_post_publication_date( $status_after_update, $status_before_update, $post ) {
         // skip infinite loop
-        remove_action( 'publish_post', array($this,'update_post_publish_date') );
-        
-        // actualize post date while publish only if the current price type is dynamic
-        if( LaterPay_Helper_Pricing::get_post_price_type($post->ID) != LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE )
+        remove_action( 'publish_post', array( $this,'update_post_publication_date') );
+
+        // only update publication date for posts with dynamic pricing
+        if ( LaterPay_Helper_Pricing::get_post_price_type($post->ID) != LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
             return;
-        
-        // skip already published post update
-        if( $status_before_update == LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED )
+        }
+
+        // don't update publication date for already published posts
+        if ( $status_before_update == LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
             return;
-        
-        // skip non published post update
-        if( $status_after_update != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED )
+        }
+
+        // don't update publication date for unpublished posts
+        if ( $status_after_update != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
             return;
+        }
 
         // skip with no permission
         if ( ! $this->has_permission( $post->ID ) ) {
             return;
-        }     
-                
-        $actual_date = date("Y-m-d H:i:s");
-        $actual_date_gmt = gmdate("Y-m-d H:i:s");
-        $post_update_data = array( 
-            'ID'            => $post->ID, 
-            'post_date'     => $actual_date, 
-            'post_date_gmt' => $actual_date_gmt 
-        );
+        }
+
+        $actual_date        = date( 'Y-m-d H:i:s' );
+        $actual_date_gmt    = gmdate( 'Y-m-d H:i:s' );
+        $post_update_data   = array(
+                                    'ID'            => $post->ID,
+                                    'post_date'     => $actual_date,
+                                    'post_date_gmt' => $actual_date_gmt,
+                                );
+
         wp_update_post( $post_update_data );
     }
 }
