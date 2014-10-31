@@ -730,6 +730,7 @@ LPCurve.prototype.toggleStartInput = function(action) {
         jQuery('rect.start-price').attr('width', '32px');
         jQuery('.start-input').hide();
         jQuery('path.start-price-triangle, text.start-price-currency, text.start-price').show();
+        lpc.plot();
     } else if (action === 'show') {
         jQuery('rect.start-price').attr('width', '50px');
         jQuery('path.start-price-triangle, text.start-price-currency, text.start-price').hide();
