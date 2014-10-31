@@ -22,8 +22,9 @@ class LaterPay_Model_BulkOperation
      *
      * @return array $bulk_operations
      */
-    public function get_bulk_operations( ) {
+    public function get_bulk_operations() {
         global $wpdb;
+
         $sql = "
             SELECT
                 *
@@ -37,9 +38,9 @@ class LaterPay_Model_BulkOperation
     }
 
     /**
-     * Get bulk operation data by id
+     * Get bulk operation data by id.
      *
-     * @param  int    $id   bulk operation id
+     * @param int   $id     bulk operation id
      *
      * @return string|null  bulk operation data
      */
@@ -65,10 +66,10 @@ class LaterPay_Model_BulkOperation
     }
 
     /**
-     * Set bulk operation.
+     * Save bulk operation.
      *
-     * @param  string    $data    serialized bulk data
-     * @param  string    $message message
+     * @param string    $data    serialized bulk data
+     * @param string    $message message
      *
      * @return int|false number of rows affected / selected or false on error
      */
@@ -114,6 +115,7 @@ class LaterPay_Model_BulkOperation
 
         $success = $wpdb->delete( $this->table_bulk_operations, $where, '%d' );
         LaterPay_Helper_Cache::purge_cache();
+
         return $success;
     }
 }

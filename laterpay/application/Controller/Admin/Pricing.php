@@ -36,7 +36,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-select2' );
         wp_enqueue_script( 'laterpay-backend-pricing' );
 
-        // array of modifiers for bulk price editor
+        // translations for bulk price editor
         $i18n = array(
             'to'                        => __( 'to', 'laterpay' ),
             'by'                        => __( 'by', 'laterpay' ),
@@ -469,7 +469,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
 
         if ( $bulk_price_form->is_valid() ) {
-            $bulk_operation_id    = $bulk_price_form->get_field_value( 'bulk_operation_id' );
+            $bulk_operation_id = $bulk_price_form->get_field_value( 'bulk_operation_id' );
             if ( $bulk_operation_id ) {
                 $bulk_operation_model = new LaterPay_Model_BulkOperation();
                 $operation_data = unserialize( $bulk_operation_model->get_bulk_operation_data_by_id( $bulk_operation_id ) );
@@ -477,7 +477,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     wp_send_json(
                         array(
                             'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                         )
                     );
                 }
@@ -691,7 +691,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update global and categories prices with new price
+     * Update global and category default prices with new price.
      *
      * @param array $price
      *
@@ -716,7 +716,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function save_bulk_operation() {
         $save_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
         if ( $save_bulk_operation_form->is_valid() ) {
-            // create data array and serilialize
+            // create and serialize data array
             $data                 = $save_bulk_operation_form->get_form_values( true, 'bulk_', array( 'bulk_message' ) );
             $bulk_message         = $save_bulk_operation_form->get_field_value( 'bulk_message' );
 
@@ -739,7 +739,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
             )
         );
     }
@@ -747,8 +747,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function delete_bulk_operation() {
         $remove_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
         if ( $remove_bulk_operation_form->is_valid() ) {
-            $bulk_operation_id = $remove_bulk_operation_form->get_field_value( 'bulk_operation_id' );
-            $bulk_operation_model = new LaterPay_Model_BulkOperation();
+            $bulk_operation_id      = $remove_bulk_operation_form->get_field_value( 'bulk_operation_id' );
+            $bulk_operation_model   = new LaterPay_Model_BulkOperation();
+
             $result = $bulk_operation_model->delete_bulk_operation_by_id( $bulk_operation_id );
             if ( $result ) {
                 wp_send_json(
@@ -763,7 +764,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
             )
         );
     }
