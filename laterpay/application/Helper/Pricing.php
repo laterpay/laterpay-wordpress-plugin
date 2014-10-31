@@ -654,14 +654,13 @@ class LaterPay_Helper_Pricing
     }
 
      /**
-     * Reset post publish date
+     * Reset post publication date.
      *
      * @param WP_Post $post
      *
      * @return void
-     */    
-    public static function reset_post_publish_date($post){
-        
+     */
+    public static function reset_post_publication_date( $post ) {
         $actual_date        = date( 'Y-m-d H:i:s' );
         $actual_date_gmt    = gmdate( 'Y-m-d H:i:s' );
         $post_update_data   = array(
@@ -670,6 +669,6 @@ class LaterPay_Helper_Pricing
                                     'post_date_gmt' => $actual_date_gmt,
                                 );
 
-        wp_update_post( $post_update_data );        
+        wp_update_post( $post_update_data );
     }
 }

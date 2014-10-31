@@ -76,7 +76,7 @@
 
                 // reset dynamic pricing date
                 $o.dynamicPricingResetDate
-                .click(function(e) {
+                .click(function() {
                     var post_id = $(this).attr('post_id');
                     resetPostDate(post_id);
                 })
@@ -414,13 +414,13 @@
                     lpVars.ajaxUrl,
                     {
                         action          : 'laterpay_reset_date',
-                        form            : 'reset_post_publish_date',
+                        form            : 'reset_post_publication_date',
                         post_id         : post_id,
                     },
                     function(data) {
-                        if( data.success ){
+                        if (data.success) {
                             window.location.reload();
-                        }else if( data.message ){
+                        } else if (data.message) {
                             alert(data.message);
                         }
                     },
