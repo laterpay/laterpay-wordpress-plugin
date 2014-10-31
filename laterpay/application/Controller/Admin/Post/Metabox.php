@@ -211,6 +211,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         $post_default_category              = array_key_exists( 'category_id',      $post_prices ) ? (int) $post_prices[ 'category_id' ] : 0;
         $post_revenue_model                 = array_key_exists( 'revenue_model',    $post_prices ) ? $post_prices[ 'revenue_model' ] : 'ppu';
+        $post_status                        = $post->post_status;
 
         // category default price data
         $category_price_data    = null;
@@ -226,7 +227,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             }
         }
 
-		// get price data
+        // get price data
         $global_default_price               = get_option( 'laterpay_global_price' );
         $global_default_price_revenue_model = get_option( 'laterpay_global_price_revenue_model' );
 
@@ -258,13 +259,14 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             'price_sis_end'             => LaterPay_Helper_Pricing::price_sis_end,
             'price_start_day'           => LaterPay_Helper_Pricing::price_start_day,
             'price_end_day'             => LaterPay_Helper_Pricing::price_end_day,
-			'pubDays'                   => $days_after_publication,
+            'pubDays'                   => $days_after_publication,
             'todayPrice'                => $price,
         );
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
 
         $this->assign( 'laterpay_post_price_type',                      $post_price_type );
+        $this->assign( 'laterpay_post_status',                          $post_status );
         $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
         $this->assign( 'laterpay_price',                                $price );
         $this->assign( 'laterpay_currency',                             get_option( 'laterpay_currency' ) );
@@ -355,7 +357,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
                 // apply dynamic individual price
                 if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
-					if ( isset( $_POST[ 'laterpay_start_price' ] ) && isset( $_POST[ 'laterpay_end_price' ] ) ){
+                    if ( isset( $_POST[ 'laterpay_start_price' ] ) && isset( $_POST[ 'laterpay_end_price' ] ) ){
                         list( $meta_values[ 'start_price' ], $meta_values[ 'end_price' ] ) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $_POST[ 'laterpay_start_price' ], $_POST[ 'laterpay_end_price' ] );
                     }
 
@@ -406,4 +408,46 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         }
     }
 
+    /**
+     * Update publish date for post while it saving
+     *
+     * @wp-hook publish_post
+     *
+     * @param string $status_after_update
+     * @param string $status_before_update
+     * @param WP_Post $post
+     *
+     * @return void
+     */
+    public function update_post_publish_date( $status_after_update, $status_before_update, $post ) {
+
+        // skip infinite loop
+        remove_action( 'publish_post', array($this,'update_post_publish_date') );
+        
+        // actualize post date while publish only if the current price type is dynamic
+        if( LaterPay_Helper_Pricing::get_post_price_type($post->ID) != LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE )
+            return;
+        
+        // skip already published post update
+        if( $status_before_update == LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED )
+            return;
+        
+        // skip non published post update
+        if( $status_after_update != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED )
+            return;
+
+        // skip with no permission
+        if ( ! $this->has_permission( $post->ID ) ) {
+            return;
+        }     
+                
+        $actual_date = date("Y-m-d H:i:s");
+        $actual_date_gmt = gmdate("Y-m-d H:i:s");
+        $post_update_data = array( 
+            'ID'            => $post->ID, 
+            'post_date'     => $actual_date, 
+            'post_date_gmt' => $actual_date_gmt 
+        );
+        wp_update_post( $post_update_data );
+    }
 }
