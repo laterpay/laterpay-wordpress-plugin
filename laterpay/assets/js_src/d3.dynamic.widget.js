@@ -3,8 +3,7 @@ var margin = {
     right   : 40,
     bottom  : 20,
     left    : 50,
-};
-
+}
 margin.xAxis = margin.left + margin.right;
 margin.yAxis = margin.top + margin.bottom;
 
@@ -27,17 +26,13 @@ var LPCurve = function(container) {
 
     svg = d3.select(container).append('svg').append('g');
 
-    svg.append('rect')
-        .attr('class', 'lp_dynamic-pricing-widget-background');
+    svg.append('rect').attr('class', 'lp_dynamic-pricing-widget-background');
 
-    svg.append('g')
-        .attr('class', 'x axis');
+    svg.append('g').attr('class', 'x axis');
 
-    svg.append('g')
-        .attr('class', 'y axis');
+    svg.append('g').attr('class', 'y axis');
 
-    svg.append('defs').append('marker')
-        .attr({
+    svg.append('defs').append('marker').attr({
             id          : 'arrow-x',
             class       : 'lp_dynamic-pricing-widget-arrowhead',
             refX        : 2,
