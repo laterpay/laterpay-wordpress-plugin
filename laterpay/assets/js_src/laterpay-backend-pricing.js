@@ -18,7 +18,7 @@
                 cancelEditingGlobalDefaultPrice         : $('#lp_js_cancel-editing-global-default-price'),
                 saveGlobalDefaultPrice                  : $('#lp_js_save-global-default-price'),
                 globalDefaultPriceShowElements          : $('#lp_js_global-default-price-text,' +
-                                                            ' #lp_js_edit-global-default-price,' +
+                                                            '#lp_js_edit-global-default-price,' +
                                                             '#lp_js_global-default-price-revenue-model-label'),
                 globalDefaultPriceEditElements          : $('#lp_js_global-default-price,' +
                                                             '#lp_js_global-default-price-revenue-model,' +
@@ -173,6 +173,9 @@
                 // execute bulk operation
                 $o.bulkPriceForm
                 .on('submit', function(e) {
+                    $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form');
+                    $('input[name=bulk_operation_id]', $o.bulkPriceForm).val(undefined);
+                    $('input[name=bulk_message]', $o.bulkPriceForm).val(undefined);
                     applyBulkOperation();
                     e.preventDefault();
                 });
@@ -635,57 +638,46 @@
                 }
             },
 
-            createSavedBulkRow = function( bulkOperationId ) {
-                var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    'Make' :
-                                    $o.bulkPriceAction.find('option:selected').text(),
-                    objects     = $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
-                    category    = ($.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ?
-                                    '' :
-                                    '"' + $.trim($o.bulkPriceObjectsCategory.find('option:selected').text()) + '"',
-                    preposition = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    '' :
-                                    $o.bulkPriceChangeAmountPreposition.text(),
-                    amount      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    '' :
-                                    $o.bulkPriceChangeAmount.val() + $o.bulkPriceChangeUnit.find('option:selected').text(),
-                    actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ? 'free' : '',
-                    description = [action, objects, category, preposition, amount, actionExt],
-                    operation;
-
-                description = $.trim(description.join(' ').replace(/\s+/g, ' '));
-                operation = '<p class="lp_bulk-operation">' +
-                                '<a href="#" class="lp_js_delete-saved-bulk-operation lp_edit-link lp_delete-link" data-icon="g" data-value="' +  bulkOperationId + '">' + lpVars.i18n.delete + '</a>' +
-                                '<a href="#" class="lp_js_apply-saved-bulk-operation button button-primary lp_m-l2" data-value="' +  bulkOperationId + '">' + lpVars.i18n.updatePrices + '</a>' +
-                                '<span>' + description + '</span>' +
+            createSavedBulkRow = function( bulkOperationId, bulkMessage ) {
+                var operation = '<p class="lp_bulk-operation" data-value="' +  bulkOperationId + '">' +
+                                '<a href="#" class="lp_js_delete-saved-bulk-operation lp_edit-link lp_delete-link" data-icon="g">' + lpVars.i18n.delete + '</a>' +
+                                '<a href="#" class="lp_js_apply-saved-bulk-operation button button-primary lp_m-l2">' + lpVars.i18n.updatePrices + '</a>' +
+                                '<span>' + bulkMessage + '</span>' +
                             '</p>';
 
                 $o.bulkPriceForm.after(operation);
             },
 
             saveBulkOperation = function() {
-                var action            = $o.bulkPriceAction.find('option:selected').val(),
-                    objects           = $o.bulkPriceObjects.find('option:selected').val(),
-                    category          = $o.bulkPriceObjectsCategory.length ? $o.bulkPriceObjectsCategory.find('option:selected').val() : undefined,
-                    categoryWithPrice = $o.bulkPriceObjectsCategoryWithPrice.length ? $o.bulkPriceObjectsCategoryWithPrice.find('option:selected').val() : undefined,
-                    amount            = $o.bulkPriceChangeAmount.length ? $o.bulkPriceChangeAmount.val() : undefined,
-                    changeUnit        = $o.bulkPriceChangeUnit.length ? $o.bulkPriceChangeUnit.find('option:selected').val() : undefined;
+                var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                        'Make' :
+                        $o.bulkPriceAction.find('option:selected').text(),
+                    objects     = $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
+                    category    = ($.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ?
+                        '' :
+                        '"' + $.trim($o.bulkPriceObjectsCategory.find('option:selected').text()) + '"',
+                    preposition = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                        '' :
+                        $o.bulkPriceChangeAmountPreposition.text(),
+                    amount      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                        '' :
+                        $o.bulkPriceChangeAmount.val() + $o.bulkPriceChangeUnit.find('option:selected').text(),
+                    actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ? 'free' : '',
+                    description = [action, objects, category, preposition, amount, actionExt];
 
-                var result_array      = {
-                    action: action,
-                    objects: objects,
-                    category: category ? category : categoryWithPrice,
-                    amount: amount,
-                    unit: changeUnit
-                };
+                description = $.trim(description.join(' ').replace(/\s+/g, ' '));
+
+                $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form_save');
+                $('input[name=bulk_operation_id]', $o.bulkPriceForm).val(undefined);
+                $('input[name=bulk_message]', $o.bulkPriceForm).val(description);
 
                 $.post(
                     ajaxurl,
-                    result_array.serializeArray(),
+                    $o.bulkPriceForm.serializeArray(),
                     function(r) {
                         if (r.success) {
                             // create new saved row
-                            createSavedBulkRow(r.data.id);
+                            createSavedBulkRow(r.data.id, r.data.message);
                         }
                         setMessage(r.message, r.success);
                     },
@@ -694,15 +686,29 @@
             },
 
             applySavedBulkOperation = function($item) {
-                var data = undefined; // TODO: get saved form data from $item
+                $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form');
+                $('input[name=bulk_operation_id]', $o.bulkPriceForm).val($item.data('value'));
 
-                applyBulkOperation(data);
+                applyBulkOperation();
             },
 
             deleteSavedBulkOperation = function($item) {
-                $item.fadeOut(250, function() {
-                    $item.remove();
-                });
+                $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form_delete');
+                $('input[name=bulk_operation_id]', $o.bulkPriceForm).val($item.data('value'));
+
+                $.post(
+                    ajaxurl,
+                    $o.bulkPriceForm.serializeArray(),
+                    function(r) {
+                        if (r.success) {
+                            $item.fadeOut(250, function() {
+                                $item.remove();
+                            });
+                        }
+                        setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
             },
 
             initializePage = function() {

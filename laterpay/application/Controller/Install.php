@@ -309,7 +309,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $sql = "
             CREATE TABLE $table_bulk_operations (
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
-                data              VARBINARY(128)  NOT NULL,
+                message           VARCHAR(256)    NOT NULL,
+                data              VARBINARY(256)  NOT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );

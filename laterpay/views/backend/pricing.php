@@ -208,6 +208,8 @@
             <form id="lp_js_bulk-price-form" method="post">
                 <input type="hidden" name="form" value="bulk_price_form">
                 <input type="hidden" name="action" value="laterpay_pricing">
+                <input type="hidden" name="bulk_operation_id" value="">
+                <input type="hidden" name="bulk_message" value="">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <div>
                     <p>
@@ -265,6 +267,15 @@
                     </p>
                 </div>
             </form>
+            <?php if ( $bulk_saved_operations ): ?>
+                <?php foreach ( $bulk_saved_operations as $bulk_operation ): ?>
+                    <p class="lp_bulk-operation" data-value="<?php echo $bulk_operation->id; ?>">
+                        <a href="#" class="lp_js_delete-saved-bulk-operation lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_apply-saved-bulk-operation button button-primary lp_m-l2"><?php _e( 'Update Prices', 'laterpay' ); ?></a>
+                        <span><?php echo $bulk_operation->message; ?></span>
+                    </p>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
 
 <?php # commented out as long as there is only a single currency ?>

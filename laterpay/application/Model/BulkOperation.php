@@ -68,10 +68,11 @@ class LaterPay_Model_BulkOperation
      * Set bulk operation.
      *
      * @param  string    $data    serialized bulk data
+     * @param  string    $message message
      *
      * @return int|false number of rows affected / selected or false on error
      */
-    public function save_bulk_operation( $data ) {
+    public function save_bulk_operation( $data, $message ) {
         global $wpdb;
 
         $success = false;
@@ -80,12 +81,18 @@ class LaterPay_Model_BulkOperation
             $success = $wpdb->insert(
                 $this->table_bulk_operations,
                 array(
-                    'data' => $data,
+                    'data'    => $data,
+                    'message' => $message,
                 ),
                 array(
                     '%s',
+                    '%s'
                 )
             );
+        }
+
+        if ( $success ) {
+            $success = $wpdb->insert_id;
         }
 
         return $success;

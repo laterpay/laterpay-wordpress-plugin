@@ -19,7 +19,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'bulk_price_form',
+                            'like' => 'bulk_price_form',
                         ),
                     ),
                 ),
@@ -51,6 +51,32 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                         ),
                     ),
                 ),
+            )
+        );
+
+        $this->set_field(
+            'bulk_operation_id',
+            array(
+                'validators' => array(
+                    'is_int',
+                ),
+                'filters'    => array(
+                    'to_int',
+                ),
+                'can_be_null' => true,
+            )
+        );
+
+        $this->set_field(
+            'bulk_message',
+            array(
+                'validators' => array(
+                    'is_string',
+                ),
+                'filters'    => array(
+                    'to_string',
+                ),
+                'can_be_null' => true,
             )
         );
 
