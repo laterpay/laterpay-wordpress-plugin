@@ -1,0 +1,1 @@
+YUI().use("node","laterpay-dialog","laterpay-iframe","laterpay-easyxdm",function(a){lpInvoiceIndicatorVars&&lpInvoiceIndicatorVars.lpBalanceUrl&&new a.LaterPay.IFrame(a.one("#laterpay-invoice-indicator"),lpInvoiceIndicatorVars.lpBalanceUrl,{width:"110",height:"30",scrolling:"no",frameborder:"0"})});

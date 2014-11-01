@@ -33,9 +33,9 @@ var autoprefixer    = require('gulp-autoprefixer'),
                         srcStylus   : './laterpay/asset_sources/stylus/*.styl',
                         srcJS       : './laterpay/asset_sources/js/',
                         srcSVG      : './laterpay/asset_sources/img/**/*.svg',
-                        distJS      : './laterpay/assets/js/',
-                        distCSS     : './laterpay/assets/css/',
-                        distSVG     : './laterpay/assets/img/',
+                        distJS      : './laterpay/built_assets/js/',
+                        distCSS     : './laterpay/built_assets/css/',
+                        distSVG     : './laterpay/built_assets/img/',
                     };
 
 
