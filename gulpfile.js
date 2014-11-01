@@ -17,7 +17,6 @@ var autoprefixer    = require('gulp-autoprefixer'),
     phpcs           = require('gulp-phpcs'),
     prettify        = require('gulp-jsbeautifier'),
     // sourcemaps      = require('gulp-sourcemaps'),
-    soften          = require('gulp-soften'),
     // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
@@ -44,7 +43,6 @@ gulp.task('clean', function(cb) {
 // CSS related tasks
 gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
-        .pipe(soften(4))
         .pipe(stylus({                                                          // process Stylus sources to CSS
             linenos: true,                                                      // make line numbers available in browser dev tools
             // TODO: generate sourcemap
@@ -73,9 +71,9 @@ gulp.task('css-build', function() {
 gulp.task('js-watch', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(cached('hinting'))                                                // only process modified files
-            .pipe(soften(4))
-            .pipe(gulp.dest(p.distJS))                                          // move to target folder
-            .pipe(notify({message: 'JS task complete :-)'}));
+            .pipe(jshint('.jshintrc'))
+            .pipe(jshint.reporter(stylish))
+            .pipe(gulp.dest(p.distJS));                                          // move to target folder;
 });
 
 gulp.task('js-build', function() {
@@ -95,7 +93,7 @@ gulp.task('js-format', function() {
     return gulp.src(p.srcJS + '*.js')
             .pipe(prettify({
                 config  : '.jsbeautifyrc',
-                mode    : 'VERIFY_AND_WRITE'
+                mode    : 'VERIFY_AND_WRITE',
             }))
             .pipe(gulp.dest(p.srcJS));
 });
