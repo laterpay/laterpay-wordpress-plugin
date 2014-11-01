@@ -12,6 +12,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     // include         = require('gulp-file-include'),
     jshint          = require('gulp-jshint'),
     lintspaces      = require('gulp-lintspaces'),
+    nib             = require('nib'),
     notify          = require('gulp-notify'),
     // Pageres         = require('pageres'),
     phpcs           = require('gulp-phpcs'),
@@ -48,7 +49,8 @@ gulp.task('clean', function(cb) {
 gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
         .pipe(stylus({                                                          // process Stylus sources to CSS
-            linenos: true,                                                      // make line numbers available in browser dev tools
+            use     : nib(),
+            linenos : true,                                                      // make line numbers available in browser dev tools
             // TODO: generate sourcemap
         }))
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
@@ -58,7 +60,10 @@ gulp.task('css-watch', function() {
 
 gulp.task('css-build', function() {
     gulp.src(p.srcStylus)
-        .pipe(stylus({compress: true}))                                         // process Stylus sources to CSS
+        .pipe(stylus({                                                          // process Stylus sources to CSS
+            use     : nib(),
+            compress: true
+        }))
         // .pipe(base64({                                                          // base64-encode images and inline them using datauris
         //     baseDir         : 'laterpay/assets/img',
         //     extensions      : ['png', svg],
