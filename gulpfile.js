@@ -1,4 +1,4 @@
-var // autoprefixer    = require('gulp-autoprefixer'),
+var autoprefixer    = require('gulp-autoprefixer'),
     // base64          = require('gulp-base64'),
     // bundle          = require('gulp-bundle-assets'),
     cached          = require('gulp-cached'),
@@ -49,6 +49,7 @@ gulp.task('css-watch', function() {
             linenos: true,                                                      // make line numbers available in browser dev tools
             // TODO: generate sourcemap
         }))
+        .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .on('error', notify.onError())
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
@@ -64,7 +65,7 @@ gulp.task('css-build', function() {
         //     debug           : true
         // }))
         .on('error', notify.onError())
-        // .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 7'))  // vendorize properties for supported browsers
+        .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
