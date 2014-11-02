@@ -22,7 +22,7 @@
                     <?php _e( 'Read Now, Pay Later', 'laterpay' ); ?>
                 </h2>
             </header>
-            <ul class="lp_fl-clearfix">
+            <ul class="lp_u_clearfix">
                 <?php if ( $laterpay['revenue_model'] == 'sis' ): ?>
 					<li class="lp_benefit-buy-now">
                         <h3><?php _e( 'Buy Now', 'laterpay' ); ?></h3>

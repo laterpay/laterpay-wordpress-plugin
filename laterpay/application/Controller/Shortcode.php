@@ -271,7 +271,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
-        return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premium-file-box-wrapper lp_u_clearfix">' . do_shortcode( $content ) . '</div>';
     }
 
     /**
