@@ -5,14 +5,14 @@
                 menuItem            : $('#wp-admin-bar-lp_js_debugger-admin-bar-menu'),
                 debugger            : $('.lp_debugger'),
                 debuggerHeader      : 'header',
-                tabs                : $('.lp_debugger-tabs li'),
-                content             : $('.lp_debugger-content'),
-                logMessage          : '.lp_log-entry-table',
-                logMessageHeader    : $('.lp_log-entry-table thead'),
+                tabs                : $('.lp_debugger_tabs li'),
+                content             : $('.lp_debugger_content'),
+                logMessage          : '.lp_debugger_logEntryTable',
+                logMessageHeader    : $('.lp_debugger_logEntryTable thead'),
                 logDetails          : '.lp_js_log-entry-details',
 
-                hidden              : 'lp_is_hidden',
-                selected            : 'lp_is_selected',
+                hidden              : 'lp_is-hidden',
+                selected            : 'lp_is-selected',
 
                 hiddenAttr          : {
                                         'aria-hidden'   : true,

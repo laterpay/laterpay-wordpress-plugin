@@ -1,6 +1,6 @@
 // iOS-style toggle rendered from a checkbox
 
-.lp-toggle
+.lp_toggle
     display                         inline-block
     margin                          0 0.25em
     position                        relative
@@ -11,7 +11,7 @@
         margin                      0
 
     // frame
-    .lp-toggle-label
+    .lp_toggle_label
         linear-gradient             hsl(0, 0%, 93%), 0%, $background-lightest, 100%
         border-radius               1em
         box-shadow                  inset 0 -1px $background-lightest,
@@ -26,14 +26,14 @@
         vertical-align              top
         width                       5em
 
-        .lp-toggle-input
+        .lp_toggle_input
             left                    0
             opacity                 0
             position                absolute
             top                     0
 
         // text within toggle
-        .lp-toggle-text
+        .lp_toggle_text
             background-color        hsl(0, 0%, 80%)
             border-radius           inherit
             box-shadow              inset 0 1px 2px hsla(0, 0%, 0%, 0.12),
@@ -69,7 +69,7 @@
                 opacity             0
 
         // toggle knob
-        .lp-toggle-handle
+        .lp_toggle_handle
             linear-gradient         $background-lightest, 40%, hsl(0, 0%, 94%), 100%
             border-radius           1em
             box-shadow              1px 1px 5px hsla(0, 0%, 0%, 0.2)
@@ -93,8 +93,8 @@
                 width               1.1em
 
         // show 'on'-state when checked
-        .lp-toggle-input
-            &:checked ~ .lp-toggle-text
+        .lp_toggle_input
+            &:checked ~ .lp_toggle_text
                 background-color    $background-laterpay-darker
                 box-shadow          inset 0 1px 2px hsla(0, 0%, 0%, 0.15),
                                     inset 0 0 3px hsla(0, 0%, 0%, 0.2)
@@ -106,7 +106,7 @@
                     opacity         1
 
 
-            &:checked ~ .lp-toggle-handle
+            &:checked ~ .lp_toggle_handle
                 box-shadow          -1px 1px 5px hsla(0, 0%, 0%, 0.2)
                 left                auto
                 right               0.4em

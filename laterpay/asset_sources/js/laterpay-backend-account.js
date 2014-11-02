@@ -206,10 +206,10 @@
                     viewportHeight          = parseInt($(window).height(), 10),
                     topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
                     iframeHeight            = viewportHeight - topMargin,
-                    $iframeWrapperObject    = $('<div id="lp_legal-docs-iframe" style="height:' +
+                    $iframeWrapperObject    = $('<div id="lp_legalDocs_iframe" style="height:' +
                                                 iframeHeight +
                                               'px;"></div>'),
-                    $iframeWrapper          = $('#lp_legal-docs-iframe'),
+                    $iframeWrapper          = $('#lp_legalDocs_iframe'),
                     iframeOffset,
                     scrollPosition;
 
@@ -222,7 +222,7 @@
                 if ($iframeWrapper.length === 0) {
                     $('#lp_js_credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
                         // scroll document so that iframe fills viewport
-                        iframeOffset = $('#lp_legal-docs-iframe').offset();
+                        iframeOffset = $('#lp_legalDocs_iframe').offset();
                         scrollPosition = iframeOffset.top - topMargin;
                         $('BODY, HTML').animate({
                             scrollTop: scrollPosition
@@ -231,12 +231,12 @@
                 }
 
                 // cache object again after replacing it
-                $iframeWrapper = $('#lp_legal-docs-iframe');
+                $iframeWrapper = $('#lp_legalDocs_iframe');
 
                 // inject a new iframe into the wrapper with the requested src parameter
                 $iframeWrapper
                 .html(
-                    '<a href="#" id="lp_js_hide-merchant-contracts" class="lp_close-iframe">x</a>' +
+                    '<a href="#" id="lp_js_hide-merchant-contracts" class="lp_legalDocs_closeLink">x</a>' +
                     '<iframe ' +
                         'src="' + src + '" ' +
                         'frameborder="0" ' +
@@ -248,7 +248,7 @@
                 // close merchant contracts
                 $('#lp_js_hide-merchant-contracts', $iframeWrapper).bind('click', function(e) {
                     $(this).fadeOut()
-                        .parent('#lp_legal-docs-iframe').slideUp(400, function() {
+                        .parent('#lp_legalDocs_iframe').slideUp(400, function() {
                             $(this).remove();
                         });
                     $o.showMerchantContractsButton.fadeIn();

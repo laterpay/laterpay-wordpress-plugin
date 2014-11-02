@@ -183,7 +183,7 @@
             },
 
             validatePrice = function($form) {
-                var $priceInput = $('.lp_number-input', $form),
+                var $priceInput = $('.lp_numberInput', $form),
                     price       = $priceInput.val(),
                     corrected;
 

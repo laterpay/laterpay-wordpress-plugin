@@ -32,7 +32,7 @@
                 selected                : 'lp_is-selected',
                 disabled                : 'lp_is-disabled',
                 dynamicPricingApplied   : 'lp_is-with-dynamic-pricing',
-                selectedCategory        : 'lp_selected-category',
+                selectedCategory        : 'lp_is-selectedCategory',
                 payPerUse               : 'ppu',
                 singleSale              : 'sis'
             },
@@ -126,7 +126,7 @@
                     updateSelectedCategory();
 
                     // set the price and revenue model of the selected category
-                    var $category   = $('.lp_selected-category a', $o.categoriesList);
+                    var $category   = $('.lp_is-selectedCategory a', $o.categoriesList);
                     price           = $category.attr('data-price');
                     revenueModel    = $category.attr('data-revenue-model');
                     setPrice(price);
@@ -292,7 +292,7 @@
                 // also update price and revenue model, if the selected category has changed
                 // in pricing mode 'category default price'
                 if ($o.categoryPriceButton.hasClass($o.selected)) {
-                    var $category       = $('.lp_selected-category a', $o.categoriesList),
+                    var $category       = $('.lp_is-selectedCategory a', $o.categoriesList),
                         price           = $category.attr('data-price'),
                         revenueModel    = $category.attr('data-revenue-model');
 

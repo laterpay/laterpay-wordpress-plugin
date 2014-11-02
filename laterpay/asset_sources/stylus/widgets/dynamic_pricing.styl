@@ -6,7 +6,7 @@
 svg text
     user-select             none
 
-.lp_dynamic-pricing-widget
+.lp_dynamicPricing
     height                  240px
     width                   254px
 
@@ -24,7 +24,7 @@ svg text
     stroke-width            1.5px
     stroke                  hsl(0, 0%, 67%)
 
-.lp_dynamic-pricing-widget-arrowhead
+.lp_dynamicPricing_arrowhead
     fill                    hsl(0, 0%, 67%)
 
 .tick text
@@ -36,7 +36,7 @@ circle
     stroke-width            2px
     transition              all .5s
 
-circle.circle-hidden
+circle.lp_is-hidden
     display                 none
 
 .line
@@ -53,59 +53,57 @@ path.end-price-triangle
     fill                    $clickable
     opacity                 0.85
 
-rect.lp_dynamic-pricing-widget-background
+rect.lp_dynamicPricing_background
     fill                    hsl(0, 0%, 95%)
 
-.lp_is_dragging
+.lp_is-dragging
     .tooltip,
     .pointer
         opacity             0
 
-.line-price
+.lp_priceLine
     cursor                  col-resize
     opacity                 0.01
     stroke                  hsl(0, 0%, 100%)
     stroke-width            8px
 
-.line-price.lp_is_hidden
+.lp_priceLine.lp_is-hidden
     display             none
 
-.line-price-visible
+.lp_priceLineVisible
     stroke                  hsl(0, 0%, 33%)
     stroke-dasharray        5
     stroke-width            1.5px
 
-    .lp_is_hidden
+    .lp_is-hidden
         display             none
 
 .lp_current-price-line
     stroke                  $background-laterpay
     stroke-width            1.5px
 
-.lp_dynamic-pricing-widget.ew-resize,
+.lp_dynamicPricing.ew-resize,
 rect.x-drag-square,
 .x-triangle-bottom
     cursor                  col-resize
 
-.x-triangle-bottom.lp_is_hidden,
-rect.x-drag-square.lp_is_hidden,
-.x-text.lp_is_hidden,
-.x-text-days.lp_is_hidden
+.x-triangle-bottom.lp_is-hidden,
+rect.x-drag-square.lp_is-hidden,
+.x-text.lp_is-hidden,
+.x-text-days.lp_is-hidden
     display                 none
 
 .x-text,
 .x-text-days,
 text.start-price,
-text.start-price-currency,
 text.end-price,
-text.end-price-currency
+text.lp_dynamicPricing_currency
     cursor                  col-resize
     fill                    hsl(0, 0%, 100%)
 
 text.start-price,
-text.start-price-currency,
 text.end-price,
-text.end-price-currency,
+text.lp_dynamicPricing_currency,
 rect.end-price,
 rect.start-price
     cursor                  row-resize
@@ -117,17 +115,16 @@ text.end-price
     font-weight             600
 
 text.x-text-days,
-text.start-price-currency,
-text.end-price-currency
+text.lp_dynamicPricing_currency
     font-size               9px
     font-weight             400
 
-text.lp_default-price
+text.lp_dynamicPricing_defaultPrice
     fill                    hsl(0, 0%, 67%)
     font-size               10px
 
-.start-input input,
-.end-input input
+.lp_dynamicPricing_startPriceInput input,
+.lp_dynamicPricing_endPriceInput input
     height                  22px
     border                  2px solid gainsboro
     border-radius           3px

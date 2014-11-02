@@ -1,28 +1,27 @@
 // 'Appearance' tab in plugin backend
 
 // content preview mode ------------------------------------------------------------------------------------------------
-.lp_preview-mode-1,
-.lp_preview-mode-2
+.lp_previewMode-1,
+.lp_previewMode-2
     background-repeat       no-repeat
     height                  208px
     margin                  0.5em 4em 0.25em 1.75em
     width                   300px
 
-.lp_preview-mode-1
+.lp_previewMode-1
     background-image        url('../img/preview-mode-1.png')
 
-.lp_preview-mode-2
+.lp_previewMode-2
     background-image        url('../img/preview-mode-2.png')
 
 
 // code snippets -------------------------------------------------------------------------------------------------------
-.lp_ui-element-preview-large
+.lp_uiElementPreview
+    width                   110px
+.lp_uiElementPreview.+lp_large
     width                   300px
 
-.lp_ui-element-preview-small
-    width                   110px
-
-.lp_code-snippet
+.lp_codeSnippet
     background-color        $background-lightest
     border                  1px solid $border-darker
     border-radius           3px
@@ -31,7 +30,7 @@
     padding                 $fs-075 $fs-1 $fs-05
     position                relative
 
-.lp_shown-above
+.lp_codeSnippet.+lp_shownAbove
     margin                  $fs-075 0 $fs-05
     max-width               540px
 
@@ -41,7 +40,7 @@
         left                -9px
         top                 auto
 
-    .lp_outer-triangle
+    .lp_outerTriangle
         border-right-color  transparent
         border-top-color    hsl(0, 0%, 77%)
         bottom              -20px
@@ -58,7 +57,7 @@
     width                   0
     z-index                 $zindex-elevated_2
 
-.lp_outer-triangle
+.lp_outerTriangle
     border-right-color      hsl(0, 0%, 77%)
     border-width            10px
     left                    -20px

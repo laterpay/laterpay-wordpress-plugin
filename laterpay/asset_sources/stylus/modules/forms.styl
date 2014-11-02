@@ -29,19 +29,19 @@ select.lp_input
 
 // special inputs ------------------------------------------------------------------------------------------------------
 // API Key and Merchant ID inputs
-input[type=text].lp_api-key-input,
-input[type=text].lp_merchant-id-input
+input[type=text].lp_apiKeyInput,
+input[type=text].lp_merchantIdInput
     padding-left                    2.8em
     width                           22em
 
 // number inputs
-input[type=text].lp_number-input
+input[type=text].lp_numberInput
     padding                         0.25em 0.35em
     text-align                      right
     width                           4em
 
 // iconized inputs
-.lp_input-icon
+.lp_iconizedInput
     color                           $border
     font-size                       2em
     margin                          0.04em 0 0 0.35em
@@ -87,7 +87,7 @@ input[type=text][required]
     &:invalid + label[placeholder][alt]:before
         content                     attr(alt)
 
-.lp_input-icon + input[type=text][required] + label[placeholder]:before
+.lp_iconizedInput + input[type=text][required] + label[placeholder]:before
     margin                          1.4em 0 0 calc(3em - 1px)
 
 
@@ -141,13 +141,13 @@ label:hover .ez-mark
 
 
 // edit links ----------------------------------------------------------------------------------------------------------
-.lp_edit-link
+.lp_editLink
     margin-left                     1em
     padding                         0.5em 0
 
 
 // revenue model labels ------------------------------------------------------------------------------------------------
-.lp_revenue-model-label
+.lp_revenueModelLabel
     background-color                $background-darker
     border-radius                   3px
     color                           $clickable
@@ -161,14 +161,14 @@ label:hover .ez-mark
     input[type=radio]
         display                     none
 
-label.lp_revenue-model-label:hover
+label.lp_revenueModelLabel:hover
     background-color                $clickable-highlight
     color                           $text-inverse
 
-.lp_revenue-model-label.lp_is-disabled
+.lp_revenueModelLabel.lp_is-disabled
     visibility                      hidden
 
-.lp_revenue-model-label.lp_is-selected
+.lp_revenueModelLabel.lp_is-selected
     background-color                $background-laterpay
     color                           $text-inverse
 

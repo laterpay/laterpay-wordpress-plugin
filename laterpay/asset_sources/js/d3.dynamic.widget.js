@@ -26,7 +26,7 @@ var LPCurve = function(container) {
 
     svg = d3.select(container).append('svg').append('g');
 
-    svg.append('rect').attr('class', 'lp_dynamic-pricing-widget-background');
+    svg.append('rect').attr('class', 'lp_dynamicPricing_background');
 
     svg.append('g').attr('class', 'x axis');
 
@@ -34,7 +34,7 @@ var LPCurve = function(container) {
 
     svg.append('defs').append('marker').attr({
             id          : 'arrow-x',
-            class       : 'lp_dynamic-pricing-widget-arrowhead',
+            class       : 'lp_dynamicPricing_arrowhead',
             refX        : 2,
             refY        : 2,
             markerWidth : 4,
@@ -47,7 +47,7 @@ var LPCurve = function(container) {
     svg.append('defs').append('marker')
         .attr({
             id          : 'arrow-y',
-            class       : 'lp_dynamic-pricing-widget-arrowhead',
+            class       : 'lp_dynamicPricing_arrowhead',
             refX        : 2,
             refY        : 2,
             markerWidth : 4,
@@ -57,8 +57,8 @@ var LPCurve = function(container) {
         .append('path')
             .attr('d', 'M0,4 H4 L2,0 Z');
 
-    svg.append('line').attr('class', 'lp_default-price');
-    svg.append('text').attr('text-anchor', 'middle').attr('class', 'lp_default-price').text(this.i18nDefaultPrice);
+    svg.append('line').attr('class', 'lp_dynamicPricing_defaultPrice');
+    svg.append('text').attr('text-anchor', 'middle').attr('class', 'lp_dynamicPricing_defaultPrice').text(this.i18nDefaultPrice);
     svg.append('path').attr('class', 'line');
 
     svg.append('rect')
@@ -70,9 +70,9 @@ var LPCurve = function(container) {
             ry      : 3,
         });
 
-    svg.insert('foreignObject').attr('class', 'start-input').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
+    svg.insert('foreignObject').attr('class', 'lp_dynamicPricing_startPriceInput').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
     svg.append('text').attr('class', 'start-price').attr('text-anchor', 'end');
-    svg.append('text').attr('class', 'start-price-currency').attr('text-anchor', 'end').text(this.currency);
+    svg.append('text').attr('class', 'lp_dynamicPricing_currency').attr('text-anchor', 'end').text(this.currency);
     svg.append('path').attr('class', 'start-price-triangle');
 
     svg.append('rect')
@@ -84,9 +84,9 @@ var LPCurve = function(container) {
             ry      : 3,
         });
 
-    svg.insert('foreignObject').attr('class', 'end-input').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
+    svg.insert('foreignObject').attr('class', 'lp_dynamicPricing_endPriceInput').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
     svg.append('text').attr('class', 'end-price').attr('text-anchor', 'end');
-    svg.append('text').attr('class', 'end-price-currency').attr('text-anchor', 'end').text(this.currency);
+    svg.append('text').attr('class', 'lp_dynamicPricing_currency').attr('text-anchor', 'end').text(this.currency);
     svg.append('path').attr('class', 'end-price-triangle');
 
     this.svg = svg;
@@ -94,16 +94,16 @@ var LPCurve = function(container) {
     jQuery(window).bind('resize', function() { self.plot(); });
 
     // Events for start price input
-    jQuery('body').on('click','.start-price,.start-price-currency,.start-price-triangle', function() {
+    jQuery('body').on('click','.start-price,.lp_dynamicPricing_currency,.start-price-triangle', function() {
         lpc.toggleStartInput('show');
     });
-    jQuery('.start-input input').change(function() {
+    jQuery('.lp_dynamicPricing_startPriceInput input').change(function() {
         lpc.toggleStartInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
     });
-    jQuery('.start-input input').focusout(function() {
+    jQuery('.lp_dynamicPricing_startPriceInput input').focusout(function() {
         lpc.toggleStartInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
     });
-    jQuery('.start-input input').keydown(function(e) {
+    jQuery('.lp_dynamicPricing_startPriceInput input').keydown(function(e) {
         // hide input on Enter
         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
         if (key === 13) {
@@ -113,16 +113,16 @@ var LPCurve = function(container) {
     });
 
     // Events for end price input
-    jQuery('body').on('click', '.end-price, .end-price-currency, .end-price-triangle', function() {
+    jQuery('body').on('click', '.end-price, .lp_dynamicPricing_currency, .end-price-triangle', function() {
         lpc.toggleEndInput('show');
     });
-    jQuery('.end-input input').change(function() {
+    jQuery('.lp_dynamicPricing_endPriceInput input').change(function() {
         lpc.toggleEndInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
     });
-    jQuery('.end-input input').focusout(function() {
+    jQuery('.lp_dynamicPricing_endPriceInput input').focusout(function() {
         lpc.toggleEndInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
     });
-    jQuery('.end-input input').keydown(function(e) {
+    jQuery('.lp_dynamicPricing_endPriceInput input').keydown(function(e) {
         // hide input on Enter
         var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
         if (key === 13) {
@@ -183,7 +183,7 @@ LPCurve.prototype.plot = function() {
         .select('g')
             .attr('transform', 'translate(' + (margin.left - 10) + ',' + margin.top + ')');
 
-    svg.select('.lp_dynamic-pricing-widget-background')
+    svg.select('.lp_dynamicPricing_background')
         .transition().duration(dragging ? 0 : 250)
         .attr({
             width   : width + 10,
@@ -221,7 +221,7 @@ LPCurve.prototype.plot = function() {
         .call(yAxis);
 
     // Default price
-    svg.select('line.lp_default-price')
+    svg.select('line.lp_dynamicPricing_defaultPrice')
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x1: 0,
@@ -230,7 +230,7 @@ LPCurve.prototype.plot = function() {
             y2: yScale(this.defaultPrice),
         });
 
-    svg.select('text.lp_default-price')
+    svg.select('text.lp_dynamicPricing_defaultPrice')
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x: width / 2,
@@ -272,9 +272,9 @@ LPCurve.prototype.plot = function() {
     // -------------------------------------------------------------------------------------------------------
     var end                 = self.data.length,
         point               = svg.selectAll('circle.draggable').data((self.data)),
-        priceLine           = svg.selectAll('.line-price').data((self.data).slice(1, end)),
+        priceLine           = svg.selectAll('.lp_priceLine').data((self.data).slice(1, end)),
         todayLine           = svg.selectAll('.today-price-line').data((self.data).slice(1, end)),
-        priceLineVisible    = svg.selectAll('.line-price-visible').data((self.data).slice(1, end));
+        priceLineVisible    = svg.selectAll('.lp_priceLineVisible').data((self.data).slice(1, end));
 
     // START PRICE
     // -------------------------------------------------------------------------------------------------------
@@ -300,7 +300,7 @@ LPCurve.prototype.plot = function() {
         .text(function(d) { return d.y.toFixed(2); });
 
     // START PRICE TEXT 'CURRENCY'
-    svg.select('text.start-price-currency')
+    svg.select('text.lp_dynamicPricing_currency')
         .datum((self.data)[0])
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
@@ -322,7 +322,7 @@ LPCurve.prototype.plot = function() {
         });
 
     // START PRICE INPUT
-    svg.select('.start-input')
+    svg.select('.lp_dynamicPricing_startPriceInput')
         .datum((self.data)[0])
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
@@ -340,7 +340,7 @@ LPCurve.prototype.plot = function() {
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x: function()  {
-                    if (jQuery('.end-input') && jQuery('.end-input').is(':visible')) {
+                    if (jQuery('.lp_dynamicPricing_endPriceInput') && jQuery('.lp_dynamicPricing_endPriceInput').is(':visible')) {
                         return width;
                     } else {
                         return width + 16;
@@ -361,7 +361,7 @@ LPCurve.prototype.plot = function() {
         .text(function(d) { return d.y.toFixed(2); });
 
     // END PRICE TEXT 'CURRENCY'
-    svg.select('text.end-price-currency')
+    svg.select('text.lp_dynamicPricing_currency')
         .datum((self.data)[self.data.length - 1])
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
@@ -383,13 +383,13 @@ LPCurve.prototype.plot = function() {
         });
 
     // END PRICE INPUT
-    svg.select('.end-input')
+    svg.select('.lp_dynamicPricing_endPriceInput')
         .datum((self.data)[self.data.length - 1])
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x: function()  {
-                if (jQuery('.end-input') && jQuery('.end-input input').is(':visible')) {
+                if (jQuery('.lp_dynamicPricing_endPriceInput') && jQuery('.lp_dynamicPricing_endPriceInput input').is(':visible')) {
                     return width + 2;
                 } else {
                     return width + 20;
@@ -405,7 +405,7 @@ LPCurve.prototype.plot = function() {
 
     xDragSquare.enter().append('rect').attr('class', function(point, index) {
         if (index === self.data.length - 2) {
-            return 'x-drag-square lp_is_hidden';
+            return 'x-drag-square lp_is-hidden';
         }
 
         return 'x-drag-square';
@@ -427,7 +427,7 @@ LPCurve.prototype.plot = function() {
 
     xTriangleBottom.enter().append('path').attr('class', function(point, index) {
         if (index === self.data.length - 2) {
-            return 'x-triangle-bottom lp_is_hidden';
+            return 'x-triangle-bottom lp_is-hidden';
         }
 
         return 'x-triangle-bottom';
@@ -447,7 +447,7 @@ LPCurve.prototype.plot = function() {
 
     xTextDays.enter().append('text').attr('class', function(point, index) {
         if (index === self.data.length - 2) {
-            return 'x-text-days lp_is_hidden';
+            return 'x-text-days lp_is-hidden';
         }
 
         return 'x-text-days';
@@ -468,7 +468,7 @@ LPCurve.prototype.plot = function() {
 
     xText.enter().append('text').attr('class', function(point, index) {
         if (index === self.data.length - 2) {
-            return 'x-text lp_is_hidden';
+            return 'x-text lp_is-hidden';
         }
 
         return 'x-text';
@@ -490,10 +490,10 @@ LPCurve.prototype.plot = function() {
     priceLineVisible.enter().append('line').attr('class', function(point, index) {
         // hide the third vertical dashed line - it's only there to work around technical restrictions
         if (index === self.data.length - 2) {
-            return 'line-price lp_is_hidden';
+            return 'lp_priceLine lp_is-hidden';
         }
 
-        return 'line-price-visible';
+        return 'lp_priceLineVisible';
     });
     priceLineVisible.exit().remove();
 
@@ -508,10 +508,10 @@ LPCurve.prototype.plot = function() {
 
     priceLine.enter().append('line').attr('class', function(point, index) {
         if (index === self.data.length - 2) {
-            return 'line-price lp_is_hidden';
+            return 'lp_priceLine lp_is-hidden';
         }
 
-        return 'line-price';
+        return 'lp_priceLine';
     }).call(dragXAxisBehavior);
 
     priceLine.exit().remove();
@@ -532,7 +532,7 @@ LPCurve.prototype.plot = function() {
     point.enter().append('circle')
         .attr('class', function(point,index) {
             if (index === 0 || index === self.data.length - 1) {
-                return 'draggable circle-hidden';
+                return 'draggable lp_is-hidden';
             }
 
             return 'draggable';
@@ -568,7 +568,7 @@ LPCurve.prototype.plot = function() {
         });
         // LABEL
         svg.append('text')
-            .attr('class', 'lp_default-price')
+            .attr('class', 'lp_dynamicPricing_defaultPrice')
             .attr('text-anchor', 'end')
             .text(this.i18nToday)
             .datum({
@@ -614,11 +614,11 @@ LPCurve.prototype.plot = function() {
 
     function dragstartPoint() {
         self.dragging = true;
-        jQuery(self.container).toggleClass('lp_is_dragging');
+        jQuery(self.container).toggleClass('lp_is-dragging');
     }
     function dragendPoint() {
         self.dragging = false;
-        jQuery(self.container).toggleClass('lp_is_dragging');
+        jQuery(self.container).toggleClass('lp_is-dragging');
         lpc.toggleStartInput('update');
         lpc.toggleEndInput('update');
     }
@@ -699,7 +699,7 @@ LPCurve.prototype.toggleStartInput = function(action) {
     var dragShake   = 1,
         data        = lpc.get_data(),
         plotPrice   = data[0].y,
-        inputPrice = jQuery('.start-input input').val();
+        inputPrice = jQuery('.lp_dynamicPricing_startPriceInput input').val();
 
     // convert price to proper float value
     if (inputPrice.indexOf(',') > -1) {
@@ -710,11 +710,11 @@ LPCurve.prototype.toggleStartInput = function(action) {
 
     if (action === 'hide') {
         if (inputPrice > this.maxPrice) {
-            jQuery('.start-input input').val(this.maxPrice);
+            jQuery('.lp_dynamicPricing_startPriceInput input').val(this.maxPrice);
             data[0].y = this.maxPrice;
             data[1].y = this.maxPrice;
         } else if (inputPrice < this.minPrice && inputPrice !== 0) {
-            jQuery('.start-input input').val(this.minPrice);
+            jQuery('.lp_dynamicPricing_startPriceInput input').val(this.minPrice);
             data[0].y = this.minPrice;
             data[1].y = this.minPrice;
         } else {
@@ -725,19 +725,19 @@ LPCurve.prototype.toggleStartInput = function(action) {
         }
         lpc.set_data(data);
         jQuery('rect.start-price').attr('width', '32px');
-        jQuery('.start-input').hide();
-        jQuery('path.start-price-triangle, text.start-price-currency, text.start-price').show();
+        jQuery('.lp_dynamicPricing_startPriceInput').hide();
+        jQuery('path.start-price-triangle, text.lp_dynamicPricing_currency, text.start-price').show();
         lpc.plot();
     } else if (action === 'show') {
         jQuery('rect.start-price').attr('width', '50px');
-        jQuery('path.start-price-triangle, text.start-price-currency, text.start-price').hide();
-        jQuery('.start-input').show();
-        jQuery('.start-input input').val( plotPrice.toFixed(2) );
+        jQuery('path.start-price-triangle, text.lp_dynamicPricing_currency, text.start-price').hide();
+        jQuery('.lp_dynamicPricing_startPriceInput').show();
+        jQuery('.lp_dynamicPricing_startPriceInput input').val( plotPrice.toFixed(2) );
     } else if (action === 'update') {
-        if (jQuery('.start-input input').is(':visible')) {
+        if (jQuery('.lp_dynamicPricing_startPriceInput input').is(':visible')) {
             var diff = Math.abs(plotPrice - inputPrice);
             if (diff > dragShake) {
-                jQuery('.start-input input').val(plotPrice.toFixed(2));
+                jQuery('.lp_dynamicPricing_startPriceInput input').val(plotPrice.toFixed(2));
             }
         }
     }
@@ -747,7 +747,7 @@ LPCurve.prototype.toggleEndInput = function(action) {
     var dragShake   = 1,
         data        = lpc.get_data(),
         plotPrice   = data[2].y,
-        inputPrice  = jQuery('.end-input input').val(),
+        inputPrice  = jQuery('.lp_dynamicPricing_endPriceInput input').val(),
         basicX      = jQuery(this.container).width() - margin.xAxis;
 
     // convert price to proper float value
@@ -759,11 +759,11 @@ LPCurve.prototype.toggleEndInput = function(action) {
 
     if ( action === 'hide' ) {
         if (inputPrice > this.maxPrice) {
-            jQuery('.end-input input').val(this.maxPrice);
+            jQuery('.lp_dynamicPricing_endPriceInput input').val(this.maxPrice);
             data[0].y = this.maxPrice;
             data[1].y = this.maxPrice;
         } else if (inputPrice < this.minPrice && inputPrice !== 0) {
-            jQuery('.end-input input').val( this.minPrice );
+            jQuery('.lp_dynamicPricing_endPriceInput input').val( this.minPrice );
             data[2].y = this.minPrice;
             data[3].y = this.minPrice;
         } else {
@@ -774,19 +774,19 @@ LPCurve.prototype.toggleEndInput = function(action) {
         }
         lpc.set_data(data);
         jQuery('rect.end-price').attr('width', '32px');
-        jQuery('.end-input').hide();
-        jQuery('path.end-price-triangle, text.end-price-currency, text.end-price').show();
+        jQuery('.lp_dynamicPricing_endPriceInput').hide();
+        jQuery('path.end-price-triangle, text.lp_dynamicPricing_currency, text.end-price').show();
         lpc.plot();
     } else if (action === 'show') {
         jQuery('rect.end-price').attr('width', '50px').attr('x', basicX);
-        jQuery('path.end-price-triangle, text.end-price-currency, text.end-price').hide();
-        jQuery('.end-input').attr('x', basicX + 2).show();
-        jQuery('.end-input input').val(plotPrice.toFixed(2));
+        jQuery('path.end-price-triangle, text.lp_dynamicPricing_currency, text.end-price').hide();
+        jQuery('.lp_dynamicPricing_endPriceInput').attr('x', basicX + 2).show();
+        jQuery('.lp_dynamicPricing_endPriceInput input').val(plotPrice.toFixed(2));
     } else if (action === 'update') {
-        if (jQuery('.end-input input').is(':visible')) {
+        if (jQuery('.lp_dynamicPricing_endPriceInput input').is(':visible')) {
             var diff = Math.abs(plotPrice - inputPrice);
             if (diff > dragShake) {
-                jQuery('.end-input input').val(plotPrice.toFixed(2));
+                jQuery('.lp_dynamicPricing_endPriceInput input').val(plotPrice.toFixed(2));
             }
         }
     }

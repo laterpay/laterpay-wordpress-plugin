@@ -7,7 +7,7 @@
                 postStatisticsPane              : $('#lp_js_post-statistics'),
 
                 // post preview mode
-                postPreviewModeForm             : $('#lp_plugin-preview-mode-form'),
+                postPreviewModeForm             : $('#lp_postStatistics_pluginPreviewMode-form'),
                 postPreviewModeToggle           : $('#lp_js_toggle-post-preview-mode'),
                 postPreviewModeInput            : $('#lp_js_preview-post-input'),
 
@@ -24,12 +24,12 @@
                 purchaseLink                    : '.lp_js_do-purchase',
 
                 // strings cached for better compression
-                hidden                          : 'lp_is_hidden',
+                hidden                          : 'lp_is-hidden',
             },
 
             recachePostStatisticsPane = function() {
                 $o.postStatisticsPane              = $('#lp_js_post-statistics');
-                $o.postPreviewModeForm             = $('#lp_plugin-preview-mode-form');
+                $o.postPreviewModeForm             = $('#lp_postStatistics_pluginPreviewMode-form');
                 $o.postPreviewModeToggle           = $('#lp_js_toggle-post-preview-mode');
                 $o.postPreviewModeInput            = $('#lp_js_preview-post-input');
                 $o.postStatisticsVisibilityForm    = $('#lp_js_post-statistics-visibility-form');
@@ -86,7 +86,7 @@
                 bindPostStatisticsEvents();
 
                 // render sparklines within post statistics pane
-                $('.lp_sparkline-bar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_sparklineBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,
@@ -108,7 +108,7 @@
                                 }
                 });
 
-                $('.lp_sparkline-background-bar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,

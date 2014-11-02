@@ -1,11 +1,11 @@
 // post statistics pane
 
 // statistics pane header with LaterPay vector logo --------------------------------------------------------------------
-.lp_post-statistics,
-.lp_post-statistics h2
+.lp_postStatistics,
+.lp_postStatistics h2
     font-family                     'Helvetica Neue', Helvetica, Arial, sans-serif
 
-.lp_post-statistics
+.lp_postStatistics
     background-color                $background-darker
     border-radius                   0 0 0 3px
     box-shadow                      -1px 1px 6px hsla(0, 0%, 0%, 0.34)
@@ -36,7 +36,7 @@
             top                     0.075em
 
     // toggle visibility of statistics pane --------------------------------------------------------------------------------
-    .lp_post-statistics-visibility-toggle
+    .lp_postStatistics_visibilityToggle
         background-color            $background-darker
         border-radius               3px 0 0 3px
         color                       $clickable
@@ -62,15 +62,15 @@
 
     &:hover
         // reveal link for hiding the statistics pane when it is hovered
-        .lp_post-statistics-visibility-toggle
+        .lp_postStatistics_visibilityToggle
             left                    -45px
 
             &:before
                 opacity             1
                 transition          0.25s ease-in-out 0.1s
 
-    // remove dotted outline and box shadows from .lp_post-statistics-visibility-toggle link
-    .lp_post-statistics-visibility-toggle,
+    // remove dotted outline and box shadows from .lp_postStatistics_visibilityToggle link
+    .lp_postStatistics_visibilityToggle,
     &:focus,
     &:active,
     &:visited
@@ -78,10 +78,10 @@
         outline                     0 none
 
 // hidden statistics pane
-.lp_post-statistics.lp_is_hidden
+.lp_postStatistics.lp_is-hidden
     right                           -345px
 
-    .lp_post-statistics-visibility-toggle
+    .lp_postStatistics_visibilityToggle
         box-shadow                  -1px 1px 6px hsla(0, 0%, 0%, 0.34)
         left                        -55px
         text-align                  left
@@ -97,7 +97,7 @@
 
 
 // statistics pane body with actual post statistics --------------------------------------------------------------------
-.lp_post-statistics
+.lp_postStatistics
     // values of key performance indicators (KPI)
     big
         color                       hsl(0, 0%, 33%)
@@ -115,7 +115,7 @@
         line-height                 1
 
     // details column, showing data for last 30 days
-    .lp_post-statistics-details
+    .lp_postStatistics_details
         margin                      0 0 0 0.75em
 
         ul
@@ -135,8 +135,8 @@
                 margin-left         0
                 width               59%
 
-            .lp_sparkline-bar,
-            .lp_sparkline-background-bar
+            .lp_sparklineBar,
+            .lp_sparklineBackgroundBar
                 color               transparent
 
             svg.peity
@@ -145,7 +145,7 @@
                 position            relative
                 z-index             $zindex-elevated_2
 
-            .lp_sparkline-background-bar + svg.peity
+            .lp_sparklineBackgroundBar + svg.peity
                 border              0 none
                 left                0.92em
                 position            absolute
@@ -158,7 +158,7 @@
                     font-size       0.5em
 
     // totals column, showing current day's data
-    .lp_post-statistics-totals
+    .lp_postStatistics_totals
         background-color            $background-lightest
 
         ul
@@ -178,7 +178,7 @@
                 width               52%
 
     // separator between different KPI
-    .lp_post-statistics-separator
+    .lp_postStatistics_separator
         margin                      1em 0 -2em 0.75em
 
         ul
@@ -217,12 +217,12 @@
             z-index                 $zindex-overlayed_2
 
     small,
-    .lp_post-statistics-separator p
+    .lp_postStatistics_separator p
         color                       hsl(0, 0%, 60%)
 
 
 // statistics pane footer with toggle for previewing post as visitor or as admin ---------------------------------------
-.lp_post-statistics .lp_plugin-preview-mode
+.lp_postStatistics .lp_postStatistics_pluginPreviewMode
     background-color                hsl(47, 100%, 50%)
     border-radius                   0 0 0 3px
     margin                          7px 0 0
@@ -231,5 +231,5 @@
 
 // Chrome browser hack -------------------------------------------------------------------------------------------------
 @media screen and (-webkit-min-device-pixel-ratio:0)
-    .lp_post-statistics .lp_post-statistics-details .lp_sparkline-background-bar + svg.peity
+    .lp_postStatistics .lp_postStatistics_details .lp_sparklineBackgroundBar + svg.peity
         margin-top                  -48px

@@ -54,7 +54,7 @@
             position                relative
             top                     0.08em
 
-    .lp_close-link
+    .lp_closeLink
         color                       $clickable
         font-weight                 bold
         height                      2em
@@ -73,15 +73,15 @@
         &:hover
             color                   $clickable-highlight
 
-.lp_debugger.lp_is_hidden
+.lp_debugger.lp_is-hidden
     bottom                          -32.5em
 
-    .lp_close-link
+    .lp_closeLink
         transform                   rotate(-90deg)
 
 
 // debugger pane tabs --------------------------------------------------------------------------------------------------
-.lp_debugger-tabs
+.lp_debugger_tabs
     border-bottom                   1px solid $border-darker
     margin                          $fs-075 $fs-075 0
     position                        relative
@@ -99,7 +99,7 @@
         &:hover
             border-color            $border-darker $border-darker hsl(0, 0%, 90%)
 
-    .lp_is_selected
+    .lp_is-selected
         border-color                $border-darker $border-darker hsl(0, 0%, 90%)
 
         a,
@@ -134,7 +134,7 @@
 
 
 // debugging messages --------------------------------------------------------------------------------------------------
-.lp_debugger-content-list
+.lp_debugger_contentList
     margin                          0 $fs-075 $fs-1
     padding                         0
     overflow-x                      hidden
@@ -149,10 +149,10 @@
     li
         list-style                  none outside none
 
-    .lp_debugger-content li
+    .lp_debugger_content li
         border-bottom               1px solid darken(hsl(0, 0%, 87%), 3%)
 
-    .lp_is_hidden
+    .lp_is-hidden
         display                     none
 
     table,
@@ -197,7 +197,7 @@
             padding-right           0
             text-align              right
 
-    .lp_log-entry-table
+    .lp_debugger_logEntryTable
         tbody th,
         tbody td
             padding                 0 $fs-05 $fs-025
@@ -207,7 +207,7 @@
             padding-left            2.75em
             width                   12em
 
-    .lp_log-level:before
+    .lp_debugger_logLevel:before
         font-size                   $fs-175
         height                      0
         line-height                 0
@@ -216,22 +216,22 @@
         top                         0.23em
 
     // infos
-    .lp_log-level-100:before
-    .lp_log-level-200:before
-    .lp_log-level-250:before
+    .lp_debugger_logLevel-100:before
+    .lp_debugger_logLevel-200:before
+    .lp_debugger_logLevel-250:before
         color                       $text-lighter
         content                     'm'
 
     // warnings
-    .lp_log-level-300:before
+    .lp_debugger_logLevel-300:before
         color                       hsl(39, 100%, 50%)
         content                     'n'
 
     // errors
-    .lp_log-level-400:before
-    .lp_log-level-500:before
-    .lp_log-level-550:before
-    .lp_log-level-600:before
+    .lp_debugger_logLevel-400:before
+    .lp_debugger_logLevel-500:before
+    .lp_debugger_logLevel-550:before
+    .lp_debugger_logLevel-600:before
         color                       hsl(6, 100%, 50%)
         content                     'o'
 
@@ -249,5 +249,5 @@
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
-.ab-item
+.ab-item // WordPress selector
     cursor                          pointer
