@@ -3,7 +3,7 @@ var margin = {
     right   : 40,
     bottom  : 20,
     left    : 50,
-}
+};
 margin.xAxis = margin.left + margin.right;
 margin.yAxis = margin.top + margin.bottom;
 
@@ -94,7 +94,7 @@ var LPCurve = function(container) {
     jQuery(window).bind('resize', function() { self.plot(); });
 
     // Events for start price input
-    jQuery('body').on('click','.start-price,.lp_dynamicPricing_currency,.start-price-triangle', function() {
+    jQuery('body').on('click', '.start-price, .lp_dynamicPricing_currency, .start-price-triangle', function() {
         lpc.toggleStartInput('show');
     });
     jQuery('.lp_dynamicPricing_startPriceInput input').change(function() {
