@@ -97,7 +97,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         foreach ( $post_types as $post_type ) {
             add_meta_box(
-                'lp_post-teaser',
+                'lp_postTeaser',
                 __( 'Teaser Content', 'laterpay' ),
                 array( $this, 'render_teaser_content_box' ),
                 $post_type,
@@ -106,7 +106,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             );
 
             add_meta_box(
-                'lp_post-pricing',
+                'lp_postPricing',
                 __( 'Pricing for this Post', 'laterpay' ),
                 array( $this, 'render_post_pricing_form' ),
                 $post_type,
@@ -244,23 +244,34 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // set dynamic price data with defaults or values already set
         $dynamic_pricing_data = LaterPay_Helper_Pricing::get_dynamic_prices( $post );
 
+        // determine the applicable revenue models by the maximum price, the post can have after publication:
+        // if the post price is DYNAMIC: use the maximum of start price and end price
+        // if the post price is STATIC: use the post price
+        // This prevents other revenue models than the applied one to be offered,
+        // if the price is dynamic and being automatically changed over time
+        if ( $post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
+            $maximum_price_in_lifecycle = max( $dynamic_pricing_data[0]['y'], $dynamic_pricing_data[3]['y'] );
+        } else {
+            $maximum_price_in_lifecycle = $price;
+        }
+
         // get number of days since publication to render an indicator in the dynamic pricing widget
         $days_after_publication = LaterPay_Helper_Pricing::dynamic_price_days_after_publication( $post );
 
         // set limits for use by Javascript
         $dynamic_pricing_limits = array(
-            'ppu_min'     => LaterPay_Helper_Pricing::ppu_min,
-            'ppu_max'     => LaterPay_Helper_Pricing::ppu_max,
-            'ppusis_max'  => LaterPay_Helper_Pricing::ppusis_max,
-            'sis_min'     => LaterPay_Helper_Pricing::sis_min,
-            'sis_max'     => LaterPay_Helper_Pricing::sis_max,
-            'price_ppu_end'             => LaterPay_Helper_Pricing::price_ppu_end,
-            'price_ppusis_end'          => LaterPay_Helper_Pricing::price_ppusis_end,
-            'price_sis_end'             => LaterPay_Helper_Pricing::price_sis_end,
-            'price_start_day'           => LaterPay_Helper_Pricing::price_start_day,
-            'price_end_day'             => LaterPay_Helper_Pricing::price_end_day,
-            'pubDays'                   => $days_after_publication,
-            'todayPrice'                => $price,
+            'ppu_min'           => LaterPay_Helper_Pricing::ppu_min,
+            'ppu_max'           => LaterPay_Helper_Pricing::ppu_max,
+            'ppusis_max'        => LaterPay_Helper_Pricing::ppusis_max,
+            'sis_min'           => LaterPay_Helper_Pricing::sis_min,
+            'sis_max'           => LaterPay_Helper_Pricing::sis_max,
+            'price_ppu_end'     => LaterPay_Helper_Pricing::price_ppu_end,
+            'price_ppusis_end'  => LaterPay_Helper_Pricing::price_ppusis_end,
+            'price_sis_end'     => LaterPay_Helper_Pricing::price_sis_end,
+            'price_start_day'   => LaterPay_Helper_Pricing::price_start_day,
+            'price_end_day'     => LaterPay_Helper_Pricing::price_end_day,
+            'pubDays'           => $days_after_publication,
+            'todayPrice'        => $price,
         );
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
@@ -270,6 +281,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $this->assign( 'laterpay_post_status',                          $post_status );
         $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
         $this->assign( 'laterpay_price',                                $price );
+        $this->assign( 'maximum_price_in_lifecycle',                             $maximum_price_in_lifecycle );
         $this->assign( 'laterpay_currency',                             get_option( 'laterpay_currency' ) );
         $this->assign( 'laterpay_category_prices',                      $category_price_data );
         $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
@@ -351,7 +363,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 $meta_values[ 'type' ] = $type;
 
                 // apply (static) individual price
-                if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE && $post_form->get_field_value( 'post-price' ) ) {
+                if ( in_array( $type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) && $post_form->get_field_value( 'post-price' ) ) {
                     $meta_values[ 'price' ] = $post_form->get_field_value( 'post-price' );
                     $meta_values[ 'revenue_model' ] = $post_form->get_field_value( 'post_revenue_model' );
                 }
@@ -414,9 +426,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      *
      * @wp-hook publish_post
      *
-     * @param string $status_after_update
-     * @param string $status_before_update
-     * @param WP_Post $post
+     * @param string    $status_after_update
+     * @param string    $status_before_update
+     * @param WP_Post   $post
      *
      * @return void
      */
@@ -424,7 +436,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // skip infinite loop
         remove_action( 'publish_post', array( $this,'update_post_publication_date') );
 
-        // skip with no permission
+        // skip on insufficient permission
         if ( ! $this->has_permission( $post->ID ) ) {
             return;
         }

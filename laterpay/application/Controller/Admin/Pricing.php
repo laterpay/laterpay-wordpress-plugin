@@ -42,6 +42,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'by'                        => __( 'by', 'laterpay' ),
             'toGlobalDefaultPrice'      => __( 'to global default price of', 'laterpay' ),
             'toCategoryDefaultPrice'    => __( 'to category default price of', 'laterpay' ),
+            'updatePrices'              => __( 'Update Prices', 'laterpay' ),
+            'delete'                    => __( 'Delete', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
@@ -79,18 +81,20 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
         $bulk_categories            = get_categories();
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
+        $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
 
-        $this->assign( 'categories_with_defined_price',         $categories_with_defined_price );
-        $this->assign( 'standard_currency',                     get_option( 'laterpay_currency' ) );
-        $this->assign( 'plugin_is_in_live_mode',                $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'global_default_price',                  LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
-        $this->assign( 'global_default_price_revenue_model',    get_option( 'laterpay_global_price_revenue_model' ) );
-        $this->assign( 'top_nav',                               $this->get_menu() );
-        $this->assign( 'admin_menu',                            LaterPay_Helper_View::get_admin_menu() );
-        $this->assign( 'bulk_actions',                          $bulk_actions );
-        $this->assign( 'bulk_selectors',                        $bulk_selectors );
-        $this->assign( 'bulk_categories',                       $bulk_categories );
-        $this->assign( 'bulk_categories_with_price',            $bulk_categories_with_price );
+        $this->assign( 'categories_with_defined_price',      $categories_with_defined_price );
+        $this->assign( 'standard_currency',                  get_option( 'laterpay_currency' ) );
+        $this->assign( 'plugin_is_in_live_mode',             $this->config->get( 'is_in_live_mode' ) );
+        $this->assign( 'global_default_price',               LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ), 2 ) );
+        $this->assign( 'global_default_price_revenue_model', get_option( 'laterpay_global_price_revenue_model' ) );
+        $this->assign( 'top_nav',                            $this->get_menu() );
+        $this->assign( 'admin_menu',                         LaterPay_Helper_View::get_admin_menu() );
+        $this->assign( 'bulk_actions',                       $bulk_actions );
+        $this->assign( 'bulk_selectors',                     $bulk_selectors );
+        $this->assign( 'bulk_categories',                    $bulk_categories );
+        $this->assign( 'bulk_categories_with_price',         $bulk_categories_with_price );
+        $this->assign( 'bulk_saved_operations',              $bulk_saved_operations );
 
         $this->render( 'backend/pricing' );
     }
@@ -138,6 +142,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
                 case 'bulk_price_form':
                     $this->change_posts_price();
+                    break;
+
+                case 'bulk_price_form_save':
+                    $this->save_bulk_operation();
+                    break;
+
+                case 'bulk_price_form_delete':
+                    $this->delete_bulk_operation();
                     break;
 
                 case 'reset_post_publication_date':
@@ -472,6 +484,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_price_form = new LaterPay_Form_BulkPrice( $_POST );
 
         if ( $bulk_price_form->is_valid() ) {
+            $bulk_operation_id = $bulk_price_form->get_field_value( 'bulk_operation_id' );
+            if ( $bulk_operation_id !== null ) {
+                $operation_data = LaterPay_Helper_Pricing::get_bulk_operation_data_by_id( $bulk_operation_id );
+                if ( ! $bulk_price_form->is_valid( $operation_data ) ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                }
+            }
+
             // get scope of posts to be processed from selector
             $posts                = null;
             $category_price_model = new LaterPay_Model_CategoryPrice();
@@ -680,7 +705,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update global and categories prices with new price
+     * Update global and category default prices with new price.
      *
      * @param array $price
      *
@@ -700,5 +725,66 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 $category_price_model->set_category_price( $category->category_id, $price, $revenue_model, $category->id );
             }
         }
+    }
+
+    /**
+     * Save bulk operation.
+     *
+     * @return void
+     */
+    protected function save_bulk_operation() {
+        $save_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
+        if ( $save_bulk_operation_form->is_valid() ) {
+            // create data array
+            $data         = $save_bulk_operation_form->get_form_values( true, 'bulk_', array( 'bulk_message' ) );
+            $bulk_message = $save_bulk_operation_form->get_field_value( 'bulk_message' );
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'data'    => array(
+                        'id'      => LaterPay_Helper_Pricing::save_bulk_operation( $data, $bulk_message ),
+                        'message' => $save_bulk_operation_form->get_field_value( 'bulk_message' ),
+                    ),
+                    'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
+                )
+            );
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
+    }
+
+    /**
+     * Delete bulk operation.
+     *
+     * @return void
+     */
+    protected function delete_bulk_operation() {
+        $remove_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
+        if ( $remove_bulk_operation_form->is_valid() ) {
+            $bulk_operation_id = $remove_bulk_operation_form->get_field_value( 'bulk_operation_id' );
+
+            $result = LaterPay_Helper_Pricing::delete_bulk_operation_by_id( $bulk_operation_id );
+            if ( $result ) {
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Bulk operation was successfully deleted.', 'laterpay' ),
+                    )
+                );
+            }
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
     }
 }

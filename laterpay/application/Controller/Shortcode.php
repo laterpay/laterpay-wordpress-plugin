@@ -124,7 +124,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                     );
         }
         if ( $page === null ) {
-            $error_message  = '<div class="lp_shortcode-error">';
+            $error_message  = '<div class="lp_shortcodeError">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
@@ -143,7 +143,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
 
-            $error_message  = '<div class="lp_shortcode-error">';
+            $error_message  = '<div class="lp_shortcodeError">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
@@ -236,13 +236,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = "<div class=\"lp_premium-file-box\" style=\"background-image:url($image_path)\">";
+            $html = "<div class=\"lp_premiumFileBox\" style=\"background-image:url($image_path)\">";
         } else {
-            $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
+            $html = "<div class=\"lp_premiumFileBox lp_content-type-$content_type\">";
         }
         // create a shortcode link
         $html .= $this->getShortcodeLink( $page, $content_type, $page_url, $price_tag );
-        $html .= '    <div class="lp_premium-file-details">';
+        $html .= '    <div class="lp_premiumFileDetails">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
             $html .= "    <p>$description</p>";
@@ -271,7 +271,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
-        return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premiumFileBox_wrapper lp_u_clearfix">' . do_shortcode( $content ) . '</div>';
     }
 
     /**
@@ -325,7 +325,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 // render link to purchased post
                 $button_page_url = $page_url;
             }
-            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchase-link-shortcode lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchaseLinkShortcode lp_purchaseLink lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
         } else {
             // the user has not purchased the item yet
             $button_page_url = $page_url;
