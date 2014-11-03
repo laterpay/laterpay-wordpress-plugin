@@ -313,8 +313,7 @@ class LaterPay_Helper_Pricing
             case 'sis':
                 if( $rounded_price < self::sis_min ){
                     $rounded_price = 0.00;
-                }
-                if( $rounded_price < self::price_sis_end ){
+                }else if( $rounded_price < self::price_sis_end ){
                     if( abs(self::price_sis_end - $rounded_price) < abs($rounded_price - self::sis_min) ){
                         $rounded_price = self::price_sis_end;
                     }else{
@@ -428,9 +427,9 @@ class LaterPay_Helper_Pricing
 
             $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
 
-            if ( ( $price >= 0.05 && $price <= 5.00 ) || $price == 0.00 ) {
+            if ( ( $price >= self::ppu_min && $price <= self::ppusis_max ) || $price == 0.00 ) {
                 $revenue_model = 'ppu';
-            } else if ( $price > 5.00 && $price <= 149.99 ) {
+            } else if ( $price > self::ppusis_max && $price <= self::sis_max ) {
                 $revenue_model = 'sis';
             }
         }
@@ -449,13 +448,13 @@ class LaterPay_Helper_Pricing
      */
     public static function ensure_valid_revenue_model( $revenue_model, $price ) {
         if ( $revenue_model == 'ppu' ) {
-            if ( $price == 0.00 || ( $price >= 0.05 && $price <= 5.00 ) ) {
+            if ( $price == 0.00 || ( $price >= self::ppu_min && $price <= self::ppusis_max ) ) {
                 return 'ppu';
             } else {
                 return 'sis';
             }
         } else {
-            if ( $price >= 1.49 && $price <= 149.99 ) {
+            if ( $price >= self::sis_min && $price <= self::sis_max ) {
                 return 'sis';
             } else {
                 return 'ppu';
@@ -663,17 +662,17 @@ class LaterPay_Helper_Pricing
         $validated_price = 0;
 
         // set all prices between 0.01 and 0.04 to lowest possible price of 0.05
-        if ( $price > 0 && $price < 0.05 ) {
-            $validated_price = 0.05;
+        if ( $price > 0 && $price < self::ppu_min ) {
+            $validated_price = self::ppu_min;
         }
 
-        if ( $price == 0 || ( $price >= 0.05 && $price <= 149.99 ) ) {
+        if ( $price == 0 || ( $price >= self::ppu_min && $price <= self::sis_max ) ) {
             $validated_price = $price;
         }
 
         // set all prices greater 149.99 to highest possible price of 149.99
-        if ( $price > 149.99 ) {
-            $validated_price = 149.99;
+        if ( $price > self::sis_max ) {
+            $validated_price = self::sis_max;
         }
 
         return $validated_price;
