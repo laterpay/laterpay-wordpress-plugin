@@ -26,6 +26,7 @@
                 categories              : $('#lp_js_priceTypeDetails_categoryDefaultPrice li'),
                 dynamicPricingToggle    : $('#lp_js_toggleDynamicPricing'),
                 dynamicPricingContainer : '#lp_js_dynamicPricing_widgetContainer',
+                dynamicPricingResetDate : $('#lp_js_resetDynamicPricingStartDate'),
 
                 // strings cached for better compression
                 expanded                : 'lp_is-expanded',
@@ -70,6 +71,13 @@
                 $o.dynamicPricingToggle
                 .mousedown(function() {
                     toggleDynamicPricing();
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // reset dynamic pricing date
+                $o.dynamicPricingResetDate
+                .mousedown(function() {
+                    resetPostDate($(this).attr('post_id'));
                 })
                 .click(function(e) {e.preventDefault();});
 
@@ -400,6 +408,25 @@
                 }
             },
 
+            resetPostDate = function(post_id) {
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action          : 'laterpay_reset_date',
+                        form            : 'reset_post_publication_date',
+                        post_id         : post_id,
+                    },
+                    function(data) {
+                        if (data.success) {
+                            window.location.reload();
+                        } else if (data.message) {
+                            alert(data.message);
+                        }
+                    },
+                    'json'
+                );
+            },
+
             enableDynamicPricing = function() {
                 renderDynamicPricingWidget();
                 $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
@@ -407,7 +434,6 @@
                 $o.individualPriceDetails.slideDown(250);
                 $o.priceTypeInput.val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
-                $o.revenueModel.hide();
             },
 
             disableDynamicPricing = function() {
@@ -445,7 +471,7 @@
                     minPrice = lpVars.limits.ppu_min;
                 }
 
-                if (lpVars.limits.pubDays > 0) {
+                if (lpVars.limits.pubDays > 0 && lpVars.limits.pubDays <= 30) {
                     lpc.set_today(lpVars.limits.pubDays, lpVars.limits.todayPrice);
                 }
 

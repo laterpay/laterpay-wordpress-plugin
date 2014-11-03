@@ -191,8 +191,9 @@ class LaterPay_Helper_Pricing
         if ( ! is_array( $post_price ) ) {
             $post_price = array();
         }
-        $post_price_type    = array_key_exists( 'type', $post_price ) ? $post_price[ 'type' ] : '';
-        $category_id        = array_key_exists( 'category_id', $post_price ) ? $post_price[ 'category_id' ] : '';
+        $post_price_type    = array_key_exists( 'type', $post_price )           ? $post_price[ 'type' ]             : '';
+        $category_id        = array_key_exists( 'category_id', $post_price )    ? $post_price[ 'category_id' ]      : '';
+        $post_revenue_model = array_key_exists( 'revenue_model', $post_price )  ? $post_price[ 'revenue_model' ]    : '';
 
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
@@ -200,7 +201,7 @@ class LaterPay_Helper_Pricing
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_price );
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_price, $post_revenue_model );
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
@@ -281,11 +282,23 @@ class LaterPay_Helper_Pricing
      *
      * @param WP_Post $post
      * @param array   $post_price see post_meta 'laterpay_post_prices'
+     * @param string  $post_revenue_model
      *
      * @return float price
      */
-    public static function get_dynamic_price( $post, $post_price ) {
+    public static function get_dynamic_price( $post, $post_price, $post_revenue_model ) {
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
+
+        // backward compatibility with already created post which has dynamic price and has no revenue model
+        if (empty($post_revenue_model)) {
+            $start_price = array_key_exists('start_price', $post_price) ? (float) $post_price['start_price'] : '';
+            $end_price   = array_key_exists('end_price', $post_price) ? (float) $post_price['end_price'] : '';
+            if (max($start_price, $end_price) <= self::ppu_max) {
+                $post_revenue_model = 'ppu';
+            } else {
+                $post_revenue_model = 'sis';
+            }
+        }
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_price[ 'start_price' ];
@@ -295,13 +308,37 @@ class LaterPay_Helper_Pricing
                 ) {
                 $price = $post_price[ 'end_price' ];
             } else {    // transitional period between start and end of dynamic price change
-                $price = LaterPay_Helper_Pricing::calculate_transitional_price( $post_price, $days_since_publication );
+                $price = LaterPay_Helper_Pricing::calculate_transitional_price( $post_price, $days_since_publication, $post_revenue_model );
             }
         }
 
         $rounded_price = round( $price, 2 );
-        if ( $rounded_price < 0.05 ) {
-            $rounded_price = 0;
+        switch ( $post_revenue_model ) {
+            case 'ppu':
+                if ( $rounded_price < self::ppu_min ) {
+                    $rounded_price = self::ppu_min;
+                } else if ( $rounded_price > self::ppu_max ) {
+                    $rounded_price = self::ppu_max;
+                }
+                break;
+
+            case 'sis':
+                if ( $rounded_price < self::sis_min ) {
+                    $rounded_price = 0.00;
+                } else if ( $rounded_price < self::price_sis_end ) {
+                    if ( abs( self::price_sis_end - $rounded_price ) < abs( $rounded_price - self::sis_min ) ) {
+                        $rounded_price = self::price_sis_end;
+                    } else {
+                        $rounded_price = self::sis_min;
+                    }
+                }
+                if ( $rounded_price > self::sis_max ) {
+                    $rounded_price = self::sis_max;
+                }
+                break;
+
+            default:
+                break;
         }
 
         return $rounded_price;
@@ -402,9 +439,9 @@ class LaterPay_Helper_Pricing
 
             $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
 
-            if ( ( $price >= 0.05 && $price <= 5.00 ) || $price == 0.00 ) {
+            if ( ( $price >= self::ppu_min && $price <= self::ppusis_max ) || $price == 0.00 ) {
                 $revenue_model = 'ppu';
-            } else if ( $price > 5.00 && $price <= 149.99 ) {
+            } else if ( $price > self::ppusis_max && $price <= self::sis_max ) {
                 $revenue_model = 'sis';
             }
         }
@@ -423,13 +460,13 @@ class LaterPay_Helper_Pricing
      */
     public static function ensure_valid_revenue_model( $revenue_model, $price ) {
         if ( $revenue_model == 'ppu' ) {
-            if ( $price == 0.00 || ( $price >= 0.05 && $price <= 5.00 ) ) {
+            if ( $price == 0.00 || ( $price >= self::ppu_min && $price <= self::ppusis_max ) ) {
                 return 'ppu';
             } else {
                 return 'sis';
             }
         } else {
-            if ( $price >= 1.49 && $price <= 149.99 ) {
+            if ( $price >= self::sis_min && $price <= self::sis_max ) {
                 return 'sis';
             } else {
                 return 'ppu';
@@ -600,7 +637,6 @@ class LaterPay_Helper_Pricing
 
         return array( $start, $end );
     }
-
     /**
      * Select categories from a given list of categories that have a category default price
      * and return an array of their ids.
@@ -638,17 +674,17 @@ class LaterPay_Helper_Pricing
         $validated_price = 0;
 
         // set all prices between 0.01 and 0.04 to lowest possible price of 0.05
-        if ( $price > 0 && $price < 0.05 ) {
-            $validated_price = 0.05;
+        if ( $price > 0 && $price < self::ppu_min ) {
+            $validated_price = self::ppu_min;
         }
 
-        if ( $price == 0 || ( $price >= 0.05 && $price <= 149.99 ) ) {
+        if ( $price == 0 || ( $price >= self::ppu_min && $price <= self::sis_max ) ) {
             $validated_price = $price;
         }
 
         // set all prices greater 149.99 to highest possible price of 149.99
-        if ( $price > 149.99 ) {
-            $validated_price = 149.99;
+        if ( $price > self::sis_max ) {
+            $validated_price = self::sis_max;
         }
 
         return $validated_price;
@@ -728,5 +764,24 @@ class LaterPay_Helper_Pricing
         }
 
         return $was_deleted;
+    }
+
+     /**
+     * Reset post publication date.
+     *
+     * @param WP_Post $post
+     *
+     * @return void
+     */
+    public static function reset_post_publication_date( $post ) {
+        $actual_date        = date( 'Y-m-d H:i:s' );
+        $actual_date_gmt    = gmdate( 'Y-m-d H:i:s' );
+        $post_update_data   = array(
+                                    'ID'            => $post->ID,
+                                    'post_date'     => $actual_date,
+                                    'post_date_gmt' => $actual_date_gmt,
+                                );
+
+        wp_update_post( $post_update_data );
     }
 }
