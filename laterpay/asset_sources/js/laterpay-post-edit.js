@@ -26,7 +26,7 @@
                 categories              : $('#lp_js_priceTypeDetails_categoryDefaultPrice li'),
                 dynamicPricingToggle    : $('#lp_js_toggleDynamicPricing'),
                 dynamicPricingContainer : '#lp_js_dynamicPricing_widgetContainer',
-                dynamicPricingResetDate : $('#lp_js_reset-dynamic-pricing'),
+                dynamicPricingResetDate : $('#lp_js_resetDynamicPricingStartDate'),
 
                 // strings cached for better compression
                 expanded                : 'lp_is-expanded',
@@ -504,7 +504,7 @@
                     $('input[name=laterpay_transitional_period_end_after_days]').val(0);
                     $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
                 }
-                
+
                 return true;
             },
 
