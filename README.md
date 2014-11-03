@@ -21,6 +21,14 @@ The plugin is available on http://wordpress.org/plugins/laterpay
 4. Push to the branch (`git push origin feature/my_new_feature`)
 5. Create a new Pull Request
 
+This project uses Gulp to build its assets.
+Gulp is a node.js module. If you have node.js running, you can install gulp with ```sudo npm install -g gulp```.
+Then install the required gulp plugins with ```npm install```.
+Now you can run any of the tasks defined in the gulpfile.
+During development you can either watch the repo for changes and automatically recompile the modified assets using ```gulp```.
+For exporting the assets for a release, you can also run ```gulp build```.
+
+
 The plugin uses the CSS preprocessor [Stylus](http://learnboost.github.io/stylus/).
 Stylus is a node.js module. If you have node.js running, you can install Stylus with ```sudo npm install -g stylus```.
 To generate production CSS from the .styl sources, go to folder 'laterpay' and run ```stylus assets/stylus --out assets/css --inline --compress```.
