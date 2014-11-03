@@ -76,9 +76,8 @@
 
                 // reset dynamic pricing date
                 $o.dynamicPricingResetDate
-                .click(function(e) {
-                    var post_id = $(this).attr('post_id');
-                    resetPostDate(post_id);
+                .mousedown(function() {
+                    resetPostDate($(this).attr('post_id'));
                 })
                 .click(function(e) {e.preventDefault();});
 
@@ -414,13 +413,13 @@
                     lpVars.ajaxUrl,
                     {
                         action          : 'laterpay_reset_date',
-                        form            : 'reset_post_publish_date',
+                        form            : 'reset_post_publication_date',
                         post_id         : post_id,
                     },
                     function(data) {
-                        if( data.success ){
+                        if (data.success) {
                             window.location.reload();
-                        }else if( data.message ){
+                        } else if (data.message) {
                             alert(data.message);
                         }
                     },
@@ -506,8 +505,9 @@
                     $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
                 }
                 $o.priceInput.removeAttr('disabled');
-                if( $o.priceInput.val() === '' )
+                if ($o.priceInput.val() === '') {
                     $o.priceInput.val(data[0].y);
+                }
 
                 return true;
             },

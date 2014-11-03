@@ -243,12 +243,13 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         // set dynamic price data with defaults or values already set
         $dynamic_pricing_data = LaterPay_Helper_Pricing::get_dynamic_prices( $post );
-        
-        // to get list of avail revenue models used post price for non dynamic prices and max of(start, end price) in case of dynamic price. 
-        // it`s needed to prevent floating avail list of revenue models while a price days reduce with a price amount.
+
+        // to get list of available revenue models used post price for non dynamic prices
+        // and max of(start, end price) in case of dynamic price.
+        // it's needed to prevent floating avail list of revenue models while a price days reduce with a price amount.
         if ( $post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
             $price_for_revenue = max( $dynamic_pricing_data[0]['y'], $dynamic_pricing_data[3]['y'] );
-        }else{
+        } else {
             $price_for_revenue = $price;
         }
 
@@ -360,7 +361,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 $meta_values[ 'type' ] = $type;
 
                 // apply (static) individual price
-                if ( in_array( $type, array(LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE) ) && $post_form->get_field_value( 'post-price' ) ) {
+                if ( in_array( $type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) && $post_form->get_field_value( 'post-price' ) ) {
                     $meta_values[ 'price' ] = $post_form->get_field_value( 'post-price' );
                     $meta_values[ 'revenue_model' ] = $post_form->get_field_value( 'post_revenue_model' );
                 }
@@ -423,9 +424,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      *
      * @wp-hook publish_post
      *
-     * @param string $status_after_update
-     * @param string $status_before_update
-     * @param WP_Post $post
+     * @param string    $status_after_update
+     * @param string    $status_before_update
+     * @param WP_Post   $post
      *
      * @return void
      */
@@ -433,11 +434,11 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // skip infinite loop
         remove_action( 'publish_post', array( $this,'update_post_publication_date') );
 
-        // skip with no permission
+        // skip on insufficient permission
         if ( ! $this->has_permission( $post->ID ) ) {
             return;
-        }              
-        
+        }
+
         // only update publication date for posts with dynamic pricing
         if ( LaterPay_Helper_Pricing::get_post_price_type($post->ID) != LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
             return;
@@ -453,6 +454,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        LaterPay_Helper_Pricing::reset_post_publish_date( $post );
+        LaterPay_Helper_Pricing::reset_post_publication_date( $post );
     }
 }
