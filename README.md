@@ -23,8 +23,8 @@ The plugin is available on http://wordpress.org/plugins/laterpay
 
 This project uses Gulp to build its assets.
 Gulp is a node.js module. If you have node.js running, you can install gulp with ```sudo npm install -g gulp```.
-Then install the required gulp plugins with ```npm install```.
-Now you can run any of the tasks defined in the gulpfile.
+Then go to the repository root folder and install the required gulp plugins with ```npm install```.
+Now you can run any of the tasks defined in the gulpfile from the repository root folder.
 During development you can either watch the repo for changes and automatically recompile the modified assets using ```gulp```.
 For exporting the assets for a release, you can also run ```gulp build```.
 
