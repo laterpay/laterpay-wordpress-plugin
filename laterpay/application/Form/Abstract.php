@@ -563,13 +563,26 @@ abstract class LaterPay_Form_Abstract
     /**
      * Get form values.
      *
+     * @param bool   $not_null get only not null values
+     * @param string $prefix   get values with selected prefix
+     * @param array  $exclude  array of names for exclude
+     *
      * @return array
      */
-    public function get_form_values() {
+    public function get_form_values( $not_null = false, $prefix = null, $exclude = array() ) {
         $fields = $this->get_fields();
         $data   = array();
 
         foreach ( $fields as $name => $field_data ) {
+            if ( $not_null && ( $field_data['value'] === null ) ) {
+                continue;
+            }
+            if ( $prefix && ( strpos( $name, $prefix ) === false ) ) {
+                continue;
+            }
+            if ( is_array( $exclude ) && in_array( $name, $exclude ) ) {
+                continue;
+            }
             $data[$name] = $field_data['value'];
         }
 
