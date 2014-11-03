@@ -701,14 +701,16 @@
                 $o.bulkPriceFormHiddenField.val('bulk_price_form_delete');
                 $o.bulkPriceOperationIdHiddenField.val($item.data('value'));
 
+                $item.fadeOut(250);
+
                 $.post(
                     ajaxurl,
                     $o.bulkPriceForm.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            $item.fadeOut(250, function() {
-                                $item.remove();
-                            });
+                            $item.remove();
+                        } else {
+                            $item.fadeIn(250);
                         }
                         setMessage(r.message, r.success);
                     },
