@@ -600,6 +600,7 @@ class LaterPay_Helper_Pricing
 
         return array( $start, $end );
     }
+
     /**
      * Select categories from a given list of categories that have a category default price
      * and return an array of their ids.
@@ -654,19 +655,21 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Get all bulk operations
+     * Get all bulk operations.
      *
      * @return mixed|null
      */
     public static function get_bulk_operations() {
-        $operations = get_option('laterpay_bulk_operations');
+        $operations = get_option( 'laterpay_bulk_operations' );
+
         return $operations ? unserialize( $operations ) : null;
     }
 
     /**
-     * Get bulk operation data by id
+     * Get bulk operation data by id.
      *
      * @param  int $id
+     *
      * @return mixed|null
      */
     public static function get_bulk_operation_data_by_id( $id ) {
@@ -681,7 +684,7 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Save bulk operation
+     * Save bulk operation.
      *
      * @param  string $data    serialized bulk data
      * @param  string $message message
@@ -694,19 +697,21 @@ class LaterPay_Helper_Pricing
 
         // save bulk operation
         $operations[] = array(
-            'data'    => $data,
-            'message' => $message,
-        );
+                            'data'    => $data,
+                            'message' => $message,
+                        );
         update_option( 'laterpay_bulk_operations', serialize( $operations ) );
 
         end( $operations );
+
         return key( $operations );
     }
 
     /**
-     * Delete bulk operation by id
+     * Delete bulk operation by id.
      *
      * @param  int $id
+     *
      * @return bool
      */
     public static function delete_bulk_operation_by_id( $id ) {
