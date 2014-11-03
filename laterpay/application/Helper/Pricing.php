@@ -600,6 +600,7 @@ class LaterPay_Helper_Pricing
 
         return array( $start, $end );
     }
+
     /**
      * Select categories from a given list of categories that have a category default price
      * and return an array of their ids.
@@ -651,5 +652,81 @@ class LaterPay_Helper_Pricing
         }
 
         return $validated_price;
+    }
+
+    /**
+     * Get all bulk operations.
+     *
+     * @return mixed|null
+     */
+    public static function get_bulk_operations() {
+        $operations = get_option( 'laterpay_bulk_operations' );
+
+        return $operations ? unserialize( $operations ) : null;
+    }
+
+    /**
+     * Get bulk operation data by id.
+     *
+     * @param  int $id
+     *
+     * @return mixed|null
+     */
+    public static function get_bulk_operation_data_by_id( $id ) {
+        $operations = LaterPay_Helper_Pricing::get_bulk_operations();
+        $data       = null;
+
+        if ( $operations && isset( $operations[$id] ) ) {
+            $data = $operations[$id]['data'];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Save bulk operation.
+     *
+     * @param  string $data    serialized bulk data
+     * @param  string $message message
+     *
+     * @return int    $id      id of new operation
+     */
+    public static function save_bulk_operation( $data, $message ) {
+        $operations = LaterPay_Helper_Pricing::get_bulk_operations();
+        $operations = $operations ? $operations : array();
+
+        // save bulk operation
+        $operations[] = array(
+                            'data'    => $data,
+                            'message' => $message,
+                        );
+        update_option( 'laterpay_bulk_operations', serialize( $operations ) );
+
+        end( $operations );
+
+        return key( $operations );
+    }
+
+    /**
+     * Delete bulk operation by id.
+     *
+     * @param  int $id
+     *
+     * @return bool
+     */
+    public static function delete_bulk_operation_by_id( $id ) {
+        $was_deleted = false;
+        $operations = LaterPay_Helper_Pricing::get_bulk_operations();
+
+        if ( $operations ) {
+            if ( isset( $operations[$id] ) ) {
+                unset( $operations[$id] );
+                $was_deleted = true;
+                $operations  = $operations ? $operations : '';
+                update_option( 'laterpay_bulk_operations', serialize( $operations ) );
+            }
+        }
+
+        return $was_deleted;
     }
 }

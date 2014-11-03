@@ -30,7 +30,7 @@
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                         <a href="#" id="lp_js_cancelEditingGlobalDefaultPrice" class="lp_editLink lp_cancel-link lp_u_right" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                        <a href="#" id="lp_js_saveGlobalDefaultPrice" class="lp_editLink lp_save-link lp_u_right" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                        <a href="#" id="lp_js_saveGlobalDefaultPrice" class="lp_editLink lp_saveLink lp_u_right" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
                         <p>
                             <span id="lp_js_globalDefaultPrice_revenueModelLabel" class="lp_js_revenueModel_labelDisplay lp_revenueModelLabel lp_u_m-r025"><?php echo $global_default_price_revenue_model; ?></span>
                             <span id="lp_js_globalDefaultPrice_revenueModel" class="lp_js_revenueModel lp_revenueModel lp_u_relative lp_u_left" style="display:none;">
@@ -114,10 +114,10 @@
                                         <span class="lp_js_currency lp_currency"><?php echo $standard_currency; ?></span>
                                     </strong>
 
-                                    <a href="#" class="lp_js_saveCategoryDefaultPrice lp_editLink lp_save-link" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_js_saveCategoryDefaultPrice lp_editLink lp_saveLink" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
                                     <a href="#" class="lp_js_cancelEditingCategoryDefaultPrice lp_editLink lp_cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                                     <a href="#" class="lp_js_editCategoryDefaultPrice lp_editLink lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                                    <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_editLink lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                                    <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_editLink lp_deleteLink" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                                 </p>
                             </form>
                         <?php endforeach; ?>
@@ -125,7 +125,7 @@
 
                     <a href="#" id="lp_js_addCategoryDefaultPrice" class="lp_u_block lp_u_m-t1" data-icon="c"><?php _e( 'Set default price for another category', 'laterpay' ); ?></a>
 
-                    <form method="post" id="lp_js_categoryDefaultPrice_template" class="lp_js_categoryDefaultPrice_form lp_category-price-form lp_is_unsaved" style="display:none;">
+                    <form method="post" id="lp_js_categoryDefaultPrice_template" class="lp_js_categoryDefaultPrice_form lp_category-price-form lp_is-unsaved" style="display:none;">
                         <input type="hidden" name="form" value="price_category_form">
                         <input type="hidden" name="action" value="laterpay_pricing">
                         <input type="hidden" name="category_id" class="lp_js_categoryDefaultPrice_categoryId" value="">
@@ -162,10 +162,10 @@
                                 <span class="lp_js_currency lp_currency"><?php echo $standard_currency; ?></span>
                             </strong>
 
-                            <a href="#" class="lp_js_saveCategoryDefaultPrice lp_editLink lp_save-link" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_js_saveCategoryDefaultPrice lp_editLink lp_saveLink" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
                             <a href="#" class="lp_js_cancelEditingCategoryDefaultPrice lp_editLink lp_cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                             <a href="#" class="lp_js_editCategoryDefaultPrice lp_editLink lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                            <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_editLink lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_editLink lp_deleteLink" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                         </p>
                     </form>
                 </div>
@@ -206,12 +206,14 @@
         <div class="lp_row">
             <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>
             <form id="lp_js_bulkPriceEditor_form" method="post">
-                <input type="hidden" name="form" value="bulk_price_form">
+                <input type="hidden" name="form" value="bulk_price_form" id="lp_js_bulkPriceEditor_hiddenFormInput">
                 <input type="hidden" name="action" value="laterpay_pricing">
+                <input type="hidden" name="bulk_operation_id" value="" id="lp_js_bulkPriceEditor_hiddenIdInput">
+                <input type="hidden" name="bulk_message" value="" id="lp_js_bulkPriceEditor_hiddenMessageInput">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <div>
                     <p>
-                        <select name="bulk_action" id="lp_js_changeBulkAction" class="lp_input">
+                        <select name="bulk_action" id="lp_js_selectBulkAction" class="lp_input">
                             <?php foreach ( $bulk_actions as $action_value => $action_name ): ?>
                                 <option value="<?php echo $action_value; ?>">
                                     <?php echo $action_name; ?>
@@ -247,37 +249,47 @@
                         </select>
                         <?php endif; ?>
 
-                        <span id="lp_js_bulkPriceEditor_amountModifier" class="lp_u_inlineBlock lp_u_m-r05 lp_u_m-l05"><?php _e( 'to', 'laterpay' ); ?></span>
+                        <span id="lp_js_bulkPriceEditor_amountPreposition" class="lp_u_inlineBlock lp_u_m-r05 lp_u_m-l05"><?php _e( 'to', 'laterpay' ); ?></span>
                         <input  type="text"
                                 name="bulk_price"
                                 id="lp_js_setBulkChangeAmount"
                                 class="lp_input lp_numberInput"
                                 value="<?php echo $global_default_price; ?>"
                                 placeholder="0.00">
-                        <select name="bulk_change_unit" id="lp_js_setBulkChangeUnit" class="lp_input lp_bulkPriceUnit lp_is-disabled">
+                        <select name="bulk_change_unit" id="lp_js_selectBulkChangeUnit" class="lp_input lp_bulkPriceUnit lp_is-disabled">
                             <option value="<?php echo $standard_currency; ?>">
                                 <?php echo $standard_currency; ?>
                             </option>
                             <option value="percent">%</option>
                         </select>
-                        <button id="lp_js_apply-bulk-operation" class="button button-primary lp_u_m-l2" type="submit"><?php _e( 'Apply', 'laterpay' ); ?></button>
+                        <button id="lp_js_applyBulkOperation" class="button button-primary lp_u_m-l2" type="submit"><?php _e( 'Update Prices', 'laterpay' ); ?></button>
+                        <a href="#" id="lp_js_saveBulkOperation" class="lp_editLink lp_saveLink lp_u_inlineBlock lp_u_m-l1 lp_u_pd-0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
                     </p>
                 </div>
             </form>
+            <?php if ( $bulk_saved_operations ): ?>
+                <?php foreach ( $bulk_saved_operations as $bulk_operation_id => $bulk_operation_data ): ?>
+                    <p class="lp_bulkOperation" data-value="<?php echo $bulk_operation_id; ?>">
+                        <a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_u_m-l2"><?php _e( 'Update Prices', 'laterpay' ); ?></a>
+                        <span><?php echo $bulk_operation_data['message']; ?></span>
+                    </p>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
 
 <?php # commented out as long as there is only a single currency ?>
 <?php /* ?>
         <div class="lp_row">
             <h2><?php _e( 'Currency', 'laterpay' ); ?></h2>
-            <form id="lp_js_default-currency-form" method="post">
+            <form id="lp_js_defaultCurrency_form" method="post">
                 <input type="hidden" name="form"    value="currency_form">
                 <input type="hidden" name="action"  value="laterpay_pricing">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                 <div>
                     <p><?php _e( 'All prices are given in', 'laterpay' ); ?>
-                        <select name="laterpay_currency" id="lp_js_change-default-currency" class="lp_input">
+                        <select name="laterpay_currency" id="lp_js_changeDefaultCurrency" class="lp_input">
                             <?php foreach ( $currencies as $currency ): ?>
                                 <option<?php if ( $currency->short_name == $standard_currency ): ?> selected<?php endif; ?> value="<?php echo $currency->short_name; ?>">
                                     <?php echo $currency->full_name . ' (' . $currency->short_name . ')'; ?>
