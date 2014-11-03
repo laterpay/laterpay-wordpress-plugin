@@ -433,7 +433,7 @@
                 $o.priceInput.attr('disabled', 'disabled');
                 $o.individualPriceDetails.slideDown(250);
                 $o.priceTypeInput.val('individual price, dynamic');
-                $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
+                $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing).attr('data-icon', 'e');
             },
 
             disableDynamicPricing = function() {
@@ -443,7 +443,7 @@
                     $($o.dynamicPricingContainer).empty();
                 });
                 $o.priceTypeInput.val('individual price');
-                $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing);
+                $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing).attr('data-icon', 'c');
             },
 
             renderDynamicPricingWidget = function() {

@@ -114,7 +114,7 @@
     <a href="#"
         id="lp_js_toggleDynamicPricing"
         class="lp_dynamicPricingToggle lp_is-withDynamicPricing lp_u_block"
-        data-icon="g">
+        data-icon="e">
         <?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
     </a>
 <?php else: ?>
