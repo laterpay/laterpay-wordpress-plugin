@@ -32,7 +32,7 @@
                 expanded                : 'lp_is-expanded',
                 selected                : 'lp_is-selected',
                 disabled                : 'lp_is-disabled',
-                dynamicPricingApplied   : 'lp_is-with-dynamic-pricing',
+                dynamicPricingApplied   : 'lp_is-withDynamicPricing',
                 selectedCategory        : 'lp_is-selectedCategory',
                 payPerUse               : 'ppu',
                 singleSale              : 'sis'
@@ -77,7 +77,7 @@
                 // reset dynamic pricing date
                 $o.dynamicPricingResetDate
                 .mousedown(function() {
-                    resetPostDate($(this).attr('post_id'));
+                    resetPostDate($(this).attr('data-id'));
                 })
                 .click(function(e) {e.preventDefault();});
 
