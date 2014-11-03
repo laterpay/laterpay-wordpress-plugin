@@ -193,7 +193,7 @@ class LaterPay_Helper_Pricing
         }
         $post_price_type    = array_key_exists( 'type', $post_price )           ? $post_price[ 'type' ]             : '';
         $category_id        = array_key_exists( 'category_id', $post_price )    ? $post_price[ 'category_id' ]      : '';
-        $post_revenue_model = array_key_exists( 'revenue_model', $post_price )  ? $post_price[ 'revenue_model' ]    : 'ppu';
+        $post_revenue_model = array_key_exists( 'revenue_model', $post_price )  ? $post_price[ 'revenue_model' ]    : '';
 
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
@@ -288,6 +288,17 @@ class LaterPay_Helper_Pricing
      */
     public static function get_dynamic_price( $post, $post_price, $post_revenue_model ) {
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
+
+        // backward compatibility with already created post which has dynamic price and has no revenue model
+        if (empty($post_revenue_model)) {
+            $start_price = array_key_exists('start_price', $post_price) ? (float) $post_price['start_price'] : '';
+            $end_price   = array_key_exists('end_price', $post_price) ? (float) $post_price['end_price'] : '';
+            if (max($start_price, $end_price) <= self::ppu_max) {
+                $post_revenue_model = 'ppu';
+            } else {
+                $post_revenue_model = 'sis';
+            }
+        }
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_price[ 'start_price' ];
