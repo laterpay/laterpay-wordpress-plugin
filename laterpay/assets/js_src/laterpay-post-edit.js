@@ -504,11 +504,7 @@
                     $('input[name=laterpay_transitional_period_end_after_days]').val(0);
                     $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
                 }
-                $o.priceInput.removeAttr('disabled');
-                if ($o.priceInput.val() === '') {
-                    $o.priceInput.val(data[0].y);
-                }
-
+                
                 return true;
             },
 
