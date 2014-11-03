@@ -106,6 +106,8 @@ class LaterPay_Helper_Post {
             'buy'         => 'true',
             'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
+        /* Commented with a temporary solution: redirect to attachment page instead of download it by browser. So attachments will have the same behaviour as post after purchase.
+         * 
         if ( $post->post_type == 'attachment' ) {
             $url = LaterPay_Helper_File::get_encrypted_resource_url(
                                             $post_id,
@@ -118,6 +120,10 @@ class LaterPay_Helper_Post {
             $hash = self::get_hash_by_url( $url );
             $url  = $url . '&hash=' . $hash;
         };
+        */
+        $url  = self::get_after_purchase_redirect_url( $url_params );
+        $hash = self::get_hash_by_url( $url );
+        $url  = $url . '&hash=' . $hash;
 
         // parameters for LaterPay purchase form
         $params = array(
@@ -185,7 +191,7 @@ class LaterPay_Helper_Post {
      *
      * @return void
      */
-    public function the_purchase_button_args( $post ) {
+    public static function the_purchase_button_args( $post ) {
         // don't render the purchase button, if the current post is not purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
             return;
@@ -196,12 +202,17 @@ class LaterPay_Helper_Post {
             return;
         };
 
+        // render purchase button for administrator always in preview mode. To prevent accidental buy by admin.
+        $preview_mode = LaterPay_Helper_User::preview_post_as_visitor($post);
+        if( current_user_can( 'administrator' ) ){
+            $preview_mode = true;
+        }
         $view_args = array(
             'post_id'                 => $post->ID,
-            'link'                    => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
-            'currency'                => get_option( 'laterpay_currency' ),
-            'price'                   => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'link'                    => LaterPay_Helper_Post::get_laterpay_purchase_link($post->ID),
+            'currency'                => get_option('laterpay_currency'),
+            'price'                   => LaterPay_Helper_Pricing::get_post_price($post->ID),
+            'preview_post_as_visitor' => $preview_mode,
         );
 
         laterpay_get_logger()->info(
