@@ -65,6 +65,9 @@
                 bulkSaveOperationLink                   : $('#lp_js_save-bulk-operation'),
                 bulkDeleteOperationLink                 : '.lp_js_delete-saved-bulk-operation',
                 bulkApplySavedOperationLink             : '.lp_js_apply-saved-bulk-operation',
+                bulkPriceFormHiddenField                : $('#lp_js_bulk-price-form-hidden'),
+                bulkPriceOperationIdHiddenField         : $('#lp_js_bulk-operation-id-hidden'),
+                bulkPriceMessageHiddenField             : $('#lp_js_bulk-message-hidden'),
 
                 // default currency
                 defaultCurrencyForm                     : $('#lp_js_default-currency-form'),
@@ -173,9 +176,9 @@
                 // execute bulk operation
                 $o.bulkPriceForm
                 .on('submit', function(e) {
-                    $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form');
-                    $('input[name=bulk_operation_id]', $o.bulkPriceForm).val(undefined);
-                    $('input[name=bulk_message]', $o.bulkPriceForm).val(undefined);
+                    $o.bulkPriceFormHiddenField.val('bulk_price_form');
+                    $o.bulkPriceOperationIdHiddenField.val(undefined);
+                    $o.bulkPriceMessageHiddenField.val(undefined);
                     applyBulkOperation();
                     e.preventDefault();
                 });
@@ -667,9 +670,9 @@
 
                 description = $.trim(description.join(' ').replace(/\s+/g, ' '));
 
-                $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form_save');
-                $('input[name=bulk_operation_id]', $o.bulkPriceForm).val(undefined);
-                $('input[name=bulk_message]', $o.bulkPriceForm).val(description);
+                $o.bulkPriceFormHiddenField.val('bulk_price_form_save');
+                $o.bulkPriceOperationIdHiddenField.val(undefined);
+                $o.bulkPriceMessageHiddenField.val(description);
 
                 $.post(
                     ajaxurl,
@@ -686,15 +689,15 @@
             },
 
             applySavedBulkOperation = function($item) {
-                $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form');
-                $('input[name=bulk_operation_id]', $o.bulkPriceForm).val($item.data('value'));
+                $o.bulkPriceFormHiddenField.val('bulk_price_form');
+                $o.bulkPriceOperationIdHiddenField.val($item.data('value'));
 
                 applyBulkOperation();
             },
 
             deleteSavedBulkOperation = function($item) {
-                $('input[name=form]', $o.bulkPriceForm).val('bulk_price_form_delete');
-                $('input[name=bulk_operation_id]', $o.bulkPriceForm).val($item.data('value'));
+                $o.bulkPriceFormHiddenField.val('bulk_price_form_delete');
+                $o.bulkPriceOperationIdHiddenField.val($item.data('value'));
 
                 $.post(
                     ajaxurl,

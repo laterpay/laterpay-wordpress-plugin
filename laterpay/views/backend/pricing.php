@@ -206,10 +206,10 @@
         <div class="lp_row">
             <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>
             <form id="lp_js_bulk-price-form" method="post">
-                <input type="hidden" name="form" value="bulk_price_form">
+                <input type="hidden" name="form" value="bulk_price_form" id="lp_js_bulk-price-form-hidden">
                 <input type="hidden" name="action" value="laterpay_pricing">
-                <input type="hidden" name="bulk_operation_id" value="">
-                <input type="hidden" name="bulk_message" value="">
+                <input type="hidden" name="bulk_operation_id" value="" id="lp_js_bulk-operation-id-hidden">
+                <input type="hidden" name="bulk_message" value="" id="lp_js_bulk-message-hidden">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <div>
                     <p>
@@ -268,11 +268,11 @@
                 </div>
             </form>
             <?php if ( $bulk_saved_operations ): ?>
-                <?php foreach ( $bulk_saved_operations as $bulk_operation ): ?>
-                    <p class="lp_bulk-operation" data-value="<?php echo $bulk_operation->id; ?>">
+                <?php foreach ( $bulk_saved_operations as $bulk_operation_id => $bulk_operation_data ): ?>
+                    <p class="lp_bulk-operation" data-value="<?php echo $bulk_operation_id; ?>">
                         <a href="#" class="lp_js_delete-saved-bulk-operation lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_apply-saved-bulk-operation button button-primary lp_m-l2"><?php _e( 'Update Prices', 'laterpay' ); ?></a>
-                        <span><?php echo $bulk_operation->message; ?></span>
+                        <span><?php echo $bulk_operation_data['message']; ?></span>
                     </p>
                 <?php endforeach; ?>
             <?php endif; ?>

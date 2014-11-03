@@ -269,7 +269,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
         $table_history         = $wpdb->prefix . 'laterpay_payment_history';
         $table_post_views      = $wpdb->prefix . 'laterpay_post_views';
-        $table_bulk_operations = $wpdb->prefix . 'laterpay_bulk_operations';
 
         $sql = "
             CREATE TABLE $table_terms_price (
@@ -306,15 +305,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
-        $sql = "
-            CREATE TABLE $table_bulk_operations (
-                id                INT(11)         NOT NULL AUTO_INCREMENT,
-                message           VARCHAR(256)    NOT NULL,
-                data              VARBINARY(256)  NOT NULL,
-                PRIMARY KEY  (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
-        dbDelta( $sql );
-
         add_option( 'laterpay_teaser_content_only',         '1' );
         add_option( 'laterpay_plugin_is_in_live_mode',      '0' );
         add_option( 'laterpay_sandbox_merchant_id',         $this->config->get( 'api.sandbox_merchant_id' ) );
@@ -325,6 +315,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_global_price_revenue_model',  'ppu');
         add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
         add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
+        add_option( 'laterpay_bulk_operations',             '' );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );

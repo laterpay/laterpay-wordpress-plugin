@@ -67,7 +67,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->load_assets();
 
         $category_price_model           = new LaterPay_Model_CategoryPrice();
-        $bulk_operation_model           = new LaterPay_Model_BulkOperation();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
 
         $bulk_actions = array(
@@ -82,7 +81,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
         $bulk_categories            = get_categories();
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
-        $bulk_saved_operations      = $bulk_operation_model->get_bulk_operations();
+        $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
 
         $this->assign( 'categories_with_defined_price',      $categories_with_defined_price );
         $this->assign( 'standard_currency',                  get_option( 'laterpay_currency' ) );
@@ -470,9 +469,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         if ( $bulk_price_form->is_valid() ) {
             $bulk_operation_id = $bulk_price_form->get_field_value( 'bulk_operation_id' );
-            if ( $bulk_operation_id ) {
-                $bulk_operation_model = new LaterPay_Model_BulkOperation();
-                $operation_data = unserialize( $bulk_operation_model->get_bulk_operation_data_by_id( $bulk_operation_id ) );
+            if ( $bulk_operation_id !== null ) {
+                $operation_data = LaterPay_Helper_Pricing::get_bulk_operation_data_by_id( $bulk_operation_id );
                 if ( ! $bulk_price_form->is_valid( $operation_data ) ) {
                     wp_send_json(
                         array(
@@ -721,24 +719,20 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function save_bulk_operation() {
         $save_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
         if ( $save_bulk_operation_form->is_valid() ) {
-            // create and serialize data array
-            $data                 = $save_bulk_operation_form->get_form_values( true, 'bulk_', array( 'bulk_message' ) );
-            $bulk_message         = $save_bulk_operation_form->get_field_value( 'bulk_message' );
+            // create data array
+            $data         = $save_bulk_operation_form->get_form_values( true, 'bulk_', array( 'bulk_message' ) );
+            $bulk_message = $save_bulk_operation_form->get_field_value( 'bulk_message' );
 
-            $bulk_operation_model = new LaterPay_Model_BulkOperation();
-            $bulk_operation_id    = $bulk_operation_model->save_bulk_operation( serialize($data), $bulk_message );
-            if ( $bulk_operation_id ) {
-                wp_send_json(
-                    array(
-                        'success' => true,
-                        'data'    => array(
-                            'id'      => $bulk_operation_id,
-                            'message' => $bulk_message,
-                        ),
-                        'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
-                    )
-                );
-            }
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'data'    => array(
+                        'id'      => LaterPay_Helper_Pricing::save_bulk_operation( $data, $bulk_message ),
+                        'message' => $save_bulk_operation_form->get_field_value( 'bulk_message' ),
+                    ),
+                    'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
+                )
+            );
         }
 
         wp_send_json(
@@ -758,9 +752,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $remove_bulk_operation_form = new LaterPay_Form_BulkPrice( $_POST );
         if ( $remove_bulk_operation_form->is_valid() ) {
             $bulk_operation_id      = $remove_bulk_operation_form->get_field_value( 'bulk_operation_id' );
-            $bulk_operation_model   = new LaterPay_Model_BulkOperation();
 
-            $result = $bulk_operation_model->delete_bulk_operation_by_id( $bulk_operation_id );
+            $result = LaterPay_Helper_Pricing::delete_bulk_operation_by_id( $bulk_operation_id );
             if ( $result ) {
                 wp_send_json(
                     array(
