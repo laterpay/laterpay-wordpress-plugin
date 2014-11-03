@@ -193,6 +193,7 @@ class LaterPay_Helper_Pricing
         }
         $post_price_type    = array_key_exists( 'type', $post_price ) ? $post_price[ 'type' ] : '';
         $category_id        = array_key_exists( 'category_id', $post_price ) ? $post_price[ 'category_id' ] : '';
+        $post_revenue_model = array_key_exists( 'revenue_model',    $post_price ) ? $post_price[ 'revenue_model' ] : 'ppu';
 
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
@@ -200,7 +201,7 @@ class LaterPay_Helper_Pricing
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_price );
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_price, $post_revenue_model );
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
@@ -284,7 +285,8 @@ class LaterPay_Helper_Pricing
      *
      * @return float price
      */
-    public static function get_dynamic_price( $post, $post_price ) {
+    public static function get_dynamic_price( $post, $post_price, $post_revenue_model ) {
+        
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
@@ -295,15 +297,39 @@ class LaterPay_Helper_Pricing
                 ) {
                 $price = $post_price[ 'end_price' ];
             } else {    // transitional period between start and end of dynamic price change
-                $price = LaterPay_Helper_Pricing::calculate_transitional_price( $post_price, $days_since_publication );
+                $price = LaterPay_Helper_Pricing::calculate_transitional_price( $post_price, $days_since_publication, $post_revenue_model );
             }
         }
-
+        
         $rounded_price = round( $price, 2 );
-        if ( $rounded_price < 0.05 ) {
-            $rounded_price = 0;
+        switch ($post_revenue_model) {
+            case 'ppu':
+                if( $rounded_price < self::ppu_min ){
+                    $rounded_price = self::ppu_min;
+                }else if( $rounded_price > self::ppu_max ){
+                    $rounded_price = self::ppu_max;
+                }
+                break;
+            case 'sis':
+                if( $rounded_price < self::sis_min ){
+                    $rounded_price = 0.00;
+                }
+                if( $rounded_price < self::price_sis_end ){
+                    if( abs(self::price_sis_end - $rounded_price) < abs($rounded_price - self::sis_min) ){
+                        $rounded_price = self::price_sis_end;
+                    }else{
+                        $rounded_price = self::sis_min;
+                    }
+                }
+                if( $rounded_price > self::sis_max ){
+                    $rounded_price = self::sis_max;
+                }
+                break;
+                
+            default:
+                break;
         }
-
+        
         return $rounded_price;
     }
 

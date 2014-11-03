@@ -435,7 +435,6 @@
                 $o.individualPriceDetails.slideDown(250);
                 $o.priceTypeInput.val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing);
-                $o.revenueModel.hide();
             },
 
             disableDynamicPricing = function() {
@@ -473,7 +472,7 @@
                     minPrice = lpVars.limits.ppu_min;
                 }
 
-                if (lpVars.limits.pubDays > 0) {
+                if (lpVars.limits.pubDays > 0 && lpVars.limits.pubDays <= 30) {
                     lpc.set_today(lpVars.limits.pubDays, lpVars.limits.todayPrice);
                 }
 
@@ -506,6 +505,9 @@
                     $('input[name=laterpay_transitional_period_end_after_days]').val(0);
                     $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
                 }
+                $o.priceInput.removeAttr('disabled');
+                if( $o.priceInput.val() === '' )
+                    $o.priceInput.val(data[0].y);
 
                 return true;
             },

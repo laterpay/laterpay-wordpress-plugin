@@ -243,6 +243,14 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         // set dynamic price data with defaults or values already set
         $dynamic_pricing_data = LaterPay_Helper_Pricing::get_dynamic_prices( $post );
+        
+        // to get list of avail revenue models used post price for non dynamic prices and max of(start, end price) in case of dynamic price. 
+        // it`s needed to prevent floating avail list of revenue models while a price days reduce with a price amount.
+        if ( $post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
+            $price_for_revenue = max( $dynamic_pricing_data[0]['y'], $dynamic_pricing_data[3]['y'] );
+        }else{
+            $price_for_revenue = $price;
+        }
 
         // get number of days since publication to render an indicator in the dynamic pricing widget
         $days_after_publication = LaterPay_Helper_Pricing::dynamic_price_days_after_publication( $post );
@@ -270,6 +278,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $this->assign( 'laterpay_post_status',                          $post_status );
         $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
         $this->assign( 'laterpay_price',                                $price );
+        $this->assign( 'price_for_revenue',                             $price_for_revenue );
         $this->assign( 'laterpay_currency',                             get_option( 'laterpay_currency' ) );
         $this->assign( 'laterpay_category_prices',                      $category_price_data );
         $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
@@ -351,7 +360,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 $meta_values[ 'type' ] = $type;
 
                 // apply (static) individual price
-                if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE && $post_form->get_field_value( 'post-price' ) ) {
+                if ( in_array( $type, array(LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE) ) && $post_form->get_field_value( 'post-price' ) ) {
                     $meta_values[ 'price' ] = $post_form->get_field_value( 'post-price' );
                     $meta_values[ 'revenue_model' ] = $post_form->get_field_value( 'post_revenue_model' );
                 }
