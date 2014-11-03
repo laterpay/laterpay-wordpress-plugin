@@ -101,28 +101,25 @@
 
 <?php if ( $laterpay_post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ): ?>
     <?php if ( $laterpay_post_status != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ): ?>
-        <?php _e( 'The dynamic pricing will <strong>start</strong>, once you have <strong>published</strong> this post.', 'laterpay' ); ?>
+        <dfn><?php _e( 'The dynamic pricing will <strong>start</strong>, once you have <strong>published</strong> this post.', 'laterpay' ); ?></dfn>
     <?php else: ?>
         <a href="#"
             id="lp_js_resetDynamicPricingStartDate"
             class="lp_dynamicPricingReset lp_u_block"
             data-id="<?php echo $laterpay_post_id; ?>"
-            data-icon="p">
-            <?php _e( 'Restart dynamic pricing', 'laterpay' ); ?>
+            data-icon="p"><?php _e( 'Restart dynamic pricing', 'laterpay' ); ?>
         </a>
     <?php endif; ?>
     <a href="#"
         id="lp_js_toggleDynamicPricing"
         class="lp_dynamicPricingToggle lp_is-withDynamicPricing lp_u_block"
-        data-icon="e">
-        <?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
+        data-icon="e"><?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
     </a>
 <?php else: ?>
     <a  href="#"
         id="lp_js_toggleDynamicPricing"
         class="lp_dynamicPricingToggle lp_u_block"
         data-icon="c"
-        <?php if ( substr( $laterpay_post_price_type, 0, 16 ) !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'style="display:none;"'; } ?>>
-        <?php _e( 'Add dynamic pricing', 'laterpay' ); ?>
+        <?php if ( substr( $laterpay_post_price_type, 0, 16 ) !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'style="display:none;"'; } ?>><?php _e( 'Add dynamic pricing', 'laterpay' ); ?>
     </a>
 <?php endif; ?>

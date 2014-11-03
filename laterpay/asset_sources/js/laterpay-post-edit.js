@@ -443,6 +443,7 @@
                     $($o.dynamicPricingContainer).empty();
                 });
                 $o.priceTypeInput.val('individual price');
+                $o.dynamicPricingResetDate.fadeOut(250);
                 $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing).attr('data-icon', 'c');
             },
 
