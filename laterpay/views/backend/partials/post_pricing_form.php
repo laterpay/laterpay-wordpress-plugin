@@ -106,7 +106,7 @@
         <a href="#" id="lp_js_resetDynamicPricingStartDate" class="lp_dynamic-pricing-reset lp_is-with-dynamic-pricing lp_d-block" post_id="<?php echo $laterpay_post_id; ?>">
             <?php _e( 'Restart dynamic pricing', 'laterpay' ); ?>
         </a>
-    endif; ?>
+    <?php endif; ?>
     <a href="#" id="lp_js_toggleDynamicPricing" class="lp_dynamicPricingToggle lp_is-with-dynamic-pricing lp_u_block">
         <?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
     </a>
