@@ -556,7 +556,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             if ( is_feed() ) {
                 $html .= sprintf(
                             __( '&mdash; Visit the post to buy its full content for %s %s &mdash; ', 'laterpay' ),
-                            LaterPay_Helper_View::format_number( $price, 2 ),
+                            number_format_i18n( $price, 2 ),
                             $currency
                         );
             }

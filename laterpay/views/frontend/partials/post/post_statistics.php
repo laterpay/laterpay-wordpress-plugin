@@ -13,7 +13,7 @@
     <div class="lp_postStatistics_totals">
         <ul>
             <li>
-                <big><?php if ( isset( $statistic['total'][$currency] ) ) { $aux = $statistic['total'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
+                <big><?php if ( isset( $statistic['total'][$currency] ) ) { $aux = $statistic['total'][$currency]['sum']; } else { $aux = 0; }; echo number_format_i18n( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
                 <small><?php _e( 'Total Revenue', 'laterpay' ); ?></small>
             </li>
             <li>
@@ -34,7 +34,7 @@
                 <span class="lp_sparklineBar"><?php if ( isset( $statistic['last30DaysRevenue'][$currency] ) ) { $aux = $statistic['last30DaysRevenue'][$currency]; } else { $aux = array(); }; echo LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ); ?></span>
             </li>
             <li>
-                <big><?php if ( isset( $statistic['todayRevenue'][$currency] ) ) { $aux = $statistic['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
+                <big><?php if ( isset( $statistic['todayRevenue'][$currency] ) ) { $aux = $statistic['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo number_format_i18n( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
                 <small><?php _e( 'Revenue', 'laterpay' ); ?></small>
             </li>
         </ul>
@@ -46,7 +46,7 @@
                 <span class="lp_sparklineBackgroundBar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
             </li>
             <li>
-                <big><?php echo LaterPay_Helper_View::format_number( $statistic['todayBuyers'], 1 ); ?><small>%</small></big>
+                <big><?php echo number_format_i18n( $statistic['todayBuyers'], 1 ); ?><small>%</small></big>
                 <small><?php _e( 'Buyers', 'laterpay' ); ?></small>
             </li>
         </ul>
