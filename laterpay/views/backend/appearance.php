@@ -2,7 +2,7 @@
 
 <div class="lp_page wp-core-ui">
 
-    <div id="lp_js_flash-message" class="lp_flashMessage" style="display:none;">
+    <div id="lp_js_flashMessage" class="lp_flashMessage" style="display:none;">
         <p></p>
     </div>
 
@@ -27,7 +27,7 @@
                     <input type="radio"
                             name="paid_content_preview"
                             value="1"
-                            class="lp_js_toggle-preview-mode lp_js_style-input"
+                            class="lp_js_togglePreviewMode lp_js_styleInput"
                             <?php if ( $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content only', 'laterpay' ); ?>
                     <div class="lp_previewMode-1"></div>
@@ -36,7 +36,7 @@
                     <input type="radio"
                             name="paid_content_preview"
                             value="0"
-                            class="lp_js_toggle-preview-mode lp_js_style-input"
+                            class="lp_js_togglePreviewMode lp_js_styleInput"
                             <?php if ( ! $show_teaser_content_only ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
                     <div class="lp_previewMode-2"></div>
@@ -62,7 +62,7 @@
                                id="supported_post_type_<?php echo $slug; ?>"
                                name="enabled_post_types[]"
                                value="<?php echo $slug; ?>"
-                               class="lp_js_style-input"
+                               class="lp_js_styleInput"
                                <?php echo ( in_array( $slug, $enabled_post_types ) ) ? ' checked="checked" ' : ''; ?>
                         />
                         <?php echo $post_type->labels->name; ?>

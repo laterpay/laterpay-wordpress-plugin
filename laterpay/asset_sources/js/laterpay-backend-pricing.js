@@ -3,64 +3,64 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendPricing
     function laterPayBackendPricing() {
         var $o = {
-                revenueModel                            : '.lp_js_revenue-model',
-                revenueModelLabel                       : '.lp_js_revenue-model-label',
-                revenueModelLabelDisplay                : '.lp_js_revenue-model-label-display',
-                revenueModelInput                       : '.lp_js_revenue-model-input',
-                priceInput                              : '.lp_js_price-input',
+                revenueModel                            : '.lp_js_revenueModel',
+                revenueModelLabel                       : '.lp_js_revenueModel_label',
+                revenueModelLabelDisplay                : '.lp_js_revenueModel_labelDisplay',
+                revenueModelInput                       : '.lp_js_revenueModel_input',
+                priceInput                              : '.lp_js_priceInput',
 
                 // global default price
-                globalDefaultPriceForm                  : $('#lp_js_global-default-price-form'),
-                globalDefaultPriceInput                 : $('#lp_js_global-default-price'),
-                globalDefaultPriceDisplay               : $('#lp_js_global-default-price-text'),
-                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_global-default-price-revenue-model-label'),
-                editGlobalDefaultPrice                  : $('#lp_js_edit-global-default-price'),
-                cancelEditingGlobalDefaultPrice         : $('#lp_js_cancel-editing-global-default-price'),
-                saveGlobalDefaultPrice                  : $('#lp_js_save-global-default-price'),
-                globalDefaultPriceShowElements          : $('#lp_js_global-default-price-text,' +
-                                                            ' #lp_js_edit-global-default-price,' +
-                                                            '#lp_js_global-default-price-revenue-model-label'),
-                globalDefaultPriceEditElements          : $('#lp_js_global-default-price,' +
-                                                            '#lp_js_global-default-price-revenue-model,' +
-                                                            '#lp_js_cancel-editing-global-default-price,' +
-                                                            '#lp_js_save-global-default-price'),
+                globalDefaultPriceForm                  : $('#lp_js_globalDefaultPrice_form'),
+                globalDefaultPriceInput                 : $('#lp_js_globalDefaultPrice'),
+                globalDefaultPriceDisplay               : $('#lp_js_globalDefaultPrice_text'),
+                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_globalDefaultPrice_revenueModelLabel'),
+                editGlobalDefaultPrice                  : $('#lp_js_editGlobalDefaultPrice'),
+                cancelEditingGlobalDefaultPrice         : $('#lp_js_cancelEditingGlobalDefaultPrice'),
+                saveGlobalDefaultPrice                  : $('#lp_js_saveGlobalDefaultPrice'),
+                globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPrice_text,' +
+                                                            ' #lp_js_editGlobalDefaultPrice,' +
+                                                            '#lp_js_globalDefaultPrice_revenueModelLabel'),
+                globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPrice,' +
+                                                            '#lp_js_globalDefaultPrice_revenueModel,' +
+                                                            '#lp_js_cancelEditingGlobalDefaultPrice,' +
+                                                            '#lp_js_saveGlobalDefaultPrice'),
 
                 // category default price
-                categoryDefaultPrices                   : $('#lp_js_category-default-prices-list'),
-                addCategory                             : $('#lp_js_add-category-default-price'),
+                categoryDefaultPrices                   : $('#lp_js_categoryDefaultPrice_list'),
+                addCategory                             : $('#lp_js_addCategoryDefaultPrice'),
 
-                categoryDefaultPriceTemplate            : $('#lp_js_category-default-price-template'),
-                categoryDefaultPriceForm                : '.lp_js_category-default-price-form',
-                editCategoryDefaultPrice                : '.lp_js_edit-category-default-price',
-                cancelEditingCategoryDefaultPrice       : '.lp_js_cancel-editing-category-default-price',
-                saveCategoryDefaultPrice                : '.lp_js_save-category-default-price',
-                deleteCategoryDefaultPrice              : '.lp_js_delete-category-default-price',
-                categoryDefaultPriceShowElements        : '.lp_js_category-title,' +
-                                                            '.lp_js_revenue-model-label-display,' +
-                                                            '.lp_js_category-default-price-display,' +
-                                                            '.lp_js_edit-category-default-price,' +
-                                                            '.lp_js_delete-category-default-price',
-                categoryDefaultPriceEditElements        : '.lp_js_category-default-price-input,' +
-                                                            '.lp_js_revenue-model,' +
-                                                            '.lp_js_save-category-default-price,' +
-                                                            '.lp_js_cancel-editing-category-default-price',
+                categoryDefaultPriceTemplate            : $('#lp_js_categoryDefaultPrice_template'),
+                categoryDefaultPriceForm                : '.lp_js_categoryDefaultPrice_form',
+                editCategoryDefaultPrice                : '.lp_js_editCategoryDefaultPrice',
+                cancelEditingCategoryDefaultPrice       : '.lp_js_cancelEditingCategoryDefaultPrice',
+                saveCategoryDefaultPrice                : '.lp_js_saveCategoryDefaultPrice',
+                deleteCategoryDefaultPrice              : '.lp_js_deleteCategoryDefaultPrice',
+                categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPrice_categoryTitle,' +
+                                                            '.lp_js_revenueModel_labelDisplay,' +
+                                                            '.lp_js_categoryDefaultPrice_display,' +
+                                                            '.lp_js_editCategoryDefaultPrice,' +
+                                                            '.lp_js_deleteCategoryDefaultPrice',
+                categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPrice_input,' +
+                                                            '.lp_js_revenueModel,' +
+                                                            '.lp_js_saveCategoryDefaultPrice,' +
+                                                            '.lp_js_cancelEditingCategoryDefaultPrice',
 
-                categoryTitle                           : '.lp_js_category-title',
-                categoryDefaultPriceDisplay             : '.lp_js_category-default-price-display',
+                categoryTitle                           : '.lp_js_categoryDefaultPrice_categoryTitle',
+                categoryDefaultPriceDisplay             : '.lp_js_categoryDefaultPrice_display',
 
-                selectCategory                          : '.lp_js_select-category',
-                categoryDefaultPriceInput               : '.lp_js_category-default-price-input',
-                categoryId                              : '.lp_js_category-id',
+                selectCategory                          : '.lp_js_selectCategory',
+                categoryDefaultPriceInput               : '.lp_js_categoryDefaultPrice_input',
+                categoryId                              : '.lp_js_categoryDefaultPrice_categoryId',
 
                 // bulk price editor
-                bulkPriceForm                           : $('#lp_js_bulk-price-form'),
-                bulkPriceAction                         : $('#lp_js_change-bulk-action'),
-                bulkPriceObjects                        : $('#lp_js_select-bulk-objects'),
-                bulkPriceObjectsCategory                : $('#lp_js_select-bulk-objects-category'),
-                bulkPriceObjectsCategoryWithPrice       : $('#lp_js_select-bulk-objects-category-with-price'),
-                bulkPriceChangeAmountModifier           : $('#lp_js_bulk-amount-modifier'),
-                bulkPriceChangeAmount                   : $('#lp_js_set-bulk-change-amount'),
-                bulkPriceChangeUnit                     : $('#lp_js_set-bulk-change-unit'),
+                bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
+                bulkPriceAction                         : $('#lp_js_changeBulkAction'),
+                bulkPriceObjects                        : $('#lp_js_selectBulkObjects'),
+                bulkPriceObjectsCategory                : $('#lp_js_selectBulkObjectsCategory'),
+                bulkPriceObjectsCategoryWithPrice       : $('#lp_js_selectBulkObjectsCategoryWithPrice'),
+                bulkPriceChangeAmountModifier           : $('#lp_js_bulkPriceEditor_amountModifier'),
+                bulkPriceChangeAmount                   : $('#lp_js_setBulkChangeAmount'),
+                bulkPriceChangeUnit                     : $('#lp_js_setBulkChangeUnit'),
                 bulkPriceSubmit                         : $('#lp_js_apply-bulk-operation'),
 
                 // default currency
@@ -69,7 +69,7 @@
                 currency                                : '.lp_js_currency',
 
                 // strings cached for better compression
-                editing                                 : 'lp_is_editing',
+                editing                                 : 'lp_is-editing',
                 unsaved                                 : 'lp_is_unsaved',
                 payPerUse                               : 'ppu',
                 singleSale                              : 'sis',
@@ -233,8 +233,8 @@
 
             validateRevenueModel = function(price, $form) {
                 var currentRevenueModel = $('input:radio:checked', $form).val(),
-                    $payPerUse          = $('.lp_js_revenue-model-input[value=' + $o.payPerUse + ']', $form),
-                    $singleSale         = $('.lp_js_revenue-model-input[value=' + $o.singleSale + ']', $form);
+                    $payPerUse          = $('.lp_js_revenueModel_input[value=' + $o.payPerUse + ']', $form),
+                    $singleSale         = $('.lp_js_revenueModel_input[value=' + $o.singleSale + ']', $form);
 
                 if (price === 0 || (price >= 0.05 && price <= 5)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
@@ -268,7 +268,7 @@
 
                 // highlight current revenue model
                 $('label', $form).removeClass($o.selected);
-                $('.lp_js_revenue-model-input:checked', $form).parent('label').addClass($o.selected);
+                $('.lp_js_revenueModel_input:checked', $form).parent('label').addClass($o.selected);
             },
 
             enterEditModeGlobalDefaultPrice = function() {
@@ -290,7 +290,7 @@
                 // reset revenue model input to current revenue model
                 var currentRevenueModel = $o.globalDefaultPriceRevenueModelDisplay.text().toLowerCase();
                 $($o.revenueModelLabel, $o.globalDefaultPriceForm).removeClass($o.selected);
-                $('.lp_js_revenue-model-input[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
+                $('.lp_js_revenueModel_input[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
                 .prop('checked', 'checked')
                     .parent('label')
                     .addClass($o.selected);
@@ -322,7 +322,7 @@
                 var $form = $o.categoryDefaultPriceTemplate
                             .clone()
                             .removeAttr('id')
-                            .appendTo('#lp_js_category-default-prices-list')
+                            .appendTo('#lp_js_categoryDefaultPrice_list')
                             .fadeIn(250);
 
                 editCategoryDefaultPrice($form);
@@ -330,7 +330,7 @@
 
             editCategoryDefaultPrice = function($form) {
                 // exit edit mode of all other category prices
-                $('.lp_js_category-default-price-form.lp_is_editing').each(function() {
+                $('.lp_js_categoryDefaultPrice_form.lp_is-editing').each(function() {
                     exitEditModeCategoryDefaultPrice($(this), true);
                 });
 
@@ -388,7 +388,7 @@
                     // reset revenue model input to current revenue model
                     var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).text().toLowerCase();
                     $($o.revenueModelLabel, $form).removeClass($o.selected);
-                    $('.lp_js_revenue-model-input[value=' + currentRevenueModel + ']', $form)
+                    $('.lp_js_revenueModel_input[value=' + currentRevenueModel + ']', $form)
                     .prop('checked', 'checked')
                         .parent('label')
                         .addClass($o.selected);
@@ -422,8 +422,8 @@
 
             formatSelect2Selection = function(data, container) {
                 var $form = $(container).parent().parent().parent();
-                $('.lp_js_select-category', $form).val(data.text);
-                $('.lp_js_category-id', $form).val(data.id);
+                $('.lp_js_selectCategory', $form).val(data.text);
+                $('.lp_js_categoryDefaultPrice_categoryId', $form).val(data.id);
 
                 return data.text;
             },

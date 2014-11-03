@@ -7,9 +7,9 @@
                 // ...
 
                 // plugin mode
-                pluginModeToggle            : $('#lp_js_toggle-plugin-mode'),
+                pluginModeToggle            : $('#lp_js_togglePluginMode'),
 
-                showMerchantContractsButton : $('#lp_js_show-merchant-contracts'),
+                showMerchantContractsButton : $('#lp_js_showMerchantContracts'),
 
                 throttledFlashMessage       : undefined,
                 flashMessageTimeout         : 800,
@@ -19,7 +19,7 @@
 
             bindEvents = function() {
                 // validate and save entered LaterPay API Keys
-                $('.lp_js_validate-api-key').bind('input', function() {
+                $('.lp_js_validateApiKey').bind('input', function() {
                     var $input = this;
                     setTimeout(function() {
                         validateAPIKey($input);
@@ -27,7 +27,7 @@
                 });
 
                 // validate and save entered LaterPay Merchant IDs
-                $('.lp_js_validate-merchant-id').bind('input', function() {
+                $('.lp_js_validateMerchantId').bind('input', function() {
                     var $input = this;
                     setTimeout(function() {
                         validateMerchantId($input);
@@ -53,7 +53,7 @@
             },
 
             autofocusEmptyInput = function() {
-                var $inputs = $('.lp_js_validate-api-key, .lp_js_validate-merchant-id');
+                var $inputs = $('.lp_js_validateApiKey, .lp_js_validateMerchantId');
                 for (var i = 0, l = $inputs.length; i < l; i++) {
                     if ($inputs.eq(i).val() === '') {
                         $inputs.eq(i).focus();
@@ -64,19 +64,19 @@
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
-                    $('#lp_js_plugin-mode-test-text').hide();
-                    $('#lp_js_plugin-mode-live-text').show();
-                    $('#lp_js_plugin-mode-indicator').fadeOut();
+                    $('#lp_js_pluginMode_testText').hide();
+                    $('#lp_js_pluginMode_liveText').show();
+                    $('#lp_js_pluginModeIndicator').fadeOut();
                 } else {
-                    $('#lp_js_plugin-mode-live-text').hide();
-                    $('#lp_js_plugin-mode-test-text').show();
-                    $('#lp_js_plugin-mode-indicator').fadeIn();
+                    $('#lp_js_pluginMode_liveText').hide();
+                    $('#lp_js_pluginMode_testText').show();
+                    $('#lp_js_pluginModeIndicator').fadeIn();
                 }
             },
 
             togglePluginMode = function() {
                 var $toggle                 = $o.pluginModeToggle,
-                    $input                  = $('#lp_js_plugin-mode-hidden-input'),
+                    $input                  = $('#lp_js_pluginMode_hiddenInput'),
                     testMode                = 0,
                     liveMode                = 1,
                     hasSwitchedToLiveMode   = $toggle.prop('checked');
@@ -183,15 +183,15 @@
                         // plugin is in test mode, but there are no valid Sandbox API credentials
                         !$o.pluginModeToggle.prop('checked') &&
                         (
-                            $('#lp_js_sandbox-api-key').val().length     !== 32 ||
-                            $('#lp_js_sandbox-merchant-id').val().length !== 22
+                            $('#lp_js_sandboxApiKey').val().length     !== 32 ||
+                            $('#lp_js_sandboxMerchantId').val().length !== 22
                         )
                     ) || (
                         // plugin is in live mode, but there are no valid Live API credentials
                         $o.pluginModeToggle.prop('checked') &&
                         (
-                            $('#lp_js_live-api-key').val().length        !== 32 ||
-                            $('#lp_js_live-merchant-id').val().length    !== 22
+                            $('#lp_js_liveApiKey').val().length        !== 32 ||
+                            $('#lp_js_liveMerchantId').val().length    !== 22
                         )
                     )
                 ) {
@@ -220,7 +220,7 @@
                     $('iframe', $iframeWrapper).remove();
                 }
                 if ($iframeWrapper.length === 0) {
-                    $('#lp_js_credentials-hint').after($iframeWrapperObject.slideDown(400, function() {
+                    $('#lp_js_credentialsHint').after($iframeWrapperObject.slideDown(400, function() {
                         // scroll document so that iframe fills viewport
                         iframeOffset = $('#lp_legalDocs_iframe').offset();
                         scrollPosition = iframeOffset.top - topMargin;
@@ -236,7 +236,7 @@
                 // inject a new iframe into the wrapper with the requested src parameter
                 $iframeWrapper
                 .html(
-                    '<a href="#" id="lp_js_hide-merchant-contracts" class="lp_legalDocs_closeLink">x</a>' +
+                    '<a href="#" id="lp_js_hideMerchantContracts" class="lp_legalDocs_closeLink">x</a>' +
                     '<iframe ' +
                         'src="' + src + '" ' +
                         'frameborder="0" ' +
@@ -246,7 +246,7 @@
                 );
 
                 // close merchant contracts
-                $('#lp_js_hide-merchant-contracts', $iframeWrapper).bind('click', function(e) {
+                $('#lp_js_hideMerchantContracts', $iframeWrapper).bind('click', function(e) {
                     $(this).fadeOut()
                         .parent('#lp_legalDocs_iframe').slideUp(400, function() {
                             $(this).remove();

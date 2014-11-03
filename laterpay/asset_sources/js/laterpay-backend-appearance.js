@@ -9,7 +9,7 @@
 
             bindEvents = function() {
                 // switch paid content preview mode
-                $('.lp_js_toggle-preview-mode', $o.previewForm)
+                $('.lp_js_togglePreviewMode', $o.previewForm)
                 .change(function() {
                     saveAppearance();
                 });
@@ -38,7 +38,7 @@
             },
 
             styleInputs = function() {
-                $('.lp_js_style-input').ezMark();
+                $('.lp_js_styleInput').ezMark();
             },
 
             initializePage = function() {

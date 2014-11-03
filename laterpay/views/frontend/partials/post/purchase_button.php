@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 $args = array(
     'href'                      => '#',
-    'class'                     => 'lp_js_do-purchase lp_purchaseLink lp_button',
+    'class'                     => 'lp_js_doPurchase lp_purchaseLink lp_button',
     'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                 => 'b',
     'data-laterpay'             => $laterpay[ 'link' ],

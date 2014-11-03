@@ -612,7 +612,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( $caching_is_active ) {
             // if caching is enabled, wrap the teaser in a div, so it can be replaced with the full content,
             // if the post is / has already been purchased
-            return '<div id="lp_js_post-content-placeholder">' . $html . '</div>';
+            return '<div id="lp_js_postContentPlaceholder">' . $html . '</div>';
         }
 
         return $html;

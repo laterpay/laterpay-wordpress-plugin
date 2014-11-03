@@ -2,14 +2,14 @@
 
     function laterPayDebugger() {
         var $o = {
-                menuItem            : $('#wp-admin-bar-lp_js_debugger-admin-bar-menu'),
+                menuItem            : $('#wp-admin-bar-lp_js_toggleDebuggerVisibility'),
                 debugger            : $('.lp_debugger'),
                 debuggerHeader      : 'header',
                 tabs                : $('.lp_debugger_tabs li'),
                 content             : $('.lp_debugger_content'),
                 logMessage          : '.lp_debugger_logEntryTable',
                 logMessageHeader    : $('.lp_debugger_logEntryTable thead'),
-                logDetails          : '.lp_js_log-entry-details',
+                logDetails          : '.lp_js_logEntryDetails',
 
                 hidden              : 'lp_is-hidden',
                 selected            : 'lp_is-selected',

@@ -33,7 +33,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         global $wp_admin_bar;
 
         $args = array(
-            'id'        => 'lp_js_debugger-admin-bar-menu',
+            'id'        => 'lp_js_toggleDebuggerVisibility',
             'parent'    => 'top-secondary',
             'title'     => __( 'LaterPay Debugger', 'laterpay' )
         );
@@ -94,7 +94,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         ?>
             <div class="lp_debugger lp_is-hidden">
                 <header>
-                    <a href="#" class="lp_js_close-debugger lp_closeLink lp_u_right" data-icon="l"></a>
+                    <a href="#" class="lp_js_closeDebugger lp_closeLink lp_u_right" data-icon="l"></a>
                     <div class="lp_u_right"><?php echo sprintf( __( '%s Memory Usage', 'laterpay' ), number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB' ); ?></div>
                     <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 </header>

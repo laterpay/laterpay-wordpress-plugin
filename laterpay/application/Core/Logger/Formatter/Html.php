@@ -34,7 +34,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         $output .= $this->add_head_row( (string) $record['message'], $record['level'] );
 
         // generate tbody of log record with details
-        $output .= '<tbody class="lp_js_log-entry-details" style="display:none;">';
+        $output .= '<tbody class="lp_js_logEntryDetails" style="display:none;">';
         $output .= '<tr><td colspan="2"><table>';
 
         if ( $record['context'] ) {
@@ -66,7 +66,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return string
      */
     private function add_head_row( $message = '', $level ) {
-        $show_details_link = '<a href="#" class="lp_js_toggle-log-details" data-icon="l">' . __( 'Details', 'laterpay' ) . '</a>';
+        $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . __( 'Details', 'laterpay' ) . '</a>';
 
         $html = "<thead>
                     <tr>

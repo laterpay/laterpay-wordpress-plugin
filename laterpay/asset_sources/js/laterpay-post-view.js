@@ -4,37 +4,37 @@
     function laterPayPostView() {
         var $o = {
                 // post statistics pane
-                postStatisticsPane              : $('#lp_js_post-statistics'),
+                postStatisticsPane              : $('#lp_js_postStatistics'),
 
                 // post preview mode
-                postPreviewModeForm             : $('#lp_postStatistics_pluginPreviewMode-form'),
-                postPreviewModeToggle           : $('#lp_js_toggle-post-preview-mode'),
-                postPreviewModeInput            : $('#lp_js_preview-post-input'),
+                postPreviewModeForm             : $('#lp_js_postStatistics_pluginPreviewModeForm'),
+                postPreviewModeToggle           : $('#lp_js_togglePostPreviewMode'),
+                postPreviewModeInput            : $('#lp_js_postPreviewModeInput'),
 
                 // post statistics pane visibility
-                postStatisticsVisibilityForm    : $('#lp_js_post-statistics-visibility-form'),
-                postStatisticsVisibilityToggle  : $('#lp_js_toggle-post-statistics-visibility'),
-                postStatisticsVisibilityInput   : $('#lp_js_hide-statistics-pane-input'),
+                postStatisticsVisibilityForm    : $('#lp_js_postStatistics_visibilityForm'),
+                postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
+                postStatisticsVisibilityInput   : $('#lp_js_postStatistics_visibilityInput'),
 
                 // placeholders for caching compatibility mode
-                postContentPlaceholder          : $('#lp_js_post-content-placeholder'),
-                postStatisticsPlaceholder       : $('#lp_js_post-statistics-placeholder'),
+                postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
+                postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
 
                 // purchase buttons and purchase links
-                purchaseLink                    : '.lp_js_do-purchase',
+                purchaseLink                    : '.lp_js_doPurchase',
 
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
             },
 
             recachePostStatisticsPane = function() {
-                $o.postStatisticsPane              = $('#lp_js_post-statistics');
-                $o.postPreviewModeForm             = $('#lp_postStatistics_pluginPreviewMode-form');
-                $o.postPreviewModeToggle           = $('#lp_js_toggle-post-preview-mode');
-                $o.postPreviewModeInput            = $('#lp_js_preview-post-input');
-                $o.postStatisticsVisibilityForm    = $('#lp_js_post-statistics-visibility-form');
-                $o.postStatisticsVisibilityToggle  = $('#lp_js_toggle-post-statistics-visibility');
-                $o.postStatisticsVisibilityInput   = $('#lp_js_hide-statistics-pane-input');
+                $o.postStatisticsPane              = $('#lp_js_postStatistics');
+                $o.postPreviewModeForm             = $('#lp_js_postStatistics_pluginPreviewModeForm');
+                $o.postPreviewModeToggle           = $('#lp_js_togglePostPreviewMode');
+                $o.postPreviewModeInput            = $('#lp_js_postPreviewModeInput');
+                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatistics_visibilityForm');
+                $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
+                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatistics_visibilityInput');
             },
 
             bindPurchaseEvents = function() {
@@ -182,14 +182,14 @@
 
             initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
-                // (recognizable by the presence of lp_js_post-content-placeholder
-                if ($('#lp_js_post-content-placeholder').length === 1) {
+                // (recognizable by the presence of lp_js_postContentPlaceholder
+                if ($('#lp_js_postContentPlaceholder').length === 1) {
                     loadPostContent();
                     trackViews();
                 }
 
                 // render the post statistics pane, if a placeholder exists for it
-                if ($('#lp_js_post-statistics-placeholder').length === 1) {
+                if ($('#lp_js_postStatisticsPlaceholder').length === 1) {
                     loadPostStatistics();
                 }
 
@@ -229,7 +229,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
                 dm.openDialog(url, ppuContext.showCloseBtn);
             }
         },
-        '.lp_js_do-purchase'
+        '.lp_js_doPurchase'
     );
 });
 
