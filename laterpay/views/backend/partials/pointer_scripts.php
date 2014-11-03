@@ -37,7 +37,7 @@
     <script>
         jQuery(document).ready(function($) {
             if (typeof(jQuery().pointer) !== 'undefined') {
-                jQuery('#lp_post-pricing')
+                jQuery('#lp_postPricing')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',
                     position: {
@@ -65,7 +65,7 @@
     <script>
         jQuery(document).ready(function($) {
             if (typeof(jQuery().pointer) !== 'undefined') {
-                jQuery('#lp_post-teaser')
+                jQuery('#lp_postTeaser')
                 .pointer({
                     content: '<?php echo $pointer_content; ?>',
                     position: {

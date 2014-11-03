@@ -5,7 +5,7 @@
  */
 $args = array(
     'href'                      => '#',
-    'class'                     => 'lp_js_do-purchase lp_purchase-link',
+    'class'                     => 'lp_js_doPurchase lp_purchaseLink',
     'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                 => 'b',
     'data-laterpay'             => $laterpay[ 'link' ],
