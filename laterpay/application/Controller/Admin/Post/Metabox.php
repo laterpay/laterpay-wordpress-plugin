@@ -441,17 +441,17 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        // only update publication date for posts with dynamic pricing
+        // only update publication date of posts with dynamic pricing
         if ( LaterPay_Helper_Pricing::get_post_price_type($post->ID) != LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
             return;
         }
 
-        // don't update publication date for already published posts
+        // don't update publication date of already published posts
         if ( $status_before_update == LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
             return;
         }
 
-        // don't update publication date for unpublished posts
+        // don't update publication date of unpublished posts
         if ( $status_after_update != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
             return;
         }

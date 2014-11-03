@@ -157,7 +157,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         $post = get_post( $_POST['post_id'] );
                         if ( $post != null ) {
                             LaterPay_Helper_Pricing::reset_post_publication_date( $post );
-                            wp_send_json( array( 'success' => true ) );
+                            wp_send_json(
+                                array(
+                                    'success' => true,
+                                )
+                            );
 
                             return;
                         }
