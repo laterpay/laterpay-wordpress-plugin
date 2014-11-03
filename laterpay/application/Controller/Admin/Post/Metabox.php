@@ -281,7 +281,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $this->assign( 'laterpay_post_status',                          $post_status );
         $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
         $this->assign( 'laterpay_price',                                $price );
-        $this->assign( 'price_for_revenue',                             $maximum_price_in_lifecycle );
+        $this->assign( 'maximum_price_in_lifecycle',                             $maximum_price_in_lifecycle );
         $this->assign( 'laterpay_currency',                             get_option( 'laterpay_currency' ) );
         $this->assign( 'laterpay_category_prices',                      $category_price_data );
         $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
