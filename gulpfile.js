@@ -1,4 +1,4 @@
-var // autoprefixer    = require('gulp-autoprefixer'),
+var autoprefixer    = require('gulp-autoprefixer'),
     // base64          = require('gulp-base64'),
     // bundle          = require('gulp-bundle-assets'),
     cached          = require('gulp-cached'),
@@ -12,26 +12,30 @@ var // autoprefixer    = require('gulp-autoprefixer'),
     // include         = require('gulp-file-include'),
     jshint          = require('gulp-jshint'),
     lintspaces      = require('gulp-lintspaces'),
+    nib             = require('nib'),
     notify          = require('gulp-notify'),
     // Pageres         = require('pageres'),
     phpcs           = require('gulp-phpcs'),
     prettify        = require('gulp-jsbeautifier'),
     // sourcemaps      = require('gulp-sourcemaps'),
-    soften          = require('gulp-soften'),
     // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
     svgmin          = require('gulp-svgmin'),
     uglify          = require('gulp-uglify'),
     p               = {
-                        allfiles    : ['./laterpay/**/*.php', './laterpay/assets/stylus/**/*.styl', './laterpay/assets/js/*.js'],
+                        allfiles    : [
+                                            './laterpay/**/*.php',
+                                            './laterpay/asset_sources/stylus/**/*.styl',
+                                            './laterpay/asset_sources/js/*.js'
+                                      ],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
-                        srcStylus   : './laterpay/assets/stylus/*.styl',
-                        srcJS       : './laterpay/assets/js_src/',
-                        srcSVG      : './laterpay/assets/img/**/*.svg',
-                        distJS      : './laterpay/assets/js/',
-                        distCSS     : './laterpay/assets/css/',
-                        distSVG     : './laterpay/assets/img/',
+                        srcStylus   : './laterpay/asset_sources/stylus/*.styl',
+                        srcJS       : './laterpay/asset_sources/js/',
+                        srcSVG      : './laterpay/asset_sources/img/**/*.svg',
+                        distJS      : './laterpay/built_assets/js/',
+                        distCSS     : './laterpay/built_assets/css/',
+                        distSVG     : './laterpay/built_assets/img/',
                     };
 
 
@@ -44,18 +48,22 @@ gulp.task('clean', function(cb) {
 // CSS related tasks
 gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
-        .pipe(soften(4))
         .pipe(stylus({                                                          // process Stylus sources to CSS
-            linenos: true,                                                      // make line numbers available in browser dev tools
+            use     : nib(),
+            linenos : true,                                                      // make line numbers available in browser dev tools
             // TODO: generate sourcemap
         }))
+        .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .on('error', notify.onError())
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
 gulp.task('css-build', function() {
     gulp.src(p.srcStylus)
-        .pipe(stylus({compress: true}))                                         // process Stylus sources to CSS
+        .pipe(stylus({                                                          // process Stylus sources to CSS
+            use     : nib(),
+            compress: true
+        }))
         // .pipe(base64({                                                          // base64-encode images and inline them using datauris
         //     baseDir         : 'laterpay/assets/img',
         //     extensions      : ['png', svg],
@@ -64,7 +72,7 @@ gulp.task('css-build', function() {
         //     debug           : true
         // }))
         .on('error', notify.onError())
-        // .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 7'))  // vendorize properties for supported browsers
+        .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
@@ -72,9 +80,9 @@ gulp.task('css-build', function() {
 gulp.task('js-watch', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(cached('hinting'))                                                // only process modified files
-            .pipe(soften(4))
-            .pipe(gulp.dest(p.distJS))                                          // move to target folder
-            .pipe(notify({message: 'JS task complete :-)'}));
+            .pipe(jshint('.jshintrc'))
+            .pipe(jshint.reporter(stylish))
+            .pipe(gulp.dest(p.distJS));                                          // move to target folder;
 });
 
 gulp.task('js-build', function() {
@@ -94,7 +102,7 @@ gulp.task('js-format', function() {
     return gulp.src(p.srcJS + '*.js')
             .pipe(prettify({
                 config  : '.jsbeautifyrc',
-                mode    : 'VERIFY_AND_WRITE'
+                mode    : 'VERIFY_AND_WRITE',
             }))
             .pipe(gulp.dest(p.srcJS));
 });
