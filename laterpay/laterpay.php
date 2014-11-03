@@ -88,9 +88,9 @@ function laterpay_get_plugin_config() {
     $config->set( 'log_url',            $upload_dir[ 'baseurl' ] . '/laterpay_log/' );
 
     $plugin_url = $config->get( 'plugin_url' );
-    $config->set( 'css_url',    $plugin_url . 'assets/css/' );
-    $config->set( 'js_url',     $plugin_url . 'assets/js/' );
-    $config->set( 'image_url',  $plugin_url . 'assets/img/' );
+    $config->set( 'css_url',    $plugin_url . 'built_assets/css/' );
+    $config->set( 'js_url',     $plugin_url . 'built_assets/js/' );
+    $config->set( 'image_url',  $plugin_url . 'built_assets/img/' );
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
