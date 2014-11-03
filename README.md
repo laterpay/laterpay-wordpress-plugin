@@ -31,7 +31,7 @@ For exporting the assets for a release, you can also run ```gulp build```.
 
 The plugin uses the CSS preprocessor [Stylus](http://learnboost.github.io/stylus/).
 Stylus is a node.js module. If you have node.js running, you can install Stylus with ```sudo npm install -g stylus```.
-To generate production CSS from the .styl sources, go to folder 'laterpay' and run ```stylus assets/stylus --out assets/css --inline --compress```.
+To generate production CSS from the .styl sources, go to folder 'laterpay' and run ```stylus asset_sources/stylus --out built_assets/css --compress```.
 
 Contributed PHP code must comply with the WordPress coding standards.
 We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards).
