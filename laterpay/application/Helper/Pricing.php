@@ -282,6 +282,7 @@ class LaterPay_Helper_Pricing
      *
      * @param WP_Post $post
      * @param array   $post_price see post_meta 'laterpay_post_prices'
+     * @param string  $post_revenue_model 
      *
      * @return float price
      */

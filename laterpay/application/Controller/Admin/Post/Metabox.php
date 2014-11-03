@@ -244,9 +244,10 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // set dynamic price data with defaults or values already set
         $dynamic_pricing_data = LaterPay_Helper_Pricing::get_dynamic_prices( $post );
 
-        // to get list of available revenue models used post price for non dynamic prices
-        // and max of(start, end price) in case of dynamic price.
-        // it's needed to prevent floating avail list of revenue models while a price days reduce with a price amount.
+        // needed to get avail revenue models.
+        // - if post currently have a non dynamic price type, used post price
+        // - if post currently have a dynamic price type, used max(start,end) prices
+        // it`s needed to prevent appearance of PPU model in case of reduce dynamic price with days after publication pass.
         if ( $post_price_type == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
             $price_for_revenue = max( $dynamic_pricing_data[0]['y'], $dynamic_pricing_data[3]['y'] );
         } else {
