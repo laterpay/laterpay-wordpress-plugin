@@ -314,26 +314,26 @@ class LaterPay_Helper_Pricing
 
         $rounded_price = round( $price, 2 );
         if ( $rounded_price != 0.00 ) {
-            switch ($post_revenue_model) {
+            switch ( $post_revenue_model ) {
                 case 'ppu':
-                    if ($rounded_price < self::ppu_min) {
+                    if ( $rounded_price < self::ppu_min ) {
                         $rounded_price = self::ppu_min;
-                    } else if ($rounded_price > self::ppu_max) {
+                    } else if ( $rounded_price > self::ppu_max ) {
                         $rounded_price = self::ppu_max;
                     }
                     break;
 
                 case 'sis':
-                    if ($rounded_price < self::sis_min) {
+                    if ( $rounded_price < self::sis_min ) {
                         $rounded_price = 0.00;
-                    } else if ($rounded_price < self::price_sis_end) {
-                        if (abs(self::price_sis_end - $rounded_price) < abs($rounded_price - self::sis_min)) {
+                    } else if ( $rounded_price < self::price_sis_end ) {
+                        if ( abs( self::price_sis_end - $rounded_price ) < abs( $rounded_price - self::sis_min ) ) {
                             $rounded_price = self::price_sis_end;
                         } else {
                             $rounded_price = self::sis_min;
                         }
                     }
-                    if ($rounded_price > self::sis_max) {
+                    if ( $rounded_price > self::sis_max ) {
                         $rounded_price = self::sis_max;
                     }
                     break;
