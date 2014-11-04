@@ -468,7 +468,7 @@
                     minPrice = lpVars.limits.ppusis_min;
                 } else {
                     // Pay-per-Use
-                    maxPrice = lpVars.limits.ppu_max;
+                    maxPrice = lpVars.limits.ppusis_max;
                     minPrice = lpVars.limits.ppu_min;
                 }
 
