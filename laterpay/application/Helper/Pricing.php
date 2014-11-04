@@ -313,7 +313,7 @@ class LaterPay_Helper_Pricing
         }
 
         $rounded_price = round( $price, 2 );
-        if ($rounded_price != 0.00) {
+        if ( $rounded_price != 0.00 ) {
             switch ($post_revenue_model) {
                 case 'ppu':
                     if ($rounded_price < self::ppu_min) {
