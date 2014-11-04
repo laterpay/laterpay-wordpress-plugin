@@ -7,7 +7,7 @@ h1
     margin                          $fs-2 0 $fs-05
     text-align                      center
 
-    .lp_prevnext-link
+    .lp_prevNextLink
         display                     inline-block
         height                      1em
         padding                     0 $fs-025
@@ -16,43 +16,43 @@ h1
 
         &:hover
 
-            .lp_triangle-right
+            .lp_triangle--right
                 border-left-color   $clickable-highlight
 
-            .lp_triangle-left
+            .lp_triangle--left
                 border-right-color  $clickable-highlight
 
     .lp_triangle
         border                      $fs-08 solid $clickable
         top                         0.25em
 
-    .lp_triangle-right
+    .lp_triangle--right
         border-color                transparent transparent transparent $clickable
         left                        inherit
         right                       -($fs-05)
 
-    .lp_triangle-left
+    .lp_triangle--left
         border-color                transparent $clickable transparent transparent
         left                        -($fs-025)
 
 
 // Diagrams ------------------------------------------------------------------------------------------------------------
-.lp_w-1-3
+.lp_u_w-1-3
     float                           left
 
     h2
         margin                      $fs-1 0 0.4em
         text-align                  center
 
-.lp_dashboard-graph
+.lp_dashboardGraph
     height                          15 * $fs-1
     margin                          0 $fs-1 0 0
 
-.lp_dashboard-graph + .lp_statistics-row
+.lp_dashboardGraph + .lp_statisticsRow
     margin                          $fs-075 $fs-1 $fs-125 0
 
 /* statistics rows */
-.lp_statistics-row
+.lp_statisticsRow
     background                      $background-darker
     border-radius                   3px
     margin                          $fs-1 $fs-1 $fs-1 0
@@ -90,7 +90,7 @@ h1
 
 
 // Top / bottom lists --------------------------------------------------------------------------------------------------
-.lp_top-bottom-list
+.lp_topBottomList
     margin                          0 0 $fs-1
     padding                         0
 
@@ -113,7 +113,7 @@ h1
     a
         display                     block
 
-    .lp_sparkline-bar
+    .lp_sparklineBar
         color                       transparent
 
     .peity
@@ -133,7 +133,7 @@ h1
             line-height             1
             padding                 0 0 0 2px
 
-    .lp_value-narrow
+    .lp_valueNarrow
         width                       3 * $fs-1
 
 

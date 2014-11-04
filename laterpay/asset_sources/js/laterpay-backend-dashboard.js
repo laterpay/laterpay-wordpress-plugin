@@ -9,33 +9,33 @@
                 list                : [],
 
                 // diagrams
-                conversionDiagram   : $('#lp_js_conversion-diagram'),
-                salesDiagram        : $('#lp_js_sales-diagram'),
-                revenueDiagram      : $('#lp_js_revenue-diagram'),
+                conversionDiagram   : $('#lp_js_conversionDiagram'),
+                salesDiagram        : $('#lp_js_salesDiagram'),
+                revenueDiagram      : $('#lp_js_revenueDiagram'),
 
                 // main KPIs
-                totalImpressionsKPI : $('#lp_js_total-impressions'),
-                avgConversionKPI    : $('#lp_js_avg-conversion'),
-                newCustomersKPI     : $('#lp_js_share-of-new-customers'),
+                totalImpressionsKPI : $('#lp_js_totalImpressions'),
+                avgConversionKPI    : $('#lp_js_avgConversion'),
+                newCustomersKPI     : $('#lp_js_shareOfNewCustomers'),
 
                 avgItemsSoldKPI     : $('#lp_js_avg-items-sold'),
                 totalItemsSoldKPI   : $('#lp_js_total-items-sold'),
 
-                avgRevenueKPI       : $('#lp_js_avg-revenue'),
-                totalRevenueKPI     : $('#lp_js_total-revenue'),
+                avgRevenueKPI       : $('#lp_js_avgRevenue'),
+                totalRevenueKPI     : $('#lp_js_totalRevenue'),
 
                 // top / bottom lists
-                bestConvertingList  : $('#lp_js_best-converting-list'),
-                leastConvertingList : $('#lp_js_least-converting-list'),
-                bestSellingList     : $('#lp_js_best-selling-list'),
-                leastSellingList    : $('#lp_js_least-selling-list'),
-                bestGrossingList    : $('#lp_js_best-grossing-list'),
-                leastGrossingList   : $('#lp_js_least-grossing-list'),
+                bestConvertingList  : $('#lp_js_bestConvertingList'),
+                leastConvertingList : $('#lp_js_leastConvertingList'),
+                bestSellingList     : $('#lp_js_bestSellingList'),
+                leastSellingList    : $('#lp_js_leastSellingList'),
+                bestGrossingList    : $('#lp_js_bestGrossingList'),
+                leastGrossingList   : $('#lp_js_leastGrossingList'),
             },
 
             bindEvents = function() {
                 // refresh dashboard
-                $('#lp_js_refresh-dashboard')
+                $('#lp_js_refreshDashboard')
                 .click(function(e) {
                     fetchDashboardData();
                     e.preventDefault();
@@ -275,7 +275,7 @@
                 $o.totalRevenueKPI.text(data.total_revenue || 0);
 
                 // sparklines
-                $('.lp_sparkline-bar').peity('bar', {
+                $('.lp_sparklineBar').peity('bar', {
                     width   : 34,
                     height  : 14,
                     gap     : 1,
@@ -318,9 +318,9 @@
 
             renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
                 return '<li>' +
-                            '<span class="lp_sparkline-bar">' + sparklineData + '</span>' +
+                            '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
                             '<strong class="lp_value">' + kpiValue + '<small>' + kpiUnit + '</small></strong>' +
-                            '<i><a href="#" class="lp_js_toggle-item-details">' + itemName + '</a></i>' +
+                            '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
                         '</li>';
             },
 
