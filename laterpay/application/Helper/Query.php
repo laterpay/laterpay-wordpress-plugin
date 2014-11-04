@@ -4,6 +4,11 @@ class LaterPay_Helper_Query
 {
 
     /**
+     * @var array
+     */
+    protected $query_args = array();
+
+    /**
      * @var string
      */
     protected $last_query = '';
@@ -51,10 +56,91 @@ class LaterPay_Helper_Query
     }
 
     /**
+     * Add a INNER/LEFT/RIGHT JOIN clause to a query.
+     *
+     * @param array $joins array(
+     *                      array(
+     *                          'type'  => 'INNER',
+     *                          'fields'=> array(),
+     *                          'table' => '',
+     *                          'on'    => array(
+     *                              'field'     => '',
+     *                              'join_field'=> '',
+     *                              'compare'   => '='
+     *                          )
+     *                      )
+     *                      ...
+     *                    )
+     *
+     * @return string $sql
+     */
+    public function build_join( $joins ){
+        $sql = '';
+
+        if ( empty( $joins )  ) {
+            return $sql;
+        }
+
+        foreach ( $joins as $index => $join ) {
+
+            if ( ! is_array( $join ) ) {
+               continue;
+            }
+
+            $table = $join[ 'table' ] . '_' . $index;
+
+            $sql .= ' ' . strtoupper( $join[ 'type' ] ) . ' JOIN ' . $join[ 'table' ] . ' AS ' . $table;
+            $sql .= $this->build_join_on( $join, $table );
+
+            $this->query_args[ 'fields' ] = wp_parse_args(
+                $this->query_args[ 'fields' ],
+                $this->build_join_fields( $join, $table )
+            );
+
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Builds the join "ON"-Statement.
+     * @param array $join
+     * @param string $table
+     * @return string $sql
+     */
+    protected function build_join_on( $join, $table ) {
+
+        $field_1    = $table . '.' . $join[ 'on' ][ 'field' ];
+        $compare    = $join[ 'on' ][ 'compare' ];
+        $field_2    = ( $this->table_short !== '' ) ? $this->table_short : $this->table;
+        $field_2    .=  '.' . $join[ 'on' ][ 'join_field' ];
+
+        return ' ON ' . $field_1 . ' ' . $compare . ' ' . $field_2;
+    }
+
+    /**
+     * Builds the join fields with table-prefix.
+     *
+     * @param array $join
+     * @param string $table
+     * @return array $fields
+     */
+    protected function build_join_fields( $join, $table ){
+        $fields = array();
+        if ( empty( $join[ 'fields' ] ) ) {
+            $fields[] = $table . '.*';
+        } else {
+            foreach ( $join['fields'] as $field ) {
+                $fields[] = $table . '.' . $field;
+            }
+        }
+        return $fields;
+    }
+
+    /**
      * Add a LIMIT clause to a query.
      *
      * @param int $limit
-     *
      * @return string $sql
      */
     public static function build_limit( $limit ) {
@@ -157,7 +243,7 @@ class LaterPay_Helper_Query
         $logger->info(
             __METHOD__,
             array(
-                'args'      => $args,
+                'args'      => $this->query_args,
                 'query'     => $query,
                 'results'   => $results
             )
@@ -184,7 +270,7 @@ class LaterPay_Helper_Query
         $logger->info(
             __METHOD__,
             array(
-                'args'      => $args,
+                'args'      => $this->query_args,
                 'query'     => $query,
                 'results'   => $result
             )
@@ -199,27 +285,31 @@ class LaterPay_Helper_Query
      * @param array $args
      * @return string $query
      */
-    protected function create_query( $args = array() ) {
+    public function create_query( $args = array() ) {
         $default_args = array(
             'fields'    => array('*'),
             'limit'     => '',
             'group_by'  => '',
             'order_by'  => '',
             'order'     => '',
+            'join'      => array(),
             'where'     => array()
         );
-        $args = wp_parse_args( $args, $default_args );
+        $this->query_args = wp_parse_args( $args, $default_args );
 
-        $where  = $this->build_where( $args[ 'where' ] );
+        $join   = $this->build_join( $this->query_args[ 'join' ] );
+
+        $where  = $this->build_where( $this->query_args[ 'where' ] );
         $from   = $this->build_from( );
-        $select = $this->build_select( $args[ 'fields' ] );
-        $group  = $this->build_group_by( $args[ 'group_by' ] );
-        $order  = $this->build_order_by( $args[ 'order_by' ], $args[ 'order' ] );
-        $limit  = $this->build_limit( $args[ 'limit' ] );
+        $select = $this->build_select( $this->query_args[ 'fields' ] );
+        $group  = $this->build_group_by( $this->query_args[ 'group_by' ] );
+        $order  = $this->build_order_by( $this->query_args[ 'order_by' ],  $this->query_args[ 'order' ] );
+        $limit  = $this->build_limit( $this->query_args[ 'limit' ] );
 
         $query = '';
         $query .= $select;
         $query .= $from;
+        $query .= $join;
         $query .= $where;
         $query .= $group;
         $query .= $order;

@@ -4,6 +4,12 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 {
 
     /**
+     * Contains the join-args to get the post_title
+     * @var array
+     */
+    protected $post_join = array();
+
+    /**
      * Name of PostViews table.
      * @var string
      */
@@ -31,6 +37,19 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
     function __construct() {
         global $wpdb;
         $this->table = $wpdb->prefix . 'laterpay_post_views';
+
+        $this->post_join = array(
+            array(
+                'type'      => 'INNER',
+                'fields'    => array( 'post_title' ),
+                'table'     => $wpdb->posts,
+                'on'        => array(
+                    'field'         => 'ID',
+                    'join_field'    => 'post_id',
+                    'compare'       => '='
+                )
+            )
+        );
 
         add_filter( 'date_query_valid_columns', array( $this, 'add_date_query_column' ) );
     }
@@ -107,7 +126,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'DAYNAME(date)  AS day_name'
-            )
+            ),
         );
         $args = wp_parse_args( $args, $default_args );
         return $this->get_results( $args );
@@ -162,12 +181,14 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
      * @return array $results
      */
     public function get_most_viewed_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
+
         $default_args = array(
             'fields'    => array( 'post_id', 'SUM(count) AS quantity' ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
             'order'     => 'DESC',
-            'limit'     => (int)10
+            'limit'     => 10,
+            'join'      => $this->post_join
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -207,12 +228,14 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
      * @return array $results
      */
     public function get_least_viewed_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
+
         $default_args = array(
             'fields'    => array( 'post_id', 'SUM(count) AS quantity' ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
             'order'     => 'ASC',
-            'limit'     => 10
+            'limit'     => 10,
+            'join'      => $this->post_join
         );
 
         $args = wp_parse_args( $args, $default_args );
@@ -259,7 +282,8 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
                         'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 0 ) // start of today
                     )
                 )
-            )
+            ),
+            'join'  => $this->post_join
         );
         return $this->get_results( $args );
     }
