@@ -1,0 +1,134 @@
+// dynamic pricing widget for defining a price curve using a d3.js widget
+
+#container
+    margin-top              0.5em
+
+svg text
+    user-select             none
+
+.lp_dynamicPricing
+    height                  240px
+    width                   254px
+
+.axis path
+    fill                    none
+
+.tick line,
+.x.axis path
+    stroke                  hsl(0, 0%, 40%)
+    stroke-width            0.1px
+
+.x.axis path.domain,
+.y.axis path.domain
+    stroke-dasharray        none
+    stroke-width            1.5px
+    stroke                  hsl(0, 0%, 67%)
+
+.lp_dynamicPricing_arrowhead
+    fill                    hsl(0, 0%, 67%)
+
+.tick text
+    display                 none
+
+circle
+    fill                    hsl(0, 0%, 13%)
+    stroke                  hsl(0, 0%, 95%)
+    stroke-width            2px
+    transition              all .5s
+
+circle.lp_is-hidden
+    display                 none
+
+.line
+    fill                    none
+    stroke                  hsl(0, 0%, 13%)
+    stroke-width            3px
+
+rect.start-price,
+rect.end-price,
+rect.x-drag-square,
+.x-triangle-bottom,
+path.start-price-triangle,
+path.end-price-triangle
+    fill                    $clickable
+    opacity                 0.85
+
+rect.lp_dynamicPricing_background
+    fill                    hsl(0, 0%, 95%)
+
+.lp_is-dragging
+    .tooltip,
+    .pointer
+        opacity             0
+
+.lp_priceLine
+    cursor                  col-resize
+    opacity                 0.01
+    stroke                  hsl(0, 0%, 100%)
+    stroke-width            8px
+
+.lp_priceLine.lp_is-hidden
+    display             none
+
+.lp_priceLineVisible
+    stroke                  hsl(0, 0%, 33%)
+    stroke-dasharray        5
+    stroke-width            1.5px
+
+    .lp_is-hidden
+        display             none
+
+.lp_current-price-line
+    stroke                  $background-laterpay
+    stroke-width            1.5px
+
+.lp_dynamicPricing.ew-resize,
+rect.x-drag-square,
+.x-triangle-bottom
+    cursor                  col-resize
+
+.x-triangle-bottom.lp_is-hidden,
+rect.x-drag-square.lp_is-hidden,
+.x-text.lp_is-hidden,
+.x-text-days.lp_is-hidden
+    display                 none
+
+.x-text,
+.x-text-days,
+text.start-price,
+text.end-price,
+text.lp_dynamicPricing_currency
+    cursor                  col-resize
+    fill                    hsl(0, 0%, 100%)
+
+text.start-price,
+text.end-price,
+text.lp_dynamicPricing_currency,
+rect.end-price,
+rect.start-price
+    cursor                  row-resize
+
+text.x-text,
+text.start-price,
+text.end-price
+    font-size               12px
+    font-weight             600
+
+text.x-text-days,
+text.lp_dynamicPricing_currency
+    font-size               9px
+    font-weight             400
+
+text.lp_dynamicPricing_defaultPrice
+    fill                    hsl(0, 0%, 67%)
+    font-size               10px
+
+.lp_dynamicPricing_startPriceInput input,
+.lp_dynamicPricing_endPriceInput input
+    height                  22px
+    border                  2px solid gainsboro
+    border-radius           3px
+    background-color        #fff
+    padding                 2px
+    width                   100%
+    font-size               11px

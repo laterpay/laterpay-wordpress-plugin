@@ -5,7 +5,7 @@
 ?>
 
 <a href="#"
-   class="lp_purchase-link-shortcode lp_js_do-purchase lp_purchase-link lp_button"
+   class="lp_purchaseLinkShortcode lp_js_doPurchase lp_purchaseLink lp_button"
    title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
    data-icon="b"
    data-laterpay="<?php echo $laterpay['link']; ?>"
@@ -13,6 +13,6 @@
    data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']; ?>"
    ><?php
        echo sprintf(
-               __( '%s<small>%s</small>', 'laterpay' ), LaterPay_Helper_View::format_number( (float) $laterpay['price'], 2 ), $laterpay['currency']
+               __( '%s<small>%s</small>', 'laterpay' ), number_format_i18n( (float) $laterpay['price'], 2 ), $laterpay['currency']
        );
        ?></a>

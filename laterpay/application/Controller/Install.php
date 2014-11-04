@@ -265,10 +265,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-        $table_currency     = $wpdb->prefix . 'laterpay_currency';
-        $table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
-        $table_history      = $wpdb->prefix . 'laterpay_payment_history';
-        $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
+        $table_currency        = $wpdb->prefix . 'laterpay_currency';
+        $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
+        $table_history         = $wpdb->prefix . 'laterpay_payment_history';
+        $table_post_views      = $wpdb->prefix . 'laterpay_post_views';
 
         $sql = "
             CREATE TABLE $table_terms_price (
@@ -316,6 +316,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
         add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
         add_option( 'laterpay_ratings',                     false );
+        add_option( 'laterpay_bulk_operations',             '' );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );
