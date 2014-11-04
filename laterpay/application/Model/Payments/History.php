@@ -4,6 +4,12 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 {
 
     /**
+     * Contains the join-args to get the post_title
+     * @var array
+     */
+    protected $post_join = array();
+
+    /**
      * {@inheritdoc}
      */
     protected $field_types = array(
@@ -30,6 +36,19 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         global $wpdb;
 
         $this->table = $wpdb->prefix . 'laterpay_payment_history';
+
+        $this->post_join = array(
+            array(
+                'type'      => 'INNER',
+                'fields'    => array( 'post_title' ),
+                'table'     => $wpdb->posts,
+                'on'        => array(
+                    'field'         => 'ID',
+                    'join_field'    => 'post_id',
+                    'compare'       => '='
+                )
+            )
+        );
 
         add_filter( 'date_query_valid_columns', array( $this, 'add_date_query_column' ) );
     }
@@ -224,8 +243,8 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'fields'    => array(
                                 'currency_id',
                                 'SUM(price) AS sum',
-                                'COUNT(id)  AS quantity',
                             ),
+            'join'  => $this->post_join
         );
 
         return $this->get_results( $args );
@@ -244,11 +263,11 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'order_by'  => 'amount',
             'order'     => 'ASC',
             'fields'    => array(
-                                'post_id',
-                                'SUM(price) AS amount',
-                                'COUNT(id)  AS quantity'
-                            ),
-            'limit'     => 10,
+                'post_id',
+                'SUM(price) AS amount',
+            ),
+            'limit' => 10,
+            'join'  => $this->post_join
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -271,11 +290,11 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'order_by'  => 'amount',
             'order'     => 'DESC',
             'fields'    => array(
-                                'post_id',
-                                'SUM(price) AS amount',
-                                'COUNT(id)  AS quantity',
-                            ),
-            'limit'     => 10,
+                'post_id',
+                'SUM(price) AS amount',
+            ),
+            'limit' => 10,
+            'join'  => $this->post_join
         );
 
         $args = wp_parse_args( $args, $default_args );
@@ -400,6 +419,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'order_by'  => 'amount',
             'order'     => 'DESC',
             'limit'     => 10,
+            'join'      => $this->post_join
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -439,6 +459,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'order_by'  => 'amount',
             'order'     => 'ASC',
             'limit'     => 10,
+            'join'      => $this->post_join
         );
         $args = wp_parse_args( $args, $default_args );
 
