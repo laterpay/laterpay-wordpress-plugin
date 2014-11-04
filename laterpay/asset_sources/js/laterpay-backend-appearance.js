@@ -7,8 +7,8 @@
                 postTypeForm  : $('#laterpay_enabled_post_types_form'),
 
                 // ratings
-                ratingsToggle : $('#lp_js_enable-ratings-toggle'),
-                ratingsForm   : $('#lp_js_laterpay-ratings-form')
+                ratingsToggle : $('#lp_js_enableRatingsToggle'),
+                ratingsForm   : $('#lp_js_laterpayRatingsForm')
             },
 
             bindEvents = function() {
