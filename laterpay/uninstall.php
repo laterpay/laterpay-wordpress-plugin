@@ -46,6 +46,8 @@ delete_option( 'laterpay_live_api_key' );
 delete_option( 'laterpay_global_price' );
 delete_option( 'laterpay_currency' );
 delete_option( 'laterpay_version' );
+delete_option( 'laterpay_bulk_operations' );
+delete_option( 'laterpay_enabled_post_types' );
 
 // remove custom capabilities
 foreach ( array( 'administrator', 'editor' ) as $role ) {

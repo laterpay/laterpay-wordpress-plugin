@@ -39,6 +39,7 @@ class LaterPay_Model_CategoryPrice
         global $wpdb;
         $sql = "
             SELECT
+                tp.id AS id,
                 tm.name AS category_name,
                 tm.term_id AS category_id,
                 tp.price AS category_price,
@@ -367,4 +368,16 @@ class LaterPay_Model_CategoryPrice
         return $success;
     }
 
+    /**
+     * Delete all category prices from table.
+     *
+     * @return int|false the number of rows updated, or false on error
+     */
+    public function delete_all_category_prices() {
+        global $wpdb;
+
+        $success = $wpdb->query( "TRUNCATE TABLE " . $this->term_table_prices );
+
+        return $success;
+    }
 }

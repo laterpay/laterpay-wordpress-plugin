@@ -66,6 +66,7 @@ class LaterPay_Core_Bootstrap
                 $admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
                 add_action( 'wp_ajax_laterpay_pricing',             array( $admin_pricing_controller, 'process_ajax_requests' ) );
                 add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'process_ajax_requests' ) );
+                add_action( 'wp_ajax_laterpay_reset_date',          array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
                 $admin_appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
                 add_action( 'wp_ajax_laterpay_appearance',          array( $admin_appearance_controller, 'process_ajax_requests' ) );
@@ -78,7 +79,7 @@ class LaterPay_Core_Bootstrap
 
         // migrate multiple pricing postmeta from older plugin versions to an array
         add_filter( 'get_post_metadata', array( $install_controller, 'migrate_pricing_post_meta' ), 10, 4 );
-        
+
         // add the shortcodes
         $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
         add_shortcode( 'laterpay_premium_download',             array( $shortcode_controller, 'render_premium_download_box' ) );
@@ -101,6 +102,7 @@ class LaterPay_Core_Bootstrap
             // save laterpay post data
             add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
             add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+            add_action( 'transition_post_status',           array( $post_metabox_controller, 'update_post_publication_date' ), 10, 3 );
 
             // save the pricing
             add_action( 'save_post',                        array( $post_metabox_controller, 'save_post_pricing_form') );

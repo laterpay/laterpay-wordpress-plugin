@@ -106,45 +106,22 @@ class LaterPay_Helper_View
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
 
-        // checking if plugin works in live mode and API key exists
+        // check, if plugin works in live mode and API key exists
         if ( $modeIsLive && empty( $liveKey ) ) {
             return false;
         }
 
-        // check if plugin is not in live mode and Sandbox API key exists
+        // check, if plugin is not in live mode and Sandbox API key exists
         if ( ! $modeIsLive && empty( $sandboxKey ) ) {
             return false;
         }
 
-        // check if plugin is not in live mode and current user has sufficient capabilities
+        // check, if plugin is not in live mode and current user has sufficient capabilities
         if ( ! $modeIsLive && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
             return false;
         }
 
         return true;
-    }
-
-    /**
-     * Get number based on locale format.
-     *
-     * @param double $number
-     * @param int    $decimals
-     *
-     * @return string $formatted
-     */
-    public static function format_number( $number, $decimals = 2 ) {
-        global $wp_locale;
-
-        $delocalized_number = str_replace( ',', '.', $number );
-
-        $formatted = number_format(
-            (float) $delocalized_number,
-            absint( $decimals ),
-            $wp_locale->number_format['decimal_point'],
-            $wp_locale->number_format['thousands_sep']
-        );
-
-        return $formatted;
     }
 
 }
