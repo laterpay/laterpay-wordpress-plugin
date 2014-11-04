@@ -52,7 +52,52 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                 'description_text'  => '',
                                 'content_type'      => '',
                                 'teaser_image_path' => '',
+                                // deprecated:
+                                'target_page_id'    => '',
+                                'target_page_title' => '',
                             ), $atts );
+
+        $deprecated_template = __( '<code>%1$s</code> is deprecated, please use <code>%2$s</code>. <code>%1$s</code> will be removed in the next release.', 'laterpay' );
+
+        // backward compatibility for attribute 'target_page_title'
+        if ( ! empty( $a['target_page_title'] ) ) {
+            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
+
+            _deprecated_argument(
+                __FUNCTION__,
+                '0.9.8.3',
+                $msg
+            );
+
+            $this->logger->warning(
+                __METHOD__ . ' - ' . $msg,
+                array( 'attrs' => $a )
+            );
+
+            if ( empty( $a['target_post_title'] ) ) {
+                $a[ 'target_post_title' ] = $a[ 'target_page_title' ];
+            }
+        }
+
+        // backward compatibility for attribute 'target_page_id'
+        if ( ! empty( $a['target_page_id'] ) ) {
+            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
+
+            _deprecated_argument(
+                __FUNCTION__,
+                '0.9.8.3',
+                $msg
+            );
+
+            $this->logger->warning(
+                __METHOD__ . ' - ' . $msg,
+                array( 'attrs' => $a )
+            );
+
+            if ( empty( $a['target_post_id'] ) ) {
+                $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
+            }
+        }
 
         $error_reason = '';
 
@@ -79,16 +124,14 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                     );
         }
         if ( $page === null ) {
-            $error_message  = '<div class="lp_shortcode-error">';
+            $error_message  = '<div class="lp_shortcodeError">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
 
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
-                array(
-                    'args' => $a,
-                )
+                array( 'args' => $a, )
             );
 
             return $error_message;
@@ -100,7 +143,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
 
-            $error_message  = '<div class="lp_shortcode-error">';
+            $error_message  = '<div class="lp_shortcodeError">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
@@ -127,7 +170,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         }
 
         // get price of content
-        $price      = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $page_id ), 2 );
+        $price      = number_format_i18n( LaterPay_Helper_Pricing::get_post_price( $page_id ), 2 );
         $currency   = get_option( 'laterpay_currency' );
         $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
 
@@ -193,12 +236,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = "<div class=\"lp_premium-file-box\" style=\"background-image:url($image_path)\">";
+            $html = "<div class=\"lp_premiumFileBox\" style=\"background-image:url($image_path)\">";
         } else {
-            $html = "<div class=\"lp_premium-file-box lp_content-type-$content_type\">";
+            $html = "<div class=\"lp_premiumFileBox lp_content-type-$content_type\">";
         }
-        $html .= "    <a href=\"$page_url\" class=\"lp_purchase-link-without-function lp_button\" rel=\"prefetch\" data-icon=\"b\">$price_tag</a>";
-        $html .= '    <div class="lp_premium-file-details">';
+        // create a shortcode link
+        $html .= $this->getShortcodeLink( $page, $content_type, $page_url, $price_tag );
+        $html .= '    <div class="lp_premiumFileDetails">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
             $html .= "    <p>$description</p>";
@@ -227,7 +271,73 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
-        return '<div class="lp_premium-file-box-wrapper lp_fl-clearfix">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premiumFileBox_wrapper lp_u_clearfix">' . do_shortcode( $content ) . '</div>';
+    }
+
+    /**
+     * Create shortcode link.
+     *
+     * @param WP_Post   $post
+     * @param string    $content_type
+     * @param string    $page_url
+     * @param string    $price_tag
+     *
+     * @return string
+     */
+    private function getShortcodeLink( WP_Post $post, $content_type, $page_url, $price_tag ) {
+        $html_button = '';
+
+        $access = LaterPay_Helper_Post::has_access_to_post( $post );
+
+        if ( $access ) {
+            // the user has already purchased the item
+            switch ( $content_type ) {
+                case 'file':
+                    $button_label = __( 'Download now', 'laterpay' );
+                    break;
+
+                case 'video':
+                case 'gallery':
+                    $button_label = __( 'Watch now', 'laterpay' );
+                    break;
+
+                case 'music':
+                case 'audio':
+                    $button_label = __( 'Listen now', 'laterpay' );
+                    break;
+
+                default:
+                    $button_label = __( 'Read now', 'laterpay' );
+                    break;
+            };
+
+            $button_page_url = '';
+
+            if ( $post->post_type == 'attachment' ) {
+                // render link to purchased attachment
+                $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                                                                                    $post->ID,
+                                                                                    wp_get_attachment_url( $post->ID ),
+                                                                                    $access,
+                                                                                    'attachment'
+                                                                                );
+            } else {
+                // render link to purchased post
+                $button_page_url = $page_url;
+            }
+            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchaseLinkShortcode lp_purchaseLink lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+        } else {
+            // the user has not purchased the item yet
+            $button_page_url = $page_url;
+            $button_label    = $price_tag;
+            $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
+            if ( is_array( $view_args ) ) {
+                $this->assign( 'laterpay', $view_args );
+                $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_button' );
+            };
+        }
+
+        return $html_button;
     }
 
 }

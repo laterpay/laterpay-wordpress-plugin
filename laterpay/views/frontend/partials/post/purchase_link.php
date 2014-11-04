@@ -5,7 +5,7 @@
  */
 $args = array(
     'href'                      => '#',
-    'class'                     => 'lp_js_do-purchase lp_purchase-link',
+    'class'                     => 'lp_js_doPurchase lp_purchaseLink',
     'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                 => 'b',
     'data-laterpay'             => $laterpay[ 'link' ],
@@ -20,13 +20,13 @@ foreach ( $args as $key => $value ) {
 if ( $laterpay['revenue_model'] == 'sis' ) :
     $title = sprintf(
         __( 'Buy now for %s<small>%s</small>', 'laterpay' ),
-        LaterPay_Helper_View::format_number( (float) $laterpay['price'], 2 ),
+        number_format_i18n( (float) $laterpay['price'], 2 ),
         $laterpay['currency']
     );
 else :
     $title = sprintf(
         __( 'Buy now for %s<small>%s</small> and pay later', 'laterpay' ),
-        LaterPay_Helper_View::format_number( (float) $laterpay['price'], 2 ),
+        number_format_i18n( (float) $laterpay['price'], 2 ),
         $laterpay['currency']
     );
 endif;

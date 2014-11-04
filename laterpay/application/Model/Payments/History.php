@@ -34,6 +34,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      */
     function __construct() {
         global $wpdb;
+
         $this->table = $wpdb->prefix . 'laterpay_payment_history';
 
         $this->post_join = array(
@@ -111,9 +112,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
-     * Gets the user stats.
+     * Get the user statistics.
      *
      * @param array $args
+     *
      * @return array $results
      */
     public function get_user_stats( $args = array() ) {
@@ -122,20 +124,22 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'order'     => 'DESC',
             'group_by'  => 'ip',
             'fields'    => array(
-                'post_id',
-                'ip',
-                'COUNT(ip)  AS quantity',
-                'SUM(price) AS amount',
-            )
+                                'post_id',
+                                'ip',
+                                'COUNT(ip)  AS quantity',
+                                'SUM(price) AS amount',
+                            )
         );
         $args = wp_parse_args( $args, $default_args );
+
         return $this->get_results( $args );
     }
 
     /**
-     * Gets the history.
+     * Get the history.
      *
      * @param array $args
+     *
      * @return array $results
      */
     public function get_history( $args = array() ) {
@@ -145,19 +149,19 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'COUNT(*)       AS quantity',
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
-                'DAYNAME(date)  AS day_name'
+                'DAYNAME(date)  AS day_name',
             )
         );
-
         $args = wp_parse_args( $args, $default_args );
 
         return $this->get_results( $args );
     }
 
     /**
-     * Gets the revenue history.
+     * Get the revenue history.
      *
      * @param array $args
+     *
      * @return array $results
      */
     public function get_revenue_history( $args = array() ) {
@@ -170,17 +174,16 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'COUNT(*)       AS quantity',
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
-                'DAYNAME(date)  AS day_name'
+                'DAYNAME(date)  AS day_name',
             )
         );
-
         $args = wp_parse_args( $args, $default_args );
 
         return $this->get_results( $args );
     }
 
     /**
-     * Get total history by post id.
+     * Get the total history by post id.
      *
      * @param int $post_id
      *
@@ -197,11 +200,11 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'fields' => array(
                 'currency_id',
                 'SUM(price) AS sum',
-                'COUNT(id) AS quantity'
+                'COUNT(id)  AS quantity',
             ),
             'where' => array(
                 'mode'      => (string) $mode,
-                'post_id'   => (int) $post_id
+                'post_id'   => (int) $post_id,
             ),
             'group_by' => 'currency_id'
         );
@@ -217,7 +220,6 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * @return array history
      */
     public function get_todays_history_by_post_id( $post_id ) {
-
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $mode = 'live';
         } else {
@@ -227,22 +229,21 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         $today = strtotime( 'today GMT' );
 
         $args = array(
-            'where' => array(
-                'post_id'   => (int) $post_id,
-                'mode'      => $mode,
-                'date'      => array(
-                    array(
-                        'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
-                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ) // start of today
-                    )
-                )
-            ),
+            'where'     => array(
+                                'post_id'   => (int) $post_id,
+                                'mode'      => $mode,
+                                'date'      => array(
+                                                    array(
+                                                        'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
+                                                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ), // start of today
+                                                    ),
+                                                ),
+                            ),
             'group_by'  => 'currency_id',
             'fields'    => array(
-                'currency_id',
-                'SUM(price) AS sum',
-                'COUNT(id) as quantity'
-            ),
+                                'currency_id',
+                                'SUM(price) AS sum',
+                            ),
             'join'  => $this->post_join
         );
 
@@ -250,9 +251,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
     }
 
     /**
-     * Get posts that generated the least revenue.
+     * Get the posts that generated the least revenue.
      *
      * @param array $args
+     *
      * @return array $results
      */
     public function get_least_revenue_generating_posts( $args = array() ) {
@@ -268,12 +270,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'join'  => $this->post_join
         );
         $args = wp_parse_args( $args, $default_args );
+
         return $this->get_results( $args );
     }
 
     /**
-     * Get posts that generated the most revenue x days back.
-     * Leave end- and start-timestamp empty to fetch the results without sparkline.
+     * Get the posts that generated the most revenue x days back.
+     * Leave end and start timestamp empty to fetch the results without sparkline.
      *
      * @param array $args
      * @param int $end_timestamp
@@ -306,11 +309,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             // the sparkline for the last x days
             $sparkline          = $this->get_sparkline( $data->post_id, $end_timestamp, $start_timestamp );
             $data->sparkline    = implode( ',', $sparkline );
-
-            $data->amount = round( $data->amount, 2 );
-
-            $results[ $key ] = $data;
+            $data->amount       = round( $data->amount, 2 );
+            $results[ $key ]    = $data;
         }
+
         return $results;
     }
 
@@ -318,6 +320,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * Get last 30 days' history by post id.
      *
      * @param int $post_id id post
+     *
      * @return array history
      */
     public function get_last_30_days_history_by_post_id( $post_id ) {
@@ -326,7 +329,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'currency_id',
                 'DATE(date) AS date',
                 'SUM(price) AS sum',
-                'COUNT(id) AS quantity'
+                'COUNT(id)  AS quantity',
             ),
             'where' => array(
                 'mode'      => ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) ? 'live' : 'test',
@@ -337,8 +340,9 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 )
             ),
             'group_by'  => 'currency_id, DATE(date)',
-            'order_by'  => 'currency_id, DATE(date)'
+            'order_by'  => 'currency_id, DATE(date)',
         );
+
         return $this->get_results( $args );
     }
 
@@ -355,9 +359,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'fields'    => array( 'id' ),
             'where'     => array(
                 'mode' => $mode,
-                'hash' => $hash
+                'hash' => $hash,
             )
         );
+
         return $this->get_results( $args );
     }
 
@@ -365,49 +370,56 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * Get number of purchased items.
      *
      * @param array $args
+     *
      * @return array $result
      */
     public function get_total_items_sold( $args = array() ) {
         $default_args = array(
-            'fields' => array( 'COUNT(id) AS quantity' )
+            'fields' => array( 'COUNT(id) AS quantity', ),
         );
         $args = wp_parse_args( $args, $default_args );
+
         return $this->get_row( $args );
     }
 
 
     /**
-     * Get sum of prices of purchased items.
+     * Get the sum of the prices of the purchased items.
      *
      * @param array $args
+     *
      * @return array $result
      */
     public function get_total_revenue_items( $args = array() ) {
         $default_args = array(
-            'fields' => array( 'SUM(price) AS amount' )
+            'fields' => array( 'SUM(price) AS amount', ),
         );
         $args = wp_parse_args( $args, $default_args );
+
         return $this->get_row( $args );
     }
 
     /**
-     * Get most sold posts x days back. By default with max. 10 posts.
-     * Leave end- and start-timestamp empty to fetch the results without sparkline.
+     * Get the most sold posts x days back. By default with max. 10 posts.
+     * Leave end- and start timestamp empty to fetch the results without sparkline.
      *
      * @param array $args
-     * @param int $start_timestamp
-     * @param int $end_timestamp
+     * @param int   $start_timestamp
+     * @param int   $end_timestamp
      *
      * @return array $results
      */
     public function get_best_selling_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
         $default_args = array(
-            'fields'    => array( 'post_id', 'COUNT(*) AS amount' ),
+            'fields'    => array(
+                                'post_id',
+                                'COUNT(*) AS amount',
+                             ),
             'group_by'  => 'post_id',
             'order_by'  => 'amount',
             'order'     => 'DESC',
             'limit'     => 10,
-            'join'  => $this->post_join
+            'join'      => $this->post_join
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -419,33 +431,35 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline      = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
-            $data->sparkline= implode( ',', $sparkline );
-
-            $results[ $key ] = $data;
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
+            $data->sparkline    = implode( ',', $sparkline );
+            $results[ $key ]    = $data;
         }
 
         return $results;
     }
 
     /**
-     * Get least sold posts x days back. By default with max. 10 posts.
-     * Leave end- and start-timestamp empty to fetch the results without sparkline.
+     * Get the least sold posts x days back. By default with max. 10 posts.
+     * Leave end- and start timestamp empty to fetch the results without sparkline.
      *
      * @param array $args
-     * @param int $start_timestamp
-     * @param int $end_timestamp
+     * @param int   $start_timestamp
+     * @param int   $end_timestamp
      *
      * @return array $results
      */
     public function get_least_selling_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
         $default_args = array(
-            'fields'    => array( 'post_id', 'COUNT(*) AS amount' ),
+            'fields'    => array(
+                                'post_id',
+                                'COUNT(*) AS amount'
+                            ),
             'group_by'  => 'post_id',
             'order_by'  => 'amount',
             'order'     => 'ASC',
             'limit'     => 10,
-            'join'  => $this->post_join
+            'join'      => $this->post_join
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -457,15 +471,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline      = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
-            $data->sparkline= implode( ',', $sparkline );
-
-            $results[ $key ] = $data;
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
+            $data->sparkline    = implode( ',', $sparkline );
+            $results[ $key ]    = $data;
         }
 
         return $results;
     }
-
 
     /**
      * Get sparkline data for the given $post_id for x days back.
@@ -481,7 +493,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'fields' => array(
                 'DAY(date)  AS day',
                 'DATE(date) AS date',
-                'COUNT(*)   AS quantity'
+                'COUNT(*)   AS quantity',
             ),
             'where' => array(
                 'date' => array(
@@ -490,12 +502,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $start_timestamp ),
                     )
                 ),
-                'post_id' => (int) $post_id
+                'post_id' => (int) $post_id,
             ),
             'group_by' => 'DAY(date)',
             'order_by' => 'DATE(date)',
         );
         $results = $this->get_results( $args );
+
         return $this->build_sparkline( $results, $start_timestamp, $end_timestamp );
     }
 

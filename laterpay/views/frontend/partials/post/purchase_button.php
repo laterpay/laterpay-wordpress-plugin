@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  */
 $args = array(
     'href'                      => '#',
-    'class'                     => 'lp_js_do-purchase lp_purchase-link lp_button',
+    'class'                     => 'lp_js_doPurchase lp_purchaseLink lp_button',
     'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                 => 'b',
     'data-laterpay'             => $laterpay[ 'link' ],
@@ -23,7 +23,7 @@ foreach ( $args as $key => $value ) {
 
 $title = sprintf(
     __( '%s<small>%s</small>', 'laterpay' ),
-    LaterPay_Helper_View::format_number( (float) $laterpay[ 'price' ], 2 ),
+    number_format_i18n( (float) $laterpay[ 'price' ], 2 ),
     $laterpay[ 'currency' ]
 );
 ?>

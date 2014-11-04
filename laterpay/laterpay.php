@@ -4,7 +4,7 @@
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
  * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay GmbH and Mihail Turalenka
- * Version: 0.9.8.2
+ * Version: 0.9.8.3
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  * Domain Path: /languages
@@ -88,9 +88,9 @@ function laterpay_get_plugin_config() {
     $config->set( 'log_url',            $upload_dir[ 'baseurl' ] . '/laterpay_log/' );
 
     $plugin_url = $config->get( 'plugin_url' );
-    $config->set( 'css_url',    $plugin_url . 'assets/css/' );
-    $config->set( 'js_url',     $plugin_url . 'assets/js/' );
-    $config->set( 'image_url',  $plugin_url . 'assets/img/' );
+    $config->set( 'css_url',    $plugin_url . 'built_assets/css/' );
+    $config->set( 'js_url',     $plugin_url . 'built_assets/js/' );
+    $config->set( 'image_url',  $plugin_url . 'built_assets/img/' );
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );

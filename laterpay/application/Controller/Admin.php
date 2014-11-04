@@ -348,6 +348,73 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                                     'laterpay'
                                                 ),
                                ) );
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_pricing_tab_help_bulk_price_editor',
+                                   'title'   => __( 'Bulk Price Editor', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        With the <strong>bulk price editor</strong>, you can quickly change <strong>multiple</strong> prices <strong>at a time</strong>.<br>
+                                                        The plugin will always try to <strong>maintain the current pricing structure</strong> of your blog, i.e. posts with individual price will still use the individual price, posts with category default price will still use the category default price and posts with global default price will still use the global default price after <strong>most</strong> bulk price actions.<br><br>
+                                                        Actions that <strong>maintain</strong> the pricing structure are:
+                                                        <ul>
+                                                            <li>
+                                                                <strong>Set prices of all posts to X EUR.</strong><br>
+                                                                This action will set the individual prices of posts with individual price to X EUR, set all category default prices to X EUR, and set the global default price to X EUR.
+                                                            </li>
+                                                            <li>
+                                                                <strong>Increase prices of all posts by X EUR / %.</strong><br>
+                                                                This action will increase the individual prices of posts with individual price by X EUR / %, increase all category default prices by X EUR / %, and increase the global default price by X EUR / %.
+                                                            </li>
+                                                            <li>
+                                                                <strong>Reduce prices of all posts by X EUR / %.</strong><br>
+                                                                This action will reduce the individual prices of posts with individual price by X EUR / %, reduce all category default prices by X EUR / %, and reduce the global default price by X EUR / %.
+                                                            </li>
+                                                            <li>
+                                                                <strong>Make all posts free.</strong><br>
+                                                                This action will set the individual prices of posts with individual price to 0.00 EUR, set all category default prices to 0.00 EUR, and set the global default price to 0.00 EUR.
+                                                            </li>
+                                                        </ul>
+                                                    </p>
+
+                                                    <p>
+                                                        Still, some bulk price actions <strong>might change</strong> the current pricing structure:<br>
+                                                        <ul>
+                                                            <li>
+                                                                <strong>Make all posts in category X free.</strong><br>
+                                                                This action will set the individual prices of posts with individual price in category X to 0.00 EUR. If a category default price for category X exists, it will be set to 0.00 EUR and applied to all posts with category default price and global default price in this category. If no category default price for category X exists, it will be created, set to 0.00 EUR, and applied to all posts with category default price and global default price in this category.
+                                                            </li>
+                                                            <li>
+                                                                <strong>Reset prices of all posts in category X to category default price.</strong><br>
+                                                                This action will apply the category default price to all posts in category x.
+                                                            </li>
+                                                            <li>
+                                                                <strong>Reset prices of all posts to global default price</strong><br>
+                                                                This action will delete all category default prices and individual prices, and use the global default price for all posts.
+                                                            </li>
+                                                        </ul>
+                                                    </p>
+
+                                                    <p>
+                                                        <strong>Rounding and allowed price ranges</strong><br>
+                                                        Please note, that the bulk price editor can change prices only within the allowed price ranges:
+                                                        <ul>
+                                                            <li>
+                                                                If the result of a price change would be <strong>< 0.05 EUR</strong>, this price is changed to <strong>0.05 EUR</strong>.
+                                                            </li>
+                                                            <li>
+                                                                If the result of a price change would be <strong>> 149.99 EUR</strong>, this price is changed to <strong>149.99 EUR</strong>.
+                                                            </li>
+                                                            <li>
+                                                                If the price of a <strong>PPU</strong> (pay-per-use) post is changed to a price <strong>> 5.00 EUR</strong>, this post is changed to a <strong>SIS</strong> (single sale) post.
+                                                            </li>
+                                                            <li>
+                                                                If the price of a <strong>SIS</strong> post is changed to a price <strong>< 1.49 EUR</strong>, this post is changed to a <strong>PPU</strong> post.
+                                                            </li>
+                                                        </ul>
+                                                    </p>',
+                                                    'laterpay'
+                                                ),
+                               ) );
     }
 
     /**

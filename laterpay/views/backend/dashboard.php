@@ -25,7 +25,7 @@
             '17.10. - 24.10.',
             '<a href="#" id="lp_js_load-next-interval" class="lp_prevnext-link lp_tooltip" data-tooltip="Show week after"><div class="lp_triangle lp_triangle-right"></div></a>'
         ); ?></h1>
-        <!-- '<a href="#" id="lp_js_refresh-dashboard">Refresh</a>' -->
+<a href="#" id="lp_js_refresh-dashboard">Refresh</a>
 
         <div class="lp_row">
             <div class="lp_w-1-3">

@@ -19,7 +19,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'bulk_price_form',
+                            'like' => 'bulk_price_form',
                         ),
                     ),
                 ),
@@ -55,10 +55,53 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
+            'bulk_operation_id',
+            array(
+                'validators' => array(
+                    'is_int',
+                ),
+                'filters'    => array(
+                    'to_int',
+                ),
+                'can_be_null' => true,
+            )
+        );
+
+        $this->set_field(
+            'bulk_message',
+            array(
+                'validators' => array(
+                    'is_string',
+                ),
+                'filters'    => array(
+                    'to_string',
+                ),
+                'can_be_null' => true,
+            )
+        );
+
+        $this->set_field(
             'bulk_action',
             array(
                 'validators' => array(
                     'in_array' => array( 'set', 'increase', 'reduce', 'free', 'reset' ),
+                    'depends'  => array(
+                        array(
+                            'field' => 'bulk_price',
+                            'value' => 'set',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 149.99,
+                                        'gte' => 0.05,
+                                    ),
+                                    array(
+                                        'eq'  => 0,
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'filters' => array(
                     'to_string',
@@ -70,7 +113,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
             'bulk_selector',
             array(
                 'validators' => array(
-                    'in_array' => array( 'all', 'in_category', 'not_in_category' ),
+                    'in_array' => array( 'all', 'in_category' ),
                 ),
                 'filters' => array(
                     'to_string',
@@ -96,18 +139,6 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'depends'   => array(
-                        array(
-                            'field' => 'bulk_selector',
-                            'conditions' => array(
-                                'cmp' => array(
-                                    array(
-                                        'ne' => 'not_in_category',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
                 ),
                 'filters' => array(
                     'to_int'
@@ -131,7 +162,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                     'format_num' => 2,
                     'to_float',
                 ),
-                'can_be_null',
+                'can_be_null' => true,
             )
         );
 
@@ -145,7 +176,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                 'filters' => array(
                     'to_string',
                 ),
-                'can_be_null',
+                'can_be_null' => true,
             )
         );
     }

@@ -1,6 +1,7 @@
 <?php
 
-class LaterPay_Helper_Dashboard {
+class LaterPay_Helper_Dashboard
+{
 
     /**
      * Helper Function to convert a wpdb-result to diagram data
@@ -14,13 +15,13 @@ class LaterPay_Helper_Dashboard {
      *                      ..
      *                  )
      * @param array $days
+     *
      * @return array $data array(
      *                          'x' => [{key}, day-of-week-1]
      *                          'y' => [{key}, kpi-value-1]
      *                      );
      */
-    public static function convert_history_result_to_diagram_data( $items, $days ){
-
+    public static function convert_history_result_to_diagram_data( $items, $days ) {
         $data = array(
             'x' => array(),
             'y' => array(),
@@ -33,12 +34,12 @@ class LaterPay_Helper_Dashboard {
         foreach ( $items as $item ) {
             $data[ 'x' ][] = array(
                 $key,
-                $item->day_name
+                $item->day_name,
             );
 
             $data[ 'y' ][] = array(
                 $key,
-                $item->quantity
+                $item->quantity,
             );
 
             $key = $key + 1;
@@ -48,7 +49,7 @@ class LaterPay_Helper_Dashboard {
             __METHOD__,
             array(
                 'input' => $items,
-                'result'=> $data
+                'result'=> $data,
             )
         );
 
@@ -56,7 +57,7 @@ class LaterPay_Helper_Dashboard {
     }
 
     /**
-     * Sorts all given items of a wpdb-result by date.
+     * Sort all given items of a wpdb-result by date.
      *
      * @param array $items array(
      *                       stdClass Object (
@@ -70,10 +71,10 @@ class LaterPay_Helper_Dashboard {
      *
      * @return array $items_by_date
      */
-    public static function sort_items_by_date( $items ){
+    public static function sort_items_by_date( $items ) {
         // sort all items by date
         $items_by_date = array();
-        foreach( $items as $item ){
+        foreach ( $items as $item ){
             $items_by_date[ $item->date ] = $item;
         }
 
@@ -81,7 +82,7 @@ class LaterPay_Helper_Dashboard {
             __METHOD__,
             array(
                 'input' => $items,
-                'output'=> $items_by_date
+                'output'=> $items_by_date,
             )
         );
 
@@ -89,13 +90,14 @@ class LaterPay_Helper_Dashboard {
     }
 
     /**
-     * Returns an array with all days within the given start- and end-timestamp.
+     * Return an array with all days within the given start and end timestamp.
      *
      * @param int $start_timestamp
      * @param int $interval
+     *
      * @return array $last_days
      */
-    public static function get_days_as_array( $start_timestamp, $interval ){
+    public static function get_days_as_array( $start_timestamp, $interval ) {
         $last_days = array();
         for ( $i = 0; $i < $interval; $i++ ) {
             $time_stamp     = strtotime( '-' . $i . ' days', $start_timestamp );
@@ -121,7 +123,7 @@ class LaterPay_Helper_Dashboard {
     }
 
     /**
-     * Helper function to fill a wpdb-result sorted by day with quantity=0 if the day is missing.
+     * Helper function to fill a wpdb result sorted by day with quantity=0, if the day is missing.
      *
      * @param array $items
      * @param array $last_days
@@ -132,8 +134,7 @@ class LaterPay_Helper_Dashboard {
         foreach( $last_days as $day_item ) {
             $date       = $day_item->date;
             $day_name   = $day_item->day_name;
-            if ( !array_key_exists( $date, $items ) ) {
-
+            if ( ! array_key_exists( $date, $items ) ) {
                 $item           = new stdClass();
                 $item->day_name = $day_name;
                 $item->quantity = 0;
@@ -146,7 +147,7 @@ class LaterPay_Helper_Dashboard {
             __METHOD__,
             array(
                 'items'     => $items,
-                'last_days' => $last_days
+                'last_days' => $last_days,
             )
         );
 

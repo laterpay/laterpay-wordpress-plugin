@@ -86,8 +86,14 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => 149.99,
-                                        'gte' => 1.49,
+                                        'lte' => LaterPay_Helper_Pricing::sis_max,
+                                        'gte' => LaterPay_Helper_Pricing::price_ppusis_end,
+                                    ),
+                                    array(
+                                        'eq'  => 0.00,
+                                    ),
+                                    array(
+                                        'eq'  => null,
                                     ),
                                 ),
                             ),
@@ -98,8 +104,8 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                             'conditions' => array(
                                 'cmp' => array(
                                     array(
-                                        'lte' => 5.00,
-                                        'gte' => 0.05,
+                                        'lte' => LaterPay_Helper_Pricing::ppusis_max,
+                                        'gte' => LaterPay_Helper_Pricing::ppu_min,
                                     ),
                                     array(
                                         'eq'  => 0.00,
@@ -116,6 +122,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     'to_string',
                     'unslash',
                 ),
+                'can_be_null' => true,
             )
         );
 
@@ -124,7 +131,10 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'individual price', 'category default price', 'global default price' ),
+                    'in_array' => array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, 
+                                         LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, 
+                                         LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE, 
+                                         LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE )
                 ),
                 'filters'    => array(
                     'to_string',

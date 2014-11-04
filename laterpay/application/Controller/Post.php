@@ -556,7 +556,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             if ( is_feed() ) {
                 $html .= sprintf(
                             __( '&mdash; Visit the post to buy its full content for %s %s &mdash; ', 'laterpay' ),
-                            LaterPay_Helper_View::format_number( $price, 2 ),
+                            number_format_i18n( $price, 2 ),
                             $currency
                         );
             }
@@ -593,7 +593,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // add a purchase button as very first element of the content
         if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
-            $html .= '<div class="lp_fl-clearfix">';
+            $html .= '<div class="lp_u_clearfix">';
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
             $html .= '</div>';
         }
@@ -612,7 +612,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( $caching_is_active ) {
             // if caching is enabled, wrap the teaser in a div, so it can be replaced with the full content,
             // if the post is / has already been purchased
-            return '<div id="lp_js_post-content-placeholder">' . $html . '</div>';
+            return '<div id="lp_js_postContentPlaceholder">' . $html . '</div>';
         }
 
         return $html;
@@ -719,12 +719,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
             )
         );
-
-        // only enqueue the scripts, if the current post is purchasable
-        if ( ! is_singular() || ! LaterPay_Helper_Pricing::is_purchasable() ) {
-            $this->logger->warning( __METHOD__ . ' - !is_singular or post is not purchasable' );
-            return;
-        }
 
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-peity' );
