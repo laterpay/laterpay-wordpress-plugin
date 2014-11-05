@@ -278,6 +278,43 @@
             <?php endif; ?>
         </div>
 
+        <hr class="lp_u_m-1-0 lp_u_m-b3">
+
+        <div class="lp_row">
+            <h2><?php _e( 'Passes', 'laterpay' ); ?></h2>
+            <?php //echo $this->render_pass(array('id'=>0,'price'=>2.00,'currency'=>'EUR','title'=>'Day Pass','text' => '24 hours access')); ?>    
+            <a href="#" class="lp_editLink lp_saveLink lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new pass', 'laterpay' ); ?></a>
+            <form id="lp_js_passEdit_form" method="post">
+                <input type="hidden" name="form" value="0" name="lp_pass_id">
+                <div>
+                    <item>
+                        <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
+                        <input type="text" name="pass_valid_number" id="lp_js_passValidNumber" class="lp_input lp_numberInput" value="1" placeholder="1">
+                        <select name="pass_valid_type" id="lp_js_passValidType" class="lp_input"><option value="day">Day</option></select>
+                        <?php _e( 'and grants', 'laterpay' ); ?>
+                    </item>
+                    <item>
+                        <?php _e( 'access to', 'laterpay' ); ?>
+                        <select name="pass_access_to" id="lp_js_passAccessTo" class="lp_input"><option value="day">all content</option></select>
+                    </item>
+                    <item>
+                        <?php _e( 'category', 'laterpay' ); ?>
+                        <select name="pass_access_cat" id="lp_js_passCat" class="lp_input"><option value="day">first category in alphabet</option></select>
+                    </item>
+                    <item>
+                        <?php _e( 'The user pays ', 'laterpay' ); ?>
+                        <input type="text" name="pass_valid_amount" id="lp_js_passValidAmount" class="lp_input lp_numberInput" value="0.99" placeholder="0.99">
+                        <?php _e( 'EUR', 'laterpay' ); ?>
+                        <?php _e( 'later', 'laterpay' ); ?>
+                        <?php _e( 'immediately', 'laterpay' ); ?>.
+                    </item>
+                </div>
+                <div>
+                    
+                </div>
+            </form>
+         </div>   
+
 <?php # commented out as long as there is only a single currency ?>
 <?php /* ?>
         <div class="lp_row">
