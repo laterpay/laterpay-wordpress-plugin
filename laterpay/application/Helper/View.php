@@ -124,4 +124,13 @@ class LaterPay_Helper_View
         return true;
     }
 
+    /**
+     * Remove extra spaces from string.
+     *
+     * @param  string $string
+     * @return string
+     */
+    public static function remove_extra_spaces( $string ) {
+        return trim( preg_replace( '/>\s+</', '><', $string ) );
+    }
 }

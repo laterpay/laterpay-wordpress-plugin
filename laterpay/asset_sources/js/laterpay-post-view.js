@@ -25,6 +25,11 @@
 
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
+
+                // ratings
+                postRatingForm                  : '#lp_js_ratingForm',
+                postRatingRadio                 : 'input[type=radio][name=laterpay_rating_value]',
+                postRatingArea                  : '.lp_js_ratePost',
             },
 
             recachePostStatisticsPane = function() {
@@ -59,6 +64,28 @@
                 .on('change', function() {
                     togglePostPreviewMode();
                 });
+            },
+
+            bindRatingEvents = function() {
+                // handle change of rating
+                $('body')
+                    .on('change', $o.postRatingRadio, function() {
+                        savePostRating();
+                    });
+            },
+
+            savePostRating = function() {
+                $.post(
+                    lpVars.ajaxUrl,
+                    $o.postRatingForm.serializeArray(),
+                    function(r) {
+                        if (r.success) {
+                            // remove rating area
+                            $o.postRatingArea.hide();
+                        }
+                    },
+                    'json'
+                );
             },
 
             loadPostStatistics = function() {
@@ -194,6 +221,7 @@
                 }
 
                 bindPurchaseEvents();
+                bindRatingEvents();
             };
 
         initializePage();

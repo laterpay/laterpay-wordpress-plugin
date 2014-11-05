@@ -53,6 +53,42 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Ajax method to rate purchased content.
+     *
+     * @wp-hook wp_ajax_laterpay_post_rate_purchased_content, wp_ajax_nopriv_laterpay_post_rate_purchased_content
+     *
+     * @return void
+     */
+    public function ajax_rate_purchased_content() {
+        $post_rating_form = new LaterPay_Form_PostRating();
+
+        if ( $post_rating_form->is_valid( $_POST ) ) {
+            $post_id        = $post_rating_form->get_field_value( 'post_id' );
+            $rating_value   = $post_rating_form->get_field_value( 'rating_value' );
+            $ratings_count  = (int) get_post_meta( $post_id, 'laterpay_ratings_count', true );
+            $summary_rating = (int) get_post_meta( $post_id, 'laterpay_summary_rating', true );
+
+            update_post_meta( $post_id, 'laterpay_summary_rating', $summary_rating + $rating_value );
+            update_post_meta( $post_id, 'laterpay_ratings_count', $ratings_count + 1 );
+
+            // TODO: save post user ip
+            // $ips_that_rated_post = update_post_meta( $post_id, 'laterpay_ips_rated', $ip );
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                )
+            );
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+            )
+        );
+    }
+
+    /**
      * Save purchase in purchase history.
      *
      * @wp-hook template_redirect
@@ -512,8 +548,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // get the teaser content
         $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
 
+        // get post rating
+        $post_summary_rating    = (int) get_post_meta( $post_id, 'laterpay_summary_rating', true );
+        $post_ratings_count     = (int) get_post_meta( $post_id, 'laterpay_ratings_count', true );
+        $ips_that_rated_post    = get_post_meta( $post_id, 'laterpay_ips_rated' );
+        $post_rating_aggregated = $post_ratings_count ? (int) ( $post_summary_rating / $post_ratings_count ) : 0;
+
         // output states
         $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
+        $show_post_ratings          = get_option( 'laterpay_ratings');
         $user_can_read_statistics   = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
         $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
@@ -535,15 +578,17 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // assign all required vars to the view templates
         $view_args = array(
-            'post_id'                   => $post_id,
-            'content'                   => $content,
-            'teaser_content'            => $wp_embed->autoembed( $teaser_content ),
-            'teaser_content_only'       => $teaser_content_only,
-            'currency'                  => $currency,
-            'price'                     => $price,
-            'revenue_model'             => $revenue_model,
-            'link'                      => $purchase_link,
-            'preview_post_as_visitor'   => $preview_post_as_visitor,
+            'post_id'                 => $post_id,
+            'content'                 => $content,
+            'teaser_content'          => $wp_embed->autoembed( $teaser_content ),
+            'teaser_content_only'     => $teaser_content_only,
+            'currency'                => $currency,
+            'price'                   => $price,
+            'revenue_model'           => $revenue_model,
+            'link'                    => $purchase_link,
+            'preview_post_as_visitor' => $preview_post_as_visitor,
+            'post_rating_aggregated'  => $post_rating_aggregated,
+            'post_ratings_count'      => $post_ratings_count,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -588,6 +633,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $context
             );
 
+            // add rating after content if it enabled
+            if ( $show_post_ratings ) {
+                $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
+            }
+
             return $content;
         }
 
@@ -596,6 +646,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $html .= '<div class="lp_u_clearfix">';
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
             $html .= '</div>';
+        }
+
+        // add rating after content if it enabled
+        if ( $show_post_ratings ) {
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_aggregated' ) );
         }
 
         // add the teaser content
