@@ -7,12 +7,22 @@ class LaterPay_Helper_Passes {
      *
      * @var string
      */
-    const default_time_range = 'Day';
-    
+    public static $defaults = array(
+        'valid_term'  => '1',
+        'valid_period'  => 'Day',
+        'access_to'     => 'All content',
+        'access_detail' => 'First category',
+        'pass_type'      => 0,
+        'title'         => 'Title',
+        'title_color'=>'#3f3f3f',
+        'description_color'=>'#3f3f3f',
+        'background_color'=>'#ffffff',
+    );
+
     /**
      * @var array
      */
-    public static $time_ranges = array(
+    public static $valid_periods = array(
         'Hour',
         'Day',
         'Week',
@@ -23,7 +33,18 @@ class LaterPay_Helper_Passes {
     /**
      * @var array
      */
-    public static $coverages = array(
+    public static $period_description = array(
+        'Hour',
+        'Day',
+        'Week',
+        'Month',
+        'Year'
+    );      
+    
+    /**
+     * @var array
+     */
+    public static $access_to = array(
         'All content',
         'All content except for',
         'All content in category',
@@ -32,8 +53,73 @@ class LaterPay_Helper_Passes {
     /**
      * @var array
      */
-    public static $coverage_detail = array(
+    public static $access_detail = array(
         'First category',
     );
+    
+    public static function get_defaults( $k ){
+        
+        if(isset(self::$defaults[$k]))
+            return self::$defaults[$k];
+    }
+    
+    public static function get_description( $term = null, $period = null, $access = null ){
+        
+        if( !$term )
+            $term = self::$defaults['valid_term'];
+        
+        if( !$period )
+            $period = self::$defaults['valid_period'];
+        
+        if( !$access )
+            $access = self::$defaults['access_to'];
+        
+        if( $period == 'Day' ){
+            
+            $period = 'Hour';
+            $term = $term * 24;
+        }
+            
+        $str = strtolower( $term .' '. $period .'s access to ' . $access );
+        
+        return $str;
+    }
+    
+    public static function get_select_periods(){
+        
+        $options_html = '';
+        
+        foreach (self::$valid_periods as $key)
+            if( $key == self::$defaults['valid_period'] )
+                $options_html .= "<option selected value='$key'>$key</option>";
+            else 
+                $options_html .= "<option value='$key'>$key</option>";
+        
+        return $options_html;
+    }    
+    
+    public static function get_select_access_to(){
+        
+        $options_html = '';
+        foreach (self::$access_to as $key)
+            if( $key == self::$defaults['access_to'] )
+                $options_html .= "<option selected value='$key'>$key</option>";
+            else 
+                $options_html .= "<option value='$key'>$key</option>";
+        
+        return $options_html;
+    }
+    
+    public static function get_select_access_detail(){
+        
+        $options_html = '';
+        foreach (self::$access_detail as $key)
+            if( $key == self::$defaults['access_detail'] )
+                $options_html .= "<option selected value='$key'>$key</option>";
+            else 
+                $options_html .= "<option value='$key'>$key</option>";
+        
+        return $options_html;
+    }    
     
 }

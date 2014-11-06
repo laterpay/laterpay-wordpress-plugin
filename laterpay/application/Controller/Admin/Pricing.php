@@ -17,6 +17,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $this->config->get( 'version' )
         );
         wp_enqueue_style( 'laterpay-select2' );
+        wp_enqueue_style('wp-color-picker');
 
         // load page-specific JS
         wp_register_script(
@@ -29,7 +30,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_register_script(
             'laterpay-backend-pricing',
             $this->config->get( 'js_url' ) . 'laterpay-backend-pricing.js',
-            array( 'jquery', 'laterpay-select2' ),
+            array( 'jquery', 'laterpay-select2', 'wp-color-picker' ),
             $this->config->get( 'version' ),
             true
         );

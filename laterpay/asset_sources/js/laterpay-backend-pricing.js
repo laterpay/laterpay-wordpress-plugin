@@ -80,7 +80,13 @@
                 payPerUse                               : 'ppu',
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
-                disabled                                : 'lp_is-disabled'
+                disabled                                : 'lp_is-disabled',
+        
+               // passes
+               passPayType                              : $('.lp_toggle_input'),
+               pass                              : $('#lp_js_togglePassPayType'),
+               colorPicker                              : $( '.lp-color-picker' ),
+               
             },
 
             bindEvents = function() {
@@ -210,6 +216,25 @@
                 .change(function() {
                     switchCurrency();
                 });
+                
+                // switch plugin between TEST and LIVE mode
+                $o.passPayType.change(function() {
+                    togglePassType();
+                });                
+            },
+                    
+            togglePassType = function() {
+                var $toggle                 = $o.passPayType,
+                    $input                  = $('#lp_js_togglePassPayType_hiddenInput'),
+                    testMode                = 0,
+                    liveMode                = 1,
+                    hasSwitchedToLiveMode   = $toggle.prop('checked');
+
+                if (hasSwitchedToLiveMode) {
+                    $input.val(liveMode);
+                } else {
+                    $input.val(testMode);
+                }
             },
 
             validatePrice = function($form) {
@@ -527,6 +552,11 @@
                 );
             },
 
+            // passes of events
+            passAddNew = function(){
+                
+            },
+
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
               var timer;
@@ -723,6 +753,15 @@
 
                 // trigger change event of bulk price editor on page load
                 $o.bulkPriceAction.change();
+                
+                //add a color picker
+                $o.colorPicker.wpColorPicker({ defaultColor: false,
+                                               //change: function(event, ui){},
+                                               //clear: function() {},
+                                               hide: true,
+                                               palettes: false,
+                                             });
+                $('.wp-color-result').attr('title','');
             };
 
         initializePage();
@@ -730,5 +769,5 @@
 
     // initialize page
     laterPayBackendPricing();
-
+    
 });})(jQuery);
