@@ -58,7 +58,7 @@
 <?php endif; ?>
 <?php
     // add / edit post page - teaser content pointer
-    if ( in_array( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER, $pointers ) ):
+    if ( in_array( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER, $laterpay['pointers'] ) ):
     $pointer_content = '<h3>' . __( 'Add Teaser Content', 'laterpay' ) . '</h3>';
     $pointer_content .= '<p>' . __( 'You´ll give your users a better impression of what they´ll buy, if you preview some text, images, or video from the actual post.', 'laterpay' ) . '</p>';
 ?>

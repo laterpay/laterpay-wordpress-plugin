@@ -13,11 +13,11 @@
     <div class="lp_postStatistics_totals">
         <ul>
             <li>
-                <big><?php if ( isset( $statistic['total'][$currency] ) ) { $aux = $statistic['total'][$currency]['sum']; } else { $aux = 0; }; echo number_format_i18n( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
+                <big><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['sum']; } else { $aux = 0; }; echo number_format_i18n( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
                 <small><?php _e( 'Total Revenue', 'laterpay' ); ?></small>
             </li>
             <li>
-                <big><?php if ( isset( $statistic['total'][$currency] ) ) { $aux = $statistic['total'][$currency]['quantity']; } else { $aux = 0; }; echo $aux; ?></big>
+                <big><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['quantity']; } else { $aux = 0; }; echo $aux; ?></big>
                 <small><?php _e( 'Total Sales', 'laterpay' ); ?></small>
             </li>
         </ul>
@@ -31,10 +31,10 @@
     <div class="lp_postStatistics_details">
         <ul>
             <li>
-                <span class="lp_sparklineBar"><?php if ( isset( $statistic['last30DaysRevenue'][$currency] ) ) { $aux = $statistic['last30DaysRevenue'][$currency]; } else { $aux = array(); }; echo LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ); ?></span>
+                <span class="lp_sparklineBar"><?php if ( isset( $laterpay['statistic']['last30DaysRevenue'][$currency] ) ) { $aux = $laterpay['statistic']['last30DaysRevenue'][$currency]; } else { $aux = array(); }; echo LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ); ?></span>
             </li>
             <li>
-                <big><?php if ( isset( $statistic['todayRevenue'][$currency] ) ) { $aux = $statistic['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo number_format_i18n( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
+                <big><?php if ( isset( $laterpay['statistic']['todayRevenue'][$currency] ) ) { $aux = $laterpay['statistic']['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo number_format_i18n( $aux, 2 ); ?><small><?php echo $laterpay['currency']; ?></small></big>
                 <small><?php _e( 'Revenue', 'laterpay' ); ?></small>
             </li>
         </ul>
@@ -42,11 +42,11 @@
     <div class="lp_postStatistics_details">
         <ul>
             <li>
-                <span class="lp_sparklineBar" data-max="0.5"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $statistic['last30DaysBuyers'], 'percentage', ';' ); ?></span>
+                <span class="lp_sparklineBar" data-max="0.5"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysBuyers'], 'percentage', ';' ); ?></span>
                 <span class="lp_sparklineBackgroundBar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
             </li>
             <li>
-                <big><?php echo number_format_i18n( $statistic['todayBuyers'], 1 ); ?><small>%</small></big>
+                <big><?php echo number_format_i18n( $laterpay_statistic['todayBuyers'], 1 ); ?><small>%</small></big>
                 <small><?php _e( 'Buyers', 'laterpay' ); ?></small>
             </li>
         </ul>
@@ -54,10 +54,10 @@
     <div class="lp_postStatistics_details">
         <ul>
             <li>
-                <span class="lp_sparklineBar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $statistic['last30DaysVisitors'], 'quantity', ';' ); ?></span>
+                <span class="lp_sparklineBar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay_statistic['last30DaysVisitors'], 'quantity', ';' ); ?></span>
             </li>
             <li>
-                <big><?php echo $statistic['todayVisitors']; ?></big>
+                <big><?php echo $laterpay['statistic']['todayVisitors']; ?></big>
                 <small><?php _e( 'Visitors', 'laterpay' ); ?></small>
             </li>
         </ul>
