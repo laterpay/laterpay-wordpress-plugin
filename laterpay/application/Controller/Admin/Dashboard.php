@@ -127,7 +127,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             ) );
         }
 
-        $interval = 'weekly';
+        $interval = 'week';
         if ( isset( $_POST[ 'interval' ] ) ) {
             $interval = LaterPay_Helper_Dashboard::get_interval( $_POST[ 'interval' ] );
         }
