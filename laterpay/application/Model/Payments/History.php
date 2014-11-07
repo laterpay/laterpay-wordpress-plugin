@@ -150,6 +150,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'DAYNAME(date)  AS day_name',
+                'HOUR(date)     AS hour'
             )
         );
         $args = wp_parse_args( $args, $default_args );
@@ -175,6 +176,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'DAYNAME(date)  AS day_name',
+                'HOUR(date)     AS hour'
             )
         );
         $args = wp_parse_args( $args, $default_args );
@@ -279,12 +281,12 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * Leave end and start timestamp empty to fetch the results without sparkline.
      *
      * @param array $args
-     * @param int $end_timestamp
      * @param int $start_timestamp
+     * @param string $interval
      *
      * @return array $results
      */
-    public function get_most_revenue_generating_posts( $args = array(), $end_timestamp = null, $start_timestamp = null ) {
+    public function get_most_revenue_generating_posts( $args = array(), $start_timestamp = null, $interval = 'week' ) {
         $default_args = array(
             'group_by'  => 'post_id',
             'order_by'  => 'amount',
@@ -301,13 +303,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 
         $results = $this->get_results( $args );
 
-        if ( $end_timestamp === null || $start_timestamp === null ) {
+        if ( $start_timestamp === null ) {
             return $results;
         }
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline          = $this->get_sparkline( $data->post_id, $end_timestamp, $start_timestamp );
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
             $results[ $key ]    = $data;
@@ -405,11 +407,11 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @param array $args
      * @param int   $start_timestamp
-     * @param int   $end_timestamp
+     * @param string $interval
      *
      * @return array $results
      */
-    public function get_best_selling_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
+    public function get_best_selling_posts( $args = array(), $start_timestamp = null, $interval = 'week' ) {
         $default_args = array(
             'fields'    => array(
                                 'post_id',
@@ -425,13 +427,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 
         $results = $this->get_results( $args );
 
-        if ( $end_timestamp === null || $start_timestamp === null ) {
+        if ( $start_timestamp === null ) {
             return $results;
         }
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $results[ $key ]    = $data;
         }
@@ -445,15 +447,15 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @param array $args
      * @param int   $start_timestamp
-     * @param int   $end_timestamp
+     * @param string $interval
      *
      * @return array $results
      */
-    public function get_least_selling_posts( $args = array(), $start_timestamp = null, $end_timestamp = null ) {
+    public function get_least_selling_posts( $args = array(), $start_timestamp = null, $interval = 'week' ) {
         $default_args = array(
             'fields'    => array(
                                 'post_id',
-                                'COUNT(*) AS amount'
+                                'COUNT(*)   AS amount',
                             ),
             'group_by'  => 'post_id',
             'order_by'  => 'amount',
@@ -465,13 +467,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 
         $results = $this->get_results( $args );
 
-        if ( $end_timestamp === null || $start_timestamp === null ) {
+        if ( $start_timestamp === null ) {
             return $results;
         }
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
-            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $end_timestamp );
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $results[ $key ]    = $data;
         }
@@ -484,15 +486,19 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      *
      * @param int $post_id
      * @param int $start_timestamp
-     * @param int $end_timestamp
+     * @param string $interval
      *
      * @return array $sparkline
      */
-    public function get_sparkline( $post_id, $start_timestamp, $end_timestamp ) {
+    public function get_sparkline( $post_id, $start_timestamp, $interval ) {
+
+        $end_timestamp = LaterPay_Helper_Dashboard::get_end_timestamp( $start_timestamp, $interval );
+
         $args = array(
             'fields' => array(
                 'DAY(date)  AS day',
                 'DATE(date) AS date',
+                'HOUR(date) AS hour',
                 'COUNT(*)   AS quantity',
             ),
             'where' => array(
@@ -507,9 +513,14 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             'group_by' => 'DAY(date)',
             'order_by' => 'DATE(date)',
         );
-        $results = $this->get_results( $args );
 
-        return $this->build_sparkline( $results, $start_timestamp, $end_timestamp );
+        if ( $interval === 'day' ) {
+            $args[ 'group_by' ] = 'HOUR(date)';
+            $args[ 'order_by' ] = 'HOUR(date)';
+        }
+
+        $results = $this->get_results( $args );
+        return LaterPay_Helper_Dashboard::build_sparkline( $results, $start_timestamp, $interval );
     }
 
 }

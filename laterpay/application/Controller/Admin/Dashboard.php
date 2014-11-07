@@ -41,7 +41,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-backend-dashboard' );
 
         // get the cache filename - by default 8 days back and a maximum of 10 items
-        $cache_filename = $this->get_cache_filename( 8, 10 );
+        $cache_filename = $this->get_cache_filename( 'week', 10 );
         $cache_dir      = $this->get_cache_dir();
 
         // contains the state, if the cache file was generated for today
@@ -127,9 +127,9 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             ) );
         }
 
-        $interval = 7;
+        $interval = 'weekly';
         if ( isset( $_POST[ 'interval' ] ) ) {
-            $interval = absint( $_POST[ 'interval' ] );
+            $interval = LaterPay_Helper_Dashboard::get_interval( $_POST[ 'interval' ] );
         }
 
         $count = 10;
@@ -147,7 +147,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
            $refresh = (bool) $_POST[ 'refresh' ];
         }
 
-        $cache_dir = $this->get_cache_dir( $start_day );
+        $cache_dir      = $this->get_cache_dir( $start_day );
         $cache_filename = $this->get_cache_filename( $interval, $count );
 
         if ( $refresh || ! file_exists( $cache_dir . $cache_filename ) ) {
@@ -191,16 +191,18 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      *
      * @param int $start_timestamp
      * @param int $count
-     * @param int $interval
+     * @param string $interval
      *
      * @return void
      */
-    public function refresh_dashboard_data( $start_timestamp = null, $count = 10, $interval = 7 ) {
+    public function refresh_dashboard_data( $start_timestamp = null, $count = 10, $interval = 'week' ) {
         if ( $start_timestamp === null ) {
             $start_timestamp = strtotime( 'today GMT' );
         }
 
         $cache_dir  = $this->get_cache_dir( $start_timestamp );
+
+        $interval = LaterPay_Helper_Dashboard::get_interval( $interval );
 
         // set the time limit to 0 to prevent timeouts in our cronjob
         set_time_limit( 0 );
@@ -280,18 +282,21 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      *
      * @param int $start_timestamp  timestamp when we start loading data from - by default "today"
      * @param int $count            number of items, the top {n} items - default: 10
-     * @param int $interval         how many days from $start_timestamp we want to go back
+     * @param string $interval      how many days from $start_timestamp we want to go back
      *
      * @return array $data
      */
-    protected function get_dashboard_data( $start_timestamp = null, $count = 10, $interval = 8 ) {
+    protected function get_dashboard_data( $start_timestamp = null, $count = 10, $interval = 'week' ) {
+
+        $interval = LaterPay_Helper_Dashboard::get_interval( $interval );
+
         $post_views_model   = new LaterPay_Model_Post_Views();
         $history_model      = new LaterPay_Model_Payments_History();
 
         if ( $start_timestamp === null ) {
-            $start_timestamp = strtotime('today GMT');
+            $start_timestamp = strtotime('yesterday GMT');
         }
-        $end_timestamp= strtotime( '-' . $interval . 'days', $start_timestamp );
+        $end_timestamp = LaterPay_Helper_Dashboard::get_end_timestamp( $start_timestamp, $interval );
 
         $where = array(
             'date' => array(
@@ -349,21 +354,28 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $avg_items_sold = 0;
         if ( $total_items_sold > 0 ) {
-            $avg_items_sold = number_format_i18n($total_items_sold / $interval, 0);
+            if( $interval === 'week' ){
+                $diff = 7;
+            } else if( $interval === '2-weeks' ) {
+                $diff = 14;
+            } else if( $interval === 'month' ){
+                $diff = 30;
+            } else {
+                // hour
+                $diff = 24;
+            }
+            $avg_items_sold = number_format_i18n($total_items_sold / $diff, 0);
         }
-
-        // get the given days within the interval as array
-        $days = LaterPay_Helper_Dashboard::get_days_as_array( $start_timestamp, $interval );
 
         // search args for history items
         $args = array(
-            'order_by'  => 'day',
-            'group_by'  => 'day',
+            'order_by'  => LaterPay_Helper_Dashboard::get_order_and_group_by( $interval ),
+            'group_by'  => LaterPay_Helper_Dashboard::get_order_and_group_by( $interval ),
             'where'     => $where,
         );
-        $converting_items_by_day= $post_views_model->get_history( $args );
-        $selling_items_by_day   = $history_model->get_history( $args );
-        $revenue_items_by_day   = $history_model->get_revenue_history( $args );
+        $converting_items   = $post_views_model->get_history( $args );
+        $selling_items      = $history_model->get_history( $args );
+        $revenue_item       = $history_model->get_revenue_history( $args );
 
         // search args for items with sparkline
         $search_args = array(
@@ -373,9 +385,9 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $data = array(
             // diagrams
-            'converting_items_by_day'   => LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $converting_items_by_day, $days ),
-            'selling_items_by_day'      => LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $selling_items_by_day, $days ),
-            'revenue_items_by_day'      => LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $revenue_items_by_day, $days ),
+            'converting_items_by_day'   => LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $converting_items, $start_timestamp, $interval ),
+            'selling_items_by_day'      => LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $selling_items, $start_timestamp, $interval ),
+            'revenue_items_by_day'      => LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $revenue_item, $start_timestamp, $interval ),
 
             // row 1 - conversion
             // metrics
@@ -384,24 +396,24 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'new_customers'             => $new_customers,
             'returning_customers'       => $returning_customers,
             // most / least viewed posts
-            'best_converting_items'     => $post_views_model->get_most_viewed_posts( $search_args, $start_timestamp, $end_timestamp ),
-            'least_converting_items'    => $post_views_model->get_least_viewed_posts( $search_args, $start_timestamp, $end_timestamp ),
+            'best_converting_items'     => $post_views_model->get_most_viewed_posts( $search_args, $start_timestamp, $interval ),
+            'least_converting_items'    => $post_views_model->get_least_viewed_posts( $search_args, $start_timestamp, $interval ),
 
             // row 2 - sales
             // metrics
             'avg_items_sold'            => $avg_items_sold,
             'total_items_sold'          => $total_items_sold,
             // beast / least selling posts
-            'most_selling_items'        => $history_model->get_best_selling_posts( $search_args, $start_timestamp, $end_timestamp ),
-            'least_selling_items'       => $history_model->get_least_selling_posts( $search_args, $start_timestamp, $end_timestamp ),
+            'most_selling_items'        => $history_model->get_best_selling_posts( $search_args, $start_timestamp, $interval ),
+            'least_selling_items'       => $history_model->get_least_selling_posts( $search_args, $start_timestamp, $interval ),
 
             // row 3 - revenue
             // metrics
             'avg_purchase'              => $avg_purchase,
             'total_revenue'             => $total_revenue_items,
             // most / least revenue generating posts
-            'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $search_args, $start_timestamp, $end_timestamp ),
-            'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $search_args, $start_timestamp, $end_timestamp ),
+            'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $search_args, $start_timestamp, $interval ),
+            'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $search_args, $start_timestamp, $interval ),
         );
 
         return $data;
@@ -410,12 +422,13 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     /**
      * Return the cache file name for the given days and item count.
      *
-     * @param int $interval
+     * @param string $interval
      * @param int $count
      *
      * @return string $cache_filename
      */
     protected function get_cache_filename( $interval, $count ) {
+        $interval = LaterPay_Helper_Dashboard::get_interval( $interval );
         $cache_filename =  $interval . '-' . $count . '.cache';
         $this->logger->info(
             __METHOD__,
