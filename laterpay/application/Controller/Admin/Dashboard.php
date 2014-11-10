@@ -349,7 +349,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $conversion = 0;
         if ( $impressions > 0 ) {
-            $conversion = number_format_i18n($total_items_sold / $impressions);
+            $conversion = number_format_i18n($total_items_sold / $impressions, 1);
         }
 
         $avg_items_sold = 0;
