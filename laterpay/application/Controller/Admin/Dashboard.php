@@ -414,6 +414,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             // most / least revenue generating posts
             'most_revenue_items'        => $history_model->get_most_revenue_generating_posts( $search_args, $start_timestamp, $interval ),
             'least_revenue_items'       => $history_model->get_least_revenue_generating_posts( $search_args, $start_timestamp, $interval ),
+
+            'start_timestamp'   => $start_timestamp,
+            'end_timestamp'     => $end_timestamp,
+            'interval'          => $interval
         );
 
         return $data;
