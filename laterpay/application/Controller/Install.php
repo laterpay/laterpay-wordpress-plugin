@@ -269,6 +269,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
         $table_history         = $wpdb->prefix . 'laterpay_payment_history';
         $table_post_views      = $wpdb->prefix . 'laterpay_post_views';
+        $table_passes          = $wpdb->prefix . 'laterpay_passes';
 
         $sql = "
             CREATE TABLE $table_terms_price (
@@ -304,6 +305,28 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 UNIQUE KEY  (post_id, user_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
+        
+        $sql = "
+            CREATE TABLE IF NOT EXISTS $table_passes (
+	        pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
+	        valid_term        INT(11)       NULL DEFAULT NULL,
+	        valid_period      VARCHAR(8)    NULL DEFAULT NULL,
+	        access_to         VARCHAR(32)   NULL DEFAULT NULL,
+	        access_category   VARCHAR(32)   NULL DEFAULT NULL,
+	        price             DECIMAL(10,2) NULL DEFAULT NULL,
+	        pay_type          VARCHAR(12)   NULL DEFAULT NULL,
+	        title             VARCHAR(255)  NULL DEFAULT NULL,
+	        title_color       VARCHAR(7)    NULL DEFAULT NULL,
+	        description       VARCHAR(255)  NULL DEFAULT NULL,
+	        description_color VARCHAR(7)    NULL DEFAULT NULL,
+	        background_path   VARCHAR(255)  NULL DEFAULT NULL,
+	        background_color  VARCHAR(7)    NULL DEFAULT NULL,
+	        PRIMARY KEY (pass_id),
+	        INDEX access_to (access_to),
+	        INDEX valid_period (valid_period),
+	        INDEX valid_term (valid_term)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+        dbDelta( $sql );        
 
         add_option( 'laterpay_teaser_content_only',         '1' );
         add_option( 'laterpay_plugin_is_in_live_mode',      '0' );
@@ -330,7 +353,5 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $laterpay_capabilities = new LaterPay_Core_Capabilities();
         $laterpay_capabilities->populate_roles();
     }
-
-
 
 }

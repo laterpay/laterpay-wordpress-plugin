@@ -68,6 +68,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->load_assets();
 
         $category_price_model           = new LaterPay_Model_CategoryPrice();
+        $passes_model                   = new LaterPay_Model_Pass();
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
 
         $bulk_actions = array(
@@ -83,6 +84,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_categories            = get_categories();
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
+        $passes_list                = $passes_model->get_all_passes();
 
         $this->assign( 'categories_with_defined_price',      $categories_with_defined_price );
         $this->assign( 'standard_currency',                  get_option( 'laterpay_currency' ) );
@@ -96,6 +98,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->assign( 'bulk_categories',                    $bulk_categories );
         $this->assign( 'bulk_categories_with_price',         $bulk_categories_with_price );
         $this->assign( 'bulk_saved_operations',              $bulk_saved_operations );
+        $this->assign( 'passes_list',                        $passes_list );
 
         $this->render( 'backend/pricing' );
     }
@@ -168,6 +171,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         }
                     }
                     break;
+                    
+                case 'pass_form_save':
+                    $this->pass_form_save();
+                    break;                    
 
                 default:
                     wp_send_json(
@@ -788,4 +795,71 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             )
         );
     }
+
+    /**
+     * Render pass html
+     *
+     * This function will generate html with pass
+     * 
+     * @param array $args
+     *
+     * @return string
+     */    
+    public function render_pass( $args = array() ){
+        
+        $defaults = array(
+            'pass_id' => 0,
+            'title' => LaterPay_Helper_Passes::$defaults['title'],
+            'text' => LaterPay_Helper_Passes::get_description(),
+            'price' => LaterPay_Helper_Passes::$defaults['price'],
+            'currency' => LaterPay_Helper_Passes::$defaults['currency'],
+        );
+        
+        $args = array_merge( $defaults, $args );
+        
+        $this->assign( 'laterpay_pass', $args );
+                
+        $string = $this->get_text_view( 'backend/partials/pass_item' );
+        
+        return $string;
+    }
+    
+    /**
+     * Save bulk operation.
+     *
+     * @return void
+     */
+    protected function pass_form_save() {
+        
+        $save_pass_form = new LaterPay_Form_Pass( $_POST );
+        $pass_model     = new LaterPay_Model_Pass();
+        
+        if ( $save_pass_form->is_valid() ) {
+            
+            $data         = $save_pass_form->get_form_values( true, null, array() );
+            
+            $pass_id      = $pass_model->update_pass($data);
+            
+            //echo '<pre>'.print_r( $data, true );die();
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'data'    => array(
+                        'id'      => $pass_id,
+                        'message' => $save_pass_form->get_field_value( 'bulk_message' ),
+                    ),
+                    'message' => __( 'Pass was successfully saved.', 'laterpay' ),
+                )
+            );
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'Error occurred when trying to save pass. Please try again.', 'laterpay' ),
+            )
+        );
+    }    
+    
 }

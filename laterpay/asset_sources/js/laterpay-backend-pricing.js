@@ -84,8 +84,8 @@
         
                // passes
                passPayType                              : $('.lp_toggle_input'),
-               pass                              : $('#lp_js_togglePassPayType'),
-               colorPicker                              : $( '.lp-color-picker' ),
+               pass                                     : $('#lp_js_togglePassPayType'),
+               colorPicker                              : $('.lp-color-picker'),
                
             },
 
@@ -217,23 +217,98 @@
                     switchCurrency();
                 });
                 
-                // switch plugin between TEST and LIVE mode
+                // switch pass pay mode
+                $('.lp_pass-container .lp_changeLink').click(function(e){
+                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
+                    togglePassForm('show',pass_id);
+                    e.preventDefault();
+                    return false;
+                });
+                $('.lp_pass-container .lp_saveLink').click(function(e){
+                    savePassForm();
+                    e.preventDefault();
+                    return false;
+                });
+                $('.lp_pass-container .lp_deleteLink').click(function(e){
+                    alert('TODO');
+                    e.preventDefault();
+                    return false;
+                });
+                $('.lp_pass-container .lp_cancelLink').click(function(e){
+                    togglePassForm('hide',0);
+                    e.preventDefault();
+                    return false;
+                });
                 $o.passPayType.change(function() {
-                    togglePassType();
-                });                
+                    togglePassPayMode();
+                });
+                // show hide add form
+                $('.lp_js_add_pass').toggle(
+                        function(e) {
+                            togglePassForm('show',0);
+                            e.preventDefault();
+                            return false;
+                        },
+                        function(e) {
+                            togglePassForm('hide',0);
+                            e.preventDefault();
+                            return false;
+                        }
+                );
             },
-                    
-            togglePassType = function() {
+
+            savePassForm = function(e) {
+                togglePassForm('hide',0);
+                $.post(
+                    ajaxurl,
+                    $('#lp_js_passes_form').serializeArray(),
+                    function(r) {
+                        console.log(r);
+                        if (r.success) {
+                            //window.location.reload();   
+                        }else{
+                            togglePassForm('show',0);
+                        }
+                        setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
+                e.preventDefault();
+                return false;
+            },
+
+            togglePassForm = function(todo, pass_id) {
+                var editor = $('.lp_passes_editor');
+                var passContainer = $('.lp_pass-container[data-pass-id='+pass_id+']');
+                $('.lp_pass-container .lp_changeLink').show();
+                $('.lp_pass-container .lp_saveLink').hide();
+                $('.lp_pass-container .lp_cancelLink').hide();
+                $('.lp_pass-container .lp_deleteLink').show();
+                if (todo == 'show') {
+                    passContainer.show();
+                    $(passContainer).find('.lp_passes_editor_container').append(editor.show());
+                    passContainer.find('.lp_changeLink').hide();
+                    passContainer.find('.lp_saveLink').show();
+                    passContainer.find('.lp_cancelLink').show();
+                    passContainer.find('.lp_deleteLink').hide();
+                } else if (todo == 'hide') {
+                    var link = $('.lp_js_add_pass');
+                    passContainer.hide();
+                    $(link).after(editor.hide());
+                }
+            },            
+            
+            togglePassPayMode = function() {
                 var $toggle                 = $o.passPayType,
                     $input                  = $('#lp_js_togglePassPayType_hiddenInput'),
-                    testMode                = 0,
-                    liveMode                = 1,
-                    hasSwitchedToLiveMode   = $toggle.prop('checked');
+                    payLater                = 'later',
+                    payImmediately          = 'immediately',
+                    hasPayMode              = $toggle.prop('checked');
 
-                if (hasSwitchedToLiveMode) {
-                    $input.val(liveMode);
+                if (hasPayMode) {
+                    $input.val(payImmediately);
                 } else {
-                    $input.val(testMode);
+                    $input.val(payLater);
                 }
             },
 

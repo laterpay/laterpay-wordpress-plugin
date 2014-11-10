@@ -281,75 +281,87 @@
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
         <div class="lp_row">
-            <h2><?php _e( 'Passes', 'laterpay' ); ?></h2>
-            <?php //echo $this->render_pass(array('id'=>0,'price'=>2.00,'currency'=>'EUR','title'=>'Day Pass','text' => '24 hours access')); ?>    
-            <a href="#" class="lp_editLink lp_saveLink lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new pass', 'laterpay' ); ?></a>
-            <div class="lp_passes_editor">
+            <h2><?php _e('Passes', 'laterpay'); ?></h2>
+            <a href="#" class="lp_js_add_pass lp_u_inlineBlock" data-icon="c"><?php _e('Add new pass', 'laterpay'); ?></a>
+            
+            <?php echo $this->render_pass(); ?>
+            
+            <?php
+            foreach ($passes_list as $pass) {
+                echo $this->render_pass( (array)$pass );
+            };
+            ?>
+            
+            <form class="lp_passes_editor" id="lp_js_passes_form" method="post">
+                <input type="hidden" name="form" value="pass_form_save">
+                <input type="hidden" name="action"  value="laterpay_pricing">
+                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                <input type="hidden" name="pass_id" value="0">
                 <div>
                     <item>
-                        <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
-                        <input type="number" name="pass_valid_term" class="lp_input lp_numberInput lp_inputShort" value="<?php echo LaterPay_Helper_Passes::get_defaults('valid_term'); ?>">
-                        <select name="pass_period_type" class="lp_input">
+                        <?php _e('The pass is valid for ', 'laterpay'); ?>
+                        <input type="number" name="valid_term" class="lp_input lp_numberInput lp_inputShort" value="<?php echo LaterPay_Helper_Passes::get_defaults('valid_term'); ?>">
+                        <select name="valid_period" class="lp_input">
                             <?php echo LaterPay_Helper_Passes::get_select_periods(); ?>
                         </select>
-                        <?php _e( 'and grants', 'laterpay' ); ?>
+                        <?php _e('and grants', 'laterpay'); ?>
                     </item>
                     <item>
-                        <?php _e( 'access to', 'laterpay' ); ?>
-                        <select name="pass_access_to" id="lp_js_passAccessTo" class="lp_input">
+                        <?php _e('access to', 'laterpay'); ?>
+                        <select name="access_to" id="lp_js_passAccessTo" class="lp_input">
                             <?php echo LaterPay_Helper_Passes::get_select_access_to(); ?>
                         </select>
                     </item>
                     <item>
-                        <?php _e( 'category', 'laterpay' ); ?>
-                        <select name="pass_access_category" id="lp_js_passCat" class="lp_input">
+                        <?php _e('category', 'laterpay'); ?>
+                        <select name="access_category" id="lp_js_passCat" class="lp_input">
                             <?php echo LaterPay_Helper_Passes::get_select_access_detail(); ?>
                         </select>
                     </item>
                     <item>
-                        <?php _e( 'The user pays ', 'laterpay' ); ?>
-                        <input type="text" name="pass_price" class="lp_input lp_numberInput lp_inputShort" value="<?php echo $global_default_price; ?>">
-                        <?php _e( 'EUR', 'laterpay' ); ?>
+                        <?php _e('The user pays ', 'laterpay'); ?>
+                        <input type="text" name="price" class="lp_input lp_numberInput lp_inputShort" value="<?php echo $global_default_price; ?>">
+                        <?php _e('EUR', 'laterpay'); ?>
                         <div class="lp_toggle">
-                            <?php _e( 'later', 'laterpay' ); ?>
+                            <?php _e('later', 'laterpay'); ?>
                             <label class="lp_toggle_label lp_toggle_label_pass">
                                 <input type="checkbox" class="lp_toggle_input" checked="">
-                                <input type="hidden" name="pass_type" id="lp_js_togglePassPayType_hiddenInput" value="<?php echo LaterPay_Helper_Passes::get_defaults('pass_type'); ?>">
+                                <input type="hidden" name="pay_type" id="lp_js_togglePassPayType_hiddenInput" value="<?php echo LaterPay_Helper_Passes::get_defaults('pay_type'); ?>">
                                 <span class="lp_toggle_text" data-on="" data-off=""></span>
                                 <span class="lp_toggle_handle"></span>
                             </label>
-                            <?php _e( 'immediately', 'laterpay' ); ?>
+                            <?php _e('immediately', 'laterpay'); ?>
                         </div>
                     </item>
                 </div>
                 <div>
                     <item>
-                        <?php _e( 'Title', 'laterpay' ); ?>
-                        <input type="text" name="pass_title" id="lp_passTitle" class="lp_input lp_textInput" value="<?php echo LaterPay_Helper_Passes::get_defaults('title'); ?>">
+                        <?php _e('Title', 'laterpay'); ?>
+                        <input type="text" name="title" id="lp_passTitle" class="lp_input lp_textInput" value="<?php echo LaterPay_Helper_Passes::get_defaults('title'); ?>">
                         <div class="lp-color-picker-container">
-                            <input type="text" name="pass_title_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('title_color'); ?>" class="lp-color-picker" >
+                            <input type="text" name="title_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('title_color'); ?>" class="lp-color-picker" >
                         </div>
                     </item>
                     <item style="height: 68px;">
-                        <?php _e( 'Description', 'laterpay' ); ?>
-                        <textarea type="text" name="pass_description" id="lp_js_passDescription" class="lp_input lp_textInput"><?php echo LaterPay_Helper_Passes::get_description(); ?></textarea>
+                        <?php _e('Description', 'laterpay'); ?>
+                        <textarea type="text" name="description" id="lp_js_passDescription" class="lp_input lp_textInput"><?php echo LaterPay_Helper_Passes::get_description(); ?></textarea>
                         <div class="lp-color-picker-container">
-                        <input type="text" name="pass_description_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('description_color'); ?>" class="lp-color-picker" >
+                            <input type="text" name="description_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('description_color'); ?>" class="lp-color-picker" >
                         </div>
                     </item>
                     <item>
-                        <?php _e( 'Background', 'laterpay' ); ?>
+                        <?php _e('Background', 'laterpay'); ?>
                         <label id="lp_passBackground">
-                            <a href='javascript: void(0);'><?php _e( 'Choose image', 'laterpay' ); ?></a>
-                            <?php _e( 'or background <strong>color</strong>', 'laterpay' ); ?>
+                            <a href='javascript: void(0);'><?php _e('Choose image', 'laterpay'); ?></a>
+                            <?php _e('or background <strong>color</strong>', 'laterpay'); ?>
                         </label>
                         <div class="lp-color-picker-container">
-                        <input type="text" name="pass_background_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('background_color'); ?>" class="lp-color-picker" >
+                            <input type="text" name="background_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('background_color'); ?>" class="lp-color-picker" >
                         </div>
                     </item>
                 </div>
-            </div>
-         </div>        
+            </form>
+        </div>        
 
 <?php # commented out as long as there is only a single currency ?>
 <?php /* ?>

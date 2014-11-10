@@ -786,4 +786,5 @@ class LaterPay_Helper_Pricing
 
         wp_update_post( $post_update_data );
     }
+
 }

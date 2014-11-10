@@ -4,7 +4,7 @@
     white-space: nowrap;
     width: 720px;
     padding: 5px;
-    display: block;
+    display: none;
 }
 .lp_passes_editor>div{
     display: inline-block;
@@ -62,12 +62,12 @@
 #lp_js_passDescription{ height: 60px; }
 #lp_passTitle,#lp_js_passDescription,#lp_passBackground{ 
 position: absolute;
-left: 470px;
+left: 740px;
 width: 220px !important;
 }
 .lp-color-picker-container{
 position: absolute;
-left: 695px;
+left: 970px;
 display: inline-block;
 }
 .wp-picker-open{
@@ -83,3 +83,10 @@ input[type=text].lp_inputShort,input[type=number].lp_inputShort{
 }
 #lp_js_passAccessTo{width: 260px !important;}
 #lp_js_passCat{width: 260px !important;}
+.lp_passes_buttons_container,.lp_pass_entity_edit_container,.lp_passes_editor_container,.lp_pass-cover{display: inline-block;}
+.lp_pass-cover{ float: left; margin-top: 10px; }
+.lp_pass_entity_edit_container{width: 700px; padding-top: -20px;}
+.lp_passes_editor{ margin-left: 20px; }
+.lp_passes_buttons_container a{ margin-left: 10px; margin-top: 10px; }
+.lp_pass-container{ display: block; height: 130px; }
+.lp_pass-container .lp_saveLink,.lp_pass-container .lp_cancelLink,.lp_pass-container[data-pass-id="0"]{ display: none; }
