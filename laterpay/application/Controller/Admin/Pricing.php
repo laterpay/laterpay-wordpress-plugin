@@ -83,18 +83,22 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
 
-        $this->assign( 'categories_with_defined_price',      $categories_with_defined_price );
-        $this->assign( 'standard_currency',                  get_option( 'laterpay_currency' ) );
-        $this->assign( 'plugin_is_in_live_mode',             $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'global_default_price',               number_format_i18n( (float) get_option( 'laterpay_global_price' ), 2 ) );
-        $this->assign( 'global_default_price_revenue_model', get_option( 'laterpay_global_price_revenue_model' ) );
-        $this->assign( 'top_nav',                            $this->get_menu() );
-        $this->assign( 'admin_menu',                         LaterPay_Helper_View::get_admin_menu() );
-        $this->assign( 'bulk_actions',                       $bulk_actions );
-        $this->assign( 'bulk_selectors',                     $bulk_selectors );
-        $this->assign( 'bulk_categories',                    $bulk_categories );
-        $this->assign( 'bulk_categories_with_price',         $bulk_categories_with_price );
-        $this->assign( 'bulk_saved_operations',              $bulk_saved_operations );
+        $view_args = array(
+            'categories_with_defined_price'      => $categories_with_defined_price,
+            'standard_currency'                  => get_option( 'laterpay_currency' ),
+            'plugin_is_in_live_mode'             => $this->config->get( 'is_in_live_mode' ),
+            'global_default_price'               => number_format_i18n( (float) get_option( 'laterpay_global_price' ), 2 ),
+            'global_default_price_revenue_model' => get_option( 'laterpay_global_price_revenue_model' ),
+            'top_nav'                            => $this->get_menu(),
+            'admin_menu'                         => LaterPay_Helper_View::get_admin_menu(),
+            'bulk_actions'                       => $bulk_actions,
+            'bulk_selectors'                     => $bulk_selectors,
+            'bulk_categories'                    => $bulk_categories,
+            'bulk_categories_with_price'         => $bulk_categories_with_price,
+            'bulk_saved_operations'              => $bulk_saved_operations,
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/pricing' );
     }

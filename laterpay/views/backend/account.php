@@ -7,15 +7,15 @@
     </div>
 
     <div class="lp_navigation lp_u_relative">
-        <a  href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
+        <a  href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
             id="lp_js_pluginModeIndicator"
             class="lp_pluginModeIndicator lp_u_absolute"
-            <?php if ( $plugin_is_in_live_mode ): ?>style="display:none;"<?php endif; ?>
+            <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>style="display:none;"<?php endif; ?>
             data-icon="h">
             <h2><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
             <span><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
         </a>
-        <?php echo $top_nav; ?>
+        <?php echo $laterpay['top_nav']; ?>
     </div>
 
     <div class="lp_pagewrap">
@@ -41,7 +41,7 @@
                                     id="lp_js_sandboxMerchantId"
                                     name="laterpay_sandbox_merchant_id"
                                     class="lp_js_validateMerchantId lp_input lp_merchantIdInput"
-                                    value="<?php echo $sandbox_merchant_id; ?>"
+                                    value="<?php echo $laterpay['sandbox_merchant_id']; ?>"
                                     required>
                                 <label for="laterpay_sandbox_merchant_id" alt="<?php _e( 'Paste Sandbox Merchant ID here', 'laterpay' ); ?>" placeholder="<?php _e( 'Merchant ID', 'laterpay' ); ?>"></label>
                             </li>
@@ -62,7 +62,7 @@
                                     id="lp_js_sandboxApiKey"
                                     name="laterpay_sandbox_api_key"
                                     class="lp_js_validateApiKey lp_input lp_apiKeyInput"
-                                    value="<?php echo $sandbox_api_key; ?>"
+                                    value="<?php echo $laterpay['sandbox_api_key']; ?>"
                                     required>
                                 <label for="laterpay_sandbox_api_key" alt="<?php _e( 'Paste Sandbox API Key here', 'laterpay' ); ?>" placeholder="<?php _e( 'API Key', 'laterpay' ); ?>"></label>
                             </li>
@@ -90,7 +90,7 @@
                                     id="lp_js_liveMerchantId"
                                     name="laterpay_live_merchant_id"
                                     class="lp_js_validateMerchantId lp_input lp_merchantIdInput"
-                                    value="<?php echo $live_merchant_id; ?>"
+                                    value="<?php echo $laterpay['live_merchant_id']; ?>"
                                     required>
                                 <label for="laterpay_live_merchant_id" alt="<?php _e( 'Paste Live Merchant ID here', 'laterpay' ); ?>" placeholder="<?php _e( 'Merchant ID', 'laterpay' ); ?>"></label>
                             </li>
@@ -111,7 +111,7 @@
                                     name="laterpay_live_api_key"
                                     id="lp_js_liveApiKey"
                                     class="lp_js_validateApiKey lp_input lp_apiKeyInput"
-                                    value="<?php echo $live_api_key; ?>"
+                                    value="<?php echo $laterpay['live_api_key']; ?>"
                                     required>
                                 <label for="laterpay_sandbox_api_key" alt="<?php _e( 'Paste Live API Key here', 'laterpay' ); ?>" placeholder="<?php _e( 'API Key', 'laterpay' ); ?>"></label>
                             </li>
@@ -147,21 +147,21 @@
                                 name="plugin_is_in_live_mode_checkbox"
                                 id="lp_js_togglePluginMode"
                                 class="lp_toggle_input"
-                                <?php if ( $plugin_is_in_live_mode ): ?>checked<?php endif; ?>>
+                                <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>checked<?php endif; ?>>
                         <input type="hidden"
                                 name="plugin_is_in_live_mode"
                                 id="lp_js_pluginMode_hiddenInput"
-                                value="<?php if ( $plugin_is_in_live_mode ) { echo 1; } else { echo 0; } ?>">
+                                value="<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 1; } else { echo 0; } ?>">
                         <span class="lp_toggle_text" data-on="LIVE" data-off="TEST"></span>
                         <span class="lp_toggle_handle"></span>
                     </label>
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>
 
-            <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $plugin_is_in_live_mode ) { echo ' style="display:none;"'; } ?>>
+            <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>. All payments are booked and credited to your account.', 'laterpay' ); ?>
             </dfn>
-            <dfn id="lp_js_pluginMode_testText" class="lp_u_block"<?php if ( $plugin_is_in_live_mode ) { echo ' style="display:none;"'; } ?>>
+            <dfn id="lp_js_pluginMode_testText" class="lp_u_block"<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>. LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
             </dfn>
         </div>
