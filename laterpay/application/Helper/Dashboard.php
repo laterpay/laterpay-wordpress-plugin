@@ -4,9 +4,10 @@ class LaterPay_Helper_Dashboard
 {
 
     /**
-     * Checks and sanitize the given interval.
+     * Check and sanitize the given interval.
      *
      * @param string $interval    day|week|2-weeks|month
+     *
      * @return string $interval
      */
     public static function get_interval( $interval ){
@@ -15,14 +16,15 @@ class LaterPay_Helper_Dashboard
         if ( ! in_array( $interval, $allowed_intervals ) ) {
            $interval = 'week';
         }
+
         return $interval;
     }
 
     /**
      * Returns the end_timestamp by a given start_timestamp and interval.
      *
-     * @param int $start_timestamp
-     * @param string $interval
+     * @param int       $start_timestamp
+     * @param string    $interval
      *
      * @return int $end_timestamp
      */
@@ -37,11 +39,12 @@ class LaterPay_Helper_Dashboard
             // $interval === 'day'
             $end_timestamp = strtotime( 'today', $start_timestamp );
         }
+
         return $end_timestamp;
     }
 
     /**
-     * Returns the order- and group-by statement for a given interval.
+     * Return the ORDER and GROUP BY statement for a given interval.
      *
      * @param string $interval
      *
@@ -51,16 +54,17 @@ class LaterPay_Helper_Dashboard
         if ( $interval === 'day' ) {
             return 'hour';
         }
+
         return 'day';
     }
 
 
     /**
-     * Building the sparkline by given wpdb-result with end- and start-timestamp
+     * Build the sparkline by given wpdb result with end and start timestamp.
      *
-     * @param array $items
-     * @param int $start_timestamp
-     * @param string $interval
+     * @param array     $items
+     * @param int       $start_timestamp
+     * @param string    $interval
      *
      * @return array $sparkline
      */
@@ -85,21 +89,21 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper Function to convert a wpdb-result to diagram data
+     * Helper Function to convert a wpdb-result to diagram data.
      *
-     * @param array $items array(
-     *                       stdClass Object (
+     * @param array     $items array(
+     *                      stdClass Object (
      *                          [quantity]  => 3
      *                          [day_name]  => Monday
      *                          [day]       => 27
      *                      ),
      *                      ..
      *                  )
-     * @param int $start_timestamp
-     * @param string $interval
+     * @param int       $start_timestamp
+     * @param string    $interval
      *
      * @return array $data array(
-     *                          'x' => [{key}, day-of-week-1]
+     *                          'x' => [{key}, day-of-week-1],
      *                          'y' => [{key}, kpi-value-1]
      *                      );
      */
@@ -109,11 +113,10 @@ class LaterPay_Helper_Dashboard
             'y' => array(),
         );
 
-        if( $interval === 'day' ){
+        if ( $interval === 'day' ) {
             $items_by_hour  = LaterPay_Helper_Dashboard::sort_items_by_hour( $items );
             $items          = LaterPay_Helper_Dashboard::fill_empty_hours( $items_by_hour, $start_timestamp );
-        }
-        else {
+        } else {
             $items_by_day   = LaterPay_Helper_Dashboard::sort_items_by_date( $items );
             $days           = LaterPay_Helper_Dashboard::get_days_as_array( $start_timestamp, $interval );
             $items          = LaterPay_Helper_Dashboard::fill_empty_days( $items_by_day, $days );
@@ -122,7 +125,6 @@ class LaterPay_Helper_Dashboard
 
         $key = 1;
         foreach ( $items as $item ) {
-
             if ( $interval === 'day' ) {
                 $data[ 'x' ][] = array(
                     $key,
@@ -145,7 +147,6 @@ class LaterPay_Helper_Dashboard
                 );
             }
 
-
             $key = $key + 1;
         }
 
@@ -161,7 +162,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Sort all given items of a wpdb-result by date.
+     * Sort all given items of a wpdb result by date.
      *
      * @param array $items array(
      *                       stdClass Object (
@@ -195,7 +196,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Sort all given items of a wpdb-result by hour.
+     * Sort all given items of a wpdb result by hour.
      *
      * @param array $items array(
      *                       stdClass Object (
@@ -259,10 +260,10 @@ class LaterPay_Helper_Dashboard
         laterpay_get_logger()->info(
             __METHOD__,
             array(
-                'end_timestamp' => $start_timestamp,
-                'formatted_end_timestamp' => date( 'Y-m-d', $start_timestamp ),
-                'interval'      => $interval,
-                'last_days'     => $last_days
+                'end_timestamp'             => $start_timestamp,
+                'formatted_end_timestamp'   => date( 'Y-m-d', $start_timestamp ),
+                'interval'                  => $interval,
+                'last_days'                 => $last_days,
             )
         );
 
@@ -270,7 +271,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper function to fill a wpdb result sorted by day with quantity=0, if the day is missing.
+     * Helper function to fill a wpdb result sorted by day with quantity = 0, if the day is missing.
      *
      * @param array $items
      * @param array $last_days
@@ -278,7 +279,7 @@ class LaterPay_Helper_Dashboard
      * @return array
      */
     public static function fill_empty_days( $items, $last_days ) {
-        foreach( $last_days as $day_item ) {
+        foreach ( $last_days as $day_item ) {
             $date       = $day_item->date;
             $day_name   = $day_item->day_name;
             if ( ! array_key_exists( $date, $items ) ) {
@@ -303,15 +304,14 @@ class LaterPay_Helper_Dashboard
 
 
     /**
-     * Helper function to fill a wpdb result sorted by hours with quantity=0, if the hour is missing.
+     * Helper function to fill a wpdb result sorted by hour with quantity = 0, if the hour is missing.
      *
      * @param array $items
-     * @param int $start_timestamp
+     * @param int   $start_timestamp
      *
      * @return array
      */
     public static function fill_empty_hours( $items, $start_timestamp ) {
-
         $filled_items = array();
 
         $day = gmdate( 'd', $start_timestamp );
@@ -340,6 +340,5 @@ class LaterPay_Helper_Dashboard
 
         return $filled_items;
     }
-
 
 }
