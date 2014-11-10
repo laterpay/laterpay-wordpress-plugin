@@ -34,11 +34,15 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        $this->assign( 'plugin_is_in_live_mode',     $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'show_teaser_content_only',   get_option( 'laterpay_teaser_content_only' ) == 1 );
-        $this->assign( 'top_nav',                    $this->get_menu() );
-        $this->assign( 'admin_menu',                 LaterPay_Helper_View::get_admin_menu() );
-        $this->assign( 'is_ratings_enabled',         $this->config->get( 'ratings_enabled' ) );
+        $view_args = array(
+            'plugin_is_in_live_mode'   => $this->config->get( 'is_in_live_mode' ),
+            'show_teaser_content_only' => get_option( 'laterpay_teaser_content_only' ) == 1,
+            'top_nav'                  => $this->get_menu(),
+            'admin_menu'               => LaterPay_Helper_View::get_admin_menu(),
+            'is_ratings_enabled'       => $this->config->get( 'ratings_enabled' ),
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/appearance' );
     }

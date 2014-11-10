@@ -688,7 +688,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->logger->info( __METHOD__ );
 
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client_options  = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
                 $client_options['cp_key'],
                 $client_options['api_key'],
@@ -696,10 +696,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $client_options['web_root'],
                 $client_options['token_name']
         );
-        $identify_link      = $laterpay_client->get_identify_url();
+        $identify_link   = $laterpay_client->get_identify_url();
 
-        $this->assign( 'post_id',       get_the_ID() );
-        $this->assign( 'identify_link', $identify_link );
+        // assign all required vars to the view templates
+        $view_args = array(
+            'post_id'       => get_the_ID(),
+            'identify_link' => $identify_link,
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/identify_iframe' );
     }

@@ -7,13 +7,13 @@
     </div>
 
     <div class="lp_navigation lp_u_relative">
-        <?php if ( ! $plugin_is_in_live_mode ): ?>
-            <a href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_pluginModeIndicator lp_u_absolute" data-icon="h">
+        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
+            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_pluginModeIndicator lp_u_absolute" data-icon="h">
                 <h2><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
                 <span><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
             </a>
         <?php endif; ?>
-        <?php echo $top_nav; ?>
+        <?php echo $laterpay['top_nav']; ?>
     </div>
 
     <div class="lp_pagewrap">
@@ -28,7 +28,7 @@
                             name="paid_content_preview"
                             value="1"
                             class="lp_js_togglePreviewMode lp_js_styleInput"
-                            <?php if ( $show_teaser_content_only ): ?>checked<?php endif; ?>/>
+                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content only', 'laterpay' ); ?>
                     <div class="lp_previewMode-1"></div>
                 </label>
@@ -37,7 +37,7 @@
                             name="paid_content_preview"
                             value="0"
                             class="lp_js_togglePreviewMode lp_js_styleInput"
-                            <?php if ( ! $show_teaser_content_only ): ?>checked<?php endif; ?>/>
+                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
                     <div class="lp_previewMode-2"></div>
                 </label>
