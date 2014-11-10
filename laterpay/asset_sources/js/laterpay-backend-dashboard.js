@@ -4,33 +4,40 @@
     function laterPayBackendDashboard() {
         var i, l,
             $o = {
-                daysBack            : 8,
-                itemsPerList        : 10,
-                list                : [],
+                daysBack                : 8,
+                itemsPerList            : 10,
+                list                    : [],
+
+                // heading with dashboard configuration selections
+                configurationSelection  : $('#lp_js_selectDashboardInterval, #lp_js_selectRevenueModel'),
+                selectedInterval        : $('#lp_js_selectDashboardInterval'),
+                selectedRevenueModel    : $('#lp_js_selectRevenueModel'),
+                previousInterval        : $('#lp_js_loadPreviousInterval'),
+                nextInterval            : $('#lp_js_loadNextInterval'),
 
                 // diagrams
-                conversionDiagram   : $('#lp_js_conversionDiagram'),
-                salesDiagram        : $('#lp_js_salesDiagram'),
-                revenueDiagram      : $('#lp_js_revenueDiagram'),
+                conversionDiagram       : $('#lp_js_conversionDiagram'),
+                salesDiagram            : $('#lp_js_salesDiagram'),
+                revenueDiagram          : $('#lp_js_revenueDiagram'),
 
                 // main KPIs
-                totalImpressionsKPI : $('#lp_js_totalImpressions'),
-                avgConversionKPI    : $('#lp_js_avgConversion'),
-                newCustomersKPI     : $('#lp_js_shareOfNewCustomers'),
+                totalImpressionsKPI     : $('#lp_js_totalImpressions'),
+                avgConversionKPI        : $('#lp_js_avgConversion'),
+                newCustomersKPI         : $('#lp_js_shareOfNewCustomers'),
 
-                avgItemsSoldKPI     : $('#lp_js_avg-items-sold'),
-                totalItemsSoldKPI   : $('#lp_js_total-items-sold'),
+                avgItemsSoldKPI         : $('#lp_js_avg-items-sold'),
+                totalItemsSoldKPI       : $('#lp_js_total-items-sold'),
 
-                avgRevenueKPI       : $('#lp_js_avgRevenue'),
-                totalRevenueKPI     : $('#lp_js_totalRevenue'),
+                avgRevenueKPI           : $('#lp_js_avgRevenue'),
+                totalRevenueKPI         : $('#lp_js_totalRevenue'),
 
                 // top / bottom lists
-                bestConvertingList  : $('#lp_js_bestConvertingList'),
-                leastConvertingList : $('#lp_js_leastConvertingList'),
-                bestSellingList     : $('#lp_js_bestSellingList'),
-                leastSellingList    : $('#lp_js_leastSellingList'),
-                bestGrossingList    : $('#lp_js_bestGrossingList'),
-                leastGrossingList   : $('#lp_js_leastGrossingList'),
+                bestConvertingList      : $('#lp_js_bestConvertingList'),
+                leastConvertingList     : $('#lp_js_leastConvertingList'),
+                bestSellingList         : $('#lp_js_bestSellingList'),
+                leastSellingList        : $('#lp_js_leastSellingList'),
+                bestGrossingList        : $('#lp_js_bestGrossingList'),
+                leastGrossingList       : $('#lp_js_leastGrossingList'),
             },
 
             bindEvents = function() {
@@ -40,6 +47,27 @@
                     fetchDashboardData();
                     e.preventDefault();
                 });
+
+                // re-render dashboard in selected configuration
+                $o.configurationSelection
+                .change(function() {
+                    fetchDashboardData();
+                });
+
+                // re-render dashboard with data of next interval
+                $o.nextInterval
+                .mousedown(function() {
+                    // do stuff
+                })
+                .click(function(e) {e.preventDefault();});
+
+
+                // re-render dashboard with data of previous interval
+                $o.previousInterval
+                .mousedown(function() {
+                    // do stuff
+                })
+                .click(function(e) {e.preventDefault();});
             },
 
             renderDashboard = function(data) {
@@ -274,14 +302,6 @@
                 $o.avgRevenueKPI.text(data.avg_revenue || 0);
                 $o.totalRevenueKPI.text(data.total_revenue || 0);
 
-                // sparklines
-                $('.lp_sparklineBar').peity('bar', {
-                    width   : 34,
-                    height  : 14,
-                    gap     : 1,
-                    fill    : function() { return '#ccc'; }
-                });
-
                 // best / worst lists
                 renderTopBottomList($o.bestConvertingList,  data.best_converting_items);
                 renderTopBottomList($o.leastConvertingList, data.least_converting_items);
@@ -289,6 +309,8 @@
                 renderTopBottomList($o.leastSellingList,    data.least_selling_items);
                 renderTopBottomList($o.bestGrossingList,    data.most_revenue_items);
                 renderTopBottomList($o.leastGrossingList,   data.least_revenue_items);
+
+                renderSparklines();
             },
 
             renderTopBottomList = function($list, data) {
@@ -317,22 +339,39 @@
             },
 
             renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
+                var kpi = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue;
+
                 return '<li>' +
                             '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
-                            '<strong class="lp_value">' + kpiValue + '<small>' + kpiUnit + '</small></strong>' +
+                            '<strong class="lp_value">' + kpi + '</strong>' +
                             '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
                         '</li>';
             },
 
+            renderSparklines = function() {
+                $('.lp_sparklineBar').peity('bar', {
+                    width   : 34,
+                    height  : 14,
+                    gap     : 1,
+                    fill    : function() { return '#ccc'; }
+                });
+            },
+
             fetchDashboardData = function() {
+                // get selected dashboard configuration
+                var interval        = $($o.selectedInterval).find(':checked').val(),
+                    revenueModel    = $o.selectedRevenueModel.find(':checked').val();
+
                 $.post(
                     lpVars.ajaxUrl,
                     {
-                        'action'    : 'laterpay_get_dashboard_data',
-                        '_wpnonce'  : lpVars.nonces.dashboard,
-                        'days'      : $o.daysBack,
-                        'count'     : $o.itemsPerList,
-                        'refresh'   : 1,    // 1 (true): refresh data, 0 (false): only load the cached data; default: 1
+                        'action'        : 'laterpay_get_dashboard_data',
+                        '_wpnonce'      : lpVars.nonces.dashboard,
+                        'interval'      : interval,
+                        'revenue_model' : revenueModel,
+                        'days'          : $o.daysBack,      // TODO: this should get removed / replaced by interval
+                        'count'         : $o.itemsPerList,  // TODO: this is kinda irrelevant and should get removed
+                        'refresh'       : 1,    // 1 (true): refresh data, 0 (false): only load the cached data; default: 1
                     },
                     function(response) {
                         if (response.success) {
