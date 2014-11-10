@@ -150,7 +150,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'DAYNAME(date)  AS day_name',
-                'HOUR(date)     AS hour'
+                'HOUR(date)     AS hour',
             )
         );
         $args = wp_parse_args( $args, $default_args );
@@ -176,7 +176,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'DAYNAME(date)  AS day_name',
-                'HOUR(date)     AS hour'
+                'HOUR(date)     AS hour',
             )
         );
         $args = wp_parse_args( $args, $default_args );
