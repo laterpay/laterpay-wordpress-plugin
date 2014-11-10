@@ -417,6 +417,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
             'start_timestamp'   => $start_timestamp,
             'end_timestamp'     => $end_timestamp,
+            'start_date'        => date_i18n( 'd.m', $start_timestamp ),
+            'end_date'          => date_i18n( 'd.m', $end_timestamp ),
             'interval'          => $interval
         );
 
