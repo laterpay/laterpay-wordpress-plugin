@@ -19,7 +19,7 @@ class LaterPay_Form_PostRating extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_post_rating',
+                            'eq' => 'laterpay_post_rate_purchased_content',
                         ),
                     ),
                 )
@@ -27,7 +27,7 @@ class LaterPay_Form_PostRating extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'nonce',
+            '_wpnonce',
             array(
                 'validators' => array(
                     'is_string',
