@@ -2,7 +2,7 @@
 
 <?php
     // plugin menu pointer
-    if ( in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $pointers ) ):
+    if ( in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $laterpay['pointers'] ) ):
         $pointer_content = '<h3>' . __( 'Welcome to LaterPay', 'laterpay' ) . '</h3>';
         $pointer_content .= '<p>' . __( 'Set the most appropriate settings for you.', 'laterpay' ) . '</p>';
 ?>
@@ -30,7 +30,7 @@
 <?php endif; ?>
 <?php
     // add / edit post page - pricing box pointer
-    if ( in_array( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER, $pointers ) ):
+    if ( in_array( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER, $laterpay['pointers'] ) ):
         $pointer_content = '<h3>' . __( 'Set a Price for this Post', 'laterpay' ) . '</h3>';
         $pointer_content .= '<p>' . __( 'Set an <strong>individual price</strong> for this post here.<br>You can also apply <strong>advanced pricing</strong> by defining how the price changes over time.', 'laterpay' ) . '</p>';
 ?>

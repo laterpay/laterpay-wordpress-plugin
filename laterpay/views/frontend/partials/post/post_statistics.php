@@ -46,7 +46,7 @@
                 <span class="lp_sparklineBackgroundBar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
             </li>
             <li>
-                <big><?php echo number_format_i18n( $laterpay_statistic['todayBuyers'], 1 ); ?><small>%</small></big>
+                <big><?php echo number_format_i18n( $laterpay['statistic']['todayBuyers'], 1 ); ?><small>%</small></big>
                 <small><?php _e( 'Buyers', 'laterpay' ); ?></small>
             </li>
         </ul>
@@ -54,7 +54,7 @@
     <div class="lp_postStatistics_details">
         <ul>
             <li>
-                <span class="lp_sparklineBar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay_statistic['last30DaysVisitors'], 'quantity', ';' ); ?></span>
+                <span class="lp_sparklineBar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysVisitors'], 'quantity', ';' ); ?></span>
             </li>
             <li>
                 <big><?php echo $laterpay['statistic']['todayVisitors']; ?></big>
