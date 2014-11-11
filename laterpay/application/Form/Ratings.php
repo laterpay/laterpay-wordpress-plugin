@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay plugin mode form class
+ * LaterPay rating feature form class
  */
 class LaterPay_Form_Ratings extends LaterPay_Form_Abstract
 {
