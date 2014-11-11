@@ -127,7 +127,8 @@ class LaterPay_Helper_View
     /**
      * Remove extra spaces from string.
      *
-     * @param  string $string
+     * @param string $string
+     *
      * @return string
      */
     public static function remove_extra_spaces( $string ) {

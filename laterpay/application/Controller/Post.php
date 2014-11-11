@@ -552,11 +552,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post_summary_rating    = (int) get_post_meta( $post_id, 'laterpay_summary_rating', true );
         $post_ratings_count     = (int) get_post_meta( $post_id, 'laterpay_ratings_count', true );
         $ips_that_rated_post    = get_post_meta( $post_id, 'laterpay_ips_rated' );
-        $post_rating_aggregated = $post_ratings_count ? number_format( $post_summary_rating / $post_ratings_count, 2 ) : 0;
+        $post_rating_aggregated = $post_ratings_count ? number_format_i18n( $post_summary_rating / $post_ratings_count, 1 ) : 0;
 
         // output states
         $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
-        $show_post_ratings          = get_option( 'laterpay_ratings');
+        $show_post_ratings          = get_option( 'laterpay_ratings' );
         $user_can_read_statistics   = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
         $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
 

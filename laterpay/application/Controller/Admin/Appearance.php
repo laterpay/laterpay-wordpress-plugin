@@ -125,6 +125,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                 }
                 break;
 
+            // update rating functionality (on / off) for purchased items
             case 'ratings':
                 $ratings_form = new LaterPay_Form_Ratings();
 
@@ -132,7 +133,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                     wp_send_json(
                         array(
                             'success' => false,
-                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                         )
                     );
                 } else {
@@ -143,14 +144,14 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                             wp_send_json(
                                 array(
                                     'success' => true,
-                                    'message' => __( 'Visitors will now see ratings of your posts.', 'laterpay' )
+                                    'message' => __( 'Visitors can now rate the posts they have purchased.', 'laterpay' ),
                                 )
                             );
                         } else {
                             wp_send_json(
                                 array(
                                     'success' => true,
-                                    'message' => __( 'Visitors will now not see ratings of your posts.', 'laterpay' )
+                                    'message' => __( 'The rating of posts has been disabled.', 'laterpay' ),
                                 )
                             );
                         }
@@ -162,7 +163,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success' => false,
-                        'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                        'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                     )
                 );
                 break;

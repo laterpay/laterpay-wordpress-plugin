@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay backend rating form class
+ * LaterPay backend rating feature form class
  */
 class LaterPay_Form_Ratings extends LaterPay_Form_Abstract
 {
@@ -69,4 +69,7 @@ class LaterPay_Form_Ratings extends LaterPay_Form_Abstract
         );
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b1ec86c7bce7781103a81268604e5db7a63425d9

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay frontend rating form class
+ * LaterPay frontend post rating form class
  */
 class LaterPay_Form_PostRating extends LaterPay_Form_Abstract
 {
@@ -71,4 +71,7 @@ class LaterPay_Form_PostRating extends LaterPay_Form_Abstract
         );
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b1ec86c7bce7781103a81268604e5db7a63425d9
