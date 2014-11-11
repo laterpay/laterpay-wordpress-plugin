@@ -71,7 +71,4 @@ class LaterPay_Form_PostRating extends LaterPay_Form_Abstract
         );
     }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> b1ec86c7bce7781103a81268604e5db7a63425d9
