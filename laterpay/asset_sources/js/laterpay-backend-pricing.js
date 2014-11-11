@@ -220,7 +220,7 @@
                 // switch pass pay mode
                 $('.lp_pass-container .lp_changeLink').click(function(e){
                     var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
-                    togglePassForm('show',pass_id);
+                    togglePassForm( 'show', pass_id );
                     e.preventDefault();
                     return false;
                 });
@@ -230,12 +230,13 @@
                     return false;
                 });
                 $('.lp_pass-container .lp_deleteLink').click(function(e){
-                    alert('TODO');
+                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
+                    removePass( e, pass_id );
                     e.preventDefault();
                     return false;
                 });
                 $('.lp_pass-container .lp_cancelLink').click(function(e){
-                    togglePassForm('hide',0);
+                    togglePassForm( 'hide', 0 );
                     e.preventDefault();
                     return false;
                 });
@@ -263,9 +264,8 @@
                     ajaxurl,
                     $('#lp_js_passes_form').serializeArray(),
                     function(r) {
-                        console.log(r);
                         if (r.success) {
-                            //window.location.reload();   
+                            window.location.reload();
                         }else{
                             togglePassForm('show',0);
                         }
@@ -276,6 +276,23 @@
                 e.preventDefault();
                 return false;
             },
+            
+            removePass = function(e,pass_id) {
+                $.post(
+                    ajaxurl,
+                    { action : 'laterpay_pricing', form : 'pass_delete', 'pass_id' : pass_id },
+                    function(r) {
+                        if (r.success) {
+                            window.location.reload();
+                        }else{
+                            setMessage(r.message, r.success);
+                        }
+                    },
+                    'json'
+                );
+                e.preventDefault();
+                return false;
+            },            
 
             togglePassForm = function(todo, pass_id) {
                 var editor = $('.lp_passes_editor');
@@ -285,18 +302,38 @@
                 $('.lp_pass-container .lp_cancelLink').hide();
                 $('.lp_pass-container .lp_deleteLink').show();
                 if (todo == 'show') {
+                    fillPassForm(pass_id);
                     passContainer.show();
                     $(passContainer).find('.lp_passes_editor_container').append(editor.show());
                     passContainer.find('.lp_changeLink').hide();
                     passContainer.find('.lp_saveLink').show();
                     passContainer.find('.lp_cancelLink').show();
                     passContainer.find('.lp_deleteLink').hide();
+                    // new pass form have to be usually hidden
+                    if( pass_id > 0 ){
+                        $('.lp_pass-container[data-pass-id=0]').hide();
+                    }
                 } else if (todo == 'hide') {
                     var link = $('.lp_js_add_pass');
                     passContainer.hide();
                     $(link).after(editor.hide());
                 }
-            },            
+            },
+                    
+            fillPassForm = function(pass_id){
+        
+                if( !passes_array || !passes_array[ pass_id ] ){
+                    return;
+                }else{
+                    var pass = passes_array[ pass_id ];
+                }
+                $('.lp_passes_editor input, .lp_passes_editor select, .lp_passes_editor textarea').each(function(i, v) {
+                    var name = $(v).attr('name');
+                    if (name != '' && pass[ name ]) {
+                        $(v).val(pass[ name ]);
+                    }
+                });
+            },
             
             togglePassPayMode = function() {
                 var $toggle                 = $o.passPayType,

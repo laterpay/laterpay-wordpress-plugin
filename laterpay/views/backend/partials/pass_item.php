@@ -3,7 +3,7 @@
 <div class="lp_pass-container" data-pass-id = "<?php echo $laterpay_pass['pass_id']; ?>">
     <div class="lp_pass-cover">
         <h2><?php echo $laterpay_pass['title']; ?></h2>
-        <p><?php echo $laterpay_pass['text']; ?></p>
+        <p><?php echo $laterpay_pass['description']; ?></p>
         <a href="javascript:return false;" 
            class="lp_purchasePassLink lp_purchaseLink lp_button" 
            title="Buy now with LaterPay" 
@@ -11,7 +11,7 @@
            data-preview-as-visitor="1">
                <?php
                echo sprintf(
-                       __('%s<small>%s</small>', 'laterpay'), number_format_i18n((float) $laterpay_pass['price'], 2), $laterpay_pass['currency']
+                       __('%s<small>%s</small>', 'laterpay'), number_format_i18n((float) $laterpay_pass['price'], 2), 'EUR'
                );
                ?>
             <a href="javascript:return false;" class="lp_passTermsLink">Terms</a>

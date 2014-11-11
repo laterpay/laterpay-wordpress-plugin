@@ -8,15 +8,20 @@ class LaterPay_Helper_Passes {
      * @var string
      */
     public static $defaults = array(
-        'valid_term'  => '1',
-        'valid_period'  => 'Day',
-        'access_to'     => 'All content',
-        'access_detail' => 'First category',
-        'pass_type'      => 0,
-        'title'         => 'Title',
-        'title_color'=>'#3f3f3f',
-        'description_color'=>'#3f3f3f',
-        'background_color'=>'#ffffff',
+        'pass_id'           => '0',
+        'status'            => 'active',
+        'valid_term'        => '1',
+        'valid_period'      => 'Day',
+        'access_to'         => 'All content',
+        'access_category'   => 'First category',
+        'price'             => 0.99,
+        'pay_type'          => 'later',
+        'title'             => 'Title',
+        'title_color'       => '#3f3f3f',
+        'description'       => '',
+        'description_color' => '#3f3f3f',
+        'background_path'   => '',
+        'background_color'  => '#ffffff',
     );
 
     /**
@@ -28,18 +33,15 @@ class LaterPay_Helper_Passes {
         'Week',
         'Month',
         'Year'
-    );    
-    
+    );
+
     /**
      * @var array
      */
-    public static $period_description = array(
-        'Hour',
-        'Day',
-        'Week',
-        'Month',
-        'Year'
-    );      
+    public static $pay_type = array(
+        'later' => '',
+        'imediately',
+    );       
     
     /**
      * @var array
@@ -114,7 +116,7 @@ class LaterPay_Helper_Passes {
         
         $options_html = '';
         foreach (self::$access_detail as $key)
-            if( $key == self::$defaults['access_detail'] )
+            if( $key == self::$defaults['access_category'] )
                 $options_html .= "<option selected value='$key'>$key</option>";
             else 
                 $options_html .= "<option value='$key'>$key</option>";

@@ -84,7 +84,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_categories            = get_categories();
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
-        $passes_list                = $passes_model->get_all_passes();
+        $passes_list                = (array) $passes_model->get_all_passes();
+        $passes_list_json           = $this->get_passes_json( $passes_list );
 
         $this->assign( 'categories_with_defined_price',      $categories_with_defined_price );
         $this->assign( 'standard_currency',                  get_option( 'laterpay_currency' ) );
@@ -99,6 +100,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $this->assign( 'bulk_categories_with_price',         $bulk_categories_with_price );
         $this->assign( 'bulk_saved_operations',              $bulk_saved_operations );
         $this->assign( 'passes_list',                        $passes_list );
+        $this->assign( 'passes_list_json',                   $passes_list_json );
 
         $this->render( 'backend/pricing' );
     }
@@ -175,7 +177,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 case 'pass_form_save':
                     $this->pass_form_save();
                     break;                    
-
+                    
+                case 'pass_delete':
+                    $this->pass_delete();
+                    break;   
+                
                 default:
                     wp_send_json(
                         array(
@@ -840,15 +846,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             
             $pass_id      = $pass_model->update_pass($data);
             
-            //echo '<pre>'.print_r( $data, true );die();
-
             wp_send_json(
                 array(
                     'success' => true,
-                    'data'    => array(
-                        'id'      => $pass_id,
-                        'message' => $save_pass_form->get_field_value( 'bulk_message' ),
-                    ),
                     'message' => __( 'Pass was successfully saved.', 'laterpay' ),
                 )
             );
@@ -861,5 +861,51 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             )
         );
     }    
+    
+    /**
+     * Remove pass by id
+     *
+     * @return void
+     */
+    protected function pass_delete() {
+        
+        if( isset( $_POST['pass_id'] ) ){
+            $pass_id        = $_POST['pass_id'];
+            $pass_model     = new LaterPay_Model_Pass();
+            
+            $pass_model->delete_pass_by_id($pass_id);
+            
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'message' => __( 'Pass was successfully saved.', 'laterpay' ),
+                )
+            );
+        }else{
+            wp_send_json(
+            array(
+            'success' => false,
+            'message' => __( 'Selected pass already deleted.', 'laterpay' ),
+            )
+            );
+        }
+
+        
+    }    
+    
+    /**
+     * Get a json of passes list with defaults
+     *
+     * @return void
+     */
+    private function get_passes_json( $passes_list = null ){
+        $passes_array = array( 0 => LaterPay_Helper_Passes::$defaults );
+        foreach( $passes_list as $pass ){
+            $pass = (array)$pass;
+            $passes_array[ $pass['pass_id'] ] = $pass;
+        }
+        $passes_array = json_encode($passes_array);
+        return $passes_array;
+    }
     
 }

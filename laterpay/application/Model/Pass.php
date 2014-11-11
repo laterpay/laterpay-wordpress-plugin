@@ -52,36 +52,53 @@ class LaterPay_Model_Pass
     public function update_pass( $data ) {
         global $wpdb;
 
-        $defaults = array(
-            'pass_id'
-        );
+        // leave only the needed keys
+        $data = array_intersect_key( $data, LaterPay_Helper_Passes::$defaults );
         
-        $data = array_merge( $defaults, $data );
+        // fill values what wasn`t set from defaults
+        $data = array_merge( LaterPay_Helper_Passes::$defaults, $data );
         
-        $wpdb->insert(
-                    $this->table,
-                    $data
-            );                
-        $sql = $wpdb->prepare(
-            $sql,
-            $data['pass_id'],
-            $data['status'],
-            $data['valid_term'],
-            $data['valid_period'],
-            $data['access_to'],
-            $data['access_category'],
-            $data['price'],
-            $data['pay_type'],
-            $data['title'],
-            $data['title_color'],
-            $data['description'],
-            $data['description_color'],
-            $data['background_path'],
-            $data['background_color']
-        );
+        // pass_id is a a primary key and it set by autoincrement
+        $pass_id = $data['pass_id'];
+        unset($data['pass_id']);
+        
+        // format for insert and update statement
+        $format = array(
+                '%s', // status
+                '%s', // valid_term
+                '%s', // valid_period
+                '%s', // access_to
+                '%s', // access_category
+                '%f', // price
+                '%s', // pay_type
+                '%s', // title
+                '%s', // title_color
+                '%s', // description
+                '%s', // description_color
+                '%s', // background_path
+                '%s', // background_color
+                    );
+        
+        if( $pass_id == 0 ){
+            $wpdb->insert(
+                    $this->table, 
+                    $data, 
+                    $format
+            );
+        }else{
+            unset($data['pass_id']);
+            $wpdb->update(
+                    $this->table, 
+                    $data, 
+                    array('pass_id' => $pass_id), 
+                    $format, 
+                    array('%d') // pass_id
+            );
+        }
+        
+        
 
         return $wpdb->get_results( $sql );
-
     }
     /**
      * Get today's history by post id.
@@ -109,6 +126,24 @@ class LaterPay_Model_Pass
         );
 
         return $list;
+    }
+    
+    /**
+     * Delete pass by id.
+     *
+     * @param integer $id pass id
+     *
+     * @return int|false the number of rows updated, or false on error
+     */
+    public function delete_pass_by_id( $id ) {
+        global $wpdb;
+
+        $where = array(
+            'pass_id' => (int) $id,
+        );
+
+        $success = $wpdb->delete( $this->table, $where, '%d' );
+        return $success;
     }
 
 }
