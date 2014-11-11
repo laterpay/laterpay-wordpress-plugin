@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/laterpay/laterpay-wordpress-plugin.png?label=ready&title=Ready)](https://waffle.io/laterpay/laterpay-wordpress-plugin)
 laterpay-wordpress-plugin
 =========================
 
