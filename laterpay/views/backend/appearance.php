@@ -93,7 +93,7 @@
                 </form>
             </div><?php _e( 'rate a post after they have purchased it.', 'laterpay' ); ?>
         </div>
-        <hr class="lp_m-1-0 lp_m-b3">
+        <hr class="lp_u_m-1-0 lp_u_m-b3">
 
         <div class="lp_row">
             <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
@@ -101,14 +101,14 @@
             <dfn class="lp_u_clearfix">
                 <?php _e( 'Insert shortcode [laterpay_premium_download] into a post to render a box for selling additional paid content.', 'laterpay' ); ?>
             </dfn>
-            <code class="lp_codeSnippet +lp_shownAbove lp_u_block">
+            <code class="lp_codeSnippet lp--shownAbove lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
                 <?php _e( '[laterpay_premium_download target_page_id="<dfn>127</dfn>" target_page_title="<dfn>Event video footage</dfn>" content_type="<dfn>video</dfn>" teaser_image_path="<dfn>/uploads/images/concert-video-still.jpg</dfn>" heading_text="<dfn>Video footage of concert</dfn>" description_text="<dfn>Full HD video of the entire concert, including behind the scenes action.</dfn>"]', 'laterpay' ) ?>
             </code>
             <table class="lp_u_m-b1">
                 <tr>
                     <td class="lp_u_pd-l0">
-                        <img class="lp_uiElementPreview +lp_large" src="<?php echo $config->get( 'image_url' ) . 'shortcode-2x.png'; ?>">
+                        <img class="lp_uiElementPreview lp--large" src="<?php echo $config->get( 'image_url' ) . 'shortcode-2x.png'; ?>">
                     </td>
                     <td>
                         <table>
@@ -173,11 +173,11 @@
             <dfn class="lp_u_clearfix">
                 <?php _e( 'Enclose multiple [laterpay_premium_download] shortcodes in a [laterpay_box_wrapper] shortcode to align them in a three-column layout.', 'laterpay' ); ?>
             </dfn>
-            <code class="lp_codeSnippet +lp_shownAbove lp_u_block">
+            <code class="lp_codeSnippet lp--shownAbove lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
                 <?php _e( '[laterpay_box_wrapper]<dfn>[laterpay_premium_download &hellip;][laterpay_premium_download &hellip;]</dfn>[/laterpay_box_wrapper]', 'laterpay' ) ?>
             </code>
-            <img class="lp_uiElementPreview +lp_large lp_u_m-t05" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
+            <img class="lp_uiElementPreview lp--large lp_u_m-t05" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
