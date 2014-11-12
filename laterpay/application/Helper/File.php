@@ -113,7 +113,7 @@ class LaterPay_Helper_File
         $file       = strtr($file, '+/', '-_');
 
         $request    = new LaterPay_Core_Request();
-        $path       = $request->getServer( 'DOCUMENT_ROOT' ) . $uri;
+        $path       = ABSPATH . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
 
 
@@ -313,7 +313,7 @@ class LaterPay_Helper_File
         }
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
-        $file   = $request->getServer( 'DOCUMENT_ROOT' ) . $cipher->decrypt( $file );
+        $file   = ABSPATH . $cipher->decrypt( $file );
 
         return $file;
     }
