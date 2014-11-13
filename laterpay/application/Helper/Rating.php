@@ -94,4 +94,6 @@ class LaterPay_Helper_Rating
         $users_voted[]    = $user_id;
         update_post_meta( $post_id, 'laterpay_users_voted', $users_voted );
     }
+
 }
+

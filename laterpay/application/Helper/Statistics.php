@@ -219,4 +219,5 @@ class LaterPay_Helper_Statistics
 
         return null;
     }
+
 }
