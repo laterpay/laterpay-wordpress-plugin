@@ -60,19 +60,28 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function ajax_rate_purchased_content() {
-        $post_rating_form = new LaterPay_Form_PostRating();
+        $post_rating_form = new LaterPay_Form_PostRating( $_POST );
 
         if ( $post_rating_form->is_valid( $_POST ) ) {
-            $post_id        = $post_rating_form->get_field_value( 'post_id' );
-            $rating_value   = $post_rating_form->get_field_value( 'rating_value' );
-            $ratings_count  = (int) get_post_meta( $post_id, 'laterpay_ratings_count', true );
-            $summary_rating = (int) get_post_meta( $post_id, 'laterpay_summary_rating', true );
+            $post_id       = $post_rating_form->get_field_value( 'post_id' );
+            $rating_value  = $post_rating_form->get_field_value( 'rating_value' );
+            $is_user_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
 
-            update_post_meta( $post_id, 'laterpay_summary_rating', $summary_rating + $rating_value );
-            update_post_meta( $post_id, 'laterpay_ratings_count', $ratings_count + 1 );
+            if ( $is_user_voted ) {
+                wp_send_json(
+                    array(
+                        'success' => false,
+                    )
+                );
+            }
 
-            // TODO: save post user ip
-            // $ips_that_rated_post = update_post_meta( $post_id, 'laterpay_ips_rated', $ip );
+            // get rating data and add new data to its
+            $rating       = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
+            $rating_index = (string)$rating_value;
+            $rating[$rating_index] += 1;
+
+            update_post_meta( $post_id, 'laterpay_rating', $rating );
+            LaterPay_Helper_Rating::set_user_voted( $post_id );
 
             wp_send_json(
                 array(
@@ -543,22 +552,22 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get purchase link
-        $purchase_link = $this->get_laterpay_purchase_link( $post_id );
+        $purchase_link                  = $this->get_laterpay_purchase_link( $post_id );
 
         // get the teaser content
-        $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+        $teaser_content                 = get_post_meta( $post_id, 'laterpay_post_teaser', true );
 
-        // get post rating
-        $post_summary_rating    = (int) get_post_meta( $post_id, 'laterpay_summary_rating', true );
-        $post_ratings_count     = (int) get_post_meta( $post_id, 'laterpay_ratings_count', true );
-        $ips_that_rated_post    = get_post_meta( $post_id, 'laterpay_ips_rated' );
-        $post_rating_aggregated = $post_ratings_count ? number_format_i18n( $post_summary_rating / $post_ratings_count, 1 ) : 0;
+        // get post rating summary
+        $summary_post_rating            = LaterPay_Helper_Rating::get_summary_post_rating_data( $post_id );
+        $aggregated_post_rating         = $summary_post_rating['votes'] ? number_format( $summary_post_rating['rating'] / $summary_post_rating['votes'], 1 ) : 0;
+        $post_rating_data               = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
+        $is_user_already_voted          = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
 
         // output states
-        $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
-        $show_post_ratings          = get_option( 'laterpay_ratings' );
-        $user_can_read_statistics   = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
-        $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
+        $show_post_ratings              = get_option( 'laterpay_ratings' );
+        $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
+        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
         // caching and Ajax
         $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
@@ -587,8 +596,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'revenue_model'           => $revenue_model,
             'link'                    => $purchase_link,
             'preview_post_as_visitor' => $preview_post_as_visitor,
-            'post_rating_aggregated'  => $post_rating_aggregated,
-            'post_ratings_count'      => $post_ratings_count,
+            'post_rating_data'        => $post_rating_data,
+            'post_aggregated_rating'  => $aggregated_post_rating,
+            'post_summary_votes'      => $summary_post_rating['votes'],
+            'is_user_already_voted'   => $is_user_already_voted,
         );
         $this->assign( 'laterpay', $view_args );
 

@@ -200,4 +200,23 @@ class LaterPay_Helper_Statistics
         return $protocol . '://' . $host . $port . $s['REQUEST_URI'];
     }
 
+    /**
+     * Get user unique id.
+     *
+     * @return null|string user id
+     */
+    public static function get_user_unique_id( ) {
+        if ( isset( $_COOKIE['laterpay_tracking_code'] ) ) {
+            list( $uniqueId, $control_code ) = explode( '.', $_COOKIE['laterpay_tracking_code'] );
+
+            // make sure only authorized information is recorded
+            if ( $control_code != md5( $uniqueId . self::$options['secret'] ) ) {
+                return null;
+            }
+
+            return $uniqueId;
+        }
+
+        return null;
+    }
 }
