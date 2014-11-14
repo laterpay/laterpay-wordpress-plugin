@@ -118,7 +118,7 @@ class LaterPay_Helper_Post {
             $url  = self::get_after_purchase_redirect_url( $url_params );
             $hash = self::get_hash_by_url( $url );
             $url  = $url . '&hash=' . $hash;
-        };
+        }
 
         // parameters for LaterPay purchase form
         $params = array(
