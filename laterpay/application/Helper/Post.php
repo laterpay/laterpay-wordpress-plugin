@@ -106,8 +106,7 @@ class LaterPay_Helper_Post {
             'buy'         => 'true',
             'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
-        /* Commented with a temporary solution: redirect to attachment page instead of download it by browser. So attachments will have the same behaviour as post after purchase.
-         * 
+
         if ( $post->post_type == 'attachment' ) {
             $url = LaterPay_Helper_File::get_encrypted_resource_url(
                                             $post_id,
@@ -120,10 +119,6 @@ class LaterPay_Helper_Post {
             $hash = self::get_hash_by_url( $url );
             $url  = $url . '&hash=' . $hash;
         };
-        */
-        $url  = self::get_after_purchase_redirect_url( $url_params );
-        $hash = self::get_hash_by_url( $url );
-        $url  = $url . '&hash=' . $hash;
 
         // parameters for LaterPay purchase form
         $params = array(

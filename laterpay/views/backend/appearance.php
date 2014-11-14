@@ -82,7 +82,7 @@
             </dfn>
             <code class="lp_codeSnippet lp--shownAbove lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-                <?php _e( '[laterpay_premium_download target_page_id="<dfn>127</dfn>" target_page_title="<dfn>Event video footage</dfn>" content_type="<dfn>video</dfn>" teaser_image_path="<dfn>/uploads/images/concert-video-still.jpg</dfn>" heading_text="<dfn>Video footage of concert</dfn>" description_text="<dfn>Full HD video of the entire concert, including behind the scenes action.</dfn>"]', 'laterpay' ) ?>
+                <?php _e( '[laterpay_premium_download target_post_id="<dfn>127</dfn>" target_post_title="<dfn>Event video footage</dfn>" content_type="<dfn>video</dfn>" teaser_image_path="<dfn>/uploads/images/concert-video-still.jpg</dfn>" heading_text="<dfn>Video footage of concert</dfn>" description_text="<dfn>Full HD video of the entire concert, including behind the scenes action.</dfn>"]', 'laterpay' ) ?>
             </code>
             <table class="lp_u_m-b1">
                 <tr>
@@ -93,19 +93,19 @@
                         <table>
                             <tr>
                                 <td>
-                                    <pre>target_page_id</pre>
+                                    <pre>target_post_id</pre>
                                 </td>
                                 <td>
-                                    <?php _e( 'The ID of the page that contains the paid content.', 'laterpay'); ?><br>
-                                    <dfn data-icon="n"><?php _e( 'Page IDs are unique within a WordPress blog and should thus be used instead of the target_page_title.<br> If both target_page_id and target_page_title are provided, the target_page_title will be ignored.', 'laterpay'); ?></dfn>
+                                    <?php _e( 'The ID of the post that contains the paid content.', 'laterpay'); ?><br>
+                                    <dfn data-icon="n"><?php _e( 'Page IDs are unique within a WordPress blog and should thus be used instead of the target_post_title.<br> If both target_post_id and target_post_title are provided, the target_post_title will be ignored.', 'laterpay'); ?></dfn>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <pre>target_page_title</pre>
+                                    <pre>target_post_title</pre>
                                 </td>
                                 <td>
-                                    <?php _e( 'The title of the page that contains the paid content.', 'laterpay'); ?><br>
+                                    <?php _e( 'The title of the post that contains the paid content.', 'laterpay'); ?><br>
                                     <dfn data-icon="n"><?php _e( 'Changing the title of the linked post requires updating the shortcode accordingly.', 'laterpay'); ?></dfn>
                                 </td>
                             </tr>
