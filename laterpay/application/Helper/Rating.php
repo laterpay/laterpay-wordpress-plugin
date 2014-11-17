@@ -39,9 +39,9 @@ class LaterPay_Helper_Rating
             self::initialize_post_rating_data( $post_id );
         }
 
-        $rating_data        = get_post_meta( $post_id, 'laterpay_rating' )[0];
+        $rating_data        = get_post_meta( $post_id, 'laterpay_rating' );
         // sort descending by key
-        krsort( $rating_data );
+        krsort( $rating_data[0] );
 
         return $rating_data;
     }
