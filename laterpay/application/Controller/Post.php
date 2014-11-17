@@ -741,7 +741,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             unset($_COOKIE['laterpay_download_attached']);
             setcookie(
                 'laterpay_download_attached',
-                $attachment_url,
+                null,
                 time() - 60,
                 '/'
             );
