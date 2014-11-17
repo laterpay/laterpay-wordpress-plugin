@@ -738,7 +738,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( isset( $_COOKIE['laterpay_download_attached'] ) ) {
             $attachment_url = $_COOKIE['laterpay_download_attached'];
             // remove cookie
-            unset($_COOKIE['laterpay_download_attached']);
+            unset( $_COOKIE['laterpay_download_attached'] );
             setcookie(
                 'laterpay_download_attached',
                 null,
