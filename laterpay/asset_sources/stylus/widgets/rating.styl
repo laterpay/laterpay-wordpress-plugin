@@ -36,15 +36,14 @@
 
 
 // rating stars used in form and results ---------------------------------------
-/* render rating stars using inline SVG stars in radio button labels
- *
- * 1. align the stars horizontally with lowest to highest rating item ltr
- */
+/* render rating stars using inline SVG stars in radio button labels */
 .lp_rating__star,
 .lp_rating:hover .lp_rating__star {
     float: left;
     position: relative;
-    width: 1.5em;
+}
+.lp_rating__star {
+    width: 1em;
 }
 .lp_rating__star svg {
     fill: $background-darker;
@@ -66,6 +65,8 @@
 .lp_rating:hover .lp_rating__star {
     cursor: pointer;
     float: right; /* 3 */
+    margin-left: 0.1em;
+    width: 1.5em;
 
     &:hover svg,
     &:hover ~ .lp_rating__star svg, /* 1 */
@@ -74,12 +75,8 @@
     }
 }
 
-.lp_rating .lp_rating__star + .lp_rating__star {
-    margin-right: 0.25em; // add some spacing between stars
-}
-
 .lp_rating__ratings-count {
-    color: $text-lighter;
+    color: $text-lightest;
     display: inline-block;
 }
 
@@ -116,7 +113,10 @@
  * - rating distribution
  */
 .lp_rating__results {
-    position: relative;
+    position: absolute;
+    right: 0;
+    top: 2.75em;
+    width: 8em;
 
     /* show the details when hovering the results */
     &:hover .lp_rating__distribution {
@@ -126,9 +126,7 @@
 
 /* average rating and number of votes displayed beneath purchase button */
 .lp_rating__aggregated-result {
-    line-height: 1.6em;
-    margin: 0 auto;
-    width: 12em;
+    line-height: 1.1;
 }
 
 /**
@@ -147,7 +145,7 @@
     left: 50%; /* 1 */
     line-height: 1; /* 1 */
     margin-top: 1em;
-    margin-left: -10em; /* 1 */
+    margin-left: -8.33em; /* 1 */
     padding: 1em;
     position: absolute;
     width: 13.5em;
@@ -177,7 +175,7 @@
     .lp_rating__distribution-heading {
         color: $text-lighter;
         margin: 0 0 1em;
-        text-align:center;
+        text-align: center;
     }
 
     dl {
