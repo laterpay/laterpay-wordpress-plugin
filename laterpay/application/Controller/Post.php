@@ -647,7 +647,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $context
             );
 
-            // add rating after content if it enabled
+            // append rating form to content, if content rating is enabled
             if ( $show_post_ratings ) {
                 $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
             }
@@ -662,9 +662,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $html .= '</div>';
         }
 
-        // add rating after content if it enabled
+        // append rating results to content, if content rating is enabled
         if ( $show_post_ratings ) {
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_aggregated' ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_results' ) );
         }
 
         // add the teaser content
