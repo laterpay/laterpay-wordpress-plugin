@@ -209,8 +209,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             $post_prices = array();
         }
 
-        $post_default_category              = array_key_exists( 'category_id',      $post_prices ) ? (int) $post_prices[ 'category_id' ] : 0;
-        $post_revenue_model                 = array_key_exists( 'revenue_model',    $post_prices ) ? $post_prices[ 'revenue_model' ] : 'ppu';
+        $post_default_category              = array_key_exists( 'category_id',   $post_prices ) ? (int) $post_prices[ 'category_id' ] : 0;
+        $post_revenue_model                 = array_key_exists( 'revenue_model', $post_prices ) ? $post_prices[ 'revenue_model' ] : 'ppu';
         $post_status                        = $post->post_status;
 
         // category default price data
