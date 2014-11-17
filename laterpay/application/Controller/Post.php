@@ -561,7 +561,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $summary_post_rating            = LaterPay_Helper_Rating::get_summary_post_rating_data( $post_id );
         $aggregated_post_rating         = $summary_post_rating['votes'] ? number_format( $summary_post_rating['rating'] / $summary_post_rating['votes'], 1 ) : 0;
         $post_rating_data               = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
-        $is_user_already_voted          = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
+        $maximum_number_of_votes        = max( $post_rating_data );
+        $user_has_already_voted         = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
 
         // output states
         $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
@@ -599,7 +600,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'post_rating_data'        => $post_rating_data,
             'post_aggregated_rating'  => $aggregated_post_rating,
             'post_summary_votes'      => $summary_post_rating['votes'],
-            'is_user_already_voted'   => $is_user_already_voted,
+            'maximum_number_of_votes' => $maximum_number_of_votes,
+            'user_has_already_voted'  => $user_has_already_voted,
         );
         $this->assign( 'laterpay', $view_args );
 

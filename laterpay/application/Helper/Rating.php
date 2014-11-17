@@ -3,31 +3,32 @@
 class LaterPay_Helper_Rating
 {
     /**
-     * Array of rating indexes
+     * Array of rating indexes.
      *
      * @var array
      */
     protected static $rating_indexes = array( '1', '2', '3', '4', '5' );
 
     /**
-     * Set post rating data
+     * Initialize post rating data by creating an array with 0 values.
      *
      * @param int $post_id
      *
      * @return void
      */
-    public static function set_post_rating_data( $post_id ) {
+    public static function initialize_post_rating_data( $post_id ) {
         $rating_array = array();
-        // set rating array
+        // initialize rating array
         foreach ( self::$rating_indexes as $index ) {
             $rating_array[$index] = 0;
         }
-        // set rating data to the postmeta
+
+        // save rating data in post_meta
         update_post_meta( $post_id, 'laterpay_rating', $rating_array );
     }
 
     /**
-     * Get post rating data and set it if no exist
+     * Get post rating data, or initialize it, if it doesn't exist.
      *
      * @param $post_id
      *
@@ -35,18 +36,20 @@ class LaterPay_Helper_Rating
      */
     public static function get_post_rating_data( $post_id ) {
         if ( ! get_post_meta( $post_id, 'laterpay_rating' ) ) {
-            self::set_post_rating_data( $post_id );
+            self::initialize_post_rating_data( $post_id );
         }
 
-        $rating_data = get_post_meta( $post_id, 'laterpay_rating' );
+        $rating_data        = get_post_meta( $post_id, 'laterpay_rating' )[0];
+        // sort descending by key
+        krsort( $rating_data );
 
-        return $rating_data[0];
+        return $rating_data;
     }
 
     /**
-     * Get summary post rating data
+     * Get summary post rating data.
      *
-     * @param  int $post_id
+     * @param int $post_id
      *
      * @return array
      */
@@ -55,18 +58,21 @@ class LaterPay_Helper_Rating
         $votes_count    = 0;
         $summary_rating = 0;
 
-        foreach( $rating_data as $index => $value ) {
+        foreach ( $rating_data as $index => $value ) {
             $summary_rating += (int) $index * $value;
             $votes_count    += $value;
         }
 
-        return array( 'rating' => $summary_rating, 'votes' => $votes_count );
+        return array(
+                     'rating'   => $summary_rating,
+                     'votes'    => $votes_count,
+                    );
     }
 
     /**
-     * Check if user voted post already
+     * Check, if user voted post already.
      *
-     * @param  int $post_id
+     * @param int $post_id
      *
      * @return bool
      */
@@ -77,11 +83,12 @@ class LaterPay_Helper_Rating
             return false;
         }
         $users_voted      = $users_voted_data[0];
+
         return in_array( $user_id, $users_voted );
     }
 
     /**
-     * Add user id to the array of users that already voted post
+     * Add user_id to the array of users that already voted post.
      *
      * @param $post_id
      *
@@ -92,8 +99,8 @@ class LaterPay_Helper_Rating
         $users_voted_data = get_post_meta( $post_id, 'laterpay_users_voted');
         $users_voted      = $users_voted_data ? $users_voted_data[0] : array();
         $users_voted[]    = $user_id;
+
         update_post_meta( $post_id, 'laterpay_users_voted', $users_voted );
     }
 
 }
-

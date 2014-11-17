@@ -1,51 +1,208 @@
 /**
- * Star rating widget based on labeled radio buttons
+ * CSS-only star rating widget based on labeled radio buttons.
+ *
+ * Contains styles for both rating form and rating results display.
+ *
+ * Rating form markup:
+ * The input for the highest value has to come fist in the markup so you can apply styling to all following
+ * inputs using the general sibling selector.
+ * Visual order (lowest value on the left) is restored by right-floating the labels with the rating stars.
  *
  * <div class="lp_rating">
- *     <input type="radio" id="lp_rating__input-1" class="lp_rating__input" name="lp_rating__input-1">
- *     <label for="lp_rating__input-1" class="lp_rating__star"></label>
- *     <input type="radio" id="lp_rating__input-2" class="lp_rating__input" name="lp_rating__input-2">
- *     <label for="lp_rating__input-2" class="lp_rating__star"></label>
- *     <input type="radio" id="lp_rating__input-3" class="lp_rating__input" name="lp_rating__input-3">
- *     <label for="lp_rating__input-3" class="lp_rating__star"></label>
- *     <input type="radio" id="lp_rating__input-4" class="lp_rating__input" name="lp_rating__input-4">
- *     <label for="lp_rating__input-4" class="lp_rating__star"></label>
- *     <input type="radio" id="lp_rating__input-5" class="lp_rating__input" name="lp_rating__input-5">
- *     <label for="lp_rating__input-5" class="lp_rating__star"></label>
+ *     <input type="radio" name="rating_value" id="lp_rating__input-1" class="lp_rating__input" value="1">
+ *     <label for="lp_rating__input-1" class="lp_rating__star">
+ *         <svg>
+ *     </label>
+ *     <input type="radio" name="rating_value" id="lp_rating__input-2" class="lp_rating__input" value="2">
+ *     <label for="lp_rating__input-2" class="lp_rating__star">
+ *         <svg>
+ *     </label>
+ *     <input type="radio" name="rating_value" id="lp_rating__input-3" class="lp_rating__input" value="3">
+ *     <label for="lp_rating__input-3" class="lp_rating__star">
+ *         <svg>
+ *     </label>
+ *     <input type="radio" name="rating_value" id="lp_rating__input-4" class="lp_rating__input" value="4">
+ *     <label for="lp_rating__input-4" class="lp_rating__star">
+ *         <svg>
+ *     </label>
+ *     <input type="radio" name="rating_value" id="lp_rating__input-5" class="lp_rating__input" value="5">
+ *     <label for="lp_rating__input-5" class="lp_rating__star">
+ *         <svg>
+ *     </label>
  * </div>
+ *
+ * @see http://everythingfrontend.com/posts/star-rating-input-pure-css.html
  */
 
 .lp_rating {
     display: inline-block;
     overflow: hidden;
 }
-/**
- * 1. hide the radio buttons
- * 2. align the radio buttons horizontally
+
+
+// rating stars used in form and results ---------------------------------------
+/* render rating stars using inline SVG stars in radio button labels
+ *
+ * 1. align the stars horizontally with lowest to highest rating item ltr
  */
-.lp_rating__input {
-    float: right; /* 2 */
-    height: 1.5em;
-    margin: 0 0 0 -1.5em;
-    opacity: 0; /* 1 */
-    padding: 0;
-    width: 1.5em;
-}
-/* render rating stars using background images for labels */
 .lp_rating__star,
 .lp_rating:hover .lp_rating__star {
-    background: url(http://kubyshkin.ru/samples/star-rating/star.png) 0 -1.5em no-repeat;
-    cursor: pointer;
-    float: right;
-    height: 1.5em;
+    float: left;
     position: relative;
     width: 1.5em;
 }
-/* make selection stick */
-.lp_rating__star {
-    &:hover,
-    &:hover ~ .lp_rating__star,
-    &:checked ~ .lp_rating__star {
-        background-position: 0 0;
+.lp_rating__star svg {
+    fill: $background-darker;
+}
+.lp_rating__star.lp_is-active svg {
+    fill: $background-laterpay;
+}
+
+/**
+ * display rating by highlighting the respective number of rating stars
+ * using the general sibling selector (affects all siblings after the element
+ * targeted by the selector)
+ *
+ * 1. highlight stars before the hovered star (rate)
+ * 2. highlight stars before the checked star (view rating)
+ * 3. align the stars horizontally with lowest to highest rating item ltr
+ */
+.lp_rating--ratable .lp_rating__star,
+.lp_rating--ratable:hover .lp_rating__star {
+    cursor: pointer;
+    float: right; /* 3 */
+
+    &:hover svg,
+    &:hover ~ .lp_rating__star svg, /* 1 */
+    &:checked ~ .lp_rating__star svg { /* 2 */
+        fill: $clickable-highlight;
+    }
+}
+
+.lp_rating--ratable .lp_rating__star + .lp_rating__star {
+    margin-right: 0.25em; // add some spacing between stars
+}
+
+.lp_rating__ratings-count {
+    color: $text-lighter;
+    display: inline-block;
+}
+
+
+// rating form ---------------------------------------------------------------------------------------------------------
+/**
+ * store ratings in (hidden) radio buttons
+ */
+.lp_rating__input {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+// rating results ------------------------------------------------------------------------------------------------------
+/** wrapper around the two components of the rating results
+ * - aggregated result
+ * - rating distribution
+ */
+.lp_rating__results {
+    position: relative;
+
+    /* show the details when hovering the results */
+    &:hover .lp_rating__distribution {
+        display: block;
+    }
+}
+
+/* average rating and number of votes displayed beneath purchase button */
+.lp_rating__aggregated-result {
+    line-height: 1.6em;
+    margin: 0 auto;
+    width: 10.5em;
+}
+
+/* popover with distribution of ratings */
+.lp_rating__distribution {
+    background: $background-lightest;
+    border: 1px solid $border;
+    border-radius: 3px;
+    display: none;
+    left: 50%;
+    line-height: 1;
+    margin-top: 2.5em;
+    margin-left: -8em;
+    padding: 1em;
+    position: absolute;
+    width: 13.5em;
+    z-index: $zindex-overlayed_1;
+
+    /* upward-pointing arrow */
+    .lp_triangle {
+        border: 9px solid $background-lightest;
+        border-color: transparent transparent $background-lightest transparent;
+        height: 0;
+        left: -9px;
+        position: absolute;
+        top: -8px;
+        width: 0;
+        z-index: $zindex-elevated_2;
+    }
+
+    .lp_outerTriangle {
+        border-bottom-color: hsl(0, 0%, 77%);
+        border-width: 10px;
+        left: 50%;
+        margin-left: -10px;
+        top: -20px;
+        z-index: $zindex-elevated_1;
+    }
+
+    dl {
+        margin-bottom: 0;
+    }
+
+    dt,
+    dd {
+        display: inline-block;
+    }
+
+    /* rating category (number of stars) */
+    dt {
+        width: 5.5em;
+    }
+
+    /* rating value (number of times chosen) */
+    dd {
+        margin-bottom: 0;
+        text-align: right;
+    }
+
+    .lp_rating__star {
+        width: 1em;
+    }
+
+    /**
+     * simple bar graph to display number of ratings per rating value
+     */
+    .lp_rating__background-bar,
+    .lp_rating__bar {
+        height: 1em;
+    }
+    .lp_rating__background-bar {
+        background: $background-darker;
+        display: inline-block;
+        width: 5em;
+    }
+    .lp_rating__bar {
+        background: $background-laterpay;
+        border-radius: 1px;
+        float: left;
+    }
+
+    /* fix vertical alignment of the ratings count */
+    .lp_rating__ratings-count {
+        position: relative;
+        top: -0.15em;
+        width: 2.5em;
     }
 }
