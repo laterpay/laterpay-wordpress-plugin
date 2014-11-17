@@ -485,8 +485,6 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function get_dynamic_prices( $post ) {
-        $dynamic_pricing_data = array();
-
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
             return;
         }
