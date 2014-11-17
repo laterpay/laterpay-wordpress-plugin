@@ -604,6 +604,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'post_summary_votes'      => $summary_post_rating['votes'],
             'maximum_number_of_votes' => $maximum_number_of_votes,
             'user_has_already_voted'  => $user_has_already_voted,
+            'show_post_ratings'       => $show_post_ratings,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -659,13 +660,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // add a purchase button as very first element of the content
         if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
             $html .= '<div class="lp_u_clearfix">';
-            $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase_button' ) );
             $html .= '</div>';
-        }
-
-        // append rating results to content, if content rating is enabled
-        if ( $show_post_ratings ) {
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_results' ) );
         }
 
         // add the teaser content
