@@ -75,9 +75,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 );
             }
 
-            // get rating data and add new data to its
+            // update rating data with submitted rating
             $rating       = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
-            $rating_index = (string)$rating_value;
+            $rating_index = (string) $rating_value;
             $rating[$rating_index] += 1;
 
             update_post_meta( $post_id, 'laterpay_rating', $rating );
@@ -86,6 +86,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => true,
+                    'message' => __( 'Thank you very much for rating!', 'laterpay' ),
                 )
             );
         }

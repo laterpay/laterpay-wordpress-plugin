@@ -23,13 +23,13 @@
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
 
+                // content rating
+                postRatingForm                  : $('.lp_js_ratingForm'),
+                postRatingRadio                 : $('input[type=radio][name=rating_value]'),
+
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
-
-                // ratings
-                postRatingForm                  : $('#lp_js_ratingForm'),
-                postRatingRadio                 : $('input[type=radio][name=rating_value]'),
-                postRatingArea                  : $('.lp_js_ratePost'),
+                fadingOut                       : 'lp_is-fading-out',
             },
 
             recachePostStatisticsPane = function() {
@@ -67,7 +67,7 @@
             },
 
             bindRatingEvents = function() {
-                // handle change of rating
+                // save rating when input is selected
                 $o.postRatingRadio
                 .on('change', function() {
                     savePostRating();
@@ -80,8 +80,14 @@
                     $o.postRatingForm.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            // remove rating area
-                            $o.postRatingArea.remove();
+                            // replace rating form with thank you message and remove it after 5 seconds
+                            $('.lp_rating', $o.postRatingForm).addClass($o.fadingOut).html(r.message);
+                            setTimeout(
+                                function() {
+                                    $o.postRatingForm.fadeOut(400, function() { $(this).remove(); });
+                                },
+                                5000
+                            );
                         }
                     },
                     'json'
