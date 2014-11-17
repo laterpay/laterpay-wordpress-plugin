@@ -1,0 +1,51 @@
+/**
+ * Star rating widget based on labeled radio buttons
+ *
+ * <div class="lp_rating">
+ *     <input type="radio" id="lp_rating__input-1" class="lp_rating__input" name="lp_rating__input-1">
+ *     <label for="lp_rating__input-1" class="lp_rating__star"></label>
+ *     <input type="radio" id="lp_rating__input-2" class="lp_rating__input" name="lp_rating__input-2">
+ *     <label for="lp_rating__input-2" class="lp_rating__star"></label>
+ *     <input type="radio" id="lp_rating__input-3" class="lp_rating__input" name="lp_rating__input-3">
+ *     <label for="lp_rating__input-3" class="lp_rating__star"></label>
+ *     <input type="radio" id="lp_rating__input-4" class="lp_rating__input" name="lp_rating__input-4">
+ *     <label for="lp_rating__input-4" class="lp_rating__star"></label>
+ *     <input type="radio" id="lp_rating__input-5" class="lp_rating__input" name="lp_rating__input-5">
+ *     <label for="lp_rating__input-5" class="lp_rating__star"></label>
+ * </div>
+ */
+
+.lp_rating {
+    display: inline-block;
+    overflow: hidden;
+}
+/**
+ * 1. hide the radio buttons
+ * 2. align the radio buttons horizontally
+ */
+.lp_rating__input {
+    float: right; /* 2 */
+    height: 1.5em;
+    margin: 0 0 0 -1.5em;
+    opacity: 0; /* 1 */
+    padding: 0;
+    width: 1.5em;
+}
+/* render rating stars using background images for labels */
+.lp_rating__star,
+.lp_rating:hover .lp_rating__star {
+    background: url(http://kubyshkin.ru/samples/star-rating/star.png) 0 -1.5em no-repeat;
+    cursor: pointer;
+    float: right;
+    height: 1.5em;
+    position: relative;
+    width: 1.5em;
+}
+/* make selection stick */
+.lp_rating__star {
+    &:hover,
+    &:hover ~ .lp_rating__star,
+    &:checked ~ .lp_rating__star {
+        background-position: 0 0;
+    }
+}

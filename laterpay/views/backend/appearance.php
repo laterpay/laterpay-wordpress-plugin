@@ -74,24 +74,31 @@
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
-        <div class="lp_row">
+        <div class="lp_row lp_u_clearfix lp_u_m-b1">
             <h2><?php _e( 'Rating of Purchased Content', 'laterpay' ); ?></h2>
-            <?php _e( 'Visitors', 'laterpay' ); ?><div class="lp_toggle">
-                <form id="lp_js_laterpayRatingsForm" method="post">
-                    <input type="hidden" name="form"    value="ratings">
-                    <input type="hidden" name="action"  value="laterpay_appearance">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-                    <label class="lp_toggle_label" style="width:7.2em;">
-                        <input type="checkbox"
-                               name="enable_ratings"
-                               id="lp_js_enableRatingsToggle"
-                               class="lp_toggle_input"
-                               <?php if ( $is_ratings_enabled ): ?>checked<?php endif; ?>>
-                        <span class="lp_toggle_text" data-on="can" data-off="cannot"></span>
-                        <span class="lp_toggle_handle"></span>
-                    </label>
-                </form>
-            </div><?php _e( 'rate a post after they have purchased it.', 'laterpay' ); ?>
+            <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'content-rating-2x.png'; ?>">
+            <div class="lp_u_m-t2">
+                <?php _e( 'Content rating is', 'laterpay' ); ?><div class="lp_toggle">
+                    <form id="lp_js_laterpayRatingsForm" method="post">
+                        <input type="hidden" name="form"    value="ratings">
+                        <input type="hidden" name="action"  value="laterpay_appearance">
+                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                        <label class="lp_toggle_label">
+                            <input type="checkbox"
+                                   name="enable_ratings"
+                                   id="lp_js_enableRatingsToggle"
+                                   class="lp_toggle_input"
+                                   <?php if ( $is_ratings_enabled ): ?>checked<?php endif; ?>>
+                            <span class="lp_toggle_text" data-on="<?php _e( 'on', 'laterpay' ); ?>" data-off="<?php _e( 'off', 'laterpay' ); ?>"></span>
+                            <span class="lp_toggle_handle"></span>
+                        </label>
+                    </form>
+                </div>
+            </div>
+            <dfn class="lp_u_block">
+                <?php _e( 'Content rating lets users rate your content on a five star scale after purchasing.', 'laterpay' ); ?><br>
+                <?php _e( 'These ratings will be displayed to users who have not purchased that content yet as a quality indicator.', 'laterpay' ); ?>
+            </dfn>
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
