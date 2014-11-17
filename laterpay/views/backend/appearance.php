@@ -88,7 +88,7 @@
                                    name="enable_ratings"
                                    id="lp_js_enableRatingsToggle"
                                    class="lp_toggle_input"
-                                   <?php if ( $laterpay['is_ratings_enabled'] ): ?>checked<?php endif; ?>>
+                                   <?php if ( $laterpay['is_rating_enabled'] ): ?>checked<?php endif; ?>>
                             <span class="lp_toggle_text" data-on="<?php _e( 'on', 'laterpay' ); ?>" data-off="<?php _e( 'off', 'laterpay' ); ?>"></span>
                             <span class="lp_toggle_handle"></span>
                         </label>
