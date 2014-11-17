@@ -97,6 +97,7 @@
 .lp_rating.lp_is-fading-out {
      background: $background-highlight;
      border-color: transparent;
+     text-align: center;
  }
 
 /**
@@ -144,9 +145,9 @@
     border-radius: 3px;
     display: none;
     left: 50%; /* 1 */
-    line-height: 1;  /* 1 */
+    line-height: 1; /* 1 */
     margin-top: 1em;
-    margin-left: -10em;  /* 1 */
+    margin-left: -10em; /* 1 */
     padding: 1em;
     position: absolute;
     width: 13.5em;
@@ -171,6 +172,12 @@
         margin-left: -10px;
         top: -20px;
         z-index: $zindex-elevated_1;
+    }
+
+    .lp_rating__distribution-heading {
+        color: $text-lighter;
+        margin: 0 0 1em;
+        text-align:center;
     }
 
     dl {

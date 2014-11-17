@@ -80,13 +80,13 @@
                     $o.postRatingForm.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            // replace rating form with thank you message and remove it after 5 seconds
+                            // replace rating form with thank you message and remove it after a few seconds
                             $('.lp_rating', $o.postRatingForm).addClass($o.fadingOut).html(r.message);
                             setTimeout(
                                 function() {
                                     $o.postRatingForm.fadeOut(400, function() { $(this).remove(); });
                                 },
-                                5000
+                                4000
                             );
                         }
                     },
