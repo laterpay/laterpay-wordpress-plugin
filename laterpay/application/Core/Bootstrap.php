@@ -121,6 +121,10 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_post_load_purchased_content',          array( $post_controller, 'ajax_load_purchased_content' ) );
         add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );
 
+        // add rating hooks
+        add_action( 'wp_ajax_laterpay_post_rate_purchased_content',          array( $post_controller, 'ajax_rate_purchased_content' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_rate_purchased_content',   array( $post_controller, 'ajax_rate_purchased_content' ) );
+
         // Ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
         add_action( 'wp_ajax_laterpay_load_files',              array( $file_helper, 'load_file' ) );
