@@ -374,27 +374,27 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
                 // apply dynamic individual price
                 if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
-                    if ( isset( $_POST[ 'laterpay_start_price' ] ) && isset( $_POST[ 'laterpay_end_price' ] ) ){
-                        list( $meta_values[ 'start_price' ], $meta_values[ 'end_price' ] ) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $_POST[ 'laterpay_start_price' ], $_POST[ 'laterpay_end_price' ] );
+                    if ( isset( $_POST[ 'start_price' ] ) && isset( $_POST[ 'end_price' ] ) ){
+                        list( $meta_values[ 'start_price' ], $meta_values[ 'end_price' ] ) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $_POST[ 'start_price' ], $_POST[ 'end_price' ] );
                     }
 
-                    if ( $post_form->get_field_value( 'laterpay_change_start_price_after_days' ) ) {
-                        $meta_values[ 'change_start_price_after_days' ] = $post_form->get_field_value( 'laterpay_change_start_price_after_days' );
+                    if ( $post_form->get_field_value( 'change_start_price_after_days' ) ) {
+                        $meta_values[ 'change_start_price_after_days' ] = $post_form->get_field_value( 'change_start_price_after_days' );
                     }
 
-                    if ( $post_form->get_field_value( 'laterpay_transitional_period_end_after_days' ) ) {
-                        $meta_values[ 'transitional_period_end_after_days' ] = $post_form->get_field_value( 'laterpay_transitional_period_end_after_days' );
+                    if ( $post_form->get_field_value( 'transitional_period_end_after_days' ) ) {
+                        $meta_values[ 'transitional_period_end_after_days' ] = $post_form->get_field_value( 'transitional_period_end_after_days' );
                     }
 
-                    if ( $post_form->get_field_value( 'laterpay_reach_end_price_after_days' ) ) {
-                        $meta_values[ 'reach_end_price_after_days' ] = $post_form->get_field_value( 'laterpay_reach_end_price_after_days' );
+                    if ( $post_form->get_field_value( 'reach_end_price_after_days' ) ) {
+                        $meta_values[ 'reach_end_price_after_days' ] = $post_form->get_field_value( 'reach_end_price_after_days' );
                     }
                 }
 
                 // apply category default price of given category
                 if ( $type === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
-                    if ( $post_form->get_field_value( 'laterpay_post_default_category' ) ) {
-                        $category_id = $post_form->get_field_value( 'laterpay_post_default_category' );
+                    if ( $post_form->get_field_value( 'post_default_category' ) ) {
+                        $category_id = $post_form->get_field_value( 'post_default_category' );
                         $meta_values[ 'category_id' ] = $category_id;
                     }
                 }
