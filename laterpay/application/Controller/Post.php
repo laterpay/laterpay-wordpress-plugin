@@ -559,7 +559,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // get post rating summary
         $summary_post_rating            = LaterPay_Helper_Rating::get_summary_post_rating_data( $post_id );
-        $aggregated_post_rating         = $summary_post_rating['votes'] ? number_format( $summary_post_rating['rating'] / $summary_post_rating['votes'], 1 ) : 0;
+        // round $aggregated_post_rating to closest 0.5
+        $aggregated_post_rating         = $summary_post_rating['votes'] ? number_format_i18n( round( 2 * $summary_post_rating['rating'] / $summary_post_rating['votes'] ) / 2, 1 ) : 0;
         $post_rating_data               = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
         $maximum_number_of_votes        = max( $post_rating_data );
         $user_has_already_voted         = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );

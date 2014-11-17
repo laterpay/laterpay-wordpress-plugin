@@ -118,19 +118,26 @@
 .lp_rating__aggregated-result {
     line-height: 1.6em;
     margin: 0 auto;
-    width: 10.5em;
+    width: 12em;
 }
 
-/* popover with distribution of ratings */
+/**
+ * popover with distribution of ratings
+ * - rating category (1-5)
+ * - rating distribution as bar graph + value
+ *
+ * 1. center popover horizontally under aggregated result
+ * 2. vertically align items compressed
+ */
 .lp_rating__distribution {
     background: $background-lightest;
     border: 1px solid $border;
     border-radius: 3px;
     display: none;
-    left: 50%;
-    line-height: 1;
-    margin-top: 2.5em;
-    margin-left: -8em;
+    left: 50%; /* 1 */
+    line-height: 1;  /* 1 */
+    margin-top: 1em;
+    margin-left: -10em;  /* 1 */
     padding: 1em;
     position: absolute;
     width: 13.5em;
@@ -147,7 +154,7 @@
         width: 0;
         z-index: $zindex-elevated_2;
     }
-
+    /* border for upward-pointing arrow */
     .lp_outerTriangle {
         border-bottom-color: hsl(0, 0%, 77%);
         border-width: 10px;
@@ -171,14 +178,14 @@
         width: 5.5em;
     }
 
-    /* rating value (number of times chosen) */
+    .lp_rating__star {
+        width: 1em;
+    }
+
+    /* rating distribution (number of times the rating category was chosen) */
     dd {
         margin-bottom: 0;
         text-align: right;
-    }
-
-    .lp_rating__star {
-        width: 1em;
     }
 
     /**
