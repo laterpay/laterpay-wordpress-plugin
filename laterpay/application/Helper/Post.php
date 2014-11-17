@@ -108,17 +108,13 @@ class LaterPay_Helper_Post {
         );
 
         if ( $post->post_type == 'attachment' ) {
-            $url = LaterPay_Helper_File::get_encrypted_resource_url(
-                                            $post_id,
-                                            wp_get_attachment_url( $post_id ),
-                                            false,
-                                            'attachment'
-                                        );
-        } else {
-            $url  = self::get_after_purchase_redirect_url( $url_params );
-            $hash = self::get_hash_by_url( $url );
-            $url  = $url . '&hash=' . $hash;
+            $url_params['post_id']           = get_the_ID();
+            $url_params['download_attached'] = $post_id;
         }
+
+        $url  = self::get_after_purchase_redirect_url( $url_params );
+        $hash = self::get_hash_by_url( $url );
+        $url  = $url . '&hash=' . $hash;
 
         // parameters for LaterPay purchase form
         $params = array(

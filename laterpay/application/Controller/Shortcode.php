@@ -238,7 +238,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $image_path != '' ) {
             $html = "<div class=\"lp_premiumFileBox\" style=\"background-image:url(" . $image_path . ")\">";
         } else {
-            $html = "<div class=\"lp_premiumFileBox lp_content-type-" . $content_type . "\">";
+            $html = "<div class=\"lp_premiumFileBox lp_contentType" . ucfirst( $content_type ) . "\">";
         }
         // create a shortcode link
         $html .= $this->getShortcodeLink( $page, $content_type, $page_url, $price_tag );

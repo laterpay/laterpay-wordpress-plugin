@@ -72,6 +72,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'buy'         => $_GET[ 'buy' ],
             'ip'          => $_GET[ 'ip' ],
         );
+
+        if ( isset( $_GET[ 'download_attached'] ) ) {
+            $url_data['download_attached'] = $_GET[ 'download_attached'];
+        }
+
         $url    = $this->get_after_purchase_redirect_url( $url_data );
         $hash   = $this->get_hash_by_url( $url );
         // update lptoken if we got it
@@ -108,6 +113,27 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $post_id        = absint( $_GET[ 'post_id' ] );
         $redirect_url   = get_permalink( $post_id );
+
+        // prepare attachment url for download
+        if ( isset( $_GET[ 'download_attached'] ) ) {
+            $post_id = $_GET[ 'download_attached'];
+            $post    = get_post( $post_id );
+            $access  = LaterPay_Helper_Post::has_access_to_post( $post );
+
+            $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                $post_id,
+                wp_get_attachment_url( $post_id ),
+                $access,
+                'attachment'
+            );
+
+            setcookie(
+                'laterpay_download_attached',
+                $attachment_url,
+                time() + 60,
+                '/'
+            );
+        }
 
         wp_redirect( $redirect_url );
         exit;
@@ -708,6 +734,19 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             true
         );
 
+        $attachment_url = null;
+        if ( isset( $_COOKIE['laterpay_download_attached'] ) ) {
+            $attachment_url = $_COOKIE['laterpay_download_attached'];
+            // remove cookie
+            unset($_COOKIE['laterpay_download_attached']);
+            setcookie(
+                'laterpay_download_attached',
+                $attachment_url,
+                time() - 60,
+                '/'
+            );
+        }
+
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
@@ -722,7 +761,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'tracking'  => wp_create_nonce( 'laterpay_post_track_views' ),
                 ),
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
-                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
+                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' ),
+                'download_attachment'          => $attachment_url,
             )
         );
 
