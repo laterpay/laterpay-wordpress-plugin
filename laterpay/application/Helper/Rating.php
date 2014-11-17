@@ -7,7 +7,7 @@ class LaterPay_Helper_Rating
      *
      * @var array
      */
-    protected static $rating_indexes = array( '1', '2', '3', '4', '5' );
+    protected static $rating_indexes = array( '5', '4', '3', '2', '1' );
 
     /**
      * Initialize post rating data by creating an array with 0 values.
@@ -39,11 +39,9 @@ class LaterPay_Helper_Rating
             self::initialize_post_rating_data( $post_id );
         }
 
-        $rating_data        = get_post_meta( $post_id, 'laterpay_rating' );
-        // sort descending by key
-        krsort( $rating_data[0] );
+        $rating_data = get_post_meta( $post_id, 'laterpay_rating' );
 
-        return $rating_data;
+        return $rating_data[0];
     }
 
     /**
