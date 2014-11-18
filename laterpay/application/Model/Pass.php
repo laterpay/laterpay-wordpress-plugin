@@ -114,16 +114,11 @@ class LaterPay_Model_Pass
             FROM
                 {$this->table}
             ORDER
-                BY status
+                BY title
             ;
         ";
 
-        $list = $wpdb->get_results(
-            $wpdb->prepare(
-                $sql,
-                '*'
-            )
-        );
+        $list = $wpdb->get_results( $sql );
 
         return $list;
     }
