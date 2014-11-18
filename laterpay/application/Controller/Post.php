@@ -153,7 +153,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $context = array(
             'support_cookies'   => $browser_supports_cookies,
-            'is_crawler'        => $browser_is_crawler
+            'is_crawler'        => $browser_is_crawler,
         );
 
         $this->logger->info(
@@ -216,11 +216,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
         );
         $access_result = $laterpay_client->get_access( $post_ids );
 
@@ -248,7 +248,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->logger->info(
             __METHOD__,
             array(
-                'post' => $post
+                'post' => $post,
             )
         );
 
@@ -277,6 +277,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                         'result' => $result
                     )
                 );
+
                 return false;
             }
 
@@ -498,7 +499,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post_id = $post->ID;
 
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-
             $context = array(
                 'post'                  => $post,
                 'supported_post_types'  => $this->config->get( 'content.enabled_post_types' )
@@ -735,11 +735,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             true
         );
 
-        // set attachment url
+        // set attachment URL
         $attachment_url = null;
         if ( isset( $_COOKIE['laterpay_download_attached'] ) ) {
             $attachment_url = $_COOKIE['laterpay_download_attached'];
-            // remove cookie with attachment url to prevent multiply downloads
+            // remove cookie with attachment URL to prevent multiple downloads
             unset( $_COOKIE['laterpay_download_attached'] );
             setcookie(
                 'laterpay_download_attached',
