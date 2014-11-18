@@ -30,7 +30,7 @@ $title = sprintf(
 
 <a <?php echo $arg_str; ?>><?php echo $title; ?></a>
 
-<?php if ( $laterpay['show_post_ratings'] ) : ?>
+<?php if ( isset( $laterpay['show_post_ratings'] ) && $laterpay['show_post_ratings'] ) : ?>
     <div class="lp_rating__results">
         <div class="lp_rating__aggregated-result">
             <div class="lp_rating__ratings-count lp_u_m-l05"><?php echo number_format_i18n( $laterpay['post_summary_votes'] ); ?></div>
