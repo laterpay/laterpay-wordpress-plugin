@@ -66,7 +66,7 @@ $title = sprintf(
                     <?php endfor; ?>
                     </dt><dd>
                         <div class="lp_rating__background-bar">
-                            <div class="lp_rating__bar" style="width:<?php echo ( $votes / $laterpay['maximum_number_of_votes'] * 100 ); ?>%;">
+                            <div class="lp_rating__bar" style="width:<?php if ( $laterpay['maximum_number_of_votes'] > 0 ) { echo ( $votes / $laterpay['maximum_number_of_votes'] * 100 ); } ?>%;">
                             </div>
                         </div>
                         <div class="lp_rating__ratings-count"><?php echo $votes; ?></div>
