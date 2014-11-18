@@ -183,7 +183,7 @@
             },
 
             initiateAttachmentDownload = function() {
-                // initialite attachment download if setted
+                // start attachment download, if requested
                 if ( lpVars.download_attachment ) {
                     window.location.href = lpVars.download_attachment;
                 }

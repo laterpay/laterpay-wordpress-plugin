@@ -127,6 +127,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'attachment'
             );
 
+            // set cookie to notify post that we need to start attachment download
             setcookie(
                 'laterpay_download_attached',
                 $attachment_url,
@@ -734,10 +735,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             true
         );
 
+        // set attachment url
         $attachment_url = null;
         if ( isset( $_COOKIE['laterpay_download_attached'] ) ) {
             $attachment_url = $_COOKIE['laterpay_download_attached'];
-            // remove cookie
+            // remove cookie with attachment url to prevent multiply downloads
             unset( $_COOKIE['laterpay_download_attached'] );
             setcookie(
                 'laterpay_download_attached',
