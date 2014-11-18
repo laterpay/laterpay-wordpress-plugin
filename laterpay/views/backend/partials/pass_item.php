@@ -6,11 +6,11 @@
         <p><?php echo $laterpay_pass['description']; ?></p>
         <a href="#"
            class="lp_purchasePassLink lp_purchaseLink lp_button"
-           title="Buy now with LaterPay"
+           title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
            data-icon="b"
            data-preview-as-visitor="1">
                <?php echo sprintf(
-                   __( '%s<small>%s</small>', 'laterpay' ), number_format_i18n( (float) $laterpay_pass['price'] ), 'EUR'
+                   __( '%s<small>%s</small>', 'laterpay' ), number_format_i18n( (float) $laterpay_pass['price'] ), $laterpay['currency']
                ); ?>
         </a>
         <a href="#" class="lp_passTermsLink">Terms</a>
