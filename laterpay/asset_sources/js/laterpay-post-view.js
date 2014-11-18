@@ -19,6 +19,7 @@
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
                 postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
+                postRatingPlaceholder           : $('#lp_js_postRatingPlaceholder'),
 
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
@@ -40,6 +41,11 @@
                 $o.postStatisticsVisibilityForm    = $('#lp_js_postStatistics_visibilityForm');
                 $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
                 $o.postStatisticsVisibilityInput   = $('#lp_js_postStatistics_visibilityInput');
+            },
+
+            recacheRatingForm = function() {
+                $o.postRatingForm  = $('.lp_js_ratingForm');
+                $o.postRatingRadio = $('input[type=radio][name=rating_value]');
             },
 
             bindPurchaseEvents = function() {
@@ -91,6 +97,22 @@
                         }
                     },
                     'json'
+                );
+            },
+
+            loadRatingSummary = function() {
+                $.get(
+                    lpVars.ajaxUrl,
+                    {
+                        action  : 'laterpay_post_rating_summary',
+                        post_id : lpVars.post_id,
+                        nonce   : lpVars.nonces.rating
+                    },
+                    function(ratingSummary) {
+                        if (ratingSummary) {
+                            $o.postRatingPlaceholder.html(ratingSummary);
+                        }
+                    }
                 );
             },
 
@@ -192,6 +214,9 @@
                     function(postContent) {
                         if (postContent) {
                             $o.postContentPlaceholder.html(postContent);
+                            // load rating form
+                            recacheRatingForm();
+                            bindRatingEvents();
                         }
                     }
                 );
@@ -216,14 +241,18 @@
             initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
                 // (recognizable by the presence of lp_js_postContentPlaceholder
-                if ($('#lp_js_postContentPlaceholder').length === 1) {
+                if ($o.postContentPlaceholder.length === 1) {
                     loadPostContent();
                     trackViews();
                 }
 
                 // render the post statistics pane, if a placeholder exists for it
-                if ($('#lp_js_postStatisticsPlaceholder').length === 1) {
+                if ($o.postStatisticsPlaceholder.length === 1) {
                     loadPostStatistics();
+                }
+
+                if ($o.postRatingPlaceholder.length === 1) {
+                    loadRatingSummary();
                 }
 
                 bindPurchaseEvents();
