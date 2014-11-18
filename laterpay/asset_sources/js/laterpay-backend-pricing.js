@@ -52,6 +52,12 @@
                 categoryDefaultPriceInput               : '.lp_js_categoryDefaultPrice_input',
                 categoryId                              : '.lp_js_categoryDefaultPrice_categoryId',
 
+                // time passes
+                addTimePass                             : $('#lp_js_addTimePass'),
+                    passPayType                             : $('.lp_toggle_input'),
+                    pass                                    : $('#lp_js_togglePassPayType'),
+                    colorPicker                             : $('.lp-color-picker'),
+
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
                 bulkPriceFormHiddenField                : $('#lp_js_bulkPriceEditor_hiddenFormInput'),
@@ -81,12 +87,6 @@
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
-        
-               // passes
-               passPayType                              : $('.lp_toggle_input'),
-               pass                                     : $('#lp_js_togglePassPayType'),
-               colorPicker                              : $('.lp-color-picker'),
-               
             },
 
             bindEvents = function() {
@@ -162,6 +162,56 @@
                     deleteCategoryDefaultPrice($form);
                 });
 
+                // time passes events ----------------------------------------------------------------------------------
+                // add
+                $o.addTimePass
+                .toggle(
+                    function(e) {
+                        togglePassForm('show', 0);
+                        e.preventDefault();
+                    },
+                    function(e) {
+                        togglePassForm('hide', 0);
+                        e.preventDefault();
+                    }
+                );
+
+                // ?????
+                $o.passPayType
+                .change(function() {
+                    togglePassPayMode();
+                });
+
+                // ?????
+                $('.lp_pass-container .lp_changeLink')
+                .click(function(e) {
+                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
+                    togglePassForm('show', pass_id);
+                    e.preventDefault();
+                });
+
+                // cancel
+                $('.lp_pass-container .lp_cancelLink')
+                .click(function(e){
+                    togglePassForm('hide', 0);
+                    e.preventDefault();
+                });
+
+                // save
+                $('.lp_pass-container .lp_saveLink')
+                .click(function(e) {
+                    savePassForm();
+                    e.preventDefault();
+                });
+
+                // delete
+                $('.lp_pass-container .lp_deleteLink')
+                .click(function(e) {
+                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
+                    removePass(e, pass_id);
+                    e.preventDefault();
+                });
+
                 // bulk price editor events ----------------------------------------------------------------------------
                 // select action or objects
                 $o.bulkPriceAction.add($o.bulkPriceObjects)
@@ -216,71 +266,34 @@
                 .change(function() {
                     switchCurrency();
                 });
-                
-                // switch pass pay mode
-                $('.lp_pass-container .lp_changeLink').click(function(e){
-                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
-                    togglePassForm( 'show', pass_id );
-                    e.preventDefault();
-                    return false;
-                });
-                $('.lp_pass-container .lp_saveLink').click(function(e){
-                    savePassForm();
-                    e.preventDefault();
-                    return false;
-                });
-                $('.lp_pass-container .lp_deleteLink').click(function(e){
-                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
-                    removePass( e, pass_id );
-                    e.preventDefault();
-                    return false;
-                });
-                $('.lp_pass-container .lp_cancelLink').click(function(e){
-                    togglePassForm( 'hide', 0 );
-                    e.preventDefault();
-                    return false;
-                });
-                $o.passPayType.change(function() {
-                    togglePassPayMode();
-                });
-                // show hide add form
-                $('.lp_js_add_pass').toggle(
-                        function(e) {
-                            togglePassForm('show',0);
-                            e.preventDefault();
-                            return false;
-                        },
-                        function(e) {
-                            togglePassForm('hide',0);
-                            e.preventDefault();
-                            return false;
-                        }
-                );
             },
 
-            savePassForm = function(e) {
-                togglePassForm('hide',0);
+            savePassForm = function() {
+                togglePassForm('hide', 0);
+
                 $.post(
                     ajaxurl,
                     $('#lp_js_passes_form').serializeArray(),
                     function(r) {
                         if (r.success) {
                             window.location.reload();
-                        }else{
-                            togglePassForm('show',0);
+                        } else {
+                            togglePassForm('show', 0);
                         }
                         setMessage(r.message, r.success);
                     },
                     'json'
                 );
-                e.preventDefault();
-                return false;
             },
-            
-            removePass = function(e,pass_id) {
+
+            removePass = function(e, pass_id) {
                 $.post(
                     ajaxurl,
-                    { action : 'laterpay_pricing', form : 'pass_delete', 'pass_id' : pass_id },
+                    {
+                        action  : 'laterpay_pricing',
+                        form    : 'pass_delete',
+                        pass_id : pass_id,
+                    },
                     function(r) {
                         if (r.success) {
                             window.location.reload();
@@ -292,16 +305,17 @@
                 );
                 e.preventDefault();
                 return false;
-            },            
+            },
 
             togglePassForm = function(todo, pass_id) {
-                var editor = $('.lp_passes_editor');
-                var passContainer = $('.lp_pass-container[data-pass-id='+pass_id+']');
+                var editor          = $('.lp_passes_editor'),
+                    passContainer   = $('.lp_pass-container[data-pass-id=' + pass_id + ']');
                 $('.lp_pass-container .lp_changeLink').show();
                 $('.lp_pass-container .lp_saveLink').hide();
                 $('.lp_pass-container .lp_cancelLink').hide();
                 $('.lp_pass-container .lp_deleteLink').show();
-                if (todo == 'show') {
+
+                if (todo === 'show') {
                     fillPassForm(pass_id);
                     passContainer.show();
                     $(passContainer).find('.lp_passes_editor_container').append(editor.show());
@@ -309,32 +323,33 @@
                     passContainer.find('.lp_saveLink').show();
                     passContainer.find('.lp_cancelLink').show();
                     passContainer.find('.lp_deleteLink').hide();
-                    // new pass form have to be usually hidden
-                    if( pass_id > 0 ){
+                    // new pass form has to be hidden by default
+                    if ( pass_id > 0 ) {
                         $('.lp_pass-container[data-pass-id=0]').hide();
                     }
-                } else if (todo == 'hide') {
+                } else if (todo === 'hide') {
                     var link = $('.lp_js_add_pass');
                     passContainer.hide();
                     $(link).after(editor.hide());
                 }
             },
-                    
-            fillPassForm = function(pass_id){
-        
-                if( !passes_array || !passes_array[ pass_id ] ){
+
+            fillPassForm = function(pass_id) {
+                if (!passes_array || !passes_array[pass_id]) {
                     return;
-                }else{
-                    var pass = passes_array[ pass_id ];
+                } else {
+                    var pass = passes_array[pass_id];
                 }
-                $('.lp_passes_editor input, .lp_passes_editor select, .lp_passes_editor textarea').each(function(i, v) {
+
+                $('.lp_passes_editor input, .lp_passes_editor select, .lp_passes_editor textarea')
+                .each(function(i, v) {
                     var name = $(v).attr('name');
-                    if (name != '' && pass[ name ]) {
-                        $(v).val(pass[ name ]);
+                    if (name !== '' && pass[name]) {
+                        $(v).val(pass[name]);
                     }
                 });
             },
-            
+
             togglePassPayMode = function() {
                 var $toggle                 = $o.passPayType,
                     $input                  = $('#lp_js_togglePassPayType_hiddenInput'),
@@ -666,7 +681,7 @@
 
             // passes of events
             passAddNew = function(){
-                
+
             },
 
             // throttle the execution of a function by a given delay
@@ -865,7 +880,7 @@
 
                 // trigger change event of bulk price editor on page load
                 $o.bulkPriceAction.change();
-                
+
                 //add a color picker
                 $o.colorPicker.wpColorPicker({ defaultColor: false,
                                                //change: function(event, ui){},
@@ -881,5 +896,5 @@
 
     // initialize page
     laterPayBackendPricing();
-    
+
 });})(jQuery);

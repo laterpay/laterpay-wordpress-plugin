@@ -204,7 +204,7 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
-            <a href="#" class="lp_js_add_pass lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
+            <a href="#" id="lp_js_addTimePass" class="lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
 
             <?php echo $this->render_pass(); ?>
 
