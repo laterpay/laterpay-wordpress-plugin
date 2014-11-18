@@ -672,7 +672,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_link' );
         } else {
             // add excerpt of full content, covered by an overlay with a purchase button
-            $html .= $this->get_text_view( 'frontend/partials/post/overlay_with_purchase_button' );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/overlay_with_purchase_button' ) );
         }
 
         if ( $caching_is_active ) {
