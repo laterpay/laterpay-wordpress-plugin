@@ -29,3 +29,7 @@ $title = sprintf(
 ?>
 
 <a <?php echo $arg_str; ?>><?php echo $title; ?></a>
+
+<?php if ( isset( $laterpay['show_post_ratings'] ) && $laterpay['show_post_ratings'] ) : ?>
+    <div id="lp_js_postRatingPlaceholder"></div>
+<?php endif; ?>

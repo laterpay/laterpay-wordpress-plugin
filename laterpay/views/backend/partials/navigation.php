@@ -2,12 +2,12 @@
 
 <ul class="lp_navigation_tabs">
     <?php $num = 0; ?>
-    <?php foreach ( $menu as $page ): ?>
+    <?php foreach ( $laterpay['menu'] as $page ): ?>
         <?php
-            $slug = ! $num ? $plugin_page : $page['url'];
+            $slug = ! $num ? $laterpay['plugin_page'] : $page['url'];
         ?>
-        <li<?php if ( $current_page == $page['url'] || ( ! $num && $current_page == $plugin_page ) ): ?> class="lp_current"<?php endif; ?>>
-            <a href="<?php echo add_query_arg( array( 'page' => $slug ), admin_url( 'admin.php' ) ); ?>" class="lp_u_block"<?php if ( $current_page == $page['url'] || ( ! $num && $current_page == $plugin_page ) ): ?> rel="prefetch"<?php endif; ?>>
+        <li<?php if ( $laterpay['current_page'] == $page['url'] || ( ! $num && $laterpay['current_page'] == $laterpay['plugin_page'] ) ): ?> class="lp_current"<?php endif; ?>>
+            <a href="<?php echo add_query_arg( array( 'page' => $slug ), admin_url( 'admin.php' ) ); ?>" class="lp_u_block"<?php if ( $laterpay['current_page'] == $page['url'] || ( ! $num && $laterpay['current_page'] == $laterpay['plugin_page'] ) ): ?> rel="prefetch"<?php endif; ?>>
                 <?php echo $page['title']; ?>
             </a>
         </li>

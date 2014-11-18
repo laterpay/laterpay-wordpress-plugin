@@ -157,7 +157,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_start_price',
+            'start_price',
             array(
                 'validators' => array(
                     'is_string',
@@ -170,7 +170,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_end_price',
+            'end_price',
             array(
                 'validators' => array(
                     'is_string',
@@ -183,7 +183,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_change_start_price_after_days',
+            'change_start_price_after_days',
             array(
                 'validators' => array(
                     'is_int',
@@ -195,7 +195,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_transitional_period_end_after_days',
+            'transitional_period_end_after_days',
             array(
                 'validators' => array(
                     'is_int',
@@ -207,7 +207,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_reach_end_price_after_days',
+            'reach_end_price_after_days',
             array(
                 'validators' => array(
                     'is_int',
@@ -219,7 +219,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_post_default_category',
+            'post_default_category',
             array(
                 'validators' => array(
                     'is_int',

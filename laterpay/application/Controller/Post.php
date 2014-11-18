@@ -48,7 +48,115 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $content = apply_filters( 'the_content', $post->post_content );
         $content = str_replace( ']]>', ']]&gt;', $content );
+
+        $show_post_ratings = get_option( 'laterpay_ratings' );
+
+        if ( $show_post_ratings ) {
+            // set args for partial
+            $view_args = array(
+                'post_id'                 => $post_id,
+                'user_has_already_voted'  => LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id ),
+            );
+            $this->assign( 'laterpay', $view_args );
+
+            // append rating form to content, if content rating is enabled
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
+        }
+
         echo $content;
+        exit;
+    }
+
+    /**
+     * Ajax method to rate purchased content.
+     *
+     * @wp-hook wp_ajax_laterpay_post_rate_purchased_content, wp_ajax_nopriv_laterpay_post_rate_purchased_content
+     *
+     * @return void
+     */
+    public function ajax_rate_purchased_content() {
+        $post_rating_form = new LaterPay_Form_PostRating( $_POST );
+
+        if ( $post_rating_form->is_valid( $_POST ) ) {
+            $post_id       = $post_rating_form->get_field_value( 'post_id' );
+            $rating_value  = $post_rating_form->get_field_value( 'rating_value' );
+            $is_user_voted = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
+
+            if ( $is_user_voted ) {
+                wp_send_json(
+                    array(
+                        'success' => false,
+                    )
+                );
+            }
+
+            // update rating data with submitted rating
+            $rating       = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
+            $rating_index = (string) $rating_value;
+            $rating[$rating_index] += 1;
+
+            update_post_meta( $post_id, 'laterpay_rating', $rating );
+            LaterPay_Helper_Rating::set_user_voted( $post_id );
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'message' => __( 'Thank you very much for rating!', 'laterpay' ),
+                )
+            );
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+            )
+        );
+    }
+
+    /**
+     * Ajax method to get rating summary.
+     *
+     * @wp-hook wp_ajax_laterpay_post_rating_summary, wp_ajax_nopriv_laterpay_post_rating_summary
+     *
+     * @return void
+     */
+    public function ajax_load_rating_summary() {
+        if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_rating_summary' ) {
+            exit;
+        }
+
+        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ) {
+            exit;
+        }
+
+        if ( ! isset( $_GET[ 'post_id' ] ) ) {
+            return;
+        }
+
+        $post_id    = absint( $_GET[ 'post_id' ] );
+        $post       = get_post( $post_id );
+
+        if ( $post === null ) {
+            exit;
+        }
+
+        // get post rating summary
+        $summary_post_rating            = LaterPay_Helper_Rating::get_summary_post_rating_data( $post_id );
+        // round $aggregated_post_rating to closest 0.5
+        $aggregated_post_rating         = $summary_post_rating['votes'] ? number_format( round( 2 * $summary_post_rating['rating'] / $summary_post_rating['votes'] ) / 2, 1 ) : 0;
+        $post_rating_data               = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
+        $maximum_number_of_votes        = max( $post_rating_data );
+
+        // assign all required vars to the view templates
+        $view_args = array(
+            'post_rating_data'        => $post_rating_data,
+            'post_aggregated_rating'  => $aggregated_post_rating,
+            'post_summary_votes'      => $summary_post_rating['votes'],
+            'maximum_number_of_votes' => $maximum_number_of_votes,
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        echo LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_summary' ) );
         exit;
     }
 
@@ -507,15 +615,17 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get purchase link
-        $purchase_link = $this->get_laterpay_purchase_link( $post_id );
+        $purchase_link                  = $this->get_laterpay_purchase_link( $post_id );
 
         // get the teaser content
-        $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+        $teaser_content                 = get_post_meta( $post_id, 'laterpay_post_teaser', true );
 
         // output states
-        $teaser_content_only        = get_option( 'laterpay_teaser_content_only' );
-        $user_can_read_statistics   = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
-        $preview_post_as_visitor    = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
+        $show_post_ratings              = get_option( 'laterpay_ratings' );
+        $user_has_already_voted         = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
+        $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
+        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
         // caching and Ajax
         $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
@@ -535,15 +645,17 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // assign all required vars to the view templates
         $view_args = array(
-            'post_id'                   => $post_id,
-            'content'                   => $content,
-            'teaser_content'            => $wp_embed->autoembed( $teaser_content ),
-            'teaser_content_only'       => $teaser_content_only,
-            'currency'                  => $currency,
-            'price'                     => $price,
-            'revenue_model'             => $revenue_model,
-            'link'                      => $purchase_link,
-            'preview_post_as_visitor'   => $preview_post_as_visitor,
+            'post_id'                 => $post_id,
+            'content'                 => $content,
+            'teaser_content'          => $wp_embed->autoembed( $teaser_content ),
+            'teaser_content_only'     => $teaser_content_only,
+            'currency'                => $currency,
+            'price'                   => $price,
+            'revenue_model'           => $revenue_model,
+            'link'                    => $purchase_link,
+            'preview_post_as_visitor' => $preview_post_as_visitor,
+            'user_has_already_voted'  => $user_has_already_voted,
+            'show_post_ratings'       => $show_post_ratings,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -588,13 +700,18 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $context
             );
 
+            // append rating form to content, if content rating is enabled
+            if ( $show_post_ratings ) {
+                $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
+            }
+
             return $content;
         }
 
         // add a purchase button as very first element of the content
         if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
-            $html .= '<div class="lp_u_clearfix">';
-            $html .= $this->get_text_view( 'frontend/partials/post/purchase_button' );
+            $html .= '<div class="lp_u_clearfix lp_u_relative lp_u_m-t1 lp_u_m-b2">';
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase_button' ) );
             $html .= '</div>';
         }
 
@@ -606,7 +723,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $html .= $this->get_text_view( 'frontend/partials/post/purchase_link' );
         } else {
             // add excerpt of full content, covered by an overlay with a purchase button
-            $html .= $this->get_text_view( 'frontend/partials/post/overlay_with_purchase_button' );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/overlay_with_purchase_button' ) );
         }
 
         if ( $caching_is_active ) {
@@ -633,7 +750,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->logger->info( __METHOD__ );
 
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client_options  = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
                 $client_options['cp_key'],
                 $client_options['api_key'],
@@ -641,10 +758,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $client_options['web_root'],
                 $client_options['token_name']
         );
-        $identify_link      = $laterpay_client->get_identify_url();
+        $identify_link   = $laterpay_client->get_identify_url();
 
-        $this->assign( 'post_id',       get_the_ID() );
-        $this->assign( 'identify_link', $identify_link );
+        // assign all required vars to the view templates
+        $view_args = array(
+            'post_id'       => get_the_ID(),
+            'identify_link' => $identify_link,
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/identify_iframe' );
     }
@@ -714,6 +836,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'content'   => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
                     'statistic' => wp_create_nonce( 'laterpay_post_statistic_render' ),
                     'tracking'  => wp_create_nonce( 'laterpay_post_track_views' ),
+                    'rating'    => wp_create_nonce( 'laterpay_post_rating_summary' ),
                 ),
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )

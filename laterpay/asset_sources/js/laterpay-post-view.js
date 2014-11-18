@@ -19,12 +19,18 @@
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
                 postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
+                postRatingPlaceholder           : $('#lp_js_postRatingPlaceholder'),
 
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
 
+                // content rating
+                postRatingForm                  : $('.lp_js_ratingForm'),
+                postRatingRadio                 : $('input[type=radio][name=rating_value]'),
+
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
+                fadingOut                       : 'lp_is-fading-out',
             },
 
             recachePostStatisticsPane = function() {
@@ -35,6 +41,11 @@
                 $o.postStatisticsVisibilityForm    = $('#lp_js_postStatistics_visibilityForm');
                 $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
                 $o.postStatisticsVisibilityInput   = $('#lp_js_postStatistics_visibilityInput');
+            },
+
+            recacheRatingForm = function() {
+                $o.postRatingForm  = $('.lp_js_ratingForm');
+                $o.postRatingRadio = $('input[type=radio][name=rating_value]');
             },
 
             bindPurchaseEvents = function() {
@@ -59,6 +70,50 @@
                 .on('change', function() {
                     togglePostPreviewMode();
                 });
+            },
+
+            bindRatingEvents = function() {
+                // save rating when input is selected
+                $o.postRatingRadio
+                .on('change', function() {
+                    savePostRating();
+                });
+            },
+
+            savePostRating = function() {
+                $.post(
+                    lpVars.ajaxUrl,
+                    $o.postRatingForm.serializeArray(),
+                    function(r) {
+                        if (r.success) {
+                            // replace rating form with thank you message and remove it after a few seconds
+                            $('.lp_rating', $o.postRatingForm).addClass($o.fadingOut).html(r.message);
+                            setTimeout(
+                                function() {
+                                    $o.postRatingForm.fadeOut(400, function() { $(this).remove(); });
+                                },
+                                4000
+                            );
+                        }
+                    },
+                    'json'
+                );
+            },
+
+            loadRatingSummary = function() {
+                $.get(
+                    lpVars.ajaxUrl,
+                    {
+                        action  : 'laterpay_post_rating_summary',
+                        post_id : lpVars.post_id,
+                        nonce   : lpVars.nonces.rating
+                    },
+                    function(ratingSummary) {
+                        if (ratingSummary) {
+                            $o.postRatingPlaceholder.html(ratingSummary);
+                        }
+                    }
+                );
             },
 
             loadPostStatistics = function() {
@@ -159,6 +214,9 @@
                     function(postContent) {
                         if (postContent) {
                             $o.postContentPlaceholder.html(postContent);
+                            // load rating form
+                            recacheRatingForm();
+                            bindRatingEvents();
                         }
                     }
                 );
@@ -183,17 +241,22 @@
             initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
                 // (recognizable by the presence of lp_js_postContentPlaceholder
-                if ($('#lp_js_postContentPlaceholder').length === 1) {
+                if ($o.postContentPlaceholder.length === 1) {
                     loadPostContent();
                     trackViews();
                 }
 
                 // render the post statistics pane, if a placeholder exists for it
-                if ($('#lp_js_postStatisticsPlaceholder').length === 1) {
+                if ($o.postStatisticsPlaceholder.length === 1) {
                     loadPostStatistics();
                 }
 
+                if ($o.postRatingPlaceholder.length === 1) {
+                    loadRatingSummary();
+                }
+
                 bindPurchaseEvents();
+                bindRatingEvents();
             };
 
         initializePage();

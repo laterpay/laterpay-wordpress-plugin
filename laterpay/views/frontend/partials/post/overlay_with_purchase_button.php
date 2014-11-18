@@ -57,9 +57,9 @@
                     </li>
                 <?php endif; ?>
             </ul>
-
-            <?php do_action( 'laterpay_purchase_button' ); ?>
-
+            <div>
+                <?php do_action( 'laterpay_purchase_button' ); ?>
+            </div>
             <div class="lp_poweredBy">
                 powered by<span data-icon="a"></span>beta
             </div>

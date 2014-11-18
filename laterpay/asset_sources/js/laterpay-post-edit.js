@@ -468,7 +468,7 @@
                     minPrice = lpVars.limits.ppusis_min;
                 } else {
                     // Pay-per-Use
-                    maxPrice = lpVars.limits.ppu_max;
+                    maxPrice = lpVars.limits.ppusis_max;
                     minPrice = lpVars.limits.ppu_min;
                 }
 
@@ -493,17 +493,17 @@
                 // save dynamic pricing data
                 var data = window.lpc.get_data();
                 if (window.lpc.get_data().length === 4) {
-                    $('input[name=laterpay_start_price]').val(data[0].y);
-                    $('input[name=laterpay_end_price]').val(data[3].y);
-                    $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
-                    $('input[name=laterpay_transitional_period_end_after_days]').val(data[2].x);
-                    $('input[name=laterpay_reach_end_price_after_days]').val(data[3].x);
+                    $('input[name=start_price]').val(data[0].y);
+                    $('input[name=end_price]').val(data[3].y);
+                    $('input[name=change_start_price_after_days]').val(data[1].x);
+                    $('input[name=transitional_period_end_after_days]').val(data[2].x);
+                    $('input[name=reach_end_price_after_days]').val(data[3].x);
                 } else if (window.lpc.get_data().length === 3) {
-                    $('input[name=laterpay_start_price]').val(data[0].y);
-                    $('input[name=laterpay_end_price]').val(data[2].y);
-                    $('input[name=laterpay_change_start_price_after_days]').val(data[1].x);
-                    $('input[name=laterpay_transitional_period_end_after_days]').val(0);
-                    $('input[name=laterpay_reach_end_price_after_days]').val(data[2].x);
+                    $('input[name=start_price]').val(data[0].y);
+                    $('input[name=end_price]').val(data[2].y);
+                    $('input[name=change_start_price_after_days]').val(data[1].x);
+                    $('input[name=transitional_period_end_after_days]').val(0);
+                    $('input[name=reach_end_price_after_days]').val(data[2].x);
                 }
 
                 return true;
