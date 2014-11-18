@@ -57,7 +57,7 @@
 
                     passPayType                             : $('.lp_toggle_input'),
                     pass                                    : $('#lp_js_togglePassPayType'),
-                    colorPicker                             : $('.lp_colorInput'),
+                    colorPicker                             : $('.lp_js_colorInput'),
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -184,31 +184,31 @@
                 });
 
                 // ?????
-                $('.lp_pass-container .lp_changeLink')
+                $('.lp_timePass .lp_changeLink')
                 .click(function(e) {
-                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
+                    var pass_id = $(this).closest('.lp_timePass').attr('data-pass-id');
                     togglePassForm('show', pass_id);
                     e.preventDefault();
                 });
 
                 // cancel
-                $('.lp_pass-container .lp_cancelLink')
+                $('.lp_timePass .lp_cancelLink')
                 .click(function(e) {
                     togglePassForm('hide', 0);
                     e.preventDefault();
                 });
 
                 // save
-                $('.lp_pass-container .lp_saveLink')
+                $('.lp_timePass .lp_saveLink')
                 .click(function(e) {
                     savePassForm();
                     e.preventDefault();
                 });
 
                 // delete
-                $('.lp_pass-container .lp_deleteLink')
+                $('.lp_timePass .lp_deleteLink')
                 .click(function(e) {
-                    var pass_id = $(this).closest('.lp_pass-container').attr('data-pass-id');
+                    var pass_id = $(this).closest('.lp_timePass').attr('data-pass-id');
                     removePass(e, pass_id);
                     e.preventDefault();
                 });
@@ -310,23 +310,23 @@
 
             togglePassForm = function(todo, pass_id) {
                 var editor          = $('.lp_passes_editor'),
-                    passContainer   = $('.lp_pass-container[data-pass-id=' + pass_id + ']');
-                $('.lp_pass-container .lp_changeLink').show();
-                $('.lp_pass-container .lp_saveLink').hide();
-                $('.lp_pass-container .lp_cancelLink').hide();
-                $('.lp_pass-container .lp_deleteLink').show();
+                    passContainer   = $('.lp_timePass[data-pass-id=' + pass_id + ']');
+                $('.lp_timePass .lp_changeLink').show();
+                $('.lp_timePass .lp_saveLink').hide();
+                $('.lp_timePass .lp_cancelLink').hide();
+                $('.lp_timePass .lp_deleteLink').show();
 
                 if (todo === 'show') {
                     fillPassForm(pass_id);
                     passContainer.show();
-                    $(passContainer).find('.lp_passes_editor_container').append(editor.show());
+                    $(passContainer).find('.lp_timePass_editorContainer').append(editor.show());
                     passContainer.find('.lp_changeLink').hide();
                     passContainer.find('.lp_saveLink').show();
                     passContainer.find('.lp_cancelLink').show();
                     passContainer.find('.lp_deleteLink').hide();
                     // new pass form has to be hidden by default
                     if ( pass_id > 0 ) {
-                        $('.lp_pass-container[data-pass-id=0]').hide();
+                        $('.lp_timePass[data-pass-id=0]').hide();
                     }
                 } else if (todo === 'hide') {
                     passContainer.hide();

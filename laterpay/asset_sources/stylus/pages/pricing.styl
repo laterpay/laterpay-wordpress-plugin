@@ -37,97 +37,40 @@ span.lp_revenueModelLabel
     min-width               8.75em
 
 
-// time limited passes ------------------------------------------------------------------------------------------------
-.lp_pass-container
+// time passes ---------------------------------------------------------------------------------------------------------
+.lp_timePass
     margin-bottom           $fs-1
     margin-left             0
-    white-space             nowrap
 
-.lp_pass-cover
+.lp_timePass_cover
     background              url(../img/pass-cover.png) no-repeat
-    border-bottom           1px solid $border
-    border-right            1px solid $border
     height                  120px
-    margin                  0
     width                   254px
 
-    h2
-       font-size            2em
-       margin               0.5em
+.lp_timePass_title
+    // ...
 
-    p
-       font-size            0.9em
-       height               36px
-       overflow             hidden
-       padding-left         1em
-       text-overflow        ellipsis
-       width                160px
+.lp_timePass_description
+   // ...
 
-.lp_passTermsLink
+.lp_timePass_termsLink
     color                   $background-laterpay
-    margin-left             10px
+    margin-left             $fs-1
 
-.lp_passes_editor
-    border                  1px solid red
-    white-space             nowrap
-    width                   640px
-
-    div
-        border              1px solid red
-        padding             0
-        padding-left        10px
-        white-space         normal
-        width               320px
-
-.lp_passItem
-    white-space             nowrap
-
-    input
-        height              2.2em
-        padding             0
-
-    select
-        height              2.2em
-        margin-top          3px
-
-#lp_js_passValidAmount,
-#lp_js_passValidNumber
-    width                   50px
-
-#lp_js_passDescription
-    height                  60px
-
-#lp_passTitle,
-#lp_js_passDescription,
-#lp_passBackground
-    left                    470px
-    position                absolute
-    width                   220px
-
-input[type=text].lp_inputShort,
-input[type=number].lp_inputShort
-    padding                 0
-    text-align              right
-    width                   50px
-
-#lp_js_passAccessTo,
-#lp_js_passCat
-    width                   260px
+.lp_timePass_editor
+    // ...
 
 // color picker
-.lp_colorPickerContainer
-    display                 inline-block
-    left                    695px
-    position                absolute
+.lp_colorPicker
+    // ...
 
 .wp-picker-open
     display                 none
 
 .wp-color-result
-    height                  20px
+    height                  $fs-15
     margin                  0
-    padding-left            10px
-    top                     2px
+    padding-left            $fs-1
     z-index                 $zindex-overlayed_1
 
 .iris-picker

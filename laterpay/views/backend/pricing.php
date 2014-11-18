@@ -202,9 +202,9 @@
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
+
         <div class="lp_row">
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
-            <a href="#" id="lp_js_addTimePass" class="lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
 
             <?php echo $this->render_pass(); ?>
 
@@ -214,12 +214,15 @@
                 };
             ?>
 
-            <form id="lp_js_timePassForm" class="lp_passes_editor" method="post">
+            <a href="#" id="lp_js_addTimePass" class="lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
+
+            <form id="lp_js_timePassForm" class="lp_timePass_editor" method="post">
                 <input type="hidden" name="form" value="pass_form_save">
                 <input type="hidden" name="action" value="laterpay_pricing">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <input type="hidden" name="pass_id" value="0">
-                <div>
+
+                <div class="lp_u_w-1-3">
                     <div class="lp_passItem">
                         <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
                         <input type="number"
@@ -265,7 +268,8 @@
                         </div>
                     </div>
                 </div>
-                <div>
+
+                <div class="lp_u_w-1-6">
                     <div class="lp_passItem">
                         <?php _e( 'Title', 'laterpay' ); ?>
                         <input type="text"
@@ -273,10 +277,10 @@
                                 id="lp_passTitle"
                                 class="lp_input"
                                 value="<?php echo LaterPay_Helper_Passes::get_defaults( 'title' ); ?>">
-                        <div class="lp_colorPickerContainer">
+                        <div class="lp_colorPicker">
                             <input type="text"
                                     name="title_color"
-                                    class="lp_colorInput"
+                                    class="lp_js_colorInput lp_input"
                                     value="<?php echo LaterPay_Helper_Passes::get_defaults( 'title_color' ); ?>">
                         </div>
                     </div>
@@ -288,9 +292,9 @@
                             class="lp_input">
                             <?php echo LaterPay_Helper_Passes::get_description(); ?>
                         </textarea>
-                        <div class="lp_colorPickerContainer">
+                        <div class="lp_colorPicker">
                             <input type="text"
-                                    class="lp_colorInput"
+                                    class="lp_js_colorInput lp_input"
                                     name="description_color"
                                     value="<?php echo LaterPay_Helper_Passes::get_defaults( 'description_color' ); ?>">
                         </div>
@@ -301,9 +305,9 @@
                             <a href="#"><?php _e( 'Choose image', 'laterpay' ); ?></a>
                             <?php _e( 'or background <strong>color</strong>', 'laterpay' ); ?>
                         </label>
-                        <div class="lp_colorPickerContainer">
+                        <div class="lp_colorPicker">
                             <input type="text"
-                                    class="lp_colorInput"
+                                    class="lp_js_colorInput lp_input"
                                     name="background_color"
                                     value="<?php echo LaterPay_Helper_Passes::get_defaults( 'background_color' ); ?>">
                         </div>
@@ -312,6 +316,7 @@
             </form>
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
+
 
         <div class="lp_row">
             <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>

@@ -821,7 +821,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay_pass', $args );
 
-        $string = $this->get_text_view( 'backend/partials/pass_item' );
+        $string = $this->get_text_view( 'backend/partials/time_pass' );
 
         return $string;
     }
