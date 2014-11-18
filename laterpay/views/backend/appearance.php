@@ -144,7 +144,7 @@
                                 </td>
                                 <td>
                                     <?php _e( 'Content type of the linked content.', 'laterpay'); ?><br>
-                                    <?php _e( 'Choose between \'music\', \'video\', \'text\', \'gallery\', and \'file\' to display the corresponding default teaser image provided by the plugin.', 'laterpay'); ?>
+                                    <?php _e( 'Choose between \'audio\', \'video\', \'text\', \'gallery\', and \'file\' to display the corresponding default teaser image provided by the plugin.', 'laterpay'); ?>
                                 </td>
                             </tr>
                             <tr>
