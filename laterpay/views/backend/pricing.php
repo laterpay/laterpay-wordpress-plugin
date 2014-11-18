@@ -204,14 +204,14 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
-            <a href="#" class="lp_js_add_pass lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new pass', 'laterpay' ); ?></a>
+            <a href="#" class="lp_js_add_pass lp_u_inlineBlock" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
 
             <?php echo $this->render_pass(); ?>
 
             <?php
-            foreach ($passes_list as $pass) {
-                echo $this->render_pass( (array)$pass );
-            };
+                foreach ($passes_list as $pass) {
+                    echo $this->render_pass( (array) $pass );
+                };
             ?>
 
             <form class="lp_passes_editor" id="lp_js_passes_form" method="post">
@@ -222,7 +222,10 @@
                 <div>
                     <item>
                         <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
-                        <input type="number" name="valid_term" class="lp_input lp_numberInput lp_inputShort" value="<?php echo LaterPay_Helper_Passes::get_defaults('valid_term'); ?>">
+                        <input type="number"
+                                name="valid_term"
+                                class="lp_input lp_numberInput lp_inputShort"
+                                value="<?php echo LaterPay_Helper_Passes::get_defaults( 'valid_term' ); ?>">
                         <select name="valid_period" class="lp_input">
                             <?php echo LaterPay_Helper_Passes::get_select_periods(); ?>
                         </select>
@@ -242,13 +245,19 @@
                     </item>
                     <item>
                         <?php _e( 'The user pays ', 'laterpay' ); ?>
-                        <input type="text" name="price" class="lp_input lp_numberInput lp_inputShort" value="<?php echo $global_default_price; ?>">
+                        <input type="text"
+                                name="price"
+                                class="lp_input lp_numberInput lp_inputShort"
+                                value="<?php echo $global_default_price; ?>">
                         <?php _e( 'EUR', 'laterpay' ); ?>
                         <div class="lp_toggle">
                             <?php _e( 'later', 'laterpay' ); ?>
                             <label class="lp_toggle_label lp_toggle_label_pass">
                                 <input type="checkbox" class="lp_toggle_input" checked="">
-                                <input type="hidden" name="pay_type" id="lp_js_togglePassPayType_hiddenInput" value="<?php echo LaterPay_Helper_Passes::get_defaults('pay_type'); ?>">
+                                <input type="hidden"
+                                        name="pay_type"
+                                        id="lp_js_togglePassPayType_hiddenInput"
+                                        value="<?php echo LaterPay_Helper_Passes::get_defaults( 'pay_type' ); ?>">
                                 <span class="lp_toggle_text" data-on="" data-off=""></span>
                                 <span class="lp_toggle_handle"></span>
                             </label>
@@ -259,26 +268,44 @@
                 <div>
                     <item>
                         <?php _e( 'Title', 'laterpay' ); ?>
-                        <input type="text" name="title" id="lp_passTitle" class="lp_input lp_textInput" value="<?php echo LaterPay_Helper_Passes::get_defaults('title'); ?>">
+                        <input type="text"
+                                name="title"
+                                id="lp_passTitle"
+                                class="lp_input lp_textInput"
+                                value="<?php echo LaterPay_Helper_Passes::get_defaults( 'title' ); ?>">
                         <div class="lp-color-picker-container">
-                            <input type="text" name="title_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('title_color'); ?>" class="lp-color-picker" >
+                            <input type="text"
+                                    name="title_color"
+                                    class="lp-color-picker"
+                                    value="<?php echo LaterPay_Helper_Passes::get_defaults( 'title_color' ); ?>">
                         </div>
                     </item>
                     <item style="height: 68px;">
                         <?php _e( 'Description', 'laterpay' ); ?>
-                        <textarea type="text" name="description" id="lp_js_passDescription" class="lp_input lp_textInput"><?php echo LaterPay_Helper_Passes::get_description(); ?></textarea>
+                        <textarea
+                            name="description"
+                            id="lp_js_passDescription"
+                            class="lp_input lp_textInput">
+                            <?php echo LaterPay_Helper_Passes::get_description(); ?>
+                        </textarea>
                         <div class="lp-color-picker-container">
-                            <input type="text" name="description_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('description_color'); ?>" class="lp-color-picker" >
+                            <input type="text"
+                                    class="lp-color-picker"
+                                    name="description_color"
+                                    value="<?php echo LaterPay_Helper_Passes::get_defaults( 'description_color' ); ?>">
                         </div>
                     </item>
                     <item>
                         <?php _e( 'Background', 'laterpay' ); ?>
                         <label id="lp_passBackground">
-                            <a href='javascript: void(0);'><?php _e( 'Choose image', 'laterpay' ); ?></a>
+                            <a href="#"><?php _e( 'Choose image', 'laterpay' ); ?></a>
                             <?php _e( 'or background <strong>color</strong>', 'laterpay' ); ?>
                         </label>
                         <div class="lp-color-picker-container">
-                            <input type="text" name="background_color" value="<?php echo LaterPay_Helper_Passes::get_defaults('background_color'); ?>" class="lp-color-picker" >
+                            <input type="text"
+                                    class="lp-color-picker"
+                                    name="background_color"
+                                    value="<?php echo LaterPay_Helper_Passes::get_defaults( 'background_color' ); ?>">
                         </div>
                     </item>
                 </div>
