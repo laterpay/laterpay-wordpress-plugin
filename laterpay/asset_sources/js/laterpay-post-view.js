@@ -23,8 +23,13 @@
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
 
+                // content rating
+                postRatingForm                  : $('.lp_js_ratingForm'),
+                postRatingRadio                 : $('input[type=radio][name=rating_value]'),
+
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
+                fadingOut                       : 'lp_is-fading-out',
             },
 
             recachePostStatisticsPane = function() {
@@ -59,6 +64,34 @@
                 .on('change', function() {
                     togglePostPreviewMode();
                 });
+            },
+
+            bindRatingEvents = function() {
+                // save rating when input is selected
+                $o.postRatingRadio
+                .on('change', function() {
+                    savePostRating();
+                });
+            },
+
+            savePostRating = function() {
+                $.post(
+                    lpVars.ajaxUrl,
+                    $o.postRatingForm.serializeArray(),
+                    function(r) {
+                        if (r.success) {
+                            // replace rating form with thank you message and remove it after a few seconds
+                            $('.lp_rating', $o.postRatingForm).addClass($o.fadingOut).html(r.message);
+                            setTimeout(
+                                function() {
+                                    $o.postRatingForm.fadeOut(400, function() { $(this).remove(); });
+                                },
+                                4000
+                            );
+                        }
+                    },
+                    'json'
+                );
             },
 
             loadPostStatistics = function() {
@@ -203,6 +236,8 @@
                 }
 
                 bindPurchaseEvents();
+                bindRatingEvents();
+
                 initiateAttachmentDownload();
             };
 
