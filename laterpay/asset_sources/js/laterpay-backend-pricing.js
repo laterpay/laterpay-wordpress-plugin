@@ -54,9 +54,10 @@
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
+
                     passPayType                             : $('.lp_toggle_input'),
                     pass                                    : $('#lp_js_togglePassPayType'),
-                    colorPicker                             : $('.lp-color-picker'),
+                    colorPicker                             : $('.lp_colorInput'),
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -192,7 +193,7 @@
 
                 // cancel
                 $('.lp_pass-container .lp_cancelLink')
-                .click(function(e){
+                .click(function(e) {
                     togglePassForm('hide', 0);
                     e.preventDefault();
                 });
@@ -273,7 +274,7 @@
 
                 $.post(
                     ajaxurl,
-                    $('#lp_js_passes_form').serializeArray(),
+                    $('#lp_js_timePassForm').serializeArray(),
                     function(r) {
                         if (r.success) {
                             window.location.reload();
@@ -328,9 +329,8 @@
                         $('.lp_pass-container[data-pass-id=0]').hide();
                     }
                 } else if (todo === 'hide') {
-                    var link = $('.lp_js_add_pass');
                     passContainer.hide();
-                    $(link).after(editor.hide());
+                    $o.addTimePass.after(editor.hide());
                 }
             },
 
@@ -677,11 +677,6 @@
                     },
                     'json'
                 );
-            },
-
-            // passes of events
-            passAddNew = function(){
-
             },
 
             // throttle the execution of a function by a given delay

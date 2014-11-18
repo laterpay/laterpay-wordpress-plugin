@@ -39,65 +39,99 @@ span.lp_revenueModelLabel
 
 // time limited passes ------------------------------------------------------------------------------------------------
 .lp_pass-container
-    white-space             nowrap
+    margin-bottom           $fs-1
     margin-left             0
-    margin-bottom           15px
+    white-space             nowrap
 
 .lp_pass-cover
-    background-repeat       no-repeat
+    background              url(../img/pass-cover.png) no-repeat
+    border-bottom           1px solid $border
+    border-right            1px solid $border
     height                  120px
     margin                  0
     width                   254px
-    background-image        url('../img/pass-cover.png')
-    border-bottom           1px solid $border
-    border-right            1px solid $border
 
     h2
-       margin               0.5em
        font-size            2em
+       margin               0.5em
+
     p
-       width                160px
        font-size            0.9em
        height               36px
        overflow             hidden
-       text-overflow        ellipsis
        padding-left         1em
+       text-overflow        ellipsis
+       width                160px
 
 .lp_passTermsLink
-    color                   green
-    margin-left             10px
-
-.lp_purchaseLink.lp_button
-    font-size               18px
-    width                   100px
-    top                     -10px
-    float                   left
+    color                   $background-laterpay
     margin-left             10px
 
 .lp_passes_editor
+    border                  1px solid red
     white-space             nowrap
     width                   640px
-    border                  1px solid red
 
     div
-        width               320px
         border              1px solid red
-        padding             0px
+        padding             0
         padding-left        10px
         white-space         normal
+        width               320px
 
-        item
-            white-space     nowrap
+.lp_passItem
+    white-space             nowrap
 
-            input
-                height      2.2em
-                font-size   0.9em
-                padding     0
+    input
+        height              2.2em
+        padding             0
 
-            select
-                height      2.2em
-                font-size   0.9em
-                margin-top  3px
+    select
+        height              2.2em
+        margin-top          3px
+
+#lp_js_passValidAmount,
+#lp_js_passValidNumber
+    width                   50px
+
+#lp_js_passDescription
+    height                  60px
+
+#lp_passTitle,
+#lp_js_passDescription,
+#lp_passBackground
+    left                    470px
+    position                absolute
+    width                   220px
+
+input[type=text].lp_inputShort,
+input[type=number].lp_inputShort
+    padding                 0
+    text-align              right
+    width                   50px
+
+#lp_js_passAccessTo,
+#lp_js_passCat
+    width                   260px
+
+// color picker
+.lp_colorPickerContainer
+    display                 inline-block
+    left                    695px
+    position                absolute
+
+.wp-picker-open
+    display                 none
+
+.wp-color-result
+    height                  20px
+    margin                  0
+    padding-left            10px
+    top                     2px
+    z-index                 $zindex-overlayed_1
+
+.iris-picker
+    z-index                 $zindex-overlayed_1
 
 
 // bulk price editor ---------------------------------------------------------------------------------------------------
