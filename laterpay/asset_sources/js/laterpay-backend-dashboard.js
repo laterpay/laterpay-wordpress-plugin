@@ -335,7 +335,7 @@
                 }
 
                 // replace existing HTML
-                $list.html($o.list.join());
+                $list.html($o.list.join(''));
             },
 
             renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
