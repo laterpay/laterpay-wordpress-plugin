@@ -344,12 +344,12 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $avg_purchase = 0;
         if ( $total_revenue_items > 0 ) {
-            $avg_purchase = number_format_i18n($total_items_sold / $total_revenue_items);
+            $avg_purchase = number_format_i18n( $total_items_sold / $total_revenue_items );
         }
 
         $conversion = 0;
         if ( $impressions > 0 ) {
-            $conversion = number_format_i18n($total_items_sold / $impressions, 1);
+            $conversion = number_format_i18n( $total_items_sold / $impressions, 1 );
         }
 
         $avg_items_sold = 0;
@@ -364,7 +364,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 // hour
                 $diff = 24;
             }
-            $avg_items_sold = number_format_i18n($total_items_sold / $diff);
+            $avg_items_sold = number_format_i18n( $total_items_sold / $diff, 1 );
         }
 
         // search args for history items
