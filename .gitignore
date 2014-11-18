@@ -1,4 +1,7 @@
+.DS_Store
 .idea/
+.sublime-gulp.cache
+laterpay/built_assets/
+laterpay/sftp-config.json
 nbproject/
 node_modules/
-laterpay/built_assets/
