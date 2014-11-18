@@ -120,7 +120,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function ajax_rating_summary() {
+    public function ajax_load_rating_summary() {
         if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_post_rating_summary' ) {
             exit;
         }
