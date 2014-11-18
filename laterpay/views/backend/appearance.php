@@ -96,6 +96,7 @@
                 </div>
             </div>
             <dfn class="lp_u_block">
+                <?php _e( 'The opinion of others has a strong influence on buying decisions.', 'laterpay' ); ?><br>
                 <?php _e( 'Content rating lets users rate your content on a five star scale after purchasing.', 'laterpay' ); ?><br>
                 <?php _e( 'These ratings will be displayed to users who have not purchased that content yet as a quality indicator.', 'laterpay' ); ?>
             </dfn>
