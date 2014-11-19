@@ -48,8 +48,19 @@
 .lp_rating__star svg {
     fill: $background-darker;
 }
-.lp_rating__star.lp_is-active svg {
-    fill: $background-laterpay;
+.lp_rating__star.lp_is-full {
+    .lp_star__full {
+        fill: $background-laterpay;
+    }
+
+    .lp_star__half {
+        fill: none;
+    }
+}
+.lp_rating__star.lp_is-half {
+    .lp_star__half {
+        fill: $background-laterpay;
+    }
 }
 
 /**
