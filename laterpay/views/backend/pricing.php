@@ -206,16 +206,18 @@
         <div class="lp_row">
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
 
-            <a href="#" id="lp_js_addTimePass" class="lp_addTimePass" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
+            <a href="#" id="lp_js_addTimePass" class="button button-primary lp_addTimePass" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
 
             <div class="lp_timePassEditor">
                 <div class="lp_u_clearfix">
-                    <?php echo $this->render_pass(); ?>
+                    <div class="lp_u_left lp_u_m-r1">
+                        <?php echo $this->render_pass(); ?>
+                    </div>
 
-                    <a href="#" class="lp_changeLink lp_u_left" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_saveLink lp_u_left" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_deleteLink lp_u_left" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_cancelLink lp_u_left" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_changeLink lp_u_block lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_deleteLink lp_u_block lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_saveLink lp_u_block lp_u_pd-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_cancelLink lp_u_block lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
 
                     <div class="lp_timePass_editorContainer"></div>
                 </div>

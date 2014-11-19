@@ -4,31 +4,63 @@
  * Time pass preview, rendered like a real-world ticket
  *
  * 1. Allow child elements (e.g. the purchase button) to be positioned at the bottom of the pass
+ * 2. Avoid padding to be added to height and width
  */
 .lp_timePass
-    background              $background-darker url(../img/time-pass-background.png) 0 0/100% no-repeat
-    box-sizing              border-box
+    background              url(../img/time-pass-background.png) 0 0/100% no-repeat
+    box-sizing              border-box /* 2 */
     display                 inline-block
-    height                  140px
+    height                  154px
     margin-right            $fs-1
     margin-bottom           $fs-1
-    padding                 $fs-1
+    padding                 $fs-1 round(4 * $fs-1) $fs-1 $fs-1
     position                relative /* 1 */
-    width                   318px
+    width                   308px
 
 /**
+ * Time pass title, usually something descriptive like "24h News Pass"
+ *
  * 1. Restrict title to one line
  * 2. Cut off excess text, if supported by browser, with an ellipsis
  */
 .lp_timePass_title
     font-size               $fs-15
-    margin                  $fs-05 0 $fs-1
+    line-height             1.3
+    margin                  0 0 $fs-05
     overflow                hidden /* 2 */
     text-overflow           ellipsis /* 2 */
     white-space             nowrap /* 1 */
 
+/**
+ * Time pass description
+ *
+ * 1. Normalize appearance
+ * 2. Restrict description to three lines
+ */
 .lp_timePass_description
-    margin                  0
+    height                  3.9em /* 2 */
+    line-height             1.3 /* 1 */
+    margin                  0 /* 1 */
+    overflow                hidden /* 2 */
 
-.lp_timePass_termsLink
-    margin-left             $fs-1
+/**
+ * Wrapper for purchase button and terms link
+ *
+ * 1. Take up full available width, i.e. 100% - padding of .lp_timePass
+ */
+.lp_timePass_actions
+    bottom                  1em
+    position                absolute
+    width                   80%; /* 1 - fallback for browsers that don't support calc */
+    width                   calc(100% - 4em) /* 1 */
+
+    .lp_purchaseLink.lp_button
+        display             inline-block                                                            !important
+        float               none                                                                    !important
+        vertical-align      middle                                                                  !important
+
+    .lp_timePass_termsLink
+        display             inline-block
+        padding             $fs-05 $fs-1
+        vertical-align      middle
+
