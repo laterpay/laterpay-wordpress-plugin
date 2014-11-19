@@ -7,13 +7,13 @@
     </div>
 
     <div class="lp_navigation lp_u_relative">
-        <?php if ( ! $plugin_is_in_live_mode ): ?>
-            <a href="<?php echo add_query_arg( array( 'page' => $admin_menu['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_pluginModeIndicator lp_u_absolute" data-icon="h">
+        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
+            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_pluginModeIndicator lp_u_absolute" data-icon="h">
                 <h2><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
                 <span><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
             </a>
         <?php endif; ?>
-        <?php echo $top_nav; ?>
+        <?php echo $laterpay['top_nav']; ?>
     </div>
 
     <div class="lp_pagewrap">
@@ -28,7 +28,7 @@
                             name="paid_content_preview"
                             value="1"
                             class="lp_js_togglePreviewMode lp_js_styleInput"
-                            <?php if ( $show_teaser_content_only ): ?>checked<?php endif; ?>/>
+                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content only', 'laterpay' ); ?>
                     <div class="lp_previewMode-1"></div>
                 </label>
@@ -37,7 +37,7 @@
                             name="paid_content_preview"
                             value="0"
                             class="lp_js_togglePreviewMode lp_js_styleInput"
-                            <?php if ( ! $show_teaser_content_only ): ?>checked<?php endif; ?>/>
+                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
                     <div class="lp_previewMode-2"></div>
                 </label>
@@ -74,20 +74,49 @@
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
+        <div class="lp_row lp_u_clearfix lp_u_m-b1">
+            <h2><?php _e( 'Rating of Purchased Content', 'laterpay' ); ?></h2>
+            <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'content-rating-2x.png'; ?>">
+            <div class="lp_u_m-t2">
+                <?php _e( 'Content rating is', 'laterpay' ); ?><div class="lp_toggle">
+                    <form id="lp_js_laterpayRatingsForm" method="post">
+                        <input type="hidden" name="form"    value="ratings">
+                        <input type="hidden" name="action"  value="laterpay_appearance">
+                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                        <label class="lp_toggle_label">
+                            <input type="checkbox"
+                                   name="enable_ratings"
+                                   id="lp_js_enableRatingsToggle"
+                                   class="lp_toggle_input"
+                                   <?php if ( $laterpay['is_rating_enabled'] ): ?>checked<?php endif; ?>>
+                            <span class="lp_toggle_text" data-on="<?php _e( 'on', 'laterpay' ); ?>" data-off="<?php _e( 'off', 'laterpay' ); ?>"></span>
+                            <span class="lp_toggle_handle"></span>
+                        </label>
+                    </form>
+                </div>
+            </div>
+            <dfn class="lp_u_block">
+                <?php _e( 'The opinion of others has a strong influence on buying decisions.', 'laterpay' ); ?><br>
+                <?php _e( 'Content rating lets users rate your content on a five star scale after purchasing.', 'laterpay' ); ?><br>
+                <?php _e( 'These ratings will be displayed to users who have not purchased that content yet as a quality indicator.', 'laterpay' ); ?>
+            </dfn>
+        </div>
+        <hr class="lp_u_m-1-0 lp_u_m-b3">
+
         <div class="lp_row">
             <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
             <h3><?php _e( 'Offer of Additional Paid Content', 'laterpay' ); ?></h3>
             <dfn class="lp_u_clearfix">
                 <?php _e( 'Insert shortcode [laterpay_premium_download] into a post to render a box for selling additional paid content.', 'laterpay' ); ?>
             </dfn>
-            <code class="lp_codeSnippet +lp_shownAbove lp_u_block">
+            <code class="lp_codeSnippet lp--shownAbove lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
                 <?php _e( '[laterpay_premium_download target_page_id="<dfn>127</dfn>" target_page_title="<dfn>Event video footage</dfn>" content_type="<dfn>video</dfn>" teaser_image_path="<dfn>/uploads/images/concert-video-still.jpg</dfn>" heading_text="<dfn>Video footage of concert</dfn>" description_text="<dfn>Full HD video of the entire concert, including behind the scenes action.</dfn>"]', 'laterpay' ) ?>
             </code>
             <table class="lp_u_m-b1">
                 <tr>
                     <td class="lp_u_pd-l0">
-                        <img class="lp_uiElementPreview +lp_large" src="<?php echo $config->get( 'image_url' ) . 'shortcode-2x.png'; ?>">
+                        <img class="lp_uiElementPreview lp--large" src="<?php echo $config->get( 'image_url' ) . 'shortcode-2x.png'; ?>">
                     </td>
                     <td>
                         <table>
@@ -115,7 +144,7 @@
                                 </td>
                                 <td>
                                     <?php _e( 'Content type of the linked content.', 'laterpay'); ?><br>
-                                    <?php _e( 'Choose between \'music\', \'video\', \'text\', \'gallery\', and \'file\' to display the corresponding default teaser image provided by the plugin.', 'laterpay'); ?>
+                                    <?php _e( 'Choose between \'audio\', \'video\', \'text\', \'gallery\', and \'file\' to display the corresponding default teaser image provided by the plugin.', 'laterpay'); ?>
                                 </td>
                             </tr>
                             <tr>
@@ -152,11 +181,11 @@
             <dfn class="lp_u_clearfix">
                 <?php _e( 'Enclose multiple [laterpay_premium_download] shortcodes in a [laterpay_box_wrapper] shortcode to align them in a three-column layout.', 'laterpay' ); ?>
             </dfn>
-            <code class="lp_codeSnippet +lp_shownAbove lp_u_block">
+            <code class="lp_codeSnippet lp--shownAbove lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
                 <?php _e( '[laterpay_box_wrapper]<dfn>[laterpay_premium_download &hellip;][laterpay_premium_download &hellip;]</dfn>[/laterpay_box_wrapper]', 'laterpay' ) ?>
             </code>
-            <img class="lp_uiElementPreview +lp_large lp_u_m-t05" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
+            <img class="lp_uiElementPreview lp--large lp_u_m-t05" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 

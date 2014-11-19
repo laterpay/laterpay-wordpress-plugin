@@ -276,20 +276,24 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
 
-        $this->assign( 'laterpay_post_id',                              $post->ID );
-        $this->assign( 'laterpay_post_price_type',                      $post_price_type );
-        $this->assign( 'laterpay_post_status',                          $post_status );
-        $this->assign( 'laterpay_post_revenue_model',                   $post_revenue_model );
-        $this->assign( 'laterpay_price',                                $price );
-        $this->assign( 'maximum_price_in_lifecycle',                             $maximum_price_in_lifecycle );
-        $this->assign( 'laterpay_currency',                             get_option( 'laterpay_currency' ) );
-        $this->assign( 'laterpay_category_prices',                      $category_price_data );
-        $this->assign( 'laterpay_post_default_category',                (int) $post_default_category );
-        $this->assign( 'laterpay_global_default_price',                 $global_default_price );
-        $this->assign( 'laterpay_dynamic_pricing_data',                 json_encode( $dynamic_pricing_data ) );
-        $this->assign( 'laterpay_dynamic_pricing_limits',               json_encode( $dynamic_pricing_limits ) );
-        $this->assign( 'laterpay_global_default_price_revenue_model',   $global_default_price_revenue_model );
-        $this->assign( 'laterpay_category_default_price_revenue_model', $category_default_price_revenue_model );
+        $view_args = array(
+            'post_id'                              => $post->ID,
+            'post_price_type'                      => $post_price_type,
+            'post_status'                          => $post_status,
+            'post_revenue_model'                   => $post_revenue_model,
+            'price'                                => $price,
+            'maximum_price_in_lifecycle'           => $maximum_price_in_lifecycle,
+            'currency'                             => get_option( 'laterpay_currency' ),
+            'category_prices'                      => $category_price_data,
+            'post_default_category'                => (int) $post_default_category,
+            'global_default_price'                 => $global_default_price,
+            'dynamic_pricing_data'                 => json_encode( $dynamic_pricing_data ),
+            'dynamic_pricing_limits'               => json_encode( $dynamic_pricing_limits ),
+            'global_default_price_revenue_model'   => $global_default_price_revenue_model,
+            'category_default_price_revenue_model' => $category_default_price_revenue_model,
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/partials/post_pricing_form' );
     }
@@ -370,27 +374,27 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
                 // apply dynamic individual price
                 if ( $type === LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) {
-                    if ( isset( $_POST[ 'laterpay_start_price' ] ) && isset( $_POST[ 'laterpay_end_price' ] ) ){
-                        list( $meta_values[ 'start_price' ], $meta_values[ 'end_price' ] ) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $_POST[ 'laterpay_start_price' ], $_POST[ 'laterpay_end_price' ] );
+                    if ( isset( $_POST[ 'start_price' ] ) && isset( $_POST[ 'end_price' ] ) ){
+                        list( $meta_values[ 'start_price' ], $meta_values[ 'end_price' ] ) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $_POST[ 'start_price' ], $_POST[ 'end_price' ] );
                     }
 
-                    if ( $post_form->get_field_value( 'laterpay_change_start_price_after_days' ) ) {
-                        $meta_values[ 'change_start_price_after_days' ] = $post_form->get_field_value( 'laterpay_change_start_price_after_days' );
+                    if ( $post_form->get_field_value( 'change_start_price_after_days' ) ) {
+                        $meta_values[ 'change_start_price_after_days' ] = $post_form->get_field_value( 'change_start_price_after_days' );
                     }
 
-                    if ( $post_form->get_field_value( 'laterpay_transitional_period_end_after_days' ) ) {
-                        $meta_values[ 'transitional_period_end_after_days' ] = $post_form->get_field_value( 'laterpay_transitional_period_end_after_days' );
+                    if ( $post_form->get_field_value( 'transitional_period_end_after_days' ) ) {
+                        $meta_values[ 'transitional_period_end_after_days' ] = $post_form->get_field_value( 'transitional_period_end_after_days' );
                     }
 
-                    if ( $post_form->get_field_value( 'laterpay_reach_end_price_after_days' ) ) {
-                        $meta_values[ 'reach_end_price_after_days' ] = $post_form->get_field_value( 'laterpay_reach_end_price_after_days' );
+                    if ( $post_form->get_field_value( 'reach_end_price_after_days' ) ) {
+                        $meta_values[ 'reach_end_price_after_days' ] = $post_form->get_field_value( 'reach_end_price_after_days' );
                     }
                 }
 
                 // apply category default price of given category
                 if ( $type === LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
-                    if ( $post_form->get_field_value( 'laterpay_post_default_category' ) ) {
-                        $category_id = $post_form->get_field_value( 'laterpay_post_default_category' );
+                    if ( $post_form->get_field_value( 'post_default_category' ) ) {
+                        $category_id = $post_form->get_field_value( 'post_default_category' );
                         $meta_values[ 'category_id' ] = $category_id;
                     }
                 }

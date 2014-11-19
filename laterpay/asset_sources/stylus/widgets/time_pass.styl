@@ -1,0 +1,34 @@
+// time passes
+
+/**
+ * Time pass preview, rendered like a real-world ticket
+ *
+ * 1. Allow child elements (e.g. the purchase button) to be positioned at the bottom of the pass
+ */
+.lp_timePass
+    background              $background-darker url(../img/time-pass-background.png) 0 0/100% no-repeat
+    box-sizing              border-box
+    display                 inline-block
+    height                  140px
+    margin-right            $fs-1
+    margin-bottom           $fs-1
+    padding                 $fs-1
+    position                relative /* 1 */
+    width                   318px
+
+/**
+ * 1. Restrict title to one line
+ * 2. Cut off excess text, if supported by browser, with an ellipsis
+ */
+.lp_timePass_title
+    font-size               $fs-15
+    margin                  $fs-05 0 $fs-1
+    overflow                hidden /* 2 */
+    text-overflow           ellipsis /* 2 */
+    white-space             nowrap /* 1 */
+
+.lp_timePass_description
+    margin                  0
+
+.lp_timePass_termsLink
+    margin-left             $fs-1

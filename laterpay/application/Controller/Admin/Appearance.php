@@ -34,10 +34,15 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        $this->assign( 'plugin_is_in_live_mode',     $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'show_teaser_content_only',   get_option( 'laterpay_teaser_content_only' ) == 1 );
-        $this->assign( 'top_nav',                    $this->get_menu() );
-        $this->assign( 'admin_menu',                 LaterPay_Helper_View::get_admin_menu() );
+        $view_args = array(
+            'plugin_is_in_live_mode'   => $this->config->get( 'is_in_live_mode' ),
+            'show_teaser_content_only' => get_option( 'laterpay_teaser_content_only' ) == 1,
+            'top_nav'                  => $this->get_menu(),
+            'admin_menu'               => LaterPay_Helper_View::get_admin_menu(),
+            'is_rating_enabled'       => $this->config->get( 'ratings_enabled' ),
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/appearance' );
     }
@@ -120,11 +125,45 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                 }
                 break;
 
+            // update rating functionality (on / off) for purchased items
+            case 'ratings':
+                $ratings_form = new LaterPay_Form_Ratings();
+
+                if ( ! $ratings_form->is_valid( $_POST ) ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                } else {
+                    $result = update_option( 'laterpay_ratings', !! $ratings_form->get_field_value( 'enable_ratings' ) );
+
+                    if ( $result ) {
+                        if ( get_option( 'laterpay_ratings' ) ) {
+                            wp_send_json(
+                                array(
+                                    'success' => true,
+                                    'message' => __( 'Visitors can now rate the posts they have purchased.', 'laterpay' ),
+                                )
+                            );
+                        } else {
+                            wp_send_json(
+                                array(
+                                    'success' => true,
+                                    'message' => __( 'The rating of posts has been disabled.', 'laterpay' ),
+                                )
+                            );
+                        }
+                    }
+                }
+                break;
+
             default:
                 wp_send_json(
                     array(
                         'success' => false,
-                        'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                        'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                     )
                 );
                 break;

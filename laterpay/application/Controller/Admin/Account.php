@@ -37,13 +37,17 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        $this->assign( 'sandbox_merchant_id',    get_option( 'laterpay_sandbox_merchant_id' ) );
-        $this->assign( 'sandbox_api_key',        get_option( 'laterpay_sandbox_api_key' ) );
-        $this->assign( 'live_merchant_id',       get_option( 'laterpay_live_merchant_id' ) );
-        $this->assign( 'live_api_key',           get_option( 'laterpay_live_api_key' ) );
-        $this->assign( 'plugin_is_in_live_mode', $this->config->get( 'is_in_live_mode' ) );
-        $this->assign( 'top_nav',                $this->get_menu() );
-        $this->assign( 'admin_menu',             LaterPay_Helper_View::get_admin_menu() );
+        $view_args = array(
+            'sandbox_merchant_id'    => get_option( 'laterpay_sandbox_merchant_id' ),
+            'sandbox_api_key'        => get_option( 'laterpay_sandbox_api_key' ),
+            'live_merchant_id'       => get_option( 'laterpay_live_merchant_id' ),
+            'live_api_key'           => get_option( 'laterpay_live_api_key' ),
+            'plugin_is_in_live_mode' => $this->config->get( 'is_in_live_mode' ),
+            'top_nav'                => $this->get_menu(),
+            'admin_menu'             => LaterPay_Helper_View::get_admin_menu(),
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         $this->render( 'backend/account' );
     }

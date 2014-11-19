@@ -117,9 +117,15 @@ class LaterPay_Core_Bootstrap
         }
 
         $post_controller = new LaterPay_Controller_Post( $this->config );
-        // add Ajax hooks for frontend
+        // Ajax hooks for frontend
         add_action( 'wp_ajax_laterpay_post_load_purchased_content',          array( $post_controller, 'ajax_load_purchased_content' ) );
         add_action( 'wp_ajax_nopriv_laterpay_post_load_purchased_content',   array( $post_controller, 'ajax_load_purchased_content' ) );
+
+        add_action( 'wp_ajax_laterpay_post_rate_purchased_content',          array( $post_controller, 'ajax_rate_purchased_content' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_rate_purchased_content',   array( $post_controller, 'ajax_rate_purchased_content' ) );
+
+        add_action( 'wp_ajax_laterpay_post_rating_summary',                  array( $post_controller, 'ajax_load_rating_summary' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_post_rating_summary',           array( $post_controller, 'ajax_load_rating_summary' ) );
 
         // Ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
@@ -134,7 +140,7 @@ class LaterPay_Core_Bootstrap
             'laterpay_currency',
             'laterpay_enabled_post_types',
             'laterpay_teaser_content_only',
-            'laterpay_plugin_is_in_live_mode'
+            'laterpay_plugin_is_in_live_mode',
         );
         foreach ( $options as $option_name ) {
             add_action( 'update_option_' . $option_name, array( $cache_helper, 'purge_cache' ) );

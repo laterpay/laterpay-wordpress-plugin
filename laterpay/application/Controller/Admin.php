@@ -399,6 +399,22 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                                     'laterpay'
                                                 ),
                                ) );
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_appearance_tab_help_content_rating',
+                                   'title'   => __( 'Rating of Purchased Content', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        If you enable the <strong>rating of purchased content</strong>, users, who have <strong>already bought</strong> a post, will be
+                                                        able to <strong>rate it</strong> on a five stars scale, five stars being the best rating. <br>
+                                                        Users, who <strong>haven\'t bought</strong> a post yet, will see a summary of all buyer ratings below the LaterPay purchase button.
+                                                    </p>
+                                                    <p>
+                                                        As the <strong>opinion of buyers</strong> might have a <strong>strong influence</strong> on the buying decisions of your users,
+                                                        enabling the rating of purchased content could <strong>boost your sales</strong>.
+                                                    </p>',
+                                                    'laterpay'
+                                                ),
+                               ) );
     }
 
     /**
@@ -502,7 +518,12 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             return;
         }
 
-        $this->assign( 'pointers', $pointers );
+        // assign pointers
+        $view_args = array(
+            'pointers' => $pointers,
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'backend/partials/pointer_scripts' );
     }
