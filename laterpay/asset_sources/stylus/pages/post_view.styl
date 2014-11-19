@@ -94,25 +94,27 @@
                     overflow            hidden                                                      !important
                     text-align          center                                                      !important
 
-                // LaterPay logo
+                /**
+                 * LaterPay logo
+                 * 1. Use px values instead of em, because some browsers (e.g. IE10) don't render correct sizes
+                 */
                 h2 span
                     color               $text-inverse                                               !important
                     display             block                                                       !important
                     font-size           200px                                                       !important
                     height              42px                                                        !important
                     line-height         0                                                           !important
-                    left                0.15em                                                      !important
+                    left                28px /* 1 */                                                !important
                     position            relative                                                    !important
                     text-align          center                                                      !important
-                    top                 -0.52em                                                     !important
+                    top                 -84px /* 1 */                                               !important
 
             ul
                 margin                  0.5em 1em 0                                                 !important
                 padding                 0                                                           !important
 
             li
-                background              url(../img/laterpay-icon-buy.svg) 6px 0 no-repeat           !important
-                background-size         61px                                                        !important
+                background              url(../img/laterpay-icon-buy.svg) 6px 0/60px no-repeat      !important
                 list-style              none                                                        !important
                 margin                  0                                                           !important
                 padding                 0 0 0 80px                                                  !important
