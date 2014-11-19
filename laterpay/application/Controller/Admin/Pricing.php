@@ -156,22 +156,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $this->delete_bulk_operation();
                     break;
 
-                case 'reset_post_publication_date':
-                    if ( ! empty( $_POST['post_id'] ) ) {
-                        $post = get_post( $_POST['post_id'] );
-                        if ( $post != null ) {
-                            LaterPay_Helper_Pricing::reset_post_publication_date( $post );
-                            wp_send_json(
-                                array(
-                                    'success' => true,
-                                )
-                            );
-
-                            return;
-                        }
-                    }
-                    break;
-
                 default:
                     wp_send_json(
                         array(

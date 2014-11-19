@@ -438,10 +438,12 @@ class LaterPay_Helper_Pricing
      * Return data for dynamic prices. Can be values already set or defaults.
      *
      * @param WP_Post $post
+     * @param null $price
+     * @param null $revenue_model
      *
      * @return array
      */
-    public static function get_dynamic_prices( $post ) {
+    public static function get_dynamic_prices( $post, $price = null, $revenue_model = null ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
             return;
         }
@@ -451,7 +453,7 @@ class LaterPay_Helper_Pricing
             $post_prices = array();
         }
 
-        $post_price                         = array_key_exists( 'price',            $post_prices ) ? (float) $post_prices[ 'price' ] : '';
+        $post_price                         = array_key_exists( 'price',            $post_prices ) ? (float) $post_prices[ 'price' ] : LaterPay_Helper_Pricing::get_post_price( $post->ID );
         $start_price                        = array_key_exists( 'start_price',      $post_prices ) ? (float) $post_prices[ 'start_price' ] : '';
         $end_price                          = array_key_exists( 'end_price',        $post_prices ) ? (float) $post_prices[ 'end_price' ] : '';
         $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days',           $post_prices ) ? (float) $post_prices[ 'reach_end_price_after_days' ] : '';
@@ -526,12 +528,37 @@ class LaterPay_Helper_Pricing
         }
 
         // d3.dynamic.widget needs zero values for the y-axis formatted as 0.00
-        foreach ( $dynamic_pricing_data as $index => $point )
+        foreach ( $dynamic_pricing_data as $index => $point ) {
             if ( $point['y'] == 0 ) {
                 $dynamic_pricing_data[$index]['y'] = floatval( $point['y'] );
             }
+        }
 
-        return $dynamic_pricing_data;
+        // get number of days since publication to render an indicator in the dynamic pricing widget
+        $days_after_publication = LaterPay_Helper_Pricing::dynamic_price_days_after_publication( $post );
+
+        // dynamic pricing limits
+        $dynamic_pricing_limits = array(
+            'ppu_min'           => LaterPay_Helper_Pricing::ppu_min,
+            'ppu_max'           => LaterPay_Helper_Pricing::ppu_max,
+            'ppusis_max'        => LaterPay_Helper_Pricing::ppusis_max,
+            'sis_min'           => LaterPay_Helper_Pricing::sis_min,
+            'sis_max'           => LaterPay_Helper_Pricing::sis_max,
+            'price_ppu_end'     => LaterPay_Helper_Pricing::price_ppu_end,
+            'price_ppusis_end'  => LaterPay_Helper_Pricing::price_ppusis_end,
+            'price_sis_end'     => LaterPay_Helper_Pricing::price_sis_end,
+            'price_start_day'   => LaterPay_Helper_Pricing::price_start_day,
+            'price_end_day'     => LaterPay_Helper_Pricing::price_end_day,
+            'pubDays'           => $days_after_publication,
+            'todayPrice'        => $price,
+        );
+
+        $result = array(
+            'data'   => $dynamic_pricing_data,
+            'limits' => $dynamic_pricing_limits
+        );
+
+        return $result;
     }
 
      /**
@@ -594,6 +621,7 @@ class LaterPay_Helper_Pricing
 
         return array( $start, $end );
     }
+
     /**
      * Select categories from a given list of categories that have a category default price
      * and return an array of their ids.

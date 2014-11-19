@@ -8,6 +8,7 @@
                 priceTypeInput          : $('#lp_js_postPrice_priceTypeInput'),
                 revenueModel            : $('#lp_js_postPrice_revenueModel'),
                 categoryInput           : $('#lp_js_postDefaultCategoryInput'),
+                revenueModelInput       : $('input[name=post_revenue_model]'),
 
                 // button group for choosing pricing type
                 priceSection            : $('#lp_js_priceType'),
@@ -412,9 +413,8 @@
                 $.post(
                     lpVars.ajaxUrl,
                     {
-                        action          : 'laterpay_reset_date',
-                        form            : 'reset_post_publication_date',
-                        post_id         : post_id,
+                        action          : 'laterpay_reset_post_publication_date',
+                        post_id         : post_id
                     },
                     function(data) {
                         if (data.success) {
@@ -447,8 +447,24 @@
                 $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing).attr('data-icon', 'c');
             },
 
+            getDynamicPricingData = function() {
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action          : 'laterpay_get_dynamic_pricing_data',
+                        post_id         : $o.dynamicPricingResetDate.attr('data-id'),
+                        post_price      : $o.priceInput.val(),
+                        post_revenue    : $o.revenueModelInput.val()
+                    },
+                    function(data) {
+                        return data;
+                    },
+                    'json'
+                );
+            },
+
             renderDynamicPricingWidget = function() {
-                var data        = lpVars.dynamicPricingData,
+                var data        = getDynamicPricingData(),
                     lpc         = new LPCurve($o.dynamicPricingContainer),
                     startPrice  = lpVars.dynamicPricingData[0].y,
                     endPrice    = lpVars.dynamicPricingData[3].y,
