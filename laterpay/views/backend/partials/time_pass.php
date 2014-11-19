@@ -10,7 +10,7 @@
            data-icon="b"
            data-preview-as-visitor="1">
                <?php echo sprintf(
-                   __( '%s<small>%s</small>', 'laterpay' ), number_format_i18n( (float) $laterpay_pass['price'] ), $laterpay['currency']
+                   __( '%s<small>%s</small>', 'laterpay' ), number_format_i18n( (float) $laterpay_pass['price'], 2 ), $standard_currency
                ); ?>
         </a>
         <a href="#" class="lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>

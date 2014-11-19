@@ -17,13 +17,14 @@ class LaterPay_Model_Pass
      */
     function __construct() {
         global $wpdb;
+
         $this->table = $wpdb->prefix . 'laterpay_passes';
     }
 
     /**
-     * Get pass data.
+     * FIXME: #196 add comment
      *
-     * @access public
+     * @param FIXME: #196 add comment
      *
      * @return array views
      */
@@ -45,9 +46,11 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * Save payment to payment history.
+     * FIXME: #196 add comment
      *
      * @param array $data payment data
+     *
+     * @return FIXME: #196 add comment
      */
     public function update_pass( $data ) {
         global $wpdb;
@@ -65,12 +68,12 @@ class LaterPay_Model_Pass
         // format for insert and update statement
         $format = array(
             '%s', // status
-            '%s', // valid_term
+            '%s', // valid_duration
             '%s', // valid_period
             '%s', // access_to
             '%s', // access_category
             '%f', // price
-            '%s', // pay_type
+            '%s', // revenue_model
             '%s', // title
             '%s', // title_color
             '%s', // description
@@ -101,7 +104,7 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * FIXME: add comment
+     * FIXME: #196 add comment
      *
      * @return array list of passes
      */

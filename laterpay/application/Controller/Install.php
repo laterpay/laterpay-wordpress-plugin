@@ -305,7 +305,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 UNIQUE KEY  (post_id, user_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
-        
+
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_passes (
 	        pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
@@ -314,7 +314,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 	        access_to         VARCHAR(32)   NULL DEFAULT NULL,
 	        access_category   VARCHAR(32)   NULL DEFAULT NULL,
 	        price             DECIMAL(10,2) NULL DEFAULT NULL,
-	        pay_type          VARCHAR(12)   NULL DEFAULT NULL,
+	        revenue_model          VARCHAR(12)   NULL DEFAULT NULL,
 	        title             VARCHAR(255)  NULL DEFAULT NULL,
 	        title_color       VARCHAR(7)    NULL DEFAULT NULL,
 	        description       VARCHAR(255)  NULL DEFAULT NULL,
@@ -326,7 +326,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 	        INDEX valid_period (valid_period),
 	        INDEX valid_term (valid_term)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
-        dbDelta( $sql );        
+        dbDelta( $sql );
 
         add_option( 'laterpay_teaser_content_only',         '1' );
         add_option( 'laterpay_plugin_is_in_live_mode',      '0' );

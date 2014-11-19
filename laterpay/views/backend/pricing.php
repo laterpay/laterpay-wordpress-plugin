@@ -225,11 +225,9 @@
                 <div class="lp_u_w-1-3">
                     <div class="lp_passItem">
                         <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
-                        <!-- FIXME: this has to be a select with values 1..24 -->
-                        <input type="number"
-                                name="valid_term"
-                                class="lp_input lp_numberInput"
-                                value="<?php echo LaterPay_Helper_Passes::get_defaults( 'valid_term' ); ?>">
+                        <select name="valid_duration" id="lp_js_timePass_switchDuration" class="lp_input">
+                            <?php echo LaterPay_Helper_Passes::get_select_durations(); ?>
+                        </select>
                         <select name="valid_period" class="lp_input">
                             <?php echo LaterPay_Helper_Passes::get_select_periods(); ?>
                         </select>
@@ -258,9 +256,9 @@
                             <label class="lp_toggle_label lp_toggle_label_pass">
                                 <input type="checkbox" class="lp_toggle_input" checked="">
                                 <input type="hidden"
-                                        name="pay_type"
+                                        name="revenue_model"
                                         id="lp_js_timePass_toggleRevenueModel"
-                                        value="<?php echo LaterPay_Helper_Passes::get_defaults( 'pay_type' ); ?>">
+                                        value="<?php echo LaterPay_Helper_Passes::get_defaults( 'revenue_model' ); ?>">
                                 <span class="lp_toggle_text" data-on="" data-off=""></span>
                                 <span class="lp_toggle_handle"></span>
                             </label>

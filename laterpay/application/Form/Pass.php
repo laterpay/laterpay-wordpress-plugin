@@ -39,8 +39,9 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             )
         );
 
+        // FIXME: #196 this probably has to be updated!
         $this->set_field(
-            'valid_term',
+            'valid_duration',
             array(
                 'validators' => array(
                     'is_string',
@@ -50,7 +51,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
                     'unslash',
                 )
             )
-        );        
+        );
 
         $this->set_field(
             'valid_period',
@@ -66,7 +67,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
                 'can_be_null' => false,
             )
         );
-        
+
         $this->set_field(
             'access_to',
             array(
@@ -109,7 +110,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'pay_type',
+            'revenue_model',
             array(
                 'validators' => array(
                     'is_string',
