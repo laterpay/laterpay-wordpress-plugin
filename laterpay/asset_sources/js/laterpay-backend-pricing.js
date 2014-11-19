@@ -352,7 +352,7 @@
 
             togglePassPayMode = function() {
                 var $toggle                 = $o.passPayType,
-                    $input                  = $('#lp_js_togglePassPayType_hiddenInput'),
+                    $input                  = $('#lp_js_timePass_toggleRevenueModel'),
                     payLater                = 'later',
                     payImmediately          = 'immediately',
                     hasPayMode              = $toggle.prop('checked');
