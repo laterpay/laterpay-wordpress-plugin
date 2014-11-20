@@ -23,9 +23,11 @@ $sql = "DROP TABLE IF EXISTS
         ";
 $wpdb->query( $sql );
 
-// remove pricing data from wp_postmeta table
+// remove pricing and voting data from wp_postmeta table
 delete_post_meta_by_key( 'laterpay_post_prices' );
 delete_post_meta_by_key( 'laterpay_post_teaser' );
+delete_post_meta_by_key( 'laterpay_rating' );
+delete_post_meta_by_key( 'laterpay_users_voted' );
 
 // remove user settings from wp_usermeta table
 $sql = "DELETE FROM
