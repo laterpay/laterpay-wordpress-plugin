@@ -65,47 +65,5 @@ class LaterPay_Form_DynamicPricingData extends LaterPay_Form_Abstract
                 ),
             )
         );
-
-        $this->set_field(
-            'post_revenue',
-            array(
-                'validators' => array(
-                    'is_string',
-                    'in_array' => array( 'ppu', 'sis' ),
-                    'depends' => array(
-                        array(
-                            'field' => 'post_price',
-                            'value' => 'sis',
-                            'conditions' => array(
-                                'cmp' => array(
-                                    array(
-                                        'lte' => 149.99,
-                                        'gte' => 1.49,
-                                    ),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'field' => 'post_price',
-                            'value' => 'ppu',
-                            'conditions' => array(
-                                'cmp' => array(
-                                    array(
-                                        'lte' => 5.00,
-                                        'gte' => 0.05,
-                                    ),
-                                    array(
-                                        'eq' => 0.00,
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-                'filters' => array(
-                    'to_string',
-                ),
-            )
-        );
     }
 }

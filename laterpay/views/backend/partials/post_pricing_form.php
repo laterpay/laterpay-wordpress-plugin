@@ -2,6 +2,8 @@
 
 <script>
     var lpVars = window.lpVars || {};
+    lpVars.postId = <?php echo $laterpay['post_id']; ?>;
+    lpVars.limits = <?php echo $laterpay['default_limits']; ?>;
 </script>
 
 <div class="lp_postPrice lp_u_clearfix">
@@ -104,7 +106,6 @@
         <a href="#"
             id="lp_js_resetDynamicPricingStartDate"
             class="lp_dynamicPricingReset lp_u_block"
-            data-id="<?php echo $laterpay['post_id']; ?>"
             data-icon="p"><?php _e( 'Restart dynamic pricing', 'laterpay' ); ?>
         </a>
     <?php endif; ?>

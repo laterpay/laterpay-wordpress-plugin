@@ -718,7 +718,7 @@ LPCurve.prototype.toggleStartInput = function(action) {
             data[0].y = this.minPrice;
             data[1].y = this.minPrice;
         } else {
-            if( inputPrice >= 0 ){
+            if( inputPrice == 0 ){
                 data[0].y = inputPrice;
                 data[1].y = inputPrice;
             }
@@ -767,7 +767,7 @@ LPCurve.prototype.toggleEndInput = function(action) {
             data[2].y = this.minPrice;
             data[3].y = this.minPrice;
         } else {
-            if( inputPrice >= 0 ){
+            if( inputPrice == 0 ){
                 data[2].y = inputPrice;
                 data[3].y = inputPrice;
             }

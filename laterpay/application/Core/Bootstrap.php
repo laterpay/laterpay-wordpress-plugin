@@ -110,6 +110,7 @@ class LaterPay_Core_Bootstrap
             // ajax hooks for post edit page
             add_action( 'wp_ajax_laterpay_reset_post_publication_date', array( $post_metabox_controller, 'reset_post_publication_date' ) );
             add_action( 'wp_ajax_laterpay_get_dynamic_pricing_data',    array( $post_metabox_controller, 'get_dynamic_pricing_data' ) );
+            add_action( 'wp_ajax_laterpay_remove_post_dynamic_pricing', array( $post_metabox_controller, 'remove_dynamic_pricing_data' ) );
 
             // setup custom columns for each allowed post_type
             $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );
