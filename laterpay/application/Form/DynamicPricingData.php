@@ -67,3 +67,4 @@ class LaterPay_Form_DynamicPricingData extends LaterPay_Form_Abstract
         );
     }
 }
+
