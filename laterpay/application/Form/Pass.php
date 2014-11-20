@@ -39,29 +39,28 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             )
         );
 
-        // FIXME: #196 this probably has to be updated!
         $this->set_field(
-            'valid_duration',
+            'duration',
             array(
                 'validators' => array(
-                    'is_string',
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_string',
+                    'to_int',
                     'unslash',
                 )
             )
         );
 
         $this->set_field(
-            'valid_period',
+            'period',
             array(
                 'validators' => array(
-                    'is_string',
-                    'in_array' => LaterPay_Helper_Passes::$valid_periods
+                    'is_int',
+                    'in_array' => LaterPay_Helper_Passes::$periods
                 ),
                 'filters'    => array(
-                    'to_string',
+                    'to_int',
                     'unslash',
                 ),
                 'can_be_null' => false,
@@ -72,11 +71,11 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             'access_to',
             array(
                 'validators' => array(
-                    'is_string',
+                    'is_int',
                     'in_array' => LaterPay_Helper_Passes::$access_to
                 ),
                 'filters'    => array(
-                    'to_string',
+                    'to_int',
                     'unslash',
                 ),
                 'can_be_null' => false,
@@ -87,10 +86,10 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             'access_category',
             array(
                 'validators' => array(
-                    'is_string',
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_string',
+                    'to_int',
                     'unslash',
                 )
             )
@@ -103,7 +102,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
                     'is_string',
                 ),
                 'filters' => array(
-                    'to_string',
+                    'to_float',
                     'unslash',
                 )
             )
@@ -114,7 +113,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( 'later', 'immediately' )
+                    'in_array' => LaterPay_Helper_Passes::$revenue_model
                 ),
                 'filters' => array(
                     'to_string',

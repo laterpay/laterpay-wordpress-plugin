@@ -759,16 +759,46 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $client_options['token_name']
         );
         $identify_link   = $laterpay_client->get_identify_url();
-
+        $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID() );
+        
         // assign all required vars to the view templates
         $view_args = array(
             'post_id'       => get_the_ID(),
             'identify_link' => $identify_link,
+            'passes_list'   => $passes_list,
         );
 
         $this->assign( 'laterpay', $view_args );
-
+        
         echo $this->get_text_view( 'frontend/partials/identify_iframe' );
+        echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
+    }
+    
+    /**
+     * Render time pass HTML.
+     *
+     * @param array $pass
+     *
+     * @return string
+     */
+    public function render_pass( $pass = array() ) {
+        $defaults = array(
+            'pass_id'     => 0,
+            'title'       => LaterPay_Helper_Passes::$defaults['title'],
+            'description' => LaterPay_Helper_Passes::get_description(),
+            'price'       => LaterPay_Helper_Passes::$defaults['price'],
+        );
+
+        $laterpay_pass = array_merge( $defaults, $pass );
+        $args = array(
+            'standard_currency' => get_option( 'laterpay_currency' ),
+        );
+        $this->assign( 'laterpay',      $args );
+        $this->assign( 'laterpay_pass', $laterpay_pass );
+
+        $string = $this->get_text_view( 'frontend/partials/post/time_pass' );
+
+        return $string;
     }
 
     /**

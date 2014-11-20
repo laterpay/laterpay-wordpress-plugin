@@ -68,10 +68,10 @@ class LaterPay_Model_Pass
         // format for insert and update statement
         $format = array(
             '%s', // status
-            '%s', // valid_duration
-            '%s', // valid_period
-            '%s', // access_to
-            '%s', // access_category
+            '%d', // duration
+            '%d', // period
+            '%d', // access_to
+            '%d', // access_category
             '%f', // price
             '%s', // revenue_model
             '%s', // title
@@ -82,15 +82,13 @@ class LaterPay_Model_Pass
             '%s', // background_color
         );
 
-        if ( $pass_id == 0 ) {
+        if ( empty($pass_id) ) {
             $wpdb->insert(
                 $this->table,
                 $data,
                 $format
             );
         } else {
-            unset( $data['pass_id'] );
-
             $wpdb->update(
                     $this->table,
                     $data,
@@ -144,5 +142,5 @@ class LaterPay_Model_Pass
 
         return $success;
     }
-
-}
+    
+    }

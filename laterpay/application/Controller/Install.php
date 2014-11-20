@@ -309,12 +309,12 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_passes (
 	        pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
-	        valid_term        INT(11)       NULL DEFAULT NULL,
-	        valid_period      VARCHAR(8)    NULL DEFAULT NULL,
-	        access_to         VARCHAR(32)   NULL DEFAULT NULL,
-	        access_category   VARCHAR(32)   NULL DEFAULT NULL,
+	        duration          INT(11)       NULL DEFAULT NULL,
+	        period            INT(11)       NULL DEFAULT NULL,
+	        access_to         INT(11)       NULL DEFAULT NULL,
+	        access_category   BIGINT(20)    NULL DEFAULT NULL,
 	        price             DECIMAL(10,2) NULL DEFAULT NULL,
-	        revenue_model          VARCHAR(12)   NULL DEFAULT NULL,
+	        revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
 	        title             VARCHAR(255)  NULL DEFAULT NULL,
 	        title_color       VARCHAR(7)    NULL DEFAULT NULL,
 	        description       VARCHAR(255)  NULL DEFAULT NULL,
@@ -323,8 +323,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 	        background_color  VARCHAR(7)    NULL DEFAULT NULL,
 	        PRIMARY KEY (pass_id),
 	        INDEX access_to (access_to),
-	        INDEX valid_period (valid_period),
-	        INDEX valid_term (valid_term)
+	        INDEX period (period),
+	        INDEX duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 

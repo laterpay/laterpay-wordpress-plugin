@@ -188,15 +188,15 @@
             <p>
                 <span class="lp_revenueModelLabel lp_u_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
                 <dfn>
-                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?><br>
-                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf ?><br>
+                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf ?>
                 </dfn>
             </p>
             <p>
                 <span class="lp_revenueModelLabel lp_u_m-r05">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
                 <dfn>
                     <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
-                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf?>
                 </dfn>
             </p>
         </div>
@@ -209,33 +209,22 @@
             <a href="#" id="lp_js_addTimePass" class="button button-primary lp_addTimePass" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
 
             <div class="lp_timePassEditor">
-                <div class="lp_u_clearfix">
-                    <div class="lp_u_left lp_u_m-r1">
-                        <?php echo $this->render_pass(); ?>
-                    </div>
-
-                    <a href="#" class="lp_changeLink lp_u_block lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_deleteLink lp_u_block lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_saveLink lp_u_block lp_u_pd-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_cancelLink lp_u_block lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-
-                    <div class="lp_timePass_editorContainer"></div>
-                </div>
-
+                
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_u_clearfix">
-                        <?php echo $this->render_pass( (array) $pass ); ?>
-
-                        <a href="#" class="lp_changeLink lp_u_left" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_saveLink lp_u_left" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_deleteLink lp_u_left" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_cancelLink lp_u_left" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                        <div class="lp_u_left lp_u_m-r1">
+                            <?php echo $this->render_pass( (array) $pass ); ?>
+                        </div>
+                        <a href="#" class="lp_changeLink lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_saveLink lp_u_pd-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_deleteLink lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_cancelLink lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
 
                         <div class="lp_timePass_editorContainer"></div>
                     </div>
                 <?php endforeach; ?>
 
-                <!-- <form id="lp_js_timePassForm" class="lp_timePassEditor_form" method="post">
+                <form id="lp_js_timePassForm" class="lp_timePassEditor_form" method="post">
                     <input type="hidden" name="form" value="pass_form_save">
                     <input type="hidden" name="action" value="laterpay_pricing">
                     <input type="hidden" name="pass_id" value="0">
@@ -244,10 +233,10 @@
                     <div class="lp_u_w-1-3">
                         <div class="lp_passItem">
                             <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
-                            <select name="valid_duration" id="lp_js_timePass_switchDuration" class="lp_input">
+                            <select name="duration" id="lp_js_timePass_switchDuration" class="lp_input">
                                 <?php echo LaterPay_Helper_Passes::get_select_durations(); ?>
                             </select>
-                            <select name="valid_period" class="lp_input">
+                            <select name="period" class="lp_input">
                                 <?php echo LaterPay_Helper_Passes::get_select_periods(); ?>
                             </select>
                             <?php _e( 'and grants', 'laterpay' ); ?>
@@ -263,7 +252,7 @@
                         <div class="lp_passItem">
                             <?php _e( 'category', 'laterpay' ); ?>
                             <select name="access_category" id="lp_js_timePass_switchCategory" class="lp_input">
-                                <?php echo LaterPay_Helper_Passes::get_select_access_detail(); ?>
+                                <?php echo LaterPay_Helper_Passes::get_select_access_categories(); ?>
                             </select>
                         </div>
 
@@ -272,7 +261,7 @@
                             <input type="text"
                                     name="price"
                                     class="lp_input lp_numberInput"
-                                    value="<?php echo $global_default_price; ?>">
+                                    value="<?php echo $laterpay['global_default_price']; ?>">
                             <?php echo $laterpay['standard_currency']; ?>
                             <?php _e( 'later', 'laterpay' ); ?><div class="lp_toggle">
                                 <label class="lp_toggle_label lp_toggle_label_pass">
@@ -284,7 +273,7 @@
                                     <span class="lp_toggle_text" data-on="" data-off=""></span>
                                     <span class="lp_toggle_handle"></span>
                                 </label>
-                            </div><?php _e( 'immediately', 'laterpay' ); ?>
+                            </div><?php _e( 'later', 'laterpay' ); ?>
                         </div>
                     </div>
 
@@ -332,7 +321,7 @@
                             </div>
                         </div>
                     </div>
-                </form> -->
+                </form>
 
             </div>
         </div>
