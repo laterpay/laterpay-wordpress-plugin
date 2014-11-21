@@ -136,7 +136,7 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Get number based on local format.
+     * Format number based on its type.
      *
      * @param float   $number
      * @param bool    $is_monetary

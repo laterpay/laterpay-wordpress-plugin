@@ -17,7 +17,7 @@
                 <small><?php _e( 'Total Revenue', 'laterpay' ); ?></small>
             </li>
             <li>
-                <big><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['quantity']; } else { $aux = 0; }; echo $aux; ?></big>
+                <big><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['quantity']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux, false ); ?></big>
                 <small><?php _e( 'Total Sales', 'laterpay' ); ?></small>
             </li>
         </ul>
@@ -46,7 +46,7 @@
                 <span class="lp_sparklineBackgroundBar">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
             </li>
             <li>
-                <big><?php echo LaterPay_Helper_View::format_number( $laterpay['statistic']['todayBuyers'] ); ?><small>%</small></big>
+                <big><?php echo $laterpay['statistic']['todayBuyers']; ?><small>%</small></big>
                 <small><?php _e( 'Buyers', 'laterpay' ); ?></small>
             </li>
         </ul>
@@ -57,7 +57,7 @@
                 <span class="lp_sparklineBar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysVisitors'], 'quantity', ';' ); ?></span>
             </li>
             <li>
-                <big><?php echo $laterpay['statistic']['todayVisitors']; ?></big>
+                <big><?php echo LaterPay_Helper_View::format_number( (float) $laterpay['statistic']['todayVisitors'], false ); ?></big>
                 <small><?php _e( 'Visitors', 'laterpay' ); ?></small>
             </li>
         </ul>
