@@ -1,4 +1,10 @@
 // time passes
+.lp_timePass,
+.lp_timePass__front,
+.lp_timePass__back
+    display                 inline-block
+    height                  154px
+    width                   308px
 
 /**
  * Time pass preview, rendered like a real-world ticket
@@ -10,12 +16,9 @@
 .lp_timePass__back
     background              url(../img/time-pass-background.png) 0 0/100% no-repeat
     box-sizing              border-box /* 2 */
-    display                 inline-block
-    height                  154px
     margin-right            $fs-1
     margin-bottom           $fs-1
     position                relative /* 1 */
-    width                   308px
 
 .lp_timePass__front
     background              url(../img/time-pass-background.png) 0 0/100% no-repeat
@@ -82,15 +85,16 @@
 
     th,
     td
-        padding             0 $fs-05 $fs-05 0
+        padding             0 0 $fs-025 0
 
     th
+        color               $text-lighter
         font-weight         normal
+        padding-right       $fs-1
         text-align          left
 
     td
         text-align          left
-        padding-right       0
 
 
 // sidebar widget ------------------------------------------------------------------------------------------------------
