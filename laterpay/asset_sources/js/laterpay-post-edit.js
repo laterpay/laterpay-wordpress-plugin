@@ -77,7 +77,7 @@
                 // reset dynamic pricing date
                 $o.dynamicPricingResetDate
                 .mousedown(function() {
-                    resetPostDate($(this).attr('data-id'));
+                    resetPostDate(lpVars.postId);
                 })
                 .click(function(e) {e.preventDefault();});
 
@@ -243,23 +243,19 @@
 
                 if (price === 0 || (price >= lpVars.limits.ppu_min && price < lpVars.limits.price_sis_end)) {
                     // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
-                    $payPerUse.removeAttr('disabled')
-                        .parent('label').removeClass($o.disabled);
+                    $payPerUse.parent('label').removeClass($o.disabled);
                 } else {
                     // disable Pay-per-Use
-                    $payPerUse.attr('disabled', 'disabled')
-                        .parent('label').addClass($o.disabled);
+                    $payPerUse.parent('label').addClass($o.disabled);
                 }
 
                 if (price >= lpVars.limits.sis_min) {
                     // enable Single Sale for prices >= 1.49 Euro
                     // (prices > 149.99 Euro are fixed by validatePrice already)
-                    $singleSale.removeAttr('disabled')
-                        .parent('label').removeClass($o.disabled);
+                    $singleSale.parent('label').removeClass($o.disabled);
                 } else {
                     // disable Single Sale
-                    $singleSale.attr('disabled', 'disabled')
-                        .parent('label').addClass($o.disabled);
+                    $singleSale.parent('label').addClass($o.disabled);
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
@@ -408,13 +404,12 @@
                 }
             },
 
-            resetPostDate = function(post_id) {
+            resetPostDate = function(postId) {
                 $.post(
                     lpVars.ajaxUrl,
                     {
-                        action          : 'laterpay_reset_date',
-                        form            : 'reset_post_publication_date',
-                        post_id         : post_id,
+                        action          : 'laterpay_reset_post_publication_date',
+                        post_id         : postId,
                     },
                     function(data) {
                         if (data.success) {
@@ -437,51 +432,88 @@
             },
 
             disableDynamicPricing = function() {
+                removeDynamicPricing();
                 $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
-                $o.priceInput.removeAttr('disabled');
                 $o.individualPriceDetails.slideUp(250, function() {
                     $($o.dynamicPricingContainer).empty();
                 });
-                $o.priceTypeInput.val('individual price');
                 $o.dynamicPricingResetDate.fadeOut(250);
                 $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing).attr('data-icon', 'c');
+                if ($o.priceTypeInput.val() === 'individual price, dynamic') {
+                    $o.priceTypeInput.val('individual price');
+                    $o.priceInput.removeAttr('disabled');
+                }
+            },
+
+            removeDynamicPricing = function() {
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action  : 'laterpay_remove_post_dynamic_pricing',
+                        post_id : lpVars.postId
+                    },
+                    function(data) {
+                        if (data.message) {
+                            alert(data.message);
+                        }
+                    },
+                    'json'
+                );
             },
 
             renderDynamicPricingWidget = function() {
-                var data        = lpVars.dynamicPricingData,
-                    lpc         = new LPCurve($o.dynamicPricingContainer),
-                    startPrice  = lpVars.dynamicPricingData[0].y,
-                    endPrice    = lpVars.dynamicPricingData[3].y,
-                    minPrice    = 0,
-                    maxPrice    = 5;
-                window.lpc = lpc;
+                $.post(
+                    lpVars.ajaxUrl,
+                    {
+                        action          : 'laterpay_get_dynamic_pricing_data',
+                        post_id         : lpVars.postId,
+                        post_price      : $o.priceInput.val()
+                    },
+                    function(data) {
+                        if (data) {
+                            var lpc                = new LPCurve($o.dynamicPricingContainer),
+                                startPrice         = data.values[0].y,
+                                endPrice           = data.values[3].y,
+                                minPrice           = 0,
+                                maxPrice           = 5;
+                            window.lpc = lpc;
 
-                $o.priceInput.attr('disabled', 'disabled');
+                            $o.priceInput.attr('disabled', 'disabled');
 
-                if (startPrice > lpVars.limits.ppusis_max || endPrice > lpVars.limits.ppusis_max) {
-                    // Single Sale
-                    maxPrice = lpVars.limits.sis_max;
-                    minPrice = lpVars.limits.sis_min;
-                } else if (startPrice >= lpVars.limits.sis_min || endPrice >= lpVars.limits.sis_min) {
-                    // Pay-per-Use and Single Sale
-                    maxPrice = lpVars.limits.ppusis_max;
-                    minPrice = lpVars.limits.ppusis_min;
-                } else {
-                    // Pay-per-Use
-                    maxPrice = lpVars.limits.ppusis_max;
-                    minPrice = lpVars.limits.ppu_min;
-                }
+                            if (startPrice > lpVars.limits.ppusis_max || endPrice > lpVars.limits.ppusis_max) {
+                                // Single Sale
+                                maxPrice = lpVars.limits.sis_max;
+                                minPrice = lpVars.limits.sis_min;
+                            } else if (startPrice >= lpVars.limits.sis_min || endPrice >= lpVars.limits.sis_min) {
+                                // Pay-per-Use and Single Sale
+                                maxPrice = lpVars.limits.ppusis_max;
+                                minPrice = lpVars.limits.ppusis_min;
+                            } else {
+                                // Pay-per-Use
+                                maxPrice = lpVars.limits.ppusis_max;
+                                minPrice = lpVars.limits.ppu_min;
+                            }
 
-                if (lpVars.limits.pubDays > 0 && lpVars.limits.pubDays <= 30) {
-                    lpc.set_today(lpVars.limits.pubDays, lpVars.limits.todayPrice);
-                }
+                            if ( data.price.pubDays > 0 && data.price.pubDays <= 30 ) {
+                                lpc.set_today(data.price.pubDays, data.price.todayPrice);
+                            }
 
-                if (data.length === 4) {
-                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice).plot();
-                } else {
-                    lpc.set_data(data).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
-                        .interpolate('step-before').plot();
-                }
+                            if (data.values.length === 4) {
+                                lpc
+                                .set_data(data.values)
+                                .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
+                                .plot();
+                            } else {
+                                lpc
+                                .set_data(data.values)
+                                .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
+                                .interpolate('step-before')
+                                .plot();
+                            }
+                        }
+                    },
+                    'json'
+                );
             },
 
             saveDynamicPricingData = function() {
@@ -511,8 +543,8 @@
 
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
-              var timer = undefined;
-              return function () {
+              var timer;
+              return function() {
                 var context = this,
                     args    = arguments;
 

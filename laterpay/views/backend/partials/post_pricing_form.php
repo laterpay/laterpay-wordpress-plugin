@@ -2,8 +2,8 @@
 
 <script>
     var lpVars = window.lpVars || {};
-    lpVars.dynamicPricingData = <?php echo $laterpay['dynamic_pricing_data']; ?>;
-    lpVars.limits = <?php echo $laterpay['dynamic_pricing_limits']; ?>;
+    lpVars.postId = <?php echo $laterpay['post_id']; ?>;
+    lpVars.limits = <?php echo $laterpay['price_ranges']; ?>;
 </script>
 
 <div class="lp_postPrice lp_u_clearfix">
@@ -22,9 +22,9 @@
             <label class="lp_revenueModelLabel lp_u_m-t125 lp_u_m-b05 lp_tooltip
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo ' lp_is-selected'; } ?>
-                        <?php if ( $laterpay['maximum_price_in_lifecycle'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
+                        <?php if ( $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
                     <?php else : ?>
-                        <?php if ( $laterpay['post_revenue_model'] == 'sis' || $laterpay['maximum_price_in_lifecycle'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
+                        <?php if ( $laterpay['post_revenue_model'] == 'sis' || $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
                     <?php endif; ?>"
                     data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
                 <input type="radio"
@@ -35,7 +35,7 @@
             <label class="lp_revenueModelLabel lp_tooltip
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo ' lp_is-selected'; } ?>
-                        <?php if ( $laterpay['maximum_price_in_lifecycle'] < LaterPay_Helper_Pricing::sis_min ) { echo ' lp_is-disabled'; } ?>
+                        <?php if ( $laterpay['price'] < LaterPay_Helper_Pricing::sis_min ) { echo ' lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo ' lp_is-disabled'; } ?>
                     <?php endif; ?>"
@@ -106,7 +106,6 @@
         <a href="#"
             id="lp_js_resetDynamicPricingStartDate"
             class="lp_dynamicPricingReset lp_u_block"
-            data-id="<?php echo $laterpay['post_id']; ?>"
             data-icon="p"><?php _e( 'Restart dynamic pricing', 'laterpay' ); ?>
         </a>
     <?php endif; ?>
