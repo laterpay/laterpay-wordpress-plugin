@@ -58,7 +58,11 @@ var LPCurve = function(container) {
             .attr('d', 'M0,4 H4 L2,0 Z');
 
     svg.append('line').attr('class', 'lp_dynamicPricing_defaultPrice');
-    svg.append('text').attr('text-anchor', 'middle').attr('class', 'lp_dynamicPricing_defaultPrice').text(this.i18nDefaultPrice);
+    svg
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .attr('class', 'lp_dynamicPricing_defaultPrice')
+    .text(this.i18nDefaultPrice);
     svg.append('path').attr('class', 'line');
 
     svg.append('rect')
@@ -70,7 +74,13 @@ var LPCurve = function(container) {
             ry      : 3,
         });
 
-    svg.insert('foreignObject').attr('class', 'lp_dynamicPricing_startPriceInput').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
+    svg
+    .insert('foreignObject')
+    .attr('class', 'lp_dynamicPricing_startPriceInput')
+    .attr('width','44px')
+    .attr('height','24px')
+    .html('<input type="text">')
+    .attr('display','none');
     svg.append('text').attr('class', 'start-price').attr('text-anchor', 'end');
     svg.append('text').attr('class', 'lp_dynamicPricing_currency').attr('text-anchor', 'end').text(this.currency);
     svg.append('path').attr('class', 'start-price-triangle');
@@ -84,7 +94,13 @@ var LPCurve = function(container) {
             ry      : 3,
         });
 
-    svg.insert('foreignObject').attr('class', 'lp_dynamicPricing_endPriceInput').attr('width','44px').attr('height','24px').html('<input type="text">').attr('display','none');
+    svg
+    .insert('foreignObject')
+    .attr('class', 'lp_dynamicPricing_endPriceInput')
+    .attr('width','44px')
+    .attr('height','24px')
+    .html('<input type="text">')
+    .attr('display','none');
     svg.append('text').attr('class', 'end-price').attr('text-anchor', 'end');
     svg.append('text').attr('class', 'lp_dynamicPricing_currency').attr('text-anchor', 'end').text(this.currency);
     svg.append('path').attr('class', 'end-price-triangle');
@@ -340,7 +356,10 @@ LPCurve.prototype.plot = function() {
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x: function()  {
-                    if (jQuery('.lp_dynamicPricing_endPriceInput') && jQuery('.lp_dynamicPricing_endPriceInput').is(':visible')) {
+                    if (
+                        jQuery('.lp_dynamicPricing_endPriceInput') &&
+                        jQuery('.lp_dynamicPricing_endPriceInput').is(':visible')
+                    ) {
                         return width;
                     } else {
                         return width + 16;
@@ -389,7 +408,10 @@ LPCurve.prototype.plot = function() {
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x: function()  {
-                if (jQuery('.lp_dynamicPricing_endPriceInput') && jQuery('.lp_dynamicPricing_endPriceInput input').is(':visible')) {
+                if (
+                    jQuery('.lp_dynamicPricing_endPriceInput') &&
+                    jQuery('.lp_dynamicPricing_endPriceInput input').is(':visible')
+                ) {
                     return width + 2;
                 } else {
                     return width + 20;
@@ -718,7 +740,7 @@ LPCurve.prototype.toggleStartInput = function(action) {
             data[0].y = this.minPrice;
             data[1].y = this.minPrice;
         } else {
-            if( inputPrice == 0 ){
+            if (inputPrice === 0) {
                 data[0].y = inputPrice;
                 data[1].y = inputPrice;
             }
@@ -767,7 +789,7 @@ LPCurve.prototype.toggleEndInput = function(action) {
             data[2].y = this.minPrice;
             data[3].y = this.minPrice;
         } else {
-            if( inputPrice == 0 ){
+            if( inputPrice === 0 ){
                 data[2].y = inputPrice;
                 data[3].y = inputPrice;
             }

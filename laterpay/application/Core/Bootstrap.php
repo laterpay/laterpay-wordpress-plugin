@@ -107,7 +107,7 @@ class LaterPay_Core_Bootstrap
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
             add_action( 'admin_print_styles-post-new.php',  array( $post_metabox_controller, 'load_assets' ) );
 
-            // ajax hooks for post edit page
+            // Ajax hooks for edit post page
             add_action( 'wp_ajax_laterpay_reset_post_publication_date', array( $post_metabox_controller, 'reset_post_publication_date' ) );
             add_action( 'wp_ajax_laterpay_get_dynamic_pricing_data',    array( $post_metabox_controller, 'get_dynamic_pricing_data' ) );
             add_action( 'wp_ajax_laterpay_remove_post_dynamic_pricing', array( $post_metabox_controller, 'remove_dynamic_pricing_data' ) );

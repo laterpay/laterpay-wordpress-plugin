@@ -23,11 +23,11 @@ class LaterPay_Helper_Pricing
     const META_KEY                      = 'laterpay_post_prices';
 
     /**
-     * Get array of pricing default limits
+     * Get array of price ranges by revenue model (Pay-per-Use or Single Sale).
      *
      * @return array
      */
-    public static function get_default_limits() {
+    public static function get_price_ranges_by_revenue_model() {
         return array(
             'ppu_min'           => LaterPay_Helper_Pricing::ppu_min,
             'ppu_max'           => LaterPay_Helper_Pricing::ppu_max,

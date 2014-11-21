@@ -404,12 +404,12 @@
                 }
             },
 
-            resetPostDate = function(post_id) {
+            resetPostDate = function(postId) {
                 $.post(
                     lpVars.ajaxUrl,
                     {
                         action          : 'laterpay_reset_post_publication_date',
-                        post_id         : post_id
+                        post_id         : postId,
                     },
                     function(data) {
                         if (data.success) {
@@ -439,7 +439,7 @@
                 });
                 $o.dynamicPricingResetDate.fadeOut(250);
                 $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing).attr('data-icon', 'c');
-                if ( $o.priceTypeInput.val() == 'individual price, dynamic' ) {
+                if ($o.priceTypeInput.val() === 'individual price, dynamic') {
                     $o.priceTypeInput.val('individual price');
                     $o.priceInput.removeAttr('disabled');
                 }
@@ -453,9 +453,7 @@
                         post_id : lpVars.postId
                     },
                     function(data) {
-                        if (data.success) {
-                            // do nothing
-                        } else if (data.message) {
+                        if (data.message) {
                             alert(data.message);
                         }
                     },
@@ -472,7 +470,7 @@
                         post_price      : $o.priceInput.val()
                     },
                     function(data) {
-                        if ( data ) {
+                        if (data) {
                             var lpc                = new LPCurve($o.dynamicPricingContainer),
                                 startPrice         = data.values[0].y,
                                 endPrice           = data.values[3].y,
@@ -501,10 +499,16 @@
                             }
 
                             if (data.values.length === 4) {
-                                lpc.set_data(data.values).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice).plot();
+                                lpc
+                                .set_data(data.values)
+                                .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
+                                .plot();
                             } else {
-                                lpc.set_data(data.values).setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
-                                    .interpolate('step-before').plot();
+                                lpc
+                                .set_data(data.values)
+                                .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
+                                .interpolate('step-before')
+                                .plot();
                             }
                         }
                     },
@@ -539,8 +543,8 @@
 
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
-              var timer = undefined;
-              return function () {
+              var timer;
+              return function() {
                 var context = this,
                     args    = arguments;
 

@@ -3,7 +3,7 @@
 <script>
     var lpVars = window.lpVars || {};
     lpVars.postId = <?php echo $laterpay['post_id']; ?>;
-    lpVars.limits = <?php echo $laterpay['default_limits']; ?>;
+    lpVars.limits = <?php echo $laterpay['price_ranges']; ?>;
 </script>
 
 <div class="lp_postPrice lp_u_clearfix">

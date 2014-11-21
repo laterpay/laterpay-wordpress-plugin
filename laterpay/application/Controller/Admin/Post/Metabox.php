@@ -241,8 +241,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             $post_revenue_model = $global_default_price_revenue_model;
         }
 
-        // default limits
-        $default_limits = LaterPay_Helper_Pricing::get_default_limits();
+        // allowed price ranges
+        $price_ranges = LaterPay_Helper_Pricing::get_price_ranges_by_revenue_model();
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
 
@@ -258,7 +258,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             'global_default_price'                 => $global_default_price,
             'global_default_price_revenue_model'   => $global_default_price_revenue_model,
             'category_default_price_revenue_model' => $category_default_price_revenue_model,
-            'default_limits'                       => json_encode( $default_limits ),
+            'price_ranges'                       => json_encode( $price_ranges ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -486,7 +486,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     }
 
     /**
-     * Remove dynamic pricing data
+     * Remove dynamic pricing data.
      *
      * @wp-hook wp_ajax_laterpay_remove_post_dynamic_pricing
      *
