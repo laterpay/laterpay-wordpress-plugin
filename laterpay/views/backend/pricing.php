@@ -81,7 +81,7 @@
                                     <input type="hidden" name="category_id" class="lp_js_categoryDefaultPrice_categoryId" value="<?php echo $category->category_id; ?>">
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                                    <?php $category_price           = number_format_i18n( (float) $category->category_price, 2 ); ?>
+                                    <?php $category_price           = LaterPay_Helper_View::format_number( (float) $category->category_price ); ?>
                                     <?php $category_revenue_model   = $category->revenue_model; ?>
 
                                     <div class="lp_js_revenueModel lp_revenueModel lp_u_relative lp_u_left" style="display:none;">
@@ -107,7 +107,7 @@
                                         <input  type="text"
                                                 name="price"
                                                 class="lp_js_priceInput lp_js_categoryDefaultPrice_input lp_input lp_numberInput"
-                                                value="<?php echo number_format_i18n($category->category_price, 2); ?>"
+                                                value="<?php echo LaterPay_Helper_View::format_number( $category->category_price ); ?>"
                                                 style="display:none;"
                                                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
                                         <span class="lp_js_categoryDefaultPrice_display lp_category-price"><?php echo $category_price; ?></span>
@@ -386,7 +386,7 @@
                         <select name="bulk_category_with_price" id="lp_js_selectBulkObjectsCategoryWithPrice" class="lp_input" style="display:none;">
                             <?php foreach ( $laterpay['bulk_categories_with_price'] as $category_with_price ): ?>
                                 <option value="<?php echo $category_with_price->category_id; ?>"
-                                        data-price="<?php echo number_format_i18n( $category_with_price->category_price, 2 ); ?>">
+                                        data-price="<?php echo LaterPay_Helper_View::format_number( $category_with_price->category_price ); ?>">
                                     <?php echo $category_with_price->category_name; ?>
                                 </option>
                             <?php endforeach; ?>

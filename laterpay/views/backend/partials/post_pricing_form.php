@@ -2,8 +2,8 @@
 
 <script>
     var lpVars = window.lpVars || {};
-    lpVars.dynamicPricingData = <?php echo $laterpay['dynamic_pricing_data']; ?>;
-    lpVars.limits = <?php echo $laterpay['dynamic_pricing_limits']; ?>;
+    lpVars.postId = <?php echo $laterpay['post_id']; ?>;
+    lpVars.limits = <?php echo $laterpay['price_ranges']; ?>;
 </script>
 
 <div class="lp_postPrice lp_u_clearfix">
@@ -12,7 +12,7 @@
                 name="post-price"
                 id="lp_js_postPrice_priceInput"
                 class="lp_input lp_numberInput lp_u_fs-3"
-                value="<?php echo number_format_i18n( $laterpay['price'], 2 ); ?>"
+                value="<?php echo LaterPay_Helper_View::format_number( $laterpay['price'] ); ?>"
                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                 <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled="disabled"'; } ?>>
         <span class="lp_currency lp_u_relative"><?php echo $laterpay['currency']; ?></span>
@@ -22,9 +22,9 @@
             <label class="lp_revenueModelLabel lp_u_m-t125 lp_u_m-b05 lp_tooltip
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo ' lp_is-selected'; } ?>
-                        <?php if ( $laterpay['maximum_price_in_lifecycle'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
+                        <?php if ( $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
                     <?php else : ?>
-                        <?php if ( $laterpay['post_revenue_model'] == 'sis' || $laterpay['maximum_price_in_lifecycle'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
+                        <?php if ( $laterpay['post_revenue_model'] == 'sis' || $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
                     <?php endif; ?>"
                     data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
                 <input type="radio"
@@ -35,7 +35,7 @@
             <label class="lp_revenueModelLabel lp_tooltip
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo ' lp_is-selected'; } ?>
-                        <?php if ( $laterpay['maximum_price_in_lifecycle'] < LaterPay_Helper_Pricing::sis_min ) { echo ' lp_is-disabled'; } ?>
+                        <?php if ( $laterpay['price'] < LaterPay_Helper_Pricing::sis_min ) { echo ' lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo ' lp_is-disabled'; } ?>
                     <?php endif; ?>"
@@ -66,7 +66,7 @@
             <a href="#"
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceType_button lp_use-global-default-price"
-                data-price="<?php echo number_format_i18n( $laterpay['global_default_price'], 2 ); ?>"
+                data-price="<?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?>"
                 data-revenue-model="<?php echo $laterpay['global_default_price_revenue_model']; ?>"><?php _e( 'Global Default<span></span> Price', 'laterpay' ); ?></a>
         </li>
     </ul>
@@ -86,9 +86,9 @@
                     <?php foreach ( $laterpay['category_prices'] as $c ): ?>
                         <li data-category="<?php echo $c->category_id; ?>"<?php if ( $c->category_id == $laterpay['post_default_category'] ): ?> class="lp_is-selectedCategory"<?php endif; ?>>
                             <a href="#"
-                                data-price="<?php echo number_format_i18n( $c->category_price, 2 ); ?>"
+                                data-price="<?php echo LaterPay_Helper_View::format_number( $c->category_price ); ?>"
                                 data-revenue-model="<?php echo $c->revenue_model; ?>">
-                                <span><?php echo number_format_i18n( $c->category_price, 2 ); ?> <?php echo $laterpay['currency']; ?></span><?php echo $c->category_name; ?>
+                                <span><?php echo LaterPay_Helper_View::format_number( $c->category_price ); ?> <?php echo $laterpay['currency']; ?></span><?php echo $c->category_name; ?>
                             </a>
                         </li>
                     <?php endforeach; ?>
@@ -106,7 +106,6 @@
         <a href="#"
             id="lp_js_resetDynamicPricingStartDate"
             class="lp_dynamicPricingReset lp_u_block"
-            data-id="<?php echo $laterpay['post_id']; ?>"
             data-icon="p"><?php _e( 'Restart dynamic pricing', 'laterpay' ); ?>
         </a>
     <?php endif; ?>

@@ -180,6 +180,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'buy'         => $_GET[ 'buy' ],
             'ip'          => $_GET[ 'ip' ],
         );
+
+        if ( isset( $_GET[ 'download_attached'] ) ) {
+            $url_data['download_attached'] = $_GET[ 'download_attached'];
+        }
+
         $url    = $this->get_after_purchase_redirect_url( $url_data );
         $hash   = $this->get_hash_by_url( $url );
         // update lptoken if we got it
@@ -217,6 +222,28 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post_id        = absint( $_GET[ 'post_id' ] );
         $redirect_url   = get_permalink( $post_id );
 
+        // prepare attachment url for download
+        if ( isset( $_GET[ 'download_attached'] ) ) {
+            $post_id = $_GET[ 'download_attached'];
+            $post    = get_post( $post_id );
+            $access  = LaterPay_Helper_Post::has_access_to_post( $post );
+
+            $attachment_url = LaterPay_Helper_File::get_encrypted_resource_url(
+                $post_id,
+                wp_get_attachment_url( $post_id ),
+                $access,
+                'attachment'
+            );
+
+            // set cookie to notify post that we need to start attachment download
+            setcookie(
+                'laterpay_download_attached',
+                $attachment_url,
+                time() + 60,
+                '/'
+            );
+        }
+
         wp_redirect( $redirect_url );
         exit;
     }
@@ -234,7 +261,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $context = array(
             'support_cookies'   => $browser_supports_cookies,
-            'is_crawler'        => $browser_is_crawler
+            'is_crawler'        => $browser_is_crawler,
         );
 
         $this->logger->info(
@@ -297,11 +324,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
         );
         $access_result = $laterpay_client->get_access( $post_ids );
 
@@ -329,7 +356,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->logger->info(
             __METHOD__,
             array(
-                'post' => $post
+                'post' => $post,
             )
         );
 
@@ -358,6 +385,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                         'result' => $result
                     )
                 );
+
                 return false;
             }
 
@@ -579,7 +607,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post_id = $post->ID;
 
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
-
             $context = array(
                 'post'                  => $post,
                 'supported_post_types'  => $this->config->get( 'content.enabled_post_types' )
@@ -668,7 +695,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             if ( is_feed() ) {
                 $html .= sprintf(
                             __( '&mdash; Visit the post to buy its full content for %s %s &mdash; ', 'laterpay' ),
-                            number_format_i18n( $price, 2 ),
+                            LaterPay_Helper_View::format_number( $price ),
                             $currency
                         );
             }
@@ -855,6 +882,20 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             true
         );
 
+        // set attachment URL
+        $attachment_url = null;
+        if ( isset( $_COOKIE['laterpay_download_attached'] ) ) {
+            $attachment_url = $_COOKIE['laterpay_download_attached'];
+            // remove cookie with attachment URL to prevent multiple downloads
+            unset( $_COOKIE['laterpay_download_attached'] );
+            setcookie(
+                'laterpay_download_attached',
+                null,
+                time() - 60,
+                '/'
+            );
+        }
+
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
@@ -870,7 +911,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'rating'    => wp_create_nonce( 'laterpay_post_rating_summary' ),
                 ),
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
-                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' )
+                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' ),
+                'download_attachment'          => $attachment_url,
             )
         );
 

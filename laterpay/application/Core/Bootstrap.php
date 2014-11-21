@@ -64,9 +64,8 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
 
                 $admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
-                add_action( 'wp_ajax_laterpay_pricing',             array( $admin_pricing_controller, 'process_ajax_requests' ) );
-                add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'process_ajax_requests' ) );
-                add_action( 'wp_ajax_laterpay_reset_date',          array( $admin_pricing_controller, 'process_ajax_requests' ) );
+                add_action( 'wp_ajax_laterpay_pricing',                  array( $admin_pricing_controller, 'process_ajax_requests' ) );
+                add_action( 'wp_ajax_laterpay_get_category_prices',      array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
                 $admin_appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
                 add_action( 'wp_ajax_laterpay_appearance',          array( $admin_appearance_controller, 'process_ajax_requests' ) );
@@ -107,6 +106,11 @@ class LaterPay_Core_Bootstrap
             // load scripts for the admin pages
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
             add_action( 'admin_print_styles-post-new.php',  array( $post_metabox_controller, 'load_assets' ) );
+
+            // Ajax hooks for edit post page
+            add_action( 'wp_ajax_laterpay_reset_post_publication_date', array( $post_metabox_controller, 'reset_post_publication_date' ) );
+            add_action( 'wp_ajax_laterpay_get_dynamic_pricing_data',    array( $post_metabox_controller, 'get_dynamic_pricing_data' ) );
+            add_action( 'wp_ajax_laterpay_remove_post_dynamic_pricing', array( $post_metabox_controller, 'remove_dynamic_pricing_data' ) );
 
             // setup custom columns for each allowed post_type
             $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );

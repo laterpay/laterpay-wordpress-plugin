@@ -13,6 +13,6 @@
    data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']; ?>"
    ><?php
        echo sprintf(
-               __( '%s<small>%s</small>', 'laterpay' ), number_format_i18n( (float) $laterpay['price'], 2 ), $laterpay['currency']
+               __( '%s<small>%s</small>', 'laterpay' ), LaterPay_Helper_View::format_number( (float) $laterpay['price'] ), $laterpay['currency']
        );
        ?></a>
