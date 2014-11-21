@@ -29,37 +29,37 @@
             <tr>
                 <th><?php _e( 'Validity', 'laterpay' ) ?></th>
                 <td>
-                    text here
+                    TODO: show defined terms here
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Access to', 'laterpay' ) ?></th>
                 <td>
-                    text here
+                    TODO: show defined terms here
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
                 <td>
-                    text here
+                    TODO: show defined terms here
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Payment', 'laterpay' ) ?></th>
                 <td>
-                    text here
+                    TODO: show defined terms here
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Price', 'laterpay' ) ?></th>
                 <td>
-                    text here
+                    TODO: show defined terms here
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Refund', 'laterpay' ) ?></th>
                 <td>
-                    text here
+                    TODO: show defined terms here
                 </td>
             </tr>
         </table>

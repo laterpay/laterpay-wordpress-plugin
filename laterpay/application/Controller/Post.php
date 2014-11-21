@@ -787,7 +787,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
         $identify_link   = $laterpay_client->get_identify_url();
         $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID() );
-        
+
         // assign all required vars to the view templates
         $view_args = array(
             'post_id'       => get_the_ID(),
@@ -796,11 +796,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
 
         $this->assign( 'laterpay', $view_args );
-        
+
         echo $this->get_text_view( 'frontend/partials/identify_iframe' );
         echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
     }
-    
+
     /**
      * Render time pass HTML.
      *
@@ -811,7 +811,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     public function render_pass( $pass = array() ) {
         $defaults = array(
             'pass_id'     => 0,
-            'title'       => LaterPay_Helper_Passes::$defaults['title'],
+            'title'       => __( LaterPay_Helper_Passes::$defaults['title'], 'laterpay' ),
             'description' => LaterPay_Helper_Passes::get_description(),
             'price'       => LaterPay_Helper_Passes::$defaults['price'],
         );

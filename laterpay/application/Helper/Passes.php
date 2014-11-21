@@ -2,7 +2,7 @@
 
 class LaterPay_Helper_Passes
 {
-    
+
     const PASS_TOKEN = 'tlp';
 
      /**
@@ -19,9 +19,8 @@ class LaterPay_Helper_Passes
         'access_category'   => '',
         'price'             => 0.99,
         'revenue_model'     => 'ppu',
-        'title'             => '',
+        'title'             => '24-Hour Pass',
         'title_color'       => '#3f3f3f',
-        'description'       => '',
         'description_color' => '#3f3f3f',
         'background_path'   => '',
         'background_color'  => '#fff',
@@ -206,11 +205,11 @@ class LaterPay_Helper_Passes
 
         return $options_html;
     }
-    
+
     /**
      * Get wp categories
      *
-     * @param array $args       query args for get_categories
+     * @param array $args query args for get_categories
      *
      * @return array $categories
      */
@@ -229,7 +228,7 @@ class LaterPay_Helper_Passes
 
         return $categories;
     }
-    
+
     /**
      * Get WP categories
      *
@@ -242,21 +241,21 @@ class LaterPay_Helper_Passes
         foreach ($passes as $pass) {
             $result[] = sprintf('%s_%s', self::PASS_TOKEN , $pass->pass_id);
         }
-        
+
         return $result;
     }
-    
+
     /**
      * Get time limited passes for specified post
      * FIXME: #196 get only required passes
-     * 
+     *
      * @param int $post_id post ID
      * @return array $passes_list
      */
     public static function get_time_passes_list_for_the_post( $post_id ) {
         $model = new LaterPay_Model_Pass();
         $passes_list = $model->get_all_passes();
-        
+
         return $passes_list;
     }
 
