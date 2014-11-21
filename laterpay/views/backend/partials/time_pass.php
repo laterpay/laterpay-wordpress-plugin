@@ -1,22 +1,54 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
 <div class="lp_timePass" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">
-    <h4 class="lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
-    <p class="lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
-    <div class="lp_timePass_actions">
-        <a href="#"
-         class="lp_purchaseLink lp_button"
-         title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
-         data-icon="b"
-         data-preview-as-visitor="1">
-         <?php
-            echo sprintf(
-                '%s<small>%s</small>',
-                number_format_i18n( (float) $laterpay_pass['price'], 2 ),
-                $laterpay['standard_currency']
-            );
-        ?>
-        </a>
-        <a href="#" class="lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>
+    <div class="lp_timePass__front">
+        <h4 class="lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
+        <p class="lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
+        <div class="lp_timePass_actions">
+            <a href="#"
+             class="lp_purchaseLink lp_button"
+             title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
+             data-icon="b"
+             data-preview-as-visitor="1">
+             <?php
+                echo sprintf(
+                    '%s<small>%s</small>',
+                    number_format_i18n( (float) $laterpay_pass['price'], 2 ),
+                    $laterpay['standard_currency']
+                );
+            ?>
+            </a>
+            <a href="#" class="lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>
+        </div>
+    </div>
+    <div class="lp_timePass__back">
+        <table class="lp_timePass__conditions">
+            <tr>
+                <th><?php _e( 'Validity', 'laterpay' ) ?></th>
+                <td>
+                    lalala
+                </td>
+            </tr>
+            <tr>
+                <th><?php _e( 'Access to', 'laterpay' ) ?></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th><?php _e( 'Payment', 'laterpay' ) ?></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th><?php _e( 'Price', 'laterpay' ) ?></th>
+                <td></td>
+            </tr>
+            <tr>
+                <th><?php _e( 'Refund', 'laterpay' ) ?></th>
+                <td></td>
+            </tr>
+        </table>
     </div>
 </div>

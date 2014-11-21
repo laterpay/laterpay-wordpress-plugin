@@ -6,16 +6,25 @@
  * 1. Allow child elements (e.g. the purchase button) to be positioned at the bottom of the pass
  * 2. Avoid padding to be added to height and width
  */
-.lp_timePass
+.lp_timePass__front,
+.lp_timePass__back
     background              url(../img/time-pass-background.png) 0 0/100% no-repeat
     box-sizing              border-box /* 2 */
     display                 inline-block
     height                  154px
     margin-right            $fs-1
     margin-bottom           $fs-1
-    padding                 $fs-1 round(4 * $fs-1) $fs-1 $fs-1
     position                relative /* 1 */
     width                   308px
+
+.lp_timePass__front
+    background              url(../img/time-pass-background.png) 0 0/100% no-repeat
+    padding                 $fs-1 round(4 * $fs-1) $fs-1 $fs-1
+
+.lp_timePass__back
+    background              url(../img/time-pass-background-flip.png) 0 0/100% no-repeat
+    display                 none
+    padding                 $fs-1 $fs-1 $fs-1 round(4 * $fs-1)
 
 /**
  * Time pass title, usually something descriptive like "24h News Pass"
@@ -67,7 +76,7 @@
 /**
  * Time pass widget
  *
- * 
+ *
  */
 .lp_timePass_widget
     position                absolute

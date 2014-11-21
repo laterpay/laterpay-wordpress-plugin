@@ -793,12 +793,12 @@
                 }
             },
 
-            createSavedBulkRow = function( bulkOperationId, bulkMessage ) {
+            createSavedBulkRow = function(bulkOperationId, bulkMessage) {
                 var operation = '<p class="lp_bulkOperation" data-value="' +  bulkOperationId + '">' +
-                                '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" data-icon="g">' + lpVars.i18n.delete + '</a>' +
-                                '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' + lpVars.i18n.updatePrices + '</a>' +
-                                '<span>' + bulkMessage + '</span>' +
-                            '</p>';
+                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" data-icon="g">' + lpVars.i18n.delete + '</a>' +
+                                    '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' + lpVars.i18n.updatePrices + '</a>' +
+                                    '<span>' + bulkMessage + '</span>' +
+                                '</p>';
 
                 $o.bulkPriceForm.after(operation);
             },
@@ -876,14 +876,17 @@
                 // trigger change event of bulk price editor on page load
                 $o.bulkPriceAction.change();
 
-                //add a color picker
-                $o.colorPicker.wpColorPicker({ defaultColor: false,
-                                               //change: function(event, ui){},
-                                               //clear: function() {},
-                                               hide: true,
-                                               palettes: false,
-                                             });
-                $('.wp-color-result').attr('title','');
+                // load WordPress color picker
+// TODO: is this really required on load???
+                $o.colorPicker
+                .wpColorPicker({
+                    defaultColor    : false,
+                    // change          : function(event, ui) {},
+                    // clear           : function() {},
+                    hide            : true,
+                    palettes        : false,
+                });
+                $('.wp-color-result').attr('title', '');
             };
 
         initializePage();
