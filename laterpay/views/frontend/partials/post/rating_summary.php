@@ -2,7 +2,7 @@
 
 <div class="lp_rating__results">
     <div class="lp_rating__aggregated-result">
-        <div class="lp_rating__ratings-count lp_u_m-l05"><?php echo number_format_i18n( $laterpay['post_summary_votes'] ); ?></div>
+        <div class="lp_rating__ratings-count lp_u_m-l05"><?php echo LaterPay_Helper_View::format_number( $laterpay['post_summary_votes'], false ); ?></div>
         <?php for ($i = 1; $i < 6; $i++): ?>
             <?php
             if ( $i <= $laterpay['post_aggregated_rating'] ) {
