@@ -53,7 +53,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             array(
                 'locale'                => get_locale(),
                 'i18n'                  => $i18n,
-                'globalDefaultPrice'    => number_format_i18n( (float) get_option( 'laterpay_global_price' ), 2 ),
+                'globalDefaultPrice'    => LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ) ),
                 'defaultCurrency'       => get_option( 'laterpay_currency' ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
             )
@@ -87,7 +87,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'categories_with_defined_price'      => $categories_with_defined_price,
             'standard_currency'                  => get_option( 'laterpay_currency' ),
             'plugin_is_in_live_mode'             => $this->config->get( 'is_in_live_mode' ),
-            'global_default_price'               => number_format_i18n( (float) get_option( 'laterpay_global_price' ), 2 ),
+            'global_default_price'               => LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model' => get_option( 'laterpay_global_price_revenue_model' ),
             'top_nav'                            => $this->get_menu(),
             'admin_menu'                         => LaterPay_Helper_View::get_admin_menu(),
@@ -264,7 +264,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         update_option( 'laterpay_global_price_revenue_model', $global_price_revenue_model );
 
         $global_price           = (float) get_option( 'laterpay_global_price' );
-        $localized_global_price = number_format_i18n( $global_price, 2 );
+        $localized_global_price = LaterPay_Helper_View::format_number( $global_price );
         $currency_model         = new LaterPay_Model_Currency();
         $currency_name          = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
 
@@ -344,7 +344,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         $currency_model             = new LaterPay_Model_Currency();
         $currency_name              = $currency_model->get_currency_name_by_iso4217_code( get_option( 'laterpay_currency' ) );
-        $localized_category_price   = number_format_i18n( $delocalized_category_price, 2 );
+        $localized_category_price   = LaterPay_Helper_View::format_number( $delocalized_category_price );
 
         wp_send_json(
             array(
@@ -550,7 +550,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     // set flash message parts
                     $message_parts['action']        = __( 'set', 'laterpay' );
                     $message_parts['preposition']   = __( 'to', 'laterpay' );
-                    $message_parts['amount']        = number_format_i18n( LaterPay_Helper_Pricing::ensure_valid_price( $new_price ), 2 );
+                    $message_parts['amount']        = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::ensure_valid_price( $new_price ) );
                     $message_parts['unit']          = $default_currency;
                     break;
 
@@ -581,7 +581,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     // set flash message parts
                     $message_parts['action']        = $is_reduction ? __( 'decreased', 'laterpay' ) : __( 'increased', 'laterpay' );
                     $message_parts['preposition']   = __( 'by', 'laterpay' );
-                    $message_parts['amount']        = $is_percent ? $price : number_format_i18n( $price, 2 );
+                    $message_parts['amount']        = $is_percent ? $price : LaterPay_Helper_View::format_number( $price );
                     $message_parts['unit']          = $is_percent ? '%' : $change_unit;
                     break;
 
@@ -604,13 +604,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         $new_price                      = get_option( 'laterpay_global_price' );
                         // set flash message parts
                         $message_parts['preposition']   = __( 'to global default price of', 'laterpay' );
-                        $message_parts['amount']        = number_format_i18n( $new_price, 2 );
+                        $message_parts['amount']        = LaterPay_Helper_View::format_number( $new_price );
                         $message_parts['unit']          = $default_currency;
                     } else {
                         $new_price                      = $category_price_model->get_price_by_category_id( $category_id );
                         // set flash message parts
                         $message_parts['preposition']   = __( 'to category default price of', 'laterpay' );
-                        $message_parts['amount']        = number_format_i18n( $new_price, 2 );
+                        $message_parts['amount']        = LaterPay_Helper_View::format_number( $new_price );
                         $message_parts['unit']          = $default_currency;
                     }
                     break;

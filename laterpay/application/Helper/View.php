@@ -134,4 +134,34 @@ class LaterPay_Helper_View
     public static function remove_extra_spaces( $string ) {
         return trim( preg_replace( '/>\s+</', '><', $string ) );
     }
+
+    /**
+     * Get number based on local format.
+     *
+     * @param float   $number
+     * @param bool    $is_monetary
+     *
+     * @return string $formatted
+     */
+    public static function format_number( $number, $is_monetary = true ) {
+        if ( $is_monetary ) {
+            // format monetary values
+            if ( $number < 100 ) {
+                $formatted = number_format_i18n( $number, 2 );
+            } elseif ( $number >= 100 && $number < 10000 ) {
+                $formatted = number_format_i18n( $number );
+            } else {
+                $formatted = number_format_i18n( $number/10000, 1 ) . ' k';
+            }
+        } else {
+            // format count values
+            if ( $number < 10000 ) {
+                $formatted = number_format( $number );
+            } else {
+                $formatted = number_format( $number/10000, 1 ) . ' k';
+            }
+        }
+
+        return $formatted;
+    }
 }

@@ -12,7 +12,7 @@
                 name="post-price"
                 id="lp_js_postPrice_priceInput"
                 class="lp_input lp_numberInput lp_u_fs-3"
-                value="<?php echo number_format_i18n( $laterpay['price'], 2 ); ?>"
+                value="<?php echo LaterPay_Helper_View::format_number( $laterpay['price'] ); ?>"
                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                 <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled="disabled"'; } ?>>
         <span class="lp_currency lp_u_relative"><?php echo $laterpay['currency']; ?></span>
@@ -66,7 +66,7 @@
             <a href="#"
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceType_button lp_use-global-default-price"
-                data-price="<?php echo number_format_i18n( $laterpay['global_default_price'], 2 ); ?>"
+                data-price="<?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?>"
                 data-revenue-model="<?php echo $laterpay['global_default_price_revenue_model']; ?>"><?php _e( 'Global Default<span></span> Price', 'laterpay' ); ?></a>
         </li>
     </ul>
@@ -86,9 +86,9 @@
                     <?php foreach ( $laterpay['category_prices'] as $c ): ?>
                         <li data-category="<?php echo $c->category_id; ?>"<?php if ( $c->category_id == $laterpay['post_default_category'] ): ?> class="lp_is-selectedCategory"<?php endif; ?>>
                             <a href="#"
-                                data-price="<?php echo number_format_i18n( $c->category_price, 2 ); ?>"
+                                data-price="<?php echo LaterPay_Helper_View::format_number( $c->category_price ); ?>"
                                 data-revenue-model="<?php echo $c->revenue_model; ?>">
-                                <span><?php echo number_format_i18n( $c->category_price, 2 ); ?> <?php echo $laterpay['currency']; ?></span><?php echo $c->category_name; ?>
+                                <span><?php echo LaterPay_Helper_View::format_number( $c->category_price ); ?> <?php echo $laterpay['currency']; ?></span><?php echo $c->category_name; ?>
                             </a>
                         </li>
                     <?php endforeach; ?>
