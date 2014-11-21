@@ -26,6 +26,8 @@
     display                 none
     padding                 $fs-1 $fs-1 $fs-1 round(4 * $fs-1)
 
+
+// frontside -----------------------------------------------------------------------------------------------------------
 /**
  * Time pass title, usually something descriptive like "24h News Pass"
  *
@@ -73,6 +75,25 @@
         padding             $fs-05 $fs-1
         vertical-align      middle
 
+
+// flipside -----------------------------------------------------------------------------------------------------------
+.lp_timePass__conditions
+    border-collapse         collapse
+
+    th,
+    td
+        padding             0 $fs-05 $fs-05 0
+
+    th
+        font-weight         normal
+        text-align          left
+
+    td
+        text-align          left
+        padding-right       0
+
+
+// sidebar widget ------------------------------------------------------------------------------------------------------
 /**
  * Time pass widget
  *
@@ -83,4 +104,4 @@
     width                   400px
     left                    0
     top                     50%
-    z-index                 1000
+    z-index                 $zindex-overlayed_1
