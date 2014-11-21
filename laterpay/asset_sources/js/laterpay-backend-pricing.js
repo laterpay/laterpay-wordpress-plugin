@@ -54,6 +54,7 @@
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
+                flipTimePass                            : $('.lp_js_flipTimePass'),
 
                     passPayType                             : $('.lp_toggle_input'),
                     pass                                    : $('#lp_js_togglePassPayType'),
@@ -213,6 +214,13 @@
                     e.preventDefault();
                 });
 
+                // flip
+                $o.flipTimePass
+                .mousedown(function() {
+                    flipTimePass(this);
+                })
+                .click(function(e) {e.preventDefault();});
+
                 // bulk price editor events ----------------------------------------------------------------------------
                 // select action or objects
                 $o.bulkPriceAction.add($o.bulkPriceObjects)
@@ -362,6 +370,10 @@
                 } else {
                     $input.val(payLater);
                 }
+            },
+
+            flipTimePass = function(trigger) {
+                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
             },
 
             validatePrice = function($form) {

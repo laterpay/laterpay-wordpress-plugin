@@ -1,7 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
 <div class="lp_timePass" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">
-    <div class="lp_timePass__front">
+    <section class="lp_timePass__front">
         <h4 class="lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
         <p class="lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
         <div class="lp_timePass_actions">
@@ -18,37 +18,50 @@
                 );
             ?>
             </a>
-            <a href="#" class="lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>
+            <a href="#" class="lp_js_flipTimePass lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>
         </div>
-    </div>
-    <div class="lp_timePass__back">
+    </section>
+    <section class="lp_timePass__back">
+
+        <a href="#" class="lp_js_flipTimePass lp_timePass_frontsideLink"><?php _e( 'Back', 'laterpay' ); ?></a>
+
         <table class="lp_timePass__conditions">
             <tr>
                 <th><?php _e( 'Validity', 'laterpay' ) ?></th>
                 <td>
-                    lalala
+                    text here
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Access to', 'laterpay' ) ?></th>
-                <td></td>
+                <td>
+                    text here
+                </td>
             </tr>
             <tr>
                 <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
-                <td></td>
+                <td>
+                    text here
+                </td>
             </tr>
             <tr>
                 <th><?php _e( 'Payment', 'laterpay' ) ?></th>
-                <td></td>
+                <td>
+                    text here
+                </td>
             </tr>
             <tr>
                 <th><?php _e( 'Price', 'laterpay' ) ?></th>
-                <td></td>
+                <td>
+                    text here
+                </td>
             </tr>
             <tr>
                 <th><?php _e( 'Refund', 'laterpay' ) ?></th>
-                <td></td>
+                <td>
+                    text here
+                </td>
             </tr>
         </table>
-    </div>
+    </section>
 </div>
