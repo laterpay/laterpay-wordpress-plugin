@@ -54,7 +54,14 @@
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
+                timePassForm                            : $('#lp_js_timePassForm'),
                 flipTimePass                            : $('.lp_js_flipTimePass'),
+                editTimePass                            : $('.lp_js_editTimePass'),
+                deleteTimePass                          : $('.lp_js_deleteTimePass'),
+                saveTimePass                            : $('.lp_js_saveTimePass'),
+                cancelEditingTimePass                   : $('.lp_js_cancelEditingTimePass'),
+
+
 
                     passPayType                             : $('.lp_toggle_input'),
                     pass                                    : $('#lp_js_togglePassPayType'),
@@ -167,16 +174,17 @@
                 // time passes events ----------------------------------------------------------------------------------
                 // add
                 $o.addTimePass
-                .toggle(
-                    function(e) {
-                        togglePassForm('show', 0);
-                        e.preventDefault();
-                    },
-                    function(e) {
-                        togglePassForm('hide', 0);
-                        e.preventDefault();
-                    }
-                );
+                .click(function(e) {
+                    showTimePassForm();
+                    e.preventDefault();
+                });
+
+                // edit
+                $o.editTimePass
+                .click(function(e) {
+                    editTimePass($(this).parents('.lp_js_timePassWrapper'));
+                    e.preventDefault();
+                });
 
                 // ?????
                 $o.passPayType
@@ -184,33 +192,24 @@
                     togglePassPayMode();
                 });
 
-                // ?????
-                $('.lp_timePass .lp_changeLink')
-                .click(function(e) {
-                    var pass_id = $(this).closest('.lp_timePass').attr('data-pass-id');
-                    togglePassForm('show', pass_id);
-                    e.preventDefault();
-                });
-
                 // cancel
-                $('.lp_timePass .lp_cancelLink')
+                $o.cancelEditingTimePass
                 .click(function(e) {
-                    togglePassForm('hide', 0);
+                    cancelEditingTimePass($(this).parents('.lp_js_timePassWrapper'));
                     e.preventDefault();
                 });
 
                 // save
-                $('.lp_timePass .lp_saveLink')
+                $o.saveTimePass
                 .click(function(e) {
                     savePassForm();
                     e.preventDefault();
                 });
 
                 // delete
-                $('.lp_timePass .lp_deleteLink')
+                $o.deleteTimePass
                 .click(function(e) {
-                    var pass_id = $(this).closest('.lp_timePass').attr('data-pass-id');
-                    removePass(e, pass_id);
+                    deleteTimePass($(this).parents('.lp_js_timePassWrapper'));
                     e.preventDefault();
                 });
 
@@ -277,6 +276,48 @@
                 });
             },
 
+            editTimePass = function($timePass) {
+                var $timePassForm       = $o.timePassForm.clone().removeAttr('id').removeClass('lp_u_hide');
+
+                // insert cloned form into current time pass editor container
+                $('.lp_timePass_editorContainer', $timePass).html($timePassForm);
+
+                // hide action links required when displaying time pass
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_u_hide');    // TODO: this should be a state class! lp_is-hidden
+
+                // show action links required when editing time pass
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass('lp_u_hide');    // TODO: this should be a state class! lp_is-hidden
+            },
+
+            cancelEditingTimePass = function($timePass) {
+                // remove cloned time pass form
+                $('.lp_timePassEditor_form', $timePass).remove();
+                // TODO: unbind events
+
+                // show action links required when displaying time pass
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');    // TODO: this should be a state class! lp_is-hidden
+
+                // hide action links required when editing time pass
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');    // TODO: this should be a state class! lp_is-hidden
+            },
+
+            deleteTimePass = function($timePass) {
+                // fade out and remove time pass
+                $timePass.fadeOut(400, function() {
+                    // TODO: do Ajax stuff and remove time pass on success
+                    $(this).remove();
+                });
+            },
+
+
+
+
+
+
+
+
+
+            // TO BE CLEANED -------------------------------------------------------------------------------------------
             savePassForm = function() {
                 togglePassForm('hide', 0);
 
@@ -316,7 +357,7 @@
                 return false;
             },
 
-            togglePassForm = function(todo, pass_id) {
+            showTimePassForm = function() {
                 var editor          = $('.lp_passes_editor'),
                     passContainer   = $('.lp_timePass[data-pass-id=' + pass_id + ']');
                 $('.lp_timePass .lp_changeLink').show();
