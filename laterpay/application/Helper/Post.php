@@ -106,21 +106,12 @@ class LaterPay_Helper_Post {
             'buy'         => 'true',
             'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
-        /* Commented with a temporary solution: redirect to attachment page instead of download it by browser. So attachments will have the same behaviour as post after purchase.
-         * 
+
         if ( $post->post_type == 'attachment' ) {
-            $url = LaterPay_Helper_File::get_encrypted_resource_url(
-                                            $post_id,
-                                            wp_get_attachment_url( $post_id ),
-                                            false,
-                                            'attachment'
-                                        );
-        } else {
-            $url  = self::get_after_purchase_redirect_url( $url_params );
-            $hash = self::get_hash_by_url( $url );
-            $url  = $url . '&hash=' . $hash;
-        };
-        */
+            $url_params['post_id']           = get_the_ID();
+            $url_params['download_attached'] = $post_id;
+        }
+
         $url  = self::get_after_purchase_redirect_url( $url_params );
         $hash = self::get_hash_by_url( $url );
         $url  = $url . '&hash=' . $hash;

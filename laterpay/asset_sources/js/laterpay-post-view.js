@@ -221,6 +221,7 @@
                     }
                 );
             },
+
             trackViews = function() {
                 $.post(
                     lpVars.ajaxUrl,
@@ -231,10 +232,18 @@
                     }
                 );
             },
+
             handlePurchaseInTestMode = function(trigger) {
                 if ($(trigger).data('preview-as-visitor')) {
                     // show alert instead of loading LaterPay purchase dialogs
                     alert(lpVars.i18nAlert);
+                }
+            },
+
+            initiateAttachmentDownload = function() {
+                // start attachment download, if requested
+                if ( lpVars.download_attachment ) {
+                    window.location.href = lpVars.download_attachment;
                 }
             },
 
@@ -257,6 +266,8 @@
 
                 bindPurchaseEvents();
                 bindRatingEvents();
+
+                initiateAttachmentDownload();
             };
 
         initializePage();
