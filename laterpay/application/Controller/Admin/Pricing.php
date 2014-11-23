@@ -824,10 +824,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
 
         $args = array_merge( $defaults, $args );
+        
+        if( !empty($args['pass_id']) ) {
+            $args['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link($args['pass_id']);
+        }
 
         $this->assign( 'laterpay_pass', $args );
         $this->assign( 'laterpay',      array(
-            'standard_currency' => get_option( 'laterpay_currency' ),
+            'standard_currency'       => get_option( 'laterpay_currency' ),
+            'preview_post_as_visitor' => 1,
         ));
 
         $string = $this->get_text_view( 'backend/partials/time_pass' );

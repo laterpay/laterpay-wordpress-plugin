@@ -770,5 +770,16 @@ class LaterPay_Helper_Pricing
 
         wp_update_post( $post_update_data );
     }
+    
+    /**
+     * Return the URL hash for a given URL.
+     *
+     * @param string $url
+     *
+     * @return string $hash
+     */
+    public static function get_hash_by_url( $url ) {
+        return md5( md5( $url ) . wp_salt() );
+    }
 
 }

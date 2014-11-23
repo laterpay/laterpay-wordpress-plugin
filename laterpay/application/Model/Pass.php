@@ -13,7 +13,7 @@ class LaterPay_Model_Pass
     public $table;
 
     /**
-     * Constructor for class LaterPay_Post_Views_Model, load table name.
+     * Constructor for class LaterPay_Model_Pass, load table name.
      */
     function __construct() {
         global $wpdb;
@@ -28,7 +28,7 @@ class LaterPay_Model_Pass
      *
      * @return array views
      */
-    public function get_pass_data( $post_id ) {
+    public function get_pass_data( $pass_id ) {
         global $wpdb;
 
         $sql = "
@@ -40,9 +40,9 @@ class LaterPay_Model_Pass
                 pass_id = %d
             ;
         ";
-        $views = $wpdb->get_results( $wpdb->prepare( $sql, (int) $post_id ) );
+        $pass = $wpdb->get_row( $wpdb->prepare( $sql, (int) $pass_id ) );
 
-        return $views;
+        return $pass;
     }
 
     /**
