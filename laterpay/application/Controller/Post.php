@@ -823,7 +823,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );
 
-        $string = $this->get_text_view( 'frontend/partials/post/time_pass' );
+        $string = $this->get_text_view( 'backend/partials/post/time_pass' );
 
         return $string;
     }

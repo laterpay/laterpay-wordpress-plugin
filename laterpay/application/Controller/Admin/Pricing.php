@@ -48,6 +48,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
 
         // pass localized strings and variables to script
+        $passes_model = new LaterPay_Model_Pass();
+        $passes_list  = (array) $passes_model->get_all_passes();
         wp_localize_script(
             'laterpay-backend-pricing',
             'lpVars',
@@ -57,6 +59,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'globalDefaultPrice'    => LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ) ),
                 'defaultCurrency'       => get_option( 'laterpay_currency' ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
+                'time_passes_list'      => $this->get_passes_json( $passes_list ),
+                'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);',
             )
         );
     }
@@ -95,7 +99,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'global_default_price'                  => number_format( (float) get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
             'passes_list'                           => $passes_list,
-            'passes_list_json'                      => $this->get_passes_json( $passes_list ),
             'bulk_actions'                          => $bulk_actions,
             'bulk_selectors'                        => $bulk_selectors,
             'bulk_categories'                       => $bulk_categories,
@@ -177,11 +180,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     }
                     break;
 
-                case 'pass_form_save':
+                case 'time_pass_form_save':
                     $this->pass_form_save();
                     break;
 
-                case 'pass_delete':
+                case 'time_pass_delete':
                     $this->pass_delete();
                     break;
 
@@ -823,6 +826,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $args = array_merge( $defaults, $args );
 
         $this->assign( 'laterpay_pass', $args );
+        $this->assign( 'laterpay',      array(
+            'standard_currency' => get_option( 'laterpay_currency' ),
+        ));
 
         $string = $this->get_text_view( 'backend/partials/time_pass' );
 
@@ -839,12 +845,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $pass_model     = new LaterPay_Model_Pass();
 
         if ( $save_pass_form->is_valid() ) {
-            $data         = $save_pass_form->get_form_values( true, null, array() );
-            $pass_id      = $pass_model->update_pass($data);
+            $data = $save_pass_form->get_form_values( true, null, array() );
+            $data = $pass_model->update_pass($data);
 
             wp_send_json(
                 array(
                     'success' => true,
+                    'data'    => $data,
+                    'html'    => $this->render_pass($data),
                     'message' => __( 'Pass was successfully saved.', 'laterpay' ),
                 )
             );
@@ -853,6 +861,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => false,
+                'errors' => $save_pass_form->getErrors(),
                 'message' => __( 'An error occurred when trying to save the pass. Please try again.', 'laterpay' ),
             )
         );

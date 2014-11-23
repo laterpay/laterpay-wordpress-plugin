@@ -67,7 +67,6 @@ class LaterPay_Model_Pass
 
         // format for insert and update statement
         $format = array(
-            '%s', // status
             '%d', // duration
             '%d', // period
             '%d', // access_to
@@ -88,6 +87,7 @@ class LaterPay_Model_Pass
                 $data,
                 $format
             );
+            $data['pass_id'] = $wpdb->insert_id;
         } else {
             $wpdb->update(
                     $this->table,
@@ -96,9 +96,10 @@ class LaterPay_Model_Pass
                     $format,
                     array( '%d' ) // pass_id
             );
+            $data['pass_id'] = $pass_id;
         }
-
-        return $wpdb->get_results( $sql );
+        
+        return $data;
     }
 
     /**
