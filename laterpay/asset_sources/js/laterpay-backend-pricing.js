@@ -54,6 +54,7 @@
 
                 // time passes
                 timePassEditor                          : $('.lp_js_timePassEditor'),
+                timePassTemplate                        : $('#lp_js_timePassTemplate'),
                 addTimePassWrapper                      : $('.lp_js_addTimePassWrapper'),
                 addTimePass                             : $('#lp_js_addTimePass'),
                 timePassForm                            : $('#lp_js_timePassForm'),
@@ -583,17 +584,18 @@
             },
 
             addTimePass = function() {
-                var $timePassForm = $o.timePassForm.clone().removeAttr('id');
-
                 // hide "add time pass" button
                 $o.addTimePass.fadeOut(250);
 
-                // insert cloned form into current time pass editor container
-                $('.lp_js_timePass_editorContainer', $o.addTimePassWrapper).html($timePassForm);
-                populateTimePassForm($o.addTimePassWrapper);
+                // insert cloned form into current time pass editor
+                $o.timePassEditor.prepend($o.timePassTemplate.clone().removeAttr('id').addClass($o.unsaved));
+                var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).first();
+
+                // fill in form from time passes list array
+                populateTimePassForm($timePass);
 
                 // load WordPress color picker
-                $('.lp_js_colorInput', $o.addTimePassWrapper)
+                $('.lp_js_colorInput', $timePass)
                 .wpColorPicker({
                     defaultColor    : false,
                     // change          : function(event, ui) {},
@@ -604,13 +606,20 @@
                 $('.wp-color-result').attr('title', '');
 
                 // hide action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $o.addTimePassWrapper).addClass('lp_u_hide');
-                //
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_u_hide');
+
                 // show action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $o.addTimePassWrapper).removeClass('lp_u_hide');
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass('lp_u_hide');
 
                 // show time pass form
-                $o.addTimePassWrapper.removeClass('lp_u_hide');
+                $timePass
+                .fadeIn(400, function() {
+                    $(this).removeClass('lp_u_hide');
+                })
+                    .find('.lp_js_timePassEditor_form')
+                    .fadeIn(400, function() {
+                        $(this).removeClass('lp_u_hide');
+                    });
             },
 
             editTimePass = function($timePass) {
@@ -641,8 +650,17 @@
             },
 
             cancelEditingTimePass = function($timePass) {
-                // remove cloned time pass form
-                $('.lp_js_timePassEditor_form', $timePass).remove();
+                if ($timePass.hasClass($o.unsaved)) {
+                    // remove entire time pass, if it is a new, unsaved pass
+                    $timePass.fadeOut(250, function() {
+                        $(this).remove();
+                    });
+                } else {
+                    // remove cloned time pass form
+                    $('.lp_js_timePassEditor_form', $timePass).fadeOut(250, function() {
+                        $(this).remove();
+                    });
+                }
                 // TODO: unbind events
 
                 // show action links required when displaying time pass
@@ -659,7 +677,8 @@
 
             deleteTimePass = function($timePass) {
                 // fade out and remove time pass
-                $timePass.fadeOut({
+                $timePass
+                .fadeOut({
                     duration: 400,
                     start: function() {
                         $.post(
@@ -667,7 +686,7 @@
                             {
                                 action  : 'laterpay_pricing',
                                 form    : 'time_pass_delete',
-                                pass_id : $timePass.data('pass_id'),
+                                pass_id : $timePass.data('pass-id'),
                             },
                             function(r) {
                                 if (r.success) {
@@ -699,7 +718,7 @@
                             // show action links required when displaying time pass
                             $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
 
-                            var pass_id = r.data.pass_id;
+                            var passId = r.data.pass_id;
                             if (lpVars.time_passes_list.pass_id) {
 
                                 lpVars.time_passes_list.pass_id = r.data;
@@ -708,7 +727,7 @@
                             } else {
                                 lpVars.time_passes_list.pass_id = r.data;
 
-                                var $newTimePass = $o.addTimePassWrapper.clone().data('pass_id', pass_id);
+                                var $newTimePass = $o.addTimePassWrapper.clone().data('pass-id', passId);
 
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
 
@@ -729,6 +748,7 @@
                                     $o.addTimePass.fadeIn(250);
                                 }
                             }
+
                             // hide time pass form
                             $o.addTimePassWrapper.addClass('lp_u_hide');
                         }
@@ -739,22 +759,25 @@
             },
 
             populateTimePassForm = function($timePass) {
-                var pass_id  = $timePass.data('pass_id'),
-                    pass     = lpVars.time_passes_list[pass_id],
-                    $toggle  = $('.lp_js_toggle_input', $timePass);
+                var pass    = lpVars.time_passes_list.pass_id,
+                    $toggle = $('.lp_js_toggle_input', $timePass),
+                    name    = '';
 
                 if (!pass) {
                     return;
                 }
 
+                // TODO: what exactly is happening here?
                 $('input, select, textarea', $timePass)
                 .each(function(i, v) {
-                    var name = $(v).attr('name');
+                    name = $(v).attr('name');
                     if (name !== '' && pass.name) {
                         $(v).val(pass.name);
                     }
                 });
-                if(pass.revenue_model === 'sis') {
+
+                // set revenue model toggle
+                if (pass.revenue_model === 'sis') {
                     $toggle.prop('checked', true);
                 }
             },
