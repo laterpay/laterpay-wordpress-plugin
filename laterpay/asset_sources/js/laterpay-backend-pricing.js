@@ -54,6 +54,8 @@
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
+                timePassEditor                          : $('#lp_js_timePassEditor'),
+                timePassTemplate                        : $('#lp_js_timePassTemplate'),
                 timePassForm                            : $('#lp_js_timePassForm'),
                 flipTimePass                            : $('.lp_js_flipTimePass'),
                 editTimePass                            : $('.lp_js_editTimePass'),
@@ -175,50 +177,50 @@
                 // add
                 $o.addTimePass
                 .click(function(e) {
-                    showTimePassForm();
+                    addTimePass();
                     e.preventDefault();
                 });
 
                 // edit
-                $o.editTimePass
-                .click(function(e) {
+                $('body')
+                .on('click', $o.editTimePass, function(e) {
                     editTimePass($(this).parents('.lp_js_timePassWrapper'));
                     e.preventDefault();
                 });
 
-                // ?????
-                $o.passPayType
-                .change(function() {
-                    togglePassPayMode();
-                });
+                // // ?????
+                // $o.passPayType
+                // .change(function() {
+                //     togglePassPayMode();
+                // });
 
                 // cancel
-                $o.cancelEditingTimePass
-                .click(function(e) {
+                $('body')
+                .on('click', $o.cancelEditingTimePass, function(e) {
                     cancelEditingTimePass($(this).parents('.lp_js_timePassWrapper'));
                     e.preventDefault();
                 });
 
                 // save
-                $o.saveTimePass
-                .click(function(e) {
-                    savePassForm();
+                $('body')
+                .on('click', $o.saveTimePass, function(e) {
+                    saveTimePass($(this).parents('.lp_js_timePassWrapper'));
                     e.preventDefault();
                 });
 
                 // delete
-                $o.deleteTimePass
-                .click(function(e) {
+                $('body')
+                .on('click', $o.deleteTimePass, function(e) {
                     deleteTimePass($(this).parents('.lp_js_timePassWrapper'));
                     e.preventDefault();
                 });
 
                 // flip
-                $o.flipTimePass
-                .mousedown(function() {
+                $('body')
+                .on('mousedown', $o.flipTimePass, function() {
                     flipTimePass(this);
                 })
-                .click(function(e) {e.preventDefault();});
+                .on('click', $o.flipTimePass, function(e) {e.preventDefault();});
 
                 // bulk price editor events ----------------------------------------------------------------------------
                 // select action or objects
@@ -276,8 +278,18 @@
                 });
             },
 
+            addTimePass = function() {
+                var $timePass = $o.timePassTemplate.clone();
+
+                $o.addTimePass.fadeOut(250);
+                $timePass.removeAttr('id').removeClass('lp_u_hide');
+                $o.timePassEditor.prepend($timePass);
+            },
+
             editTimePass = function($timePass) {
-                var $timePassForm       = $o.timePassForm.clone().removeAttr('id').removeClass('lp_u_hide');
+                var $timePassForm = $o.timePassForm.clone().removeAttr('id').removeClass('lp_u_hide');
+
+                // TODO: end editing all other time passes
 
                 // insert cloned form into current time pass editor container
                 $('.lp_timePass_editorContainer', $timePass).html($timePassForm);
@@ -299,6 +311,24 @@
 
                 // hide action links required when editing time pass
                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');    // TODO: this should be a state class! lp_is-hidden
+
+                // show "Add time pass" button
+                $o.addTimePass.fadeIn(250);
+            },
+
+            saveTimePass = function() {
+                $.post(
+                    ajaxurl,
+                    $('#lp_js_timePassForm').serializeArray(),
+                    function(r) {
+                        if (r.success) {
+                            window.location.reload();
+                            // FIXME: render time pass from JSON response instead
+                        }
+                        setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
             },
 
             deleteTimePass = function($timePass) {
@@ -309,113 +339,106 @@
                 });
             },
 
-
-
-
-
-
-
-
-
-            // TO BE CLEANED -------------------------------------------------------------------------------------------
-            savePassForm = function() {
-                togglePassForm('hide', 0);
-
-                $.post(
-                    ajaxurl,
-                    $('#lp_js_timePassForm').serializeArray(),
-                    function(r) {
-                        if (r.success) {
-                            window.location.reload();
-                        } else {
-                            togglePassForm('show', 0);
-                        }
-                        setMessage(r.message, r.success);
-                    },
-                    'json'
-                );
-            },
-
-            removePass = function(e, pass_id) {
-                $.post(
-                    ajaxurl,
-                    {
-                        action  : 'laterpay_pricing',
-                        form    : 'pass_delete',
-                        pass_id : pass_id,
-                    },
-                    function(r) {
-                        if (r.success) {
-                            window.location.reload();
-                        }else{
-                            setMessage(r.message, r.success);
-                        }
-                    },
-                    'json'
-                );
-                e.preventDefault();
-                return false;
-            },
-
-            showTimePassForm = function() {
-                var editor          = $('.lp_passes_editor'),
-                    passContainer   = $('.lp_timePass[data-pass-id=' + pass_id + ']');
-                $('.lp_timePass .lp_changeLink').show();
-                $('.lp_timePass .lp_saveLink').hide();
-                $('.lp_timePass .lp_cancelLink').hide();
-                $('.lp_timePass .lp_deleteLink').show();
-
-                if (todo === 'show') {
-                    fillPassForm(pass_id);
-                    passContainer.show();
-                    $(passContainer).find('.lp_timePass_editorContainer').append(editor.show());
-                    passContainer.find('.lp_changeLink').hide();
-                    passContainer.find('.lp_saveLink').show();
-                    passContainer.find('.lp_cancelLink').show();
-                    passContainer.find('.lp_deleteLink').hide();
-                    // new pass form has to be hidden by default
-                    if ( pass_id > 0 ) {
-                        $('.lp_timePass[data-pass-id=0]').hide();
-                    }
-                } else if (todo === 'hide') {
-                    passContainer.hide();
-                    $o.addTimePass.after(editor.hide());
-                }
-            },
-
-            fillPassForm = function(pass_id) {
-                if (!passes_array || !passes_array[pass_id]) {
-                    return;
-                } else {
-                    var pass = passes_array[pass_id];
-                }
-
-                $('.lp_passes_editor input, .lp_passes_editor select, .lp_passes_editor textarea')
-                .each(function(i, v) {
-                    var name = $(v).attr('name');
-                    if (name !== '' && pass[name]) {
-                        $(v).val(pass[name]);
-                    }
-                });
-            },
-
-            togglePassPayMode = function() {
-                var $toggle                 = $o.passPayType,
-                    $input                  = $('#lp_js_timePass_toggleRevenueModel'),
-                    payLater                = 'later',
-                    payImmediately          = 'immediately',
-                    hasPayMode              = $toggle.prop('checked');
-
-                if (hasPayMode) {
-                    $input.val(payImmediately);
-                } else {
-                    $input.val(payLater);
-                }
-            },
-
             flipTimePass = function(trigger) {
                 $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
             },
+
+// TO BE CLEANED -------------------------------------------------------------------------------------------------------
+                                    savePassForm = function() {
+                                        togglePassForm('hide', 0);
+
+                                        $.post(
+                                            ajaxurl,
+                                            $('#lp_js_timePassForm').serializeArray(),
+                                            function(r) {
+                                                if (r.success) {
+                                                    window.location.reload();
+                                                } else {
+                                                    togglePassForm('show', 0);
+                                                }
+                                                setMessage(r.message, r.success);
+                                            },
+                                            'json'
+                                        );
+                                    },
+
+                                    removePass = function(e, pass_id) {
+                                        $.post(
+                                            ajaxurl,
+                                            {
+                                                action  : 'laterpay_pricing',
+                                                form    : 'pass_delete',
+                                                pass_id : pass_id,
+                                            },
+                                            function(r) {
+                                                if (r.success) {
+                                                    window.location.reload();
+                                                }else{
+                                                    setMessage(r.message, r.success);
+                                                }
+                                            },
+                                            'json'
+                                        );
+                                        e.preventDefault();
+                                        return false;
+                                    },
+
+                                    showTimePassForm = function() {
+                                        var editor          = $('.lp_passes_editor'),
+                                            passContainer   = $('.lp_timePass[data-pass-id=' + pass_id + ']');
+                                        $('.lp_timePass .lp_changeLink').show();
+                                        $('.lp_timePass .lp_saveLink').hide();
+                                        $('.lp_timePass .lp_cancelLink').hide();
+                                        $('.lp_timePass .lp_deleteLink').show();
+
+                                        if (todo === 'show') {
+                                            fillPassForm(pass_id);
+                                            passContainer.show();
+                                            $(passContainer).find('.lp_timePass_editorContainer').append(editor.show());
+                                            passContainer.find('.lp_changeLink').hide();
+                                            passContainer.find('.lp_saveLink').show();
+                                            passContainer.find('.lp_cancelLink').show();
+                                            passContainer.find('.lp_deleteLink').hide();
+                                            // new pass form has to be hidden by default
+                                            if ( pass_id > 0 ) {
+                                                $('.lp_timePass[data-pass-id=0]').hide();
+                                            }
+                                        } else if (todo === 'hide') {
+                                            passContainer.hide();
+                                            $o.addTimePass.after(editor.hide());
+                                        }
+                                    },
+
+                                    fillPassForm = function(pass_id) {
+                                        if (!passes_array || !passes_array[pass_id]) {
+                                            return;
+                                        } else {
+                                            var pass = passes_array[pass_id];
+                                        }
+
+                                        $('.lp_passes_editor input, .lp_passes_editor select, .lp_passes_editor textarea')
+                                        .each(function(i, v) {
+                                            var name = $(v).attr('name');
+                                            if (name !== '' && pass[name]) {
+                                                $(v).val(pass[name]);
+                                            }
+                                        });
+                                    },
+
+                                    togglePassPayMode = function() {
+                                        var $toggle                 = $o.passPayType,
+                                            $input                  = $('#lp_js_timePass_toggleRevenueModel'),
+                                            payLater                = 'later',
+                                            payImmediately          = 'immediately',
+                                            hasPayMode              = $toggle.prop('checked');
+
+                                        if (hasPayMode) {
+                                            $input.val(payImmediately);
+                                        } else {
+                                            $input.val(payLater);
+                                        }
+                                    },
+// END TO BE CLEANED ---------------------------------------------------------------------------------------------------
 
             validatePrice = function($form) {
                 var $priceInput = $('.lp_numberInput', $form),
