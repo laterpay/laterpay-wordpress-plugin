@@ -12,7 +12,6 @@ class LaterPay_Helper_Passes
      */
     public static $defaults = array(
         'pass_id'           => '0',
-        'status'            => 'active',
         'duration'          => '1',
         'period'            => '1',
         'access_to'         => '0',
@@ -21,6 +20,7 @@ class LaterPay_Helper_Passes
         'revenue_model'     => 'ppu',
         'title'             => '24-Hour Pass',
         'title_color'       => '#3f3f3f',
+        'description'       => '',
         'description_color' => '#3f3f3f',
         'background_path'   => '',
         'background_color'  => '#fff',
@@ -30,7 +30,7 @@ class LaterPay_Helper_Passes
      * @var array
      */
     public static $durations = array(
-        1,
+        1 => 1,
         2,
         3,
         4,
@@ -139,7 +139,7 @@ class LaterPay_Helper_Passes
         $options_html = '';
 
         foreach ( self::$durations as $id => $name ) {
-            if ( $key == self::$defaults['duration'] ) {
+            if ( $id == self::$defaults['duration'] ) {
                 $options_html .= "<option selected value='$id'>" . __($name, 'laterpay') . "</option>";
             } else {
                 $options_html .= "<option value='$id'>" . __($name, 'laterpay') . "</option>";
@@ -158,7 +158,7 @@ class LaterPay_Helper_Passes
         $options_html = '';
 
         foreach ( self::$periods as $id => $name ) {
-            if ( $key == self::$defaults['period'] ) {
+            if ( $id == self::$defaults['period'] ) {
                 $options_html .= "<option selected value='$id'>" . __($name, 'laterpay') . "</option>";
             } else {
                 $options_html .= "<option value='$id'>" . __($name, 'laterpay') . "</option>";
@@ -177,7 +177,7 @@ class LaterPay_Helper_Passes
         $options_html = '';
 
         foreach ( self::$access_to as $id => $name ) {
-            if ( $key == self::$defaults['access_to'] ) {
+            if ( $id == self::$defaults['access_to'] ) {
                 $options_html .= "<option selected value='$id'>" . __($name, 'laterpay') . "</option>";
             } else {
                 $options_html .= "<option value='$id'>" . __($name, 'laterpay') . "</option>";

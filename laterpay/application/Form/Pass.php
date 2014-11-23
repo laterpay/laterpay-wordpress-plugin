@@ -30,10 +30,10 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             'pass_id',
             array(
                 'validators' => array(
-                    'is_string',
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_string',
+                    'to_int',
                     'unslash',
                 )
             )
@@ -57,7 +57,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => LaterPay_Helper_Passes::$periods
+                    'in_array' => array_keys(LaterPay_Helper_Passes::$periods)
                 ),
                 'filters'    => array(
                     'to_int',
@@ -72,7 +72,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => LaterPay_Helper_Passes::$access_to
+                    'in_array' => array_keys(LaterPay_Helper_Passes::$access_to)
                 ),
                 'filters'    => array(
                     'to_int',
@@ -99,12 +99,17 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             'price',
             array(
                 'validators' => array(
-                    'is_string',
+                    'is_float',
                 ),
                 'filters' => array(
+                    'replace' => array(
+                        'type'    => 'str_replace',
+                        'search'  => ',',
+                        'replace' => '.',
+                    ),
+                    'format_num' => 2,
                     'to_float',
-                    'unslash',
-                )
+                ),
             )
         );
 
@@ -113,12 +118,12 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => LaterPay_Helper_Passes::$revenue_model
+                    'in_array' => array_keys(LaterPay_Helper_Passes::$revenue_model)
                 ),
                 'filters' => array(
                     'to_string',
                     'unslash',
-                )
+                ),
             )
         );
 

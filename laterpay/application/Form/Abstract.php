@@ -12,6 +12,13 @@ abstract class LaterPay_Form_Abstract
      * @var array
      */
     protected $fields;
+    
+    /**
+     * Validation errors
+     *
+     * @var array
+     */
+    protected $errors = array();
 
     /**
      * Array of no strict names
@@ -233,6 +240,7 @@ abstract class LaterPay_Form_Abstract
      * @return bool is data valid
      */
     public function is_valid( $data = array() ) {
+        $this->errors = array();
         // If data passed set data to the form
         if ( ! empty( $data ) ) {
             $this->set_data( $data );
@@ -259,13 +267,19 @@ abstract class LaterPay_Form_Abstract
                     $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
                     if ( ! $is_valid ) {
                         // data not valid
-                        return false;
+                        $this->errors[] = array('name' => $name, 'value' => $field['value'], 'validator' => $validator_option, 'options' => $validator_params);
                     }
                 }
             }
         }
 
-        return $is_valid;
+        return empty($this->errors);
+    }
+    
+    public function getErrors() {
+        $aux = $this->errors;
+        $this->errors = array();
+        return $aux;
     }
 
     /**
