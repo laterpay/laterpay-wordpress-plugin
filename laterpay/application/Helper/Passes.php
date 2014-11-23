@@ -228,9 +228,18 @@ class LaterPay_Helper_Passes
 
         return $categories;
     }
+    
+    /**
+     * Get tokenized pass id
+     *
+     * @return array $result
+     */
+    public static function get_tokenized_pass($pass_id) {
+        return sprintf('%s_%s', self::PASS_TOKEN , $pass_id);
+    }
 
     /**
-     * Get WP categories
+     * Get all tokenized passes ids
      *
      * @return array $result
      */
@@ -239,7 +248,7 @@ class LaterPay_Helper_Passes
         $passes = $model->get_all_passes();
         $result = array();
         foreach ($passes as $pass) {
-            $result[] = sprintf('%s_%s', self::PASS_TOKEN , $pass->pass_id);
+            $result[] = self::get_tokenized_pass($pass->pass_id);
         }
 
         return $result;
@@ -257,6 +266,82 @@ class LaterPay_Helper_Passes
         $passes_list = $model->get_all_passes();
 
         return $passes_list;
+    }
+    
+    /**
+     * Get the LaterPay purchase link for a time pass.
+     *
+     * @param int $pass_id
+     *
+     * @return string url || empty string if something went wrong
+     */
+    public static function get_laterpay_purchase_link($pass_id) {
+        $time_pass_model = new LaterPay_Model_Pass();
+        
+        $pass = (array) $time_pass_model->get_pass_data($pass_id);
+        if ( empty($pass) ) {
+            return '';
+        }
+
+        $currency       = get_option( 'laterpay_currency' );
+        $price          = $pass['price'];
+        $revenue_model  = $pass['revenue_model'];
+
+        $currency_model = new LaterPay_Model_Currency();
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
+        );
+
+        $url    = get_permalink();
+        $hash   = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+
+        // parameters for LaterPay purchase form
+        $params = array(
+            'article_id'    => self::get_tokenized_pass($pass_id),
+            'pricing'       => $currency . ( $price * 100 ),
+            'expiry'        => '+' . self::getPassExpiryTime($pass),
+            'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
+            'url'           => $url . '&hash=' . $hash,
+            'title'         => $pass['title'],
+        );
+
+        if ( $revenue_model == 'sis' ) {
+            // Single Sale purchase
+            return $client->get_buy_url( $params );
+        } else {
+            // Pay-per-Use purchase
+            return $client->get_add_url( $params );
+        }
+    }
+    
+    /**
+     * 
+     * 
+     * @param array $pass
+     */
+    protected static function getPassExpiryTime($pass) {
+        $timestamp = time();
+        $time = 0;
+        switch ($pass['period']) {
+            case 3: // Monthes
+                $time = $pass['duration'] * 60*60*24*31;
+                break;
+            case 4: // Years
+                $time = $pass['duration'] * 60*60*24*365;
+                break;
+            default :
+                $period = self::$periods[$pass['period']];
+                if ( $pass['duration'] > 1) {
+                    $period .= 's';
+                }
+                $time = strtotime( strtolower('+' . $pass['duration'] . ' ' . $period) ) - $timestamp;
+        }
+        return $time;
     }
 
 }

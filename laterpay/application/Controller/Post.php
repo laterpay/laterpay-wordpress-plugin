@@ -186,7 +186,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $url    = $this->get_after_purchase_redirect_url( $url_data );
-        $hash   = $this->get_hash_by_url( $url );
+        $hash   = LaterPay_Helper_Pricing::get_hash_by_url( $url );
         // update lptoken if we got it
         if ( isset( $_GET['lptoken'] ) ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
@@ -310,6 +310,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             // add a post_ID to the array of posts to be queried for access, if it's purchasable and not loaded already
             if ( ! array_key_exists( $post->ID, $this->access ) && LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0 ) {
                 $post_ids[] = $post->ID;
+            }
+        }
+        
+        // check time limited passes
+        $passes = LaterPay_Helper_Passes::get_tokenized_passes();
+        foreach ( $passes as $pass ) {
+            // add a tokenized pass id to the array of posts to be queried for access, if it's not loaded already
+            if ( ! array_key_exists( $pass, $this->access ) ) {
+                $post_ids[] = $pass;
             }
         }
 
@@ -447,7 +456,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
         );
         $url    = $this->get_after_purchase_redirect_url( $url_params );
-        $hash   = $this->get_hash_by_url( $url );
+        $hash   = LaterPay_Helper_Pricing::get_hash_by_url( $url );
 
         // parameters for LaterPay purchase form
         $params = array(
@@ -470,17 +479,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             // Pay-per-Use purchase
             return $client->get_add_url( $params );
         }
-    }
-
-    /**
-     * Return the URL hash for a given URL.
-     *
-     * @param string $url
-     *
-     * @return string $hash
-     */
-    protected function get_hash_by_url( $url ) {
-        return md5( md5( $url ) . wp_salt() );
     }
 
     /**
@@ -817,13 +815,18 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
 
         $laterpay_pass = array_merge( $defaults, $pass );
+        if( !empty($laterpay_pass['pass_id']) ) {
+            $laterpay_pass['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link($laterpay_pass['pass_id']);
+        }
+        
         $args = array(
-            'standard_currency' => get_option( 'laterpay_currency' ),
+            'standard_currency'       => get_option( 'laterpay_currency' ),
+            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
         );
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );
 
-        $string = $this->get_text_view( 'backend/partials/post/time_pass' );
+        $string = $this->get_text_view( 'backend/partials/time_pass' );
 
         return $string;
     }

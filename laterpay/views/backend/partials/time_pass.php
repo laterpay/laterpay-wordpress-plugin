@@ -6,10 +6,11 @@
         <p class="lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
         <div class="lp_timePass_actions">
             <a href="#"
-             class="lp_purchaseLink lp_button"
+             class="lp_js_doPurchase lp_purchaseLink lp_button"
              title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
              data-icon="b"
-             data-preview-as-visitor="1">
+             data-laterpay="<?php echo $laterpay_pass['url']?>"
+             data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>">
              <?php
                 echo sprintf(
                     '%s<small>%s</small>',
