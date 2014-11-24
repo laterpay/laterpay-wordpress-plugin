@@ -16,6 +16,9 @@
                 postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
                 postStatisticsVisibilityInput   : $('#lp_js_postStatistics_visibilityInput'),
 
+                // time passes
+                flipTimePassLink                : '.lp_js_flipTimePass',
+
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
                 postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
@@ -55,6 +58,13 @@
                     handlePurchaseInTestMode(this);
                 })
                 .on('click', $o.purchaseLink, function(e) {e.preventDefault();});
+
+                // handle clicks on time passes
+                $('body')
+                .on('click', $o.flipTimePassLink, function() {
+                    flipTimePass(this);
+                })
+                .on('click', $o.flipTimePassLink, function(e) {e.preventDefault();});
             },
 
             bindPostStatisticsEvents = function() {
@@ -242,9 +252,13 @@
 
             initiateAttachmentDownload = function() {
                 // start attachment download, if requested
-                if ( lpVars.download_attachment ) {
+                if (lpVars.download_attachment) {
                     window.location.href = lpVars.download_attachment;
                 }
+            },
+
+            flipTimePass = function(trigger) {
+                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
             },
 
             initializePage = function() {

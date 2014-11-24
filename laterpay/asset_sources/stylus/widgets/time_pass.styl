@@ -1,6 +1,9 @@
 // time passes
 .lp_timePass
     display                 inline-block
+    font-family             Arial, sans-serif                                                       !important
+    font-size               14px                                                                    !important
+    font-weight             400                                                                     !important
     margin-right            $fs-1
     margin-bottom           $fs-1
 
@@ -89,21 +92,23 @@
 
 // flipside -----------------------------------------------------------------------------------------------------------
 .lp_timePass__conditions
-    border-collapse         collapse
+    border                  0 none                                                                  !important
+    border-collapse         collapse                                                                !important
 
     th,
     td
-        padding             0 0 $fs-025 0
-        vertical-align      top
+        border              0 none                                                                  !important
+        padding             0 0 $fs-025 0                                                           !important
+        vertical-align      top                                                                     !important
 
     th
-        color               $text-lighter
-        font-weight         normal
-        padding-right       $fs-1
-        text-align          left
+        color               $text-lighter                                                           !important
+        font-weight         normal                                                                  !important
+        padding-right       $fs-1                                                                   !important
+        text-align          left                                                                    !important
 
     td
-        text-align          left
+        text-align          left                                                                    !important
 
 .lp_timePass_frontsideLink
     background              $clickable
@@ -126,11 +131,10 @@
 /**
  * Time pass widget
  *
- *
  */
 .lp_timePass_widget
-    position                absolute
-    width                   400px
     left                    0
+    position                absolute
     top                     50%
+    width                   400px
     z-index                 $zindex-overlayed_1

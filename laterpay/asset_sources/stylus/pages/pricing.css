@@ -1,0 +1,101 @@
+ul.lp_row h2 + hr {
+  height: 2px;
+}
+ul.lp_row li:nth-child(1) h2 + hr {
+  background-color: #d4d4d4;
+}
+ul.lp_row li:nth-child(2) h2 + hr {
+  background-color: #a6a6a6;
+}
+ul.lp_row li:nth-child(3) h2 + hr {
+  background-color: #757575;
+}
+.lp_spacer {
+  height: 2.4em;
+}
+.lp_revenueModel {
+  width: 3.5em;
+}
+span.lp_revenueModelLabel {
+  background-color: #d4d4d4;
+  color: $text-inverse;
+  padding: 1px $fs-025;
+}
+.select2-container,
+.select2-drop,
+.select2-search,
+.select2-search input {
+  margin-bottom: 32px;
+  width: 10rem;
+}
+.lp_categoryTitle {
+  min-width: 8.75em;
+}
+.lp_addTimePass.button {
+  margin: $fs-1 $fs-1 $fs-1 0;
+}
+.lp_timePass_editorContainer {
+  float: left;
+}
+.lp_timePass_descriptionInput {
+  background-color: #fff;
+  border-radius: 4px;
+  border: 2px solid #dedede;
+  box-shadow: none;
+  height: calc(4em + 4px);
+  line-height: 1;
+  margin: 0;
+  padding: 0.5em;
+}
+.lp_timePassEditor .lp_saveLink {
+  margin-left: 0.5em;
+  margin-left: 0.5em;
+}
+.lp_timePassEditor .lp_toggle_label {
+  width: 3.5em;
+}
+.wp-picker-open {
+  display: none;
+}
+.lp_colorPicker .wp-picker-holder {
+  position: absolute;
+  z-index: $zindex-overlayed_2;
+}
+.wp-color-result {
+  height: $fs-15;
+  margin: 0;
+  padding-left: $fs-1;
+  z-index: $zindex-overlayed_1;
+}
+.iris-picker {
+  z-index: $zindex-overlayed_1;
+}
+.button.button-primary.lp_u_m-l2 {
+  margin-left: $fs-2;
+}
+.lp_bulkPriceUnit.lp_is-disabled {
+  appearance: none;
+  background-color: transparent;
+  border-color: transparent;
+  color: #333;
+}
+.lp_bulkPriceUnit.lp_is-disabled::-ms-expand {
+  display: none;
+}
+.lp_bulkOperation {
+  width: 600px;
+}
+.lp_bulkOperation span {
+  line-height: 2.25em;
+}
+.lp_bulkOperation a {
+  float: right;
+}
+@media (max-width: 1279px) {
+  .lp_editLink {
+    margin-left: $fs-05;
+  }
+  ul.lp_row li:nth-child(3) br {
+    display: none;
+  }
+}
