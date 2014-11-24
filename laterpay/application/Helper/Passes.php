@@ -299,12 +299,14 @@ class LaterPay_Helper_Passes
                 );
                 // excluded categories ( type 1 )
                 $excluded_categories = array();
+
+                // go through passes with access and find covered and excluded categories
                 foreach ( $passes_with_access as $pass_with_access_id ) {
                     $pass_with_access_data = $model->get_pass_data( $pass_with_access_id );
                     $access_category       = $pass_with_access_data['access_category'];
                     $access_type           = $pass_with_access_data['access_to'];
                     if ( $access_type == 2 ) {
-                        $covered_categories['included'][]  = $access_category;
+                        $covered_categories['included'][] = $access_category;
                     } else if ( $access_type == 1 ) {
                         $excluded_categories[] = $access_category;
                     } else {
@@ -312,7 +314,7 @@ class LaterPay_Helper_Passes
                     }
                 }
 
-                // we have full data access except specific categories
+                // if we have full data access except specific categories
                 if ( $excluded_categories ) {
                     foreach ( $excluded_categories as $excluded_category_id ) {
                         // search for excluded category in covered categories
@@ -320,9 +322,12 @@ class LaterPay_Helper_Passes
                         if ( $has_covered_category !== false ) {
                             return array();
                         } else {
+                            //  if more than 1 passes with excluded category purchased, if its values not mached, then
+                            //  all categories covered
                             if ( isset( $covered_categories['excluded'] ) && ( $covered_categories['excluded'] !== $excluded_category_id ) ) {
                                 return array();
                             }
+                            // store the only category not covered
                             $covered_categories['excluded'] = $excluded_category_id;
                         }
                     }
