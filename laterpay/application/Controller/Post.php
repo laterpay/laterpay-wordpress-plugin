@@ -374,6 +374,16 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return (bool) $this->access[ $post_id ];
         }
 
+        // check access with passes
+        $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( $post_id );
+        $passes = LaterPay_Helper_Passes::get_tokenized_passes( $passes_list );
+
+        foreach ( $passes as $pass ) {
+            if ( array_key_exists( $pass, $this->access ) ) {
+                return (bool) $this->access[ $pass ];
+            }
+        }
+
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
         if ( $price != 0 ) {
@@ -385,7 +395,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     $client_options['web_root'],
                     $client_options['token_name']
             );
-            $result = $laterpay_client->get_access( array( $post_id ) );
+            // merge passes and post id arrays before check
+            $result = $laterpay_client->get_access( array_merge( array( $post_id ), $passes ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 $this->logger->warning(
@@ -398,10 +409,17 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 return false;
             }
 
-            if ( array_key_exists( $post_id, $result[ 'articles' ] ) ) {
-                $access = (bool) $result[ 'articles' ][ $post_id ][ 'access' ];
-                $this->access[ $post_id ] = $access;
+            $has_access = false;
 
+            foreach ( $result[ 'articles' ] as $article_key => $article_access ) {
+                $access = (bool) $article_access[ 'access' ];
+                $this->access[ $article_key ] = $access;
+                if ( $access ) {
+                    $has_access = true;
+                }
+            }
+
+            if ( $has_access ) {
                 $this->logger->info(
                     __METHOD__ . ' - post has access',
                     array(
@@ -409,7 +427,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     )
                 );
 
-                return $access;
+                return true;
             }
         }
 
@@ -783,8 +801,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $client_options['web_root'],
                 $client_options['token_name']
         );
-        $identify_link   = $laterpay_client->get_identify_url();
-        $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID() );
+        $identify_link      = $laterpay_client->get_identify_url();
+
+        // get passes list
+        $passes_with_access = $this->get_passes_with_access();
+        $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID(), $passes_with_access );
 
         // assign all required vars to the view templates
         $view_args = array(
@@ -796,7 +817,31 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/identify_iframe' );
-        echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
+        if ( ! ( is_front_page() && is_home() ) ) {
+            echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
+        }
+    }
+
+    /**
+     * Get passes with access allowed
+     *
+     * @return array of pass ids with access
+     */
+    protected function get_passes_with_access() {
+        $access = $this->access;
+        $passes = array();
+
+        // get passes with
+        foreach ( $access as $access_key => $access_value ) {
+            if ( $access_value === true ) {
+                $access_key_exploded = explode( '_', $access_key );
+                if ( $access_key_exploded[0] === LaterPay_Helper_Passes::PASS_TOKEN ) {
+                    $passes[] = $access_key_exploded[1];
+                }
+            }
+        }
+
+        return $passes;
     }
 
     /**

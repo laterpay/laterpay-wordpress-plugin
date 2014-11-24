@@ -241,11 +241,14 @@ class LaterPay_Helper_Passes
     /**
      * Get all tokenized passes ids
      *
+     * @param null   $passes array of passes
+     *
      * @return array $result
      */
-    public static function get_tokenized_passes() {
-        $model = new LaterPay_Model_Pass();
-        $passes = $model->get_all_passes();
+    public static function get_tokenized_passes( $passes = null ) {
+        if ( ! $passes ) {
+            $passes = self::get_all_passes();
+        }
         $result = array();
         foreach ($passes as $pass) {
             $result[] = self::get_tokenized_pass($pass->pass_id);
@@ -256,16 +259,90 @@ class LaterPay_Helper_Passes
 
     /**
      * Get time limited passes for specified post
-     * FIXME: #196 get only required passes
      *
-     * @param int $post_id post ID
+     * @param int    $post_id             post ID
+     * @param null   $passes_with_access  ids of passes with access
+     *
      * @return array $passes_list
      */
-    public static function get_time_passes_list_for_the_post( $post_id ) {
+    public static function get_time_passes_list_for_the_post( $post_id, $passes_with_access = null ) {
         $model = new LaterPay_Model_Pass();
-        $passes_list = $model->get_all_passes();
+
+        // get all post categories
+        $post_categories = get_the_category( $post_id, 'category' );
+        $post_category_ids = null;
+
+        // get category ids
+        foreach( $post_categories as $category ) {
+            $post_category_ids[] = $category->term_id;
+        }
+
+        // get post passes
+        $passes_list = $model->get_post_passes( $post_category_ids );
+
+        // correct result if we have passes purchased
+        if ( $passes_with_access ) {
+            // check if user has access to the current post with pass
+            $has_access = false;
+            foreach ( $passes_list as $pass ) {
+                if ( in_array( $pass->pass_id, $passes_with_access ) ) {
+                    $has_access = true;
+                    break;
+                }
+            }
+
+            if ( $has_access ) {
+                // categories with access ( type 2 )
+                $covered_categories  = array(
+                    'included' => array(),
+                    'excluded' => null,
+                );
+                // excluded categories ( type 1 )
+                $excluded_categories = array();
+                foreach ( $passes_with_access as $pass_with_access_id ) {
+                    $pass_with_access_data = $model->get_pass_data( $pass_with_access_id );
+                    $access_category       = $pass_with_access_data['access_category'];
+                    $access_type           = $pass_with_access_data['access_to'];
+                    if ( $access_type == 2 ) {
+                        $covered_categories['included'][]  = $access_category;
+                    } else if ( $access_type == 1 ) {
+                        $excluded_categories[] = $access_category;
+                    } else {
+                        return array();
+                    }
+                }
+
+                // we have full data access except specific categories
+                if ( $excluded_categories ) {
+                    foreach ( $excluded_categories as $excluded_category_id ) {
+                        // search for excluded category in covered categories
+                        $has_covered_category = array_search( $excluded_category_id, $covered_categories );
+                        if ( $has_covered_category !== false ) {
+                            return array();
+                        } else {
+                            if ( isset( $covered_categories['excluded'] ) && ( $covered_categories['excluded'] !== $excluded_category_id ) ) {
+                                return array();
+                            }
+                            $covered_categories['excluded'] = $excluded_category_id;
+                        }
+                    }
+                }
+
+                // get data without covered categories or only excluded
+                if ( isset( $covered_categories['excluded'] ) ) {
+                    $passes_list = $model->get_post_passes( array( $covered_categories['excluded'] ) );
+                } else {
+                    $passes_list = $model->get_post_passes( $covered_categories['included'], true );
+                }
+            }
+        }
 
         return $passes_list;
+    }
+
+    public static function get_all_passes() {
+        $model = new LaterPay_Model_Pass();
+        return $model->get_all_passes();
     }
     
     /**

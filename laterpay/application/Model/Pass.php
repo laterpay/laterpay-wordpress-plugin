@@ -10,7 +10,7 @@ class LaterPay_Model_Pass
      *
      * @access public
      */
-    public $table;
+    public $passes_table;
 
     /**
      * Constructor for class LaterPay_Model_Pass, load table name.
@@ -18,7 +18,7 @@ class LaterPay_Model_Pass
     function __construct() {
         global $wpdb;
 
-        $this->table = $wpdb->prefix . 'laterpay_passes';
+        $this->passes_table = $wpdb->prefix . 'laterpay_passes';
     }
 
     /**
@@ -35,7 +35,7 @@ class LaterPay_Model_Pass
             SELECT
                 *
             FROM
-                {$this->table}
+                {$this->passes_table}
             WHERE
                 pass_id = %d
             ;
@@ -83,14 +83,14 @@ class LaterPay_Model_Pass
 
         if ( empty($pass_id) ) {
             $wpdb->insert(
-                $this->table,
+                $this->passes_table,
                 $data,
                 $format
             );
             $data['pass_id'] = $wpdb->insert_id;
         } else {
             $wpdb->update(
-                    $this->table,
+                    $this->passes_table,
                     $data,
                     array( 'pass_id' => $pass_id ),
                     $format,
@@ -114,9 +114,51 @@ class LaterPay_Model_Pass
             SELECT
                 *
             FROM
-                {$this->table}
+                {$this->passes_table}
             ORDER
                 BY title
+            ;
+        ";
+
+        $list = $wpdb->get_results( $sql );
+
+        return $list;
+    }
+
+    /**
+     * Get post passes by category ids
+     *
+     * @param null $term_ids array of category ids
+     * @param bool $exclude  exclude categories from list
+     *
+     * @return array list of passes
+     */
+    public function get_post_passes( $term_ids = null, $exclude = null ) {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                *
+            FROM
+                {$this->passes_table} AS pt
+            WHERE
+        ";
+
+        if ( $term_ids ) {
+            $prepared_ids = implode( ',', $term_ids );
+            if ( $exclude ) {
+                $sql .= " pt.access_category NOT IN ( {$prepared_ids} ) ";
+            } else {
+                $sql .= " pt.access_category IN ( {$prepared_ids} ) ";
+            }
+            $sql .= " OR ";
+        }
+
+        $sql .= "
+                pt.access_to = 0
+            ORDER BY
+                pt.access_to DESC,
+                pt.price ASC
             ;
         ";
 
@@ -139,9 +181,9 @@ class LaterPay_Model_Pass
             'pass_id' => (int) $id,
         );
 
-        $success = $wpdb->delete( $this->table, $where, '%d' );
+        $success = $wpdb->delete( $this->passes_table, $where, '%d' );
 
         return $success;
     }
-    
-    }
+}
+
