@@ -28,19 +28,41 @@
             <tr>
                 <th><?php _e( 'Validity', 'laterpay' ) ?></th>
                 <td>
-                    <span class="lp_js_timePassPreviewValidity"><?php _e( '24 hours', 'laterpay' ) ?></span>
+                    <span class="lp_js_timePassPreviewValidity">
+                        <?php echo $laterpay_pass['duration']; ?>
+                        <?php _e( LaterPay_Helper_Passes::$periods[$laterpay_pass['period']] .
+                                ( $laterpay_pass['duration'] > 1 ? 's' : '' ), 'laterpay' ); ?>
+                    </span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Access to', 'laterpay' ) ?></th>
                 <td>
-                    <span class="lp_js_timePassPreviewAccess"><?php _e( 'All content', 'laterpay' ) ?></span>
+                    <span class="lp_js_timePassPreviewAccess">
+                        <?php _e( LaterPay_Helper_Passes::$access_to[$laterpay_pass['access_to']], 'laterpay' ); ?>
+                        <?php switch( $laterpay_pass['access_to'] ) {
+                            case 0:
+                                _e( 'on this website', 'laterpay' );
+                                break;
+
+                            case 1:
+                                $category = get_category( $laterpay_pass['access_category'] );
+                                _e( 'category', 'laterpay' );
+                                echo $category->name;
+                                break;
+
+                            case 2:
+                                $category = get_category( $laterpay_pass['access_category'] );
+                                echo $category->name;
+                                break;
+                        }?>
+                    </span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
                 <td>
-                    <?php _e( 'None', 'laterpay' ); ?>
+                    <?php _e( 'No automatic renewal', 'laterpay' ); ?>
                 </td>
             </tr>
             <tr>

@@ -711,7 +711,7 @@
                 $('input, select, textarea', $timePass)
                 .each(function(i, v) {
                     name = $(v).attr('name');
-                    if (name !== '' && passData[name]) {
+                    if (name !== '' && passData[name] !== undefined) {
                         $(v).val(passData[name]);
                     }
                 });
@@ -723,6 +723,7 @@
             },
 
             updateTimePassPreview = function($timePass, $input) {
+                // insert at least one space to avoid placeholder to collapse
                 var text = ($input.val() !== '') ? $input.val() : ' ';
 
                 if ($input.hasClass($o.timePassDurationClass) || $input.hasClass($o.timePassPeriodClass)) {
@@ -742,7 +743,7 @@
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
                     $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
-                    $o.$o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
+                    $o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
                 } else if ($input.hasClass($o.timePassTitleClass)) {
                     // update pass title in pass preview
                     $($o.timePassPreviewTitle, $timePass).text(text);
@@ -905,7 +906,7 @@
                 $o.bulkPriceObjects.append($('<option>', {
                     value    : 'in_category',
                     text     : lpVars.inCategoryLabel,
-                    selected : !!categoryToBeSelected   // coerce categoryToBeSelected to Boolean
+                    selected : !!categoryToBeSelected // coerce categoryToBeSelected to Boolean
                 }));
             },
 
