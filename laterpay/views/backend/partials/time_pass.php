@@ -30,37 +30,34 @@
             <tr>
                 <th><?php _e( 'Validity', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewValidity"><?php _e( '24 hours', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Access to', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewAccess"><?php _e( 'Everything', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <?php _e( 'None', 'laterpay' ); ?>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Payment', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewPayment"><?php _e( 'When LaterPay invoice reaches 5 Euro', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Price', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
-                </td>
-            </tr>
-            <tr>
-                <th><?php _e( 'Refund', 'laterpay' ) ?></th>
-                <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewPrice">
+                        <?php echo LaterPay_Helper_View::format_number( $laterpay_pass['price'] ) ?>
+                        <?php echo $laterpay['standard_currency']; ?>
+                    </span>
                 </td>
             </tr>
         </table>

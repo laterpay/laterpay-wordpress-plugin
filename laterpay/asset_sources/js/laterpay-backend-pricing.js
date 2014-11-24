@@ -69,6 +69,10 @@
                 timePassDescriptionClass                : 'lp_js_timePassDescriptionTextarea',
                 timePassPreviewTitle                    : '.lp_js_timePassPreviewTitle',
                 timePassPreviewDescription              : '.lp_js_timePassPreviewDescription',
+                timePassPreviewValidity                 : '.lp_js_timePassPreviewValidity',
+                timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
+                timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
+                timePassPreviewPayment                  : '.lp_js_timePassPreviewPayment',
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -697,8 +701,15 @@
                     $($o.timePassPreviewDescription, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
-                    $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
+                    $(['.lp_purchaseLink', $o.timePassPreviewPrice].join(), $timePass)
+                    .html(text + '<small>' + lpVars.defaultCurrency + '</small>');
                 }
+
+
+                // timePassPreviewValidity
+                // timePassPreviewAccess
+                // timePassPreviewPrice
+                // timePassPreviewPayment
             },
 
             cancelEditingTimePass = function($timePass) {
