@@ -859,6 +859,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'title'       => __( LaterPay_Helper_Passes::$defaults['title'], 'laterpay' ),
             'description' => LaterPay_Helper_Passes::get_description(),
             'price'       => LaterPay_Helper_Passes::$defaults['price'],
+            'url'         => '',
         );
 
         $laterpay_pass = array_merge( $defaults, $pass );

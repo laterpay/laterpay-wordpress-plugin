@@ -216,7 +216,7 @@
 
                         <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_clearfix"></div>
 
-                        <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary lp_u_hide"f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary lp_u_hide"><?php _e( 'Save', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_block lp_u_pd-05 lp_u_hide" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_block lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_block lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
