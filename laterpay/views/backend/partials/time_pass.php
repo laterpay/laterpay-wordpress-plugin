@@ -10,15 +10,13 @@
              title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
              data-icon="b"
              data-laterpay="<?php echo $laterpay_pass['url']?>"
-             data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>">
-             <?php
+             data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php
                 echo sprintf(
                     '%s<small>%s</small>',
                     LaterPay_Helper_View::format_number( $laterpay_pass['price'] ),
                     $laterpay['standard_currency']
                 );
-            ?>
-            </a>
+            ?></a>
             <a href="#" class="lp_js_flipTimePass lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>
         </div>
     </section>
@@ -43,12 +41,6 @@
                 <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
                 <td>
                     <?php _e( 'None', 'laterpay' ); ?>
-                </td>
-            </tr>
-            <tr>
-                <th><?php _e( 'Payment', 'laterpay' ) ?></th>
-                <td>
-                    <span class="lp_js_timePassPreviewPayment"><?php _e( 'When LaterPay invoice reaches 5 Euro', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>

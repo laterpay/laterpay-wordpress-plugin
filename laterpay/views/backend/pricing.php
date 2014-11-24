@@ -214,12 +214,12 @@
                             <?php echo $this->render_pass( (array) $pass ); ?>
                         </div>
 
-                        <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_clearfix"></div>
+                        <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_m-t1"></div>
 
                         <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary lp_u_hide"><?php _e( 'Save', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_block lp_u_pd-05 lp_u_hide" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_block lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_block lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_inlineBlock lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a><br>
+                        <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_inlineBlock lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                     </div>
                 <?php endforeach; ?>
 
@@ -228,7 +228,7 @@
                         <?php echo $this->render_pass(); ?>
                     </div>
 
-                    <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer">
+                    <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_m-t1">
                         <form id="lp_js_timePassFormTemplate" class="lp_js_timePassEditor_form lp_timePassEditor_form lp_u_hide lp_u_clearfix" method="post">
                             <input type="hidden" name="form" value="time_pass_form_save">
                             <input type="hidden" name="action" value="laterpay_pricing">
@@ -238,10 +238,10 @@
                             <div class="lp_u_left lp_u_clearfix lp_u_m-r2">
                                 <div class="lp_passRow">
                                     <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
-                                    <select name="duration" id="lp_js_timePass_switchDuration" class="lp_input">
+                                    <select name="duration" class="lp_js_switchTimePassDuration lp_input">
                                         <?php echo LaterPay_Helper_Passes::get_select_durations(); ?>
                                     </select>
-                                    <select name="period" class="lp_input">
+                                    <select name="period" class="lp_js_switchTimePassPeriod lp_input">
                                         <?php echo LaterPay_Helper_Passes::get_select_periods(); ?>
                                     </select>
                                     <?php _e( 'and grants', 'laterpay' ); ?>
@@ -330,9 +330,9 @@
                     </div>
 
                     <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary"><?php _e( 'Save', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_block lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_block lp_u_pd-05 lp_u_hide" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_block lp_u_pd-05 lp_u_hide" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_inlineBlock lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a><br>
+                    <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                 </div>
             </div>
         </div>

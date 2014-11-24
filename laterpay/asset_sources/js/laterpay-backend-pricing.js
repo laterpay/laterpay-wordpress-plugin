@@ -60,6 +60,10 @@
                 timePassFormTemplate                    : $('#lp_js_timePassFormTemplate'),
                 timePassFormId                          : 'lp_js_timePassForm',
                 timePassForm                            : '.lp_js_timePassEditor_form',
+                timePassDuration                        : '.lp_js_switchTimePassDuration',
+                timePassDurationClass                   : 'lp_js_switchTimePassDuration',
+                timePassPeriod                          : '.lp_js_switchTimePassPeriod',
+                timePassPeriodClass                     : 'lp_js_switchTimePassPeriod',
                 timePassTitle                           : '.lp_js_timePassTitleInput',
                 timePassTitleClass                      : 'lp_js_timePassTitleInput',
                 timePassPrice                           : '.lp_js_timePassPriceInput',
@@ -72,7 +76,6 @@
                 timePassPreviewValidity                 : '.lp_js_timePassPreviewValidity',
                 timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
-                timePassPreviewPayment                  : '.lp_js_timePassPreviewPayment',
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -199,7 +202,19 @@
                     toggleTimePassRevenueModel($(this).parents($o.timePassWrapper));
                 });
 
-                // enter title or description
+                // change duration
+                $o.timePassEditor
+                .on('change', $o.timePassDuration, function() {
+                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                });
+
+                // change period
+                $o.timePassEditor
+                .on('change', $o.timePassPeriod, function() {
+                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                });
+
+                // update time pass configuration
                 $o.timePassEditor
                 .on('input', [$o.timePassTitle, $o.timePassDescription].join(), function() {
                     updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
@@ -627,7 +642,7 @@
                 .wpColorPicker({
                     defaultColor    : false,
                     hide            : true,
-                    palettes        : false,
+                    palettes        : true,
                 });
                 $('.wp-color-result').attr('title', '');
 
@@ -653,7 +668,7 @@
                 .wpColorPicker({
                     defaultColor    : false,
                     hide            : true,
-                    palettes        : false,
+                    palettes        : true,
                 });
                 $('.wp-color-result').attr('title', '');
 
@@ -704,13 +719,13 @@
                     // update pass price in pass preview
                     $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
                     $o.$o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
+                } else if ($input.hasClass($o.timePassDurationClass) || $input.hasClass($o.timePassPeriodClass)) {
+                    // update pass validity in pass preview
+                    text =  $($o.timePassDuration, $timePass).val() + ' ' +
+                            $($o.timePassPeriod, $timePass).find('option:selected').text();
+                    $($o.timePassPreviewValidity, $timePass).text(text);
                 }
-
-
-                // timePassPreviewValidity
-                // timePassPreviewAccess
-                // timePassPreviewPrice
-                // timePassPreviewPayment
+                // TODO: timePassPreviewAccess
             },
 
             cancelEditingTimePass = function($timePass) {
@@ -751,7 +766,7 @@
                                 lpVars.time_passes_list[passId] = r.data;
                                 // insert time pass rendered on server
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
-                                
+
                                 // hide action links required when editing time pass
                                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');
                                 // show action links required when displaying time pass
@@ -761,27 +776,27 @@
                                 });
                             } else {
                                 lpVars.time_passes_list[passId] = r.data;
-                                
+
                                 var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
-                                
+
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
                                 $($o.timePassForm, $timePass).remove();
-                                
+
                                 $o.addTimePass.after($newTimePass);
                                 populateTimePassForm($newTimePass);
-                                
+
                                 // hide action links required when editing time pass
                                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass).addClass('lp_u_hide');
                                 // show action links required when displaying time pass
                                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass).removeClass('lp_u_hide');
-                                
+
                                 $timePass.fadeOut(250, function() {
                                     $(this).remove();
                                     $newTimePass.removeClass('lp_u_hide');
                                 });
                             }
                         }
-                        
+
                         if ($o.addTimePass.is(':hidden')) {
                             $o.addTimePass.fadeIn(250);
                         }
