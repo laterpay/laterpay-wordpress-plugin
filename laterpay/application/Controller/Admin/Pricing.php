@@ -821,6 +821,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'title'       => LaterPay_Helper_Passes::$defaults['title'],
             'description' => LaterPay_Helper_Passes::get_description(),
             'price'       => LaterPay_Helper_Passes::$defaults['price'],
+            'url'         => '',
         );
 
         $args = array_merge( $defaults, $args );
