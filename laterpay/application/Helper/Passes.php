@@ -256,7 +256,7 @@ class LaterPay_Helper_Passes
 
         return $result;
     }
-
+    
     /**
      * Get time limited passes for specified post
      *
@@ -278,7 +278,7 @@ class LaterPay_Helper_Passes
         }
 
         // get post passes
-        $passes_list = $model->get_post_passes( $post_category_ids );
+        $passes_list = (array) $model->get_post_passes( $post_category_ids );
 
         // correct result if we have passes purchased
         if ( $passes_with_access ) {
@@ -302,7 +302,7 @@ class LaterPay_Helper_Passes
 
                 // go through passes with access and find covered and excluded categories
                 foreach ( $passes_with_access as $pass_with_access_id ) {
-                    $pass_with_access_data = $model->get_pass_data( $pass_with_access_id );
+                    $pass_with_access_data = (array) $model->get_pass_data( $pass_with_access_id );
                     $access_category       = $pass_with_access_data['access_category'];
                     $access_type           = $pass_with_access_data['access_to'];
                     if ( $access_type == 2 ) {
@@ -342,7 +342,7 @@ class LaterPay_Helper_Passes
             }
         }
 
-        return $passes_list;
+        return (array) $passes_list;
     }
 
     public static function get_all_passes() {
@@ -380,7 +380,6 @@ class LaterPay_Helper_Passes
         );
 
         $url    = get_permalink();
-        $hash   = LaterPay_Helper_Pricing::get_hash_by_url( $url );
 
         // parameters for LaterPay purchase form
         $params = array(
@@ -388,7 +387,7 @@ class LaterPay_Helper_Passes
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::getPassExpiryTime($pass),
             'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
-            'url'           => $url . '&hash=' . $hash,
+            'url'           => $url,
             'title'         => $pass['title'],
         );
 

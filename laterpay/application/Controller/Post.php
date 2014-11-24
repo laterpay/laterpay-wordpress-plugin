@@ -369,19 +369,18 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             )
         );
 
-        // access was already checked
-        if ( array_key_exists( $post_id, $this->access ) ) {
-            return (bool) $this->access[ $post_id ];
-        }
-
         // check access with passes
         $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( $post_id );
         $passes = LaterPay_Helper_Passes::get_tokenized_passes( $passes_list );
-
         foreach ( $passes as $pass ) {
-            if ( array_key_exists( $pass, $this->access ) ) {
-                return (bool) $this->access[ $pass ];
+            if ( array_key_exists( $pass, $this->access ) && $this->access[ $pass ] ) {
+                return true;
             }
+        }
+        
+        // check access for the particular post
+        if ( array_key_exists( $post_id, $this->access ) ) {
+            return (bool) $this->access[ $post_id ];
         }
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
@@ -801,7 +800,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $client_options['web_root'],
                 $client_options['token_name']
         );
-        $identify_link      = $laterpay_client->get_identify_url();
+        $identify_link   = $laterpay_client->get_identify_url();
 
         // get passes list
         $passes_with_access = $this->get_passes_with_access();

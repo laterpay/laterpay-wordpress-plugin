@@ -680,7 +680,7 @@
                 $('input, select, textarea', $timePass)
                 .each(function(i, v) {
                     name = $(v).attr('name');
-                    if (name !== '' && passData[name]) {
+                    if (name !== '' && passData[name] !== undefined) {
                         $(v).val(passData[name]);
                     }
                 });
@@ -703,7 +703,7 @@
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
                     $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
-                    $o.$o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
+                    $o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
                 }
 
 
