@@ -831,10 +831,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $access = $this->access;
         $passes = array();
 
-        // get passes with
+        // get passes with access
         foreach ( $access as $access_key => $access_value ) {
+            // if access granted
             if ( $access_value === true ) {
                 $access_key_exploded = explode( '_', $access_key );
+                // if this is pass key - store pass id
                 if ( $access_key_exploded[0] === LaterPay_Helper_Passes::PASS_TOKEN ) {
                     $passes[] = $access_key_exploded[1];
                 }
