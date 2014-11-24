@@ -34,7 +34,7 @@
             <tr>
                 <th><?php _e( 'Access to', 'laterpay' ) ?></th>
                 <td>
-                    <span class="lp_js_timePassPreviewAccess"><?php _e( 'Everything', 'laterpay' ) ?></span>
+                    <span class="lp_js_timePassPreviewAccess"><?php _e( 'All content', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>

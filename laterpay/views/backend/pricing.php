@@ -206,7 +206,7 @@
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
 
             <div class="lp_js_timePassEditor lp_timePassEditor">
-                <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'Add new Pass', 'laterpay' ); ?></a>
+                <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Pass', 'laterpay' ); ?></a>
 
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_u_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
@@ -236,7 +236,7 @@
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                             <div class="lp_u_left lp_u_clearfix lp_u_m-r2">
-                                <div class="lp_passRow">
+                                <div>
                                     <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
                                     <select name="duration" class="lp_js_switchTimePassDuration lp_input">
                                         <?php echo LaterPay_Helper_Passes::get_select_durations(); ?>
@@ -247,21 +247,21 @@
                                     <?php _e( 'and grants', 'laterpay' ); ?>
                                 </div>
 
-                                <div class="lp_passRow lp_u_clearfix">
+                                <div class="lp_u_clearfix">
                                     <?php _e( 'access to', 'laterpay' ); ?>
-                                    <select name="access_to" id="lp_js_timePass_switchScope" class="lp_u_w-4-5 lp_u_right lp_input">
+                                    <select name="access_to" class="lp_js_switchTimePassScope lp_u_w-4-5 lp_u_right lp_input">
                                         <?php echo LaterPay_Helper_Passes::get_select_access_to(); ?>
                                     </select>
                                 </div>
 
-                                <div class="lp_passRow lp_u_clearfix">
+                                <div class="lp_u_hide lp_u_clearfix">
                                     <?php _e( 'category', 'laterpay' ); ?>
-                                    <select name="access_category" id="lp_js_timePass_switchCategory" class="lp_u_w-4-5 lp_u_right lp_input">
+                                    <select name="access_category" class="lp_js_switchTimePassScopeCategory lp_u_w-4-5 lp_u_right lp_input">
                                         <?php echo LaterPay_Helper_Passes::get_select_access_categories(); ?>
                                     </select>
                                 </div>
 
-                                <div class="lp_passRow lp_u_clearfix">
+                                <div class="lp_u_clearfix">
                                     <?php _e( 'The user pays', 'laterpay' ); ?>
                                     <input type="text"
                                             name="price"
@@ -283,7 +283,7 @@
                             </div>
 
                             <div class="lp_u_left lp_u_clearfix lp_u_m-r2">
-                                <div class="lp_passRow lp_u_clearfix">
+                                <div class="lp_u_clearfix">
                                     <?php _e( 'Title', 'laterpay' ); ?>
                                     <input type="text"
                                             name="title"
@@ -297,7 +297,7 @@
                                     </div>
                                 </div>
 
-                                <div class="lp_passRow lp_u_clearfix">
+                                <div class="lp_u_clearfix">
                                     <span class="lp_u_topAlign">
                                         <?php _e( 'Description', 'laterpay' ); ?>
                                     </span>
@@ -312,7 +312,7 @@
                                     </div>
                                 </div>
 
-                                <div class="lp_passRow lp_u_clearfix">
+                                <div class="lp_u_clearfix">
                                     <?php _e( 'Background', 'laterpay' ); ?>
                                     <label>
                                         <a href="#"><?php _e( 'Choose Image', 'laterpay' ); ?></a>

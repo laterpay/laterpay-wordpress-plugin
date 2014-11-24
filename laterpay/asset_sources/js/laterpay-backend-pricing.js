@@ -64,6 +64,10 @@
                 timePassDurationClass                   : 'lp_js_switchTimePassDuration',
                 timePassPeriod                          : '.lp_js_switchTimePassPeriod',
                 timePassPeriodClass                     : 'lp_js_switchTimePassPeriod',
+                timePassScope                           : '.lp_js_switchTimePassScope',
+                timePassScopeClass                      : 'lp_js_switchTimePassScope',
+                timePassScopeCategory                   : '.lp_js_switchTimePassScopeCategory',
+                timePassScopeCategoryClass              : 'lp_js_switchTimePassScopeCategory',
                 timePassTitle                           : '.lp_js_timePassTitleInput',
                 timePassTitleClass                      : 'lp_js_timePassTitleInput',
                 timePassPrice                           : '.lp_js_timePassPriceInput',
@@ -106,6 +110,7 @@
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
+                hidden                                  : 'lp_u_hide',
             },
 
             bindEvents = function() {
@@ -211,6 +216,17 @@
                 // change period
                 $o.timePassEditor
                 .on('change', $o.timePassPeriod, function() {
+                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                });
+
+                // change scope
+                $o.timePassEditor
+                .on('change', $o.timePassScope, function() {
+                    changeTimePassScope($(this));
+                    updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                });
+                $o.timePassEditor
+                .on('change', $o.timePassScopeCategory, function() {
                     updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
                 });
 
@@ -709,23 +725,31 @@
             updateTimePassPreview = function($timePass, $input) {
                 var text = ($input.val() !== '') ? $input.val() : ' ';
 
-                if ($input.hasClass($o.timePassTitleClass)) {
+                if ($input.hasClass($o.timePassDurationClass) || $input.hasClass($o.timePassPeriodClass)) {
+                    text =  $($o.timePassDuration, $timePass).val() + ' ' +
+                            $($o.timePassPeriod, $timePass).find('option:selected').text();
+                    // update pass validity in pass preview
+                    $($o.timePassPreviewValidity, $timePass).text(text);
+                } else if ($input.hasClass($o.timePassScopeClass) || $input.hasClass($o.timePassScopeCategoryClass)) {
+                    var currentScope = $($o.timePassScope, $timePass).find('option:selected');
+                    text = currentScope.text();
+                    if (currentScope.val() !== '0') {
+                        // append selected category, because scope is restricted to or excludes a specific category
+                        text += ' ' + $($o.timePassScopeCategory, $timePass).find('option:selected').text();
+                    }
+                    // update pass access in pass preview
+                    $($o.timePassPreviewAccess, $timePass).text(text);
+                } else if ($input.hasClass($o.timePassPriceClass)) {
+                    // update pass price in pass preview
+                    $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
+                    $o.$o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
+                } else if ($input.hasClass($o.timePassTitleClass)) {
                     // update pass title in pass preview
                     $($o.timePassPreviewTitle, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassDescriptionClass)) {
                     // update pass description in pass preview
                     $($o.timePassPreviewDescription, $timePass).text(text);
-                } else if ($input.hasClass($o.timePassPriceClass)) {
-                    // update pass price in pass preview
-                    $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
-                    $o.$o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
-                } else if ($input.hasClass($o.timePassDurationClass) || $input.hasClass($o.timePassPeriodClass)) {
-                    // update pass validity in pass preview
-                    text =  $($o.timePassDuration, $timePass).val() + ' ' +
-                            $($o.timePassPeriod, $timePass).find('option:selected').text();
-                    $($o.timePassPreviewValidity, $timePass).text(text);
                 }
-                // TODO: timePassPreviewAccess
             },
 
             cancelEditingTimePass = function($timePass) {
@@ -839,6 +863,17 @@
 
             flipTimePass = function(trigger) {
                 $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
+            },
+
+            changeTimePassScope = function($trigger) {
+                var o = $('option:selected', $trigger).val();
+                if (o === '0') {
+                    // option 'all content'
+                    $($o.timePassScopeCategory).parent('div').addClass($o.hidden);
+                } else {
+                    // option restricts access to or excludes access from specific category
+                    $($o.timePassScopeCategory).parent('div').removeClass($o.hidden);
+                }
             },
 
             toggleTimePassRevenueModel = function($timePass) {
