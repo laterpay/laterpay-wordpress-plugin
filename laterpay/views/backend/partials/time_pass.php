@@ -2,8 +2,8 @@
 
 <div class="lp_timePass" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">
     <section class="lp_timePass__front">
-        <h4 class="lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
-        <p class="lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
+        <h4 class="lp_js_timePassPreviewTitle lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
+        <p class="lp_js_timePassPreviewDescription lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
         <div class="lp_timePass_actions">
             <a href="#"
              class="lp_js_doPurchase lp_purchaseLink lp_button"
