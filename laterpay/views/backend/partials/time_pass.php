@@ -2,8 +2,8 @@
 
 <div class="lp_timePass" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">
     <section class="lp_timePass__front">
-        <h4 class="lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
-        <p class="lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
+        <h4 class="lp_js_timePassPreviewTitle lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
+        <p class="lp_js_timePassPreviewDescription lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
         <div class="lp_timePass_actions">
             <a href="#"
              class="lp_js_doPurchase lp_purchaseLink lp_button"
@@ -14,7 +14,7 @@
              <?php
                 echo sprintf(
                     '%s<small>%s</small>',
-                    number_format_i18n( (float) $laterpay_pass['price'], 2 ),
+                    LaterPay_Helper_View::format_number( $laterpay_pass['price'] ),
                     $laterpay['standard_currency']
                 );
             ?>
@@ -30,37 +30,34 @@
             <tr>
                 <th><?php _e( 'Validity', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewValidity"><?php _e( '24 hours', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Access to', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewAccess"><?php _e( 'Everything', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <?php _e( 'None', 'laterpay' ); ?>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Payment', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewPayment"><?php _e( 'When LaterPay invoice reaches 5 Euro', 'laterpay' ) ?></span>
                 </td>
             </tr>
             <tr>
                 <th><?php _e( 'Price', 'laterpay' ) ?></th>
                 <td>
-                    TODO: show defined terms here
-                </td>
-            </tr>
-            <tr>
-                <th><?php _e( 'Refund', 'laterpay' ) ?></th>
-                <td>
-                    TODO: show defined terms here
+                    <span class="lp_js_timePassPreviewPrice">
+                        <?php echo LaterPay_Helper_View::format_number( $laterpay_pass['price'] ) ?>
+                        <?php echo $laterpay['standard_currency']; ?>
+                    </span>
                 </td>
             </tr>
         </table>
