@@ -312,7 +312,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $post_ids[] = $post->ID;
             }
         }
-        
+
         // check time limited passes
         $passes = LaterPay_Helper_Passes::get_tokenized_passes();
         foreach ( $passes as $pass ) {
@@ -815,10 +815,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
 
         $laterpay_pass = array_merge( $defaults, $pass );
-        if( !empty($laterpay_pass['pass_id']) ) {
-            $laterpay_pass['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link($laterpay_pass['pass_id']);
+        if ( ! empty($laterpay_pass['pass_id'] ) ) {
+            $laterpay_pass['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link( $laterpay_pass['pass_id'] );
         }
-        
+
         $args = array(
             'standard_currency'       => get_option( 'laterpay_currency' ),
             'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),

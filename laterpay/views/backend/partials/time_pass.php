@@ -14,7 +14,7 @@
              <?php
                 echo sprintf(
                     '%s<small>%s</small>',
-                    number_format_i18n( (float) $laterpay_pass['price'], 2 ),
+                    LaterPay_Helper_View::format_number( $laterpay_pass['price'] ),
                     $laterpay['standard_currency']
                 );
             ?>

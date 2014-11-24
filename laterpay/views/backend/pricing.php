@@ -49,11 +49,11 @@
                                         name="laterpay_global_price"
                                         id="lp_js_globalDefaultPrice"
                                         class="lp_js_priceInput lp_input lp_numberInput"
-                                        value="<?php echo $laterpay['global_default_price']; ?>"
+                                        value="<?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?>"
                                         style="display:none;"
-                                        placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
+                                        placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>"
                                         autocomplete="off">
-                                <span id="lp_js_globalDefaultPrice_text"><?php echo $laterpay['global_default_price']; ?></span>
+                                <span id="lp_js_globalDefaultPrice_text"><?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?></span>
                                 <span class="lp_js_currency lp_currency"><?php echo $laterpay['standard_currency']; ?></span>
                             </strong>
                             <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_editLink lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
@@ -216,7 +216,7 @@
 
                         <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_clearfix"></div>
 
-                        <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary lp_u_hide" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary lp_u_hide"f"><?php _e( 'Save', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_block lp_u_pd-05 lp_u_hide" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_block lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_block lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
@@ -265,12 +265,12 @@
                                     <?php _e( 'The user pays', 'laterpay' ); ?>
                                     <input type="text"
                                             name="price"
-                                            class="lp_input lp_numberInput"
-                                            value="<?php echo $laterpay['global_default_price']; ?>">
+                                            class="lp_js_timePassPriceInput lp_input lp_numberInput"
+                                            value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
                                     <?php echo $laterpay['standard_currency']; ?>
                                     <?php _e( 'later', 'laterpay' ); ?><div class="lp_toggle">
                                         <label class="lp_toggle_label lp_toggle_label_pass">
-                                            <input type="checkbox" class="lp_js_toggle_input lp_toggle_input">
+                                            <input type="checkbox" class="lp_js_timePassRevenueModelInput lp_toggle_input">
                                             <input type="hidden"
                                                     name="revenue_model"
                                                     class="lp_js_timePass_toggleRevenueModel"
@@ -303,7 +303,7 @@
                                     </span>
                                     <textarea
                                         name="description"
-                                        class="lp_js_timePassDescriptionTextarea lp_timePass_descriptionInput lp_u_w-2-3"><?php echo LaterPay_Helper_Passes::get_description(); ?></textarea>
+                                        class="lp_js_timePassDescriptionTextarea lp_timePass_descriptionInput lp_input lp_u_w-2-3"><?php echo LaterPay_Helper_Passes::get_description(); ?></textarea>
                                     <div class="lp_colorPicker lp_u_inlineBlock lp_u_right">
                                         <input type="text"
                                                 class="lp_js_colorInput lp_colorInput lp_input"
@@ -329,7 +329,7 @@
                         </form>
                     </div>
 
-                    <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary"><?php _e( 'Save', 'laterpay' ); ?></a>
                     <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_block lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                     <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_block lp_u_pd-05 lp_u_hide" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
                     <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_block lp_u_pd-05 lp_u_hide" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>

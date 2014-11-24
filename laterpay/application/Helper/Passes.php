@@ -121,10 +121,10 @@ class LaterPay_Helper_Passes
         }
 
         $str = strtolower( sprintf(
-                __('%d %s access to %s', 'laterpay'),
+                __( '%d %s access to %s', 'laterpay' ),
                 $duration,
-                __(self::$periods[$period] . 's', 'laterpay'),
-                __(self::$access_to[$access], 'laterpay')
+                __( self::$periods[$period] . 's', 'laterpay' ),
+                __( self::$access_to[$access], 'laterpay' )
         ));
 
         return $str;
@@ -140,9 +140,9 @@ class LaterPay_Helper_Passes
 
         foreach ( self::$durations as $id => $name ) {
             if ( $id == self::$defaults['duration'] ) {
-                $options_html .= "<option selected value='$id'>" . __($name, 'laterpay') . "</option>";
+                $options_html .= "<option selected value='$id'>" . __( $name, 'laterpay' ) . "</option>";
             } else {
-                $options_html .= "<option value='$id'>" . __($name, 'laterpay') . "</option>";
+                $options_html .= "<option value='$id'>" . __( $name, 'laterpay' ) . "</option>";
             }
         }
 
@@ -159,9 +159,9 @@ class LaterPay_Helper_Passes
 
         foreach ( self::$periods as $id => $name ) {
             if ( $id == self::$defaults['period'] ) {
-                $options_html .= "<option selected value='$id'>" . __($name, 'laterpay') . "</option>";
+                $options_html .= "<option selected value='$id'>" . __( $name, 'laterpay' ) . "</option>";
             } else {
-                $options_html .= "<option value='$id'>" . __($name, 'laterpay') . "</option>";
+                $options_html .= "<option value='$id'>" . __( $name, 'laterpay' ) . "</option>";
             }
         }
 
@@ -178,9 +178,9 @@ class LaterPay_Helper_Passes
 
         foreach ( self::$access_to as $id => $name ) {
             if ( $id == self::$defaults['access_to'] ) {
-                $options_html .= "<option selected value='$id'>" . __($name, 'laterpay') . "</option>";
+                $options_html .= "<option selected value='$id'>" . __( $name, 'laterpay' ) . "</option>";
             } else {
-                $options_html .= "<option value='$id'>" . __($name, 'laterpay') . "</option>";
+                $options_html .= "<option value='$id'>" . __( $name, 'laterpay' ) . "</option>";
             }
         }
 
@@ -228,18 +228,18 @@ class LaterPay_Helper_Passes
 
         return $categories;
     }
-    
+
     /**
-     * Get tokenized pass id
+     * Get tokenized pass id.
      *
      * @return array $result
      */
-    public static function get_tokenized_pass($pass_id) {
-        return sprintf('%s_%s', self::PASS_TOKEN , $pass_id);
+    public static function get_tokenized_pass( $pass_id ) {
+        return sprintf( '%s_%s', self::PASS_TOKEN , $pass_id );
     }
 
     /**
-     * Get all tokenized passes ids
+     * Get all tokenized pass ids.
      *
      * @return array $result
      */
@@ -255,10 +255,11 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get time limited passes for specified post
+     * Get time passes for specified post.
      * FIXME: #196 get only required passes
      *
      * @param int $post_id post ID
+     *
      * @return array $passes_list
      */
     public static function get_time_passes_list_for_the_post( $post_id ) {
@@ -267,7 +268,7 @@ class LaterPay_Helper_Passes
 
         return $passes_list;
     }
-    
+
     /**
      * Get the LaterPay purchase link for a time pass.
      *
@@ -275,10 +276,10 @@ class LaterPay_Helper_Passes
      *
      * @return string url || empty string if something went wrong
      */
-    public static function get_laterpay_purchase_link($pass_id) {
+    public static function get_laterpay_purchase_link( $pass_id ) {
         $time_pass_model = new LaterPay_Model_Pass();
-        
-        $pass = (array) $time_pass_model->get_pass_data($pass_id);
+
+        $pass = (array) $time_pass_model->get_pass_data( $pass_id );
         if ( empty($pass) ) {
             return '';
         }
@@ -318,29 +319,35 @@ class LaterPay_Helper_Passes
             return $client->get_add_url( $params );
         }
     }
-    
+
     /**
-     * 
-     * 
+     * FIXME: #196 add documentation
+     *
      * @param array $pass
      */
-    protected static function getPassExpiryTime($pass) {
-        $timestamp = time();
-        $time = 0;
-        switch ($pass['period']) {
-            case 3: // Monthes
-                $time = $pass['duration'] * 60*60*24*31;
+    protected static function getPassExpiryTime( $pass ) {
+        $timestamp  = time();
+        $time       = 0;
+
+        switch ( $pass['period'] ) {
+            // months
+            case 3:
+                $time = $pass['duration'] * 60 * 60 * 24 * 31;
                 break;
-            case 4: // Years
-                $time = $pass['duration'] * 60*60*24*365;
+
+            // years
+            case 4:
+                $time = $pass['duration'] * 60 * 60 * 24 * 365;
                 break;
+
             default :
                 $period = self::$periods[$pass['period']];
-                if ( $pass['duration'] > 1) {
+                if ( $pass['duration'] > 1 ) {
                     $period .= 's';
                 }
-                $time = strtotime( strtolower('+' . $pass['duration'] . ' ' . $period) ) - $timestamp;
+                $time = strtotime( strtolower( '+' . $pass['duration'] . ' ' . $period ) ) - $timestamp;
         }
+
         return $time;
     }
 

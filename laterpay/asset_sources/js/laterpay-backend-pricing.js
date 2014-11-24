@@ -57,12 +57,14 @@
                 timePassEditor                          : $('.lp_js_timePassEditor'),
                 timePassTemplate                        : $('#lp_js_timePassTemplate'),
                 timePassWrapper                         : '.lp_js_timePassWrapper',
-                            addTimePassWrapper                      : $('.lp_js_addTimePassWrapper'),
                 timePassFormTemplate                    : $('#lp_js_timePassFormTemplate'),
                 timePassFormId                          : 'lp_js_timePassForm',
                 timePassForm                            : '.lp_js_timePassEditor_form',
                 timePassTitle                           : '.lp_js_timePassTitleInput',
                 timePassTitleClass                      : 'lp_js_timePassTitleInput',
+                timePassPrice                           : '.lp_js_timePassPriceInput',
+                timePassPriceClass                      : 'lp_js_timePassPriceInput',
+                timePassRevenueModel                    : '.lp_js_timePassRevenueModelInput',
                 timePassDescription                     : '.lp_js_timePassDescriptionTextarea',
                 timePassDescriptionClass                : 'lp_js_timePassDescriptionTextarea',
                 timePassPreviewTitle                    : '.lp_js_timePassPreviewTitle',
@@ -189,7 +191,7 @@
 
                 // toggle revenue model
                 $o.timePassEditor
-                .on('change', '.lp_js_toggle_input', function() {
+                .on('change', $o.timePassRevenueModel, function() {
                     toggleTimePassRevenueModel($(this).parents($o.timePassWrapper));
                 });
 
@@ -198,6 +200,14 @@
                 .on('input', [$o.timePassTitle, $o.timePassDescription].join(), function() {
                     updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
                 });
+
+                // enter price
+                $o.timePassEditor
+                .on('keyup', $o.timePassPrice, debounce(function() {
+                        validatePrice($(this).parents('form'));
+                        updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
+                    }, 800)
+                );
 
                 // cancel
                 $o.timePassEditor
@@ -654,7 +664,7 @@
 
             populateTimePassForm = function($timePass) {
                 var passData    = lpVars.time_passes_list.pass_id,
-                    $toggle     = $('.lp_js_toggle_input', $timePass),
+                    $toggle     = $('.lp_js_timePassRevenueModelInput', $timePass),
                     name        = '';
 
                 if (!passData) {
@@ -677,12 +687,17 @@
             },
 
             updateTimePassPreview = function($timePass, $input) {
-                var text = $input.val() || ' ';
+                var text = ($input.val() !== '') ? $input.val() : ' ';
 
                 if ($input.hasClass($o.timePassTitleClass)) {
+                    // update pass title in pass preview
                     $($o.timePassPreviewTitle, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassDescriptionClass)) {
+                    // update pass description in pass preview
                     $($o.timePassPreviewDescription, $timePass).text(text);
+                } else if ($input.hasClass($o.timePassPriceClass)) {
+                    // update pass price in pass preview
+                    $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
                 }
             },
 
@@ -740,8 +755,10 @@
                             // show action links required when displaying time pass
                             $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
 
-                            // hide time pass form
-                            $o.addTimePassWrapper.addClass('lp_u_hide');
+                            // show "add time pass" button, if it is hidden
+                            if ($o.addTimePass.is(':hidden')) {
+                                $o.addTimePass.fadeIn(250);
+                            }
                         }
                         setMessage(r.message, r.success);
                     },
@@ -782,7 +799,7 @@
             },
 
             toggleTimePassRevenueModel = function($timePass) {
-                var $toggle         = $('.lp_js_toggle_input', $timePass),
+                var $toggle         = $('.lp_js_timePassRevenueModelInput', $timePass),
                     $input          = $('.lp_js_timePass_toggleRevenueModel', $timePass),
                     hasRevenueModel = $toggle.prop('checked'),
                     singleSale      = 'sis',
