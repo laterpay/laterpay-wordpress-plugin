@@ -5,3 +5,4 @@ laterpay/built_assets/
 laterpay/sftp-config.json
 nbproject/
 node_modules/
+.gulp
