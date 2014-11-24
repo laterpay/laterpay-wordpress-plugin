@@ -701,8 +701,8 @@
                     $($o.timePassPreviewDescription, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
-                    $(['.lp_purchaseLink', $o.timePassPreviewPrice].join(), $timePass)
-                    .html(text + '<small>' + lpVars.defaultCurrency + '</small>');
+                    $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
+                    $o.$o.timePassPreviewPrice.text(text + ' ' + lpVars.defaultCurrency);
                 }
 
 
@@ -757,8 +757,7 @@
                                 });
                             }
 // TODO: complete this
-                            // remove "unsaved" class
-                            $($o.timePassForm, $timePass).removeClass($o.unsaved);
+
 
                             // hide action links required when editing time pass
                             $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');
@@ -778,31 +777,34 @@
             },
 
             deleteTimePass = function($timePass) {
-                // fade out and remove time pass
-                $timePass
-                .fadeOut({
-                    duration: 400,
-                    start: function() {
-                        $.post(
-                            ajaxurl,
-                            {
-                                action  : 'laterpay_pricing',
-                                form    : 'time_pass_delete',
-                                pass_id : $timePass.data('pass-id'),
-                            },
-                            function(r) {
-                                if (r.success) {
-                                    $(this).remove();
-                                    // TODO: unbind events
-                                } else {
-                                    $(this).stop().show();
-                                }
-                                setMessage(r.message, r.success);
-                            },
-                            'json'
-                        );
-                    }
-                });
+                // require confirmation
+                if (confirm(lpVars.i18n.confirmDeleteTimePass)) {
+                    // fade out and remove time pass
+                    $timePass
+                    .fadeOut({
+                        duration: 400,
+                        start: function() {
+                            $.post(
+                                ajaxurl,
+                                {
+                                    action  : 'laterpay_pricing',
+                                    form    : 'time_pass_delete',
+                                    pass_id : $timePass.data('pass-id'),
+                                },
+                                function(r) {
+                                    if (r.success) {
+                                        $(this).remove();
+                                        // TODO: unbind events
+                                    } else {
+                                        $(this).stop().show();
+                                    }
+                                    setMessage(r.message, r.success);
+                                },
+                                'json'
+                            );
+                        }
+                    });
+                }
             },
 
             flipTimePass = function(trigger) {

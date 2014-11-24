@@ -37,14 +37,17 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_enqueue_script( 'laterpay-select2' );
         wp_enqueue_script( 'laterpay-backend-pricing' );
 
-        // translations for bulk price editor
+        // translations
         $i18n = array(
+            // bulk price editor
             'to'                        => __( 'to', 'laterpay' ),
             'by'                        => __( 'by', 'laterpay' ),
             'toGlobalDefaultPrice'      => __( 'to global default price of', 'laterpay' ),
             'toCategoryDefaultPrice'    => __( 'to category default price of', 'laterpay' ),
             'updatePrices'              => __( 'Update Prices', 'laterpay' ),
             'delete'                    => __( 'Delete', 'laterpay' ),
+            // bulk price editor
+            'confirmDeleteTimePass'     => __( 'Are you sure? This can not be undone.', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
@@ -824,7 +827,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
 
         $args = array_merge( $defaults, $args );
-        
+
         if( !empty($args['pass_id']) ) {
             $args['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link($args['pass_id']);
         }
