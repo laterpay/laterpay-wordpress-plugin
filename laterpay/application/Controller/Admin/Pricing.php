@@ -46,7 +46,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'toCategoryDefaultPrice'    => __( 'to category default price of', 'laterpay' ),
             'updatePrices'              => __( 'Update Prices', 'laterpay' ),
             'delete'                    => __( 'Delete', 'laterpay' ),
-            // bulk price editor
+            // time pass editor
             'confirmDeleteTimePass'     => __( 'Are you sure? This can not be undone.', 'laterpay' ),
         );
 
@@ -862,7 +862,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     'success' => true,
                     'data'    => $data,
                     'html'    => $this->render_pass($data),
-                    'message' => __( 'Pass was successfully saved.', 'laterpay' ),
+                    'message' => __( 'Pass saved.', 'laterpay' ),
                 )
             );
         }
@@ -891,14 +891,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => true,
-                    'message' => __( 'Pass was successfully saved.', 'laterpay' ),
+                    'message' => __( 'Pass deleted.', 'laterpay' ),
                 )
             );
         } else {
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'Selected pass already deleted.', 'laterpay' ),
+                    'message' => __( 'The selected pass was deleted already.', 'laterpay' ),
                 )
             );
         }
