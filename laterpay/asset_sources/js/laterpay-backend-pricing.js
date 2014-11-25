@@ -82,10 +82,14 @@
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
 
                 // vouchers
-                voucherPriceInput                       : $('.lp_js_voucherPriceInput'),
-                voucherGenerateCodeLink                 : $('.lp_js_generateVoucherCode'),
-                voucherPlaceholder                      : $('.lp_js_voucherPlaceholder'),
-                voucherDeleteLink                       : $('.lp_js_voucherDeleteLink'),
+                voucherPriceInput                       : '.lp_js_voucherPriceInput',
+                voucherGenerateCodeLink                 : '.lp_js_generateVoucherCode',
+                voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
+                voucherDeleteLink                       : '.lp_js_voucherDeleteLink',
+                voucherRows                             : '.lp_js_timePass_editorContainer .lp_js_voucherRow',
+                voucherEditor                           : '.lp_js_voucherEditor',
+                voucherHiddenPassId                     : $('#lp_js_timePassEditor_hiddenPassId'),
+                voucherHiddenVoucherCodes               : $('#lp_js_timePassEditor_hiddenVoucherCodes'),
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -280,9 +284,20 @@
 
                 // vouchers events -------------------------------------------------------------------------------------
                 // generate code
-                $o.voucherGenerateCodeLink
-                .on('click', function() {
+                $('body')
+                .on('mousedown', $o.voucherGenerateCodeLink, function() {
                     generateVoucherCode();
+                })
+                .on('click', $o.voucherGenerateCodeLink, function(e) {
+                    e.preventDefault();
+                });
+
+                $('body')
+                .on('mousedown', $o.voucherDeleteLink, function() {
+                    deleteVoucherCode($(this).parent());
+                })
+                .on('click', $o.voucherDeleteLink, function(e) {
+                    e.preventDefault();
                 });
 
                 // bulk price editor events ----------------------------------------------------------------------------
@@ -794,6 +809,15 @@
             },
 
             saveTimePass = function($timePass) {
+                // set vouchers to the form
+                var voucherCodes = [];
+
+                $timePass.find($o.voucherRows).each( function() {
+                    voucherCodes.push($(this).data());
+                });
+
+                $o.voucherHiddenVoucherCodes.val(JSON.stringify(voucherCodes));
+
                 $.post(
                     ajaxurl,
                     $($o.timePassForm, $timePass).serializeArray(),
@@ -921,17 +945,43 @@
             },
 
             addVoucherRow = function( code ) {
-                var operation = '<p class="lp_voucherRow" ' +
-                    'data-price="' + $o.voucherPriceInput.val() + '" ' +
-                    + 'data-code="' + code + '">' +
-                    '<input type="text" disabled="disabled" value="' + code + '" > ' +
-                    '<span>' + lpVars.i18n.voucherText + $o.voucherPriceInput.val() + lpVars.defaultCurrency + '</span>' +
-                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" data-icon="g">' +
+                var operation = '<p class="' + 'lp_js_voucherRow' +
+                    '" data-price="' + $($o.voucherPriceInput).val() +
+                    '" data-code="' + code + '">' +
+                    '<input type="text" class="lp_input" style="width:5em;" disabled="disabled" value="' + code + '" > ' +
+                    '<span>' + lpVars.i18n.voucherText + ' ' + $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency + '</span>' +
+                    '<a href="#" class="lp_js_voucherDeleteLink lp_editLink lp_deleteLink" data-icon="g">' +
                     lpVars.i18n.delete +
                     '</a>' +
                     '</p>';
 
-                $o.voucherPlaceholder.append(operation);
+                $($o.voucherPlaceholder).append(operation);
+            },
+
+            deleteVoucherCode = function(item) {
+                var passId = $o.voucherHiddenPassId.val();
+                var code   = item.data('code');
+
+                // just remove code if pass not created yet
+                if ( ! passId || passId === '0' ) {
+                    item.remove();
+                    return;
+                }
+
+                $.post(
+                    ajaxurl,
+                    {
+                        form    : 'delete_voucher_code',
+                        action  : 'laterpay_pricing',
+                        pass_id : passId,
+                        code    : code
+                    },
+                    function(r) {
+                        if( r.success ) {
+                            item.remove();
+                        }
+                    }
+                );
             },
 
             applyBulkOperation = function(data) {

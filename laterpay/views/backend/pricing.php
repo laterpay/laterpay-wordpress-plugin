@@ -232,8 +232,8 @@
                         <form id="lp_js_timePassFormTemplate" class="lp_js_timePassEditor_form lp_timePassEditor_form lp_u_hide lp_u_clearfix" method="post">
                             <input type="hidden" name="form" value="time_pass_form_save">
                             <input type="hidden" name="action" value="laterpay_pricing">
-                            <input type="hidden" name="pass_id" value="0">
-                            <input type="hidden" name="voucher_codes" value="">
+                            <input type="hidden" name="pass_id" value="0" id="lp_js_timePassEditor_hiddenPassId">
+                            <input type="hidden" name="voucher_codes" value="" id="lp_js_timePassEditor_hiddenVoucherCodes">
                             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                             <div class="lp_timePass_formColumn">
@@ -332,8 +332,8 @@
                             </div>
                         </form>
 
-                        <div>
-                            <div class="lp">
+                        <div class="lp_js_voucherEditor">
+                            <div>
                                 <span class="lp_voucher_price_label"><?php _e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?></span>
                                 <input type="text"
                                        name="voucher_price"
