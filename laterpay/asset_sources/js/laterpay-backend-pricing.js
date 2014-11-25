@@ -89,7 +89,6 @@
                 vouchers                             : '.lp_js_timePass_editorContainer .lp_js_voucherRow',
                 voucherEditor                           : '.lp_js_voucherEditor',
                 voucherHiddenPassId                     : $('#lp_js_timePassEditor_hiddenPassId'),
-                voucherHiddenVoucherCodes               : $('#lp_js_timePassEditor_hiddenVoucherCodes'),
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -807,15 +806,6 @@
             },
 
             saveTimePass = function($timePass) {
-                // set vouchers to the form
-                var voucherCodes = [];
-
-                $timePass.find($o.vouchers).each(function() {
-                    voucherCodes.push($(this).data());
-                });
-
-                $o.voucherHiddenVoucherCodes.val(JSON.stringify(voucherCodes));
-
                 $.post(
                     ajaxurl,
                     $($o.timePassForm, $timePass).serializeArray(),
@@ -944,9 +934,8 @@
 
             addVoucher = function(code) {
                 var price   = $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow" ' +
-                                        'data-price="' + price + '" ' +
-                                        'data-code="' + code + '">' +
+                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow"' + '" data-code="' + code + '">' +
+                                    '<input type="hidden" name="voucher[]" value="' + code + '|' + $($o.voucherPriceInput).val() + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                     '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
