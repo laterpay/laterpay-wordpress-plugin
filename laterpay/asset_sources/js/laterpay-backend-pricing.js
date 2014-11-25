@@ -688,11 +688,11 @@
 
                 // show time pass
                 $timePass
-                .fadeIn(250, function() {
+                .slideDown(250, function() {
                     $(this).removeClass('lp_u_hide');
                 })
                     .find($o.timePassForm)
-                    .fadeIn(250, function() {
+                    .slideDown(250, function() {
                         $(this).removeClass('lp_u_hide');
                     });
             },
@@ -871,8 +871,8 @@
                 if (confirm(lpVars.i18n.confirmDeleteTimePass)) {
                     // fade out and remove time pass
                     $timePass
-                    .fadeOut({
-                        duration: 400,
+                    .slideUp({
+                        duration: 250,
                         start: function() {
                             $.post(
                                 ajaxurl,
