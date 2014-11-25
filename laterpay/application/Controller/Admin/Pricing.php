@@ -48,6 +48,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'delete'                    => __( 'Delete', 'laterpay' ),
             // time pass editor
             'confirmDeleteTimePass'     => __( 'Are you sure? This can not be undone.', 'laterpay' ),
+            'voucherText'               => __( 'allows purchasing this pass for'),
         );
 
         // pass localized strings and variables to script
@@ -189,6 +190,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
                 case 'time_pass_delete':
                     $this->pass_delete();
+                    break;
+
+                case 'generate_voucher_code':
+                    $this->generate_voucher_code();
+                    break;
+
+                case 'delete_voucher_code':
+                    $this->delete_voucher_code();
                     break;
 
                 default:
@@ -907,7 +916,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     /**
      * Get JSON array of passes list with defaults.
      *
-     * @return void
+     * @return array
      */
     private function get_passes_json( $passes_list = null ) {
         $passes_array = array( 0 => LaterPay_Helper_Passes::$defaults );
@@ -922,4 +931,36 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         return $passes_array;
     }
 
+    /**
+     * Get generated voucher code
+     *
+     * @return void
+     */
+    private function generate_voucher_code() {
+
+        // generate voucher code
+        $voucher_code = LaterPay_Helper_Passes::generate_voucher_code();
+        wp_send_json(
+            array(
+                'success' => true,
+                'code'    => $voucher_code,
+            )
+        );
+    }
+
+    /**
+     * Save voucher codes
+     *
+     * @return void
+     */
+    private function delete_voucher_code() {
+
+        $pass_id       = $_POST['pass_id'];
+        $voucher_codes = $_POST['codes'];
+
+        // get voucher codes
+        $stored_vouchers = get_option( 'laterpay_voucher_codes' );
+        var_dump( $stored_vouchers );
+        // add new codes
+    }
 }
