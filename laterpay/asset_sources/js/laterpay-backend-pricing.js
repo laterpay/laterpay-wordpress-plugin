@@ -81,6 +81,12 @@
                 timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
 
+                // vouchers
+                voucherPriceInput                       : $('.lp_js_voucherPriceInput'),
+                voucherGenerateCodeLink                 : $('.lp_js_generateVoucherCode'),
+                voucherPlaceholder                      : $('.lp_js_voucherPlaceholder'),
+                voucherDeleteLink                       : $('.lp_js_voucherDeleteLink'),
+
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
                 bulkPriceFormHiddenField                : $('#lp_js_bulkPriceEditor_hiddenFormInput'),
@@ -271,6 +277,13 @@
                     flipTimePass(this);
                 })
                 .on('click', '.lp_js_flipTimePass', function(e) {e.preventDefault();});
+
+                // vouchers events -------------------------------------------------------------------------------------
+                // generate code
+                $o.voucherGenerateCodeLink
+                .on('click', function() {
+                    generateVoucherCode();
+                });
 
                 // bulk price editor events ----------------------------------------------------------------------------
                 // select action or objects
@@ -890,6 +903,35 @@
                 } else {
                     $input.val(payPerUse);
                 }
+            },
+
+            generateVoucherCode = function() {
+                $.post(
+                    ajaxurl,
+                    {
+                        form   : 'generate_voucher_code',
+                        action : 'laterpay_pricing'
+                    },
+                    function(r) {
+                        if( r.success ) {
+                            addVoucherRow( r.code );
+                        }
+                    }
+                );
+            },
+
+            addVoucherRow = function( code ) {
+                var operation = '<p class="lp_voucherRow" ' +
+                    'data-price="' + $o.voucherPriceInput.val() + '" ' +
+                    + 'data-code="' + code + '">' +
+                    '<input type="text" disabled="disabled" value="' + code + '" > ' +
+                    '<span>' + lpVars.i18n.voucherText + $o.voucherPriceInput.val() + lpVars.defaultCurrency + '</span>' +
+                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" data-icon="g">' +
+                    lpVars.i18n.delete +
+                    '</a>' +
+                    '</p>';
+
+                $o.voucherPlaceholder.append(operation);
             },
 
             applyBulkOperation = function(data) {

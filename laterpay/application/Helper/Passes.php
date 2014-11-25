@@ -3,7 +3,8 @@
 class LaterPay_Helper_Passes
 {
 
-    const PASS_TOKEN = 'tlp';
+    const PASS_TOKEN    = 'tlp';
+    const VOUCHER_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
      /**
      * Default time range. Used during passes creation.
@@ -431,4 +432,16 @@ class LaterPay_Helper_Passes
         return $time;
     }
 
+    public static function generate_voucher_code( $length = 6 ) {
+        $voucher_code  = '';
+        $possibleChars = self::VOUCHER_CHARS;
+
+        for ( $i = 0; $i < $length; $i++ ) {
+            mt_srand();
+            $rand = mt_rand( 0, strlen( $possibleChars ) - 1 );
+            $voucher_code .= substr( $possibleChars, $rand, 1 );
+        }
+
+        return $voucher_code;
+    }
 }
