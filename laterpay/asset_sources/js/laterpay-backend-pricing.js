@@ -657,8 +657,7 @@
                 $('.lp_js_colorInput', $timePass)
                 .wpColorPicker({
                     defaultColor    : false,
-                    hide            : true,
-                    palettes        : true,
+                    palettes        : ['#e11d21', '#eb6420', '#fbca04', '#009800', '#006b75', '#207de5', '#0052cc'],
                 });
                 $('.wp-color-result').attr('title', '');
 
@@ -683,8 +682,7 @@
                 $('.lp_js_colorInput', $timePass)
                 .wpColorPicker({
                     defaultColor    : false,
-                    hide            : true,
-                    palettes        : true,
+                    palettes        : ['#e11d21', '#eb6420', '#fbca04', '#009800', '#006b75', '#207de5', '#0052cc'],
                 });
                 $('.wp-color-result').attr('title', '');
 
