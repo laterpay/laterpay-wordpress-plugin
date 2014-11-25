@@ -19,9 +19,9 @@ class LaterPay_Helper_Passes
         'price'             => 0.99,
         'revenue_model'     => 'ppu',
         'title'             => '24-Hour Pass',
-        'title_color'       => '#3f3f3f',
+        'title_color'       => '#444',
         'description'       => '',
-        'description_color' => '#3f3f3f',
+        'description_color' => '#444',
         'background_path'   => '',
         'background_color'  => '#fff',
     );
