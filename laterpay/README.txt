@@ -40,6 +40,32 @@ You may also change the plugin's currency and apply a dynamic pricing scheme to 
   E.g. you can offer a breaking news post for 0.49 Euro for the first two days and then automatically reduce the price
   to 0.05 Euro until the fith day to increase your sales.
 
+With time passes, you can sell time-limited access to all the LaterPay content
+* on your entire website
+* in a specific category
+* on your entire website except from a specific category.
+The user will have access to all the covered content during the validity period and afterwards, this access will expire automatically.
+Time passes are displayed within a dedicated sidebar widget that automatically sorts available time passes by relevance.
+Be careful when deleting a time pass: Users, who have bought the respective time pass, will lose the access to the covered content. Deleted time passes cannot be restored.
+
+For each time pass, you can create any number of voucher codes that enable your users to purchase a time pass for a reduced price.
+You can choose, if a voucher code should set an absolute price for the respective time pass or if its price should be reduced by a certain percentage.
+A user can enter a voucher code in the time pass sidebar widget by clicking "I have a voucher". The price for the respective time pass will then be updated.
+Voucher codes are not user specific and can be used for any number of times until you delete them. Deleting a voucher code will not affect the access to time passes which have already been purchased with this code.
+
+The plugin also comes with a mighty bulk price editor: It allows you to change many prices at once by
+* making all posts free
+* setting one specific price for all posts
+* increasing or decreasing the prices of all posts by a specific percentage or absolute amount
+* resetting all posts to the global default price
+Whenever possible, the plugin will maintain the current pricing structure: So if possible, after a bulk action
+* posts with individual price will still use the individual price
+* posts with category default price will still use the category default price and
+* posts with global default price will still use the global default price.
+
+If you change all prices by a certain percentage, the lower limit is always 0.05 EUR - so rounding will never accidentally make posts free.
+
+
 = Presentation =
 * LaterPay button: Each post with a price > 0.00 Euro automatically contains a LaterPay button at the beginning of the
   post content. You can choose to not show this button and instead render it from within your theme by calling
@@ -55,8 +81,15 @@ You have the choice between two presentation modes for your teaser content:
 * Teaser + overlay: This mode shows the teaser, an excerpt of the full content under a semi-transparent overlay
      that briefly explains LaterPay's benefits. The plugin never loads the full content before a user has bought it.
 
+The plugin provides two shortcodes that will allow you to sell additional content directly from within another post:
+
+* [laterpay_premium_download] renders a 300px x 300px box containing information about a linked premium content and a LaterPay purchase button. A user can purchase the linked content directly via this shortcode. You can sell attachments from your WordPress media library or other posts via a shortcode. If a user purchases an attachment via a shortcode, it will be downloaded after the purchase. If he purchases another post, he will be redirected to that post after the purchase.
+* [laterpay_box_wrapper] aligns multiple [laterpay_premim_download] boxes.
+Please note: Shortcodes and the respective parameters are extensively documented in the "appearance" tab.
+
 Furthermore, the plugin provides:
 
+* Content Rating: If you enable content rating, users who have purchased a post, will be able to rate it on a five star scale. Users, who haven't bought a post yet will see a summary of all prior ratings below the LaterPay purchase button.
 * LaterPay invoice indicator: The plugin provides a code snippet you can insert into your theme that displays
   the user's current LaterPay invoice total and provides a direct link to his LaterPay user backend.
   You don't have to integrate this snippet, but we recommend it for transparency reasons.
