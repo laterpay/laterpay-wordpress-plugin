@@ -332,18 +332,17 @@
                             </div>
                         </form>
 
-                        <div class="lp_js_voucherEditor">
-                            <div>
-                                <span class="lp_voucher_price_label"><?php _e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?></span>
-                                <input type="text"
-                                       name="voucher_price"
-                                       class="lp_js_voucherPriceInput lp_input lp_numberInput"
-                                       value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
-                                <span><?php echo $laterpay['standard_currency']; ?></span>
-                                <a class="lp_js_generateVoucherCode button button-primary" href="#"><?php _e( 'Generate voucher code', 'laterpay' ); ?></a>
-                            </div>
-                            <div class="lp_js_voucherPlaceholder"></div>
+                        <div class="lp_js_voucherEditor lp_voucherEditor lp_u_clearfix">
+                            <span class="lp_voucher_price_label"><?php _e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?></span>
+                            <input type="text"
+                                   name="voucher_price"
+                                   class="lp_js_voucherPriceInput lp_input lp_numberInput"
+                                   value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
+                            <span><?php echo $laterpay['standard_currency']; ?></span>
+                            <a class="lp_js_generateVoucherCode button button-primary lp_u-m-l1" data-icon="c"><?php _e( 'Generate voucher code', 'laterpay' ); ?></a>
+                            <div class="lp_js_voucherPlaceholder lp_u_m-t1"></div>
                         </div>
+
                     </div>
 
                     <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary"><?php _e( 'Save', 'laterpay' ); ?></a>

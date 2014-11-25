@@ -83,10 +83,10 @@
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
-                voucherGenerateCodeLink                 : '.lp_js_generateVoucherCode',
+                generateVoucherCode                     : '.lp_js_generateVoucherCode',
                 voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
-                voucherDeleteLink                       : '.lp_js_voucherDeleteLink',
-                voucherRows                             : '.lp_js_timePass_editorContainer .lp_js_voucherRow',
+                voucherDeleteLink                       : '.lp_js_deleteVoucher',
+                vouchers                             : '.lp_js_timePass_editorContainer .lp_js_voucherRow',
                 voucherEditor                           : '.lp_js_voucherEditor',
                 voucherHiddenPassId                     : $('#lp_js_timePassEditor_hiddenPassId'),
                 voucherHiddenVoucherCodes               : $('#lp_js_timePassEditor_hiddenVoucherCodes'),
@@ -282,21 +282,19 @@
                 })
                 .on('click', '.lp_js_flipTimePass', function(e) {e.preventDefault();});
 
-                // vouchers events -------------------------------------------------------------------------------------
-                // generate code
-                $('body')
-                .on('mousedown', $o.voucherGenerateCodeLink, function() {
+                // generate voucher code
+                $o.timePassEditor
+                .on('mousedown', $o.generateVoucherCode, function() {
                     generateVoucherCode();
                 })
-                .on('click', $o.voucherGenerateCodeLink, function(e) {
+                .on('click', $o.generateVoucherCode, function(e) {
                     e.preventDefault();
                 });
 
-                $('body')
-                .on('mousedown', $o.voucherDeleteLink, function() {
-                    deleteVoucherCode($(this).parent());
-                })
+                // delete voucher code
+                $o.timePassEditor
                 .on('click', $o.voucherDeleteLink, function(e) {
+                    deleteVoucher($(this).parent());
                     e.preventDefault();
                 });
 
@@ -812,7 +810,7 @@
                 // set vouchers to the form
                 var voucherCodes = [];
 
-                $timePass.find($o.voucherRows).each( function() {
+                $timePass.find($o.vouchers).each(function() {
                     voucherCodes.push($(this).data());
                 });
 
@@ -937,34 +935,37 @@
                         action : 'laterpay_pricing'
                     },
                     function(r) {
-                        if( r.success ) {
-                            addVoucherRow( r.code );
+                        if (r.success) {
+                            addVoucher(r.code);
                         }
                     }
                 );
             },
 
-            addVoucherRow = function( code ) {
-                var operation = '<p class="' + 'lp_js_voucherRow' +
-                    '" data-price="' + $($o.voucherPriceInput).val() +
-                    '" data-code="' + code + '">' +
-                    '<input type="text" class="lp_input" style="width:5em;" disabled="disabled" value="' + code + '" > ' +
-                    '<span>' + lpVars.i18n.voucherText + ' ' + $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency + '</span>' +
-                    '<a href="#" class="lp_js_voucherDeleteLink lp_editLink lp_deleteLink" data-icon="g">' +
-                    lpVars.i18n.delete +
-                    '</a>' +
-                    '</p>';
+            addVoucher = function(code) {
+                var price   = $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency,
+                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow" ' +
+                                        'data-price="' + price + '" ' +
+                                        'data-code="' + code + '">' +
+                                    '<span class="lp_voucherCodeLabel">' + code + '</span>' +
+                                    lpVars.i18n.voucherText + ' ' + price +
+                                    '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
+                                        lpVars.i18n.delete +
+                                    '</a>' +
+                                '</div>';
 
-                $($o.voucherPlaceholder).append(operation);
+                $($o.voucherPlaceholder).append(voucher);
             },
 
-            deleteVoucherCode = function(item) {
-                var passId = $o.voucherHiddenPassId.val();
-                var code   = item.data('code');
+            deleteVoucher = function(item) {
+                var passId = $o.voucherHiddenPassId.val(),
+                    code   = item.data('code');
 
-                // just remove code if pass not created yet
-                if ( ! passId || passId === '0' ) {
-                    item.remove();
+                // fade out and remove voucher, if pass was not created yet
+                if (!passId || passId === '0') {
+                    item.fadeOut(400, function() {
+                        $(this).remove();
+                    });
                     return;
                 }
 
@@ -974,11 +975,14 @@
                         form    : 'delete_voucher_code',
                         action  : 'laterpay_pricing',
                         pass_id : passId,
-                        code    : code
+                        code    : code,
                     },
                     function(r) {
-                        if( r.success ) {
-                            item.remove();
+                        if (r.success) {
+                            // fade out and remove voucher
+                            item.fadeOut(400, function() {
+                                $(this).remove();
+                            });
                         }
                     }
                 );
