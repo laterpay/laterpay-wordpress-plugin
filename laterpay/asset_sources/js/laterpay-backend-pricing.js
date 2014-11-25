@@ -844,9 +844,11 @@
                                 populateTimePassForm($newTimePass);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass).addClass('lp_u_hide');
+                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass)
+                                .addClass('lp_u_hide');
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass).removeClass('lp_u_hide');
+                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass)
+                                .removeClass('lp_u_hide');
 
                                 $timePass.fadeOut(250, function() {
                                     $(this).remove();
@@ -941,7 +943,7 @@
 
             addVoucher = function(code) {
                 var price   = $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow"' + '" data-code="' + code + '">' +
+                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow"' + '" data-code="' + code + '" style="display:none;">' +
                                     '<input type="hidden" name="voucher[]" value="' + code + '|' + $($o.voucherPriceInput).val() + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     lpVars.i18n.voucherText + ' ' + price +
@@ -950,18 +952,19 @@
                                     '</a>' +
                                 '</div>';
 
-                $($o.voucherPlaceholder).append(voucher);
+                $($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
 
-            deleteVoucher = function(item) {
+            deleteVoucher = function($item) {
                 var passId = $o.voucherHiddenPassId.val(),
-                    code   = item.data('code');
+                    code   = $item.data('code');
 
-                // fade out and remove voucher, if pass was not created yet
+                // slide up and remove voucher, if pass was not created yet
                 if (!passId || passId === '0') {
-                    item.fadeOut(400, function() {
+                    $item.slideUp(250, function() {
                         $(this).remove();
                     });
+
                     return;
                 }
 
@@ -975,8 +978,8 @@
                     },
                     function(r) {
                         if (r.success) {
-                            // fade out and remove voucher
-                            item.fadeOut(400, function() {
+                            // slide up and remove voucher
+                            $item.slideUp(250, function() {
                                 $(this).remove();
                             });
                         }

@@ -209,7 +209,7 @@
                 <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Pass', 'laterpay' ); ?></a>
 
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
-                    <div class="lp_js_timePassWrapper lp_u_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
+                    <div class="lp_js_timePassWrapper lp_timePassWrapper lp_u_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
                         <div class="lp_js_timePassPreview lp_u_left">
                             <?php echo $this->render_pass( (array) $pass ); ?>
                         </div>
@@ -223,7 +223,7 @@
                     </div>
                 <?php endforeach; ?>
 
-                <div id="lp_js_timePassTemplate" class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_u_clearfix lp_u_hide" data-pass-id="0">
+                <div id="lp_js_timePassTemplate" class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_timePassWrapper lp_u_clearfix lp_u_hide" data-pass-id="0">
                     <div class="lp_js_timePassPreview lp_u_left">
                         <?php echo $this->render_pass(); ?>
                     </div>
@@ -355,17 +355,22 @@
                                 </tr>
                             </table>
 
-                            <hr class="lp_u_m-1-0">
+                            <hr>
 
                             <div class="lp_js_voucherEditor lp_voucherEditor">
-                                <span class="lp_voucher_price_label"><?php _e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?></span>
+                                <?php _e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?>
                                 <input type="text"
                                        name="voucher_price"
                                        class="lp_js_voucherPriceInput lp_input lp_numberInput"
                                        value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
                                 <span><?php echo $laterpay['standard_currency']; ?></span>
-                                <a class="lp_js_generateVoucherCode lp_u-m-l1" data-icon="c"><?php _e( 'Generate voucher code', 'laterpay' ); ?></a>
-                                <div class="lp_js_voucherPlaceholder lp_u_m-t1"></div>
+                                <a href="#" class="lp_js_generateVoucherCode lp_editLink lp_addLink" data-icon="c">
+                                    <?php _e( 'Generate voucher code', 'laterpay' ); ?>
+                                </a>
+
+                                <hr>
+
+                                <div class="lp_js_voucherPlaceholder"></div>
                             </div>
 
                         </form>
