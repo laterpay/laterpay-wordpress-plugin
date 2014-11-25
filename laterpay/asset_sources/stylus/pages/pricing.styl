@@ -42,17 +42,17 @@ span.lp_revenueModelLabel
     margin                  $fs-1 $fs-1 $fs-1 0
 
 .lp_timePass_editorContainer
-    float                   left
+    display                 inline-block
+    vertical-align          top
 
     .lp_timePass_formColumn
-        float               left
+        display             inline-block
         margin-right        $fs-2
+        vertical-align      top
 
-    .lp_timePass_formRow
-        margin-bottom       $fs-05
-
-    .lp_timePass_label
-        white-space         nowrap
+        td
+            padding         0
+            vertical-align  middle
 
     .lp_timePass_descriptionInput
         height              3em
@@ -87,7 +87,6 @@ span.lp_revenueModelLabel
 
 // voucher editor
 .lp_voucherEditor
-    border-top              1px solid $border
     margin-top              $fs-1
     padding                 $fs-1 0
 

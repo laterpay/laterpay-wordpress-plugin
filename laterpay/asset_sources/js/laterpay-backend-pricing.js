@@ -86,7 +86,7 @@
                 generateVoucherCode                     : '.lp_js_generateVoucherCode',
                 voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
                 voucherDeleteLink                       : '.lp_js_deleteVoucher',
-                vouchers                             : '.lp_js_timePass_editorContainer .lp_js_voucherRow',
+                vouchers                                : '.lp_js_timePass_editorContainer .lp_js_voucherRow',
                 voucherEditor                           : '.lp_js_voucherEditor',
                 voucherHiddenPassId                     : $('#lp_js_timePassEditor_hiddenPassId'),
 
@@ -743,6 +743,13 @@
                 if (passData.revenue_model === 'sis') {
                     $toggle.prop('checked', true);
                 }
+
+                // show category select, if required
+                var $currentScope = $($o.timePassScope, $timePass).find('option:selected');
+                if ($currentScope.val() !== '0') {
+                    // show category select, because scope is restricted to or excludes a specific category
+                    $($o.timePassScopeCategory, $timePass).show();
+                }
             },
 
             updateTimePassPreview = function($timePass, $input) {
@@ -896,10 +903,10 @@
                 var o = $('option:selected', $trigger).val();
                 if (o === '0') {
                     // option 'all content'
-                    $($o.timePassScopeCategory).parent('div').addClass($o.hidden);
+                    $($o.timePassScopeCategory).hide();
                 } else {
                     // option restricts access to or excludes access from specific category
-                    $($o.timePassScopeCategory).parent('div').removeClass($o.hidden);
+                    $($o.timePassScopeCategory).show();
                 }
             },
 
