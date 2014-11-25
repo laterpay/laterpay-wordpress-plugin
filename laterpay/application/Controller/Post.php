@@ -377,7 +377,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 return true;
             }
         }
-        
+
         // check access for the particular post
         if ( array_key_exists( $post_id, $this->access ) ) {
             return (bool) $this->access[ $post_id ];
@@ -862,7 +862,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
 
         $laterpay_pass = array_merge( $defaults, $pass );
-        if ( ! empty($laterpay_pass['pass_id'] ) ) {
+        if ( ! empty( $laterpay_pass['pass_id'] ) ) {
             $laterpay_pass['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link( $laterpay_pass['pass_id'] );
         }
 

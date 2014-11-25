@@ -39,15 +39,24 @@ span.lp_revenueModelLabel
 
 // time passes ---------------------------------------------------------------------------------------------------------
 .lp_addTimePass.button
-    margin                 $fs-1 $fs-1 $fs-1 0
+    margin                  $fs-1 $fs-1 $fs-1 0
 
 .lp_timePass_editorContainer
     float                   left
 
-.lp_timePass_descriptionInput
-    height                  3em
+    .lp_timePass_formColumn
+        float               left
+        margin-right        $fs-2
 
-.lp_timePassEditor
+    .lp_timePass_formRow
+        margin-bottom       $fs-05
+
+    .lp_timePass_label
+        white-space         nowrap
+
+    .lp_timePass_descriptionInput
+        height              3em
+
     .lp_saveLink
         margin-top          1em
         margin-left         0.5em
@@ -55,22 +64,21 @@ span.lp_revenueModelLabel
     .lp_toggle_label
         width               3.5em
 
-// color picker
-.lp_colorPicker
-    // ...
+    .lp_colorPicker
+        float               right
 
-.lp_timePassEditor_colorInput
-    // ...
+        .wp-picker-holder
+            position        absolute
+            z-index         $zindex-overlayed_2
+
+    .lp_timePassEditor_colorInput
+        // ...
 
 .wp-picker-open
     display                 none
-.lp_colorPicker .wp-picker-holder
-    position                absolute
-    z-index                 $zindex-overlayed_2
 
 .wp-color-result
-    height                  $fs-15
-    margin                  0
+    height                  calc(2em + 4px)
     padding-left            $fs-1
     z-index                 $zindex-overlayed_1
 

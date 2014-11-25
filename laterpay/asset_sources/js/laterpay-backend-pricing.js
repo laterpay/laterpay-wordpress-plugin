@@ -725,8 +725,11 @@
                 var text = ($input.val() !== '') ? $input.val() : ' ';
 
                 if ($input.hasClass($o.timePassDurationClass) || $input.hasClass($o.timePassPeriodClass)) {
-                    text =  $($o.timePassDuration, $timePass).val() + ' ' +
-                            $($o.timePassPeriod, $timePass).find('option:selected').text();
+                    var duration    = $($o.timePassDuration, $timePass).val(),
+                        period      = $($o.timePassPeriod, $timePass).find('option:selected').text();
+                    // pluralize period (TODO: internationalize properly)
+                    period  = (parseInt(duration, 10) > 1) ? period + 's' : period;
+                    text    = duration + ' ' + period;
                     // update pass validity in pass preview
                     $($o.timePassPreviewValidity, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassScopeClass) || $input.hasClass($o.timePassScopeCategoryClass)) {

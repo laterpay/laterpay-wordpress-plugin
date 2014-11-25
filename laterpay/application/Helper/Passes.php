@@ -79,7 +79,7 @@ class LaterPay_Helper_Passes
      */
     public static $access_to = array(
         'All content',
-        'All content except for',
+        'All content except for category',
         'All content in category',
     );
 
@@ -256,7 +256,7 @@ class LaterPay_Helper_Passes
 
         return $result;
     }
-    
+
     /**
      * Get time limited passes for specified post
      *

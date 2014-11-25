@@ -40,14 +40,13 @@
                 <td>
                     <span class="lp_js_timePassPreviewAccess">
                         <?php _e( LaterPay_Helper_Passes::$access_to[$laterpay_pass['access_to']], 'laterpay' ); ?>
-                        <?php switch( $laterpay_pass['access_to'] ) {
+                        <?php switch ( $laterpay_pass['access_to'] ) {
                             case 0:
                                 _e( 'on this website', 'laterpay' );
                                 break;
 
                             case 1:
                                 $category = get_category( $laterpay_pass['access_category'] );
-                                _e( 'category', 'laterpay' );
                                 echo $category->name;
                                 break;
 
