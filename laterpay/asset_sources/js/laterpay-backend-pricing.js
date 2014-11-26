@@ -926,7 +926,7 @@
                 }
             },
 
-            generateVoucherCode = function($pass) {
+            generateVoucherCode = function($timePass) {
                 $.post(
                     ajaxurl,
                     {
@@ -935,13 +935,13 @@
                     },
                     function(r) {
                         if (r.success) {
-                            addVoucher(r.code, $pass);
+                            addVoucher(r.code, $timePass);
                         }
                     }
                 );
             },
 
-            addVoucher = function(code, $pass) {
+            addVoucher = function(code, $timePass) {
                 var price   = $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency,
                     voucher =   '<div class="lp_js_voucherRow lp_voucherRow" ' + 'data-code="' + code + '" style="display:none;">' +
                                     '<input type="hidden" name="voucher[]" value="' + code + '|' + $($o.voucherPriceInput).val() + '">' +
@@ -952,7 +952,7 @@
                                     '</a>' +
                                 '</div>';
 
-                $pass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
+                $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
 
             deleteVoucher = function($item, $wrapper) {
