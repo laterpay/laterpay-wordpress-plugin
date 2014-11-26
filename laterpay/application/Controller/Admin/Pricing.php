@@ -66,8 +66,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'defaultCurrency'       => get_option( 'laterpay_currency' ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_passes_json( $passes_list ),
-                'vouchers_list'         => $this->get_passes_json( $vouchers_list ),
-                'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);',
+                'vouchers_list'         => json_encode( $vouchers_list ),
+                'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
+                                            lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);',
             )
         );
     }
@@ -96,6 +97,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
         $passes_list                = (array) $passes_model->get_all_passes();
+        $vouchers_list              = LaterPay_Helper_Vouchers::get_all_vouchers();
 
         $view_args = array(
             'top_nav'                               => $this->get_menu(),
@@ -106,6 +108,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'global_default_price'                  => number_format( (float) get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
             'passes_list'                           => $passes_list,
+            'vouchers_list'                         => $vouchers_list,
             'bulk_actions'                          => $bulk_actions,
             'bulk_selectors'                        => $bulk_selectors,
             'bulk_categories'                       => $bulk_categories,
@@ -876,8 +879,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 array(
                     'success'  => true,
                     'data'     => $data,
-                    'vouchers' => LaterPay_Helper_Vouchers::get_all_vouchers(),
-                    'html'     => $this->render_pass($data),
+                    'vouchers' => LaterPay_Helper_Vouchers::get_pass_vouchers( $data['pass_id'] ),
+                    'html'     => $this->render_pass( $data ),
                     'message'  => __( 'Pass saved.', 'laterpay' ),
                 )
             );
@@ -951,33 +954,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             array(
                 'success' => true,
                 'code'    => $voucher_code,
-            )
-        );
-    }
-
-    /**
-     * Save voucher codes
-     *
-     * @return void
-     */
-    private function delete_voucher_code() {
-
-        // get data
-        $pass_id = $_POST['pass_id'];
-        $code    = $_POST['code'];
-
-        if ( $pass_id && $code ) {
-            LaterPay_Helper_Vouchers::delete_voucher_code( $pass_id, $code );
-            wp_send_json(
-                array(
-                    'success' => true,
-                )
-            );
-        }
-
-        wp_send_json(
-            array(
-                'success' => false,
             )
         );
     }

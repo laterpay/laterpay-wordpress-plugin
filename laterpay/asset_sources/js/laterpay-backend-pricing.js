@@ -88,6 +88,8 @@
                 voucherDeleteLink                       : '.lp_js_deleteVoucher',
                 voucherEditor                           : '.lp_js_voucherEditor',
                 voucherHiddenPassId                     : '#lp_js_timePassEditor_hiddenPassId',
+                voucherList                             : '.lp_js_voucherList',
+                voucherCode                             : '.lp_js_voucherCode',
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -292,7 +294,7 @@
                 // delete voucher code
                 $o.timePassEditor
                 .on('click', $o.voucherDeleteLink, function(e) {
-                    deleteVoucher($(this).parent(), $(this).parents($o.timePassWrapper));
+                    deleteVoucher($(this).parent());
                     e.preventDefault();
                 });
 
@@ -637,7 +639,6 @@
                                                     action  : 'laterpay_pricing'
                                                 },
                                                 function(data) {
-                                                    console.log(data);
                                                     if (data && data[0] !== undefined) {
                                                         var term = data[0];
                                                         callback({text: term.name});
@@ -700,6 +701,10 @@
                 // insert cloned form into current time pass editor container
                 var $timePassForm = $o.timePassFormTemplate.clone().attr('id', $o.timePassFormId);
                 $('.lp_js_timePass_editorContainer', $timePass).html($timePassForm);
+
+                // hide vouchers
+                $timePass.find($o.voucherList).hide();
+
                 populateTimePassForm($timePass);
 
                 // load WordPress color picker
@@ -722,6 +727,7 @@
             populateTimePassForm = function($timePass) {
                 var passId      = $timePass.data('pass-id'),
                     passData    = lpVars.time_passes_list[passId],
+                    vouchers    = lpVars.vouchers_list[passId],
                     $toggle     = $('.lp_js_timePassRevenueModelInput', $timePass),
                     name        = '';
 
@@ -748,6 +754,13 @@
                 if ($currentScope.val() !== '0') {
                     // show category select, because scope is restricted to or excludes a specific category
                     $($o.timePassScopeCategory, $timePass).show();
+                }
+
+                // load vouchers if exists
+                if (vouchers instanceof Object) {
+                    $.each(vouchers, function(code, priceValue) {
+                        addVoucher(code, priceValue, $timePass);
+                    });
                 }
             },
 
@@ -786,6 +799,9 @@
             },
 
             cancelEditingTimePass = function($timePass) {
+                // show vouchers
+                $timePass.find($o.voucherList).show();
+
                 if ($($o.timePassForm, $timePass).hasClass($o.unsaved)) {
                     // remove entire time pass, if it is a new, unsaved pass
                     $timePass.fadeOut(250, function() {
@@ -819,7 +835,20 @@
                         if (r.success) {
                             // form has been saved
                             var passId = r.data.pass_id;
-                            lpVars.vouchers_list = r.vouchers;
+                            // update vouchers
+                            lpVars.vouchers_list[passId] = r.vouchers;
+                            // clear vouchers list
+                            clearVouchersList($timePass);
+                            // set new data to vouchers list
+                            if (lpVars.vouchers_list[passId] instanceof Object) {
+                                $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                    addVoucherCodeToList(code, priceValue, $timePass);
+                                });
+
+                                // show vouchers
+                                $timePass.find($o.voucherList).show();
+                            }
+
                             if (lpVars.time_passes_list[passId]) {
                                 lpVars.time_passes_list[passId] = r.data;
                                 // insert time pass rendered on server
@@ -941,10 +970,10 @@
                 );
             },
 
-            addVoucher = function(code, $timePass) {
-                var price   = $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency,
+            addVoucher = function(code, priceValue, $timePass) {
+                var price   = priceValue + ' ' + lpVars.defaultCurrency,
                     voucher =   '<div class="lp_js_voucherRow lp_voucherRow" ' + 'data-code="' + code + '" style="display:none;">' +
-                                    '<input type="hidden" name="voucher[]" value="' + code + '|' + $($o.voucherPriceInput).val() + '">' +
+                                    '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                     '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
@@ -955,36 +984,24 @@
                 $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
 
-            deleteVoucher = function($item, $wrapper) {
-                var passId = $wrapper.find($o.voucherHiddenPassId).val(),
-                    code   = $item.data('code');
-
+            deleteVoucher = function($item) {
                 // slide up and remove voucher, if pass was not created yet
-                if (!passId || passId === '0') {
-                    $item.slideUp(250, function() {
-                        $(this).remove();
-                    });
+                $item.slideUp(250, function() {
+                    $(this).remove();
+                });
+            },
 
-                    return;
-                }
+            clearVouchersList = function($timePass) {
+                $timePass.find($o.voucherCode).remove();
+            },
 
-                $.post(
-                    ajaxurl,
-                    {
-                        form    : 'delete_voucher_code',
-                        action  : 'laterpay_pricing',
-                        pass_id : passId,
-                        code    : code,
-                    },
-                    function(r) {
-                        if (r.success) {
-                            // slide up and remove voucher
-                            $item.slideUp(250, function() {
-                                $(this).remove();
-                            });
-                        }
-                    }
-                );
+            addVoucherCodeToList = function(code, price, $timePass) {
+                var codeHtml = '<div class="lp_js_voucherCode">' +
+                                   '<p>' + code + '</p>' +
+                                   '<p>(' + price + ' ' + lpVars.defaultCurrency + ')</p>' +
+                               '</div>';
+
+                $timePass.find($o.voucherList).append(codeHtml);
             },
 
             applyBulkOperation = function(data) {
