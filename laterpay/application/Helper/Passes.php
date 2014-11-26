@@ -140,9 +140,9 @@ class LaterPay_Helper_Passes
 
         foreach ( self::$durations as $id => $name ) {
             if ( $id == self::$defaults['duration'] ) {
-                $options_html .= "<option selected value='$id'>" . __( $name, 'laterpay' ) . "</option>";
+                $options_html .= '<option selected="selected" value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             } else {
-                $options_html .= "<option value='$id'>" . __( $name, 'laterpay' ) . "</option>";
+                $options_html .= '<option value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             }
         }
 
@@ -159,9 +159,9 @@ class LaterPay_Helper_Passes
 
         foreach ( self::$periods as $id => $name ) {
             if ( $id == self::$defaults['period'] ) {
-                $options_html .= "<option selected value='$id'>" . __( $name, 'laterpay' ) . "</option>";
+                $options_html .= '<option selected="selected" value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             } else {
-                $options_html .= "<option value='$id'>" . __( $name, 'laterpay' ) . "</option>";
+                $options_html .= '<option value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             }
         }
 
@@ -178,9 +178,9 @@ class LaterPay_Helper_Passes
 
         foreach ( self::$access_to as $id => $name ) {
             if ( $id == self::$defaults['access_to'] ) {
-                $options_html .= "<option selected value='$id'>" . __( $name, 'laterpay' ) . "</option>";
+                $options_html .= '<option selected="selected" value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             } else {
-                $options_html .= "<option value='$id'>" . __( $name, 'laterpay' ) . "</option>";
+                $options_html .= '<option value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             }
         }
 
@@ -193,14 +193,19 @@ class LaterPay_Helper_Passes
      * @return [type] [description]
      */
     public static function get_select_access_categories() {
-        $options_html = '';
-        $categories = self::get_wp_categories(array());
+        $options_html   = '';
+        $categories     = self::get_wp_categories( array() );
+        $i              = 0;
         foreach ( $categories as $category ) {
-            if ( $category->term_id == self::$defaults['access_category'] ) {
-                $options_html .= "<option selected value='{$category->term_id}'>{$category->name}</option>";
+            if ( $i == 0 && empty( self::$defaults['access_category'] ) ) {
+                // select the first option by default
+                $options_html .= '<option selected="selected" value="' . $category->term_id . '">' . $category->name . '</option>';
+            } else if ( $category->term_id == self::$defaults['access_category'] ) {
+                $options_html .= '<option selected="selected" value="' . $category->term_id . '">' . $category->name . '</option>';
             } else {
-                $options_html .= "<option value='{$category->term_id}'>{$category->name}</option>";
+                $options_html .= '<option value="' . $category->term_id . '">' . $category->name . '</option>';
             }
+            $i++;
         }
 
         return $options_html;
