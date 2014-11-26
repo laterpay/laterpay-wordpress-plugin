@@ -48,7 +48,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'delete'                    => __( 'Delete', 'laterpay' ),
             // time pass editor
             'confirmDeleteTimePass'     => __( 'Are you sure? This can not be undone.', 'laterpay' ),
-            'voucherText'               => __( 'allows purchasing this pass for'),
+            'voucherText'               => __( 'allows purchasing this pass for', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
