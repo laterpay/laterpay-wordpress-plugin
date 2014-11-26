@@ -964,7 +964,7 @@
                     },
                     function(r) {
                         if (r.success) {
-                            addVoucher(r.code, $timePass);
+                            addVoucher(r.code, $timePass.find($o.voucherPriceInput).val(), $timePass);
                         }
                     }
                 );
