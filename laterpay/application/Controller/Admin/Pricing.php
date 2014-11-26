@@ -47,7 +47,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'updatePrices'              => __( 'Update Prices', 'laterpay' ),
             'delete'                    => __( 'Delete', 'laterpay' ),
             // time pass editor
-            'confirmDeleteTimePass'     => __( 'Are you sure? This can not be undone.', 'laterpay' ),
+            'confirmDeleteTimePass'     => __( 'Every user, who owns this pass, will lose his access.', 'laterpay' ),
             'voucherText'               => __( 'allows purchasing this pass for'),
         );
 
