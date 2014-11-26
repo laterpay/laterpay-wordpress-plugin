@@ -223,11 +223,11 @@
 
                         <?php if ( isset( $laterpay['vouchers_list'][ $pass->pass_id ] ) ) : ?>
                             <div class="lp_js_voucherList">
-                                <p><?php _e( 'Active Voucher Codes', 'laterpay' ); ?></p>
                                 <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ): ?>
-                                    <div class="lp_js_voucherCode">
-                                        <p><?php echo $voucher_code; ?></p>
-                                        <p>(<?php echo $voucher_price; ?> <?php echo $laterpay['standard_currency']; ?>)</p>
+                                    <div class="lp_js_voucher lp_voucherRow">
+                                        <span class="lp_voucherCodeLabel"><?php echo $voucher_code; ?></span>
+                                        <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
+                                        <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
@@ -392,6 +392,8 @@
                     <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_inlineBlock lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
                     <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a><br>
                     <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+
+                    <div class="lp_js_voucherList"></div>
                 </div>
             </div>
         </div>
