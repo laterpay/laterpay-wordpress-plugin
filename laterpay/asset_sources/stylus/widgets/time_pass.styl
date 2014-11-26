@@ -143,9 +143,94 @@
 
 // sidebar widget ------------------------------------------------------------------------------------------------------
 /**
- * Time pass widget
+ * time pass widget
 */
-.lp_timePass_widget
+.lp_timePassWidget
+    background              $background-lightest
     position                absolute
     top                     50%
     z-index                 $zindex-overlayed_1
+
+    .lp_timePass
+        display             block
+        margin              $fs-1
+
+        &:last-child
+            margin-bottom   0
+
+/**
+ * voucher code section
+ *
+ * 1. By default, only a hint text is visible
+ * 2. The input is transparent and overlayed over the hint text
+ * 3. When the input is focused, it is rendered like an input, the hint text is hidden, and the button is shown
+ */
+.lp_timePassWidget_voucherCodeWrapper
+    margin                  $fs-1
+    position                relative
+
+/**
+ * input for voucher code
+ */
+.lp_timePassWidget_voucherCode
+    background              transparent
+    border                  2px solid transparent
+    color                   transparent
+    cursor                  pointer
+    font-size               $fs-15
+    padding                 $fs-075 $fs-1 $fs-075 3.5em
+    position                absolute /* 2 */
+    width                   100%
+    z-index                 $zindex-overlayed_2 /* 2 */
+
+    &:focus
+        -moz-appearance     none
+        -webkit-appearance  none
+        background          $background-lightest
+        border              2px solid $clickable-highlight /* 3 */
+        border-radius       5px
+        color               $text /* 3 */
+        cursor              normal
+
+        /* hide / show siblings, when the voucher input is focused */
+        ~ .lp_timePassWidget_voucherCodeHint
+            visibility      hidden /* 3 */
+
+        ~ .lp_timePassWidget_voucherCodeInputHint
+            display         block /* 3 */
+            font-size       $fs-15
+            position        absolute
+            z-index         $zindex-overlayed_3
+
+        ~ .lp_timePassWidget_redeemVoucherCode
+            background      $clickable
+            border-radius   4px
+            color           $text-inverse
+            display         inline-block /* 3 */
+            position        absolute
+            padding         $fs-05 $fs-1
+            right           $fs-05
+            top             $fs-05
+            z-index         $zindex-overlayed_2
+
+            &:hover,
+            &:focus,
+            &:active
+                background  $clickable-highlight
+
+.lp_timePassWidget_voucherCodeHint
+    color                   $clickable
+    display                 block  /* 1 */
+    margin                  0
+    visibility              visible /* 1 */
+
+.lp_timePassWidget_voucherCodeInputHint
+    color                   $text-lighter
+    display                 none
+    padding                 $fs-075 $fs-1
+
+/**
+ * button for redeeming voucher code
+ */
+.lp_timePassWidget_redeemVoucherCode
+    display                 none
