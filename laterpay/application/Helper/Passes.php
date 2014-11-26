@@ -268,17 +268,21 @@ class LaterPay_Helper_Passes
     public static function get_time_passes_list_for_the_post( $post_id, $passes_with_access = null ) {
         $model = new LaterPay_Model_Pass();
 
-        // get all post categories
-        $post_categories = get_the_category( $post_id, 'category' );
-        $post_category_ids = null;
+        if ( $post_id !== null ) {
+            // get all post categories
+            $post_categories = get_the_category( $post_id );
+            $post_category_ids = null;
 
-        // get category ids
-        foreach( $post_categories as $category ) {
-            $post_category_ids[] = $category->term_id;
+            // get category ids
+            foreach( $post_categories as $category ) {
+                $post_category_ids[] = $category->term_id;
+            }
+
+            // get post passes
+            $passes_list = (array) $model->get_post_passes( $post_category_ids );
+        } else {
+            $passes_list = (array) $model->get_post_passes();
         }
-
-        // get post passes
-        $passes_list = (array) $model->get_post_passes( $post_category_ids );
 
         // correct result if we have passes purchased
         if ( $passes_with_access ) {

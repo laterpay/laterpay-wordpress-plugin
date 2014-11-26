@@ -603,27 +603,27 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function the_time_passes_widget() {
+        // get passes list
+        $passes_with_access = $this->get_passes_with_access();
+        $is_homepage        = is_front_page() && is_home();
+
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable() ) {
-            return;
+        if ( ! LaterPay_Helper_Pricing::is_purchasable() || $is_homepage ) {
+            $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( null, $passes_with_access );
+        } else {
+            $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID(), $passes_with_access );
         }
 
-        $post = get_post();
+        $view_args = array(
+            'passes_list' => $passes_list,
+        );
 
-        // $view_args = array(
-        //     'post_id'                   => $post->ID,
-        //     'link'                      => $this->get_laterpay_purchase_link( $post->ID ),
-        //     'currency'                  => get_option( 'laterpay_currency' ),
-        //     'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-        //     'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
-        // );
+        $this->logger->info(
+            __METHOD__,
+            $view_args
+        );
 
-        // $this->logger->info(
-        //     __METHOD__,
-        //     $view_args
-        // );
-
-        // $this->assign( 'laterpay', $view_args );
+        $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
     }
@@ -834,17 +834,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $client_options['web_root'],
                 $client_options['token_name']
         );
-        $identify_link   = $laterpay_client->get_identify_url();
-
-        // get passes list
-        $passes_with_access = $this->get_passes_with_access();
-        $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID(), $passes_with_access );
+        $identify_link = $laterpay_client->get_identify_url();
 
         // assign all required vars to the view templates
         $view_args = array(
             'post_id'       => get_the_ID(),
             'identify_link' => $identify_link,
-            'passes_list'   => $passes_list,
         );
 
         $this->assign( 'laterpay', $view_args );
