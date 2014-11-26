@@ -49,7 +49,6 @@ Time passes are displayed within a dedicated sidebar widget that automatically s
 Be careful when deleting a time pass: Users, who have bought the respective time pass, will lose the access to the covered content. Deleted time passes cannot be restored.
 
 For each time pass, you can create any number of voucher codes that enable your users to purchase a time pass for a reduced price.
-You can choose, if a voucher code should set an absolute price for the respective time pass or if its price should be reduced by a certain percentage.
 A user can enter a voucher code in the time pass sidebar widget by clicking "I have a voucher". The price for the respective time pass will then be updated.
 Voucher codes are not user specific and can be used for any number of times until you delete them. Deleting a voucher code will not affect the access to time passes which have already been purchased with this code.
 
