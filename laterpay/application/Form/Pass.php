@@ -204,6 +204,16 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
                 )
             )
         );
+
+        $this->set_field(
+            'voucher',
+            array(
+                'validators' => array(
+                    'is_array',
+                ),
+                'can_be_null' => true,
+            )
+        );
     }
 }
 

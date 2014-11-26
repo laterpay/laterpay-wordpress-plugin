@@ -86,9 +86,8 @@
                 generateVoucherCode                     : '.lp_js_generateVoucherCode',
                 voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
                 voucherDeleteLink                       : '.lp_js_deleteVoucher',
-                vouchers                                : '.lp_js_timePass_editorContainer .lp_js_voucherRow',
                 voucherEditor                           : '.lp_js_voucherEditor',
-                voucherHiddenPassId                     : $('#lp_js_timePassEditor_hiddenPassId'),
+                voucherHiddenPassId                     : '#lp_js_timePassEditor_hiddenPassId',
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -284,7 +283,7 @@
                 // generate voucher code
                 $o.timePassEditor
                 .on('mousedown', $o.generateVoucherCode, function() {
-                    generateVoucherCode();
+                    generateVoucherCode($(this).parents($o.timePassWrapper));
                 })
                 .on('click', $o.generateVoucherCode, function(e) {
                     e.preventDefault();
@@ -293,7 +292,7 @@
                 // delete voucher code
                 $o.timePassEditor
                 .on('click', $o.voucherDeleteLink, function(e) {
-                    deleteVoucher($(this).parent());
+                    deleteVoucher($(this).parent(), $(this).parents($o.timePassWrapper));
                     e.preventDefault();
                 });
 
@@ -820,6 +819,7 @@
                         if (r.success) {
                             // form has been saved
                             var passId = r.data.pass_id;
+                            lpVars.vouchers_list = r.vouchers;
                             if (lpVars.time_passes_list[passId]) {
                                 lpVars.time_passes_list[passId] = r.data;
                                 // insert time pass rendered on server
@@ -926,7 +926,7 @@
                 }
             },
 
-            generateVoucherCode = function() {
+            generateVoucherCode = function($pass) {
                 $.post(
                     ajaxurl,
                     {
@@ -935,15 +935,15 @@
                     },
                     function(r) {
                         if (r.success) {
-                            addVoucher(r.code);
+                            addVoucher(r.code, $pass);
                         }
                     }
                 );
             },
 
-            addVoucher = function(code) {
+            addVoucher = function(code, $pass) {
                 var price   = $($o.voucherPriceInput).val() + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow"' + '" data-code="' + code + '" style="display:none;">' +
+                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow" ' + 'data-code="' + code + '" style="display:none;">' +
                                     '<input type="hidden" name="voucher[]" value="' + code + '|' + $($o.voucherPriceInput).val() + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     lpVars.i18n.voucherText + ' ' + price +
@@ -952,11 +952,11 @@
                                     '</a>' +
                                 '</div>';
 
-                $($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
+                $pass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
 
-            deleteVoucher = function($item) {
-                var passId = $o.voucherHiddenPassId.val(),
+            deleteVoucher = function($item, $wrapper) {
+                var passId = $wrapper.find($o.voucherHiddenPassId).val(),
                     code   = $item.data('code');
 
                 // slide up and remove voucher, if pass was not created yet

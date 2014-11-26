@@ -259,6 +259,7 @@ function laterpay_before_start() {
     LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap' );
     LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
+//    var_dump(LaterPay_Helper_Vouchers::get_all_vouchers());exit;
 
     // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
     // to register the required script and style filters

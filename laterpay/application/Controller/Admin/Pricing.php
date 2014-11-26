@@ -52,8 +52,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
 
         // pass localized strings and variables to script
-        $passes_model = new LaterPay_Model_Pass();
-        $passes_list  = (array) $passes_model->get_all_passes();
+        $passes_model  = new LaterPay_Model_Pass();
+        $passes_list   = (array) $passes_model->get_all_passes();
+        $vouchers_list = LaterPay_Helper_Vouchers::get_all_vouchers();
+
         wp_localize_script(
             'laterpay-backend-pricing',
             'lpVars',
@@ -64,6 +66,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'defaultCurrency'       => get_option( 'laterpay_currency' ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_passes_json( $passes_list ),
+                'vouchers_list'         => $this->get_passes_json( $vouchers_list ),
                 'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);',
             )
         );
@@ -863,15 +866,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $pass_model     = new LaterPay_Model_Pass();
 
         if ( $save_pass_form->is_valid() ) {
-            $data = $save_pass_form->get_form_values( true, null, array() );
-            $data = $pass_model->update_pass($data);
+            $voucher  = $save_pass_form->get_field_value( 'voucher' );
+            $data     = $save_pass_form->get_form_values( true, null, array( 'voucher') );
+            $data     = $pass_model->update_pass( $data );
+            // save vouchers for this pass
+            LaterPay_Helper_Vouchers::save_pass_vouchers( $data['pass_id'], $voucher );
 
             wp_send_json(
                 array(
-                    'success' => true,
-                    'data'    => $data,
-                    'html'    => $this->render_pass($data),
-                    'message' => __( 'Pass saved.', 'laterpay' ),
+                    'success'  => true,
+                    'data'     => $data,
+                    'vouchers' => LaterPay_Helper_Vouchers::get_all_vouchers(),
+                    'html'     => $this->render_pass($data),
+                    'message'  => __( 'Pass saved.', 'laterpay' ),
                 )
             );
         }
@@ -879,7 +886,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => false,
-                'errors' => $save_pass_form->getErrors(),
+                'errors'  => $save_pass_form->getErrors(),
                 'message' => __( 'An error occurred when trying to save the pass. Please try again.', 'laterpay' ),
             )
         );
@@ -939,7 +946,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     private function generate_voucher_code() {
 
         // generate voucher code
-        $voucher_code = LaterPay_Helper_Passes::generate_voucher_code();
+        $voucher_code = LaterPay_Helper_Vouchers::generate_voucher_code();
         wp_send_json(
             array(
                 'success' => true,
@@ -955,12 +962,23 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     private function delete_voucher_code() {
 
-        $pass_id       = $_POST['pass_id'];
-        $voucher_codes = $_POST['codes'];
+        // get data
+        $pass_id = $_POST['pass_id'];
+        $code    = $_POST['code'];
 
-        // get voucher codes
-        $stored_vouchers = get_option( 'laterpay_voucher_codes' );
-        var_dump( $stored_vouchers );
-        // add new codes
+        if ( $pass_id && $code ) {
+            LaterPay_Helper_Vouchers::delete_voucher_code( $pass_id, $code );
+            wp_send_json(
+                array(
+                    'success' => true,
+                )
+            );
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+            )
+        );
     }
 }

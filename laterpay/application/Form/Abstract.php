@@ -248,9 +248,6 @@ abstract class LaterPay_Form_Abstract
 
         $fields = $this->get_fields();
 
-        // set to false by default, probably data missed
-        $is_valid = false;
-
         // validation logic
         if ( is_array( $fields ) ) {
             foreach ( $fields as $name => $field ) {
