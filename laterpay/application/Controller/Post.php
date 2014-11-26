@@ -595,6 +595,40 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Callback to render a widget with the available LaterPay time passes within the theme
+     * that can be freely positioned.
+     *
+     * @wp-hook laterpay_time_passes
+     *
+     * @return void
+     */
+    public function the_time_passes_widget() {
+        // check, if the current post is purchasable
+        if ( ! LaterPay_Helper_Pricing::is_purchasable() ) {
+            return;
+        }
+
+        $post = get_post();
+
+        // $view_args = array(
+        //     'post_id'                   => $post->ID,
+        //     'link'                      => $this->get_laterpay_purchase_link( $post->ID ),
+        //     'currency'                  => get_option( 'laterpay_currency' ),
+        //     'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+        //     'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+        // );
+
+        // $this->logger->info(
+        //     __METHOD__,
+        //     $view_args
+        // );
+
+        // $this->assign( 'laterpay', $view_args );
+
+        echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
+    }
+
+    /**
      * Modify the post content of paid posts.
      *
      * Depending on the configuration, the content of paid posts is modified and several elements are added to the content:
@@ -816,9 +850,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/identify_iframe' );
-        if ( ! ( is_front_page() && is_home() ) ) {
-            echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
-        }
     }
 
     /**

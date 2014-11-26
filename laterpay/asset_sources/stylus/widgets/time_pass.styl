@@ -146,10 +146,7 @@
  * time pass widget
 */
 .lp_timePassWidget
-    background              $background-lightest
-    position                absolute
-    top                     50%
-    z-index                 $zindex-overlayed_1
+    // unstyled, to simplify integration into theme
 
     .lp_timePass
         display             block
@@ -182,6 +179,9 @@
     position                absolute /* 2 */
     width                   100%
     z-index                 $zindex-overlayed_2 /* 2 */
+
+    &:hover ~ .lp_timePassWidget_voucherCodeHint
+        color               $clickable-highlight
 
     &:focus
         -moz-appearance     none
@@ -222,11 +222,13 @@
     color                   $clickable
     display                 block  /* 1 */
     margin                  0
+    text-decoration         none
     visibility              visible /* 1 */
 
 .lp_timePassWidget_voucherCodeInputHint
     color                   $text-lighter
     display                 none
+    margin                  0
     padding                 $fs-075 $fs-1
 
 /**
