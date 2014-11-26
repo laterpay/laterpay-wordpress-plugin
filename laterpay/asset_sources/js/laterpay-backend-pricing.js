@@ -84,12 +84,12 @@
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
                 generateVoucherCode                     : '.lp_js_generateVoucherCode',
-                voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
                 voucherDeleteLink                       : '.lp_js_deleteVoucher',
                 voucherEditor                           : '.lp_js_voucherEditor',
                 voucherHiddenPassId                     : '#lp_js_timePassEditor_hiddenPassId',
+                voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
                 voucherList                             : '.lp_js_voucherList',
-                voucherCode                             : '.lp_js_voucherCode',
+                voucher                                 : '.lp_js_voucher',
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -702,9 +702,6 @@
                 var $timePassForm = $o.timePassFormTemplate.clone().attr('id', $o.timePassFormId);
                 $('.lp_js_timePass_editorContainer', $timePass).html($timePassForm);
 
-                // hide vouchers
-                $timePass.find($o.voucherList).hide();
-
                 populateTimePassForm($timePass);
 
                 // load WordPress color picker
@@ -756,7 +753,8 @@
                     $($o.timePassScopeCategory, $timePass).show();
                 }
 
-                // load vouchers if exists
+                // regenerate vouchers list
+                clearVouchersList($timePass);
                 if (vouchers instanceof Object) {
                     $.each(vouchers, function(code, priceValue) {
                         addVoucher(code, priceValue, $timePass);
@@ -837,12 +835,12 @@
                             var passId = r.data.pass_id;
                             // update vouchers
                             lpVars.vouchers_list[passId] = r.vouchers;
-                            // clear vouchers list
+
+                            // regenerate vouchers list
                             clearVouchersList($timePass);
-                            // set new data to vouchers list
                             if (lpVars.vouchers_list[passId] instanceof Object) {
                                 $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                                    addVoucherCodeToList(code, priceValue, $timePass);
+                                    addVoucherToList(code, priceValue, $timePass);
                                 });
 
                                 // show vouchers
@@ -850,6 +848,8 @@
                             }
 
                             if (lpVars.time_passes_list[passId]) {
+// FIXME: what does this check mean?
+console.log(1);
                                 lpVars.time_passes_list[passId] = r.data;
                                 // insert time pass rendered on server
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
@@ -862,8 +862,9 @@
                                     $(this).remove();
                                 });
                             } else {
+// FIXME: what does this check mean?
+console.log(2);
                                 lpVars.time_passes_list[passId] = r.data;
-
                                 var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
 
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
@@ -889,6 +890,7 @@
                         if ($o.addTimePass.is(':hidden')) {
                             $o.addTimePass.fadeIn(250);
                         }
+
                         setMessage(r.message, r.success);
                     },
                     'json'
@@ -972,7 +974,7 @@
 
             addVoucher = function(code, priceValue, $timePass) {
                 var price   = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucherRow lp_voucherRow" ' + 'data-code="' + code + '" style="display:none;">' +
+                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' + 'data-code="' + code + '" style="display:none;">' +
                                     '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     lpVars.i18n.voucherText + ' ' + price +
@@ -984,24 +986,25 @@
                 $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
 
-            deleteVoucher = function($item) {
-                // slide up and remove voucher, if pass was not created yet
-                $item.slideUp(250, function() {
-                    $(this).remove();
-                });
+            addVoucherToList = function(code, priceValue, $timePass) {
+                var price   = priceValue + ' ' + lpVars.defaultCurrency,
+                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' + 'data-code="' + code + '">' +
+                                    '<span class="lp_voucherCodeLabel">' + code + '</span>' +
+                                    lpVars.i18n.voucherText + ' ' + price +
+                                '</div>';
+
+                $timePass.find($o.voucherList).append(voucher);
             },
 
             clearVouchersList = function($timePass) {
-                $timePass.find($o.voucherCode).remove();
+                $timePass.find($o.voucher).remove();
             },
 
-            addVoucherCodeToList = function(code, price, $timePass) {
-                var codeHtml = '<div class="lp_js_voucherCode">' +
-                                   '<p>' + code + '</p>' +
-                                   '<p>(' + price + ' ' + lpVars.defaultCurrency + ')</p>' +
-                               '</div>';
-
-                $timePass.find($o.voucherList).append(codeHtml);
+            deleteVoucher = function($voucher) {
+                // slide up and remove voucher
+                $voucher.slideUp(250, function() {
+                    $(this).remove();
+                });
             },
 
             applyBulkOperation = function(data) {
