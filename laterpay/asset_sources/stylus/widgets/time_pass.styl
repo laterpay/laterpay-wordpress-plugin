@@ -163,6 +163,7 @@
  * 3. When the input is focused, it is rendered like an input, the hint text is hidden, and the button is shown
  */
 .lp_timePassWidget_voucherCodeWrapper
+    height                  round(3 * $fs-1)
     margin                  $fs-1
     position                relative
 
@@ -172,11 +173,13 @@
 .lp_timePassWidget_voucherCode
     background              transparent
     border                  2px solid transparent
+    bottom                  0
     color                   transparent
     cursor                  pointer
     font-size               $fs-15
     padding                 $fs-075 $fs-1 $fs-075 3.5em
     position                absolute /* 2 */
+    top                     0
     width                   100%
     z-index                 $zindex-overlayed_2 /* 2 */
 
@@ -205,6 +208,7 @@
         ~ .lp_timePassWidget_redeemVoucherCode
             background      $clickable
             border-radius   4px
+            bottom          $fs-05
             color           $text-inverse
             display         inline-block /* 3 */
             position        absolute

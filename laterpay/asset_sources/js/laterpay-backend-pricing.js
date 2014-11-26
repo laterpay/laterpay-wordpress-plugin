@@ -758,8 +758,8 @@
 
                 // load vouchers if exists
                 if (vouchers instanceof Object) {
-                    $.each(vouchers, function(code, price_value) {
-                        addVoucher(code, price_value, $timePass);
+                    $.each(vouchers, function(code, priceValue) {
+                        addVoucher(code, priceValue, $timePass);
                     });
                 }
             },
@@ -841,8 +841,8 @@
                             clearVouchersList($timePass);
                             // set new data to vouchers list
                             if (lpVars.vouchers_list[passId] instanceof Object) {
-                                $.each(lpVars.vouchers_list[passId], function(code, price_value) {
-                                    addVoucherCodeToList(code, price_value, $timePass);
+                                $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                    addVoucherCodeToList(code, priceValue, $timePass);
                                 });
 
                                 // show vouchers
@@ -955,7 +955,7 @@
                 }
             },
 
-            generateVoucherCode = function($pass) {
+            generateVoucherCode = function($timePass) {
                 $.post(
                     ajaxurl,
                     {
@@ -964,16 +964,16 @@
                     },
                     function(r) {
                         if (r.success) {
-                            addVoucher(r.code, $pass.find($o.voucherPriceInput).val(), $pass);
+                            addVoucher(r.code, $timePass);
                         }
                     }
                 );
             },
 
-            addVoucher = function(code, price_value, $pass) {
-                var price   = price_value + ' ' + lpVars.defaultCurrency,
+            addVoucher = function(code, priceValue, $timePass) {
+                var price   = priceValue + ' ' + lpVars.defaultCurrency,
                     voucher =   '<div class="lp_js_voucherRow lp_voucherRow" ' + 'data-code="' + code + '" style="display:none;">' +
-                                    '<input type="hidden" name="voucher[]" value="' + code + '|' + price_value + '">' +
+                                    '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                     '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
@@ -981,7 +981,7 @@
                                     '</a>' +
                                 '</div>';
 
-                $pass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
+                $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
 
             deleteVoucher = function($item) {
@@ -991,17 +991,17 @@
                 });
             },
 
-            clearVouchersList = function($pass) {
-                $pass.find($o.voucherCode).remove();
+            clearVouchersList = function($timePass) {
+                $timePass.find($o.voucherCode).remove();
             },
 
-            addVoucherCodeToList = function(code, price, $pass) {
+            addVoucherCodeToList = function(code, price, $timePass) {
                 var codeHtml = '<div class="lp_js_voucherCode">' +
                                    '<p>' + code + '</p>' +
                                    '<p>(' + price + ' ' + lpVars.defaultCurrency + ')</p>' +
                                '</div>';
 
-                $pass.find($o.voucherList).append(codeHtml);
+                $timePass.find($o.voucherList).append(codeHtml);
             },
 
             applyBulkOperation = function(data) {
