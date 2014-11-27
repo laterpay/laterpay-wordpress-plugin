@@ -834,17 +834,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return string
      */
     public function render_pass( $args = array() ) {
-        $defaults = array(
-            'pass_id'     => 0,
-            'title'       => LaterPay_Helper_Passes::$defaults['title'],
-            'description' => LaterPay_Helper_Passes::get_description(),
-            'price'       => LaterPay_Helper_Passes::$defaults['price'],
-            'url'         => '',
-        );
-
+        $defaults = LaterPay_Helper_Passes::get_defaults();
         $args = array_merge( $defaults, $args );
 
-        if( !empty($args['pass_id']) ) {
+        if( ! empty($args['pass_id']) ) {
             $args['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link( $args['pass_id'] );
         }
 

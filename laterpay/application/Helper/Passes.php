@@ -20,7 +20,7 @@ class LaterPay_Helper_Passes
         'revenue_model'     => 'ppu',
         'title'             => '24-Hour Pass',
         'title_color'       => '#444',
-        'description'       => '',
+        'description'       => '24 hours access to all content on this website',
         'description_color' => '#444',
         'background_path'   => '',
         'background_color'  => '#fff',
@@ -85,16 +85,20 @@ class LaterPay_Helper_Passes
     );
 
     /**
-     * FIXME: #196 add comment
+     * Get passes default values
      *
-     * @param  [type] $k [description]
+     * @param null $key option name
      *
-     * @return [type]    [description]
+     * @return mixed option value | array of options
      */
-    public static function get_defaults( $k ) {
-        if ( isset( self::$defaults[$k] ) ) {
-            return self::$defaults[$k];
+    public static function get_defaults( $key = null ) {
+        if ( isset ($key) ) {
+            if ( isset( self::$defaults[$key] ) ) {
+                return self::$defaults[$key];
+            }
         }
+
+        return self::$defaults;
     }
 
     /**
@@ -108,13 +112,13 @@ class LaterPay_Helper_Passes
      */
     public static function get_description( $duration = null, $period = null, $access = null ) {
         if ( ! $duration ) {
-            $duration = self::$defaults['duration'];
+            $duration = self::get_defaults('duration');
         }
         if ( ! $period ) {
-            $period = self::$defaults['period'];
+            $period = self::get_defaults('period');
         }
         if ( ! $access ) {
-            $access = self::$defaults['access_to'];
+            $access = self::get_defaults('access_to');
         }
         if ( $period == 1 ) { // Day
             $period   = 0;
@@ -140,7 +144,7 @@ class LaterPay_Helper_Passes
         $options_html = '';
 
         foreach ( self::$durations as $id => $name ) {
-            if ( $id == self::$defaults['duration'] ) {
+            if ( $id == self::get_defaults('duration') ) {
                 $options_html .= '<option selected="selected" value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             } else {
                 $options_html .= '<option value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
@@ -159,7 +163,7 @@ class LaterPay_Helper_Passes
         $options_html = '';
 
         foreach ( self::$periods as $id => $name ) {
-            if ( $id == self::$defaults['period'] ) {
+            if ( $id == self::get_defaults('period') ) {
                 $options_html .= '<option selected="selected" value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             } else {
                 $options_html .= '<option value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
@@ -178,7 +182,7 @@ class LaterPay_Helper_Passes
         $options_html = '';
 
         foreach ( self::$access_to as $id => $name ) {
-            if ( $id == self::$defaults['access_to'] ) {
+            if ( $id == self::get_defaults('access_to') ) {
                 $options_html .= '<option selected="selected" value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
             } else {
                 $options_html .= '<option value="' . $id . '">' . __( $name, 'laterpay' ) . '</option>';
@@ -198,10 +202,10 @@ class LaterPay_Helper_Passes
         $categories     = self::get_wp_categories( array() );
         $i              = 0;
         foreach ( $categories as $category ) {
-            if ( $i == 0 && empty( self::$defaults['access_category'] ) ) {
+            if ( $i == 0 && ! self::get_defaults( 'access_category' ) ) {
                 // select the first option by default
                 $options_html .= '<option selected="selected" value="' . $category->term_id . '">' . $category->name . '</option>';
-            } else if ( $category->term_id == self::$defaults['access_category'] ) {
+            } else if ( $category->term_id == self::get_defaults('access_category') ) {
                 $options_html .= '<option selected="selected" value="' . $category->term_id . '">' . $category->name . '</option>';
             } else {
                 $options_html .= '<option value="' . $category->term_id . '">' . $category->name . '</option>';
