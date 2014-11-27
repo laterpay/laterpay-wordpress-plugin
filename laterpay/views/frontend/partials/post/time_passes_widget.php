@@ -11,6 +11,6 @@
                 maxlength="6">
         <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
         <a href="#" class="lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
-        <p class="lp_timePassWidget_voucherCodeHint"><?php _e( 'Got a <strong>Voucher Code</strong>? Click here >', 'laterpay' ); ?></p>
+        <p class="lp_timePassWidget_voucherCodeHint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
     </div>
 </div>

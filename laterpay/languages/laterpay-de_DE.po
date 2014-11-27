@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Wed Nov 26 2014 22:23:17 GMT+0100 (CET)\n"
+"PO-Revision-Date: Thu Nov 27 2014 10:31:32 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -186,8 +186,8 @@ msgid "Redeem"
 msgstr "Einlösen"
 
 #: ../views/frontend/partials/post/time_passes_widget.php:14
-msgid "Got a <strong>Voucher Code</strong>? Click here >"
-msgstr "<strong>Gutschein-Code</strong> erhalten? Hier klicken >"
+msgid "Redeem Voucher >"
+msgstr "Gutschein einlösen >"
 
 #: ../views/backend/appearance.php:12 ../views/backend/account.php:15 ..
 #: views/backend/pricing.php:11
@@ -517,7 +517,7 @@ msgstr "Abbrechen"
 
 #: ../views/backend/pricing.php:32 ../views/backend/pricing.php:116 ..
 #: views/backend/pricing.php:164 ../views/backend/pricing.php:219 ..
-#: views/backend/pricing.php:391 ../views/backend/pricing.php:461
+#: views/backend/pricing.php:391 ../views/backend/pricing.php:463
 msgid "Save"
 msgstr "Speichern"
 
@@ -554,7 +554,7 @@ msgstr "0,00"
 
 #: ../views/backend/pricing.php:119 ../views/backend/pricing.php:167 ..
 #: views/backend/pricing.php:222 ../views/backend/pricing.php:394 ..
-#: views/backend/pricing.php:468 ../application/Controller/Admin/Pricing.php:48
+#: views/backend/pricing.php:470 ../application/Controller/Admin/Pricing.php:48
 msgid "Delete"
 msgstr "Löschen"
 
@@ -590,9 +590,9 @@ msgstr "Zeitpässe"
 msgid "New Pass"
 msgstr "Neuer Pass"
 
-#: ../views/backend/pricing.php:226
-msgid "Active Voucher Codes"
-msgstr "Aktive Gutschein-Codes"
+#: ../views/backend/pricing.php:229 ../application/Controller/Admin/Pricing.php:51
+msgid "allows purchasing this pass for"
+msgstr "ermöglicht den Kauf dieses Passes für"
 
 #: ../views/backend/pricing.php:253
 msgid "The pass is valid for "
@@ -642,17 +642,17 @@ msgstr "Diesen Zeitpass zu einem reduzierten Preis anbieten:"
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: ../views/backend/pricing.php:402 ../application/Controller/Admin.php:289
+#: ../views/backend/pricing.php:404 ../application/Controller/Admin.php:289
 msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
-#: ../views/backend/pricing.php:447 ../application/Controller/Admin/Pricing.php:
+#: ../views/backend/pricing.php:449 ../application/Controller/Admin/Pricing.php:
 #: 43 ../application/Controller/Admin/Pricing.php:555 ..
 #: application/Controller/Admin/Pricing.php:586
 msgid "to"
 msgstr "auf"
 
-#: ../views/backend/pricing.php:460 ../views/backend/pricing.php:469 ..
+#: ../views/backend/pricing.php:462 ../views/backend/pricing.php:471 ..
 #: application/Controller/Admin/Pricing.php:47
 msgid "Update Prices"
 msgstr "Preise aktualisieren"
@@ -745,23 +745,23 @@ msgstr "Zurück"
 msgid "Validity"
 msgstr "Gültigkeit"
 
-#: ../views/backend/partials/time_pass.php:39
+#: ../views/backend/partials/time_pass.php:42
 msgid "Access to"
-msgstr "Zugang"
+msgstr "Zugriff auf"
 
-#: ../views/backend/partials/time_pass.php:45
+#: ../views/backend/partials/time_pass.php:48
 msgid "on this website"
 msgstr "auf dieser Website"
 
-#: ../views/backend/partials/time_pass.php:62
+#: ../views/backend/partials/time_pass.php:65
 msgid "Renewal"
 msgstr "Verlängerung"
 
-#: ../views/backend/partials/time_pass.php:64
+#: ../views/backend/partials/time_pass.php:67
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
-#: ../views/backend/partials/time_pass.php:68 ..
+#: ../views/backend/partials/time_pass.php:71 ..
 #: application/Controller/Admin/Post/Column.php:20
 msgid "Price"
 msgstr "Preis"
@@ -821,7 +821,7 @@ msgstr "nein"
 msgid "none"
 msgstr "keine"
 
-#: ../application/Helper/Passes.php:124
+#: ../application/Helper/Passes.php:125
 #, php-format
 msgid "%d %s access to %s"
 msgstr "%d %s Zugang zu %s"
@@ -1829,10 +1829,6 @@ msgstr "auf den Kategorie-Standardpreis"
 #: ../application/Controller/Admin/Pricing.php:50
 msgid "Every user, who owns this pass, will lose his access."
 msgstr "Jeder Nutzer, der diesen Pass besitzt, wird seinen Zugang verlieren."
-
-#: ../application/Controller/Admin/Pricing.php:51
-msgid "allows purchasing this pass for"
-msgstr "ermöglicht den Kauf dieses Passes für"
 
 #: ../application/Controller/Admin/Pricing.php:67
 msgid "All posts in category"
