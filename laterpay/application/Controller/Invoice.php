@@ -58,7 +58,7 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract
             'laterpay-invoice-indicator',
             'lpInvoiceIndicatorVars',
             array(
-                'lpBalanceUrl'  => $balance_url
+                'lpBalanceUrl'  => $balance_url,
             )
         );
     }

@@ -256,8 +256,8 @@ class LaterPay_Helper_Passes
             $passes = self::get_all_passes();
         }
         $result = array();
-        foreach ($passes as $pass) {
-            $result[] = self::get_tokenized_pass($pass->pass_id);
+        foreach ( $passes as $pass ) {
+            $result[] = self::get_tokenized_pass( $pass->pass_id );
         }
 
         return $result;
@@ -280,7 +280,7 @@ class LaterPay_Helper_Passes
             $post_category_ids = null;
 
             // get category ids
-            foreach( $post_categories as $category ) {
+            foreach ( $post_categories as $category ) {
                 $post_category_ids[] = $category->term_id;
             }
 
@@ -393,9 +393,9 @@ class LaterPay_Helper_Passes
 
         // parameters for LaterPay purchase form
         $params = array(
-            'article_id'    => self::get_tokenized_pass($pass_id),
+            'article_id'    => self::get_tokenized_pass( $pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
-            'expiry'        => '+' . self::getPassExpiryTime($pass),
+            'expiry'        => '+' . self::get_pass_expiry_time( $pass ),
             'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
             'url'           => $url,
             'title'         => $pass['title'],
@@ -415,7 +415,7 @@ class LaterPay_Helper_Passes
      *
      * @param array $pass
      */
-    protected static function getPassExpiryTime( $pass ) {
+    protected static function get_pass_expiry_time( $pass ) {
         $timestamp  = time();
         $time       = 0;
 

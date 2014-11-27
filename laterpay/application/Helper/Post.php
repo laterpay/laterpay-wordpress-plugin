@@ -193,16 +193,16 @@ class LaterPay_Helper_Post {
             return;
         };
 
-        // render purchase button for administrator always in preview mode. To prevent accidental buy by admin.
-        $preview_mode = LaterPay_Helper_User::preview_post_as_visitor($post);
-        if( current_user_can( 'administrator' ) ){
+        // render purchase button for administrator always in preview mode, too prevent accidental purchase by admin.
+        $preview_mode = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        if ( current_user_can( 'administrator' ) ) {
             $preview_mode = true;
         }
         $view_args = array(
             'post_id'                 => $post->ID,
-            'link'                    => LaterPay_Helper_Post::get_laterpay_purchase_link($post->ID),
-            'currency'                => get_option('laterpay_currency'),
-            'price'                   => LaterPay_Helper_Pricing::get_post_price($post->ID),
+            'link'                    => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
+            'currency'                => get_option( 'laterpay_currency' ),
+            'price'                   => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor' => $preview_mode,
         );
 

@@ -52,7 +52,7 @@ class LaterPay_Helper_Vouchers
 
         $vouchers[ $pass_id ] = $new_vouchers;
         if ( $vouchers[ $pass_id ] ) {
-            update_option( 'laterpay_voucher_codes', $vouchers);
+            update_option( 'laterpay_voucher_codes', $vouchers );
         }
     }
 

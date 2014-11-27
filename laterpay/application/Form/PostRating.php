@@ -61,8 +61,8 @@ class LaterPay_Form_PostRating extends LaterPay_Form_Abstract
                         array(
                             'gte' => 1,
                             'lte' => 5,
-                        )
-                    )
+                        ),
+                    ),
                 ),
                 'filters' => array(
                     'to_int',

@@ -241,7 +241,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $html = "<div class=\"lp_premiumFileBox lp_contentType" . ucfirst( $content_type ) . "\">";
         }
         // create a shortcode link
-        $html .= $this->getShortcodeLink( $page, $content_type, $page_url, $price_tag );
+        $html .= $this->get_shortcode_link( $page, $content_type, $page_url, $price_tag );
         $html .= '    <div class="lp_premiumFileDetails">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
@@ -284,7 +284,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * @return string
      */
-    private function getShortcodeLink( WP_Post $post, $content_type, $page_url, $price_tag ) {
+    private function get_shortcode_link( WP_Post $post, $content_type, $page_url, $price_tag ) {
         $html_button = '';
 
         $access = LaterPay_Helper_Post::has_access_to_post( $post );

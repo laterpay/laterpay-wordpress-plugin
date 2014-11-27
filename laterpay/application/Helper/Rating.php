@@ -76,7 +76,7 @@ class LaterPay_Helper_Rating
      */
     public static function check_if_user_voted_post_already( $post_id ) {
         $user_id          = LaterPay_Helper_Statistics::get_user_unique_id();
-        $users_voted_data = get_post_meta( $post_id, 'laterpay_users_voted');
+        $users_voted_data = get_post_meta( $post_id, 'laterpay_users_voted' );
         if ( ! $users_voted_data ) {
             return false;
         }
