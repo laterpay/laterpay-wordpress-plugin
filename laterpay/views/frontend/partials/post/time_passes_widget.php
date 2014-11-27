@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="lp_timePassWidget">
+<div class="lp_timePassWidget <?php echo $laterpay['additional_class']; ?>">
     <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
         <?php echo $this->render_pass( (array) $pass ); ?>
     <?php endforeach; ?>

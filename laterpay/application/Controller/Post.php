@@ -600,22 +600,30 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      *
      * @wp-hook laterpay_time_passes
      *
+     * @param string $class additional class name
+     *
      * @return void
      */
-    public function the_time_passes_widget() {
+    public function the_time_passes_widget( $class = '' ) {
+        $is_homepage = is_front_page() && is_home();
+        // check if post is purchasable and we are not on homepage
+        if ( ! LaterPay_Helper_Pricing::is_purchasable() && ! $is_homepage ) {
+            return;
+        }
+
         // get passes list
         $passes_with_access = $this->get_passes_with_access();
-        $is_homepage        = is_front_page() && is_home();
 
-        // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable() || $is_homepage ) {
+        // check, if we on homepage or on post
+        if ( $is_homepage ) {
             $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( null, $passes_with_access );
         } else {
             $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID(), $passes_with_access );
         }
 
         $view_args = array(
-            'passes_list' => $passes_list,
+            'passes_list'      => $passes_list,
+            'additional_class' => $class,
         );
 
         $this->logger->info(
@@ -626,6 +634,19 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
+    }
+
+    /**
+     * Callback to render a smaller verion of widget with the available LaterPay time passes within the theme
+     * that can be freely positioned.
+     *
+     * @wp-hook laterpay_time_passes_small
+     *
+     * @return void
+     */
+    public function the_time_passes_small_widget() {
+        $class_name = 'lp_timePassWidget-small';
+        $this->the_time_passes_widget( $class_name );
     }
 
     /**
