@@ -606,7 +606,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      */
     public function the_time_passes_widget( $class = '' ) {
         $is_homepage = is_front_page() && is_home();
-        // check if post is purchasable and we are not on homepage
+        // check, if post is purchasable and we are not on the homepage
         if ( ! LaterPay_Helper_Pricing::is_purchasable() && ! $is_homepage ) {
             return;
         }
@@ -614,7 +614,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // get passes list
         $passes_with_access = $this->get_passes_with_access();
 
-        // check, if we on homepage or on post
+        // check, if we are on the homepage or on a post / page page
         if ( $is_homepage ) {
             $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( null, $passes_with_access );
         } else {
@@ -622,8 +622,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $view_args = array(
-            'passes_list'      => $passes_list,
-            'additional_class' => $class,
+            'passes_list'               => $passes_list,
+            'time_pass_widget_class'    => $class,
         );
 
         $this->logger->info(
