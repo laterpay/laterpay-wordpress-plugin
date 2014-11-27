@@ -161,6 +161,52 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Ajax method to redeem voucher code.
+     *
+     * @wp-hook wp_ajax_laterpay_redeem_voucher_code, wp_ajax_nopriv_laterpay_redeem_voucher_code
+     *
+     * @return void
+     */
+    public function ajax_redeem_voucher_code() {
+        if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_redeem_voucher_code' ) {
+            exit;
+        }
+
+        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ) {
+            exit;
+        }
+
+        if ( ! isset( $_GET[ 'code' ] ) ) {
+            return;
+        }
+
+        // check if such voucher code exist and pass available for purchase
+        $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ] );
+        if ( $code_data ) {
+            // get new url for this pass
+            $pass_id = $code_data[ 'pass_id' ];
+            $price   = $code_data[ 'price' ];
+            // TODO: check that pass id available for purchase
+            $url     = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price );
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'pass_id' => $pass_id,
+                    'price'   => LaterPay_Helper_View::format_number( (float) $price ),
+                    'url'     => $url,
+                )
+            );
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+            )
+        );
+    }
+
+    /**
      * Save purchase in purchase history.
      *
      * @wp-hook template_redirect
@@ -968,6 +1014,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $this->config->get( 'version' ),
             true
         );
+
         wp_register_script(
             'laterpay-post-view',
             $this->config->get( 'js_url' ) . 'laterpay-post-view.js',
@@ -1003,10 +1050,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'statistic' => wp_create_nonce( 'laterpay_post_statistic_render' ),
                     'tracking'  => wp_create_nonce( 'laterpay_post_track_views' ),
                     'rating'    => wp_create_nonce( 'laterpay_post_rating_summary' ),
+                    'voucher'   => wp_create_nonce( 'laterpay_redeem_voucher_code' ),
                 ),
                 'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                 'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' ),
                 'download_attachment'          => $attachment_url,
+                'default_currency'             => get_option( 'laterpay_currency' ),
             )
         );
 

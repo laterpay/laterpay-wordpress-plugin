@@ -363,11 +363,12 @@ class LaterPay_Helper_Passes
     /**
      * Get the LaterPay purchase link for a time pass.
      *
-     * @param int $pass_id
+     * @param int  $pass_id
+     * @param null $price new price ( voucher code )
      *
      * @return string url || empty string if something went wrong
      */
-    public static function get_laterpay_purchase_link( $pass_id ) {
+    public static function get_laterpay_purchase_link( $pass_id, $price = null ) {
         $time_pass_model = new LaterPay_Model_Pass();
 
         $pass = (array) $time_pass_model->get_pass_data( $pass_id );
@@ -376,10 +377,9 @@ class LaterPay_Helper_Passes
         }
 
         $currency       = get_option( 'laterpay_currency' );
-        $price          = $pass['price'];
+        $price          = isset( $price ) ? $price : $pass['price'];
         $revenue_model  = $pass['revenue_model'];
 
-        $currency_model = new LaterPay_Model_Currency();
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
                 $client_options['cp_key'],

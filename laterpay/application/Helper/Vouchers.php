@@ -106,9 +106,25 @@ class LaterPay_Helper_Vouchers
      *
      * @param $code
      *
-     * return array
+     * return mixed $voucher_data
      */
     public static function check_voucher_code( $code ) {
-        return;
+        $vouchers = self::get_all_vouchers();
+
+        // search code
+        foreach ( $vouchers as $pass_id => $pass_vouchers ) {
+            foreach ( $pass_vouchers as $voucher_code => $voucher_price ) {
+                if ( $code === $voucher_code) {
+                    $voucher_data = array(
+                        'pass_id' => $pass_id,
+                        'code'    => $voucher_code,
+                        'price'   => $voucher_price,
+                    );
+                    return $voucher_data;
+                }
+            }
+        }
+
+        return null;
     }
 }
