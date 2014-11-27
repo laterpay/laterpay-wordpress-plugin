@@ -637,19 +637,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Callback to render a smaller verion of widget with the available LaterPay time passes within the theme
-     * that can be freely positioned.
-     *
-     * @wp-hook laterpay_time_passes_small
-     *
-     * @return void
-     */
-    public function the_time_passes_small_widget() {
-        $class_name = 'lp_timePassWidget-small';
-        $this->the_time_passes_widget( $class_name );
-    }
-
-    /**
      * Modify the post content of paid posts.
      *
      * Depending on the configuration, the content of paid posts is modified and several elements are added to the content:
