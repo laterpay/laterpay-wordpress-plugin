@@ -50,10 +50,13 @@ class LaterPay_Helper_Vouchers
             }
         }
 
-        $vouchers[ $pass_id ] = $new_vouchers;
-        if ( $vouchers[ $pass_id ] ) {
-            update_option( 'laterpay_voucher_codes', $vouchers );
+        if ( ! $new_vouchers ) {
+            unset($vouchers[ $pass_id ]);
+        } else {
+            $vouchers[ $pass_id ] = $new_vouchers;
         }
+
+        update_option( 'laterpay_voucher_codes', $vouchers );
     }
 
     /**

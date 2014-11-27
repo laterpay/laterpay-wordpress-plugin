@@ -847,9 +847,8 @@
                                 $timePass.find($o.voucherList).show();
                             }
 
+                            // if pass already exists (update)
                             if (lpVars.time_passes_list[passId]) {
-// FIXME: what does this check mean?
-console.log(1);
                                 lpVars.time_passes_list[passId] = r.data;
                                 // insert time pass rendered on server
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
@@ -861,9 +860,8 @@ console.log(1);
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
                                 });
+                            // if pass just created (add)
                             } else {
-// FIXME: what does this check mean?
-console.log(2);
                                 lpVars.time_passes_list[passId] = r.data;
                                 var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
 
