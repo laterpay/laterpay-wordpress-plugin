@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Thu Nov 27 2014 18:15:52 GMT+0100 (CET)\n"
+"PO-Revision-Date: Thu Nov 27 2014 20:27:11 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -424,19 +424,19 @@ msgstr "Anzeigen von Zeitpässen"
 
 #: ../views/backend/appearance.php:225
 msgid ""
-"Call action 'laterpay_time_pass' in your theme to display available time "
-"passes."
+"Call action 'laterpay_time_pass' in your theme to show your users the "
+"available time passes."
 msgstr ""
-"Rufen Sie die Action 'laterpay_time_pass' in Ihrem Theme auf, um verfügbare "
-"Zeitpässe anzuzeigen."
+"Rufen Sie die WordPress Action 'laterpay_time_pass' in Ihrem Theme auf, um "
+"Besuchern die verfügbaren Zeitpässe anzuzeigen.\n"
 
 #: ../views/backend/appearance.php:226
 msgid ""
-"The default width is 308px. You can add the parameter 'small' to display a "
-"smaller version with a width of 224px."
+"The default width for time passes is 308px. By adding the parameter 'small', "
+"they will be displayed with a width of 224px."
 msgstr ""
-"Die Standard-Breite beträgt 308px. Sie können den Parameter 'small' "
-"hinzufügen, um eine kleinere Version mit einer Breite von 224px. anzuzeigen."
+"Die Standardbreite der Zeitpässe beträgt 308px. Mit dem Parameter 'small' "
+"werden sie mit einer Breite von 224px angezeigt."
 
 #: ../views/backend/account.php:23
 msgid "LaterPay API Credentials"
@@ -607,16 +607,22 @@ msgid "Time Passes"
 msgstr "Zeitpässe"
 
 #: ../views/backend/pricing.php:208
-msgid "Time passes provide time-limited access to your content."
-msgstr "Zeitpässe geben zeitlich begrenzt Zugang zu Ihren Inhalten."
+msgid ""
+"Time passes provide access to your entire site or specific categories for a "
+"limited time."
+msgstr ""
+"Zeitpässe geben zeitlich begrenzt Zugriff auf Ihre gesamte Seite oder eine "
+"bestimmte Kategorie."
 
 #: ../views/backend/pricing.php:209
 msgid ""
 "To display time passes you have to <a href=\"admin.php?page=laterpay-"
-"appearance-tab\">integrate the action laterpay_time_pass</a> into your theme."
+"appearance-tab#lp_timePassAppearance\">call the action laterpay_time_pass</a> "
+"in your theme."
 msgstr ""
-"Um Zeitpässe anzuzeigen, müssen Sie die <a href=\"admin.php?page=laterpay-"
-"appearance-tab\">Action laterpay_time_pass in Ihrem Theme aufrufen</a>.."
+"Um Zeitpässe anzuzeigen, müssen Sie <a href=\"admin.php?page=laterpay-"
+"appearance-tab#lp_timePassAppearance\">die Action laterpay_time_pass in Ihrem "
+"Theme aufrufen</a>."
 
 #: ../views/backend/pricing.php:213
 msgid "New Pass"
@@ -853,7 +859,7 @@ msgstr "nein"
 msgid "none"
 msgstr "keine"
 
-#: ../application/Helper/Passes.php:125
+#: ../application/Helper/Passes.php:129
 #, php-format
 msgid "%d %s access to %s"
 msgstr "%d %s Zugang zu %s"
@@ -1968,21 +1974,21 @@ msgstr "Die Bulk-Price-Aktion wurde erfolgreich gespeichert."
 msgid "Bulk operation was successfully deleted."
 msgstr "Die Bulk-Price-Aktion wurde erfolgreich entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:884
+#: ../application/Controller/Admin/Pricing.php:877
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:893
+#: ../application/Controller/Admin/Pricing.php:886
 msgid "An error occurred when trying to save the pass. Please try again."
 msgstr ""
 "Bei dem Versuch, den Pass zu speichern, ist ein Fehler aufgetreten. Bitte "
 "versuchen Sie es erneut."
 
-#: ../application/Controller/Admin/Pricing.php:913
+#: ../application/Controller/Admin/Pricing.php:906
 msgid "Pass deleted."
 msgstr "Pass entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:920
+#: ../application/Controller/Admin/Pricing.php:913
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
