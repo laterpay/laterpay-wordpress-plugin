@@ -623,17 +623,17 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // get the associated CSS class to be applied for the specified variant
         switch ( $variant ) {
-            case 'small'
+            case 'small':
                 $class = 'lp_timePassWidget-small';
                 break;
 
-            default
+            default:
                 $class = '';
         }
 
         $view_args = array(
-            'passes_list'               => $passes_list,
-            'time_pass_widget_class'    => $class,
+            'passes_list'            => $passes_list,
+            'time_pass_widget_class' => $class,
         );
 
         $this->logger->info(
