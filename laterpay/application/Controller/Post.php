@@ -600,11 +600,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      *
      * @wp-hook laterpay_time_passes
      *
-     * @param string $class additional class name
+     * @param string $variant variant of the time pass widget (currently only 'small' is supported)
      *
      * @return void
      */
-    public function the_time_passes_widget( $class = '' ) {
+    public function the_time_passes_widget( $variant = '' ) {
         $is_homepage = is_front_page() && is_home();
         // check, if post is purchasable and we are not on the homepage
         if ( ! LaterPay_Helper_Pricing::is_purchasable() && ! $is_homepage ) {
@@ -619,6 +619,16 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( null, $passes_with_access );
         } else {
             $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID(), $passes_with_access );
+        }
+
+        // get the associated CSS class to be applied for the specified variant
+        switch ( $variant ) {
+            case 'small'
+                $class = 'lp_timePassWidget-small';
+                break;
+
+            default
+                $class = '';
         }
 
         $view_args = array(
