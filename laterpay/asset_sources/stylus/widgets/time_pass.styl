@@ -3,7 +3,7 @@
     color                   $text /* make sure, the text is not white by default */
     display                 inline-block
     font-family             Arial, sans-serif                                                       !important
-    font-size               14px                                                                    !important
+    font-size               $fs-1                                                                   !important
     font-weight             400                                                                     !important
     margin-right            $fs-1
     margin-bottom           $fs-1
@@ -155,7 +155,7 @@
         margin              $fs-1
 
         &:last-child
-            margin-bottom   0
+            margin-bottom   0 // remove margin after last time pass, because the widget has a padding
 
 /**
  * voucher code section
@@ -229,6 +229,13 @@
             &:active
                 background  $clickable-highlight
 
+// define line-height to minimize influence of theme styles
+.lp_timePassWidget_voucherCode,
+.lp_timePassWidget_voucherCodeHint,
+.lp_timePassWidget_voucherCodeInputHint,
+.lp_timePassWidget_redeemVoucherCode
+    line-height             1.5
+
 .lp_timePassWidget_voucherCodeHint
     color                   $clickable
     display                 block  /* 1 */
@@ -247,3 +254,63 @@
  */
 .lp_timePassWidget_redeemVoucherCode
     display                 none
+
+
+/**
+ * time pass widget variant 'small'
+ * reduced height, width, font-size, margins, and paddings
+ */
+.lp_timePassWidget-small
+    font-size               $fs-075                                                                 !important
+    margin-right            $fs-05
+    margin-bottom           $fs-05
+
+    .lp_timePass,
+    .lp_timePass__front,
+    .lp_timePass__back
+        height              112px
+        width               224px
+
+    .lp_timePass__front
+        background          url(../img/time-pass-background-small.png) 0 0/100% no-repeat
+        padding             $fs-05 round(4 * $fs-05) $fs-05 $fs-05
+
+    .lp_timePass__back
+        background          url(../img/time-pass-background-flip-small.png) 0 0/100% no-repeat
+        padding             $fs-05 $fs-05 $fs-05 round(4 * $fs-05)
+
+    .lp_timePass_title
+        font-size           $fs-1
+        margin-top          $fs-05
+
+    .lp_timePass_description
+        font-size           $fs-075
+        height              2.9em
+
+    .lp_timePass_actions
+        bottom              0.5em
+        width               80%; /* 1 - fallback for browsers that don't support calc */
+        width               calc(100% - 3em) /* 1 */
+
+        .lp_purchaseLink.lp_button
+            font-size       $fs-15                                                                  !important
+
+            &:before
+                font-size   36px                                                                    !important
+
+        .lp_timePass_termsLink
+            padding         $fs-025 $fs-05
+
+    .lp_timePass__conditions
+        th,
+        td
+            font-size       $fs-075
+            padding-bottom  0                                                                       !important
+
+        th
+            padding-right   $fs-05                                                                  !important
+
+    .lp_timePass_frontsideLink
+        font-size           $fs-075
+        padding             $fs-025 $fs-05
+
