@@ -220,7 +220,7 @@
         </div>
 
         <div class="lp_row lp_u_clearfix lp_u_m-b1">
-            <h3><?php _e( 'Display of Time Passes', 'laterpay' ); ?></h3>
+            <h3 id="lp_timePassAppearance"><?php _e( 'Display of Time Passes', 'laterpay' ); ?></h3>
             <dfn class="lp_u_clearfix">
                 <?php _e( 'Call action \'laterpay_time_pass\' in your theme to display available time passes.', 'laterpay' ); ?><br>
                 <?php _e( 'The default width is 308px. You can add the parameter \'small\' to display a smaller version with a width of 224px.', 'laterpay' ); ?>
