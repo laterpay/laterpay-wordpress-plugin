@@ -204,6 +204,10 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
+            <dfn class="lp_spacer lp_u_block">
+                <?php _e( 'Time passes provide time-limited access to your content.', 'laterpay' ); ?><br>
+                <?php _e( 'To display time passes you have to <a href="admin.php?page=laterpay-appearance-tab">integrate the action laterpay_time_pass</a> into your theme.', 'laterpay' ); ?>
+            </dfn>
 
             <div class="lp_js_timePassEditor lp_timePassEditor">
                 <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Pass', 'laterpay' ); ?></a>

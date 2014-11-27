@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Thu Nov 27 2014 10:31:32 GMT+0100 (CET)\n"
+"PO-Revision-Date: Thu Nov 27 2014 18:15:52 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -418,6 +418,26 @@ msgstr ""
 "Die LaterPay Rechnungsanzeige wird von LaterPay geladen. Ihr Aussehen kann "
 "nicht geändert werden."
 
+#: ../views/backend/appearance.php:223
+msgid "Display of Time Passes"
+msgstr "Anzeigen von Zeitpässen"
+
+#: ../views/backend/appearance.php:225
+msgid ""
+"Call action 'laterpay_time_pass' in your theme to display available time "
+"passes."
+msgstr ""
+"Rufen Sie die Action 'laterpay_time_pass' in Ihrem Theme auf, um verfügbare "
+"Zeitpässe anzuzeigen."
+
+#: ../views/backend/appearance.php:226
+msgid ""
+"The default width is 308px. You can add the parameter 'small' to display a "
+"smaller version with a width of 224px."
+msgstr ""
+"Die Standard-Breite beträgt 308px. Sie können den Parameter 'small' "
+"hinzufügen, um eine kleinere Version mit einer Breite von 224px. anzuzeigen."
+
 #: ../views/backend/account.php:23
 msgid "LaterPay API Credentials"
 msgstr "LaterPay API Zugangsdaten"
@@ -510,14 +530,14 @@ msgid "Global Default Price"
 msgstr "Standardpreis"
 
 #: ../views/backend/pricing.php:31 ../views/backend/pricing.php:117 ..
-#: views/backend/pricing.php:165 ../views/backend/pricing.php:220 ..
-#: views/backend/pricing.php:392
+#: views/backend/pricing.php:165 ../views/backend/pricing.php:224 ..
+#: views/backend/pricing.php:396
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: ../views/backend/pricing.php:32 ../views/backend/pricing.php:116 ..
-#: views/backend/pricing.php:164 ../views/backend/pricing.php:219 ..
-#: views/backend/pricing.php:391 ../views/backend/pricing.php:463
+#: views/backend/pricing.php:164 ../views/backend/pricing.php:223 ..
+#: views/backend/pricing.php:395 ../views/backend/pricing.php:467
 msgid "Save"
 msgstr "Speichern"
 
@@ -526,8 +546,8 @@ msgid "<strong>Every post</strong> costs"
 msgstr "<strong>Jeder Beitrag</strong> kostet"
 
 #: ../views/backend/pricing.php:59 ../views/backend/pricing.php:118 ..
-#: views/backend/pricing.php:166 ../views/backend/pricing.php:221 ..
-#: views/backend/pricing.php:393
+#: views/backend/pricing.php:166 ../views/backend/pricing.php:225 ..
+#: views/backend/pricing.php:397
 msgid "Change"
 msgstr "Ändern"
 
@@ -553,8 +573,8 @@ msgid "0.00"
 msgstr "0,00"
 
 #: ../views/backend/pricing.php:119 ../views/backend/pricing.php:167 ..
-#: views/backend/pricing.php:222 ../views/backend/pricing.php:394 ..
-#: views/backend/pricing.php:470 ../application/Controller/Admin/Pricing.php:48
+#: views/backend/pricing.php:226 ../views/backend/pricing.php:398 ..
+#: views/backend/pricing.php:474 ../application/Controller/Admin/Pricing.php:48
 msgid "Delete"
 msgstr "Löschen"
 
@@ -586,73 +606,85 @@ msgstr "Der Nutzer muss sich bei LaterPay einloggen und sofort bezahlen."
 msgid "Time Passes"
 msgstr "Zeitpässe"
 
+#: ../views/backend/pricing.php:208
+msgid "Time passes provide time-limited access to your content."
+msgstr "Zeitpässe geben zeitlich begrenzt Zugang zu Ihren Inhalten."
+
 #: ../views/backend/pricing.php:209
+msgid ""
+"To display time passes you have to <a href=\"admin.php?page=laterpay-"
+"appearance-tab\">integrate the action laterpay_time_pass</a> into your theme."
+msgstr ""
+"Um Zeitpässe anzuzeigen, müssen Sie die <a href=\"admin.php?page=laterpay-"
+"appearance-tab\">Action laterpay_time_pass in Ihrem Theme aufrufen</a>.."
+
+#: ../views/backend/pricing.php:213
 msgid "New Pass"
 msgstr "Neuer Pass"
 
-#: ../views/backend/pricing.php:229 ../application/Controller/Admin/Pricing.php:51
+#: ../views/backend/pricing.php:233 ../application/Controller/Admin/Pricing.php:51
 msgid "allows purchasing this pass for"
 msgstr "ermöglicht den Kauf dieses Passes für"
 
-#: ../views/backend/pricing.php:253
+#: ../views/backend/pricing.php:257
 msgid "The pass is valid for "
 msgstr "Dieser Pass gilt für "
 
-#: ../views/backend/pricing.php:260
+#: ../views/backend/pricing.php:264
 msgid "and grants"
 msgstr "und gibt"
 
-#: ../views/backend/pricing.php:265
+#: ../views/backend/pricing.php:269
 msgid "access to"
 msgstr "Zugriff auf"
 
-#: ../views/backend/pricing.php:286
+#: ../views/backend/pricing.php:290
 msgid "The user pays"
 msgstr "Der Nutzer zahlt"
 
-#: ../views/backend/pricing.php:292
+#: ../views/backend/pricing.php:296
 msgid "later"
 msgstr "später"
 
-#: ../views/backend/pricing.php:302
+#: ../views/backend/pricing.php:306
 msgid "immediately"
 msgstr "sofort"
 
-#: ../views/backend/pricing.php:316
+#: ../views/backend/pricing.php:320
 msgid "Title"
 msgstr "Titel"
 
-#: ../views/backend/pricing.php:333
+#: ../views/backend/pricing.php:337
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../views/backend/pricing.php:357
+#: ../views/backend/pricing.php:361
 msgid "Background image"
 msgstr "Hintergrundbild"
 
-#: ../views/backend/pricing.php:358
+#: ../views/backend/pricing.php:362
 msgid "or color"
 msgstr "oder Farbe"
 
-#: ../views/backend/pricing.php:373
+#: ../views/backend/pricing.php:377
 msgid "Offer this time pass at a reduced price of"
 msgstr "Diesen Zeitpass zu einem reduzierten Preis anbieten:"
 
-#: ../views/backend/pricing.php:380
+#: ../views/backend/pricing.php:384
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: ../views/backend/pricing.php:404 ../application/Controller/Admin.php:289
+#: ../views/backend/pricing.php:408 ../application/Controller/Admin.php:289
 msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
-#: ../views/backend/pricing.php:449 ../application/Controller/Admin/Pricing.php:
+#: ../views/backend/pricing.php:453 ../application/Controller/Admin/Pricing.php:
 #: 43 ../application/Controller/Admin/Pricing.php:555 ..
 #: application/Controller/Admin/Pricing.php:586
 msgid "to"
 msgstr "auf"
 
-#: ../views/backend/pricing.php:462 ../views/backend/pricing.php:471 ..
+#: ../views/backend/pricing.php:466 ../views/backend/pricing.php:475 ..
 #: application/Controller/Admin/Pricing.php:47
 msgid "Update Prices"
 msgstr "Preise aktualisieren"
@@ -860,18 +892,18 @@ msgstr ""
 msgid "Thank you very much for rating!"
 msgstr "Vielen Dank für Ihre Bewertung!"
 
-#: ../application/Controller/Post.php:746
+#: ../application/Controller/Post.php:814
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:989
+#: ../application/Controller/Post.php:1059
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:990
+#: ../application/Controller/Post.php:1060
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
 msgstr ""
 "Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
