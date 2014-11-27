@@ -180,6 +180,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
+        if ( ! isset( $_GET[ 'link' ] ) ) {
+            return;
+        }
+
         // check if such voucher code exist and pass available for purchase
         $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ] );
         if ( $code_data ) {
@@ -187,7 +191,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $pass_id = $code_data[ 'pass_id' ];
             $price   = $code_data[ 'price' ];
             // TODO: check that pass id available for purchase
-            $url     = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price );
+            $url     = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price, $_GET[ 'link' ] );
 
             wp_send_json(
                 array(

@@ -368,7 +368,7 @@ class LaterPay_Helper_Passes
      *
      * @return string url || empty string if something went wrong
      */
-    public static function get_laterpay_purchase_link( $pass_id, $price = null ) {
+    public static function get_laterpay_purchase_link( $pass_id, $price = null, $link = null ) {
         $time_pass_model = new LaterPay_Model_Pass();
 
         $pass = (array) $time_pass_model->get_pass_data( $pass_id );
@@ -389,7 +389,7 @@ class LaterPay_Helper_Passes
                 $client_options['token_name']
         );
 
-        $url    = get_permalink();
+        $url = isset( $link ) ? $link : get_permalink();
 
         // parameters for LaterPay purchase form
         $params = array(
