@@ -4,7 +4,7 @@
     <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
         <?php echo $this->render_pass( (array) $pass ); ?>
     <?php endforeach; ?>
-    <div class="lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
+    <div id="lp_js_voucherCodeWrapper" class="lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
         <input type="text"
                 name="time_pass_voucher_code"
                 class="lp_js_voucherCodeInput lp_timePassWidget_voucherCode"

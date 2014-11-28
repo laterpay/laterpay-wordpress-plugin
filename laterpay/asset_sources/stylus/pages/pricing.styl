@@ -39,7 +39,7 @@ span.lp_revenueModelLabel
 
 // time passes ---------------------------------------------------------------------------------------------------------
 .lp_addTimePass.button
-    margin                  $fs-1 $fs-1 $fs-1 0
+    margin-bottom           $fs-1
 
 .lp_timePassWrapper
     background              $background-darker
@@ -70,8 +70,11 @@ span.lp_revenueModelLabel
         margin-top          1em
         margin-left         0.5em
 
-    .lp_toggle_label
+    .lp_toggle_label_pass
         width               3.5em
+
+        .lp_toggle_input:checked ~ .lp_toggle_text
+            background      hsl(0, 0%, 80%)
 
     .lp_colorPicker
         float               right

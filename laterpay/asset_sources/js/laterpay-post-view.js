@@ -17,7 +17,11 @@
                 postStatisticsVisibilityInput   : $('#lp_js_postStatistics_visibilityInput'),
 
                 // time passes
+                timePass                        : '.lp_js_timePass',
                 flipTimePassLink                : '.lp_js_flipTimePass',
+                voucherCodeWrapper              : '.lp_js_voucherCodeWrapper',
+                voucherCodeInput                : '.lp_js_voucherCodeInput',
+                voucherRedeemButton             : '.lp_js_voucherRedeemButton',
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
@@ -26,11 +30,6 @@
 
                 // purchase buttons and purchase links
                 purchaseLink                    : '.lp_js_doPurchase',
-
-                // redeem voucher code
-                voucherRedeemButton             : '.lp_js_voucherRedeemButton',
-                voucherCodeInput                : '.lp_js_voucherCodeInput',
-                timePassRow                     : '.lp_js_timePassRow',
 
                 // content rating
                 postRatingForm                  : $('.lp_js_ratingForm'),
@@ -106,43 +105,71 @@
 
             redeemVoucherCode = function() {
                 var code = $($o.voucherCodeInput).val();
-                $.get(
-                    lpVars.ajaxUrl,
-                    {
-                        action : 'laterpay_redeem_voucher_code',
-                        code   : code,
-                        nonce  : lpVars.nonces.voucher,
-                        link   : window.location.href,
-                    },
-                    function(r) {
-                        if (r.success) {
-                            // update price of necessary pass_id and purchase url
-                            var has_matches = false;
-                            $($o.timePassRow).each( function(){
-                                var passId = $(this).data('pass-id');
-                                // if passId matched
-                                if ( passId === r.pass_id ) {
-                                    var html = r.price + '<small>' +
-                                               lpVars.default_currency + '</small>';
-                                    $(this).find($o.purchaseLink)
-                                    .attr( 'data-laterpay', r.url ).html(html);
-                                    has_matches = true;
 
-                                    return false;
+                if (code.length === 6) {
+                    $.get(
+                        lpVars.ajaxUrl,
+                        {
+                            action : 'laterpay_redeem_voucher_code',
+                            code   : code,
+                            nonce  : lpVars.nonces.voucher,
+                            link   : window.location.href,
+                        },
+                        function(r) {
+                            // clear input
+                            $($o.voucherCodeInput).val('');
+
+                            if (r.success) {
+                                var has_matches = false,
+                                    passId;
+                                $($o.timePass).each(function() {
+                                    // check for each displayed time pass, if the request returned updated data for it
+                                    passId = $(this).data('pass-id');
+                                    if (passId === r.pass_id) {
+                                        // update purchase button price and url
+                                        var priceWithVoucher = r.price +
+                                                                '<small>' + lpVars.default_currency + '</small>';
+
+                                        $(this)
+                                            .find($o.purchaseLink)
+                                            .attr('data-laterpay', r.url)
+                                            .html(priceWithVoucher);
+
+                                        has_matches = true;
+
+                                        return false;
+                                    }
+                                });
+
+                                if (has_matches) {
+                                    // voucher is valid for at least one displayed time pass
+                                    showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher);
+                                } else {
+                                    // voucher is invalid for all displayed time passes
+                                    showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
                                 }
-                            });
-
-                            if ( has_matches ) {
-                                // show success message
                             } else {
-                                // show message: incorrect voucher code
+                                // general error
+                                showVoucherCodeFeedbackMessage(lpVars.i18n.generalAjaxError);
                             }
-                        } else {
-                            // show message: incorrect voucher code
-                        }
-                    },
-                    'json'
-                );
+                        },
+                        'json'
+                    );
+                } else {
+                    // request was not sent, because voucher code is not six characters long
+                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort);
+                }
+            },
+
+            showVoucherCodeFeedbackMessage = function(message) {
+alert(message);
+                // var $feedbackMessage =  $('div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
+                //                             message +
+                //                         '</div>');
+
+                // $($o.voucherCodeWrapper)
+                // .insert($feedbackMessage)
+                // .fadeIn(250);
             },
 
             savePostRating = function() {
@@ -301,7 +328,7 @@
             handlePurchaseInTestMode = function(trigger) {
                 if ($(trigger).data('preview-as-visitor')) {
                     // show alert instead of loading LaterPay purchase dialogs
-                    alert(lpVars.i18nAlert);
+                    alert(lpVars.i18n.alert);
                 }
             },
 
@@ -364,7 +391,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         function(event) {
             event.preventDefault();
             if (event.currentTarget.getData('preview-as-visitor')) {
-                alert(lpVars.i18nAlert);
+                alert(lpVars.i18n.alert);
             } else {
                 var url = event.currentTarget.getAttribute('href');
                 if (event.currentTarget.hasAttribute('data-laterpay')) {
