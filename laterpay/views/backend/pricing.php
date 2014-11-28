@@ -49,11 +49,11 @@
                                         name="laterpay_global_price"
                                         id="lp_js_globalDefaultPrice"
                                         class="lp_js_priceInput lp_input lp_numberInput"
-                                        value="<?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?>"
+                                        value="<?php echo $laterpay['global_default_price']; ?>"
                                         style="display:none;"
                                         placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>"
                                         autocomplete="off">
-                                <span id="lp_js_globalDefaultPrice_text"><?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?></span>
+                                <span id="lp_js_globalDefaultPrice_text"><?php echo $laterpay['global_default_price']; ?></span>
                                 <span class="lp_js_currency lp_currency"><?php echo $laterpay['standard_currency']; ?></span>
                             </strong>
                             <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_editLink lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
@@ -80,8 +80,8 @@
                                     <input type="hidden" name="category_id" class="lp_js_categoryDefaultPrice_categoryId" value="<?php echo $category->category_id; ?>">
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                                    <?php $category_price           = LaterPay_Helper_View::format_number( (float) $category->category_price ); ?>
-                                    <?php $category_revenue_model   = $category->revenue_model; ?>
+                                    <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
+                                    <?php $category_revenue_model = $category->revenue_model; ?>
 
                                     <div class="lp_js_revenueModel lp_revenueModel lp_u_relative lp_u_left" style="display:none;">
                                         <label class="lp_js_revenueModel_label lp_revenueModelLabel lp_u_m-r05 lp_u_m-b025
