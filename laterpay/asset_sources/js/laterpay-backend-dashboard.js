@@ -130,11 +130,11 @@
 			},
 
 			showLoadingIndicator = function(element){
-				element.html('<div class="loading_indicator">loading..</div>');
+				element.html('<div class="lp_loadingIndicator"></div>');
 			},
 
 			removeLoadingIndicator = function(element){
-				element.find('.loading_indicator' ).remove();
+				element.find('.lp_loadingIndicator').remove();
 			},
 
 			loadConvertingItems = function(refresh){
