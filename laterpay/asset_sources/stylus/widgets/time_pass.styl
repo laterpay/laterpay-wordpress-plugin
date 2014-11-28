@@ -172,11 +172,14 @@
  * 6. Give a reasonable height to the wrapper to allow positioning the elements with top, bottom, left, right
  */
 .lp_timePassWidget_voucherCodeWrapper
-    height                  round(3.75 * $fs-1) /* 6 - TODO: this is a magic number that should not be required */ !important
     margin                  $fs-1                                                                   !important
     max-width               308px /* 5 */                                                           !important
     min-width               round(18 * $fs-1) /* 4 */                                               !important
     position                relative                                                                !important
+
+.lp_timePassWidget_voucherCodeWrapper,
+.lp_timePassWidget_voucherCode
+    height                  round(3.75 * $fs-1) /* 6 - TODO: this is a magic number that should not be required */ !important
 
 .lp_voucherCodeFeedbackMessage
     background              $background-highlight                                                   !important
@@ -218,6 +221,7 @@
         background          $background-lightest                                                    !important
         border              2px solid $clickable-highlight /* 3 */                                  !important
         border-radius       5px                                                                     !important
+        box-shadow          none /* 1 */                                                            !important
         color               $text /* 3 */                                                           !important
         cursor              normal                                                                  !important
 
@@ -241,6 +245,7 @@
             position        absolute                                                                !important
             padding         $fs-05 $fs-1                                                            !important
             right           $fs-05                                                                  !important
+            text-decoration none                                                                    !important
             top             $fs-05                                                                  !important
             z-index         $zindex-overlayed_3                                                     !important
 
@@ -248,6 +253,7 @@
             &:focus,
             &:active
                 background  $clickable-highlight                                                    !important
+                text-decoration none                                                                !important
 
 // define line-height to minimize influence of theme styles
 .lp_timePassWidget_voucherCode,
