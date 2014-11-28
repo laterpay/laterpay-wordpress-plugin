@@ -189,8 +189,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( $code_data ) {
             // get new url for this pass
             $pass_id = $code_data[ 'pass_id' ];
+            // get price, delocalize it and format
             $price   = $code_data[ 'price' ];
-            // TODO: check that pass id available for purchase
+            $price   = str_replace( ',', '.', $price );
+            $price   = number_format( (float) $price, 2 );
+            // get new purchase url
             $url     = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price, $_GET[ 'link' ] );
 
             wp_send_json(

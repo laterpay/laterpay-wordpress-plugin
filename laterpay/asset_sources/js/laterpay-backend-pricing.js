@@ -249,7 +249,7 @@
                 // enter price
                 $o.timePassEditor
                 .on('keyup', $o.timePassPrice, debounce(function() {
-                        validatePrice($(this).parents('form'));
+                        validatePrice($(this).parents('form'), false, $(this));
                         updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
                     }, 800)
                 );
@@ -285,7 +285,7 @@
                 // enter voucher price
                 $o.timePassEditor
                 .on('keyup', $o.voucherPriceInput, debounce(function() {
-                        validatePrice( $(this).parents('form'), true, $(this) );
+                        validatePrice($(this).parents('form'), true, $(this));
                     }, 800)
                 );
 
@@ -768,6 +768,8 @@
                     }
                 });
 
+                // validate price after inserting
+                validatePrice($timePass.find('form'), false, $($o.timePassPrice, $timePass));
                 // set price input value into the voucher price input
                 $($o.voucherPriceInput, $timePass).val( $($o.timePassPrice, $timePass).val() );
 
