@@ -867,6 +867,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $data     = $pass_model->update_pass( $data );
             // save vouchers for this pass
             LaterPay_Helper_Vouchers::save_pass_vouchers( $data['pass_id'], $voucher );
+            $data['price'] = LaterPay_Helper_View::format_number( (float) $data['price'] );
 
             wp_send_json(
                 array(
