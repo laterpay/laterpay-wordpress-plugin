@@ -1,1 +1,397 @@
-!function(e){e(function(){function t(){var t,s,i={daysBack:8,itemsPerList:10,list:[],configurationSelection:e("#lp_js_selectDashboardInterval, #lp_js_selectRevenueModel"),selectedInterval:e("#lp_js_selectDashboardInterval"),selectedRevenueModel:e("#lp_js_selectRevenueModel"),previousInterval:e("#lp_js_loadPreviousInterval"),nextInterval:e("#lp_js_loadNextInterval"),conversionDiagram:e("#lp_js_conversionDiagram"),salesDiagram:e("#lp_js_salesDiagram"),revenueDiagram:e("#lp_js_revenueDiagram"),totalImpressionsKPI:e("#lp_js_totalImpressions"),avgConversionKPI:e("#lp_js_avgConversion"),newCustomersKPI:e("#lp_js_shareOfNewCustomers"),avgItemsSoldKPI:e("#lp_js_avg-items-sold"),totalItemsSoldKPI:e("#lp_js_total-items-sold"),avgRevenueKPI:e("#lp_js_avgRevenue"),totalRevenueKPI:e("#lp_js_totalRevenue"),bestConvertingList:e("#lp_js_bestConvertingList"),leastConvertingList:e("#lp_js_leastConvertingList"),bestSellingList:e("#lp_js_bestSellingList"),leastSellingList:e("#lp_js_leastSellingList"),bestGrossingList:e("#lp_js_bestGrossingList"),leastGrossingList:e("#lp_js_leastGrossingList")},l=function(){e("#lp_js_refreshDashboard").click(function(e){c(),e.preventDefault()}),i.configurationSelection.change(function(){c()}),i.nextInterval.mousedown(function(){}).click(function(e){e.preventDefault()}),i.previousInterval.mousedown(function(){}).click(function(e){e.preventDefault()})},o=function(s){var l=s.converting_items_by_day.x,o=[];for(t=0;t<i.daysBack;t++)o.push([t+1,100]);e.plot(i.conversionDiagram,[{data:o,bars:{show:!0,barWidth:.7,fillColor:"#e3e3e3",lineWidth:0,align:"center",horizontal:!1}},{data:s.converting_items_by_day.y,bars:{show:!0,barWidth:.35,fillColor:"#50C371",lineWidth:0,align:"center",horizontal:!1}}],{legend:{show:!1},xaxis:{font:{color:"#bbb",lineHeight:18},show:!0,ticks:l},yaxis:{font:{color:"#bbb"},ticks:5,tickFormatter:function(e){return e+" %"},min:0,max:100,reserveSpace:!0},series:{shadowSize:0},grid:{borderWidth:{top:0,right:0,bottom:1,left:0},borderColor:"#ccc",tickColor:"rgba(247,247,247,0)"}}),e.plot(i.salesDiagram,[{data:s.selling_items_by_day.y,color:"#50C371",lines:{show:!0,lineWidth:1.5,fill:!1,gaps:!0},points:{show:!0,radius:3,lineWidth:0,fill:!0,fillColor:"#50C371"}}],{legend:{show:!1},xaxis:{font:{color:"#bbb",lineHeight:18},show:!0,ticks:l},yaxis:{font:{color:"#bbb"},ticks:5,min:0,max:1e3,reserveSpace:!0},series:{shadowSize:0},grid:{borderWidth:{top:0,right:0,bottom:1,left:0},borderColor:"#ccc",tickColor:"rgba(247,247,247,0)"}}),e.plot(i.revenueDiagram,[{data:s.revenue_items_by_day.y,color:"#50C371",lines:{show:!0,lineWidth:1.5,fill:!1,gaps:!0},points:{show:!0,radius:3,lineWidth:0,fill:!0,fillColor:"#50C371"}}],{legend:{show:!1},xaxis:{font:{color:"#bbb",lineHeight:18},show:!0,ticks:l},yaxis:{font:{color:"#bbb"},ticks:5,min:0,max:1e3,reserveSpace:!0},series:{shadowSize:0},grid:{borderWidth:{top:0,right:0,bottom:1,left:0},borderColor:"#ccc",tickColor:"rgba(247,247,247,0)"}}),i.totalImpressionsKPI.text(s.impressions||0),i.avgConversionKPI.text(s.conversion||0),i.newCustomersKPI.text(s.new_customers||0),i.avgItemsSoldKPI.text(s.avg_purchase||0),i.totalItemsSoldKPI.text(s.total_items_sold||0),i.avgRevenueKPI.text(s.avg_revenue||0),i.totalRevenueKPI.text(s.total_revenue||0),n(i.bestConvertingList,s.best_converting_items),n(i.leastConvertingList,s.least_converting_items),n(i.bestSellingList,s.most_selling_items),n(i.leastSellingList,s.least_selling_items),n(i.bestGrossingList,s.most_revenue_items),n(i.leastGrossingList,s.least_revenue_items),r()},n=function(e,l){if(i.list=[],t=0,s=l.length,s>0)for(;s>t;t++)i.list.push(a(l[t].post_id,l[t].post_title,l[t].amount,l[t].unit,l[t].sparkline));else i.list=["<dfn>"+lpVars.i18n.noData+"</dfn>"];e.html(i.list.join(""))},a=function(e,t,s,i,l){var o=i?s+"<small>"+i+"</small>":s;return'<li><span class="lp_sparklineBar">'+l+'</span><strong class="lp_value">'+o+'</strong><i><a href="#" class="lp_js_toggleItemDetails">'+t+"</a></i></li>"},r=function(){e(".lp_sparklineBar").peity("bar",{width:34,height:14,gap:1,fill:function(){return"#ccc"}})},c=function(){var t=e(i.selectedInterval).find(":checked").val(),s=i.selectedRevenueModel.find(":checked").val();e.post(lpVars.ajaxUrl,{action:"laterpay_get_dashboard_data",_wpnonce:lpVars.nonces.dashboard,interval:t,revenue_model:s,days:i.daysBack,count:i.itemsPerList,refresh:1},function(e){e.success&&o(e.data)},"json")},_=function(){l(),o(lpVars.data)};_()}t()})}(jQuery);
+(function($) {$(function() {
+
+    // encapsulate all LaterPay Javascript in function laterPayBackendDashboard
+    function laterPayBackendDashboard() {
+        var i, l,
+            $o = {
+                daysBack				: 8,
+				itemsPerList            : 10,
+                list                    : [],
+
+                // heading with dashboard configuration selections
+                configurationSelection  : $('#lp_js_selectDashboardInterval, #lp_js_selectRevenueModel'),
+                selectedInterval        : $('#lp_js_selectDashboardInterval'),
+                selectedRevenueModel    : $('#lp_js_selectRevenueModel'),
+                previousInterval        : $('#lp_js_loadPreviousInterval'),
+                nextInterval            : $('#lp_js_loadNextInterval'),
+
+                // diagrams
+                conversionDiagram       : $('#lp_js_conversionDiagram'),
+                salesDiagram            : $('#lp_js_salesDiagram'),
+                revenueDiagram          : $('#lp_js_revenueDiagram'),
+
+                // main KPIs
+                totalImpressionsKPI     : $('#lp_js_totalImpressions'),
+                avgConversionKPI        : $('#lp_js_avgConversion'),
+                newCustomersKPI         : $('#lp_js_shareOfNewCustomers'),
+
+                avgItemsSoldKPI         : $('#lp_js_avg-items-sold'),
+                totalItemsSoldKPI       : $('#lp_js_total-items-sold'),
+
+                avgRevenueKPI           : $('#lp_js_avgRevenue'),
+                totalRevenueKPI         : $('#lp_js_totalRevenue'),
+
+                // top / bottom lists
+                bestConvertingList      : $('#lp_js_bestConvertingList'),
+                leastConvertingList     : $('#lp_js_leastConvertingList'),
+                bestSellingList         : $('#lp_js_bestSellingList'),
+                leastSellingList        : $('#lp_js_leastSellingList'),
+                bestGrossingList        : $('#lp_js_bestGrossingList'),
+                leastGrossingList       : $('#lp_js_leastGrossingList')
+			},
+			plotDefaultOptions = {
+				legend              : {
+					show            : false
+				},
+				xaxis               : {
+					font            : {
+						color       : '#bbb',
+						lineHeight  : 18
+					},
+					show            : true
+				},
+				yaxis               : {
+					font            : {
+						color       : '#bbb'
+					},
+					ticks           : 5,
+					min             : 0,
+					reserveSpace    : true
+				},
+				series              : {
+					shadowSize      : 0
+				},
+				grid                : {
+					borderWidth     : {
+						top         : 0,
+						right       : 0,
+						bottom      : 1,
+						left        : 0
+					},
+					borderColor     : '#ccc',
+					tickColor       : 'rgba(247,247,247,0)'  // transparent
+				}
+			},
+			plotDefaultData = [
+				{
+					color           : '#50C371',
+					lines           : {
+						show        : true,
+						lineWidth   : 1.5,
+						fill        : false,
+						gaps        : true
+					},
+					points          : {
+						show        : true,
+						radius      : 3,
+						lineWidth   : 0,
+						fill        : true,
+						fillColor   : '#50C371'
+					}
+				}
+			],
+
+			loadDashboardData = function( section, refresh ){
+				var interval        = $($o.selectedInterval).find(':checked').val(),
+					revenueModel    = $o.selectedRevenueModel.find(':checked').val(),
+					request_data	= {
+						// wp ajax action
+						'action':		'laterpay_get_dashboard_data',
+						// nonce for validation and xss-protection
+						'_wpnonce':		lpVars.nonces.dashboard,
+						// data-section which is loaded:  converting_items|selling_items|revenue_items|most_least_converting_items|most_least_selling_items|most_least_revenue_items|metrics
+						'section':		section,
+						// day|week|2-weeks|month
+						'interval':		interval,
+						// count of best/least items
+						'count':		$o.itemsPerList,
+						// 1 (true): refresh data, 0 (false): only load the cached data; default: 1
+						'refresh':		refresh ? 1 : 0,
+						// TODO: implementing
+						'revenue_model':revenueModel
+					},
+					jqxhr;
+
+				jqxhr = $.ajax({
+					'url':		lpVars.ajaxUrl,
+					'async':	true,
+					'method':	'POST',
+					'data':		request_data
+				});
+
+				jqxhr.done(function(data){
+					if(!data || data.success){
+						return;
+					}
+					setMessage(data.message, data.success);
+				});
+
+				return jqxhr;
+			},
+
+			showLoadingIndicator = function(element){
+				element.html('<div class="loading_indicator">loading..</div>');
+			},
+
+			removeLoadingIndicator = function(element){
+				element.find('.loading_indicator' ).remove();
+			},
+
+			loadConvertingItems = function(refresh){
+
+				showLoadingIndicator($o.conversionDiagram);
+
+				loadDashboardData('converting_items', refresh).done(function(response){
+					var plotOptions = {
+							xaxis: {
+								ticks: response.data.x
+							}
+						},
+						plotData = [
+							{
+								data            : response.data.y,
+								bars            : {
+									show        : true,
+									barWidth    : 0.35,
+									fillColor   : '#50C371',
+									lineWidth   : 0,
+									align       : 'center',
+									horizontal  : false
+								}
+							}
+						];
+
+					plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+					$.plot($o.conversionDiagram, plotData, plotOptions);
+				})
+				.always(function(){removeLoadingIndicator($o.conversionDiagram);});
+			},
+
+			loadSellingItems = function(refresh){
+				showLoadingIndicator($o.salesDiagram);
+
+				loadDashboardData('selling_items', refresh).done(function(response){
+					var plotOptions = {
+							xaxis: {
+								ticks: response.data.x
+							}
+						},
+						plotData = plotDefaultData;
+
+					plotOptions			= $.extend(true, plotDefaultOptions, plotOptions);
+					plotData[0].data	= response.data.y;
+
+					$.plot($o.salesDiagram, plotData, plotOptions);
+				})
+				.always(function(){removeLoadingIndicator($o.salesDiagram);});
+			},
+
+			loadRevenueItems = function(refresh){
+				showLoadingIndicator($o.revenueDiagram);
+
+				loadDashboardData('revenue_items', refresh).done(function(response){
+					var plotOptions = {
+							xaxis: {
+								ticks: response.data.x
+							}
+						},
+						plotData = plotDefaultData;
+
+					plotOptions			= $.extend(true, plotDefaultOptions, plotOptions);
+					plotData[0].data	= response.data.y;
+
+					$.plot($o.revenueDiagram, plotData, plotOptions);
+				})
+				.always(function(){removeLoadingIndicator($o.revenueDiagram);});
+			},
+
+			loadMostLeastConvertingItems = function(refresh){
+				showLoadingIndicator($o.bestConvertingList);
+				showLoadingIndicator($o.leastConvertingList);
+
+				loadDashboardData('most_least_converting_items', refresh).done(function(response){
+
+					if(!response.data.most){
+						response.data.most = {};
+					}
+
+					if(!response.data.least){
+						response.data.least = {};
+					}
+
+					renderTopBottomList($o.bestConvertingList, response.data.most);
+					renderSparklines( $o.bestConvertingList );
+
+					renderTopBottomList($o.leastConvertingList, response.data.least);
+					renderSparklines( $o.leastConvertingList );
+
+				})
+				.always(function(){removeLoadingIndicator($o.bestConvertingList);})
+				.always(function(){removeLoadingIndicator($o.leastConvertingList);});
+			},
+
+			loadMostLeastSellingItems = function(refresh){
+				showLoadingIndicator($o.bestSellingList);
+				showLoadingIndicator($o.leastSellingList);
+
+				loadDashboardData('most_least_selling_items', refresh).done(function(response){
+
+					if(!response.data.most){
+						response.data.most = {};
+					}
+
+					if(!response.data.least){
+						response.data.least = {};
+					}
+
+					renderTopBottomList($o.bestSellingList, response.data.most);
+					renderSparklines( $o.bestSellingList );
+
+					renderTopBottomList($o.leastSellingList, response.data.least);
+					renderSparklines( $o.leastSellingList );
+
+				})
+				.always(function(){removeLoadingIndicator($o.bestSellingList);})
+				.always(function(){removeLoadingIndicator($o.leastSellingList);});
+			},
+
+			loadMostLeastRevenueItems = function(refresh){
+				showLoadingIndicator($o.bestGrossingList);
+				showLoadingIndicator($o.leastGrossingList);
+
+				loadDashboardData('most_least_revenue_items', refresh).done(function(response){
+
+					if(!response.data.most){
+						response.data.most = {};
+					}
+
+					if(!response.data.least){
+						response.data.least = {};
+					}
+
+					renderTopBottomList($o.bestGrossingList,  response.data.most);
+					renderSparklines( $o.bestGrossingList );
+
+					renderTopBottomList($o.leastGrossingList, response.data.least);
+					renderSparklines( $o.leastGrossingList );
+
+				})
+				.always(function(){removeLoadingIndicator($o.bestGrossingList);})
+				.always(function(){removeLoadingIndicator($o.leastGrossingList);});
+			},
+
+			loadMetrics = function(refresh){
+				loadDashboardData('metrics', refresh)
+				.done(function(response){
+
+					$o.totalImpressionsKPI.text(response.data.impressions || 0);
+					$o.avgConversionKPI.text(response.data.conversion || 0);
+					$o.newCustomersKPI.text(response.data.new_customers || 0);
+
+					$o.avgItemsSoldKPI.text(response.data.avg_items_sold || 0);
+					$o.totalItemsSoldKPI.text(response.data.total_items_sold || 0);
+
+					$o.avgRevenueKPI.text(response.data.avg_purchase || 0);
+					$o.totalRevenueKPI.text(response.data.total_revenue || 0);
+
+				});
+			},
+
+            bindEvents = function() {
+
+                // refresh dashboard
+                $('#lp_js_refreshDashboard')
+                .click(function(e) {
+					loadDashboard(true);
+                    e.preventDefault();
+                });
+
+                // re-render dashboard in selected configuration
+                $o.configurationSelection
+                .change(function() {
+					loadDashboard();
+                });
+
+                // re-render dashboard with data of next interval
+                $o.nextInterval
+                .mousedown(function() {
+                    // do stuff
+                })
+                .click(function(e) {e.preventDefault();});
+
+
+                // re-render dashboard with data of previous interval
+                $o.previousInterval
+                .mousedown(function() {
+                    // do stuff
+                })
+                .click(function(e) {e.preventDefault();});
+            },
+
+            renderTopBottomList = function($list, data) {
+                $o.list = [];
+
+                i = 0;
+                l = data ? data.length : 0;
+
+                if (l > 0) {
+                    // create list item for each data set
+                    for (; i < l; i++) {
+                        $o.list.push(renderListItem(
+                                        data[i].post_id,
+                                        data[i].post_title,
+                                        data[i].amount,
+                                        data[i].unit,
+                                        data[i].sparkline
+                                    ));
+                    }
+                } else {
+                    $o.list = ['<dfn>' + lpVars.i18n.noData + '</dfn>'];
+                }
+
+                // replace existing HTML
+                $list.html($o.list.join(''));
+            },
+
+            renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
+                var kpi = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue;
+
+                return '<li>' +
+                            '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
+                            '<strong class="lp_value">' + kpi + '</strong>' +
+                            '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
+                        '</li>';
+            },
+
+            renderSparklines = function( context ) {
+                $('.lp_sparklineBar', context).peity('bar', {
+                    width   : 34,
+                    height  : 14,
+                    gap     : 1,
+                    fill    : function() { return '#ccc'; }
+                });
+            },
+
+			loadDashboard = function(refresh) {
+				refresh = refresh || false;
+                loadConvertingItems(refresh);
+				loadRevenueItems(refresh);
+				loadSellingItems(refresh);
+				loadMetrics(refresh);
+				loadMostLeastConvertingItems(refresh);
+				loadMostLeastRevenueItems(refresh);
+				loadMostLeastSellingItems(refresh);
+            },
+
+            initializePage = function() {
+                bindEvents();
+				loadDashboard();
+            };
+
+        initializePage();
+    }
+
+    // initialize page
+    laterPayBackendDashboard();
+
+});})(jQuery);

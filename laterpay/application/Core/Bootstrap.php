@@ -125,7 +125,7 @@ class LaterPay_Core_Bootstrap
         }
 
         $dashboard_controller = new LaterPay_Controller_Admin_Dashboard( $this->config );
-        add_action( 'laterpay_refresh_dashboard_data',          array( $dashboard_controller, 'refresh_dashboard_data' ), 10, 2 );
+        add_action( 'laterpay_refresh_dashboard_data',          array( $dashboard_controller, 'refresh_dashboard_data' ), 10, 3 );
         add_action( 'wp_ajax_laterpay_get_dashboard_data',      array( $dashboard_controller, 'ajax_get_dashboard_data' ) );
 
         $post_controller = new LaterPay_Controller_Post( $this->config );

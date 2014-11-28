@@ -4,6 +4,129 @@ class LaterPay_Helper_Dashboard
 {
 
     /**
+     * Helper function to load the cached data by a given file path.
+     *
+     * @param array $options
+     *
+     * @return array $cache_data array with cached data or empty array on failure
+     */
+    public static function get_cache_data( $options ) {
+
+        $file_path = $options[ 'cache_file_path' ];
+
+        if ( !file_exists( $file_path ) ) {
+            laterpay_get_logger()->error(
+                __METHOD__ . ' - cache-file not found',
+                array( 'file_path' => $file_path )
+            );
+            return array();
+        }
+
+        $cache_data = file_get_contents( $file_path );
+        $cache_data = maybe_unserialize( $cache_data );
+
+        if ( ! is_array( $cache_data ) ) {
+            laterpay_get_logger()->error(
+                __METHOD__ . ' - invalid cache data',
+                array(
+                    'file_path'     => $file_path,
+                    'cache_data'    => $cache_data,
+                )
+            );
+            return array();
+        }
+
+        laterpay_get_logger()->info(
+            __METHOD__,
+            array(
+                'file_path'     => $file_path,
+                'cache_data'    => $cache_data,
+            )
+        );
+        return $cache_data;
+    }
+
+    /**
+     * Callback for wp-ajax and wp-cron to refresh today's dashboard data.
+     * The Cron job provides two params for {x} days back and {n} count of items to
+     * register your own cron with custom params to cache data.
+     *
+     * @wp-hook laterpay_refresh_dashboard_data
+     *
+     * @param array $options
+     * @param array $data
+     *
+     * @return void
+     */
+    public static function refresh_cache_data( $options, $data ) {
+
+        $cache_dir      = $options[ 'cache_dir' ];
+        $cache_filename = $options[ 'cache_filename' ];
+
+        // create the cache dir, if it doesn't exist
+        wp_mkdir_p( $cache_dir );
+
+        $context = $options;
+        $context[ 'data' ] = $data;
+        laterpay_get_logger()->info(
+            __METHOD__,
+            $context
+        );
+
+        // write the data to the cache dir
+        file_put_contents(
+            $cache_dir . $cache_filename,
+            serialize( $data )
+        );
+    }
+
+    /**
+     * Return the cache dir by a given strottime() timestamp.
+     *
+     * @param int|null $timestamp default null will be set to strototime( 'today GMT' );
+     *
+     * @return  string $cache_dir
+     */
+    public static function get_cache_dir( $timestamp = null ) {
+        if ( $timestamp === null ) {
+            $timestamp = strtotime( 'today GMT' );
+        }
+        $cache_dir = laterpay_get_plugin_config()->get( 'cache_dir' ) . 'cron/' . gmdate( 'Y/m/d', $timestamp ) . '/';
+        laterpay_get_logger()->info(
+            __METHOD__,
+            array(
+                'timestamp' => $timestamp,
+                'cache_dir' => $cache_dir,
+            )
+        );
+        return $cache_dir;
+    }
+
+    /**
+     * Return the cache file name for the given days and item count.
+     *
+     * @param string $section
+     * @param string $interval
+     * @param int $count
+     *
+     * @return string $cache_filename
+     */
+    public static function get_cache_filename( $section, $interval, $count ) {
+        $interval = LaterPay_Helper_Dashboard::get_interval( $interval );
+        $cache_filename =  $section . '-' . $interval . '-' . $count . '.cache';
+        laterpay_get_logger()->info(
+            __METHOD__,
+            array(
+                'interval'          => $interval,
+                'section'           => $section,
+                'count'             => $count,
+                'cache_filename'    => $cache_filename,
+            )
+        );
+        return $cache_filename;
+    }
+
+    /**
      * Check and sanitize the given interval.
      *
      * @param string $interval    day|week|2-weeks|month
@@ -54,7 +177,9 @@ class LaterPay_Helper_Dashboard
         if ( $interval === 'day' ) {
             return 'hour';
         }
-
+        else if( $interval === 'month' ){
+            return 'month';
+        }
         return 'day';
     }
 
@@ -133,7 +258,7 @@ class LaterPay_Helper_Dashboard
 
                 $data[ 'y' ][] = array(
                     $key,
-                    $item->hour,
+                    $item->quantity,
                 );
             } else {
                 $data[ 'x' ][] = array(
@@ -240,11 +365,11 @@ class LaterPay_Helper_Dashboard
         $last_days = array();
 
         if ( $interval === 'week' ) {
-            $days = 7;
+            $days = 8;
         } else if ( $interval === '2-weeks' ) {
-            $days = 14;
+            $days = 15;
         } else {
-            $days = 30;
+            $days = 31;
         }
 
         for ( $i = 0; $i < $days; $i++ ) {

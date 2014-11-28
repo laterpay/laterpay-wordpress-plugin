@@ -4,8 +4,8 @@
     function laterPayBackendDashboard() {
         var i, l,
             $o = {
-                daysBack                : 8,
-                itemsPerList            : 10,
+                daysBack				: 8,
+				itemsPerList            : 10,
                 list                    : [],
 
                 // heading with dashboard configuration selections
@@ -37,21 +37,279 @@
                 bestSellingList         : $('#lp_js_bestSellingList'),
                 leastSellingList        : $('#lp_js_leastSellingList'),
                 bestGrossingList        : $('#lp_js_bestGrossingList'),
-                leastGrossingList       : $('#lp_js_leastGrossingList'),
-            },
+                leastGrossingList       : $('#lp_js_leastGrossingList')
+			},
+			plotDefaultOptions = {
+				legend              : {
+					show            : false
+				},
+				xaxis               : {
+					font            : {
+						color       : '#bbb',
+						lineHeight  : 18
+					},
+					show            : true
+				},
+				yaxis               : {
+					font            : {
+						color       : '#bbb'
+					},
+					ticks           : 5,
+					min             : 0,
+					reserveSpace    : true
+				},
+				series              : {
+					shadowSize      : 0
+				},
+				grid                : {
+					borderWidth     : {
+						top         : 0,
+						right       : 0,
+						bottom      : 1,
+						left        : 0
+					},
+					borderColor     : '#ccc',
+					tickColor       : 'rgba(247,247,247,0)'  // transparent
+				}
+			},
+			plotDefaultData = [
+				{
+					color           : '#50C371',
+					lines           : {
+						show        : true,
+						lineWidth   : 1.5,
+						fill        : false,
+						gaps        : true
+					},
+					points          : {
+						show        : true,
+						radius      : 3,
+						lineWidth   : 0,
+						fill        : true,
+						fillColor   : '#50C371'
+					}
+				}
+			],
+
+			loadDashboardData = function( section, refresh ){
+				var interval        = $($o.selectedInterval).find(':checked').val(),
+					revenueModel    = $o.selectedRevenueModel.find(':checked').val(),
+					request_data	= {
+						// wp ajax action
+						'action':		'laterpay_get_dashboard_data',
+						// nonce for validation and xss-protection
+						'_wpnonce':		lpVars.nonces.dashboard,
+						// data-section which is loaded:  converting_items|selling_items|revenue_items|most_least_converting_items|most_least_selling_items|most_least_revenue_items|metrics
+						'section':		section,
+						// day|week|2-weeks|month
+						'interval':		interval,
+						// count of best/least items
+						'count':		$o.itemsPerList,
+						// 1 (true): refresh data, 0 (false): only load the cached data; default: 1
+						'refresh':		refresh ? 1 : 0,
+						// TODO: implementing
+						'revenue_model':revenueModel
+					},
+					jqxhr;
+
+				jqxhr = $.ajax({
+					'url':		lpVars.ajaxUrl,
+					'async':	true,
+					'method':	'POST',
+					'data':		request_data
+				});
+
+				jqxhr.done(function(data){
+					if(!data || data.success){
+						return;
+					}
+					setMessage(data.message, data.success);
+				});
+
+				return jqxhr;
+			},
+
+			showLoadingIndicator = function(element){
+				element.html('<div class="loading_indicator">loading..</div>');
+			},
+
+			removeLoadingIndicator = function(element){
+				element.find('.loading_indicator' ).remove();
+			},
+
+			loadConvertingItems = function(refresh){
+
+				showLoadingIndicator($o.conversionDiagram);
+
+				loadDashboardData('converting_items', refresh).done(function(response){
+					var plotOptions = {
+							xaxis: {
+								ticks: response.data.x
+							}
+						},
+						plotData = [
+							{
+								data            : response.data.y,
+								bars            : {
+									show        : true,
+									barWidth    : 0.35,
+									fillColor   : '#50C371',
+									lineWidth   : 0,
+									align       : 'center',
+									horizontal  : false
+								}
+							}
+						];
+
+					plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+					$.plot($o.conversionDiagram, plotData, plotOptions);
+				})
+				.always(function(){removeLoadingIndicator($o.conversionDiagram);});
+			},
+
+			loadSellingItems = function(refresh){
+				showLoadingIndicator($o.salesDiagram);
+
+				loadDashboardData('selling_items', refresh).done(function(response){
+					var plotOptions = {
+							xaxis: {
+								ticks: response.data.x
+							}
+						},
+						plotData = plotDefaultData;
+
+					plotOptions			= $.extend(true, plotDefaultOptions, plotOptions);
+					plotData[0].data	= response.data.y;
+
+					$.plot($o.salesDiagram, plotData, plotOptions);
+				})
+				.always(function(){removeLoadingIndicator($o.salesDiagram);});
+			},
+
+			loadRevenueItems = function(refresh){
+				showLoadingIndicator($o.revenueDiagram);
+
+				loadDashboardData('revenue_items', refresh).done(function(response){
+					var plotOptions = {
+							xaxis: {
+								ticks: response.data.x
+							}
+						},
+						plotData = plotDefaultData;
+
+					plotOptions			= $.extend(true, plotDefaultOptions, plotOptions);
+					plotData[0].data	= response.data.y;
+
+					$.plot($o.revenueDiagram, plotData, plotOptions);
+				})
+				.always(function(){removeLoadingIndicator($o.revenueDiagram);});
+			},
+
+			loadMostLeastConvertingItems = function(refresh){
+				showLoadingIndicator($o.bestConvertingList);
+				showLoadingIndicator($o.leastConvertingList);
+
+				loadDashboardData('most_least_converting_items', refresh).done(function(response){
+
+					if(!response.data.most){
+						response.data.most = {};
+					}
+
+					if(!response.data.least){
+						response.data.least = {};
+					}
+
+					renderTopBottomList($o.bestConvertingList, response.data.most);
+					renderSparklines( $o.bestConvertingList );
+
+					renderTopBottomList($o.leastConvertingList, response.data.least);
+					renderSparklines( $o.leastConvertingList );
+
+				})
+				.always(function(){removeLoadingIndicator($o.bestConvertingList);})
+				.always(function(){removeLoadingIndicator($o.leastConvertingList);});
+			},
+
+			loadMostLeastSellingItems = function(refresh){
+				showLoadingIndicator($o.bestSellingList);
+				showLoadingIndicator($o.leastSellingList);
+
+				loadDashboardData('most_least_selling_items', refresh).done(function(response){
+
+					if(!response.data.most){
+						response.data.most = {};
+					}
+
+					if(!response.data.least){
+						response.data.least = {};
+					}
+
+					renderTopBottomList($o.bestSellingList, response.data.most);
+					renderSparklines( $o.bestSellingList );
+
+					renderTopBottomList($o.leastSellingList, response.data.least);
+					renderSparklines( $o.leastSellingList );
+
+				})
+				.always(function(){removeLoadingIndicator($o.bestSellingList);})
+				.always(function(){removeLoadingIndicator($o.leastSellingList);});
+			},
+
+			loadMostLeastRevenueItems = function(refresh){
+				showLoadingIndicator($o.bestGrossingList);
+				showLoadingIndicator($o.leastGrossingList);
+
+				loadDashboardData('most_least_revenue_items', refresh).done(function(response){
+
+					if(!response.data.most){
+						response.data.most = {};
+					}
+
+					if(!response.data.least){
+						response.data.least = {};
+					}
+
+					renderTopBottomList($o.bestGrossingList,  response.data.most);
+					renderSparklines( $o.bestGrossingList );
+
+					renderTopBottomList($o.leastGrossingList, response.data.least);
+					renderSparklines( $o.leastGrossingList );
+
+				})
+				.always(function(){removeLoadingIndicator($o.bestGrossingList);})
+				.always(function(){removeLoadingIndicator($o.leastGrossingList);});
+			},
+
+			loadMetrics = function(refresh){
+				loadDashboardData('metrics', refresh)
+				.done(function(response){
+
+					$o.totalImpressionsKPI.text(response.data.impressions || 0);
+					$o.avgConversionKPI.text(response.data.conversion || 0);
+					$o.newCustomersKPI.text(response.data.new_customers || 0);
+
+					$o.avgItemsSoldKPI.text(response.data.avg_items_sold || 0);
+					$o.totalItemsSoldKPI.text(response.data.total_items_sold || 0);
+
+					$o.avgRevenueKPI.text(response.data.avg_purchase || 0);
+					$o.totalRevenueKPI.text(response.data.total_revenue || 0);
+
+				});
+			},
 
             bindEvents = function() {
+
                 // refresh dashboard
                 $('#lp_js_refreshDashboard')
                 .click(function(e) {
-                    fetchDashboardData();
+					loadDashboard(true);
                     e.preventDefault();
                 });
 
                 // re-render dashboard in selected configuration
                 $o.configurationSelection
                 .change(function() {
-                    fetchDashboardData();
+					loadDashboard();
                 });
 
                 // re-render dashboard with data of next interval
@@ -70,254 +328,11 @@
                 .click(function(e) {e.preventDefault();});
             },
 
-            renderDashboard = function(data) {
-                var xAxisTicks      = data.converting_items_by_day.x,
-                    backgroundBars  = [];
-
-                // generate an array of 100% values to use as background for percentage column charts
-                i = 0;
-                for (; i < $o.daysBack; i++) {
-                    backgroundBars.push([i + 1, 100]);
-                }
-
-                // flot diagrams
-                $.plot($o.conversionDiagram,
-                    [
-                        {
-                            data            : backgroundBars,
-                            bars            : {
-                                show        : true,
-                                barWidth    : 0.7,
-                                fillColor   : '#e3e3e3',
-                                lineWidth   : 0,
-                                align       : 'center',
-                                horizontal  : false
-                            }
-                        },
-                        {
-                            data            : data.converting_items_by_day.y,
-                            bars            : {
-                                show        : true,
-                                barWidth    : 0.35,
-                                fillColor   : '#50C371',
-                                lineWidth   : 0,
-                                align       : 'center',
-                                horizontal  : false
-                            }
-                        }
-                    ],
-                    {
-                        legend              : {
-                            show            : false
-                        },
-                        xaxis               : {
-                            font            : {
-                                color       : '#bbb',
-                                lineHeight  : 18,
-                            },
-                            show            : true,
-                            ticks           : xAxisTicks,
-                        },
-                        yaxis               : {
-                            font            : {
-                                color       : '#bbb'
-                            },
-                            ticks           : 5,
-                            tickFormatter   : function(v) { return v + ' %'; },
-                            min             : 0,
-                            max             : 100,
-                            reserveSpace    : true,
-                        },
-                        series              : {
-                            shadowSize      : 0,
-                        },
-                        grid                : {
-                            borderWidth     : {
-                                top         : 0,
-                                right       : 0,
-                                bottom      : 1,
-                                left        : 0,
-                            },
-                            borderColor     : '#ccc',
-                            tickColor       : 'rgba(247,247,247,0)',  // transparent
-                        }
-                    }
-                );
-
-                $.plot($o.salesDiagram,
-                    [
-                        {
-                            data            : data.selling_items_by_day.y,
-                            color           : '#50C371',
-                            lines           : {
-                                show        : true,
-                                lineWidth   : 1.5,
-                                fill        : false,
-                                gaps        : true,
-                            },
-                            points          : {
-                                show        : true,
-                                radius      : 3,
-                                lineWidth   : 0,
-                                fill        : true,
-                                fillColor   : '#50C371',
-                            }
-                        },
-                        // {
-                        //     data            : data.selling_items_by_day,
-                        //     color           : '#50C371',
-                        //     lines           : {
-                        //         show        : true,
-                        //         lineWidth   : 1.5,
-                        //         fill        : false,
-                        //         gaps        : true,
-                        //     },
-                        //     points          : {
-                        //         show        : true,
-                        //         radius      : 3,
-                        //         lineWidth   : 0,
-                        //         fill        : true,
-                        //         fillColor   : '#50C371',
-                        //     }
-                        // }
-                    ],
-                    {
-                        legend              : {
-                            show            : false
-                        },
-                        xaxis               : {
-                            font            : {
-                                color       : '#bbb',
-                                lineHeight  : 18,
-                            },
-                            show            : true,
-                            ticks           : xAxisTicks,
-                        },
-                        yaxis               : {
-                            font            : {
-                                color       : '#bbb'
-                            },
-                            ticks           : 5,
-                            min             : 0,
-                            max             : 1000,
-                            reserveSpace    : true,
-                        },
-                        series              : {
-                            shadowSize      : 0,
-                        },
-                        grid                : {
-                            borderWidth     : {
-                                top         : 0,
-                                right       : 0,
-                                bottom      : 1,
-                                left        : 0,
-                            },
-                            borderColor     : '#ccc',
-                            tickColor       : 'rgba(247,247,247,0)',  // transparent
-                        }
-                    }
-                );
-
-                $.plot($o.revenueDiagram,
-                    [   {
-                            data            : data.revenue_items_by_day.y,
-                            color           : '#50C371',
-                            lines           : {
-                                show        : true,
-                                lineWidth   : 1.5,
-                                fill        : false,
-                                gaps        : true,
-                            },
-                            points          : {
-                                show        : true,
-                                radius      : 3,
-                                lineWidth   : 0,
-                                fill        : true,
-                                fillColor   : '#50C371',
-                            }
-                        },
-                        // {
-                        //     data            : conversionData_total,
-                        //     color           : '#50C371',
-                        //     lines           : {
-                        //         show        : true,
-                        //         lineWidth   : 1.5,
-                        //         fill        : false,
-                        //         gaps        : true,
-                        //     },
-                        //     points          : {
-                        //         show        : true,
-                        //         radius      : 3,
-                        //         lineWidth   : 0,
-                        //         fill        : true,
-                        //         fillColor   : '#50C371',
-                        //     }
-                        // }
-                    ],
-                    {
-                        legend              : {
-                            show            : false
-                        },
-                        xaxis               : {
-                            font            : {
-                                color       : '#bbb',
-                                lineHeight  : 18,
-                            },
-                            show            : true,
-                            ticks           : xAxisTicks,
-                        },
-                        yaxis               : {
-                            font            : {
-                                color       : '#bbb'
-                            },
-                            ticks           : 5,
-                            min             : 0,
-                            max             : 1000,
-                            reserveSpace    : true,
-                        },
-                        series              : {
-                            shadowSize      : 0,
-                        },
-                        grid                : {
-                            borderWidth     : {
-                                top         : 0,
-                                right       : 0,
-                                bottom      : 1,
-                                left        : 0,
-                            },
-                            borderColor     : '#ccc',
-                            tickColor       : 'rgba(247,247,247,0)',  // transparent
-                        }
-                    }
-                );
-
-                // big KPIs
-                $o.totalImpressionsKPI.text(data.impressions || 0);
-                $o.avgConversionKPI.text(data.conversion || 0);
-                $o.newCustomersKPI.text(data.new_customers || 0);
-
-                $o.avgItemsSoldKPI.text(data.avg_purchase || 0);
-                $o.totalItemsSoldKPI.text(data.total_items_sold || 0);
-
-                $o.avgRevenueKPI.text(data.avg_revenue || 0);
-                $o.totalRevenueKPI.text(data.total_revenue || 0);
-
-                // best / worst lists
-                renderTopBottomList($o.bestConvertingList,  data.best_converting_items);
-                renderTopBottomList($o.leastConvertingList, data.least_converting_items);
-                renderTopBottomList($o.bestSellingList,     data.most_selling_items);
-                renderTopBottomList($o.leastSellingList,    data.least_selling_items);
-                renderTopBottomList($o.bestGrossingList,    data.most_revenue_items);
-                renderTopBottomList($o.leastGrossingList,   data.least_revenue_items);
-
-                renderSparklines();
-            },
-
             renderTopBottomList = function($list, data) {
                 $o.list = [];
 
                 i = 0;
-                l = data.length;
+                l = data ? data.length : 0;
 
                 if (l > 0) {
                     // create list item for each data set
@@ -348,8 +363,8 @@
                         '</li>';
             },
 
-            renderSparklines = function() {
-                $('.lp_sparklineBar').peity('bar', {
+            renderSparklines = function( context ) {
+                $('.lp_sparklineBar', context).peity('bar', {
                     width   : 34,
                     height  : 14,
                     gap     : 1,
@@ -357,35 +372,20 @@
                 });
             },
 
-            fetchDashboardData = function() {
-                // get selected dashboard configuration
-                var interval        = $($o.selectedInterval).find(':checked').val(),
-                    revenueModel    = $o.selectedRevenueModel.find(':checked').val();
-
-                $.post(
-                    lpVars.ajaxUrl,
-                    {
-                        'action'        : 'laterpay_get_dashboard_data',
-                        '_wpnonce'      : lpVars.nonces.dashboard,
-                        'interval'      : interval,
-                        'revenue_model' : revenueModel,
-                        'days'          : $o.daysBack,      // TODO: this should get removed / replaced by interval
-                        'count'         : $o.itemsPerList,  // TODO: this is kinda irrelevant and should get removed
-                        'refresh'       : 1,    // 1 (true): refresh data, 0 (false): only load the cached data; default: 1
-                    },
-                    function(response) {
-                        if (response.success) {
-                            renderDashboard(response.data);
-                        }
-                    },
-                    'json'
-                );
+			loadDashboard = function(refresh) {
+				refresh = refresh || false;
+                loadConvertingItems(refresh);
+				loadRevenueItems(refresh);
+				loadSellingItems(refresh);
+				loadMetrics(refresh);
+				loadMostLeastConvertingItems(refresh);
+				loadMostLeastRevenueItems(refresh);
+				loadMostLeastSellingItems(refresh);
             },
 
             initializePage = function() {
                 bindEvents();
-
-                renderDashboard(lpVars.data);
+				loadDashboard();
             };
 
         initializePage();

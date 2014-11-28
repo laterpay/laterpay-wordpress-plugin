@@ -19,7 +19,7 @@
     <div class="lp_wrap">
 
     <h1><?php echo sprintf( __( '%s Dashboard of %s Sales between%s%s%s', 'laterpay' ),
-            '<select id="lp_js_selectDashboardInterval" class="lp_dashboardIntervalSelect lp_input"><option value="day">1 day</option><option value="week" selected>1 week</option><option value="weeks">2 weeks</option><option value="month">1 month</option></select>',
+            '<select id="lp_js_selectDashboardInterval" class="lp_dashboardIntervalSelect lp_input"><option value="day">1 day</option><option value="week" selected>1 week</option><option value="2-weeks">2 weeks</option><option value="month">1 month</option></select>',
             '<select id="lp_js_selectRevenueModel" class="lp_dashboardRevenueModelSelect lp_input"><option value="all">all</option><option value="ppu">PPU</option><option value="sis">SIS</option></select>',
             '<a href="#" id="lp_js_loadPreviousInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week before"><div class="lp_triangle lp_triangle--left"></div></a>',
             '17.10. - 24.10.',
