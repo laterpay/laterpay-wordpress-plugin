@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Nov 28 2014 11:01:03 GMT+0100 (CET)\n"
+"PO-Revision-Date: Fri Nov 28 2014 12:10:13 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -640,7 +640,7 @@ msgstr "Dieser Pass gilt für "
 msgid "and grants"
 msgstr "und gibt"
 
-#: ../views/backend/pricing.php:269
+#: ../views/backend/pricing.php:269 ../application/Helper/Passes.php:161
 msgid "access to"
 msgstr "Zugriff auf"
 
@@ -648,11 +648,11 @@ msgstr "Zugriff auf"
 msgid "The user pays"
 msgstr "Der Nutzer zahlt"
 
-#: ../views/backend/pricing.php:296
+#: ../views/backend/pricing.php:296 ../application/Helper/Passes.php:101
 msgid "later"
 msgstr "später"
 
-#: ../views/backend/pricing.php:306
+#: ../views/backend/pricing.php:306 ../application/Helper/Passes.php:102
 msgid "immediately"
 msgstr "sofort"
 
@@ -685,8 +685,8 @@ msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
 #: ../views/backend/pricing.php:453 ../application/Controller/Admin/Pricing.php:
-#: 43 ../application/Controller/Admin/Pricing.php:555 ..
-#: application/Controller/Admin/Pricing.php:586
+#: 43 ../application/Controller/Admin/Pricing.php:557 ..
+#: application/Controller/Admin/Pricing.php:588
 msgid "to"
 msgstr "auf"
 
@@ -783,23 +783,23 @@ msgstr "Zurück"
 msgid "Validity"
 msgstr "Gültigkeit"
 
-#: ../views/backend/partials/time_pass.php:42
+#: ../views/backend/partials/time_pass.php:38
 msgid "Access to"
 msgstr "Zugriff auf"
 
-#: ../views/backend/partials/time_pass.php:48
+#: ../views/backend/partials/time_pass.php:44
 msgid "on this website"
 msgstr "auf dieser Website"
 
-#: ../views/backend/partials/time_pass.php:65
+#: ../views/backend/partials/time_pass.php:61
 msgid "Renewal"
 msgstr "Verlängerung"
 
-#: ../views/backend/partials/time_pass.php:67
+#: ../views/backend/partials/time_pass.php:63
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
-#: ../views/backend/partials/time_pass.php:71 ..
+#: ../views/backend/partials/time_pass.php:67 ..
 #: application/Controller/Admin/Post/Column.php:20
 msgid "Price"
 msgstr "Preis"
@@ -859,10 +859,49 @@ msgstr "nein"
 msgid "none"
 msgstr "keine"
 
-#: ../application/Helper/Passes.php:129
-#, php-format
-msgid "%d %s access to %s"
-msgstr "%d %s Zugang zu %s"
+#: ../application/Helper/Passes.php:25
+msgid "ppu"
+msgstr "PPU"
+
+#: ../application/Helper/Passes.php:26
+msgid "24-Hour Pass"
+msgstr "24-Stunden-Pass"
+
+#: ../application/Helper/Passes.php:28
+msgid "24 hours access to all content on this website"
+msgstr "24 Stunden Zugang zu allen Inhalten auf dieser Website"
+
+#: ../application/Helper/Passes.php:76
+msgid "Hour"
+msgstr "Stunde"
+
+#: ../application/Helper/Passes.php:77
+msgid "Day"
+msgstr "Tag"
+
+#: ../application/Helper/Passes.php:78
+msgid "Week"
+msgstr "Woche"
+
+#: ../application/Helper/Passes.php:79
+msgid "Month"
+msgstr "Monat"
+
+#: ../application/Helper/Passes.php:80
+msgid "Year"
+msgstr "Jahr"
+
+#: ../application/Helper/Passes.php:123
+msgid "All content"
+msgstr "Alle Inhalte"
+
+#: ../application/Helper/Passes.php:124
+msgid "All content except for category"
+msgstr "Alle Inhalte außer in Kategorie"
+
+#: ../application/Helper/Passes.php:125
+msgid "All content in category"
+msgstr "Alle Inhalte in Kategorie"
 
 #: ../application/Helper/View.php:18
 msgid "Pricing"
@@ -1691,15 +1730,15 @@ msgstr ""
 #: application/Controller/Admin/Appearance.php:102 ..
 #: application/Controller/Admin/Appearance.php:136 ..
 #: application/Controller/Admin/Appearance.php:166 ..
-#: application/Controller/Admin/Pricing.php:213 ..
-#: application/Controller/Admin/Pricing.php:238 ..
-#: application/Controller/Admin/Pricing.php:353 ..
-#: application/Controller/Admin/Pricing.php:429 ..
-#: application/Controller/Admin/Pricing.php:532 ..
-#: application/Controller/Admin/Pricing.php:656 ..
-#: application/Controller/Admin/Pricing.php:740 ..
-#: application/Controller/Admin/Pricing.php:795 ..
-#: application/Controller/Admin/Pricing.php:824
+#: application/Controller/Admin/Pricing.php:215 ..
+#: application/Controller/Admin/Pricing.php:240 ..
+#: application/Controller/Admin/Pricing.php:355 ..
+#: application/Controller/Admin/Pricing.php:431 ..
+#: application/Controller/Admin/Pricing.php:534 ..
+#: application/Controller/Admin/Pricing.php:658 ..
+#: application/Controller/Admin/Pricing.php:742 ..
+#: application/Controller/Admin/Pricing.php:797 ..
+#: application/Controller/Admin/Pricing.php:826
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
@@ -1713,7 +1752,7 @@ msgstr "Aktualisiert."
 #: ../application/Controller/Statistics.php:210 ..
 #: application/Controller/Admin/Account.php:67 ..
 #: application/Controller/Admin/Appearance.php:61 ..
-#: application/Controller/Admin/Pricing.php:137
+#: application/Controller/Admin/Pricing.php:139
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
@@ -1810,8 +1849,8 @@ msgid "The API key you entered is not a valid LaterPay %s API key!"
 msgstr "Der eingegebene API-Key ist kein gültiger LaterPay %s API-Key!"
 
 #: ../application/Controller/Admin/Account.php:222 ..
-#: application/Controller/Admin/Pricing.php:256 ..
-#: application/Controller/Admin/Pricing.php:414
+#: application/Controller/Admin/Pricing.php:258 ..
+#: application/Controller/Admin/Pricing.php:416
 msgid "Error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
 
@@ -1860,17 +1899,17 @@ msgid "The rating of posts has been disabled."
 msgstr "Die Bewertung gekaufter Beiträge wurde deaktiviert."
 
 #: ../application/Controller/Admin/Pricing.php:44 ..
-#: application/Controller/Admin/Pricing.php:617
+#: application/Controller/Admin/Pricing.php:619
 msgid "by"
 msgstr "um"
 
 #: ../application/Controller/Admin/Pricing.php:45 ..
-#: application/Controller/Admin/Pricing.php:640
+#: application/Controller/Admin/Pricing.php:642
 msgid "to global default price of"
 msgstr "auf den Standardpreis"
 
 #: ../application/Controller/Admin/Pricing.php:46 ..
-#: application/Controller/Admin/Pricing.php:646
+#: application/Controller/Admin/Pricing.php:648
 msgid "to category default price of"
 msgstr "auf den Kategorie-Standardpreis"
 
@@ -1902,103 +1941,103 @@ msgstr "Kostenlos-machen"
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ../application/Controller/Admin/Pricing.php:94 ..
-#: application/Controller/Admin/Pricing.php:629
+#: ../application/Controller/Admin/Pricing.php:95 ..
+#: application/Controller/Admin/Pricing.php:631
 msgid "All posts"
 msgstr "Aller Beiträge"
 
-#: ../application/Controller/Admin/Pricing.php:268
+#: ../application/Controller/Admin/Pricing.php:270
 #, php-format
 msgid "The currency for this website is %s now."
 msgstr "Die Währung für diese Website ist jetzt %s."
 
-#: ../application/Controller/Admin/Pricing.php:289 ..
-#: application/Controller/Admin/Pricing.php:338
+#: ../application/Controller/Admin/Pricing.php:291 ..
+#: application/Controller/Admin/Pricing.php:340
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-149.99."
 msgstr ""
 "Der Preis, den Sie zu setzen versuchen, liegt außerhalb des erlaubten "
 "Bereichs von 0 oder 0,05-149,99."
 
-#: ../application/Controller/Admin/Pricing.php:306
+#: ../application/Controller/Admin/Pricing.php:308
 msgid "All posts are free by default now."
 msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
 
-#: ../application/Controller/Admin/Pricing.php:309
+#: ../application/Controller/Admin/Pricing.php:311
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:367
+#: ../application/Controller/Admin/Pricing.php:369
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: ../application/Controller/Admin/Pricing.php:393
+#: ../application/Controller/Admin/Pricing.php:395
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:486
+#: ../application/Controller/Admin/Pricing.php:488
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:551
+#: ../application/Controller/Admin/Pricing.php:553
 msgid "The prices of all posts"
 msgstr "Die Preise aller Beiträge"
 
-#: ../application/Controller/Admin/Pricing.php:553
+#: ../application/Controller/Admin/Pricing.php:555
 msgid "have been"
 msgstr "wurden"
 
-#: ../application/Controller/Admin/Pricing.php:554 ..
-#: application/Controller/Admin/Pricing.php:585
+#: ../application/Controller/Admin/Pricing.php:556 ..
+#: application/Controller/Admin/Pricing.php:587
 msgid "set"
 msgstr "gesetzt"
 
-#: ../application/Controller/Admin/Pricing.php:570
+#: ../application/Controller/Admin/Pricing.php:572
 #, php-format
 msgid "%s '%s'"
 msgstr "%s '%s'"
 
-#: ../application/Controller/Admin/Pricing.php:616
+#: ../application/Controller/Admin/Pricing.php:618
 msgid "decreased"
 msgstr "reduziert"
 
-#: ../application/Controller/Admin/Pricing.php:616
+#: ../application/Controller/Admin/Pricing.php:618
 msgid "increased"
 msgstr "erhöht"
 
-#: ../application/Controller/Admin/Pricing.php:630
+#: ../application/Controller/Admin/Pricing.php:632
 msgid "made free"
 msgstr "kostenlos gemacht"
 
-#: ../application/Controller/Admin/Pricing.php:635
+#: ../application/Controller/Admin/Pricing.php:637
 msgid "reset"
 msgstr "zurückgesetzt"
 
-#: ../application/Controller/Admin/Pricing.php:787
+#: ../application/Controller/Admin/Pricing.php:789
 msgid "Bulk operation was successfully saved."
 msgstr "Die Bulk-Price-Aktion wurde erfolgreich gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:815
+#: ../application/Controller/Admin/Pricing.php:817
 msgid "Bulk operation was successfully deleted."
 msgstr "Die Bulk-Price-Aktion wurde erfolgreich entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:877
+#: ../application/Controller/Admin/Pricing.php:880
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:886
+#: ../application/Controller/Admin/Pricing.php:889
 msgid "An error occurred when trying to save the pass. Please try again."
 msgstr ""
 "Bei dem Versuch, den Pass zu speichern, ist ein Fehler aufgetreten. Bitte "
 "versuchen Sie es erneut."
 
-#: ../application/Controller/Admin/Pricing.php:906
+#: ../application/Controller/Admin/Pricing.php:909
 msgid "Pass deleted."
 msgstr "Pass entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:913
+#: ../application/Controller/Admin/Pricing.php:916
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
