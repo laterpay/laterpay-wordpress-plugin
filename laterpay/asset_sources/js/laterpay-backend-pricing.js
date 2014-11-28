@@ -282,6 +282,13 @@
                 })
                 .on('click', '.lp_js_flipTimePass', function(e) {e.preventDefault();});
 
+                // enter voucher price
+                $o.timePassEditor
+                .on('keyup', $o.voucherPriceInput, debounce(function() {
+                        validatePrice( $(this).parents('form'), true, $(this) );
+                    }, 800)
+                );
+
                 // generate voucher code
                 $o.timePassEditor
                 .on('mousedown', $o.generateVoucherCode, function() {
@@ -354,10 +361,9 @@
                 });
             },
 
-            validatePrice = function($form) {
-                var $priceInput = $('.lp_numberInput', $form),
-                    price       = $priceInput.val(),
-                    corrected;
+            validatePrice = function($form, no_correct_price, $input) {
+                var $priceInput = $input ? $input : $('.lp_numberInput', $form),
+                    price       = $priceInput.val();
 
                 // strip non-number characters
                 price = price.replace(/[^0-9\,\.]/g, '');
@@ -378,16 +384,16 @@
                 // prevent negative prices
                 price = Math.abs(price);
 
-                // correct prices outside the allowed range of 0.05 - 149.49
-                if (price > 149.99) {
-                    price       = 149.99;
-                    corrected   = true;
-                } else if (price > 0 && price < 0.05) {
-                    price       = 0.05;
-                    corrected   = true;
-                }
+                if ( ! no_correct_price ) {
+                    // correct prices outside the allowed range of 0.05 - 149.49
+                    if (price > 149.99) {
+                        price       = 149.99;
+                    } else if (price > 0 && price < 0.05) {
+                        price       = 0.05;
+                    }
 
-                validateRevenueModel(price, $form);
+                    validateRevenueModel(price, $form);
+                }
 
                 // format price with two digits
                 price = price.toFixed(2);
@@ -404,43 +410,64 @@
             },
 
             validateRevenueModel = function(price, $form) {
-                var currentRevenueModel = $('input:radio:checked', $form).val(),
-                    $payPerUse          = $('.lp_js_revenueModel_input[value=' + $o.payPerUse + ']', $form),
-                    $singleSale         = $('.lp_js_revenueModel_input[value=' + $o.singleSale + ']', $form);
+                // for passes
+                if ( $form.hasClass('lp_js_timePassEditor_form') ) {
+                    var $toggle         = $('.lp_js_timePassRevenueModelInput', $form),
+                        $input          = $('.lp_js_timePass_toggleRevenueModel', $form),
+                        hasRevenueModel = $toggle.prop('checked');
 
-                if (price === 0 || (price >= 0.05 && price <= 5)) {
-                    // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
-                    $payPerUse.removeProp('disabled')
-                        .parent('label').removeClass($o.disabled);
+                    var current_revenue = hasRevenueModel ? $o.singleSale : $o.payPerUse;
+
+                    // switch revenue model, if combination of price and revenue model is not allowed
+                    if (price > 5 && current_revenue === $o.payPerUse) {
+                        // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
+                        $input.val($o.singleSale);
+                        $toggle.prop('checked', true);
+                    } else if (price < 1.49 && current_revenue === $o.singleSale) {
+                        // Single Sale purchases are not allowed for prices < 1.49 Euro
+                        $input.val($o.payPerUse);
+                        $toggle.prop('checked', false);
+                    }
+                // for category price and global price
                 } else {
-                    // disable Pay-per-Use
-                    $payPerUse.prop('disabled', 'disabled')
-                        .parent('label').addClass($o.disabled);
-                }
+                    var currentRevenueModel = $('input:radio:checked', $form).val(),
+                        $payPerUse          = $('.lp_js_revenueModel_input[value=' + $o.payPerUse + ']', $form),
+                        $singleSale         = $('.lp_js_revenueModel_input[value=' + $o.singleSale + ']', $form);
 
-                if (price >= 1.49) {
-                    // enable Single Sale for prices >= 1.49 Euro
-                    // (prices > 149.99 Euro are fixed by validatePrice already)
-                    $singleSale.removeProp('disabled')
-                        .parent('label').removeClass($o.disabled);
-                } else {
-                    // disable Single Sale
-                    $singleSale.prop('disabled', 'disabled')
-                        .parent('label').addClass($o.disabled);
-                }
+                    if (price === 0 || (price >= 0.05 && price <= 5)) {
+                        // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
+                        $payPerUse.removeProp('disabled')
+                            .parent('label').removeClass($o.disabled);
+                    } else {
+                        // disable Pay-per-Use
+                        $payPerUse.prop('disabled', 'disabled')
+                            .parent('label').addClass($o.disabled);
+                    }
 
-                // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > 5 && currentRevenueModel === $o.payPerUse) {
-                    // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
-                    $singleSale.prop('checked', 'checked');
-                } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
-                    // Single Sale purchases are not allowed for prices < 1.49 Euro
-                    $payPerUse.prop('checked', 'checked');
-                }
+                    if (price >= 1.49) {
+                        // enable Single Sale for prices >= 1.49 Euro
+                        // (prices > 149.99 Euro are fixed by validatePrice already)
+                        $singleSale.removeProp('disabled')
+                            .parent('label').removeClass($o.disabled);
+                    } else {
+                        // disable Single Sale
+                        $singleSale.prop('disabled', 'disabled')
+                            .parent('label').addClass($o.disabled);
+                    }
 
-                // highlight current revenue model
-                $('label', $form).removeClass($o.selected);
-                $('.lp_js_revenueModel_input:checked', $form).parent('label').addClass($o.selected);
+                    // switch revenue model, if combination of price and revenue model is not allowed
+                    if (price > 5 && currentRevenueModel === $o.payPerUse) {
+                        // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
+                        $singleSale.prop('checked', 'checked');
+                    } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
+                        // Single Sale purchases are not allowed for prices < 1.49 Euro
+                        $payPerUse.prop('checked', 'checked');
+                    }
+
+                    // highlight current revenue model
+                    $('label', $form).removeClass($o.selected);
+                    $('.lp_js_revenueModel_input:checked', $form).parent('label').addClass($o.selected);
+                }
             },
 
             enterEditModeGlobalDefaultPrice = function() {
@@ -945,13 +972,19 @@
                 var $toggle         = $('.lp_js_timePassRevenueModelInput', $timePass),
                     $input          = $('.lp_js_timePass_toggleRevenueModel', $timePass),
                     hasRevenueModel = $toggle.prop('checked'),
-                    singleSale      = 'sis',
-                    payPerUse       = 'ppu';
+                    price           = $($o.timePassPrice, $timePass).val();
 
-                if (hasRevenueModel) {
-                    $input.val(singleSale);
-                } else {
-                    $input.val(payPerUse);
+                var current_revenue = hasRevenueModel ? $o.singleSale : $o.payPerUse;
+
+                // switch revenue model, if combination of price and revenue model is not allowed
+                if (price > 5 && current_revenue === $o.payPerUse) {
+                    // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
+                    $input.val($o.singleSale);
+                    $toggle.prop('checked', true);
+                } else if (price < 1.49 && current_revenue === $o.singleSale) {
+                    // Single Sale purchases are not allowed for prices < 1.49 Euro
+                    $input.val($o.payPerUse);
+                    $toggle.prop('checked', false);
                 }
             },
 

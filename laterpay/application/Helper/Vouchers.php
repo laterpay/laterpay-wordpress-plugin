@@ -46,6 +46,8 @@ class LaterPay_Helper_Vouchers
                 }
 
                 list( $code, $price ) = explode( '|', $voucher );
+                // format price and save
+                $price = number_format( (float) str_replace( ',', '.', $price ), 2 );
                 $new_vouchers[$code] = $price;
             }
         }

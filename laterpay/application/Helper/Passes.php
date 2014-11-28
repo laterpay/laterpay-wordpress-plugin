@@ -382,7 +382,7 @@ class LaterPay_Helper_Passes
 
         $currency       = get_option( 'laterpay_currency' );
         $price          = isset( $price ) ? $price : $pass['price'];
-        $revenue_model  = $pass['revenue_model'];
+        $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $pass['revenue_model'], $price );
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
