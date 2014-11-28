@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Nov 28 2014 11:01:03 GMT+0100 (CET)\n"
+"PO-Revision-Date: Fri Nov 28 2014 12:49:06 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -223,7 +223,7 @@ msgstr ""
 "Markieren Sie alle Standard- und Custom-Post-Types, für die LaterPay Käufe "
 "möglich sein sollen."
 
-#: ../views/backend/appearance.php:78 ../application/Controller/Admin.php:404
+#: ../views/backend/appearance.php:78 ../application/Controller/Admin.php:451
 msgid "Rating of Purchased Content"
 msgstr "Bewertung gekaufter Inhalte"
 
@@ -495,7 +495,7 @@ msgstr ""
 "Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
 "API Zugangsdaten abzurufen."
 
-#: ../views/backend/account.php:139 ../application/Controller/Admin.php:478
+#: ../views/backend/account.php:139 ../application/Controller/Admin.php:525
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
@@ -602,7 +602,7 @@ msgstr ""
 msgid "The user has to log in to LaterPay and pay immediately."
 msgstr "Der Nutzer muss sich bei LaterPay einloggen und sofort bezahlen."
 
-#: ../views/backend/pricing.php:206
+#: ../views/backend/pricing.php:206 ../application/Controller/Admin.php:289
 msgid "Time Passes"
 msgstr "Zeitpässe"
 
@@ -680,7 +680,7 @@ msgstr "Diesen Zeitpass zu einem reduzierten Preis anbieten:"
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: ../views/backend/pricing.php:408 ../application/Controller/Admin.php:289
+#: ../views/backend/pricing.php:408 ../application/Controller/Admin.php:336
 msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
@@ -898,30 +898,30 @@ msgstr ""
 msgid "Thank you very much for rating!"
 msgstr "Vielen Dank für Ihre Bewertung!"
 
-#: ../application/Controller/Post.php:814
+#: ../application/Controller/Post.php:817
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:1060
+#: ../application/Controller/Post.php:1063
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:1061
+#: ../application/Controller/Post.php:1064
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: ../application/Controller/Post.php:1062
+#: ../application/Controller/Post.php:1065
 msgid "is not a valid voucher code!"
 msgstr "ist kein gültiger Gutschein-Code."
 
-#: ../application/Controller/Post.php:1063
+#: ../application/Controller/Post.php:1066
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechs-stelligen Gutschein-Code ein."
 
-#: ../application/Controller/Post.php:1064
+#: ../application/Controller/Post.php:1067
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
@@ -1167,6 +1167,207 @@ msgstr ""
 msgid ""
 "\n"
 "                                                    <p>\n"
+"                                                    <strong>Validity of Time "
+"Passes</strong><br>\n"
+"                                                    With time passes, you "
+"can offer your users <strong>time-limited</strong> access to your content. "
+"You can define, which content a time pass should cover and for which period "
+"of time it should be valid. A time pass can be valid for <strong>all "
+"LaterPay content</strong>\n"
+"                                                    <ul>\n"
+"                                                        <li>on your "
+"<strong>entire website</strong>,</li>\n"
+"                                                        <li>in one "
+"<strong>specific category</strong>, or</li>\n"
+"                                                        <li>on your entire "
+"website <strong>except from a specific category</strong>.</li>\n"
+"                                                    </ul>\n"
+"                                                    The <strong>validity "
+"period</strong> of a time pass starts with the <strong>purchase</strong> and "
+"is defined for a <strong>continuous</strong> use – i.e. it doesn't matter, "
+"if a user is on your website during the entire validity period. After a time "
+"pass has expired, the access to the covered content is automatically refused."
+" Please note: Access to pages which are <strong>still open</strong> when a "
+"pass expires will be refused only after <strong>reloading</strong> the "
+"respective page. <strong>Any files</strong> (images, documents, "
+"presentations...), that were downloaded during the validity period, can "
+"still be used after the access has expired – but the user will "
+"<strong>not</strong> be able to <strong>download them </strong> without "
+"purchasing again.\n"
+"                                                    </p>\n"
+"\n"
+"                                                    <p>\n"
+"                                                    <strong>Deleting Time "
+"Passes</strong><br>\n"
+"                                                    Please be aware, that "
+"after <strong>deleting</strong> a time pass, users who have bought this time "
+"pass <strong>will lose</strong> their access to the covered content. "
+"<strong>Time Passes cannot be restored.</strong>\n"
+"                                                    </p>\n"
+"\n"
+"                                                    <p>\n"
+"                                                    <strong>Time Passes and "
+"Individual Sales</strong><br>\n"
+"                                                    When a user purchases a "
+"time pass, he has access to all the content covered by this pass during the "
+"validity period. Of course, you can still sell your content individually."
+"<br>\n"
+"                                                    Example: A user has "
+"already purchased the post \"New York – a Travel Report\" for 0.29 EUR. Now he "
+"purchases a Week Pass for the category \"Travel Reports\" for 0.99 EUR. The "
+"category also contains the \"New York\" post. For one week, he can now read "
+"all posts in the category \"Travel Reports\" for a fixed price of 0.99 EUR. "
+"After this week, the access expires automatically. During the validity "
+"period, the user will not see any LaterPay purchase buttons for posts in the "
+"category \"Travel Reports\". After the pass has expired, the user will still "
+"have access to the post he had previously purchased individually.\n"
+"                                                    </p>\n"
+"\n"
+"                                                    <p>\n"
+"                                                    "
+"<strong>Action</strong><br>\n"
+"                                                    You can display time "
+"passes by implementing the <a href=\"admin.php?page=laterpay-appearance-"
+"tab#lp_timePassAppearance\" target=\"_blank\">action 'laterpay_time_passes'</a> "
+"into your theme.<br>\n"
+"                                                    This action will display "
+"all time passes which are available for the user in the current context, "
+"sorted by relevance.<br>\n"
+"                                                    Example: You offer a "
+"<strong>Week Pass \"Sport\"</strong> for the category sport, a <strong>Week "
+"Pass \"News\"</strong> for the category \"News\" and a <strong>Month Pass Entire "
+"Website</strong> for all the content on your website.<br>\n"
+"                                                    Depending on the page he "
+"is currently visiting, a user will see different time passes:\n"
+"                                                    <ul>\n"
+"                                                        <li>On the post page "
+"of a post in the category <strong>\"Sport\"</strong>, the <strong>Week Pass "
+"\"Sport\"</strong> will be listed first, followed by the \"Month Pass Entire "
+"Website\". The <strong>Week Pass \"News\"</strong> is <strong>not "
+"relevant</strong> is this context and will not be displayed.</li>\n"
+"                                                        <li>On the post page "
+"of a post in the category <strong>\"News\"</strong>, the <strong>Week Pass "
+"\"News\"</strong> will be listed first, followed by the \"Month Pass Entire "
+"Website\". The <strong>Week Pass \"Sport\"</strong> is <strong>not "
+"relevant</strong> is this context and will not be displayed.</li>\n"
+"                                                    </ul>\n"
+"                                                    </p>\n"
+"\n"
+"                                                    <p>\n"
+"                                                    "
+"<strong>Vouchers</strong><br>\n"
+"                                                    You can create any "
+"number of voucher codes for each time pass. A voucher code allows one (or "
+"multiple) user(s) to purchase a time pass for a reduced price. A user can "
+"enter a voucher code below the available time passes by clicking "
+"<strong>'Redeem Voucher'</strong>. If the entered code is a valid voucher "
+"code, the price of the time pass, the code is valid for, will be reduced."
+"<br>\n"
+"                                                    A voucher code can be "
+"used <strong>any number of times</strong> and is <strong>not linked</strong> "
+"to a specific user.<br>\n"
+"                                                    If you "
+"<strong>delete</strong> a voucher code, this will <strong>not "
+"affect</strong> the validity of time passes which have already been "
+"purchased using this voucher code.\n"
+"                                                     </p>"
+msgstr ""
+"<p>\n"
+"    <strong>Gültigkeit von Zeitpässen</strong><br>\n"
+"    Mit Zeitpässen können Sie Ihren Nutzern einen <strong>zeitlich "
+"begrenzten Zugang</strong> zu Ihren Inhalten anbieten. Sie entscheiden dabei,"
+" auf welche Inhalte ein Käufer mit diesem Zeitpass Zugriff haben und wie "
+"lange dieser Zugriff gültig sein soll. Ein Zeitpass kann gültig sein für "
+"<strong>alle LaterPay Inhalte</strong>\n"
+"    <ul>\n"
+"        <li>auf der <strong>gesamten Seite</strong>,</li>\n"
+"        <li>in einer <strong>bestimmten Kategorie</strong> oder</li>\n"
+"        <li>auf der gesamten Seite <strong>außer in einer bestimmten "
+"Kategorie</strong>.</li>\n"
+"    </ul>\n"
+"    Die <strong>Gültigkeitsdauer</strong> eines Zeitpasses startet mit dem "
+"<strong>Kauf</strong> und gilt für eine <strong>durchgängige</strong> "
+"Nutzung – ob der Nutzer während des Gültigkeitszeitraumes also "
+"kontinuierlich auf Ihrer Seite ist, ist unerheblich. Nachdem ein Zeitpass "
+"abgelaufen ist, verfällt der gekaufte Zugriff automatisch. Bitte beachten "
+"Sie: Seiten, die der Nutzer zum Zeitpunkt des Ablaufs <strong>noch "
+"geöffnet</strong> hat, verlieren den Zugriff erst beim "
+"<strong>Neuladen</strong> der jeweiligen Seite. <strong>Dateien</strong> "
+"jeder Art (Bilder, Dokumente, Präsentationen...), die während des "
+"Gültigkeitszeitraumes heruntergeladen wurden, können auch nach dem Ablaufen "
+"des Zeitpasses noch verwendet werden – der Nutzer kann sie jedoch "
+"<strong>nicht erneut herunterladen</strong>, ohne den Zugriff nochmals zu "
+"kaufen.\n"
+"</p>\n"
+"\n"
+"<p>\n"
+"    <strong>Löschen von Zeitpässen</strong><br>\n"
+"    Bitte beachten Sie, dass alle Nutzer, die einen Zeitpass gekauft haben, "
+"den Zugang zu den Inhalten verlieren, die dieser Zeitpass abdeckt, nachdem "
+"Sie den entsprechenden Pass <strong>gelöscht</strong> haben. "
+"<strong>Zeitpässe können nicht wiederhergestellt werden.</strong>\n"
+"</p>\n"
+"\n"
+"<p>\n"
+"    <strong>Zeitpässe und Einzelverkäufe</strong><br>\n"
+"    Wenn ein Nutzer einen Zeitpass erwirbt, hat er für dessen "
+"Gültigkeitszeitraum Zugriff auf alle Inhalte, die von dem Pass abgedeckt "
+"werden. Selbstverständlich können Sie neben Zeitpässen wie gewohnt Ihre "
+"Inhalte auch einzeln verkaufen.<br>\n"
+"    Ein Beispiel: Ein Nutzer hat den Artikel \"New York - Ein Reisebericht\" "
+"bereits für 0,29 EUR gekauft. Er erwirbt nun für 0,99 EUR einen Wochenpass "
+"für die Kategorie \"Reiseberichte\", in der sich unter anderem auch dieser "
+"Beitrag befindet. Er kann nun für eine Woche alle Beiträge in dieser "
+"Kategorie zum Festpreis von 0,99 EUR lesen - danach verfällt sein Zugang. "
+"Während des Gültigkeitszeitraumes wird er in der Kategorie \"Reiseberichte\" "
+"nicht zum Bezahlen einzelner Beiträge aufgefordert. Auf den bereits einzeln "
+"gekauften Artikel \"New York – Ein Reisebericht\" hat er aber nach wie vor "
+"auch nach Ablauf des Passes Zugriff.\n"
+"</p>\n"
+"\n"
+"<p>\n"
+"    <strong>Action</strong><br>\n"
+"    Sie können Zeitpässe anzeigen, in dem Sie die <a href=\"admin.php?"
+"page=laterpay-appearance-tab#lp_timePassAppearance\" target=\"_blank\">Action "
+"'laterpay_time_passes'</a> in Ihrem Theme aufrufen.<br>\n"
+"    Diese Action zeigt alle Zeitpässe an, die im aktuellen Kontext für den "
+"Nutzer verfügbar sind und sortiert sie nach Relevanz.<br>\n"
+"    Beispiel: Sie bieten einen <strong>Wochenpass \"Sport\"</strong> für die "
+"Kategorie Sport, einen <strong>Wochenpass \"News\"</strong> für die Kategorie "
+"News und einen <strong>Monatspass für die gesamte Seite</strong> an. Je "
+"nachdem, auf welcher Seite sich ein Nutzer gerade befindet, werden ihm "
+"andere Zeitpässe angezeigt:\n"
+"    <ul>\n"
+"        <li>In einem Beitrag der Kategorie <strong>\"Sport\"</strong> wird "
+"ganz oben der <strong>Wochenpass \"Sport\"</strong> angezeigt, gefolgt vom "
+"Monatspass für die gesamte Seite. Der Zeitpass \"News\" ist hier <strong>nicht "
+"relevant</strong> und wird nicht angezeigt.</li>\n"
+"        <li>In einem Beitrag der Kategorie <strong>\"News\"</strong> wird ganz "
+"oben der <strong>Wochenpass \"News\"</strong> angezeigt, gefolgt vom "
+"Monatspass für die gesamte Seite. Der Zeitpass \"Sport\" ist hier "
+"<strong>nicht relevant</strong> und wird nicht angezeigt.</li>\n"
+"    </ul>\n"
+"</p>\n"
+"\n"
+"<p>\n"
+"    <strong>Gutscheine</strong><br>\n"
+"    Für jeden Zeitpass können Sie beliebig viele Gutschein-Codes erstellen, "
+"die es einem (oder auch mehreren) Nutzer(n) erlauben, einen Zeitpass "
+"günstiger zu kaufen. Ihre Nutzer können den Gutschein-Code mit einem Klick "
+"auf <strong>'Gutschein einlösen'</strong> direkt unter den verfügbaren "
+"Zeitpässen eingeben. Falls der Gutschein-Code gültig ist, wird der Preis des "
+"Zeitpasses, für den er gültig ist, vor dem Kauf entsprechend angepasst.<br>\n"
+"    Ein Gutschein-Code kann <strong>beliebig oft</strong> eingelöst werden "
+"und ist <strong>nicht</strong> an einen bestimmten Nutzer gebunden.<br>\n"
+"    Wenn Sie einen Gutschein-Code <strong>löschen</strong> hat das "
+"<strong>keine Auswirkungen</strong> auf Zeitpässe, die bereits mit diesem "
+"Gutschein-Code erworben wurden.\n"
+" </p>"
+
+#: ../application/Controller/Admin.php:337
+msgid ""
+"\n"
+"                                                    <p>\n"
 "                                                        With the "
 "<strong>bulk price editor</strong>, you can quickly change "
 "<strong>multiple</strong> prices <strong>at a time</strong>.<br>\n"
@@ -1371,11 +1572,11 @@ msgstr ""
 "</ul>\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:365
+#: ../application/Controller/Admin.php:412
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../application/Controller/Admin.php:366
+#: ../application/Controller/Admin.php:413
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1423,11 +1624,11 @@ msgstr ""
 "</li>\n"
 "</ul>\n"
 
-#: ../application/Controller/Admin.php:390
+#: ../application/Controller/Admin.php:437
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../application/Controller/Admin.php:391
+#: ../application/Controller/Admin.php:438
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1452,7 +1653,7 @@ msgstr ""
 "aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:405
+#: ../application/Controller/Admin.php:452
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1488,11 +1689,11 @@ msgstr ""
 "die Bewertung gekaufter Inhalte erlauben.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:429
+#: ../application/Controller/Admin.php:476
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../application/Controller/Admin.php:430
+#: ../application/Controller/Admin.php:477
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1616,7 +1817,7 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
-#: ../application/Controller/Admin.php:479
+#: ../application/Controller/Admin.php:526
 msgid ""
 "\n"
 "                                                    <p>You can run the "
@@ -1984,21 +2185,21 @@ msgstr "Die Bulk-Price-Aktion wurde erfolgreich gespeichert."
 msgid "Bulk operation was successfully deleted."
 msgstr "Die Bulk-Price-Aktion wurde erfolgreich entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:877
+#: ../application/Controller/Admin/Pricing.php:878
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:886
+#: ../application/Controller/Admin/Pricing.php:887
 msgid "An error occurred when trying to save the pass. Please try again."
 msgstr ""
 "Bei dem Versuch, den Pass zu speichern, ist ein Fehler aufgetreten. Bitte "
 "versuchen Sie es erneut."
 
-#: ../application/Controller/Admin/Pricing.php:906
+#: ../application/Controller/Admin/Pricing.php:907
 msgid "Pass deleted."
 msgstr "Pass entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:913
+#: ../application/Controller/Admin/Pricing.php:914
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
