@@ -229,11 +229,11 @@
 ">
             <code class="lp_codeSnippet lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-                <?php echo htmlspecialchars( "<?php do_action( 'laterpay_time_pass' ); ?>" ); ?>
+                <?php echo htmlspecialchars( "<?php do_action( 'laterpay_time_passes' ); ?>" ); ?>
             </code>
             <code class="lp_codeSnippet lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-                <?php echo htmlspecialchars( "<?php do_action( 'laterpay_time_pass', 'small' ); ?>" ); ?>
+                <?php echo htmlspecialchars( "<?php do_action( 'laterpay_time_passes', 'small' ); ?>" ); ?>
             </code>
         </div>
     </div>
