@@ -229,7 +229,8 @@
 ">
             <code class="lp_codeSnippet lp_u_block">
                 <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-                <?php echo htmlspecialchars( "<?php do_action( 'laterpay_time_passes' ); ?>" ); ?>  <?php _e( 'or', 'laterpay' ); ?><br>
+                <?php echo htmlspecialchars( "<?php do_action( 'laterpay_time_passes' ); ?>" ); ?>
+                <div class="lp_u_center"><?php _e( 'or', 'laterpay' ); ?></div>
                 <?php echo htmlspecialchars( "<?php do_action( 'laterpay_time_passes', 'small' ); ?>" ); ?>
             </code>
         </div>
