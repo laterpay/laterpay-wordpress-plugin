@@ -118,40 +118,12 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array'  => array( 'ppu', 'sis' ),
-                    'depends'   => array(
-                        array(
-                            'field' => 'price',
-                            'value' => 'sis',
-                            'conditions' => array(
-                                'cmp' => array(
-                                    array(
-                                        'lte' => 149.99,
-                                        'gte' => 1.49,
-                                    ),
-                                ),
-                            ),
-                        ),
-                        array(
-                            'field' => 'price',
-                            'value' => 'ppu',
-                            'conditions' => array(
-                                'cmp' => array(
-                                    array(
-                                        'lte' => 5.00,
-                                        'gte' => 0.05,
-                                    ),
-                                    array(
-                                        'eq' => 0.00,
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
+                    'in_array'  => array( 'sis' ),
                 ),
                 'filters' => array(
                     'to_string',
                 ),
+                'can_be_null' => true,
             )
         );
 

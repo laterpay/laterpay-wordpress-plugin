@@ -411,8 +411,7 @@
             validateRevenueModel = function(price, $form) {
                 // for passes
                 if ( $form.hasClass('lp_js_timePassEditor_form') ) {
-                    var $toggle         = $('.lp_js_timePassRevenueModelInput', $form),
-                        $input          = $('.lp_js_timePass_toggleRevenueModel', $form),
+                    var $toggle         = $($o.timePassRevenueModel, $form),
                         hasRevenueModel = $toggle.prop('checked');
 
                     var current_revenue = hasRevenueModel ? $o.singleSale : $o.payPerUse;
@@ -420,11 +419,9 @@
                     // switch revenue model, if combination of price and revenue model is not allowed
                     if (price > 5 && current_revenue === $o.payPerUse) {
                         // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
-                        $input.val($o.singleSale);
                         $toggle.prop('checked', true);
                     } else if (price < 1.49 && current_revenue === $o.singleSale) {
                         // Single Sale purchases are not allowed for prices < 1.49 Euro
-                        $input.val($o.payPerUse);
                         $toggle.prop('checked', false);
                     }
                 // for category price and global price
@@ -751,7 +748,7 @@
                 var passId      = $timePass.data('pass-id'),
                     passData    = lpVars.time_passes_list[passId],
                     vouchers    = lpVars.vouchers_list[passId],
-                    $toggle     = $('.lp_js_timePassRevenueModelInput', $timePass),
+                    $toggle     = $($o.timePassRevenueModel, $timePass),
                     name        = '';
 
                 if (!passData) {
@@ -762,7 +759,7 @@
                 $('input, select, textarea', $timePass)
                 .each(function(i, v) {
                     name = $(v).attr('name');
-                    if (name !== '' && passData[name] !== undefined) {
+                    if ( name !== '' && passData[name] !== undefined && name !== 'revenue_model' ) {
                         $(v).val(passData[name]);
                     }
                 });
@@ -773,7 +770,7 @@
                 $($o.voucherPriceInput, $timePass).val( $($o.timePassPrice, $timePass).val() );
 
                 // apply passData to revenue model toggle
-                if (passData.revenue_model === 'sis') {
+                if (passData.revenue_model === $o.singleSale) {
                     $toggle.prop('checked', true);
                 }
 
@@ -973,8 +970,7 @@
             },
 
             toggleTimePassRevenueModel = function($timePass) {
-                var $toggle         = $('.lp_js_timePassRevenueModelInput', $timePass),
-                    $input          = $('.lp_js_timePass_toggleRevenueModel', $timePass),
+                var $toggle         = $($o.timePassRevenueModel, $timePass),
                     hasRevenueModel = $toggle.prop('checked'),
                     price           = $($o.timePassPrice, $timePass).val();
 
@@ -983,11 +979,9 @@
                 // switch revenue model, if combination of price and revenue model is not allowed
                 if (price > 5 && current_revenue === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
-                    $input.val($o.singleSale);
                     $toggle.prop('checked', true);
                 } else if (price < 1.49 && current_revenue === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
-                    $input.val($o.payPerUse);
                     $toggle.prop('checked', false);
                 }
             },

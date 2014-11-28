@@ -200,7 +200,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 array(
                     'success' => true,
                     'pass_id' => $pass_id,
-                    'price'   => LaterPay_Helper_View::format_number( (float) $price ),
+                    'price'   => LaterPay_Helper_View::format_number( $price ),
                     'url'     => $url,
                 )
             );
