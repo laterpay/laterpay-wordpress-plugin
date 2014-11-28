@@ -438,15 +438,30 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * FIXME: #196 add documentation
+     * Get pass expiry time
      *
      * @param array $pass
+     *
+     * @return $time expiry time
      */
     protected static function get_pass_expiry_time( $pass ) {
-        $timestamp  = time();
-        $time       = 0;
 
         switch ( $pass['period'] ) {
+            // hours
+            case 0:
+                $time = $pass['duration'] * 60 * 60;
+                break;
+
+            // days
+            case 1:
+                $time = $pass['duration'] * 60 * 60 * 24;
+                break;
+
+            // weeks
+            case 2:
+                $time = $pass['duration'] * 60 * 60 * 24 * 7;
+                break;
+
             // months
             case 3:
                 $time = $pass['duration'] * 60 * 60 * 24 * 31;
@@ -458,11 +473,7 @@ class LaterPay_Helper_Passes
                 break;
 
             default :
-                $period = self::get_period_options( $pass['period'] );
-                if ( $pass['duration'] > 1 ) {
-                    $period .= 's';
-                }
-                $time = strtotime( strtolower( '+' . $pass['duration'] . ' ' . $period ) ) - $timestamp;
+                $time = 0;
         }
 
         return $time;
