@@ -16,6 +16,13 @@
                 postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
                 postStatisticsVisibilityInput   : $('#lp_js_postStatistics_visibilityInput'),
 
+                // time passes
+                timePass                        : '.lp_js_timePass',
+                flipTimePassLink                : '.lp_js_flipTimePass',
+                voucherCodeWrapper              : '#lp_js_voucherCodeWrapper',
+                voucherCodeInput                : '.lp_js_voucherCodeInput',
+                voucherRedeemButton             : '.lp_js_voucherRedeemButton',
+
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
                 postStatisticsPlaceholder       : $('#lp_js_postStatisticsPlaceholder'),
@@ -55,6 +62,13 @@
                     handlePurchaseInTestMode(this);
                 })
                 .on('click', $o.purchaseLink, function(e) {e.preventDefault();});
+
+                // handle clicks on time passes
+                $('body')
+                .on('click', $o.flipTimePassLink, function() {
+                    flipTimePass(this);
+                })
+                .on('click', $o.flipTimePassLink, function(e) {e.preventDefault();});
             },
 
             bindPostStatisticsEvents = function() {
@@ -77,6 +91,101 @@
                 $o.postRatingRadio
                 .on('change', function() {
                     savePostRating();
+                });
+            },
+
+            bindTimePassesEvents = function() {
+                // redeem voucher code
+                $($o.voucherRedeemButton)
+                .on('mousedown', function() {
+                    redeemVoucherCode();
+                })
+                .on('click', function(e) {e.preventDefault();});
+            },
+
+            redeemVoucherCode = function() {
+                var code = $($o.voucherCodeInput).val();
+
+                if (code.length === 6) {
+                    $.get(
+                        lpVars.ajaxUrl,
+                        {
+                            action : 'laterpay_redeem_voucher_code',
+                            code   : code,
+                            nonce  : lpVars.nonces.voucher,
+                            link   : window.location.href,
+                        },
+                        function(r) {
+                            // clear input
+                            $($o.voucherCodeInput).val('');
+
+                            if (r.success) {
+                                var has_matches = false,
+                                    passId;
+                                $($o.timePass).each(function() {
+                                    // check for each displayed time pass, if the request returned updated data for it
+                                    passId = $(this).data('pass-id');
+                                    if (passId === r.pass_id) {
+                                        // update purchase button price and url
+                                        var priceWithVoucher = r.price +
+                                                                '<small>' + lpVars.default_currency + '</small>';
+
+                                        $(this)
+                                            .find($o.purchaseLink)
+                                            .attr('data-laterpay', r.url)
+                                            .html(priceWithVoucher);
+
+                                        has_matches = true;
+
+                                        return false;
+                                    }
+                                });
+
+                                if (has_matches) {
+                                    // voucher is valid for at least one displayed time pass
+                                    showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher);
+                                } else {
+                                    // voucher is invalid for all displayed time passes
+                                    showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
+                                }
+                            } else {
+                                // voucher is invalid for all displayed time passes
+                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
+                            }
+                        },
+                        'json'
+                    );
+                } else {
+                    // request was not sent, because voucher code is not six characters long
+                    showVoucherCodeFeedbackMessage(lpVars.i18n.codeTooShort);
+                }
+            },
+
+            showVoucherCodeFeedbackMessage = function(message) {
+                var $feedbackMessage =  $('<div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
+                                            message +
+                                        '</div>');
+
+                $($o.voucherCodeWrapper)
+                .prepend($feedbackMessage);
+
+                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $o.voucherCodeWrapper);
+                $feedbackMessage
+                .fadeIn(250)
+                .click(function() {
+                    // remove feedback message on click
+                    removeVoucherCodeFeedbackMessage($feedbackMessage);
+                });
+
+                // automatically remove feedback message after 3 seconds
+                setTimeout(function() {
+                    removeVoucherCodeFeedbackMessage($feedbackMessage);
+                }, 3000);
+            },
+
+            removeVoucherCodeFeedbackMessage = function($feedbackMessage) {
+                $feedbackMessage.fadeOut(250, function() {
+                    $feedbackMessage.unbind().remove();
                 });
             },
 
@@ -236,15 +345,19 @@
             handlePurchaseInTestMode = function(trigger) {
                 if ($(trigger).data('preview-as-visitor')) {
                     // show alert instead of loading LaterPay purchase dialogs
-                    alert(lpVars.i18nAlert);
+                    alert(lpVars.i18n.alert);
                 }
             },
 
             initiateAttachmentDownload = function() {
                 // start attachment download, if requested
-                if ( lpVars.download_attachment ) {
+                if (lpVars.download_attachment) {
                     window.location.href = lpVars.download_attachment;
                 }
+            },
+
+            flipTimePass = function(trigger) {
+                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
             },
 
             initializePage = function() {
@@ -266,6 +379,7 @@
 
                 bindPurchaseEvents();
                 bindRatingEvents();
+                bindTimePassesEvents();
 
                 initiateAttachmentDownload();
             };
@@ -294,7 +408,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         function(event) {
             event.preventDefault();
             if (event.currentTarget.getData('preview-as-visitor')) {
-                alert(lpVars.i18nAlert);
+                alert(lpVars.i18n.alert);
             } else {
                 var url = event.currentTarget.getAttribute('href');
                 if (event.currentTarget.hasAttribute('data-laterpay')) {

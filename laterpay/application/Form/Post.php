@@ -131,10 +131,12 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array' => array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, 
-                                         LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE, 
-                                         LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE, 
-                                         LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE )
+                    'in_array' => array(
+                        LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE,
+                        LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE,
+                        LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
+                        LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE,
+                    )
                 ),
                 'filters'    => array(
                     'to_string',

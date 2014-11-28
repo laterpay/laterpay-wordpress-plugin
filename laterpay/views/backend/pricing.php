@@ -1,5 +1,4 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
-
 <div class="lp_page wp-core-ui">
 
     <div id="lp_js_flashMessage" class="lp_flashMessage" style="display:none;">
@@ -52,7 +51,7 @@
                                         class="lp_js_priceInput lp_input lp_numberInput"
                                         value="<?php echo $laterpay['global_default_price']; ?>"
                                         style="display:none;"
-                                        placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
+                                        placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>"
                                         autocomplete="off">
                                 <span id="lp_js_globalDefaultPrice_text"><?php echo $laterpay['global_default_price']; ?></span>
                                 <span class="lp_js_currency lp_currency"><?php echo $laterpay['standard_currency']; ?></span>
@@ -81,8 +80,8 @@
                                     <input type="hidden" name="category_id" class="lp_js_categoryDefaultPrice_categoryId" value="<?php echo $category->category_id; ?>">
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                                    <?php $category_price           = LaterPay_Helper_View::format_number( (float) $category->category_price ); ?>
-                                    <?php $category_revenue_model   = $category->revenue_model; ?>
+                                    <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
+                                    <?php $category_revenue_model = $category->revenue_model; ?>
 
                                     <div class="lp_js_revenueModel lp_revenueModel lp_u_relative lp_u_left" style="display:none;">
                                         <label class="lp_js_revenueModel_label lp_revenueModelLabel lp_u_m-r05 lp_u_m-b025
@@ -188,20 +187,222 @@
             <p>
                 <span class="lp_revenueModelLabel lp_u_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
                 <dfn>
-                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?><br>
-                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf ?><br>
+                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf ?>
                 </dfn>
             </p>
             <p>
                 <span class="lp_revenueModelLabel lp_u_m-r05">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
                 <dfn>
                     <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
-                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf?>
                 </dfn>
             </p>
         </div>
-
         <hr class="lp_u_m-1-0 lp_u_m-b3">
+
+
+        <div class="lp_row">
+            <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
+            <dfn class="lp_u_block lp_u_m-b1">
+                <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?><br>
+                <?php _e( 'To display time passes you have to <a href="admin.php?page=laterpay-appearance-tab#lp_timePassAppearance">call the action laterpay_time_pass</a> in your theme.', 'laterpay' ); ?>
+            </dfn>
+
+            <div class="lp_js_timePassEditor lp_timePassEditor">
+                <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Pass', 'laterpay' ); ?></a>
+
+                <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
+                    <div class="lp_js_timePassWrapper lp_timePassWrapper lp_u_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
+                        <div class="lp_js_timePassPreview lp_u_left">
+                            <?php echo $this->render_pass( (array) $pass ); ?>
+                        </div>
+
+                        <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_m-t05"></div>
+
+                        <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary lp_u_hide"><?php _e( 'Save', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_inlineBlock lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a><br>
+                        <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_inlineBlock lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+
+                        <div class="lp_js_voucherList lp_voucherList">
+                            <?php if ( isset( $laterpay['vouchers_list'][ $pass->pass_id ] ) ) : ?>
+                                <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ): ?>
+                                    <div class="lp_js_voucher lp_voucherRow">
+                                        <span class="lp_voucherCodeLabel"><?php echo $voucher_code; ?></span>
+                                        <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
+                                        <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+                <div id="lp_js_timePassTemplate" class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_timePassWrapper lp_u_clearfix lp_u_hide" data-pass-id="0">
+                    <div class="lp_js_timePassPreview lp_u_left">
+                        <?php echo $this->render_pass(); ?>
+                    </div>
+
+                    <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_m-t05">
+                        <form id="lp_js_timePassFormTemplate" class="lp_js_timePassEditor_form lp_timePassEditor_form lp_u_hide lp_u_clearfix" method="post">
+                            <input type="hidden" name="form" value="time_pass_form_save">
+                            <input type="hidden" name="action" value="laterpay_pricing">
+                            <input type="hidden" name="pass_id" value="0" id="lp_js_timePassEditor_hiddenPassId">
+                            <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+
+                            <table class="lp_timePass_formColumn">
+                                <tr>
+                                    <td colspan="2">
+                                        <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
+                                        <select name="duration" class="lp_js_switchTimePassDuration lp_input">
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'duration' ); ?>
+                                        </select>
+                                        <select name="period" class="lp_js_switchTimePassPeriod lp_input">
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'period' ); ?>
+                                        </select>
+                                        <?php _e( 'and grants', 'laterpay' ); ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php _e( 'access to', 'laterpay' ); ?>
+                                    </td>
+                                    <td>
+                                        <select name="access_to" class="lp_js_switchTimePassScope lp_input lp_u_w-1">
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'access' ); ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <select name="access_category"
+                                                class="lp_js_switchTimePassScopeCategory lp_input lp_u_w-1"
+                                                style="display:none;">
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'category' ); ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <?php _e( 'The user pays', 'laterpay' ); ?>
+                                        <input type="text"
+                                                name="price"
+                                                class="lp_js_timePassPriceInput lp_input lp_numberInput"
+                                                value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_default_options( 'price' ) ) ?>">
+                                        <?php echo $laterpay['standard_currency']; ?>
+                                        <?php _e( 'later', 'laterpay' ); ?><div class="lp_toggle">
+                                            <label class="lp_toggle_label lp_toggle_label_pass">
+                                                <input type="checkbox"
+                                                       name="revenue_model"
+                                                       class="lp_js_timePassRevenueModelInput lp_toggle_input"
+                                                       value="sis"
+                                                       <?php if ( LaterPay_Helper_Passes::get_default_options( 'revenue_model' ) === 'sis' ) { echo 'checked'; } ?>>
+                                                <span class="lp_toggle_text" data-on="" data-off=""></span>
+                                                <span class="lp_toggle_handle"></span>
+                                            </label>
+                                        </div><?php _e( 'immediately', 'laterpay' ); ?>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table class="lp_timePass_formColumn">
+                                <tr>
+                                    <td>
+    <!--                                     <div class="lp_colorPicker">
+                                            <input type="text"
+                                                    name="title_color"
+                                                    class="lp_js_colorInput lp_colorInput lp_input"
+                                                    value="<?php echo LaterPay_Helper_Passes::get_default_options( 'title_color' ); ?>">
+                                        </div> -->
+                                        <?php _e( 'Title', 'laterpay' ); ?>
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                                name="title"
+                                                class="lp_js_timePassTitleInput lp_input lp_u_w-1"
+                                                value="<?php echo LaterPay_Helper_Passes::get_default_options( 'title' ); ?>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+    <!--                                     <div class="lp_colorPicker">
+                                            <input type="text"
+                                                    class="lp_js_colorInput lp_colorInput lp_input"
+                                                    name="description_color"
+                                                    value="<?php echo LaterPay_Helper_Passes::get_default_options( 'description_color' ); ?>">
+                                        </div> -->
+                                        <?php _e( 'Description', 'laterpay' ); ?>
+                                    </td>
+                                    <td rowspan="2">
+                                        <textarea
+                                            name="description"
+                                            class="lp_js_timePassDescriptionTextarea lp_timePass_descriptionInput lp_input lp_u_w-1">
+                                            <?php echo LaterPay_Helper_Passes::get_description(); ?>
+                                        </textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+        <!--
+                                        <div class="lp_timePass_formRow">
+                                            <div class="lp_colorPicker">
+                                                <input type="text"
+                                                        class="lp_js_colorInput lp_colorInput lp_input"
+                                                        name="background_color"
+                                                        value="<?php echo LaterPay_Helper_Passes::get_default_options( 'background_color' ); ?>">
+                                            </div>
+                                            <a href="#"><?php _e( 'Background image', 'laterpay' ); ?></a>
+                                            <?php _e( 'or color', 'laterpay' ); ?>
+                                        </div>
+        -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <hr>
+
+                            <div class="lp_js_voucherEditor lp_voucherEditor">
+                                <?php _e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?>
+                                <input type="text"
+                                       name="voucher_price"
+                                       class="lp_js_voucherPriceInput lp_input lp_numberInput"
+                                       value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_default_options( 'price' ) ) ?>">
+                                <span><?php echo $laterpay['standard_currency']; ?></span>
+                                <a href="#" class="lp_js_generateVoucherCode lp_editLink lp_addLink" data-icon="c">
+                                    <?php _e( 'Generate voucher code', 'laterpay' ); ?>
+                                </a>
+
+                                <hr>
+
+                                <div class="lp_js_voucherPlaceholder"></div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <a href="#" class="lp_js_saveTimePass lp_saveLink button button-primary"><?php _e( 'Save', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_u_inlineBlock lp_u_pd-05" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a><br>
+                    <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_inlineBlock lp_u_pd-05 lp_u_hide" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+
+                    <div class="lp_js_voucherList"></div>
+                </div>
+            </div>
+        </div>
+        <hr class="lp_u_m-1-0 lp_u_m-b3">
+
 
         <div class="lp_row">
             <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>
@@ -277,6 +478,7 @@
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
+
 
 <?php # commented out as long as there is only a single currency ?>
 <?php /* ?>

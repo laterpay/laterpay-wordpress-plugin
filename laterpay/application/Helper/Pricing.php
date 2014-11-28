@@ -497,19 +497,19 @@ class LaterPay_Helper_Pricing
             $dynamic_pricing_data = array(
                 array(
                       'x' => 0,
-                      'y' => $post_price
+                      'y' => $post_price,
                 ),
                 array(
                       'x' => self::price_start_day,
-                      'y' => $post_price
+                      'y' => $post_price,
                 ),
                 array(
                       'x' => self::price_end_day,
-                      'y' => $end_price
+                      'y' => $end_price,
                 ),
                 array(
                       'x' => 30,
-                      'y' => $end_price
+                      'y' => $end_price,
                 ),
             );
         } elseif ( $transitional_period_end_after_days === '' ) {
@@ -770,4 +770,16 @@ class LaterPay_Helper_Pricing
 
         wp_update_post( $post_update_data );
     }
+
+    /**
+     * Return the URL hash for a given URL.
+     *
+     * @param string $url
+     *
+     * @return string $hash
+     */
+    public static function get_hash_by_url( $url ) {
+        return md5( md5( $url ) . wp_salt() );
+    }
+
 }

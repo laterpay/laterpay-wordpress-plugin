@@ -22,6 +22,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
     svgmin          = require('gulp-svgmin'),
+    tinypng         = require('gulp-tinypng'),
     uglify          = require('gulp-uglify'),
     p               = {
                         allfiles    : [
@@ -115,7 +116,7 @@ gulp.task('img-build', function() {
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 
     gulp.src(p.srcPNG)
-        // TODO: apply lossy compression using TinyPNG
+        .pipe(tinypng('RwJqEg4x1Id5RtjxT4JczHQqCvkZ64O1'))                      // compress with TinyPNG
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
 

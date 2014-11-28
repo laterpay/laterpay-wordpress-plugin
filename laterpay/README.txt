@@ -356,6 +356,20 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.8.5 (November 28, 2014): 0.9.9 Pre-Release =
+* Added time passes and vouchers - PRE-RELEASE -
+* Known issues and todos:
+* ! Vouchers are not rendered next to pass after creating a new pass -> page reload required
+* ! Terms listed on flipside of time pass are not translated yet
+
+= 0.9.8.4 (November 26, 2014): 0.9.9 Pre-Release =
+* Added time passes and vouchers - PRE-RELEASE -
+* Known issues and todos:
+* ! Voucher codes can not yet be redeemed
+* ! Vouchers are not rendered next to pass after creating a new pass -> page reload required
+* ! Very rough validation of inputs and handling of edge cases in time pass editor
+* ! Terms listed on flipside of time pass are not translated yet
+
 = 0.9.8.3 (October 28, 2014): Bugfix Release =
 * Added bulk price editor to make editing large numbers of posts easier
 * Fixed saving of global default and category default prices with German number format
