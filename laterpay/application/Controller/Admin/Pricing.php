@@ -864,12 +864,20 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $pass_model     = new LaterPay_Model_Pass();
 
         if ( $save_pass_form->is_valid() ) {
-            $voucher  = $save_pass_form->get_field_value( 'voucher' );
-            $data     = $save_pass_form->get_form_values( true, null, array( 'voucher') );
-            $data     = $pass_model->update_pass( $data );
+            $voucher = $save_pass_form->get_field_value( 'voucher' );
+            $data    = $save_pass_form->get_form_values( true, null, array( 'voucher') );
+
+            // check and set revenue model
+            if ( ! isset( $data['revenue_model'] ) ) {
+                $data['revenue_model'] = 'ppu';
+            }
+            // ensure valid revenue model
+            $data['revenue_model'] = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $data['revenue_model'], $data['price'] );
+            // update time pass data or create new time pass
+            $data = $pass_model->update_pass( $data );
             // save vouchers for this pass
             LaterPay_Helper_Vouchers::save_pass_vouchers( $data['pass_id'], $voucher );
-            $data['price'] = LaterPay_Helper_View::format_number( (float) $data['price'] );
+            $data['price'] = LaterPay_Helper_View::format_number( $data['price'] );
 
             wp_send_json(
                 array(

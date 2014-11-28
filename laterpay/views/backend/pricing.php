@@ -291,15 +291,15 @@
                                         <input type="text"
                                                 name="price"
                                                 class="lp_js_timePassPriceInput lp_input lp_numberInput"
-                                                value="<?php echo LaterPay_Helper_View::format_number( (float) LaterPay_Helper_Passes::get_default_options( 'price' ) ) ?>">
+                                                value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_default_options( 'price' ) ) ?>">
                                         <?php echo $laterpay['standard_currency']; ?>
                                         <?php _e( 'later', 'laterpay' ); ?><div class="lp_toggle">
                                             <label class="lp_toggle_label lp_toggle_label_pass">
-                                                <input type="checkbox" class="lp_js_timePassRevenueModelInput lp_toggle_input">
-                                                <input type="hidden"
-                                                        name="revenue_model"
-                                                        class="lp_js_timePass_toggleRevenueModel"
-                                                        value="<?php echo LaterPay_Helper_Passes::get_default_options( 'revenue_model' ); ?>">
+                                                <input type="checkbox"
+                                                       name="revenue_model"
+                                                       class="lp_js_timePassRevenueModelInput lp_toggle_input"
+                                                       value="sis"
+                                                       <?php if ( LaterPay_Helper_Passes::get_default_options( 'revenue_model' ) === 'sis' ) { echo 'checked'; } ?>>
                                                 <span class="lp_toggle_text" data-on="" data-off=""></span>
                                                 <span class="lp_toggle_handle"></span>
                                             </label>
