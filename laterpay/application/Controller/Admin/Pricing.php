@@ -98,7 +98,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
         $passes_list                = (array) $passes_model->get_all_passes();
         $vouchers_list              = LaterPay_Helper_Vouchers::get_all_vouchers();
-        var_dump(get_option( 'laterpay_global_price' ));
 
         $view_args = array(
             'top_nav'                               => $this->get_menu(),
@@ -106,7 +105,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'categories_with_defined_price'         => $categories_with_defined_price,
             'standard_currency'                     => get_option( 'laterpay_currency' ),
             'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
-            'global_default_price'                  => get_option( 'laterpay_global_price' ),
+            'global_default_price'                  => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
             'passes_list'                           => $passes_list,
             'vouchers_list'                         => $vouchers_list,
