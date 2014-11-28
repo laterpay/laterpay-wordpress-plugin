@@ -3,6 +3,22 @@
 class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 {
 
+    /**
+     * Sections are used by the ajax laterpay_get_dashboard-callback.
+     * Every section is mapped to a private method within this controller.
+     *
+     * @var array
+     */
+    private $ajax_sections = array(
+        'converting_items',
+        'selling_items',
+        'revenue_items',
+        'most_least_converting_items',
+        'most_least_selling_items',
+        'most_least_revenue_items',
+        'metrics',
+    );
+
     private $cache_file_exists;
     private $cache_file_is_broken;
 
@@ -152,17 +168,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'interval'          => $interval
         );
 
-        $sections = array(
-            'converting_items',
-            'selling_items',
-            'revenue_items',
-            'most_least_converting_items',
-            'most_least_selling_items',
-            'most_least_revenue_items',
-            'metrics',
-        );
 
-        foreach ( $sections as $section ) {
+        foreach ( $this->ajax_sections as $section ) {
             $args[ 'section' ]  = $section;
             $options            = $this->get_ajax_request_options( $args );
             $this->logger->info(
@@ -502,6 +509,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'success' => FALSE,
                 'message' => __( 'Error, missing section on request', 'laterpay' ),
                 'step' => 3,
+            );
+            wp_send_json( $error );
+        }
+        if ( ! in_array( $_POST[ 'section' ], $this->ajax_sections ) ) {
+            $error = array(
+                'success'   => FALSE,
+                'message'   => sprintf( __( 'Section is not allowed <code>%s</code>', 'laterpay' ), $_POST[ 'section' ] ),
+                'step'      => 4,
             );
             wp_send_json( $error );
         }
