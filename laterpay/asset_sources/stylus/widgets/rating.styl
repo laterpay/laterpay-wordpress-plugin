@@ -42,8 +42,12 @@
     float: left;
     position: relative;
 }
+/**
+ * 1. some browsers (e.g. IE10) require both height and width to render the star as intended
+ */
 .lp_rating__star {
-    width: 1em;
+    height: 1em; /* 1 */
+    width: 1em; /* 1 */
 }
 .lp_rating__star svg {
     fill: $background-darker;
@@ -71,13 +75,16 @@
  * 1. highlight stars before the hovered star (rate)
  * 2. highlight stars before the checked star (view rating)
  * 3. align the stars horizontally with lowest to highest rating item ltr
+ * 4. set both height and width to make sure the stars render as intended in all browsers (e.g. IE10)
+ */
  */
 .lp_rating .lp_rating__star,
 .lp_rating:hover .lp_rating__star {
     cursor: pointer;
     float: right; /* 3 */
+    height: 1.5em; /* 4 */
     margin-left: 0.1em;
-    width: 1.5em;
+    width: 1.5em; /* 4 */
 
     &:hover svg,
     &:hover ~ .lp_rating__star svg, /* 1 */

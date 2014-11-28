@@ -22,6 +22,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
     svgmin          = require('gulp-svgmin'),
+    tinypng         = require('gulp-tinypng'),
     uglify          = require('gulp-uglify'),
     p               = {
                         allfiles    : [
@@ -33,9 +34,10 @@ var autoprefixer    = require('gulp-autoprefixer'),
                         srcStylus   : './laterpay/asset_sources/stylus/*.styl',
                         srcJS       : './laterpay/asset_sources/js/',
                         srcSVG      : './laterpay/asset_sources/img/**/*.svg',
+                        srcPNG      : './laterpay/asset_sources/img/**/*.png',
                         distJS      : './laterpay/built_assets/js/',
                         distCSS     : './laterpay/built_assets/css/',
-                        distSVG     : './laterpay/built_assets/img/',
+                        distIMG     : './laterpay/built_assets/img/',
                     };
 
 
@@ -108,10 +110,14 @@ gulp.task('js-format', function() {
 });
 
 // Image related tasks
-gulp.task('svg-build', function() {
+gulp.task('img-build', function() {
     gulp.src(p.srcSVG)
         .pipe(svgmin())                                                         // compress with svgmin
-        .pipe(gulp.dest(p.distSVG));                                            // move to target folder
+        .pipe(gulp.dest(p.distIMG));                                            // move to target folder
+
+    gulp.src(p.srcPNG)
+        .pipe(tinypng('RwJqEg4x1Id5RtjxT4JczHQqCvkZ64O1'))                      // compress with TinyPNG
+        .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
 
 // ensure consistent whitespace etc. in files
@@ -145,7 +151,7 @@ gulp.task('updateSubmodules', function() {
 
 
 // COMMANDS --------------------------------------------------------------------
-gulp.task('default', ['clean', 'css-watch', 'js-watch'], function() {
+gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function() {
     // watch for changes
     gulp.watch(p.allfiles,          ['fileformat']);
     gulp.watch(p.stylus,            ['css-watch']);
@@ -169,7 +175,7 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
 // build project for release
 gulp.task('build', ['clean', 'updateSubmodules'], function() {
     // TODO: git archive is the right option to export the entire repo
-    gulp.start('svg-build');
+    gulp.start('img-build');
     gulp.start('css-build');
     gulp.start('js-build');
 });

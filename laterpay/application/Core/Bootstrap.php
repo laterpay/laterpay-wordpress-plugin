@@ -64,9 +64,8 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
 
                 $admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
-                add_action( 'wp_ajax_laterpay_pricing',             array( $admin_pricing_controller, 'process_ajax_requests' ) );
-                add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'process_ajax_requests' ) );
-                add_action( 'wp_ajax_laterpay_reset_date',          array( $admin_pricing_controller, 'process_ajax_requests' ) );
+                add_action( 'wp_ajax_laterpay_pricing',                  array( $admin_pricing_controller, 'process_ajax_requests' ) );
+                add_action( 'wp_ajax_laterpay_get_category_prices',      array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
                 $admin_appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
                 add_action( 'wp_ajax_laterpay_appearance',          array( $admin_appearance_controller, 'process_ajax_requests' ) );
@@ -112,6 +111,11 @@ class LaterPay_Core_Bootstrap
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
             add_action( 'admin_print_styles-post-new.php',  array( $post_metabox_controller, 'load_assets' ) );
 
+            // Ajax hooks for edit post page
+            add_action( 'wp_ajax_laterpay_reset_post_publication_date', array( $post_metabox_controller, 'reset_post_publication_date' ) );
+            add_action( 'wp_ajax_laterpay_get_dynamic_pricing_data',    array( $post_metabox_controller, 'get_dynamic_pricing_data' ) );
+            add_action( 'wp_ajax_laterpay_remove_post_dynamic_pricing', array( $post_metabox_controller, 'remove_dynamic_pricing_data' ) );
+
             // setup custom columns for each allowed post_type
             $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );
             foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
@@ -134,6 +138,9 @@ class LaterPay_Core_Bootstrap
 
         add_action( 'wp_ajax_laterpay_post_rating_summary',                  array( $post_controller, 'ajax_load_rating_summary' ) );
         add_action( 'wp_ajax_nopriv_laterpay_post_rating_summary',           array( $post_controller, 'ajax_load_rating_summary' ) );
+
+        add_action( 'wp_ajax_laterpay_redeem_voucher_code',                  array( $post_controller, 'ajax_redeem_voucher_code' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_redeem_voucher_code',           array( $post_controller, 'ajax_redeem_voucher_code' ) );
 
         // Ajax hooks for post resources
         $file_helper = new LaterPay_Helper_File();
@@ -160,8 +167,8 @@ class LaterPay_Core_Bootstrap
          * ->   the priority has to be 1 (first filter triggered)
          *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
          */
-        add_filter( 'the_content',                              array( $post_controller, 'modify_post_content' ), 1 );
-        add_filter( 'wp_footer',                                array( $post_controller, 'modify_footer' ) );
+        add_filter( 'the_content',                                      array( $post_controller, 'modify_post_content' ), 1 );
+        add_filter( 'wp_footer',                                        array( $post_controller, 'modify_footer' ) );
 
         $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
         add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistics_controller, 'ajax_render_tab' ) );
@@ -182,6 +189,9 @@ class LaterPay_Core_Bootstrap
 
             // add custom action to echo the LaterPay purchase button
             add_action( 'laterpay_purchase_button',     array( $post_controller, 'the_purchase_button' ) );
+
+            // add custom action to echo the LaterPay time passes
+            add_action( 'laterpay_time_passes',         array( $post_controller, 'the_time_passes_widget'), 10, 3 );
 
             // prefetch the post_access for loops
             add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );

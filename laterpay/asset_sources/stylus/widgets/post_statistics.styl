@@ -22,18 +22,23 @@
 
     h2
         font-size                   1.25em
+        font-style                  normal
         font-weight                 400
         line-height                 1
         margin                      0.4em 0 0.8em 6.75em
 
+        /**
+         * LaterPay logo
+         * 1. Use px values instead of em, because some browsers (e.g. IE10) don't render correct sizes
+         */
         &:before
             display                 block
             font-size               6em
             height                  0
-            left                    -1.03em
+            left                    -108px /* 1 */
             line-height             0
             position                relative
-            top                     0.075em
+            top                     8px /* 1 */
 
     // toggle visibility of statistics pane --------------------------------------------------------------------------------
     .lp_postStatistics_visibilityToggle

@@ -37,6 +37,75 @@ span.lp_revenueModelLabel
     min-width               8.75em
 
 
+// time passes ---------------------------------------------------------------------------------------------------------
+.lp_addTimePass.button
+    margin-bottom           $fs-1
+
+.lp_timePassWrapper
+    background              $background-darker
+    border-radius           3px
+    margin-bottom           $fs-1
+    padding                 $fs-1
+
+    .lp_timePass
+        margin-bottom       0
+
+.lp_timePass_editorContainer
+    display                 inline-block
+    vertical-align          top
+
+    .lp_timePass_formColumn
+        display             inline-block
+        margin-right        $fs-2
+        vertical-align      top
+
+        td
+            padding         0
+            vertical-align  middle
+
+    .lp_timePass_descriptionInput
+        height              3em
+
+    .lp_saveLink
+        margin-top          1em
+        margin-left         0.5em
+
+    .lp_toggle_label_pass
+        width               3.5em
+
+        .lp_toggle_input:checked ~ .lp_toggle_text
+            background      hsl(0, 0%, 80%)
+
+    .lp_colorPicker
+        float               right
+
+        .wp-picker-holder
+            position        absolute
+            z-index         $zindex-overlayed_2
+
+    .lp_timePassEditor_colorInput
+        // ...
+
+.wp-picker-open
+    display                 none
+
+.wp-color-result
+    height                  calc(2em + 4px)
+    padding-left            $fs-1
+    z-index                 $zindex-overlayed_1
+
+.iris-picker
+    z-index                 $zindex-overlayed_1
+
+// voucher editor
+.lp_voucherRow
+    margin-top              $fs-05
+    margin-right            $fs-1
+
+.lp_voucherList .lp_voucherRow
+    float                   left
+
+
 // bulk price editor ---------------------------------------------------------------------------------------------------
 .button.button-primary.lp_u_m-l2
     margin-left             $fs-2

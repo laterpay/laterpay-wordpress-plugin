@@ -20,13 +20,13 @@ foreach ( $args as $key => $value ) {
 if ( $laterpay['revenue_model'] == 'sis' ) :
     $title = sprintf(
         __( 'Buy now for %s<small>%s</small>', 'laterpay' ),
-        number_format_i18n( (float) $laterpay['price'], 2 ),
+        LaterPay_Helper_View::format_number( $laterpay['price'] ),
         $laterpay['currency']
     );
 else :
     $title = sprintf(
         __( 'Buy now for %s<small>%s</small> and pay later', 'laterpay' ),
-        number_format_i18n( (float) $laterpay['price'], 2 ),
+        LaterPay_Helper_View::format_number( $laterpay['price'] ),
         $laterpay['currency']
     );
 endif;

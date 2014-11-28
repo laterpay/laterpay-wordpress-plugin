@@ -6,9 +6,11 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 global $wpdb;
+
 $table_terms_price  = $wpdb->prefix . 'laterpay_terms_price';
 $table_history      = $wpdb->prefix . 'laterpay_payment_history';
 $table_post_views   = $wpdb->prefix . 'laterpay_post_views';
+$table_time_passes  = $wpdb->prefix . 'laterpay_passes';
 $table_postmeta     = $wpdb->postmeta;
 $table_usermeta     = $wpdb->usermeta;
 
@@ -16,13 +18,16 @@ $table_usermeta     = $wpdb->usermeta;
 $sql = "DROP TABLE IF EXISTS
             $table_terms_price,
             $table_history,
-            $table_post_views;
+            $table_post_views,
+            $table_time_passes;
         ";
 $wpdb->query( $sql );
 
-// remove pricing data from wp_postmeta table
+// remove pricing and voting data from wp_postmeta table
 delete_post_meta_by_key( 'laterpay_post_prices' );
 delete_post_meta_by_key( 'laterpay_post_teaser' );
+delete_post_meta_by_key( 'laterpay_rating' );
+delete_post_meta_by_key( 'laterpay_users_voted' );
 
 // remove user settings from wp_usermeta table
 $sql = "DELETE FROM

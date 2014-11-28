@@ -134,4 +134,42 @@ class LaterPay_Helper_View
     public static function remove_extra_spaces( $string ) {
         return trim( preg_replace( '/>\s+</', '><', $string ) );
     }
+
+    /**
+     * Format number based on its type.
+     *
+     * @param float   $number
+     * @param bool    $is_monetary
+     *
+     * @return string $formatted
+     */
+    public static function format_number( $number, $is_monetary = true ) {
+        // delocalize number
+        $number = str_replace( ',', '.', $number );
+
+        if ( $is_monetary ) {
+            // format monetary values
+            if ( $number < 200 ) {
+                // format values up to 200 with two digits
+                // 200 is used to make sure the maximum Single Sale price of 149.99 is still formatted with two digits
+                $formatted = number_format_i18n( $number, 2 );
+            } elseif ( $number >= 200 && $number < 10000 ) {
+                // format values between 200 and 10,000 without digits
+                $formatted = number_format_i18n( $number, 0 );
+            } else {
+                // reduce values above 10,000 to thousands and format them with one digit
+                $formatted = number_format_i18n( $number / 1000, 1 ) . ' k';
+            }
+        } else {
+            // format count values
+            if ( $number < 10000 ) {
+                $formatted = number_format( $number );
+            } else {
+                // reduce values above 10,000 to thousands and format them with one digit
+                $formatted = number_format( $number / 1000, 1 ) . ' k';
+            }
+        }
+
+        return $formatted;
+    }
 }

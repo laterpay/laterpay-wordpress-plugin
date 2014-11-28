@@ -81,7 +81,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // backward compatibility for attribute 'target_page_id'
         if ( ! empty( $a['target_page_id'] ) ) {
-            $msg = sprintf( $deprecated_template, 'target_page_title', 'target_post_title' );
+            $msg = sprintf( $deprecated_template, 'target_page_id', 'target_post_id' );
 
             _deprecated_argument(
                 __FUNCTION__,
@@ -170,7 +170,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         }
 
         // get price of content
-        $price      = number_format_i18n( LaterPay_Helper_Pricing::get_post_price( $page_id ), 2 );
+        $price      = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $page_id ) );
         $currency   = get_option( 'laterpay_currency' );
         $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
 
@@ -236,12 +236,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = "<div class=\"lp_premiumFileBox\" style=\"background-image:url($image_path)\">";
+            $html = "<div class=\"lp_premiumFileBox\" style=\"background-image:url(" . $image_path . ")\">";
         } else {
-            $html = "<div class=\"lp_premiumFileBox lp_content-type-$content_type\">";
+            $html = "<div class=\"lp_premiumFileBox lp_contentType" . ucfirst( $content_type ) . "\">";
         }
         // create a shortcode link
-        $html .= $this->getShortcodeLink( $page, $content_type, $page_url, $price_tag );
+        $html .= $this->get_shortcode_link( $page, $content_type, $page_url, $price_tag );
         $html .= '    <div class="lp_premiumFileDetails">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
@@ -284,7 +284,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * @return string
      */
-    private function getShortcodeLink( WP_Post $post, $content_type, $page_url, $price_tag ) {
+    private function get_shortcode_link( WP_Post $post, $content_type, $page_url, $price_tag ) {
         $html_button = '';
 
         $access = LaterPay_Helper_Post::has_access_to_post( $post );
@@ -311,8 +311,6 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     break;
             };
 
-            $button_page_url = '';
-
             if ( $post->post_type == 'attachment' ) {
                 // render link to purchased attachment
                 $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url(
@@ -325,11 +323,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 // render link to purchased post
                 $button_page_url = $page_url;
             }
-            $html_button = "<a href=\"$button_page_url\" class=\"lp_purchaseLinkShortcode lp_purchaseLink lp_button\" rel=\"prefetch\" data-icon=\"b\">$button_label</a>";
+            $html_button = "<a href=\"" . $button_page_url . "\" class=\"lp_purchaseLinkShortcode lp_purchaseLink lp_button\" rel=\"prefetch\" data-icon=\"b\">" . $button_label . "</a>";
         } else {
             // the user has not purchased the item yet
-            $button_page_url = $page_url;
-            $button_label    = $price_tag;
             $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );
             if ( is_array( $view_args ) ) {
                 $this->assign( 'laterpay', $view_args );
