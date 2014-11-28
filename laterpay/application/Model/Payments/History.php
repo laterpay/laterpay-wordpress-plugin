@@ -149,6 +149,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'COUNT(*)       AS quantity',
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
+                'MONTH(date)    AS month',
                 'DAYNAME(date)  AS day_name',
                 'HOUR(date)     AS hour',
             )
@@ -175,6 +176,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'COUNT(*)       AS quantity',
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
+                'MONTH(date)    AS month',
                 'DAYNAME(date)  AS day_name',
                 'HOUR(date)     AS hour',
             )
@@ -256,10 +258,12 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * Get the posts that generated the least revenue.
      *
      * @param array $args
+     * @param int $start_timestamp
+     * @param string $interval
      *
      * @return array $results
      */
-    public function get_least_revenue_generating_posts( $args = array() ) {
+    public function get_least_revenue_generating_posts( $args = array(), $start_timestamp = null, $interval = 'week' ) {
         $default_args = array(
             'group_by'  => 'post_id',
             'order_by'  => 'amount',
@@ -273,7 +277,21 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         );
         $args = wp_parse_args( $args, $default_args );
 
-        return $this->get_results( $args );
+        $results = $this->get_results( $args );
+
+        if ( $start_timestamp === null ) {
+            return $results;
+        }
+
+        foreach ( $results as $key => $data ) {
+            // the sparkline for the last x days
+            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
+            $data->sparkline    = implode( ',', $sparkline );
+            $data->amount       = round( $data->amount, 2 );
+            $results[ $key ]    = $data;
+        }
+
+        return $results;
     }
 
     /**
@@ -497,6 +515,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         $args = array(
             'fields' => array(
                 'DAY(date)  AS day',
+                'MONTH(date) AS month',
                 'DATE(date) AS date',
                 'HOUR(date) AS hour',
                 'COUNT(*)   AS quantity',

@@ -125,6 +125,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
                 'SUM(count)     AS quantity',
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
+                'MONTH(date)    AS month',
                 'DAYNAME(date)  AS day_name',
                 'HOUR(date)     AS hour',
             ),
@@ -305,10 +306,11 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 
         $args = array(
             'fields' => array(
-                'DAY(date)  AS day',
-                'DATE(date) AS date',
-                'HOUR(date) AS hour',
-                'SUM(count) AS quantity'
+                'DAY(date)      AS day',
+                'MONTH(date)    AS month',
+                'DATE(date)     AS date',
+                'HOUR(date)     AS hour',
+                'SUM(count)     AS quantity'
             ),
             'where' => array(
                 'date' => array(
@@ -326,6 +328,9 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         if ( $interval === 'day' ) {
             $args[ 'group_by' ] = 'HOUR(date)';
             $args[ 'order_by' ] = 'HOUR(date)';
+        } else if( $interval === 'month' ){
+            $args[ 'group_by' ] = 'WEEK(date)';
+            $args[ 'order_by' ] = 'WEEK(date)';
         }
 
         $results = $this->get_results( $args );
