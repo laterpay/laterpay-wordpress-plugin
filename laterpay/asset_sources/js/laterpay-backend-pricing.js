@@ -768,6 +768,9 @@
                     }
                 });
 
+                // set price input value into the voucher price input
+                $($o.voucherPriceInput, $timePass).val( $($o.timePassPrice, $timePass).val() );
+
                 // apply passData to revenue model toggle
                 if (passData.revenue_model === 'sis') {
                     $toggle.prop('checked', true);
