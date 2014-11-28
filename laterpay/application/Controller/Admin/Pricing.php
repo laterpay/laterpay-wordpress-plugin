@@ -105,7 +105,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'categories_with_defined_price'         => $categories_with_defined_price,
             'standard_currency'                     => get_option( 'laterpay_currency' ),
             'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
-            'global_default_price'                  => number_format( (float) get_option( 'laterpay_global_price' ) ),
+            'global_default_price'                  => get_option( 'laterpay_global_price' ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
             'passes_list'                           => $passes_list,
             'vouchers_list'                         => $vouchers_list,
