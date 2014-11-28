@@ -145,7 +145,8 @@ class LaterPay_Helper_Vouchers
 
         if ( $passes && is_array( $passes ) ) {
             foreach ( $passes as $pass ) {
-                if ( self::get_pass_vouchers( $pass->pass_id ) ) {
+                $pass = (array) $pass;
+                if ( self::get_pass_vouchers( $pass[ 'pass_id' ]) ) {
                     $has_vouchers = true;
                     break;
                 }
