@@ -151,15 +151,15 @@
     // unstyled, to simplify integration into theme
 
     .lp_timePass
-        display             block
-        margin              $fs-1
+        display             block                                                                   !important
+        margin              $fs-1                                                                   !important
 
         &:last-child
-            margin-bottom   0 // remove margin after last time pass, because the widget has a padding
+            margin-bottom   0 /* remove margin after last time pass, because the widget has a padding */ !important
 
 .lp_timePass_introductoryText,
 .lp_timePass_callToActionText
-    margin                  0 0 $fs-1
+    margin                  0 0 $fs-1                                                               !important
 
 /**
  * voucher code section
@@ -172,105 +172,110 @@
  * 6. Give a reasonable height to the wrapper to allow positioning the elements with top, bottom, left, right
  */
 .lp_timePassWidget_voucherCodeWrapper
-    height                  round(3.75 * $fs-1) /* 6 - TODO: this is a magic number that should not be required */
-    margin                  $fs-1
-    max-width               308px /* 5 */
-    min-width               round(18 * $fs-1) /* 4 */
-    position                relative
+    height                  round(3.75 * $fs-1) /* 6 - TODO: this is a magic number that should not be required */ !important
+    margin                  $fs-1                                                                   !important
+    max-width               308px /* 5 */                                                           !important
+    min-width               round(18 * $fs-1) /* 4 */                                               !important
+    position                relative                                                                !important
 
 .lp_voucherCodeFeedbackMessage
-    background              $background-highlight
-    border-radius           3px
-    color                   $text
-    cursor                  pointer
-    line-height             1.3
-    padding                 $fs-1 $fs-05
-    text-align              center
+    background              $background-highlight                                                   !important
+    border-radius           3px                                                                     !important
+    color                   $text                                                                   !important
+    cursor                  pointer                                                                 !important
+    line-height             1.3                                                                     !important
+    padding                 $fs-1 $fs-05                                                            !important
+    text-align              center                                                                  !important
 
     ~ *
-      display               none                                                !important
+      display               none                                                                    !important
 
 /**
  * input for voucher code
+ *
+ * 1. Remove ugly browser default styles
  */
 .lp_timePassWidget_voucherCode
-    background              transparent
-    border                  2px solid transparent
-    bottom                  0
-    color                   transparent
-    cursor                  pointer
-    font-size               $fs-15
-    padding                 $fs-075 $fs-1 $fs-075 3.5em
-    position                absolute /* 2 */
-    top                     0
-    width                   100%
-    z-index                 $zindex-overlayed_2 /* 2 */
+    background              transparent                                                             !important
+    border                  2px solid transparent                                                   !important
+    box-shadow              none /* 1 */                                                            !important
+    bottom                  0                                                                       !important
+    color                   transparent                                                             !important
+    cursor                  pointer                                                                 !important
+    font-size               $fs-15                                                                  !important
+    padding                 $fs-075 $fs-1 $fs-075 3.5em                                             !important
+    position                absolute /* 2 */                                                        !important
+    top                     0                                                                       !important
+    width                   100%                                                                    !important
+    z-index                 $zindex-overlayed_2 /* 2 */                                             !important
 
     &:hover ~ .lp_timePassWidget_voucherCodeHint
-        color               $clickable-highlight
+        color               $clickable-highlight                                                    !important
 
     &:focus
-        -moz-appearance     none
-        -webkit-appearance  none
-        background          $background-lightest
-        border              2px solid $clickable-highlight /* 3 */
-        border-radius       5px
-        color               $text /* 3 */
-        cursor              normal
+        -moz-appearance     none                                                                    !important
+        -webkit-appearance  none                                                                    !important
+        background          $background-lightest                                                    !important
+        border              2px solid $clickable-highlight /* 3 */                                  !important
+        border-radius       5px                                                                     !important
+        color               $text /* 3 */                                                           !important
+        cursor              normal                                                                  !important
 
         /* hide / show siblings, when the voucher input is focused */
         ~ .lp_timePassWidget_voucherCodeHint
-            visibility      hidden /* 3 */
+            visibility      hidden /* 3 */                                                          !important
 
         ~ .lp_timePassWidget_voucherCodeInputHint
-            display         block /* 3 */
-            font-size       $fs-15
-            position        absolute
-            z-index         $zindex-overlayed_2
+            display         block /* 3 */                                                           !important
+            font-size       $fs-15                                                                  !important
+            position        absolute                                                                !important
+            z-index         $zindex-overlayed_2                                                     !important
 
         ~ .lp_timePassWidget_redeemVoucherCode
-            background      $clickable
-            border-radius   4px
-            bottom          $fs-05
-            color           $text-inverse
-            cursor          pointer
-            display         inline-block /* 3 */
-            position        absolute
-            padding         $fs-05 $fs-1
-            right           $fs-05
-            top             $fs-05
-            z-index         $zindex-overlayed_3
+            background      $clickable                                                              !important
+            border-radius   4px                                                                     !important
+            bottom          $fs-05                                                                  !important
+            color           $text-inverse                                                           !important
+            cursor          pointer                                                                 !important
+            display         inline-block /* 3 */                                                    !important
+            position        absolute                                                                !important
+            padding         $fs-05 $fs-1                                                            !important
+            right           $fs-05                                                                  !important
+            top             $fs-05                                                                  !important
+            z-index         $zindex-overlayed_3                                                     !important
 
             &:hover,
             &:focus,
             &:active
-                background  $clickable-highlight
+                background  $clickable-highlight                                                    !important
 
 // define line-height to minimize influence of theme styles
 .lp_timePassWidget_voucherCode,
 .lp_timePassWidget_voucherCodeHint,
 .lp_timePassWidget_voucherCodeInputHint,
-.lp_timePassWidget_redeemVoucherCode
-    line-height             1.5
+.lp_timePassWidget_redeemVoucherCode,
+.lp_timePass_introductoryText,
+.lp_timePass_callToActionText
+    line-height             1.5                                                                     !important
 
 .lp_timePassWidget_voucherCodeHint
-    color                   $clickable
-    display                 block  /* 1 */
-    margin                  0
-    text-decoration         none
-    visibility              visible /* 1 */
+    color                   $clickable                                                              !important
+    display                 block  /* 1 */                                                          !important
+    margin                  0                                                                       !important
+    text-decoration         none                                                                    !important
+    visibility              visible /* 1 */                                                         !important
 
 .lp_timePassWidget_voucherCodeInputHint
-    color                   $text-lighter
-    display                 none
-    margin                  0
-    padding                 $fs-075 $fs-1
+    color                   $text-lighter                                                           !important
+    display                 none                                                                    !important
+    margin                  0                                                                       !important
+    padding                 $fs-075 $fs-1                                                           !important
 
 /**
  * button for redeeming voucher code
  */
 .lp_timePassWidget_redeemVoucherCode
-    display                 none
+    display                 none                                                                    !important
 
 
 /**
@@ -278,37 +283,37 @@
  * reduced height, width, font-size, margins, and paddings
  */
 .lp_timePassWidget-small
-    margin-right            $fs-05
-    margin-bottom           $fs-05
+    margin-right            $fs-05                                                                  !important
+    margin-bottom           $fs-05                                                                  !important
 
     .lp_timePass,
     .lp_timePass__front,
     .lp_timePass__back
-        height              112px
-        width               224px
+        height              112px                                                                   !important
+        width               224px                                                                   !important
 
     .lp_timePass__front
-        background          url(../img/time-pass-background-small.png) 0 0/100% no-repeat
-        padding             $fs-05 round(6 * $fs-05) $fs-05 $fs-05
+        background          url(../img/time-pass-background-small.png) 0 0/100% no-repeat           !important
+        padding             $fs-05 round(6 * $fs-05) $fs-05 $fs-05                                  !important
 
     .lp_timePass__back
-        background          url(../img/time-pass-background-flip-small.png) 0 0/100% no-repeat
-        padding             $fs-05 $fs-05 $fs-05 round(6 * $fs-05)
+        background          url(../img/time-pass-background-flip-small.png) 0 0/100% no-repeat      !important
+        padding             $fs-05 $fs-05 $fs-05 round(6 * $fs-05)                                  !important
 
     .lp_timePass_title
-        font-size           $fs-1
-        margin-top          $fs-05
-        margin-left         $fs-025
+        font-size           $fs-1                                                                   !important
+        margin-top          $fs-05                                                                  !important
+        margin-left         $fs-025                                                                 !important
 
     .lp_timePass_description
-        font-size           $fs-075
-        height              2.9em
-        margin-left         $fs-025
+        font-size           $fs-075                                                                 !important
+        height              2.9em                                                                   !important
+        margin-left         $fs-025                                                                 !important
 
     .lp_timePass_actions
-        bottom              0.5em
-        width               80%; /* 1 - fallback for browsers that don't support calc */
-        width               calc(100% - 2em) /* 1 */
+        bottom              0.5em                                                                   !important
+        width               80% /* 1 - fallback for browsers that don't support calc */             !important
+        width               calc(100% - 2em) /* 1 */                                                !important
 
         .lp_purchaseLink.lp_button
             font-size       $fs-15                                                                  !important
@@ -317,18 +322,18 @@
                 font-size   36px                                                                    !important
 
         .lp_timePass_termsLink
-            padding         $fs-025 $fs-05
+            padding         $fs-025 $fs-05                                                          !important
 
     .lp_timePass__conditions
         th,
         td
-            font-size       $fs-075
+            font-size       $fs-075                                                                 !important
             padding-bottom  0                                                                       !important
 
         th
             padding-right   $fs-05                                                                  !important
 
     .lp_timePass_frontsideLink
-        font-size           $fs-075
-        padding             $fs-025 $fs-05
+        font-size           $fs-075                                                                 !important
+        padding             $fs-025 $fs-05                                                          !important
 
