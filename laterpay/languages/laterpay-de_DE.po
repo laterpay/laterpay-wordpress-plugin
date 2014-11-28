@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Nov 28 2014 12:49:06 GMT+0100 (CET)\n"
+"PO-Revision-Date: Fri Nov 28 2014 14:41:06 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -640,7 +640,7 @@ msgstr "Dieser Pass gilt für "
 msgid "and grants"
 msgstr "und gibt"
 
-#: ../views/backend/pricing.php:269
+#: ../views/backend/pricing.php:269 ../application/Helper/Passes.php:174
 msgid "access to"
 msgstr "Zugriff auf"
 
@@ -648,11 +648,11 @@ msgstr "Zugriff auf"
 msgid "The user pays"
 msgstr "Der Nutzer zahlt"
 
-#: ../views/backend/pricing.php:296
+#: ../views/backend/pricing.php:296 ../application/Helper/Passes.php:114
 msgid "later"
 msgstr "später"
 
-#: ../views/backend/pricing.php:306
+#: ../views/backend/pricing.php:306 ../application/Helper/Passes.php:115
 msgid "immediately"
 msgstr "sofort"
 
@@ -685,8 +685,8 @@ msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
 #: ../views/backend/pricing.php:453 ../application/Controller/Admin/Pricing.php:
-#: 43 ../application/Controller/Admin/Pricing.php:555 ..
-#: application/Controller/Admin/Pricing.php:586
+#: 43 ../application/Controller/Admin/Pricing.php:557 ..
+#: application/Controller/Admin/Pricing.php:588
 msgid "to"
 msgstr "auf"
 
@@ -859,11 +859,6 @@ msgstr "nein"
 msgid "none"
 msgstr "keine"
 
-#: ../application/Helper/Passes.php:129
-#, php-format
-msgid "%d %s access to %s"
-msgstr "%d %s Zugang zu %s"
-
 #: ../application/Helper/Passes.php:26
 msgid "24-Hour Pass"
 msgstr "24-Stunden-Pass"
@@ -872,35 +867,55 @@ msgstr "24-Stunden-Pass"
 msgid "24 hours access to all content on this website"
 msgstr "24 Stunden Zugang zu allen Inhalten auf dieser Website"
 
-#: ../application/Helper/Passes.php:76
+#: ../application/Helper/Passes.php:78
 msgid "Hour"
 msgstr "Stunde"
 
-#: ../application/Helper/Passes.php:77
+#: ../application/Helper/Passes.php:79
 msgid "Day"
 msgstr "Tag"
 
-#: ../application/Helper/Passes.php:78
+#: ../application/Helper/Passes.php:80
 msgid "Week"
 msgstr "Woche"
 
-#: ../application/Helper/Passes.php:79
+#: ../application/Helper/Passes.php:81
 msgid "Month"
 msgstr "Monat"
 
-#: ../application/Helper/Passes.php:80
+#: ../application/Helper/Passes.php:82
 msgid "Year"
 msgstr "Jahr"
 
-#: ../application/Helper/Passes.php:123
+#: ../application/Helper/Passes.php:87
+msgid "Hours"
+msgstr "Stunden"
+
+#: ../application/Helper/Passes.php:88
+msgid "Days"
+msgstr "Tage"
+
+#: ../application/Helper/Passes.php:89
+msgid "Weeks"
+msgstr "Wochen"
+
+#: ../application/Helper/Passes.php:90
+msgid "Months"
+msgstr "Monate"
+
+#: ../application/Helper/Passes.php:91
+msgid "Years"
+msgstr "Jahre"
+
+#: ../application/Helper/Passes.php:136
 msgid "All content"
 msgstr "Alle Inhalte"
 
-#: ../application/Helper/Passes.php:124
+#: ../application/Helper/Passes.php:137
 msgid "All content except for category"
 msgstr "Alle Inhalte außer in Kategorie"
 
-#: ../application/Helper/Passes.php:125
+#: ../application/Helper/Passes.php:138
 msgid "All content in category"
 msgstr "Alle Inhalte in Kategorie"
 
@@ -938,30 +953,30 @@ msgstr ""
 msgid "Thank you very much for rating!"
 msgstr "Vielen Dank für Ihre Bewertung!"
 
-#: ../application/Controller/Post.php:817
+#: ../application/Controller/Post.php:823
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:1063
+#: ../application/Controller/Post.php:1069
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:1064
+#: ../application/Controller/Post.php:1070
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: ../application/Controller/Post.php:1065
+#: ../application/Controller/Post.php:1071
 msgid "is not a valid voucher code!"
 msgstr "ist kein gültiger Gutschein-Code."
 
-#: ../application/Controller/Post.php:1066
+#: ../application/Controller/Post.php:1072
 msgid "Please enter a six-digit voucher code."
-msgstr "Bitte geben Sie einen sechs-stelligen Gutschein-Code ein."
+msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: ../application/Controller/Post.php:1067
+#: ../application/Controller/Post.php:1073
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
@@ -1954,7 +1969,7 @@ msgstr "Aktualisiert."
 #: ../application/Controller/Statistics.php:210 ..
 #: application/Controller/Admin/Account.php:67 ..
 #: application/Controller/Admin/Appearance.php:61 ..
-#: application/Controller/Admin/Pricing.php:137
+#: application/Controller/Admin/Pricing.php:139
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
@@ -2225,17 +2240,17 @@ msgstr "Die Bulk-Price-Aktion wurde erfolgreich gespeichert."
 msgid "Bulk operation was successfully deleted."
 msgstr "Die Bulk-Price-Aktion wurde erfolgreich entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:878
+#: ../application/Controller/Admin/Pricing.php:880
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:887
+#: ../application/Controller/Admin/Pricing.php:889
 msgid "An error occurred when trying to save the pass. Please try again."
 msgstr ""
 "Bei dem Versuch, den Pass zu speichern, ist ein Fehler aufgetreten. Bitte "
 "versuchen Sie es erneut."
 
-#: ../application/Controller/Admin/Pricing.php:907
+#: ../application/Controller/Admin/Pricing.php:909
 msgid "Pass deleted."
 msgstr "Pass entfernt."
 
