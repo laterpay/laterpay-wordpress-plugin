@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.0
+Tested up to: 4.0.1
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -356,19 +356,15 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
-= 0.9.8.5 (November 28, 2014): 0.9.9 Pre-Release =
-* Added time passes and vouchers - PRE-RELEASE -
-* Known issues and todos:
-* ! Vouchers are not rendered next to pass after creating a new pass -> page reload required
-* ! Terms listed on flipside of time pass are not translated yet
-
-= 0.9.8.4 (November 26, 2014): 0.9.9 Pre-Release =
-* Added time passes and vouchers - PRE-RELEASE -
-* Known issues and todos:
-* ! Voucher codes can not yet be redeemed
-* ! Vouchers are not rendered next to pass after creating a new pass -> page reload required
-* ! Very rough validation of inputs and handling of edge cases in time pass editor
-* ! Terms listed on flipside of time pass are not translated yet
+= 0.9.9 (December 1, 2014): 0.9.9 Time Passes Release =
+* Added time passes and vouchers for selling access to the entire site or parts of it for a limited amount of time
+* Added quality rating functionality to let users who bought an article rate it on a five-star scale
+* Purchases from shortcode now directly trigger a download, if it is an attachment
+* Improved functionality of dynamic pricing widget (added option to enter exact price values, added option to restart
+  dynamic pricing, automatically adjust scaling of y-axis, depending on revenue model, etc.)
+* Fixed bug that broke the installation ("Unrecognized Address in line 78")
+* Fixed loading of youtube videos in paid content
+* Around 8784126852 other small bugfixes and improvements
 
 = 0.9.8.3 (October 28, 2014): Bugfix Release =
 * Added bulk price editor to make editing large numbers of posts easier
