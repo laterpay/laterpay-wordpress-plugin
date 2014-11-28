@@ -225,7 +225,7 @@
                         <a href="#" class="lp_js_editTimePass lp_changeLink lp_u_inlineBlock lp_u_pd-05" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a><br>
                         <a href="#" class="lp_js_deleteTimePass lp_deleteLink lp_u_inlineBlock lp_u_pd-05" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
 
-                        <div class="lp_js_voucherList">
+                        <div class="lp_js_voucherList lp_voucherList">
                             <?php if ( isset( $laterpay['vouchers_list'][ $pass->pass_id ] ) ) : ?>
                                 <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ): ?>
                                     <div class="lp_js_voucher lp_voucherRow">
