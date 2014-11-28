@@ -90,9 +90,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'free'     => __( 'Make free', 'laterpay' ),
             'reset'    => __( 'Reset', 'laterpay'),
         );
+
         $bulk_selectors = array(
             'all'      => __( 'All posts', 'laterpay' ),
         );
+
         $bulk_categories            = get_categories();
         $bulk_categories_with_price = LaterPay_Helper_Pricing::get_categories_with_price( $bulk_categories );
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
@@ -105,7 +107,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'categories_with_defined_price'         => $categories_with_defined_price,
             'standard_currency'                     => get_option( 'laterpay_currency' ),
             'plugin_is_in_live_mode'                => $this->config->get( 'is_in_live_mode' ),
-            'global_default_price'                  => number_format( (float) get_option( 'laterpay_global_price' ) ),
+            'global_default_price'                  => LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ) ),
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
             'passes_list'                           => $passes_list,
             'vouchers_list'                         => $vouchers_list,
@@ -923,7 +925,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return array
      */
     private function get_passes_json( $passes_list = null ) {
-        $passes_array = array( 0 => LaterPay_Helper_Passes::$defaults );
+        $passes_array = array( 0 => LaterPay_Helper_Passes::get_defaults() );
 
         foreach ( $passes_list as $pass ) {
             $pass                               = (array) $pass;

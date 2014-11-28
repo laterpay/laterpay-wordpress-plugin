@@ -30,11 +30,7 @@
                 <td>
                     <span class="lp_js_timePassPreviewValidity">
                         <?php echo $laterpay_pass['duration']; ?>
-                        <?php if ( $laterpay_pass['duration'] > 1 ): ?>
-                            <?php _e( LaterPay_Helper_Passes::$periods[$laterpay_pass['period']] . 's', 'laterpay' ); ?>
-                        <?php else: ?>
-                            <?php _e( LaterPay_Helper_Passes::$periods[$laterpay_pass['period']], 'laterpay' ); ?>
-                        <?php endif; ?>
+                        <?php LaterPay_Helper_Passes::get_periods( $laterpay_pass['period'] ); ?>
                     </span>
                 </td>
             </tr>
@@ -42,7 +38,7 @@
                 <th><?php _e( 'Access to', 'laterpay' ); ?></th>
                 <td>
                     <span class="lp_js_timePassPreviewAccess">
-                        <?php echo __( LaterPay_Helper_Passes::$access_to[$laterpay_pass['access_to']], 'laterpay' ); ?>
+                        <?php echo LaterPay_Helper_Passes::get_access_to( $laterpay_pass['access_to'] ); ?>
                         <?php switch ( $laterpay_pass['access_to'] ) {
                             case 0:
                                 _e( 'on this website', 'laterpay' );

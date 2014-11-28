@@ -49,11 +49,11 @@
                                         name="laterpay_global_price"
                                         id="lp_js_globalDefaultPrice"
                                         class="lp_js_priceInput lp_input lp_numberInput"
-                                        value="<?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?>"
+                                        value="<?php echo $laterpay['global_default_price']; ?>"
                                         style="display:none;"
                                         placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>"
                                         autocomplete="off">
-                                <span id="lp_js_globalDefaultPrice_text"><?php echo LaterPay_Helper_View::format_number( $laterpay['global_default_price'] ); ?></span>
+                                <span id="lp_js_globalDefaultPrice_text"><?php echo $laterpay['global_default_price']; ?></span>
                                 <span class="lp_js_currency lp_currency"><?php echo $laterpay['standard_currency']; ?></span>
                             </strong>
                             <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_editLink lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
@@ -291,7 +291,7 @@
                                         <input type="text"
                                                 name="price"
                                                 class="lp_js_timePassPriceInput lp_input lp_numberInput"
-                                                value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
+                                                value="<?php echo LaterPay_Helper_View::format_number( (float) LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
                                         <?php echo $laterpay['standard_currency']; ?>
                                         <?php _e( 'later', 'laterpay' ); ?><div class="lp_toggle">
                                             <label class="lp_toggle_label lp_toggle_label_pass">
