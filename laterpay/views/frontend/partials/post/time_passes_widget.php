@@ -4,13 +4,15 @@
     <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
         <?php echo $this->render_pass( (array) $pass ); ?>
     <?php endforeach; ?>
-    <div id="lp_js_voucherCodeWrapper" class="lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
-        <input type="text"
-                name="time_pass_voucher_code"
-                class="lp_js_voucherCodeInput lp_timePassWidget_voucherCode"
-                maxlength="6">
-        <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
-        <a href="#" class="lp_js_voucherRedeemButton lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
-        <p class="lp_timePassWidget_voucherCodeHint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
-    </div>
+    <?php if ( $laterpay['has_vouchers'] ): ?>
+        <div id="lp_js_voucherCodeWrapper" class="lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
+            <input type="text"
+                    name="time_pass_voucher_code"
+                    class="lp_js_voucherCodeInput lp_timePassWidget_voucherCode"
+                    maxlength="6">
+            <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
+            <a href="#" class="lp_js_voucherRedeemButton lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
+            <p class="lp_timePassWidget_voucherCodeHint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
+        </div>
+    <?php endif; ?>
 </div>

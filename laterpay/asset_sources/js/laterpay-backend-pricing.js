@@ -378,7 +378,6 @@
                 // prevent non-number prices
                 if (isNaN(price)) {
                     price       = 0;
-                    corrected   = true;
                 }
 
                 // prevent negative prices

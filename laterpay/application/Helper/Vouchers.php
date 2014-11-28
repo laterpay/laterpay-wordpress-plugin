@@ -132,4 +132,26 @@ class LaterPay_Helper_Vouchers
 
         return null;
     }
+
+    /**
+     * Check if time passes has vouchers
+     *
+     * @param array $passes array of time passes to check
+     *
+     * return bool
+     */
+    public static function check_passes_has_vouchers( $passes ) {
+        $has_vouchers = false;
+
+        if ( $passes && is_array( $passes ) ) {
+            foreach ( $passes as $pass ) {
+                if ( self::get_pass_vouchers( $pass->pass_id ) ) {
+                    $has_vouchers = true;
+                    break;
+                }
+            }
+        }
+
+        return $has_vouchers;
+    }
 }

@@ -133,26 +133,26 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        $post_id    = absint( $_GET[ 'post_id' ] );
-        $post       = get_post( $post_id );
+        $post_id = absint( $_GET[ 'post_id' ] );
+        $post    = get_post( $post_id );
 
         if ( $post === null ) {
             exit;
         }
 
         // get post rating summary
-        $summary_post_rating            = LaterPay_Helper_Rating::get_summary_post_rating_data( $post_id );
+        $summary_post_rating     = LaterPay_Helper_Rating::get_summary_post_rating_data( $post_id );
         // round $aggregated_post_rating to closest 0.5
-        $aggregated_post_rating         = $summary_post_rating['votes'] ? number_format( round( 2 * $summary_post_rating['rating'] / $summary_post_rating['votes'] ) / 2, 1 ) : 0;
-        $post_rating_data               = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
-        $maximum_number_of_votes        = max( $post_rating_data );
+        $aggregated_post_rating  = $summary_post_rating['votes'] ? number_format( round( 2 * $summary_post_rating['rating'] / $summary_post_rating['votes'] ) / 2, 1 ) : 0;
+        $post_rating_data        = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
+        $maximum_number_of_votes = max( $post_rating_data );
 
         // assign all required vars to the view templates
         $view_args = array(
-            'post_rating_data'        => $post_rating_data,
-            'post_aggregated_rating'  => $aggregated_post_rating,
-            'post_summary_votes'      => $summary_post_rating['votes'],
-            'maximum_number_of_votes' => $maximum_number_of_votes,
+            'post_rating_data'       => $post_rating_data,
+            'post_aggregated_rating' => $aggregated_post_rating,
+            'post_summary_votes'     => $summary_post_rating['votes'],
+            'maximum_number_of_votes'=> $maximum_number_of_votes,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -679,6 +679,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
+        // check if post has vouchers
+        $has_vouchers = LaterPay_Helper_Vouchers::check_passes_has_vouchers( $passes_list );
 
         // get the associated CSS class to be applied for the specified variant
         switch ( $variant ) {
@@ -693,6 +695,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $view_args = array(
             'passes_list'            => $passes_list,
             'time_pass_widget_class' => $class,
+            'has_vouchers'           => $has_vouchers,
         );
 
         $this->logger->info(
@@ -958,9 +961,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     public function render_pass( $pass = array() ) {
         $defaults = array(
             'pass_id'     => 0,
-            'title'       => __( LaterPay_Helper_Passes::$defaults['title'], 'laterpay' ),
+            'title'       => LaterPay_Helper_Passes::get_default_options( 'title' ),
             'description' => LaterPay_Helper_Passes::get_description(),
-            'price'       => LaterPay_Helper_Passes::$defaults['price'],
+            'price'       => LaterPay_Helper_Passes::get_access_options( 'price' ),
             'url'         => '',
         );
 
