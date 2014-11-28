@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Thu Nov 27 2014 20:27:11 GMT+0100 (CET)\n"
+"PO-Revision-Date: Fri Nov 28 2014 11:01:03 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -905,15 +905,25 @@ msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:1059
+#: ../application/Controller/Post.php:1060
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:1060
-msgid "The price you tried to set is outside the allowed range of 0 or 0.05-5.00."
-msgstr ""
-"Der Preis, den Sie setzen möchten, ist außerhalb der möglichen Werte von 0 "
-"und 0,05 bis 5,00."
+#: ../application/Controller/Post.php:1061
+msgid "Voucher code accepted."
+msgstr "Gutschein-Code akzeptiert."
+
+#: ../application/Controller/Post.php:1062
+msgid "is not a valid voucher code!"
+msgstr "ist kein gültiger Gutschein-Code."
+
+#: ../application/Controller/Post.php:1063
+msgid "Please enter a six-digit voucher code."
+msgstr "Bitte geben Sie einen sechs-stelligen Gutschein-Code ein."
+
+#: ../application/Controller/Post.php:1064
+msgid "An error occurred. Please try again."
+msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
 #: ../application/Controller/Abstract.php:60 ../application/Controller/Abstract.
 #: php:107
