@@ -183,7 +183,7 @@ class LaterPay_Core_Bootstrap
             add_action( 'laterpay_purchase_button',     array( $post_controller, 'the_purchase_button' ) );
 
             // add custom action to echo the LaterPay time passes
-            add_action( 'laterpay_time_passes',         array( $post_controller, 'the_time_passes_widget'), 10, 1 );
+            add_action( 'laterpay_time_passes',         array( $post_controller, 'the_time_passes_widget'), 10, 3 );
 
             // prefetch the post_access for loops
             add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
