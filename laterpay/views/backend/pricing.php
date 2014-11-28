@@ -204,7 +204,7 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
-            <dfn class="lp_spacer lp_u_block">
+            <dfn class="lp_u_block lp_u_m-b1">
                 <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?><br>
                 <?php _e( 'To display time passes you have to <a href="admin.php?page=laterpay-appearance-tab#lp_timePassAppearance">call the action laterpay_time_pass</a> in your theme.', 'laterpay' ); ?>
             </dfn>

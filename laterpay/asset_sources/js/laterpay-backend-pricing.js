@@ -1005,7 +1005,9 @@
 
             addVoucher = function(code, priceValue, $timePass) {
                 var price   = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' + 'data-code="' + code + '" style="display:none;">' +
+                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' +
+                                        'data-code="' + code + '" ' +
+                                        'style="display:none;">' +
                                     '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     lpVars.i18n.voucherText + ' ' + price +
@@ -1139,7 +1141,8 @@
 
             createSavedBulkRow = function(bulkOperationId, bulkMessage) {
                 var operation = '<p class="lp_bulkOperation" data-value="' +  bulkOperationId + '">' +
-                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" data-icon="g">' +
+                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" ' +
+                                            'data-icon="g">' +
                                         lpVars.i18n.delete +
                                     '</a>' +
                                     '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' +

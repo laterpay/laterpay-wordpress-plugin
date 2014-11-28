@@ -329,9 +329,12 @@
                         // rebuild list of categories in category default pricing tab
                         if (data) {
                             data.forEach(function(category) {
+                                var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
                                 categoriesList +=   '<li data-category="' + category.category_id + '">' +
-                                                        '<a href="#" data-price="' + category.category_price + '" data-revenue-model="' + category.revenue_model + '">' +
-                                                            '<span>' + parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency + '</span>' +
+                                                        '<a href="#" ' +
+                                                                'data-price="' + category.category_price + '" ' +
+                                                                'data-revenue-model="' + category.revenue_model + '">' +
+                                                            '<span>' + price + '</span>' +
                                                             category.category_name +
                                                         '</a>' +
                                                     '</li>';

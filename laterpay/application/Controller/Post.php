@@ -1045,21 +1045,26 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'laterpay-post-view',
             'lpVars',
             array(
-                'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-                'post_id'       => get_the_ID(),
-                'debug'         => (bool) $this->config->get( 'debug_mode' ),
-                'caching'       => (bool) $this->config->get( 'caching.compatible_mode' ),
-                'nonces'        => array(
-                    'content'   => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
-                    'statistic' => wp_create_nonce( 'laterpay_post_statistic_render' ),
-                    'tracking'  => wp_create_nonce( 'laterpay_post_track_views' ),
-                    'rating'    => wp_create_nonce( 'laterpay_post_rating_summary' ),
-                    'voucher'   => wp_create_nonce( 'laterpay_redeem_voucher_code' ),
+                'ajaxUrl'               => admin_url( 'admin-ajax.php' ),
+                'post_id'               => get_the_ID(),
+                'debug'                 => (bool) $this->config->get( 'debug_mode' ),
+                'caching'               => (bool) $this->config->get( 'caching.compatible_mode' ),
+                'nonces'                => array(
+                    'content'           => wp_create_nonce( 'laterpay_post_load_purchased_content' ),
+                    'statistic'         => wp_create_nonce( 'laterpay_post_statistic_render' ),
+                    'tracking'          => wp_create_nonce( 'laterpay_post_track_views' ),
+                    'rating'            => wp_create_nonce( 'laterpay_post_rating_summary' ),
+                    'voucher'           => wp_create_nonce( 'laterpay_redeem_voucher_code' ),
                 ),
-                'i18nAlert'     => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
-                'i18nOutsideAllowedPriceRange' => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-5.00.', 'laterpay' ),
-                'download_attachment'          => $attachment_url,
-                'default_currency'             => get_option( 'laterpay_currency' ),
+                'i18n'                  => array(
+                    'alert'             => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
+                    'validVoucher'      => __( 'Voucher code accepted.', 'laterpay' ),
+                    'invalidVoucher'    => __( 'is not a valid voucher code!', 'laterpay' ),
+                    'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
+                    'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
+                ),
+                'download_attachment'   => $attachment_url,
+                'default_currency'      => get_option( 'laterpay_currency' ),
             )
         );
 
