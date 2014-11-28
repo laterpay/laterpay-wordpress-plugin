@@ -361,7 +361,7 @@
                 });
             },
 
-            validatePrice = function($form, no_correct_price, $input) {
+            validatePrice = function($form, invalidPrice, $input) {
                 var $priceInput = $input ? $input : $('.lp_numberInput', $form),
                     price       = $priceInput.val();
 
@@ -383,7 +383,7 @@
                 // prevent negative prices
                 price = Math.abs(price);
 
-                if ( ! no_correct_price ) {
+                if (!invalidPrice) {
                     // correct prices outside the allowed range of 0.05 - 149.49
                     if (price > 149.99) {
                         price       = 149.99;
@@ -409,26 +409,29 @@
             },
 
             validateRevenueModel = function(price, $form) {
+                var currentRevenueModel;
+
                 // for passes
-                if ( $form.hasClass('lp_js_timePassEditor_form') ) {
+                if ($form.hasClass('lp_js_timePassEditor_form')) {
                     var $toggle         = $($o.timePassRevenueModel, $form),
                         hasRevenueModel = $toggle.prop('checked');
 
-                    var current_revenue = hasRevenueModel ? $o.singleSale : $o.payPerUse;
+                    currentRevenueModel = hasRevenueModel ? $o.singleSale : $o.payPerUse;
 
                     // switch revenue model, if combination of price and revenue model is not allowed
-                    if (price > 5 && current_revenue === $o.payPerUse) {
+                    if (price > 5 && currentRevenueModel === $o.payPerUse) {
                         // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                         $toggle.prop('checked', true);
-                    } else if (price < 1.49 && current_revenue === $o.singleSale) {
+                    } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
                         // Single Sale purchases are not allowed for prices < 1.49 Euro
                         $toggle.prop('checked', false);
                     }
                 // for category price and global price
                 } else {
-                    var currentRevenueModel = $('input:radio:checked', $form).val(),
-                        $payPerUse          = $('.lp_js_revenueModel_input[value=' + $o.payPerUse + ']', $form),
+                    var $payPerUse          = $('.lp_js_revenueModel_input[value=' + $o.payPerUse + ']', $form),
                         $singleSale         = $('.lp_js_revenueModel_input[value=' + $o.singleSale + ']', $form);
+
+                    currentRevenueModel = $('input:radio:checked', $form).val();
 
                     if (price === 0 || (price >= 0.05 && price <= 5)) {
                         // enable Pay-per-Use for 0 and all prices between 0.05 and 5.00 Euro
@@ -637,13 +640,13 @@
                                         results     : function(data) {
                                                             var return_data = [];
 
-                                                            $.each( data, function(index) {
+                                                            $.each(data, function(index) {
                                                                 var term = data[ index ];
                                                                 return_data.push({
                                                                     id     : term.term_id,
                                                                     text   : term.name
                                                                 });
-                                                            } );
+                                                            });
 
                                                             return {results: return_data};
                                                         },
@@ -759,7 +762,7 @@
                 $('input, select, textarea', $timePass)
                 .each(function(i, v) {
                     name = $(v).attr('name');
-                    if ( name !== '' && passData[name] !== undefined && name !== 'revenue_model' ) {
+                    if (name !== '' && passData[name] !== undefined && name !== 'revenue_model') {
                         $(v).val(passData[name]);
                     }
                 });
@@ -767,7 +770,7 @@
                 // validate price after inserting
                 validatePrice($timePass.find('form'), false, $($o.timePassPrice, $timePass));
                 // set price input value into the voucher price input
-                $($o.voucherPriceInput, $timePass).val( $($o.timePassPrice, $timePass).val() );
+                $($o.voucherPriceInput, $timePass).val($($o.timePassPrice, $timePass).val());
 
                 // apply passData to revenue model toggle
                 if (passData.revenue_model === $o.singleSale) {
@@ -974,13 +977,13 @@
                     hasRevenueModel = $toggle.prop('checked'),
                     price           = $($o.timePassPrice, $timePass).val();
 
-                var current_revenue = hasRevenueModel ? $o.singleSale : $o.payPerUse;
+                var currentRevenueModel = hasRevenueModel ? $o.singleSale : $o.payPerUse;
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price > 5 && current_revenue === $o.payPerUse) {
+                if (price > 5 && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $toggle.prop('checked', true);
-                } else if (price < 1.49 && current_revenue === $o.singleSale) {
+                } else if (price < 1.49 && currentRevenueModel === $o.singleSale) {
                     // Single Sale purchases are not allowed for prices < 1.49 Euro
                     $toggle.prop('checked', false);
                 }
@@ -1059,7 +1062,7 @@
 
             handleBulkEditorSettingsUpdate = function(action, selector) {
                 // hide some fields if needed, change separator, and add percent unit option
-                var showCategory = ( selector === 'in_category' );
+                var showCategory = (selector === 'in_category');
 
                 // clear currency options
                 $o.bulkPriceChangeUnit
