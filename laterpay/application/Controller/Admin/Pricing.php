@@ -836,7 +836,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return string
      */
     public function render_pass( $args = array() ) {
-        $defaults = LaterPay_Helper_Passes::get_defaults();
+        $defaults = LaterPay_Helper_Passes::get_default_options();
         $args = array_merge( $defaults, $args );
 
         if( ! empty($args['pass_id']) ) {
@@ -925,7 +925,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return array
      */
     private function get_passes_json( $passes_list = null ) {
-        $passes_array = array( 0 => LaterPay_Helper_Passes::get_defaults() );
+        $passes_array = array( 0 => LaterPay_Helper_Passes::get_default_options() );
 
         foreach ( $passes_list as $pass ) {
             $pass                               = (array) $pass;

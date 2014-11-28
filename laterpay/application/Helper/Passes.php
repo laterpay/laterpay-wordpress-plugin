@@ -6,13 +6,13 @@ class LaterPay_Helper_Passes
     const PASS_TOKEN    = 'tlp';
 
     /**
-     * Get passes default values
+     * Get passes default options
      *
      * @param null $key option name
      *
      * @return mixed option value | array of options
      */
-    public static function get_defaults( $key = null ) {
+    public static function get_default_options( $key = null ) {
 
         // Default time range. Used during passes creation.
         $defaults = array(
@@ -22,7 +22,7 @@ class LaterPay_Helper_Passes
             'access_to'         => '0',
             'access_category'   => '',
             'price'             => '0.99',
-            'revenue_model'     => __( 'ppu', 'laterpay' ),
+            'revenue_model'     => 'ppu',
             'title'             => __( '24-Hour Pass', 'laterpay' ),
             'title_color'       => '#444',
             'description'       => __( '24 hours access to all content on this website', 'laterpay' ),
@@ -47,7 +47,7 @@ class LaterPay_Helper_Passes
      *
      * @return mixed option value | array of options
      */
-    public static function get_durations( $key = null ) {
+    public static function get_duration_options( $key = null ) {
         $durations = array(
             1 => 1, 2, 3, 4, 5, 6,
             7, 8, 9, 10, 11, 12,
@@ -68,10 +68,12 @@ class LaterPay_Helper_Passes
      * Get periods
      *
      * @param null $key option name
+     * @param bool $pluralized
      *
      * @return mixed option value | array of options
      */
-    public static function get_periods( $key = null ) {
+    public static function get_period_options( $key = null, $pluralized = false ) {
+        // single periods
         $periods = array(
             __( 'Hour', 'laterpay' ),
             __( 'Day', 'laterpay' ),
@@ -80,23 +82,34 @@ class LaterPay_Helper_Passes
             __( 'Year', 'laterpay' ),
         );
 
+        // pluralized periods
+        $periods_pluralized = array(
+            __( 'Hours', 'laterpay' ),
+            __( 'Days', 'laterpay' ),
+            __( 'Weeks', 'laterpay' ),
+            __( 'Months', 'laterpay' ),
+            __( 'Years', 'laterpay' ),
+        );
+
+        $selected_array = $pluralized ? $periods_pluralized : $periods;
+
         if ( isset ( $key ) ) {
-            if ( isset( $periods[ $key ] ) ) {
-                return $periods[ $key ];
+            if ( isset( $selected_array[ $key ] ) ) {
+                return $selected_array[ $key ];
             }
         }
 
-        return $periods;
+        return $selected_array;
     }
 
     /**
-     * Get revenue model
+     * Get revenue model options
      *
      * @param null $key option name
      *
      * @return mixed option value | array of options
      */
-    public static function get_revenue_model( $key = null ) {
+    public static function get_revenue_model_options( $key = null ) {
         $revenues = array(
             'ppu' => __( 'later', 'laterpay' ),
             'sis' => __( 'immediately', 'laterpay' ),
@@ -118,7 +131,7 @@ class LaterPay_Helper_Passes
      *
      * @return mixed option value | array of options
      */
-    public static function get_access_to( $key = null ) {
+    public static function get_access_options( $key = null ) {
         $access_to = array(
             __( 'All content', 'laterpay' ),
             __( 'All content except for category', 'laterpay' ),
@@ -145,13 +158,13 @@ class LaterPay_Helper_Passes
      */
     public static function get_description( $duration = null, $period = null, $access = null ) {
         if ( ! $duration ) {
-            $duration = self::get_defaults( 'duration' );
+            $duration = self::get_default_options( 'duration' );
         }
         if ( ! $period ) {
-            $period = self::get_defaults( 'period' );
+            $period = self::get_default_options( 'period' );
         }
         if ( ! $access ) {
-            $access = self::get_defaults( 'access_to' );
+            $access = self::get_default_options( 'access_to' );
         }
         if ( $period == 1 ) { // Day
             $period   = 0;
@@ -163,90 +176,64 @@ class LaterPay_Helper_Passes
         $str = sprintf(
             '%d %s %s %s',
             $duration,
-            self::get_periods( $period ),
+            self::get_period_options( $period ),
             $access_to_string,
-            self::get_access_to( $access )
+            self::get_access_options( $access )
         );
 
         return strtolower( $str );
     }
 
     /**
-     * FIXME: #196 add comment
+     * Get select options by type
      *
-     * @return [type] [description]
+     * @param string $type type of select
+     *
+     * @return string of options
      */
-    public static function get_select_durations() {
-        $options_html = '';
+    public static function get_select_options( $type ) {
+        $options_html  = '';
+        $default_value = null;
+        $select_first  = true;
 
-        foreach ( self::get_durations() as $id => $name ) {
-            if ( $id == self::get_defaults( 'duration' ) ) {
-                $options_html .= '<option selected="selected" value="' . $id . '">' .  $name . '</option>';
-            } else {
-                $options_html .= '<option value="' . $id . '">' . $name . '</option>';
-            }
+        switch( $type ) {
+            case 'duration':
+                $elements      = self::get_duration_options();
+                $default_value = self::get_default_options( 'duration' );
+                break;
+            case 'period':
+                $elements      = self::get_period_options();
+                $default_value = self::get_default_options( 'period' );
+                break;
+            case 'access':
+                $elements      = self::get_access_options();
+                $default_value = self::get_default_options( 'access_to' );
+                break;
+            case 'category':
+                $elements      = self::get_wp_categories();
+                $default_value = self::get_default_options( 'access_category' );
+                break;
+            default:
+                return $options_html;
         }
 
-        return $options_html;
-    }
+        if ( $elements && is_array( $elements ) ) {
+            $is_first = true;
+            foreach ( $elements as $id => $name ) {
+                // category values is different
+                if ( $type == 'category' ) {
+                    $id   = $name->term_id;
+                    $name = $name->name;
+                }
 
-    /**
-     * FIXME: #196 add comment
-     *
-     * @return [type] [description]
-     */
-    public static function get_select_periods() {
-        $options_html = '';
-
-        foreach ( self::get_periods() as $id => $name ) {
-            if ( $id == self::get_defaults( 'period' ) ) {
-                $options_html .= '<option selected="selected" value="' . $id . '">' . $name . '</option>';
-            } else {
-                $options_html .= '<option value="' . $id . '">' . $name . '</option>';
+                // set option
+                if ( ( $is_first && $select_first && ! $default_value ) || ( $id == $default_value ) ) {
+                    $options_html .= '<option selected="selected" value="' . $id . '">' . $name. '</option>';
+                } else {
+                    $options_html .= '<option value="' . $id . '">' . $name . '</option>';
+                }
+                $is_first = false;
             }
-        }
-
-        return $options_html;
-    }
-
-    /**
-     * FIXME: #196 add comment
-     *
-     * @return [type] [description]
-     */
-    public static function get_select_access_to() {
-        $options_html = '';
-
-        foreach ( self::get_access_to() as $id => $name ) {
-            if ( $id == self::get_defaults( 'access_to' ) ) {
-                $options_html .= '<option selected="selected" value="' . $id . '">' . $name . '</option>';
-            } else {
-                $options_html .= '<option value="' . $id . '">' . $name . '</option>';
-            }
-        }
-
-        return $options_html;
-    }
-
-    /**
-     * FIXME: #196 add comment
-     *
-     * @return [type] [description]
-     */
-    public static function get_select_access_categories() {
-        $options_html   = '';
-        $categories     = self::get_wp_categories( array() );
-        $i              = 0;
-        foreach ( $categories as $category ) {
-            if ( $i == 0 && ! self::get_defaults( 'access_category' ) ) {
-                // select the first option by default
-                $options_html .= '<option selected="selected" value="' . $category->term_id . '">' . $category->name . '</option>';
-            } else if ( $category->term_id == self::get_defaults('access_category') ) {
-                $options_html .= '<option selected="selected" value="' . $category->term_id . '">' . $category->name . '</option>';
-            } else {
-                $options_html .= '<option value="' . $category->term_id . '">' . $category->name . '</option>';
-            }
-            $i++;
         }
 
         return $options_html;
@@ -259,7 +246,7 @@ class LaterPay_Helper_Passes
      *
      * @return array $categories
      */
-    protected static function get_wp_categories( $args ) {
+    protected static function get_wp_categories( $args = array() ) {
         $default_args = array(
             'hide_empty'    => false,
             'number'        => 10,
@@ -471,7 +458,7 @@ class LaterPay_Helper_Passes
                 break;
 
             default :
-                $period = self::get_periods( $pass['period'] );
+                $period = self::get_period_options( $pass['period'] );
                 if ( $pass['duration'] > 1 ) {
                     $period .= 's';
                 }

@@ -256,10 +256,10 @@
                                     <td colspan="2">
                                         <?php _e( 'The pass is valid for ', 'laterpay' ); ?>
                                         <select name="duration" class="lp_js_switchTimePassDuration lp_input">
-                                            <?php echo LaterPay_Helper_Passes::get_select_durations(); ?>
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'duration' ); ?>
                                         </select>
                                         <select name="period" class="lp_js_switchTimePassPeriod lp_input">
-                                            <?php echo LaterPay_Helper_Passes::get_select_periods(); ?>
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'period' ); ?>
                                         </select>
                                         <?php _e( 'and grants', 'laterpay' ); ?>
                                     </td>
@@ -270,7 +270,7 @@
                                     </td>
                                     <td>
                                         <select name="access_to" class="lp_js_switchTimePassScope lp_input lp_u_w-1">
-                                            <?php echo LaterPay_Helper_Passes::get_select_access_to(); ?>
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'access' ); ?>
                                         </select>
                                     </td>
                                 </tr>
@@ -281,7 +281,7 @@
                                         <select name="access_category"
                                                 class="lp_js_switchTimePassScopeCategory lp_input lp_u_w-1"
                                                 style="display:none;">
-                                            <?php echo LaterPay_Helper_Passes::get_select_access_categories(); ?>
+                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'category' ); ?>
                                         </select>
                                     </td>
                                 </tr>
@@ -291,7 +291,7 @@
                                         <input type="text"
                                                 name="price"
                                                 class="lp_js_timePassPriceInput lp_input lp_numberInput"
-                                                value="<?php echo LaterPay_Helper_View::format_number( (float) LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
+                                                value="<?php echo LaterPay_Helper_View::format_number( (float) LaterPay_Helper_Passes::get_default_options( 'price' ) ) ?>">
                                         <?php echo $laterpay['standard_currency']; ?>
                                         <?php _e( 'later', 'laterpay' ); ?><div class="lp_toggle">
                                             <label class="lp_toggle_label lp_toggle_label_pass">
@@ -299,7 +299,7 @@
                                                 <input type="hidden"
                                                         name="revenue_model"
                                                         class="lp_js_timePass_toggleRevenueModel"
-                                                        value="<?php echo LaterPay_Helper_Passes::get_defaults( 'revenue_model' ); ?>">
+                                                        value="<?php echo LaterPay_Helper_Passes::get_default_options( 'revenue_model' ); ?>">
                                                 <span class="lp_toggle_text" data-on="" data-off=""></span>
                                                 <span class="lp_toggle_handle"></span>
                                             </label>
@@ -315,7 +315,7 @@
                                             <input type="text"
                                                     name="title_color"
                                                     class="lp_js_colorInput lp_colorInput lp_input"
-                                                    value="<?php echo LaterPay_Helper_Passes::get_defaults( 'title_color' ); ?>">
+                                                    value="<?php echo LaterPay_Helper_Passes::get_default_options( 'title_color' ); ?>">
                                         </div> -->
                                         <?php _e( 'Title', 'laterpay' ); ?>
                                     </td>
@@ -323,7 +323,7 @@
                                         <input type="text"
                                                 name="title"
                                                 class="lp_js_timePassTitleInput lp_input lp_u_w-1"
-                                                value="<?php echo LaterPay_Helper_Passes::get_defaults( 'title' ); ?>">
+                                                value="<?php echo LaterPay_Helper_Passes::get_default_options( 'title' ); ?>">
                                     </td>
                                 </tr>
                                 <tr>
@@ -332,7 +332,7 @@
                                             <input type="text"
                                                     class="lp_js_colorInput lp_colorInput lp_input"
                                                     name="description_color"
-                                                    value="<?php echo LaterPay_Helper_Passes::get_defaults( 'description_color' ); ?>">
+                                                    value="<?php echo LaterPay_Helper_Passes::get_default_options( 'description_color' ); ?>">
                                         </div> -->
                                         <?php _e( 'Description', 'laterpay' ); ?>
                                     </td>
@@ -356,7 +356,7 @@
                                                 <input type="text"
                                                         class="lp_js_colorInput lp_colorInput lp_input"
                                                         name="background_color"
-                                                        value="<?php echo LaterPay_Helper_Passes::get_defaults( 'background_color' ); ?>">
+                                                        value="<?php echo LaterPay_Helper_Passes::get_default_options( 'background_color' ); ?>">
                                             </div>
                                             <a href="#"><?php _e( 'Background image', 'laterpay' ); ?></a>
                                             <?php _e( 'or color', 'laterpay' ); ?>
@@ -378,7 +378,7 @@
                                 <input type="text"
                                        name="voucher_price"
                                        class="lp_js_voucherPriceInput lp_input lp_numberInput"
-                                       value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_defaults( 'price' ) ) ?>">
+                                       value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_Passes::get_default_options( 'price' ) ) ?>">
                                 <span><?php echo $laterpay['standard_currency']; ?></span>
                                 <a href="#" class="lp_js_generateVoucherCode lp_editLink lp_addLink" data-icon="c">
                                     <?php _e( 'Generate voucher code', 'laterpay' ); ?>
