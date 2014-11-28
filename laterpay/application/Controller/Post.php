@@ -674,6 +674,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID(), $passes_with_access );
         }
 
+        // don't render the widget, if there are no time passes
+        if ( count( $passes_list ) == 0 ) {
+            return;
+        }
+
+
         // get the associated CSS class to be applied for the specified variant
         switch ( $variant ) {
             case 'small':
