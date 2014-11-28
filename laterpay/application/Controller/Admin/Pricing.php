@@ -62,7 +62,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             array(
                 'locale'                => get_locale(),
                 'i18n'                  => $i18n,
-                'globalDefaultPrice'    => LaterPay_Helper_View::format_number( (float) get_option( 'laterpay_global_price' ) ),
+                'globalDefaultPrice'    => LaterPay_Helper_View::format_number( get_option( 'laterpay_global_price' ) ),
                 'defaultCurrency'       => get_option( 'laterpay_currency' ),
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_passes_json( $passes_list ),
@@ -98,6 +98,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
         $passes_list                = (array) $passes_model->get_all_passes();
         $vouchers_list              = LaterPay_Helper_Vouchers::get_all_vouchers();
+        var_dump(get_option( 'laterpay_global_price' ));
 
         $view_args = array(
             'top_nav'                               => $this->get_menu(),

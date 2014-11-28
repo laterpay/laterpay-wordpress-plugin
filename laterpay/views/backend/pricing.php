@@ -80,7 +80,7 @@
                                     <input type="hidden" name="category_id" class="lp_js_categoryDefaultPrice_categoryId" value="<?php echo $category->category_id; ?>">
                                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                                    <?php $category_price           = LaterPay_Helper_View::format_number( (float) $category->category_price ); ?>
+                                    <?php $category_price           = LaterPay_Helper_View::format_number( $category->category_price ); ?>
                                     <?php $category_revenue_model   = $category->revenue_model; ?>
 
                                     <div class="lp_js_revenueModel lp_revenueModel lp_u_relative lp_u_left" style="display:none;">

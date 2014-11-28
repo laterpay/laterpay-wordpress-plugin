@@ -23,7 +23,7 @@ foreach ( $args as $key => $value ) {
 
 $title = sprintf(
     __( '%s<small>%s</small>', 'laterpay' ),
-    LaterPay_Helper_View::format_number( (float) $laterpay[ 'price' ] ),
+    LaterPay_Helper_View::format_number( $laterpay[ 'price' ] ),
     $laterpay[ 'currency' ]
 );
 ?>

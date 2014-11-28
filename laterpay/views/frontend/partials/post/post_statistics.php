@@ -57,7 +57,7 @@
                 <span class="lp_sparklineBar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysVisitors'], 'quantity', ';' ); ?></span>
             </li>
             <li>
-                <big><?php echo LaterPay_Helper_View::format_number( (float) $laterpay['statistic']['todayVisitors'], false ); ?></big>
+                <big><?php echo LaterPay_Helper_View::format_number( $laterpay['statistic']['todayVisitors'], false ); ?></big>
                 <small><?php _e( 'Visitors', 'laterpay' ); ?></small>
             </li>
         </ul>
