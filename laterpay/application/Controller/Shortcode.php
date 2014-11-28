@@ -236,9 +236,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = "<div class=\"lp_premiumFileBox\" style=\"background-image:url(" . $image_path . ")\">";
+            $html = '<div class="lp_premiumFileBox" style="background-image:url(' . $image_path . ')">';
         } else {
-            $html = "<div class=\"lp_premiumFileBox lp_contentType" . ucfirst( $content_type ) . "\">";
+            $html = '<div class="lp_premiumFileBox lp_contentType' . ucfirst( $content_type ) . '">';
         }
         // create a shortcode link
         $html .= $this->get_shortcode_link( $page, $content_type, $page_url, $price_tag );
@@ -323,7 +323,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 // render link to purchased post
                 $button_page_url = $page_url;
             }
-            $html_button = "<a href=\"" . $button_page_url . "\" class=\"lp_purchaseLinkShortcode lp_purchaseLink lp_button\" rel=\"prefetch\" data-icon=\"b\">" . $button_label . "</a>";
+            $html_button =  '<a href="' . $button_page_url . '" ' .
+                                'class="lp_purchaseLinkShortcode lp_purchaseLink lp_button" ' .
+                                'rel="prefetch" ' .
+                                'data-icon="b">' .
+                                $button_label .
+                            '</a>';
         } else {
             // the user has not purchased the item yet
             $view_args = LaterPay_Helper_Post::the_purchase_button_args( $post );

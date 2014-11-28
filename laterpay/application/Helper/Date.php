@@ -12,12 +12,12 @@ class LaterPay_Helper_Date
      */
     public static function get_date_query_before_end_of_day( $timestamp ) {
         return array(
-            'day'   => date( 'd', $timestamp ),
-            'month' => date( 'm', $timestamp ),
-            'year'  => date( 'Y', $timestamp ),
-            'hour'  => 23,
-            'minute'=> 59,
-            'second'=> 59
+            'day'       => date( 'd', $timestamp ),
+            'month'     => date( 'm', $timestamp ),
+            'year'      => date( 'Y', $timestamp ),
+            'hour'      => 23,
+            'minute'    => 59,
+            'second'    => 59,
         );
     }
 
@@ -30,12 +30,12 @@ class LaterPay_Helper_Date
      */
     public static function get_date_query_after_start_of_day( $timestamp ) {
         return array(
-            'day'   => date( 'd', $timestamp ),
-            'month' => date( 'm', $timestamp ),
-            'year'  => date( 'Y', $timestamp ),
-            'hour'  => 0,
-            'minute'=> 0,
-            'second'=> 0
+            'day'       => date( 'd', $timestamp ),
+            'month'     => date( 'm', $timestamp ),
+            'year'      => date( 'Y', $timestamp ),
+            'hour'      => 0,
+            'minute'    => 0,
+            'second'    => 0,
         );
     }
 

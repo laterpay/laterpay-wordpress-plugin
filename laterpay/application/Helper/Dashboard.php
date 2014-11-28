@@ -14,7 +14,7 @@ class LaterPay_Helper_Dashboard
 
         $file_path = $options[ 'cache_file_path' ];
 
-        if ( !file_exists( $file_path ) ) {
+        if ( ! file_exists( $file_path ) ) {
             laterpay_get_logger()->error(
                 __METHOD__ . ' - cache-file not found',
                 array( 'file_path' => $file_path )
@@ -91,6 +91,7 @@ class LaterPay_Helper_Dashboard
         if ( $timestamp === null ) {
             $timestamp = strtotime( 'today GMT' );
         }
+
         $cache_dir = laterpay_get_plugin_config()->get( 'cache_dir' ) . 'cron/' . gmdate( 'Y/m/d', $timestamp ) . '/';
         laterpay_get_logger()->info(
             __METHOD__,
@@ -99,6 +100,7 @@ class LaterPay_Helper_Dashboard
                 'cache_dir' => $cache_dir,
             )
         );
+
         return $cache_dir;
     }
 
@@ -112,8 +114,9 @@ class LaterPay_Helper_Dashboard
      * @return string $cache_filename
      */
     public static function get_cache_filename( $section, $interval, $count ) {
-        $interval = LaterPay_Helper_Dashboard::get_interval( $interval );
-        $cache_filename =  $section . '-' . $interval . '-' . $count . '.cache';
+        $interval       = LaterPay_Helper_Dashboard::get_interval( $interval );
+        $cache_filename = $section . '-' . $interval . '-' . $count . '.cache';
+
         laterpay_get_logger()->info(
             __METHOD__,
             array(
@@ -123,6 +126,7 @@ class LaterPay_Helper_Dashboard
                 'cache_filename'    => $cache_filename,
             )
         );
+
         return $cache_filename;
     }
 
@@ -136,6 +140,7 @@ class LaterPay_Helper_Dashboard
     public static function get_interval( $interval ){
         $allowed_intervals  = array( 'day', 'week', '2-weeks', 'month' );
         $interval           = sanitize_text_field( (string) $interval );
+
         if ( ! in_array( $interval, $allowed_intervals ) ) {
            $interval = 'week';
         }
@@ -151,7 +156,7 @@ class LaterPay_Helper_Dashboard
      *
      * @return int $end_timestamp
      */
-    public static function get_end_timestamp( $start_timestamp, $interval = 'week' ){
+    public static function get_end_timestamp( $start_timestamp, $interval = 'week' ) {
         if ( $interval === 'week' ) {
             $end_timestamp = strtotime( '-7 days', $start_timestamp );
         } else if ( $interval === '2-weeks' ) {
@@ -173,13 +178,13 @@ class LaterPay_Helper_Dashboard
      *
      * @return string $order_by
      */
-    public static function get_order_and_group_by( $interval ){
+    public static function get_order_and_group_by( $interval ) {
         if ( $interval === 'day' ) {
             return 'hour';
-        }
-        else if( $interval === 'month' ){
+        } else if ( $interval === 'month' ) {
             return 'month';
         }
+
         return 'day';
     }
 
@@ -196,11 +201,10 @@ class LaterPay_Helper_Dashboard
     public static function build_sparkline( $items, $start_timestamp, $interval = 'week' ) {
         $sparkline = array();
 
-        if( $interval === 'day' ){
+        if ( $interval === 'day' ) {
             $items_by_hour  = LaterPay_Helper_Dashboard::sort_items_by_hour( $items );
             $items          = LaterPay_Helper_Dashboard::fill_empty_hours( $items_by_hour, $start_timestamp );
-        }
-        else {
+        } else {
             $items_by_day   = LaterPay_Helper_Dashboard::sort_items_by_date( $items );
             $days           = LaterPay_Helper_Dashboard::get_days_as_array( $start_timestamp, $interval );
             $items          = LaterPay_Helper_Dashboard::fill_empty_days( $items_by_day, $days );
@@ -247,7 +251,6 @@ class LaterPay_Helper_Dashboard
             $items          = LaterPay_Helper_Dashboard::fill_empty_days( $items_by_day, $days );
         }
 
-
         $key = 1;
         foreach ( $items as $item ) {
             if ( $interval === 'day' ) {
@@ -278,8 +281,8 @@ class LaterPay_Helper_Dashboard
         laterpay_get_logger()->info(
             __METHOD__,
             array(
-                'input' => $items,
-                'result'=> $data,
+                'input'     => $items,
+                'result'    => $data,
             )
         );
 
@@ -305,15 +308,15 @@ class LaterPay_Helper_Dashboard
     public static function sort_items_by_date( $items ) {
         // sort all items by date
         $items_by_date = array();
-        foreach ( $items as $item ){
+        foreach ( $items as $item ) {
             $items_by_date[ $item->date ] = $item;
         }
 
         laterpay_get_logger()->info(
             __METHOD__,
             array(
-                'input' => $items,
-                'output'=> $items_by_date,
+                'input'     => $items,
+                'output'    => $items_by_date,
             )
         );
 
@@ -345,8 +348,8 @@ class LaterPay_Helper_Dashboard
         laterpay_get_logger()->info(
             __METHOD__,
             array(
-                'input' => $items,
-                'output'=> $items_by_hour,
+                'input'     => $items,
+                'output'    => $items_by_hour,
             )
         );
 
@@ -426,7 +429,6 @@ class LaterPay_Helper_Dashboard
 
         return $items;
     }
-
 
     /**
      * Helper function to fill a wpdb result sorted by hour with quantity = 0, if the hour is missing.

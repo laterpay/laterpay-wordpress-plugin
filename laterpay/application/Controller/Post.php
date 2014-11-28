@@ -454,7 +454,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $this->logger->warning(
                     __METHOD__ . ' - post not found ',
                     array(
-                        'result' => $result
+                        'result' => $result,
                     )
                 );
 
