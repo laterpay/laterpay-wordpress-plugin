@@ -653,11 +653,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      *
      * @wp-hook laterpay_time_passes
      *
-     * @param string $variant variant of the time pass widget (currently only 'small' is supported)
+     * @param string $variant               variant of the time pass widget (currently only 'small' is supported)
+     * @param string $introductory_text     additional text rendered at the top of the widget
+     * @param string $call_to_action_text   additional text rendered after the time passes and before the voucher code input
      *
      * @return void
      */
-    public function the_time_passes_widget( $variant = '' ) {
+    public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '' ) {
         $is_homepage = is_front_page() && is_home();
         // check, if post is purchasable and we are not on the homepage
         if ( ! LaterPay_Helper_Pricing::is_purchasable() && ! $is_homepage ) {
@@ -693,9 +695,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $view_args = array(
-            'passes_list'            => $passes_list,
-            'time_pass_widget_class' => $class,
-            'has_vouchers'           => $has_vouchers,
+           'passes_list'                    => $passes_list,
+           'time_pass_widget_class'         => $class,
+           'has_vouchers'                   => $has_vouchers,
+           'time_pass_introductory_text'    => $introductory_text,
+           'time_pass_call_to_action_text'  => $call_to_action_text,
         );
 
         $this->logger->info(
