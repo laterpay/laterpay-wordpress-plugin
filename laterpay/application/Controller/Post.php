@@ -1075,7 +1075,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'i18n'                  => array(
                     'alert'             => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
                     'validVoucher'      => __( 'Voucher code accepted.', 'laterpay' ),
-                    'invalidVoucher'    => __( 'is not a valid voucher code!', 'laterpay' ),
+                    'invalidVoucher'    => __( ' is not a valid voucher code!', 'laterpay' ),
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
                     'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
                 ),

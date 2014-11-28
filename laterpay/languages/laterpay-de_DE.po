@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Nov 28 2014 14:41:06 GMT+0100 (CET)\n"
+"PO-Revision-Date: Fri Nov 28 2014 16:51:15 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -177,15 +177,15 @@ msgstr ""
 "Kaufen Sie mit LaterPay, bis Sie 5 Euro erreicht haben.<br> Erst dann müssen "
 "Sie sich registrieren und bezahlen."
 
-#: ../views/frontend/partials/post/time_passes_widget.php:12
+#: ../views/frontend/partials/post/time_passes_widget.php:22
 msgid "Code"
 msgstr "Code"
 
-#: ../views/frontend/partials/post/time_passes_widget.php:13
+#: ../views/frontend/partials/post/time_passes_widget.php:23
 msgid "Redeem"
 msgstr "Einlösen"
 
-#: ../views/frontend/partials/post/time_passes_widget.php:14
+#: ../views/frontend/partials/post/time_passes_widget.php:24
 msgid "Redeem Voucher >"
 msgstr "Gutschein einlösen >"
 
@@ -953,30 +953,30 @@ msgstr ""
 msgid "Thank you very much for rating!"
 msgstr "Vielen Dank für Ihre Bewertung!"
 
-#: ../application/Controller/Post.php:823
+#: ../application/Controller/Post.php:830
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:1069
+#: ../application/Controller/Post.php:1076
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:1070
+#: ../application/Controller/Post.php:1077
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: ../application/Controller/Post.php:1071
-msgid "is not a valid voucher code!"
-msgstr "ist kein gültiger Gutschein-Code."
+#: ../application/Controller/Post.php:1078
+msgid " is not a valid voucher code!"
+msgstr " ist kein gültiger Gutschein-Code!"
 
-#: ../application/Controller/Post.php:1072
+#: ../application/Controller/Post.php:1079
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: ../application/Controller/Post.php:1073
+#: ../application/Controller/Post.php:1080
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
@@ -2240,21 +2240,21 @@ msgstr "Die Bulk-Price-Aktion wurde erfolgreich gespeichert."
 msgid "Bulk operation was successfully deleted."
 msgstr "Die Bulk-Price-Aktion wurde erfolgreich entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:880
+#: ../application/Controller/Admin/Pricing.php:888
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:889
+#: ../application/Controller/Admin/Pricing.php:897
 msgid "An error occurred when trying to save the pass. Please try again."
 msgstr ""
 "Bei dem Versuch, den Pass zu speichern, ist ein Fehler aufgetreten. Bitte "
 "versuchen Sie es erneut."
 
-#: ../application/Controller/Admin/Pricing.php:909
+#: ../application/Controller/Admin/Pricing.php:917
 msgid "Pass deleted."
 msgstr "Pass entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:916
+#: ../application/Controller/Admin/Pricing.php:924
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
