@@ -2,7 +2,7 @@
 
 <div class="lp_timePassWidget <?php echo $laterpay['time_pass_widget_class']; ?>">
     <?php if ( $laterpay['time_pass_introductory_text'] ): ?>
-        <p class="lp_timePass_introductoryText"><?php echo $laterpay['introductory_text']; ?></p>
+        <p class="lp_timePass_introductoryText"><?php echo $laterpay['time_pass_introductory_text']; ?></p>
     <?php endif; ?>
 
     <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
