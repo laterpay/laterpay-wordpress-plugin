@@ -2229,9 +2229,9 @@ Licensed under the MIT license.
 
                     if (series.lines.gaps) {
                         // adjust x and y values to create a gap between points and lines
-                        var gap = 4 * lw,
-                            alpha1  = Math.atan((axisy.p2c(y2) - axisy.p2c(y1)) / (axisx.p2c(x2) - axisx.p2c(x1))),
-                            alpha2  = Math.atan((axisy.p2c(y1) - axisy.p2c(y2)) / (axisx.p2c(x1) - axisx.p2c(x2))),
+                        var gap         = 2.5 * lw, // gap is 2.5 times the line width
+                            alpha1      = Math.atan((axisy.p2c(y2) - axisy.p2c(y1)) / (axisx.p2c(x2) - axisx.p2c(x1))),
+                            alpha2      = Math.atan((axisy.p2c(y1) - axisy.p2c(y2)) / (axisx.p2c(x1) - axisx.p2c(x2))),
                             x1_adjusted = axisx.p2c(x1) + gap * Math.cos(alpha1),
                             y1_adjusted = axisy.p2c(y1) + gap * Math.sin(alpha1),
                             x2_adjusted = axisx.p2c(x2) - gap * Math.cos(alpha2),

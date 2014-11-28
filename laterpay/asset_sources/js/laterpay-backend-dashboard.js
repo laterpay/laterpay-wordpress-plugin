@@ -69,58 +69,58 @@
 						left        : 0
 					},
 					borderColor     : '#ccc',
-					tickColor       : 'rgba(247,247,247,0)'  // transparent
+					tickColor       : 'rgba(247,247,247,0)' // transparent
 				}
 			},
 			plotDefaultData = [
 				{
-					color           : '#50C371',
+					color           : '#50c371',
 					lines           : {
 						show        : true,
-						lineWidth   : 1.5,
+						lineWidth   : 2.5,
 						fill        : false,
 						gaps        : true
 					},
 					points          : {
 						show        : true,
-						radius      : 3,
+						radius      : 4,
 						lineWidth   : 0,
 						fill        : true,
-						fillColor   : '#50C371'
+						fillColor   : '#50c371'
 					}
 				}
 			],
 
-			loadDashboardData = function( section, refresh ){
+			loadDashboardData = function( section, refresh ) {
 				var interval        = $($o.selectedInterval).find(':checked').val(),
 					revenueModel    = $o.selectedRevenueModel.find(':checked').val(),
 					request_data	= {
 						// wp ajax action
-						'action':		'laterpay_get_dashboard_data',
+						'action'          : 'laterpay_get_dashboard_data',
 						// nonce for validation and xss-protection
-						'_wpnonce':		lpVars.nonces.dashboard,
+						'_wpnonce'        : lpVars.nonces.dashboard,
 						// data-section which is loaded:  converting_items|selling_items|revenue_items|most_least_converting_items|most_least_selling_items|most_least_revenue_items|metrics
-						'section':		section,
+						'section'         : section,
 						// day|week|2-weeks|month
-						'interval':		interval,
-						// count of best/least items
-						'count':		$o.itemsPerList,
+						'interval'        : interval,
+						// count of best / least performing items
+						'count'           : $o.itemsPerList,
 						// 1 (true): refresh data, 0 (false): only load the cached data; default: 1
-						'refresh':		refresh ? 1 : 0,
+						'refresh'         : refresh ? 1 : 0,
 						// TODO: implementing
-						'revenue_model':revenueModel
+						'revenue_model'   : revenueModel
 					},
 					jqxhr;
 
 				jqxhr = $.ajax({
-					'url':		lpVars.ajaxUrl,
-					'async':	true,
-					'method':	'POST',
-					'data':		request_data
+					'url'      : lpVars.ajaxUrl,
+					'async'    : true,
+					'method'   : 'POST',
+					'data'     : request_data,
 				});
 
-				jqxhr.done(function(data){
-					if(!data || data.success){
+				jqxhr.done(function(data) {
+					if (!data || data.success) {
 						return;
 					}
 					setMessage(data.message, data.success);
@@ -129,19 +129,18 @@
 				return jqxhr;
 			},
 
-			showLoadingIndicator = function(element){
+			showLoadingIndicator = function(element) {
 				element.html('<div class="lp_loadingIndicator"></div>');
 			},
 
-			removeLoadingIndicator = function(element){
+			removeLoadingIndicator = function(element) {
 				element.find('.lp_loadingIndicator').remove();
 			},
 
-			loadConvertingItems = function(refresh){
-
+			loadConvertingItems = function(refresh) {
 				showLoadingIndicator($o.conversionDiagram);
 
-				loadDashboardData('converting_items', refresh).done(function(response){
+				loadDashboardData('converting_items', refresh).done(function(response) {
 					var plotOptions = {
 							xaxis: {
 								ticks: response.data.x
@@ -153,7 +152,7 @@
 								bars            : {
 									show        : true,
 									barWidth    : 0.35,
-									fillColor   : '#50C371',
+									fillColor   : '#50c371',
 									lineWidth   : 0,
 									align       : 'center',
 									horizontal  : false
@@ -164,13 +163,13 @@
 					plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
 					$.plot($o.conversionDiagram, plotData, plotOptions);
 				})
-				.always(function(){removeLoadingIndicator($o.conversionDiagram);});
+				.always(function() {removeLoadingIndicator($o.conversionDiagram);});
 			},
 
-			loadSellingItems = function(refresh){
+			loadSellingItems = function(refresh) {
 				showLoadingIndicator($o.salesDiagram);
 
-				loadDashboardData('selling_items', refresh).done(function(response){
+				loadDashboardData('selling_items', refresh).done(function(response) {
 					var plotOptions = {
 							xaxis: {
 								ticks: response.data.x
@@ -183,13 +182,13 @@
 
 					$.plot($o.salesDiagram, plotData, plotOptions);
 				})
-				.always(function(){removeLoadingIndicator($o.salesDiagram);});
+				.always(function() {removeLoadingIndicator($o.salesDiagram);});
 			},
 
-			loadRevenueItems = function(refresh){
+			loadRevenueItems = function(refresh) {
 				showLoadingIndicator($o.revenueDiagram);
 
-				loadDashboardData('revenue_items', refresh).done(function(response){
+				loadDashboardData('revenue_items', refresh).done(function(response) {
 					var plotOptions = {
 							xaxis: {
 								ticks: response.data.x
@@ -202,45 +201,42 @@
 
 					$.plot($o.revenueDiagram, plotData, plotOptions);
 				})
-				.always(function(){removeLoadingIndicator($o.revenueDiagram);});
+				.always(function() {removeLoadingIndicator($o.revenueDiagram);});
 			},
 
-			loadMostLeastConvertingItems = function(refresh){
+			loadMostLeastConvertingItems = function(refresh) {
 				showLoadingIndicator($o.bestConvertingList);
 				showLoadingIndicator($o.leastConvertingList);
 
-				loadDashboardData('most_least_converting_items', refresh).done(function(response){
-
-					if(!response.data.most){
+				loadDashboardData('most_least_converting_items', refresh).done(function(response) {
+					if (!response.data.most) {
 						response.data.most = {};
 					}
 
-					if(!response.data.least){
+					if (!response.data.least) {
 						response.data.least = {};
 					}
 
 					renderTopBottomList($o.bestConvertingList, response.data.most);
-					renderSparklines( $o.bestConvertingList );
+					renderSparklines($o.bestConvertingList);
 
 					renderTopBottomList($o.leastConvertingList, response.data.least);
-					renderSparklines( $o.leastConvertingList );
-
+					renderSparklines($o.leastConvertingList);
 				})
-				.always(function(){removeLoadingIndicator($o.bestConvertingList);})
-				.always(function(){removeLoadingIndicator($o.leastConvertingList);});
+				.always(function() {removeLoadingIndicator($o.bestConvertingList);})
+				.always(function() {removeLoadingIndicator($o.leastConvertingList);});
 			},
 
-			loadMostLeastSellingItems = function(refresh){
+			loadMostLeastSellingItems = function(refresh) {
 				showLoadingIndicator($o.bestSellingList);
 				showLoadingIndicator($o.leastSellingList);
 
-				loadDashboardData('most_least_selling_items', refresh).done(function(response){
-
-					if(!response.data.most){
+				loadDashboardData('most_least_selling_items', refresh).done(function(response) {
+					if (!response.data.most) {
 						response.data.most = {};
 					}
 
-					if(!response.data.least){
+					if (!response.data.least) {
 						response.data.least = {};
 					}
 
@@ -249,41 +245,37 @@
 
 					renderTopBottomList($o.leastSellingList, response.data.least);
 					renderSparklines( $o.leastSellingList );
-
 				})
-				.always(function(){removeLoadingIndicator($o.bestSellingList);})
-				.always(function(){removeLoadingIndicator($o.leastSellingList);});
+				.always(function() {removeLoadingIndicator($o.bestSellingList);})
+				.always(function() {removeLoadingIndicator($o.leastSellingList);});
 			},
 
-			loadMostLeastRevenueItems = function(refresh){
+			loadMostLeastRevenueItems = function(refresh) {
 				showLoadingIndicator($o.bestGrossingList);
 				showLoadingIndicator($o.leastGrossingList);
 
-				loadDashboardData('most_least_revenue_items', refresh).done(function(response){
-
-					if(!response.data.most){
+				loadDashboardData('most_least_revenue_items', refresh).done(function(response) {
+					if (!response.data.most) {
 						response.data.most = {};
 					}
 
-					if(!response.data.least){
+					if (!response.data.least) {
 						response.data.least = {};
 					}
 
 					renderTopBottomList($o.bestGrossingList,  response.data.most);
-					renderSparklines( $o.bestGrossingList );
+					renderSparklines($o.bestGrossingList);
 
 					renderTopBottomList($o.leastGrossingList, response.data.least);
-					renderSparklines( $o.leastGrossingList );
-
+					renderSparklines($o.leastGrossingList);
 				})
-				.always(function(){removeLoadingIndicator($o.bestGrossingList);})
-				.always(function(){removeLoadingIndicator($o.leastGrossingList);});
+				.always(function() {removeLoadingIndicator($o.bestGrossingList);})
+				.always(function() {removeLoadingIndicator($o.leastGrossingList);});
 			},
 
-			loadMetrics = function(refresh){
+			loadMetrics = function(refresh) {
 				loadDashboardData('metrics', refresh)
-				.done(function(response){
-
+				.done(function(response) {
 					$o.totalImpressionsKPI.text(response.data.impressions || 0);
 					$o.avgConversionKPI.text(response.data.conversion || 0);
 					$o.newCustomersKPI.text(response.data.new_customers || 0);
@@ -293,12 +285,10 @@
 
 					$o.avgRevenueKPI.text(response.data.avg_purchase || 0);
 					$o.totalRevenueKPI.text(response.data.total_revenue || 0);
-
 				});
 			},
 
             bindEvents = function() {
-
                 // refresh dashboard
                 $('#lp_js_refreshDashboard')
                 .click(function(e) {
@@ -318,7 +308,6 @@
                     // do stuff
                 })
                 .click(function(e) {e.preventDefault();});
-
 
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
