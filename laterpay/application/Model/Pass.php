@@ -22,11 +22,11 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * FIXME: #196 add comment
+     * Get time pass data
      *
-     * @param FIXME: #196 add comment
+     * @param int $pass_id time pass id
      *
-     * @return array views
+     * @return array $pass array of pass data
      */
     public function get_pass_data( $pass_id ) {
         global $wpdb;
@@ -46,20 +46,20 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * FIXME: #196 add comment
+     * Update pass or create new
      *
      * @param array $data payment data
      *
-     * @return FIXME: #196 add comment
+     * @return array $data array of saved/updated pass data
      */
     public function update_pass( $data ) {
         global $wpdb;
 
         // leave only the required keys
-        $data = array_intersect_key( $data, LaterPay_Helper_Passes::$defaults );
+        $data = array_intersect_key( $data, LaterPay_Helper_Passes::get_default_options() );
 
         // fill values that weren't set from defaults
-        $data = array_merge( LaterPay_Helper_Passes::$defaults, $data );
+        $data = array_merge( LaterPay_Helper_Passes::get_default_options(), $data );
 
         // pass_id is a primary key, set by autoincrement
         $pass_id = $data['pass_id'];
@@ -103,9 +103,9 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * FIXME: #196 add comment
+     * Get all passes
      *
-     * @return array list of passes
+     * @return array $list list of passes
      */
     public function get_all_passes() {
         global $wpdb;
@@ -131,7 +131,7 @@ class LaterPay_Model_Pass
      * @param null $term_ids array of category ids
      * @param bool $exclude  exclude categories from list
      *
-     * @return array list of passes
+     * @return array $list list of passes
      */
     public function get_post_passes( $term_ids = null, $exclude = null ) {
         global $wpdb;
