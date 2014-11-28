@@ -19,7 +19,7 @@
                 // time passes
                 timePass                        : '.lp_js_timePass',
                 flipTimePassLink                : '.lp_js_flipTimePass',
-                voucherCodeWrapper              : '.lp_js_voucherCodeWrapper',
+                voucherCodeWrapper              : '#lp_js_voucherCodeWrapper',
                 voucherCodeInput                : '.lp_js_voucherCodeInput',
                 voucherRedeemButton             : '.lp_js_voucherRedeemButton',
 
@@ -149,8 +149,8 @@
                                     showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
                                 }
                             } else {
-                                // general error
-                                showVoucherCodeFeedbackMessage(lpVars.i18n.generalAjaxError);
+                                // voucher is invalid for all displayed time passes
+                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
                             }
                         },
                         'json'
@@ -162,14 +162,31 @@
             },
 
             showVoucherCodeFeedbackMessage = function(message) {
-alert(message);
-                // var $feedbackMessage =  $('div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
-                //                             message +
-                //                         '</div>');
+                var $feedbackMessage =  $('<div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
+                                            message +
+                                        '</div>');
 
-                // $($o.voucherCodeWrapper)
-                // .insert($feedbackMessage)
-                // .fadeIn(250);
+                $($o.voucherCodeWrapper)
+                .prepend($feedbackMessage);
+
+                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $o.voucherCodeWrapper);
+                $feedbackMessage
+                .fadeIn(250)
+                .click(function() {
+                    // remove feedback message on click
+                    removeVoucherCodeFeedbackMessage($feedbackMessage);
+                });
+
+                // automatically remove feedback message after 3 seconds
+                setTimeout(function() {
+                    removeVoucherCodeFeedbackMessage($feedbackMessage);
+                }, 3000);
+            },
+
+            removeVoucherCodeFeedbackMessage = function($feedbackMessage) {
+                $feedbackMessage.fadeOut(250, function() {
+                    $feedbackMessage.unbind().remove();
+                });
             },
 
             savePostRating = function() {
