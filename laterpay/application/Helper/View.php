@@ -144,6 +144,9 @@ class LaterPay_Helper_View
      * @return string $formatted
      */
     public static function format_number( $number, $is_monetary = true ) {
+        // delocalize number
+        $number = str_replace( ',', '.', $number );
+
         if ( $is_monetary ) {
             // format monetary values
             if ( $number < 200 ) {
