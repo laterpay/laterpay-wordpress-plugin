@@ -223,7 +223,7 @@ class LaterPay_Helper_Dashboard
      * @param array     $items array(
      *                      stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Monday
+     *                          [day_name]  => Mon
      *                          [day]       => 27
      *                      ),
      *                      ..
@@ -380,7 +380,7 @@ class LaterPay_Helper_Dashboard
 
             $item           = new stdClass();
             $item->date     = gmdate( 'Y-m-d', $time_stamp );
-            $item->day_name = gmdate( 'l', $time_stamp );
+            $item->day_name = gmdate( 'D', $time_stamp );
 
             $last_days[]    = $item;
         }
