@@ -218,7 +218,10 @@
 					var plotOptions = {
 							xaxis: {
 								ticks: response.data.x,
-							}
+							},
+                            yaxis: {
+                                max: null,
+                            }
 						},
 						plotData = plotDefaultData;
 
@@ -238,7 +241,10 @@
 					var plotOptions = {
 							xaxis: {
 								ticks: response.data.x,
-							}
+							},
+                            yaxis: {
+                                max: null,
+                            }
 						},
 						plotData = plotDefaultData;
 
