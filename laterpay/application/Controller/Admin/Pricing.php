@@ -786,7 +786,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         'id'      => LaterPay_Helper_Pricing::save_bulk_operation( $data, $bulk_message ),
                         'message' => $save_bulk_operation_form->get_field_value( 'bulk_message' ),
                     ),
-                    'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
+                    'message' => __( 'Bulk operation saved.', 'laterpay' ),
                 )
             );
         }
@@ -814,7 +814,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success' => true,
-                        'message' => __( 'Bulk operation was successfully deleted.', 'laterpay' ),
+                        'message' => __( 'Bulk operation deleted.', 'laterpay' ),
                     )
                 );
             }

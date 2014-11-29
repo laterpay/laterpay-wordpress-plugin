@@ -20,6 +20,7 @@
                 salesDiagram            : $('#lp_js_salesDiagram'),
                 revenueDiagram          : $('#lp_js_revenueDiagram'),
                 // colors
+                colorBackground         : '#e3e3e3',
                 colorBackgroundLaterpay : '#50c371',
                 colorBorder             : '#ccc',
                 colorTextLighter        : '#bbb',
@@ -162,25 +163,46 @@
 
 				loadDashboardData('converting_items', refresh)
                 .done(function(response) {
+                    // generate a data point with 100% y-value for each conversion rate column as background
+                    var backColumns = [];
+                    i = 0;
+                    l = response.data.y.length;
+                    for (i; i < l; i++) {
+                        backColumns.push([i + 1, 100]);
+                    }
+
 					var plotOptions = {
 							xaxis: {
 								ticks: response.data.x,
-							}
+							},
+                            yaxis: {
+                                max: 100,
+                            }
 						},
 						plotData = [
-							{
-								data            : response.data.y,
-								bars            : {
+                            {
+                                data            : backColumns,
+                                bars            : {
+                                    align       : 'center',
+                                    barWidth    : 0.6,
+                                    fillColor   : $o.colorBackground,
+                                    horizontal  : false,
+                                    lineWidth   : 0,
+                                    show        : true,
+                                }
+                            },
+                            {
+                                data            : response.data.y,
+                                bars            : {
                                     align       : 'center',
                                     barWidth    : 0.4,
                                     fillColor   : $o.colorBackgroundLaterpay,
                                     horizontal  : false,
                                     lineWidth   : 0,
                                     show        : true,
-								}
-							}
+                                }
+                            },
 						];
-                        // TODO: restore background bars for conversion diagram
 
 					plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
 					$.plot($o.conversionDiagram, plotData, plotOptions);

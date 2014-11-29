@@ -49,7 +49,7 @@
                     '<li class="lp_dropdown_listItem">' .
                         '<a href="#" class="lp_js_selectRevenueModel" data="sis">' . __( 'SIS', 'laterpay' ) . '</a>' .
                     '</li>' .
-                '</ul>',
+                '</ul>' .
             '</div>',
 
             '<a href="#" id="lp_js_loadPreviousInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week before">' .
@@ -71,15 +71,15 @@
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
                         <li>
-                            <big><span id="lp_js_totalImpressions"></span></big>
+                            <big><span id="lp_js_totalImpressions">0</span></big>
                             <?php _e( 'Views', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="lp_js_avgConversion"></span><small>%</small></big>
+                            <big><span id="lp_js_avgConversion">0.0</span><small>%</small></big>
                             <?php _e( 'Conversion', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="lp_js_shareOfNewCustomers"></span><small>%</small></big>
+                            <big><span id="lp_js_shareOfNewCustomers">0</span><small>%</small></big>
                             <?php _e( 'New Customers', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -91,11 +91,11 @@
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
                         <li>
-                            <big><span id="lp_js_avg-items-sold"></span></big>
+                            <big><span id="lp_js_avg-items-sold">0.0</span></big>
                             <?php _e( 'AVG Items Sold', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="lp_js_total-items-sold"></span></big>
+                            <big><span id="lp_js_total-items-sold">0</span></big>
                             <?php _e( 'Items Sold', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -107,11 +107,11 @@
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
                         <li>
-                            <big><span id="lp_js_avgRevenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
+                            <big><span id="lp_js_avgRevenue">0.00</span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'AVG Purchase', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="lp_js_totalRevenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
+                            <big><span id="lp_js_totalRevenue">0.00</span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'Revenue', 'laterpay' ); ?>
                         </li>
                     </ul>

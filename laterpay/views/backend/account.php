@@ -71,7 +71,7 @@
                 </fieldset>
             </div>
 
-            <div class="lp_u_w-1-2 lp_u_left lp_u_relative lp_liveCredentials" data-icon="k">
+            <div class="lp_u_w-1-2 lp_u_left lp_u_relative lp_liveCredentials<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>" data-icon="k">
                 <fieldset class="lp_u_b-r3 lp_u_b-1 lp_u_b-embossed lp_u_m-1 lp_u_m-b0 lp_u_m-l0">
                     <legend class="lp_u_fs-1 lp_u_bold lp_u_pd-0-05"><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for processing real financial transactions', 'laterpay' ); ?></dfn>
