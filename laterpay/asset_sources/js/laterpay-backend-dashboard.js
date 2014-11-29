@@ -129,12 +129,26 @@
 				return jqxhr;
 			},
 
-			showLoadingIndicator = function(element) {
-				element.html('<div class="lp_loadingIndicator"></div>');
+			showLoadingIndicator = function($target) {
+                // add a state class, indicating that the element will be showing a loading indicator after a delay
+                $target.addClass('lp_is-delayed');
+
+                setTimeout(function() {
+                    if ($target.hasClass('lp_is-delayed')) {
+                        // add the loading indicator after a delay, if the element still has that state class
+                        $target.html('<div class="lp_loadingIndicator"></div>');
+                    }
+                }, 600);
 			},
 
-			removeLoadingIndicator = function(element) {
-				element.find('.lp_loadingIndicator').remove();
+			removeLoadingIndicator = function($target) {
+                if ($target.hasClass('lp_is-delayed')) {
+                    // remove the state class, thus canceling adding the loading indicator
+                    $target.removeClass('lp_is-delayed');
+                } else {
+                    // remove the loading indicator
+                    $target.find('.lp_loadingIndicator').remove();
+                }
 			},
 
 			loadConvertingItems = function(refresh) {
