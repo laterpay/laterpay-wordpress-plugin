@@ -4,7 +4,8 @@
 // Heading -------------------------------------------------------------------------------------------------------------
 h1
     font-weight                     400
-    margin                          $fs-2 0 $fs-05
+    margin                          $fs-2 0 $fs-1
+    position                        relative
     text-align                      center
 
     .lp_prevNextLink
@@ -23,17 +24,24 @@ h1
                 border-right-color  $clickable-highlight
 
     .lp_triangle
-        border                      $fs-08 solid $clickable
+        border                      $fs-08 solid $text-lighter
         top                         0.25em
 
     .lp_triangle--right
-        border-color                transparent transparent transparent $clickable
+        border-color                transparent transparent transparent $text-lighter
         left                        inherit
         right                       -($fs-05)
 
     .lp_triangle--left
-        border-color                transparent $clickable transparent transparent
+        border-color                transparent $text-lighter transparent transparent
         left                        -($fs-025)
+
+    .lp_DashboardRefreshLink
+        color                       $text-lighter
+        display                     none /* hidden by default - only required when displaying hourly data */
+
+        &:hover
+            color                   $clickable-highlight
 
 
 // Diagrams ------------------------------------------------------------------------------------------------------------
@@ -125,7 +133,7 @@ h1
         float                       left
         margin                      0 0.4em 0 0
         text-align                  right
-        width                       5 * $fs-1
+        width                       3 * $fs-1
 
         small
             color                   $text-lightest

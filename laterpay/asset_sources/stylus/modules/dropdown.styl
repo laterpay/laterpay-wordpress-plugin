@@ -1,0 +1,25 @@
+// list-based dropdown
+
+.lp_dropdown
+    display                 inline-block
+    position                relative
+
+    &:hover
+        .lp_dropdown_list
+            display         block
+
+.lp_dropdown_list
+    display                 none
+    position                relative
+    top                     $fs-1
+
+.lp_dropdown_listItem
+    display                 block
+    padding                 $fs-025 $fs-05
+
+.lp_dropdown_listItem.lp_is-selected
+    a
+        color               $text-lighter // this kind of styling should actually be in dashboard.styl
+
+        &:hover
+            color           $clickable-highlight

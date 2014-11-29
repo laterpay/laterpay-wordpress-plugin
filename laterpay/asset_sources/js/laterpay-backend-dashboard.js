@@ -19,6 +19,10 @@
                 conversionDiagram       : $('#lp_js_conversionDiagram'),
                 salesDiagram            : $('#lp_js_salesDiagram'),
                 revenueDiagram          : $('#lp_js_revenueDiagram'),
+                // colors
+                colorBackgroundLaterpay : '#50c371',
+                colorBorder             : '#ccc',
+                colorTextLighter        : '#bbb',
 
                 // main KPIs
                 totalImpressionsKPI     : $('#lp_js_totalImpressions'),
@@ -41,57 +45,57 @@
 			},
 			plotDefaultOptions = {
 				legend              : {
-					show            : false
+					show            : false,
 				},
 				xaxis               : {
 					font            : {
-						color       : '#bbb',
-						lineHeight  : 18
+						color       : $o.colorTextLighter,
+						lineHeight  : 18,
 					},
-					show            : true
+					show            : true,
 				},
 				yaxis               : {
 					font            : {
-						color       : '#bbb'
+						color       : $o.colorTextLighter,
 					},
-					ticks           : 5,
-					min             : 0,
-					reserveSpace    : true
+                    min             : 0,
+                    reserveSpace    : true,
+                    ticks           : 5,
 				},
 				series              : {
-					shadowSize      : 0
+					shadowSize      : 0,
 				},
 				grid                : {
 					borderWidth     : {
 						top         : 0,
 						right       : 0,
 						bottom      : 1,
-						left        : 0
+						left        : 0,
 					},
-					borderColor     : '#ccc',
-					tickColor       : 'rgba(247,247,247,0)' // transparent
+					borderColor     : $o.colorBorder,
+					tickColor       : 'rgba(247,247,247,0)', // transparent
 				}
 			},
 			plotDefaultData = [
 				{
-					color           : '#50c371',
+					color           : $o.colorBackgroundLaterpay,
 					lines           : {
-						show        : true,
-						lineWidth   : 2.5,
-						fill        : false,
-						gaps        : true
+                        fill        : false,
+                        gaps        : true,
+                        lineWidth   : 2.5,
+                        show        : true,
 					},
 					points          : {
-						show        : true,
-						radius      : 4,
-						lineWidth   : 0,
-						fill        : true,
-						fillColor   : '#50c371'
+                        fill        : true,
+                        fillColor   : $o.colorBackgroundLaterpay,
+                        lineWidth   : 0,
+                        radius      : 4,
+                        show        : true,
 					}
 				}
 			],
 
-			loadDashboardData = function( section, refresh ) {
+			loadDashboardData = function(section, refresh) {
 				var interval        = $($o.selectedInterval).find(':checked').val(),
 					revenueModel    = $o.selectedRevenueModel.find(':checked').val(),
 					request_data	= {
@@ -99,7 +103,9 @@
 						'action'          : 'laterpay_get_dashboard_data',
 						// nonce for validation and xss-protection
 						'_wpnonce'        : lpVars.nonces.dashboard,
-						// data-section which is loaded:  converting_items|selling_items|revenue_items|most_least_converting_items|most_least_selling_items|most_least_revenue_items|metrics
+						// data section to be loaded:
+                        // converting_items|selling_items|revenue_items|most_least_converting_items|
+                        // most_least_selling_items|most_least_revenue_items|metrics
 						'section'         : section,
 						// day|week|2-weeks|month
 						'interval'        : interval,
@@ -107,7 +113,7 @@
 						'count'           : $o.itemsPerList,
 						// 1 (true): refresh data, 0 (false): only load the cached data; default: 1
 						'refresh'         : refresh ? 1 : 0,
-						// TODO: implementing
+						// TODO: implement
 						'revenue_model'   : revenueModel
 					},
 					jqxhr;
@@ -154,25 +160,27 @@
 			loadConvertingItems = function(refresh) {
 				showLoadingIndicator($o.conversionDiagram);
 
-				loadDashboardData('converting_items', refresh).done(function(response) {
+				loadDashboardData('converting_items', refresh)
+                .done(function(response) {
 					var plotOptions = {
 							xaxis: {
-								ticks: response.data.x
+								ticks: response.data.x,
 							}
 						},
 						plotData = [
 							{
 								data            : response.data.y,
 								bars            : {
-									show        : true,
-									barWidth    : 0.35,
-									fillColor   : '#50c371',
-									lineWidth   : 0,
-									align       : 'center',
-									horizontal  : false
+                                    align       : 'center',
+                                    barWidth    : 0.4,
+                                    fillColor   : $o.colorBackgroundLaterpay,
+                                    horizontal  : false,
+                                    lineWidth   : 0,
+                                    show        : true,
 								}
 							}
 						];
+                        // TODO: restore background bars for conversion diagram
 
 					plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
 					$.plot($o.conversionDiagram, plotData, plotOptions);
@@ -183,10 +191,11 @@
 			loadSellingItems = function(refresh) {
 				showLoadingIndicator($o.salesDiagram);
 
-				loadDashboardData('selling_items', refresh).done(function(response) {
+				loadDashboardData('selling_items', refresh)
+                .done(function(response) {
 					var plotOptions = {
 							xaxis: {
-								ticks: response.data.x
+								ticks: response.data.x,
 							}
 						},
 						plotData = plotDefaultData;
@@ -202,10 +211,11 @@
 			loadRevenueItems = function(refresh) {
 				showLoadingIndicator($o.revenueDiagram);
 
-				loadDashboardData('revenue_items', refresh).done(function(response) {
+				loadDashboardData('revenue_items', refresh)
+                .done(function(response) {
 					var plotOptions = {
 							xaxis: {
-								ticks: response.data.x
+								ticks: response.data.x,
 							}
 						},
 						plotData = plotDefaultData;
@@ -222,7 +232,8 @@
 				showLoadingIndicator($o.bestConvertingList);
 				showLoadingIndicator($o.leastConvertingList);
 
-				loadDashboardData('most_least_converting_items', refresh).done(function(response) {
+				loadDashboardData('most_least_converting_items', refresh)
+                .done(function(response) {
 					if (!response.data.most) {
 						response.data.most = {};
 					}
@@ -237,15 +248,18 @@
 					renderTopBottomList($o.leastConvertingList, response.data.least);
 					renderSparklines($o.leastConvertingList);
 				})
-				.always(function() {removeLoadingIndicator($o.bestConvertingList);})
-				.always(function() {removeLoadingIndicator($o.leastConvertingList);});
+				.always(function() {
+                    removeLoadingIndicator($o.bestConvertingList);
+                    removeLoadingIndicator($o.leastConvertingList);
+                });
 			},
 
 			loadMostLeastSellingItems = function(refresh) {
 				showLoadingIndicator($o.bestSellingList);
 				showLoadingIndicator($o.leastSellingList);
 
-				loadDashboardData('most_least_selling_items', refresh).done(function(response) {
+				loadDashboardData('most_least_selling_items', refresh)
+                .done(function(response) {
 					if (!response.data.most) {
 						response.data.most = {};
 					}
@@ -255,20 +269,23 @@
 					}
 
 					renderTopBottomList($o.bestSellingList, response.data.most);
-					renderSparklines( $o.bestSellingList );
+					renderSparklines($o.bestSellingList);
 
 					renderTopBottomList($o.leastSellingList, response.data.least);
-					renderSparklines( $o.leastSellingList );
+					renderSparklines($o.leastSellingList);
 				})
-				.always(function() {removeLoadingIndicator($o.bestSellingList);})
-				.always(function() {removeLoadingIndicator($o.leastSellingList);});
+				.always(function() {
+                    removeLoadingIndicator($o.bestSellingList);
+                    removeLoadingIndicator($o.leastSellingList);
+                });
 			},
 
 			loadMostLeastRevenueItems = function(refresh) {
 				showLoadingIndicator($o.bestGrossingList);
 				showLoadingIndicator($o.leastGrossingList);
 
-				loadDashboardData('most_least_revenue_items', refresh).done(function(response) {
+				loadDashboardData('most_least_revenue_items', refresh)
+                .done(function(response) {
 					if (!response.data.most) {
 						response.data.most = {};
 					}
@@ -277,14 +294,16 @@
 						response.data.least = {};
 					}
 
-					renderTopBottomList($o.bestGrossingList,  response.data.most);
+					renderTopBottomList($o.bestGrossingList, response.data.most);
 					renderSparklines($o.bestGrossingList);
 
 					renderTopBottomList($o.leastGrossingList, response.data.least);
 					renderSparklines($o.leastGrossingList);
 				})
-				.always(function() {removeLoadingIndicator($o.bestGrossingList);})
-				.always(function() {removeLoadingIndicator($o.leastGrossingList);});
+				.always(function() {
+                    removeLoadingIndicator($o.bestGrossingList);
+                    removeLoadingIndicator($o.leastGrossingList);
+                });
 			},
 
 			loadMetrics = function(refresh) {
@@ -305,10 +324,10 @@
             bindEvents = function() {
                 // refresh dashboard
                 $('#lp_js_refreshDashboard')
-                .click(function(e) {
-					loadDashboard(true);
-                    e.preventDefault();
-                });
+                .mousedown(function() {
+                    loadDashboard(true);
+                })
+                .click(function(e) {e.preventDefault();});
 
                 // re-render dashboard in selected configuration
                 $o.configurationSelection
@@ -371,7 +390,7 @@
                     width   : 34,
                     height  : 14,
                     gap     : 1,
-                    fill    : function() { return '#ccc'; }
+                    fill    : function() {return '#ccc';}
                 });
             },
 

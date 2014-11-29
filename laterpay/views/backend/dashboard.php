@@ -18,14 +18,51 @@
 
     <div class="lp_wrap">
 
-    <h1><?php echo sprintf( __( '%s Dashboard of %s Sales between%s%s%s', 'laterpay' ),
-            '<select id="lp_js_selectDashboardInterval" class="lp_dashboardIntervalSelect lp_input"><option value="day">1 day</option><option value="week" selected>1 week</option><option value="2-weeks">2 weeks</option><option value="month">1 month</option></select>',
-            '<select id="lp_js_selectRevenueModel" class="lp_dashboardRevenueModelSelect lp_input"><option value="all">all</option><option value="ppu">PPU</option><option value="sis">SIS</option></select>',
-            '<a href="#" id="lp_js_loadPreviousInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week before"><div class="lp_triangle lp_triangle--left"></div></a>',
+        <h1><?php echo sprintf( __( '%s Dashboard of %s Sales between%s%s%s', 'laterpay' ),
+            '<div class="lp_dropdown">' .
+                __( 'Weekly', 'laterpay' ) .
+                '<ul class="lp_dropdown_list">' .
+                    '<li class="lp_dropdown_listItem">' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data="day">' . __( '24 Hour', 'laterpay' ) . '</a>' .
+                    '</li>' .
+                    '<li class="lp_dropdown_listItem lp_is-selected">' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data="week">' . __( 'Weekly', 'laterpay' ) . '</a>' .
+                    '</li>' .
+                    '<li class="lp_dropdown_listItem">' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data="2-weeks">' . __( 'Biweekly', 'laterpay' ) . '</a>' .
+                    '</li>' .
+                    '<li class="lp_dropdown_listItem">' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data="month">' . __( 'Monthly', 'laterpay' ) . '</a>' .
+                    '</li>' .
+                '</ul>' .
+            '</div>',
+
+            '<div class="lp_dropdown">' .
+                __( 'all', 'laterpay' ) .
+                '<ul class="lp_dropdown_list">' .
+                    '<li class="lp_dropdown_listItem lp_is-selected">' .
+                        '<a href="#" class="lp_js_selectRevenueModel" data="all">' . __( 'all', 'laterpay' ) . '</a>' .
+                    '</li>' .
+                    '<li class="lp_dropdown_listItem">' .
+                        '<a href="#" class="lp_js_selectRevenueModel" data="ppu">' . __( 'PPU', 'laterpay' ) . '</a>' .
+                    '</li>' .
+                    '<li class="lp_dropdown_listItem">' .
+                        '<a href="#" class="lp_js_selectRevenueModel" data="sis">' . __( 'SIS', 'laterpay' ) . '</a>' .
+                    '</li>' .
+                '</ul>',
+            '</div>',
+
+            '<a href="#" id="lp_js_loadPreviousInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week before">' .
+                '<div class="lp_triangle lp_triangle--left"></div>' .
+            '</a>',
+
             '17.10. - 24.10.',
-            '<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week after"><div class="lp_triangle lp_triangle--right"></div></a>'
-        ); ?></h1>
-    <a href="#" id="lp_js_refreshDashboard">Refresh</a>
+
+            '<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week after">' .
+                '<div class="lp_triangle lp_triangle--right"></div>' .
+            '</a>'
+        ); ?>
+        <a href="#" id="lp_js_refreshDashboard" class="lp_DashboardRefreshLink"><?php _e( 'Refresh', 'laterpay' ); ?></a></h1>
 
         <div class="lp_row">
             <div class="lp_u_w-1-3">
@@ -35,7 +72,7 @@
                     <ul>
                         <li>
                             <big><span id="lp_js_totalImpressions"></span></big>
-                            <?php _e( 'Impressions', 'laterpay' ); ?>
+                            <?php _e( 'Views', 'laterpay' ); ?>
                         </li>
                         <li>
                             <big><span id="lp_js_avgConversion"></span><small>%</small></big>
@@ -59,7 +96,7 @@
                         </li>
                         <li>
                             <big><span id="lp_js_total-items-sold"></span></big>
-                            <?php _e( 'Total Items Sold', 'laterpay' ); ?>
+                            <?php _e( 'Items Sold', 'laterpay' ); ?>
                         </li>
                     </ul>
                 </div>
@@ -75,7 +112,7 @@
                         </li>
                         <li>
                             <big><span id="lp_js_totalRevenue"></span><small><?php echo $laterpay['currency']; ?></small></big>
-                            <?php _e( 'Total Revenue', 'laterpay' ); ?>
+                            <?php _e( 'Revenue', 'laterpay' ); ?>
                         </li>
                     </ul>
                 </div>
