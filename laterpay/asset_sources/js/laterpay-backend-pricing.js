@@ -1161,7 +1161,8 @@
             },
 
             saveBulkOperation = function() {
-                var action      = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
+                var actionVal   = $.trim($o.bulkPriceAction.find('option:selected').val()),
+                    action      = (actionVal === 'free') ?
                                     lpVars.i18n.make :
                                     $o.bulkPriceAction.find('option:selected').text(),
                     objects     = $o.bulkPriceObjects.find('option:selected').text(),
@@ -1171,13 +1172,13 @@
                     preposition = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
                                     '' :
                                     $o.bulkPriceChangeAmountPreposition.text(),
-                    amount      = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
-                                    '' :
-                                    $o.bulkPriceChangeAmount.val() +
-                                    $o.bulkPriceChangeUnit.find('option:selected').text(),
                     actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
                                     lpVars.i18n.free :
                                     '',
+                    amount      = (actionVal === 'free' || actionVal === 'reset') ?
+                                    '' :
+                                    $o.bulkPriceChangeAmount.val() +
+                                    $o.bulkPriceChangeUnit.find('option:selected').text(),
                     description = [action, objects, category, preposition, amount, actionExt];
 
                 description = $.trim(description.join(' ').replace(/\s+/g, ' '));
