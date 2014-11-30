@@ -20,34 +20,34 @@
 
         <h1><?php echo sprintf( __( '%s Dashboard of %s Sales between%s%s%s', 'laterpay' ),
             '<div class="lp_dropdown">' .
-                __( 'Weekly', 'laterpay' ) .
+                '<span>' . __( 'Weekly', 'laterpay' ) . '</span>' .
                 '<ul class="lp_dropdown_list">' .
                     '<li class="lp_dropdown_listItem">' .
-                        '<a href="#" class="lp_js_selectDashboardInterval" data="day">' . __( '24 Hour', 'laterpay' ) . '</a>' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data-interval="day">' . __( '24 Hour', 'laterpay' ) . '</a>' .
                     '</li>' .
                     '<li class="lp_dropdown_listItem lp_is-selected">' .
-                        '<a href="#" class="lp_js_selectDashboardInterval" data="week">' . __( 'Weekly', 'laterpay' ) . '</a>' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data-interval="week">' . __( 'Weekly', 'laterpay' ) . '</a>' .
                     '</li>' .
                     '<li class="lp_dropdown_listItem">' .
-                        '<a href="#" class="lp_js_selectDashboardInterval" data="2-weeks">' . __( 'Biweekly', 'laterpay' ) . '</a>' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data-interval="2-weeks">' . __( 'Biweekly', 'laterpay' ) . '</a>' .
                     '</li>' .
                     '<li class="lp_dropdown_listItem">' .
-                        '<a href="#" class="lp_js_selectDashboardInterval" data="month">' . __( 'Monthly', 'laterpay' ) . '</a>' .
+                        '<a href="#" class="lp_js_selectDashboardInterval" data-interval="month">' . __( 'Monthly', 'laterpay' ) . '</a>' .
                     '</li>' .
                 '</ul>' .
             '</div>',
 
             '<div class="lp_dropdown">' .
-                __( 'all', 'laterpay' ) .
+                '<span>' . __( 'all', 'laterpay' ) . '</span>' .
                 '<ul class="lp_dropdown_list">' .
                     '<li class="lp_dropdown_listItem lp_is-selected">' .
-                        '<a href="#" class="lp_js_selectRevenueModel" data="all">' . __( 'all', 'laterpay' ) . '</a>' .
+                        '<a href="#" class="lp_js_selectRevenueModel" data-revenue-model="all">' . __( 'all', 'laterpay' ) . '</a>' .
                     '</li>' .
                     '<li class="lp_dropdown_listItem">' .
-                        '<a href="#" class="lp_js_selectRevenueModel" data="ppu">' . __( 'PPU', 'laterpay' ) . '</a>' .
+                        '<a href="#" class="lp_js_selectRevenueModel" data-revenue-model="ppu">' . __( 'PPU', 'laterpay' ) . '</a>' .
                     '</li>' .
                     '<li class="lp_dropdown_listItem">' .
-                        '<a href="#" class="lp_js_selectRevenueModel" data="sis">' . __( 'SIS', 'laterpay' ) . '</a>' .
+                        '<a href="#" class="lp_js_selectRevenueModel" data-revenue-model="sis">' . __( 'SIS', 'laterpay' ) . '</a>' .
                     '</li>' .
                 '</ul>' .
             '</div>',

@@ -9,9 +9,9 @@
                 list                    : [],
 
                 // heading with dashboard configuration selections
-                configurationSelection  : $('#lp_js_selectDashboardInterval, #lp_js_selectRevenueModel'),
-                selectedInterval        : $('#lp_js_selectDashboardInterval'),
-                selectedRevenueModel    : $('#lp_js_selectRevenueModel'),
+                configurationSelection  : $('.lp_js_selectDashboardInterval, .lp_js_selectRevenueModel'),
+                intervalChoices         : $('.lp_js_selectDashboardInterval'),
+                RevenueModelChoices     : $('.lp_js_selectRevenueModel'),
                 previousInterval        : $('#lp_js_loadPreviousInterval'),
                 nextInterval            : $('#lp_js_loadNextInterval'),
 
@@ -44,6 +44,7 @@
                 bestGrossingList        : $('#lp_js_bestGrossingList'),
                 leastGrossingList       : $('#lp_js_leastGrossingList')
 			},
+
 			plotDefaultOptions = {
 				legend              : {
 					show            : false,
@@ -77,6 +78,7 @@
 					tickColor       : 'rgba(247,247,247,0)', // transparent
 				}
 			},
+
 			plotDefaultData = [
 				{
 					color           : $o.colorBackgroundLaterpay,
@@ -96,13 +98,59 @@
 				}
 			],
 
+            bindEvents = function() {
+                // refresh dashboard
+                $('#lp_js_refreshDashboard')
+                .mousedown(function() {
+                    loadDashboard(true);
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // re-render dashboard in selected configuration
+                $o.configurationSelection
+                .mousedown(function() {
+                    // change selected item to clicked item
+                    $(this).parents('.lp_dropdown_list').prev('span').text($(this).text());
+                    $(this)
+                        .parents('.lp_dropdown_list')
+                            .find('.lp_is-selected')
+                            .removeClass('lp_is-selected')
+                        .end()
+                    .end()
+                    .addClass('lp_is-selected');
+
+                    loadDashboard();
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // re-render dashboard with data of next interval
+                $o.nextInterval
+                .mousedown(function() {
+                    // do stuff
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // re-render dashboard with data of previous interval
+                $o.previousInterval
+                .mousedown(function() {
+                    // do stuff
+                })
+                .click(function(e) {e.preventDefault();});
+            },
+
 			loadDashboardData = function(section, refresh) {
-				var interval        = $($o.selectedInterval).find(':checked').val(),
-					revenueModel    = $o.selectedRevenueModel.find(':checked').val(),
-					request_data	= {
-						// wp ajax action
+				var interval        = $o.intervalChoices
+                                        .parents('.lp_dropdown_list')
+                                            .find('.lp_is-selected a')
+                                            .attr('data-interval'),
+					revenueModel    = $o.RevenueModelChoices
+                                        .parents('.lp_dropdown_list')
+                                            .find('.lp_is-selected a')
+                                            .attr('data-revenue-model'),
+					requestData     = {
+						// WP Ajax action
 						'action'          : 'laterpay_get_dashboard_data',
-						// nonce for validation and xss-protection
+						// nonce for validation and xss protection
 						'_wpnonce'        : lpVars.nonces.dashboard,
 						// data section to be loaded:
                         // converting_items|selling_items|revenue_items|most_least_converting_items|
@@ -115,7 +163,7 @@
 						// 1 (true): refresh data, 0 (false): only load the cached data; default: 1
 						'refresh'         : refresh ? 1 : 0,
 						// TODO: implement
-						'revenue_model'   : revenueModel
+						'revenue_model'   : revenueModel,
 					},
 					jqxhr;
 
@@ -123,7 +171,7 @@
 					'url'      : lpVars.ajaxUrl,
 					'async'    : true,
 					'method'   : 'POST',
-					'data'     : request_data,
+					'data'     : requestData,
 				});
 
 				jqxhr.done(function(data) {
@@ -348,35 +396,6 @@
 					$o.totalRevenueKPI.text(response.data.total_revenue || 0);
 				});
 			},
-
-            bindEvents = function() {
-                // refresh dashboard
-                $('#lp_js_refreshDashboard')
-                .mousedown(function() {
-                    loadDashboard(true);
-                })
-                .click(function(e) {e.preventDefault();});
-
-                // re-render dashboard in selected configuration
-                $o.configurationSelection
-                .change(function() {
-					loadDashboard();
-                });
-
-                // re-render dashboard with data of next interval
-                $o.nextInterval
-                .mousedown(function() {
-                    // do stuff
-                })
-                .click(function(e) {e.preventDefault();});
-
-                // re-render dashboard with data of previous interval
-                $o.previousInterval
-                .mousedown(function() {
-                    // do stuff
-                })
-                .click(function(e) {e.preventDefault();});
-            },
 
             renderTopBottomList = function($list, data) {
                 $o.list = [];
