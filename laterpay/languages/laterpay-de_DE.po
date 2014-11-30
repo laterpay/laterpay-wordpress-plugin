@@ -516,7 +516,7 @@ msgid ""
 "Your visitors <strong>can now purchase with LaterPay</strong>. All payments "
 "are booked and credited to your account."
 msgstr ""
-"Ihrer Besucher <strong>können jetzt mit LaterPay kaufen</strong>. Alle "
+"Ihre Besucher <strong>können jetzt mit LaterPay kaufen</strong>. Alle "
 "Zahlungen werden gebucht und Ihrem Händlerkonto gutgeschrieben."
 
 #: ../views/backend/account.php:165
