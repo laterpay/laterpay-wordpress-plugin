@@ -40,6 +40,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         // translations
         $i18n = array(
             // bulk price editor
+            'make'                      => __( 'Make', 'laterpay' ),
+            'free'                      => __( 'free', 'laterpay' ),
             'to'                        => __( 'to', 'laterpay' ),
             'by'                        => __( 'by', 'laterpay' ),
             'toGlobalDefaultPrice'      => __( 'to global default price of', 'laterpay' ),
@@ -330,7 +332,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function set_category_default_price() {
-
         $price_category_form = new LaterPay_Form_PriceCategory();
 
         if ( ! $price_category_form->is_valid( $_POST ) ) {
@@ -352,7 +353,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                 )
             );
         }
@@ -366,7 +367,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'There is no such category on this website.', 'laterpay' )
+                    'message' => __( 'There is no such category on this website.', 'laterpay' ),
                 )
             );
         }
@@ -569,7 +570,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 if ( $category_id !== null) {
                     $category_name             = get_the_category_by_ID( $category_id );
                     $posts                     = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
-                    $message_parts['category'] = sprintf( __( '%s "%s"', 'laterpay' ), str_replace( '_', ' ', $selector ), $category_name );
+                    $message_parts['category'] = sprintf( __( '%s %s', 'laterpay' ), str_replace( '_', ' ', $selector ), $category_name );
                 }
             } else {
                 $posts = LaterPay_Helper_Pricing::get_all_posts_with_price();

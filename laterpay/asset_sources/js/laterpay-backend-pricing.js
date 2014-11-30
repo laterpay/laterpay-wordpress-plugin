@@ -1053,7 +1053,10 @@
             },
 
             addOptionInCategory = function(categoryToBeSelected) {
-                $o.bulkPriceObjects.append($('<option>', {
+                $o.bulkPriceObjects
+                .removeClass($o.disabled) // enable select
+                // append option
+                .append($('<option>', {
                     value    : 'in_category',
                     text     : lpVars.inCategoryLabel,
                     selected : !!categoryToBeSelected // coerce categoryToBeSelected to Boolean
@@ -1081,6 +1084,8 @@
                     .each(function() {
                         if ($(this).val() === 'in_category') {
                             $(this).remove();
+                            $o.bulkPriceObjects
+                            .addClass($o.disabled); // disable select
                         }
                     });
 
@@ -1156,22 +1161,22 @@
             },
 
             saveBulkOperation = function() {
-                var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    'Make' :
+                var action      = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
+                                    lpVars.i18n.make :
                                     $o.bulkPriceAction.find('option:selected').text(),
-                    objects     = $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
-                    category    = ($.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ?
+                    objects     = $o.bulkPriceObjects.find('option:selected').text(),
+                    category    = ($.trim($o.bulkPriceObjects.find('option:selected').val()) === 'all') ?
                                     '' :
                                     '"' + $.trim($o.bulkPriceObjectsCategory.find('option:selected').text()) + '"',
-                    preposition = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                    preposition = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
                                     '' :
                                     $o.bulkPriceChangeAmountPreposition.text(),
-                    amount      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
+                    amount      = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
                                     '' :
                                     $o.bulkPriceChangeAmount.val() +
                                     $o.bulkPriceChangeUnit.find('option:selected').text(),
-                    actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    'free' :
+                    actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
+                                    lpVars.i18n.free :
                                     '',
                     description = [action, objects, category, preposition, amount, actionExt];
 

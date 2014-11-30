@@ -421,7 +421,7 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <select name="bulk_selector" id="lp_js_selectBulkObjects" class="lp_input">
+                        <select name="bulk_selector" id="lp_js_selectBulkObjects" class="lp_input lp_is-disabled">
                             <?php foreach ( $laterpay['bulk_selectors'] as $selector_value => $selector_name ): ?>
                                 <option value="<?php echo $selector_value; ?>">
                                     <?php echo $selector_name; ?>
