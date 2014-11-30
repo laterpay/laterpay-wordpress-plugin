@@ -1054,8 +1054,7 @@
 
             addOptionInCategory = function(categoryToBeSelected) {
                 $o.bulkPriceObjects
-                .removeClass($o.disabled) // enable select
-                // append option
+                .removeClass($o.disabled)
                 .append($('<option>', {
                     value    : 'in_category',
                     text     : lpVars.inCategoryLabel,
@@ -1084,8 +1083,7 @@
                     .each(function() {
                         if ($(this).val() === 'in_category') {
                             $(this).remove();
-                            $o.bulkPriceObjects
-                            .addClass($o.disabled); // disable select
+                            $o.bulkPriceObjects.addClass($o.disabled);
                         }
                     });
 
