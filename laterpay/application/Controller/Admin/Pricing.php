@@ -569,7 +569,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 if ( $category_id !== null) {
                     $category_name             = get_the_category_by_ID( $category_id );
                     $posts                     = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
-                    $message_parts['category'] = sprintf( __( '%s \'%s\'', 'laterpay' ), str_replace( '_', ' ', $selector ), $category_name );
+                    $message_parts['category'] = sprintf( __( '%s "%s"', 'laterpay' ), str_replace( '_', ' ', $selector ), $category_name );
                 }
             } else {
                 $posts = LaterPay_Helper_Pricing::get_all_posts_with_price();
@@ -786,7 +786,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         'id'      => LaterPay_Helper_Pricing::save_bulk_operation( $data, $bulk_message ),
                         'message' => $save_bulk_operation_form->get_field_value( 'bulk_message' ),
                     ),
-                    'message' => __( 'Bulk operation was successfully saved.', 'laterpay' ),
+                    'message' => __( 'Bulk operation saved.', 'laterpay' ),
                 )
             );
         }
@@ -814,7 +814,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success' => true,
-                        'message' => __( 'Bulk operation was successfully deleted.', 'laterpay' ),
+                        'message' => __( 'Bulk operation deleted.', 'laterpay' ),
                     )
                 );
             }
