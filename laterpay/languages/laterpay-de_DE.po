@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Nov 28 2014 19:05:40 GMT+0100 (CET)\n"
+"PO-Revision-Date: Sun Nov 30 2014 15:43:55 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -438,7 +438,7 @@ msgstr ""
 "Die Standardbreite der Zeitpässe beträgt 308px. Mit dem Parameter 'small' "
 "werden sie mit einer Breite von 224px angezeigt."
 
-#: ../views/backend/appearance.php:232
+#: ../views/backend/appearance.php:233
 msgid "or"
 msgstr "oder"
 
@@ -516,7 +516,7 @@ msgid ""
 "Your visitors <strong>can now purchase with LaterPay</strong>. All payments "
 "are booked and credited to your account."
 msgstr ""
-"Ihrer Besucher <strong>können jetzt mit LaterPay kaufen</strong>. Alle "
+"Ihre Besucher <strong>können jetzt mit LaterPay kaufen</strong>. Alle "
 "Zahlungen werden gebucht und Ihrem Händlerkonto gutgeschrieben."
 
 #: ../views/backend/account.php:165
