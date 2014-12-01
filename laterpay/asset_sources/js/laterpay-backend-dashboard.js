@@ -111,14 +111,15 @@
                 $o.configurationSelection
                 .mousedown(function() {
                     // change selected item to clicked item
-                    $(this).parents('.lp_dropdown_list').prev('.lp_dropdown_currentItem').text($(this).text());
                     $(this)
                         .parents('.lp_dropdown_list')
+                            .prev('.lp_dropdown_currentItem')
+                            .text($(this).text())
+                        .end()
                             .find('.lp_is-selected')
                             .removeClass('lp_is-selected')
                         .end()
                     .end()
-                    .parent('.lp_dropdown_listItem')
                     .addClass('lp_is-selected');
 
                     loadDashboard();
@@ -143,11 +144,11 @@
 			loadDashboardData = function(section, refresh) {
 				var interval        = $o.intervalChoices
                                         .parents('.lp_dropdown_list')
-                                            .find('.lp_is-selected a')
+                                            .find('.lp_is-selected')
                                             .attr('data-interval'),
 					revenueModel    = $o.RevenueModelChoices
                                         .parents('.lp_dropdown_list')
-                                            .find('.lp_is-selected a')
+                                            .find('.lp_is-selected')
                                             .attr('data-revenue-model'),
 					requestData     = {
 						// WP Ajax action

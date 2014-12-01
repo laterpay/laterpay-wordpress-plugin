@@ -1,18 +1,22 @@
-// list-based dropdown
+/**
+ * Dropdown component
+ */
 
 .lp_dropdown
     display                 inline-block
     position                absolute
 
-    span
+    .lp_dropdown_currentItem
         color               $clickable
 
-    &:hover
-        .lp_dropdown_list
-            display         block
+.lp_dropdown:hover,
+.lp_dropdown.lp_is-expanded
+    .lp_dropdown_list
+        display             block
 
-        .lp_dropdown_currentItem
-            color           $text
+    .lp_dropdown_currentItem
+        color               $text
+
 
 .lp_dropdown_list
     background              $background-lightest
@@ -45,16 +49,18 @@
         top                 -20px
         z-index             $zindex-elevated_1
 
-.lp_dropdown_link
+
+.lp_dropdown_listItem
     display                 block
     line-height             1
     padding                 $fs-05
 
-
+/**
+ * Highlight the selected item and remove all styling that makes it look as if you could interact with it
+ */
 .lp_dropdown_listItem.lp_is-selected
-    .lp_dropdown_link
-        color               $text-lighter // this kind of styling should actually be in dashboard.styl
+    color               $text
 
-        &:hover
-            color           $text-lighter
-            cursor          default
+    &:hover
+        color           $text
+        cursor          default
