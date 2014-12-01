@@ -311,12 +311,6 @@
                             <table class="lp_timePass_formColumn">
                                 <tr>
                                     <td>
-    <!--                                     <div class="lp_colorPicker">
-                                            <input type="text"
-                                                    name="title_color"
-                                                    class="lp_js_colorInput lp_colorInput lp_input"
-                                                    value="<?php echo LaterPay_Helper_Passes::get_default_options( 'title_color' ); ?>">
-                                        </div> -->
                                         <?php _e( 'Title', 'laterpay' ); ?>
                                     </td>
                                     <td>
@@ -328,12 +322,6 @@
                                 </tr>
                                 <tr>
                                     <td>
-    <!--                                     <div class="lp_colorPicker">
-                                            <input type="text"
-                                                    class="lp_js_colorInput lp_colorInput lp_input"
-                                                    name="description_color"
-                                                    value="<?php echo LaterPay_Helper_Passes::get_default_options( 'description_color' ); ?>">
-                                        </div> -->
                                         <?php _e( 'Description', 'laterpay' ); ?>
                                     </td>
                                     <td rowspan="2">
@@ -346,27 +334,6 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-        <!--
-                                        <div class="lp_timePass_formRow">
-                                            <div class="lp_colorPicker">
-                                                <input type="text"
-                                                        class="lp_js_colorInput lp_colorInput lp_input"
-                                                        name="background_color"
-                                                        value="<?php echo LaterPay_Helper_Passes::get_default_options( 'background_color' ); ?>">
-                                            </div>
-                                            <a href="#"><?php _e( 'Background image', 'laterpay' ); ?></a>
-                                            <?php _e( 'or color', 'laterpay' ); ?>
-                                        </div>
-        -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
                                     </td>
                                 </tr>
                             </table>

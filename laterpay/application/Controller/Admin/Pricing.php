@@ -17,7 +17,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $this->config->get( 'version' )
         );
         wp_enqueue_style( 'laterpay-select2' );
-        wp_enqueue_style( 'wp-color-picker' );
 
         // load page-specific JS
         wp_register_script(
@@ -30,7 +29,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_register_script(
             'laterpay-backend-pricing',
             $this->config->get( 'js_url' ) . 'laterpay-backend-pricing.js',
-            array( 'jquery', 'laterpay-select2', 'wp-color-picker' ),
+            array( 'jquery', 'laterpay-select2' ),
             $this->config->get( 'version' ),
             true
         );
@@ -373,10 +372,19 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         }
 
         if ( ! $post_category_id ) {
-            $category_price_model->set_category_price( $category_id, $delocalized_category_price, $category_price_revenue_model );
+            $category_price_model->set_category_price(
+                                        $category_id,
+                                        $delocalized_category_price,
+                                        $category_price_revenue_model
+                                    );
             $updated_post_ids = LaterPay_Helper_Pricing::apply_category_price_to_posts_with_global_price( $category_id );
         } else {
-            $category_price_model->set_category_price( $category_id, $delocalized_category_price, $category_price_revenue_model, $category_price_id );
+            $category_price_model->set_category_price(
+                                        $category_id,
+                                        $delocalized_category_price,
+                                        $category_price_revenue_model,
+                                        $category_price_id
+                                    );
         }
 
         $currency_model             = new LaterPay_Model_Currency();
@@ -414,7 +422,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
+                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                 )
             );
         }
@@ -429,7 +437,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             wp_send_json(
                 array(
                     'success' => false,
-                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                    'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                 )
             );
         }
@@ -579,7 +587,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $price     = ( $price === null ) ? 0 : $price;
             $new_price = LaterPay_Helper_Pricing::ensure_valid_price( $price );
 
-            // pre-post-processing actions - correct global and categories default prices, set flash message parts
+            // pre-post-processing actions - correct global and categories default prices, set flash message parts;
             // run exactly once, independent of actual number of posts
             switch ( $action ) {
                 case 'set':
@@ -740,7 +748,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => false,
-                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' )
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
             )
         );
     }
@@ -947,7 +955,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get generated voucher code
+     * Get generated voucher code.
      *
      * @return void
      */
@@ -962,4 +970,5 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             )
         );
     }
+
 }
