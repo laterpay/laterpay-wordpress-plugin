@@ -184,16 +184,16 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        // check if such voucher code exist and pass available for purchase
+        // check if voucher code exists and pass is available for purchase
         $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ] );
         if ( $code_data ) {
-            // get new url for this pass
+            // get new URL for this pass
             $pass_id = $code_data[ 'pass_id' ];
-            // get price, delocalize it and format
+            // get price, delocalize it, and format it
             $price   = $code_data[ 'price' ];
             $price   = str_replace( ',', '.', $price );
             $price   = number_format( (float) $price, 2 );
-            // get new purchase url
+            // get new purchase URL
             $url     = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price, $_GET[ 'link' ] );
 
             wp_send_json(
@@ -682,7 +682,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // check if post has vouchers
-        $has_vouchers = LaterPay_Helper_Vouchers::check_passes_has_vouchers( $passes_list );
+        $has_vouchers = LaterPay_Helper_Vouchers::passes_have_vouchers( $passes_list );
 
         // get the associated CSS class to be applied for the specified variant
         switch ( $variant ) {
