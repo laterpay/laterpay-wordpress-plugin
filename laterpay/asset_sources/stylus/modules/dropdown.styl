@@ -3,6 +3,7 @@
  */
 
 .lp_dropdown
+    cursor                  pointer
     display                 inline-block
     position                relative
 
@@ -57,8 +58,8 @@
  * Highlight the selected item and remove all styling that makes it look as if you could interact with it
  */
 .lp_dropdown_listItem.lp_is-selected
-    color               $text
+    color                   $text-lighter
 
     &:hover
-        color           $text
-        cursor          default
+        color               $text-lighter
+        cursor              default
