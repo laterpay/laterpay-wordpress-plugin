@@ -246,7 +246,7 @@
                     updateTimePassPreview($(this).parents($o.timePassWrapper), $(this));
                 });
 
-                // enter price
+                // set price
                 $o.timePassEditor
                 .on('keyup', $o.timePassPrice, debounce(function() {
                         validatePrice($(this).parents('form'), false, $(this));
@@ -282,7 +282,7 @@
                 })
                 .on('click', '.lp_js_flipTimePass', function(e) {e.preventDefault();});
 
-                // enter voucher price
+                // set voucher price
                 $o.timePassEditor
                 .on('keyup', $o.voucherPriceInput, debounce(function() {
                         validatePrice($(this).parents('form'), true, $(this));
@@ -702,15 +702,8 @@
                 $o.timePassEditor.prepend($o.timePassTemplate.clone().removeAttr('id'));
                 var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).first();
                 $($o.timePassForm, $timePass).attr('id', $o.timePassFormId).addClass($o.unsaved);
-                populateTimePassForm($timePass);
 
-                // load WordPress color picker
-                $('.lp_js_colorInput', $timePass)
-                .wpColorPicker({
-                    defaultColor    : false,
-                    palettes        : ['#e11d21', '#eb6420', '#fbca04', '#009800', '#006b75', '#207de5', '#0052cc'],
-                });
-                $('.wp-color-result').attr('title', '');
+                populateTimePassForm($timePass);
 
                 // show time pass
                 $timePass
@@ -729,14 +722,6 @@
                 $('.lp_js_timePass_editorContainer', $timePass).html($timePassForm);
 
                 populateTimePassForm($timePass);
-
-                // load WordPress color picker
-                $('.lp_js_colorInput', $timePass)
-                .wpColorPicker({
-                    defaultColor    : false,
-                    palettes        : ['#e11d21', '#eb6420', '#fbca04', '#009800', '#006b75', '#207de5', '#0052cc'],
-                });
-                $('.wp-color-result').attr('title', '');
 
                 // hide action links required when displaying time pass
                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_u_hide');
@@ -784,7 +769,7 @@
                     $($o.timePassScopeCategory, $timePass).show();
                 }
 
-                // regenerate vouchers list
+                // re-generate vouchers list
                 clearVouchersList($timePass);
                 if (vouchers instanceof Object) {
                     $.each(vouchers, function(code, priceValue) {
@@ -867,7 +852,7 @@
                             // update vouchers
                             lpVars.vouchers_list[passId] = r.vouchers;
 
-                            // regenerate vouchers list
+                            // re-generate vouchers list
                             clearVouchersList($timePass);
                             if (lpVars.vouchers_list[passId] instanceof Object) {
                                 $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
@@ -878,8 +863,8 @@
                                 $timePass.find($o.voucherList).show();
                             }
 
-                            // if pass already exists (update)
                             if (lpVars.time_passes_list[passId]) {
+                                // pass already exists (update)
                                 lpVars.time_passes_list[passId] = r.data;
                                 // insert time pass rendered on server
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
@@ -891,8 +876,8 @@
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
                                 });
-                            // if pass just created (add)
                             } else {
+                                // pass was just created (add)
                                 lpVars.time_passes_list[passId] = r.data;
                                 var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
 
@@ -900,6 +885,7 @@
                                 $($o.timePassForm, $timePass).remove();
 
                                 $o.addTimePass.after($newTimePass);
+
                                 populateTimePassForm($newTimePass);
 
                                 // hide action links required when editing time pass
@@ -973,11 +959,10 @@
             },
 
             toggleTimePassRevenueModel = function($timePass) {
-                var $toggle         = $($o.timePassRevenueModel, $timePass),
-                    hasRevenueModel = $toggle.prop('checked'),
-                    price           = $($o.timePassPrice, $timePass).val();
-
-                var currentRevenueModel = hasRevenueModel ? $o.singleSale : $o.payPerUse;
+                var $toggle             = $($o.timePassRevenueModel, $timePass),
+                    hasRevenueModel     = $toggle.prop('checked'),
+                    price               = $($o.timePassPrice, $timePass).val(),
+                    currentRevenueModel = hasRevenueModel ? $o.singleSale : $o.payPerUse;
 
                 // switch revenue model, if combination of price and revenue model is not allowed
                 if (price > 5 && currentRevenueModel === $o.payPerUse) {
@@ -1036,7 +1021,8 @@
 
             deleteVoucher = function($voucher) {
                 // slide up and remove voucher
-                $voucher.slideUp(250, function() {
+                $voucher
+                .slideUp(250, function() {
                     $(this).remove();
                 });
             },
@@ -1053,7 +1039,9 @@
             },
 
             addOptionInCategory = function(categoryToBeSelected) {
-                $o.bulkPriceObjects.append($('<option>', {
+                $o.bulkPriceObjects
+                .removeClass($o.disabled)
+                .append($('<option>', {
                     value    : 'in_category',
                     text     : lpVars.inCategoryLabel,
                     selected : !!categoryToBeSelected // coerce categoryToBeSelected to Boolean
@@ -1081,6 +1069,7 @@
                     .each(function() {
                         if ($(this).val() === 'in_category') {
                             $(this).remove();
+                            $o.bulkPriceObjects.addClass($o.disabled);
                         }
                     });
 
@@ -1140,7 +1129,49 @@
                 }
             },
 
-            createSavedBulkRow = function(bulkOperationId, bulkMessage) {
+            saveBulkOperation = function() {
+                var actionVal   = $.trim($o.bulkPriceAction.find('option:selected').val()),
+                    action      = (actionVal === 'free') ?
+                                    lpVars.i18n.make :
+                                    $o.bulkPriceAction.find('option:selected').text(),
+                    objects     = $o.bulkPriceObjects.find('option:selected').text(),
+                    category    = ($.trim($o.bulkPriceObjects.find('option:selected').val()) === 'all') ?
+                                    '' :
+                                    '"' + $.trim($o.bulkPriceObjectsCategory.find('option:selected').text()) + '"',
+                    preposition = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
+                                    '' :
+                                    $o.bulkPriceChangeAmountPreposition.text(),
+                    actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').val()) === 'free') ?
+                                    lpVars.i18n.free :
+                                    '',
+                    amount      = (actionVal === 'free' || actionVal === 'reset') ?
+                                    '' :
+                                    $o.bulkPriceChangeAmount.val() +
+                                    $o.bulkPriceChangeUnit.find('option:selected').text(),
+                    description = [action, objects, category, preposition, amount, actionExt];
+
+                // concatenate description and remove excess spaces
+                description = $.trim(description.join(' ').replace(/\s+/g, ' '));
+
+                $o.bulkPriceFormHiddenField.val('bulk_price_form_save');
+                $o.bulkPriceOperationIdHiddenField.val(undefined);
+                $o.bulkPriceMessageHiddenField.val(description);
+
+                $.post(
+                    ajaxurl,
+                    $o.bulkPriceForm.serializeArray(),
+                    function(r) {
+                        if (r.success) {
+                            // create new saved bulk operation
+                            createSavedBulkOperation(r.data.id, r.data.message);
+                        }
+                        setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
+            },
+
+            createSavedBulkOperation = function(bulkOperationId, bulkMessage) {
                 var operation = '<p class="lp_bulkOperation" data-value="' +  bulkOperationId + '">' +
                                     '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" ' +
                                             'data-icon="g">' +
@@ -1153,46 +1184,6 @@
                                 '</p>';
 
                 $o.bulkPriceForm.after(operation);
-            },
-
-            saveBulkOperation = function() {
-                var action      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    'Make' :
-                                    $o.bulkPriceAction.find('option:selected').text(),
-                    objects     = $o.bulkPriceObjects.find('option:selected').text().toLowerCase(),
-                    category    = ($.trim($o.bulkPriceObjects.find('option:selected').text()) === 'All posts') ?
-                                    '' :
-                                    '"' + $.trim($o.bulkPriceObjectsCategory.find('option:selected').text()) + '"',
-                    preposition = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    '' :
-                                    $o.bulkPriceChangeAmountPreposition.text(),
-                    amount      = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    '' :
-                                    $o.bulkPriceChangeAmount.val() +
-                                    $o.bulkPriceChangeUnit.find('option:selected').text(),
-                    actionExt   = ($.trim($o.bulkPriceAction.find('option:selected').text()) === 'Make free') ?
-                                    'free' :
-                                    '',
-                    description = [action, objects, category, preposition, amount, actionExt];
-
-                description = $.trim(description.join(' ').replace(/\s+/g, ' '));
-
-                $o.bulkPriceFormHiddenField.val('bulk_price_form_save');
-                $o.bulkPriceOperationIdHiddenField.val(undefined);
-                $o.bulkPriceMessageHiddenField.val(description);
-
-                $.post(
-                    ajaxurl,
-                    $o.bulkPriceForm.serializeArray(),
-                    function(r) {
-                        if (r.success) {
-                            // create new saved row
-                            createSavedBulkRow(r.data.id, r.data.message);
-                        }
-                        setMessage(r.message, r.success);
-                    },
-                    'json'
-                );
             },
 
             applySavedBulkOperation = function($item) {
@@ -1242,6 +1233,7 @@
                 bindEvents();
 
                 // trigger change event of bulk price editor on page load
+                // FIXME: why is this required?
                 $o.bulkPriceAction.change();
             };
 

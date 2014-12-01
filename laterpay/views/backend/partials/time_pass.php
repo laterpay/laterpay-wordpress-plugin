@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="lp_js_timePass lp_timePass" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">
+<div class="lp_js_timePass lp_timePass lp_timePass-<?php echo $laterpay_pass['pass_id']; ?>" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">
     <section class="lp_timePass__front">
         <h4 class="lp_js_timePassPreviewTitle lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
         <p class="lp_js_timePassPreviewDescription lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>

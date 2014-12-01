@@ -2,17 +2,17 @@
 
 class LaterPay_Helper_Vouchers
 {
-    const VOUCHER_CODE_LENGHT = 6;
+    const VOUCHER_CODE_LENGTH = 6;
     const VOUCHER_CHARS       = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     /**
-     * Generate voucher code
+     * Generate random voucher code.
      *
-     * @param int $length voucher length
+     * @param int $length voucher code length
      *
-     * @return string     voucher code
+     * @return string voucher code
      */
-    public static function generate_voucher_code( $length = self::VOUCHER_CODE_LENGHT ) {
+    public static function generate_voucher_code( $length = self::VOUCHER_CODE_LENGTH ) {
         $voucher_code  = '';
         $possibleChars = self::VOUCHER_CHARS;
 
@@ -26,11 +26,11 @@ class LaterPay_Helper_Vouchers
     }
 
     /**
-     * Save current pass vouchers
+     * Save vouchers for current pass.
      *
-     * @param $pass_id
-     * @param $vouchers_data
-     * @param $no_explode
+     * @param int   $pass_id
+     * @param array $vouchers_data
+     * @param bool  $no_explode
      *
      * @return void
      */
@@ -53,7 +53,7 @@ class LaterPay_Helper_Vouchers
         }
 
         if ( ! $new_vouchers ) {
-            unset($vouchers[ $pass_id ]);
+            unset( $vouchers[ $pass_id ] );
         } else {
             $vouchers[ $pass_id ] = $new_vouchers;
         }
@@ -62,9 +62,9 @@ class LaterPay_Helper_Vouchers
     }
 
     /**
-     * Get voucher codes of current time pass
+     * Get voucher codes of current time pass.
      *
-     * @param $pass_id
+     * @param int $pass_id
      *
      * @return array
      */
@@ -73,11 +73,12 @@ class LaterPay_Helper_Vouchers
         if ( ! isset( $vouchers[ $pass_id ] ) ) {
             return array();
         }
+
         return $vouchers[ $pass_id ];
     }
 
     /**
-     * Get all vouchers
+     * Get all vouchers.
      *
      * @return array of vouchers
      */
@@ -85,16 +86,18 @@ class LaterPay_Helper_Vouchers
         $vouchers = get_option( 'laterpay_voucher_codes' );
         if ( ! $vouchers || ! is_array( $vouchers ) ) {
             update_option( 'laterpay_voucher_codes', '' );
+
             return array();
         }
+
         return $vouchers;
     }
 
     /**
-     * Delete voucher code
+     * Delete voucher code.
      *
-     * @param $pass_id
-     * @param $code
+     * @param int       $pass_id
+     * @param string    $code
      *
      * @return void
      */
@@ -103,15 +106,16 @@ class LaterPay_Helper_Vouchers
         if ( $pass_vouchers && is_array( $pass_vouchers ) ) {
             unset( $pass_vouchers[$code] );
         }
+
         self::save_pass_vouchers( $pass_id, $pass_vouchers, true );
     }
 
     /**
-     * Check if voucher code exists and return pass_id and discount
+     * Check, if voucher code exists and return pass_id and new price.
      *
      * @param $code
      *
-     * return mixed $voucher_data
+     * @return mixed $voucher_data
      */
     public static function check_voucher_code( $code ) {
         $vouchers = self::get_all_vouchers();
@@ -125,6 +129,7 @@ class LaterPay_Helper_Vouchers
                         'code'    => $voucher_code,
                         'price'   => $voucher_price,
                     );
+
                     return $voucher_data;
                 }
             }
@@ -134,13 +139,13 @@ class LaterPay_Helper_Vouchers
     }
 
     /**
-     * Check if time passes has vouchers
+     * Check, if time passes have vouchers.
      *
-     * @param array $passes array of time passes to check
+     * @param array $passes array of time passes
      *
-     * return bool
+     * @return bool
      */
-    public static function check_passes_has_vouchers( $passes ) {
+    public static function passes_have_vouchers( $passes ) {
         $has_vouchers = false;
 
         if ( $passes && is_array( $passes ) ) {
@@ -155,4 +160,5 @@ class LaterPay_Helper_Vouchers
 
         return $has_vouchers;
     }
+
 }
