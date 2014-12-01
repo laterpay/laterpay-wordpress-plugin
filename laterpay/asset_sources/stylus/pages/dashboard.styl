@@ -24,20 +24,20 @@ h1
                 border-right-color  $clickable-highlight
 
     .lp_triangle
-        border                      $fs-08 solid $text-lighter
+        border                      $fs-08 solid $clickable
         top                         0.25em
 
     .lp_triangle--right
-        border-color                transparent transparent transparent $text-lighter
+        border-color                transparent transparent transparent $clickable
         left                        inherit
         right                       -($fs-05)
 
     .lp_triangle--left
-        border-color                transparent $text-lighter transparent transparent
+        border-color                transparent $clickable transparent transparent
         left                        -($fs-025)
 
     .lp_DashboardRefreshLink
-        color                       $text-lighter
+        color                       $clickable
         display                     none /* hidden by default - only required when displaying hourly data */
 
         &:hover

@@ -12,6 +12,7 @@
                 configurationSelection  : $('.lp_js_selectDashboardInterval, .lp_js_selectRevenueModel'),
                 intervalChoices         : $('.lp_js_selectDashboardInterval'),
                 RevenueModelChoices     : $('.lp_js_selectRevenueModel'),
+                currentInterval         : $('#lp_js_displayedInterval'),
                 previousInterval        : $('#lp_js_loadPreviousInterval'),
                 nextInterval            : $('#lp_js_loadNextInterval'),
 
@@ -110,13 +111,14 @@
                 $o.configurationSelection
                 .mousedown(function() {
                     // change selected item to clicked item
-                    $(this).parents('.lp_dropdown_list').prev('span').text($(this).text());
+                    $(this).parents('.lp_dropdown_list').prev('.lp_dropdown_currentItem').text($(this).text());
                     $(this)
                         .parents('.lp_dropdown_list')
                             .find('.lp_is-selected')
                             .removeClass('lp_is-selected')
                         .end()
                     .end()
+                    .parent('.lp_dropdown_listItem')
                     .addClass('lp_is-selected');
 
                     loadDashboard();

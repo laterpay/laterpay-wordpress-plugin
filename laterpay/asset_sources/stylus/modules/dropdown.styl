@@ -2,24 +2,59 @@
 
 .lp_dropdown
     display                 inline-block
-    position                relative
+    position                absolute
+
+    span
+        color               $clickable
 
     &:hover
         .lp_dropdown_list
             display         block
 
-.lp_dropdown_list
-    display                 none
-    position                relative
-    top                     $fs-1
+        .lp_dropdown_currentItem
+            color           $text
 
-.lp_dropdown_listItem
+.lp_dropdown_list
+    background              $background-lightest
+    border                  2px solid $border
+    border-radius           3px
+    display                 none
+    left                    50%
+    margin-left             -2.5em
+    padding                 $fs-05
+    position                relative
+    top                     $fs-2
+    z-index                 $zindex-overlayed_1
+
+    /* upward-pointing arrow */
+    .lp_triangle
+        border              9px solid $background-lightest
+        border-color        transparent transparent $background-lightest transparent
+        height              0
+        left                -9px
+        position            absolute
+        top                 -8px
+        width               0
+        z-index             $zindex-elevated_2
+    /* border for upward-pointing arrow */
+    .lp_outerTriangle
+        border-bottom-color hsl(0, 0%, 77%)
+        border-width        10px
+        left                50%
+        margin-left         -10px
+        top                 -20px
+        z-index             $zindex-elevated_1
+
+.lp_dropdown_link
     display                 block
-    padding                 $fs-025 $fs-05
+    line-height             1
+    padding                 $fs-05
+
 
 .lp_dropdown_listItem.lp_is-selected
-    a
+    .lp_dropdown_link
         color               $text-lighter // this kind of styling should actually be in dashboard.styl
 
         &:hover
-            color           $clickable-highlight
+            color           $text-lighter
+            cursor          default
