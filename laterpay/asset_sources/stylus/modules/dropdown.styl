@@ -4,19 +4,16 @@
 
 .lp_dropdown
     display                 inline-block
-    position                absolute
+    position                relative
 
     .lp_dropdown_currentItem
         color               $clickable
 
+/* Reveal dropdown_list on hover or when state class 'is-expanded' is added */
 .lp_dropdown:hover,
 .lp_dropdown.lp_is-expanded
     .lp_dropdown_list
         display             block
-
-    .lp_dropdown_currentItem
-        color               $text
-
 
 .lp_dropdown_list
     background              $background-lightest
@@ -24,36 +21,37 @@
     border-radius           3px
     display                 none
     left                    50%
-    margin-left             -2.5em
+    margin-left             -3em
     padding                 $fs-05
-    position                relative
-    top                     $fs-2
+    position                absolute
+    top                     round(3 * $fs-1)
+    width                   6em
     z-index                 $zindex-overlayed_1
 
     /* upward-pointing arrow */
     .lp_triangle
-        border              9px solid $background-lightest
+        border              13px solid $background-lightest
         border-color        transparent transparent $background-lightest transparent
         height              0
-        left                -9px
+        left                -13px
         position            absolute
-        top                 -8px
+        top                 -10px
         width               0
         z-index             $zindex-elevated_2
     /* border for upward-pointing arrow */
     .lp_outerTriangle
-        border-bottom-color hsl(0, 0%, 77%)
-        border-width        10px
+        border-bottom-color $border
+        border-width        14px
         left                50%
-        margin-left         -10px
-        top                 -20px
+        margin-left         -14px
+        top                 -28px
         z-index             $zindex-elevated_1
-
 
 .lp_dropdown_listItem
     display                 block
     line-height             1
     padding                 $fs-05
+    white-space             nowrap
 
 /**
  * Highlight the selected item and remove all styling that makes it look as if you could interact with it
