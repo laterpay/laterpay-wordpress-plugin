@@ -4,7 +4,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 {
 
     /**
-     * Sections are used by the ajax laterpay_get_dashboard-callback.
+     * Sections are used by the Ajax laterpay_get_dashboard callback.
      * Every section is mapped to a private method within this controller.
      *
      * @var array
@@ -114,8 +114,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $options = $this->get_ajax_request_options( $_POST );
 
         if ( $options[ 'refresh' ] ) {
-            $section = $options[ 'section' ];
-            $data = $this->$section( $options );
+            $section    = $options[ 'section' ];
+            $data       = $this->$section( $options );
             LaterPay_Helper_Dashboard::refresh_cache_data( $options, $data );
         }
 
@@ -166,7 +166,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'interval'          => $interval,
         );
 
-
         foreach ( $this->ajax_sections as $section ) {
             $args[ 'section' ]  = $section;
             $options            = $this->get_ajax_request_options( $args );
@@ -199,7 +198,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
             $selling_items = LaterPay_Helper_Dashboard::sort_items_by_hour( $selling_items );
             $selling_items = LaterPay_Helper_Dashboard::fill_empty_hours( $selling_items, $options[ 'start_timestamp' ] );
-
         } else {
             $days = LaterPay_Helper_Dashboard::get_days_as_array( $options[ 'start_timestamp' ], $options[ 'interval' ] );
 
@@ -212,8 +210,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $diagram_data = array();
         foreach ( $converting_items as $date => $converting_item ) {
-            $selling_item = $selling_items[ $date ];
-            $data = $converting_item;
+            $selling_item   = $selling_items[ $date ];
+            $data           = $converting_item;
             if ( $converting_item->quantity == 0 ) {
                 $data->quantity = 0;
             } else {
@@ -225,7 +223,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $diagram_data, $options[ 'start_timestamp' ], $options[ 'interval' ] );
 
-        $context =  array(
+        $context = array(
             'options'               => $options,
             'converting_items'      => $converting_items,
             'selling'               => $selling_items,
@@ -525,7 +523,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Internal function to convert the $_POST-request-vars to an options array for the Ajax callbacks.
+     * Internal function to convert the $_POST request vars to an options array for the Ajax callbacks.
      *
      * @param array $post_args
      *
@@ -623,7 +621,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         if ( ! isset( $_POST[ '_wpnonce' ] ) || empty( $_POST[ '_wpnonce' ] ) ) {
             $error = array(
                 'success'   => false,
-                'message'   => __( "You don't have sufficient user capabilities to do this.", 'laterpay' ),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
                 'step'      => 1,
             );
             wp_send_json( $error );
