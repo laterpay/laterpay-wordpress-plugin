@@ -409,7 +409,7 @@
                 });
 			},
 
-			loadMetrics = function(refresh) {
+			loadKPIs = function(refresh) {
 				loadDashboardData('metrics', refresh)
 				.done(function(response) {
 					$o.totalImpressionsKPI.text(response.data.impressions || 0);
@@ -478,7 +478,7 @@
                 loadConvertingItems(refresh);
 				loadRevenueItems(refresh);
 				loadSellingItems(refresh);
-				loadMetrics(refresh);
+				loadKPIs(refresh);
 				loadMostLeastConvertingItems(refresh);
 				loadMostLeastRevenueItems(refresh);
 				loadMostLeastSellingItems(refresh);
