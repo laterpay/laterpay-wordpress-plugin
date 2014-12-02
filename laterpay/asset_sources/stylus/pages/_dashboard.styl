@@ -10,9 +10,10 @@ h1 {
 
     .lp_prevNextLink {
         display:                    inline-block;
-        height:                     1em;
-        padding:                    0 $fs-025;
+        height:                     1.5em;
+        padding:                    0 $fs-05;
         position:                   relative;
+        vertical-align:             text-top;
         width:                      $fs-125;
 
         &:hover {
@@ -34,12 +35,12 @@ h1 {
     .lp_triangle--right {
         border-color:               transparent transparent transparent $clickable;
         left:                       inherit;
-        right:                      -($fs-05);
+        right:                      0; /* correct visual weight of triangle */
     }
 
     .lp_triangle--left {
         border-color:               transparent $clickable transparent transparent;
-        left:                       -($fs-025);
+        left:                       -3px; /* correct visual weight of triangle */
     }
 
     .lp_DashboardRefreshLink {
@@ -118,7 +119,11 @@ h1 {
 
 
 // Top / bottom lists --------------------------------------------------------------------------------------------------
+/**
+ * 1. Render lists with a default min-height that accommodates 10 items
+ */
 .lp_topBottomList {
+    min-height:                     17em; /* 1 */
     margin:                         0 $fs-1 $fs-1 0;
     padding:                        0;
 
