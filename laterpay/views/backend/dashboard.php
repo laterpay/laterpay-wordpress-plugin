@@ -76,15 +76,15 @@
                 <div id="lp_js_conversionDiagram" class="lp_dashboardGraph"></div>
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
-                        <li>
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Explanation here', 'laterpay' ); ?>">
                             <big><span id="lp_js_totalImpressions">0</span></big>
                             <?php _e( 'Views', 'laterpay' ); ?>
                         </li>
-                        <li>
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Explanation here', 'laterpay' ); ?>">
                             <big><span id="lp_js_avgConversion">0.0</span><small>%</small></big>
                             <?php _e( 'Conversion', 'laterpay' ); ?>
                         </li>
-                        <li>
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Explanation here', 'laterpay' ); ?>">
                             <big><span id="lp_js_shareOfNewCustomers">0</span><small>%</small></big>
                             <?php _e( 'New Customers', 'laterpay' ); ?>
                         </li>
@@ -96,11 +96,11 @@
                 <div id="lp_js_salesDiagram" class="lp_dashboardGraph"></div>
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
-                        <li>
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Explanation here', 'laterpay' ); ?>">
                             <big><span id="lp_js_avg-items-sold">0.0</span></big>
                             <?php _e( 'AVG Items Sold', 'laterpay' ); ?>
                         </li>
-                        <li>
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Explanation here', 'laterpay' ); ?>">
                             <big><span id="lp_js_total-items-sold">0</span></big>
                             <?php _e( 'Items Sold', 'laterpay' ); ?>
                         </li>
@@ -112,11 +112,11 @@
                 <div id="lp_js_revenueDiagram" class="lp_dashboardGraph"></div>
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
-                        <li>
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Explanation here', 'laterpay' ); ?>">
                             <big><span id="lp_js_avgRevenue">0.00</span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'AVG Purchase', 'laterpay' ); ?>
                         </li>
-                        <li>
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Explanation here', 'laterpay' ); ?>">
                             <big><span id="lp_js_totalRevenue">0.00</span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'Revenue', 'laterpay' ); ?>
                         </li>
