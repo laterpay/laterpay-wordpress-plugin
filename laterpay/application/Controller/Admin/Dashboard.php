@@ -72,6 +72,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                                 ),
             )
         );
+
+        $this->metrics( $this->get_ajax_request_options(array('start_timestamp' => strtotime('-60 days'), 'section' => 'metrics')));
     }
 
     /**
@@ -414,29 +416,26 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         }
 
         if ( $total_customers > 0 ) {
-            $new_customers          = round( $new_customers * 100 / $total_customers );
-            $returning_customers    = round( $returning_customers * 100 / $total_customers );
+            $new_customers          = $new_customers * 100 / $total_customers;
+            $returning_customers    = $returning_customers * 100 / $total_customers;
         }
 
         $total_items_sold           = $history_model->get_total_items_sold( $args );
-        $total_items_sold           = number_format_i18n( $total_items_sold->quantity );    // TODO: replace number_format_i18n with new improved number_format helper function
+        $total_items_sold           = $total_items_sold->quantity;
 
         $impressions                = $post_views_model->get_total_post_impression( $args );
-        $impressions                = number_format_i18n( $impressions->quantity );
+        $impressions                = $impressions->quantity;
 
         $total_revenue_items        = $history_model->get_total_revenue_items( $args );
         $total_revenue_items        = $total_revenue_items->amount;
-        $avg_purchase               = number_format_i18n( 0, 2 );
+        $avg_purchase               = 0;
         if ( $total_revenue_items > 0 ) {
-            $avg_purchase           = number_format_i18n( $total_revenue_items / $total_items_sold, 2 );
+            $avg_purchase           = $total_revenue_items / $total_items_sold;
         }
-        // format the total revenue items after calculating the avg purchase,
-        // to make sure that the number format does not break the calculation
-        $total_revenue_items        = number_format_i18n( $total_revenue_items, 2 );
 
         $conversion = 0;
         if ( $impressions > 0 ) {
-            $conversion = number_format_i18n( $total_items_sold / $impressions, 1 );
+            $conversion = ( $total_items_sold / $impressions ) * 100;
         }
 
         $avg_items_sold = 0;
@@ -451,23 +450,25 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 // hour
                 $diff = 24;
             }
-            $avg_items_sold = number_format_i18n( $total_items_sold / $diff, 1 );
+            $avg_items_sold = $total_items_sold / $diff;
         }
+
+        $currency = get_option( 'laterpay_currency', 'EUR' );
 
         $data = array(
             // column 1 - conversion metrics
-            'impressions'           => $impressions,
-            'conversion'            => $conversion,
-            'new_customers'         => $new_customers,
-            'returning_customers'   => $returning_customers,
+            'impressions'           => LaterPay_Helper_View::format_number( $impressions, false ),
+            'conversion'            => number_format_i18n( $conversion, 2) . ' %',
+            'new_customers'         => number_format( $new_customers, 2 ) . ' %',
+            'returning_customers'   => LaterPay_Helper_View::format_number( $returning_customers, false ),
 
             // column 2 - sales metrics
-            'avg_items_sold'        => $avg_items_sold,
-            'total_items_sold'      => $total_items_sold,
+            'avg_items_sold'        => number_format( $avg_items_sold, 1 ),
+            'total_items_sold'      => LaterPay_Helper_View::format_number( $total_items_sold, false ),
 
             // column 3 - revenue metrics
-            'avg_purchase'          => $avg_purchase,
-            'total_revenue'         => $total_revenue_items,
+            'avg_purchase'          => number_format_i18n( $avg_purchase, 2 ) . ' ' . $currency,
+            'total_revenue'         => number_format_i18n( $total_revenue_items, 2 ) . ' ' . $currency,
         );
 
         $this->logger->info(
