@@ -15,7 +15,7 @@ class LaterPay_Helper_View
      */
     public static function get_admin_menu() {
         return array(
-            'dashboard'     => array( 'url' => 'laterpay-dashboard-tab',    'title' => __( 'Dashboard', 'laterpay' ) ),
+            'dashboard'     => array( 'url' => 'laterpay-dashboard-tab',    'title' => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ) ),
             'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
             'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __( 'Appearance', 'laterpay' ) ),
             'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __( 'Account', 'laterpay' ) ),
