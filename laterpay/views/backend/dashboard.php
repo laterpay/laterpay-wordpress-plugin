@@ -59,9 +59,9 @@
             '</a>',
 
             '<span id="lp_js_displayedInterval">' .
-                date( 'j.n.', strtotime( date() . '-8 days' ) ) .
+                date( 'j.n.', strtotime( '-8 days' ) ) .
                 ' &ndash; ' .
-                date( 'j.n.', strtotime( date() . '-1 days' ) ) .
+                date( 'j.n.', strtotime( '-1 days' ) ) .
             '</span>',
 
             '<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week after">' .
