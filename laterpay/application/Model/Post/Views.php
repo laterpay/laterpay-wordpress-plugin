@@ -201,8 +201,10 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         }
 
         // fetch the total count of post views
-        $total_quantity = $this->get_total_post_impression();
+        $total_quantity = $this->get_total_post_impression( array( 'where' => $args[ 'where' ] ) );
         $total_quantity = $total_quantity->quantity;
+
+        laterpay_get_logger()->info( __METHOD__, array( 'total_quantity' => $total_quantity ) );
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
@@ -211,8 +213,6 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 
             // % amount
             $data->amount       = $data->quantity * 100 / $total_quantity;
-            $data->amount       = number_format( $data->amount, 2 );
-
             $results[ $key ] = $data;
         }
 
@@ -248,9 +248,10 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             return $results;
         }
 
-        $total_quantity = $this->get_total_post_impression();
+        $total_quantity = $this->get_total_post_impression( array( 'where' => $args[ 'where' ] ) );
         $total_quantity = $total_quantity->quantity;
 
+        laterpay_get_logger()->info( __METHOD__, array( 'total_quantity' => $total_quantity ) );
 
         foreach ( $results as $key => $data ) {
             // the sparkline for the last x days
@@ -259,7 +260,6 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 
             // % amount
             $data->amount       = $data->quantity * 100 / $total_quantity;
-            $data->amount       = number_format( $data->amount, 2 );
 
             $results[ $key ] = $data;
         }
