@@ -16,7 +16,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         'most_least_converting_items',
         'most_least_selling_items',
         'most_least_revenue_items',
-        'kpis',
+        'metrics',
     );
 
     private $cache_file_exists;
@@ -401,7 +401,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      *
      * @return array $data
      */
-    private function kpis( $options ) {
+    private function metrics( $options ) {
         $args = array(
             'where' => $options[ 'query_where' ],
         );
