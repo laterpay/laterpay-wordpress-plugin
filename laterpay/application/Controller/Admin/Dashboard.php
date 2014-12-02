@@ -457,8 +457,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $data = array(
             // column 1 - conversion metrics
             'impressions'           => LaterPay_Helper_View::format_number( $impressions, false ),
-            'conversion'            => number_format_i18n( $conversion, 2) . ' %',
-            'new_customers'         => number_format( $new_customers, 2 ) . ' %',
+            'conversion'            => number_format_i18n( $conversion, 2) . ' <small>%</small>',
+            'new_customers'         => number_format( $new_customers, 2 ) . ' <small>%</small>',
             'returning_customers'   => LaterPay_Helper_View::format_number( $returning_customers, false ),
 
             // column 2 - sales metrics
@@ -466,8 +466,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'total_items_sold'      => LaterPay_Helper_View::format_number( $total_items_sold, false ),
 
             // column 3 - revenue metrics
-            'avg_purchase'          => number_format_i18n( $avg_purchase, 2 ) . ' ' . $currency,
-            'total_revenue'         => number_format_i18n( $total_revenue_items, 2 ) . ' ' . $currency,
+            'avg_purchase'          => number_format_i18n( $avg_purchase, 2 ) . ' <small>' . $currency . '</small>',
+            'total_revenue'         => number_format_i18n( $total_revenue_items, 2 ) . ' <small>' . $currency . '</small>',
         );
 
         $this->logger->info(
