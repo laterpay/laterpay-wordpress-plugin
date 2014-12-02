@@ -308,8 +308,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $least  = $post_views_model->get_least_viewed_posts( $options[ 'most_least_query' ], $options[ 'start_timestamp' ], $options[ 'interval' ] );
 
         $data   = array(
-            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most ),
-            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least ),
+            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 1 ),
+            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 1 ),
         );
 
         $this->logger->info(
