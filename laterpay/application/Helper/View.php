@@ -145,7 +145,7 @@ class LaterPay_Helper_View
      */
     public static function format_number( $number, $is_monetary = true ) {
         // delocalize number
-        $number = str_replace( ',', '.', $number );
+        $number = (float) str_replace( ',', '.', $number );
 
         if ( $is_monetary ) {
             // format monetary values
