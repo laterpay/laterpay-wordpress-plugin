@@ -357,7 +357,7 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
-= 0.9.9 (December 2, 2014): 0.9.9 Time Passes Release =
+= 0.9.9 (December 2, 2014): Time Passes Release =
 * Added time passes and vouchers for selling access to the entire site or parts of it for a limited amount of time
 * Added sales dashboard (pre-release) for monitoring sales performance
 * Added quality rating functionality to let users who bought an article rate it on a five-star scale
