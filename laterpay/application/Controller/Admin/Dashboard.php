@@ -465,8 +465,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $data = array(
             // column 1 - conversion metrics
             'impressions'           => LaterPay_Helper_View::format_number( $impressions, false ),
-            'conversion'            => number_format_i18n( $conversion, 2),
-            'new_customers'         => number_format( $new_customers, 2 ),
+            'conversion'            => number_format_i18n( $conversion, 1 ),
+            'new_customers'         => number_format( $new_customers, 0 ),
             'returning_customers'   => LaterPay_Helper_View::format_number( $returning_customers, false ),
 
             // column 2 - sales metrics
