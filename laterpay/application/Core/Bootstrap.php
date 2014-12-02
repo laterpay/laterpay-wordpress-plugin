@@ -185,6 +185,7 @@ class LaterPay_Core_Bootstrap
             add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );
 
             add_action( 'template_redirect',            array( $post_controller, 'buy_post' ) );
+            add_action( 'template_redirect',            array( $post_controller, 'buy_time_pass' ) );
             add_action( 'template_redirect',            array( $post_controller, 'create_token' ) );
 
             // add custom action to echo the LaterPay purchase button

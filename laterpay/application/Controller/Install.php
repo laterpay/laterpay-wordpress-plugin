@@ -341,6 +341,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_ratings',                     false );
         add_option( 'laterpay_bulk_operations',             '' );
         add_option( 'laterpay_voucher_codes',               '' );
+        add_option( 'laterpay_voucher_statistic',           '' );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );

@@ -50,12 +50,14 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             // time pass editor
             'confirmDeleteTimePass'     => __( 'Every user, who owns this pass, will lose his access.', 'laterpay' ),
             'voucherText'               => __( 'allows purchasing this pass for', 'laterpay' ),
+            'timesRedeemed'             => __( 'times redeemed.', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
-        $passes_model  = new LaterPay_Model_Pass();
-        $passes_list   = (array) $passes_model->get_all_passes();
-        $vouchers_list = LaterPay_Helper_Vouchers::get_all_vouchers();
+        $passes_model       = new LaterPay_Model_Pass();
+        $passes_list        = (array) $passes_model->get_all_passes();
+        $vouchers_list      = LaterPay_Helper_Vouchers::get_all_vouchers();
+        $vouchers_statistic = LaterPay_Helper_Vouchers::get_all_vouchers_statistic();
 
         wp_localize_script(
             'laterpay-backend-pricing',
@@ -68,8 +70,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'inCategoryLabel'       => __( 'All posts in category', 'laterpay' ),
                 'time_passes_list'      => $this->get_passes_json( $passes_list ),
                 'vouchers_list'         => json_encode( $vouchers_list ),
+                'vouchers_statistic'    => json_encode( $vouchers_statistic ),
                 'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
-                                            lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);',
+                                            lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
+                                            lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
             )
         );
     }
@@ -101,6 +105,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $bulk_saved_operations      = LaterPay_Helper_Pricing::get_bulk_operations();
         $passes_list                = (array) $passes_model->get_all_passes();
         $vouchers_list              = LaterPay_Helper_Vouchers::get_all_vouchers();
+        $vouchers_statistic         = LaterPay_Helper_Vouchers::get_all_vouchers_statistic();
 
         $view_args = array(
             'top_nav'                               => $this->get_menu(),
@@ -112,6 +117,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'global_default_price_revenue_model'    => get_option( 'laterpay_global_price_revenue_model' ),
             'passes_list'                           => $passes_list,
             'vouchers_list'                         => $vouchers_list,
+            'vouchers_statistic'                    => $vouchers_statistic,
             'bulk_actions'                          => $bulk_actions,
             'bulk_selectors'                        => $bulk_selectors,
             'bulk_categories'                       => $bulk_categories,
@@ -918,7 +924,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $pass_id    = $_POST['pass_id'];
             $pass_model = new LaterPay_Model_Pass();
 
+            // remove pass
             $pass_model->delete_pass_by_id( $pass_id );
+
+            // remove vouchers
+            LaterPay_Helper_Vouchers::delete_voucher_code( $pass_id );
 
             wp_send_json(
                 array(

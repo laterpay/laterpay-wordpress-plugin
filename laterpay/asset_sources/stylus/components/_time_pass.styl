@@ -132,15 +132,25 @@
 
 
 // voucher codes -------------------------------------------------------------------------------------------------------
-.lp_voucherCodeLabel
-    background              $background-lightest
-    border                  2px solid orange
-    color                   orange
-    display                 inline-block
-    font-family             monospace
-    font-size               $fs-15
-    margin-right            $fs-025
-    padding                 $fs-05
+/* the six-character voucher code */
+.lp_voucherCodeLabel {
+    background:             $background-lightest;
+    border:                 2px solid orange;
+    color:                  orange;
+    display:                inline-block;
+    font-family:            monospace;
+    font-size:              $fs-15;
+    margin-right:           $fs-025;
+    padding:                $fs-05;
+}
+
+/* price and number of times redeemed */
+.lp_voucherCodeInfos {
+    display:                inline-block;
+}
+.lp_voucherList .lp_voucherCodeInfos {
+    vertical-align:         top;
+}
 
 
 // sidebar widget ------------------------------------------------------------------------------------------------------
