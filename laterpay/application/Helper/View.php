@@ -158,7 +158,7 @@ class LaterPay_Helper_View
                 $formatted = number_format_i18n( $number, 0 );
             } else {
                 // reduce values above 10,000 to thousands and format them with one digit
-                $formatted = number_format_i18n( $number / 1000, 1 ) . ' k';
+                $formatted = number_format_i18n( $number / 1000, 1 ) . __( 'k', 'laterpay'); // k -> short for kilo (thousands)
             }
         } else {
             // format count values
@@ -166,7 +166,7 @@ class LaterPay_Helper_View
                 $formatted = number_format( $number );
             } else {
                 // reduce values above 10,000 to thousands and format them with one digit
-                $formatted = number_format( $number / 1000, 1 ) . ' k';
+                $formatted = number_format( $number / 1000, 1 ) . __( 'k', 'laterpay'); // k -> short for kilo (thousands)
             }
         }
 
