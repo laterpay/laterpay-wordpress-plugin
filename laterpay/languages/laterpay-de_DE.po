@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Tue Dec 02 2014 22:03:26 GMT+0100 (CET)\n"
+"PO-Revision-Date: Tue Dec 02 2014 22:59:35 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -242,9 +242,23 @@ msgstr "Aktualisieren"
 msgid "Conversion"
 msgstr "Conversion"
 
+#: ../views/backend/dashboard.php:79
+msgid ""
+"Number of times a page with purchasable content has been viewed in selected "
+"interval"
+msgstr "Anzahl der Aufrufe eines Bezahlinhaltes im Berichtszeitraum"
+
 #: ../views/backend/dashboard.php:81
 msgid "Views"
 msgstr "Aufrufe"
+
+#: ../views/backend/dashboard.php:83
+msgid "Share of purchases of all page views of pages with purchasable content"
+msgstr "Anteil der Käufe an allen Seitenaufrufen von Bezahlinhalten"
+
+#: ../views/backend/dashboard.php:87
+msgid "Share of new buyers of all buyers in selected interval"
+msgstr "Anteil neuer Käufer im Berichtszeitraum"
 
 #: ../views/backend/dashboard.php:89
 msgid "New Customers"
@@ -255,17 +269,33 @@ msgstr "Neue Kunden"
 msgid "Items Sold"
 msgstr "Verkäufe"
 
+#: ../views/backend/dashboard.php:99
+msgid "Average number of items sold per day in selected interval"
+msgstr "Durchschnittlich pro Tag verkaufte Inhalte"
+
 #: ../views/backend/dashboard.php:101
 msgid "AVG Items Sold"
 msgstr "Ø Verkäufe"
+
+#: ../views/backend/dashboard.php:103
+msgid "Total number of items sold in selected interval"
+msgstr "Anzahl aller im Berichtszeitraum verkauften Inhalte"
 
 #: ../views/backend/dashboard.php:111 ../application/Controller/Admin.php:278
 msgid "Committed Revenue"
 msgstr "Versprochener Umsatz"
 
+#: ../views/backend/dashboard.php:115
+msgid "Average value of items sold in selected interval"
+msgstr "Durchschnittlicher Kaufpreis aller Verkäufe im Berichtszeitraum"
+
 #: ../views/backend/dashboard.php:117
 msgid "AVG Purchase"
 msgstr "Ø Kaufpreis"
+
+#: ../views/backend/dashboard.php:119
+msgid "Total value of items sold in selected interval"
+msgstr "Gesamtwert aller Verkäufe im Berichtszeitraum"
 
 #: ../views/backend/dashboard.php:130
 msgid "Best-converting Items"

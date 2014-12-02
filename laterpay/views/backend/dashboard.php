@@ -76,11 +76,11 @@
                 <div id="lp_js_conversionDiagram" class="lp_dashboardGraph"></div>
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
-                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Pages with purchasable content viewed in selected interval', 'laterpay' ); ?>">
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Number of times a page with purchasable content has been viewed in selected interval', 'laterpay' ); ?>">
                             <big><span id="lp_js_totalImpressions">0</span></big>
                             <?php _e( 'Views', 'laterpay' ); ?>
                         </li>
-                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Share of purchases of pages with purchasable content viewed in selected interval', 'laterpay' ); ?>">
+                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Share of purchases of all page views of pages with purchasable content', 'laterpay' ); ?>">
                             <big><span id="lp_js_avgConversion">0.0</span><small>%</small></big>
                             <?php _e( 'Conversion', 'laterpay' ); ?>
                         </li>
