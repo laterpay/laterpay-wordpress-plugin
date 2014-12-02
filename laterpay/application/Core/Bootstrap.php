@@ -98,14 +98,10 @@ class LaterPay_Core_Bootstrap
             // add the metaboxes
             add_action( 'add_meta_boxes',                   array( $post_metabox_controller, 'add_meta_boxes' ) );
 
-            // save laterpay post data
+            // save LaterPay post data
             add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
             add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
             add_action( 'transition_post_status',           array( $post_metabox_controller, 'update_post_publication_date' ), 10, 3 );
-
-            // save the pricing
-            add_action( 'save_post',                        array( $post_metabox_controller, 'save_post_pricing_form') );
-            add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_post_pricing_form') );
 
             // load scripts for the admin pages
             add_action( 'admin_print_styles-post.php',      array( $post_metabox_controller, 'load_assets' ) );
