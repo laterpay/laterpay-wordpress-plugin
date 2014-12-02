@@ -50,6 +50,8 @@
                 bestGrossingList        : $('#lp_js_bestGrossingList'),
                 leastGrossingList       : $('#lp_js_leastGrossingList'),
 
+                toggleItemDetails       : '.lp_js_toggleItemDetails',
+
                 // strings cached for better compression
                 expanded                : 'lp_is-expanded',
                 selected                : 'lp_is-selected',
@@ -145,16 +147,22 @@
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                 .mousedown(function() {
-                    // do stuff
+                    alert('Coming soon');
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
                 .mousedown(function() {
-                    // do stuff
+                    alert('Coming soon');
                 })
                 .click(function(e) {e.preventDefault();});
+
+                $('body')
+                .on('mousedown', $o.toggleItemDetails, function() {
+                    alert('Post details coming soon');
+                })
+                .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
             },
 
 			loadDashboardData = function(section, refresh) {

@@ -19,6 +19,7 @@
                 // time passes
                 timePass                        : '.lp_js_timePass',
                 flipTimePassLink                : '.lp_js_flipTimePass',
+                timePassPreviewPrice            : '.lp_js_timePassPreviewPrice',
                 voucherCodeWrapper              : '#lp_js_voucherCodeWrapper',
                 voucherCodeInput                : '.lp_js_voucherCodeInput',
                 voucherRedeemButton             : '.lp_js_voucherRedeemButton',
@@ -130,9 +131,15 @@
                                         var priceWithVoucher = r.price +
                                                                 '<small>' + lpVars.default_currency + '</small>';
 
+                                        // update purchase button on time pass
                                         $(this)
                                             .find($o.purchaseLink)
                                             .attr('data-laterpay', r.url)
+                                            .html(priceWithVoucher);
+
+                                        // update price on time pass flipside as well
+                                        $(this)
+                                            .find($o.timePassPreviewPrice)
                                             .html(priceWithVoucher);
 
                                         has_matches = true;
