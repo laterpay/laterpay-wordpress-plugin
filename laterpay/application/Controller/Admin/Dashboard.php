@@ -413,18 +413,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $user_stats             = $history_model->get_user_stats( $args );
         $total_customers        = count( $user_stats );
         $new_customers          = 0;
-        $returning_customers    = 0;
         foreach ( $user_stats as $stat ) {
             if ( (int) $stat->quantity === 1 ) {
                 $new_customers += 1;
-            } else {
-                $returning_customers += 1;
             }
         }
 
         if ( $total_customers > 0 ) {
             $new_customers          = $new_customers * 100 / $total_customers;
-            $returning_customers    = $returning_customers * 100 / $total_customers;
         }
 
         $total_items_sold           = $history_model->get_total_items_sold( $args );
@@ -464,16 +460,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             // column 1 - conversion metrics
             'impressions'           => LaterPay_Helper_View::format_number( $impressions, false ),
             'conversion'            => number_format_i18n( $conversion, 1 ),
-            'new_customers'         => number_format( $new_customers, 0 ),
-            'returning_customers'   => LaterPay_Helper_View::format_number( $returning_customers, false ),
+            'new_customers'         => number_format_i18n( $new_customers, 0 ),
 
             // column 2 - sales metrics
-            'avg_items_sold'        => number_format( $avg_items_sold, 1 ),
+            'avg_items_sold'        => number_format_i18n( $avg_items_sold, 1 ),
             'total_items_sold'      => LaterPay_Helper_View::format_number( $total_items_sold, false ),
 
             // column 3 - revenue metrics
             'avg_purchase'          => number_format_i18n( $avg_purchase, 2 ),
-            'total_revenue'         => number_format_i18n( $total_revenue_items, 2 ),
+            'total_revenue'         => LaterPay_Helper_View::format_number( $total_revenue_items ),
         );
 
         $this->logger->info(
