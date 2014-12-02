@@ -220,8 +220,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                             <strong>SIS (Single Sale)</strong><br>
                                             If you sell your content as <strong>Single Sale</strong>, a user has to <strong>log in</strong> to LaterPay and <strong>pay</strong> for your content <strong>immediately</strong>.<br>
                                             Single Sales are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
-                                            A Single Sales is possible between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 EUR</strong>.<br>
-                                            Single Sales are currently available for <strong>individual prices</strong> and will soon be implemented for the global default price and category default prices.
+                                            A Single Sales is possible between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 EUR</strong>.
                                         </p>',
                                     'laterpay'
                                    ),
@@ -313,7 +312,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                                     <p>
                                                     <strong>Action</strong><br>
                                                     You can display time passes by implementing the <a href="admin.php?page=laterpay-appearance-tab#lp_timePassAppearance" target="_blank">action \'laterpay_time_passes\'</a> into your theme.<br>
-                                                    This action will display all time passes which are available for the user in the current context, sorted by relevance.<br>
+                                                    This action will display all time passes which are relevant for the user in the current context and sorts them accordingly.<br>
                                                     Example: You offer a <strong>Week Pass "Sport"</strong> for the category sport, a <strong>Week Pass "News"</strong> for the category "News" and a <strong>Month Pass Entire Website</strong> for all the content on your website.<br>
                                                     Depending on the page he is currently visiting, a user will see different time passes:
                                                     <ul>
