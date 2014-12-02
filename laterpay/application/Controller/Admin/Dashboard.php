@@ -73,7 +73,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             )
         );
 
-        $this->metrics( $this->get_ajax_request_options(array('start_timestamp' => strtotime('-60 days'), 'section' => 'metrics')));
     }
 
     /**
