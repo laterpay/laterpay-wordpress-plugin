@@ -107,13 +107,20 @@
                 })
                 .click(function(e) {e.preventDefault();});
 
+                // toggle dropdown_list on touch devices
+                $('.lp_dropdown_currentItem')
+                .click(function() {
+                    $(this).parent('.lp_dropdown').addClass('lp_is-expanded');
+                });
+
                 // re-render dashboard in selected configuration
                 $o.configurationSelection
                 .mousedown(function() {
                     // change selected item to clicked item
                     $(this)
-                        .parents('.lp_dropdown_list')
-                            .prev('.lp_dropdown_currentItem')
+                        .parents('.lp_dropdown')
+                        .removeClass('lp_is-expanded')
+                            .find('.lp_dropdown_currentItem')
                             .text($(this).text())
                         .end()
                             .find('.lp_is-selected')
