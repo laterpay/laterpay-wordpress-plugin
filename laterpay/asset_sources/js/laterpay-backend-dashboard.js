@@ -450,11 +450,16 @@
             },
 
             renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
-                var kpi = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue;
+                var kpi         = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue,
+                    valueClass  = 'lp_value';
+
+                if (kpiUnit === '%' || kpiUnit === '') {
+                    valueClass = 'lp_value-narrow';
+                }
 
                 return '<li>' +
                             '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
-                            '<strong class="lp_value">' + kpi + '</strong>' +
+                            '<strong class="' + valueClass + '">' + kpi + '</strong>' +
                             '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
                         '</li>';
             },
