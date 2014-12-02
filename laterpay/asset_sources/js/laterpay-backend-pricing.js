@@ -999,7 +999,6 @@
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
                                     '<span class="lp_voucherCodeInfos">' +
                                         lpVars.i18n.voucherText + ' ' + price + '.<br>' +
-                                        '<span class="lp_js_voucherTimesRedeemed">0</span>' + lpVars.i18n.timesRedeemed + // TODO: render real times redeemed here!
                                     '</span>' +
                                     '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
                                         lpVars.i18n.delete +
@@ -1010,11 +1009,18 @@
             },
 
             addVoucherToList = function(code, priceValue, $timePass) {
+                var passId  = $timePass.data('pass-id');
+                var timesRedeemed = 0;
+                if ( lpVars.vouchers_statistic[passId] ) {
+                    timesRedeemed = lpVars.vouchers_statistic[passId][code];
+                }
                 var price   = priceValue + ' ' + lpVars.defaultCurrency,
                     voucher =   '<div class="lp_js_voucher lp_voucherRow" ' + 'data-code="' + code + '">' +
                                     '<span class="lp_voucherCodeInfos">' +
                                         lpVars.i18n.voucherText + ' ' + price + '.<br>' +
-                                        '<span class="lp_js_voucherTimesRedeemed">0</span>' + lpVars.i18n.timesRedeemed + // TODO: render real times redeemed here!
+                                        '<span class="lp_js_voucherTimesRedeemed">' +
+                                            timesRedeemed +
+                                        '</span>' + lpVars.i18n.timesRedeemed +
                                     '</span>' +
                                 '</div>';
 

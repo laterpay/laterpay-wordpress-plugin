@@ -104,10 +104,14 @@ class LaterPay_Helper_Vouchers
      *
      * @return void
      */
-    public static function delete_voucher_code( $pass_id, $code ) {
+    public static function delete_voucher_code( $pass_id, $code = null ) {
         $pass_vouchers = self::get_pass_vouchers( $pass_id );
         if ( $pass_vouchers && is_array( $pass_vouchers ) ) {
-            unset( $pass_vouchers[$code] );
+            if ( $code ) {
+                unset( $pass_vouchers[$code] );
+            } else {
+                $pass_vouchers = array();
+            }
         }
 
         self::save_pass_vouchers( $pass_id, $pass_vouchers, true );

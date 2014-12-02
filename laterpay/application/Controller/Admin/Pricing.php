@@ -73,7 +73,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'vouchers_statistic'    => json_encode( $vouchers_statistic ),
                 'l10n_print_after'      => 'lpVars.time_passes_list = JSON.parse(lpVars.time_passes_list);
                                             lpVars.vouchers_list = JSON.parse(lpVars.vouchers_list);
-                                            lpVars.vouchers_list = JSON.parse(lpVars.vouchers_statistic);',
+                                            lpVars.vouchers_statistic = JSON.parse(lpVars.vouchers_statistic);',
             )
         );
     }
@@ -924,7 +924,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $pass_id    = $_POST['pass_id'];
             $pass_model = new LaterPay_Model_Pass();
 
+            // remove pass
             $pass_model->delete_pass_by_id( $pass_id );
+
+            // remove vouchers
+            LaterPay_Helper_Vouchers::delete_voucher_code( $pass_id );
 
             wp_send_json(
                 array(
