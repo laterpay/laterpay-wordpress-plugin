@@ -16,7 +16,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         'most_least_converting_items',
         'most_least_selling_items',
         'most_least_revenue_items',
-        'metrics',
+        'kpis',
     );
 
     private $cache_file_exists;
@@ -395,13 +395,13 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Internal function to load metrics by given options.
+     * Internal function to load KPIs by given options.
      *
      * @param array $options
      *
      * @return array $data
      */
-    private function metrics( $options ) {
+    private function kpis( $options ) {
         $args = array(
             'where' => $options[ 'query_where' ],
         );
@@ -432,7 +432,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $total_revenue_items        = $history_model->get_total_revenue_items( $args );
         $total_revenue_items        = $total_revenue_items->amount;
         $avg_purchase               = 0;
-        if ( $total_revenue_items > 0 ) {
+        if ( $total_items_sold > 0 ) {
             $avg_purchase           = $total_revenue_items / $total_items_sold;
         }
 
