@@ -345,14 +345,15 @@ your theme after installing the LaterPay WordPress plugin.
 
 1. LaterPay lets you easily enter teaser content and set an individual price for a post starting at 0.05 EUR...
 2. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
-3. In the Pricing tab, you can set the default prices for the entire plugin or specific categories. You can use the bulk price editor to edit several prices in one step.
-4. In the Appearance tab, you can activate or deactivate LaterPay for individual custom post types. This tab also provides detailed descriptions of the available LaterPay shortcodes and actions. Furthermore, you can choose between two preview modes for your content.
-5. Option 1 shows only a post's teaser content and a LaterPay purchase link.
-6. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
-7. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
-8. The statistics pane provides sales statistics for each post.
-9. The plugin comes with its own debugger.
-
+3. In the Pricing tab, you can set the default prices for the entire plugin or specific categories. You can use the bulk price editor to edit several prices in one step. Furthermore, you can create time passes, that...
+4. ...enable you to sell time-limited access to all the content on your website or in a specific category. And with voucher codes, users can purchase your time passes for a reduced price.
+5. The appearance tab provides several settings concerning the appearance of the LaterPay WordPress plugin. You can activate or deactivate LaterPay for individual custom post types. This tab also provides detailed descriptions of the available LaterPay shortcodes and actions. Furthermore, you can choose between two preview modes for your content.
+6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
+7. Option 2 additionally shows an excerpt of the full content under an overlay explaining LaterPay.
+8. In the appearance tab, you can also enable or disable the all new content rating feature: If you enable content rating, users, who have already bought a post, can rate it on a five star scale. Users that haven't bought the post yet, will see those ratings below the purchase button.
+9. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode.
+10. The plugin comes with its own debugger.
+11. The statistics pane provides useful sales statistics for each post.
 
 == Changelog ==
 
