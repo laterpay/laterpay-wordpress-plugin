@@ -132,7 +132,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 'Pricing Post Type' => 'laterpay_post_pricing_type',
             );
 
-            $sql = "UPDATE " . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
+            $sql = 'UPDATE ' . $wpdb->postmeta . " SET meta_key = '%s' WHERE meta_key = '%s'";
 
             foreach ( $meta_key_mapping as $before => $after ) {
                 $prepared_sql = $wpdb->prepare( $sql, array( $after, $before ) );

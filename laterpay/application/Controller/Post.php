@@ -499,7 +499,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $this->logger->warning(
                     __METHOD__ . ' - post not found ',
                     array(
-                        'result' => $result
+                        'result' => $result,
                     )
                 );
 
@@ -1071,7 +1071,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             null,
             false // LaterPay YUI scripts *must* be loaded asynchronously from the HEAD
         );
-
         wp_register_script(
             'laterpay-peity',
             $this->config->get( 'js_url' ) . 'vendor/jquery.peity.min.js',

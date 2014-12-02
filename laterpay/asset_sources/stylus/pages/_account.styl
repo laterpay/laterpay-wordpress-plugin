@@ -1,0 +1,84 @@
+// 'Account' tab in plugin backend
+
+// API credentials -----------------------------------------------------------------------------------------------------
+.lp_u_w-1-2 {
+    ul.lp_u_clearfix {
+        margin:                 1.25em 0 -0.8em;
+
+        .lp_backgroundIconSpacer {
+            width:              84px;
+        }
+    }
+
+    fieldset {
+        min-height:             165px;
+
+        form:first-of-type {
+            margin-top:         2em;
+        }
+    }
+}
+
+// Chrome browser hack
+.lp_u_w-1-2 fieldset form:first-of-type:not(*:root) {
+    display:inline;
+}
+
+// render icons from icon font in pseudo elements
+.lp_u_w-1-2.lp_sandboxCredentials[data-icon],
+.lp_u_w-1-2.lp_liveCredentials[data-icon] {
+    &:before {
+        color:                  $border;
+        position:               absolute;
+        z-index:                $zindex-recessed;
+    }
+}
+
+.lp_u_w-1-2.lp_sandboxCredentials[data-icon]:before {
+    font-size:                  90px;
+    left:                       26px;
+    top:                        57px;
+}
+
+.lp_u_w-1-2.lp_liveCredentials[data-icon]:before {
+    font-size:                  75px;
+    left:                       15px;
+    top:                        72px;
+}
+
+.lp_u_w-1-2.lp_liveCredentials[data-icon].lp_is-live:before {
+    color:                      $background-laterpay;
+}
+
+
+// Legal documents viewer ----------------------------------------------------------------------------------------------
+.lp_requestLiveCredentials {
+    margin:                     0.1em 0 0 1px;
+}
+
+
+// Responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1050px) {
+    .lp_u_w-1-2 {
+        .lp_sandboxCredentials[data-icon]:before {
+            font-size:          75px;
+            left:               24px;
+            top:                61px;
+        }
+
+        .lp_liveCredentials[data-icon]:before {
+            font-size:          60px;
+            left:               14px;
+            top:                79px;
+        }
+
+        .lp_backgroundIconSpacer {
+            width:              70px;
+        }
+
+        input.lp_apiKeyInput[type=text],
+        input.lp_merchantIdInput[type=text] {
+            width:              290px;
+        }
+    }
+}

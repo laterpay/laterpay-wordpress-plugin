@@ -129,12 +129,12 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                     ?>
                         <li class="lp_debugger_content lp_is-hidden">
                             <table>
-                                <?php foreach ( $tab[ 'content' ] as $key => $value  ) { ?>
+                                <?php foreach ( $tab[ 'content' ] as $key => $value  ): ?>
                                     <tr>
                                         <th><?php echo $key; ?></th>
                                         <td><?php print_r( $value ); ?></td>
                                     </tr>
-                                <?php } ?>
+                                <?php endforeach; ?>
                             </table>
                         </li>
                     <?php } ?>

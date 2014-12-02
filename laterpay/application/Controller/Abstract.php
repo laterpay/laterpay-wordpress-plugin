@@ -34,7 +34,16 @@ class LaterPay_Controller_Abstract
 
         // assign the config to the views
         $this->assign( 'config', $this->config );
+
+        $this->initialize();
+
     }
+
+    /**
+     * Function which will be called on constructor and can be overwritten by child-class.
+     * @return void
+     */
+    protected function initialize(){}
 
     /**
      * Load all assets on boot-up.

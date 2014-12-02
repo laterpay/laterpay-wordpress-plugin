@@ -11,7 +11,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         parent::_construct();
         $this->set_data( 'headers', array() );
         $this->set_data( 'body', '' );
-        $this->set_data( 'http_response_code', 200 ) ; // HTTP response code to use in headers
+        $this->set_data( 'http_response_code', 200 ); // HTTP response code to use in headers
     }
 
     /**

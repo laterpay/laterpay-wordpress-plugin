@@ -6,3 +6,4 @@ laterpay/sftp-config.json
 nbproject/
 node_modules/
 .gulp
+laterpay/built_assets/js/laterpay-backend-dashboard.js

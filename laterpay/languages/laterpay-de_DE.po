@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Tue Dec 02 2014 07:23:42 GMT+0100 (CET)\n"
-"Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
+"PO-Revision-Date: Sun Nov 30 2014 16:01:09 GMT+0100 (CET)\n"
+"Last-Translator: tester <drodler@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -223,7 +223,7 @@ msgstr ""
 "Markieren Sie alle Standard- und Custom-Post-Types, für die LaterPay Käufe "
 "möglich sein sollen."
 
-#: ../views/backend/appearance.php:78 ../application/Controller/Admin.php:497
+#: ../views/backend/appearance.php:78 ../application/Controller/Admin.php:498
 msgid "Rating of Purchased Content"
 msgstr "Bewertung gekaufter Inhalte"
 
@@ -305,10 +305,9 @@ msgid ""
 "of the target_post_title.<br> If both target_post_id and target_post_title "
 "are provided, the target_post_title will be ignored."
 msgstr ""
-"Jede Page-ID kommt innerhalb eines Blogs nur einmal vor. Daher sollte "
-"target_post_id anstelle von target_post_title verwendet werden.<br> Wenn "
-"sowohl target_post_id als auch target_post_title angegeben werden, wird "
-"target_post_title ignoriert."
+"Page IDs sind innerhalb eines Blogs einzigartig und sollten daher anstelle "
+"von target_post_title verwendet werden.<br> Wenn sowohl target_post_id als "
+"auch target_post_title angegeben werden, wird target_post_title ignoriert."
 
 #: ../views/backend/appearance.php:137
 msgid "The title of the post that contains the paid content."
@@ -417,7 +416,7 @@ msgid ""
 "changed."
 msgstr ""
 "Die LaterPay Rechnungsanzeige wird von LaterPay geladen. Ihr Aussehen kann "
-"nicht verändert werden."
+"nicht geändert werden."
 
 #: ../views/backend/appearance.php:223
 msgid "Display of Time Passes"
@@ -500,7 +499,7 @@ msgstr ""
 "Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
 "API Zugangsdaten abzurufen."
 
-#: ../views/backend/account.php:139 ../application/Controller/Admin.php:571
+#: ../views/backend/account.php:139 ../application/Controller/Admin.php:572
 msgid "Plugin Mode"
 msgstr "Plugin-Modus"
 
@@ -530,19 +529,19 @@ msgstr ""
 "<strong>\n"
 "reguläre Besucher nicht sichtbar</strong>."
 
-#: ../views/backend/pricing.php:22 ../application/Controller/Admin.php:239
+#: ../views/backend/pricing.php:22 ../application/Controller/Admin.php:240
 msgid "Global Default Price"
 msgstr "Standardpreis"
 
 #: ../views/backend/pricing.php:31 ../views/backend/pricing.php:117 ..
 #: views/backend/pricing.php:165 ../views/backend/pricing.php:224 ..
-#: views/backend/pricing.php:363
+#: views/backend/pricing.php:396
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: ../views/backend/pricing.php:32 ../views/backend/pricing.php:116 ..
 #: views/backend/pricing.php:164 ../views/backend/pricing.php:223 ..
-#: views/backend/pricing.php:362 ../views/backend/pricing.php:434
+#: views/backend/pricing.php:395 ../views/backend/pricing.php:467
 msgid "Save"
 msgstr "Speichern"
 
@@ -552,11 +551,11 @@ msgstr "<strong>Jeder Beitrag</strong> kostet"
 
 #: ../views/backend/pricing.php:59 ../views/backend/pricing.php:118 ..
 #: views/backend/pricing.php:166 ../views/backend/pricing.php:225 ..
-#: views/backend/pricing.php:364
+#: views/backend/pricing.php:397
 msgid "Change"
 msgstr "Ändern"
 
-#: ../views/backend/pricing.php:68 ../application/Controller/Admin.php:253
+#: ../views/backend/pricing.php:68 ../application/Controller/Admin.php:254
 msgid "Category Default Prices"
 msgstr "Kategorie-Standardpreise"
 
@@ -578,8 +577,8 @@ msgid "0.00"
 msgstr "0,00"
 
 #: ../views/backend/pricing.php:119 ../views/backend/pricing.php:167 ..
-#: views/backend/pricing.php:226 ../views/backend/pricing.php:365 ..
-#: views/backend/pricing.php:441 ../application/Controller/Admin/Pricing.php:49
+#: views/backend/pricing.php:226 ../views/backend/pricing.php:398 ..
+#: views/backend/pricing.php:474 ../application/Controller/Admin/Pricing.php:50
 msgid "Delete"
 msgstr "Löschen"
 
@@ -607,8 +606,8 @@ msgstr ""
 msgid "The user has to log in to LaterPay and pay immediately."
 msgstr "Der Nutzer muss sich bei LaterPay einloggen und sofort bezahlen."
 
-#: ../views/backend/pricing.php:206 ../application/Controller/Admin.php:288 ..
-#: application/Controller/Admin.php:402
+#: ../views/backend/pricing.php:206 ../application/Controller/Admin.php:289 ..
+#: application/Controller/Admin.php:403
 msgid "Time Passes"
 msgstr "Zeitpässe"
 
@@ -617,24 +616,24 @@ msgid ""
 "Time passes provide access to your entire site or specific categories for a "
 "limited time."
 msgstr ""
-"Zeitpässe geben einen zeitlich begrenzten Zugriff auf Ihre gesamte Seite "
-"oder eine bestimmte Kategorie."
+"Zeitpässe geben zeitlich begrenzt Zugriff auf Ihre gesamte Seite oder eine "
+"bestimmte Kategorie."
 
 #: ../views/backend/pricing.php:209
 msgid ""
 "To display time passes you have to <a href=\"admin.php?page=laterpay-"
-"appearance-tab#lp_timePassAppearance\">call the action "
-"'laterpay_time_passes'</a> in your theme."
+"appearance-tab#lp_timePassAppearance\">call the action laterpay_time_pass</a> "
+"in your theme."
 msgstr ""
 "Um Zeitpässe anzuzeigen, müssen Sie <a href=\"admin.php?page=laterpay-"
-"appearance-tab#lp_timePassAppearance\">die Action 'laterpay_time_passes' in "
-"Ihrem Theme aufrufen</a>."
+"appearance-tab#lp_timePassAppearance\">die Action laterpay_time_pass in Ihrem "
+"Theme aufrufen</a>."
 
 #: ../views/backend/pricing.php:213
 msgid "New Pass"
 msgstr "Neuer Pass"
 
-#: ../views/backend/pricing.php:233 ../application/Controller/Admin/Pricing.php:52
+#: ../views/backend/pricing.php:233 ../application/Controller/Admin/Pricing.php:53
 msgid "allows purchasing this pass for"
 msgstr "ermöglicht den Kauf dieses Passes für"
 
@@ -662,34 +661,42 @@ msgstr "später"
 msgid "immediately"
 msgstr "sofort"
 
-#: ../views/backend/pricing.php:314
+#: ../views/backend/pricing.php:320
 msgid "Title"
 msgstr "Titel"
 
-#: ../views/backend/pricing.php:325
+#: ../views/backend/pricing.php:337
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../views/backend/pricing.php:344
+#: ../views/backend/pricing.php:361
+msgid "Background image"
+msgstr "Hintergrundbild"
+
+#: ../views/backend/pricing.php:362
+msgid "or color"
+msgstr "oder Farbe"
+
+#: ../views/backend/pricing.php:377
 msgid "Offer this time pass at a reduced price of"
 msgstr "Diesen Zeitpass zu einem reduzierten Preis anbieten:"
 
-#: ../views/backend/pricing.php:351
+#: ../views/backend/pricing.php:384
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: ../views/backend/pricing.php:375 ../application/Controller/Admin.php:335
+#: ../views/backend/pricing.php:408 ../application/Controller/Admin.php:336
 msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
-#: ../views/backend/pricing.php:420 ../application/Controller/Admin/Pricing.php:
-#: 44 ../application/Controller/Admin/Pricing.php:566 ..
-#: application/Controller/Admin/Pricing.php:597
+#: ../views/backend/pricing.php:453 ../application/Controller/Admin/Pricing.php:
+#: 45 ../application/Controller/Admin/Pricing.php:558 ..
+#: application/Controller/Admin/Pricing.php:589
 msgid "to"
 msgstr "auf"
 
-#: ../views/backend/pricing.php:433 ../views/backend/pricing.php:442 ..
-#: application/Controller/Admin/Pricing.php:48
+#: ../views/backend/pricing.php:466 ../views/backend/pricing.php:475 ..
+#: application/Controller/Admin/Pricing.php:49
 msgid "Update Prices"
 msgstr "Preise aktualisieren"
 
@@ -752,7 +759,7 @@ msgid ""
 "The dynamic pricing will <strong>start</strong>, once you have "
 "<strong>published</strong> this post."
 msgstr ""
-"Die dynamische Preissetzung <strong>startet</strong>, sobald Sie diesen "
+"Die dynamische Preissetzung <strong>started</strong>, sobald Sie diesen "
 "Beitrag <strong>veröffentlicht</strong> haben."
 
 #: ../views/backend/partials/post_pricing_form.php:109
@@ -839,11 +846,11 @@ msgstr "Cookies<span>%s</span>"
 
 #: ../application/Core/Logger/Handler/WordPress.php:164
 msgid "System Config"
-msgstr "System-Konfiguration"
+msgstr "System Konfiguration"
 
 #: ../application/Core/Logger/Handler/WordPress.php:168
 msgid "Plugin Config"
-msgstr "Plugin-Konfiguration"
+msgstr "Plugin Konfiguration"
 
 #: ../application/Core/Logger/Handler/WordPress.php:212
 msgid "yes"
@@ -1060,7 +1067,10 @@ msgid ""
 "occasions costs (e. g. license fees for a video stream).<br>\n"
 "                                            A Single Sales is possible "
 "between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 "
-"EUR</strong>.\n"
+"EUR</strong>.<br>\n"
+"                                            Single Sales are currently "
+"available for <strong>individual prices</strong> and will soon be "
+"implemented for the global default price and category default prices.\n"
 "                                        </p>"
 msgstr ""
 "<p>\n"
@@ -1070,14 +1080,14 @@ msgstr ""
 "05 Euro (einschließlich) und 149,99 Euro (einschließlich).<br>\n"
 "Wenn Sie einen individuellen Preis setzen, ist ein eventuell gesetzter "
 "Kategorie-Standardpreis für diesen Beitrag nicht mehr gültig,\n"
-"bis Sie den Kategorie-Standardpreis wieder auf diesen Beitrag anwenden.\n"
+"bis Sie den Kategorie-Standardpreis wieder für diesen Beitrag anwenden.\n"
 "</p>\n"
 "<p>\n"
 "<strong>Dynamische Preissetzung</strong><br>\n"
 "Sie können die dynamische Preissetzung verwenden, um den Preis eines "
 "Beitrags automatisch mit der Zeit anzupassen.<br>\n"
-"Sie können z. B. einen \"Breaking News\" Beitrag für 0,49 Euro verkaufen (auf "
-"Grund des größeren Interesses in den ersten 24 Stunden)\n"
+"Sie können z. B. einen \"Breaking News\" Beitrag für 0,49 Euro (auf Grund "
+"größeren Interesses in den ersten 24 Stunden)\n"
 "und den Preis automatisch am nächsten Tag auf 0,05 Euro reduzieren.\n"
 "</p>\n"
 "<p>\n"
@@ -1112,10 +1122,13 @@ msgstr ""
 "solche, bei deren Verkauf Ihnen unmittelbare Kosten entstehen (z. B. "
 "Lizenzgebühren für einen Videostream).<br>\n"
 "Ein Single Sale ist bei Preisen zwischen (einschließlich) <strong>1,49 "
-"EUR</strong> und (einschließlich) <strong>149,99 EUR</strong> möglich.\n"
+"EUR</strong> und (einschließlich) <strong>149,99 EUR</strong> möglich.<br>\n"
+"Single Sales sind derzeit für <strong>individuelle Preise</strong> verfügbar "
+"und werden bald auch für den Standardpreis und Kategorie-Standardpreise zur "
+"Verfügung stehen.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:240
+#: ../application/Controller/Admin.php:241
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1138,7 +1151,7 @@ msgstr ""
 "die kein Kategorie-Standardpreis oder individueller Preis gesetzt wurde.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:254
+#: ../application/Controller/Admin.php:255
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1173,11 +1186,11 @@ msgstr ""
 "kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:271
+#: ../application/Controller/Admin.php:272
 msgid "Currency"
 msgstr "Währung"
 
-#: ../application/Controller/Admin.php:272
+#: ../application/Controller/Admin.php:273
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1210,7 +1223,7 @@ msgstr ""
 "dollar betragen. \n"
 "</p>"
 
-#: ../application/Controller/Admin.php:289
+#: ../application/Controller/Admin.php:290
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1278,8 +1291,8 @@ msgid ""
 "tab#lp_timePassAppearance\" target=\"_blank\">action 'laterpay_time_passes'</a> "
 "into your theme.<br>\n"
 "                                                    This action will display "
-"all time passes which are relevant for the user in the current context and "
-"sorts them accordingly.<br>\n"
+"all time passes which are available for the user in the current context, "
+"sorted by relevance.<br>\n"
 "                                                    Example: You offer a "
 "<strong>Week Pass \"Sport\"</strong> for the category sport, a <strong>Week "
 "Pass \"News\"</strong> for the category \"News\" and a <strong>Month Pass Entire "
@@ -1369,7 +1382,7 @@ msgstr ""
 "Während des Gültigkeitszeitraumes wird er in der Kategorie \"Reiseberichte\" "
 "nicht zum Bezahlen einzelner Beiträge aufgefordert. Auf den bereits einzeln "
 "gekauften Artikel \"New York – Ein Reisebericht\" hat er aber nach wie vor "
-"auch nach Ablauf des Zeitpasses Zugriff.\n"
+"auch nach Ablauf des Passes Zugriff.\n"
 "</p>\n"
 "\n"
 "<p>\n"
@@ -1378,7 +1391,7 @@ msgstr ""
 "page=laterpay-appearance-tab#lp_timePassAppearance\" target=\"_blank\">Action "
 "'laterpay_time_passes'</a> in Ihrem Theme aufrufen.<br>\n"
 "    Diese Action zeigt alle Zeitpässe an, die im aktuellen Kontext für den "
-"Nutzer relevant sind und sortiert sie entsprechend.<br>\n"
+"Nutzer verfügbar sind und sortiert sie nach Relevanz.<br>\n"
 "    Beispiel: Sie bieten einen <strong>Wochenpass \"Sport\"</strong> für die "
 "Kategorie Sport, einen <strong>Wochenpass \"News\"</strong> für die Kategorie "
 "News und einen <strong>Monatspass für die gesamte Seite</strong> an. Je "
@@ -1411,7 +1424,7 @@ msgstr ""
 "Gutschein-Code erworben wurden.\n"
 " </p>"
 
-#: ../application/Controller/Admin.php:336
+#: ../application/Controller/Admin.php:337
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1528,7 +1541,7 @@ msgid ""
 msgstr ""
 "<p>\n"
 "Mit dem <strong>Bulk Price Editor</strong> können Sie schnell "
-"<strong>viele</strong> Preise <strong>auf einmal</strong> ändern.<br>\n"
+"<strong>mehrere</strong> Preise <strong>auf einmal</strong> ändern.<br>\n"
 "Das Plugin wird dabei immer versuchen, die <strong>bestehende Preisstruktur "
 "zu erhalten</strong>. Das bedeutet, dass in den <strong>meisten</strong> "
 "Fällen Beiträge mit einem individuellen Preis nach einer Bulk-Price-Änderung "
@@ -1608,18 +1621,18 @@ msgstr ""
 "</li>\n"
 "<li>\n"
 "Wenn der Preis eines <strong>PPU</strong> (Pay-per-use)-Beitrags auf einen "
-"Preis <strong>> 5,00 EUR</strong> geändert wird, wird der Beitrag zu einem "
+"Preis <strong>< 5,00 EUR</strong> geändert wird, wird der Beitrag zu einem "
 "<strong>SIS</strong> (Single Sale)-Beitrag.\n"
 "</li>\n"
 "<li>\n"
-"Wenn der Preis eines <strong>SIS</strong>-Beitrags auf einen Preis <strong>< "
-"1,49 EUR</strong> geändert wird, wird der Beitrag zu einem "
+"Wenn der Preis eines <strong>SIS</strong>-Beitrags auf einen Preis <strong>> "
+"149,99 EUR</strong> geändert wird, wird der Beitrag zu einem "
 "<strong>PPU</strong>-Beitrag.\n"
 "</li>\n"
 "</ul>\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:403
+#: ../application/Controller/Admin.php:404
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1777,7 +1790,7 @@ msgstr ""
 "Während des Gültigkeitszeitraumes wird er in der Kategorie \"Reiseberichte\" "
 "nicht zum Bezahlen einzelner Beiträge aufgefordert. Auf den bereits einzeln "
 "gekauften Artikel \"New York – Ein Reisebericht\" hat er aber nach wie vor "
-"auch nach Ablauf des Zeitpasses Zugriff.\n"
+"auch nach Ablauf des Passes Zugriff.\n"
 "</p>\n"
 "\n"
 "<p>\n"
@@ -1786,7 +1799,7 @@ msgstr ""
 "page=laterpay-appearance-tab#lp_timePassAppearance\" target=\"_blank\">Action "
 "'laterpay_time_passes'</a> in Ihrem Theme aufrufen.<br>\n"
 "    Diese Action zeigt alle Zeitpässe an, die im aktuellen Kontext für den "
-"Nutzer relevant sind und sortiert sie entsprechend.<br>\n"
+"Nutzer verfügbar sind und sortiert sie nach Relevanz.<br>\n"
 "    Beispiel: Sie bieten einen <strong>Wochenpass \"Sport\"</strong> für die "
 "Kategorie Sport, einen <strong>Wochenpass \"News\"</strong> für die Kategorie "
 "News und einen <strong>Monatspass für die gesamte Seite</strong> an. Je "
@@ -1814,16 +1827,16 @@ msgstr ""
 "Zeitpasses, für den er gültig ist, vor dem Kauf entsprechend angepasst.<br>\n"
 "    Ein Gutschein-Code kann <strong>beliebig oft</strong> eingelöst werden "
 "und ist <strong>nicht</strong> an einen bestimmten Nutzer gebunden.<br>\n"
-"    Wenn Sie einen Gutschein-Code <strong>löschen</strong>, hat das "
+"    Wenn Sie einen Gutschein-Code <strong>löschen</strong> hat das "
 "<strong>keine Auswirkungen</strong> auf Zeitpässe, die bereits mit diesem "
 "Gutschein-Code erworben wurden.\n"
 " </p>"
 
-#: ../application/Controller/Admin.php:458
+#: ../application/Controller/Admin.php:459
 msgid "Preview Mode"
 msgstr "Vorschau für"
 
-#: ../application/Controller/Admin.php:459
+#: ../application/Controller/Admin.php:460
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1871,11 +1884,11 @@ msgstr ""
 "</li>\n"
 "</ul>\n"
 
-#: ../application/Controller/Admin.php:483
+#: ../application/Controller/Admin.php:484
 msgid "Invoice Indicator"
 msgstr "Rechnungsanzeige"
 
-#: ../application/Controller/Admin.php:484
+#: ../application/Controller/Admin.php:485
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1900,7 +1913,7 @@ msgstr ""
 "aber aus Gründen der Transparenz.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:498
+#: ../application/Controller/Admin.php:499
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -1936,11 +1949,11 @@ msgstr ""
 "die Bewertung gekaufter Inhalte erlauben.\n"
 "</p>"
 
-#: ../application/Controller/Admin.php:522
+#: ../application/Controller/Admin.php:523
 msgid "API Credentials"
 msgstr "API Zugangsdaten"
 
-#: ../application/Controller/Admin.php:523
+#: ../application/Controller/Admin.php:524
 msgid ""
 "\n"
 "                                                    <p>\n"
@@ -2043,7 +2056,7 @@ msgstr ""
 "Umgebung werden alle Transaktionen gebucht und Ihrem\n"
 "LaterPay Händlerkonto gutgeschrieben.<br>\n"
 "                                                            Für diese "
-"Umgebung gilt das LaterPay Service-Level-Agreement für Verfügbarkeit und "
+"Umgebung gilt das LaterPay Service-Level-Agreement fü Verfügbarkeit und "
 "Response Time.\n"
 "                                                        </li>\n"
 "                                                    </ul>\n"
@@ -2064,7 +2077,7 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
-#: ../application/Controller/Admin.php:572
+#: ../application/Controller/Admin.php:573
 msgid ""
 "\n"
 "                                                    <p>You can run the "
@@ -2108,7 +2121,7 @@ msgstr ""
 "                                                    <ul>\n"
 "                                                        <li>\n"
 "                                                            <strong>Test-"
-"Modus</strong> &ndash; Im Test-Modus können Sie Ihre Plugin-Konfiguration "
+"Modus</strong> &ndash; Im Test-Modus können Sie Ihre Plugin Konfiguration "
 "testen.<br>\n"
 "                                                            Dieser Modus "
 "bietet die volle Plugin-Funktionalität, Transaktionen werden aber nicht "
@@ -2139,16 +2152,15 @@ msgstr ""
 #: application/Controller/Admin/Appearance.php:102 ..
 #: application/Controller/Admin/Appearance.php:136 ..
 #: application/Controller/Admin/Appearance.php:166 ..
-#: application/Controller/Admin/Pricing.php:216 ..
-#: application/Controller/Admin/Pricing.php:241 ..
-#: application/Controller/Admin/Pricing.php:355 ..
-#: application/Controller/Admin/Pricing.php:425 ..
-#: application/Controller/Admin/Pricing.php:440 ..
-#: application/Controller/Admin/Pricing.php:543 ..
-#: application/Controller/Admin/Pricing.php:667 ..
-#: application/Controller/Admin/Pricing.php:751 ..
-#: application/Controller/Admin/Pricing.php:806 ..
-#: application/Controller/Admin/Pricing.php:835
+#: application/Controller/Admin/Pricing.php:217 ..
+#: application/Controller/Admin/Pricing.php:242 ..
+#: application/Controller/Admin/Pricing.php:356 ..
+#: application/Controller/Admin/Pricing.php:432 ..
+#: application/Controller/Admin/Pricing.php:535 ..
+#: application/Controller/Admin/Pricing.php:659 ..
+#: application/Controller/Admin/Pricing.php:743 ..
+#: application/Controller/Admin/Pricing.php:798 ..
+#: application/Controller/Admin/Pricing.php:827
 msgid "An error occurred when trying to save your settings. Please try again."
 msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
@@ -2162,7 +2174,7 @@ msgstr "Aktualisiert."
 #: ../application/Controller/Statistics.php:210 ..
 #: application/Controller/Admin/Account.php:67 ..
 #: application/Controller/Admin/Appearance.php:61 ..
-#: application/Controller/Admin/Pricing.php:140
+#: application/Controller/Admin/Pricing.php:141
 msgid "You don't have sufficient user capabilities to do this."
 msgstr "Sie haben nicht die erforderlichen Berechtigungen für diese Aktion."
 
@@ -2259,7 +2271,8 @@ msgid "The API key you entered is not a valid LaterPay %s API key!"
 msgstr "Der eingegebene API-Key ist kein gültiger LaterPay %s API-Key!"
 
 #: ../application/Controller/Admin/Account.php:222 ..
-#: application/Controller/Admin/Pricing.php:259
+#: application/Controller/Admin/Pricing.php:260 ..
+#: application/Controller/Admin/Pricing.php:417
 msgid "Error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
 
@@ -2289,14 +2302,14 @@ msgstr "Ihre Änderungen wurden gespeichert."
 
 #: ../application/Controller/Admin/Appearance.php:113
 msgid "Visitors will now see only the teaser content of paid posts."
-msgstr "Besucher sehen ab sofort nur den Teaser eines kostenpflichtigen Beitrags."
+msgstr "Besucher sehen ab jetzt nur den Teaser eines kostenpflichtigen Beitrags."
 
 #: ../application/Controller/Admin/Appearance.php:120
 msgid ""
 "Visitors will now see the teaser content of paid posts plus an excerpt of "
 "the real content under an overlay."
 msgstr ""
-"Besucher sehen ab sofort den Teaser eines kostenpflichtigen Beitrags und "
+"Besucher sehen ab jetzt den Teaser eines kostenpflichtigen Beitrags und "
 "einen Auszug des Artikels unter einem Overlay."
 
 #: ../application/Controller/Admin/Appearance.php:147
@@ -2305,156 +2318,156 @@ msgstr "Besucher können nun gekaufte Beiträge bewerten."
 
 #: ../application/Controller/Admin/Appearance.php:154
 msgid "The rating of posts has been disabled."
-msgstr "Die Bewertung gekaufter Inhalte wurde deaktiviert."
+msgstr "Die Bewertung gekaufter Beiträge wurde deaktiviert."
 
-#: ../application/Controller/Admin/Pricing.php:42
+#: ../application/Controller/Admin/Pricing.php:43
 msgid "Make"
 msgstr "Mache"
 
-#: ../application/Controller/Admin/Pricing.php:43
+#: ../application/Controller/Admin/Pricing.php:44
 msgid "free"
 msgstr "kostenlos"
 
-#: ../application/Controller/Admin/Pricing.php:45 ..
-#: application/Controller/Admin/Pricing.php:628
+#: ../application/Controller/Admin/Pricing.php:46 ..
+#: application/Controller/Admin/Pricing.php:620
 msgid "by"
 msgstr "um"
 
-#: ../application/Controller/Admin/Pricing.php:46 ..
-#: application/Controller/Admin/Pricing.php:651
+#: ../application/Controller/Admin/Pricing.php:47 ..
+#: application/Controller/Admin/Pricing.php:643
 msgid "to global default price of"
 msgstr "auf den Standardpreis"
 
-#: ../application/Controller/Admin/Pricing.php:47 ..
-#: application/Controller/Admin/Pricing.php:657
+#: ../application/Controller/Admin/Pricing.php:48 ..
+#: application/Controller/Admin/Pricing.php:649
 msgid "to category default price of"
 msgstr "auf den Kategorie-Standardpreis"
 
-#: ../application/Controller/Admin/Pricing.php:51
+#: ../application/Controller/Admin/Pricing.php:52
 msgid "Every user, who owns this pass, will lose his access."
 msgstr "Jeder Nutzer, der diesen Pass besitzt, wird seinen Zugang verlieren."
 
-#: ../application/Controller/Admin/Pricing.php:68
+#: ../application/Controller/Admin/Pricing.php:69
 msgid "All posts in category"
 msgstr "aller Beiträge in Kategorie"
 
-#: ../application/Controller/Admin/Pricing.php:88
+#: ../application/Controller/Admin/Pricing.php:89
 msgid "Set price of"
 msgstr "Setze den Preis"
 
-#: ../application/Controller/Admin/Pricing.php:89
+#: ../application/Controller/Admin/Pricing.php:90
 msgid "Increase price of"
 msgstr "Erhöhe den Preis"
 
-#: ../application/Controller/Admin/Pricing.php:90
+#: ../application/Controller/Admin/Pricing.php:91
 msgid "Reduce price of"
 msgstr "Reduziere den Preis"
 
-#: ../application/Controller/Admin/Pricing.php:91
+#: ../application/Controller/Admin/Pricing.php:92
 msgid "Make free"
 msgstr "Kostenlos-machen"
 
-#: ../application/Controller/Admin/Pricing.php:92
+#: ../application/Controller/Admin/Pricing.php:93
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ../application/Controller/Admin/Pricing.php:96 ..
-#: application/Controller/Admin/Pricing.php:640
+#: ../application/Controller/Admin/Pricing.php:97 ..
+#: application/Controller/Admin/Pricing.php:632
 msgid "All posts"
 msgstr "aller Beiträge"
 
-#: ../application/Controller/Admin/Pricing.php:271
+#: ../application/Controller/Admin/Pricing.php:272
 #, php-format
 msgid "The currency for this website is %s now."
 msgstr "Die Währung für diese Website ist jetzt %s."
 
-#: ../application/Controller/Admin/Pricing.php:292 ..
-#: application/Controller/Admin/Pricing.php:340
+#: ../application/Controller/Admin/Pricing.php:293 ..
+#: application/Controller/Admin/Pricing.php:341
 msgid "The price you tried to set is outside the allowed range of 0 or 0.05-149.99."
 msgstr ""
 "Der Preis, den Sie zu setzen versuchen, liegt außerhalb des erlaubten "
 "Bereichs von 0 oder 0,05-149,99."
 
-#: ../application/Controller/Admin/Pricing.php:309
+#: ../application/Controller/Admin/Pricing.php:310
 msgid "All posts are free by default now."
 msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
 
-#: ../application/Controller/Admin/Pricing.php:312
+#: ../application/Controller/Admin/Pricing.php:313
 #, php-format
 msgid "The global default price for all posts is %s %s now."
 msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:369
+#: ../application/Controller/Admin/Pricing.php:370
 msgid "There is no such category on this website."
 msgstr "Diese Kategorie existiert nicht."
 
-#: ../application/Controller/Admin/Pricing.php:404
+#: ../application/Controller/Admin/Pricing.php:396
 #, php-format
 msgid "All posts in category %s have a default price of %s %s now."
 msgstr "Alle Beiträge in Kategorie %s haben nun einen Standardpreis von %s %s."
 
-#: ../application/Controller/Admin/Pricing.php:497
+#: ../application/Controller/Admin/Pricing.php:489
 #, php-format
 msgid "The default price for category %s was deleted."
 msgstr "Der Standardpreis für die Kategorie %s wurde entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:562
+#: ../application/Controller/Admin/Pricing.php:554
 msgid "The prices of all posts"
 msgstr "Die Preise aller Beiträge"
 
-#: ../application/Controller/Admin/Pricing.php:564
+#: ../application/Controller/Admin/Pricing.php:556
 msgid "have been"
 msgstr "wurden"
 
-#: ../application/Controller/Admin/Pricing.php:565 ..
-#: application/Controller/Admin/Pricing.php:596
+#: ../application/Controller/Admin/Pricing.php:557 ..
+#: application/Controller/Admin/Pricing.php:588
 msgid "set"
 msgstr "gesetzt"
 
-#: ../application/Controller/Admin/Pricing.php:581
+#: ../application/Controller/Admin/Pricing.php:573
 #, php-format
 msgid "%s %s"
-msgstr "%s %s"
+msgstr ""
 
-#: ../application/Controller/Admin/Pricing.php:627
+#: ../application/Controller/Admin/Pricing.php:619
 msgid "decreased"
 msgstr "reduziert"
 
-#: ../application/Controller/Admin/Pricing.php:627
+#: ../application/Controller/Admin/Pricing.php:619
 msgid "increased"
 msgstr "erhöht"
 
-#: ../application/Controller/Admin/Pricing.php:641
+#: ../application/Controller/Admin/Pricing.php:633
 msgid "made free"
 msgstr "kostenlos gemacht"
 
-#: ../application/Controller/Admin/Pricing.php:646
+#: ../application/Controller/Admin/Pricing.php:638
 msgid "reset"
 msgstr "zurückgesetzt"
 
-#: ../application/Controller/Admin/Pricing.php:798
+#: ../application/Controller/Admin/Pricing.php:790
 msgid "Bulk operation saved."
 msgstr "Bulk Price Operation gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:826
+#: ../application/Controller/Admin/Pricing.php:818
 msgid "Bulk operation deleted."
 msgstr "Bulk Price Operation gelöscht."
 
-#: ../application/Controller/Admin/Pricing.php:897
+#: ../application/Controller/Admin/Pricing.php:889
 msgid "Pass saved."
 msgstr "Pass gespeichert."
 
-#: ../application/Controller/Admin/Pricing.php:906
+#: ../application/Controller/Admin/Pricing.php:898
 msgid "An error occurred when trying to save the pass. Please try again."
 msgstr ""
 "Bei dem Versuch, den Pass zu speichern, ist ein Fehler aufgetreten. Bitte "
 "versuchen Sie es erneut."
 
-#: ../application/Controller/Admin/Pricing.php:926
+#: ../application/Controller/Admin/Pricing.php:918
 msgid "Pass deleted."
 msgstr "Pass entfernt."
 
-#: ../application/Controller/Admin/Pricing.php:933
+#: ../application/Controller/Admin/Pricing.php:925
 msgid "The selected pass was deleted already."
 msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 

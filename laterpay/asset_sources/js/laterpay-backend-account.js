@@ -4,7 +4,10 @@
     function laterPayBackendAccount() {
         var $o = {
                 // API credentials
+                apiKeyInput                 : $('.lp_js_validateApiKey'),
+                merchantIdInput             : $('.lp_js_validateMerchantId'),
                 // ...
+                isLive                      : 'lp_is-live',
 
                 // plugin mode
                 pluginModeToggle            : $('#lp_js_togglePluginMode'),
@@ -19,7 +22,8 @@
 
             bindEvents = function() {
                 // validate and save entered LaterPay API Keys
-                $('.lp_js_validateApiKey').bind('input', function() {
+                $o.apiKeyInput
+                .bind('input', function() {
                     var $input = this;
                     setTimeout(function() {
                         validateAPIKey($input);
@@ -27,7 +31,8 @@
                 });
 
                 // validate and save entered LaterPay Merchant IDs
-                $('.lp_js_validateMerchantId').bind('input', function() {
+                $o.merchantIdInput
+                .bind('input', function() {
                     var $input = this;
                     setTimeout(function() {
                         validateMerchantId($input);
@@ -35,7 +40,8 @@
                 });
 
                 // switch plugin between TEST and LIVE mode
-                $o.pluginModeToggle.change(function() {
+                $o.pluginModeToggle
+                .change(function() {
                     togglePluginMode();
                 });
 
@@ -67,10 +73,12 @@
                     $('#lp_js_pluginMode_testText').hide();
                     $('#lp_js_pluginMode_liveText').show();
                     $('#lp_js_pluginModeIndicator').fadeOut();
+                    $('.lp_liveCredentials').addClass($o.isLive);
                 } else {
                     $('#lp_js_pluginMode_liveText').hide();
                     $('#lp_js_pluginMode_testText').show();
                     $('#lp_js_pluginModeIndicator').fadeIn();
+                    $('.lp_liveCredentials').removeClass($o.isLive);
                 }
             },
 

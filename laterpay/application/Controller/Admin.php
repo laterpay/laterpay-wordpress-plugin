@@ -10,7 +10,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Show plugin in administrator panel.
      *
-     * @return  void
+     * @return void
      */
     public function add_to_admin_panel() {
         $plugin_page = LaterPay_Helper_View::$pluginPage;
@@ -119,12 +119,18 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         // return default tab, if no specific tab is requested
         if ( empty( $tab ) ) {
-            $tab            = 'pricing';
-            $_GET['tab']    = 'pricing';
+            $tab            = 'dashboard';
+            $_GET['tab']    = 'dashboard';
         }
 
         switch ( $tab ) {
             default:
+
+            // render dashboard tab
+            case 'dashboard':
+                $dashboard_controller = new LaterPay_Controller_Admin_Dashboard( $this->config );
+                $dashboard_controller->render_page();
+                break;
 
             // render pricing tab
             case 'pricing':
@@ -160,6 +166,10 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                 $this->render_add_edit_post_page_help();
                 break;
 
+            case 'dashboard':
+                $this->render_dashboard_tab_help();
+                break;
+
             case 'pricing':
                 $this->render_pricing_tab_help();
                 break;
@@ -180,7 +190,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     /**
      * Add contextual help for add / edit post page.
      *
-     * @return  void
+     * @return void
      */
     protected function render_add_edit_post_page_help() {
         $screen = get_current_screen();
@@ -224,6 +234,60 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                         </p>',
                                     'laterpay'
                                    ),
+                               ) );
+    }
+
+    /**
+     * Add contextual help for dashboard tab.
+     *
+     * @return  void
+     */
+    protected function render_dashboard_tab_help() {
+        $screen = get_current_screen();
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_dashboard_tab_help_conversion',
+                                   'title'   => __( 'Conversion', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        The <strong>Conversion</strong> (short for Conversion Rate) is the share of visitors of a specific post, who actually <strong>bought</strong> the post.<br>
+                                                        A conversion of 100% would mean that every user who has visited a post page and has read the teaser content had bought the post with LaterPay.<br>
+                                                        The conversion rate is one of the most important metrics for selling your content successfully: It indicates, if the price is perceived as adequate and if your content fits your audience\'s interests.
+                                                    </p>
+                                                    <p>
+                                                        The metric <strong>New Customers</strong> indicates the share of your customers who bought with LaterPay for the first time in the reporting period.<br>
+                                                        Please note that this is only an approximate value.
+                                                    </p>',
+                                                    'laterpay'
+                                                ),
+                               ) );
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_dashboard_tab_help_items_sold',
+                                   'title'   => __( 'Items Sold', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        The column <strong>Items Sold</strong> provides an overview of all your sales in the reporting period.
+                                                    </p>
+                                                    <p>
+                                                        <strong>AVG Items Sold</strong> (short for Average Items Sold) indicates how many posts you sold on average per day in the reporting period.
+                                                    </p>',
+                                                    'laterpay'
+                                                ),
+                               ) );
+        $screen->add_help_tab( array(
+                                   'id'      => 'laterpay_dashboard_tab_help_gross_revenue',
+                                   'title'   => __( 'Committed Revenue', 'laterpay' ),
+                                   'content' => __( '
+                                                    <p>
+                                                        <strong>Committed Revenue</strong> is the value of all purchases, for which your users have committed themselves to pay later (or paid immediately in case of a Single Sale purchase).
+                                                    </p>
+                                                    <p>
+                                                        <strong>AVG Revenue</strong> (short for Average Revenue) indicates the average revenue per day in the reporting period.
+                                                    </p>
+                                                    <p>
+                                                        Please note that this <strong>is not the amount of money you will receive with your next LaterPay payout</strong>, as a user will have to pay his invoice only once it reaches 5.00 € and LaterPay will deduct a fee of 15% for each purchase that was actually paid.
+                                                    </p>',
+                                                    'laterpay'
+                                                ),
                                ) );
     }
 
@@ -622,7 +686,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Load LaterPay stylesheet with LaterPay vector icon on all pages where the admin menu is visible.
+     * Load LaterPay stylesheet with LaterPay vector logo on all pages where the admin menu is visible.
      *
      * @return void
      */

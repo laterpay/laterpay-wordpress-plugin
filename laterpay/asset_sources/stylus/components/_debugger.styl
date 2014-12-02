@@ -1,0 +1,301 @@
+
+// debugger pane
+
+// debugger pane header with LaterPay vector logo ----------------------------------------------------------------------
+.lp_debugger,
+.lp_debugger h2 {
+    font-family:                    'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.lp_debugger {
+    background-color:               $background-darker;
+    bottom:                         0;
+    box-shadow:                     -1px 1px 6px hsla(0, 0%, 0%, 0.34);
+    font-size:                      14px;
+    height:                         35em;
+    line-height:                    1.3;
+    overflow-y:                     hidden;
+    position:                       fixed;
+    transition:                     0.25s ease-in-out;
+    width:                          100%;
+    z-index:                        $zindex-topmost_1;
+
+    header {
+        background-color:           darken(hsl(0, 0%, 89%), 13%);
+        cursor:                     pointer;
+        height:                     2.5em;
+
+        div {
+            line-height:            2.5em;
+            padding:                0 0.5em;
+        }
+    }
+
+    a {
+        box-shadow:                 none;
+        outline:                    0 none;
+        text-decoration:            none;
+
+        &:hover,
+        &:focus,
+        &:active {
+            outline:                0 none;
+            text-decoration:        none;
+        }
+    }
+
+    h2 {
+        display:                    inline-block;
+        font-size:                  1.25em;
+        font-weight:                400;
+        line-height:                1;
+        margin:                     0.5em 0 0.5em 6.75em;
+
+        &:before {
+            display:                block;
+            font-size:              6em;
+            height:                 0;
+            left:                   -1.02em;
+            line-height:            0;
+            position:               relative;
+            top:                    0.08em;
+        }
+    }
+
+    .lp_closeLink {
+        color:                      $clickable;
+        font-weight:                bold;
+        height:                     2em;
+        line-height:                2em;
+        margin:                     $fs-025 $fs-025 0 0;
+        text-align:                 center;
+        transform:                  rotate(90deg);
+        transition:                 transform 0.2s;
+        width:                      2em;
+
+        &:before {
+            line-height:            2em;
+            padding:                0 0 0 0.1em;
+            top:                    auto;
+        }
+
+        &:hover {
+            color:                  $clickable-highlight;
+        }
+    }
+}
+
+.lp_debugger.lp_is-hidden {
+    bottom:                         -32.5em;
+
+    .lp_closeLink {
+        transform:                  rotate(-90deg);
+    }
+}
+
+
+// debugger pane tabs --------------------------------------------------------------------------------------------------
+.lp_debugger_tabs {
+    border-bottom:                  1px solid $border-darker;
+    margin:                         $fs-075 $fs-075 0;
+    position:                       relative;
+    z-index:                        $zindex-base;
+
+    li {
+        border:                     1px solid transparent;
+        border-radius:              3px 3px 0 0;
+        float:                      left;
+        height:                     2.5em;
+        list-style:                 none outside none;
+        margin:                     0 2px -1px 0;
+        padding:                    0;
+
+        &:hover {
+            border-color:           $border-darker $border-darker hsl(0, 0%, 90%);
+        }
+    }
+
+    .lp_is-selected {
+        border-color:               $border-darker $border-darker hsl(0, 0%, 90%);
+
+        a,
+        &:hover a {
+            color:                  $text;
+            cursor:                 default;
+        }
+
+        span,
+        &:hover span {
+            background-color:       lighten(hsl(0, 0%, 33%), 20%);
+        }
+    }
+
+    a {
+        color:                      $clickable;
+        display:                    block;
+        padding:                    $fs-05 $fs-1;
+
+        &:hover {
+            color:                  $clickable-highlight;
+
+            span {
+                background-color:   $clickable-highlight;
+            }
+        }
+
+        span {
+            background-color:       $clickable;
+            border-radius:          2px;
+            color:                  $text-inverse;
+            display:                inline-block;
+            margin-left:            $fs-05;
+            min-width:              $fs-075;
+            padding:                1px 5px;
+            text-align:             center;
+        }
+    }
+}
+
+// debugging messages --------------------------------------------------------------------------------------------------
+.lp_debugger_contentList {
+    margin:                         0 $fs-075 $fs-1;
+    padding:                        0;
+    overflow-x:                     hidden;
+    overflow-y:                     scroll;
+    height:                         29em;
+
+    ul,
+    li {
+        margin:                     0;
+        padding:                    0;
+    }
+
+    li {
+        list-style:                 none outside none;
+    }
+
+    .lp_debugger_content li {
+        border-bottom:              1px solid darken(hsl(0, 0%, 87%), 3%);
+    }
+
+    // TODO: state classes should only be used as adjoining classes
+    .lp_is-hidden {
+        display:                    none;
+    }
+
+    table,
+    th,
+    td {
+        border:                     0 none;
+        border-collapse:            collapse;
+    }
+
+    table {
+        margin:                     0;
+        width:                      100%;
+    }
+
+    th,
+    td {
+        padding:                    $fs-05;
+        text-align:                 left;
+        vertical-align:             top;
+    }
+
+    th {
+        color:                      $text-lighter;
+        font-weight:                normal;
+        max-width:                  12em;
+        overflow:                   hidden;
+        padding-left:               $fs-05;
+        text-overflow:              ellipsi;
+        width:                      12em;
+    }
+
+    thead {
+        cursor:                     pointer;
+
+        td,
+        th {
+            transition:             background-color 0.25s;
+        }
+
+        &:hover td,
+        &:hover th {
+            background-color:       $background-highlight;
+        }
+
+        td:last-child {
+            color:                  $text-lighter;
+            max-width:              10em;
+            text-align:             right;
+        }
+    }
+
+    .lp_debugger_logEntryTable {
+        tbody th,
+        tbody td {
+            padding:                0 $fs-05 $fs-025;
+        }
+
+        tbody th {
+            padding-left:           2.25em;
+            padding-left:           2.75em;
+            width:                  12em;
+        }
+    }
+
+    .lp_debugger_logLevel:before {
+        font-size:                  $fs-175;
+        height:                     0;
+        line-height:                0;
+        margin-right:               $fs-025;
+        position:                   relative;
+        top:                        0.23em;
+    }
+
+    // infos
+    .lp_debugger_logLevel-100:before
+    .lp_debugger_logLevel-200:before
+    .lp_debugger_logLevel-250:before {
+        color:                      $text-lighter;
+        content:                    'm';
+    }
+
+    // warnings
+    .lp_debugger_logLevel-300:before {
+        color:                      hsl(39, 100%, 50%);
+        content:                    'n';
+    }
+
+    // errors
+    .lp_debugger_logLevel-400:before
+    .lp_debugger_logLevel-500:before
+    .lp_debugger_logLevel-550:before
+    .lp_debugger_logLevel-600:before {
+        color:                      hsl(6, 100%, 50%);
+        content:                    'o';
+    }
+
+    a {
+        color:                      $clickable;
+        padding:                    $fs-05 0 $fs-05 $fs-05;
+    }
+
+    &:hover a,
+    a:hover{
+        color:                      $clickable-highlight;
+
+    }
+
+    code {
+        font-size:                  $fs-1;
+        line-height:                1.3;
+    }
+}
+
+// admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
+// WordPress selector
+.ab-item {
+    cursor:                         pointer;
+}
