@@ -111,13 +111,6 @@
             ],
 
             bindEvents = function() {
-                // refresh dashboard
-                $o.refreshDashboard
-                .mousedown(function() {
-                    loadDashboard(true);
-                })
-                .click(function(e) {e.preventDefault();});
-
                 // toggle dropdown_list on touch devices
                 $($o.dropdownCurrentItem)
                 .click(function() {
@@ -147,22 +140,35 @@
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                 .mousedown(function() {
-                    alert('Coming soon');
+                    alert('Showing next interval coming soon');
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
                 .mousedown(function() {
-                    alert('Coming soon');
+                    alert('Showing previous interval coming soon');
+                })
+                .click(function(e) {e.preventDefault();});
+
+                // refresh dashboard
+                $o.refreshDashboard
+                .mousedown(function() {
+                    loadDashboard(true);
                 })
                 .click(function(e) {e.preventDefault();});
 
                 $('body')
                 .on('mousedown', $o.toggleItemDetails, function() {
-                    alert('Post details coming soon');
+                    alert('Toggling post details coming soon');
                 })
                 .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
+
+                $($o.revenueModelChoices)
+                .mousedown(function() {
+                    alert('Filtering by revenue model coming soon');
+                })
+                .click(function(e) {e.preventDefault();});
             },
 
             loadDashboardData = function(section, refresh) {
