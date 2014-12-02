@@ -172,6 +172,22 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
+     * Helper function to format the amount in most-/least-items.
+     *
+     * @param array     $items
+     * @param int       $decimal
+     *
+     * @return array    $items
+     */
+    public static function format_amount_value_most_least_data( $items, $decimal = 2 ) {
+        foreach ( $items as $key => $item ) {
+            $item->amount = number_format_i18n( $item->amount, $decimal ) . ' %';
+            $items[ $key ] = $item;
+        }
+        return $items;
+    }
+
+    /**
      * Return the ORDER and GROUP BY statement for a given interval.
      *
      * @param string $interval

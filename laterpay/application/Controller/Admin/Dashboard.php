@@ -304,9 +304,12 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      */
     private function most_least_converting_items( $options ) {
         $post_views_model = new LaterPay_Model_Post_Views();
-        $data = array(
-            'most'  => $post_views_model->get_most_viewed_posts( $options[ 'most_least_query' ], $options[ 'start_timestamp' ], $options[ 'interval' ] ),
-            'least' => $post_views_model->get_least_viewed_posts( $options[ 'most_least_query' ], $options[ 'start_timestamp' ], $options[ 'interval' ] ),
+        $most   = $post_views_model->get_most_viewed_posts( $options[ 'most_least_query' ], $options[ 'start_timestamp' ], $options[ 'interval' ] );
+        $least  = $post_views_model->get_least_viewed_posts( $options[ 'most_least_query' ], $options[ 'start_timestamp' ], $options[ 'interval' ] );
+
+        $data   = array(
+            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most ),
+            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least ),
         );
 
         $this->logger->info(
@@ -329,17 +332,19 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      */
     private function most_least_selling_items( $options ) {
         $history_model = new LaterPay_Model_Payments_History();
+        $most = $history_model->get_best_selling_posts(
+            $options[ 'most_least_query' ],
+            $options[ 'start_timestamp' ],
+            $options[ 'interval' ]
+        );
+        $least = $history_model->get_least_selling_posts(
+            $options[ 'most_least_query' ],
+            $options[ 'start_timestamp' ],
+            $options[ 'interval' ]
+        );
         $data = array(
-            'most'  => $history_model->get_best_selling_posts(
-                            $options[ 'most_least_query' ],
-                            $options[ 'start_timestamp' ],
-                            $options[ 'interval' ]
-                        ),
-            'least' => $history_model->get_least_selling_posts(
-                            $options[ 'most_least_query' ],
-                            $options[ 'start_timestamp' ],
-                            $options[ 'interval' ]
-                        ),
+            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 0 ),
+            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 0 ),
         );
 
         $this->logger->info(
@@ -362,17 +367,20 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      */
     private function most_least_revenue_items( $options ) {
         $history_model = new LaterPay_Model_Payments_History();
+        $most = $history_model->get_most_revenue_generating_posts(
+            $options[ 'most_least_query' ],
+            $options[ 'start_timestamp' ],
+            $options[ 'interval' ]
+        );
+        $least = $history_model->get_least_revenue_generating_posts(
+            $options[ 'most_least_query' ],
+            $options[ 'start_timestamp' ],
+            $options[ 'interval' ]
+        );
+
         $data = array(
-            'most'        => $history_model->get_most_revenue_generating_posts(
-                                $options[ 'most_least_query' ],
-                                $options[ 'start_timestamp' ],
-                                $options[ 'interval' ]
-                            ),
-            'least'       => $history_model->get_least_revenue_generating_posts(
-                                $options[ 'most_least_query' ],
-                                $options[ 'start_timestamp' ],
-                                $options[ 'interval' ]
-                            ),
+            'most'        => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most ),
+            'least'       => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least ),
         );
 
         $this->logger->info(
