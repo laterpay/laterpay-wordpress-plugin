@@ -176,12 +176,13 @@ class LaterPay_Helper_Dashboard
      *
      * @param array     $items
      * @param int       $decimal
+     * @param string    $unit
      *
      * @return array    $items
      */
-    public static function format_amount_value_most_least_data( $items, $decimal = 2 ) {
+    public static function format_amount_value_most_least_data( $items, $decimal = 2, $unit = '' ) {
         foreach ( $items as $key => $item ) {
-            $item->amount = number_format_i18n( $item->amount, $decimal ) . ' %';
+            $item->amount = number_format_i18n( $item->amount, $decimal ) . ' ' . $unit;
             $items[ $key ] = $item;
         }
         return $items;
