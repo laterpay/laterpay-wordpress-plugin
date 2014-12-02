@@ -232,6 +232,7 @@
                                         <span class="lp_voucherCodeLabel"><?php echo $voucher_code; ?></span>
                                         <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
                                         <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>
+                                        <?php echo ( ! isset( $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code] ) ) ? 0 : $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code]; ?>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>

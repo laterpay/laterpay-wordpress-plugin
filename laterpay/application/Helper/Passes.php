@@ -272,6 +272,22 @@ class LaterPay_Helper_Passes
     }
 
     /**
+     * Get untokenized pass id
+     *
+     * @param string $tokenized_pass_id tokenized pass id
+     *
+     * @return int|null pass id
+     */
+    public static function get_untokenized_pass_id( $tokenized_pass_id ) {
+        $pass_parts = explode( '_', $tokenized_pass_id );
+        if ( $pass_parts[0] === self::PASS_TOKEN ) {
+            return $pass_parts[1];
+        }
+
+        return null;
+    }
+
+    /**
      * Get all tokenized pass ids.
      *
      * @param null   $passes array of passes
@@ -392,6 +408,7 @@ class LaterPay_Helper_Passes
      *
      * @param int  $pass_id
      * @param null $price new price ( voucher code )
+     * @param null $link  url of page to redirect
      *
      * @return string url || empty string if something went wrong
      */

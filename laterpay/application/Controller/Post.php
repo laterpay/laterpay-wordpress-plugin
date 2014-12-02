@@ -188,13 +188,23 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ] );
         if ( $code_data ) {
             // get new URL for this pass
-            $pass_id = $code_data[ 'pass_id' ];
+            $pass_id    = $code_data[ 'pass_id' ];
             // get price, delocalize it, and format it
-            $price   = $code_data[ 'price' ];
-            $price   = str_replace( ',', '.', $price );
-            $price   = number_format( (float) $price, 2 );
+            $price      = $code_data[ 'price' ];
+            $price      = str_replace( ',', '.', $price );
+            $price      = number_format( (float) $price, 2 );
+            // prepare url before usage
+            $url        = $_GET[ 'link' ];
+            $url_params = array(
+                'pass_id'  => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
+                'voucher'  => $_GET[ 'code' ],
+            );
+            $url        = add_query_arg( $url_params, $url );
+            $hash       = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+            $url        = $url .'&hash=' . $hash;
+
             // get new purchase URL
-            $url     = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price, $_GET[ 'link' ] );
+            $url = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price, $url );
 
             wp_send_json(
                 array(
@@ -211,6 +221,39 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'success' => false,
             )
         );
+    }
+
+    /**
+     * Save pass info after purchase
+     *
+     * @wp-hook template_reditect
+     * @return  void
+     */
+    public function buy_time_pass() {
+        if ( ! isset( $_GET[ 'pass_id' ] ) ) {
+            return;
+        }
+
+        // get permalink
+        $link = get_permalink();
+
+        // data to create and hash-check the URL
+        $url_data = array(
+            'pass_id' => $_GET[ 'pass_id' ],
+            'voucher' => $_GET[ 'voucher' ],
+        );
+
+        $url  = add_query_arg( $url_data, $link );
+        $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+
+        if ( $hash === $_GET[ 'hash' ] ) {
+            // update voucher statistic
+            $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $url_data[ 'pass_id'] );
+            LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $url_data[ 'voucher' ] );
+        }
+
+        wp_redirect( $link );
+        exit;
     }
 
     /**
