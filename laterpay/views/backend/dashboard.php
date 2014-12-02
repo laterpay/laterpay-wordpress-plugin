@@ -129,91 +129,31 @@
             <div class="lp_u_w-1-3">
                 <h3><?php _e( 'Best-converting Items', 'laterpay' ); ?></h3>
                 <ol id="lp_js_bestConvertingList" class="lp_topBottomList">
-                    <?php if ( empty( $laterpay['best_converting_items'] ) ) : ?>
-                        <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
-                    <?php else: ?>
-                        <?php foreach ( $laterpay['best_converting_items'] as $item ): ?>
-                            <li>
-                                <span class="lp_sparklineBar"><?php echo $item->sparkline; ?></span>
-                                <strong class="lp_value lp_valueNarrow"><?php echo $item->amount; ?><small>%</small></strong>
-                                <i><a href="#" class="lp_js_toggleItemDetails"><?php echo get_the_title( $item->post_id ); ?></a></i>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 </ol>
                 <h3><?php _e( 'Least-converting Items', 'laterpay' ); ?></h3>
                 <ol id="lp_js_leastConvertingList" class="lp_topBottomList">
-                    <?php if ( empty( $laterpay['least_converting_items'] ) ) : ?>
-                        <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
-                    <?php else: ?>
-                        <?php foreach ( $laterpay['least_converting_items'] as $item ): ?>
-                            <li>
-                                <span class="lp_sparklineBar"><?php echo $item->sparkline; ?></span>
-                                <strong class="lp_value lp_valueNarrow"><?php echo $item->amount; ?><small>%</small></strong>
-                                <i><a href="#" class="lp_js_toggleItemDetails"><?php echo get_the_title( $item->post_id ); ?></a></i>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 </ol>
             </div>
             <div class="lp_u_w-1-3">
                 <h3><?php _e( 'Most-selling Items', 'laterpay' ); ?></h3>
                 <ol id="lp_js_bestSellingList" class="lp_topBottomList">
-                    <?php if ( empty( $laterpay['most_selling_items'] ) ) : ?>
-                        <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
-                    <?php else: ?>
-                        <?php foreach ( $laterpay['most_selling_items'] as $item ): ?>
-                            <li>
-                                <span class="lp_sparklineBar"><?php echo $item->sparkline; ?></span>
-                                <strong class="lp_value lp_valueNarrow"><?php echo $item->amount; ?></strong>
-                                <i><a href="#" class="lp_js_toggleItemDetails"><?php echo get_the_title( $item->post_id ); ?></a></i>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 </ol>
                 <h3><?php _e( 'Least-selling Items', 'laterpay' ); ?></h3>
                 <ol id="lp_js_leastSellingList" class="lp_topBottomList">
-                    <?php if ( empty( $laterpay['least_selling_items'] ) ) : ?>
-                        <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
-                    <?php else: ?>
-                        <?php foreach ( $laterpay['least_selling_items'] as $item ): ?>
-                            <li>
-                                <span class="lp_sparklineBar"><?php echo $item->sparkline; ?></span>
-                                <strong class="lp_value lp_valueNarrow"><?php echo $item->amount; ?></strong>
-                                <i><a href="#" class="lp_js_toggleItemDetails"><?php echo get_the_title( $item->post_id ); ?></a></i>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 </ol>
             </div>
             <div class="lp_u_w-1-3">
                 <h3><?php _e( 'Most Revenue-generating Items', 'laterpay' ); ?></h3>
                 <ol id="lp_js_bestGrossingList" class="lp_topBottomList">
-                    <?php if ( empty( $laterpay['most_revenue_items'] ) ) : ?>
-                        <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
-                    <?php else: ?>
-                        <?php foreach ( $laterpay['most_revenue_items'] as $item ): ?>
-                            <li>
-                                <span class="lp_sparklineBar"><?php echo $item->sparkline; ?></span>
-                                <strong class="lp_value"><?php echo $item->amount; ?><small><?php echo $laterpay['currency']; ?></small></strong>
-                                <i><a href="#" class="lp_js_toggleItemDetails"><?php echo get_the_title( $item->post_id ); ?></a></i>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 </ol>
                 <h3><?php _e( 'Least Revenue-generating Items', 'laterpay' ); ?></h3>
                 <ol id="lp_js_leastGrossingList" class="lp_topBottomList">
-                    <?php if ( empty( $laterpay['least_revenue_items'] ) ) : ?>
-                        <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
-                    <?php else: ?>
-                        <?php foreach ( $laterpay['least_revenue_items'] as $item ): ?>
-                            <li>
-                                <span class="lp_sparklineBar"><?php echo $item->sparkline; ?></span>
-                                <strong class="lp_value"><?php echo $item->amount; ?><small><?php echo $laterpay['currency']; ?></small></strong>
-                                <i><a href="#" class="lp_js_toggleItemDetails"><?php echo get_the_title( $item->post_id ); ?></a></i>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                    <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                 </ol>
             </div>
         </div>
