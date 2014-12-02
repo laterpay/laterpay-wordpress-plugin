@@ -367,6 +367,8 @@ your theme after installing the LaterPay WordPress plugin.
 * Fixed bug that broke the installation ("Unrecognized Address in line 78")
 * Fixed loading of youtube videos in paid content
 * Around 8784126852 other small bugfixes and improvements
+KNOWN BUGS:
+* Shortcode always uses global default price https://github.com/laterpay/laterpay-wordpress-plugin/issues/503
 
 = 0.9.8.3 (October 28, 2014): Bugfix Release =
 * Added bulk price editor to make editing large numbers of posts easier
