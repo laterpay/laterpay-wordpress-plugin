@@ -124,12 +124,12 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         if ( empty( $data ) ) {
             $response = array(
                 'message'   => sprintf( __( 'Cache data is empty on <code>%s</code>', 'laterpay' ), $options[ 'section' ] ),
-                'success'   => FALSE,
+                'success'   => false,
             );
         } else {
             $response = array(
                 'data'      => $data,
-                'success'   => TRUE,
+                'success'   => true,
             );
         }
 
@@ -540,7 +540,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $start_timestamp = $post_args[ 'start_timestamp' ];
         }
 
-        $refresh = TRUE;
+        $refresh = true;
         if ( isset( $post_args[ 'refresh' ] ) ) {
             $refresh = (bool) $post_args[ 'refresh' ];
         }
@@ -551,7 +551,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $cache_filename = LaterPay_Helper_Dashboard::get_cache_filename( $section, $interval, $count );
         if ( $refresh || ! file_exists( $cache_dir . $cache_filename ) ) {
             // refresh the cache, if refresh == false and the file doesn't exist
-            $refresh = TRUE;
+            $refresh = true;
         }
 
         $options = array(
@@ -581,7 +581,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     private function validate_ajax_section_callback() {
         if ( ! isset( $_POST[ 'section' ] ) ) {
             $error = array(
-                'success'   => FALSE,
+                'success'   => false,
                 'message'   => __( 'Error, missing section on request', 'laterpay' ),
                 'step'      => 3,
             );
@@ -590,7 +590,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         if ( ! in_array( $_POST[ 'section' ], $this->ajax_sections ) ) {
             $error = array(
-                'success'   => FALSE,
+                'success'   => false,
                 'message'   => sprintf( __( 'Section is not allowed <code>%s</code>', 'laterpay' ), $_POST[ 'section' ] ),
                 'step'      => 4,
             );
@@ -599,7 +599,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         if ( ! method_exists( $this, $_POST[ 'section' ] ) ) {
             $error = array(
-                'success'   => FALSE,
+                'success'   => false,
                 'message'   => sprintf( __( 'Invalid section <code>%s</code>', 'laterpay' ), $_POST[ 'section' ] ),
                 'step'      => 4,
             );
@@ -625,7 +625,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $nonce = $_POST[ '_wpnonce' ];
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
-                'success'   => FALSE,
+                'success'   => false,
                 'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
                 'step'      => 2,
             );
