@@ -81,11 +81,11 @@
                             <?php _e( 'Views', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="lp_js_avgConversion">0.0</span></big>
+                            <big><span id="lp_js_avgConversion">0.0</span><small>%</small></big>
                             <?php _e( 'Conversion', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="lp_js_shareOfNewCustomers">0</span></big>
+                            <big><span id="lp_js_shareOfNewCustomers">0</span><small>%</small></big>
                             <?php _e( 'New Customers', 'laterpay' ); ?>
                         </li>
                     </ul>
@@ -113,11 +113,11 @@
                 <div class="lp_statisticsRow lp_u_clearfix">
                     <ul>
                         <li>
-                            <big><span id="lp_js_avgRevenue">0.00</span></big>
+                            <big><span id="lp_js_avgRevenue">0.00</span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'AVG Purchase', 'laterpay' ); ?>
                         </li>
                         <li>
-                            <big><span id="lp_js_totalRevenue">0.00</span></big>
+                            <big><span id="lp_js_totalRevenue">0.00</span><small><?php echo $laterpay['currency']; ?></small></big>
                             <?php _e( 'Revenue', 'laterpay' ); ?>
                         </li>
                     </ul>

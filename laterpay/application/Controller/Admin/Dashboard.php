@@ -452,13 +452,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $avg_items_sold = $total_items_sold / $diff;
         }
 
-        $currency = get_option( 'laterpay_currency', 'EUR' );
-
         $data = array(
             // column 1 - conversion metrics
             'impressions'           => LaterPay_Helper_View::format_number( $impressions, false ),
-            'conversion'            => number_format_i18n( $conversion, 2) . ' <small>%</small>',
-            'new_customers'         => number_format( $new_customers, 2 ) . ' <small>%</small>',
+            'conversion'            => number_format_i18n( $conversion, 2),
+            'new_customers'         => number_format( $new_customers, 2 ),
             'returning_customers'   => LaterPay_Helper_View::format_number( $returning_customers, false ),
 
             // column 2 - sales metrics
@@ -466,8 +464,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'total_items_sold'      => LaterPay_Helper_View::format_number( $total_items_sold, false ),
 
             // column 3 - revenue metrics
-            'avg_purchase'          => number_format_i18n( $avg_purchase, 2 ) . ' <small>' . $currency . '</small>',
-            'total_revenue'         => number_format_i18n( $total_revenue_items, 2 ) . ' <small>' . $currency . '</small>',
+            'avg_purchase'          => number_format_i18n( $avg_purchase, 2 ),
+            'total_revenue'         => number_format_i18n( $total_revenue_items, 2 ),
         );
 
         $this->logger->info(
