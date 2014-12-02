@@ -11,10 +11,15 @@
                 // heading with dashboard configuration selections
                 configurationSelection  : $('.lp_js_selectDashboardInterval, .lp_js_selectRevenueModel'),
                 intervalChoices         : $('.lp_js_selectDashboardInterval'),
-                RevenueModelChoices     : $('.lp_js_selectRevenueModel'),
+                revenueModelChoices     : $('.lp_js_selectRevenueModel'),
                 currentInterval         : $('#lp_js_displayedInterval'),
                 previousInterval        : $('#lp_js_loadPreviousInterval'),
                 nextInterval            : $('#lp_js_loadNextInterval'),
+                refreshDashboard        : $('#lp_js_refreshDashboard'),
+                // general dropdown selectors
+                dropdown                : '.lp_dropdown',
+                dropdownList            : '.lp_dropdown_list',
+                dropdownCurrentItem     : '.lp_dropdown_currentItem',
 
                 // diagrams
                 conversionDiagram       : $('#lp_js_conversionDiagram'),
@@ -43,7 +48,11 @@
                 bestSellingList         : $('#lp_js_bestSellingList'),
                 leastSellingList        : $('#lp_js_leastSellingList'),
                 bestGrossingList        : $('#lp_js_bestGrossingList'),
-                leastGrossingList       : $('#lp_js_leastGrossingList')
+                leastGrossingList       : $('#lp_js_leastGrossingList'),
+
+                // strings cached for better compression
+                expanded                : 'lp_is-expanded',
+                selected                : 'lp_is-selected',
 			},
 
 			plotDefaultOptions = {
@@ -101,16 +110,16 @@
 
             bindEvents = function() {
                 // refresh dashboard
-                $('#lp_js_refreshDashboard')
+                $o.refreshDashboard
                 .mousedown(function() {
                     loadDashboard(true);
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // toggle dropdown_list on touch devices
-                $('.lp_dropdown_currentItem')
+                $($o.dropdownCurrentItem)
                 .click(function() {
-                    $(this).parent('.lp_dropdown').addClass('lp_is-expanded');
+                    $(this).parent($o.dropdown).addClass($o.expanded);
                 });
 
                 // re-render dashboard in selected configuration
@@ -118,16 +127,16 @@
                 .mousedown(function() {
                     // change selected item to clicked item
                     $(this)
-                        .parents('.lp_dropdown')
-                        .removeClass('lp_is-expanded')
-                            .find('.lp_dropdown_currentItem')
+                        .parents($o.dropdown)
+                        .removeClass($o.expanded)
+                            .find($o.dropdownCurrentItem)
                             .text($(this).text())
                         .end()
-                            .find('.lp_is-selected')
-                            .removeClass('lp_is-selected')
+                            .find('.' + $o.selected)
+                            .removeClass($o.selected)
                         .end()
                     .end()
-                    .addClass('lp_is-selected');
+                    .addClass($o.selected);
 
                     loadDashboard();
                 })
@@ -150,12 +159,12 @@
 
 			loadDashboardData = function(section, refresh) {
 				var interval        = $o.intervalChoices
-                                        .parents('.lp_dropdown_list')
-                                            .find('.lp_is-selected')
+                                        .parents($o.dropdownList)
+                                            .find('.' + $o.selected)
                                             .attr('data-interval'),
-					revenueModel    = $o.RevenueModelChoices
-                                        .parents('.lp_dropdown_list')
-                                            .find('.lp_is-selected')
+					revenueModel    = $o.revenueModelChoices
+                                        .parents($o.dropdownList)
+                                            .find('.' + $o.selected)
                                             .attr('data-revenue-model'),
 					requestData     = {
 						// WP Ajax action
