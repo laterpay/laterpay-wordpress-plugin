@@ -46,7 +46,7 @@ class LaterPay_Helper_Vouchers
                 }
 
                 list( $code, $price ) = explode( '|', $voucher );
-                // format price and save
+                // format and save price
                 $price = number_format( (float) str_replace( ',', '.', $price ), 2 );
                 $new_vouchers[$code] = $price;
             }
@@ -58,7 +58,7 @@ class LaterPay_Helper_Vouchers
             $vouchers[ $pass_id ] = $new_vouchers;
         }
 
-        // save new vouchers data
+        // save new voucher data
         update_option( 'laterpay_voucher_codes', $vouchers );
         // actualize voucher statistic
         self::actualize_voucher_statistic();
@@ -146,11 +146,11 @@ class LaterPay_Helper_Vouchers
     }
 
     /**
-     * Check, if time passes have vouchers.
+     * Check, if given time passes have vouchers.
      *
      * @param array $passes array of time passes
      *
-     * @return bool
+     * @return bool $has_vouchers
      */
     public static function passes_have_vouchers( $passes ) {
         $has_vouchers = false;
@@ -170,7 +170,7 @@ class LaterPay_Helper_Vouchers
 
 
     /**
-     * Actualize voucher statistic
+     * Actualize voucher statistic.
      *
      * @return void
      */
@@ -191,12 +191,12 @@ class LaterPay_Helper_Vouchers
             }
         }
 
-        // actualize voucher statistic
+        // update voucher statistic
         update_option( 'laterpay_voucher_statistic', $result );
     }
 
     /**
-     * Update voucher statistic
+     * Update voucher statistic.
      *
      * @param int    $pass_id time pass id
      * @param string $code    voucher code
@@ -206,16 +206,16 @@ class LaterPay_Helper_Vouchers
     public static function update_voucher_statistic( $pass_id, $code ) {
         $pass_vouchers = self::get_pass_vouchers( $pass_id );
 
-        // check if such voucher exist
+        // check, if such voucher exists
         if ( $pass_vouchers && isset( $pass_vouchers[ $code ] ) ) {
-            // get all voucher statistic for this pass
+            // get all voucher statistics for this pass
             $voucher_statistic_data = self::get_pass_vouchers_statistic( $pass_id );
-            // check if statistic empty or not
+            // check, if statistic is empty
             if ( $voucher_statistic_data ) {
-                // if statistic exists already - increase it's counter by 1
+                // increment counter by 1, if statistic exists
                 $voucher_statistic_data[ $code ] += 1;
             } else {
-                // if statistic empty - create new data array
+                // create new data array, if statistic is empty
                 $voucher_statistic_data[ $code ] = 1;
             }
 
@@ -230,7 +230,7 @@ class LaterPay_Helper_Vouchers
     }
 
     /**
-     * Get pass voucher statistic by pass id
+     * Get time pass voucher statistic by time pass id.
      *
      * @param  int $pass_id time pass id
      *
@@ -247,7 +247,7 @@ class LaterPay_Helper_Vouchers
     }
 
     /**
-     * Get statistic for all vouchers
+     * Get statistics for all vouchers.
      *
      * @return array $statistic
      */
@@ -261,4 +261,5 @@ class LaterPay_Helper_Vouchers
 
         return $statistic;
     }
+
 }

@@ -272,7 +272,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get untokenized pass id
+     * Get untokenized pass id.
      *
      * @param string $tokenized_pass_id tokenized pass id
      *
@@ -307,7 +307,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get time limited passes for specified post
+     * Get time limited passes for given post.
      *
      * @param int    $post_id             post ID
      * @param null   $passes_with_access  ids of passes with access
@@ -333,9 +333,9 @@ class LaterPay_Helper_Passes
             $passes_list = (array) $model->get_post_passes();
         }
 
-        // correct result if we have passes purchased
+        // correct result if we have purchased passes
         if ( $passes_with_access ) {
-            // check if user has access to the current post with pass
+            // check, if user has access to the current post with pass
             $has_access = false;
             foreach ( $passes_list as $pass ) {
                 if ( in_array( $pass->pass_id, $passes_with_access ) ) {
@@ -345,12 +345,12 @@ class LaterPay_Helper_Passes
             }
 
             if ( $has_access ) {
-                // categories with access ( type 2 )
+                // categories with access (type 2)
                 $covered_categories  = array(
                     'included' => array(),
                     'excluded' => null,
                 );
-                // excluded categories ( type 1 )
+                // excluded categories (type 1)
                 $excluded_categories = array();
 
                 // go through passes with access and find covered and excluded categories
@@ -367,7 +367,7 @@ class LaterPay_Helper_Passes
                     }
                 }
 
-                // if we have full data access except specific categories
+                // if we have full access except for specific categories
                 if ( $excluded_categories ) {
                     foreach ( $excluded_categories as $excluded_category_id ) {
                         // search for excluded category in covered categories
@@ -375,8 +375,8 @@ class LaterPay_Helper_Passes
                         if ( $has_covered_category !== false ) {
                             return array();
                         } else {
-                            //  if more than 1 passes with excluded category purchased, if its values not mached, then
-                            //  all categories covered
+                            //  if more than 1 time pass with excluded category was purchased,
+                            //  and if its values are not matched, then all categories are covered
                             if ( isset( $covered_categories['excluded'] ) && ( $covered_categories['excluded'] !== $excluded_category_id ) ) {
                                 return array();
                             }
@@ -400,6 +400,7 @@ class LaterPay_Helper_Passes
 
     public static function get_all_passes() {
         $model = new LaterPay_Model_Pass();
+
         return $model->get_all_passes();
     }
 
@@ -416,7 +417,7 @@ class LaterPay_Helper_Passes
         $time_pass_model = new LaterPay_Model_Pass();
 
         $pass = (array) $time_pass_model->get_pass_data( $pass_id );
-        if ( empty($pass) ) {
+        if ( empty( $pass ) ) {
             return '';
         }
 
@@ -455,14 +456,13 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get pass expiry time
+     * Get pass expiry time.
      *
      * @param array $pass
      *
      * @return $time expiry time
      */
     protected static function get_pass_expiry_time( $pass ) {
-
         switch ( $pass['period'] ) {
             // hours
             case 0:
@@ -495,4 +495,5 @@ class LaterPay_Helper_Passes
 
         return $time;
     }
+
 }

@@ -224,9 +224,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Save pass info after purchase
+     * Save pass info after purchase.
      *
      * @wp-hook template_reditect
+     *
      * @return  void
      */
     public function buy_time_pass() {
@@ -253,6 +254,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         wp_redirect( $link );
+
         exit;
     }
 
@@ -295,7 +297,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             );
             $client->set_token( $_GET['lptoken'] );
         }
-        // check if the parameters of $_GET are valid and not manipulated
+        // check, if the parameters of $_GET are valid and not manipulated
         if ( $hash === $_GET[ 'hash' ] ) {
             $data = array(
                 'post_id'       => $_GET[ 'post_id' ],
@@ -975,7 +977,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get passes with access allowed
+     * Get time passes that have access to the current posts.
      *
      * @return array of pass ids with access
      */
