@@ -187,22 +187,57 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      */
     private function converting_items( $options ) {
         $post_views_model   = new LaterPay_Model_Post_Views();
-        $converting_items   = $post_views_model->get_history( $options[ 'query_args' ] );
-        $data               = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
-                                $converting_items,
-                                $options[ 'start_timestamp' ],
-                                $options[ 'interval' ]
-                            );
+        $converting_items   = $post_views_model->get_history( $options[ 'query_args' ], $options[ 'interval' ] );
+
+        $history_model      = new LaterPay_Model_Payments_History();
+        $selling_items      = $history_model->get_history( $options[ 'query_args' ], $options[ 'interval' ] );
+
+        if ( $options[ 'interval' ] === 'day' ) {
+            $converting_items = LaterPay_Helper_Dashboard::sort_items_by_hour( $converting_items );
+            $converting_items = LaterPay_Helper_Dashboard::fill_empty_hours( $converting_items, $options[ 'start_timestamp' ] );
+
+            $selling_items = LaterPay_Helper_Dashboard::sort_items_by_hour( $selling_items );
+            $selling_items = LaterPay_Helper_Dashboard::fill_empty_hours( $selling_items, $options[ 'start_timestamp' ] );
+
+        } else {
+            $days = LaterPay_Helper_Dashboard::get_days_as_array( $options[ 'start_timestamp' ], $options[ 'interval' ] );
+
+            $converting_items = LaterPay_Helper_Dashboard::sort_items_by_date( $converting_items );
+            $converting_items = LaterPay_Helper_Dashboard::fill_empty_days( $converting_items, $days );
+
+            $selling_items = LaterPay_Helper_Dashboard::sort_items_by_date( $selling_items );
+            $selling_items = LaterPay_Helper_Dashboard::fill_empty_days( $selling_items, $days );
+        }
+
+        $diagram_data = array();
+        foreach ( $converting_items as $date => $converting_item ) {
+            $selling_item = $selling_items[ $date ];
+            $data = $converting_item;
+            if ( $converting_item->quantity == 0 ) {
+                $data->quantity = 0;
+            } else {
+                // purchases on {date|hour} / views on {date|hour} * 100
+                $data->quantity = $selling_item->quantity / $converting_item->quantity * 100;
+            }
+            $diagram_data[ $date ] = $data;
+        }
+
+        $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $diagram_data, $options[ 'start_timestamp' ], $options[ 'interval' ] );
+
+        $context =  array(
+            'options'               => $options,
+            'converting_items'      => $converting_items,
+            'selling'               => $selling_items,
+            'diagram_data'          => $diagram_data,
+            'converted_diagram_data'=> $converted_diagram_data,
+        );
 
         $this->logger->info(
             __METHOD__,
-            array(
-                'options'   => $options,
-                'data'      => $data,
-            )
+           $context
         );
 
-        return $data;
+        return $converted_diagram_data;
     }
 
     /**
