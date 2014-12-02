@@ -3,17 +3,16 @@
 class LaterPay_Helper_Passes
 {
 
-    const PASS_TOKEN    = 'tlp';
+    const PASS_TOKEN = 'tlp';
 
     /**
-     * Get passes default options
+     * Get time pass default options.
      *
      * @param null $key option name
      *
      * @return mixed option value | array of options
      */
     public static function get_default_options( $key = null ) {
-
         // Default time range. Used during passes creation.
         $defaults = array(
             'pass_id'           => '0',
@@ -24,11 +23,7 @@ class LaterPay_Helper_Passes
             'price'             => '0.99',
             'revenue_model'     => 'ppu',
             'title'             => __( '24-Hour Pass', 'laterpay' ),
-            'title_color'       => '#444',
             'description'       => __( '24 hours access to all content on this website', 'laterpay' ),
-            'description_color' => '#444',
-            'background_path'   => '',
-            'background_color'  => '#fff',
         );
 
         if ( isset ( $key ) ) {
@@ -41,7 +36,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get durations
+     * Get valid time pass durations.
      *
      * @param null $key option name
      *
@@ -65,7 +60,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get periods
+     * Get valid time pass periods.
      *
      * @param null $key option name
      * @param bool $pluralized
@@ -103,7 +98,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get revenue model options
+     * Get valid time pass revenue models.
      *
      * @param null $key option name
      *
@@ -125,7 +120,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get access to string
+     * Get valid scope of time pass options.
      *
      * @param null $key option name
      *
@@ -148,13 +143,13 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get short pass description
+     * Get short time pass description.
      *
-     * @param  int $duration pass duration
-     * @param  int $period   pass period
-     * @param  int $access   pass access
+     * @param  int $duration time pass duration
+     * @param  int $period   time pass period
+     * @param  int $access   time pass access
      *
-     * @return string short pass description
+     * @return string short time pass description
      */
     public static function get_description( $duration = null, $period = null, $access = null ) {
         if ( ! $duration ) {
@@ -185,7 +180,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get select options by type
+     * Get time pass select options by type.
      *
      * @param string $type type of select
      *
@@ -196,23 +191,27 @@ class LaterPay_Helper_Passes
         $default_value = null;
         $select_first  = true;
 
-        switch( $type ) {
+        switch ( $type ) {
             case 'duration':
                 $elements      = self::get_duration_options();
                 $default_value = self::get_default_options( 'duration' );
                 break;
+
             case 'period':
                 $elements      = self::get_period_options();
                 $default_value = self::get_default_options( 'period' );
                 break;
+
             case 'access':
                 $elements      = self::get_access_options();
                 $default_value = self::get_default_options( 'access_to' );
                 break;
+
             case 'category':
                 $elements      = self::get_wp_categories();
                 $default_value = self::get_default_options( 'access_category' );
                 break;
+
             default:
                 return $options_html;
         }
@@ -220,7 +219,7 @@ class LaterPay_Helper_Passes
         if ( $elements && is_array( $elements ) ) {
             $is_first = true;
             foreach ( $elements as $id => $name ) {
-                // category values is different
+                // category value is different
                 if ( $type == 'category' ) {
                     $id   = $name->term_id;
                     $name = $name->name;
@@ -232,6 +231,7 @@ class LaterPay_Helper_Passes
                 } else {
                     $options_html .= '<option value="' . $id . '">' . $name . '</option>';
                 }
+
                 $is_first = false;
             }
         }
@@ -240,7 +240,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get wp categories
+     * Get wp categories.
      *
      * @param array $args query args for get_categories
      *
@@ -290,7 +290,7 @@ class LaterPay_Helper_Passes
     /**
      * Get all tokenized pass ids.
      *
-     * @param null   $passes array of passes
+     * @param null $passes array of time passes
      *
      * @return array $result
      */
@@ -298,6 +298,7 @@ class LaterPay_Helper_Passes
         if ( ! $passes ) {
             $passes = self::get_all_passes();
         }
+
         $result = array();
         foreach ( $passes as $pass ) {
             $result[] = self::get_tokenized_pass( $pass->pass_id );
@@ -307,7 +308,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get time limited passes for given post.
+     * Get time passes for given post.
      *
      * @param int    $post_id             post ID
      * @param null   $passes_with_access  ids of passes with access
@@ -333,7 +334,7 @@ class LaterPay_Helper_Passes
             $passes_list = (array) $model->get_post_passes();
         }
 
-        // correct result if we have purchased passes
+        // correct result, if we have purchased passes
         if ( $passes_with_access ) {
             // check, if user has access to the current post with pass
             $has_access = false;
@@ -367,7 +368,7 @@ class LaterPay_Helper_Passes
                     }
                 }
 
-                // if we have full access except for specific categories
+                // case: full access, except for specific categories
                 if ( $excluded_categories ) {
                     foreach ( $excluded_categories as $excluded_category_id ) {
                         // search for excluded category in covered categories
@@ -408,8 +409,8 @@ class LaterPay_Helper_Passes
      * Get the LaterPay purchase link for a time pass.
      *
      * @param int  $pass_id
-     * @param null $price new price ( voucher code )
-     * @param null $link  url of page to redirect
+     * @param null $price   new price (voucher code)
+     * @param null $link    url of page to redirect
      *
      * @return string url || empty string if something went wrong
      */
@@ -456,7 +457,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get pass expiry time.
+     * Get time pass expiry time.
      *
      * @param array $pass
      *
