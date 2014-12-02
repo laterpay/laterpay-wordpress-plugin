@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Tue Dec 02 2014 20:27:54 GMT+0100 (CET)\n"
+"PO-Revision-Date: Tue Dec 02 2014 21:36:50 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -1035,6 +1035,10 @@ msgstr "Darstellung"
 #: ../application/Helper/View.php:21
 msgid "Account"
 msgstr "Konto"
+
+#: ../application/Helper/View.php:161 ../application/Helper/View.php:169
+msgid "k"
+msgstr "t"
 
 #: ../application/Controller/Install.php:39
 #, php-format
