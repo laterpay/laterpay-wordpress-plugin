@@ -90,6 +90,7 @@
                 voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
                 voucherList                             : '.lp_js_voucherList',
                 voucher                                 : '.lp_js_voucher',
+                voucherTimesRedeemed                    : '.lp_js_voucherTimesRedeemed',
 
                 // bulk price editor
                 bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
@@ -996,7 +997,9 @@
                                         'style="display:none;">' +
                                     '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
                                     '<span class="lp_voucherCodeLabel">' + code + '</span>' +
-                                    lpVars.i18n.voucherText + ' ' + price +
+                                    '<span class="lp_voucherCodeInfos">' +
+                                        lpVars.i18n.voucherText + ' ' + price +
+                                    '</span>' +
                                     '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
                                         lpVars.i18n.delete +
                                     '</a>' +
@@ -1006,10 +1009,16 @@
             },
 
             addVoucherToList = function(code, priceValue, $timePass) {
-                var price   = priceValue + ' ' + lpVars.defaultCurrency,
+                var passId          = $timePass.data('pass-id'),
+                    timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
+                    price           = priceValue + ' ' + lpVars.defaultCurrency,
                     voucher =   '<div class="lp_js_voucher lp_voucherRow" ' + 'data-code="' + code + '">' +
-                                    '<span class="lp_voucherCodeLabel">' + code + '</span>' +
-                                    lpVars.i18n.voucherText + ' ' + price +
+                                    '<span class="lp_voucherCodeInfos">' +
+                                        lpVars.i18n.voucherText + ' ' + price + '.<br>' +
+                                        '<span class="lp_js_voucherTimesRedeemed">' +
+                                            timesRedeemed +
+                                        '</span>' + lpVars.i18n.timesRedeemed +
+                                    '</span>' +
                                 '</div>';
 
                 $timePass.find($o.voucherList).append(voucher);

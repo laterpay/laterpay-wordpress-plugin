@@ -230,8 +230,16 @@
                                 <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ): ?>
                                     <div class="lp_js_voucher lp_voucherRow">
                                         <span class="lp_voucherCodeLabel"><?php echo $voucher_code; ?></span>
+                                        <span class="lp_voucherCodeInfos">
                                         <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
-                                        <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>
+                                            <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>.<br>
+                                            <?php
+                                                echo ( ! isset( $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code] ) ) ?
+                                                    0 :
+                                                    $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code];
+                                            ?>
+                                            <?php _e( 'times redeemed.', 'laterpay' ); ?>
+                                        </span>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
