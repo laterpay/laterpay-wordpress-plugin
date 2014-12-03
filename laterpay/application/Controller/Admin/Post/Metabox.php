@@ -335,7 +335,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 $meta_values[ 'type' ] = $type;
 
                 // apply (static) individual price
-                if ( in_array( $type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) {
+                if ( in_array( $type, array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) ) ) {
                     $meta_values[ 'price' ] = $post_form->get_field_value( 'post-price' );
                     $meta_values[ 'revenue_model' ] = $post_form->get_field_value( 'post_revenue_model' );
                 }
@@ -348,6 +348,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                     if ( $start_price !== null && $end_price !== null ) {
                         list( $meta_values[ 'start_price' ], $meta_values[ 'end_price' ] ) = LaterPay_Helper_Pricing::adjust_dynamic_price_points( $start_price, $end_price );
                     }
+
+                    // TODO: calculate dynamic price revenue model
+
 
                     if ( $post_form->get_field_value( 'change_start_price_after_days' ) ) {
                         $meta_values[ 'change_start_price_after_days' ] = $post_form->get_field_value( 'change_start_price_after_days' );

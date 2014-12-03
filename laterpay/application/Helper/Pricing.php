@@ -220,7 +220,7 @@ class LaterPay_Helper_Pricing
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_price );
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post );
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
@@ -299,13 +299,13 @@ class LaterPay_Helper_Pricing
      * Get the current price for a post with dynamic pricing scheme defined.
      *
      * @param WP_Post $post
-     * @param array   $post_price see post_meta 'laterpay_post_prices'
-     * @param string  $post_revenue_model
      *
      * @return float price
      */
-    public static function get_dynamic_price( $post, $post_price ) {
+    public static function get_dynamic_price( $post ) {
+        $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
+        $revenue_model          = $post_price['revenue_model'];
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_price[ 'start_price' ];
@@ -319,7 +319,49 @@ class LaterPay_Helper_Pricing
             }
         }
 
-        return number_format( $price, 2 );
+        // detect revenue model by price range
+
+        $rounded_price = round( $price, 2 );
+
+        switch ( $revenue_model ) {
+            case 'ppu':
+                if( $rounded_price < self::ppu_min ) {
+                    if ( abs( self::price_sis_end - $rounded_price ) > $rounded_price ) {
+                        $rounded_price = self::ppu_min;
+                    } else {
+                        $rounded_price = 0;
+                    }
+                } else if( $rounded_price > self::ppu_max ) {
+                    $rounded_price = self::ppu_max;
+                }
+                break;
+            case 'sis':
+                if ( $rounded_price < self::price_sis_end ) {
+                    if ( abs( self::price_sis_end - $rounded_price ) > $rounded_price ) {
+                        $rounded_price = self::price_sis_end;
+                    } else {
+                        $rounded_price = 0;
+                    }
+                }
+                if ( $rounded_price > self::sis_max ) {
+                    $rounded_price = self::sis_max;
+                }
+                break;
+            case 'ppusis':
+                if ( $rounded_price > self::ppusis_max ) {
+                    $rounded_price = self::ppusis_max;
+                } else if( $rounded_price < self::sis_min ) {
+                    if ( abs( self::sis_min - $rounded_price ) > $rounded_price ) {
+                        $rounded_price = self::sis_min;
+                    } else {
+                        $rounded_price = 0.00;
+                    }
+                }
+            default:
+                break;
+         }
+
+        return number_format( $rounded_price, 2 );
     }
 
     /**
