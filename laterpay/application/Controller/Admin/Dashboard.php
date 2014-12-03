@@ -305,8 +305,9 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $most   = $post_views_model->get_most_viewed_posts( $options[ 'most_least_query' ], $options[ 'start_timestamp' ], $options[ 'interval' ] );
         $least  = $post_views_model->get_least_viewed_posts( $options[ 'most_least_query' ], $options[ 'start_timestamp' ], $options[ 'interval' ] );
         $data   = array(
-            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 1, '%' ),
-            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 1, '%' ),
+            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 1 ),
+            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 1 ),
+            'unit'  => '%'
         );
 
         $this->logger->info(
@@ -343,6 +344,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $data = array(
             'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 0 ),
             'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 0 ),
+            'unit'  => ''
         );
 
         $this->logger->info(
@@ -376,11 +378,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $options[ 'interval' ]
         );
 
-        $currency = get_option( 'laterpay_currency' );
-
         $data = array(
-            'most'        => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 2, $currency ),
-            'least'       => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 2, $currency ),
+            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 2 ),
+            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 2 ),
+            'unit'  => get_option( 'laterpay_currency' )
         );
 
         $this->logger->info(
