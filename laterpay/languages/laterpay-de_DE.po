@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Tue Dec 02 2014 22:59:35 GMT+0100 (CET)\n"
+"PO-Revision-Date: Wed Dec 03 2014 11:10:47 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -91,13 +91,16 @@ msgstr "Heute"
 msgid "Revenue"
 msgstr "Umsatz"
 
-#: ../views/frontend/partials/post/post_statistics.php:50
-msgid "Buyers"
-msgstr "Käufer"
+#: ../views/frontend/partials/post/post_statistics.php:50 ..
+#: views/backend/dashboard.php:75 ../views/backend/dashboard.php:85 ..
+#: application/Controller/Admin.php:249
+msgid "Conversion"
+msgstr "Conversion"
 
-#: ../views/frontend/partials/post/post_statistics.php:61
-msgid "Visitors"
-msgstr "Besucher"
+#: ../views/frontend/partials/post/post_statistics.php:61 ..
+#: views/backend/dashboard.php:81
+msgid "Views"
+msgstr "Aufrufe"
 
 #: ../views/frontend/partials/post/post_statistics.php:66
 msgid "Preview post as"
@@ -237,20 +240,11 @@ msgstr "SIS"
 msgid "Refresh"
 msgstr "Aktualisieren"
 
-#: ../views/backend/dashboard.php:75 ../views/backend/dashboard.php:85 ..
-#: application/Controller/Admin.php:249
-msgid "Conversion"
-msgstr "Conversion"
-
 #: ../views/backend/dashboard.php:79
 msgid ""
 "Number of times a page with purchasable content has been viewed in selected "
 "interval"
 msgstr "Anzahl der Aufrufe eines Bezahlinhaltes im Berichtszeitraum"
-
-#: ../views/backend/dashboard.php:81
-msgid "Views"
-msgstr "Aufrufe"
 
 #: ../views/backend/dashboard.php:83
 msgid "Share of purchases of all page views of pages with purchasable content"
@@ -299,7 +293,7 @@ msgstr "Gesamtwert aller Verkäufe im Berichtszeitraum"
 
 #: ../views/backend/dashboard.php:130
 msgid "Best-converting Items"
-msgstr "Höchste Conversion Rate"
+msgstr "Höchste Conversion"
 
 #: ../views/backend/dashboard.php:132 ../views/backend/dashboard.php:136 ..
 #: views/backend/dashboard.php:142 ../views/backend/dashboard.php:146 ..
@@ -310,7 +304,7 @@ msgstr "Keine Daten verfügbar"
 
 #: ../views/backend/dashboard.php:134
 msgid "Least-converting Items"
-msgstr "Geringste Conversion Rate"
+msgstr "Geringste Conversion"
 
 #: ../views/backend/dashboard.php:140
 msgid "Most-selling Items"
@@ -779,7 +773,7 @@ msgstr "Dieser Pass gilt für "
 msgid "and grants"
 msgstr "und gibt"
 
-#: ../views/backend/pricing.php:277 ../application/Helper/Passes.php:174
+#: ../views/backend/pricing.php:277 ../application/Helper/Passes.php:169
 msgid "access to"
 msgstr "Zugriff auf"
 
@@ -787,11 +781,11 @@ msgstr "Zugriff auf"
 msgid "The user pays"
 msgstr "Der Nutzer zahlt"
 
-#: ../views/backend/pricing.php:304 ../application/Helper/Passes.php:114
+#: ../views/backend/pricing.php:304 ../application/Helper/Passes.php:109
 msgid "later"
 msgstr "später"
 
-#: ../views/backend/pricing.php:314 ../application/Helper/Passes.php:115
+#: ../views/backend/pricing.php:314 ../application/Helper/Passes.php:110
 msgid "immediately"
 msgstr "sofort"
 
@@ -990,63 +984,63 @@ msgstr "nein"
 msgid "none"
 msgstr "keine"
 
-#: ../application/Helper/Passes.php:26
+#: ../application/Helper/Passes.php:25
 msgid "24-Hour Pass"
 msgstr "24-Stunden-Pass"
 
-#: ../application/Helper/Passes.php:28
+#: ../application/Helper/Passes.php:26
 msgid "24 hours access to all content on this website"
 msgstr "24 Stunden Zugang zu allen Inhalten auf dieser Website"
 
-#: ../application/Helper/Passes.php:78
+#: ../application/Helper/Passes.php:73
 msgid "Hour"
 msgstr "Stunde"
 
-#: ../application/Helper/Passes.php:79
+#: ../application/Helper/Passes.php:74
 msgid "Day"
 msgstr "Tag"
 
-#: ../application/Helper/Passes.php:80
+#: ../application/Helper/Passes.php:75
 msgid "Week"
 msgstr "Woche"
 
-#: ../application/Helper/Passes.php:81
+#: ../application/Helper/Passes.php:76
 msgid "Month"
 msgstr "Monat"
 
-#: ../application/Helper/Passes.php:82
+#: ../application/Helper/Passes.php:77
 msgid "Year"
 msgstr "Jahr"
 
-#: ../application/Helper/Passes.php:87
+#: ../application/Helper/Passes.php:82
 msgid "Hours"
 msgstr "Stunden"
 
-#: ../application/Helper/Passes.php:88
+#: ../application/Helper/Passes.php:83
 msgid "Days"
 msgstr "Tage"
 
-#: ../application/Helper/Passes.php:89
+#: ../application/Helper/Passes.php:84
 msgid "Weeks"
 msgstr "Wochen"
 
-#: ../application/Helper/Passes.php:90
+#: ../application/Helper/Passes.php:85
 msgid "Months"
 msgstr "Monate"
 
-#: ../application/Helper/Passes.php:91
+#: ../application/Helper/Passes.php:86
 msgid "Years"
 msgstr "Jahre"
 
-#: ../application/Helper/Passes.php:136
+#: ../application/Helper/Passes.php:131
 msgid "All content"
 msgstr "Alle Inhalte"
 
-#: ../application/Helper/Passes.php:137
+#: ../application/Helper/Passes.php:132
 msgid "All content except for category"
 msgstr "Alle Inhalte außer in Kategorie"
 
-#: ../application/Helper/Passes.php:138
+#: ../application/Helper/Passes.php:133
 msgid "All content in category"
 msgstr "Alle Inhalte in Kategorie"
 
@@ -2406,8 +2400,8 @@ msgstr "Aktualisiert."
 
 #: ../application/Controller/Statistics.php:210 ..
 #: application/Controller/Admin/Account.php:67 ..
-#: application/Controller/Admin/Dashboard.php:624 ..
-#: application/Controller/Admin/Dashboard.php:634 ..
+#: application/Controller/Admin/Dashboard.php:619 ..
+#: application/Controller/Admin/Dashboard.php:629 ..
 #: application/Controller/Admin/Appearance.php:61 ..
 #: application/Controller/Admin/Pricing.php:146
 msgid "You don't have sufficient user capabilities to do this."
@@ -2535,16 +2529,16 @@ msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 msgid "Cache data is empty on <code>%s</code>"
 msgstr "Cache data is empty on <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:590
+#: ../application/Controller/Admin/Dashboard.php:585
 msgid "Error, missing section on request"
 msgstr "Error, missing section on request"
 
-#: ../application/Controller/Admin/Dashboard.php:599
+#: ../application/Controller/Admin/Dashboard.php:594
 #, php-format
 msgid "Section is not allowed <code>%s</code>"
 msgstr "Section is not allowed <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:608
+#: ../application/Controller/Admin/Dashboard.php:603
 #, php-format
 msgid "Invalid section <code>%s</code>"
 msgstr "Invalid section <code>%s</code>"

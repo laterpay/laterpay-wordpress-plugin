@@ -47,7 +47,7 @@
             </li>
             <li>
                 <big><?php echo $laterpay['statistic']['todayBuyers']; ?><small>%</small></big>
-                <small><?php _e( 'Buyers', 'laterpay' ); ?></small>
+                <small><?php _e( 'Conversion', 'laterpay' ); ?></small>
             </li>
         </ul>
     </div>
@@ -58,7 +58,7 @@
             </li>
             <li>
                 <big><?php echo LaterPay_Helper_View::format_number( $laterpay['statistic']['todayVisitors'], false ); ?></big>
-                <small><?php _e( 'Visitors', 'laterpay' ); ?></small>
+                <small><?php _e( 'Views', 'laterpay' ); ?></small>
             </li>
         </ul>
     </div>
