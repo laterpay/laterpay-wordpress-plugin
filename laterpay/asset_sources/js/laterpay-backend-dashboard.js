@@ -470,13 +470,29 @@
                         '</li>';
             },
 
-            renderSparklines = function( context ) {
-                $('.lp_sparklineBar', context).peity('bar', {
-                    width   : 34,
-                    height  : 14,
-                    gap     : 1,
-                    fill    : function() {return '#ccc';}
-                });
+            renderSparklines = function($context) {
+                var $sparkline  = $('.lp_sparklineBar', $context),
+                    // get the number of data points from the first matched sparkline
+                    dataPoints  = $sparkline.first().text().split(',').length;
+
+                if (dataPoints > 8) {
+                    // render lots of data points as line chart, because bars would have < 1 px width each
+                    $sparkline
+                    .peity('line', {
+                        fill    : $o.colorBackground,
+                        height  : 14,
+                        stroke  : $o.colorBorder,
+                        width   : 34,
+                    });
+                } else {
+                    $sparkline
+                    .peity('bar', {
+                        fill    : function() {return $o.colorBorder;},
+                        gap     : 1,
+                        height  : 14,
+                        width   : 34,
+                    });
+                }
             },
 
             loadDashboard = function(refresh) {
