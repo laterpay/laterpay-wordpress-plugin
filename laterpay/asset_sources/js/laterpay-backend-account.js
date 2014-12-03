@@ -6,7 +6,10 @@
                 // API credentials
                 apiKeyInput                 : $('.lp_js_validateApiKey'),
                 merchantIdInput             : $('.lp_js_validateMerchantId'),
-                // ...
+                testMerchantId              : $('#lp_js_sandboxMerchantId'),
+                testApiKey                  : $('#lp_js_sandboxApiKey'),
+                liveMerchantId              : $('#lp_js_liveMerchantId'),
+                liveApiKey                  : $('#lp_js_liveApiKey'),
                 isLive                      : 'lp_is-live',
 
                 // plugin mode
@@ -93,6 +96,8 @@
                     // restore test mode
                     $input.val(testMode);
                     $toggle.prop('checked', false);
+                    // focus Merchant ID input in case the user just forgot to enter his credentials
+                    $o.liveMerchantId.focus();
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
                 } else if (hasSwitchedToLiveMode) {
@@ -238,7 +243,7 @@
                     }));
                 }
 
-                // cache object again after replacing it
+                // re-cache object after replacing it
                 $iframeWrapper = $('#lp_legalDocs_iframe');
 
                 // inject a new iframe into the wrapper with the requested src parameter
