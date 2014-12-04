@@ -46,6 +46,12 @@ class LaterPay_Helper_User
                         }
                         break;
 
+                    case 'laterpay_has_full_access_to_content':
+                        if ( ! empty( $post ) ) {
+                            $allowed = true;
+                        }
+                        break;
+
                     default:
                         $allowed = true;
                         break;

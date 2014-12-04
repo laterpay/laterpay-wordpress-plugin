@@ -782,6 +782,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $content;
         }
 
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+
+        if ( $user_has_unlimited_access ) {
+            return $content;
+        }
+
         $post_id = $post->ID;
 
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {

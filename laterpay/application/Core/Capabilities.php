@@ -27,6 +27,7 @@ class LaterPay_Core_Capabilities
             $role->add_cap( 'laterpay_read_post_statistics' );
             $role->add_cap( 'laterpay_edit_individual_price' );
             $role->add_cap( 'laterpay_edit_teaser_content' );
+            $role->add_cap( 'laterpay_has_full_access_to_content' );
         }
 
         $roles = array( 'author', 'contributor' );
