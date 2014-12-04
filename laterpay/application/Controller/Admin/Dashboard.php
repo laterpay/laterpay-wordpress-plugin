@@ -379,8 +379,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         );
 
         $data = array(
-            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 2 ),
-            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 2 ),
+            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 0 ),
+            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 0 ),
             'unit'  => get_option( 'laterpay_currency' ),
         );
 
