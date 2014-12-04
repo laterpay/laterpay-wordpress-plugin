@@ -76,3 +76,4 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         echo $field_code;
     }
 }
+
