@@ -72,7 +72,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                                 ),
             )
         );
-
     }
 
     /**
@@ -503,8 +502,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         // add the query options to the options array
         $options [ 'query_args' ] = array(
-            'order_by'  => LaterPay_Helper_Dashboard::get_order_and_group_by( $options[ 'interval' ]  ),
-            'group_by'  => LaterPay_Helper_Dashboard::get_order_and_group_by( $options[ 'interval' ]  ),
+            'order_by'  => LaterPay_Helper_Dashboard::get_order_by( $options[ 'interval' ]  ),
+            'group_by'  => LaterPay_Helper_Dashboard::get_group_by( $options[ 'interval' ]  ),
             'where'     => $where,
         );
 
