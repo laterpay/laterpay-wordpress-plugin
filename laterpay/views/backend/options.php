@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 <?php
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
@@ -11,4 +12,3 @@
     <?php do_settings_sections( 'laterpay' ); ?>
     <?php submit_button(); ?>
 </form>
-
