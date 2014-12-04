@@ -216,6 +216,7 @@ class LaterPay_Helper_Dashboard
         } else if ( $interval === 'month' ) {
             return 'month';
         }
+
         return 'date';
     }
 
