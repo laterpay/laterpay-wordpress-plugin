@@ -3,13 +3,13 @@
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 {
     /**
-     * Add LaterPay settings to the settings menu
+     * Add LaterPay advanced settings to the settings menu.
      *
      * @return void
      */
     public function add_laterpay_settings_page() {
         add_options_page(
-            __( 'LaterPay Options', 'laterpay' ),
+            __( 'LaterPay Advanced Settings', 'laterpay' ),
             'LaterPay',
             'manage_options',
             'laterpay',
@@ -18,61 +18,80 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render settings page
+     * Render settings page for all advanced settings.
      *
      * @return void
      */
     public function render_settings_page() {
         $view_args = array(
-            'settings_title' => __( 'LaterPay Options', 'laterpay'),
+            'settings_title' => __( 'LaterPay Advanced Settings', 'laterpay'),
         );
 
         $this->assign( 'laterpay', $view_args );
+
         echo $this->get_text_view( 'backend/options' );
     }
 
+    /**
+     * FIXME: [init_laterpay_settings description]
+     *
+     * @return void
+     */
     public function init_laterpay_settings() {
-        // Add default section to laterpay settings
+        // form for permissions settings
         add_settings_section(
-            'laterpay_permission',
-            __( 'Permissions', 'laterpay' ),
-            array( $this, 'get_permission_section_description' ),
+            'laterpay_permissions',
+            __( 'Unlimited Access to Paid Content', 'laterpay' ),
+            array( $this, 'get_permissions_section_description' ),
             'laterpay'
         );
 
-        // Add unlimited content access field
         add_settings_field(
             'unlimited_post_access',
-            __( 'Unlimited post access', 'laterpay' ),
-            array( $this, 'get_unlimited_access_field_code' ),
+            __( 'Roles with unlimited access', 'laterpay' ),
+            array( $this, 'get_unlimited_access_markup' ),
             'laterpay',
-            'laterpay_permission'
+            'laterpay_permissions'
         );
 
-        // Register setting
         register_setting( 'laterpay', 'unlimited_post_access' );
+
+
     }
 
-    public function get_permission_section_description() {
-        echo __( 'This section contain all LaterPay permission settings.', 'laterpay');
+    /**
+     * Render a hint text for the permissions section.
+     *
+     * @return string description
+     */
+    public function get_permissions_section_description() {
+        echo __( "Logged in users skip LaterPay entirely, if they have a role with unlimited access
+                to paid content.<br>
+                You can use this e.g. for giving free access to existing subscribers.<br>
+                We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay');
     }
 
-    public function get_unlimited_access_field_code() {
+    /**
+     * Render permissions form content.
+     *
+     * @return string permission checkboxes markup
+     */
+    public function get_unlimited_access_markup() {
         global $wp_roles;
 
-        $field_code = '<fieldset><legend class="screen-reader-text"><span>' . __( 'Roles', 'laterpay' ) . '</span></legend>';
+        $inputs_markup = '<fieldset><legend class="screen-reader-text"><span>' . __( 'Roles', 'laterpay' ) . '</span></legend>';
         foreach ( $wp_roles->roles as $role ) {
-            $field_code .= '<label title="' . $role['name'] . '">';
-            $field_code .= '<input type="checkbox" name="unlimited_post_access[]" value="' . strtolower( $role['name'] ) . '" ';
+            $inputs_markup .= '<label title="' . $role['name'] . '">';
+            $inputs_markup .= '<input type="checkbox" name="unlimited_post_access[]" value="' . strtolower( $role['name'] ) . '" ';
             if ( isset( $role['capabilities']['laterpay_has_full_access_to_content'] ) ) {
-                $field_code .= 'checked="checked"';
+                $inputs_markup .= 'checked="checked"';
             }
-            $field_code .= '>';
-            $field_code .= '<span>' . $role['name'] . '</span>';
-            $field_code .= '</label><br>';
+            $inputs_markup .= '>';
+            $inputs_markup .= '<span>' . $role['name'] . '</span>';
+            $inputs_markup .= '</label><br>';
         }
-        $field_code .= '</fieldset>';
+        $inputs_markup .= '</fieldset>';
 
-        echo $field_code;
+        echo $inputs_markup;
     }
 }
