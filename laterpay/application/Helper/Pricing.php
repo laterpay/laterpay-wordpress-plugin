@@ -357,6 +357,7 @@ class LaterPay_Helper_Pricing
                         $rounded_price = 0.00;
                     }
                 }
+                break;
             default:
                 break;
          }
@@ -504,8 +505,6 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function get_dynamic_prices( $post, $price = null ) {
-        $dynamic_pricing_data = array();
-
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
             return;
         }
@@ -525,6 +524,7 @@ class LaterPay_Helper_Pricing
         $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days',           $post_prices ) ? (float) $post_prices[ 'reach_end_price_after_days' ] : '';
         $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days',        $post_prices ) ? (float) $post_prices[ 'change_start_price_after_days' ] : '';
         $transitional_period_end_after_days = array_key_exists( 'transitional_period_end_after_days',   $post_prices ) ? (float) $post_prices[ 'transitional_period_end_after_days' ] : '';
+
         // return dynamic pricing widget start values
         if ( ( $start_price === '' ) && ( $price !== null ) ) {
             if ( $post_price > self::ppusis_max ) {
@@ -615,8 +615,10 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function adjust_dynamic_price_points( $start, $end ) {
+        $revenue_model = 'ppu';
+
         if ( $start >= self::price_sis_end || $end >= self::price_sis_end ) {
-            // SIS
+            $revenue_model = 'sis';
             if ( $start != 0 && $start < self::price_sis_end ) {
                 $start = self::price_sis_end;
             }
@@ -627,7 +629,7 @@ class LaterPay_Helper_Pricing
             ( $start >= self::sis_min && $start <= self::ppusis_max ) ||
                 ( $end >= self::sis_min && $end <= self::ppusis_max )
             ) {
-            // SIS or PPU
+            $revenue_model = 'ppusis';
             if ( $start != 0 ) {
                 if ( $start < self::sis_min ) {
                     $start = self::sis_min;
@@ -645,7 +647,6 @@ class LaterPay_Helper_Pricing
                 }
             }
         } else {
-            // PPU
             if ( $start != 0 ) {
                 if ( $start < self::ppu_min ) {
                     $start = self::ppu_min;
@@ -664,7 +665,7 @@ class LaterPay_Helper_Pricing
             }
         }
 
-        return array( $start, $end );
+        return array( $start, $end, $revenue_model );
     }
 
     /**
