@@ -20,7 +20,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     /**
      * Render settings page for all advanced settings.
      *
-     * @return void
+     * @return string
      */
     public function render_settings_page() {
         $view_args = array(
@@ -33,7 +33,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * FIXME: [init_laterpay_settings description]
+     * Configure content of LaterPay advanced settings page.
      *
      * @return void
      */
@@ -55,12 +55,10 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         );
 
         register_setting( 'laterpay', 'unlimited_post_access' );
-
-
     }
 
     /**
-     * Render a hint text for the permissions section.
+     * Render the hint text for the permissions section.
      *
      * @return string description
      */
