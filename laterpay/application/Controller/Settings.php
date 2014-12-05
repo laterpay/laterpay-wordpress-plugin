@@ -3,46 +3,6 @@
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 {
     /**
-     * Get default option value
-     *
-     * @param string $index option name
-     *
-     * @return null|mixed option value ( null if option not exist )
-     */
-    private function get_defaults( $index ) {
-        $defaults = array(
-            'laterpay_api_sandbox_url'                          => 'https://api.sandbox.laterpaytest.net',
-            'laterpay_api_sandbox_web_url'                      => 'https://web.sandbox.laterpaytest.net',
-
-            'laterpay_api_live_url'                             => 'https://api.laterpay.net',
-            'laterpay_api_live_web_url'                         => 'https://web.laterpay.net',
-
-            'laterpay_api_merchant_backend_url'                 => 'https://merchant.laterpay.net/',
-
-            'laterpay_content_show_purchase_button'             => 1,
-
-            'laterpay_content_teaser_content_word_count'        => '60',
-            'laterpay_content_preview_percentage_of_content'    => '25',
-            'laterpay_content_preview_word_count_min'           => '26',
-            'laterpay_content_preview_word_count_max'           => '200',
-        );
-
-        return isset( $defaults[ $index ] ) ? $defaults[ $index ] : null;
-    }
-
-    /**
-     * Get value of option if it exist or default value
-     *
-     * @param string $index option name
-     *
-     * @return mixed option value
-     */
-    public function get_value( $index ) {
-        $option_value = get_option( $index );
-        return isset( $option_value ) ? $option_value : $this->get_defaults( $index );
-    }
-
-    /**
      * Add LaterPay advanced settings to the settings menu.
      *
      * @return void
@@ -78,18 +38,13 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return void
      */
     public function init_laterpay_advanced_settings() {
-        // caching compatible mode
-        // - toggle caching compatibility
-        // - purge cache
-
-        // access logging for statistics
-        // $access_logging_enabled = apply_filters( 'later_pay_access_logging_enabled', true );
-
-        $this->add_caching_settings();
+        // Add sections with fields
+        $this->add_post_settings();
         $this->add_permission_settings();
-        $this->add_content_settings();
+        $this->add_teaser_content_settings();
         $this->add_api_settings();
         $this->add_logger_settings();
+        $this->add_caching_settings();
     }
 
     /**
@@ -98,7 +53,27 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_caching_settings() {
+        // Caching settings
+        add_settings_section(
+            'laterpay_caching',
+            __( 'Logger', 'laterpay' ),
+            array( $this, 'get_chaching_section_description' ),
+            'laterpay'
+        );
 
+        add_settings_field(
+            'laterpay_caching_compatibility',
+            __( 'Caching laterpay_caching_compatibility', 'laterpay' ),
+            array( $this, 'get_checkbox_field_markup' ),
+            'laterpay',
+            'laterpay_caching',
+            array(
+                'name'  => 'laterpay_caching_compatibility',
+                'value' => 1,
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_caching_compatibility' );
     }
 
     /**
@@ -107,7 +82,27 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_logger_settings() {
+        // Logger settings
+        add_settings_section(
+            'laterpay_logger',
+            __( 'Logger', 'laterpay' ),
+            array( $this, 'get_logger_section_description' ),
+            'laterpay'
+        );
 
+        add_settings_field(
+            'laterpay_access_logging_enabled',
+            __( 'Access logging enabled', 'laterpay' ),
+            array( $this, 'get_checkbox_field_markup' ),
+            'laterpay',
+            'laterpay_logger',
+            array(
+                'name'  => 'laterpay_access_logging_enabled',
+                'value' => 1,
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
     }
 
     /**
@@ -136,16 +131,16 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add content section and fields
+     * Add post section and fields
      *
      * @return void
      */
-    public function add_content_settings() {
-        // Content settings
+    public function add_post_settings() {
+        // Post settings
         add_settings_section(
-            'laterpay_content',
-            __( 'Automatically Generated Teaser Content', 'laterpay' ),
-            array( $this, 'get_content_section_description' ),
+            'laterpay_post',
+            __( 'Post', 'laterpay' ),
+            array( $this, 'get_post_section_description' ),
             'laterpay'
         );
 
@@ -154,7 +149,24 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             __( 'Enabled Post Types', 'laterpay' ),
             array( $this, 'get_enabled_post_types_markup' ),
             'laterpay',
-            'laterpay_content'
+            'laterpay_post'
+        );
+
+        register_setting( 'laterpay', 'laterpay_enabled_post_types' );
+    }
+
+    /**
+     * Add teaser content section and fields
+     *
+     * @return void
+     */
+    public function add_teaser_content_settings() {
+        // Content settings
+        add_settings_section(
+            'laterpay_content',
+            __( 'Automatically Generated Teaser Content', 'laterpay' ),
+            array( $this, 'get_teaser_content_section_description' ),
+            'laterpay'
         );
 
         add_settings_field(
@@ -164,7 +176,8 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             'laterpay',
             'laterpay_content',
             array(
-                'name' => 'laterpay_content_show_purchase_button',
+                'name'  => 'laterpay_content_show_purchase_button',
+                'value' => 1,
             )
         );
 
@@ -212,7 +225,6 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             )
         );
 
-        register_setting( 'laterpay', 'laterpay_enabled_post_types' );
         register_setting( 'laterpay', 'laterpay_content_show_purchase_button' );
         register_setting( 'laterpay', 'laterpay_content_teaser_content_word_count' );
         register_setting( 'laterpay', 'laterpay_content_preview_percentage_of_content' );
@@ -321,11 +333,38 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint for the content section
+     * Render the hint for the caching section
      *
      * @return string description
      */
-    public function get_content_section_description() {
+    public function get_chaching_section_description() {
+        echo __( 'lorem ipsum', 'laterpay');
+    }
+
+    /**
+     * Render the hint for the logger section
+     *
+     * @return string description
+     */
+    public function get_logger_section_description() {
+        echo __( 'lorem ipsum', 'laterpay');
+    }
+
+    /**
+     * Render the hint for the post section
+     *
+     * @return string description
+     */
+    public function get_post_section_description() {
+        echo __( 'lorem ipsum', 'laterpay');
+    }
+
+    /**
+     * Render the hint for the teaser content section
+     *
+     * @return string description
+     */
+    public function get_teaser_content_section_description() {
         echo __( 'lorem ipsum', 'laterpay');
     }
 
@@ -382,7 +421,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         $inputs_markup = '';
 
         if ( $field && isset( $field[ 'name' ] ) ) {
-            $option_value = $this->get_value( $field[ 'name' ] );
+            $option_value = get_option( $field[ 'name' ] );
             $type         = isset( $field[ 'type' ] ) ? $field['type']  : 'text';
             $class        = isset( $field[ 'class'] ) ? $field['class'] : '';
 
@@ -403,9 +442,9 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function get_checkbox_field_markup( $field = null ) {
         $inputs_markup = '';
 
-        if ( $field && isset( $field[ 'name' ] ) ) {
-            $option_value = $this->get_value( $field[ 'name' ] );
-            $field_value  = isset( $field[ 'value' ] ) ? $field[ 'value' ] : $this->get_defaults( $field[ 'name' ] );
+        if ( $field && isset( $field[ 'name' ] ) && isset( $field[ 'value' ] ) ) {
+            $option_value = get_option( $field[ 'name' ] );
+            $field_value  = $field[ 'value' ];
 
             $inputs_markup = '<input type="checkbox" name="' . $field[ 'name' ] . '" value="' . $field_value . '"';
             $inputs_markup .= $option_value ? ' checked="checked"' : '';
@@ -422,7 +461,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      */
     public function get_enabled_post_types_markup() {
         $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
-        $enabled_post_types = $this->get_value( 'laterpay_enabled_post_types' );
+        $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
 
         $inputs_markup = '<fieldset><legend class="screen-reader-text"><span>' . __( 'Enabled Post Types', 'laterpay' ) . '</span></legend>';
         foreach ( $all_post_types as $slug => $post_type ) {
