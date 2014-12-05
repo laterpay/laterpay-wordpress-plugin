@@ -2,18 +2,28 @@
 
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 {
-    public static $defaults = array(
-        'laterpay_api_sandbox_url'                          => 'https://api.sandbox.laterpaytest.net',
-        'laterpay_api_sandbox_web_url'                      => 'https://web.sandbox.laterpaytest.net',
-        'laterpay_api_live_url'                             => 'https://api.laterpay.net',
-        'laterpay_api_live_web_url'                         => 'https://web.laterpay.net',
-        'laterpay_api_merchant_backend_url'                 => 'https://merchant.laterpay.net/',
-        'laterpay_content_show_purchase_button'             => 1,
-        'laterpay_content_teaser_content_word_count'        => '60',
-        'laterpay_content_preview_percentage_of_content'    => '25',
-        'laterpay_content_preview_word_count_min'           => '26',
-        'laterpay_content_preview_word_count_max'           => '200',
-    );
+
+    private function get_defaults( $index ) {
+        $defaults = array(
+            'laterpay_api_sandbox_url'                          => 'https://api.sandbox.laterpaytest.net',
+            'laterpay_api_sandbox_web_url'                      => 'https://web.sandbox.laterpaytest.net',
+            'laterpay_api_live_url'                             => 'https://api.laterpay.net',
+            'laterpay_api_live_web_url'                         => 'https://web.laterpay.net',
+            'laterpay_api_merchant_backend_url'                 => 'https://merchant.laterpay.net/',
+            'laterpay_content_show_purchase_button'             => 1,
+            'laterpay_content_teaser_content_word_count'        => '60',
+            'laterpay_content_preview_percentage_of_content'    => '25',
+            'laterpay_content_preview_word_count_min'           => '26',
+            'laterpay_content_preview_word_count_max'           => '200',
+        );
+
+        return isset( $defaults[ $index ] ) ? $defaults[ $index ] : null;
+    }
+
+    public function get_value( $index ) {
+        $option_value = get_option( $index );
+        return isset( $option_value ) ? $option_value : $this->get_defaults( $index );
+    }
 
     /**
      * Add LaterPay advanced settings to the settings menu.
@@ -58,29 +68,27 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         // access logging for statistics
         // $access_logging_enabled = apply_filters( 'later_pay_access_logging_enabled', true );
 
-        // activated post types
-        // add_settings_section(
-        //     'laterpay_activated_post_types',
-        //     __( 'Activated Post Types', 'laterpay' ),
-        //     array( $this, 'get_post_types_section_description' ),
-        //     'laterpay'
-        // );
+        $this->add_caching_settings();
+        $this->add_permission_settings();
+        $this->add_content_settings();
+        $this->add_api_settings();
+        $this->add_logger_settings();
+    }
 
-        // add_settings_field(
-        //     'activated_post_types',
-        //     __( 'Activated Post Types', 'laterpay' ),
-        //     array( $this, 'get_activated_post_types_markup' ),
-        //     'laterpay',
-        //     'laterpay_activated_post_types'
-        // );
+    public function add_caching_settings() {
 
-        // register_setting( 'laterpay', 'activated_post_types' );
+    }
 
-        // permissions settings
+    public function add_logger_settings() {
+
+    }
+
+    public function add_permission_settings() {
+        // Permission settings
         add_settings_section(
-            'laterpay_permissions',
+            'laterpay_permission',
             __( 'Unlimited Access to Paid Content', 'laterpay' ),
-            array( $this, 'get_permissions_section_description' ),
+            array( $this, 'get_permission_section_description' ),
             'laterpay'
         );
 
@@ -89,17 +97,27 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             __( 'Roles with unlimited access', 'laterpay' ),
             array( $this, 'get_unlimited_access_markup' ),
             'laterpay',
-            'laterpay_permissions'
+            'laterpay_permission'
         );
 
         register_setting( 'laterpay', 'unlimited_access_to_paid_content' );
+    }
 
+    public function add_content_settings() {
         // Content settings
         add_settings_section(
             'laterpay_content',
             __( 'Content', 'laterpay' ),
             array( $this, 'get_content_section_description' ),
             'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_enabled_post_types',
+            __( 'Enabled Post Types', 'laterpay' ),
+            array( $this, 'get_enabled_post_types_markup' ),
+            'laterpay',
+            'laterpay_content'
         );
 
         add_settings_field(
@@ -157,12 +175,15 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             )
         );
 
+        register_setting( 'laterpay', 'laterpay_enabled_post_types' );
         register_setting( 'laterpay', 'laterpay_content_show_purchase_button' );
         register_setting( 'laterpay', 'laterpay_content_teaser_content_word_count' );
         register_setting( 'laterpay', 'laterpay_content_preview_percentage_of_content' );
         register_setting( 'laterpay', 'laterpay_content_preview_word_count_min' );
         register_setting( 'laterpay', 'laterpay_content_preview_word_count_max' );
+    }
 
+    public function add_api_settings() {
         // API settings
         add_settings_section(
             'laterpay_api',
@@ -244,35 +265,23 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint text for the activated post types section.
-     *
-     * @return string description
-     */
-    public function get_post_types_section_description() {
-        echo __( 'lorem ipsum', 'laterpay');
-    }
-
-    /**
-     * Render the inputs for the activated post types form.
-     *
-     * @return string activated post types checkboxes markup
-     */
-    public function get_activated_post_types_markup() {
-        $inputs_markup = 'Stuff. And things.';
-
-        echo $inputs_markup;
-    }
-
-    /**
      * Render the hint text for the permissions section.
      *
      * @return string description
      */
-    public function get_permissions_section_description() {
+    public function get_permission_section_description() {
         echo __( "Logged in users can skip LaterPay entirely, if they have a role with unlimited access
                 to paid content.<br>
                 You can use this e.g. for giving free access to existing subscribers.<br>
                 We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay');
+    }
+
+    public function get_content_section_description() {
+        echo __( 'lorem ipsum', 'laterpay');
+    }
+
+    public function get_api_settings_section_description() {
+        echo __( 'lorem ipsum', 'laterpay');
     }
 
     /**
@@ -309,27 +318,17 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         echo $inputs_markup;
     }
 
-    public function get_content_section_description() {
-        echo __( 'lorem ipsum', 'laterpay');
-    }
-
-    public function get_api_settings_section_description() {
-        echo __( 'lorem ipsum', 'laterpay');
-    }
-
     public function get_text_field_markup( $field = null ) {
         $inputs_markup = '';
 
 
         if ( $field && isset( $field[ 'name' ] ) ) {
-            $option_value = get_option( $field[ 'name' ] );
+            $option_value = $this->get_value( $field[ 'name' ] );
             $type         = isset( $field[ 'type' ] ) ? $field['type']  : 'text';
             $class        = isset( $field[ 'class'] ) ? $field['class'] : '';
 
             $inputs_markup = '<input type="' . $type .'" name="' . $field[ 'name' ] . '" ';
-            $inputs_markup .= 'class="regular-text ' . $class . '" value="';
-            $inputs_markup .= $option_value ? $option_value : self::$defaults[ $field['name'] ];
-            $inputs_markup .= '">';
+            $inputs_markup .= 'class="regular-text ' . $class . '" value="' . $option_value . '">';
         }
 
         echo $inputs_markup;
@@ -339,14 +338,38 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         $inputs_markup = '';
 
         if ( $field && isset( $field[ 'name' ] ) ) {
-            $option_value = get_option( $field[ 'name' ] );
+            $option_value = $this->get_value( $field[ 'name' ] );
+            $field_value  = isset( $field[ 'value' ] ) ? $field[ 'value' ] : $this->get_defaults( $field[ 'name' ] );
 
-            $inputs_markup = '<input type="checkbox" name="' . $field[ 'name' ] . '" value="';
-            $inputs_markup .= isset( $field[ 'value' ] ) ? $field[ 'value' ] : self::$defaults[ $field['name'] ];
-            $inputs_markup .= '" ';
-            $inputs_markup .= $option_value ? 'checked="checked"' : '';
+            $inputs_markup = '<input type="checkbox" name="' . $field[ 'name' ] . '" value="' . $field_value . '"';
+            $inputs_markup .= $option_value ? ' checked="checked"' : '';
             $inputs_markup .= '>';
         }
+
+        echo $inputs_markup;
+    }
+
+    /**
+     * Render the inputs for the activated post types form.
+     *
+     * @return string activated post types checkboxes markup
+     */
+    public function get_enabled_post_types_markup() {
+        $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
+        $enabled_post_types = $this->get_value( 'laterpay_enabled_post_types' );
+
+        $inputs_markup = '<fieldset><legend class="screen-reader-text"><span>' . __( 'Enabled Post Types', 'laterpay' ) . '</span></legend>';
+        foreach ( $all_post_types as $slug => $post_type ) {
+            $inputs_markup .= '<label title="' . $post_type->labels->name . '">';
+            $inputs_markup .= '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . $slug . '" ';
+            if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types ) ) {
+                $inputs_markup .= 'checked="checked"';
+            }
+            $inputs_markup .= '>';
+            $inputs_markup .= '<span>' . $post_type->labels->name . '</span>';
+            $inputs_markup .= '</label><br>';
+        }
+        $inputs_markup .= '</fieldset>';
 
         echo $inputs_markup;
     }
