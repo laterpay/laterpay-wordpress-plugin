@@ -2,6 +2,13 @@
 
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 {
+    /**
+     * Get default option value
+     *
+     * @param string $index option name
+     *
+     * @return null|mixed option value ( null if option not exist )
+     */
     private function get_defaults( $index ) {
         $defaults = array(
             'laterpay_api_sandbox_url'                          => 'https://api.sandbox.laterpaytest.net',
@@ -23,6 +30,13 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         return isset( $defaults[ $index ] ) ? $defaults[ $index ] : null;
     }
 
+    /**
+     * Get value of option if it exist or default value
+     *
+     * @param string $index option name
+     *
+     * @return mixed option value
+     */
     public function get_value( $index ) {
         $option_value = get_option( $index );
         return isset( $option_value ) ? $option_value : $this->get_defaults( $index );
@@ -78,14 +92,29 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         $this->add_logger_settings();
     }
 
+    /**
+     * Add caching section and fields
+     *
+     * @return void
+     */
     public function add_caching_settings() {
 
     }
 
+    /**
+     * Add logger section and fields
+     *
+     * @return void
+     */
     public function add_logger_settings() {
 
     }
 
+    /**
+     * Add permission section and fields
+     *
+     * @return void
+     */
     public function add_permission_settings() {
         // Permission settings
         add_settings_section(
@@ -106,6 +135,11 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         register_setting( 'laterpay', 'unlimited_access_to_paid_content' );
     }
 
+    /**
+     * Add content section and fields
+     *
+     * @return void
+     */
     public function add_content_settings() {
         // Content settings
         add_settings_section(
@@ -186,6 +220,11 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         register_setting( 'laterpay', 'laterpay_content_preview_word_count_max' );
     }
 
+    /**
+     * Add api settings section and fields
+     *
+     * @return void
+     */
     public function add_api_settings() {
         // LaterPay API settings
         add_settings_section(
@@ -247,8 +286,8 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             )
         );
 
-// TODO: I don't know any good reason why someone would want to change the URL of the merchantbackend;
-// -> this should not be included in the options page
+        // TODO: I don't know any good reason why someone would want to change the URL of the merchantbackend;
+        // -> this should not be included in the options page
         add_settings_field(
             'laterpay_api_merchant_backend_url',
             __( 'Merchant backend URL', 'laterpay' ),
@@ -333,11 +372,11 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [get_text_field_markup description]
+     * Render text input ( url, email, text )
      *
-     * @param  [type] $field [description]
+     * @param array $field array of field params
      *
-     * @return [type]        [description]
+     * @return string text markup
      */
     public function get_text_field_markup( $field = null ) {
         $inputs_markup = '';
@@ -355,11 +394,11 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [get_checkbox_field_markup description]
+     * Render checkbox input
      *
-     * @param  [type] $field [description]
+     * @param array $field array of field params
      *
-     * @return [type]        [description]
+     * @return string checkbox markup
      */
     public function get_checkbox_field_markup( $field = null ) {
         $inputs_markup = '';
@@ -377,9 +416,9 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the inputs for the activated post types form.
+     * Render enabled post types input
      *
-     * @return string activated post types checkboxes markup
+     * @return string enabled post types checkboxes markup
      */
     public function get_enabled_post_types_markup() {
         $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
@@ -400,5 +439,4 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         echo $inputs_markup;
     }
-
 }
