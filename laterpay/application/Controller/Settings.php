@@ -2,6 +2,19 @@
 
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 {
+    public static $defaults = array(
+        'laterpay_api_sandbox_url'                          => 'https://api.sandbox.laterpaytest.net',
+        'laterpay_api_sandbox_web_url'                      => 'https://web.sandbox.laterpaytest.net',
+        'laterpay_api_live_url'                             => 'https://api.laterpay.net',
+        'laterpay_api_live_web_url'                         => 'https://web.laterpay.net',
+        'laterpay_api_merchant_backend_url'                 => 'https://merchant.laterpay.net/',
+        'laterpay_content_show_purchase_button'             => 1,
+        'laterpay_content_teaser_content_word_count'        => '60',
+        'laterpay_content_preview_percentage_of_content'    => '25',
+        'laterpay_content_preview_word_count_min'           => '26',
+        'laterpay_content_preview_word_count_max'           => '200',
+    );
+
     /**
      * Add LaterPay advanced settings to the settings menu.
      *
@@ -63,9 +76,6 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         // register_setting( 'laterpay', 'activated_post_types' );
 
-        // show purchase button
-        // 'content.show_purchase_button' => true,
-
         // permissions settings
         add_settings_section(
             'laterpay_permissions',
@@ -84,18 +94,153 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         register_setting( 'laterpay', 'unlimited_access_to_paid_content' );
 
-        // content preview settings
-        // 'content.auto_generated_teaser_content_word_count'  => 60,
-        // 'content.preview_percentage_of_content'             => 25,
-        // 'content.preview_word_count_min'                    => 26,
-        // 'content.preview_word_count_max'                    => 200,
+        // Content settings
+        add_settings_section(
+            'laterpay_content',
+            __( 'Content', 'laterpay' ),
+            array( $this, 'get_content_section_description' ),
+            'laterpay'
+        );
 
-        // API endpoints settings
-        // 'api.sandbox_url'           => 'https://api.sandbox.laterpaytest.net',
-        // 'api.sandbox_web_url'       => 'https://web.sandbox.laterpaytest.net',
-        // 'api.live_url'              => 'https://api.laterpay.net',
-        // 'api.live_web_url'          => 'https://web.laterpay.net',
-        // 'api.merchant_backend_url'  => 'https://merchant.laterpay.net/',
+        add_settings_field(
+            'laterpay_content_show_purchase_button',
+            __( 'Show purchase button', 'laterpay' ),
+            array( $this, 'get_checkbox_field_markup' ),
+            'laterpay',
+            'laterpay_content',
+            array(
+                'name' => 'laterpay_content_show_purchase_button',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_content_teaser_content_word_count',
+            __( 'Teaser content word count', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_content',
+            array(
+                'name' => 'laterpay_content_teaser_content_word_count',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_content_preview_percentage_of_content',
+            __( 'Preview percentage of content', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_content',
+            array(
+                'name' => 'laterpay_content_preview_percentage_of_content',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_content_preview_word_count_min',
+            __( 'Preview word count min', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_content',
+            array(
+                'name' => 'laterpay_content_preview_word_count_min',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_content_preview_word_count_max',
+            __( 'Preview word count max', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_content',
+            array(
+                'name' => 'laterpay_content_preview_word_count_max',
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_content_show_purchase_button' );
+        register_setting( 'laterpay', 'laterpay_content_teaser_content_word_count' );
+        register_setting( 'laterpay', 'laterpay_content_preview_percentage_of_content' );
+        register_setting( 'laterpay', 'laterpay_content_preview_word_count_min' );
+        register_setting( 'laterpay', 'laterpay_content_preview_word_count_max' );
+
+        // API settings
+        add_settings_section(
+            'laterpay_api',
+            __( 'API Settings', 'laterpay' ),
+            array( $this, 'get_api_settings_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_api_sandbox_url',
+            __( 'Sandbox url', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_api',
+            array(
+                'name'  => 'laterpay_api_sandbox_url',
+                'type'  => 'url',
+                'class' => 'code',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_api_sandbox_web_url',
+            __( 'Sandbox web url', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_api',
+            array(
+                'name' => 'laterpay_api_sandbox_web_url',
+                'type'  => 'url',
+                'class' => 'code',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_api_live_url',
+            __( 'Live url', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_api',
+            array(
+                'name'  => 'laterpay_api_live_url',
+                'type'  => 'url',
+                'class' => 'code',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_api_live_web_url',
+            __( 'Live web url', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_api',
+            array(
+                'name'  => 'laterpay_api_live_web_url',
+                'type'  => 'url',
+                'class' => 'code',
+            )
+        );
+
+        add_settings_field(
+            'laterpay_api_merchant_backend_url',
+            __( 'Merchant backend url', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_api',
+            array(
+                'name'  => 'laterpay_api_merchant_backend_url',
+                'type'  => 'url',
+                'class' => 'code',
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_api_sandbox_url' );
+        register_setting( 'laterpay', 'laterpay_api_sandbox_web_url' );
+        register_setting( 'laterpay', 'laterpay_api_live_url' );
+        register_setting( 'laterpay', 'laterpay_api_live_web_url' );
+        register_setting( 'laterpay', 'laterpay_api_merchant_backend_url' );
     }
 
     /**
@@ -159,6 +304,48 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         if ( ! $has_custom_roles ) {
             // TODO: correct message
             $inputs_markup = __( 'You should add custom roles.', 'laterpay' );
+        }
+
+        echo $inputs_markup;
+    }
+
+    public function get_content_section_description() {
+        echo __( 'lorem ipsum', 'laterpay');
+    }
+
+    public function get_api_settings_section_description() {
+        echo __( 'lorem ipsum', 'laterpay');
+    }
+
+    public function get_text_field_markup( $field = null ) {
+        $inputs_markup = '';
+
+
+        if ( $field && isset( $field[ 'name' ] ) ) {
+            $option_value = get_option( $field[ 'name' ] );
+            $type         = isset( $field[ 'type' ] ) ? $field['type']  : 'text';
+            $class        = isset( $field[ 'class'] ) ? $field['class'] : '';
+
+            $inputs_markup = '<input type="' . $type .'" name="' . $field[ 'name' ] . '" ';
+            $inputs_markup .= 'class="regular-text ' . $class . '" value="';
+            $inputs_markup .= $option_value ? $option_value : self::$defaults[ $field['name'] ];
+            $inputs_markup .= '">';
+        }
+
+        echo $inputs_markup;
+    }
+
+    public function get_checkbox_field_markup( $field = null ) {
+        $inputs_markup = '';
+
+        if ( $field && isset( $field[ 'name' ] ) ) {
+            $option_value = get_option( $field[ 'name' ] );
+
+            $inputs_markup = '<input type="checkbox" name="' . $field[ 'name' ] . '" value="';
+            $inputs_markup .= isset( $field[ 'value' ] ) ? $field[ 'value' ] : self::$defaults[ $field['name'] ];
+            $inputs_markup .= '" ';
+            $inputs_markup .= $option_value ? 'checked="checked"' : '';
+            $inputs_markup .= '>';
         }
 
         echo $inputs_markup;
