@@ -5,10 +5,14 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public static $defaults = array(
         'laterpay_api_sandbox_url'                          => 'https://api.sandbox.laterpaytest.net',
         'laterpay_api_sandbox_web_url'                      => 'https://web.sandbox.laterpaytest.net',
+
         'laterpay_api_live_url'                             => 'https://api.laterpay.net',
         'laterpay_api_live_web_url'                         => 'https://web.laterpay.net',
+
         'laterpay_api_merchant_backend_url'                 => 'https://merchant.laterpay.net/',
+
         'laterpay_content_show_purchase_button'             => 1,
+
         'laterpay_content_teaser_content_word_count'        => '60',
         'laterpay_content_preview_percentage_of_content'    => '25',
         'laterpay_content_preview_word_count_min'           => '26',
@@ -51,31 +55,6 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return void
      */
     public function init_laterpay_advanced_settings() {
-        // caching compatible mode
-        // - toggle caching compatibility
-        // - purge cache
-
-        // access logging for statistics
-        // $access_logging_enabled = apply_filters( 'later_pay_access_logging_enabled', true );
-
-        // activated post types
-        // add_settings_section(
-        //     'laterpay_activated_post_types',
-        //     __( 'Activated Post Types', 'laterpay' ),
-        //     array( $this, 'get_post_types_section_description' ),
-        //     'laterpay'
-        // );
-
-        // add_settings_field(
-        //     'activated_post_types',
-        //     __( 'Activated Post Types', 'laterpay' ),
-        //     array( $this, 'get_activated_post_types_markup' ),
-        //     'laterpay',
-        //     'laterpay_activated_post_types'
-        // );
-
-        // register_setting( 'laterpay', 'activated_post_types' );
-
         // permissions settings
         add_settings_section(
             'laterpay_permissions',
@@ -94,10 +73,11 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         register_setting( 'laterpay', 'unlimited_access_to_paid_content' );
 
-        // Content settings
+
+        // content settings
         add_settings_section(
             'laterpay_content',
-            __( 'Content', 'laterpay' ),
+            __( 'Automatically Generated Teaser Content', 'laterpay' ),
             array( $this, 'get_content_section_description' ),
             'laterpay'
         );
@@ -137,7 +117,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_content_preview_word_count_min',
-            __( 'Preview word count min', 'laterpay' ),
+            __( 'Preview word count minimum', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_content',
@@ -148,7 +128,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_content_preview_word_count_max',
-            __( 'Preview word count max', 'laterpay' ),
+            __( 'Preview word count maximum', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_content',
@@ -163,17 +143,18 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         register_setting( 'laterpay', 'laterpay_content_preview_word_count_min' );
         register_setting( 'laterpay', 'laterpay_content_preview_word_count_max' );
 
-        // API settings
+
+        // LaterPay API settings
         add_settings_section(
             'laterpay_api',
-            __( 'API Settings', 'laterpay' ),
+            __( 'LaterPay API Settings', 'laterpay' ),
             array( $this, 'get_api_settings_section_description' ),
             'laterpay'
         );
 
         add_settings_field(
             'laterpay_api_sandbox_url',
-            __( 'Sandbox url', 'laterpay' ),
+            __( 'Sandbox API endpoint', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
@@ -186,12 +167,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_api_sandbox_web_url',
-            __( 'Sandbox web url', 'laterpay' ),
+            __( 'Sandbox web URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
             array(
-                'name' => 'laterpay_api_sandbox_web_url',
+                'name'  => 'laterpay_api_sandbox_web_url',
                 'type'  => 'url',
                 'class' => 'code',
             )
@@ -199,7 +180,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_api_live_url',
-            __( 'Live url', 'laterpay' ),
+            __( 'Live API endpoint', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
@@ -212,7 +193,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_api_live_web_url',
-            __( 'Live web url', 'laterpay' ),
+            __( 'Live web URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
@@ -223,9 +204,11 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             )
         );
 
+// TODO: I don't know any good reason why someone would want to change the URL of the merchantbackend;
+// -> this should not be included in the options page
         add_settings_field(
             'laterpay_api_merchant_backend_url',
-            __( 'Merchant backend url', 'laterpay' ),
+            __( 'Merchant backend URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
@@ -302,24 +285,39 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         $inputs_markup .= '</fieldset>';
 
         if ( ! $has_custom_roles ) {
-            // TODO: correct message
-            $inputs_markup = __( 'You should add custom roles.', 'laterpay' );
+            $inputs_markup = __( 'Please add a custom role first.', 'laterpay' );
         }
 
         echo $inputs_markup;
     }
 
+    /**
+     * [get_content_section_description description]
+     *
+     * @return [type] [description]
+     */
     public function get_content_section_description() {
         echo __( 'lorem ipsum', 'laterpay');
     }
 
+    /**
+     * [get_api_settings_section_description description]
+     *
+     * @return [type] [description]
+     */
     public function get_api_settings_section_description() {
         echo __( 'lorem ipsum', 'laterpay');
     }
 
+    /**
+     * [get_text_field_markup description]
+     *
+     * @param  [type] $field [description]
+     *
+     * @return [type]        [description]
+     */
     public function get_text_field_markup( $field = null ) {
         $inputs_markup = '';
-
 
         if ( $field && isset( $field[ 'name' ] ) ) {
             $option_value = get_option( $field[ 'name' ] );
@@ -335,6 +333,13 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         echo $inputs_markup;
     }
 
+    /**
+     * [get_checkbox_field_markup description]
+     *
+     * @param  [type] $field [description]
+     *
+     * @return [type]        [description]
+     */
     public function get_checkbox_field_markup( $field = null ) {
         $inputs_markup = '';
 
@@ -350,5 +355,5 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         echo $inputs_markup;
     }
-}
 
+}
