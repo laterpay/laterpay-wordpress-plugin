@@ -79,7 +79,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         // permissions settings
         add_settings_section(
             'laterpay_permissions',
-            __( 'Permissions', 'laterpay' ),
+            __( 'Unlimited Access to Paid Content', 'laterpay' ),
             array( $this, 'get_permissions_section_description' ),
             'laterpay'
         );
