@@ -64,12 +64,13 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
 
                 $settings_controller = new LaterPay_Controller_Settings( $this->config );
-                add_action( 'admin_menu',                           array( $settings_controller, 'add_laterpay_settings_page' ) );
-                add_action( 'admin_init',                           array( $settings_controller, 'init_laterpay_settings' ) );
+                add_action( 'admin_menu',                           array( $settings_controller, 'add_laterpay_advanced_settings_page' ) );
+                add_action( 'admin_init',                           array( $settings_controller, 'init_laterpay_advanced_settings' ) );
+                add_action( 'wp_ajax_laterpay_advanced_settings',   array( $settings_controller, 'save_laterpay_advanced_settings' ) );
 
                 $admin_pricing_controller = new LaterPay_Controller_Admin_Pricing( $this->config );
-                add_action( 'wp_ajax_laterpay_pricing',                  array( $admin_pricing_controller, 'process_ajax_requests' ) );
-                add_action( 'wp_ajax_laterpay_get_category_prices',      array( $admin_pricing_controller, 'process_ajax_requests' ) );
+                add_action( 'wp_ajax_laterpay_pricing',             array( $admin_pricing_controller, 'process_ajax_requests' ) );
+                add_action( 'wp_ajax_laterpay_get_category_prices', array( $admin_pricing_controller, 'process_ajax_requests' ) );
 
                 $admin_appearance_controller = new LaterPay_Controller_Admin_Appearance( $this->config );
                 add_action( 'wp_ajax_laterpay_appearance',          array( $admin_appearance_controller, 'process_ajax_requests' ) );
