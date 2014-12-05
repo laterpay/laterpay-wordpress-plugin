@@ -137,19 +137,29 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      */
     public function get_unlimited_access_markup() {
         global $wp_roles;
+        $default_roles    = array( 'administrator', 'editor', 'contributor', 'author', 'subscriber' );
+        $has_custom_roles = false;
 
         $inputs_markup = '<fieldset><legend class="screen-reader-text"><span>' . __( 'Roles', 'laterpay' ) . '</span></legend>';
         foreach ( $wp_roles->roles as $role => $role_data ) {
-            $inputs_markup .= '<label title="' . $role_data['name'] . '">';
-            $inputs_markup .= '<input type="checkbox" name="unlimited_access_to_paid_content[]" value="' . $role . '" ';
-            if ( isset( $role_data['capabilities']['laterpay_has_full_access_to_content'] ) ) {
-                $inputs_markup .= 'checked="checked"';
+            if ( ! in_array( $role, $default_roles ) ) {
+                $has_custom_roles = true;
+                $inputs_markup .= '<label title="' . $role_data['name'] . '">';
+                $inputs_markup .= '<input type="checkbox" name="unlimited_access_to_paid_content[]" value="' . $role . '" ';
+                if ( isset( $role_data['capabilities']['laterpay_has_full_access_to_content'] ) ) {
+                    $inputs_markup .= 'checked="checked"';
+                }
+                $inputs_markup .= '>';
+                $inputs_markup .= '<span>' . $role_data['name'] . '</span>';
+                $inputs_markup .= '</label><br>';
             }
-            $inputs_markup .= '>';
-            $inputs_markup .= '<span>' . $role_data['name'] . '</span>';
-            $inputs_markup .= '</label><br>';
         }
         $inputs_markup .= '</fieldset>';
+
+        if ( ! $has_custom_roles ) {
+            // TODO: correct message
+            $inputs_markup = __( 'You should add custom roles.', 'laterpay' );
+        }
 
         echo $inputs_markup;
     }
