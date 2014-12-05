@@ -56,14 +56,14 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         // Caching settings
         add_settings_section(
             'laterpay_caching',
-            __( 'Logger', 'laterpay' ),
+            __( 'Caching', 'laterpay' ),
             array( $this, 'get_chaching_section_description' ),
             'laterpay'
         );
 
         add_settings_field(
             'laterpay_caching_compatibility',
-            __( 'Caching laterpay_caching_compatibility', 'laterpay' ),
+            __( 'Caching compatibility', 'laterpay' ),
             array( $this, 'get_checkbox_field_markup' ),
             'laterpay',
             'laterpay_caching',

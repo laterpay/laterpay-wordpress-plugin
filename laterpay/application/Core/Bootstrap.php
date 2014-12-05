@@ -50,6 +50,10 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_currency_to_euro' ) );
             }
 
+            if ( ! function_exists( 'is_plugin_active' ) ) {
+                include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+            }
+
             // add the plugin, if it is active and all checks are ok
             if ( is_plugin_active( $this->config->plugin_base_name ) ) {
                 // add the admin panel
