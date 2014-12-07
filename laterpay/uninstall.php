@@ -42,21 +42,43 @@ $sql = "DELETE FROM
 $wpdb->query( $sql );
 
 // remove global settings from wp_options table
-delete_option( 'laterpay_teaser_content_only' );
-delete_option( 'laterpay_plugin_is_in_live_mode' );
-delete_option( 'laterpay_sandbox_merchant_id' );
+delete_option( 'laterpay_api_live_url' );
+delete_option( 'laterpay_api_live_web_url' );
+delete_option( 'laterpay_api_merchant_backend_url' );
+delete_option( 'laterpay_api_sandbox_url' );
+delete_option( 'laterpay_api_sandbox_web_url' );
+
 delete_option( 'laterpay_sandbox_api_key' );
-delete_option( 'laterpay_live_merchant_id' );
+delete_option( 'laterpay_sandbox_merchant_id' );
 delete_option( 'laterpay_live_api_key' );
-delete_option( 'laterpay_global_price' );
-delete_option( 'laterpay_currency' );
-delete_option( 'laterpay_version' );
+delete_option( 'laterpay_live_merchant_id' );
+delete_option( 'laterpay_plugin_is_in_live_mode' );
+
 delete_option( 'laterpay_enabled_post_types' );
-delete_option( 'laterpay_ratings' );
-delete_option( 'laterpay_voucher_codes' );
-delete_option( 'laterpay_voucher_statistic' );
+
+delete_option( 'laterpay_currency' );
+delete_option( 'laterpay_global_price' );
+delete_option( 'laterpay_global_price_revenue_model' );
+
+delete_option( 'laterpay_access_logging_enabled' );
+
+delete_option( 'laterpay_caching_compatibility' );
+
+delete_option( 'laterpay_teaser_content_only' );
+
+delete_option( 'laterpay_content_teaser_content_word_count' );
+delete_option( 'laterpay_content_preview_percentage_of_content' );
+delete_option( 'laterpay_content_preview_word_count_min' );
+delete_option( 'laterpay_content_preview_word_count_max' );
+
+delete_option( 'laterpay_content_show_purchase_button' );
+
 delete_option( 'laterpay_bulk_operations' );
 
+delete_option( 'laterpay_ratings' );
+
+delete_option( 'laterpay_voucher_codes' );
+delete_option( 'laterpay_voucher_statistic' );
 
 // remove custom capabilities
 foreach ( array( 'administrator', 'editor' ) as $role ) {
@@ -82,8 +104,8 @@ $role = get_role( 'author' );
 if ( ! empty( $role ) ) {
     $role->remove_cap( 'laterpay_edit_individual_price' );
 }
+// TODO: remove capability 'laterpay_has_full_access_to_content'
 
-// remove all dismissed LaterPay pointers
 
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
@@ -94,14 +116,15 @@ if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
 
 LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
 
-// delete_user_meta can't remove these pointers without damaging other data,
-// also we need to use prefix ',' before pointer names to remove them properly from string
+// remove all dismissed LaterPay pointers
+// delete_user_meta can't remove these pointers without damaging other data
 $pointers = LaterPay_Controller_Admin::get_all_pointers();
 
 if ( ! empty( $pointers ) && is_array( $pointers ) ) {
     $replace_string = 'meta_value';
 
     foreach ( $pointers as $pointer ) {
+        // we need to use prefix ',' before pointer names to remove them properly from string
         $replace_string = "REPLACE($replace_string, ',$pointer', '')";
     }
 
