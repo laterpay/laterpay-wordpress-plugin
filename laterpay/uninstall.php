@@ -66,12 +66,12 @@ delete_option( 'laterpay_caching_compatibility' );
 
 delete_option( 'laterpay_teaser_content_only' );
 
-delete_option( 'laterpay_content_teaser_content_word_count' );
-delete_option( 'laterpay_content_preview_percentage_of_content' );
-delete_option( 'laterpay_content_preview_word_count_min' );
-delete_option( 'laterpay_content_preview_word_count_max' );
+delete_option( 'laterpay_teaser_content_word_count' );
+delete_option( 'laterpay_teaser_content_percentage_of_content' );
+delete_option( 'laterpay_teaser_content_word_count_min' );
+delete_option( 'laterpay_teaser_content_word_count_max' );
 
-delete_option( 'laterpay_content_show_purchase_button' );
+delete_option( 'laterpay_show_purchase_button' );
 
 delete_option( 'laterpay_bulk_operations' );
 
