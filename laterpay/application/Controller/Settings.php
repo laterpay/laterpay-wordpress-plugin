@@ -38,7 +38,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return void
      */
     public function init_laterpay_advanced_settings() {
-        // Add sections with fields
+        // add sections with fields
         $this->add_post_settings();
         $this->add_permission_settings();
         $this->add_teaser_content_settings();
@@ -48,12 +48,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add caching section and fields
+     * Add caching section and fields.
      *
      * @return void
      */
     public function add_caching_settings() {
-        // Caching settings
+        // caching settings
         add_settings_section(
             'laterpay_caching',
             __( 'Caching', 'laterpay' ),
@@ -77,12 +77,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add logger section and fields
+     * Add logger section and fields.
      *
      * @return void
      */
     public function add_logger_settings() {
-        // Logger settings
+        // logger settings
         add_settings_section(
             'laterpay_logger',
             __( 'Logger', 'laterpay' ),
@@ -106,12 +106,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add permission section and fields
+     * Add permissions section and fields.
      *
      * @return void
      */
     public function add_permission_settings() {
-        // Permission settings
+        // permissions settings
         add_settings_section(
             'laterpay_permission',
             __( 'Unlimited Access to Paid Content', 'laterpay' ),
@@ -131,12 +131,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add post section and fields
+     * Add post section and fields.
      *
      * @return void
      */
     public function add_post_settings() {
-        // Post settings
+        // post settings
         add_settings_section(
             'laterpay_post',
             __( 'Post', 'laterpay' ),
@@ -156,12 +156,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add teaser content section and fields
+     * Add teaser content section and fields.
      *
      * @return void
      */
     public function add_teaser_content_settings() {
-        // Content settings
+        // content settings
         add_settings_section(
             'laterpay_content',
             __( 'Automatically Generated Teaser Content', 'laterpay' ),
@@ -233,7 +233,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add api settings section and fields
+     * Add API settings section and fields.
      *
      * @return void
      */
@@ -333,7 +333,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint for the caching section
+     * Render the hint text for the caching section.
      *
      * @return string description
      */
@@ -342,7 +342,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint for the logger section
+     * Render the hint text for the logger section.
      *
      * @return string description
      */
@@ -351,7 +351,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint for the post section
+     * Render the hint text for the posts section.
      *
      * @return string description
      */
@@ -360,7 +360,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint for the teaser content section
+     * Render the hint text for the teaser content section.
      *
      * @return string description
      */
@@ -369,7 +369,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint for the api settings section
+     * Render the hint text for the API settings section.
      *
      * @return string description
      */
@@ -384,6 +384,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      */
     public function get_unlimited_access_markup() {
         global $wp_roles;
+
         $default_roles    = array( 'administrator', 'editor', 'contributor', 'author', 'subscriber' );
         $has_custom_roles = false;
 
@@ -411,7 +412,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render text input ( url, email, text )
+     * Generic method to render text inputs (URL, email, text).
      *
      * @param array $field array of field params
      *
@@ -433,7 +434,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render checkbox input
+     * Generic method to render checkboxes.
      *
      * @param array $field array of field params
      *
@@ -455,7 +456,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render enabled post types input
+     * Render enabled post types inputs.
      *
      * @return string enabled post types checkboxes markup
      */
@@ -478,4 +479,5 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         echo $inputs_markup;
     }
+
 }
