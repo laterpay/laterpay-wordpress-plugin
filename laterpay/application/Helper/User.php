@@ -76,7 +76,7 @@ class LaterPay_Helper_User
             $has_cap = true;
         // imitate capability
         } else {
-            $unlimited_access = get_option( 'unlimited_access_to_paid_content' );
+            $unlimited_access = get_option( 'laterpay_unlimited_access_to_paid_content' );
             if ( $unlimited_access ) {
                 // check if user has such roles
                 $user = wp_get_current_user();
