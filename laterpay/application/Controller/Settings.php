@@ -205,21 +205,6 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         register_setting( 'laterpay', 'laterpay_teaser_content_percentage_of_content', 'absint' );
         register_setting( 'laterpay', 'laterpay_teaser_content_word_count_min', 'absint' );
         register_setting( 'laterpay', 'laterpay_teaser_content_word_count_max', 'absint' );
-
-        // TODO:
-        add_settings_field(
-            'laterpay_show_purchase_button',
-            __( 'Show Purchase Button', 'laterpay' ),
-            array( $this, 'get_checkbox_field_markup' ),
-            'laterpay',
-            'laterpay_teaser_content',
-            array(
-                'name'  => 'laterpay_show_purchase_button',
-                'value' => 1,
-                'label' => '<span style="color:red;">TODO: this does not belong here and should really be handled automatically</span>',
-            )
-        );
-        register_setting( 'laterpay', 'laterpay_show_purchase_button' );
     }
 
     /**
@@ -414,7 +399,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             $inputs_markup = '<input type="' . $type .'" name="' . $field[ 'name' ] . '" ' .
                             'class="regular-text ' . $class . '" value="' . $option_value . '">';
             if ( isset( $field[ 'appended_text' ] ) ) {
-                $inputs_markup .= '<span class="lp_appendedText">' . $field[ 'appended_text' ] . '<span>';
+                $inputs_markup .= '<dfn class="lp_appendedText">' . $field[ 'appended_text' ] . '<dfn>';
             }
         }
 
