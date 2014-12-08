@@ -343,6 +343,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_voucher_codes',               '' );
         add_option( 'laterpay_voucher_statistic',           '' );
 
+        // advanced settings
+        add_option( 'laterpay_api_sandbox_url',                         'https://api.sandbox.laterpaytest.net' );
+        add_option( 'laterpay_api_sandbox_web_url',                     'https://web.sandbox.laterpaytest.net' );
+        add_option( 'laterpay_api_live_url',                            'https://api.laterpay.net' );
+        add_option( 'laterpay_api_live_web_url',                        'https://web.laterpay.net' );
+        add_option( 'laterpay_api_merchant_backend_url',                'https://merchant.laterpay.net/' );
+        add_option( 'laterpay_access_logging_enabled',                  1 );
+        add_option( 'laterpay_caching_compatibility',                   (bool) LaterPay_Helper_Cache::site_uses_page_caching() );
+        add_option( 'laterpay_show_purchase_button',                    1 );
+        add_option( 'laterpay_teaser_content_word_count',               '60' );
+        add_option( 'laterpay_teaser_content_percentage_of_content',    '25' );
+        add_option( 'laterpay_teaser_content_word_count_min',           '26' );
+        add_option( 'laterpay_teaser_content_word_count_max',           '200' );
+        add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
+
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );
 

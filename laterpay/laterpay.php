@@ -129,11 +129,11 @@ function laterpay_get_plugin_config() {
      * @var array
      */
     $default_api_settings = array(
-        'api.sandbox_url'           => 'https://api.sandbox.laterpaytest.net',
-        'api.sandbox_web_url'       => 'https://web.sandbox.laterpaytest.net',
-        'api.live_url'              => 'https://api.laterpay.net',
-        'api.live_web_url'          => 'https://web.laterpay.net',
-        'api.merchant_backend_url'  => 'https://merchant.laterpay.net/',
+        'api.sandbox_url'           => get_option( 'laterpay_api_sandbox_url' ),
+        'api.sandbox_web_url'       => get_option( 'laterpay_api_sandbox_web_url' ),
+        'api.live_url'              => get_option( 'laterpay_api_live_url' ),
+        'api.live_web_url'          => get_option( 'laterpay_api_live_web_url' ),
+        'api.merchant_backend_url'  => get_option( 'laterpay_api_merchant_backend_url' ),
     );
 
     /**
@@ -174,20 +174,16 @@ function laterpay_get_plugin_config() {
      *
      * @return boolean$caching_compatible_mode
      */
-    $caching_compatible_mode = apply_filters(
-        'laterpay_get_caching_compatible_mode',
-        LaterPay_Helper_Cache::site_uses_page_caching()
-    );
-    $config->set( 'caching.compatible_mode', (bool) $caching_compatible_mode );
+    $config->set( 'caching.compatible_mode', get_option( 'laterpay_caching_compatibility' ) );
 
     // content preview settings
     $content_settings = array(
-        'content.auto_generated_teaser_content_word_count'  => 60,
-        'content.preview_percentage_of_content'             => 25,
-        'content.preview_word_count_min'                    => 26,
-        'content.preview_word_count_max'                    => 200,
-        'content.show_purchase_button'                      => true,
-        'content.enabled_post_types'                        => get_option( 'laterpay_enabled_post_types', get_post_types( array( 'public' => true ) ) ),
+        'content.auto_generated_teaser_content_word_count'  => get_option( 'laterpay_teaser_content_word_count' ),
+        'content.preview_percentage_of_content'             => get_option( 'laterpay_teaser_content_percentage_of_content' ),
+        'content.preview_word_count_min'                    => get_option( 'laterpay_teaser_content_word_count_min' ),
+        'content.preview_word_count_max'                    => get_option( 'laterpay_teaser_content_word_count_max' ),
+        'content.show_purchase_button'                      => get_option( 'laterpay_content_show_purchase_button' ),
+        'content.enabled_post_types'                        => get_option( 'laterpay_enabled_post_types' ),
     );
 
     /**
@@ -215,8 +211,7 @@ function laterpay_get_plugin_config() {
      *
      * @return boolean$access_logging_enabled
      */
-    $access_logging_enabled = apply_filters( 'later_pay_access_logging_enabled', true );
-    $config->set( 'logging.access_logging_enabled', (bool) $access_logging_enabled );
+    $config->set( 'logging.access_logging_enabled', get_option( 'laterpay_access_logging_enabled' ) );
 
     // Browscap browser detection library
     $browscap_settings = array(

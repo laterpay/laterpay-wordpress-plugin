@@ -45,35 +45,6 @@
         </div>
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
-        <div class="lp_row">
-            <h2><?php _e( 'Enabled Post Types', 'laterpay' ); ?></h2>
-            <dfn class="lp_u_block lp_u_m-b025"><?php _e( 'Check all built-in and custom post types, for which you want to enable purchases with LaterPay.', 'laterpay' ); ?></dfn>
-            <form id="laterpay_enabled_post_types_form" method="post">
-                <input type="hidden" name="form"    value="enabled_post_types">
-                <input type="hidden" name="action"  value="laterpay_appearance">
-                <?php wp_nonce_field('laterpay_form'); ?>
-                <?php
-                    $enabled_post_types = $config->get( 'content.enabled_post_types' );
-                    $all_post_types     = get_post_types( array( 'public' => true ), 'objects' );
-                    foreach ( $all_post_types as $slug => $post_type ) {
-                ?>
-                    <label for="supported_post_type_<?php echo $slug; ?>" class="lp_u_block lp_u_m-b025">
-                        <input type="checkbox"
-                               id="supported_post_type_<?php echo $slug; ?>"
-                               name="enabled_post_types[]"
-                               value="<?php echo $slug; ?>"
-                               class="lp_js_styleInput"
-                               <?php echo ( in_array( $slug, $enabled_post_types ) ) ? ' checked="checked" ' : ''; ?>
-                        />
-                        <?php echo $post_type->labels->name; ?>
-                    </label>
-                <?php
-                    }
-                ?>
-            </form>
-        </div>
-        <hr class="lp_u_m-1-0 lp_u_m-b3">
-
         <div class="lp_row lp_u_clearfix lp_u_m-b1">
             <h2><?php _e( 'Rating of Purchased Content', 'laterpay' ); ?></h2>
             <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'content-rating-2x.png'; ?>">
