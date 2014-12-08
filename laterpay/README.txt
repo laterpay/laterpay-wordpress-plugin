@@ -43,7 +43,7 @@ You may also change the plugin's currency and apply a dynamic pricing scheme to 
 With time passes, you can sell time-limited access to all the LaterPay content
 * on your entire website
 * in a specific category
-* on your entire website except from a specific category.
+* on your entire website except for a specific category.
 The user will have access to all the covered content during the validity period and afterwards, this access will expire automatically.
 Time passes are displayed within a dedicated sidebar widget that automatically sorts available time passes by relevance.
 Be careful when deleting a time pass: Users, who have bought the respective time pass, will lose the access to the covered content. Deleted time passes cannot be restored.
@@ -161,148 +161,8 @@ The plugin will notify you about available updates that you can install with a s
 
 == Advanced Configuration ==
 
-The plugin has a number of advanced configuration options that are not available from the graphical user interface, but
-instead must be set using filters.
+TODO: Describe custom settings page here.
 
-# Edit API Settings
-
-## Filter
-
-'laterpay_get_api_settings'
-
-## Example
-
-``php
-add_filter( 'laterpay_get_api_settings', 'demo_filter_laterpay_get_api_settings' );
-/**
- * Demo callback to change the settings
- *
- * @param array $settings array(
- *    'api.sandbox_url'           => String,
- *    'api.sandbox_web_url'       => String,
- *    'api.live_url'              => String,
- *    'api.live_web_url'          => String,
- *  )
- *
- * @return array $settings
- */
-function demo_filter_laterpay_get_api_settings( array $settings ) {
-  /* do something with settings */
-
-  return $settings;
-}
-``
-
-# Activate / Deactivate Caching-compatible Mode
-
-## Filter
-
-'laterpay_get_caching_compatible_mode'
-
-## Example
-
-``php
-add_filter( 'laterpay_get_caching_compatible_mode', 'demo_filter_laterpay_get_caching_compatible_mode' );
-/**
- * Demo callback to manually set the caching mode
- *
- * @param bool $mode  - true = activated | false = deactivated
- *
- * @return bool $mode
-*/
-function demo_filter_laterpay_get_caching_compatible_mode( $mode ) {
-  if ( /* something */ ) {
-    $mode = true;
-  } else {
-    $mode = false;
-  }
-
-  return $mode;
-}
-``
-
-# Edit Content Settings
-
-## Filter
-
-'laterpay_get_content_settings'
-
-## Example
-
-``php
-add_filter( 'laterpay_get_content_settings', 'demo_filter_laterpay_get_content_settings' );
-/**
- * Demo callback to change the settings
- *
- * @param Array $settings array(
- *    'content.auto_generated_teaser_content_word_count'  => Integer - Number of words used for automatically extracting teaser content for paid posts,
- *    'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
- *    'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
- *    'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,
- *    'content.enabled_post_types'                         => Array - allowed post_types that support LaterPay purchases
- *    'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
- *  )
- * @return Array $settings
- */
-function demo_filter_laterpay_get_content_settings( array $settings ) {
-  /* do something with settings */
-
-  return $settings;
-}
-``
-
-# activate / Deactivate Access Logging
-
-## Filter
-'later_pay_access_logging_enabled'
-
-## Example
-
-``php
-add_filter( 'later_pay_access_logging_enabled', 'demo_filter_later_pay_access_logging_enabled' );
-/**
- * Demo callback to manually set the logging mode
- *
- * @param bool $logging - true = activated | false = deactivated
- *
- * @return bool $logging
-*/
-function demo_filter_laterpay_later_pay_access_logging_enabled( $logging ) {
-  if ( /* something */ ) {
-    $logging = true;
-  } else {
-    $logging = false;
-  }
-
-  return $logging;
-}
-``
-
-# Edit Browscap Settings
-
-## Filter
-'laterpay_get_browscap_settings'
-
-## Example
-
-``php
-add_filter( 'laterpay_get_browscap_settings', 'demo_filter_laterpay_get_browscap_settings' );
-/**
- * Demo callback to change the settings
- *
- * @param Array $settings array(
- *    'browscap.autoupdate'             => Boolean - When set to true, the plugin will automatically fetch updates of this library from browscap.org
- *    'browscap.manually_updated_copy'  => String - If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file on your server
- *  )
- *
- * @return Array $settings
- */
-function demo_filter_laterpay_get_browscap_settings( array $settings ) {
-  /* do something with settings */
-
-  return $settings;
-}
-``
 
 == Modification, Bug Reports, and Feature Requests ==
 
