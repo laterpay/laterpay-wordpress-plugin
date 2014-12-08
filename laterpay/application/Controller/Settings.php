@@ -201,10 +201,10 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             )
         );
 
-        register_setting( 'laterpay', 'laterpay_teaser_content_word_count' );
-        register_setting( 'laterpay', 'laterpay_teaser_content_percentage_of_content' );
-        register_setting( 'laterpay', 'laterpay_teaser_content_word_count_min' );
-        register_setting( 'laterpay', 'laterpay_teaser_content_word_count_max' );
+        register_setting( 'laterpay', 'laterpay_teaser_content_word_count', 'absint' );
+        register_setting( 'laterpay', 'laterpay_teaser_content_percentage_of_content', 'absint' );
+        register_setting( 'laterpay', 'laterpay_teaser_content_word_count_min', 'absint' );
+        register_setting( 'laterpay', 'laterpay_teaser_content_word_count_max', 'absint' );
 
         // TODO:
         add_settings_field(

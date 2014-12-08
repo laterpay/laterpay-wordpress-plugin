@@ -337,7 +337,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_global_price',                $this->config->get( 'currency.default_price' ) );
         add_option( 'laterpay_global_price_revenue_model',  'ppu' );
         add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
-        add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
         add_option( 'laterpay_ratings',                     false );
         add_option( 'laterpay_bulk_operations',             '' );
         add_option( 'laterpay_voucher_codes',               '' );

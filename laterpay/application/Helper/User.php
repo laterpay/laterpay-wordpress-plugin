@@ -81,11 +81,13 @@ class LaterPay_Helper_User
             if ( $unlimited_access ) {
                 // check, if user has a role that has the given capability
                 $user = wp_get_current_user();
-                if ( is_object( $user ) && $user->roles ) {
-                    foreach ( $user->roles as $role ) {
-                        if ( in_array( $role, (array) $unlimited_access ) ) {
-                            $has_cap = true;
-                            break;
+                if ( $user instanceof WP_User ) {
+                    if ( $user->roles ) {
+                        foreach ( $user->roles as $role ) {
+                            if ( in_array( $role, (array) $unlimited_access ) ) {
+                                $has_cap = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -113,7 +115,7 @@ class LaterPay_Helper_User
 
         foreach ( $capabilities as $cap_name ) {
             // loop through roles
-            if ( is_object( $wp_roles ) ) {
+            if ( $wp_roles instanceof WP_Roles ) {
                 foreach ( array_keys( $wp_roles->roles ) as $role ) {
                     // get role
                     $role = get_role( $role );
