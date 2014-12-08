@@ -118,7 +118,7 @@
                         </li>
                         <li class="lp_tooltip" data-tooltip="<?php _e( 'Total value of items sold in selected interval', 'laterpay' ); ?>">
                             <big><span id="lp_js_totalRevenue">0.00</span><small><?php echo $laterpay['currency']; ?></small></big>
-                            <?php _e( 'Revenue', 'laterpay' ); ?>
+                            <?php _e( 'Committed Revenue', 'laterpay' ); ?>
                         </li>
                     </ul>
                 </div>
