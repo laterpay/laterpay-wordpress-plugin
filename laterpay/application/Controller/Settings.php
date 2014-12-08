@@ -248,7 +248,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         );
 
         add_settings_field(
-            'unlimited_access_to_paid_content',
+            'laterpay_unlimited_access_to_paid_content',
             __( 'Roles with Unlimited Access', 'laterpay' ),
             array( $this, 'get_unlimited_access_markup' ),
             'laterpay',
@@ -461,14 +461,14 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         $default_roles    = array( 'administrator', 'editor', 'contributor', 'author', 'subscriber' );
         $has_custom_roles = false;
-        $option_value     = get_option( 'unlimited_access_to_paid_content' );
+        $option_value     = get_option( 'laterpay_unlimited_access_to_paid_content' );
 
         $inputs_markup = '';
         foreach ( $wp_roles->roles as $role => $role_data ) {
             if ( ! in_array( $role, $default_roles ) ) {
                 $has_custom_roles = true;
                 $inputs_markup .= '<label title="' . $role_data['name'] . '">';
-                $inputs_markup .= '<input type="checkbox" name="unlimited_access_to_paid_content" value="' . $role . '" ';
+                $inputs_markup .= '<input type="checkbox" name="laterpay_unlimited_access_to_paid_content" value="' . $role . '" ';
                 if ( in_array( $role, ( array ) $option_value ) ) {
                     $inputs_markup .= 'checked="checked"';
                 }

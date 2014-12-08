@@ -73,7 +73,7 @@ delete_option( 'laterpay_teaser_content_word_count_max' );
 
 delete_option( 'laterpay_show_purchase_button' );
 
-delete_option( 'unlimited_access_to_paid_content' );
+delete_option( 'laterpay_unlimited_access_to_paid_content' );
 
 delete_option( 'laterpay_bulk_operations' );
 
