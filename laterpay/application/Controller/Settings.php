@@ -93,11 +93,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_caching_section_description() {
-        echo __( 'You have to enable caching compatiblity mode, if you are using a caching solution that caches entire
-                HTML pages.<br>
-                In caching compatibility mode the plugin renders paid posts without the actual content so they can be
-                cached as static files and then uses an Ajax request to load either the preview content or the full
-                content, depending on the current visitor.', 'laterpay');
+        echo __( 'You must enable caching compatiblity mode, if you are using a caching solution that caches
+                entire HTML pages.<br>
+                In caching compatibility mode the plugin works like this:<br>
+                It renders paid posts without the actual content. This allows to cache them as static files.<br>
+                It then uses an Ajax request to load either the preview content or the full content,
+                depending on the current visitor.', 'laterpay');
     }
 
     /**
@@ -290,9 +291,10 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_logger_section_description() {
-        echo __( 'The LaterPay WordPress plugin has a built-in logger for recording information required to generate
-                the sales statistics shown in the plugin dashboard and on the posts pages.<br>
-                It sets a cookie and stores all requests from visitors to your blog.<br>
+        echo __( 'The LaterPay WordPress plugin generates sales statistics for you on the dashboard and on the posts
+                pages.<br>
+                For collecting the required data it sets a cookie and stores all requests from visitors of your blog.
+                <br>
                 This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
                 It will automatically be deleted after three months.', 'laterpay');
     }
