@@ -73,39 +73,14 @@ delete_option( 'laterpay_teaser_content_word_count_max' );
 
 delete_option( 'laterpay_show_purchase_button' );
 
+delete_option( 'unlimited_access_to_paid_content' );
+
 delete_option( 'laterpay_bulk_operations' );
 
 delete_option( 'laterpay_ratings' );
 
 delete_option( 'laterpay_voucher_codes' );
 delete_option( 'laterpay_voucher_statistic' );
-
-// remove custom capabilities
-foreach ( array( 'administrator', 'editor' ) as $role ) {
-    $role = get_role( $role );
-    if ( empty( $role ) ) {
-        continue;
-    }
-    $role->remove_cap( 'laterpay_read_post_statistics' );
-    $role->remove_cap( 'laterpay_edit_individual_price' );
-    $role->remove_cap( 'laterpay_edit_teaser_content' );
-}
-
-foreach ( array( 'author', 'contributor' ) as $role ) {
-    $role = get_role( $role );
-    if ( empty( $role ) ) {
-        continue;
-    }
-    $role->remove_cap( 'laterpay_read_post_statistics' );
-    $role->remove_cap( 'laterpay_edit_teaser_content' );
-}
-
-$role = get_role( 'author' );
-if ( ! empty( $role ) ) {
-    $role->remove_cap( 'laterpay_edit_individual_price' );
-}
-// TODO: remove capability 'laterpay_has_full_access_to_content'
-
 
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
@@ -115,6 +90,9 @@ if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
 }
 
 LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
+
+// remove custom capabilities
+LaterPay_Helper_User::remove_custom_capabilities();
 
 // remove all dismissed LaterPay pointers
 // delete_user_meta can't remove these pointers without damaging other data

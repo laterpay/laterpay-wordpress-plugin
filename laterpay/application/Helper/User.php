@@ -20,7 +20,7 @@ class LaterPay_Helper_User
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
 
-        if ( current_user_can( $capability ) ) {
+        if ( self::current_user_can( $capability ) ) {
             if ( ! $strict ) {
                 // if $strict = false, it's sufficient that a capability is added to the role of the current user
                 $allowed = true;
@@ -60,6 +60,67 @@ class LaterPay_Helper_User
         }
 
         return $allowed;
+    }
+
+    /**
+     * Check if user has such capability
+     *
+     * @param string $capability capability
+     *
+     * @return bool
+     */
+    public static function current_user_can( $capability ) {
+        $has_cap = false;
+
+        if ( current_user_can( $capability ) ) {
+            $has_cap = true;
+        // imitate capability
+        } else {
+            $unlimited_access = get_option( 'unlimited_access_to_paid_content' );
+            if ( $unlimited_access ) {
+                // check if user has such roles
+                $user = wp_get_current_user();
+                if ( is_object( $user ) && $user->roles ) {
+                    foreach ( $user->roles as $role ) {
+                        if ( in_array( $role, (array) $unlimited_access ) ) {
+                            $has_cap = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $has_cap;
+    }
+
+    /**
+     * Remove custom capabilities
+     *
+     * @return void
+     */
+    public static function remove_custom_capabilities() {
+        global $wp_roles;
+
+        // array of capabilities ( capability => option )
+        $capabilities  = array(
+            'laterpay_read_post_statistics',
+            'laterpay_edit_teaser_content',
+            'laterpay_edit_individual_price',
+            'laterpay_has_full_access_to_content',
+        );
+
+        foreach ( $capabilities as $cap_name ) {
+            // loop through roles
+            if ( is_object( $wp_roles ) ) {
+                foreach ( array_keys( $wp_roles->roles ) as $role ) {
+                    // get role
+                    $role = get_role( $role );
+                    // remove cap from role
+                    $role->remove_cap( $cap_name );
+                }
+            }
+        }
     }
 
     /**
