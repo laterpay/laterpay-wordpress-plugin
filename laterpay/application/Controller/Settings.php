@@ -53,6 +53,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
         $this->add_teaser_content_settings();
+        $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
         $this->add_logger_settings();
         $this->add_api_settings();
@@ -159,52 +160,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             )
         );
 
-        add_settings_field(
-            'laterpay_teaser_content_percentage_of_content',
-            __( 'Percentage of Post Content', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
-            'laterpay',
-            'laterpay_teaser_content',
-            array(
-                'name'          => 'laterpay_teaser_content_percentage_of_content',
-                'class'         => 'lp_numberInput',
-                'appended_text' => __( 'Percentage of content to be extracted (values: 1-100);
-                                      20 means "extract 20% of the total number of words of the post".', 'laterpay' ),
-            )
-        );
-
-        add_settings_field(
-            'laterpay_teaser_content_word_count_min',
-            __( 'Minimum Number of Words', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
-            'laterpay',
-            'laterpay_teaser_content',
-            array(
-                'name'          => 'laterpay_teaser_content_word_count_min',
-                'class'         => 'lp_numberInput',
-                'appended_text' => __( 'Minimum number of words; applied if number of words as percentage of
-                                      the total number of words is less than this value.', 'laterpay' ),
-            )
-        );
-
-        add_settings_field(
-            'laterpay_teaser_content_word_count_max',
-            __( 'Maximum Number of Words', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
-            'laterpay',
-            'laterpay_teaser_content',
-            array(
-                'name'          => 'laterpay_teaser_content_word_count_max',
-                'class'         => 'lp_numberInput',
-                'appended_text' => __( 'Maximum number of words; applied if number of words as percentage of
-                                      the total number of words exceeds this value.', 'laterpay' ),
-            )
-        );
-
         register_setting( 'laterpay', 'laterpay_teaser_content_word_count', 'absint' );
-        register_setting( 'laterpay', 'laterpay_teaser_content_percentage_of_content', 'absint' );
-        register_setting( 'laterpay', 'laterpay_teaser_content_word_count_min', 'absint' );
-        register_setting( 'laterpay', 'laterpay_teaser_content_word_count_max', 'absint' );
     }
 
     /**
@@ -215,8 +171,81 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function get_teaser_content_section_description() {
         echo __( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
                 without teaser content.<br>
-                The following four parameters allow fine-grained control over the generated teaser content.<br>
-                If you really, really want to have NO teaser content, enter one space as teaser content.', 'laterpay');
+                While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED.<br>
+                If you really, really want to have NO teaser content for a post, enter one space
+                into the teaser content editor for that post.', 'laterpay');
+    }
+
+    /**
+     * Add preview excerpt section and fields.
+     *
+     * @return void
+     */
+    public function add_preview_excerpt_settings() {
+        add_settings_section(
+            'laterpay_preview_excerpt',
+            __( 'Content Preview under Overlay', 'laterpay' ),
+            array( $this, 'get_preview_excerpt_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_preview_excerpt_percentage_of_content',
+            __( 'Percentage of Post Content', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_preview_excerpt',
+            array(
+                'name'          => 'laterpay_preview_excerpt_percentage_of_content',
+                'class'         => 'lp_numberInput',
+                'appended_text' => __( 'Percentage of content to be extracted (values: 1-100);
+                                      20 means "extract 20% of the total number of words of the post".', 'laterpay' ),
+            )
+        );
+
+        add_settings_field(
+            'laterpay_preview_excerpt_word_count_min',
+            __( 'Minimum Number of Words', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_preview_excerpt',
+            array(
+                'name'          => 'laterpay_preview_excerpt_word_count_min',
+                'class'         => 'lp_numberInput',
+                'appended_text' => __( 'Minimum number of words; applied if number of words as percentage of
+                                      the total number of words is less than this value.', 'laterpay' ),
+            )
+        );
+
+        add_settings_field(
+            'laterpay_preview_excerpt_word_count_max',
+            __( 'Maximum Number of Words', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_preview_excerpt',
+            array(
+                'name'          => 'laterpay_preview_excerpt_word_count_max',
+                'class'         => 'lp_numberInput',
+                'appended_text' => __( 'Maximum number of words; applied if number of words as percentage of
+                                      the total number of words exceeds this value.', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_preview_excerpt_percentage_of_content', 'absint' );
+        register_setting( 'laterpay', 'laterpay_preview_excerpt_word_count_min', 'absint' );
+        register_setting( 'laterpay', 'laterpay_preview_excerpt_word_count_max', 'absint' );
+    }
+
+    /**
+     * Render the hint text for the preview excerpt section.
+     *
+     * @return string description
+     */
+    public function get_preview_excerpt_section_description() {
+        echo __( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
+                an excerpt of the full content, covered by a semi-transparent overlay.<br>
+                The following three parameters give you fine-grained control over the length of this excerpt.<br>
+                These settings do not affect the teaser content in any way.', 'laterpay');
     }
 
     /**
