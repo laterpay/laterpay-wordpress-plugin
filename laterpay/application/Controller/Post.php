@@ -46,6 +46,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             exit;
         }
 
+        // call 'the_post'-hook to enable modification of loaded data by themes and plugins
+        do_action_ref_array( 'the_post', array( &$post ) );
+
         $content = apply_filters( 'the_content', $post->post_content );
         $content = str_replace( ']]>', ']]&gt;', $content );
 
