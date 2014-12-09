@@ -161,7 +161,29 @@ The plugin will notify you about available updates that you can install with a s
 
 == Advanced Configuration ==
 
-TODO: Describe custom settings page here.
+The plugin's settings page (Settings > LaterPay) allows you to adjust some settings, which are too advanced to list them in the regular LaterPay plugin backend:
+
+= Caching Compatibility Mode =
+Usually, the plugin detects on activation or update, if you are using one of the common caching plugins and automatically switches to caching compatibility mode. If the plugin for some reason doesn't detect a caching plugin, if you experience problems in caching compatibility mode, or especially, if you have installed a caching plugin after installing the LaterPay plugin, you can manually turn on (or off) this mode.
+
+= LaterPay-enabled Post Types =
+You can enable or disable LaterPay for any standard or custom post type. By default, LaterPay is enabled for all custom post types.
+
+= Automatically Generated Teaser Content =
+The plugin will automatically generate teaser content, if you leave the teaser empty. This functionality was introduced to handle the case that the LaterPay plugin is installed to monetize a large number of existing posts and it would be too much effort to create individual teaser content or that work simply has not yet been done. With the setting in this section, you can control, how many words of the full content the plugin should use as teaser content. (So "500" will use the first 500 words of the full content as teaser content, if there is no teaser content.)
+
+= Excerpt under Teaser Overlay =
+If you choose the preview mode "Teaser + excerpt of the full text under overlay" in the appearance tab, you can define the length of the excerpt under the overlay with the three settings in this section.
+
+= Unlimited Access to Paid Content =
+This setting gives all logged in users with a specific custom user role full access to all LaterPay content on your website. To use this feature, you will have to create at least one custom user role (e.g. with the free plugin User Role Editor) and add the respective users to this group.
+
+= Access Logging for Generating Sales Statistics =
+By default, the plugin will store anonymous usage and sales data on your server to provide sales statistics. This data will not be sent to LaterPay and will be automatically deleted after three months.
+If you don't need any sales statistics, you can disable the access logging in this section.
+
+= LaterPay API URLs =
+Attention: This is an option primarily used for LaterPay's demo and test purposes: Changing the API endpoints (more precisely: using the sandbox endpoints as live endpoints) makes the plugin (e.g. on laterpaydemo.com) behave like in live mode while still talking to the sandbox environment. We highly recommend not to touch this setting.
 
 
 == Modification, Bug Reports, and Feature Requests ==

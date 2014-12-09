@@ -30,10 +30,10 @@ class LaterPay_Helper_String
 
         $config = laterpay_get_plugin_config();
 
-        $percent        = (int) $config->get( 'preview_percentage_of_content' );
+        $percent        = (int) $config->get( 'content.preview_percentage_of_content' );
         $percent        = max( min( $percent, 100 ), 1 );
-        $min            = (int) $config->get( 'preview_word_count_min' );
-        $max            = (int) $config->get( 'preview_word_count_max' );
+        $min            = (int) $config->get( 'content.preview_word_count_min' );
+        $max            = (int) $config->get( 'content.preview_word_count_max' );
 
         $number_of_words = $total_words * ( $percent / 100 );
         $number_of_words = max( min( $number_of_words, $max ), $min );

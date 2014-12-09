@@ -337,7 +337,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_global_price',                $this->config->get( 'currency.default_price' ) );
         add_option( 'laterpay_global_price_revenue_model',  'ppu' );
         add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
-        add_option( 'laterpay_enabled_post_types',          get_post_types( array( 'public' => true ) ) );
         add_option( 'laterpay_ratings',                     false );
         add_option( 'laterpay_bulk_operations',             '' );
         add_option( 'laterpay_voucher_codes',               '' );
@@ -353,9 +352,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_caching_compatibility',                   (bool) LaterPay_Helper_Cache::site_uses_page_caching() );
         add_option( 'laterpay_show_purchase_button',                    1 );
         add_option( 'laterpay_teaser_content_word_count',               '60' );
-        add_option( 'laterpay_teaser_content_percentage_of_content',    '25' );
-        add_option( 'laterpay_teaser_content_word_count_min',           '26' );
-        add_option( 'laterpay_teaser_content_word_count_max',           '200' );
+        add_option( 'laterpay_preview_excerpt_percentage_of_content',   '25' );
+        add_option( 'laterpay_preview_excerpt_word_count_min',          '26' );
+        add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
 
         // keep the plugin version up to date

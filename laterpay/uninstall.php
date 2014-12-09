@@ -67,9 +67,10 @@ delete_option( 'laterpay_caching_compatibility' );
 delete_option( 'laterpay_teaser_content_only' );
 
 delete_option( 'laterpay_teaser_content_word_count' );
-delete_option( 'laterpay_teaser_content_percentage_of_content' );
-delete_option( 'laterpay_teaser_content_word_count_min' );
-delete_option( 'laterpay_teaser_content_word_count_max' );
+
+delete_option( 'laterpay_preview_excerpt_percentage_of_content' );
+delete_option( 'laterpay_preview_excerpt_word_count_min' );
+delete_option( 'laterpay_preview_excerpt_word_count_max' );
 
 delete_option( 'laterpay_show_purchase_button' );
 
