@@ -176,6 +176,10 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         $theme_data = wp_get_theme();
         $theme      = $theme_data->Name . ' ' . $theme_data->Version;
 
+        if ( ! function_exists( 'get_plugins' ) ) {
+            include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        }
+
         // get active plugin data
         $installed_plugins  = get_plugins();
         $active_plugins     = get_option( 'active_plugins', array() );

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Thu Dec 04 2014 11:43:07 GMT+0100 (CET)\n"
+"PO-Revision-Date: Wed Dec 03 2014 11:10:47 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -70,8 +70,8 @@ msgid "Statistics for this Post"
 msgstr "Statistik für diesen Beitrag"
 
 #: ../views/frontend/partials/post/post_statistics.php:17
-msgid "Total Committed Revenue"
-msgstr "Versprochener Umsatz (Gesamt)"
+msgid "Total Revenue"
+msgstr "Gesamt-Umsatz"
 
 #: ../views/frontend/partials/post/post_statistics.php:21
 msgid "Total Sales"
@@ -87,10 +87,9 @@ msgid "Today"
 msgstr "Heute"
 
 #: ../views/frontend/partials/post/post_statistics.php:38 ..
-#: views/backend/dashboard.php:111 ../views/backend/dashboard.php:121 ..
-#: application/Controller/Admin.php:278
-msgid "Committed Revenue"
-msgstr "Versprochener Umsatz"
+#: views/backend/dashboard.php:121
+msgid "Revenue"
+msgstr "Umsatz"
 
 #: ../views/frontend/partials/post/post_statistics.php:50 ..
 #: views/backend/dashboard.php:75 ../views/backend/dashboard.php:85 ..
@@ -275,6 +274,10 @@ msgstr "Ø Verkäufe"
 #: ../views/backend/dashboard.php:103
 msgid "Total number of items sold in selected interval"
 msgstr "Anzahl aller im Berichtszeitraum verkauften Inhalte"
+
+#: ../views/backend/dashboard.php:111 ../application/Controller/Admin.php:278
+msgid "Committed Revenue"
+msgstr "Versprochener Umsatz"
 
 #: ../views/backend/dashboard.php:115
 msgid "Average value of items sold in selected interval"
@@ -2397,8 +2400,8 @@ msgstr "Aktualisiert."
 
 #: ../application/Controller/Statistics.php:210 ..
 #: application/Controller/Admin/Account.php:67 ..
-#: application/Controller/Admin/Dashboard.php:620 ..
-#: application/Controller/Admin/Dashboard.php:630 ..
+#: application/Controller/Admin/Dashboard.php:619 ..
+#: application/Controller/Admin/Dashboard.php:629 ..
 #: application/Controller/Admin/Appearance.php:61 ..
 #: application/Controller/Admin/Pricing.php:146
 msgid "You don't have sufficient user capabilities to do this."
@@ -2526,16 +2529,16 @@ msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 msgid "Cache data is empty on <code>%s</code>"
 msgstr "Cache data is empty on <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:586
+#: ../application/Controller/Admin/Dashboard.php:585
 msgid "Error, missing section on request"
 msgstr "Error, missing section on request"
 
-#: ../application/Controller/Admin/Dashboard.php:595
+#: ../application/Controller/Admin/Dashboard.php:594
 #, php-format
 msgid "Section is not allowed <code>%s</code>"
 msgstr "Section is not allowed <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:604
+#: ../application/Controller/Admin/Dashboard.php:603
 #, php-format
 msgid "Invalid section <code>%s</code>"
 msgstr "Invalid section <code>%s</code>"
