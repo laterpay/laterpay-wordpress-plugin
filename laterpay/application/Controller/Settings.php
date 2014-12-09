@@ -94,12 +94,13 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_caching_section_description() {
-        echo __( 'You must enable caching compatiblity mode, if you are using a caching solution that caches
+        echo __( 'You MUST enable caching compatiblity mode, if you are using a caching solution that caches
                 entire HTML pages.<br>
                 In caching compatibility mode the plugin works like this:<br>
-                It renders paid posts without the actual content. This allows to cache them as static files.<br>
-                It then uses an Ajax request to load either the preview content or the full content,
-                depending on the current visitor.', 'laterpay');
+                It renders paid posts only with the teaser content. This allows to cache them as static files without
+                risking to leak the paid content.<br>
+                When someone visits the page, it makes an Ajax request to determine, if the visitor has already bought
+                the post and replaces the teaser with the full content, if required.', 'laterpay');
     }
 
     /**
@@ -199,7 +200,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             array(
                 'name'          => 'laterpay_preview_excerpt_percentage_of_content',
                 'class'         => 'lp_numberInput',
-                'appended_text' => __( 'Percentage of content to be extracted (values: 1-100);
+                'appended_text' => __( 'Percentage of content to be extracted;
                                       20 means "extract 20% of the total number of words of the post".', 'laterpay' ),
             )
         );
@@ -213,8 +214,8 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             array(
                 'name'          => 'laterpay_preview_excerpt_word_count_min',
                 'class'         => 'lp_numberInput',
-                'appended_text' => __( 'Minimum number of words; applied if number of words as percentage of
-                                      the total number of words is less than this value.', 'laterpay' ),
+                'appended_text' => __( 'Applied if number of words as percentage of the total number of words is less
+                                      than this value.', 'laterpay' ),
             )
         );
 
@@ -227,8 +228,8 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             array(
                 'name'          => 'laterpay_preview_excerpt_word_count_max',
                 'class'         => 'lp_numberInput',
-                'appended_text' => __( 'Maximum number of words; applied if number of words as percentage of
-                                      the total number of words exceeds this value.', 'laterpay' ),
+                'appended_text' => __( 'Applied if number of words as percentage of the total number of words exceeds
+                                      this value.', 'laterpay' ),
             )
         );
 
