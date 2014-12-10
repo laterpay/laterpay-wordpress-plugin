@@ -180,9 +180,9 @@ function laterpay_get_plugin_config() {
     // content preview settings
     $content_settings = array(
         'content.auto_generated_teaser_content_word_count'  => get_option( 'laterpay_teaser_content_word_count' ),
-        'content.preview_percentage_of_content'             => get_option( 'laterpay_teaser_content_percentage_of_content' ),
-        'content.preview_word_count_min'                    => get_option( 'laterpay_teaser_content_word_count_min' ),
-        'content.preview_word_count_max'                    => get_option( 'laterpay_teaser_content_word_count_max' ),
+        'content.preview_percentage_of_content'             => get_option( 'laterpay_preview_excerpt_percentage_of_content' ),
+        'content.preview_word_count_min'                    => get_option( 'laterpay_preview_excerpt_word_count_min' ),
+        'content.preview_word_count_max'                    => get_option( 'laterpay_preview_excerpt_word_count_max' ),
         'content.show_purchase_button'                      => get_option( 'laterpay_show_purchase_button' ),
         'content.enabled_post_types'                        => $enabled_post_types ? $enabled_post_types : array(),
     );
