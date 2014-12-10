@@ -212,6 +212,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         if ( $meta_key === 'laterpay_post_prices' ) {
             $meta_migration_mapping = array(
                 'laterpay_post_pricing'                         => 'price',
+                'laterpay_post_revenue_model'                   => 'revenue_model',
                 'laterpay_post_default_category'                => 'category_id',
                 'laterpay_post_pricing_type'                    => 'type',
                 'laterpay_start_price'                          => 'start_price',

@@ -74,8 +74,8 @@ class LaterPay_Helper_Pricing
      */
     public static function get_all_posts_with_price() {
         $post_args = array(
-            'meta_query'        => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
-            'posts_per_page'    => '-1',
+            'meta_query'     => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
+            'posts_per_page' => '-1',
         );
         $posts = get_posts( $post_args );
 
@@ -92,11 +92,11 @@ class LaterPay_Helper_Pricing
     public static function get_post_ids_with_price_by_category_id( $category_id ) {
         $config     = laterpay_get_plugin_config();
         $post_args  = array(
-            'fields'            => 'ids',
-            'meta_query'        => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
-            'cat'               => $category_id,
-            'posts_per_page'    => '-1',
-            'post_type'         => $config->get( 'content.enabled_post_types' ),
+            'fields'         => 'ids',
+            'meta_query'     => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
+            'cat'            => $category_id,
+            'posts_per_page' => '-1',
+            'post_type'      => $config->get( 'content.enabled_post_types' ),
         );
         $posts      = get_posts( $post_args );
 
@@ -137,8 +137,8 @@ class LaterPay_Helper_Pricing
      * @return array $updated_post_ids all updated post_ids
      */
     public static function apply_category_price_to_posts_with_global_price( $category_id ) {
-        $updated_post_ids   = array();
-        $post_ids           = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
+        $updated_post_ids = array();
+        $post_ids         = LaterPay_Helper_Pricing::get_post_ids_with_price_by_category_id( $category_id );
 
         foreach ( $post_ids as $post_id ) {
             $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
@@ -181,8 +181,8 @@ class LaterPay_Helper_Pricing
         }
 
         $post_price = array(
-            'type'          => LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
-            'category_id'   => (int) $category_id,
+            'type'        => LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE,
+            'category_id' => (int) $category_id,
         );
 
         return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_price );
@@ -211,8 +211,8 @@ class LaterPay_Helper_Pricing
         if ( ! is_array( $post_price ) ) {
             $post_price = array();
         }
-        $post_price_type    = array_key_exists( 'type', $post_price )        ? $post_price[ 'type' ]        : '';
-        $category_id        = array_key_exists( 'category_id', $post_price ) ? $post_price[ 'category_id' ] : '';
+        $post_price_type = array_key_exists( 'type', $post_price )        ? $post_price[ 'type' ]        : '';
+        $category_id     = array_key_exists( 'category_id', $post_price ) ? $post_price[ 'category_id' ] : '';
 
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
@@ -220,7 +220,7 @@ class LaterPay_Helper_Pricing
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
-                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post, $post_price );
+                $price = LaterPay_Helper_Pricing::get_dynamic_price( $post );
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
@@ -299,13 +299,13 @@ class LaterPay_Helper_Pricing
      * Get the current price for a post with dynamic pricing scheme defined.
      *
      * @param WP_Post $post
-     * @param array   $post_price see post_meta 'laterpay_post_prices'
-     * @param string  $post_revenue_model
      *
      * @return float price
      */
-    public static function get_dynamic_price( $post, $post_price ) {
+    public static function get_dynamic_price( $post ) {
+        $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
+        $price_range_type       = $post_price['price_range_type'];
 
         if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
             $price = $post_price[ 'start_price' ];
@@ -319,7 +319,49 @@ class LaterPay_Helper_Pricing
             }
         }
 
-        return number_format( $price, 2 );
+        // detect revenue model by price range
+        $rounded_price = round( $price, 2 );
+
+        switch ( $price_range_type ) {
+            case 'ppu':
+                if( $rounded_price < self::ppu_min ) {
+                    if ( abs( self::price_sis_end - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = self::ppu_min;
+                    } else {
+                        $rounded_price = 0;
+                    }
+                } else if( $rounded_price > self::ppu_max ) {
+                    $rounded_price = self::ppu_max;
+                }
+                break;
+            case 'sis':
+                if ( $rounded_price < self::price_sis_end ) {
+                    if ( abs( self::price_sis_end - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = self::price_sis_end;
+                    } else {
+                        $rounded_price = 0;
+                    }
+                }
+                if ( $rounded_price > self::sis_max ) {
+                    $rounded_price = self::sis_max;
+                }
+                break;
+            case 'ppusis':
+                if ( $rounded_price > self::ppusis_max ) {
+                    $rounded_price = self::ppusis_max;
+                } else if( $rounded_price < self::sis_min ) {
+                    if ( abs( self::sis_min - $rounded_price ) < $rounded_price ) {
+                        $rounded_price = self::sis_min;
+                    } else {
+                        $rounded_price = 0.00;
+                    }
+                }
+                break;
+            default:
+                break;
+         }
+
+        return number_format( $rounded_price, 2 );
     }
 
     /**
@@ -462,8 +504,6 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function get_dynamic_prices( $post, $price = null ) {
-        $dynamic_pricing_data = array();
-
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
             return;
         }
@@ -483,6 +523,7 @@ class LaterPay_Helper_Pricing
         $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days',           $post_prices ) ? (float) $post_prices[ 'reach_end_price_after_days' ] : '';
         $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days',        $post_prices ) ? (float) $post_prices[ 'change_start_price_after_days' ] : '';
         $transitional_period_end_after_days = array_key_exists( 'transitional_period_end_after_days',   $post_prices ) ? (float) $post_prices[ 'transitional_period_end_after_days' ] : '';
+
         // return dynamic pricing widget start values
         if ( ( $start_price === '' ) && ( $price !== null ) ) {
             if ( $post_price > self::ppusis_max ) {
@@ -573,8 +614,10 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function adjust_dynamic_price_points( $start, $end ) {
+        $price_range_type = 'ppu';
+
         if ( $start >= self::price_sis_end || $end >= self::price_sis_end ) {
-            // SIS
+            $price_range_type = 'sis';
             if ( $start != 0 && $start < self::price_sis_end ) {
                 $start = self::price_sis_end;
             }
@@ -585,7 +628,7 @@ class LaterPay_Helper_Pricing
             ( $start >= self::sis_min && $start <= self::ppusis_max ) ||
                 ( $end >= self::sis_min && $end <= self::ppusis_max )
             ) {
-            // SIS or PPU
+            $price_range_type = 'ppusis';
             if ( $start != 0 ) {
                 if ( $start < self::sis_min ) {
                     $start = self::sis_min;
@@ -603,7 +646,6 @@ class LaterPay_Helper_Pricing
                 }
             }
         } else {
-            // PPU
             if ( $start != 0 ) {
                 if ( $start < self::ppu_min ) {
                     $start = self::ppu_min;
@@ -622,7 +664,7 @@ class LaterPay_Helper_Pricing
             }
         }
 
-        return array( $start, $end );
+        return array( $start, $end, $price_range_type );
     }
 
     /**
