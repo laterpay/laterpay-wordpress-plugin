@@ -18,7 +18,7 @@
 
     <div class="lp_wrap">
 
-        <h1><?php echo sprintf( __( '%s Dashboard of %s Sales between%s%s%s', 'laterpay' ),
+        <h1><?php echo sprintf( __( '%s Dashboard of %s Sales from%s%s%s', 'laterpay' ),
             '<div class="lp_dropdown">' .
                 '<span class="lp_dropdown_currentItem">' . __( '8 Day', 'laterpay' ) . '</span>' .
                 '<div class="lp_dropdown_list">' .
