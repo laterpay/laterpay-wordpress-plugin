@@ -189,7 +189,6 @@ class LaterPay_Helper_Passes
     public static function get_select_options( $type ) {
         $options_html  = '';
         $default_value = null;
-        $select_first  = true;
 
         switch ( $type ) {
             case 'duration':
@@ -207,59 +206,21 @@ class LaterPay_Helper_Passes
                 $default_value = self::get_default_options( 'access_to' );
                 break;
 
-            case 'category':
-                $elements      = self::get_wp_categories();
-                $default_value = self::get_default_options( 'access_category' );
-                break;
-
             default:
                 return $options_html;
         }
 
         if ( $elements && is_array( $elements ) ) {
-            $is_first = true;
             foreach ( $elements as $id => $name ) {
-                // category value is different
-                if ( $type == 'category' ) {
-                    $id   = $name->term_id;
-                    $name = $name->name;
-                }
-
-                // set option
-                if ( ( $is_first && $select_first && ! $default_value ) || ( $id == $default_value ) ) {
+                if ( $id == $default_value ) {
                     $options_html .= '<option selected="selected" value="' . $id . '">' . $name. '</option>';
                 } else {
                     $options_html .= '<option value="' . $id . '">' . $name . '</option>';
                 }
-
-                $is_first = false;
             }
         }
 
         return $options_html;
-    }
-
-    /**
-     * Get wp categories.
-     *
-     * @param array $args query args for get_categories
-     *
-     * @return array $categories
-     */
-    protected static function get_wp_categories( $args = array() ) {
-        $default_args = array(
-            'hide_empty'    => false,
-            'number'        => 10,
-        );
-
-        $args = wp_parse_args(
-            $args,
-            $default_args
-        );
-
-        $categories = get_categories( $args );
-
-        return $categories;
     }
 
     /**

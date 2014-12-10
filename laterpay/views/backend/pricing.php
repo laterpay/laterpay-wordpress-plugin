@@ -285,12 +285,9 @@
                                 <tr>
                                     <td>
                                     </td>
-                                    <td>
-                                        <select name="access_category"
-                                                class="lp_js_switchTimePassScopeCategory lp_input lp_u_w-1"
-                                                style="display:none;">
-                                            <?php echo LaterPay_Helper_Passes::get_select_options( 'category' ); ?>
-                                        </select>
+                                    <td class="lp_js_timePassCategoryWrapper" style="display: none;">
+                                        <input type="hidden" name="category_name" value="" class="lp_js_switchTimePassScopeCategory">
+                                        <input type="hidden" name="access_category" value="" class="lp_js_timePassCategoryId">
                                     </td>
                                 </tr>
                                 <tr>
