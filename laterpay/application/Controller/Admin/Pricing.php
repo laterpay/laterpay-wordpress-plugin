@@ -215,6 +215,40 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     $this->delete_voucher_code();
                     break;
 
+                case 'laterpay_get_categories_with_price':
+                    // return categories that match a given search term
+                    if ( isset( $_POST['term'] ) ) {
+                        $category_price_model = new LaterPay_Model_CategoryPrice();
+                        $args = array();
+
+                        if ( ! empty( $_POST['term'] ) ) {
+                            $args['name__like'] = $_POST['term'];
+                        }
+
+                        wp_send_json(
+                            $category_price_model->get_categories_without_price_by_term( $args )
+                        );
+                        die;
+                    }
+                    break;
+
+                case 'laterpay_get_categories':
+                    // return categories
+                    $args = array(
+                        'hide_empty' => false,
+                    );
+
+                    if ( isset( $_POST['term'] ) && ! empty( $_POST['term'] ) ) {
+                        $args['name__like'] = $_POST['term'];
+                    }
+
+                    $categories = get_categories( $args );
+
+                    wp_send_json(
+                        $categories
+                    );
+                    break;
+
                 default:
                     wp_send_json(
                         array(
@@ -223,21 +257,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         )
                     );
             }
-        }
-
-        // return categories that match a given search term
-        if ( isset( $_GET['term'] ) ) {
-            $category_price_model = new LaterPay_Model_CategoryPrice();
-            $args = array();
-
-            if ( ! empty( $_GET['term'] ) ) {
-                $args['name__like'] = $_GET['term'];
-            }
-
-            wp_send_json(
-               $category_price_model->get_categories_without_price_by_term( $args )
-            );
-            die;
         }
 
         // invalid request
@@ -892,6 +911,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $data = $pass_model->update_pass( $data );
             // save vouchers for this pass
             LaterPay_Helper_Vouchers::save_pass_vouchers( $data['pass_id'], $voucher );
+
+            $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
             $data['price'] = LaterPay_Helper_View::format_number( $data['price'] );
 
             wp_send_json(
@@ -955,8 +976,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $passes_array = array( 0 => LaterPay_Helper_Passes::get_default_options() );
 
         foreach ( $passes_list as $pass ) {
-            $pass                               = (array) $pass;
-            $passes_array[ $pass['pass_id'] ]   = $pass;
+            $pass = (array) $pass;
+            if ( isset( $pass['access_category'] ) && $pass['access_category'] ) {
+                $pass['category_name'] = get_the_category_by_ID( $pass['access_category'] );
+            }
+            $passes_array[ $pass['pass_id'] ] = $pass;
         }
 
         $passes_array = json_encode( $passes_array );
