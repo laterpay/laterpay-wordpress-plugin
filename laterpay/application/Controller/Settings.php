@@ -145,21 +145,21 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function add_time_passes_settings() {
         add_settings_section(
             'laterpay_time_passes',
-            __( 'Time Passes', 'laterpay' ),
+            __( 'Offering Time Passes on Free Posts', 'laterpay' ),
             array( $this, 'get_time_passes_section_description' ),
             'laterpay'
         );
 
         add_settings_field(
             'laterpay_show_time_passes_widget_on_free_posts',
-            __( 'Show on free posts', 'laterpay' ),
+            __( 'Time Passes Widget', 'laterpay' ),
             array( $this, 'get_checkbox_field_markup' ),
             'laterpay',
             'laterpay_time_passes',
             array(
                 'name'  => 'laterpay_show_time_passes_widget_on_free_posts',
                 'value' => 1,
-                'label' => __( 'I want to show time pass widget on free posts.', 'laterpay' ),
+                'label' => __( 'I want to display the time passes widget on free and paid posts', 'laterpay' ),
             )
         );
 
@@ -172,7 +172,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_time_passes_section_description() {
-        echo __( 'Please choose, if you want to show time pass widget on free posts.', 'laterpay');
+        echo __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.', 'laterpay');
     }
 
     /**
