@@ -678,11 +678,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $view_args = array(
-            'post_id'                   => $post->ID,
-            'link'                      => $this->get_laterpay_purchase_link( $post->ID ),
-            'currency'                  => get_option( 'laterpay_currency' ),
-            'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-            'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'post_id'                         => $post->ID,
+            'link'                            => $this->get_laterpay_purchase_link( $post->ID ),
+            'currency'                        => get_option( 'laterpay_currency' ),
+            'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+            'preview_post_as_visitor'         => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'time_passes_positioned_manually' => get_option( 'time_passes_positioned_manually' ),
         );
 
         $this->logger->info(
@@ -710,7 +711,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '' ) {
         $is_homepage = is_front_page() && is_home();
         // check, if post is purchasable and we are not on the homepage
-        if ( ! LaterPay_Helper_Pricing::is_purchasable() && ! $is_homepage ) {
+        if ( ( ! LaterPay_Helper_Pricing::is_purchasable() && ! $is_homepage ) || did_action( 'laterpay_time_passes' ) > 1  ) {
             return;
         }
 
@@ -824,6 +825,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $context
             );
 
+            // TODO: add view args
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
             return $content;
@@ -860,17 +862,18 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // assign all required vars to the view templates
         $view_args = array(
-            'post_id'                 => $post_id,
-            'content'                 => $content,
-            'teaser_content'          => $wp_embed->autoembed( $teaser_content ),
-            'teaser_content_only'     => $teaser_content_only,
-            'currency'                => $currency,
-            'price'                   => $price,
-            'revenue_model'           => $revenue_model,
-            'link'                    => $purchase_link,
-            'preview_post_as_visitor' => $preview_post_as_visitor,
-            'user_has_already_voted'  => $user_has_already_voted,
-            'show_post_ratings'       => $show_post_ratings,
+            'post_id'                           => $post_id,
+            'content'                           => $content,
+            'teaser_content'                    => $wp_embed->autoembed( $teaser_content ),
+            'teaser_content_only'               => $teaser_content_only,
+            'currency'                          => $currency,
+            'price'                             => $price,
+            'revenue_model'                     => $revenue_model,
+            'link'                              => $purchase_link,
+            'preview_post_as_visitor'           => $preview_post_as_visitor,
+            'user_has_already_voted'            => $user_has_already_voted,
+            'show_post_ratings'                 => $show_post_ratings,
+            'time_passes_positioned_manually'   => get_option( 'time_passes_positioned_manually' ),
         );
         $this->assign( 'laterpay', $view_args );
 
