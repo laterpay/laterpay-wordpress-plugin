@@ -683,7 +683,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'currency'                        => get_option( 'laterpay_currency' ),
             'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'         => LaterPay_Helper_User::preview_post_as_visitor( $post ),
-            'time_passes_positioned_manually' => get_option( 'laterpay_time_passes_positioned_manually' ),
         );
 
         $this->logger->info(
@@ -691,9 +690,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $view_args
         );
 
-        $this->assign( 'laterpay', $view_args );
+        $this->assign( 'laterpay_widget', $view_args );
 
-        echo $this->get_text_view( 'frontend/partials/post/purchase_button' );
+        echo $this->get_text_view( 'frontend/partials/widget/purchase_button_widget' );
     }
 
     /**
@@ -756,7 +755,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $view_args
         );
 
-        $this->assign( 'laterpay', $view_args );
+        $this->assign( 'laterpay_widget', $view_args );
 
         echo $this->get_text_view( 'frontend/partials/widget/time_passes_widget' );
     }
@@ -862,18 +861,19 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // assign all required vars to the view templates
         $view_args = array(
-            'post_id'                           => $post_id,
-            'content'                           => $content,
-            'teaser_content'                    => $wp_embed->autoembed( $teaser_content ),
-            'teaser_content_only'               => $teaser_content_only,
-            'currency'                          => $currency,
-            'price'                             => $price,
-            'revenue_model'                     => $revenue_model,
-            'link'                              => $purchase_link,
-            'preview_post_as_visitor'           => $preview_post_as_visitor,
-            'user_has_already_voted'            => $user_has_already_voted,
-            'show_post_ratings'                 => $show_post_ratings,
-            'time_passes_positioned_manually'   => get_option( 'laterpay_time_passes_positioned_manually' ),
+            'post_id'                               => $post_id,
+            'content'                               => $content,
+            'teaser_content'                        => $wp_embed->autoembed( $teaser_content ),
+            'teaser_content_only'                   => $teaser_content_only,
+            'currency'                              => $currency,
+            'price'                                 => $price,
+            'revenue_model'                         => $revenue_model,
+            'link'                                  => $purchase_link,
+            'preview_post_as_visitor'               => $preview_post_as_visitor,
+            'user_has_already_voted'                => $user_has_already_voted,
+            'show_post_ratings'                     => $show_post_ratings,
+            'time_passes_positioned_manually'       => get_option( 'laterpay_time_passes_positioned_manually' ),
+            'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
         );
         $this->assign( 'laterpay', $view_args );
 

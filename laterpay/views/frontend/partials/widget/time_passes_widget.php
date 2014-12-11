@@ -1,17 +1,17 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="lp_timePassWidget <?php echo $laterpay['time_pass_widget_class']; ?>">
-    <?php if ( $laterpay['time_pass_introductory_text'] ): ?>
-        <p class="lp_timePass_introductoryText"><?php echo $laterpay['time_pass_introductory_text']; ?></p>
+<div class="lp_timePassWidget <?php echo $laterpay_widget['time_pass_widget_class']; ?>">
+    <?php if ( $laterpay_widget['time_pass_introductory_text'] ): ?>
+        <p class="lp_timePass_introductoryText"><?php echo $laterpay_widget['time_pass_introductory_text']; ?></p>
     <?php endif; ?>
 
-    <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
+    <?php foreach ( $laterpay_widget['passes_list'] as $pass ): ?>
         <?php echo $this->render_pass( (array) $pass ); ?>
     <?php endforeach; ?>
 
-    <?php if ( $laterpay['has_vouchers'] ): ?>
-        <?php if ( $laterpay['time_pass_call_to_action_text'] ): ?>
-             <p class="lp_timePass_callToActionText"><?php echo $laterpay['time_pass_call_to_action_text']; ?></p>
+    <?php if ( $laterpay_widget['has_vouchers'] ): ?>
+        <?php if ( $laterpay_widget['time_pass_call_to_action_text'] ): ?>
+             <p class="lp_timePass_callToActionText"><?php echo $laterpay_widget['time_pass_call_to_action_text']; ?></p>
          <?php endif; ?>
 
         <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
