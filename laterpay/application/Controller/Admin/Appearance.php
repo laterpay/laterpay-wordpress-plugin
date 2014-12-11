@@ -40,8 +40,8 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
             'top_nav'                             => $this->get_menu(),
             'admin_menu'                          => LaterPay_Helper_View::get_admin_menu(),
             'is_rating_enabled'                   => $this->config->get( 'ratings_enabled' ),
-            'purchase_button_positioned_manually' => get_option( 'purchase_button_positioned_manually' ),
-            'time_passes_positioned_manually'     => get_option( 'time_passes_positioned_manually' ),
+            'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
+            'time_passes_positioned_manually'     => get_option( 'laterpay_time_passes_positioned_manually' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -149,10 +149,10 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                         )
                     );
                 } else {
-                    $result = update_option( 'purchase_button_positioned_manually', !! $purchase_button_pos_form->get_field_value( 'purchase_button_positioned_manually' ) );
+                    $result = update_option( 'laterpay_purchase_button_positioned_manually', !! $purchase_button_pos_form->get_field_value( 'purchase_button_positioned_manually' ) );
 
                     if ( $result ) {
-                        if ( get_option( 'purchase_button_positioned_manually' ) ) {
+                        if ( get_option( 'laterpay_purchase_button_positioned_manually' ) ) {
                             wp_send_json(
                                 array(
                                     'success' => true,
@@ -182,10 +182,10 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                         )
                     );
                 } else {
-                    $result = update_option( 'time_passes_positioned_manually', !! $time_passes_pos_form->get_field_value( 'time_passes_positioned_manually' ) );
+                    $result = update_option( 'laterpay_time_passes_positioned_manually', !! $time_passes_pos_form->get_field_value( 'time_passes_positioned_manually' ) );
 
                     if ( $result ) {
-                        if ( get_option( 'time_passes_positioned_manually' ) ) {
+                        if ( get_option( 'laterpay_time_passes_positioned_manually' ) ) {
                             wp_send_json(
                                 array(
                                     'success' => true,

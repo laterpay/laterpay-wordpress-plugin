@@ -328,19 +328,21 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
-        add_option( 'laterpay_teaser_content_only',         '1' );
-        add_option( 'laterpay_plugin_is_in_live_mode',      '0' );
-        add_option( 'laterpay_sandbox_merchant_id',         $this->config->get( 'api.sandbox_merchant_id' ) );
-        add_option( 'laterpay_sandbox_api_key',             $this->config->get( 'api.sandbox_api_key' ) );
-        add_option( 'laterpay_live_merchant_id',            '' );
-        add_option( 'laterpay_live_api_key',                '' );
-        add_option( 'laterpay_global_price',                $this->config->get( 'currency.default_price' ) );
-        add_option( 'laterpay_global_price_revenue_model',  'ppu' );
-        add_option( 'laterpay_currency',                    $this->config->get( 'currency.default' ) );
-        add_option( 'laterpay_ratings',                     false );
-        add_option( 'laterpay_bulk_operations',             '' );
-        add_option( 'laterpay_voucher_codes',               '' );
-        add_option( 'laterpay_voucher_statistic',           '' );
+        add_option( 'laterpay_teaser_content_only',                     '1' );
+        add_option( 'laterpay_plugin_is_in_live_mode',                  '0' );
+        add_option( 'laterpay_sandbox_merchant_id',                     $this->config->get( 'api.sandbox_merchant_id' ) );
+        add_option( 'laterpay_sandbox_api_key',                         $this->config->get( 'api.sandbox_api_key' ) );
+        add_option( 'laterpay_live_merchant_id',                        '' );
+        add_option( 'laterpay_live_api_key',                            '' );
+        add_option( 'laterpay_global_price',                            $this->config->get( 'currency.default_price' ) );
+        add_option( 'laterpay_global_price_revenue_model',              'ppu' );
+        add_option( 'laterpay_currency',                                $this->config->get( 'currency.default' ) );
+        add_option( 'laterpay_ratings',                                 false );
+        add_option( 'laterpay_bulk_operations',                         '' );
+        add_option( 'laterpay_voucher_codes',                           '' );
+        add_option( 'laterpay_voucher_statistic',                       '' );
+        add_option( 'laterpay_purchase_button_positioned_manually',     '' );
+        add_option( 'laterpay_time_passes_positioned_manually',         '' );
 
         // advanced settings
         add_option( 'laterpay_api_sandbox_url',                         'https://api.sandbox.laterpaytest.net' );
