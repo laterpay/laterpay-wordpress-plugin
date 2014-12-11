@@ -35,11 +35,13 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
         $this->load_assets();
 
         $view_args = array(
-            'plugin_is_in_live_mode'   => $this->config->get( 'is_in_live_mode' ),
-            'show_teaser_content_only' => get_option( 'laterpay_teaser_content_only' ) == 1,
-            'top_nav'                  => $this->get_menu(),
-            'admin_menu'               => LaterPay_Helper_View::get_admin_menu(),
-            'is_rating_enabled'       => $this->config->get( 'ratings_enabled' ),
+            'plugin_is_in_live_mode'              => $this->config->get( 'is_in_live_mode' ),
+            'show_teaser_content_only'            => get_option( 'laterpay_teaser_content_only' ) == 1,
+            'top_nav'                             => $this->get_menu(),
+            'admin_menu'                          => LaterPay_Helper_View::get_admin_menu(),
+            'is_rating_enabled'                   => $this->config->get( 'ratings_enabled' ),
+            'purchase_button_positioned_manually' => get_option( 'purchase_button_positioned_manually' ),
+            'time_passes_positioned_manually'     => get_option( 'time_passes_positioned_manually' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -129,6 +131,72 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                                 array(
                                     'success' => true,
                                     'message' => __( 'The rating of posts has been disabled.', 'laterpay' ),
+                                )
+                            );
+                        }
+                    }
+                }
+                break;
+
+            case 'purchase_button_position':
+                $purchase_button_pos_form = new LaterPay_Form_PurchaseButtonPosition( $_POST );
+
+                if ( ! $purchase_button_pos_form->is_valid( ) ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                } else {
+                    $result = update_option( 'purchase_button_positioned_manually', !! $purchase_button_pos_form->get_field_value( 'purchase_button_positioned_manually' ) );
+
+                    if ( $result ) {
+                        if ( get_option( 'purchase_button_positioned_manually' ) ) {
+                            wp_send_json(
+                                array(
+                                    'success' => true,
+                                    'message' => __( 'Purchase button now positioned manually.', 'laterpay' ),
+                                )
+                            );
+                        } else {
+                            wp_send_json(
+                                array(
+                                    'success' => true,
+                                    'message' => __( 'Purchase button now positioned automatically.', 'laterpay' ),
+                                )
+                            );
+                        }
+                    }
+                }
+                break;
+
+            case 'time_passes_position':
+                $time_passes_pos_form = new LaterPay_Form_TimePassesPosition( $_POST );
+
+                if ( ! $time_passes_pos_form->is_valid() ) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+                        )
+                    );
+                } else {
+                    $result = update_option( 'time_passes_positioned_manually', !! $time_passes_pos_form->get_field_value( 'time_passes_positioned_manually' ) );
+
+                    if ( $result ) {
+                        if ( get_option( 'time_passes_positioned_manually' ) ) {
+                            wp_send_json(
+                                array(
+                                    'success' => true,
+                                    'message' => __( 'Time passes now positioned manually.', 'laterpay' ),
+                                )
+                            );
+                        } else {
+                            wp_send_json(
+                                array(
+                                    'success' => true,
+                                    'message' => __( 'Time passes now positioned automatically.', 'laterpay' ),
                                 )
                             );
                         }

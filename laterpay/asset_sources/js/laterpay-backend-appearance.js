@@ -4,38 +4,44 @@
     function laterPayBackendAppearance() {
         var $o = {
                 // preview
-                previewForm   : $('#laterpay_paid_content_preview_form'),
+                previewForm                  : $('#laterpay_paid_content_preview_form'),
 
                 // ratings
-                ratingsToggle : $('#lp_js_enableRatingsToggle'),
-                ratingsForm   : $('#lp_js_laterpayRatingsForm')
+                ratingsToggle                : $('#lp_js_enableRatingsToggle'),
+                ratingsForm                  : $('#lp_js_laterpayRatingsForm'),
+
+                // elements position type
+                togglePurchaseButtonPosition : $('#lp_js_togglePurchaseButtonPosition'),
+                purchaseButtonPositionForm   : $('#lp_js_laterpayPurchaseButtonPositionForm'),
+                toggleTimePassesPosition     : $('#lp_js_toggleTimePassesPosition'),
+                timePassPositionForm         : $('#lp_js_laterpayTimePassPositionForm'),
             },
 
             bindEvents = function() {
                 // switch paid content preview mode
                 $('.lp_js_togglePreviewMode', $o.previewForm)
                 .change(function() {
-                    saveAppearance();
+                    saveData( $o.previewForm );
                 });
 
                 // save ratings
                 $o.ratingsToggle.change(function() {
-                    saveRatings();
+                    saveData( $o.ratingsForm );
+                });
+
+                $o.togglePurchaseButtonPosition.change(function() {
+                    saveData( $o.purchaseButtonPositionForm );
+                });
+
+                $o.toggleTimePassesPosition.change(function() {
+                    saveData( $o.timePassPositionForm );
                 });
             },
 
-            saveAppearance = function() {
+            saveData = function( $form ) {
                 $.post(
                     ajaxurl,
-                    $o.previewForm.serializeArray(),
-                    function(data) {setMessage(data);}
-                );
-            },
-
-            saveRatings = function() {
-                $.post(
-                    ajaxurl,
-                    $o.ratingsForm.serializeArray(),
+                    $form.serializeArray(),
                     function(data) {setMessage(data);}
                 );
             },
