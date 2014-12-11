@@ -52,6 +52,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         // add sections with fields
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
+        $this->add_time_passes_settings();
         $this->add_teaser_content_settings();
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
@@ -134,6 +135,44 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      */
     public function get_enabled_post_types_section_description() {
         echo __( 'Please choose, which standard and custom post types should be sellable with LaterPay.', 'laterpay');
+    }
+
+    /**
+     * Add time passes section and fields.
+     *
+     * @return void
+     */
+    public function add_time_passes_settings() {
+        add_settings_section(
+            'laterpay_time_passes',
+            __( 'Time Passes', 'laterpay' ),
+            array( $this, 'get_time_passes_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_show_time_passes_widget_on_free_posts',
+            __( 'Show on free posts', 'laterpay' ),
+            array( $this, 'get_checkbox_field_markup' ),
+            'laterpay',
+            'laterpay_time_passes',
+            array(
+                'name'  => 'laterpay_show_time_passes_widget_on_free_posts',
+                'value' => 1,
+                'label' => __( 'I want to show time pass widget on free posts.', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_show_time_passes_widget_on_free_posts' );
+    }
+
+    /**
+     * Render the hint text for the enabled post types section.
+     *
+     * @return string description
+     */
+    public function get_time_passes_section_description() {
+        echo __( 'Please choose, if you want to show time pass widget on free posts.', 'laterpay');
     }
 
     /**

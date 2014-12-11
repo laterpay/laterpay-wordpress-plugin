@@ -47,7 +47,7 @@ class LaterPay_Helper_Pricing
      *
      * @param null|WP_Post $post
      *
-     * @return bool true|false
+     * @return null|bool true|false (null if post is free)
      */
     public static function is_purchasable( $post = null ) {
         if ( ! is_a( $post, 'WP_POST' ) ) {
@@ -61,7 +61,8 @@ class LaterPay_Helper_Pricing
         // check, if the current post price is not 0
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
         if ( $price == 0 ) {
-            return false;
+            // return null for this case
+            return null;
         }
 
         return true;

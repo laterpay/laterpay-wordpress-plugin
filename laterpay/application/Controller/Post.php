@@ -692,7 +692,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay_widget', $view_args );
 
-        echo $this->get_text_view( 'frontend/partials/widget/purchase_button_widget' );
+        echo $this->get_text_view( 'frontend/partials/widget/purchase_button' );
     }
 
     /**
@@ -708,9 +708,16 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '' ) {
-        $is_homepage = is_front_page() && is_home();
-        // check, if post is purchasable and we are not on the homepage
-        if ( ( ! LaterPay_Helper_Pricing::is_purchasable() && ! $is_homepage ) || did_action( 'laterpay_time_passes' ) > 1  ) {
+        $is_homepage               = is_front_page() && is_home();
+        $show_widget_on_free_posts = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
+
+        // prevent execution if post not given post and we are not on the homepage
+        // or action called second time
+        // or post is free and we can't show time pass widget on free posts
+        if ( LaterPay_Helper_Pricing::is_purchasable() === false && ! $is_homepage ||
+             did_action( 'laterpay_time_passes' ) > 1 ||
+             LaterPay_Helper_Pricing::is_purchasable() === null && ! $show_widget_on_free_posts
+        ) {
             return;
         }
 
@@ -757,7 +764,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay_widget', $view_args );
 
-        echo $this->get_text_view( 'frontend/partials/widget/time_passes_widget' );
+        echo $this->get_text_view( 'frontend/partials/widget/time_passes' );
     }
 
     /**
@@ -823,6 +830,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 __METHOD__ . ' - post is not purchasable',
                 $context
             );
+
+            // assign variables for time passes partial
+            $view_args = array(
+                'time_passes_positioned_manually' => get_option( 'laterpay_time_passes_positioned_manually' ),
+            );
+
+            $this->assign( 'laterpay', $view_args );
 
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 

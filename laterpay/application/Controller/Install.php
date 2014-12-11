@@ -358,6 +358,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_preview_excerpt_word_count_min',          '26' );
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
+        add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );
