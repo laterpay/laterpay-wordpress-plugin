@@ -757,7 +757,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay', $view_args );
 
-        echo $this->get_text_view( 'frontend/partials/post/time_passes_widget' );
+        echo $this->get_text_view( 'frontend/partials/widget/time_passes_widget' );
     }
 
     /**
@@ -814,7 +814,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // return the content, if no price was found for the post
         if ( $price == 0 ) {
-
             $context = array(
                 'post'  => $post,
                 'price' => $price,
@@ -824,6 +823,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 __METHOD__ . ' - post is not purchasable',
                 $context
             );
+
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
             return $content;
         }
@@ -888,6 +889,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             }
 
             $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
+            $html .= $this->get_text_view( 'frontend/partials/post/time_passes' );
 
             return $html;
         }
@@ -919,6 +921,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
             }
 
+            $content .= $this->get_text_view( 'frontend/partials/post/time_passes' );
+
             return $content;
         }
 
@@ -943,8 +947,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( $caching_is_active ) {
             // if caching is enabled, wrap the teaser in a div, so it can be replaced with the full content,
             // if the post is / has already been purchased
-            return '<div id="lp_js_postContentPlaceholder">' . $html . '</div>';
+            $html = '<div id="lp_js_postContentPlaceholder">' . $html . '</div>';
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+            return $html;
         }
+
+        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
         return $html;
     }

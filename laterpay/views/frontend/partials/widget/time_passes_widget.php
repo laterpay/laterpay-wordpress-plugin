@@ -14,11 +14,8 @@
              <p class="lp_timePass_callToActionText"><?php echo $laterpay['time_pass_call_to_action_text']; ?></p>
          <?php endif; ?>
 
-        <div id="lp_js_voucherCodeWrapper" class="lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
-            <input type="text"
-                    name="time_pass_voucher_code"
-                    class="lp_js_voucherCodeInput lp_timePassWidget_voucherCode"
-                    maxlength="6">
+        <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
+            <input type="text" name="time_pass_voucher_code" class="lp_js_voucherCodeInput lp_timePassWidget_voucherCode" maxlength="6">
             <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
             <a href="#" class="lp_js_voucherRedeemButton lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
             <p class="lp_timePassWidget_voucherCodeHint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
