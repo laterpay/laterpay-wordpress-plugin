@@ -20,7 +20,6 @@
     if ( $laterpay_pass['access_to'] != 0 ) {
         $access_dest = $category->name;
     }
-
 ?>
 
 <div class="lp_js_timePass lp_timePass lp_timePass-<?php echo $laterpay_pass['pass_id']; ?>" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">

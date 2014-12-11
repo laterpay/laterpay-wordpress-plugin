@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay time passes button position form class
+ * LaterPay time passes position form class
  */
 class LaterPay_Form_TimePassesPosition extends LaterPay_Form_Abstract
 {
