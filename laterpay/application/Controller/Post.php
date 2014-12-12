@@ -794,8 +794,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+        $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
-        if ( $user_has_unlimited_access ) {
+        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
             return $content;
         }
 
@@ -855,7 +856,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $show_post_ratings              = get_option( 'laterpay_ratings' );
         $user_has_already_voted         = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
         $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
-        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
         // caching and Ajax
         $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
