@@ -716,7 +716,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // or post is free and we can't show time pass widget on free posts
         if ( LaterPay_Helper_Pricing::is_purchasable() === false && ! $is_homepage ||
              did_action( 'laterpay_time_passes' ) > 1 ||
-             LaterPay_Helper_Pricing::is_purchasable() === null && ! $show_widget_on_free_posts
+             LaterPay_Helper_Pricing::is_purchasable() === null && ! $show_widget_on_free_posts ||
+             is_search()
         ) {
             return;
         }
