@@ -156,14 +156,14 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                             wp_send_json(
                                 array(
                                     'success' => true,
-                                    'message' => __( 'Purchase button now positioned manually.', 'laterpay' ),
+                                    'message' => __( 'Purchase buttons are now rendered at a custom position.', 'laterpay' ),
                                 )
                             );
                         } else {
                             wp_send_json(
                                 array(
                                     'success' => true,
-                                    'message' => __( 'Purchase button now positioned automatically.', 'laterpay' ),
+                                    'message' => __( 'Purchase buttons are now rendered at their default position.', 'laterpay' ),
                                 )
                             );
                         }
@@ -189,14 +189,14 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                             wp_send_json(
                                 array(
                                     'success' => true,
-                                    'message' => __( 'Time passes now positioned manually.', 'laterpay' ),
+                                    'message' => __( 'Time passes are now rendered at a custom position.', 'laterpay' ),
                                 )
                             );
                         } else {
                             wp_send_json(
                                 array(
                                     'success' => true,
-                                    'message' => __( 'Time passes now positioned automatically.', 'laterpay' ),
+                                    'message' => __( 'Time passes are now rendered at their default position.', 'laterpay' ),
                                 )
                             );
                         }
