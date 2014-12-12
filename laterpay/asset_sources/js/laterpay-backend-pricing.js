@@ -633,7 +633,7 @@
             formatSelect2TimePass = function(data, container) {
                 var $form = $(container).parents('form');
 
-                if ( data.id ) {
+                if (data.id) {
                     $($o.timePassCategoryId, $form).val(data.id);
                 }
                 $($o.timePassScopeCategory, $form).val(data.text);
@@ -654,18 +654,18 @@
                                                         };
                                                     },
                                         results     : function(data) {
-                                                            var return_data = [];
+                                                        var return_data = [];
 
-                                                            $.each(data, function(index) {
-                                                                var term = data[ index ];
-                                                                return_data.push({
-                                                                    id     : term.term_id,
-                                                                    text   : term.name
-                                                                });
+                                                        $.each(data, function(index) {
+                                                            var term = data[ index ];
+                                                            return_data.push({
+                                                                id     : term.term_id,
+                                                                text   : term.name
                                                             });
+                                                        });
 
-                                                            return {results: return_data};
-                                                        },
+                                                        return {results: return_data};
+                                                    },
                                         dataType    : 'json',
                                         type: 'POST'
                                     },
@@ -685,7 +685,7 @@
                                                 function(data) {
                                                     if (data && data[0] !== undefined) {
                                                         var term = data[0];
-                                                        callback({text: term.name});
+                                                        callback({id: term.term_id, text: term.name});
                                                     }
                                                 }
                                             );
@@ -780,6 +780,7 @@
                     $toggle.prop('checked', true);
                 }
 
+                $($o.timePassCategoryWrapper, $timePass).hide();
                 // render category select
                 renderCategorySelect($timePass, $o.timePassScopeCategory, 'laterpay_get_categories', formatSelect2TimePass);
 

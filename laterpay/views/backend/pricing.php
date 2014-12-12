@@ -285,7 +285,7 @@
                                 <tr>
                                     <td>
                                     </td>
-                                    <td class="lp_js_timePassCategoryWrapper" style="display: none;">
+                                    <td class="lp_js_timePassCategoryWrapper">
                                         <input type="hidden" name="category_name" value="" class="lp_js_switchTimePassScopeCategory">
                                         <input type="hidden" name="access_category" value="" class="lp_js_timePassCategoryId">
                                     </td>
