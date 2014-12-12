@@ -58,7 +58,16 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
             'post-price',
             array(
                 'validators' => array(
-                    'is_float'
+                    'is_float',
+                    'cmp' => array(
+                        array(
+                            'lte' => 149.99,
+                            'gte' => 0.05,
+                        ),
+                        array(
+                            'eq'  => 0.00,
+                        ),
+                    ),
                 ),
                 'filters' => array(
                     'replace' => array(
@@ -90,16 +99,13 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                                         'gte' => LaterPay_Helper_Pricing::price_ppusis_end,
                                     ),
                                     array(
-                                        'eq'  => 0.00,
-                                    ),
-                                    array(
-                                        'eq'  => null,
+                                        'eq' => null,
                                     ),
                                 ),
                             ),
                         ),
                         array(
-                            'field' => 'price',
+                            'field' => 'post-price',
                             'value' => 'ppu',
                             'conditions' => array(
                                 'cmp' => array(
@@ -111,7 +117,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                                         'eq'  => 0.00,
                                     ),
                                     array(
-                                        'eq'  => null,
+                                        'eq' => null,
                                     ),
                                 ),
                             ),

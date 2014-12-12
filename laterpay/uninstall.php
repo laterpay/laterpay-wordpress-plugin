@@ -83,6 +83,11 @@ delete_option( 'laterpay_ratings' );
 delete_option( 'laterpay_voucher_codes' );
 delete_option( 'laterpay_voucher_statistic' );
 
+delete_option( 'laterpay_purchase_button_positioned_manually' );
+delete_option( 'laterpay_time_passes_positioned_manually' );
+
+delete_option( 'laterpay_show_time_passes_widget_on_free_posts' );
+
 // register LaterPay autoloader
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
