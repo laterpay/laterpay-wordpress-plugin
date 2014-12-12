@@ -128,7 +128,6 @@ class LaterPay_Form_PriceCategory extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_float',
-                    // TODO: this is just a dirty hack to allow saving Single Sale prices
                     'cmp' => array(
                         array(
                             'lte' => 149.99,

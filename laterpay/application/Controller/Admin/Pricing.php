@@ -929,7 +929,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         wp_send_json(
             array(
                 'success' => false,
-                'errors'  => $save_pass_form->getErrors(),
+                'errors'  => $save_pass_form->get_errors(),
                 'message' => __( 'An error occurred when trying to save the pass. Please try again.', 'laterpay' ),
             )
         );

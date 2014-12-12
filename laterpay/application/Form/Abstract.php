@@ -273,7 +273,7 @@ abstract class LaterPay_Form_Abstract
         return empty($this->errors);
     }
     
-    public function getErrors() {
+    public function get_errors() {
         $aux = $this->errors;
         $this->errors = array();
         return $aux;
