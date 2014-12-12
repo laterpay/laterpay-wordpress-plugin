@@ -98,6 +98,9 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                                         'lte' => LaterPay_Helper_Pricing::sis_max,
                                         'gte' => LaterPay_Helper_Pricing::price_ppusis_end,
                                     ),
+                                    array(
+                                        'eq' => null,
+                                    ),
                                 ),
                             ),
                         ),
@@ -112,6 +115,9 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                                     ),
                                     array(
                                         'eq'  => 0.00,
+                                    ),
+                                    array(
+                                        'eq' => null,
                                     ),
                                 ),
                             ),
