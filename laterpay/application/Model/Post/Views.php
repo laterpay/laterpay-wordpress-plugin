@@ -144,15 +144,18 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
      * @return array $results
      */
     public function get_last_30_days_history( $post_id ) {
+        $today = strtotime( 'today GMT' );
+        $month_ago = strtotime( '-1 month' );
+
         $args = array(
             'where' => array(
                 'post_id'   => (int) $post_id,
                 'date'      => array(
                     array(
-                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
-                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 30 )
-                    )
-                )
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $month_ago )
+                    ),
+                ),
             ),
             'order_by'  => 'DATE(date)',
             'order'     => 'ASC',
@@ -288,14 +291,15 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
      * @return array history
      */
     public function get_todays_history( $post_id ) {
-        $args = array(
+        $today  = strtotime( 'today GMT' );
+        $args   = array(
             'fields'=> array( 'SUM(count) AS quantity' ),
             'where' => array(
                 'post_id'   => (int) $post_id,
                 'date'      => array(
                     array(
-                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ), // end of today
-                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 0 ), // start of today
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ), // start of today
                     )
                 )
             ),

@@ -237,11 +237,11 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                                 'post_id'   => (int) $post_id,
                                 'mode'      => $mode,
                                 'date'      => array(
-                                                    array(
-                                                        'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
-                                                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ), // start of today
-                                                    ),
-                                                ),
+                                    array(
+                                        'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
+                                        'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ), // start of today
+                                    )
+                                ),
                             ),
             'group_by'  => 'currency_id',
             'fields'    => array(
@@ -345,6 +345,9 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
      * @return array history
      */
     public function get_last_30_days_history_by_post_id( $post_id ) {
+        $today      = strtotime( 'today GMT' );
+        $month_ago  = strtotime( '-1 month' );
+
         $args = array(
             'fields' => array(
                 'currency_id',
@@ -356,8 +359,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                 'mode'      => ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) ? 'live' : 'test',
                 'post_id'   => (int) $post_id,
                 'date'      => array(
-                    'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( 0 ),
-                    'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( 30 ),
+                    array(
+                        'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ),
+                        'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $month_ago ),
+                    )
                 )
             ),
             'group_by'  => 'currency_id, DATE(date)',
