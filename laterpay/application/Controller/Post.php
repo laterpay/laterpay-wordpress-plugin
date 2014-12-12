@@ -708,17 +708,22 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return void
      */
     public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '' ) {
-        $is_homepage               = is_front_page() && is_home();
-        $show_widget_on_free_posts = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
+        $is_homepage                     = is_front_page() && is_home();
+        $show_widget_on_free_posts       = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
+        $time_passes_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
 
         // prevent execution if post not given post and we are not on the homepage
         // or action called second time
         // or post is free and we can't show time pass widget on free posts
         if ( LaterPay_Helper_Pricing::is_purchasable() === false && ! $is_homepage ||
              did_action( 'laterpay_time_passes' ) > 1 ||
-             LaterPay_Helper_Pricing::is_purchasable() === null && ! $show_widget_on_free_posts ||
-             is_search()
+             LaterPay_Helper_Pricing::is_purchasable() === null && ! $show_widget_on_free_posts
         ) {
+            return;
+        }
+
+        // not display widget if it positioned automatically on search page or multiposts page
+        if ( ! is_singular() && ! $time_passes_positioned_manually ) {
             return;
         }
 
