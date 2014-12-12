@@ -245,10 +245,10 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                             ),
             'group_by'  => 'currency_id',
             'fields'    => array(
-                                'currency_id',
-                                'SUM(price) AS sum',
-                                'COUNT(id)  AS quantity',
-                            ),
+                $this->table . '.currency_id',
+                'SUM(' . $this->table . '.price) AS sum',
+                'COUNT(' . $this->table . '.id)  AS quantity',
+            ),
             'join'  => $this->post_join
         );
 
