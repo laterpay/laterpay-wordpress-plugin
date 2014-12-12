@@ -3,38 +3,60 @@
     // encapsulate all LaterPay Javascript in function laterPayBackendAppearance
     function laterPayBackendAppearance() {
         var $o = {
-                // preview
-                previewForm                  : $('#laterpay_paid_content_preview_form'),
+                // paid content preview
+                previewForm                     : $('#lp_js_previewModeForm'),
+                togglePreviewMode               : $('.lp_js_togglePreviewMode'),
 
                 // ratings
-                ratingsToggle                : $('#lp_js_enableRatingsToggle'),
-                ratingsForm                  : $('#lp_js_laterpayRatingsForm'),
+                ratingsToggle                   : $('#lp_js_enableRatingsToggle'),
+                ratingsForm                     : $('#lp_js_laterpayRatingsForm'),
 
-                // elements position type
-                togglePurchaseButtonPosition : $('#lp_js_togglePurchaseButtonPosition'),
-                purchaseButtonPositionForm   : $('#lp_js_laterpayPurchaseButtonPositionForm'),
-                toggleTimePassesPosition     : $('#lp_js_toggleTimePassesPosition'),
-                timePassPositionForm         : $('#lp_js_laterpayTimePassPositionForm'),
+                // position of LaterPay elements
+                purchaseButtonPositionForm      : $('#lp_js_purchaseButtonPositionForm'),
+                togglePurchaseButtonPosition    : $('#lp_js_togglePurchaseButtonPosition'),
+                purchaseButtonExplanation       : $('#lp_js_purchaseButtonPosition__explanation'),
+                timePassPositionForm            : $('#lp_js_timePassesPositionForm'),
+                toggleTimePassesPosition        : $('#lp_js_toggleTimePassesPosition'),
+                timePassesExplanation           : $('#lp_js_timePassesPosition__explanation'),
             },
 
             bindEvents = function() {
-                // switch paid content preview mode
-                $('.lp_js_togglePreviewMode', $o.previewForm)
+                // toggle paid content preview mode
+                $($o.togglePreviewMode, $o.previewForm)
                 .change(function() {
-                    saveData( $o.previewForm );
+                    saveData($o.previewForm);
                 });
 
-                // save ratings
-                $o.ratingsToggle.change(function() {
-                    saveData( $o.ratingsForm );
+                // toggle activation status of content rating
+                $o.ratingsToggle
+                .change(function() {
+                    saveData($o.ratingsForm);
                 });
 
-                $o.togglePurchaseButtonPosition.change(function() {
-                    saveData( $o.purchaseButtonPositionForm );
+                // toggle positioning mode of purchase button
+                $o.togglePurchaseButtonPosition
+                .change(function() {
+                    saveData($o.purchaseButtonPositionForm);
+
+                    // show / hide explanation how to customize position
+                    if ($o.purchaseButtonExplanation.is(':visible')) {
+                        $o.purchaseButtonExplanation.slideUp(250);
+                    } else {
+                        $o.purchaseButtonExplanation.slideDown(250);
+                    }
                 });
 
-                $o.toggleTimePassesPosition.change(function() {
-                    saveData( $o.timePassPositionForm );
+                // toggle positioning mode of time passes
+                $o.toggleTimePassesPosition
+                .change(function() {
+                    saveData($o.timePassPositionForm);
+
+                    // show / hide explanation how to customize position
+                    if ($o.timePassesExplanation.is(':visible')) {
+                        $o.timePassesExplanation.slideUp(250);
+                    } else {
+                        $o.timePassesExplanation.slideDown(250);
+                    }
                 });
             },
 
@@ -42,7 +64,9 @@
                 $.post(
                     ajaxurl,
                     $form.serializeArray(),
-                    function(data) {setMessage(data);}
+                    function(data) {
+                        setMessage(data);
+                    }
                 );
             },
 
