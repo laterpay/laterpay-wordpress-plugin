@@ -170,8 +170,8 @@
                 <input type="hidden" name="action" value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <h3><?php _e( 'Position of LaterPay Purchase Button', 'laterpay' ); ?></h3>
-                <?php _e( 'Purchase buttons are rendered at their <strong>default position</strong>', 'laterpay' ); ?>
-                <div class="lp_toggle">
+                <?php _e( 'Purchase buttons are rendered at their <strong>default position</strong>', 'laterpay' ); ?><!--
+             --><div class="lp_toggle">
                     <label class="lp_toggle_label lp_toggle_label_pass">
                         <input type="checkbox"
                                 id="lp_js_togglePurchaseButtonPosition"
@@ -181,8 +181,8 @@
                         <span class="lp_toggle_text" data-on="" data-off=""></span>
                         <span class="lp_toggle_handle"></span>
                     </label>
-                </div>
-                <?php _e( 'at a <strong>custom position</strong>', 'laterpay' )?>
+                </div><!--
+             --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
                 <div id="lp_js_purchaseButtonPosition__explanation"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                     <dfn class="lp_u_clearfix">
                         <?php _e( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button in the location of your choice.', 'laterpay' ); ?><br>
@@ -203,8 +203,8 @@
                 <input type="hidden" name="action" value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <h3 id="lp_timePassAppearance"><?php _e( 'Display of Time Passes', 'laterpay' ); ?></h3>
-                <?php _e( 'Time passes are rendered at their <strong>default position</strong>', 'laterpay' ); ?>
-                <div class="lp_toggle">
+                <?php _e( 'Time passes are rendered at their <strong>default position</strong>', 'laterpay' ); ?><!--
+             --><div class="lp_toggle">
                     <label class="lp_toggle_label lp_toggle_label_pass">
                         <input type="checkbox"
                                 id="lp_js_toggleTimePassesPosition"
@@ -214,8 +214,8 @@
                         <span class="lp_toggle_text" data-on="" data-off=""></span>
                         <span class="lp_toggle_handle"></span>
                     </label>
-                </div>
-                <?php _e( 'at a <strong>custom position</strong>', 'laterpay' )?>
+                </div><!--
+             --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
                 <div id="lp_js_timePassesPosition__explanation"<?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                     <dfn class="lp_u_clearfix">
                         <?php _e( 'Call action \'laterpay_time_passes\' in your theme to show your users the available time passes.', 'laterpay' ); ?><br>
