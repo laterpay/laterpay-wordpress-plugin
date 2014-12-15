@@ -761,4 +761,23 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         return $pointers;
     }
+
+    /**
+     * Actualize post prices after category delete
+     *
+     * @hook delete_term_taxonomies
+     *
+     * @return void
+     */
+    public function actualize_post_prices_after_category_delete( $category_id ) {
+        $category_price_model = new LaterPay_Model_CategoryPrice();
+        $category_price_model->delete_prices_by_category_id( $category_id );
+
+        // get posts by category price id
+        $post_ids = LaterPay_Helper_Pricing::get_posts_by_category_price_id( $category_id );
+        foreach ( $post_ids as $post_id => $meta ) {
+            // actualize post prices
+            LaterPay_Helper_Pricing::actualize_post_data_after_category_delete( $post_id );
+        }
+    }
 }

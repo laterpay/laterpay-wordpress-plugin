@@ -827,4 +827,62 @@ class LaterPay_Helper_Pricing
         return md5( md5( $url ) . wp_salt() );
     }
 
+    /**
+     * Get posts by category price id with meta check
+     *
+     * @param int $category_id
+     *
+     * @return array post ids
+     */
+    public static function get_posts_by_category_price_id( $category_id ) {
+        $ids   = array();
+        $posts = self::get_all_posts_with_price();
+
+        foreach ( $posts as $post ) {
+            $meta = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
+            if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] ) ) {
+                $ids[$post->ID] = $meta;
+            }
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Actualize post data after category delete
+     *
+     * @param $post_id
+     *
+     * @return void
+     */
+    public static function actualize_post_data_after_category_delete( $post_id ) {
+        $category_price_model = new LaterPay_Model_CategoryPrice();
+        $post_categories      = wp_get_post_categories( $post_id );
+
+        if ( empty( $post_categories ) ) {
+            // apply the global default price as new price, if no other post categories are found
+            LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post_id );
+        } else {
+            // load all category prices by the given category_ids
+            $category_price_data = $category_price_model->get_category_price_data_by_category_ids( $post_categories );
+
+            if ( count( $category_price_data ) < 1 ) {
+                // no other category prices found for this post
+                LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post_id );
+            } else {
+                // find the category with the highest price and assign its category_id to the post
+                $price = 0;
+                $new_category_id = null;
+
+                foreach ( $category_price_data as $data ) {
+                    if ( $data->category_price > $price ) {
+                        $price           = $data->category_price;
+                        $new_category_id = $data->category_id;
+                    }
+                }
+
+                LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $new_category_id, true );
+            }
+        }
+    }
 }
