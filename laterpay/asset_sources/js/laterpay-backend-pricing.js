@@ -804,9 +804,6 @@
                         addVoucher(code, priceValue, $timePass);
                     });
                 }
-
-                // style checkboxes
-                styleInputs();
             },
 
             updateTimePassPreview = function($timePass, $input) {
@@ -1242,11 +1239,6 @@
                     },
                     'json'
                 );
-            },
-
-            styleInputs = function() {
-                // TODO: this construction throw error
-                // $('.lp_js_styleInput').ezMark();
             },
 
             // throttle the execution of a function by a given delay

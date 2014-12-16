@@ -346,14 +346,6 @@
                                     <td>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <input type="text"
-                                               name="gift_card_landing_page"
-                                               class="lp_input"
-                                               placeholder="<?php _e( 'URL of landing page for redeeming gift card', 'laterpay' ); ?>">
-                                    </td>
-                                </tr>
                             </table>
 
                             <hr>
