@@ -241,27 +241,27 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // get permalink
         $link    = get_permalink();
         $pass_id = $_GET[ 'pass_id' ];
-        $code    = $_GET[ 'voucher' ];
+        $voucher = $_GET[ 'voucher' ];
 
         // data to create and hash-check the URL
         $url_data = array(
             'pass_id' => $pass_id,
-            'voucher' => $code,
+            'voucher' => $voucher,
         );
 
         $url  = add_query_arg( $url_data, $link );
         $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
 
         if ( $hash === $_GET[ 'hash' ] ) {
-            if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $code ) ) {
+            if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $voucher ) ) {
                 // new gift code, need to set
                 $gifts = LaterPay_Helper_Vouchers::get_pass_vouchers( $pass_id, true );
-                $gifts[$code] = 0;
+                $gifts[$voucher] = 0;
                 LaterPay_Helper_Vouchers::save_pass_vouchers( $pass_id, $gifts, true, true );
-                // set cookie to notify that gift was purchased
+                // set cookie to store information that gift card was purchased
                 setcookie(
                     'laterpay_gift_purchased',
-                    $code,
+                    $voucher,
                     time() + 60,
                     '/'
                 );
