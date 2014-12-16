@@ -782,7 +782,12 @@
 
                 $($o.timePassCategoryWrapper, $timePass).hide();
                 // render category select
-                renderCategorySelect($timePass, $o.timePassScopeCategory, 'laterpay_get_categories', formatSelect2TimePass);
+                renderCategorySelect(
+                    $timePass,
+                    $o.timePassScopeCategory,
+                    'laterpay_get_categories',
+                    formatSelect2TimePass
+                );
 
                 // show category select, if required
                 var $currentScope = $($o.timePassScope, $timePass).find('option:selected');
@@ -790,6 +795,9 @@
                     // show category select, because scope is restricted to or excludes a specific category
                     $($o.timePassCategoryWrapper, $timePass).show();
                 }
+
+                // style checkboxes
+                styleInputs();
 
                 // re-generate vouchers list
                 clearVouchersList($timePass);
@@ -1231,6 +1239,10 @@
                     },
                     'json'
                 );
+            },
+
+            styleInputs = function() {
+                $('.lp_js_styleInput').ezMark();
             },
 
             // throttle the execution of a function by a given delay

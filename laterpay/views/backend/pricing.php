@@ -210,7 +210,7 @@
             </dfn>
 
             <div class="lp_js_timePassEditor lp_timePassEditor">
-                <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Pass', 'laterpay' ); ?></a>
+                <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Time Pass', 'laterpay' ); ?></a>
 
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_timePassWrapper lp_u_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
@@ -339,6 +339,22 @@
                                 </tr>
                                 <tr>
                                     <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <label>
+                                            <input type="checkbox" class="lp_input lp_js_styleInput" name="offer_gift_cards" value="">
+                                            <?php _e( 'Can be bought as gift', 'laterpay' ); ?>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="text"
+                                               name="gift_card_landing_page"
+                                               class="lp_input"
+                                               placeholder="<?php _e( 'URL of landing page for redeeming gift card', 'laterpay' ); ?>">
                                     </td>
                                 </tr>
                             </table>
