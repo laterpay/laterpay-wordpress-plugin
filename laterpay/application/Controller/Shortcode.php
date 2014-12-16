@@ -353,14 +353,14 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [render_gift_card description]
+     * Render a given gift card or all gift cards, if no valid gift card id is provided.
      *
      * @param  [type] $params [description]
      *
      * @return [type]         [description]
      */
     public function render_gift_card( $params ) {
-        // check if the plugin is correctly configured and working
+        // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
@@ -370,13 +370,16 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         ), $params );
         $passes_list = array();
 
+        // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
             array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+            // FIXME: what if the ID is invalid?
+            // -> if possible, render an error; if not, then get_all_passes
         } else {
             $passes_list = LaterPay_Helper_Passes::get_all_passes();
         }
 
-        // don't render gifts, if there are no passes
+        // don't render any gift cards, if there are no time passes
         if ( count( $passes_list ) == 0 ) {
             return;
         }
@@ -394,13 +397,20 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $gift_codes = $this->get_text_view( 'backend/partials/gift_card' );
+        $gift_cards = $this->get_text_view( 'backend/partials/gift_card' );
 
-        return $gift_codes;
+        return $gift_cards;
     }
 
+    /**
+     * [render_redeem_gift_voucher description]
+     *
+     * @param  [type] $params [description]
+     *
+     * @return [type]         [description]
+     */
     public function render_redeem_gift_voucher( $params ) {
-        // check if the plugin is correctly configured and working
+        // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
@@ -410,8 +420,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         ), $params );
         $passes_list = array();
 
+        // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
             array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+            // FIXME: what if the ID is invalid?
+            // -> if possible, render an error; if not, then get_all_passes
         } else {
             $passes_list = array();
         }
@@ -424,11 +437,16 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $gift_codes = $this->get_text_view( 'backend/partials/gift_card' );
+        $gift_cards = $this->get_text_view( 'backend/partials/gift_card' );
 
-        return $gift_codes;
+        return $gift_cards;
     }
 
+    /**
+     * [add_free_codes_to_passes description]
+     *
+     * @param [type] $passes [description]
+     */
     public function add_free_codes_to_passes( $passes ) {
         if ( is_array( $passes ) ) {
             foreach ( $passes as $id => $pass ) {
