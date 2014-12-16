@@ -89,13 +89,17 @@ class LaterPay_Core_Bootstrap
 
         // add the shortcodes
         $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
-        add_shortcode( 'laterpay_premium_download',             array( $shortcode_controller, 'render_premium_download_box' ) );
-        add_shortcode( 'laterpay_box_wrapper',                  array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
+        add_shortcode( 'laterpay_premium_download', array( $shortcode_controller, 'render_premium_download_box' ) );
+        add_shortcode( 'laterpay_box_wrapper',      array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
         // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
-        add_shortcode( 'laterpay',                              array( $shortcode_controller, 'render_premium_download_box' ) );
+        add_shortcode( 'laterpay',                  array( $shortcode_controller, 'render_premium_download_box' ) );
+
+        // add time passes shortcode (in addition to action 'laterpay_time_passes')
+        add_shortcode( 'laterpay_time_passes',      array( $shortcode_controller, 'render_time_passes_widget' ) );
+
         // add gift passes shortcodes
-        add_shortcode( 'laterpay_gift_card',                    array( $shortcode_controller, 'render_gift_card' ) );
-        add_shortcode( 'laterpay_redeem_voucher',               array( $shortcode_controller, 'render_redeem_gift_voucher' ) );
+        add_shortcode( 'laterpay_gift_card',        array( $shortcode_controller, 'render_gift_card' ) );
+        add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_voucher' ) );
 
         // check if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {

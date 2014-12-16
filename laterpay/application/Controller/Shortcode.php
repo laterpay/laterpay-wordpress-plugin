@@ -341,6 +341,24 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         return $html_button;
     }
 
+    /**
+     * [render_time_passes_widget description]
+     *
+     * @param  [type] $params [description]
+     *
+     * @return [type]         [description]
+     */
+    public function render_time_passes_widget( $params ) {
+        // array( $post_controller, 'the_time_passes_widget'), 10, 3 );
+    }
+
+    /**
+     * [render_gift_card description]
+     *
+     * @param  [type] $params [description]
+     *
+     * @return [type]         [description]
+     */
     public function render_gift_card( $params ) {
         // check if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
@@ -363,7 +381,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             return;
         }
 
-        $access = LaterPay_Helper_Post::has_purchased_gift();
+        $access = LaterPay_Helper_Post::has_purchased_gift_card();
 
         $view_args = array(
             'passes_list'             => $this->add_free_codes_to_passes( $passes_list ),
@@ -416,7 +434,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             foreach ( $passes as $id => $pass ) {
                 // generate voucher code
                 $code = LaterPay_Helper_Vouchers::generate_voucher_code();
-                // create url with this code
+                // create URL with this code
                 $pass_id = $pass['pass_id'];
                 $url     = get_permalink();
                 $url_params = array(
