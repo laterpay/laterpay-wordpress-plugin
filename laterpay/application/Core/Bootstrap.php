@@ -93,6 +93,9 @@ class LaterPay_Core_Bootstrap
         add_shortcode( 'laterpay_box_wrapper',                  array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
         // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
         add_shortcode( 'laterpay',                              array( $shortcode_controller, 'render_premium_download_box' ) );
+        // add gift passes shortcodes
+        add_shortcode( 'laterpay_gift_card',                    array( $shortcode_controller, 'render_gift_card' ) );
+        add_shortcode( 'laterpay_redeem_voucher',               array( $shortcode_controller, 'render_redeem_gift_voucher' ) );
 
         // check if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {

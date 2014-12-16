@@ -214,6 +214,9 @@
 
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_timePassWrapper lp_u_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
+                        <div class="lp_js_timePassId">
+                            <?php _e( 'Pass id:' , 'laterpay'); ?> <?php echo $pass->pass_id; ?>
+                        </div>
                         <div class="lp_js_timePassPreview lp_u_left">
                             <?php echo $this->render_pass( (array) $pass ); ?>
                         </div>
@@ -248,6 +251,8 @@
                 <?php endforeach; ?>
 
                 <div id="lp_js_timePassTemplate" class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_timePassWrapper lp_u_clearfix lp_u_hide" data-pass-id="0">
+                    <div class="lp_js_timePassId"></div>
+
                     <div class="lp_js_timePassPreview lp_u_left">
                         <?php echo $this->render_pass(); ?>
                     </div>

@@ -82,6 +82,7 @@
                 timePassPreviewValidity                 : '.lp_js_timePassPreviewValidity',
                 timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
+                timePassId                              : '.lp_js_timePassId',
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
@@ -796,9 +797,6 @@
                     $($o.timePassCategoryWrapper, $timePass).show();
                 }
 
-                // style checkboxes
-                styleInputs();
-
                 // re-generate vouchers list
                 clearVouchersList($timePass);
                 if (vouchers instanceof Object) {
@@ -806,6 +804,9 @@
                         addVoucher(code, priceValue, $timePass);
                     });
                 }
+
+                // style checkboxes
+                styleInputs();
             },
 
             updateTimePassPreview = function($timePass, $input) {
@@ -910,6 +911,8 @@
                                 // pass was just created (add)
                                 lpVars.time_passes_list[passId] = r.data;
                                 var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
+
+                                $($o.timePassId, $newTimePass).html( lpVars.i18n.timePassId + ' ' + passId );
 
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
                                 $($o.timePassForm, $timePass).remove();
@@ -1242,7 +1245,8 @@
             },
 
             styleInputs = function() {
-                $('.lp_js_styleInput').ezMark();
+                // TODO: this construction throw error
+                // $('.lp_js_styleInput').ezMark();
             },
 
             // throttle the execution of a function by a given delay

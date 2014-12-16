@@ -241,7 +241,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $html = '<div class="lp_premiumFileBox lp_contentType' . ucfirst( $content_type ) . '">';
         }
         // create a shortcode link
-        $html .= $this->get_shortcode_link( $page, $content_type, $page_url, $price_tag );
+        $html .= $this->get_premium_shortcode_link( $page, $content_type, $page_url, $price_tag );
         $html .= '    <div class="lp_premiumFileDetails">';
         $html .= "        <h3>$heading</h3>";
         if ( $description != '' ) {
@@ -284,7 +284,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * @return string
      */
-    private function get_shortcode_link( WP_Post $post, $content_type, $page_url, $price_tag ) {
+    private function get_premium_shortcode_link( WP_Post $post, $content_type, $page_url, $price_tag ) {
         $html_button = '';
 
         $access = LaterPay_Helper_Post::has_access_to_post( $post );
@@ -341,4 +341,68 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         return $html_button;
     }
 
+    public function render_gift_card( $params ) {
+        // check if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
+
+        $data = shortcode_atts( array(
+            'id' => null,
+        ), $params );
+        $passes_list = array();
+
+        if ( $data['id'] ) {
+            array_push( $passes_list, LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+        } else {
+            $passes_list = LaterPay_Helper_Passes::get_all_passes();
+        }
+
+        // don't render the widget, if there are no time passes
+        if ( count( $passes_list ) == 0 ) {
+            return;
+        }
+
+        $view_args = array(
+            'passes_list'             => $passes_list,
+            'standard_currency'       => get_option( 'laterpay_currency' ),
+            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
+            'show_redeem_area'        => false,
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $gift_codes = $this->get_text_view( 'backend/partials/gift_card' );
+
+        return $gift_codes;
+    }
+
+    public function render_redeem_gift_voucher( $params ) {
+        // check if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
+
+        $data = shortcode_atts( array(
+            'id' => null,
+        ), $params );
+        $passes_list = array();
+
+        if ( $data['id'] ) {
+            array_push( $passes_list, LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+        } else {
+            $passes_list = array();
+        }
+
+        $view_args = array(
+            'passes_list'             => $passes_list,
+            'standard_currency'       => get_option( 'laterpay_currency' ),
+            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
+            'show_redeem_area'        => true,
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $gift_codes = $this->get_text_view( 'backend/partials/gift_card' );
+
+        return $gift_codes;
+    }
 }

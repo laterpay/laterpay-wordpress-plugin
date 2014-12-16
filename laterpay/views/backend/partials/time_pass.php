@@ -27,14 +27,7 @@
         <h4 class="lp_js_timePassPreviewTitle lp_timePass_title"><?php echo $laterpay_pass['title']; ?></h4>
         <p class="lp_js_timePassPreviewDescription lp_timePass_description"><?php echo $laterpay_pass['description']; ?></p>
         <div class="lp_timePass_actions">
-            <a href="#"
-                class="lp_js_doPurchase lp_purchaseLink lp_button"
-                title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
-                data-icon="b"
-                data-laterpay="<?php echo $laterpay_pass['url']?>"
-                data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>">
-                <?php echo $title; ?>
-            </a><a href="#" class="lp_js_flipTimePass lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>
+            <a href="#" class="lp_js_doPurchase lp_purchaseLink lp_button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $laterpay_pass['url']?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title ?></a><a href="#" class="lp_js_flipTimePass lp_timePass_termsLink"><?php _e( 'Terms', 'laterpay' ); ?></a>
         </div>
     </section>
     <section class="lp_timePass__back">
