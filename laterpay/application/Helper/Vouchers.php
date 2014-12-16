@@ -2,8 +2,12 @@
 
 class LaterPay_Helper_Vouchers
 {
-    const VOUCHER_CODE_LENGTH = 6;
-    const VOUCHER_CHARS       = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const VOUCHER_CODE_LENGTH  = 6;
+    const VOUCHER_CHARS        = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const GIFT_CODES_OPTION    = 'laterpay_gift_codes';
+    const GIFT_STAT_OPTION     = 'laterpay_gift_statistic';
+    const VOUCHER_CODES_OPTION = 'laterpay_voucher_codes';
+    const VOUCHER_STAT_OPTION  = 'laterpay_voucher_statistic';
 
     /**
      * Generate random voucher code.
@@ -37,6 +41,7 @@ class LaterPay_Helper_Vouchers
     public static function save_pass_vouchers( $pass_id, $vouchers_data, $no_explode = false, $is_gift = false ) {
         $vouchers     = self::get_all_vouchers( $is_gift );
         $new_vouchers = array();
+        $option_name  = $is_gift ? self::GIFT_CODES_OPTION : self::VOUCHER_CODES_OPTION;
 
         if ( $vouchers_data && is_array( $vouchers_data ) ) {
             foreach ( $vouchers_data as $voucher ) {
@@ -59,9 +64,9 @@ class LaterPay_Helper_Vouchers
         }
 
         // save new voucher data
-        $is_gift ? update_option( 'laterpay_gift_codes', $vouchers ) : update_option( 'laterpay_voucher_codes', $vouchers );
+        update_option( $option_name, $vouchers );
         // actualize voucher statistic
-        self::actualize_voucher_statistic();
+        self::actualize_voucher_statistic( $is_gift );
     }
 
     /**
@@ -86,9 +91,10 @@ class LaterPay_Helper_Vouchers
      * @return array of vouchers
      */
     public static function get_all_vouchers( $is_gift = false ) {
-        $vouchers = $is_gift ? get_option( 'laterpay_gift_codes' ) : get_option( 'laterpay_voucher_codes' );
+        $option_name = $is_gift ? self::GIFT_CODES_OPTION : self::VOUCHER_CODES_OPTION;
+        $vouchers    = get_option( $option_name );
         if ( ! $vouchers || ! is_array( $vouchers ) ) {
-            $is_gift ? update_option( 'laterpay_gift_codes', '' ) : update_option( 'laterpay_voucher_codes', '' );
+            update_option( $option_name, '' );
 
             return array();
         }
@@ -174,10 +180,11 @@ class LaterPay_Helper_Vouchers
      *
      * @return void
      */
-    public static function actualize_voucher_statistic( ) {
-        $vouchers  = self::get_all_vouchers();
-        $statistic = self::get_all_vouchers_statistic();
-        $result    = $statistic;
+    public static function actualize_voucher_statistic( $is_gift = false ) {
+        $vouchers    = self::get_all_vouchers( $is_gift );
+        $statistic   = self::get_all_vouchers_statistic( $is_gift );
+        $result      = $statistic;
+        $option_name = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
 
         foreach ( $statistic as $pass_id => $statistic_data ) {
             if ( ! isset( $vouchers[$pass_id] ) ) {
@@ -192,7 +199,7 @@ class LaterPay_Helper_Vouchers
         }
 
         // update voucher statistics
-        update_option( 'laterpay_voucher_statistic', $result );
+        update_option( $option_name, $result );
     }
 
     /**
@@ -203,13 +210,14 @@ class LaterPay_Helper_Vouchers
      *
      * @return bool success or error
      */
-    public static function update_voucher_statistic( $pass_id, $code ) {
-        $pass_vouchers = self::get_time_pass_vouchers( $pass_id );
+    public static function update_voucher_statistic( $pass_id, $code, $is_gift = false ) {
+        $pass_vouchers = self::get_time_pass_vouchers( $pass_id, $is_gift );
+        $option_name   = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
 
         // check, if such voucher exists
         if ( $pass_vouchers && isset( $pass_vouchers[ $code ] ) ) {
             // get all voucher statistics for this pass
-            $voucher_statistic_data = self::get_time_pass_vouchers_statistic( $pass_id );
+            $voucher_statistic_data = self::get_time_pass_vouchers_statistic( $pass_id, $is_gift );
             // check, if statistic is empty
             if ( $voucher_statistic_data ) {
                 // increment counter by 1, if statistic exists
@@ -219,10 +227,10 @@ class LaterPay_Helper_Vouchers
                 $voucher_statistic_data[ $code ] = 1;
             }
 
-            $statistic           = self::get_all_vouchers_statistic();
+            $statistic           = self::get_all_vouchers_statistic( $is_gift );
             $statistic[$pass_id] = $voucher_statistic_data;
-            update_option( 'laterpay_voucher_statistic', $statistic );
 
+            update_option( $option_name, $statistic );
             return true;
         }
 
@@ -236,8 +244,8 @@ class LaterPay_Helper_Vouchers
      *
      * @return array $statistic
      */
-    public static function get_time_pass_vouchers_statistic( $pass_id ) {
-        $statistic = self::get_all_vouchers_statistic();
+    public static function get_time_pass_vouchers_statistic( $pass_id, $is_gift = false ) {
+        $statistic = self::get_all_vouchers_statistic( $is_gift );
 
         if ( isset( $statistic[$pass_id] ) ) {
             return $statistic[$pass_id];
@@ -251,10 +259,11 @@ class LaterPay_Helper_Vouchers
      *
      * @return array $statistic
      */
-    public static function get_all_vouchers_statistic() {
-        $statistic = get_option( 'laterpay_voucher_statistic' );
+    public static function get_all_vouchers_statistic( $is_gift = false ) {
+        $option_name = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
+        $statistic   = get_option( $option_name );
         if ( ! $statistic || ! is_array( $statistic ) ) {
-            update_option( 'laterpay_voucher_statistic', '' );
+            update_option( $option_name, '' );
 
             return array();
         }

@@ -183,12 +183,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        if ( ! isset( $_GET[ 'link' ] ) ) {
+        if ( ! isset( $_GET[ 'link' ] ) || ! isset( $_GET[ 'is_gift'] ) ) {
             return;
         }
 
         // check if voucher code exists and pass is available for purchase
-        $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ] );
+        $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ], $_GET[ 'is_gift'] );
         if ( $code_data ) {
             // get new URL for this pass
             $pass_id    = $code_data[ 'pass_id' ];
@@ -255,17 +255,22 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         if ( $hash === $_GET[ 'hash' ] ) {
             if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $voucher ) ) {
-                // save the pre-generated gift code as valid voucher code now that the purchase is complete
-                $gift_cards = LaterPay_Helper_Vouchers::get_time_pass_vouchers( $pass_id, true );
-                $gift_cards[$voucher] = 0;
-                LaterPay_Helper_Vouchers::save_pass_vouchers( $pass_id, $gift_cards, true, true );
-                // set cookie to store information that gift card was purchased
-                setcookie(
-                    'laterpay_purchased_gift_card',
-                    $voucher . '|' . $pass_id,
-                    time() + 60,
-                    '/'
-                );
+                if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $voucher, true ) ) {
+                    // save the pre-generated gift code as valid voucher code now that the purchase is complete
+                    $gift_cards = LaterPay_Helper_Vouchers::get_time_pass_vouchers( $pass_id, true );
+                    $gift_cards[$voucher] = 0;
+                    LaterPay_Helper_Vouchers::save_pass_vouchers( $pass_id, $gift_cards, true, true );
+                    // set cookie to store information that gift card was purchased
+                    setcookie(
+                        'laterpay_purchased_gift_card',
+                        $voucher . '|' . $pass_id,
+                        time() + 60,
+                        '/'
+                    );
+                } else {
+                    // update gift code statistics
+                    LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $voucher, true );
+                }
             } else {
                 // update voucher statistics
                 LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $voucher );
@@ -1181,6 +1186,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 ),
                 'download_attachment'   => $attachment_url,
                 'default_currency'      => get_option( 'laterpay_currency' ),
+                'site_url'              => get_site_url(),
             )
         );
 
