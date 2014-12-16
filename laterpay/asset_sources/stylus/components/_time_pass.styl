@@ -136,6 +136,7 @@
     background: $background-lightest url(../img/gift-card-background.png) 0 0/100% no-repeat !important;
     box-sizing: border-box !important;
     color: $text-lighter !important;
+    font-size: $fs-1 !important;
     height: 252px !important;
     line-height: 1.5 !important;
     margin: $fs-1 !important;
@@ -160,7 +161,6 @@
      * 1. Cut off too long texts
      */
     .lp_gift-card__description {
-        font-size: $fs-1 !important;
         margin: 0 0 $fs-1 !important;
         max-height: $fs-3 !important; /* 1 */
         overflow: hidden !important; /* 1 */
@@ -192,6 +192,11 @@
 
     .lp_purchaseLink.lp_button {
         float: left !important;
+    }
+
+    .lp_voucherCodeLabel {
+        margin: 0 $fs-025;
+        padding: 0 $fs-05;
     }
 }
 
