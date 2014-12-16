@@ -73,19 +73,14 @@ class LaterPay_Helper_Post {
      * @return boolean [description]
      */
     public static function has_purchased_gift_card() {
-        if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
-            $code = $_COOKIE['laterpay_purchased_gift_card'];
-            // TODO: find proper place to remove cookie with gift code
-            //            unset( $_COOKIE['laterpay_purchased_gift_card'] );
-            //            setcookie(
-            //                'laterpay_purchased_gift_card',
-            //                null,
-            //                time() - 60,
-            //                '/'
-            //            );
+        if ( isset( $_SESSION['gift_code'] ) ) {
+            // get gift code and unset session variable
+            list( $code, $pass_id ) = explode( '|', $_SESSION['gift_code'] );
+            unset( $_SESSION['gift_code'] );
+            // create gift code token
             $code_key = '#' . $code;
 
-            // FIXME: add comments what's happening here
+            // check if gift code was purchased successfully and we has access
             $client_options  = LaterPay_Helper_Config::get_php_client_options();
             $laterpay_client = new LaterPay_Client(
                 $client_options['cp_key'],
@@ -105,7 +100,7 @@ class LaterPay_Helper_Post {
                 return false;
             }
 
-            // FIXME: add comments what's happening here
+            // return access data if all ok
             if ( array_key_exists( $code_key, $result['articles'] ) ) {
                 $access = (bool) $result['articles'][$code_key]['access'];
                 self::$access[$code_key] = $access;
@@ -116,8 +111,9 @@ class LaterPay_Helper_Post {
                 );
 
                 return array(
-                    'access' => $access,
-                    'code'   => $code,
+                    'access'  => $access,
+                    'code'    => $code,
+                    'pass_id' => $pass_id,
                 );
             }
         }

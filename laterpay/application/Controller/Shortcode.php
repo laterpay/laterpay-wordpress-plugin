@@ -405,6 +405,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             'show_redeem_area'        => false,
             'has_gift_code'           => is_array( $access ) ? $access['access'] : null,
             'gift_code'               => is_array( $access ) ? $access['code'] : null,
+            'gift_pass_id'            => is_array( $access ) ? $access['pass_id'] : null,
             'gift_link'               => get_site_url(),
         );
         $this->assign( 'laterpay', $view_args );

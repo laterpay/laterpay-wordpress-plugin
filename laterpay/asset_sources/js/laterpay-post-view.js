@@ -23,6 +23,8 @@
                 voucherCodeWrapper              : '#lp_js_voucherCodeWrapper',
                 voucherCodeInput                : '.lp_js_voucherCodeInput',
                 voucherRedeemButton             : '.lp_js_voucherRedeemButton',
+                giftCardRedeemButton            : '.lp_js_giftCardRedeemButton',
+                giftCardCodeInput               : '.lp_js_giftCardCodeInput',
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
