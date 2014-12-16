@@ -300,7 +300,7 @@ class LaterPay_Helper_Vouchers
             'pricing'       => $currency . ( $price * 100 ),
             'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
             'url'           => $url,
-            'title'         => '#' . $code,
+            'title'         => $pass['title'] . ' #' . $code,
         );
 
         if ( $revenue_model == 'sis' ) {
