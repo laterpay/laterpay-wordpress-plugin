@@ -27,21 +27,13 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             true
         );
         wp_register_script(
-            'laterpay-ezmark',
-            $this->config->js_url . 'vendor/jquery.ezmark.min.js',
-            array( 'jquery' ),
-            $this->config->version,
-            true
-        );
-        wp_register_script(
             'laterpay-backend-pricing',
             $this->config->get( 'js_url' ) . 'laterpay-backend-pricing.js',
-            array( 'jquery', 'laterpay-select2', 'laterpay-ezmark' ),
+            array( 'jquery', 'laterpay-select2' ),
             $this->config->get( 'version' ),
             true
         );
         wp_enqueue_script( 'laterpay-select2' );
-        wp_enqueue_script( 'laterpay-ezmark' );
         wp_enqueue_script( 'laterpay-backend-pricing' );
 
         // translations

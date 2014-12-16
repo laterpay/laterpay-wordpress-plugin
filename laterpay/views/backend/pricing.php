@@ -343,14 +343,6 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <label>
-                                            <input type="checkbox" class="lp_input lp_js_styleInput" name="offer_gift_cards" value="">
-                                            <?php _e( 'Can be bought as gift', 'laterpay' ); ?>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
                                         <input type="text"
                                                name="gift_card_landing_page"
                                                class="lp_input"
