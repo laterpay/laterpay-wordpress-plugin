@@ -67,19 +67,25 @@ class LaterPay_Helper_Post {
         return false;
     }
 
-    public static function has_purchased_gift() {
-        if ( isset( $_COOKIE['laterpay_gift_purchased'] ) ) {
-            $code = $_COOKIE['laterpay_gift_purchased'];
+    /**
+     * FIXME: [has_purchased_gift_card description]
+     *
+     * @return boolean [description]
+     */
+    public static function has_purchased_gift_card() {
+        if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
+            $code = $_COOKIE['laterpay_purchased_gift_card'];
             // TODO: find proper place to remove cookie with gift code
-            //            unset( $_COOKIE['laterpay_gift_purchased'] );
+            //            unset( $_COOKIE['laterpay_purchased_gift_card'] );
             //            setcookie(
-            //                'laterpay_gift_purchased',
+            //                'laterpay_purchased_gift_card',
             //                null,
             //                time() - 60,
             //                '/'
             //            );
             $code_key = '#' . $code;
 
+            // FIXME: add comments what's happening here
             $client_options  = LaterPay_Helper_Config::get_php_client_options();
             $laterpay_client = new LaterPay_Client(
                 $client_options['cp_key'],
@@ -99,6 +105,7 @@ class LaterPay_Helper_Post {
                 return false;
             }
 
+            // FIXME: add comments what's happening here
             if ( array_key_exists( $code_key, $result['articles'] ) ) {
                 $access = (bool) $result['articles'][$code_key]['access'];
                 self::$access[$code_key] = $access;

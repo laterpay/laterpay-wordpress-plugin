@@ -260,7 +260,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 LaterPay_Helper_Vouchers::save_pass_vouchers( $pass_id, $gifts, true, true );
                 // set cookie to store information that gift card was purchased
                 setcookie(
-                    'laterpay_gift_purchased',
+                    'laterpay_purchased_gift_card',
                     $voucher,
                     time() + 60,
                     '/'
