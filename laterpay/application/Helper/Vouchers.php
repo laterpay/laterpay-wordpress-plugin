@@ -191,7 +191,7 @@ class LaterPay_Helper_Vouchers
             }
         }
 
-        // update voucher statistic
+        // update voucher statistics
         update_option( 'laterpay_voucher_statistic', $result );
     }
 
