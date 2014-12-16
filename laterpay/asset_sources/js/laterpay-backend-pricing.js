@@ -796,9 +796,6 @@
                     $($o.timePassCategoryWrapper, $timePass).show();
                 }
 
-                // style checkboxes
-                styleInputs();
-
                 // re-generate vouchers list
                 clearVouchersList($timePass);
                 if (vouchers instanceof Object) {
@@ -1239,10 +1236,6 @@
                     },
                     'json'
                 );
-            },
-
-            styleInputs = function() {
-                $('.lp_js_styleInput').ezMark();
             },
 
             // throttle the execution of a function by a given delay
