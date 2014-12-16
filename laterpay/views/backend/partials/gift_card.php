@@ -52,7 +52,7 @@
             <div class="lp_gift-card__actions">
                 <?php if ( $laterpay['has_gift_code'] && ( $laterpay['gift_pass_id'] == $pass['pass_id'] ) ): ?>
                     <?php _e( 'The donee can activate his present by entering code', 'laterpay' ); ?>
-                    <span class="lp_voucherCodeLabel"><?php echo $laterpay['gift_code']; ?>ZgeTVu</span>
+                    <span class="lp_voucherCodeLabel"><?php echo $laterpay['gift_code']; ?></span>
                     <?php _e( 'at', 'laterpay' ); ?>
                     <a href="<?php echo $laterpay['gift_link']; ?>"><?php echo $laterpay['gift_link']; ?></a>
                 <?php else: ?>
