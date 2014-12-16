@@ -52,7 +52,7 @@
             data-icon="b"
             data-laterpay="<?php echo $laterpay_gift_card['url']?>"
             data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>">
-            <?php echo $title ?>
+            <?php echo $title; ?>
         </a>
     </div>
 </div>
