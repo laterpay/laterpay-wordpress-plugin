@@ -326,7 +326,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td class="lp_rowspan-label">
                                         <?php _e( 'Description', 'laterpay' ); ?>
                                     </td>
                                     <td rowspan="2">
