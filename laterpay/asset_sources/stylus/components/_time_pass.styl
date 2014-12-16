@@ -133,14 +133,64 @@
 
 // time pass gift cards ------------------------------------------------------------------------------------------------
 .lp_gift-card {
-    background: $background-lightest url(/img/gift-card-background.png) 0 0 no-repeat;
-    color: $text-lighter;
-    height: 210px;
-    width: 406px;
+    background: $background-lightest url(../img/gift-card-background.png) 0 0/100% no-repeat !important;
+    box-sizing: border-box !important;
+    color: $text-lighter !important;
+    height: 252px !important;
+    line-height: 1.5 !important;
+    margin: $fs-1 !important;
+    padding: $fs-15 $fs-15 $fs-15 ($fs-1 * 12) !important;
+    width: 480px !important;
 
+    /**
+     * 1. Cut off too long texts
+     */
     .lp_gift-card__title {
-        color: #d82b17;
-        font-weight: 300;
+        color: #d82b17 !important;
+        font-size: $fs-15 !important;
+        font-weight: normal !important;
+        margin: $fs-05 0 $fs-1 !important;
+        white-space: nowrap !important; /* 1 */
+        overflow: hidden !important; /* 1 */
+        text-overflow: ellipsis !important; /* 1 */
+    }
+
+    /**
+     * 1. Cut off too long texts
+     */
+    .lp_gift-card__description {
+        font-size: $fs-1 !important;
+        margin: 0 0 $fs-1 !important;
+        max-height: $fs-3 !important; /* 1 */
+        overflow: hidden !important; /* 1 */
+        text-overflow: ellipsis !important; /* 1 */
+    }
+
+    .lp_gift-card___conditions {
+        border-collapse: collapse !important;
+        font-size: $fs-075 !important;
+        margin: 0 0 $fs-1 !important;
+        width: auto !important;
+
+        &,
+        th,
+        td {
+            border: 0 none !important;
+        }
+
+        th {
+            font-weight: normal !important;
+            padding: 0 $fs-05 $fs-025 0 !important;
+            text-transform: none !important;
+        }
+
+        td {
+            padding: 0 0 $fs-025 !important;
+        }
+    }
+
+    .lp_purchaseLink.lp_button {
+        float: left !important;
     }
 }
 
