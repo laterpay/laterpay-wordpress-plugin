@@ -372,7 +372,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+            $passes_list = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] );
+            if ( $passes_list ) {
+                array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+            }
             // FIXME: what if the ID is invalid?
             // -> if possible, render an error; if not, then get_all_passes
         } else {
@@ -381,7 +384,19 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // don't render any gift cards, if there are no time passes
         if ( count( $passes_list ) == 0 ) {
-            return;
+            $error_reason = __( 'Wrong time pass id or no time passes specified.', 'laterpay' );
+
+            $error_message  = '<div class="lp_shortcodeError">';
+            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+            $error_message .= $error_reason;
+            $error_message .= '</div>';
+
+            $this->logger->error(
+                __METHOD__ . ' - ' . $error_reason,
+                array( 'args' => $params, )
+            );
+
+            return $error_message;
         }
 
         $access = LaterPay_Helper_Post::has_purchased_gift_card();
@@ -422,7 +437,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+            $passes_list = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] );
+            if ( $passes_list ) {
+                array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+            }
             // FIXME: what if the ID is invalid?
             // -> if possible, render an error; if not, then get_all_passes
         } else {
@@ -450,6 +468,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     public function add_free_codes_to_passes( $passes ) {
         if ( is_array( $passes ) ) {
             foreach ( $passes as $id => $pass ) {
+                $pass = (array) $pass;
                 // generate voucher code
                 $code = LaterPay_Helper_Vouchers::generate_voucher_code();
                 // create URL with this code
@@ -463,8 +482,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
                 $url  = $url .'&hash=' . $hash;
 
-                $url = LaterPay_Helper_Vouchers::get_laterpay_purchase_link( $pass_id, null, $code, $url );
-                $passes[$id]['url'] = $url;
+                $pass['url'] = LaterPay_Helper_Vouchers::get_laterpay_purchase_link( $pass_id, null, $code, $url );
+                $passes[$id] = $pass;
             }
         }
 
