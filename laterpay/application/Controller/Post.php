@@ -254,7 +254,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         if ( $hash === $_GET[ 'hash' ] ) {
             if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $voucher ) ) {
-                // new gift code, need to set
+                // save the pre-generated gift code as valid voucher code now that the purchase is complete
                 $gift_cards = LaterPay_Helper_Vouchers::get_time_pass_vouchers( $pass_id, true );
                 $gift_cards[$voucher] = 0;
                 LaterPay_Helper_Vouchers::save_pass_vouchers( $pass_id, $gift_cards, true, true );
