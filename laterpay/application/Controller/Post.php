@@ -250,7 +250,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
 
         $url  = add_query_arg( $url_data, $link );
-        $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+        $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+        $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $pass_id );
 
         if ( $hash === $_GET[ 'hash' ] ) {
             if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $voucher ) ) {
@@ -261,14 +262,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 // set cookie to store information that gift card was purchased
                 setcookie(
                     'laterpay_purchased_gift_card',
-                    $voucher,
+                    $voucher . '|' . $pass_id,
                     time() + 60,
                     '/'
                 );
             } else {
                 // update voucher statistics
-                $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $url_data[ 'pass_id'] );
-                LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $url_data[ 'voucher' ] );
+                LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $voucher );
             }
         }
 
@@ -1147,13 +1147,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( isset( $_COOKIE['laterpay_download_attached'] ) ) {
             $attachment_url = $_COOKIE['laterpay_download_attached'];
             // remove cookie with attachment URL to prevent multiple downloads
-            unset( $_COOKIE['laterpay_download_attached'] );
-            setcookie(
-                'laterpay_download_attached',
-                null,
-                time() - 60,
-                '/'
-            );
+            LaterPay_Helper_User::remove_cookie_by_name( 'laterpay_download_attached' );
+        }
+
+        // set gift code into session if specified
+        if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
+            $_SESSION['gift_code'] = $_COOKIE['laterpay_purchased_gift_card'];
+            // remove cookie with gift code
+            LaterPay_Helper_User::remove_cookie_by_name( 'laterpay_purchased_gift_card' );
         }
 
         wp_localize_script(
