@@ -24,7 +24,6 @@ class LaterPay_Helper_Passes
             'revenue_model'          => 'ppu',
             'title'                  => __( '24-Hour Pass', 'laterpay' ),
             'description'            => __( '24 hours access to all content on this website', 'laterpay' ),
-            'gift_card_landing_page' => '',
         );
 
         if ( isset ( $key ) ) {

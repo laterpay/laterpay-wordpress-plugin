@@ -11,7 +11,7 @@
                 $laterpay['standard_currency']
             );
 
-            $period = $period = LaterPay_Helper_Passes::get_period_options( $pass['period'] );
+            $period = LaterPay_Helper_Passes::get_period_options( $pass['period'] );
             if ( $pass['duration'] > 1 ) {
                 $period = LaterPay_Helper_Passes::get_period_options( $pass['period'], true );
             }
@@ -50,11 +50,11 @@
                 </tr>
             </table>
             <div class="lp_gift-card__actions">
-                <?php if ( ! isset( $pass['has_gift_code'] ) || ! $pass['has_gift_code'] ) : ?>
-                    <a href="#" class="lp_js_doPurchase lp_purchaseLink lp_button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title; ?></a>
+                <?php if ( ! isset( $laterpay['has_gift_code'] ) || ! $laterpay['has_gift_code'] ) : ?>
+                    <a href="#" class="lp_js_doPurchase lp_purchaseLink lp_button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $pass['url']; ?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title; ?></a>
                 <?php else : ?>
-                    <input type="text" name="gift_code" value="<?php echo $pass['gift_code']; ?>">
-                    <a href="<?php echo $pass['gift_link']; ?>"><?php echo $pass['gift_link']; ?></a>
+                    <input type="text" name="gift_code" value="<?php echo $laterpay['gift_code']; ?>">
+                    <a href="<?php echo $laterpay['gift_link']; ?>"><?php echo $laterpay['gift_link']; ?></a>
                 <?php endif; ?>
             </div>
         </div>

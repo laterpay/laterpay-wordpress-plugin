@@ -34,8 +34,8 @@ class LaterPay_Helper_Vouchers
      *
      * @return void
      */
-    public static function save_pass_vouchers( $pass_id, $vouchers_data, $no_explode = false ) {
-        $vouchers     = self::get_all_vouchers();
+    public static function save_pass_vouchers( $pass_id, $vouchers_data, $no_explode = false, $is_gifts = false ) {
+        $vouchers     = self::get_all_vouchers( $is_gifts );
         $new_vouchers = array();
 
         if ( $vouchers_data && is_array( $vouchers_data ) ) {
@@ -59,7 +59,7 @@ class LaterPay_Helper_Vouchers
         }
 
         // save new voucher data
-        update_option( 'laterpay_voucher_codes', $vouchers );
+        $is_gifts ? update_option( 'laterpay_gift_codes', $vouchers ) : update_option( 'laterpay_voucher_codes', $vouchers );
         // actualize voucher statistic
         self::actualize_voucher_statistic();
     }
@@ -71,8 +71,8 @@ class LaterPay_Helper_Vouchers
      *
      * @return array
      */
-    public static function get_pass_vouchers( $pass_id ) {
-        $vouchers = self::get_all_vouchers();
+    public static function get_pass_vouchers( $pass_id, $is_gifts = false ) {
+        $vouchers = self::get_all_vouchers( $is_gifts );
         if ( ! isset( $vouchers[ $pass_id ] ) ) {
             return array();
         }
@@ -85,10 +85,10 @@ class LaterPay_Helper_Vouchers
      *
      * @return array of vouchers
      */
-    public static function get_all_vouchers() {
-        $vouchers = get_option( 'laterpay_voucher_codes' );
+    public static function get_all_vouchers( $is_gifts = false ) {
+        $vouchers = $is_gifts ? get_option( 'laterpay_gift_codes' ) : get_option( 'laterpay_voucher_codes' );
         if ( ! $vouchers || ! is_array( $vouchers ) ) {
-            update_option( 'laterpay_voucher_codes', '' );
+            $is_gifts ? update_option( 'laterpay_gift_codes', '' ) : update_option( 'laterpay_voucher_codes', '' );
 
             return array();
         }
@@ -104,8 +104,8 @@ class LaterPay_Helper_Vouchers
      *
      * @return void
      */
-    public static function delete_voucher_code( $pass_id, $code = null ) {
-        $pass_vouchers = self::get_pass_vouchers( $pass_id );
+    public static function delete_voucher_code( $pass_id, $code = null, $is_gifts = false ) {
+        $pass_vouchers = self::get_pass_vouchers( $pass_id, $is_gifts );
         if ( $pass_vouchers && is_array( $pass_vouchers ) ) {
             if ( $code ) {
                 unset( $pass_vouchers[$code] );
@@ -114,7 +114,7 @@ class LaterPay_Helper_Vouchers
             }
         }
 
-        self::save_pass_vouchers( $pass_id, $pass_vouchers, true );
+        self::save_pass_vouchers( $pass_id, $pass_vouchers, true, $is_gifts = false );
     }
 
     /**
@@ -124,8 +124,8 @@ class LaterPay_Helper_Vouchers
      *
      * @return mixed $voucher_data
      */
-    public static function check_voucher_code( $code ) {
-        $vouchers = self::get_all_vouchers();
+    public static function check_voucher_code( $code, $is_gifts = false ) {
+        $vouchers = self::get_all_vouchers( $is_gifts );
 
         // search code
         foreach ( $vouchers as $pass_id => $pass_vouchers ) {
@@ -152,13 +152,13 @@ class LaterPay_Helper_Vouchers
      *
      * @return bool $has_vouchers
      */
-    public static function passes_have_vouchers( $passes ) {
+    public static function passes_have_vouchers( $passes, $is_gifts = false ) {
         $has_vouchers = false;
 
         if ( $passes && is_array( $passes ) ) {
             foreach ( $passes as $pass ) {
                 $pass = (array) $pass;
-                if ( self::get_pass_vouchers( $pass[ 'pass_id' ]) ) {
+                if ( self::get_pass_vouchers( $pass[ 'pass_id' ], $is_gifts ) ) {
                     $has_vouchers = true;
                     break;
                 }
@@ -262,4 +262,53 @@ class LaterPay_Helper_Vouchers
         return $statistic;
     }
 
+    /**
+     * Get the LaterPay purchase link for a voucher.
+     *
+     * @param int  $pass_id
+     * @param null $price   new price (voucher code)
+     * @param null $code    url of page to redirect
+     *
+     * @return string url || empty string if something went wrong
+     */
+    public static function get_laterpay_purchase_link( $pass_id, $price = null, $code = null, $link = null ) {
+        $time_pass_model = new LaterPay_Model_Pass();
+
+        $pass = (array) $time_pass_model->get_pass_data( $pass_id );
+        if ( empty( $pass ) ) {
+            return '';
+        }
+
+        $currency       = get_option( 'laterpay_currency' );
+        $price          = isset( $price ) ? $price : $pass['price'];
+        $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $pass['revenue_model'], $price );
+
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        $url = isset( $link ) ? $link : get_permalink();
+
+        // parameters for LaterPay purchase form
+        $params = array(
+            'article_id'    => '#' . $code,
+            'pricing'       => $currency . ( $price * 100 ),
+            'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
+            'url'           => $url,
+            'title'         => '#' . $code,
+        );
+
+        if ( $revenue_model == 'sis' ) {
+            // Single Sale purchase
+            return $client->get_buy_url( $params );
+        } else {
+            // Pay-per-Use purchase
+            return $client->get_add_url( $params );
+        }
+    }
 }

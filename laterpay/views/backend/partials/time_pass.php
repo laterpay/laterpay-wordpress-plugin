@@ -7,7 +7,7 @@
         $laterpay['standard_currency']
     );
 
-    $period = $period = LaterPay_Helper_Passes::get_period_options( $laterpay_pass['period'] );
+    $period = LaterPay_Helper_Passes::get_period_options( $laterpay_pass['period'] );
     if ( $laterpay_pass['duration'] > 1 ) {
         $period = LaterPay_Helper_Passes::get_period_options( $laterpay_pass['period'], true );
     }

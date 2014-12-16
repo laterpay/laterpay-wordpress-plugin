@@ -995,13 +995,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     private function generate_voucher_code() {
-
         // generate voucher code
-        $voucher_code = LaterPay_Helper_Vouchers::generate_voucher_code();
         wp_send_json(
             array(
                 'success' => true,
-                'code'    => $voucher_code,
+                'code'    => LaterPay_Helper_Vouchers::generate_voucher_code(),
             )
         );
     }

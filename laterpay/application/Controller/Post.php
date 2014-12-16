@@ -234,26 +234,42 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function buy_time_pass() {
-        if ( ! isset( $_GET[ 'pass_id' ] ) ) {
+        if ( ! isset( $_GET[ 'pass_id' ] ) && ! isset( $_GET[ 'voucher' ] ) ) {
             return;
         }
 
         // get permalink
-        $link = get_permalink();
+        $link    = get_permalink();
+        $pass_id = $_GET[ 'pass_id' ];
+        $code    = $_GET[ 'voucher' ];
 
         // data to create and hash-check the URL
         $url_data = array(
-            'pass_id' => $_GET[ 'pass_id' ],
-            'voucher' => $_GET[ 'voucher' ],
+            'pass_id' => $pass_id,
+            'voucher' => $code,
         );
 
         $url  = add_query_arg( $url_data, $link );
         $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
 
         if ( $hash === $_GET[ 'hash' ] ) {
-            // update voucher statistic
-            $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $url_data[ 'pass_id'] );
-            LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $url_data[ 'voucher' ] );
+            if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $code ) ) {
+                // new gift code, need to set
+                $gifts = LaterPay_Helper_Vouchers::get_pass_vouchers( $pass_id, true );
+                $gifts[$code] = 0;
+                LaterPay_Helper_Vouchers::save_pass_vouchers( $pass_id, $gifts, true, true );
+                // set cookie to notify that gift was purchased
+                setcookie(
+                    'laterpay_gift_purchased',
+                    $code,
+                    time() + 60,
+                    '/'
+                );
+            } else {
+                // update voucher statistic
+                $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $url_data[ 'pass_id'] );
+                LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $url_data[ 'voucher' ] );
+            }
         }
 
         wp_redirect( $link );

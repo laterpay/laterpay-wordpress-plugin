@@ -67,6 +67,57 @@ class LaterPay_Helper_Post {
         return false;
     }
 
+    public static function has_purchased_gift() {
+        if ( isset( $_COOKIE['laterpay_gift_purchased'] ) ) {
+            $code = $_COOKIE['laterpay_gift_purchased'];
+            // TODO: find proper place to remove cookie with gift code
+            //            unset( $_COOKIE['laterpay_gift_purchased'] );
+            //            setcookie(
+            //                'laterpay_gift_purchased',
+            //                null,
+            //                time() - 60,
+            //                '/'
+            //            );
+            $code_key = '#' . $code;
+
+            $client_options  = LaterPay_Helper_Config::get_php_client_options();
+            $laterpay_client = new LaterPay_Client(
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
+            );
+            $result = $laterpay_client->get_access( array( $code_key ) );
+
+            if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
+                laterpay_get_logger()->warning(
+                    __METHOD__ . ' - post not found.',
+                    array( 'result' => $result )
+                );
+
+                return false;
+            }
+
+            if ( array_key_exists( $code_key, $result['articles'] ) ) {
+                $access = (bool) $result['articles'][$code_key]['access'];
+                self::$access[$code_key] = $access;
+
+                laterpay_get_logger()->info(
+                    __METHOD__ . ' - post has access.',
+                    array( 'result' => $result )
+                );
+
+                return array(
+                    'access' => $access,
+                    'code'   => $code,
+                );
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Get the LaterPay purchase link for a post.
      *
