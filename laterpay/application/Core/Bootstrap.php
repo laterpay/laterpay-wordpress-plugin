@@ -94,7 +94,7 @@ class LaterPay_Core_Bootstrap
         // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
         add_shortcode( 'laterpay',                  array( $shortcode_controller, 'render_premium_download_box' ) );
 
-        // add time passes shortcode (in addition to action 'laterpay_time_passes')
+        // add time passes shortcode (as alternative to action 'laterpay_time_passes')
         add_shortcode( 'laterpay_time_passes',      array( $shortcode_controller, 'render_time_passes_widget' ) );
 
         // add gift passes shortcodes
