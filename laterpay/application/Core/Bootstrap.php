@@ -97,7 +97,7 @@ class LaterPay_Core_Bootstrap
         // add time passes shortcode (as alternative to action 'laterpay_time_passes')
         add_shortcode( 'laterpay_time_passes',      array( $shortcode_controller, 'render_time_passes_widget' ) );
 
-        // add gift passes shortcodes
+        // add gift cards shortcodes
         add_shortcode( 'laterpay_gift_card',        array( $shortcode_controller, 'render_gift_card' ) );
         add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_voucher' ) );
 

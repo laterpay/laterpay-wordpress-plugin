@@ -920,7 +920,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 array(
                     'success'  => true,
                     'data'     => $data,
-                    'vouchers' => LaterPay_Helper_Vouchers::get_pass_vouchers( $data['pass_id'] ),
+                    'vouchers' => LaterPay_Helper_Vouchers::get_time_pass_vouchers( $data['pass_id'] ),
                     'html'     => $this->render_pass( $data ),
                     'message'  => __( 'Pass saved.', 'laterpay' ),
                 )

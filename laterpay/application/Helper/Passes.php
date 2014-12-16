@@ -361,7 +361,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get all time passes
+     * Get all time passes.
      *
      * @return array of passes
      */
@@ -372,7 +372,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get time pass data by id
+     * Get time pass data by id.
      *
      * @param $pass_id
      *
