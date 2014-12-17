@@ -239,7 +239,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get permalink
-        $link = is_single() ? home_url() : get_permalink();
+        $link = is_single() ? get_permalink() : home_url();
         $pass_id = $_GET[ 'pass_id' ];
         $voucher = $_GET[ 'voucher' ];
 
