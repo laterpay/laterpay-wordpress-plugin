@@ -61,12 +61,11 @@
                 <?php endif; ?>
                 </div>
             <?php else : ?>
-                <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_js_dataDeferExecution lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
-                    <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_timePassWidget_voucherCode" maxlength="6">
-                    <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
-                    <a href="#" class="lp_js_giftCardRedeemButton lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
-                    <p class="lp_timePassWidget_voucherCodeHint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
-            </div>
+                <div id="lp_js_giftCardWrapper" class="lp_js_giftCodeWrapper lp_js_dataDeferExecution lp_redeem-gift-code__wrapper lp_u_clearfix">
+                    <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_redeem-gift-code__code" maxlength="6">
+                    <p class="lp_redeem-gift-code__input-hint"><?php _e( 'Code', 'laterpay' ); ?></p>
+                    <a href="#" class="lp_js_giftCardRedeemButton lp_redeem-gift-code__button lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
+                </div>
 
                 <a href="#" id="fakebtn" class="lp_js_doPurchase" style="display:none;" data-laterpay="" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"></a>
             <?php endif; ?>
@@ -74,7 +73,7 @@
     <?php endforeach; ?>
 
     <?php if ( $laterpay['show_redeem_area'] ): ?>
-        <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_js_dataDeferExecution lp_redeem-gift-code__wrapper lp_u_clearfix">
+        <div id="lp_js_giftCardWrapper" class="lp_js_giftCodeWrapper lp_js_dataDeferExecution lp_redeem-gift-code__wrapper lp_u_clearfix">
             <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_redeem-gift-code__code" maxlength="6">
             <p class="lp_redeem-gift-code__input-hint"><?php _e( 'Code', 'laterpay' ); ?></p>
             <a href="#" class="lp_js_giftCardRedeemButton lp_redeem-gift-code__button lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>

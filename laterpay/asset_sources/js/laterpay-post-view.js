@@ -25,7 +25,7 @@
                 voucherRedeemButton             : '.lp_js_voucherRedeemButton',
                 giftCardRedeemButton            : '.lp_js_giftCardRedeemButton',
                 giftCardCodeInput               : '.lp_js_giftCardCodeInput',
-                giftCardWrapper                 : '.lp_js_voucherCodeWrapper',
+                giftCardWrapper                 : '#lp_js_giftCardWrapper',
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
@@ -102,13 +102,13 @@
                 // redeem voucher code
                 $($o.voucherRedeemButton)
                 .on('mousedown', function() {
-                    redeemVoucherCode($(this).parents('div'), $o.voucherCodeInput, false);
+                    redeemVoucherCode($(this).parent(), $o.voucherCodeInput, false);
                 })
                 .on('click', function(e) {e.preventDefault();});
 
                 $($o.giftCardRedeemButton)
                 .on('mousedown', function() {
-                    redeemVoucherCode($(this).parents('div'), $o.giftCardCodeInput, true);
+                    redeemVoucherCode($(this).parent(), $o.giftCardCodeInput, true);
                 })
                 .on('click', function(e) {e.preventDefault();});
             },
@@ -124,7 +124,7 @@
                             code    : code,
                             nonce   : lpVars.nonces.voucher,
                             link    : is_gift ? lpVars.home_url : window.location.href,
-                            is_gift : is_gift
+                            is_gift : is_gift ? 1 : 0
                         },
                         function(r) {
                             if (r.success) {
@@ -161,10 +161,10 @@
 
                                     if (has_matches) {
                                         // voucher is valid for at least one displayed time pass
-                                        showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher);
+                                        showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher, $wrapper);
                                     } else {
                                         // voucher is invalid for all displayed time passes
-                                        showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
+                                        showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
                                     }
                                 } else {
                                     $('#fakebtn').attr('data-laterpay', r.url);
@@ -178,7 +178,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                                 $(input).val('');
 
                                 // voucher is invalid for all displayed time passes
-                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
+                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
                             }
                         },
                         'json'
@@ -189,15 +189,14 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                 }
             },
 
-            showVoucherCodeFeedbackMessage = function(message) {
+            showVoucherCodeFeedbackMessage = function(message, $wrapper) {
                 var $feedbackMessage =  $('<div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
                                             message +
                                         '</div>');
 
-                $($o.voucherCodeWrapper)
-                .prepend($feedbackMessage);
+                $wrapper.prepend($feedbackMessage);
 
-                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $o.voucherCodeWrapper);
+                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $wrapper);
                 $feedbackMessage
                 .fadeIn(250)
                 .click(function() {
