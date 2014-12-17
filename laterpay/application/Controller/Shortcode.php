@@ -438,7 +438,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $data['id'] ) {
             $passes_list = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] );
             if ( $passes_list ) {
-                array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+                $temp_arr = array();
+                array_push( $temp_arr, $passes_list );
+                $passes_list = $temp_arr;
             } else {
                 $error_reason = __( 'Wrong time pass id.', 'laterpay' );
 

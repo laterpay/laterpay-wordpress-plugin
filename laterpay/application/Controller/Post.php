@@ -249,7 +249,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'voucher' => $voucher,
         );
 
-        $url  = add_query_arg( $url_data, $link );
+        $url     = add_query_arg( $url_data, $link );
         $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
         $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $pass_id );
 

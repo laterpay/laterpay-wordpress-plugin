@@ -49,20 +49,31 @@
                     </td>
                 </tr>
             </table>
-            <div class="lp_gift-card__actions">
-                <?php if ( $laterpay['has_gift_code'] && ( $laterpay['gift_pass_id'] == $pass['pass_id'] ) ): ?>
-                    <?php _e( 'The donee can activate his present by entering code', 'laterpay' ); ?>
-                    <span class="lp_voucherCodeLabel"><?php echo $laterpay['gift_code']; ?></span>
-                    <?php _e( 'at', 'laterpay' ); ?>
-                    <a href="<?php echo $laterpay['gift_link']; ?>"><?php echo $laterpay['gift_link']; ?></a>
-                <?php else: ?>
-                    <a href="#" class="lp_js_doPurchase lp_purchaseLink lp_button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $pass['url']; ?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title; ?></a>
-                <?php endif; ?>
-            </div>
+            <?php if ( ! $laterpay['show_redeem_area'] ): ?>
+                <div class="lp_gift-card__actions">
+                    <?php if ( $laterpay['has_gift_code'] && ( $laterpay['gift_pass_id'] == $pass['pass_id'] ) ): ?>
+                        <?php _e( 'The donee can activate his present by entering code', 'laterpay' ); ?>
+                        <span class="lp_voucherCodeLabel"><?php echo $laterpay['gift_code']; ?></span>
+                        <?php _e( 'at', 'laterpay' ); ?>
+                        <a href="<?php echo $laterpay['gift_link']; ?>"><?php echo $laterpay['gift_link']; ?></a>
+                    <?php else: ?>
+                        <a href="#" class="lp_js_doPurchase lp_purchaseLink lp_button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $pass['url']; ?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title; ?></a>
+                    <?php endif; ?>
+                </div>
+            <?php else : ?>
+                <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_js_dataDeferExecution lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
+                    <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_timePassWidget_voucherCode" maxlength="6">
+                    <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
+                    <a href="#" class="lp_js_giftCardRedeemButton lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
+                    <p class="lp_timePassWidget_voucherCodeHint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
+                </div>
+
+                <a href="#" id="fakebtn" class="lp_js_doPurchase" style="display:none;" data-laterpay="" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"></a>
+            <?php endif; ?>
         </div>
     <?php endforeach; ?>
 
-    <?php if ( $laterpay['show_redeem_area'] ): ?>
+    <?php if ( $laterpay['show_redeem_area'] && ! count( $laterpay['passes_list'] ) ): ?>
         <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_js_dataDeferExecution lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
             <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_timePassWidget_voucherCode" maxlength="6">
             <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
@@ -71,6 +82,5 @@
         </div>
 
         <a href="#" id="fakebtn" class="lp_js_doPurchase" style="display:none;" data-laterpay="" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"></a>
-
     <?php endif; ?>
 </div>
