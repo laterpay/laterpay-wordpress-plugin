@@ -61,9 +61,9 @@
                 </dfn>
                 <code class="lp_codeSnippet lp--large lp_u_block">
                     <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-                    <?php echo htmlspecialchars( "[laterpay_gift_card id=\"3\"]" ); ?>
+                    [laterpay_gift_card id="<dfn>1</dfn>"]
                     <div class="lp_u_center lp_u_m-1"><?php _e( 'or', 'laterpay' ); ?></div>
-                    <?php echo htmlspecialchars( "[laterpay_gift_card]" ); ?>
+                    [laterpay_gift_card]
                 </code>
             </div>
 
@@ -77,7 +77,7 @@
                 </dfn>
                 <code class="lp_codeSnippet lp--large lp_u_block">
                     <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-                    <?php echo htmlspecialchars( "[laterpay_redeem_voucher]" ); ?>
+                    [laterpay_redeem_voucher]
                 </code>
             </div>
         </div>

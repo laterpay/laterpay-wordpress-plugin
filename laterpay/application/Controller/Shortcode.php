@@ -353,11 +353,21 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render a given gift card or all gift cards, if no valid gift card id is provided.
+     * Render gift cards for time passes from shortcode [laterpay_gift_card].
      *
-     * @param  [type] $atts [description]
+     * The shortcode [laterpay_gift_card] accepts one optional parameter:
+     * id: the id of the time pass that a user can buy a gift card for and give to someone else as a present
+     * You can find the id of a time pass on the pricing page on the left side of the time pass (e.g. "Pass 3").
+     * If no id is provided, the shortcode renders one giftcard for each defined time pass.
      *
-     * @return [type]         [description]
+     * Example:
+     * [laterpay_gift_card id="1"]
+     * or:
+     * [laterpay_gift_card]
+     *
+     * @param array $atts
+     *
+     * @return string $html
      */
     public function render_gift_card( $atts ) {
         // check, if the plugin is correctly configured and working
@@ -418,11 +428,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [render_redeem_gift_code description]
+     * Render a form to redeem a gift code for a time pass from shortcode [laterpay_redeem_voucher].
+     * The shortcode renders an input and a button.
+     * If the user enters his gift code and clicks the 'Redeem' button, a purchase dialog is opened,
+     * where the user has to confirm the purchase of the associated time pass for a price of 0.00 Euro.
+     * This step is done to ensure that this user accepts the LaterPay terms of use.
      *
-     * @param  [type] $atts [description]
-     *
-     * @return [type]         [description]
+     * @return string $html
      */
     public function render_redeem_gift_code( $atts ) {
         // check, if the plugin is correctly configured and working
