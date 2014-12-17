@@ -46,6 +46,46 @@
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
         <div class="lp_row lp_u_clearfix lp_u_m-b1">
+            <h2 id="lp_giftCardsAppearance"><?php _e( 'Offering of Gift Cards for Time Passes', 'laterpay' ); ?></h2>
+            <?php _e( 'Please follow these two steps to offer gift cards for time passes.', 'laterpay' ); ?>
+
+            <div class="lp_u_clearfix lp_u_m-b1">
+                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
+                <strong>
+                    <?php _e( 'Step 1: Display Gift Cards', 'laterpay' ); ?>
+                </strong>
+                <br>
+                <dfn class="lp_u_block">
+                    <?php _e( 'Use the shortcode \'[laterpay_gift_card]\' to render a gift card.', 'laterpay' ); ?><br>
+                    <?php _e( 'If you add the parameter \'id\', you can offer a gift card for a specific time pass. If you don\'t provide an id, gift cards for all time passes are rendered.', 'laterpay' ); ?><br>
+                    <?php _e( 'You can find the id of each time pass in the <a href="admin.php?page=laterpay-pricing-tab#lp_timePasses">pricing tab</a> above the respective time pass.', 'laterpay' ); ?><br>
+                </dfn>
+                <code class="lp_codeSnippet lp--large lp_u_block">
+                    <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
+                    <?php echo htmlspecialchars( "[laterpay_gift_card id=\"3\"]" ); ?>
+                    <div class="lp_u_center lp_u_m-1"><?php _e( 'or', 'laterpay' ); ?></div>
+                    <?php echo htmlspecialchars( "[laterpay_gift_card]" ); ?>
+                </code>
+            </div>
+
+            <div class="lp_u_clearfix">
+                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
+                <strong>
+                    <?php _e( 'Step 2: Add Option to Redeem Vouchers', 'laterpay' ); ?>
+                </strong>
+                <br>
+                <dfn class="lp_u_block">
+                    <?php _e( 'You can render a form where your users can enter a voucher code with the shortcode \'[laterpay_redeem_voucher]\'.', 'laterpay' ); ?>
+                </dfn>
+                <code class="lp_codeSnippet lp--large lp_u_block">
+                    <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
+                    <?php echo htmlspecialchars( "[laterpay_redeem_voucher]" ); ?>
+                </code>
+            </div>
+        </div>
+        <hr class="lp_u_m-1-0 lp_u_m-b3">
+
+        <div class="lp_row lp_u_clearfix lp_u_m-b1">
             <h2><?php _e( 'Rating of Purchased Content', 'laterpay' ); ?></h2>
             <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'content-rating-2x.png'; ?>">
             <div class="lp_u_m-t2">

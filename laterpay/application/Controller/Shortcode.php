@@ -408,7 +408,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             'has_gift_code'           => is_array( $access ) ? $access['access'] : null,
             'gift_code'               => is_array( $access ) ? $access['code'] : null,
             'gift_pass_id'            => is_array( $access ) ? $access['pass_id'] : null,
-            'gift_link'               => get_site_url(),
+            'gift_link'               => home_url(),
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -438,7 +438,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $data['id'] ) {
             $passes_list = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] );
             if ( $passes_list ) {
-                array_push( $passes_list, (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] ) );
+                $temp_arr = array();
+                array_push( $temp_arr, $passes_list );
+                $passes_list = $temp_arr;
             } else {
                 $error_reason = __( 'Wrong time pass id.', 'laterpay' );
 
