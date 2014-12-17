@@ -50,11 +50,10 @@
             <?php _e( 'Please follow these two steps to offer gift cards for time passes.', 'laterpay' ); ?>
 
             <div class="lp_u_clearfix lp_u_m-b1">
-                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
-                <strong>
+                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
+                <strong class="lp_u_block lp_u_m-t1 lp_u_m-b05 lp_u_pd-t05">
                     <?php _e( 'Step 1: Display Gift Cards', 'laterpay' ); ?>
                 </strong>
-                <br>
                 <dfn class="lp_u_block">
                     <?php _e( 'Use the shortcode \'[laterpay_gift_card]\' to render a gift card.', 'laterpay' ); ?><br>
                     <?php _e( 'If you add the parameter \'id\', you can offer a gift card for a specific time pass. If you don\'t provide an id, gift cards for all time passes are rendered.', 'laterpay' ); ?><br>
@@ -69,11 +68,10 @@
             </div>
 
             <div class="lp_u_clearfix">
-                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
-                <strong>
+                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
+                <strong class="lp_u_block lp_u_m-t1 lp_u_m-b05 lp_u_pd-t05">
                     <?php _e( 'Step 2: Add Option to Redeem Vouchers', 'laterpay' ); ?>
                 </strong>
-                <br>
                 <dfn class="lp_u_block">
                     <?php _e( 'You can render a form where your users can enter a voucher code with the shortcode \'[laterpay_redeem_voucher]\'.', 'laterpay' ); ?>
                 </dfn>
