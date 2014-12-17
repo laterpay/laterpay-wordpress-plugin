@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Wed Dec 17 2014 15:22:58 GMT+0100 (CET)\n"
+"PO-Revision-Date: Wed Dec 17 2014 16:02:18 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -346,23 +346,29 @@ msgstr "Teaser + Auszug unter Overlay"
 msgid "Offering of Gift Cards for Time Passes"
 msgstr "Anbieten von Geschenkgutscheinen für Zeitpässe"
 
-#: ../views/backend/appearance.php:50
-msgid "Please follow these two steps to offer gift cards for time passes."
+#: ../views/backend/appearance.php:51
+msgid ""
+"Please follow these two steps to offer gift cards for time passes. A user "
+"will be able to purchase a voucher for a time pass, which he can give away "
+"as a present. The receiver can then redeem this voucher code and will get "
+"access to the purchased time pass."
 msgstr ""
-"Bitte folgend Sie diesen beiden Schritten, um Geschenkgutscheine für "
-"Zeitpässe anzubieten."
+"Bitte folgen Sie diesen beiden Schritten, um Geschenkgutscheine für "
+"Zeitpässe anzuzeigen. Ein Nutzer kann dann einen Gutschein für einen "
+"Zeitpass kaufen, den er verschenken kann. Der Empfänger kann diesen "
+"Gutschein dann einlösen und erhält Zugriff auf den gekauften Zeitpass."
 
-#: ../views/backend/appearance.php:55
+#: ../views/backend/appearance.php:56
 msgid "Step 1: Display Gift Cards"
 msgstr "Schritt 1: Anzeigen von Geschenkgutscheinen"
 
-#: ../views/backend/appearance.php:58
+#: ../views/backend/appearance.php:59
 msgid "Use the shortcode '[laterpay_gift_card]' to render a gift card."
 msgstr ""
 "Verwenden Sie den Shortcode '[laterpay_gift_card]', um Geschenkgutscheine "
 "anzuzeigen."
 
-#: ../views/backend/appearance.php:59
+#: ../views/backend/appearance.php:60
 msgid ""
 "If you add the parameter 'id', you can offer a gift card for a specific time "
 "pass. If you don't provide an id, gift cards for all time passes are "
@@ -373,7 +379,7 @@ msgstr ""
 "Wenn Sie keine ID angeben, werden Geschenkgutscheine für alle vorhandenen "
 "Zeitpässe angezeigt."
 
-#: ../views/backend/appearance.php:60
+#: ../views/backend/appearance.php:61
 msgid ""
 "You can find the id of each time pass in the <a href=\"admin.php?"
 "page=laterpay-pricing-tab#lp_timePasses\">pricing tab</a> next to the "
@@ -383,15 +389,15 @@ msgstr ""
 "<a href=\"admin.php?page=laterpay-pricing-tab#lp_timePasses\">Tab \"Preise\"</a> "
 "neben jedem Zeitpass angezeigt.\n"
 
-#: ../views/backend/appearance.php:65 ../views/backend/appearance.php:266
+#: ../views/backend/appearance.php:66 ../views/backend/appearance.php:267
 msgid "or"
 msgstr "oder"
 
-#: ../views/backend/appearance.php:73
+#: ../views/backend/appearance.php:74
 msgid "Step 2: Add Option to Redeem Vouchers"
 msgstr "Schritt 2: Einlösen von Gutschein-Codes ermöglichen"
 
-#: ../views/backend/appearance.php:76
+#: ../views/backend/appearance.php:77
 msgid ""
 "You can render a form where your users can enter a voucher code with the "
 "shortcode '[laterpay_redeem_voucher]'."
@@ -399,29 +405,29 @@ msgstr ""
 "Mit dem Shortcode '[laterpay_redeem_voucher]' können Sie ein Formular "
 "anzeigen, mit dem Nutzer Gutschein-Codes einlösen können."
 
-#: ../views/backend/appearance.php:87 ../application/Controller/Admin.php:561
+#: ../views/backend/appearance.php:88 ../application/Controller/Admin.php:561
 msgid "Rating of Purchased Content"
 msgstr "Bewertung gekaufter Inhalte"
 
-#: ../views/backend/appearance.php:90
+#: ../views/backend/appearance.php:91
 msgid "Content rating is"
 msgstr "Inhaltebewertung ist"
 
-#: ../views/backend/appearance.php:101
+#: ../views/backend/appearance.php:102
 msgid "on"
 msgstr "an"
 
-#: ../views/backend/appearance.php:101
+#: ../views/backend/appearance.php:102
 msgid "off"
 msgstr "aus"
 
-#: ../views/backend/appearance.php:108
+#: ../views/backend/appearance.php:109
 msgid "The opinion of others has a strong influence on buying decisions."
 msgstr ""
 "Die Meinung anderer Käufer hat einen großen Einfluss auf die "
 "Kaufentscheidung."
 
-#: ../views/backend/appearance.php:109
+#: ../views/backend/appearance.php:110
 msgid ""
 "Content rating lets users rate your content on a five star scale after "
 "purchasing."
@@ -429,7 +435,7 @@ msgstr ""
 "Mit der Inhaltebewertung können Nutzer Ihre Inhalte nach dem Kauf auf einer "
 "Fünf-Sterne-Skala bewerten. "
 
-#: ../views/backend/appearance.php:110
+#: ../views/backend/appearance.php:111
 msgid ""
 "These ratings will be displayed to users who have not purchased that content "
 "yet as a quality indicator."
@@ -437,15 +443,15 @@ msgstr ""
 "Diese Bewertungen werden Nutzern, die den Inhalt noch nicht gekauft haben, "
 "als Qualitätsindikator angezeigt."
 
-#: ../views/backend/appearance.php:116
+#: ../views/backend/appearance.php:117
 msgid "Offer of Paid Content within (Free) Posts"
 msgstr "Anbieten von Bezahlinhalten in (kostenlosen) Beiträgen"
 
-#: ../views/backend/appearance.php:117
+#: ../views/backend/appearance.php:118
 msgid "Offer of Additional Paid Content"
 msgstr "Anbieten zusätzlicher Bezahlinhalte"
 
-#: ../views/backend/appearance.php:119
+#: ../views/backend/appearance.php:120
 msgid ""
 "Insert shortcode [laterpay_premium_download] into a post to render a box for "
 "selling additional paid content."
@@ -453,7 +459,7 @@ msgstr ""
 "Fügen Sie den Shortcode [laterpay_premium_download] in einen Beitrag ein, um "
 "dort eine Box zum Verkaufen zusätzlicher Bezahlinhalte anzuzeigen."
 
-#: ../views/backend/appearance.php:123
+#: ../views/backend/appearance.php:124
 msgid ""
 "[laterpay_premium_download target_post_id=\"<dfn>127</dfn>\" "
 "target_post_title=\"<dfn>Event video footage</dfn>\" "
@@ -471,11 +477,11 @@ msgstr ""
 "description_text=\"<dfn>Full HD video of the entire concert, including behind "
 "the scenes action.</dfn>\"]"
 
-#: ../views/backend/appearance.php:137
+#: ../views/backend/appearance.php:138
 msgid "The ID of the post that contains the paid content."
 msgstr "Die ID des Beitrags, der den Bezahlinhalt enthält."
 
-#: ../views/backend/appearance.php:138
+#: ../views/backend/appearance.php:139
 msgid ""
 "Page IDs are unique within a WordPress blog and should thus be used instead "
 "of the target_post_title.<br> If both target_post_id and target_post_title "
@@ -486,11 +492,11 @@ msgstr ""
 "Wenn sowohl target_post_id als auch target_post_title angegeben werden, wird "
 "target_post_title ignoriert."
 
-#: ../views/backend/appearance.php:146
+#: ../views/backend/appearance.php:147
 msgid "The title of the post that contains the paid content."
 msgstr "Der Titel des Beitrags, der den Bezahlinhalt enthält."
 
-#: ../views/backend/appearance.php:147
+#: ../views/backend/appearance.php:148
 msgid ""
 "Changing the title of the linked post requires updating the shortcode "
 "accordingly."
@@ -498,11 +504,11 @@ msgstr ""
 "Wenn Sie den Titel eines verknüpften Beitrags ändern, müssen Sie auch den "
 "Shortcode aktualisieren."
 
-#: ../views/backend/appearance.php:155
+#: ../views/backend/appearance.php:156
 msgid "Content type of the linked content."
 msgstr "Art des verknüpften Inhaltes."
 
-#: ../views/backend/appearance.php:156
+#: ../views/backend/appearance.php:157
 msgid ""
 "Choose between 'audio', 'video', 'text', 'gallery', and 'file' to display "
 "the corresponding default teaser image provided by the plugin."
@@ -510,7 +516,7 @@ msgstr ""
 "Wählen Sie zwischen 'audio', 'video', 'text', 'gallery' und 'file', um das "
 "entsprechende Standard-Vorschaubild anzuzeigen."
 
-#: ../views/backend/appearance.php:164
+#: ../views/backend/appearance.php:165
 msgid ""
 "Path to a 300 x 300 px image that should be used instead of the default "
 "LaterPay teaser image."
@@ -518,7 +524,7 @@ msgstr ""
 "Pfad zu einem Bild der Größe 300 x 300 px, das anstelle des Standard-"
 "Vorschaubildes verwendet werden soll."
 
-#: ../views/backend/appearance.php:172
+#: ../views/backend/appearance.php:173
 msgid ""
 "Text that should be displayed as heading in the box rendered by the "
 "shortcode. The heading is limited to one line."
@@ -526,15 +532,15 @@ msgstr ""
 "Text, der als Überschrift in der Shortcode-Box angezeigt werden soll. Die "
 "Überschrift ist auf eine Zeile begrenzt."
 
-#: ../views/backend/appearance.php:180
+#: ../views/backend/appearance.php:181
 msgid "Text that provides additional information on the paid content."
 msgstr "Text, der den Bezahlinhalt näher beschreibt."
 
-#: ../views/backend/appearance.php:189
+#: ../views/backend/appearance.php:190
 msgid "Alignment of Additional Paid Content Boxes"
 msgstr "Ausrichtung mehrerer Shortcode-Boxen"
 
-#: ../views/backend/appearance.php:191
+#: ../views/backend/appearance.php:192
 msgid ""
 "Enclose multiple [laterpay_premium_download] shortcodes in a "
 "[laterpay_box_wrapper] shortcode to align them in a three-column layout."
@@ -543,7 +549,7 @@ msgstr ""
 "[laterpay_box_wrapper] und [/laterpay_box_wrapper] einschließen, werden die "
 "Shortcode-Boxen in einem Drei-Spalten-Layout ausgerichtet."
 
-#: ../views/backend/appearance.php:195
+#: ../views/backend/appearance.php:196
 msgid ""
 "[laterpay_box_wrapper]<dfn>[laterpay_premium_download &hellip;"
 "][laterpay_premium_download &hellip;]</dfn>[/laterpay_box_wrapper]"
@@ -551,23 +557,23 @@ msgstr ""
 "[laterpay_box_wrapper]<dfn>[laterpay_premium_download &hellip;"
 "][laterpay_premium_download &hellip;]</dfn>[/laterpay_box_wrapper]"
 
-#: ../views/backend/appearance.php:202
+#: ../views/backend/appearance.php:203
 msgid "Integration Into Theme"
 msgstr "Integration in Ihr Theme"
 
-#: ../views/backend/appearance.php:210
+#: ../views/backend/appearance.php:211
 msgid "Position of LaterPay Purchase Button"
 msgstr "Position des LaterPay Buttons"
 
-#: ../views/backend/appearance.php:211
+#: ../views/backend/appearance.php:212
 msgid "Purchase buttons are rendered at their <strong>default position</strong>"
 msgstr "Kauf-Buttons werden angezeigt an ihrer <strong>Standard-Position</strong>"
 
-#: ../views/backend/appearance.php:223 ../views/backend/appearance.php:256
+#: ../views/backend/appearance.php:224 ../views/backend/appearance.php:257
 msgid "at a <strong>custom position</strong>."
 msgstr "an einer <strong>benutzerdefinierten Position</strong>"
 
-#: ../views/backend/appearance.php:226
+#: ../views/backend/appearance.php:227
 msgid ""
 "Call action 'laterpay_purchase_button' in your theme to render the LaterPay "
 "purchase button in the location of your choice."
@@ -575,7 +581,7 @@ msgstr ""
 "Rufen Sie die Action 'laterpay_purchase_button' in Ihrem Theme auf, um den "
 "LaterPay Button an einer Stelle Ihrer Wahl anzuzeigen."
 
-#: ../views/backend/appearance.php:227
+#: ../views/backend/appearance.php:228
 msgid ""
 "When not using this action, the purchase button is rendered in its default "
 "location between post title and post content."
@@ -583,15 +589,15 @@ msgstr ""
 "Wenn Sie diese Action nicht nutzen, wird der LaterPay Button standardmäßig "
 "zwischen dem Titel und dem Text eines Beitrags angezeigt."
 
-#: ../views/backend/appearance.php:243
+#: ../views/backend/appearance.php:244
 msgid "Display of Time Passes"
 msgstr "Anzeigen von Zeitpässen"
 
-#: ../views/backend/appearance.php:244
+#: ../views/backend/appearance.php:245
 msgid "Time passes are rendered at their <strong>default position</strong>"
 msgstr "Zeitpässe werden angezeigt an ihrer <strong>Standard-Position</strong>"
 
-#: ../views/backend/appearance.php:259
+#: ../views/backend/appearance.php:260
 msgid ""
 "Call action 'laterpay_time_passes' in your theme to show your users the "
 "available time passes."
@@ -599,7 +605,7 @@ msgstr ""
 "Rufen Sie die WordPress Action 'laterpay_time_passes' in Ihrem Theme auf, um "
 "Besuchern die verfügbaren Zeitpässe anzuzeigen."
 
-#: ../views/backend/appearance.php:260
+#: ../views/backend/appearance.php:261
 msgid ""
 "The default width for time passes is 308px. By adding the parameter 'small', "
 "they will be displayed with a width of 224px."
@@ -607,11 +613,11 @@ msgstr ""
 "Die Standardbreite der Zeitpässe beträgt 308px. Mit dem Parameter 'small' "
 "werden sie mit einer Breite von 224px angezeigt."
 
-#: ../views/backend/appearance.php:274
+#: ../views/backend/appearance.php:275
 msgid "Display of LaterPay Invoice Balance"
 msgstr "Einbinden der LaterPay Rechnungsanzeige"
 
-#: ../views/backend/appearance.php:276
+#: ../views/backend/appearance.php:277
 msgid ""
 "Call action 'laterpay_invoice_indicator' in your theme to show your users "
 "their LaterPay invoice balance."
@@ -619,7 +625,7 @@ msgstr ""
 "Rufen Sie die Action 'laterpay_invoice_indicator' in Ihrem Theme auf, um "
 "Ihren Nutzern deren aktuelle LaterPay Rechnungssumme anzuzeigen."
 
-#: ../views/backend/appearance.php:277
+#: ../views/backend/appearance.php:278
 msgid ""
 "The LaterPay invoice indicator is served by LaterPay. Its styling can not be "
 "changed."
@@ -810,7 +816,7 @@ msgid ""
 "the instructions in the <a href=\"admin.php?page=laterpay-appearance-"
 "tab#lp_giftCardsAppearance\">appearance tab</a>."
 msgstr ""
-"Sie können für jeden Zeitpass einen <strong>Geschenkgutschein</strong> "
+"Sie können für jeden Zeitpass auch <strong>Geschenkgutscheine</strong> "
 "anbieten. Bitte folgen Sie hierzu der Anleitung im \n"
 "<a href=\"admin.php?page=laterpay-appearance-tab#lp_giftCardsAppearance\">Tab "
 "\"Darstellung\"</a>."

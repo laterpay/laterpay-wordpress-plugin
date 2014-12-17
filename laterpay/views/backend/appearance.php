@@ -47,8 +47,9 @@
 
         <div class="lp_row lp_u_clearfix lp_u_m-b1">
             <h2 id="lp_giftCardsAppearance"><?php _e( 'Offering of Gift Cards for Time Passes', 'laterpay' ); ?></h2>
-            <?php _e( 'Please follow these two steps to offer gift cards for time passes.', 'laterpay' ); ?>
-
+            <dfn>
+            <?php _e( 'Please follow these two steps to offer gift cards for time passes. A user will be able to purchase a voucher for a time pass, which he can give away as a present. The receiver can then redeem this voucher code and will get access to the purchased time pass.', 'laterpay' ); ?>
+            </dfn>
             <div class="lp_u_clearfix lp_u_m-b1">
                 <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
                 <strong class="lp_u_block lp_u_m-t1 lp_u_m-b05 lp_u_pd-t05">
@@ -115,7 +116,7 @@
         <div class="lp_row">
             <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
             <h3><?php _e( 'Offer of Additional Paid Content', 'laterpay' ); ?></h3>
-            <dfn class="lp_u_clearfix">
+            <dfn>
                 <?php _e( 'Insert shortcode [laterpay_premium_download] into a post to render a box for selling additional paid content.', 'laterpay' ); ?>
             </dfn>
             <code class="lp_codeSnippet lp--shownAbove lp_u_block">
