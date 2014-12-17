@@ -61,7 +61,7 @@
                     <?php endif; ?>
                 </div>
             <?php else : ?>
-                <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_js_dataDeferExecution lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
+                <div id="lp_js_giftCardWrapper" class="lp_js_giftCodeWrapper lp_js_dataDeferExecution lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
                     <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_timePassWidget_voucherCode" maxlength="6">
                     <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
                     <a href="#" class="lp_js_giftCardRedeemButton lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
@@ -74,7 +74,7 @@
     <?php endforeach; ?>
 
     <?php if ( $laterpay['show_redeem_area'] && ! count( $laterpay['passes_list'] ) ): ?>
-        <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_js_dataDeferExecution lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
+        <div id="lp_js_giftCardWrapper" class="lp_js_giftCodeWrapper lp_js_dataDeferExecution lp_timePassWidget_voucherCodeWrapper lp_u_clearfix">
             <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_timePassWidget_voucherCode" maxlength="6">
             <p class="lp_timePassWidget_voucherCodeInputHint"><?php _e( 'Code', 'laterpay' ); ?></p>
             <a href="#" class="lp_js_giftCardRedeemButton lp_timePassWidget_redeemVoucherCode lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>

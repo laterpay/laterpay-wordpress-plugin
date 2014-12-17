@@ -188,7 +188,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // check if voucher code exists and pass is available for purchase
-        $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ], $_GET[ 'is_gift'] );
+        $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ], (bool)$_GET[ 'is_gift'] );
         if ( $code_data ) {
             // get new URL for this pass
             $pass_id    = $code_data[ 'pass_id' ];
@@ -931,7 +931,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             }
 
             $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
-            $html .= $this->get_text_view( 'frontend/partials/post/time_passes' );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
             return $html;
         }
@@ -963,7 +963,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
             }
 
-            $content .= $this->get_text_view( 'frontend/partials/post/time_passes' );
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
             return $content;
         }
@@ -976,11 +976,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // add the teaser content
-        $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
+        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
 
         if ( $teaser_content_only ) {
             // add teaser content plus a purchase link after the teaser content
-            $html .= $this->get_text_view( 'frontend/partials/post/purchase_link' );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase_link' ) );
         } else {
             // add excerpt of full content, covered by an overlay with a purchase button
             $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/overlay_with_purchase_button' ) );
