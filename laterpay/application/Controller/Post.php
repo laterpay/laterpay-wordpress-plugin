@@ -239,7 +239,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get permalink
-        $link    = get_permalink();
+        $link = is_single() ? home_url() : get_permalink();
         $pass_id = $_GET[ 'pass_id' ];
         $voucher = $_GET[ 'voucher' ];
 
@@ -278,7 +278,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         wp_redirect( $link );
-
         exit;
     }
 
@@ -1186,7 +1185,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 ),
                 'download_attachment'   => $attachment_url,
                 'default_currency'      => get_option( 'laterpay_currency' ),
-                'site_url'              => get_site_url(),
+                'home_url'              => home_url(),
             )
         );
 
