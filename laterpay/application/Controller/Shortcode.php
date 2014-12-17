@@ -344,22 +344,22 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     /**
      * [render_time_passes_widget description]
      *
-     * @param  [type] $params [description]
+     * @param  [type] $atts [description]
      *
      * @return [type]         [description]
      */
-    public function render_time_passes_widget( $params ) {
+    public function render_time_passes_widget( $atts ) {
         // array( $post_controller, 'the_time_passes_widget'), 10, 3 );
     }
 
     /**
      * Render a given gift card or all gift cards, if no valid gift card id is provided.
      *
-     * @param  [type] $params [description]
+     * @param  [type] $atts [description]
      *
      * @return [type]         [description]
      */
-    public function render_gift_card( $params ) {
+    public function render_gift_card( $atts ) {
         // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
@@ -367,7 +367,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         $data = shortcode_atts( array(
             'id' => null,
-        ), $params );
+        ), $atts );
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
@@ -390,7 +390,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             $this->logger->error(
                 __METHOD__ . ' - ' . $error_reason,
-                array( 'args' => $params, )
+                array( 'args' => $atts, )
             );
 
             return $error_message;
@@ -418,11 +418,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     /**
      * [render_redeem_gift_voucher description]
      *
-     * @param  [type] $params [description]
+     * @param  [type] $atts [description]
      *
      * @return [type]         [description]
      */
-    public function render_redeem_gift_voucher( $params ) {
+    public function render_redeem_gift_voucher( $atts ) {
         // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
@@ -430,7 +430,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         $data = shortcode_atts( array(
             'id' => null,
-        ), $params );
+        ), $atts );
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
@@ -447,7 +447,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
                 $this->logger->error(
                     __METHOD__ . ' - ' . $error_reason,
-                    array( 'args' => $params, )
+                    array( 'args' => $atts, )
                 );
 
                 return $error_message;
