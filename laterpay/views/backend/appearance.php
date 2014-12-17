@@ -50,7 +50,7 @@
             <dfn>
             <?php _e( 'Please follow these two steps to offer gift cards for time passes. A user will be able to purchase a voucher for a time pass, which he can give away as a present. The receiver can then redeem this voucher code and will get access to the purchased time pass.', 'laterpay' ); ?>
             </dfn>
-            <div class="lp_u_clearfix lp_u_m-b1">
+            <div class="lp_u_clearfix lp_u_m-b2">
                 <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
                 <strong class="lp_u_block lp_u_m-t1 lp_u_m-b05 lp_u_pd-t05">
                     <?php _e( 'Step 1: Display Gift Cards', 'laterpay' ); ?>
