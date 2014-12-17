@@ -99,7 +99,7 @@ class LaterPay_Core_Bootstrap
 
         // add gift cards shortcodes
         add_shortcode( 'laterpay_gift_card',        array( $shortcode_controller, 'render_gift_card' ) );
-        add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_voucher' ) );
+        add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_code' ) );
 
         // check if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
