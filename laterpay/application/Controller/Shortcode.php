@@ -418,13 +418,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [render_redeem_gift_voucher description]
+     * [render_redeem_gift_code description]
      *
      * @param  [type] $atts [description]
      *
      * @return [type]         [description]
      */
-    public function render_redeem_gift_voucher( $atts ) {
+    public function render_redeem_gift_code( $atts ) {
         // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;

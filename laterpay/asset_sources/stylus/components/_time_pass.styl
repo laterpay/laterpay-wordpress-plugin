@@ -364,6 +364,92 @@
     display                 none                                                                    !important
 
 
+// redeem gift code widget ---------------------------------------------------------------------------------------------
+.lp_redeem-gift-code__wrapper,
+.lp_redeem-gift-code__code {
+    height: round(3.75 * $fs-1) !important; /* 6 - TODO: this is a magic number that should not be required */
+    position: relative !important;
+    width: 300px !important;
+}
+
+.lp_redeem-gift-code__feedback-message {
+    background: $background-highlight !important;
+    border-radius: 3px !important;
+    color: $text !important;
+    cursor: pointer !important;
+    line-height: 1.3 !important;
+    padding: $fs-1 $fs-05 !important;
+    text-align: center !important;
+
+    ~ * {
+        display: none !important;
+    }
+}
+
+/**
+ * input for gift code
+ */
+.lp_redeem-gift-code__code {
+    background: transparent !important;
+    border: 2px solid $border !important;
+    border-radius: 5px !important;
+    box-shadow: none !important; /* 1 */
+    bottom: 0 !important;
+    color: $text !important;
+    font-size: $fs-15 !important;
+    padding: $fs-075 $fs-1 $fs-075 3.5em !important;
+    position: absolute !important;
+    top: 0 !important;
+    z-index: $zindex-overlayed_1 !important;
+
+    &:hover,
+    &:focus,
+    &:active {
+           -moz-appearance: none !important;
+        -webkit-appearance: none !important;
+        border-color: $clickable-highlight !important;
+    }
+}
+
+.lp_redeem-gift-code__input-hint {
+    color: $text-lighter !important;
+    font-size: $fs-15 !important;
+    left: $fs-15 !important;
+    margin: 0 !important;
+    position: absolute !important;
+    top: $fs-075 !important;
+}
+
+.lp_redeem-gift-code__button {
+    background: $clickable !important;
+    border-radius: 4px !important;
+    bottom: $fs-05 !important;
+    color: $text-inverse !important;
+    cursor: pointer !important;
+    display: inline-block;
+    position: absolute !important;
+    padding: $fs-05 $fs-1 !important;
+    right: $fs-05 !important;
+    text-decoration: none !important;
+    top: $fs-05 !important;
+    z-index: $zindex-overlayed_2 !important;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background: $clickable-highlight !important;
+        text-decoration: none !important;
+    }
+}
+
+// define line-height to minimize influence of theme styles
+.lp_redeem-gift-code__code,
+.lp_redeem-gift-code__input-hint,
+.lp_redeem-gift-code__button {
+    line-height: 1.5 !important;
+}
+
+
 /**
  * time pass widget variant 'small'
  * reduced height, width, font-size, margins, and paddings
