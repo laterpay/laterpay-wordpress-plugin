@@ -72,7 +72,7 @@
         </div>
     <?php endforeach; ?>
 
-    <?php if ( $laterpay['show_redeem_area'] ): ?>
+    <?php if ( $laterpay['show_redeem_area'] && ! count( $laterpay['passes_list'] ) ): ?>
         <div id="lp_js_giftCardWrapper" class="lp_js_giftCodeWrapper lp_js_dataDeferExecution lp_redeem-gift-code__wrapper lp_u_clearfix">
             <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_redeem-gift-code__code" maxlength="6">
             <p class="lp_redeem-gift-code__input-hint"><?php _e( 'Code', 'laterpay' ); ?></p>
