@@ -102,18 +102,18 @@
                 // redeem voucher code
                 $($o.voucherRedeemButton)
                 .on('mousedown', function() {
-                    redeemVoucherCode( $(this).parents('div'), $o.voucherCodeInput, false );
+                    redeemVoucherCode($(this).parents('div'), $o.voucherCodeInput, false);
                 })
                 .on('click', function(e) {e.preventDefault();});
 
                 $($o.giftCardRedeemButton)
                 .on('mousedown', function() {
-                    redeemVoucherCode( $(this).parents('div'), $o.giftCardCodeInput, true );
+                    redeemVoucherCode($(this).parents('div'), $o.giftCardCodeInput, true);
                 })
                 .on('click', function(e) {e.preventDefault();});
             },
 
-            redeemVoucherCode = function( $wrapper, input, is_gift ) {
+            redeemVoucherCode = function($wrapper, input, is_gift) {
                 var code = $(input).val();
 
                 if (code.length === 6) {
@@ -127,15 +127,15 @@
                             is_gift : is_gift
                         },
                         function(r) {
-                            if ( r.success ) {
-                                if ( ! is_gift ) {
+                            if (r.success) {
+                                if (!is_gift) {
                                     // clear input
                                     $(input).val('');
 
                                     var has_matches = false,
                                         passId;
                                     $($o.timePass).each(function() {
-                                        // check for each displayed time pass, if the request returned updated data for it
+                                        // check for each shown time pass, if the request returned updated data for it
                                         passId = $(this).data('pass-id');
                                         if (passId === r.pass_id) {
                                             // update purchase button price and url
@@ -167,8 +167,11 @@
                                         showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
                                     }
                                 } else {
-                                    $($o.purchaseLink, $wrapper).attr('data-laterpay', r.url);
-                                    // here we need to fire purchase event
+                                    $('#fakebtn').attr('data-laterpay', r.url);
+// fire purchase event on hidden fake button
+YUI().use('node', 'node-event-simulate', function(Y) {
+    Y.one('#fakebtn').simulate('click');
+});
                                 }
                             } else {
                                 // clear input
