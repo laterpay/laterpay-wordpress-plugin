@@ -51,7 +51,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'confirmDeleteTimePass'     => __( 'Every user, who owns this pass, will lose his access.', 'laterpay' ),
             'voucherText'               => __( 'allows purchasing this pass for', 'laterpay' ),
             'timesRedeemed'             => __( 'times redeemed.', 'laterpay' ),
-            'timePassId'                => __( 'Pass id:', 'laterpay' ),
         );
 
         // pass localized strings and variables to script
