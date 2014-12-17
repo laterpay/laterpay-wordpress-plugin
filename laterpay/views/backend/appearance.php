@@ -57,7 +57,7 @@
                 <dfn class="lp_u_block">
                     <?php _e( 'Use the shortcode \'[laterpay_gift_card]\' to render a gift card.', 'laterpay' ); ?><br>
                     <?php _e( 'If you add the parameter \'id\', you can offer a gift card for a specific time pass. If you don\'t provide an id, gift cards for all time passes are rendered.', 'laterpay' ); ?><br>
-                    <?php _e( 'You can find the id of each time pass in the <a href="admin.php?page=laterpay-pricing-tab#lp_timePasses">pricing tab</a> above the respective time pass.', 'laterpay' ); ?><br>
+                    <?php _e( 'You can find the id of each time pass in the <a href="admin.php?page=laterpay-pricing-tab#lp_timePasses">pricing tab</a> next to the respective time pass.', 'laterpay' ); ?><br>
                 </dfn>
                 <code class="lp_codeSnippet lp--large lp_u_block">
                     <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
