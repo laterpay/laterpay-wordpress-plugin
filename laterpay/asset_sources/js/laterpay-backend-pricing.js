@@ -909,7 +909,11 @@
                                 lpVars.time_passes_list[passId] = r.data;
                                 var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
 
-                                $($o.timePassId, $newTimePass).html( lpVars.i18n.timePassId + ' ' + passId );
+                                // show assigned pass id
+                                $($o.timePassId, $newTimePass)
+                                .text(passId)
+                                    .parent()
+                                    .show(250);
 
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
                                 $($o.timePassForm, $timePass).remove();
