@@ -74,11 +74,7 @@ class LaterPay_Model_Pass
             '%f', // price
             '%s', // revenue_model
             '%s', // title
-            '%s', // title_color
             '%s', // description
-            '%s', // description_color
-            '%s', // background_path
-            '%s', // background_color
         );
 
         if ( empty($pass_id) ) {
