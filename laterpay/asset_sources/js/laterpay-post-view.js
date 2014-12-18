@@ -269,6 +269,9 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                                 var gift = r.data[i];
                                 $($o.giftCardActionsPlaceholder + '_' + gift.id).html(gift.html);
                             });
+
+                            // remove gift code cookie if present
+                            delete_cookie( 'laterpay_purchased_gift_card' );
                         }
                     }
                 );
@@ -407,6 +410,10 @@ YUI().use('node', 'node-event-simulate', function(Y) {
 
             flipTimePass = function(trigger) {
                 $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
+            },
+
+            delete_cookie = function( name ) {
+                document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
             },
 
             initializePage = function() {
