@@ -742,7 +742,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        // not display widget if it positioned automatically on search page or multiposts page
+        // don't display widget on a search or multiposts page, if it is positioned automatically
         if ( ! is_singular() && ! $time_passes_positioned_manually ) {
             return;
         }

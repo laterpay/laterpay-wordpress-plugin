@@ -49,7 +49,6 @@
                     </td>
                 </tr>
             </table>
-            <?php if ( ! $laterpay['show_redeem_area'] ): ?>
             <div class="lp_gift-card__actions">
                 <?php if ( $laterpay['has_gift_code'] && ( $laterpay['gift_pass_id'] == $pass['pass_id'] ) ): ?>
                     <?php _e( 'Gift Code', 'laterpay' ); ?>
@@ -59,17 +58,11 @@
                 <?php else: ?>
                     <a href="#" class="lp_js_doPurchase lp_purchaseLink lp_button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $pass['url']; ?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title; ?></a>
                 <?php endif; ?>
-                </div>
-            <?php else : ?>
-                <div id="lp_js_giftCardWrapper" class="lp_js_giftCodeWrapper lp_js_dataDeferExecution lp_redeem-gift-code__wrapper lp_u_clearfix">
-                    <input type="text" name="gift_code" class="lp_js_giftCardCodeInput lp_redeem-gift-code__code" maxlength="6">
-                    <p class="lp_redeem-gift-code__input-hint"><?php _e( 'Code', 'laterpay' ); ?></p>
-                    <a href="#" class="lp_js_giftCardRedeemButton lp_redeem-gift-code__button lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></a>
-                </div>
-
-                <a href="#" id="fakebtn" class="lp_js_doPurchase" style="display:none;" data-laterpay="" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"></a>
-            <?php endif; ?>
+            </div>
         </div>
+        <?php if ( $laterpay['has_gift_code'] && ( $laterpay['gift_pass_id'] == $pass['pass_id'] ) ): ?>
+            <a href="." class="lp_gift-card__buy-another"><?php _e( 'Buy another gift card', 'laterpay' ); ?></a>
+        <?php endif; ?>
     <?php endforeach; ?>
 
     <?php if ( $laterpay['show_redeem_area'] && ! count( $laterpay['passes_list'] ) ): ?>
