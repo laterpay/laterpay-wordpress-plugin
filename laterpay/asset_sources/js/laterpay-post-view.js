@@ -26,6 +26,8 @@
                 giftCardRedeemButton            : '.lp_js_giftCardRedeemButton',
                 giftCardCodeInput               : '.lp_js_giftCardCodeInput',
                 giftCardWrapper                 : '#lp_js_giftCardWrapper',
+                giftCardActionsPlaceholder      : '.lp_js_giftCardActionsPlaceholder',
+                giftsWrapper                    : $('#lp_js_giftsWrapper'),
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
@@ -123,7 +125,7 @@
                             action  : 'laterpay_redeem_voucher_code',
                             code    : code,
                             nonce   : lpVars.nonces.voucher,
-                            link    : is_gift ? lpVars.home_url : window.location.href,
+                            link    : window.location.href,
                             is_gift : is_gift ? 1 : 0
                         },
                         function(r) {
@@ -247,6 +249,26 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                     function(ratingSummary) {
                         if (ratingSummary) {
                             $o.postRatingPlaceholder.html(ratingSummary);
+                        }
+                    }
+                );
+            },
+
+            loadGiftCards = function() {
+                $.get(
+                    lpVars.ajaxUrl,
+                    {
+                        action  : 'laterpay_get_gift_card_actions',
+                        nonce   : lpVars.nonces.gift,
+                        pass_id : $o.giftsWrapper.data('id'),
+                        link    : window.location.href
+                    },
+                    function(r) {
+                        if (r.data) {
+                            $.each(r.data, function(i) {
+                                var gift = r.data[i];
+                                $($o.giftCardActionsPlaceholder + '_' + gift.id).html(gift.html);
+                            });
                         }
                     }
                 );
@@ -402,6 +424,10 @@ YUI().use('node', 'node-event-simulate', function(Y) {
 
                 if ($o.postRatingPlaceholder.length === 1) {
                     loadRatingSummary();
+                }
+
+                if ($o.giftsWrapper.length === 1) {
+                    loadGiftCards();
                 }
 
                 bindPurchaseEvents();

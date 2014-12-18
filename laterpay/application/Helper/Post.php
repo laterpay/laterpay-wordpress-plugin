@@ -73,10 +73,9 @@ class LaterPay_Helper_Post {
      * @return boolean [description]
      */
     public static function has_purchased_gift_card() {
-        if ( isset( $_SESSION['gift_code'] ) ) {
+        if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
             // get gift code and unset session variable
-            list( $code, $pass_id ) = explode( '|', $_SESSION['gift_code'] );
-            unset( $_SESSION['gift_code'] );
+            list( $code, $pass_id ) = explode( '|', $_COOKIE['laterpay_purchased_gift_card'] );
             // create gift code token
             $code_key = '#' . $code;
 

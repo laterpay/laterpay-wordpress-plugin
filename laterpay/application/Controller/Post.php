@@ -197,7 +197,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $price      = str_replace( ',', '.', $price );
             $price      = number_format( (float) $price, 2 );
             // prepare url before usage
-            $url        = $_GET[ 'link' ];
+            $url        = $_GET[ 'is_gift'] ? home_url() : $_GET[ 'link' ];
             $url_params = array(
                 'pass_id' => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
                 'voucher' => $_GET[ 'code' ],
@@ -273,7 +273,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     setcookie(
                         'laterpay_purchased_gift_card',
                         $voucher . '|' . $pass_id,
-                        time() + 60,
+                        time() + 30,
                         '/'
                     );
                 } else {
@@ -1163,13 +1163,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             LaterPay_Helper_User::remove_cookie_by_name( 'laterpay_download_attached' );
         }
 
-        // set gift code into session if specified
-        if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
-            $_SESSION['gift_code'] = $_COOKIE['laterpay_purchased_gift_card'];
-            // remove cookie with gift code
-            LaterPay_Helper_User::remove_cookie_by_name( 'laterpay_purchased_gift_card' );
-        }
-
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
@@ -1184,6 +1177,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'tracking'          => wp_create_nonce( 'laterpay_post_track_views' ),
                     'rating'            => wp_create_nonce( 'laterpay_post_rating_summary' ),
                     'voucher'           => wp_create_nonce( 'laterpay_redeem_voucher_code' ),
+                    'gift'              => wp_create_nonce( 'laterpay_get_gift_card_actions' ),
                 ),
                 'i18n'                  => array(
                     'alert'             => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),
@@ -1194,7 +1188,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 ),
                 'download_attachment'   => $attachment_url,
                 'default_currency'      => get_option( 'laterpay_currency' ),
-                'home_url'              => home_url(),
             )
         );
 
