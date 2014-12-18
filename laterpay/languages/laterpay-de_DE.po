@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Wed Dec 17 2014 16:02:18 GMT+0100 (CET)\n"
+"PO-Revision-Date: Thu Dec 18 2014 10:36:58 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -23,14 +23,12 @@ msgstr ""
 "X-Loco-Target-Locale: de_DE"
 
 #: ../views/frontend/partials/widget/time_passes.php:19 ..
-#: views/backend/partials/gift_card.php:66 ../views/backend/partials/gift_card.
-#: php:78
+#: views/backend/partials/gift_card.php:71
 msgid "Code"
 msgstr "Code"
 
 #: ../views/frontend/partials/widget/time_passes.php:20 ..
-#: views/backend/partials/gift_card.php:67 ../views/backend/partials/gift_card.
-#: php:79
+#: views/backend/partials/gift_card.php:72
 msgid "Redeem"
 msgstr "Einlösen"
 
@@ -41,7 +39,7 @@ msgstr "Gutschein einlösen >"
 #: ../views/frontend/partials/widget/purchase_button.php:13 ..
 #: views/frontend/partials/post/purchase_link.php:9 ..
 #: views/frontend/partials/post/shortcode_purchase_button.php:9 ..
-#: views/backend/partials/gift_card.php:60 ../views/backend/partials/time_pass.
+#: views/backend/partials/gift_card.php:59 ../views/backend/partials/time_pass.
 #: php:30
 msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
@@ -917,13 +915,17 @@ msgstr "Verlängerung"
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
-#: ../views/backend/partials/gift_card.php:55
+#: ../views/backend/partials/gift_card.php:54
 msgid "Gift Code"
 msgstr "Gutschein-Code"
 
-#: ../views/backend/partials/gift_card.php:57
+#: ../views/backend/partials/gift_card.php:56
 msgid "Redeem at"
 msgstr "Einlösen auf"
+
+#: ../views/backend/partials/gift_card.php:64
+msgid "Buy another gift card"
+msgstr "Weiteren Geschenkgutschein kaufen"
 
 #: ../views/backend/partials/pointer_scripts.php:6
 msgid "Welcome to LaterPay"
@@ -1145,7 +1147,7 @@ msgstr "Darstellung"
 msgid "Account"
 msgstr "Konto"
 
-#: ../application/Helper/View.php:161 ../application/Helper/View.php:169
+#: ../application/Helper/View.php:163 ../application/Helper/View.php:171
 msgid "k"
 msgstr "t"
 
@@ -2788,7 +2790,7 @@ msgstr ""
 
 #: ../application/Controller/Shortcode.php:128 ..
 #: application/Controller/Shortcode.php:147 ../application/Controller/Shortcode.
-#: php:389 ../application/Controller/Shortcode.php:448
+#: php:399 ../application/Controller/Shortcode.php:460
 msgid "Problem with inserted shortcode:"
 msgstr "Es gibt ein Problem mit dem eingefügten Shortcode:"
 
@@ -2812,11 +2814,11 @@ msgstr "Jetzt anhören"
 msgid "Read now"
 msgstr "Jetzt lesen"
 
-#: ../application/Controller/Shortcode.php:386
+#: ../application/Controller/Shortcode.php:396
 msgid "Wrong time pass id or no time passes specified."
 msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 
-#: ../application/Controller/Shortcode.php:445
+#: ../application/Controller/Shortcode.php:457
 msgid "Wrong time pass id."
 msgstr "Ungültige Zeitpass-ID."
 
