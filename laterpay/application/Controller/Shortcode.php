@@ -409,6 +409,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         }
 
         $access = LaterPay_Helper_Post::has_purchased_gift_card();
+        $landing_page = get_option( 'laterpay_landing_page');
 
         $view_args = array(
             'passes_list'             => $this->add_free_codes_to_passes( $passes_list ),
@@ -418,7 +419,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             'has_gift_code'           => is_array( $access ) ? $access['access'] : null,
             'gift_code'               => is_array( $access ) ? $access['code'] : null,
             'gift_pass_id'            => is_array( $access ) ? $access['pass_id'] : null,
-            'gift_link'               => home_url(),
+            'gift_link'               => $landing_page ? $landing_page : home_url(),
         );
         $this->assign( 'laterpay', $view_args );
 

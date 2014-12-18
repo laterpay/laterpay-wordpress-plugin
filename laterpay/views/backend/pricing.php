@@ -204,6 +204,18 @@
 
         <div class="lp_row">
             <h2 id="lp_timePasses"><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
+
+            <div>
+                <form id="lp_js_landingPageForm" method="post">
+                    <input type="hidden" name="form" value="save_landing_page">
+                    <input type="hidden" name="action" value="laterpay_pricing">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                    <label><?php _e( 'Landing Page', 'laterpay' ); ?></label>
+                    <input type="text" name="landing_url" class="lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
+                    <a href="#" id="lp_js_landingPageSave" class="lp_editLink lp_saveLink lp_u_inlineBlock lp_u_m-l1 lp_u_pd-0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                </form>
+            </div>
+
             <dfn class="lp_u_block lp_u_m-b1">
                 <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?><br>
                 <?php _e( 'You can offer <strong>gift cards</strong> for each time pass. Please follow the instructions in the <a href="admin.php?page=laterpay-appearance-tab#lp_giftCardsAppearance">appearance tab</a>.', 'laterpay' ); ?>

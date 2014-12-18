@@ -83,6 +83,9 @@
                 timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
                 timePassId                              : '.lp_js_timePassId',
+                landingPageInput                        : '.lp_js_landingPageInput',
+                landingPageSave                         : '#lp_js_landingPageSave',
+                landingPageForm                         : $('#lp_js_landingPageForm'),
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
@@ -307,6 +310,12 @@
                 $o.timePassEditor
                 .on('click', $o.voucherDeleteLink, function(e) {
                     deleteVoucher($(this).parent());
+                    e.preventDefault();
+                });
+
+                $o.landingPageForm
+                .on('click', $o.landingPageSave, function(e) {
+                    saveLandingPage($o.landingPageForm);
                     e.preventDefault();
                 });
 
@@ -1056,6 +1065,16 @@
                 .slideUp(250, function() {
                     $(this).remove();
                 });
+            },
+
+            saveLandingPage = function($form) {
+                $.post(
+                    ajaxurl,
+                    $form.serializeArray(),
+                    function(data) {
+                        setMessage(data);
+                    }
+                );
             },
 
             applyBulkOperation = function(data) {

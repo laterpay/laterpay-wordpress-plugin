@@ -343,8 +343,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_voucher_codes',                           '' );
         add_option( 'laterpay_gift_codes',                              '' );
         add_option( 'laterpay_voucher_statistic',                       '' );
+        add_option( 'laterpay_gift_statistic',                          '' );
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
+        add_option( 'laterpay_landing_page',                            '' );
 
         // advanced settings
         add_option( 'laterpay_api_sandbox_url',                         'https://api.sandbox.laterpaytest.net' );
