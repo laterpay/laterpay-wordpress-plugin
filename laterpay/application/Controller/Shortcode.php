@@ -498,11 +498,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 // generate voucher code
                 $code = LaterPay_Helper_Vouchers::generate_voucher_code();
                 // create URL with this code
-                $pass_id = $pass['pass_id'];
-                $url     = get_permalink();
+                $pass_id   = $pass['pass_id'];
+                $url       = get_permalink();
                 $url_params = array(
-                    'pass_id'  => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
-                    'voucher'  => $code,
+                    'pass_id' => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
+                    'voucher' => $code,
+                    'is_gift' => true,
                 );
                 $url  = add_query_arg( $url_params, $url );
                 $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );

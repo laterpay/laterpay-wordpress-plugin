@@ -199,8 +199,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             // prepare url before usage
             $url        = $_GET[ 'link' ];
             $url_params = array(
-                'pass_id'  => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
-                'voucher'  => $_GET[ 'code' ],
+                'pass_id' => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
+                'voucher' => $_GET[ 'code' ],
+                'is_gift' => false,
             );
             $url        = add_query_arg( $url_params, $url );
             $hash       = LaterPay_Helper_Pricing::get_hash_by_url( $url );
@@ -234,19 +235,27 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function buy_time_pass() {
-        if ( ! isset( $_GET[ 'pass_id' ] ) && ! isset( $_GET[ 'voucher' ] ) ) {
+        if ( ! isset( $_GET[ 'pass_id' ] ) && ! isset( $_GET[ 'voucher' ] ) && ! isset( $_GET[ 'is_gift' ] ) ) {
             return;
         }
 
         // get permalink
         $link = is_single() ? get_permalink() : home_url();
+
         $pass_id = $_GET[ 'pass_id' ];
         $voucher = $_GET[ 'voucher' ];
+        $is_gift = $_GET[ 'is_gift' ];
+
+        // force to use permalinks for gifts
+        if ( $is_gift ) {
+            $link = get_permalink();
+        }
 
         // data to create and hash-check the URL
         $url_data = array(
             'pass_id' => $pass_id,
             'voucher' => $voucher,
+            'is_gift' => $is_gift,
         );
 
         $url     = add_query_arg( $url_data, $link );
