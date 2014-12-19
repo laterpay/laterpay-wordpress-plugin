@@ -538,23 +538,32 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             // add gift codes with urls to passes
             $passes       = $this->add_free_codes_to_passes( $passes, $_GET[ 'link'] );
             $view_args = array(
-                'access'                  => is_array( $access ) ? $access : null,
+                'gift_code'               => is_array( $access ) ? $access['code'] : null,
                 'landing_page'            => $landing_page ? $landing_page : home_url(),
                 'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
                 'standard_currency'       => get_option( 'laterpay_currency' ),
             );
 
             foreach ( $passes as $pass ) {
+                $has_access = is_array( $access ) && $access['access'] && $access['pass_id'] == $pass['pass_id'];
                 $additional_args = array(
-                    'pass' => $pass,
+                    'pass'       => $pass,
+                    'has_access' => $has_access,
                 );
                 $this->assign( 'laterpay', array_merge( $view_args, $additional_args ) );
 
                 $html = LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/gift/gift_actions' ) );
                 $info = array(
-                    'html' => $html,
-                    'id'   => $pass['pass_id'],
+                    'html'     => $html,
+                    'id'       => $pass['pass_id'],
+                    'buy_more' => null,
                 );
+
+                if ( $has_access ) {
+                    $label = __( 'Buy another gift card', 'laterpay' );
+                    $html  = '<a href="#" onclick="location.reload(true); return false;" class="lp_gift-card__buy-another">' . $label . '</a>';
+                    $info['buy_more'] = $html;
+                }
 
                 if ( ! isset( $data[$pass['pass_id']] ) ) {
                     $data[$pass['pass_id']] = $info;

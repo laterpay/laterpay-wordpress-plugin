@@ -275,7 +275,11 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                         if (r.data) {
                             $.each(r.data, function(i) {
                                 var gift = r.data[i];
-                                $($o.giftCardActionsPlaceholder + '_' + gift.id).html(gift.html);
+                                var $elem = $($o.giftCardActionsPlaceholder + '_' + gift.id);
+                                $elem.html(gift.html);
+                                if ( gift.buy_more ) {
+                                    $elem.parent().after(gift.buy_more);
+                                }
                             });
 
                             // remove gift code cookie if present
