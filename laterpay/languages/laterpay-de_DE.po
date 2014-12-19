@@ -23,12 +23,12 @@ msgstr ""
 "X-Loco-Target-Locale: de_DE"
 
 #: ../views/frontend/partials/widget/time_passes.php:19 ..
-#: views/frontend/partials/post/gift_card.php:71
+#: views/backend/partials/gift_card.php:71
 msgid "Code"
 msgstr "Code"
 
 #: ../views/frontend/partials/widget/time_passes.php:20 ..
-#: views/frontend/partials/post/gift_card.php:72
+#: views/backend/partials/gift_card.php:72
 msgid "Redeem"
 msgstr "Einlösen"
 
@@ -39,7 +39,7 @@ msgstr "Gutschein einlösen >"
 #: ../views/frontend/partials/widget/purchase_button.php:13 ..
 #: views/frontend/partials/post/purchase_link.php:9 ..
 #: views/frontend/partials/post/shortcode_purchase_button.php:9 ..
-#: views/frontend/partials/post/gift_card.php:59 ../views/backend/partials/time_pass.
+#: views/backend/partials/gift_card.php:59 ../views/backend/partials/time_pass.
 #: php:30
 msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
@@ -890,40 +890,40 @@ msgstr "auf"
 msgid "Update Prices"
 msgstr "Preise aktualisieren"
 
-#: ../views/frontend/partials/post/gift_card.php:22 ../views/backend/partials/time_pass.
+#: ../views/backend/partials/gift_card.php:22 ../views/backend/partials/time_pass.
 #: php:18
 msgid "on this website"
 msgstr "auf dieser Website"
 
-#: ../views/frontend/partials/post/gift_card.php:34 ../views/backend/partials/time_pass.
+#: ../views/backend/partials/gift_card.php:34 ../views/backend/partials/time_pass.
 #: php:37
 msgid "Validity"
 msgstr "Gültigkeit"
 
-#: ../views/frontend/partials/post/gift_card.php:40 ../views/backend/partials/time_pass.
+#: ../views/backend/partials/gift_card.php:40 ../views/backend/partials/time_pass.
 #: php:43
 msgid "Access to"
 msgstr "Zugriff auf"
 
-#: ../views/frontend/partials/post/gift_card.php:46 ../views/backend/partials/time_pass.
+#: ../views/backend/partials/gift_card.php:46 ../views/backend/partials/time_pass.
 #: php:49
 msgid "Renewal"
 msgstr "Verlängerung"
 
-#: ../views/frontend/partials/post/gift_card.php:48 ../views/backend/partials/time_pass.
+#: ../views/backend/partials/gift_card.php:48 ../views/backend/partials/time_pass.
 #: php:51
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
-#: ../views/frontend/partials/post/gift_card.php:54
+#: ../views/backend/partials/gift_card.php:54
 msgid "Gift Code"
 msgstr "Gutschein-Code"
 
-#: ../views/frontend/partials/post/gift_card.php:56
+#: ../views/backend/partials/gift_card.php:56
 msgid "Redeem at"
 msgstr "Einlösen auf"
 
-#: ../views/frontend/partials/post/gift_card.php:64
+#: ../views/backend/partials/gift_card.php:64
 msgid "Buy another gift card"
 msgstr "Weiteren Geschenkgutschein kaufen"
 
