@@ -211,7 +211,7 @@
                     <input type="hidden" name="action" value="laterpay_pricing">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                     <label><?php _e( 'Landing Page', 'laterpay' ); ?></label>
-                    <input type="text" name="landing_url" class="lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
+                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
                     <a href="#" id="lp_js_landingPageSave" class="lp_editLink lp_saveLink lp_u_inlineBlock lp_u_m-l1 lp_u_pd-0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
                 </form>
             </div>
