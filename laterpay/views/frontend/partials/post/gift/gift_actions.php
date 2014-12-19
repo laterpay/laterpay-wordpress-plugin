@@ -21,5 +21,5 @@
     <?php endif; ?>
 </div>
 <?php if ( $has_access ): ?>
-    <a href="../../../../backend/partials" class="lp_gift-card__buy-another"><?php _e( 'Buy another gift card', 'laterpay' ); ?></a>
+    <a href="." class="lp_gift-card__buy-another"><?php _e( 'Buy another gift card', 'laterpay' ); ?></a>
 <?php endif; ?>
