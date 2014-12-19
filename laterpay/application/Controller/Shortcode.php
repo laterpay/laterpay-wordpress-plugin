@@ -411,7 +411,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $gift_cards = $this->get_text_view( 'backend/partials/gift_card' );
+        $gift_cards = $this->get_text_view( 'frontend/partials/post/gift_card' );
 
         return $gift_cards;
     }
@@ -464,7 +464,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $gift_cards = $this->get_text_view( 'backend/partials/redeem_gift' );
+        $gift_cards = $this->get_text_view( 'frontend/partials/post/redeem_gift' );
 
         return $gift_cards;
     }
@@ -548,7 +548,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             );
             $this->assign( 'laterpay', array_merge( $view_args, $additional_args ) );
 
-            $html = LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'backend/partials/gift_actions' ) );
+            $html = LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/gift_actions' ) );
             $info = array(
                 'html' => $html,
                 'id'   => $pass['pass_id'],
