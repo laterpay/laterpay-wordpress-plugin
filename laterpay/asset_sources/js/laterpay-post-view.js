@@ -255,11 +255,11 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             loadGiftCards = function() {
-                var ids = [];
-                var cards = $o.giftsWrapper;
+                var ids     = [],
+                    cards   = $o.giftsWrapper;
 
                 // get all pass ids from wrappers
-                $.each( cards, function(i) {
+                $.each(cards, function(i) {
                     ids.push($(cards[i]).data('id'));
                 });
 
@@ -274,16 +274,20 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                     function(r) {
                         if (r.data) {
                             $.each(r.data, function(i) {
-                                var gift = r.data[i];
-                                var $elem = $($o.giftCardActionsPlaceholder + '_' + gift.id);
+                                var gift    = r.data[i],
+                                    $elem   = $($o.giftCardActionsPlaceholder + '_' + gift.id);
+
                                 $elem.html(gift.html);
-                                if ( gift.buy_more ) {
-                                    $elem.parent().after(gift.buy_more);
+
+                                // add 'buy another gift card' after gift card
+                                if (gift.buy_more) {
+                                    // $elem.parent().after(gift.buy_more);
+                                    $(gift.buy_more).appendTo($elem.parent());
                                 }
                             });
 
                             // remove gift code cookie if present
-                            delete_cookie( 'laterpay_purchased_gift_card' );
+                            delete_cookie('laterpay_purchased_gift_card');
                         }
                     }
                 );
