@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div id="lp_js_giftsWrapper" data-id="<?php echo $laterpay['selected_pass_id']; ?>">
+<div class="lp_js_giftsWrapper" data-id="<?php echo $laterpay['selected_pass_id']; ?>">
     <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
         <?php
             $pass = (array) $pass;

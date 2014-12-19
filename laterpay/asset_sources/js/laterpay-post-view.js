@@ -27,7 +27,7 @@
                 giftCardCodeInput               : '.lp_js_giftCardCodeInput',
                 giftCardWrapper                 : '#lp_js_giftCardWrapper',
                 giftCardActionsPlaceholder      : '.lp_js_giftCardActionsPlaceholder',
-                giftsWrapper                    : $('#lp_js_giftsWrapper'),
+                giftsWrapper                    : $('.lp_js_giftsWrapper'),
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
@@ -255,12 +255,20 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             loadGiftCards = function() {
+                var ids = [];
+                var cards = $o.giftsWrapper;
+
+                // get all pass ids from wrappers
+                $.each( cards, function(i) {
+                    ids.push($(cards[i]).data('id'));
+                });
+
                 $.get(
                     lpVars.ajaxUrl,
                     {
                         action  : 'laterpay_get_gift_card_actions',
                         nonce   : lpVars.nonces.gift,
-                        pass_id : $o.giftsWrapper.data('id'),
+                        pass_id : ids,
                         link    : window.location.href
                     },
                     function(r) {
@@ -433,7 +441,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                     loadRatingSummary();
                 }
 
-                if ($o.giftsWrapper.length === 1) {
+                if ($o.giftsWrapper.length >= 1) {
                     loadGiftCards();
                 }
 
