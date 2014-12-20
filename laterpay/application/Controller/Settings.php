@@ -190,19 +190,19 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         );
 
         add_settings_field(
-            'laterpay_gift_code_redeem_limit',
+            'laterpay_maximum_redemptions_per_gift_code',
             __( 'Gift code redeem limit', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_gift_codes',
             array(
-                'name'          => 'laterpay_gift_code_redeem_limit',
+                'name'          => 'laterpay_maximum_redemptions_per_gift_code',
                 'class'         => 'lp_numberInput',
                 'appended_text' => __( 'Limit of gift codes redemption ( 1 or greater ).', 'laterpay' ),
             )
         );
 
-        register_setting( 'laterpay', 'laterpay_gift_code_redeem_limit', array( $this, 'validate_gift_code_redeem_input' ) );
+        register_setting( 'laterpay', 'laterpay_maximum_redemptions_per_gift_code', array( $this, 'sanitize_maximum_redemptions_per_gift_code_input' ) );
     }
 
     /**
@@ -214,7 +214,14 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         echo __( 'Gift codes section description.', 'laterpay' );
     }
 
-    public function validate_gift_code_redeem_input( $input ) {
+    /**
+     * Sanitize maximum redemptions per gift code
+     *
+     * @param $input
+     * 
+     * @return int
+     */
+    public function sanitize_maximum_redemptions_per_gift_code_input( $input ) {
         $error = '';
         $input = absint( $input );
 
