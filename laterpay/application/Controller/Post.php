@@ -190,8 +190,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // check if voucher code exists and pass is available for purchase
         $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ], (bool)$_GET[ 'is_gift'] );
         if ( $code_data ) {
-            LaterPay_Helper_Vouchers::update_gift_code_usages( $_GET[ 'code' ] );
             if ( LaterPay_Helper_Vouchers::check_gift_code_usages_limit( $_GET[ 'code' ] ) ) {
+                LaterPay_Helper_Vouchers::update_gift_code_usages( $_GET[ 'code' ] );
                 // get new URL for this pass
                 $pass_id    = $code_data[ 'pass_id' ];
                 // get price, delocalize it, and format it

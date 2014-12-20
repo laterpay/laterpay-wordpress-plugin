@@ -342,8 +342,8 @@ class LaterPay_Helper_Vouchers
      * @return null
      */
     public static function get_gift_code_usages_count( $code ) {
-        $usages = get_option( 'laterpay_gift_codes_usages', true );
-        return isset( $usages[$code] ) ? $usages[$code] : null;
+        $usages = get_option( 'laterpay_gift_codes_usages' );
+        return $usages && isset( $usages[$code] ) ? $usages[$code] : null;
     }
 
     /**
@@ -354,9 +354,12 @@ class LaterPay_Helper_Vouchers
      * @return bool
      */
     public static function update_gift_code_usages( $code ) {
-        $usages = get_option( 'laterpay_gift_codes_usages', true );
+        $usages = get_option( 'laterpay_gift_codes_usages' );
+        if ( ! $usages ) {
+            $usages = array();
+        }
         isset( $usages[$code] ) ? $usages[$code] += 1 : $usages[$code] = 1;
-        updage_option( 'laterpay_gift_codes_usages', $usages );
+        update_option( 'laterpay_gift_codes_usages', $usages );
         return true;
     }
 
@@ -370,7 +373,7 @@ class LaterPay_Helper_Vouchers
     public static function check_gift_code_usages_limit( $code ) {
         $limit  = get_option( 'laterpay_maximum_redemptions_per_gift_code' );
         $usages = self::get_gift_code_usages_count( $code );
-        if ( isset( $usages ) && $usages <= $limit ) {
+        if ( isset( $usages ) && ( $usages + 1 ) <= $limit ) {
             return true;
         }
         return false;

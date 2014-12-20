@@ -218,7 +218,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * Sanitize maximum redemptions per gift code
      *
      * @param $input
-     * 
+     *
      * @return int
      */
     public function sanitize_maximum_redemptions_per_gift_code_input( $input ) {
