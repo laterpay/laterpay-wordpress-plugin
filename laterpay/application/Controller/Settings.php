@@ -53,6 +53,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
         $this->add_time_passes_settings();
+        $this->add_gift_codes_settings();
         $this->add_teaser_content_settings();
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
@@ -173,6 +174,64 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      */
     public function get_time_passes_section_description() {
         echo __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.', 'laterpay');
+    }
+
+    /**
+     * Add gift codes section and fields.
+     *
+     * @return void
+     */
+    public function add_gift_codes_settings() {
+        add_settings_section(
+            'laterpay_gift_codes',
+            __( 'Gift codes limit', 'laterpay' ),
+            array( $this, 'get_gift_codes_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_gift_code_redeem_limit',
+            __( 'Gift code redeem limit', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_gift_codes',
+            array(
+                'name'          => 'laterpay_gift_code_redeem_limit',
+                'class'         => 'lp_numberInput',
+                'appended_text' => __( 'Limit of gift codes redemption ( 1 or greater ).', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_gift_code_redeem_limit', array( $this, 'validate_gift_code_redeem_input' ) );
+    }
+
+    /**
+     * Render the hint text for the gift codes section.
+     *
+     * @return string description
+     */
+    public function get_gift_codes_section_description() {
+        echo __( 'Gift codes section description.', 'laterpay' );
+    }
+
+    public function validate_gift_code_redeem_input( $input ) {
+        $error = '';
+        $input = absint( $input );
+
+        if ( $input < 1 ) {
+            $input = 1;
+            $error = 'Please enter a valid limit ( 1 or greater )';
+        }
+
+        if ( ! empty( $error ) ) {
+            add_settings_error(
+                'laterpay',
+                'gift_code_redeem_error',
+                $error,
+                'error'
+            );
+        }
+        return $input;
     }
 
     /**

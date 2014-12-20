@@ -190,34 +190,37 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // check if voucher code exists and pass is available for purchase
         $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET[ 'code' ], (bool)$_GET[ 'is_gift'] );
         if ( $code_data ) {
-            // get new URL for this pass
-            $pass_id    = $code_data[ 'pass_id' ];
-            // get price, delocalize it, and format it
-            $price      = $code_data[ 'price' ];
-            $price      = str_replace( ',', '.', $price );
-            $price      = number_format( (float) $price, 2 );
-            // prepare url before usage
-            $url        = $_GET[ 'is_gift'] ? home_url() : $_GET[ 'link' ];
-            $url_params = array(
-                'pass_id' => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
-                'voucher' => $_GET[ 'code' ],
-                'is_gift' => false,
-            );
-            $url        = add_query_arg( $url_params, $url );
-            $hash       = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-            $url        = $url .'&hash=' . $hash;
+            LaterPay_Helper_Vouchers::update_gift_code_usages( $_GET[ 'code' ] );
+            if ( LaterPay_Helper_Vouchers::check_gift_code_usages_limit( $_GET[ 'code' ] ) ) {
+                // get new URL for this pass
+                $pass_id    = $code_data[ 'pass_id' ];
+                // get price, delocalize it, and format it
+                $price      = $code_data[ 'price' ];
+                $price      = str_replace( ',', '.', $price );
+                $price      = number_format( (float) $price, 2 );
+                // prepare url before usage
+                $url        = $_GET[ 'is_gift'] ? home_url() : $_GET[ 'link' ];
+                $url_params = array(
+                    'pass_id' => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
+                    'voucher' => $_GET[ 'code' ],
+                    'is_gift' => false,
+                );
+                $url        = add_query_arg( $url_params, $url );
+                $hash       = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+                $url        = $url .'&hash=' . $hash;
 
-            // get new purchase URL
-            $url = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price, $url );
+                // get new purchase URL
+                $url = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $price, $url );
 
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'pass_id' => $pass_id,
-                    'price'   => LaterPay_Helper_View::format_number( $price ),
-                    'url'     => $url,
-                )
-            );
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'pass_id' => $pass_id,
+                        'price'   => LaterPay_Helper_View::format_number( $price ),
+                        'url'     => $url,
+                    )
+                );
+            }
         }
 
         wp_send_json(
