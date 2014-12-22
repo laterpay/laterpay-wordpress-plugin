@@ -143,12 +143,9 @@ class LaterPay_Helper_Pricing
 
         foreach ( $post_ids as $post_id ) {
             $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
-            if ( ! is_array( $post_price ) ) {
-                continue;
-            }
 
             // check, if the post uses a global default price
-            if ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) {
+            if ( is_array( $post_price ) && ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) ) {
                 continue;
             }
 
@@ -840,6 +837,10 @@ class LaterPay_Helper_Pricing
 
         foreach ( $posts as $post ) {
             $meta = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
+            if ( ! is_array( $meta ) ) {
+                continue;
+            }
+
             if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] ) ) {
                 $ids[$post->ID] = $meta;
             }
