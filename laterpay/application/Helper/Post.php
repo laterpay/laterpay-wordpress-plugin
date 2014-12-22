@@ -77,7 +77,7 @@ class LaterPay_Helper_Post {
             // get gift code and unset session variable
             list( $code, $pass_id ) = explode( '|', $_COOKIE['laterpay_purchased_gift_card'] );
             // create gift code token
-            $code_key = '#' . $code;
+            $code_key = '[#' . $code . ']';
 
             // check if gift code was purchased successfully and we has access
             $client_options  = LaterPay_Helper_Config::get_php_client_options();
