@@ -561,7 +561,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
                 if ( $has_access ) {
                     $label = __( 'Buy another gift card', 'laterpay' );
-                    $html  = '<a href="#" onclick="document.location.reload(); return false;" class="lp_gift-card__buy-another">' . $label . '</a>';
+                    $html  = '<a href="#" class="lp_gift-card__buy-another">' . $label . '</a>';
                     $info['buy_more'] = $html;
                 }
 

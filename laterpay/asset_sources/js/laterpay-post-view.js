@@ -282,7 +282,9 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                                 // add 'buy another gift card' after gift card
                                 if (gift.buy_more) {
                                     // $elem.parent().after(gift.buy_more);
-                                    $(gift.buy_more).appendTo($elem.parent());
+                                    $(gift.buy_more)
+                                    .appendTo($elem.parent())
+                                    .attr('href', window.location.href);
                                 }
                             });
 
