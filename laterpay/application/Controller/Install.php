@@ -388,6 +388,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_gift_codes',                              '' );
         add_option( 'laterpay_voucher_statistic',                       '' );
         add_option( 'laterpay_gift_statistic',                          '' );
+        add_option( 'laterpay_gift_codes_usages',                       '' );
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
         add_option( 'laterpay_landing_page',                            '' );
@@ -407,6 +408,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
         add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
+        add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );

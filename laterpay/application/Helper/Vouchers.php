@@ -35,6 +35,7 @@ class LaterPay_Helper_Vouchers
      * @param int   $pass_id
      * @param array $vouchers_data
      * @param bool  $no_explode
+     * @param bool  $is_gift
      *
      * @return void
      */
@@ -72,7 +73,8 @@ class LaterPay_Helper_Vouchers
     /**
      * Get voucher codes of current time pass.
      *
-     * @param int $pass_id
+     * @param int  $pass_id
+     * @param bool $is_gift
      *
      * @return array
      */
@@ -87,6 +89,8 @@ class LaterPay_Helper_Vouchers
 
     /**
      * Get all vouchers.
+     *
+     * @param bool $is_gift
      *
      * @return array of vouchers
      */
@@ -107,6 +111,7 @@ class LaterPay_Helper_Vouchers
      *
      * @param int       $pass_id
      * @param string    $code
+     * @param bool      $is_gift
      *
      * @return void
      */
@@ -126,7 +131,8 @@ class LaterPay_Helper_Vouchers
     /**
      * Check, if voucher code exists and return pass_id and new price.
      *
-     * @param $code
+     * @param string $code
+     * @param bool   $is_gift
      *
      * @return mixed $voucher_data
      */
@@ -155,6 +161,7 @@ class LaterPay_Helper_Vouchers
      * Check, if given time passes have vouchers.
      *
      * @param array $passes array of time passes
+     * @param bool  $is_gift
      *
      * @return bool $has_vouchers
      */
@@ -177,6 +184,8 @@ class LaterPay_Helper_Vouchers
 
     /**
      * Actualize voucher statistic.
+     *
+     * @param bool $is_gift
      *
      * @return void
      */
@@ -207,6 +216,7 @@ class LaterPay_Helper_Vouchers
      *
      * @param int    $pass_id time pass id
      * @param string $code    voucher code
+     * @param bool   $is_gift
      *
      * @return bool success or error
      */
@@ -241,6 +251,7 @@ class LaterPay_Helper_Vouchers
      * Get time pass voucher statistic by time pass id.
      *
      * @param  int $pass_id time pass id
+     * @param  bool $is_gift
      *
      * @return array $statistic
      */
@@ -256,6 +267,8 @@ class LaterPay_Helper_Vouchers
 
     /**
      * Get statistics for all vouchers.
+     *
+     * @param bool $is_gift
      *
      * @return array $statistic
      */
@@ -319,5 +332,50 @@ class LaterPay_Helper_Vouchers
             // Pay-per-Use purchase
             return $client->get_add_url( $params );
         }
+    }
+
+    /**
+     * Get gift code usages count
+     *
+     * @param $code
+     *
+     * @return null
+     */
+    public static function get_gift_code_usages_count( $code ) {
+        $usages = get_option( 'laterpay_gift_codes_usages' );
+        return $usages && isset( $usages[$code] ) ? $usages[$code] : null;
+    }
+
+    /**
+     * Update gift code usages
+     *
+     * @param $code
+     *
+     * @return bool
+     */
+    public static function update_gift_code_usages( $code ) {
+        $usages = get_option( 'laterpay_gift_codes_usages' );
+        if ( ! $usages ) {
+            $usages = array();
+        }
+        isset( $usages[$code] ) ? $usages[$code] += 1 : $usages[$code] = 1;
+        update_option( 'laterpay_gift_codes_usages', $usages );
+        return true;
+    }
+
+    /**
+     * Check if gift code usages exceed limits
+     *
+     * @param $code
+     *
+     * @return bool
+     */
+    public static function check_gift_code_usages_limit( $code ) {
+        $limit  = get_option( 'laterpay_maximum_redemptions_per_gift_code' );
+        $usages = self::get_gift_code_usages_count( $code );
+        if ( isset( $usages ) && ( $usages + 1 ) <= $limit ) {
+            return true;
+        }
+        return false;
     }
 }
