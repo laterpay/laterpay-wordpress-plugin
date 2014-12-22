@@ -184,21 +184,20 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function add_gift_codes_settings() {
         add_settings_section(
             'laterpay_gift_codes',
-            __( 'Gift codes limit', 'laterpay' ),
+            __( 'Gift Codes Limit', 'laterpay' ),
             array( $this, 'get_gift_codes_section_description' ),
             'laterpay'
         );
 
         add_settings_field(
             'laterpay_maximum_redemptions_per_gift_code',
-            __( 'Gift code redeem limit', 'laterpay' ),
+            __( 'Times Redeemable', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_gift_codes',
             array(
                 'name'          => 'laterpay_maximum_redemptions_per_gift_code',
                 'class'         => 'lp_numberInput',
-                'appended_text' => __( 'Limit of gift codes redemption ( 1 or greater ).', 'laterpay' ),
             )
         );
 
@@ -211,7 +210,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_gift_codes_section_description() {
-        echo __( 'Gift codes section description.', 'laterpay' );
+        echo __( 'Specify, how many times a gift code can be redeemed for the associated time pass.', 'laterpay' );
     }
 
     /**
