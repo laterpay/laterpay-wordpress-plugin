@@ -305,11 +305,11 @@ class LaterPay_Helper_Vouchers
 
         // parameters for LaterPay purchase form
         $params = array(
-            'article_id'    => '#' . $code,
+            'article_id'    => '[#' . $code . ']',
             'pricing'       => $currency . ( $price * 100 ),
             'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
             'url'           => $url,
-            'title'         => $pass['title'] . ' #' . $code, // show the gift code with each purchased gift card
+            'title'         => $pass['title'] . ' Code: ' . $code, // show the gift code with each purchased gift card
         );
 
         if ( $revenue_model == 'sis' ) {
