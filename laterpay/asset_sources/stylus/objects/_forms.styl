@@ -50,6 +50,77 @@ input[type=text].lp_numberInput
     margin                          0.04em 0 0 0.35em
     position                        absolute
 
+// select2 selects
+.lp_page {
+    .select2-container {
+        margin-left: 2px;
+        width: 100%;
+
+        .select2-choice {
+            border: 2px solid $border;
+            border-radius: 4px;
+        }
+    }
+
+    .select2-container-active .select2-choice {
+        border-color: $clickable-highlight;
+        color: $text-lighter;
+    }
+
+    .select2-dropdown-open .select2-choice {
+        border-bottom-color: transparent;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
+.select2-drop {
+    &.select2-drop-active {
+        border-color: $clickable-highlight;
+        border-width: 0 2px 2px;
+    }
+
+    .select2-search {
+        padding-left: 0;
+        padding-right: 0;
+
+        input {
+            background: $background-darker;
+            border: 0 none;
+            box-shadow: none;
+
+            &:focus {
+                border-color: $clickable-highlight;
+            }
+        }
+    }
+
+    .select2-results {
+        margin: 0;
+        padding: 0;
+
+        li {
+            margin-bottom: 0;
+
+            // apply border-radius to last element to ensure it does not overlap its container's border;
+            // radius reduced to compensate for line width of container
+            &:last-child {
+                border-bottom-right-radius: 2px;
+                border-bottom-left-radius: 2px;
+            }
+        }
+
+        li:hover,
+        .select2-highlighted {
+            background: $background-highlight;
+            color: $text;
+        }
+    }
+
+    .select2-result-label {
+        padding: $fs-05;
+    }
+}
 
 // HTML5 placeholders --------------------------------------------------------------------------------------------------
 .lp_input::-webkit-input-placeholder,

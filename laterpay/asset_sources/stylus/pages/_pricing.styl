@@ -55,10 +55,27 @@ span.lp_revenueModelLabel {
     background:             $background-darker;
     border-radius:          3px;
     margin-bottom:          $fs-1;
+    margin-left:            round(2.5 * $fs-1);
     padding:                $fs-1;
+    position:               relative;
+
+    .lp_timePass__idWrapper {
+        background: $background-darker;
+        border-radius: 4px 0 0 4px;
+        left: - round(3.5 * $fs-1);
+        line-height: 1.2;
+        padding: $fs-05 $fs-025;
+        position: absolute;
+        text-align: center;
+        width: $fs-3;
+    }
+
+    .lp_timePass__id {
+        font-size: $fs-2;
+    }
 
     .lp_timePass {
-        margin-bottom:      0;
+        margin-bottom: 0;
     }
 }
 
@@ -75,10 +92,15 @@ span.lp_revenueModelLabel {
             padding:        0;
             vertical-align: middle;
         }
+
+        .lp_rowspan-label {
+            padding-top: $fs-05;
+            vertical-align: top;
+        }
     }
 
     .lp_timePass_descriptionInput {
-        height:             3em;
+        height:             4.75em;
     }
 
     .lp_saveLink {

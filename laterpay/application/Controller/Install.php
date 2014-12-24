@@ -182,6 +182,54 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Updating the existing time pass table, remove not used columns
+     *
+     * @since 0.9.10
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_time_passes_table() {
+        global $wpdb;
+
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.10', '<' ) ) {
+            return;
+        }
+
+        $table      = $wpdb->prefix . 'laterpay_passes';
+        $columns    = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
+
+        // before version 0.9.10 we have "title_color", "description_color", "background_color" and "background_path" columns
+        $is_up_to_date = true;
+        $removed_columns = array(
+            'title_color',
+            'description_color',
+            'background_color',
+            'background_path',
+        );
+
+        foreach ( $columns as $column ) {
+            if ( in_array( $column->Field, $removed_columns ) ) {
+                $is_up_to_date = false;
+            }
+        }
+
+        $this->logger->info(
+            __METHOD__,
+            array(
+                'current_version'   => $current_version,
+                'is_up_to_date'     => $is_up_to_date,
+            )
+        );
+
+        // if the table needs an update
+        if ( ! $is_up_to_date ) {
+            $wpdb->query( 'ALTER TABLE ' . $table . ' DROP title_color, DROP description_color, DROP background_color, DROP background_path;' );
+        }
+    }
+
+    /**
      * Update the existing options during update.
      *
      * @deprecated since version 1.0
@@ -317,11 +365,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 	        price             DECIMAL(10,2) NULL DEFAULT NULL,
 	        revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
 	        title             VARCHAR(255)  NULL DEFAULT NULL,
-	        title_color       VARCHAR(7)    NULL DEFAULT NULL,
 	        description       VARCHAR(255)  NULL DEFAULT NULL,
-	        description_color VARCHAR(7)    NULL DEFAULT NULL,
-	        background_path   VARCHAR(255)  NULL DEFAULT NULL,
-	        background_color  VARCHAR(7)    NULL DEFAULT NULL,
 	        PRIMARY KEY (pass_id),
 	        INDEX access_to (access_to),
 	        INDEX period (period),
@@ -341,9 +385,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_ratings',                                 false );
         add_option( 'laterpay_bulk_operations',                         '' );
         add_option( 'laterpay_voucher_codes',                           '' );
+        add_option( 'laterpay_gift_codes',                              '' );
         add_option( 'laterpay_voucher_statistic',                       '' );
+        add_option( 'laterpay_gift_statistic',                          '' );
+        add_option( 'laterpay_gift_codes_usages',                       '' );
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
+        add_option( 'laterpay_landing_page',                            '' );
 
         // advanced settings
         add_option( 'laterpay_api_sandbox_url',                         'https://api.sandbox.laterpaytest.net' );
@@ -360,6 +408,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_preview_excerpt_word_count_max',          '200' );
         add_option( 'laterpay_enabled_post_types',                      get_post_types( array( 'public' => true ) ) );
         add_option( 'laterpay_show_time_passes_widget_on_free_posts',   '' );
+        add_option( 'laterpay_maximum_redemptions_per_gift_code',       1 );
 
         // keep the plugin version up to date
         update_option( 'laterpay_version', $this->config->get( 'version' ) );
