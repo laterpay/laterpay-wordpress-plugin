@@ -198,4 +198,20 @@ class LaterPay_Helper_User
         return LaterPay_Helper_User::$_hide_statistics_pane;
     }
 
+    /**
+     * Remove cookie by name
+     *
+     * @param $name
+     *
+     * @return void
+     */
+    public static function remove_cookie_by_name( $name ) {
+        unset( $_COOKIE[$name] );
+        setcookie(
+            $name,
+            null,
+            time() - 60,
+            '/'
+        );
+    }
 }

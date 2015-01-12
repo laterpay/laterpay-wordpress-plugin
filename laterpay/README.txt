@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.0.1
+Tested up to: 4.1
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -256,6 +256,15 @@ your theme after installing the LaterPay WordPress plugin.
 9. The statistics pane provides useful sales statistics for each post.
 
 == Changelog ==
+
+= 0.9.10 (December 17, 2014): Gift Cards Release =
+* Added gift cards for time passes to allow giving away time passes as a present
+* Added two shortcodes: [laterpay_gift_card] to render gift cards and [laterpay_redeem_voucher] to render a form for
+  redeeming gift card codes.
+* Changed time pass behavior to render below the content by default.
+* Added shortcode [laterpay_time_passes] as alternative for the action 'laterpay_time_passes'.
+* Fixed bug that shortcode [laterpay_premium_download] always uses global default price
+* Lots of other bug fixes
 
 = 0.9.9 (December 2, 2014): Time Passes Release =
 * Added time passes and vouchers for selling access to the entire site or parts of it for a limited amount of time

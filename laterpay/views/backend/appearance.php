@@ -46,6 +46,45 @@
         <hr class="lp_u_m-1-0 lp_u_m-b3">
 
         <div class="lp_row lp_u_clearfix lp_u_m-b1">
+            <h2 id="lp_giftCardsAppearance"><?php _e( 'Offering of Gift Cards for Time Passes', 'laterpay' ); ?></h2>
+            <dfn>
+            <?php _e( 'Please follow these two steps to offer gift cards for time passes. A user will be able to purchase a voucher for a time pass, which he can give away as a present. The receiver can then redeem this voucher code and will get access to the purchased time pass.', 'laterpay' ); ?>
+            </dfn>
+            <div class="lp_u_clearfix lp_u_m-b2">
+                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
+                <strong class="lp_u_block lp_u_m-t1 lp_u_m-b05 lp_u_pd-t05">
+                    <?php _e( 'Step 1: Display Gift Cards', 'laterpay' ); ?>
+                </strong>
+                <dfn class="lp_u_block">
+                    <?php _e( 'Use the shortcode \'[laterpay_gift_card]\' to render a gift card.', 'laterpay' ); ?><br>
+                    <?php _e( 'If you add the parameter \'id\', you can offer a gift card for a specific time pass. If you don\'t provide an id, gift cards for all time passes are rendered.', 'laterpay' ); ?><br>
+                    <?php _e( 'You can find the id of each time pass in the <a href="admin.php?page=laterpay-pricing-tab#lp_timePasses">pricing tab</a> next to the respective time pass.', 'laterpay' ); ?><br>
+                </dfn>
+                <code class="lp_codeSnippet lp--large lp_u_block">
+                    <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
+                    [laterpay_gift_card id="<dfn>1</dfn>"]
+                    <div class="lp_u_center lp_u_m-1"><?php _e( 'or', 'laterpay' ); ?></div>
+                    [laterpay_gift_card]
+                </code>
+            </div>
+
+            <div class="lp_u_clearfix">
+                <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
+                <strong class="lp_u_block lp_u_m-t1 lp_u_m-b05 lp_u_pd-t05">
+                    <?php _e( 'Step 2: Add Option to Redeem Vouchers', 'laterpay' ); ?>
+                </strong>
+                <dfn class="lp_u_block">
+                    <?php _e( 'You can render a form where your users can enter a voucher code with the shortcode \'[laterpay_redeem_voucher]\'.', 'laterpay' ); ?>
+                </dfn>
+                <code class="lp_codeSnippet lp--large lp_u_block">
+                    <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
+                    [laterpay_redeem_voucher]
+                </code>
+            </div>
+        </div>
+        <hr class="lp_u_m-1-0 lp_u_m-b3">
+
+        <div class="lp_row lp_u_clearfix lp_u_m-b1">
             <h2><?php _e( 'Rating of Purchased Content', 'laterpay' ); ?></h2>
             <img class="lp_uiElementPreview lp--large lp_u_left lp_u_m-t05 lp_u_m-r2" src="<?php echo $config->get( 'image_url' ) . 'content-rating-2x.png'; ?>">
             <div class="lp_u_m-t2">
@@ -77,7 +116,7 @@
         <div class="lp_row">
             <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
             <h3><?php _e( 'Offer of Additional Paid Content', 'laterpay' ); ?></h3>
-            <dfn class="lp_u_clearfix">
+            <dfn>
                 <?php _e( 'Insert shortcode [laterpay_premium_download] into a post to render a box for selling additional paid content.', 'laterpay' ); ?>
             </dfn>
             <code class="lp_codeSnippet lp--shownAbove lp_u_block">
@@ -170,8 +209,8 @@
                 <input type="hidden" name="action" value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <h3><?php _e( 'Position of LaterPay Purchase Button', 'laterpay' ); ?></h3>
-                <?php _e( 'Purchase buttons are rendered at their <strong>default position</strong>', 'laterpay' ); ?>
-                <div class="lp_toggle">
+                <?php _e( 'Purchase buttons are rendered at their <strong>default position</strong>', 'laterpay' ); ?><!--
+             --><div class="lp_toggle">
                     <label class="lp_toggle_label lp_toggle_label_pass">
                         <input type="checkbox"
                                 id="lp_js_togglePurchaseButtonPosition"
@@ -181,8 +220,8 @@
                         <span class="lp_toggle_text" data-on="" data-off=""></span>
                         <span class="lp_toggle_handle"></span>
                     </label>
-                </div>
-                <?php _e( 'at a <strong>custom position</strong>', 'laterpay' )?>
+                </div><!--
+             --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
                 <div id="lp_js_purchaseButtonPosition__explanation"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                     <dfn class="lp_u_clearfix">
                         <?php _e( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button in the location of your choice.', 'laterpay' ); ?><br>
@@ -203,8 +242,8 @@
                 <input type="hidden" name="action" value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                 <h3 id="lp_timePassAppearance"><?php _e( 'Display of Time Passes', 'laterpay' ); ?></h3>
-                <?php _e( 'Time passes are rendered at their <strong>default position</strong>', 'laterpay' ); ?>
-                <div class="lp_toggle">
+                <?php _e( 'Time passes are rendered at their <strong>default position</strong>', 'laterpay' ); ?><!--
+             --><div class="lp_toggle">
                     <label class="lp_toggle_label lp_toggle_label_pass">
                         <input type="checkbox"
                                 id="lp_js_toggleTimePassesPosition"
@@ -214,8 +253,8 @@
                         <span class="lp_toggle_text" data-on="" data-off=""></span>
                         <span class="lp_toggle_handle"></span>
                     </label>
-                </div>
-                <?php _e( 'at a <strong>custom position</strong>', 'laterpay' )?>
+                </div><!--
+             --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
                 <div id="lp_js_timePassesPosition__explanation"<?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                     <dfn class="lp_u_clearfix">
                         <?php _e( 'Call action \'laterpay_time_passes\' in your theme to show your users the available time passes.', 'laterpay' ); ?><br>

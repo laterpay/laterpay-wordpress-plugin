@@ -116,7 +116,7 @@ gulp.task('img-build', function() {
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 
     gulp.src(p.srcPNG)
-        .pipe(tinypng('RwJqEg4x1Id5RtjxT4JczHQqCvkZ64O1'))                      // compress with TinyPNG
+        .pipe(tinypng('zHaA4zg6xUKMk6xW3KtC43VOtOU8OZZ9'))                      // compress with TinyPNG
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
 

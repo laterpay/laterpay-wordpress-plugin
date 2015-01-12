@@ -141,59 +141,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'title_color',
-            array(
-                'validators' => array(
-                    'is_string',
-                ),
-                'filters' => array(
-                    'to_string',
-                    'unslash',
-                )
-            )
-        );
-
-        $this->set_field(
             'description',
-            array(
-                'validators' => array(
-                    'is_string',
-                ),
-                'filters' => array(
-                    'to_string',
-                    'unslash',
-                )
-            )
-        );
-
-        $this->set_field(
-            'description_color',
-            array(
-                'validators' => array(
-                    'is_string',
-                ),
-                'filters' => array(
-                    'to_string',
-                    'unslash',
-                )
-            )
-        );
-
-        $this->set_field(
-            'background_path',
-            array(
-                'validators' => array(
-                    'is_string',
-                ),
-                'filters' => array(
-                    'to_string',
-                    'unslash',
-                )
-            )
-        );
-
-        $this->set_field(
-            'background_color',
             array(
                 'validators' => array(
                     'is_string',
