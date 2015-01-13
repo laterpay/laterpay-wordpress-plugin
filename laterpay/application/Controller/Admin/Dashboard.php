@@ -535,12 +535,13 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $count = absint( $post_args[ 'count' ] );
         }
 
+
         $start_timestamp = strtotime( 'yesterday GMT' );
         if ( isset( $post_args[ 'start_timestamp' ] ) ) {
             $start_timestamp = $post_args[ 'start_timestamp' ];
         }
 
-        $refresh = true;
+        $refresh = false;
         if ( isset( $post_args[ 'refresh' ] ) ) {
             $refresh = (bool) $post_args[ 'refresh' ];
         }

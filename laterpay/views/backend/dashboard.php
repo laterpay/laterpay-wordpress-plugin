@@ -58,10 +58,10 @@
                 '<div class="lp_triangle lp_triangle--left"></div>' .
             '</a>',
 
-            '<span id="lp_js_displayedInterval">' .
-                date( 'j.n.', strtotime( '-8 days' ) ) .
+            '<span id="lp_js_displayedInterval" data-start-timestamp="' . strtotime( 'yesterday GMT' ) . '">' .
+                date( 'd.m.Y.', strtotime( '-8 days' ) ) .
                 ' &ndash; ' .
-                date( 'j.n.', strtotime( '-1 days' ) ) .
+                date( 'd.m.Y', strtotime( '-1 days' ) ) .
             '</span>',
 
             '<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week after">' .

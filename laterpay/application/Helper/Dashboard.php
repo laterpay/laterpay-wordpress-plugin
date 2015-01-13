@@ -162,7 +162,7 @@ class LaterPay_Helper_Dashboard
         } else if ( $interval === '2-weeks' ) {
             $end_timestamp = strtotime( '-14 days', $start_timestamp );
         } else if ( $interval === 'month' ) {
-            $end_timestamp = strtotime( '-1 month', $start_timestamp );
+            $end_timestamp = strtotime( '-30 days', $start_timestamp );
         } else {
             // $interval === 'day'
             $end_timestamp = strtotime( 'today', $start_timestamp );
