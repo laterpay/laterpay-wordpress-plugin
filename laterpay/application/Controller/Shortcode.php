@@ -577,4 +577,30 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             )
         );
     }
+
+    public function render_account_links( $atts ) {
+        // check, if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
+
+        $data = shortcode_atts( array(
+            'show'       => 'l',
+            'css'        => null,
+            'next'       => is_singular() ? get_permalink() : home_url(),
+            'forcelang'  => null,
+        ), $atts );
+
+        $view_args = array(
+            'show'      => $data['show'],
+            'css'       => $data['css'],
+            'next'      => $data['next'],
+            'forcelang' => $data['forcelang'],
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $login = $this->get_text_view( 'frontend/partials/post/login' );
+
+        return $login;
+    }
 }
