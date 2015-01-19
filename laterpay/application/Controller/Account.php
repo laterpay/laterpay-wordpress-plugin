@@ -15,6 +15,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         <div class="lp_account-links"></div>
         <?php
 
+        // TODO: define default CSS as constant and extend if statement to check for empty or != default CSS
         if ( empty( $css ) ) {
             // load some default styles, if no specific CSS has been provided
             wp_register_style(
@@ -24,7 +25,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
                 $this->config->get( 'version' )
             );
             wp_enqueue_style( 'laterpay-account-links' );
-            $css = ''; // TODO: set to laterpay-account-links.css
+            $css = ''; // TODO: define default CSS as constant and apply it as default here
         }
 
         if ( empty( $next ) ) {

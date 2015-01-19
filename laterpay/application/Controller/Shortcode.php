@@ -616,7 +616,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         // provide default values for empty shortcode attributes
         $data = shortcode_atts( array(
             'show'       => 'l',
-            'css'        => null, // TODO: set to full URL of laterpay-account-links.css
+            'css'        => null, // TODO: define default CSS as constant and apply it as default here
             'next'       => is_singular() ? get_permalink() : home_url(),
             'forcelang'  => null,
         ), $atts );
@@ -628,16 +628,6 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             'forcelang' => $data['forcelang'],
         );
         $this->assign( 'laterpay', $view_args );
-
-        // TODO: register and enqueue default styles???
-        // // load some default styles, if no specific CSS has been provided
-        //     wp_register_style(
-        //         'laterpay-account-links',
-        //         $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
-        //         array(),
-        //         $this->config->get( 'version' )
-        //     );
-        //     wp_enqueue_style( 'laterpay-account-links' );
 
         $login = $this->get_text_view( 'frontend/partials/post/account_links_iframe' );
 
