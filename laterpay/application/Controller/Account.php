@@ -2,7 +2,6 @@
 
 class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
 {
-
     /**
      * Callback to render LaterPay account links by making an API request to /controls/links.
      * (see https://laterpay.net/developers/docs/inpage-api#GET/controls/links)
@@ -21,17 +20,8 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         <div class="lp_account-links"></div>
         <?php
 
-        // TODO: define default CSS as constant and extend if statement to check for empty or != default CSS
         if ( empty( $css ) ) {
-            // load some default styles, if no specific CSS has been provided
-            wp_register_style(
-                'laterpay-account-links',
-                $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
-                array(),
-                $this->config->get( 'version' )
-            );
-            wp_enqueue_style( 'laterpay-account-links' );
-            $css = ''; // TODO: define default CSS as constant and apply it as default here
+            $css = $this->config->get( 'css_url' ) . 'laterpay-account-links.css';
         }
 
         if ( empty( $next ) ) {
