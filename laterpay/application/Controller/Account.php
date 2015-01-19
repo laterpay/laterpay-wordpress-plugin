@@ -12,20 +12,32 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
      */
     public function add_account_links( $show, $css = null, $next = null, $forcelang = null ) {
         ?>
-        <div id="laterpay-account-links"></div>
+        <div class="lp_account-links"></div>
         <?php
 
+        if ( empty( $css ) ) {
+            // load some default styles, if no specific CSS has been provided
+            wp_register_style(
+                'laterpay-account-links',
+                $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
+                array(),
+                $this->config->get( 'version' )
+            );
+            wp_enqueue_style( 'laterpay-account-links' );
+            $css = ''; // TODO: set to laterpay-account-links.css
+        }
+
         if ( empty( $next ) ) {
-            // current page by default
+            // forward to current page after login by default
             $next = is_singular() ? get_permalink() : home_url();
         }
 
         if ( empty( $show ) ) {
-            // default show value
+            // render the login / logout link by default
             $show = 'l';
         }
 
-        // create account links url with passed params
+        // create account links URL with passed params
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
             $client_options['cp_key'],
@@ -40,6 +52,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
             var lpAccountLinksUrl = "<?php echo $links_url; ?>";
         </script>
         <?php
+
         wp_enqueue_script( 'laterpay-yui' );
         wp_enqueue_script( 'laterpay-account-links' );
     }

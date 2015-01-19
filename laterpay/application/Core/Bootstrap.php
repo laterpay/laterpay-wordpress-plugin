@@ -102,7 +102,7 @@ class LaterPay_Core_Bootstrap
         add_shortcode( 'laterpay_gift_card',        array( $shortcode_controller, 'render_gift_card' ) );
         add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_code' ) );
 
-        // add account links controller
+        // add account links shortcode
         add_shortcode( 'laterpay_account_links',    array( $shortcode_controller, 'render_account_links' ) );
 
         add_action( 'wp_ajax_laterpay_get_gift_card_actions',        array( $shortcode_controller, 'ajax_load_gift_action' ) );
