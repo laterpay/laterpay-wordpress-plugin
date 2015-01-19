@@ -7,13 +7,13 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
     }
 
     new Y.LaterPay.IFrame(
-        Y.one('#laterpay-account-links'),
+        Y.one('.lp_account-links'),
         lpAccountLinksUrl,
         {
-            width       : '300',
-            height      : '40',
+            width       : '140',
+            height      : '28',
             scrolling   : 'no',
-            frameborder : '0'
+            frameborder : '0',
         }
     );
 
