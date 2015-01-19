@@ -74,7 +74,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update the existing database-table for 'laterpay_payment_history' and add the 'revenue_model'-column
+     * Update the existing database table for 'laterpay_payment_history' and add the 'revenue_model' column.
      * @wp-hook admin_notices
      *
      * @return void
@@ -107,16 +107,16 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         );
 
         // if the table needs an update, add the 'revenue_model' column and set the current values to 'ppu'
-        if ( ! $is_up_to_date ){
+        if ( ! $is_up_to_date ) {
             // add the missing column to our table
-            $wpdb->query("ALTER TABLE " . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT 'ppu';");
+            $wpdb->query( "ALTER TABLE " . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT 'ppu';" );
             // update the existing data
-            $wpdb->query("UPDATE " . $table . " SET revenue_model = IF( " . $table . ".price < 5, 'ppu', 'sis' )");
+            $wpdb->query( "UPDATE " . $table . " SET revenue_model = IF( " . $table . ".price < 5, 'ppu', 'sis' )" );
         }
     }
 
     /**
-     * Update the existing database-table for 'terms_price' and set all prices to 'ppu'.
+     * Update the existing database table for 'terms_price' and set all prices to 'ppu'.
      * @wp-hook admin_notices
      *
      * @return void
