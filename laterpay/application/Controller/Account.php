@@ -4,9 +4,15 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
 {
 
     /**
-     * Callback to add LaterPay account links.
+     * Callback to render LaterPay account links by making an API request to /controls/links.
+     * (see https://laterpay.net/developers/docs/inpage-api#GET/controls/links)
      *
      * @wp-hook laterpay_account_links
+     *
+     * @param $show         'show' attribute for the API request as documented in the LaterPay API docs
+     * @param $css          'css' attribute for the API request as documented in the LaterPay API docs
+     * @param $next         'next' attribute for the API request as documented in the LaterPay API docs
+     * @param $forcelang    'forcelang' attribute for the API request as documented in the LaterPay API docs
      *
      * @return void
      */
