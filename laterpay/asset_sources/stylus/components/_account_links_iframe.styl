@@ -15,7 +15,16 @@
 
 // class for all links (#loginlink, #logoutlink, #signuplink)
 .actionlink {
-    // add styling as desired
+    color: $clickable;
+    padding: $fs-05 $fs-1;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $clickable-highlight;
+        text-decoration: none;
+    }
 }
 
 
@@ -74,6 +83,7 @@
 
 
 // login + register link (show="ls") -----------------------------------------------------------------------------------
+// element between login and register link to visually separate them
 #separator {
     // add styling as desired
 }

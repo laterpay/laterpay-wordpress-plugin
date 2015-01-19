@@ -10,8 +10,8 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         Y.one('.lp_account-links'),
         lpAccountLinksUrl,
         {
-            width       : '140',
-            height      : '28',
+            width       : '210',
+            height      : '42',
             scrolling   : 'no',
             frameborder : '0',
         }
