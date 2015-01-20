@@ -47,6 +47,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         ?>
         <script>
             var lpAccountLinksUrl = "<?php echo $links_url; ?>";
+            var lpAccountNextUrl = "<?php echo $next; ?>";
         </script>
         <?php
 
