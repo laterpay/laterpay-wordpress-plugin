@@ -11,7 +11,6 @@ class LaterPay_Helper_Dashboard
      * @return array $cache_data array with cached data or empty array on failure
      */
     public static function get_cache_data( $options ) {
-
         $file_path = $options[ 'cache_file_path' ];
 
         if ( ! file_exists( $file_path ) ) {
@@ -19,6 +18,7 @@ class LaterPay_Helper_Dashboard
                 __METHOD__ . ' - cache-file not found',
                 array( 'file_path' => $file_path )
             );
+
             return array();
         }
 
@@ -33,6 +33,7 @@ class LaterPay_Helper_Dashboard
                     'cache_data'    => $cache_data,
                 )
             );
+
             return array();
         }
 
@@ -43,6 +44,7 @@ class LaterPay_Helper_Dashboard
                 'cache_data'    => $cache_data,
             )
         );
+
         return $cache_data;
     }
 
@@ -59,6 +61,11 @@ class LaterPay_Helper_Dashboard
      * @return void
      */
     public static function refresh_cache_data( $options, $data ) {
+        $timestamp = strtotime( 'now GMT' );
+        $data[ 'last_update' ] = array(
+            'date'      => date( 'd.m.Y H.i:s', $timestamp ),
+            'timestamp' => $timestamp,
+        );
 
         $cache_dir      = $options[ 'cache_dir' ];
         $cache_filename = $options[ 'cache_filename' ];
@@ -107,22 +114,18 @@ class LaterPay_Helper_Dashboard
     /**
      * Return the cache file name for the given days and item count.
      *
-     * @param string $section
-     * @param string $interval
-     * @param int $count
+     * @param array $options
      *
      * @return string $cache_filename
      */
-    public static function get_cache_filename( $section, $interval, $count ) {
-        $interval       = LaterPay_Helper_Dashboard::get_interval( $interval );
-        $cache_filename = $section . '-' . $interval . '-' . $count . '.cache';
+    public static function get_cache_filename( $options ) {
+        $array_values   = array_values( $options );
+        $cache_filename = implode( '-', $array_values ) . '.cache';
 
         laterpay_get_logger()->info(
             __METHOD__,
             array(
-                'interval'          => $interval,
-                'section'           => $section,
-                'count'             => $count,
+                'options'           => $options,
                 'cache_filename'    => $cache_filename,
             )
         );
@@ -131,13 +134,13 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Check and sanitize the given interval.
+     * Check and sanitize a given interval.
      *
      * @param string $interval    day|week|2-weeks|month
      *
      * @return string $interval
      */
-    public static function get_interval( $interval ){
+    public static function get_interval( $interval ) {
         $allowed_intervals  = array( 'day', 'week', '2-weeks', 'month' );
         $interval           = sanitize_text_field( (string) $interval );
 
@@ -149,7 +152,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Returns the end_timestamp by a given start_timestamp and interval.
+     * Return the end_timestamp by a given start_timestamp and interval.
      *
      * @param int       $start_timestamp
      * @param string    $interval
@@ -162,7 +165,7 @@ class LaterPay_Helper_Dashboard
         } else if ( $interval === '2-weeks' ) {
             $end_timestamp = strtotime( '-14 days', $start_timestamp );
         } else if ( $interval === 'month' ) {
-            $end_timestamp = strtotime( '-1 month', $start_timestamp );
+            $end_timestamp = strtotime( '-30 days', $start_timestamp );
         } else {
             // $interval === 'day'
             $end_timestamp = strtotime( 'today', $start_timestamp );
@@ -184,6 +187,7 @@ class LaterPay_Helper_Dashboard
             $item->amount = number_format_i18n( $item->amount, $decimal );
             $items[ $key ] = $item;
         }
+
         return $items;
     }
 
@@ -200,6 +204,7 @@ class LaterPay_Helper_Dashboard
         } else if ( $interval === 'month' ) {
             return 'month';
         }
+
         return 'day';
     }
 
@@ -272,6 +277,7 @@ class LaterPay_Helper_Dashboard
             'x' => array(),
             'y' => array(),
         );
+
         if ( $interval === 'day' ) {
             $items_by_hour  = LaterPay_Helper_Dashboard::sort_items_by_hour( $items );
             $items          = LaterPay_Helper_Dashboard::fill_empty_hours( $items_by_hour, $start_timestamp );
@@ -280,6 +286,7 @@ class LaterPay_Helper_Dashboard
             $days           = LaterPay_Helper_Dashboard::get_days_as_array( $start_timestamp, $interval );
             $items          = LaterPay_Helper_Dashboard::fill_empty_days( $items_by_day, $days );
         }
+
         $key = 1;
         foreach ( $items as $item ) {
             if ( $interval === 'day' ) {
@@ -303,6 +310,7 @@ class LaterPay_Helper_Dashboard
             }
             $key = $key + 1;
         }
+
         laterpay_get_logger()->info(
             __METHOD__,
             array(
@@ -310,6 +318,7 @@ class LaterPay_Helper_Dashboard
                 'result'    => $data,
             )
         );
+
         return $data;
     }
 
@@ -334,11 +343,13 @@ class LaterPay_Helper_Dashboard
             laterpay_get_logger()->warning( __METHOD__ . ' - empty items-array' );
             return array();
         }
+
         // sort all items by date
         $items_by_date = array();
         foreach ( $items as $item ) {
             $items_by_date[ $item->date ] = $item;
         }
+
         laterpay_get_logger()->info(
             __METHOD__,
             array(
@@ -346,6 +357,7 @@ class LaterPay_Helper_Dashboard
                 'output'    => $items_by_date,
             )
         );
+
         return $items_by_date;
     }
 
@@ -457,6 +469,7 @@ class LaterPay_Helper_Dashboard
                 'last_days' => $last_days,
             )
         );
+
         return $items;
     }
 
@@ -497,5 +510,4 @@ class LaterPay_Helper_Dashboard
 
         return $filled_items;
     }
-
 }
