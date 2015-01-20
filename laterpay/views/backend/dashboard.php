@@ -54,7 +54,7 @@
                 '</div>' .
             '</div>',
 
-            '<a href="#" id="lp_js_loadPreviousInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week before">' .
+            '<a href="#" id="lp_js_loadPreviousInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show previous day">' .
                 '<div class="lp_triangle lp_triangle--left"></div>' .
             '</a>',
 
@@ -64,7 +64,7 @@
                 date( 'd.m.Y', strtotime( '-1 days' ) ) .
             '</span>',
 
-            '<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show week after">' .
+            '<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip" data-tooltip="Show next day">' .
                 '<div class="lp_triangle lp_triangle--right"></div>' .
             '</a>'
         ); ?>

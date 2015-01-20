@@ -140,9 +140,7 @@
                             .end()
                             .addClass($o.selected);
 
-                        // re-fetch the new interval
                         interval = getInterval();
-
                         setTimeRange(startTimestamp, interval);
                         loadDashboard(false);
                     })
@@ -152,13 +150,21 @@
                 $o.nextInterval
                     .mousedown(function() {
                         var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
-                            interval = getInterval();
+                            interval = getInterval(),
+                            currentDate = new Date(),
+                            startDate;
 
                         // + 1 day
                         startTimestamp  = startTimestamp + 86400;
 
+                        startDate       = new Date( startTimestamp * 1000  );
+                        if (startDate.getDate() >= currentDate.getDate()) {
+                            setMessage( lpVars.i18n.noFutureInterval, false );
+                            return;
+                        }
+
                         setTimeRange(startTimestamp, interval);
-                        loadDashboard(false);
+                        loadDashboard(true);
                     })
                     .click(function(e) {e.preventDefault();});
 
@@ -171,7 +177,7 @@
                         // - 1 day
                         startTimestamp  = startTimestamp - 86400;
 
-                        setTimeRange(startTimestamp, interval);
+                        setTimeRange( startTimestamp, interval );
                         loadDashboard(false);
 
                     })
@@ -184,20 +190,19 @@
                     })
                     .click(function(e) {e.preventDefault();});
 
+                $($o.revenueModelChoices)
+                    .mousedown(function() {
+                        loadDashboard(true);
+                    })
+                    .click(function(e) {e.preventDefault();});
+
                 $('body')
                     .on('mousedown', $o.toggleItemDetails, function() {
                         alert('Toggling post details coming soon');
                     })
                     .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
-
-                $($o.revenueModelChoices)
-                    .mousedown(function() {
-                        alert('Filtering by revenue model coming soon');
-                    })
-                    .click(function(e) {e.preventDefault();});
             },
 
-            // Returns the current selected interval.
             getInterval = function() {
                 return $o.intervalChoices
                     .parents($o.dropdownList)
@@ -205,10 +210,9 @@
                     .attr('data-interval' );
             },
 
-            // Refresh the new timeRange in html and startTimestamp as data-Attribute.
             setTimeRange = function(startTimestamp, interval) {
                 var endTimestamp,
-                    intervalInMs = $o.intervalToMs[interval],
+                    intervalInMs = $o.intervalToMs[ interval ],
                     from,
                     to,
                     timeRange;
@@ -217,19 +221,19 @@
                 endTimestamp = startTimestamp - intervalInMs;
 
                 // * 1000 because of php strtotime()
-                to      = new Date(startTimestamp * 1000);
-                from    = new Date(endTimestamp * 1000);
+                to      = new Date( startTimestamp * 1000 );
+                from    = new Date( endTimestamp * 1000 );
 
-                // build the new timeRange-String.
                 if (interval === 'day') {
                     timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 } else {
                     timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() + ' - ' + to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 }
 
-                // set the new values
+                // set the new startTimestamp as data-Attribute for refreshing the Dashboard-Data.
+                // set the new timeRange
                 $o.currentInterval
-                    .data('startTimestamp', startTimestamp)
+                    .data( 'startTimestamp', startTimestamp )
                     .html( timeRange );
             },
 
@@ -254,7 +258,7 @@
                         'count'           : $o.itemsPerList,
                         // 1 (true): refresh data, 0 (false): only load the cached data; default: 1
                         'refresh'         : refresh ? 1 : 0,
-                        // TODO: implement
+                        // revenue model "ppu", "sis" or "all"
                         'revenue_model'   : revenueModel,
                         // start-day to go by "interval" backwards.
                         'start_timestamp'    : $o.currentInterval.data( 'startTimestamp' )

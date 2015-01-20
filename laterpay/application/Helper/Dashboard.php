@@ -60,6 +60,12 @@ class LaterPay_Helper_Dashboard
      */
     public static function refresh_cache_data( $options, $data ) {
 
+        $timestamp = strtotime( 'now GMT' );
+        $data[ 'last_update' ] = array(
+            'date'      => date( 'd.m.Y H.i:s', $timestamp ),
+            'timestamp' => $timestamp,
+        );
+
         $cache_dir      = $options[ 'cache_dir' ];
         $cache_filename = $options[ 'cache_filename' ];
 
@@ -107,23 +113,19 @@ class LaterPay_Helper_Dashboard
     /**
      * Return the cache file name for the given days and item count.
      *
-     * @param string $section
-     * @param string $interval
-     * @param int $count
+     * @param array $options
      *
      * @return string $cache_filename
      */
-    public static function get_cache_filename( $section, $interval, $count ) {
-        $interval       = LaterPay_Helper_Dashboard::get_interval( $interval );
-        $cache_filename = $section . '-' . $interval . '-' . $count . '.cache';
+    public static function get_cache_filename( $options ) {
+        $array_values   = array_values( $options );
+        $cache_filename = implode( '-', $array_values ) . '.cache';
 
         laterpay_get_logger()->info(
             __METHOD__,
             array(
-                'interval'          => $interval,
-                'section'           => $section,
-                'count'             => $count,
-                'cache_filename'    => $cache_filename,
+                'options'       => $options,
+                'cache_filename'=> $cache_filename,
             )
         );
 
