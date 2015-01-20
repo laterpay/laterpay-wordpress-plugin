@@ -15,7 +15,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function render_account_links( $show, $css = null, $next = null, $forcelang = null ) {
+    public function render_account_links( $css = null, $forcelang = null, $show = null, $next = null ) {
         ?>
         <div class="lp_account-links"></div>
         <?php
