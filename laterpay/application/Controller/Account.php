@@ -21,6 +21,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         <?php
 
         if ( empty( $css ) ) {
+            // use laterpay-account-links to style the login / logout links by default
             $css = $this->config->get( 'css_url' ) . 'laterpay-account-links.css';
         }
 
