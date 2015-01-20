@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Fri Dec 19 2014 18:09:45 GMT+0100 (CET)\n"
-"Last-Translator: tester <drodler@laterpay.net>\n"
+"PO-Revision-Date: Tue Jan 20 2015 22:52:38 GMT+0100 (CET)\n"
+"Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -24,17 +24,13 @@ msgstr ""
 
 #: ../views/frontend/partials/widget/time_passes.php:19 ..
 #: views/frontend/partials/post/gift/redeem_gift.php:53 ..
-#: views/frontend/partials/post/gift/redeem_gift.php:62 ..
-#: views/backend/partials/redeem_gift.php:53 ..
-#: views/backend/partials/redeem_gift.php:62
+#: views/frontend/partials/post/gift/redeem_gift.php:62
 msgid "Code"
 msgstr "Code"
 
 #: ../views/frontend/partials/widget/time_passes.php:20 ..
 #: views/frontend/partials/post/gift/redeem_gift.php:54 ..
-#: views/frontend/partials/post/gift/redeem_gift.php:63 ..
-#: views/backend/partials/redeem_gift.php:54 ..
-#: views/backend/partials/redeem_gift.php:63
+#: views/frontend/partials/post/gift/redeem_gift.php:63
 msgid "Redeem"
 msgstr "Einlösen"
 
@@ -46,7 +42,6 @@ msgstr "Gutschein einlösen >"
 #: views/frontend/partials/post/purchase_link.php:9 ..
 #: views/frontend/partials/post/shortcode_purchase_button.php:9 ..
 #: views/frontend/partials/post/gift/gift_actions.php:20 ..
-#: views/backend/partials/gift_actions.php:20 ..
 #: views/backend/partials/time_pass.php:30
 msgid "Buy now with LaterPay"
 msgstr "Jetzt mit LaterPay kaufen"
@@ -206,46 +201,39 @@ msgstr ""
 
 #: ../views/frontend/partials/post/gift/gift_card.php:22 ..
 #: views/frontend/partials/post/gift/redeem_gift.php:22 ..
-#: views/backend/partials/gift_card.php:22 ../views/backend/partials/redeem_gift.
-#: php:22 ../views/backend/partials/time_pass.php:18
+#: views/backend/partials/time_pass.php:18
 msgid "on this website"
 msgstr "auf dieser Website"
 
 #: ../views/frontend/partials/post/gift/gift_card.php:34 ..
 #: views/frontend/partials/post/gift/redeem_gift.php:33 ..
-#: views/backend/partials/gift_card.php:34 ../views/backend/partials/redeem_gift.
-#: php:33 ../views/backend/partials/time_pass.php:37
+#: views/backend/partials/time_pass.php:37
 msgid "Validity"
 msgstr "Gültigkeit"
 
 #: ../views/frontend/partials/post/gift/gift_card.php:40 ..
 #: views/frontend/partials/post/gift/redeem_gift.php:39 ..
-#: views/backend/partials/gift_card.php:40 ../views/backend/partials/redeem_gift.
-#: php:39 ../views/backend/partials/time_pass.php:43
+#: views/backend/partials/time_pass.php:43
 msgid "Access to"
 msgstr "Zugriff auf"
 
 #: ../views/frontend/partials/post/gift/gift_card.php:46 ..
 #: views/frontend/partials/post/gift/redeem_gift.php:45 ..
-#: views/backend/partials/gift_card.php:46 ../views/backend/partials/redeem_gift.
-#: php:45 ../views/backend/partials/time_pass.php:49
+#: views/backend/partials/time_pass.php:49
 msgid "Renewal"
 msgstr "Verlängerung"
 
 #: ../views/frontend/partials/post/gift/gift_card.php:48 ..
 #: views/frontend/partials/post/gift/redeem_gift.php:47 ..
-#: views/backend/partials/gift_card.php:48 ../views/backend/partials/redeem_gift.
-#: php:47 ../views/backend/partials/time_pass.php:51
+#: views/backend/partials/time_pass.php:51
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
-#: ../views/frontend/partials/post/gift/gift_actions.php:13 ..
-#: views/backend/partials/gift_actions.php:15
+#: ../views/frontend/partials/post/gift/gift_actions.php:13
 msgid "Gift Code"
 msgstr "Gutschein-Code"
 
-#: ../views/frontend/partials/post/gift/gift_actions.php:16 ..
-#: views/backend/partials/gift_actions.php:17
+#: ../views/frontend/partials/post/gift/gift_actions.php:16
 msgid "Redeem at"
 msgstr "Einlösen auf"
 
@@ -356,7 +344,7 @@ msgstr "Höchste Conversion"
 #: ../views/backend/dashboard.php:132 ../views/backend/dashboard.php:136 ..
 #: views/backend/dashboard.php:142 ../views/backend/dashboard.php:146 ..
 #: views/backend/dashboard.php:152 ../views/backend/dashboard.php:156 ..
-#: application/Controller/Admin/Dashboard.php:71
+#: application/Controller/Admin/Dashboard.php:60
 msgid "No data available"
 msgstr "Keine Daten verfügbar"
 
@@ -874,7 +862,7 @@ msgstr ""
 
 #: ../views/backend/pricing.php:218
 msgid "Landing Page"
-msgstr ""
+msgstr "Zielseite"
 
 #: ../views/backend/pricing.php:225
 msgid "New Time Pass"
@@ -980,11 +968,6 @@ msgid ""
 msgstr ""
 "Um Ihren Nutzern eine bessere Vorstellung davon zu geben, was sie kaufen, "
 "sollten Sie Text, Bilder oder Videos aus dem Beitrag als Teaser anzeigen."
-
-#: ../views/backend/partials/gift_actions.php:24 ..
-#: application/Controller/Shortcode.php:563
-msgid "Buy another gift card"
-msgstr "Einen weiteren Gutschein kaufen."
 
 #: ../views/backend/partials/post_pricing_form.php:29
 msgid "Pay-per-Use: users pay purchased content later"
@@ -1199,19 +1182,19 @@ msgstr ""
 msgid "LaterPay Advanced Settings"
 msgstr "LaterPay – Erweiterte Einstellungen"
 
-#: ../application/Controller/Settings.php:71
+#: ../application/Controller/Settings.php:72
 msgid "Caching Compatibility Mode"
 msgstr "Caching-Kompatibilitätsmodus"
 
-#: ../application/Controller/Settings.php:78
+#: ../application/Controller/Settings.php:79
 msgid "Caching Compatibility"
 msgstr "Caching-Kompatibilität"
 
-#: ../application/Controller/Settings.php:85
+#: ../application/Controller/Settings.php:86
 msgid "I am using a caching plugin (e.g. WP Super Cache or Cachify)"
 msgstr "Ich verwende ein Caching-Plugin (z. B. WP Super Cache oder Cachify)"
 
-#: ../application/Controller/Settings.php:98
+#: ../application/Controller/Settings.php:99
 msgid ""
 "You MUST enable caching compatiblity mode, if you are using a caching "
 "solution that caches\n"
@@ -1236,15 +1219,15 @@ msgstr ""
 "über einen Ajax-Request, ob der Nutzer diesen Artikel bereits gekauft hat. "
 "Falls ja, wird der Teaser durch den Volltext ersetzt."
 
-#: ../application/Controller/Settings.php:115
+#: ../application/Controller/Settings.php:116
 msgid "LaterPay-enabled Post Types"
 msgstr "LaterPay Post-Types"
 
-#: ../application/Controller/Settings.php:122
+#: ../application/Controller/Settings.php:123
 msgid "Enabled Post Types"
 msgstr "Aktivierte Post-Types"
 
-#: ../application/Controller/Settings.php:137
+#: ../application/Controller/Settings.php:138
 msgid ""
 "Please choose, which standard and custom post types should be sellable with "
 "LaterPay."
@@ -1252,21 +1235,21 @@ msgstr ""
 "Bitte geben Sie an, für welche Standard- und Custom-Post-Types LaterPay "
 "verfügbar sein soll."
 
-#: ../application/Controller/Settings.php:148
+#: ../application/Controller/Settings.php:149
 msgid "Offering Time Passes on Free Posts"
 msgstr "Anzeigen von Zeitpässen bei kostenlosen Beiträgen"
 
-#: ../application/Controller/Settings.php:155
+#: ../application/Controller/Settings.php:156
 msgid "Time Passes Widget"
 msgstr "Zeitpässe"
 
-#: ../application/Controller/Settings.php:162
+#: ../application/Controller/Settings.php:163
 msgid "I want to display the time passes widget on free and paid posts"
 msgstr ""
 "Ich möchte Zeitpässe sowohl bei kostenpflichtigen als auch bei kostenlosen "
 "Beiträgen anzeigen"
 
-#: ../application/Controller/Settings.php:175
+#: ../application/Controller/Settings.php:176
 msgid ""
 "Please choose, if you want to show the time passes widget on free posts, or "
 "only on paid posts."
@@ -1274,19 +1257,35 @@ msgstr ""
 "Bitte geben Sie an, ob Sie Zeitpässe nur bei kostenpflichtigen oder auch bei "
 "kostenlosen Beiträgen anzeigen möchten."
 
-#: ../application/Controller/Settings.php:186
+#: ../application/Controller/Settings.php:187
+msgid "Gift Codes Limit"
+msgstr "Einschränkungen für Geschenkgutscheine"
+
+#: ../application/Controller/Settings.php:194
+msgid "Times Redeemable"
+msgstr "Maximal einlösbar"
+
+#: ../application/Controller/Settings.php:213
+msgid ""
+"Specify, how many times a gift code can be redeemed for the associated time "
+"pass."
+msgstr ""
+"Geben Sie an, wie oft ein Geschenkgutschein für einen bestimmten Zeitpass "
+"eingelöst werden kann."
+
+#: ../application/Controller/Settings.php:251
 msgid "Automatically Generated Teaser Content"
 msgstr "Automatisch erzeugter Teaser"
 
-#: ../application/Controller/Settings.php:193
+#: ../application/Controller/Settings.php:258
 msgid "Teaser Content Word Count"
 msgstr "Teaser-Länge (Anzahl Wörter)"
 
-#: ../application/Controller/Settings.php:200
+#: ../application/Controller/Settings.php:265
 msgid "Number of words extracted from paid posts as teaser content."
 msgstr "Anzahl der Wörter aus dem Volltext, die als Teaser verwendet werden."
 
-#: ../application/Controller/Settings.php:213
+#: ../application/Controller/Settings.php:278
 msgid ""
 "The LaterPay WordPress plugin automatically generates teaser content for "
 "every paid post\n"
@@ -1304,15 +1303,15 @@ msgstr ""
 "Wenn Sie wirklich keinen Teaser für einen Beitrag anzeigen möchten, geben "
 "Sie bitte ein Leerzeichen in das Teaser-Feld ein."
 
-#: ../application/Controller/Settings.php:228
+#: ../application/Controller/Settings.php:293
 msgid "Content Preview under Overlay"
 msgstr "Beitragsvorschau unter Overlay"
 
-#: ../application/Controller/Settings.php:235
+#: ../application/Controller/Settings.php:300
 msgid "Percentage of Post Content"
 msgstr "Anteil des Volltextes"
 
-#: ../application/Controller/Settings.php:242
+#: ../application/Controller/Settings.php:307
 #, php-format
 msgid ""
 "Percentage of content to be extracted;\n"
@@ -1322,11 +1321,11 @@ msgstr ""
 "Prozentsatz des Volltextes, der angezeigt werden soll; 20 bedeutet \"zeige "
 "die ersten 20% des Volltextes unter dem Overlay an.\""
 
-#: ../application/Controller/Settings.php:249
+#: ../application/Controller/Settings.php:314
 msgid "Minimum Number of Words"
 msgstr "Mindestanzahl Wörter"
 
-#: ../application/Controller/Settings.php:256
+#: ../application/Controller/Settings.php:321
 msgid ""
 "Applied if number of words as percentage of the total number of words is "
 "less\n"
@@ -1335,11 +1334,11 @@ msgstr ""
 "Wird verwendet, wenn der oben angegebene Prozentsatz weniger Wörter ergibt "
 "als dieser Wert."
 
-#: ../application/Controller/Settings.php:263
+#: ../application/Controller/Settings.php:328
 msgid "Maximum Number of Words"
 msgstr "Höchstanzahl Wörter"
 
-#: ../application/Controller/Settings.php:270
+#: ../application/Controller/Settings.php:335
 msgid ""
 "Applied if number of words as percentage of the total number of words "
 "exceeds\n"
@@ -1348,7 +1347,7 @@ msgstr ""
 "Wird verwendet, wenn der oben angegebene Prozentsatz mehr Wörter ergibt als "
 "dieser Wert."
 
-#: ../application/Controller/Settings.php:286
+#: ../application/Controller/Settings.php:351
 msgid ""
 "In the appearance tab, you can choose to preview your paid posts with the "
 "teaser content plus\n"
@@ -1365,15 +1364,15 @@ msgstr ""
 "genau festzulegen.<br>\n"
 "Diese Einstellungen beeinflussen in keiner Weise den Teaser."
 
-#: ../application/Controller/Settings.php:300
+#: ../application/Controller/Settings.php:365
 msgid "Unlimited Access to Paid Content"
 msgstr "Unbegrenzter Zugriff auf Bezahlinhalte"
 
-#: ../application/Controller/Settings.php:307
+#: ../application/Controller/Settings.php:372
 msgid "Roles with Unlimited Access"
 msgstr "Rollen mit unbegrenztem Zugriff"
 
-#: ../application/Controller/Settings.php:322
+#: ../application/Controller/Settings.php:387
 msgid ""
 "Logged in users can skip LaterPay entirely, if they have a role with "
 "unlimited access\n"
@@ -1390,19 +1389,19 @@ msgstr ""
 "Wir empfehlen das Plugin \"User Role Editor\", um eigene Nutzer-Rollen zu "
 "WordPress hinzuzufügen."
 
-#: ../application/Controller/Settings.php:336
+#: ../application/Controller/Settings.php:401
 msgid "Access Logging for Generating Sales Statistics"
 msgstr "Datenerhebung für Verkaufsstatistik"
 
-#: ../application/Controller/Settings.php:343
+#: ../application/Controller/Settings.php:408
 msgid "Access Logging"
 msgstr "Datenerhebung"
 
-#: ../application/Controller/Settings.php:350
+#: ../application/Controller/Settings.php:415
 msgid "I want to record access to my site to generate sales statistics"
 msgstr "Ich möchte Zugriffsdaten für die Erstellung von Verkaufsstatistiken erheben"
 
-#: ../application/Controller/Settings.php:363
+#: ../application/Controller/Settings.php:428
 msgid ""
 "The LaterPay WordPress plugin generates sales statistics for you on the "
 "dashboard and on the posts\n"
@@ -1422,27 +1421,27 @@ msgstr ""
 "oder Dritte gesendet<br>\n"
 "und automatisch nach drei Monaten gelöscht."
 
-#: ../application/Controller/Settings.php:379
+#: ../application/Controller/Settings.php:444
 msgid "LaterPay API URLs"
 msgstr "LaterPay API-URLs"
 
-#: ../application/Controller/Settings.php:386
+#: ../application/Controller/Settings.php:451
 msgid "Sandbox API endpoint"
 msgstr "Sandbox API-Endpoint"
 
-#: ../application/Controller/Settings.php:399
+#: ../application/Controller/Settings.php:464
 msgid "Sandbox web URL"
 msgstr "Sandbox Web-URL"
 
-#: ../application/Controller/Settings.php:412
+#: ../application/Controller/Settings.php:477
 msgid "Live API endpoint"
 msgstr "Live API-Endpoint"
 
-#: ../application/Controller/Settings.php:425
+#: ../application/Controller/Settings.php:490
 msgid "Live web URL"
 msgstr "Live Web-URL"
 
-#: ../application/Controller/Settings.php:448
+#: ../application/Controller/Settings.php:513
 msgid ""
 "There is only a single reason for changing the API settings:<br>\n"
 "                By replacing the Live API URLs with the Sandbox API URLs,\n"
@@ -1458,7 +1457,7 @@ msgstr ""
 "Dieses Vorgehen nutzt LaterPay für <a href=\"www.laterpaydemo."
 "com\">laterpaydemo.com</a>."
 
-#: ../application/Controller/Settings.php:538
+#: ../application/Controller/Settings.php:603
 msgid "Please add a custom role first."
 msgstr "Bitte erstellen Sie erst eine eigene Nutzer-Rolle."
 
@@ -1466,30 +1465,30 @@ msgstr "Bitte erstellen Sie erst eine eigene Nutzer-Rolle."
 msgid "Thank you very much for rating!"
 msgstr "Vielen Dank für Ihre Bewertung!"
 
-#: ../application/Controller/Post.php:936
+#: ../application/Controller/Post.php:940
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:1183
+#: ../application/Controller/Post.php:1187
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:1184
+#: ../application/Controller/Post.php:1188
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: ../application/Controller/Post.php:1185
+#: ../application/Controller/Post.php:1189
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: ../application/Controller/Post.php:1186
+#: ../application/Controller/Post.php:1190
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: ../application/Controller/Post.php:1187
+#: ../application/Controller/Post.php:1191
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
@@ -2781,8 +2780,8 @@ msgstr "Aktualisiert."
 
 #: ../application/Controller/Statistics.php:210 ..
 #: application/Controller/Admin/Account.php:67 ..
-#: application/Controller/Admin/Dashboard.php:619 ..
-#: application/Controller/Admin/Dashboard.php:629 ..
+#: application/Controller/Admin/Dashboard.php:653 ..
+#: application/Controller/Admin/Dashboard.php:663 ..
 #: application/Controller/Admin/Appearance.php:63 ..
 #: application/Controller/Admin/Pricing.php:147
 msgid "You don't have sufficient user capabilities to do this."
@@ -2846,6 +2845,10 @@ msgstr "Ungültige Zeitpass-ID oder keine Zeitpässe vorhanden."
 #: ../application/Controller/Shortcode.php:442
 msgid "Wrong time pass id."
 msgstr "Ungültige Zeitpass-ID."
+
+#: ../application/Controller/Shortcode.php:564
+msgid "Buy another gift card"
+msgstr "Einen weiteren Gutschein kaufen."
 
 #: ../application/Controller/Admin/Account.php:27
 msgid "The API key you entered is not a valid LaterPay API key!"
@@ -2914,21 +2917,25 @@ msgstr ""
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: ../application/Controller/Admin/Dashboard.php:125
+#: ../application/Controller/Admin/Dashboard.php:61
+msgid "You can't choose an interval that lies in the future"
+msgstr "Sie können keinen Zeitraum in der Zukunft auswählen"
+
+#: ../application/Controller/Admin/Dashboard.php:122
 #, php-format
 msgid "Cache data is empty on <code>%s</code>"
 msgstr "Cache data is empty on <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:585
+#: ../application/Controller/Admin/Dashboard.php:619
 msgid "Error, missing section on request"
 msgstr "Error, missing section on request"
 
-#: ../application/Controller/Admin/Dashboard.php:594
+#: ../application/Controller/Admin/Dashboard.php:628
 #, php-format
 msgid "Section is not allowed <code>%s</code>"
 msgstr "Section is not allowed <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:603
+#: ../application/Controller/Admin/Dashboard.php:637
 #, php-format
 msgid "Invalid section <code>%s</code>"
 msgstr "Invalid section <code>%s</code>"
@@ -3122,11 +3129,11 @@ msgstr "Der ausgewählte Pass wurde bereits gelöscht."
 
 #: ../application/Controller/Admin/Pricing.php:1023
 msgid "Landing url saved."
-msgstr ""
+msgstr "Zielseite gespeichert."
 
 #: ../application/Controller/Admin/Pricing.php:1031
 msgid "Error on landing page saving."
-msgstr ""
+msgstr "Fehler beim Speichern der Zielseite."
 
 #: ../application/Controller/Admin/Post/Column.php:21
 msgid "Price Type"
