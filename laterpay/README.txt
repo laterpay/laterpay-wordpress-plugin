@@ -264,6 +264,7 @@ your theme after installing the LaterPay WordPress plugin.
 * Changed time pass behavior to render below the content by default.
 * Added shortcode [laterpay_time_passes] as alternative for the action 'laterpay_time_passes'.
 * Fixed bug that shortcode [laterpay_premium_download] always uses global default price
+* Added support for caching plugin WP Rocket
 * Lots of other bug fixes
 
 = 0.9.9 (December 2, 2014): Time Passes Release =
