@@ -6,15 +6,28 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         return;
     }
 
-    new Y.LaterPay.IFrame(
+    var loginLink  = 'https://web.laterpay.net/auth/user/login?_on_complete=';
+    var logoutLink = 'https://web.laterpay.net/user/confirm-logout?_on_complete=';
+    var signupLink = 'https://web.laterpay.net/signup/register?_on_complete=';
+
+    var login_iframe = new Y.LaterPay.IFrame(
         Y.one('.lp_account-links'),
         lpAccountLinksUrl,
         {
-            width       : '210',
-            height      : '42',
+            height      : '44',
             scrolling   : 'no',
             frameborder : '0',
         }
     );
 
+    var dm = new Y.LaterPay.DialogManager();
+    var accountManager = new Y.LaterPay.AccountActionHandler(dm, loginLink, logoutLink, signupLink);
+    Y.on('laterpay:iFrameMessage', accountManager.onDialogXDMMessage, accountManager);
+
+    Y.on('laterpay:dialogMessage', function(ev) {
+        if (ev.msg === 'laterpay.user.logout') {
+            dm.closeDialog();
+            login_iframe.reload();
+        }
+    });
 });
