@@ -6,11 +6,3 @@ env:
   global:
   - secure: Hnmno610194Z/ZXESCE685pkyHip4GmgBKbBVZYm+zhGLW+bvEc8n6Ojfw1IteLVJahnCaZ0tgKqRebRlrhebtmWD4y+n5D80pHPZFaUHKo+ulBZ0ThxjcDfUDcXrPkgUPimP0/uwt34gy6PmJMk0tc9DmGpnJPqVIshMBCu5cc=
   - secure: m6KO5Y9+1kOks4u8Ko0isBMGYQDOYdqbWE+qfrz4/NDx17x8wqeGMN5/QiQCHgdSMRaRJuB0FDTzzQwkSg7Ea5f4UbJZgEy2224870A6jB+X7kW1CopwmdE0b4rD1nDj6BKvMr6bO7iBxmahUlego7SStJoEPlj452TQUN6KZ3Y=
-script:
-- cd selenium-tests/
-- php codecept.phar run --html --steps -g UI1 --env firefox_win
-- mkdir -p tests/_reports/firefox_win
-- mv -f tests/_output/* tests/_reports/firefox_win
-- php codecept.phar run --html --steps -g UI1 --env safari_mac
-- mkdir -p tests/_reports/safari_mac
-- mv -f tests/_output/* tests/_reports/safari_mac
