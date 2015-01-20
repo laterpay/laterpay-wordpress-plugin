@@ -2,13 +2,13 @@
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
 
     // render account links iframe
-    if (!lpAccountLinksUrl) {
+    if (!lpAccountLinksUrl || !lpAccountNextUrl) {
         return;
     }
 
-    var loginLink  = 'https://web.laterpay.net/auth/user/login?_on_complete=';
-    var logoutLink = 'https://web.laterpay.net/user/confirm-logout?_on_complete=';
-    var signupLink = 'https://web.laterpay.net/signup/register?_on_complete=';
+    var loginLink  = 'https://web.laterpay.net/auth/user/login?_on_complete=' + lpAccountNextUrl;
+    var logoutLink = 'https://web.laterpay.net/user/confirm-logout?_on_complete=' + lpAccountNextUrl;
+    var signupLink = 'https://web.laterpay.net/signup/register?_on_complete=' + lpAccountNextUrl;
 
     var login_iframe = new Y.LaterPay.IFrame(
         Y.one('.lp_account-links'),
