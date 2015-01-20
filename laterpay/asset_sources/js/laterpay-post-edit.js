@@ -14,6 +14,7 @@
                 pricingTypeButtonGroup  : $('#lp_js_priceType_buttonGroup'),
                 pricingTypeButtons      : $('.lp_js_priceType_button'),
                 individualPriceButton   : $('#lp_js_useIndividualPrice').parent(),
+                categoryPriceSelector   : '#lp_js_useCategoryDefaultPrice',
                 categoryPriceButton     : $('#lp_js_useCategoryDefaultPrice').parent(),
                 globalPriceButton       : $('#lp_js_useGlobalDefaultPrice').parent(),
 
@@ -342,11 +343,11 @@
                             $o.categoriesList.html(categoriesList);
 
                             if (data.length) {
-                                $o.globalPriceButton.addClass($o.disabled).removeClass($o.selected);
-                                $o.categoryPriceButton.removeClass($o.disabled).addClass($o.selected);
+                                $o.categoryPriceButton.removeClass($o.disabled).removeClass($o.selected);
                                 // update cached selector
                                 $o.categories = $('#lp_js_priceTypeDetails_categoryDefaultPrice li');
-                                updateSelectedCategory();
+                                switchPricingType($o.categoryPriceSelector);
+                                $o.globalPriceButton.addClass($o.disabled);
                             } else {
                                 // disable the 'use category default price' button,
                                 // if no categories with an attached default price are applied to the current post
