@@ -97,6 +97,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         'date'          => date( 'Y-m-d H:i:s', $data['date'] ),
                         'ip'            => $data['ip'],
                         'hash'          => $data['hash'],
+                        'revenue_model' => $data['revenue_model'],
                     ),
                     array(
                         '%d',

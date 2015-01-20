@@ -49,6 +49,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_terms_price_table' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_currency_to_euro' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_time_passes_table' ) );
+                add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_payment_history_add_revenue_model' ) );
             }
 
             if ( ! function_exists( 'is_plugin_active' ) ) {

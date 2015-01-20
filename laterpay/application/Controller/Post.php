@@ -334,6 +334,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             );
             $client->set_token( $_GET['lptoken'] );
         }
+
+        $post_id        = absint( $_GET[ 'post_id' ] );
+
         // check, if the parameters of $_GET are valid and not manipulated
         if ( $hash === $_GET[ 'hash' ] ) {
             $data = array(
@@ -343,6 +346,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'date'          => $_GET[ 'date' ],
                 'ip'            => $_GET[ 'ip' ],
                 'hash'          => $_GET[ 'hash' ],
+                'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
             );
 
             $this->logger->info(
@@ -354,12 +358,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $payment_history_model->set_payment_history( $data );
         }
 
-        $post_id        = absint( $_GET[ 'post_id' ] );
         $redirect_url   = get_permalink( $post_id );
 
         // prepare attachment url for download
-        if ( isset( $_GET[ 'download_attached'] ) ) {
-            $post_id = $_GET[ 'download_attached'];
+        if ( isset( $_GET[ 'download_attached' ] ) ) {
+            $post_id = $_GET[ 'download_attached' ];
             $post    = get_post( $post_id );
             $access  = LaterPay_Helper_Post::has_access_to_post( $post );
 
