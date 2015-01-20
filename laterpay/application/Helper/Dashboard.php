@@ -119,6 +119,7 @@ class LaterPay_Helper_Dashboard
      * @return string $cache_filename
      */
     public static function get_cache_filename( $options ) {
+        unset( $options[ 'start_timestamp' ] );
         $array_values   = array_values( $options );
         $cache_filename = implode( '-', $array_values ) . '.cache';
 
