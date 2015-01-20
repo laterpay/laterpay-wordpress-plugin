@@ -615,10 +615,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // provide default values for empty shortcode attributes
         $data = shortcode_atts( array(
-            'show'       => 'l',
-            'css'        => null, // TODO: define default CSS as constant and apply it as default here
-            'next'       => is_singular() ? get_permalink() : home_url(),
-            'forcelang'  => null,
+            'show'      => 'l',
+            'css'       => $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
+            'next'      => is_singular() ? get_permalink() : home_url(),
+            'forcelang' => null,
         ), $atts );
 
         $view_args = array(
