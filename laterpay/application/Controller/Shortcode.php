@@ -487,6 +487,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     'pass_id' => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
                     'voucher' => $code,
                     'is_gift' => true,
+                    'next'    => $url,
                 );
                 $url  = add_query_arg( $url_params, $url );
                 $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
