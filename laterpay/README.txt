@@ -257,15 +257,25 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
-= 0.9.10 (December 17, 2014): Gift Cards Release =
+= 0.9.10 (January 21, 2015): Gift Cards Release =
 * Added gift cards for time passes to allow giving away time passes as a present
 * Added two shortcodes: [laterpay_gift_card] to render gift cards and [laterpay_redeem_voucher] to render a form for
   redeeming gift card codes.
-* Changed time pass behavior to render below the content by default.
+* Changed time pass behavior to render below the content by default
 * Added shortcode [laterpay_time_passes] as alternative for the action 'laterpay_time_passes'.
-* Fixed bug that shortcode [laterpay_premium_download] always uses global default price
+* Added shortcode [laterpay_account_links] and action 'laterpay_account_links' to render stylable links to log in to /
+  out of LaterPay
+* Implemented filters for dashboard
+* Fixed various bugs related to the dashboard
 * Added support for caching plugin WP Rocket
-* Lots of other bug fixes
+* Restored option to give unlimited access to a specific user group
+* Fixed bug that shortcode [laterpay_premium_download] always uses global default price
+* Fixed bug where teaser would not save with price type "global default" and "category default"
+* Fixed bug where its price could not be updated after a post was published
+* Fixed bug where post statistics pane was not visible
+* Fixed bug where Youtube videos in paid content are not loaded
+* Various bug fixes on dynamic pricing widget
+* Various smaller bug fixes
 
 = 0.9.9 (December 2, 2014): Time Passes Release =
 * Added time passes and vouchers for selling access to the entire site or parts of it for a limited amount of time
