@@ -204,7 +204,7 @@ class LaterPay_Core_Bootstrap
 
             // add account links action
             $account_controller = new LaterPay_Controller_Account( $this->config );
-            add_action( 'laterpay_account_links',       array( $account_controller, 'add_account_links' ), 10, 4 );
+            add_action( 'laterpay_account_links',       array( $account_controller, 'render_account_links' ), 10, 4 );
             add_action( 'wp_enqueue_scripts',           array( $account_controller, 'add_frontend_scripts' ) );
 
             add_action( 'template_redirect',            array( $post_controller, 'buy_post' ) );
