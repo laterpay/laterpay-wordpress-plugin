@@ -207,12 +207,12 @@
                 return $o.intervalChoices
                     .parents($o.dropdownList)
                     .find('.' + $o.selected)
-                    .attr('data-interval' );
+                    .attr('data-interval');
             },
 
             setTimeRange = function(startTimestamp, interval) {
                 var endTimestamp,
-                    intervalInMs = $o.intervalToMs[ interval ],
+                    intervalInMs = $o.intervalToMs[interval],
                     from,
                     to,
                     timeRange;
@@ -221,8 +221,8 @@
                 endTimestamp = startTimestamp - intervalInMs;
 
                 // * 1000 because of php strtotime()
-                to      = new Date( startTimestamp * 1000 );
-                from    = new Date( endTimestamp * 1000 );
+                to      = new Date(startTimestamp * 1000);
+                from    = new Date(endTimestamp * 1000);
 
                 if (interval === 'day') {
                     timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
@@ -230,11 +230,11 @@
                     timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() + ' - ' + to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 }
 
-                // set the new startTimestamp as data-Attribute for refreshing the Dashboard-Data.
+                // set the new startTimestamp as data attribute for refreshing the dashboard data.
                 // set the new timeRange
                 $o.currentInterval
-                    .data( 'startTimestamp', startTimestamp )
-                    .html( timeRange );
+                .data('startTimestamp', startTimestamp)
+                .html(timeRange);
             },
 
             loadDashboardData = function(section, refresh) {
