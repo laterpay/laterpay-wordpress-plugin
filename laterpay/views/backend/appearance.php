@@ -288,7 +288,7 @@
             <h3><?php _e( 'Display of LaterPay Login / Logout Links', 'laterpay' ); ?></h3>
             <dfn class="lp_u_clearfix">
                 <?php _e( 'Call action \'laterpay_account_links\' in your theme or use the shortcode \'[laterpay_account_links]\' to embed a LaterPay login / logout link in your page.', 'laterpay' ); ?><br>
-                <?php _e( 'By default this link comes only with minimal styling. You can style the link by handing over the full path to your own CSS file with the parameter \'css\'.', 'laterpay' ); ?><br>
+                <?php _e( 'These links have minimal default styling. Apply own styling by passing parameter \'css\' the URL of a CSS file with your styles.', 'laterpay' ); ?><br>
             </dfn>
 
             <img class="lp_uiElementPreview lp_u_left lp_u_m-0 lp_u_m-t1" src="data:image/png;base64,
