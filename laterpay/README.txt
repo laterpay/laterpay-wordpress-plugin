@@ -275,8 +275,11 @@ your theme after installing the LaterPay WordPress plugin.
 * Fixed bug where its price could not be updated after a post was published
 * Fixed bug where post statistics pane was not visible
 * Fixed bug where Youtube videos in paid content are not loaded
+* Fixed bug where the category default price was not automatically applied, if the category affiliation of a post changed
 * Various bug fixes on dynamic pricing widget
 * Various smaller bug fixes
+KNOWN BUGS:
+* The post statistics pane is not rendered in debug mode because of a WordPress bug that will be resolved with WP 4.1.1
 
 = 0.9.9 (December 2, 2014): Time Passes Release =
 * Added time passes and vouchers for selling access to the entire site or parts of it for a limited amount of time
