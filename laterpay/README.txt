@@ -267,6 +267,7 @@ your theme after installing the LaterPay WordPress plugin.
   out of LaterPay
 * Implemented filters for dashboard
 * Fixed various bugs related to the dashboard
+* Changed config mechanism to use a WordPress settings page for advanced settings
 * Added support for caching plugin WP Rocket
 * Restored option to give unlimited access to a specific user group
 * Fixed bug that shortcode [laterpay_premium_download] always uses global default price
