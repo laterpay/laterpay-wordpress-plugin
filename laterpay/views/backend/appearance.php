@@ -314,32 +314,16 @@ iVBORw0KGgoAAAANSUhEUgAAANwAAAA6CAYAAADbRzceAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
                         <dfn data-icon="n"><?php _e( 'If you don\'t use the \'forcelang\' parameter, the blog\'s language will be used.', 'laterpay'); ?></dfn>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <pre>show</pre>
-                    </td>
-                    <td>
-                        <?php _e( 'Further rendering options for the form as documented on <a href="https://laterpay.net/developers/docs/inpage-api#GET/controls/links">docs.laterpay.net</a>', 'laterpay'); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <pre>next</pre>
-                    </td>
-                    <td>
-                        <?php _e( 'URL the user is forwarded to after login', 'laterpay'); ?>
-                    </td>
-                </tr>
             </table>
             <code class="lp_codeSnippet lp_u_block">
             <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-            <strong>Basic example</strong><br>
+            <strong><?php _e( 'Basic Example', 'laterpay'); ?></strong><br>
             <strong>Shortcode:</strong> [laterpay_account_links]<br>
             <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links' ); ?>" ); ?><br><br>
 
-            <strong>Advanced example</strong><br>
+            <strong><?php _e( 'Advanced Example', 'laterpay'); ?></strong><br>
             <strong>Shortcode:</strong> [laterpay_account_links css="<dfn>http://...com/style.css</dfn>" forcelang="<dfn>de</dfn>"]<br>
-            <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links', 'http://...com/style.css', 'de', null, null); ?>" ); ?>
+            <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links', 'http://...com/style.css', 'de', null, null ); ?>" ); ?>
             </code>
         </div>
     </div>
