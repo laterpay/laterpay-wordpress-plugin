@@ -287,34 +287,12 @@
         <div class="lp_row lp_u_clearfix lp_u_m-b2">
             <h3><?php _e( 'Display of LaterPay Login / Logout Links', 'laterpay' ); ?></h3>
             <dfn class="lp_u_clearfix">
-                <?php _e( 'Call action \'laterpay_account_links\' in your theme or use the shortcode \'[laterpay_account_links]\' to display a LaterPay login or logout link in an iframe.', 'laterpay' ); ?><br>
-                <?php _e( 'If a user is not logged in to his LaterPay account, the link will say "Login". If the user is already logged in to LaterPay, the link will say "Logout".', 'laterpay' ); ?><br>
-                <?php _e( 'There are four parameters you can use to modify the LaterPay account link.', 'laterpay' ); ?>
+                <?php _e( 'Call action \'laterpay_account_links\' in your theme or use the shortcode \'[laterpay_account_links]\' to embed a LaterPay login / logout link in your page.', 'laterpay' ); ?><br>
+                <?php _e( 'By default this link comes only with minimal styling. You can style the link by handing over the full path to your own CSS file with the parameter \'css\'.', 'laterpay' ); ?><br>
             </dfn>
 
             <img class="lp_uiElementPreview lp_u_left lp_u_m-0 lp_u_m-t1" src="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAANwAAAA6CAYAAADbRzceAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABVZJREFUeNrsnM9PFGcYx19olUXjsthAShTjDy7ojZv2YuTQJk1sjGkvtjeP/VN67NFb9VLTGE166EHCpe6NnqBJ40ojNhJI042Ggm2Kne8Lz/ruMrM7sD+H/XwS4gIzszPr++F53ud5ZwZKpVLBOfcg+rrqAKBdzEdfNwaRDaAjyLEHA1GEe8tnAdAZBvkIABAOAOEAAOEAEA4AEA4A4QAQDgAQDgDhAADhABAOAOGg33i5te7++vcVH0SHeZ+PoD4alOV/dgbmRG7M5d4byvw1za0X3eO1or+Wry985UaP5PmPRrje4Jfyoh+c4vbZL9y546czf03PNl74f7f+e+P/mCAcKSW0kfO7fzQU4QpHkY0IB23l2thlN31iygtHdEM46ACajwIpJQARDlqDihQL5UW39LrkljdWqqLNueOT7soHM6lSvKTjaN/C0ZHYfW6f/bzyWvsulJf2/NxQy+DH1fmq3y9vvPD76f2snaD303nPFC4dimISwh0ill4/dT/88ZOXJW6A6+vJnwvu5qmP/QBOQtvde/4wtoemn6XprZWjbUJR44S23+v14/WiP7fY9/PyLvpz1rkDwnUdRYd7zx9VvtfgnM5fcMODuYqMGrQa3JLStokTwWRTwWN27LLfTq/1Ox1HkcmkvnXmurt4Yqqpc7+78sjLp/fQe4XH0/uZiDp/XVOz74dw0HQaeXfloX+tQateXm3BQumY5Lnz+/c+gkk6pWq16aUGtUWwTz+8WiWlCTGRG3fflr7zP1uNjtWsAJJN56vzrm3667x1fJ23mFsrIhxFk+5ikcskSaoOajDfPPVJ5fu53WZ7baQM5YrD5oM+Ar162pJruHXms8QVNiadpbuAcF0XrpEkoSw2eENRjc3tN7vbjdc9jkXGVgig82lUyJkYHqua1wHCdQ0b9OePTabaPqz2HVQYE7UV6z5DmdJg604B4bom234Gbhi9Xm6t7YmANq+Kq3bW7pdW8nrkBof4j0S47BRMmtp/u3p/9emMsBoZojsBLK0Ltz9whGuQvsL+oEqZITSXUq9LVUxrQk/np9xwlDpu7vbOLKpqO5rRCNdXhCvxN1NGu83trXf7xxQrrO+mvp4iWW1DWhVKtRiQDeH6MiJZUzptAWQ12G70yEhsmmotg9nxSKxgnnZYbpBFODgwKlxoRYYVOhoJYb0zbRcXpTR3k7yKdLrNBrIFRZM2ExYutCaxrmyRmBYJk1ZsWAVylBtHiXCwF0UpzasU4TTfUpoZVz3UKhJbR6noplUp8WnqiJfy5+hYmuPFpZ3an/vdEC7z2JrBRtQ+++TLyeuVdZJKCSWeVRctjQzneKowJqWe16J527O/V6oWOseh/T+KxL5ycoZ5HcL1F7ZoWYIobYyrLu5Er7xft5gUnSTZr9H+w4NDDXt8/raataKXOW7hMSBcb6aExybd7D57v3EP5tGA1+0yimSSxp6cJXYWHJ+uu9JeAukuAMmqFLWemEpPJbTNCdWzC9PYRtek81cFNOla6n1GPJSoPgOlUuktH0MW0tn7lVtl9CzJNHzz252KoHF3dgPC9dTghiYyAyQnpUzLTOFi5dmNvYBWqdicT2ln2oXQ9gBbf9tPvrM3hhZ4/B7CpRfuUs+dkwmnuWCahndYlNH8rRevqR+h8Z2xPwIqgOiOgKQqpT2iwZ66peiGbMzhYJ9IMOvlGTtrJ3OV72vnnZpHqQdISwDhoInUUlEuaTG05NI8j2dFIhy0mOWgl/cu4hHNehmKJhmGCJY9KJoAIBwAwgEAwgEgHAAgHADCAfSVcPN8DAAdYV7C3UA6gPbLJtf+F2AAzoFmA2nvgRMAAAAASUVORK5CYII=">
-
-            <table>
-                <tr>
-                    <td>
-                        <pre>css</pre>
-                    </td>
-                    <td>
-                        <?php _e( 'Full path to a CSS file for styling the form contained by the iframe', 'laterpay'); ?><br>
-                        <dfn data-icon="n"><?php _e( 'If you don\'t use the \'css\' parameter, the LaterPay account link will be rendered without any styling.', 'laterpay'); ?></dfn>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <pre>forcelang</pre>
-                    </td>
-                    <td>
-                        <?php _e( 'Locale string to force a specific language for the dialog, e.g. "de" or "en".', 'laterpay'); ?><br>
-                        <dfn data-icon="n"><?php _e( 'If you don\'t use the \'forcelang\' parameter, the blog\'s language will be used.', 'laterpay'); ?></dfn>
-                    </td>
-                </tr>
-            </table>
             <code class="lp_codeSnippet lp_u_block">
             <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
             <strong><?php _e( 'Basic Example', 'laterpay'); ?></strong><br>
@@ -322,8 +300,8 @@ iVBORw0KGgoAAAANSUhEUgAAANwAAAA6CAYAAADbRzceAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
             <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links' ); ?>" ); ?><br><br>
 
             <strong><?php _e( 'Advanced Example', 'laterpay'); ?></strong><br>
-            <strong>Shortcode:</strong> [laterpay_account_links css="<dfn>http://...com/style.css</dfn>" forcelang="<dfn>de</dfn>"]<br>
-            <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links', 'http://...com/style.css', 'de', null, null ); ?>" ); ?>
+            <strong>Shortcode:</strong> [laterpay_account_links css="<dfn>http://yourpage.com/style.css</dfn>"]<br>
+            <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links', 'http://yourpage.com/style.css' ); ?>" ); ?>
             </code>
         </div>
     </div>
