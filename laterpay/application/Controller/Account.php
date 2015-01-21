@@ -50,9 +50,15 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         $merchant_id = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
         ?>
         <script>
-            var lpAccountLinksUrl = "<?php echo $links_url; ?>";
-            var lpAccountNextUrl = "<?php echo urlencode( $next ); ?>";
-            var lpMerchantId = "<?php echo $merchant_id; ?>";
+            if (lpAccountLinksUrl === undefined) {
+                var lpAccountLinksUrl = "<?php echo $links_url; ?>";
+            }
+            if (lpAccountNextUrl === undefined) {
+                var lpAccountNextUrl = "<?php echo urlencode( $next ); ?>";
+            }
+            if (lpMerchantId === undefined) {
+                var lpMerchantId = "<?php echo $merchant_id; ?>";
+            }
         </script>
         <?php
 
