@@ -51,6 +51,10 @@ class LaterPay_Helper_Cache
             'wp-cachecom/wp-cache-com.php',         // WP-Cache.com
             'wordfence/wordfence.php',              // Wordfence
             'wp-rocket/wp-rocket.php',              // WP Rocket
+            'aio-cache/aio.php',                    // AIO Cache & Performance
+            'hyper-cache/plugin.php',               // Hyper Cache
+            'hyper-cache-extended/plugin.php',      // Hyper Cache Extended
+            'really-static/main.php',               // Really Static
         );
 
         foreach ( $caching_plugins as $plugin ) {
