@@ -7,7 +7,7 @@
         $laterpay['standard_currency']
     );
 
-    $period = $period = LaterPay_Helper_Passes::get_period_options( $laterpay_pass['period'] );
+    $period = LaterPay_Helper_Passes::get_period_options( $laterpay_pass['period'] );
     if ( $laterpay_pass['duration'] > 1 ) {
         $period = LaterPay_Helper_Passes::get_period_options( $laterpay_pass['period'], true );
     }
@@ -54,7 +54,7 @@
             <tr>
                 <th><?php _e( 'Price', 'laterpay' ) ?></th>
                 <td>
-                    <span class="lp_js_timePassPreviewPrice"><?php echo  $price . ' ' . $laterpay['standard_currency']; ?></span>
+                    <span class="lp_js_timePassPreviewPrice"><?php echo $price . ' ' . $laterpay['standard_currency']; ?></span>
                 </td>
             </tr>
         </table>

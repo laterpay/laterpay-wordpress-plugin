@@ -123,6 +123,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'bulk_categories'                       => $bulk_categories,
             'bulk_categories_with_price'            => $bulk_categories_with_price,
             'bulk_saved_operations'                 => $bulk_saved_operations,
+            'landing_page'                          => get_option( 'laterpay_landing_page' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -209,6 +210,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
                 case 'generate_voucher_code':
                     $this->generate_voucher_code();
+                    break;
+
+                case 'save_landing_page':
+                    $this->save_landing_page();
                     break;
 
                 case 'laterpay_get_categories_with_price':
@@ -890,7 +895,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 array(
                     'success'  => true,
                     'data'     => $data,
-                    'vouchers' => LaterPay_Helper_Vouchers::get_pass_vouchers( $data['pass_id'] ),
+                    'vouchers' => LaterPay_Helper_Vouchers::get_time_pass_vouchers( $data['pass_id'] ),
                     'html'     => $this->render_pass( $data ),
                     'message'  => __( 'Pass saved.', 'laterpay' ),
                 )
@@ -965,15 +970,43 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     private function generate_voucher_code() {
-
         // generate voucher code
-        $voucher_code = LaterPay_Helper_Vouchers::generate_voucher_code();
         wp_send_json(
             array(
                 'success' => true,
-                'code'    => $voucher_code,
+                'code'    => LaterPay_Helper_Vouchers::generate_voucher_code(),
             )
         );
     }
 
+    /**
+     * Save landing page URL the user is forwarded to after redeeming a gift card voucher.
+     *
+     * @return void
+     */
+    private function save_landing_page() {
+        $landing_page_form  = new LaterPay_Form_LandingPage( $_POST );
+        $url                = $landing_page_form->get_field_value( 'landing_url');
+        $url_match          = preg_match_all( '/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/i', $url );
+
+        if ( $landing_page_form->is_valid() && $url_match ) {
+            // save URL and confirm with flash message, if the URL is valid
+            update_option( 'laterpay_landing_page', $url );
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'message' => __( 'Landing page saved.', 'laterpay' ),
+                )
+            );
+        } else {
+            // show an error message, if the provided URL is not valid
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'The landing page you entered is not a valid URL.', 'laterpay' ),
+                )
+            );
+        }
+    }
 }

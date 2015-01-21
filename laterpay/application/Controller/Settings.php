@@ -53,6 +53,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
         $this->add_time_passes_settings();
+        $this->add_gift_codes_settings();
         $this->add_teaser_content_settings();
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
@@ -95,13 +96,15 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_caching_section_description() {
-        echo __( 'You MUST enable caching compatiblity mode, if you are using a caching solution that caches
+        echo '<p>' .
+            __( 'You MUST enable caching compatiblity mode, if you are using a caching solution that caches
                 entire HTML pages.<br>
                 In caching compatibility mode the plugin works like this:<br>
                 It renders paid posts only with the teaser content. This allows to cache them as static files without
                 risking to leak the paid content.<br>
                 When someone visits the page, it makes an Ajax request to determine, if the visitor has already bought
-                the post and replaces the teaser with the full content, if required.', 'laterpay');
+                the post and replaces the teaser with the full content, if required.', 'laterpay') .
+            '</p>';
     }
 
     /**
@@ -134,7 +137,10 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_enabled_post_types_section_description() {
-        echo __( 'Please choose, which standard and custom post types should be sellable with LaterPay.', 'laterpay');
+        echo '<p>' .
+                __( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
+                'laterpay') .
+            '</p>';
     }
 
     /**
@@ -172,7 +178,76 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_time_passes_section_description() {
-        echo __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.', 'laterpay');
+        echo '<p>' .
+                __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
+                'laterpay') .
+            '</p>';
+    }
+
+    /**
+     * Add gift codes section and fields.
+     *
+     * @return void
+     */
+    public function add_gift_codes_settings() {
+        add_settings_section(
+            'laterpay_gift_codes',
+            __( 'Gift Codes Limit', 'laterpay' ),
+            array( $this, 'get_gift_codes_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_maximum_redemptions_per_gift_code',
+            __( 'Times Redeemable', 'laterpay' ),
+            array( $this, 'get_text_field_markup' ),
+            'laterpay',
+            'laterpay_gift_codes',
+            array(
+                'name'  => 'laterpay_maximum_redemptions_per_gift_code',
+                'class' => 'lp_numberInput',
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_maximum_redemptions_per_gift_code', array( $this, 'sanitize_maximum_redemptions_per_gift_code_input' ) );
+    }
+
+    /**
+     * Render the hint text for the gift codes section.
+     *
+     * @return string description
+     */
+    public function get_gift_codes_section_description() {
+        echo '<p>' .
+                __( 'Specify, how many times a gift code can be redeemed for the associated time pass.', 'laterpay' ) .
+            '</p>';
+    }
+
+    /**
+     * Sanitize maximum redemptions per gift code
+     *
+     * @param $input
+     *
+     * @return int
+     */
+    public function sanitize_maximum_redemptions_per_gift_code_input( $input ) {
+        $error = '';
+        $input = absint( $input );
+
+        if ( $input < 1 ) {
+            $input = 1;
+            $error = 'Please enter a valid limit ( 1 or greater )';
+        }
+
+        if ( ! empty( $error ) ) {
+            add_settings_error(
+                'laterpay',
+                'gift_code_redeem_error',
+                $error,
+                'error'
+            );
+        }
+        return $input;
     }
 
     /**
@@ -210,11 +285,13 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_teaser_content_section_description() {
-        echo __( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
-                without teaser content.<br>
-                While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED.<br>
-                If you really, really want to have NO teaser content for a post, enter one space
-                into the teaser content editor for that post.', 'laterpay');
+        echo '<p>' .
+                __( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
+                    without teaser content.<br>
+                    While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED.<br>
+                    If you really, really want to have NO teaser content for a post, enter one space
+                    into the teaser content editor for that post.', 'laterpay') .
+            '</p>';
     }
 
     /**
@@ -283,10 +360,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_preview_excerpt_section_description() {
-        echo __( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
-                an excerpt of the full content, covered by a semi-transparent overlay.<br>
-                The following three parameters give you fine-grained control over the length of this excerpt.<br>
-                These settings do not affect the teaser content in any way.', 'laterpay');
+        echo '<p>' .
+                __( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
+                    an excerpt of the full content, covered by a semi-transparent overlay.<br>
+                    The following three parameters give you fine-grained control over the length of this excerpt.<br>
+                    These settings do not affect the teaser content in any way.', 'laterpay') .
+            '</p>';
     }
 
     /**
@@ -319,10 +398,12 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_unlimited_access_section_description() {
-        echo __( "Logged in users can skip LaterPay entirely, if they have a role with unlimited access
-                to paid content.<br>
-                You can use this e.g. for giving free access to existing subscribers.<br>
-                We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay');
+        echo '<p>' .
+                __( "Logged in users can skip LaterPay entirely, if they have a role with unlimited access
+                    to paid content.<br>
+                    You can use this e.g. for giving free access to existing subscribers.<br>
+                    We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay') .
+            '</p>';
     }
 
     /**
@@ -360,12 +441,14 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_logger_section_description() {
-        echo __( 'The LaterPay WordPress plugin generates sales statistics for you on the dashboard and on the posts
-                pages.<br>
-                For collecting the required data it sets a cookie and stores all requests from visitors of your blog.
-                <br>
-                This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
-                It will automatically be deleted after three months.', 'laterpay');
+        echo '<p>' .
+                __( 'The LaterPay WordPress plugin generates sales statistics for you on the dashboard and on the posts
+                    pages.<br>
+                    For collecting the required data it sets a cookie and stores all requests from visitors of your
+                    blog.<br>
+                    This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
+                    It will automatically be deleted after three months.', 'laterpay') .
+            '</p>';
     }
 
     /**
@@ -445,11 +528,14 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
      * @return string description
      */
     public function get_api_settings_section_description() {
-        echo __( 'There is only a single reason for changing the API settings:<br>
-                By replacing the Live API URLs with the Sandbox API URLs,
-                you can configure your installation to be in
-                Test mode, but behave like an installation in Live mode.<br>
-                This is what LaterPay is doing at <a href="www.laterpaydemo.com">laterpaydemo.com</a>.', 'laterpay');
+        echo '<p>' .
+                __( 'There is only a single reason for changing the API settings:<br>
+                    By replacing the Live API URLs with the Sandbox API URLs,
+                    you can configure your installation to be in
+                    Test mode, but behave like an installation in Live mode.<br>
+                    This is what LaterPay is doing at <a href="www.laterpaydemo.com">laterpaydemo.com</a>.',
+                    'laterpay') .
+            '</p>';
     }
 
     /**

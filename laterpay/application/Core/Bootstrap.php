@@ -48,6 +48,8 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_meta_keys' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_terms_price_table' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_currency_to_euro' ) );
+                add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_time_passes_table' ) );
+                add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_payment_history_add_revenue_model' ) );
             }
 
             if ( ! function_exists( 'is_plugin_active' ) ) {
@@ -90,10 +92,20 @@ class LaterPay_Core_Bootstrap
 
         // add the shortcodes
         $shortcode_controller = new LaterPay_Controller_Shortcode( $this->config );
-        add_shortcode( 'laterpay_premium_download',             array( $shortcode_controller, 'render_premium_download_box' ) );
-        add_shortcode( 'laterpay_box_wrapper',                  array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
+        add_shortcode( 'laterpay_premium_download', array( $shortcode_controller, 'render_premium_download_box' ) );
+        add_shortcode( 'laterpay_box_wrapper',      array( $shortcode_controller, 'render_premium_download_box_wrapper' ) );
         // add shortcode 'laterpay' as alias for shortcode 'laterpay_premium_download':
-        add_shortcode( 'laterpay',                              array( $shortcode_controller, 'render_premium_download_box' ) );
+        add_shortcode( 'laterpay',                  array( $shortcode_controller, 'render_premium_download_box' ) );
+
+        // add time passes shortcode (as alternative to action 'laterpay_time_passes')
+        add_shortcode( 'laterpay_time_passes',      array( $shortcode_controller, 'render_time_passes_widget' ) );
+
+        // add gift cards shortcodes
+        add_shortcode( 'laterpay_gift_card',        array( $shortcode_controller, 'render_gift_card' ) );
+        add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_code' ) );
+
+        add_action( 'wp_ajax_laterpay_get_gift_card_actions',        array( $shortcode_controller, 'ajax_load_gift_action' ) );
+        add_action( 'wp_ajax_nopriv_laterpay_get_gift_card_actions', array( $shortcode_controller, 'ajax_load_gift_action' ) );
 
         // check if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {

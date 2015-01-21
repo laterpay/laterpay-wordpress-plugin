@@ -23,6 +23,11 @@
                 voucherCodeWrapper              : '#lp_js_voucherCodeWrapper',
                 voucherCodeInput                : '.lp_js_voucherCodeInput',
                 voucherRedeemButton             : '.lp_js_voucherRedeemButton',
+                giftCardRedeemButton            : '.lp_js_giftCardRedeemButton',
+                giftCardCodeInput               : '.lp_js_giftCardCodeInput',
+                giftCardWrapper                 : '#lp_js_giftCardWrapper',
+                giftCardActionsPlaceholder      : '.lp_js_giftCardActionsPlaceholder',
+                giftsWrapper                    : $('.lp_js_giftsWrapper'),
 
                 // placeholders for caching compatibility mode
                 postContentPlaceholder          : $('#lp_js_postContentPlaceholder'),
@@ -99,65 +104,83 @@
                 // redeem voucher code
                 $($o.voucherRedeemButton)
                 .on('mousedown', function() {
-                    redeemVoucherCode();
+                    redeemVoucherCode($(this).parent(), $o.voucherCodeInput, false);
+                })
+                .on('click', function(e) {e.preventDefault();});
+
+                $($o.giftCardRedeemButton)
+                .on('mousedown', function() {
+                    redeemVoucherCode($(this).parent(), $o.giftCardCodeInput, true);
                 })
                 .on('click', function(e) {e.preventDefault();});
             },
 
-            redeemVoucherCode = function() {
-                var code = $($o.voucherCodeInput).val();
+            redeemVoucherCode = function($wrapper, input, is_gift) {
+                var code = $(input).val();
 
                 if (code.length === 6) {
                     $.get(
                         lpVars.ajaxUrl,
                         {
-                            action : 'laterpay_redeem_voucher_code',
-                            code   : code,
-                            nonce  : lpVars.nonces.voucher,
-                            link   : window.location.href,
+                            action  : 'laterpay_redeem_voucher_code',
+                            code    : code,
+                            nonce   : lpVars.nonces.voucher,
+                            link    : window.location.href,
+                            is_gift : is_gift ? 1 : 0
                         },
                         function(r) {
-                            // clear input
-                            $($o.voucherCodeInput).val('');
-
                             if (r.success) {
-                                var has_matches = false,
-                                    passId;
-                                $($o.timePass).each(function() {
-                                    // check for each displayed time pass, if the request returned updated data for it
-                                    passId = $(this).data('pass-id');
-                                    if (passId === r.pass_id) {
-                                        // update purchase button price and url
-                                        var priceWithVoucher = r.price +
-                                                                '<small>' + lpVars.default_currency + '</small>';
+                                if (!is_gift) {
+                                    // clear input
+                                    $(input).val('');
 
-                                        // update purchase button on time pass
-                                        $(this)
-                                            .find($o.purchaseLink)
-                                            .attr('data-laterpay', r.url)
-                                            .html(priceWithVoucher);
+                                    var has_matches = false,
+                                        passId;
+                                    $($o.timePass).each(function() {
+                                        // check for each shown time pass, if the request returned updated data for it
+                                        passId = $(this).data('pass-id');
+                                        if (passId === r.pass_id) {
+                                            // update purchase button price and url
+                                            var priceWithVoucher = r.price +
+                                                '<small>' + lpVars.default_currency + '</small>';
 
-                                        // update price on time pass flipside as well
-                                        $(this)
-                                            .find($o.timePassPreviewPrice)
-                                            .html(priceWithVoucher);
+                                            // update purchase button on time pass
+                                            $(this)
+                                                .find($o.purchaseLink)
+                                                .attr('data-laterpay', r.url)
+                                                .html(priceWithVoucher);
 
-                                        has_matches = true;
+                                            // update price on time pass flipside as well
+                                            $(this)
+                                                .find($o.timePassPreviewPrice)
+                                                .html(priceWithVoucher);
 
-                                        return false;
+                                            has_matches = true;
+
+                                            return false;
+                                        }
+                                    });
+
+                                    if (has_matches) {
+                                        // voucher is valid for at least one displayed time pass
+                                        showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher, $wrapper);
+                                    } else {
+                                        // voucher is invalid for all displayed time passes
+                                        showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
                                     }
-                                });
-
-                                if (has_matches) {
-                                    // voucher is valid for at least one displayed time pass
-                                    showVoucherCodeFeedbackMessage(lpVars.i18n.validVoucher);
                                 } else {
-                                    // voucher is invalid for all displayed time passes
-                                    showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
+                                    $('#fakebtn').attr('data-laterpay', r.url);
+// fire purchase event on hidden fake button
+YUI().use('node', 'node-event-simulate', function(Y) {
+    Y.one('#fakebtn').simulate('click');
+});
                                 }
                             } else {
+                                // clear input
+                                $(input).val('');
+
                                 // voucher is invalid for all displayed time passes
-                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher);
+                                showVoucherCodeFeedbackMessage(code + lpVars.i18n.invalidVoucher, $wrapper);
                             }
                         },
                         'json'
@@ -168,15 +191,14 @@
                 }
             },
 
-            showVoucherCodeFeedbackMessage = function(message) {
+            showVoucherCodeFeedbackMessage = function(message, $wrapper) {
                 var $feedbackMessage =  $('<div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
                                             message +
                                         '</div>');
 
-                $($o.voucherCodeWrapper)
-                .prepend($feedbackMessage);
+                $wrapper.prepend($feedbackMessage);
 
-                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $o.voucherCodeWrapper);
+                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $wrapper);
                 $feedbackMessage
                 .fadeIn(250)
                 .click(function() {
@@ -227,6 +249,47 @@
                     function(ratingSummary) {
                         if (ratingSummary) {
                             $o.postRatingPlaceholder.html(ratingSummary);
+                        }
+                    }
+                );
+            },
+
+            loadGiftCards = function() {
+                var ids     = [],
+                    cards   = $o.giftsWrapper;
+
+                // get all pass ids from wrappers
+                $.each(cards, function(i) {
+                    ids.push($(cards[i]).data('id'));
+                });
+
+                $.get(
+                    lpVars.ajaxUrl,
+                    {
+                        action  : 'laterpay_get_gift_card_actions',
+                        nonce   : lpVars.nonces.gift,
+                        pass_id : ids,
+                        link    : window.location.href
+                    },
+                    function(r) {
+                        if (r.data) {
+                            $.each(r.data, function(i) {
+                                var gift    = r.data[i],
+                                    $elem   = $($o.giftCardActionsPlaceholder + '_' + gift.id);
+
+                                $elem.html(gift.html);
+
+                                // add 'buy another gift card' after gift card
+                                if (gift.buy_more) {
+                                    // $elem.parent().after(gift.buy_more);
+                                    $(gift.buy_more)
+                                    .appendTo($elem.parent())
+                                    .attr('href', window.location.href);
+                                }
+                            });
+
+                            // remove gift code cookie if present
+                            delete_cookie('laterpay_purchased_gift_card');
                         }
                     }
                 );
@@ -367,6 +430,10 @@
                 $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
             },
 
+            delete_cookie = function( name ) {
+                document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';
+            },
+
             initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
                 // (recognizable by the presence of lp_js_postContentPlaceholder
@@ -382,6 +449,10 @@
 
                 if ($o.postRatingPlaceholder.length === 1) {
                     loadRatingSummary();
+                }
+
+                if ($o.giftsWrapper.length >= 1) {
+                    loadGiftCards();
                 }
 
                 bindPurchaseEvents();

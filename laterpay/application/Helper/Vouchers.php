@@ -2,8 +2,12 @@
 
 class LaterPay_Helper_Vouchers
 {
-    const VOUCHER_CODE_LENGTH = 6;
-    const VOUCHER_CHARS       = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const VOUCHER_CODE_LENGTH  = 6;
+    const VOUCHER_CHARS        = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const GIFT_CODES_OPTION    = 'laterpay_gift_codes';
+    const GIFT_STAT_OPTION     = 'laterpay_gift_statistic';
+    const VOUCHER_CODES_OPTION = 'laterpay_voucher_codes';
+    const VOUCHER_STAT_OPTION  = 'laterpay_voucher_statistic';
 
     /**
      * Generate random voucher code.
@@ -31,12 +35,14 @@ class LaterPay_Helper_Vouchers
      * @param int   $pass_id
      * @param array $vouchers_data
      * @param bool  $no_explode
+     * @param bool  $is_gift
      *
      * @return void
      */
-    public static function save_pass_vouchers( $pass_id, $vouchers_data, $no_explode = false ) {
-        $vouchers     = self::get_all_vouchers();
+    public static function save_pass_vouchers( $pass_id, $vouchers_data, $no_explode = false, $is_gift = false ) {
+        $vouchers     = self::get_all_vouchers( $is_gift );
         $new_vouchers = array();
+        $option_name  = $is_gift ? self::GIFT_CODES_OPTION : self::VOUCHER_CODES_OPTION;
 
         if ( $vouchers_data && is_array( $vouchers_data ) ) {
             foreach ( $vouchers_data as $voucher ) {
@@ -59,20 +65,21 @@ class LaterPay_Helper_Vouchers
         }
 
         // save new voucher data
-        update_option( 'laterpay_voucher_codes', $vouchers );
+        update_option( $option_name, $vouchers );
         // actualize voucher statistic
-        self::actualize_voucher_statistic();
+        self::actualize_voucher_statistic( $is_gift );
     }
 
     /**
      * Get voucher codes of current time pass.
      *
-     * @param int $pass_id
+     * @param int  $pass_id
+     * @param bool $is_gift
      *
      * @return array
      */
-    public static function get_pass_vouchers( $pass_id ) {
-        $vouchers = self::get_all_vouchers();
+    public static function get_time_pass_vouchers( $pass_id, $is_gift = false ) {
+        $vouchers = self::get_all_vouchers( $is_gift );
         if ( ! isset( $vouchers[ $pass_id ] ) ) {
             return array();
         }
@@ -83,12 +90,15 @@ class LaterPay_Helper_Vouchers
     /**
      * Get all vouchers.
      *
+     * @param bool $is_gift
+     *
      * @return array of vouchers
      */
-    public static function get_all_vouchers() {
-        $vouchers = get_option( 'laterpay_voucher_codes' );
+    public static function get_all_vouchers( $is_gift = false ) {
+        $option_name = $is_gift ? self::GIFT_CODES_OPTION : self::VOUCHER_CODES_OPTION;
+        $vouchers    = get_option( $option_name );
         if ( ! $vouchers || ! is_array( $vouchers ) ) {
-            update_option( 'laterpay_voucher_codes', '' );
+            update_option( $option_name, '' );
 
             return array();
         }
@@ -101,11 +111,12 @@ class LaterPay_Helper_Vouchers
      *
      * @param int       $pass_id
      * @param string    $code
+     * @param bool      $is_gift
      *
      * @return void
      */
-    public static function delete_voucher_code( $pass_id, $code = null ) {
-        $pass_vouchers = self::get_pass_vouchers( $pass_id );
+    public static function delete_voucher_code( $pass_id, $code = null, $is_gift = false ) {
+        $pass_vouchers = self::get_time_pass_vouchers( $pass_id, $is_gift );
         if ( $pass_vouchers && is_array( $pass_vouchers ) ) {
             if ( $code ) {
                 unset( $pass_vouchers[$code] );
@@ -114,18 +125,19 @@ class LaterPay_Helper_Vouchers
             }
         }
 
-        self::save_pass_vouchers( $pass_id, $pass_vouchers, true );
+        self::save_pass_vouchers( $pass_id, $pass_vouchers, true, $is_gift = false );
     }
 
     /**
      * Check, if voucher code exists and return pass_id and new price.
      *
-     * @param $code
+     * @param string $code
+     * @param bool   $is_gift
      *
      * @return mixed $voucher_data
      */
-    public static function check_voucher_code( $code ) {
-        $vouchers = self::get_all_vouchers();
+    public static function check_voucher_code( $code, $is_gift = false ) {
+        $vouchers = self::get_all_vouchers( $is_gift );
 
         // search code
         foreach ( $vouchers as $pass_id => $pass_vouchers ) {
@@ -149,16 +161,17 @@ class LaterPay_Helper_Vouchers
      * Check, if given time passes have vouchers.
      *
      * @param array $passes array of time passes
+     * @param bool  $is_gift
      *
      * @return bool $has_vouchers
      */
-    public static function passes_have_vouchers( $passes ) {
+    public static function passes_have_vouchers( $passes, $is_gift = false ) {
         $has_vouchers = false;
 
         if ( $passes && is_array( $passes ) ) {
             foreach ( $passes as $pass ) {
                 $pass = (array) $pass;
-                if ( self::get_pass_vouchers( $pass[ 'pass_id' ]) ) {
+                if ( self::get_time_pass_vouchers( $pass[ 'pass_id' ], $is_gift ) ) {
                     $has_vouchers = true;
                     break;
                 }
@@ -172,12 +185,15 @@ class LaterPay_Helper_Vouchers
     /**
      * Actualize voucher statistic.
      *
+     * @param bool $is_gift
+     *
      * @return void
      */
-    public static function actualize_voucher_statistic( ) {
-        $vouchers  = self::get_all_vouchers();
-        $statistic = self::get_all_vouchers_statistic();
-        $result    = $statistic;
+    public static function actualize_voucher_statistic( $is_gift = false ) {
+        $vouchers    = self::get_all_vouchers( $is_gift );
+        $statistic   = self::get_all_vouchers_statistic( $is_gift );
+        $result      = $statistic;
+        $option_name = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
 
         foreach ( $statistic as $pass_id => $statistic_data ) {
             if ( ! isset( $vouchers[$pass_id] ) ) {
@@ -191,8 +207,8 @@ class LaterPay_Helper_Vouchers
             }
         }
 
-        // update voucher statistic
-        update_option( 'laterpay_voucher_statistic', $result );
+        // update voucher statistics
+        update_option( $option_name, $result );
     }
 
     /**
@@ -200,16 +216,18 @@ class LaterPay_Helper_Vouchers
      *
      * @param int    $pass_id time pass id
      * @param string $code    voucher code
+     * @param bool   $is_gift
      *
      * @return bool success or error
      */
-    public static function update_voucher_statistic( $pass_id, $code ) {
-        $pass_vouchers = self::get_pass_vouchers( $pass_id );
+    public static function update_voucher_statistic( $pass_id, $code, $is_gift = false ) {
+        $pass_vouchers = self::get_time_pass_vouchers( $pass_id, $is_gift );
+        $option_name   = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
 
         // check, if such voucher exists
         if ( $pass_vouchers && isset( $pass_vouchers[ $code ] ) ) {
             // get all voucher statistics for this pass
-            $voucher_statistic_data = self::get_pass_vouchers_statistic( $pass_id );
+            $voucher_statistic_data = self::get_time_pass_vouchers_statistic( $pass_id, $is_gift );
             // check, if statistic is empty
             if ( $voucher_statistic_data ) {
                 // increment counter by 1, if statistic exists
@@ -219,10 +237,10 @@ class LaterPay_Helper_Vouchers
                 $voucher_statistic_data[ $code ] = 1;
             }
 
-            $statistic           = self::get_all_vouchers_statistic();
+            $statistic           = self::get_all_vouchers_statistic( $is_gift );
             $statistic[$pass_id] = $voucher_statistic_data;
-            update_option( 'laterpay_voucher_statistic', $statistic );
 
+            update_option( $option_name, $statistic );
             return true;
         }
 
@@ -233,11 +251,12 @@ class LaterPay_Helper_Vouchers
      * Get time pass voucher statistic by time pass id.
      *
      * @param  int $pass_id time pass id
+     * @param  bool $is_gift
      *
      * @return array $statistic
      */
-    public static function get_pass_vouchers_statistic( $pass_id ) {
-        $statistic = self::get_all_vouchers_statistic();
+    public static function get_time_pass_vouchers_statistic( $pass_id, $is_gift = false ) {
+        $statistic = self::get_all_vouchers_statistic( $is_gift );
 
         if ( isset( $statistic[$pass_id] ) ) {
             return $statistic[$pass_id];
@@ -249,12 +268,15 @@ class LaterPay_Helper_Vouchers
     /**
      * Get statistics for all vouchers.
      *
+     * @param bool $is_gift
+     *
      * @return array $statistic
      */
-    public static function get_all_vouchers_statistic() {
-        $statistic = get_option( 'laterpay_voucher_statistic' );
+    public static function get_all_vouchers_statistic( $is_gift = false ) {
+        $option_name = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
+        $statistic   = get_option( $option_name );
         if ( ! $statistic || ! is_array( $statistic ) ) {
-            update_option( 'laterpay_voucher_statistic', '' );
+            update_option( $option_name, '' );
 
             return array();
         }
@@ -262,4 +284,98 @@ class LaterPay_Helper_Vouchers
         return $statistic;
     }
 
+    /**
+     * Get the LaterPay purchase link for a voucher.
+     *
+     * @param int  $pass_id
+     * @param null $price   new price (voucher code)
+     * @param null $code    url of page to redirect
+     *
+     * @return string url || empty string if something went wrong
+     */
+    public static function get_laterpay_purchase_link( $pass_id, $price = null, $code = null, $link = null ) {
+        $time_pass_model = new LaterPay_Model_Pass();
+
+        $pass = (array) $time_pass_model->get_pass_data( $pass_id );
+        if ( empty( $pass ) ) {
+            return '';
+        }
+
+        $currency       = get_option( 'laterpay_currency' );
+        $price          = isset( $price ) ? $price : $pass['price'];
+        $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $pass['revenue_model'], $price );
+
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $client = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        $url = isset( $link ) ? $link : get_permalink();
+
+        // parameters for LaterPay purchase form
+        $params = array(
+            'article_id'    => '[#' . $code . ']',
+            'pricing'       => $currency . ( $price * 100 ),
+            'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
+            'url'           => $url,
+            'title'         => $pass['title'] . ', Code: ' . $code, // show the gift code with each purchased gift card
+        );
+
+        if ( $revenue_model == 'sis' ) {
+            // Single Sale purchase
+            return $client->get_buy_url( $params );
+        } else {
+            // Pay-per-Use purchase
+            return $client->get_add_url( $params );
+        }
+    }
+
+    /**
+     * Get gift code usages count
+     *
+     * @param $code
+     *
+     * @return null
+     */
+    public static function get_gift_code_usages_count( $code ) {
+        $usages = get_option( 'laterpay_gift_codes_usages' );
+        return $usages && isset( $usages[$code] ) ? $usages[$code] : 0;
+    }
+
+    /**
+     * Update gift code usages
+     *
+     * @param $code
+     *
+     * @return bool
+     */
+    public static function update_gift_code_usages( $code ) {
+        $usages = get_option( 'laterpay_gift_codes_usages' );
+        if ( ! $usages ) {
+            $usages = array();
+        }
+        isset( $usages[$code] ) ? $usages[$code] += 1 : $usages[$code] = 1;
+        update_option( 'laterpay_gift_codes_usages', $usages );
+        return true;
+    }
+
+    /**
+     * Check if gift code usages exceed limits
+     *
+     * @param $code
+     *
+     * @return bool
+     */
+    public static function check_gift_code_usages_limit( $code ) {
+        $limit  = get_option( 'laterpay_maximum_redemptions_per_gift_code' );
+        $usages = self::get_gift_code_usages_count( $code );
+        if ( ( $usages + 1 ) <= $limit ) {
+            return true;
+        }
+        return false;
+    }
 }

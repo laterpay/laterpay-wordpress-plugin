@@ -22,7 +22,7 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * Get time pass data
+     * Get time pass data.
      *
      * @param int $pass_id time pass id
      *
@@ -46,7 +46,7 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * Update pass or create new
+     * Update or create new pass.
      *
      * @param array $data payment data
      *
@@ -74,11 +74,7 @@ class LaterPay_Model_Pass
             '%f', // price
             '%s', // revenue_model
             '%s', // title
-            '%s', // title_color
             '%s', // description
-            '%s', // description_color
-            '%s', // background_path
-            '%s', // background_color
         );
 
         if ( empty($pass_id) ) {
@@ -98,7 +94,7 @@ class LaterPay_Model_Pass
             );
             $data['pass_id'] = $pass_id;
         }
-        
+
         return $data;
     }
 
@@ -186,4 +182,3 @@ class LaterPay_Model_Pass
         return $success;
     }
 }
-

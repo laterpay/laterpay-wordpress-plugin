@@ -15,15 +15,15 @@ class LaterPay_Helper_Passes
     public static function get_default_options( $key = null ) {
         // Default time range. Used during passes creation.
         $defaults = array(
-            'pass_id'           => '0',
-            'duration'          => '1',
-            'period'            => '1',
-            'access_to'         => '0',
-            'access_category'   => '',
-            'price'             => '0.99',
-            'revenue_model'     => 'ppu',
-            'title'             => __( '24-Hour Pass', 'laterpay' ),
-            'description'       => __( '24 hours access to all content on this website', 'laterpay' ),
+            'pass_id'                => '0',
+            'duration'               => '1',
+            'period'                 => '1',
+            'access_to'              => '0',
+            'access_category'        => '',
+            'price'                  => '0.99',
+            'revenue_model'          => 'ppu',
+            'title'                  => __( '24-Hour Pass', 'laterpay' ),
+            'description'            => __( '24 hours access to all content on this website', 'laterpay' ),
         );
 
         if ( isset ( $key ) ) {
@@ -360,10 +360,32 @@ class LaterPay_Helper_Passes
         return (array) $passes_list;
     }
 
+    /**
+     * Get all time passes.
+     *
+     * @return array of passes
+     */
     public static function get_all_passes() {
         $model = new LaterPay_Model_Pass();
 
         return $model->get_all_passes();
+    }
+
+    /**
+     * Get time pass data by id.
+     *
+     * @param $pass_id
+     *
+     * @return array
+     */
+    public static function get_time_pass_by_id( $pass_id ) {
+        $model = new LaterPay_Model_Pass();
+
+        if ( $pass_id ) {
+            return $model->get_pass_data( (int) $pass_id );
+        }
+
+        return array();
     }
 
     /**

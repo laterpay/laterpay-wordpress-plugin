@@ -187,15 +187,15 @@
             <p>
                 <span class="lp_revenueModelLabel lp_u_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
                 <dfn>
-                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf ?><br>
-                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf ?>
+                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?><br>
+                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
                 </dfn>
             </p>
             <p>
                 <span class="lp_revenueModelLabel lp_u_m-r05">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
                 <dfn>
                     <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
-                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); //FIXME: translation with sprintf?>
+                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
                 </dfn>
             </p>
         </div>
@@ -203,17 +203,33 @@
 
 
         <div class="lp_row">
-            <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
+            <h2 id="lp_timePasses"><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
+
             <dfn class="lp_u_block lp_u_m-b1">
                 <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?><br>
-                <?php _e( 'To display time passes you have to <a href="admin.php?page=laterpay-appearance-tab#lp_timePassAppearance">call the action \'laterpay_time_passes\'</a> in your theme.', 'laterpay' ); ?>
+                <?php _e( 'You can offer <strong>gift cards</strong> for each time pass. Please follow the instructions in the <a href="admin.php?page=laterpay-appearance-tab#lp_giftCardsAppearance">appearance tab</a>.', 'laterpay' ); ?>
             </dfn>
 
+            <div class="lp_u_m-b1">
+                <form id="lp_js_landingPageForm" method="post">
+                    <input type="hidden" name="form" value="save_landing_page">
+                    <input type="hidden" name="action" value="laterpay_pricing">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                    <label><?php _e( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ); ?></label>
+                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
+                    <a href="#" id="lp_js_landingPageSave" class="lp_editLink lp_saveLink lp_u_inlineBlock lp_u_m-l1 lp_u_pd-0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                </form>
+            </div>
+
             <div class="lp_js_timePassEditor lp_timePassEditor">
-                <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Pass', 'laterpay' ); ?></a>
+                <a href="#" id="lp_js_addTimePass" class="lp_addTimePass button button-primary" data-icon="c"><?php _e( 'New Time Pass', 'laterpay' ); ?></a>
 
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_timePassWrapper lp_u_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
+                        <div class="lp_timePass__idWrapper">
+                            <?php _e( 'Pass' , 'laterpay'); ?>
+                            <span class="lp_js_timePassId lp_timePass__id"><?php echo $pass->pass_id; ?></span>
+                        </div>
                         <div class="lp_js_timePassPreview lp_u_left">
                             <?php echo $this->render_pass( (array) $pass ); ?>
                         </div>
@@ -248,6 +264,11 @@
                 <?php endforeach; ?>
 
                 <div id="lp_js_timePassTemplate" class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_timePassWrapper lp_u_clearfix lp_u_hide" data-pass-id="0">
+                    <div class="lp_timePass__idWrapper" style="display:none;">
+                        <?php _e( 'Pass' , 'laterpay'); ?>
+                        <span class="lp_js_timePassId lp_timePass__id">x</span>
+                    </div>
+
                     <div class="lp_js_timePassPreview lp_u_left">
                         <?php echo $this->render_pass(); ?>
                     </div>
@@ -326,7 +347,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td class="lp_rowspan-label">
                                         <?php _e( 'Description', 'laterpay' ); ?>
                                     </td>
                                     <td rowspan="2">

@@ -132,7 +132,9 @@ class LaterPay_Helper_View
      * @return string
      */
     public static function remove_extra_spaces( $string ) {
-        return trim( preg_replace( '/>\s+</', '><', $string ) );
+        $string = trim( preg_replace( '/>\s+</', '><', $string ) );
+        $string = preg_replace( '/\n\s*\n/', '', $string );
+        return $string;
     }
 
     /**

@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.0.1
+Tested up to: 4.1
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -256,6 +256,27 @@ your theme after installing the LaterPay WordPress plugin.
 9. The statistics pane provides useful sales statistics for each post.
 
 == Changelog ==
+
+= 0.9.10 (January 21, 2015): Gift Cards Release =
+* Added gift cards for time passes to allow giving away time passes as a present
+* Added two shortcodes: [laterpay_gift_card] to render gift cards and [laterpay_redeem_voucher] to render a form for
+  redeeming gift card codes.
+* Changed time pass behavior to render below the content by default
+* Added shortcode [laterpay_time_passes] as alternative for the action 'laterpay_time_passes'.
+* Added shortcode [laterpay_account_links] and action 'laterpay_account_links' to render stylable links to log in to /
+  out of LaterPay
+* Implemented filters for dashboard
+* Fixed various bugs related to the dashboard
+* Changed config mechanism to use a WordPress settings page for advanced settings
+* Added support for caching plugin WP Rocket
+* Restored option to give unlimited access to a specific user group
+* Fixed bug that shortcode [laterpay_premium_download] always uses global default price
+* Fixed bug where teaser would not save with price type "global default" and "category default"
+* Fixed bug where its price could not be updated after a post was published
+* Fixed bug where post statistics pane was not visible
+* Fixed bug where Youtube videos in paid content are not loaded
+* Various bug fixes on dynamic pricing widget
+* Various smaller bug fixes
 
 = 0.9.9 (December 2, 2014): Time Passes Release =
 * Added time passes and vouchers for selling access to the entire site or parts of it for a limited amount of time

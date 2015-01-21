@@ -82,6 +82,10 @@
                 timePassPreviewValidity                 : '.lp_js_timePassPreviewValidity',
                 timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
+                timePassId                              : '.lp_js_timePassId',
+                landingPageInput                        : '.lp_js_landingPageInput',
+                landingPageSave                         : '#lp_js_landingPageSave',
+                landingPageForm                         : $('#lp_js_landingPageForm'),
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
@@ -306,6 +310,12 @@
                 $o.timePassEditor
                 .on('click', $o.voucherDeleteLink, function(e) {
                     deleteVoucher($(this).parent());
+                    e.preventDefault();
+                });
+
+                $o.landingPageForm
+                .on('click', $o.landingPageSave, function(e) {
+                    saveLandingPage($o.landingPageForm);
                     e.preventDefault();
                 });
 
@@ -782,7 +792,12 @@
 
                 $($o.timePassCategoryWrapper, $timePass).hide();
                 // render category select
-                renderCategorySelect($timePass, $o.timePassScopeCategory, 'laterpay_get_categories', formatSelect2TimePass);
+                renderCategorySelect(
+                    $timePass,
+                    $o.timePassScopeCategory,
+                    'laterpay_get_categories',
+                    formatSelect2TimePass
+                );
 
                 // show category select, if required
                 var $currentScope = $($o.timePassScope, $timePass).find('option:selected');
@@ -902,6 +917,12 @@
                                 // pass was just created (add)
                                 lpVars.time_passes_list[passId] = r.data;
                                 var $newTimePass = $o.timePassTemplate.clone().removeAttr('id').data('pass-id', passId);
+
+                                // show assigned pass id
+                                $($o.timePassId, $newTimePass)
+                                .text(passId)
+                                    .parent()
+                                    .show(250);
 
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
                                 $($o.timePassForm, $timePass).remove();
@@ -1044,6 +1065,16 @@
                 .slideUp(250, function() {
                     $(this).remove();
                 });
+            },
+
+            saveLandingPage = function($form) {
+                $.post(
+                    ajaxurl,
+                    $form.serializeArray(),
+                    function(data) {
+                        setMessage(data);
+                    }
+                );
             },
 
             applyBulkOperation = function(data) {
