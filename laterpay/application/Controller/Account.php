@@ -31,8 +31,8 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         }
 
         if ( empty( $show ) ) {
-            // render the login / logout link by default
-            $show = 'l';
+            // render the login / logout link with greeting by default
+            $show = 'lg';
         }
 
         // create account links URL with passed params

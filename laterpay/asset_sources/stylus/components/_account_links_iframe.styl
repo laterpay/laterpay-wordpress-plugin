@@ -9,14 +9,20 @@
 }
 
 // class for all containers (#actioncontainer, #greetingcontainer, #signupcontainer)
+/*
+ * 1. Make containers line up next to each other
+ */
 .container {
-    // add styling as desired
+    display: inline-block; /* 1 */
 }
 
 // class for all links (#loginlink, #logoutlink, #signuplink)
+/*
+ * 1. Increase size of click target
+ */
 .actionlink {
     color: $clickable;
-    padding: $fs-05 $fs-1;
+    padding: $fs-05 $fs-1; /* 1 */
     text-decoration: none;
 
     &:hover,

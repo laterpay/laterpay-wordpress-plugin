@@ -615,7 +615,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // provide default values for empty shortcode attributes
         $data = shortcode_atts( array(
-            'show'      => 'l',
+            'show'      => 'lg', // render the login / logout link with greeting by default
             'css'       => $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
             'next'      => is_singular() ? get_permalink() : home_url(),
             'forcelang' => null,
