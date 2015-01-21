@@ -104,6 +104,9 @@ class LaterPay_Core_Bootstrap
         add_shortcode( 'laterpay_gift_card',        array( $shortcode_controller, 'render_gift_card' ) );
         add_shortcode( 'laterpay_redeem_voucher',   array( $shortcode_controller, 'render_redeem_gift_code' ) );
 
+        // add account links shortcode
+        add_shortcode( 'laterpay_account_links',    array( $shortcode_controller, 'render_account_links' ) );
+
         add_action( 'wp_ajax_laterpay_get_gift_card_actions',        array( $shortcode_controller, 'ajax_load_gift_action' ) );
         add_action( 'wp_ajax_nopriv_laterpay_get_gift_card_actions', array( $shortcode_controller, 'ajax_load_gift_action' ) );
 
@@ -200,6 +203,11 @@ class LaterPay_Core_Bootstrap
             $invoice_controller = new LaterPay_Controller_Invoice( $this->config );
             add_action( 'laterpay_invoice_indicator',   array( $invoice_controller, 'the_invoice_indicator' ) );
             add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );
+
+            // add account links action
+            $account_controller = new LaterPay_Controller_Account( $this->config );
+            add_action( 'laterpay_account_links',       array( $account_controller, 'render_account_links' ), 10, 4 );
+            add_action( 'wp_enqueue_scripts',           array( $account_controller, 'add_frontend_scripts' ) );
 
             add_action( 'template_redirect',            array( $post_controller, 'buy_post' ) );
             add_action( 'template_redirect',            array( $post_controller, 'buy_time_pass' ) );

@@ -1,0 +1,95 @@
+// LaterPay account links iframe
+// Loaded into the iframe served by LaterPay to style the contained account-related links
+
+
+// general -------------------------------------------------------------------------------------------------------------
+// wrapper around all elements in the iframe
+#maincontainer {
+    // add styling as desired
+}
+
+// class for all containers (#actioncontainer, #greetingcontainer, #signupcontainer)
+/*
+ * 1. Make containers line up next to each other
+ */
+.container {
+    display: inline-block; /* 1 */
+}
+
+// class for all links (#loginlink, #logoutlink, #signuplink)
+/*
+ * 1. Increase size of click target
+ */
+.actionlink {
+    color: $clickable;
+    padding: $fs-05 $fs-1; /* 1 */
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: $clickable-highlight;
+        text-decoration: none;
+    }
+}
+
+
+// login or logout link (show="l") -------------------------------------------------------------------------------------
+#actioncontainer {
+    // add styling as desired
+
+    #action {
+        // add styling as desired
+
+        #loginlink {
+            // add styling as desired
+        }
+
+        #logoutlink {
+            // add styling as desired
+        }
+    }
+}
+
+#separator {
+    // add styling as desired
+}
+
+
+// greeting + login state (show="g" or show="gg") ----------------------------------------------------------------------
+#greetingcontainer {
+    // add styling as desired
+
+    #greeting {
+        // add styling as desired
+
+        #action {
+            // add styling as desired
+
+            #logoutlink {
+                // add styling as desired
+            }
+        }
+    }
+}
+
+
+// register link -------------------------------------------------------------------------------------------------------
+#signupcontainer {
+    // add styling as desired
+
+    #signup {
+        // add styling as desired
+
+        #signuplink {
+            // add styling as desired
+        }
+    }
+}
+
+
+// login + register link (show="ls") -----------------------------------------------------------------------------------
+// element between login and register link to visually separate them
+#separator {
+    // add styling as desired
+}
