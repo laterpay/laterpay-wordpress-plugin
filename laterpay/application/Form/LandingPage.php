@@ -59,6 +59,7 @@ class LaterPay_Form_LandingPage extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
+                    'match_url',
                 ),
                 'filters' => array(
                     'to_string',

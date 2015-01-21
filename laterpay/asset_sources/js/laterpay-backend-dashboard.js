@@ -149,17 +149,17 @@
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                     .mousedown(function() {
-                        var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
-                            interval = getInterval(),
-                            currentDate = new Date(),
+                        var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                            interval        = getInterval(),
+                            currentDate     = new Date(),
                             startDate;
 
                         // + 1 day
                         startTimestamp  = startTimestamp + 86400;
 
-                        startDate       = new Date( startTimestamp * 1000  );
-                        if (startDate.getDate() >= currentDate.getDate()) {
-                            setMessage( lpVars.i18n.noFutureInterval, false );
+                        startDate       = new Date(startTimestamp * 1000);
+                        if (startDate.getDate() >= currentDate.getDate()) { // FIXME: instead of showing an error, we should hide the link for selecting the next interval!
+                            setMessage(lpVars.i18n.noFutureInterval, false);
                             return;
                         }
 
@@ -171,13 +171,13 @@
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
                     .mousedown(function() {
-                        var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
+                        var startTimestamp = $o.currentInterval.data('startTimestamp'),
                             interval = getInterval();
 
                         // - 1 day
                         startTimestamp  = startTimestamp - 86400;
 
-                        setTimeRange( startTimestamp, interval );
+                        setTimeRange(startTimestamp, interval);
                         loadDashboard(false);
 
                     })

@@ -456,8 +456,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $category_id = $price_category_delete_form->get_field_value( 'category_id' );
 
         // delete the category_price
-        $category_price_model   = new LaterPay_Model_CategoryPrice();
-        $success                = $category_price_model->delete_prices_by_category_id( $category_id );
+        $category_price_model = new LaterPay_Model_CategoryPrice();
+        $success              = $category_price_model->delete_prices_by_category_id( $category_id );
 
         if ( ! $success ) {
             wp_send_json(
@@ -487,33 +487,8 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 continue;
             }
 
-            // get all post_categories
-            $post_categories = wp_get_post_categories( $post_id );
-
-            if ( empty( $post_categories ) ) {
-                // apply the global default price as new price, if no other post categories are found
-                LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post_id );
-            } else {
-                // load all category prices by the given category_ids
-                $laterpay_category_model    = new LaterPay_Model_CategoryPrice();
-                $category_price_data        = $laterpay_category_model->get_category_price_data_by_category_ids( $post_categories );
-
-                if ( count( $category_price_data ) < 1 ) {
-                    // no other category prices found for this post
-                    LaterPay_Helper_Pricing::apply_global_default_price_to_post( $post_id );
-                } else {
-                    // find the category with the highest price and assign its category_id to the post
-                    $price = 0;
-                    foreach ( $category_price_data as $data ) {
-                        if ( $data->category_price > $price ) {
-                            $price          = $data->category_price;
-                            $category_id    = $data->category_id;
-                        }
-                    }
-
-                    LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $category_id, true );
-                }
-            }
+            // actualize post data
+            LaterPay_Helper_Pricing::actualize_post_data_after_category_delete( $post_id );
         }
 
         wp_send_json(
@@ -1005,32 +980,31 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Save landing page
+     * Save landing page URL the user is forwarded to after redeeming a gift card voucher.
      *
      * @return void
      */
     private function save_landing_page() {
-        $landing_page_form = new LaterPay_Form_LandingPage( $_POST );
-        $url = $landing_page_form->get_field_value( 'landing_url');
-        $url_match = preg_match_all( '/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)?/i', $url );
+        $landing_page_form  = new LaterPay_Form_LandingPage( $_POST );
 
-        if ( $landing_page_form->is_valid() && $url_match ) {
-            update_option( 'laterpay_landing_page', $url );
+        if ( $landing_page_form->is_valid() ) {
+            // save URL and confirm with flash message, if the URL is valid
+            update_option( 'laterpay_landing_page', $landing_page_form->get_field_value( 'landing_url') );
 
             wp_send_json(
                 array(
                     'success' => true,
-                    'message' => __( 'Landing url saved.', 'laterpay' ),
+                    'message' => __( 'Landing page saved.', 'laterpay' ),
+                )
+            );
+        } else {
+            // show an error message, if the provided URL is not valid
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'The landing page you entered is not a valid URL.', 'laterpay' ),
                 )
             );
         }
-
-        wp_send_json(
-            array(
-                'success' => false,
-                'message' => __( 'Error on landing page saving.', 'laterpay' ),
-            )
-        );
     }
-
 }
