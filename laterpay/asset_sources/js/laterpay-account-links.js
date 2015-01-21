@@ -2,14 +2,16 @@
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
 
     // check, if all required variables are available
-    if (!lpAccountLinksUrl || !lpAccountNextUrl) {
+    if (!lpAccountLinksUrl || !lpAccountNextUrl || !lpMerchantId) {
         return;
     }
 
+    var self = 'https://web.laterpay.net';
+
     // define URLs to forward the user to after login / logout / registration
-    var loginLink  = 'https://web.laterpay.net/auth/user/login?_on_complete=' + lpAccountNextUrl,
-        logoutLink = 'https://web.laterpay.net/user/confirm-logout?_on_complete=' + lpAccountNextUrl,
-        signupLink = 'https://web.laterpay.net/signup/register?_on_complete=' + lpAccountNextUrl;
+    var loginLink  = self + '/account/dialog/login?next=' + lpAccountNextUrl + '&cp=' + lpMerchantId,
+        logoutLink = self + '/account/dialog/logout?next=' + lpAccountNextUrl + '&cp=' + lpMerchantId,
+        signupLink = self + '/account/dialog/signup?next=' + lpAccountNextUrl + '&cp=' + lpMerchantId;
 
     // render iframe inside of placeholder
     var login_iframe = new Y.LaterPay.IFrame(

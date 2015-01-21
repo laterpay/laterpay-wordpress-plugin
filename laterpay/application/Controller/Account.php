@@ -45,10 +45,14 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
             $client_options['token_name']
         );
         $links_url = $client->get_account_links_url( $show, $css, $next, $forcelang );
+        // get merchant id
+        $is_live = get_option( 'laterpay_plugin_is_in_live_mode' );
+        $merchant_id = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
         ?>
         <script>
             var lpAccountLinksUrl = "<?php echo $links_url; ?>";
-            var lpAccountNextUrl = "<?php echo $next; ?>";
+            var lpAccountNextUrl = "<?php echo urlencode( $next ); ?>";
+            var lpMerchantId = "<?php echo $merchant_id; ?>";
         </script>
         <?php
 
