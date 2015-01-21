@@ -62,7 +62,7 @@
                 id="lp_js_useCategoryDefaultPrice"
                 class="lp_js_priceType_button lp_useCategoryDefaultPrice"><?php _e( 'Category Default Price', 'laterpay' ); ?></a>
         </li>
-        <li class="<?php if ( $laterpay['post_price_type'] == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?>">
+        <li class="<?php if ( $laterpay['post_price_type'] == LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) { echo 'lp_is-selected'; } ?><?php if ( count( $laterpay['category_prices'] ) ) { echo 'lp_is-disabled'; } ?>">
             <a href="#"
                 id="lp_js_useGlobalDefaultPrice"
                 class="lp_js_priceType_button lp_use-global-default-price"
