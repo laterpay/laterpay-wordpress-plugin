@@ -10,9 +10,9 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
     var self = 'https://web.laterpay.net';
 
     // define URLs to forward the user to after login / logout / registration
-    var loginLink  = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/login?jsevents=1&cp=' + lpMerchantId),
+    var loginLink  = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/login?next=' + lpAccountNextUrl + '&cp=' + lpMerchantId),
         logoutLink = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/logout?jsevents=1&cp=' + lpMerchantId),
-        signupLink = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/signup?jsevents=1&cp=' + lpMerchantId);
+        signupLink = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/signup?next=' + lpAccountNextUrl + '&cp=' + lpMerchantId);
 
     // render iframe inside of placeholder
     var login_iframe = new Y.LaterPay.IFrame(
@@ -32,9 +32,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
     Y.on('laterpay:iFrameMessage', accountManager.onDialogXDMMessage, accountManager);
 
     Y.on('laterpay:dialogMessage', function(ev) {
-        if (ev.msg === 'laterpay.user.logout' ||
-            ev.msg ==='laterpay.user.login' ||
-            ev.msg === 'laterpay.user.signup' ) {
+        if (ev.msg === 'laterpay.user.logout') {
             dm.closeDialog();
             login_iframe.reload();
         }
