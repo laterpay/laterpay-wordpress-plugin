@@ -275,6 +275,7 @@ your theme after installing the LaterPay WordPress plugin.
 * Fixed bug where its price could not be updated after a post was published
 * Fixed bug where post statistics pane was not visible
 * Fixed bug where Youtube videos in paid content are not loaded
+* Fixed bug where '?' was appended to the URL
 * Fixed bug where the category default price was not automatically applied, if the category affiliation of a post changed
 * Various bug fixes on dynamic pricing widget
 * Various smaller bug fixes
