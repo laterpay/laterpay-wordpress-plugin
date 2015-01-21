@@ -300,8 +300,8 @@ iVBORw0KGgoAAAANSUhEUgAAANwAAAA6CAYAAADbRzceAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
             <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links' ); ?>" ); ?><br><br>
 
             <strong><?php _e( 'Advanced Example', 'laterpay'); ?></strong><br>
-            <strong>Shortcode:</strong> [laterpay_account_links css="<dfn>http://yourpage.com/style.css</dfn>"]<br>
-            <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links', 'http://yourpage.com/style.css' ); ?>" ); ?>
+            <strong>Shortcode:</strong> [laterpay_account_links css="<dfn>https://yourpage.com/style.css</dfn>"]<br>
+            <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links', 'https://yourpage.com/style.css' ); ?>" ); ?>
             </code>
         </div>
     </div>
