@@ -68,6 +68,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'load-post-new.php',                    array( $admin_controller, 'help_wp_add_post' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_plugin_admin_assets' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
+                add_action( 'delete_term_taxonomy',                 array( $admin_controller, 'actualize_post_prices_after_category_delete' ) );
 
                 $settings_controller = new LaterPay_Controller_Settings( $this->config );
                 add_action( 'admin_menu',                           array( $settings_controller, 'add_laterpay_advanced_settings_page' ) );
