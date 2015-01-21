@@ -1,3 +1,4 @@
 [submodule "laterpay/library/laterpay"]
 	path = laterpay/library/laterpay
 	url = git@github.com:laterpay/laterpay-client-php.git
+	branch = develop
