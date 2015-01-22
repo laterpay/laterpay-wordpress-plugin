@@ -619,7 +619,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             'show'      => 'lg', // render the login / logout link with greeting by default
             'css'       => $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
             'next'      => is_singular() ? get_permalink() : home_url(),
-            'forcelang' => substr( get_locale(), 0, 2 ), // render account links in language of the blog by default
+            'forcelang' => substr( get_locale(), 0, 2 ), // render account links in the language of the blog by default
         ), $atts );
 
         $view_args = array(
