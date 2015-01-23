@@ -31,6 +31,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
+        global $post;
+
         $post_id    = absint( $_GET[ 'post_id' ] );
         $post       = get_post( $post_id );
 
@@ -933,7 +935,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $html = '';
 
         // return the teaser content on non-singular pages (archive, feed, tax, author, search, ...)
-        if ( ! is_singular() ) {
+        if ( ! is_singular() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
             // prepend hint to feed items that reading the full content requires purchasing the post
             if ( is_feed() ) {
                 $html .= sprintf(
