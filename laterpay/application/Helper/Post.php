@@ -13,10 +13,11 @@ class LaterPay_Helper_Post {
      * Check, if user has access to a post.
      *
      * @param WP_Post $post
+     * @param bool    $is_attachment
      *
      * @return boolean success
      */
-    public static function has_access_to_post( WP_Post $post ) {
+    public static function has_access_to_post( WP_Post $post, $is_attachment = false ) {
         $post_id = $post->ID;
 
         laterpay_get_logger()->info(
@@ -27,6 +28,16 @@ class LaterPay_Helper_Post {
         if ( array_key_exists( $post_id, self::$access ) ) {
             // access was already checked
             return (bool) self::$access[$post_id];
+        }
+
+        // check if parent post has access with passes
+        $parent_post = $is_attachment ? get_the_ID() : $post_id;
+        $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( $parent_post );
+        $passes      = LaterPay_Helper_Passes::get_tokenized_passes( $passes_list );
+        foreach ( $passes as $pass ) {
+            if ( array_key_exists( $pass, self::$access ) && self::$access[ $pass ] ) {
+                return true;
+            }
         }
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
@@ -40,7 +51,7 @@ class LaterPay_Helper_Post {
                                     $client_options['web_root'],
                                     $client_options['token_name']
                                 );
-            $result          = $laterpay_client->get_access( array( $post_id ) );
+            $result          = $laterpay_client->get_access( array_merge( array( $post_id ), $passes ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
@@ -51,16 +62,23 @@ class LaterPay_Helper_Post {
                 return false;
             }
 
-            if ( array_key_exists( $post_id, $result['articles'] ) ) {
-                $access = (bool) $result['articles'][$post_id]['access'];
-                self::$access[$post_id] = $access;
+            $has_access = false;
 
+            foreach ( $result[ 'articles' ] as $article_key => $article_access ) {
+                $access = (bool) $article_access[ 'access' ];
+                self::$access[ $article_key ] = $access;
+                if ( $access ) {
+                    $has_access = true;
+                }
+            }
+
+            if ( $has_access ) {
                 laterpay_get_logger()->info(
                     __METHOD__ . ' - post has access.',
                     array( 'result' => $result )
                 );
 
-                return $access;
+                return true;
             }
         }
 

@@ -287,9 +287,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     private function get_premium_shortcode_link( WP_Post $post, $content_type, $page_url, $price_tag ) {
-        $html_button = '';
+        $html_button   = '';
+        $is_attachment = $post->post_type == 'attachment';
 
-        $access = LaterPay_Helper_Post::has_access_to_post( $post );
+        $access = LaterPay_Helper_Post::has_access_to_post( $post, $is_attachment );
 
         if ( $access ) {
             // the user has already purchased the item
@@ -313,7 +314,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     break;
             };
 
-            if ( $post->post_type == 'attachment' ) {
+            if ( $is_attachment ) {
                 // render link to purchased attachment
                 $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url(
                                                                                     $post->ID,
