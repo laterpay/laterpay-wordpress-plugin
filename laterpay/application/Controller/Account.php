@@ -35,6 +35,11 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
             $show = 'lg';
         }
 
+        if ( empty( $forcelang ) ) {
+            // render account links in the language of the blog by default
+            $forcelang = substr( get_locale(), 0, 2 );
+        }
+
         // create account links URL with passed params
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(

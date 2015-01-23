@@ -545,7 +545,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page');
 
-            // add gift codes with urls to passes
+            // add gift codes with URLs to passes
             $passes       = $this->add_free_codes_to_passes( $passes, $_GET[ 'link'] );
             $view_args = array(
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,
@@ -619,7 +619,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             'show'      => 'lg', // render the login / logout link with greeting by default
             'css'       => $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
             'next'      => is_singular() ? get_permalink() : home_url(),
-            'forcelang' => null,
+            'forcelang' => substr( get_locale(), 0, 2 ), // render account links in the language of the blog by default
         ), $atts );
 
         $view_args = array(
