@@ -1,6 +1,8 @@
 laterpay-wordpress-plugin
 =========================
 
+[![Build Status](https://travis-ci.org/laterpay/laterpay-wordpress-plugin.svg?branch=master)](https://travis-ci.org/laterpay/laterpay-wordpress-plugin)
+
 This is the official LaterPay plugin for selling digital content with WordPress.
 
 Feel free to fork the plugin and adapt it to your needs.
