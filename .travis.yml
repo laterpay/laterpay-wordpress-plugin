@@ -10,4 +10,4 @@ script: true
 install:
     - composer create-project wp-coding-standards/wpcs:dev-master --no-dev
 script:
-    - wpcs/vendor/bin/phpcs --standard=WordPress wp-load.php
+    - wpcs/vendor/bin/phpcs --standard=WordPress laterpay
