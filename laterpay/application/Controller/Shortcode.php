@@ -45,6 +45,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
+
+        // provide default values for empty shortcode attributes
         $a = shortcode_atts( array(
                                 'target_post_id'    => '',
                                 'target_post_title' => '',
@@ -285,9 +287,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     private function get_premium_shortcode_link( WP_Post $post, $content_type, $page_url, $price_tag ) {
-        $html_button = '';
+        $html_button   = '';
+        $is_attachment = $post->post_type == 'attachment';
 
-        $access = LaterPay_Helper_Post::has_access_to_post( $post );
+        $access = LaterPay_Helper_Post::has_access_to_post( $post, $is_attachment );
 
         if ( $access ) {
             // the user has already purchased the item
@@ -311,7 +314,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     break;
             };
 
-            if ( $post->post_type == 'attachment' ) {
+            if ( $is_attachment ) {
                 // render link to purchased attachment
                 $button_page_url = LaterPay_Helper_File::get_encrypted_resource_url(
                                                                                     $post->ID,
@@ -501,6 +504,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         return $passes;
     }
 
+    /**
+     * TODO: [get_passes_list_by_id description]
+     *
+     * @param  [type] $id [description]
+     *
+     * @return [type]     [description]
+     */
     public function get_passes_list_by_id( $id ) {
         $passes_list = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $id );
         if ( $passes_list ) {
@@ -536,7 +546,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page');
 
-            // add gift codes with urls to passes
+            // add gift codes with URLs to passes
             $passes       = $this->add_free_codes_to_passes( $passes, $_GET[ 'link'] );
             $view_args = array(
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,
@@ -577,5 +587,52 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 'data' => array_values( $data ),
             )
         );
+    }
+
+    /**
+     * Render a form to log in to or out of your LaterPay account from shortcode [laterpay_account_links].
+     *
+     * The shortcode renders an iframe with a link that opens the login dialog from LaterPay.
+     * It accepts various parameters:
+     * - css: full path to a CSS file for styling the form contained by the iframe
+     * - forcelang: locale string to force a specific language for the dialog
+     * - show: rendering options for the form as documented on https://laterpay.net/developers/docs/inpage-api#GET/controls/links
+     * - next: URL the user is forwarded to after login
+     *
+     * Basic example:
+     * [laterpay_account_links]
+     *
+     * Advanced example:
+     * [laterpay_account_links css="http://assets.yoursite.com/your-styles.css" forcelang="de"]
+     *
+     * @param array $atts
+     *
+     * @return string $html
+     */
+    public function render_account_links( $atts ) {
+        // check, if the plugin is correctly configured and working
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
+
+        // provide default values for empty shortcode attributes
+        $data = shortcode_atts( array(
+            'show'      => 'lg', // render the login / logout link with greeting by default
+            'css'       => $this->config->get( 'css_url' ) . 'laterpay-account-links.css',
+            'next'      => is_singular() ? get_permalink() : home_url(),
+            'forcelang' => substr( get_locale(), 0, 2 ), // render account links in the language of the blog by default
+        ), $atts );
+
+        $view_args = array(
+            'show'      => $data['show'],
+            'css'       => $data['css'],
+            'next'      => $data['next'],
+            'forcelang' => $data['forcelang'],
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $login = $this->get_text_view( 'frontend/partials/post/account_links_iframe' );
+
+        return $login;
     }
 }
