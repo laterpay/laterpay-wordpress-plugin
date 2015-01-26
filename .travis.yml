@@ -9,4 +9,4 @@ env:
 install:
     - npm install jshint
 script:
-    - jshint laterpay
+    - jshint laterpay/asset_sources/js
