@@ -90,8 +90,8 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             $wpdb->insert(
                     $this->table,
                     array(
-                        'post_id'       => $data['post_id'],
                         'mode'          => $mode,
+                        'post_id'       => $data['post_id'],
                         'currency_id'   => $data['id_currency'],
                         'price'         => $data['price'],
                         'date'          => date( 'Y-m-d H:i:s', $data['date'] ),
@@ -100,12 +100,13 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         'revenue_model' => $data['revenue_model'],
                     ),
                     array(
-                        '%d',
                         '%s',
+                        '%d',
                         '%d',
                         '%f',
                         '%s',
                         '%d',
+                        '%s',
                         '%s',
                     )
             );

@@ -92,8 +92,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         // before version 0.9.9 we had no "revenue_model" column
         $is_up_to_date = false;
+        $modified      = false;
         foreach ( $columns as $column ) {
             if ( $column->Field === 'revenue_model' ) {
+                $modified      = strpos( strtolower( $column->Type ), 'enum' ) !== false;
                 $is_up_to_date = true;
             }
         }
@@ -112,6 +114,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( "ALTER TABLE " . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT 'ppu';" );
             // update the existing data
             $wpdb->query( "UPDATE " . $table . " SET revenue_model = IF( " . $table . ".price < 5, 'ppu', 'sis' )" );
+        }
+
+        // modify revenue model column
+        if ( ! $modified ) {
+            $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
         }
     }
 
@@ -134,8 +141,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         // before version 0.9.8 we had no "revenue_model" column
         $is_up_to_date = false;
+        $modified      = false;
         foreach ( $columns as $column ) {
             if ( $column->Field === 'revenue_model' ) {
+                $modified      = strpos( strtolower( $column->Type ), 'enum' ) !== false;
                 $is_up_to_date = true;
             }
         }
@@ -151,6 +160,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         // if the table needs an update, add the 'revenue_model' column and set the current values to 'ppu'
         if ( ! $is_up_to_date ) {
             $wpdb->query( 'ALTER TABLE ' . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT  'ppu';" );
+        }
+
+        // modify revenue model column
+        if ( ! $modified ) {
+            $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
         }
     }
 
@@ -367,7 +381,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
                 term_id           INT(11)         NOT NULL,
                 price             DOUBLE          NOT NULL DEFAULT '0',
-                revenue_model     ENUM('ppu', 'sis') DEFAULT NULL,
+                revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );
@@ -382,6 +396,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 date              DATETIME        NOT NULL,
                 ip                INT             NOT NULL,
                 hash              VARCHAR(32)     NOT NULL,
+                revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );

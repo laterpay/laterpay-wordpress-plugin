@@ -333,12 +333,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $client->set_token( $_GET['lptoken'] );
         }
 
-        $post_id        = absint( $_GET[ 'post_id' ] );
+        $post_id = isset( $_GET[ 'download_attached'] ) ? absint( $_GET[ 'download_attached'] ) : absint( $_GET[ 'post_id' ] );
 
         // check, if the parameters of $_GET are valid and not manipulated
         if ( $hash === $_GET[ 'hash' ] ) {
             $data = array(
-                'post_id'       => $_GET[ 'post_id' ],
+                'post_id'       => $post_id,
                 'id_currency'   => $_GET[ 'id_currency' ],
                 'price'         => $_GET[ 'price' ],
                 'date'          => $_GET[ 'date' ],
@@ -356,7 +356,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $payment_history_model->set_payment_history( $data );
         }
 
-        $redirect_url   = get_permalink( $post_id );
+        $redirect_url   = get_permalink( $_GET[ 'post_id' ] );
 
         // prepare attachment url for download
         if ( isset( $_GET[ 'download_attached' ] ) ) {
