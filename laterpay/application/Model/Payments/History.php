@@ -20,6 +20,8 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         'date'          => 'date',
         'ip'            => '%s',
         'hash'          => '%s',
+        'revenue_model' => '%s',
+        'pass_id'       => '%d',
     );
 
     /**
@@ -98,6 +100,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         'ip'            => $data['ip'],
                         'hash'          => $data['hash'],
                         'revenue_model' => $data['revenue_model'],
+                        'pass_id'       => $data['pass_id'],
                     ),
                     array(
                         '%s',
@@ -108,6 +111,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         '%d',
                         '%s',
                         '%s',
+                        '%d',
                     )
             );
         }

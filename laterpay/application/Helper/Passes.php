@@ -392,12 +392,14 @@ class LaterPay_Helper_Passes
      * Get the LaterPay purchase link for a time pass.
      *
      * @param int  $pass_id
-     * @param null $price   new price (voucher code)
-     * @param null $link    url of page to redirect
+     * @param null $original_url optional param with current page url
+     * @param null $price        new price (voucher code)
+     * @param null $link         url of page to redirect
+     * @param null $code         optional param with code value
      *
      * @return string url || empty string if something went wrong
      */
-    public static function get_laterpay_purchase_link( $pass_id, $price = null, $link = null ) {
+    public static function get_laterpay_purchase_link( $pass_id, $original_url = null, $price = null, $link = null, $code = null ) {
         $time_pass_model = new LaterPay_Model_Pass();
 
         $pass = (array) $time_pass_model->get_pass_data( $pass_id );
@@ -406,6 +408,7 @@ class LaterPay_Helper_Passes
         }
 
         $currency       = get_option( 'laterpay_currency' );
+        $currency_model = new LaterPay_Model_Currency();
         $price          = isset( $price ) ? $price : $pass['price'];
         $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $pass['revenue_model'], $price );
 
@@ -418,16 +421,35 @@ class LaterPay_Helper_Passes
                 $client_options['token_name']
         );
 
-        $url = isset( $link ) ? $link : get_permalink();
+        $next_url     = isset( $link ) ? $link : get_permalink();
+        $original_url = isset( $original_url ) ? $original_url : get_permalink();
+
+        // prepare url
+        $url_params = array(
+            'pass_id'       => $pass['pass_id'],
+            'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
+            'price'         => $price,
+            'date'          => time(),
+            'buy'           => 'true',
+            'ip'            => ip2long( $_SERVER['REMOTE_ADDR'] ),
+            'revenue_model' => $revenue_model,
+            'post_id'       => null,
+            'next'          => urlencode( $next_url ),
+            'current_url'   => urlencode( $original_url ),
+        );
+
+        $url  = add_query_arg( $url_params, $original_url );
+        $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
+        $url  = $url .'&hash=' . $hash;
 
         // parameters for LaterPay purchase form
         $params = array(
-            'article_id'    => self::get_tokenized_pass( $pass_id ),
+            'article_id'    => isset( $code ) ? '[#' . $code . ']' : self::get_tokenized_pass( $pass_id ),
             'pricing'       => $currency . ( $price * 100 ),
             'expiry'        => '+' . self::get_pass_expiry_time( $pass ),
             'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
             'url'           => $url,
-            'title'         => $pass['title'],
+            'title'         => isset( $code ) ? $pass['title'] . ', Code: ' . $code : $pass['title'],
         );
 
         if ( $revenue_model == 'sis' ) {

@@ -90,13 +90,18 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $table      = $wpdb->prefix . 'laterpay_payment_history';
         $columns    = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
 
-        // before version 0.9.9 we had no "revenue_model" column
+        // before version 0.9.9 we had no "revenue_model"
         $is_up_to_date = false;
         $modified      = false;
+        $passes_added  = false;
         foreach ( $columns as $column ) {
             if ( $column->Field === 'revenue_model' ) {
                 $modified      = strpos( strtolower( $column->Type ), 'enum' ) !== false;
                 $is_up_to_date = true;
+            }
+
+            if ( $column->Field === 'pass_id' ) {
+                $passes_added  = true;
             }
         }
 
@@ -119,6 +124,12 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         // modify revenue model column
         if ( ! $modified ) {
             $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
+        }
+
+        // add pass id field for version >= 0.9.10
+        if ( ! $passes_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
+            $wpdb->query( "ALTER TABLE " . $table . " ADD pass_id INT( 11 ) DEFAULT NULL;" );
+            $wpdb->query( "ALTER TABLE " . $table . " MODIFY post_id INT( 11 ) DEFAULT NULL;" );
         }
     }
 
@@ -390,13 +401,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             CREATE TABLE $table_history (
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
                 mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                post_id           INT(11)         NOT NULL,
+                post_id           INT(11)         DEFAULT NULL,
                 currency_id       INT(11)         NOT NULL,
                 price             FLOAT           NOT NULL,
                 date              DATETIME        NOT NULL,
                 ip                INT             NOT NULL,
                 hash              VARCHAR(32)     NOT NULL,
                 revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
+                pass_id           INT(11)         DEFAULT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
