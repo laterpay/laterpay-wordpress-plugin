@@ -1,59 +1,9 @@
 language: php
+sudo: false
 php:
 - 5.5
 env:
   global:
   - secure: Hnmno610194Z/ZXESCE685pkyHip4GmgBKbBVZYm+zhGLW+bvEc8n6Ojfw1IteLVJahnCaZ0tgKqRebRlrhebtmWD4y+n5D80pHPZFaUHKo+ulBZ0ThxjcDfUDcXrPkgUPimP0/uwt34gy6PmJMk0tc9DmGpnJPqVIshMBCu5cc=
   - secure: m6KO5Y9+1kOks4u8Ko0isBMGYQDOYdqbWE+qfrz4/NDx17x8wqeGMN5/QiQCHgdSMRaRJuB0FDTzzQwkSg7Ea5f4UbJZgEy2224870A6jB+X7kW1CopwmdE0b4rD1nDj6BKvMr6bO7iBxmahUlego7SStJoEPlj452TQUN6KZ3Y=
-before_install:
-- wget "http://54.235.193.4/tests/key.php?file=github&key="$key_hash -O ~/.ssh/id_rsa
-- echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- chmod 600 ~/.ssh/id_rsa*
-- eval `ssh-agent -s`
-- echo $github_key_pass"\n" | ssh-add ~/.ssh/id_rsa
-before_script:
-- mkdir sources_plugin
-- cd sources_plugin
-- git clone git@github.com:laterpay/laterpay-wordpress-plugin.git
-- cd ../
-- mkdir sources_test
-- cd sources_test
-- git clone -b feature/selenium-tests git@github.com:laterpay/laterpay-wordpress-plugin.git
-- cd ../
-- rm -f sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_data/laterpay.zip
-- cd sources_plugin/laterpay-wordpress-plugin/
-- zip -r9 ../../sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_data/laterpay.zip
-  laterpay/
-- cd ../../
-script:
-- cd sources_test/laterpay-wordpress-plugin/selenium-tests/
-- php codecept.phar run --html --steps -g UI1 --env firefox_win
-- mkdir -p tests/_reports/firefox_win
-- mv -f tests/_output/* tests/_reports/firefox_win
-- php codecept.phar run --html --steps -g UI1 --env safari_mac
-- mkdir -p tests/_reports/safari_mac
-- mv -f tests/_output/* tests/_reports/safari_mac
-after_script:
-- cd ../../../
-- mkdir -p reports_test
-- cd reports_test
-- git clone git@github.com:AlexandrTsumarov-ScienceSoft/reports.git
-- cd ../
-- mkdir -p reports_test/reports/$TRAVIS_COMMIT/
-- touch reports_test/reports/$TRAVIS_COMMIT/README.md
-- echo " TRAVIS_BRANCH :$TRAVIS_BRANCH <br> TRAVIS_JOB_ID :$TRAVIS_JOB_ID <br> TRAVIS_PULL_REQUEST
-  :$TRAVIS_PULL_REQUEST <br> " > reports_test/reports/$TRAVIS_COMMIT/README.md
-- cp -fr sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_data/laterpay.zip
-  reports_test/reports/$TRAVIS_COMMIT/
-- cp -fr sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_reports/* reports_test/reports/$TRAVIS_COMMIT/
-- rm -fr reports_test/reports/current/*
-- cp -fr sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_data/laterpay.zip
-  reports_test/reports/current/
-- cp -fr sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_reports/* reports_test/reports/current/
-- cd reports_test/reports
-- git config --global user.email "travis@example.com"
-- git config --global user.name "Travis CI"
-- git add .
-- git commit -a -m "Commit by Travis"
-- ls -la
-- git push origin master
+script: true
