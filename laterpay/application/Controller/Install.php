@@ -128,8 +128,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         // add pass id field for version >= 0.9.10
         if ( ! $passes_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
-            $wpdb->query( "ALTER TABLE " . $table . " ADD pass_id INT( 11 ) DEFAULT NULL;" );
-            $wpdb->query( "ALTER TABLE " . $table . " MODIFY post_id INT( 11 ) DEFAULT NULL;" );
+            $wpdb->query( "ALTER TABLE " . $table . " ADD pass_id INT( 11 ) NOT NULL DEFAULT 0;" );
+            $wpdb->query( "ALTER TABLE " . $table . " MODIFY post_id INT( 11 ) NOT NULL DEFAULT 0;" );
         }
     }
 
@@ -401,14 +401,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             CREATE TABLE $table_history (
                 id                INT(11)         NOT NULL AUTO_INCREMENT,
                 mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                post_id           INT(11)         DEFAULT NULL,
+                post_id           INT(11)         NOT NULL DEFAULT 0,
                 currency_id       INT(11)         NOT NULL,
                 price             FLOAT           NOT NULL,
                 date              DATETIME        NOT NULL,
                 ip                INT             NOT NULL,
                 hash              VARCHAR(32)     NOT NULL,
                 revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
-                pass_id           INT(11)         DEFAULT NULL,
+                pass_id           INT(11)         NOT NULL DEFAULT 0,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );

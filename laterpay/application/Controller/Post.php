@@ -295,7 +295,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
             // save payment history
             $data = array(
-                'post_id'       => null,
                 'id_currency'   => $_GET['id_currency'],
                 'price'         => $_GET['price'],
                 'date'          => $_GET['date'],
@@ -373,7 +372,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'ip'            => $_GET[ 'ip' ],
                 'hash'          => $_GET[ 'hash' ],
                 'revenue_model' => $_GET[ 'revenue_model' ],
-                'pass_id'       => null,
             );
 
             $this->logger->info(
