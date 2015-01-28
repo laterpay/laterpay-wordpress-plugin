@@ -263,11 +263,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $url_data['is_gift'] = $_GET['is_gift'];
         }
 
-        $url     = add_query_arg( $url_data, $url_data['link'] );
+        $link    = $url_data['link'];
+        $url     = add_query_arg( $url_data, $link );
         $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
         $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $url_data['pass_id'] );
         $voucher = $url_data['voucher'];
-        $link    = $url_data['link'];
 
         if ( $hash === $_GET[ 'hash' ] ) {
             // process vouchers
