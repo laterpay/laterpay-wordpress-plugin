@@ -203,19 +203,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $price      = str_replace( ',', '.', $price );
                 $price      = number_format( (float) $price, 2 );
                 // prepare url before usage
-                $original_url = $_GET[ 'is_gift'] ? home_url() : $_GET[ 'link' ];
-                $url_params = array(
-                    'pass_id' => LaterPay_Helper_Passes::get_tokenized_pass( $pass_id ),
+                $data       = array(
                     'voucher' => $_GET[ 'code' ],
                     'is_gift' => false,
-                    'next'    => urlencode( $original_url ),
+                    'link'    => $_GET[ 'is_gift'] ? home_url() : $_GET[ 'link' ],
+                    'price'   => $price,
                 );
-                $url        = add_query_arg( $url_params, $original_url );
-                $hash       = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-                $url        = $url .'&hash=' . $hash;
 
                 // get new purchase URL
-                $url = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $original_url, $price, $url );
+                $url = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $data );
 
                 wp_send_json(
                     array(
@@ -243,29 +239,38 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return  void
      */
     public function buy_time_pass() {
-        if ( ! isset( $_GET[ 'pass_id' ] ) && ! isset( $_GET[ 'voucher' ] ) &&
-             ! isset( $_GET[ 'is_gift' ] ) && ! isset( $_GET[ 'next' ] ) ) {
+        if ( ! isset( $_GET['pass_id'] ) && ! isset( $_GET['link'] ) ) {
             return;
         }
 
-        $pass_id = $_GET[ 'pass_id' ];
-        $voucher = $_GET[ 'voucher' ];
-        $is_gift = $_GET[ 'is_gift' ];
-        $link    = $_GET[ 'next' ];
-
         // data to create and hash-check the URL
         $url_data = array(
-            'pass_id' => $pass_id,
-            'voucher' => $voucher,
-            'is_gift' => $is_gift,
-            'next'    => $link,
+            'pass_id'       => $_GET['pass_id'],
+            'id_currency'   => $_GET['id_currency'],
+            'price'         => $_GET['price'],
+            'date'          => $_GET['date'],
+            'ip'            => $_GET['ip'],
+            'revenue_model' => $_GET['revenue_model'],
+            'link'          => $_GET['link'],
         );
 
-        $url     = add_query_arg( $url_data, $link );
+        // additional fields
+        if ( isset( $_GET['voucher'] ) ) {
+            $url_data['voucher'] = $_GET['voucher'];
+        }
+
+        if ( isset( $_GET['is_gift'] ) ) {
+            $url_data['is_gift'] = $_GET['is_gift'];
+        }
+
+        $url     = add_query_arg( $url_data, $url_data['link'] );
         $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-        $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $pass_id );
+        $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $url_data['pass_id'] );
+        $voucher = $url_data['voucher'];
+        $link    = $url_data['link'];
 
         if ( $hash === $_GET[ 'hash' ] ) {
+            // process vouchers
             if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $voucher ) ) {
                 if ( ! LaterPay_Helper_Vouchers::check_voucher_code( $voucher, true ) ) {
                     // save the pre-generated gift code as valid voucher code now that the purchase is complete
@@ -287,6 +292,26 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 // update voucher statistics
                 LaterPay_Helper_Vouchers::update_voucher_statistic( $pass_id, $voucher );
             }
+
+            // save payment history
+            $data = array(
+                'post_id'       => null,
+                'id_currency'   => $_GET['id_currency'],
+                'price'         => $_GET['price'],
+                'date'          => $_GET['date'],
+                'ip'            => $_GET['ip'],
+                'hash'          => $_GET['hash'],
+                'revenue_model' => $_GET['revenue_model'],
+                'pass_id'       => $pass_id,
+            );
+
+            $this->logger->info(
+                __METHOD__ . ' - set payment history',
+                $data
+            );
+
+            $payment_history_model = new LaterPay_Model_Payments_History();
+            $payment_history_model->set_payment_history( $data );
         }
 
         wp_redirect( $link );
@@ -306,31 +331,19 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // data to create and hash-check the URL
         $url_data = array(
-            'post_id'       => isset( $_GET[ 'post_id' ] ) ? $_GET[ 'post_id' ] : null,
+            'post_id'       => $_GET[ 'post_id' ],
             'id_currency'   => $_GET[ 'id_currency' ],
             'price'         => $_GET[ 'price' ],
             'date'          => $_GET[ 'date' ],
             'buy'           => $_GET[ 'buy' ],
             'ip'            => $_GET[ 'ip' ],
             'revenue_model' => $_GET[ 'revenue_model' ],
-            'pass_id'       => isset( $_GET[ 'pass_id' ] ) ?  $_GET[ 'pass_id' ] : null,
         );
 
         if ( isset( $_GET[ 'download_attached' ] ) ) {
             $url_data['download_attached'] = $_GET[ 'download_attached' ];
         }
-
-        if ( isset( $_GET[ 'next' ] ) ) {
-            $url_data['next'] = urlencode( $_GET[ 'next' ] );
-        }
-
-        if ( isset( $_GET[ 'current_url' ] ) ) {
-            $url_data['current_url'] = urlencode( $_GET[ 'current_url' ] );
-            $url = add_query_arg( $url_data, $_GET[ 'current_url' ] );
-        } else {
-            $url = $this->get_after_purchase_redirect_url( $url_data );
-        }
-
+        $url = $this->get_after_purchase_redirect_url( $url_data );
         $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
         // update lptoken if we got it
         if ( isset( $_GET['lptoken'] ) ) {
@@ -345,12 +358,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $client->set_token( $_GET['lptoken'] );
         }
 
-        $post_id = isset( $_GET[ 'post_id' ] ) ? absint( $_GET[ 'post_id' ] ) : null;
+        $post_id = absint( $_GET[ 'post_id' ] );
         if ( isset( $_GET[ 'download_attached' ] ) ) {
             $post_id = absint( $_GET[ 'download_attached'] );
         }
-
-        var_dump( $hash, $_GET[ 'hash' ] ); exit;
 
         // check, if the parameters of $_GET are valid and not manipulated
         if ( $hash === $_GET[ 'hash' ] ) {
@@ -362,7 +373,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'ip'            => $_GET[ 'ip' ],
                 'hash'          => $_GET[ 'hash' ],
                 'revenue_model' => $_GET[ 'revenue_model' ],
-                'pass_id'       => $_GET[ 'pass_id' ],
+                'pass_id'       => null,
             );
 
             $this->logger->info(
@@ -374,7 +385,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $payment_history_model->set_payment_history( $data );
         }
 
-        $redirect_url = isset( $_GET[ 'next'] ) ? $_GET[ 'next'] : get_permalink( $_GET[ 'post_id' ] );
+        $redirect_url = get_permalink( $_GET[ 'post_id' ] );
 
         // prepare attachment url for download
         if ( isset( $_GET[ 'download_attached' ] ) ) {
@@ -626,7 +637,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'buy'           => 'true',
             'ip'            => ip2long( $_SERVER['REMOTE_ADDR'] ),
             'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
-            'pass_id'       => null,
         );
         $url    = $this->get_after_purchase_redirect_url( $url_params );
         $hash   = LaterPay_Helper_Pricing::get_hash_by_url( $url );
