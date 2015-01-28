@@ -173,7 +173,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( 'ALTER TABLE ' . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT  'ppu';" );
         }
 
-        // modify revenue model column
+        // change revenue model column data type to ENUM
         if ( ! $modified ) {
             $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
         }
@@ -389,9 +389,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE $table_terms_price (
-                id                INT(11)         NOT NULL AUTO_INCREMENT,
-                term_id           INT(11)         NOT NULL,
-                price             DOUBLE          NOT NULL DEFAULT '0',
+                id                INT(11)            NOT NULL AUTO_INCREMENT,
+                term_id           INT(11)            NOT NULL,
+                price             DOUBLE             NOT NULL DEFAULT '0',
                 revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
@@ -399,16 +399,16 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE $table_history (
-                id                INT(11)         NOT NULL AUTO_INCREMENT,
+                id                INT(11)              NOT NULL AUTO_INCREMENT,
                 mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                post_id           INT(11)         NOT NULL DEFAULT 0,
-                currency_id       INT(11)         NOT NULL,
-                price             FLOAT           NOT NULL,
-                date              DATETIME        NOT NULL,
-                ip                INT             NOT NULL,
-                hash              VARCHAR(32)     NOT NULL,
-                revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
-                pass_id           INT(11)         NOT NULL DEFAULT 0,
+                post_id           INT(11)              NOT NULL DEFAULT 0,
+                currency_id       INT(11)              NOT NULL,
+                price             FLOAT                NOT NULL,
+                date              DATETIME             NOT NULL,
+                ip                INT                  NOT NULL,
+                hash              VARCHAR(32)          NOT NULL,
+                revenue_model     ENUM('ppu', 'sis')   NOT NULL DEFAULT 'ppu',
+                pass_id           INT(11)              NOT NULL DEFAULT 0,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
