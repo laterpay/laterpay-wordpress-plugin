@@ -437,7 +437,7 @@ class LaterPay_Helper_Passes
 
         $url  = add_query_arg( array_merge( $url_params, $data ) , $link );
         $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-        $url  = $url .'&hash=' . $hash;
+        $url  = $url . '&hash=' . $hash;
 
         // parameters for LaterPay purchase form
         $params = array(
