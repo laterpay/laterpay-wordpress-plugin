@@ -392,7 +392,7 @@ class LaterPay_Helper_Passes
      * Get the LaterPay purchase link for a time pass.
      *
      * @param int  $pass_id pass id
-     * @param null $data    addional data
+     * @param null $data    additional data
      *
      * @return string url || empty string if something went wrong
      */
@@ -424,7 +424,7 @@ class LaterPay_Helper_Passes
 
         $link = isset( $data['link'] ) ? $data['link'] : get_permalink();
 
-        // prepare url
+        // prepare URL
         $url_params = array(
             'pass_id'       => self::get_tokenized_pass( $pass_id ),
             'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
