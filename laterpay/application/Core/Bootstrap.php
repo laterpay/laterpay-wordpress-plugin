@@ -197,8 +197,10 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_post_track_views',                array( $statistics_controller, 'ajax_track_views' ) );
         add_action( 'wp_ajax_nopriv_laterpay_post_track_views',         array( $statistics_controller, 'ajax_track_views' ) );
 
+        $is_front = isset( $_REQUEST['is_front'] ) ? $_REQUEST['is_front'] : false;
+
         // frontend actions
-        if ( ! is_admin() ) {
+        if ( ! is_admin() || $is_front ) {
             // add custom action to echo the LaterPay invoice indicator
             $invoice_controller = new LaterPay_Controller_Invoice( $this->config );
             add_action( 'laterpay_invoice_indicator',   array( $invoice_controller, 'the_invoice_indicator' ) );
