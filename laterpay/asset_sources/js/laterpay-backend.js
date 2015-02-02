@@ -1,3 +1,5 @@
+/* global setMessage */
+
 var flashVisible;
 
 function setMessage(message, success) {
