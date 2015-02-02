@@ -188,6 +188,7 @@ class LaterPay_Core_Bootstrap
          *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
          */
         add_filter( 'the_content',                                      array( $post_controller, 'modify_post_content' ), 1 );
+        add_filter( 'get_the_excerpt',                                  array( $post_controller, 'modify_post_excerpt' ), 1 );
         add_filter( 'wp_footer',                                        array( $post_controller, 'modify_footer' ) );
 
         $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
