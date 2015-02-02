@@ -99,6 +99,6 @@
         "lpMerchantId"              : false,
         "lpAccountLinksUrl"         : false,
         "ajaxurl"                   : false,
-        "setMessage"                : false,
+        "setMessage"                : false
     }
 }
