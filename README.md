@@ -1,28 +1,18 @@
-Selenium test results for laterpay-wordpress-plugin
+laterpay-wordpress-plugin
 =========================
-<h3>Smoke test status for last push (by Travis): <img src='https://api.travis-ci.org/AlexandrTsumarov-ScienceSoft/tests.svg'></h3>
-<ul>
-<li><a target=_blank href='http://htmlpreview.github.io/?https://raw.githubusercontent.com/AlexandrTsumarov-ScienceSoft/reports/master/current/firefox_win/report.html'>Detailed report for firefox, windows 7, UI1</a></li>
-<li><a target=_blank href='http://htmlpreview.github.io/?https://raw.githubusercontent.com/AlexandrTsumarov-ScienceSoft/reports/master/current/safari_mac/report.html'>Detailed report for safari, mac, UI1</a></li>
-</ul>
 
-Smoke tests scenario:
-* Travis catch the event - pull request or push
-* Created Travis VM and cloned plugin and Selenium test sources
-* Created new plugin.zip with plugin which will be used for testing
-* Run test scopes listed at "script:" at .travis.yml
-* The test status icon appear as icon at plugin sources README.md and test report in a list below
-* The test results stores in separate git branch at the folder with a name == 'commit number'
+[![Build Status](https://travis-ci.org/laterpay/laterpay-wordpress-plugin.svg?branch=master)](https://travis-ci.org/laterpay/laterpay-wordpress-plugin)
 
-How to change scope of tests or environment, what have to be runned:
-* Edit test scope listed at "script:" at .travis.yml
-* Add appropriate href to report list in README.md
+This is the official LaterPay plugin for selling digital content with WordPress.
+
+Feel free to fork the plugin and adapt it to your needs.
+
+Please get involved in this project and contribute back changes other users would also benefit from.
+
 
 ## Installation
 
-Grab the latest version from https://github.com/laterpay/laterpay-wordpress-plugin/releases/latest and upload it
-to the plugins folder of your WordPress installation.
-The plugin will soon also be available from http://wordpress.org/plugins/
+The plugin is available on http://wordpress.org/plugins/laterpay
 
 
 ## Contributing
@@ -33,22 +23,22 @@ The plugin will soon also be available from http://wordpress.org/plugins/
 4. Push to the branch (`git push origin feature/my_new_feature`)
 5. Create a new Pull Request
 
-Contributed PHP code must comply with the WordPress coding standards. We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards). 
+This project uses Gulp to build its assets.
+Gulp is a node.js module. If you have node.js running, you can install gulp with ```sudo npm install -g gulp```.
+Then go to the repository root folder and install the required gulp plugins with ```npm install```.
+Now you can run any of the tasks defined in the gulpfile from the repository root folder.
+During development you can either watch the repo for changes and automatically recompile the modified assets using ```gulp```.
+For exporting the assets for a release, you can also run ```gulp build```.
 
-Contributed JS code must be linted with JSHint.
 
+The plugin uses the CSS preprocessor [Stylus](http://learnboost.github.io/stylus/).
+Stylus is a node.js module. If you have node.js running, you can install Stylus with ```sudo npm install -g stylus```.
+To generate production CSS from the .styl sources, go to folder 'laterpay' and run ```stylus asset_sources/stylus --out built_assets/css --compress```.
 
-## Updating Translations
+Contributed PHP code must comply with the WordPress coding standards.
+We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards).
 
-* Go to a server the plugin is installed on
-* Make sure SVN is available (`apt-get install subversion`)
-* Make sure the WordPress translation tools are available (`svn checkout http://i18n.svn.wordpress.org/tools/trunk/`)
-* Extract POT file with translations (php makepot.php wp-plugin /path/to/my-plugin): e.g. `php makepot.php wp-plugin /var/www/wp-content/plugins/laterpay`
-* Download laterpay.pot to the languages folder of your local copy of the plugin
-* Open outdated PO file with Poedit (http://poedit.net)
-* Choose Catalog > Update from POT file… and select the new POT file
-* Update translations
-* Save to generate the new PO/MO files
+Contributed JS code must be linted with JSHint and the [.jshintrc](https://github.com/laterpay/laterpay-wordpress-plugin/blob/master/.jshintrc) included in this repository.
 
 
 ## Versioning

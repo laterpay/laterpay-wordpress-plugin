@@ -6,7 +6,7 @@ class LaterPay_Core_Capabilities
     /**
      *  Execute LaterPay role creation for the various plugin versions.
      *
-     * @return  void
+     * @return void
      */
     public function populate_roles() {
         $this->populate_roles_0951();
@@ -15,7 +15,7 @@ class LaterPay_Core_Capabilities
     /**
     * Create and modify LaterPay roles.
     *
-    * @return  void
+    * @return void
     */
    protected function populate_roles_0951() {
         $roles = array( 'administrator', 'editor' );
@@ -27,6 +27,7 @@ class LaterPay_Core_Capabilities
             $role->add_cap( 'laterpay_read_post_statistics' );
             $role->add_cap( 'laterpay_edit_individual_price' );
             $role->add_cap( 'laterpay_edit_teaser_content' );
+            $role->add_cap( 'laterpay_has_full_access_to_content' );
         }
 
         $roles = array( 'author', 'contributor' );
@@ -44,4 +45,5 @@ class LaterPay_Core_Capabilities
             $role->add_cap( 'laterpay_edit_individual_price' );
         }
     }
+
 }

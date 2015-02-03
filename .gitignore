@@ -6,3 +6,12 @@
 /laterpay/selenium-tests/tests/_output
 /laterpay/selenium-tests/tests/backend.suite.yml
 .idea
+.DS_Store
+.idea/
+.sublime-gulp.cache
+laterpay/built_assets/
+laterpay/sftp-config.json
+nbproject/
+node_modules/
+.gulp
+laterpay/built_assets/js/laterpay-backend-dashboard.js

@@ -1,21 +1,17 @@
-<?php
-/**
- * this template is used for do_action( 'laterpay_purchase_button' );
- */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-?>
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<a href="#"
-    class="laterpay-purchase-link laterpay-purchase-button"
-    title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>"
-    data-icon="b"
-    data-laterpay="<?php echo $laterpay[ 'link' ]; ?>"
-    data-post-id="<?php echo $laterpay[ 'post_id' ]; ?>"
-    data-preview-as-visitor="<?php echo $laterpay[ 'preview_post_as_visitor' ]; ?>"
-><?php
-        echo sprintf(
-            __( '%s<small>%s</small>', 'laterpay' ),
-            LaterPay_Helper_View::format_number( (float) $laterpay[ 'price' ], 2 ),
-            $laterpay[ 'currency' ]
-        );
-    ?></a>
+<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?>
+    <div>
+        <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ): ?>
+            <?php
+                ob_start();
+                do_action( 'laterpay_purchase_button' );
+                $html = ob_get_contents();
+                ob_clean();
+                echo $html;
+            ?>
+        <?php else: ?>
+            <?php do_action( 'laterpay_purchase_button' ); ?>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

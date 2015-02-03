@@ -1,0 +1,114 @@
+// content area --------------------------------------------------------------------------------------------------------
+.lp_page
+    min-height              100%
+
+.lp_pagewrap
+    max-width               1240px
+    padding                 $fs-1
+
+.lp_row
+    // no particular styles attached
+
+
+// tabs ----------------------------------------------------------------------------------------------------------------
+.lp_navigation
+    background-color        $background-lightest
+    border-bottom           1px solid $border-darker
+    box-shadow              0 1px 0 $background-lightest
+    left                    -20px
+    padding-top             2rem
+    width                   101.6%
+
+ul.lp_navigation_tabs
+    margin-left             $fs-2
+
+    li
+        display             inline-block
+        margin-left         1.5rem
+        position            relative
+        top                 2px
+
+        &:first-child
+            margin-left     0
+
+        a
+            color           $text-lighter
+            font-size       $fs-1
+            padding         0.5em 1em 0.75em
+
+        &:hover
+            a
+                color       $clickable
+
+    .lp_current
+        background-color    $background
+        border-radius       4px 4px 0 0
+        border-top          4px solid $clickable
+
+        &:hover a,
+        a
+            color           $text
+            cursor          default
+            font-weight     600
+
+
+// plugin mode indicator -----------------------------------------------------------------------------------------------
+.lp_pluginModeIndicator
+    right                   7rem
+    top                     0.4rem
+
+    // LaterPay logo (rendered in pseudo element from icon font)
+    &:before
+        float               left
+        font-size           4rem
+        left                -2.75rem
+        line-height         0
+        position            relative
+        top                 1.8rem
+
+    h2,
+    i
+        color               $clickable
+
+    &:hover,
+    &:active,
+    &:focus
+        &:before,
+        h2,
+        i
+            color           $clickable-highlight
+
+    h2
+        font-size           2rem
+
+    i
+        font-style          normal
+
+    span
+        color               hsl(0, 0%, 60%)
+
+
+// flash messages ------------------------------------------------------------------------------------------------------
+.lp_flashMessage
+    box-shadow              0 1px 4px 0 hsla(0, 0%, 0%, 0.55)
+    margin                  0
+    opacity                 0.9
+    position                fixed // always show flash message at top of screen, even if page is scrolled down
+    top                     2.5rem
+    width                   96%
+    z-index                 $zindex-overlayed_1
+
+
+// contextual help -----------------------------------------------------------------------------------------------------
+#screen-meta // WordPress selector
+    position                absolute
+    z-index                 $zindex-elevated_1
+
+#contextual-help-link-wrap // WordPress selector
+    z-index                 $zindex-elevated_2
+
+
+// Responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:1279px)
+    .lp_pagewrap
+        padding             0
