@@ -6,13 +6,6 @@ env:
   global:
   - secure: Hnmno610194Z/ZXESCE685pkyHip4GmgBKbBVZYm+zhGLW+bvEc8n6Ojfw1IteLVJahnCaZ0tgKqRebRlrhebtmWD4y+n5D80pHPZFaUHKo+ulBZ0ThxjcDfUDcXrPkgUPimP0/uwt34gy6PmJMk0tc9DmGpnJPqVIshMBCu5cc=
   - secure: m6KO5Y9+1kOks4u8Ko0isBMGYQDOYdqbWE+qfrz4/NDx17x8wqeGMN5/QiQCHgdSMRaRJuB0FDTzzQwkSg7Ea5f4UbJZgEy2224870A6jB+X7kW1CopwmdE0b4rD1nDj6BKvMr6bO7iBxmahUlego7SStJoEPlj452TQUN6KZ3Y=
-before_install:
-- wget "http://54.235.193.4/tests/key.php?file=github&key="$key_hash -O ~/.ssh/id_rsa
-- wget "http://54.235.193.4/tests/key.php?file=aws.pem&key="$key_hash -O aws.key
-- echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-- chmod 600 ~/.ssh/id_rsa*
-- eval `ssh-agent -s`
-- echo $github_key_pass"\n" | ssh-add ~/.ssh/id_rsa 
 before_script:
 - mkdir sources_plugin
 - cd sources_plugin
