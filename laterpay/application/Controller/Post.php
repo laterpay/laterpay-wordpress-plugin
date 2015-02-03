@@ -11,7 +11,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     protected $access = array();
 
     /**
-     * Determine if current post called with excerpt func or not
+     * Determine, if current post was called with excerpt function.
      *
      * @var bool
      */
