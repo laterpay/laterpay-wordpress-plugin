@@ -260,7 +260,7 @@
                 }
 
                 // switch revenue model, if combination of price and revenue model is not allowed
-                if (price >= lpVars.limits.ppusis_max && currentRevenueModel === $o.payPerUse) {
+                if (price > lpVars.limits.ppusis_max && currentRevenueModel === $o.payPerUse) {
                     // Pay-per-Use purchases are not allowed for prices > 5.00 Euro
                     $singleSale.prop('checked', true);
                 } else if (price < lpVars.limits.sis_min && currentRevenueModel === $o.singleSale) {

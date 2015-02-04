@@ -188,6 +188,7 @@ class LaterPay_Core_Bootstrap
          *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
          */
         add_filter( 'the_content',                                      array( $post_controller, 'modify_post_content' ), 1 );
+        add_filter( 'get_the_excerpt',                                  array( $post_controller, 'modify_post_excerpt' ), 1 );
         add_filter( 'wp_footer',                                        array( $post_controller, 'modify_footer' ) );
 
         $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
@@ -197,8 +198,10 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_post_track_views',                array( $statistics_controller, 'ajax_track_views' ) );
         add_action( 'wp_ajax_nopriv_laterpay_post_track_views',         array( $statistics_controller, 'ajax_track_views' ) );
 
+        $is_front = isset( $_REQUEST['is_front'] ) ? $_REQUEST['is_front'] : false;
+
         // frontend actions
-        if ( ! is_admin() ) {
+        if ( ! is_admin() || $is_front ) {
             // add custom action to echo the LaterPay invoice indicator
             $invoice_controller = new LaterPay_Controller_Invoice( $this->config );
             add_action( 'laterpay_invoice_indicator',   array( $invoice_controller, 'the_invoice_indicator' ) );

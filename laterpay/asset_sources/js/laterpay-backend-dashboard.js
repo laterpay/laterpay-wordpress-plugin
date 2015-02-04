@@ -158,7 +158,9 @@
                         startTimestamp  = startTimestamp + 86400;
 
                         startDate       = new Date(startTimestamp * 1000);
-                        if (startDate.getDate() >= currentDate.getDate()) { // FIXME: instead of showing an error, we should hide the link for selecting the next interval!
+                        if (startDate.getDate() >= currentDate.getDate()) {
+                            // FIXME: instead of showing an error,
+                            // we should hide the link for selecting the next interval!
                             setMessage(lpVars.i18n.noFutureInterval, false);
                             return;
                         }
@@ -227,7 +229,9 @@
                 if (interval === 'day') {
                     timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 } else {
-                    timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() + ' - ' + to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
+                                ' - ' +
+                                to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 }
 
                 // set the new startTimestamp as data attribute for refreshing the dashboard data.

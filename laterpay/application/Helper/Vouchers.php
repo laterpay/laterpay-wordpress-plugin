@@ -285,56 +285,6 @@ class LaterPay_Helper_Vouchers
     }
 
     /**
-     * Get the LaterPay purchase link for a voucher.
-     *
-     * @param int  $pass_id
-     * @param null $price   new price (voucher code)
-     * @param null $code    url of page to redirect
-     *
-     * @return string url || empty string if something went wrong
-     */
-    public static function get_laterpay_purchase_link( $pass_id, $price = null, $code = null, $link = null ) {
-        $time_pass_model = new LaterPay_Model_Pass();
-
-        $pass = (array) $time_pass_model->get_pass_data( $pass_id );
-        if ( empty( $pass ) ) {
-            return '';
-        }
-
-        $currency       = get_option( 'laterpay_currency' );
-        $price          = isset( $price ) ? $price : $pass['price'];
-        $revenue_model  = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $pass['revenue_model'], $price );
-
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $client = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
-
-        $url = isset( $link ) ? $link : get_permalink();
-
-        // parameters for LaterPay purchase form
-        $params = array(
-            'article_id'    => '[#' . $code . ']',
-            'pricing'       => $currency . ( $price * 100 ),
-            'vat'           => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
-            'url'           => $url,
-            'title'         => $pass['title'] . ', Code: ' . $code, // show the gift code with each purchased gift card
-        );
-
-        if ( $revenue_model == 'sis' ) {
-            // Single Sale purchase
-            return $client->get_buy_url( $params );
-        } else {
-            // Pay-per-Use purchase
-            return $client->get_add_url( $params );
-        }
-    }
-
-    /**
      * Get gift code usages count
      *
      * @param $code
