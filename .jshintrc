@@ -84,10 +84,21 @@
 
     // Custom Globals
     "globals"       : {
-        "d3"            : false,
-        "lpInvoiceIndicatorVars" : false,
-        "lpVars"        : false,
-        "ajaxurl"       : false,
-        "setMessage"    : false
+        "d3"                        : true,
+        "lpc"                       : true,
+        "LPCurve"                   : true,
+        "lpInvoiceIndicatorVars"    : true,
+        "lpVars"                    : true,
+        "lpAccountLinksUrl"         : true,
+        "lpAccountNextUrl"          : true,
+        "lpMerchantId"              : true,
+        "lpAccountNextUrl"          : true,
+        "lpMerchantId"              : true,
+        "lpMerchantId"              : true,
+        "lpAccountNextUrl"          : true,
+        "lpMerchantId"              : true,
+        "lpAccountLinksUrl"         : true,
+        "ajaxurl"                   : true,
+        "setMessage"                : true
     }
 }

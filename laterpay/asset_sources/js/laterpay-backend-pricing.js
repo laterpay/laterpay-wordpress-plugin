@@ -551,7 +551,12 @@
                 $($o.categoryDefaultPriceShowElements, $form).hide();
                 $o.addCategory.fadeOut(250);
                 $($o.categoryDefaultPriceEditElements, $form).show();
-                renderCategorySelect($form, $o.selectCategory, 'laterpay_get_categories_with_price', formatSelect2Selection);
+                renderCategorySelect(
+                    $form,
+                    $o.selectCategory,
+                    'laterpay_get_categories_with_price',
+                    formatSelect2Selection
+                );
             },
 
             saveCategoryDefaultPrice = function($form) {
