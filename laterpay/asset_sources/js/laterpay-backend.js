@@ -1,7 +1,6 @@
-/* global setMessage */
-
 var flashVisible;
 
+/*jshint unused: false */
 function setMessage(message, success) {
     window.clearTimeout(flashVisible);
 
