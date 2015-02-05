@@ -18,9 +18,11 @@
 
     <div class="lp_wrap">
 
-        <div style="margin-top: 20px;">
-            <a id="lp_js_normal_view" class="lp_js_view_selector active" href="#">Normal KPI view</a> | <a id="lp_js_tp_view" class="lp_js_view_selector" href="#">Time passes view</a>
-        </div>
+        <?php if ( isset( $laterpay['passes']['individual'] ) ) : ?>
+            <div style="margin-top: 20px;">
+                <a id="lp_js_normal_view" class="lp_js_view_selector active" href="#"><?php _e( 'Normal KPI view', 'laterpay' ); ?></a> | <a id="lp_js_tp_view" class="lp_js_view_selector" href="#"><?php _e( 'Time passes view', 'laterpay' ); ?></a>
+            </div>
+        <?php endif; ?>
 
         <div id="lp_js_normal_view_tab">
             <h1><?php echo sprintf( __( '%s Dashboard of %s Sales from%s%s%s', 'laterpay' ),
@@ -199,7 +201,7 @@
             <?php if ( isset( $laterpay['passes']['individual'] ) ) : ?>
                 <?php foreach( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
                     <div class="lp_row" style="height: 450px;">
-                        <h3><?php _e( $pass['title'], 'laterpay' ); ?></h3>
+                        <h3><?php echo $pass['title']; ?></h3>
                         <ul style="display: inline;">
                             <li>
                                 <?php _e( 'Active', 'laterpay' ); ?>

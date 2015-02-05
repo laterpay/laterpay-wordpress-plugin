@@ -499,6 +499,11 @@ class LaterPay_Helper_Passes
         return $time;
     }
 
+    /**
+     * Get time passes statistic
+     *
+     * @return array return summary and individual statistic
+     */
     public static function get_time_passes_statistic() {
         $history_model      = new LaterPay_Model_Payments_History();
         $passes             = LaterPay_Helper_Passes::get_all_passes();
@@ -571,6 +576,14 @@ class LaterPay_Helper_Passes
         return $statistic;
     }
 
+    /**
+     * Get time passes expiry for each week, weeks number determined by ticks param
+     *
+     * @param $pass_id pass id | 0 or null for all passes
+     * @param $ticks   period in weeks
+     *
+     * @return array
+     */
     public static function get_time_pass_expiry_by_weeks( $pass_id, $ticks ) {
         $history_model = new LaterPay_Model_Payments_History();
         $data          = array();

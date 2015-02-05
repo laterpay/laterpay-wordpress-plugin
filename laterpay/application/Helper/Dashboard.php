@@ -513,6 +513,13 @@ class LaterPay_Helper_Dashboard
         return $filled_items;
     }
 
+    /**
+     * Prepare params for time passes graph
+     * 
+     * @param $pass_id
+     *
+     * @return array
+     */
     public static function time_pass_expiry_diagram( $pass_id ) {
         $data = array(
             'x' => array(),
