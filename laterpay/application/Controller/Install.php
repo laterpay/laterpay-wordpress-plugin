@@ -132,13 +132,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
         }
 
-        // add pass id field for version >= 0.9.10
+        // add pass id column for version >= 0.9.10
         if ( ! $passes_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
             $wpdb->query( "ALTER TABLE " . $table . " ADD pass_id INT( 11 ) NOT NULL DEFAULT 0;" );
             $wpdb->query( "ALTER TABLE " . $table . " MODIFY post_id INT( 11 ) NOT NULL DEFAULT 0;" );
         }
 
-        // add code field for version >= 0.9.10
+        // add voucher code column for version >= 0.9.10
         if ( ! $code_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
             $wpdb->query( "ALTER TABLE " . $table . " ADD code VARCHAR(6) NULL DEFAULT NULL;" );
         }

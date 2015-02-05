@@ -514,8 +514,8 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Prepare params for time passes graph
-     * 
+     * Prepare params for time passes graph.
+     *
      * @param $pass_id
      *
      * @return array
@@ -529,7 +529,7 @@ class LaterPay_Helper_Dashboard
         $expiry      = LaterPay_Helper_Passes::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
         $data['max'] = max( $expiry );
 
-        // fill the weeks number
+        // add expiry data for the given number of weeks
         $key = 0;
         while ( $key <= self::TIME_PASSES_WEEKS ) {
             $data[ 'x' ][] = array(

@@ -18,9 +18,14 @@
 
     <div class="lp_wrap">
 
-        <?php if ( isset( $laterpay['passes']['individual'] ) ) : ?>
-            <div style="margin-top: 20px;">
-                <a id="lp_js_normal_view" class="lp_js_view_selector active" href="#"><?php _e( 'Normal KPI view', 'laterpay' ); ?></a> | <a id="lp_js_tp_view" class="lp_js_view_selector" href="#"><?php _e( 'Time passes view', 'laterpay' ); ?></a>
+        <?php if ( isset( $laterpay['passes']['individual'] ) ): ?>
+            <div>
+                <a id="lp_js_normal_view" class="lp_js_view_selector active" href="#">
+                    <?php _e( 'Normal KPI view', 'laterpay' ); ?>
+                </a> |
+                <a id="lp_js_tp_view" class="lp_js_view_selector" href="#">
+                    <?php _e( 'Time passes view', 'laterpay' ); ?>
+                </a>
             </div>
         <?php endif; ?>
 
@@ -187,7 +192,7 @@
                         </li>
                     <?php endif; ?>
                     <li>
-                        <?php echo $laterpay['passes']['summary']['commited_price']; ?><?php echo $laterpay['currency'] ?>
+                        <?php echo $laterpay['passes']['summary']['committed_revenue']; ?><?php echo $laterpay['currency'] ?>
                         <?php _e( 'commited', 'laterpay' ); ?>
                     </li>
                     <li>
@@ -218,7 +223,7 @@
                                 </li>
                             <?php endif; ?>
                             <li>
-                                <?php echo $pass['commited_price']; ?><?php echo $laterpay['currency'] ?>
+                                <?php echo $pass['committed_revenue']; ?><?php echo $laterpay['currency'] ?>
                                 <?php _e( 'commited', 'laterpay' ); ?>
                             </li>
                             <li>

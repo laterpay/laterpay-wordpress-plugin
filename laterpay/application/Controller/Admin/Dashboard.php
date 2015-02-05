@@ -243,7 +243,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Internal function to load the time passes expiry
+     * Internal function to load the expiring time passes as diagram.
      *
      * @param array $options
      *

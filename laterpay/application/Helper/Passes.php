@@ -500,37 +500,40 @@ class LaterPay_Helper_Passes
     }
 
     /**
-     * Get time passes statistic
+     * Get time passes statistic.
      *
-     * @return array return summary and individual statistic
+     * @return array return summary and individual statistics
      */
     public static function get_time_passes_statistic() {
         $history_model      = new LaterPay_Model_Payments_History();
         $passes             = LaterPay_Helper_Passes::get_all_passes();
         $summary_active     = 0;
         $summary_unredeemed = 0;
-        $summary_price      = 0;
+        $summary_revenue    = 0;
         $summary_sold       = 0;
 
         if ( $passes ) {
             foreach ( $passes as $pass ) {
-                $pass = (array) $pass;
-                $pass_history = $history_model->get_time_pass_history( $pass['pass_id'] );
-                $duration     = self::get_pass_expiry_time( $pass ); // in secs
+                $pass           = (array) $pass;
+                $pass_history   = $history_model->get_time_pass_history( $pass['pass_id'] );
+                $duration       = self::get_pass_expiry_time( $pass ); // in seconds
 
-                // calc commited price, unredeemed codes and number of active time passes
-                $commited_price = 0;
-                $unredeemed     = 0;
-                $active         = 0;
+                // calculate committed revenue, unredeemed codes, and number of active time passes
+                $committed_revenue   = 0;
+                $unredeemed         = 0;
+                $active             = 0;
+
                 if  ( $pass_history && is_array( $pass_history ) ) {
                     foreach ( $pass_history as $hist ) {
-                        $commited_price += $hist->price;
-                        // check if has unredeemed
+                        $committed_revenue += $hist->price;
+
+                        // check, if there are unredeemed gift codes
                         if ( $hist->code && ! LaterPay_Helper_Vouchers::get_gift_code_usages_count( $hist->code ) ) {
                             $unredeemed++;
                             $summary_unredeemed++;
                         }
-                        // check if pass still active
+
+                        // check, if pass is still active
                         $start_date   = strtotime( $hist->date );
                         $current_date = time();
                         if ( ( $start_date + $duration ) > $current_date ) {
@@ -542,44 +545,44 @@ class LaterPay_Helper_Passes
                     $pass_history = array();
                 }
 
-                $pass_stat = array(
-                    'title'          => $pass['title'],
-                    'active'         => $active,                // number of active timepasses that not expired yet
-                    'sold'           => count( $pass_history ), // number of purchases
-                    'unredeemed'     => $unredeemed,            // number of unredeemed purchased gift codes, 0 for usual passes
-                    'commited_price' => $commited_price,        // summary cost of purchases
-                    'paid_price'     => 0,
+                $pass_statistics = array(
+                    'title'             => $pass['title'],
+                    'active'            => $active,                 // number of active time passes
+                    'sold'              => count( $pass_history ),  // number of purchases
+                    'unredeemed'        => $unredeemed,             // number of unredeemed gift codes
+                    'committed_revenue' => $committed_revenue,      // total value of purchases
+                    'paid_price'        => 0,
                 );
 
-                $statistic['individual'][ $pass['pass_id'] ] = $pass_stat;
+                $statistic['individual'][$pass['pass_id']] = $pass_statistics;
             }
         }
 
-        // calculate summary statistic
+        // calculate summary statistics
         $passes_history = $history_model->get_time_pass_history();
 
-        if  ( $passes_history && is_array( $passes_history ) ) {
+        if ( $passes_history && is_array( $passes_history ) ) {
             $summary_sold = count( $passes_history );
             foreach ( $passes_history as $hist ) {
-                $summary_price += $hist->price;
+                $summary_revenue += $hist->price;
             }
         }
 
         $statistic['summary'] = array(
-            'active'         => $summary_active,
-            'sold'           => $summary_sold,
-            'unredeemed'     => $summary_unredeemed,
-            'commited_price' => $summary_price,
-            'paid_price'     => 0,
+            'active'            => $summary_active,
+            'sold'              => $summary_sold,
+            'unredeemed'        => $summary_unredeemed,
+            'committed_revenue' => $summary_revenue,
+            'paid_price'        => 0,
         );
 
         return $statistic;
     }
 
     /**
-     * Get time passes expiry for each week, weeks number determined by ticks param
+     * Get number of expiring time passes for each week, week numbers determined by ticks parameter.
      *
-     * @param $pass_id pass id | 0 or null for all passes
+     * @param $pass_id pass id | 0 or null for all time passes
      * @param $ticks   period in weeks
      *
      * @return array
@@ -589,7 +592,7 @@ class LaterPay_Helper_Passes
         $data          = array();
         $duration      = 0;
 
-        // init data array
+        // init array
         if ( ! $ticks ) {
             return $data;
         } else {
@@ -601,36 +604,42 @@ class LaterPay_Helper_Passes
         }
 
         if ( $pass_id ) {
+            // get history for one given time pass
             $pass     = (array) self::get_time_pass_by_id( $pass_id );
             $duration = self::get_pass_expiry_time( $pass );
             $history  = $history_model->get_time_pass_history( $pass_id );
         } else {
+            // get history for all time passes
             $history  = $history_model->get_time_pass_history();
         }
 
-        if  ( $history && is_array( $history ) ) {
-            foreach ( $history as $hist ) {
-                $key           = 0;
-                $week_duration = 7 * 24 * 60 * 60;
-                $start_date    = strtotime( $hist->date );
+        if ( $history && is_array( $history ) ) {
+            $week_duration  = 7 * 24 * 60 * 60; // in seconds
+            $current_date   = time();
 
-                // set end data
+            // get expiry data for each time pass
+            foreach ( $history as $hist ) {
+                $key        = 0;
+                $start_date = strtotime( $hist->date );
+
+                // determine expiry date of time pass
                 if ( ! $duration ) {
-                    $pass_id   = $hist->pass_id;
-                    $pass      = (array) self::get_time_pass_by_id( $pass_id );
-                    $end_data  = $start_date + self::get_pass_expiry_time( $pass );
+                    $pass_id        = $hist->pass_id;
+                    $pass           = (array) self::get_time_pass_by_id( $pass_id );
+                    $expiry_date    = $start_date + self::get_pass_expiry_time( $pass );
                 } else {
-                    $end_data  = $start_date + $duration;
+                    $expiry_date    = $start_date + $duration;
                 }
 
-                $current_date  = time();
-                // if active then check expiry
-                if ( $end_data > $current_date ) {
+                // get week in which time pass expires, if time pass is active
+                if ( $expiry_date > $current_date ) {
                     $week_number = 1;
-                    while( ( $start_date + $week_number * $week_duration ) < $end_data ) {
+
+                    while( ( $start_date + $week_number * $week_duration ) < $expiry_date ) {
                         $week_number++;
                         $key++;
                     }
+
                     $data[$key]++;
                 }
             }
