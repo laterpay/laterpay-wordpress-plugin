@@ -2,6 +2,7 @@
 
 class LaterPay_Helper_Dashboard
 {
+    const TIME_PASSES_WEEKS = 13;
 
     /**
      * Helper function to load the cached data by a given file path.
@@ -510,5 +511,31 @@ class LaterPay_Helper_Dashboard
         );
 
         return $filled_items;
+    }
+
+    public static function time_pass_expiry_diagram( $pass_id ) {
+        $data = array(
+            'x' => array(),
+            'y' => array(),
+        );
+
+        $expiry      = LaterPay_Helper_Passes::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
+        $data['max'] = max( $expiry );
+
+        // fill the weeks number
+        $key = 0;
+        while ( $key <= self::TIME_PASSES_WEEKS ) {
+            $data[ 'x' ][] = array(
+                $key,
+                (string) $key
+            );
+            $data[ 'y' ][] = array(
+                $key,
+                $expiry[$key]
+            );
+            $key++;
+        }
+
+        return $data;
     }
 }

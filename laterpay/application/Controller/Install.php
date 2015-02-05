@@ -94,6 +94,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $is_up_to_date = false;
         $modified      = false;
         $passes_added  = false;
+        $code_added    = false;
+
         foreach ( $columns as $column ) {
             if ( $column->Field === 'revenue_model' ) {
                 $modified      = strpos( strtolower( $column->Type ), 'enum' ) !== false;
@@ -102,6 +104,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
             if ( $column->Field === 'pass_id' ) {
                 $passes_added  = true;
+            }
+
+            if ( $column->Field === 'code' ) {
+                $code_added    = true;
             }
         }
 
@@ -130,6 +136,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         if ( ! $passes_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
             $wpdb->query( "ALTER TABLE " . $table . " ADD pass_id INT( 11 ) NOT NULL DEFAULT 0;" );
             $wpdb->query( "ALTER TABLE " . $table . " MODIFY post_id INT( 11 ) NOT NULL DEFAULT 0;" );
+        }
+
+        // add code field for version >= 0.9.10
+        if ( ! $code_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
+            $wpdb->query( "ALTER TABLE " . $table . " ADD code VARCHAR(6) NULL DEFAULT NULL;" );
         }
     }
 
@@ -409,6 +420,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 hash              VARCHAR(32)          NOT NULL,
                 revenue_model     ENUM('ppu', 'sis')   NOT NULL DEFAULT 'ppu',
                 pass_id           INT(11)              NOT NULL DEFAULT 0,
+                code              VARCHAR(6)           NULL DEFAULT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
@@ -426,19 +438,19 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_passes (
-	        pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
-	        duration          INT(11)       NULL DEFAULT NULL,
-	        period            INT(11)       NULL DEFAULT NULL,
-	        access_to         INT(11)       NULL DEFAULT NULL,
-	        access_category   BIGINT(20)    NULL DEFAULT NULL,
-	        price             DECIMAL(10,2) NULL DEFAULT NULL,
-	        revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
-	        title             VARCHAR(255)  NULL DEFAULT NULL,
-	        description       VARCHAR(255)  NULL DEFAULT NULL,
-	        PRIMARY KEY (pass_id),
-	        INDEX access_to (access_to),
-	        INDEX period (period),
-	        INDEX duration (duration)
+                pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
+                duration          INT(11)       NULL DEFAULT NULL,
+                period            INT(11)       NULL DEFAULT NULL,
+                access_to         INT(11)       NULL DEFAULT NULL,
+                access_category   BIGINT(20)    NULL DEFAULT NULL,
+                price             DECIMAL(10,2) NULL DEFAULT NULL,
+                revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
+                title             VARCHAR(255)  NULL DEFAULT NULL,
+                description       VARCHAR(255)  NULL DEFAULT NULL,
+                PRIMARY KEY (pass_id),
+                INDEX access_to (access_to),
+                INDEX period (period),
+                INDEX duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 

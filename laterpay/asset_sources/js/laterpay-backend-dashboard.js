@@ -60,6 +60,14 @@
                 // strings cached for better compression
                 expanded                : 'lp_is-expanded',
                 selected                : 'lp_is-selected',
+
+                // time passes view screen
+                viewSelector            : '.lp_js_view_selector',
+                normalView              : $('#lp_js_normal_view'),
+                tpView                  : $('#lp_js_tp_view'),
+                normalViewTab           : $('#lp_js_normal_view_tab'),
+                tpViewTab               : $('#lp_js_tp_view_tab'),
+                passGraphsPlaceholders  : $('.lp_js_passDiagram'),
             },
 
             plotDefaultOptions = {
@@ -201,6 +209,24 @@
                         alert('Toggling post details coming soon');
                     })
                     .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
+
+                $($o.viewSelector)
+                    .mousedown(function() {
+                        var viewType = $(this).attr('id');
+
+                        if ( viewType == 'lp_js_normal_view' ) {
+                            $o.normalView.addClass('active');
+                            $o.tpView.removeClass('active');
+                            $o.normalViewTab.show();
+                            $o.tpViewTab.hide();
+                        } else {
+                            $o.normalView.removeClass('active');
+                            $o.tpView.addClass('active');
+                            $o.tpViewTab.show();
+                            $o.normalViewTab.hide();
+                        }
+                    })
+                    .click(function(e) {e.preventDefault();});
             },
 
             getInterval = function() {
@@ -237,7 +263,7 @@
                 .html(timeRange);
             },
 
-            loadDashboardData = function(section, refresh) {
+            loadDashboardData = function(section, refresh, pass) {
                 var interval        = getInterval(),
                     revenueModel    = $o.revenueModelChoices
                         .parents($o.dropdownList)
@@ -261,7 +287,9 @@
                         // revenue model "ppu", "sis" or "all"
                         'revenue_model'   : revenueModel,
                         // start-day to go by "interval" backwards.
-                        'start_timestamp'    : $o.currentInterval.data( 'startTimestamp' )
+                        'start_timestamp' : $o.currentInterval.data( 'startTimestamp' ),
+                        // time pass id (optionally)
+                        'pass_id'         : pass
                     },
                     jqxhr;
 
@@ -322,6 +350,7 @@
                                     ticks: response.data.x,
                                 },
                                 yaxis: {
+                                    tickSize: null,
                                     max: 100,
                                 }
                             },
@@ -354,6 +383,67 @@
                         $.plot($o.conversionDiagram, plotData, plotOptions);
                     })
                     .always(function() {removeLoadingIndicator($o.conversionDiagram);});
+            },
+
+            loadPassesGraphs = function(refresh) {
+                var data = $o.passGraphsPlaceholders;
+
+                $.each( $o.passGraphsPlaceholders, function(index) {
+                    var pass_id = $(data[ index ]).data('id');
+                    showLoadingIndicator($(data[ index ]));
+
+                    loadDashboardData('time_passes_expiry', refresh, pass_id)
+                        .done(function(response) {
+                            var max = response.data.max;
+                            var backColumns = [];
+                            i = 0;
+                            l = response.data.y.length;
+                            for (i; i < l; i++) {
+                                backColumns.push([i, max]);
+                            }
+
+                            var plotOptions = {
+                                    xaxis: {
+                                        ticks: response.data.x,
+                                    },
+                                    yaxis: {
+                                        show: false,
+                                        max: max,
+                                        tickFormatter: function (v, axis) {
+                                            return parseInt(v);
+                                        }
+                                    }
+                                },
+                                plotData = [
+                                    {
+                                        data            : backColumns,
+                                        bars            : {
+                                            align       : 'center',
+                                            barWidth    : 0.6,
+                                            fillColor   : $o.colorBackground,
+                                            horizontal  : false,
+                                            lineWidth   : 0,
+                                            show        : true,
+                                        }
+                                    },
+                                    {
+                                        data            : response.data.y,
+                                        bars            : {
+                                            align       : 'center',
+                                            barWidth    : 0.4,
+                                            fillColor   : $o.colorBackgroundLaterpay,
+                                            horizontal  : false,
+                                            lineWidth   : 0,
+                                            show        : true,
+                                        }
+                                    },
+                                ];
+
+                            plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                            $.plot($(data[ index ]), plotData, plotOptions);
+                        })
+                        .always(function() {removeLoadingIndicator($(data[ index ]));});
+                });
             },
 
             loadSellingItems = function(refresh) {
@@ -563,6 +653,7 @@
             loadDashboard = function(refresh) {
                 refresh = refresh || false;
                 loadConvertingItems(refresh);
+                loadPassesGraphs(refresh);
                 loadRevenueItems(refresh);
                 loadSellingItems(refresh);
                 loadKPIs(refresh);

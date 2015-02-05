@@ -17,6 +17,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         'most_least_selling_items',
         'most_least_revenue_items',
         'metrics',
+        'time_passes_expiry',
     );
 
     private $cache_file_exists;
@@ -89,6 +90,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
             'cache_file_exists'         => $this->cache_file_exists,
             'cache_file_is_broken'      => $this->cache_file_is_broken,
+            'passes'                    => LaterPay_Helper_Passes::get_time_passes_statistic(),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -238,6 +240,19 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         );
 
         return $converted_diagram_data;
+    }
+
+    /**
+     * Internal function to load the time passes expiry
+     *
+     * @param array $options
+     *
+     * @return array $data
+     */
+    private function time_passes_expiry( $options ) {
+        $time_pass_expiry_diagram = LaterPay_Helper_Dashboard::time_pass_expiry_diagram( $options['pass_id'] );
+
+        return $time_pass_expiry_diagram;
     }
 
     /**
@@ -578,6 +593,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $refresh = (bool) $post_args[ 'refresh' ];
         }
 
+        $pass_id    = 0;
+        if ( isset( $post_args[ 'pass_id' ] ) ) {
+            $pass_id = (int) $post_args[ 'pass_id' ];
+        }
+
         $section = (string) $post_args[ 'section' ];
 
         // initial options
@@ -588,6 +608,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'count'             => $count,
             'section'           => $section,
             'revenue_model'     => $revenue_model,
+            'pass_id'           => $pass_id,
         );
 
         $cache_dir      = LaterPay_Helper_Dashboard::get_cache_dir( $start_timestamp );

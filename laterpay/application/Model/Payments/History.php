@@ -22,6 +22,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         'hash'          => '%s',
         'revenue_model' => '%s',
         'pass_id'       => '%d',
+        'code'          => '%s',
     );
 
     /**
@@ -101,6 +102,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         'hash'          => $data['hash'],
                         'revenue_model' => $data['revenue_model'],
                         'pass_id'       => $data['pass_id'],
+                        'code'          => $data['code'],
                     ),
                     array(
                         '%s',
@@ -112,6 +114,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         '%s',
                         '%s',
                         '%d',
+                        '%s',
                     )
             );
         }
@@ -552,6 +555,38 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 
         $results = $this->get_results( $args );
         return LaterPay_Helper_Dashboard::build_sparkline( $results, $start_timestamp, $interval );
+    }
+
+    public function get_time_pass_history( $pass_id = null ) {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                pass_id,
+                price,
+                date,
+                code
+            FROM
+                {$this->table}
+            WHERE
+                mode = 'live'";
+
+        if ( $pass_id ) {
+            $sql .= "
+                AND pass_id = $pass_id
+            ";
+        } else {
+            $sql .= "
+                AND pass_id <> 0
+            ";
+        }
+
+        $sql .= "
+            ORDER BY
+                date ASC
+        ";
+
+        return $wpdb->get_results( $sql );
     }
 
 }
