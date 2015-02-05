@@ -466,7 +466,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_sandbox_backend_api_url',
-            __( 'Sandbox API endpoint', 'laterpay' ),
+            __( 'Sandbox Backend API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
@@ -479,7 +479,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_sandbox_dialog_api_url',
-            __( 'Sandbox web URL', 'laterpay' ),
+            __( 'Sandbox Dialog API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
@@ -492,7 +492,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_live_backend_api_url',
-            __( 'Live API endpoint', 'laterpay' ),
+            __( 'Live Backend API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
@@ -505,7 +505,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         add_settings_field(
             'laterpay_live_dialog_api_url',
-            __( 'Live web URL', 'laterpay' ),
+            __( 'Live Dialog API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
