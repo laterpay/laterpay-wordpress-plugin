@@ -10,9 +10,25 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
     var self = 'https://web.laterpay.net';
 
     // define URLs to forward the user to after login / logout / registration
-    var loginLink  = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/login?next=' + lpAccountNextUrl + '&cp=' + lpMerchantId),
-        logoutLink = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/logout?jsevents=1&cp=' + lpMerchantId),
-        signupLink = dialog_api + '?url=' + encodeURIComponent(self + '/account/dialog/signup?next=' + lpAccountNextUrl + '&cp=' + lpMerchantId);
+    var loginLink  = dialog_api + '?url=' + encodeURIComponent(
+                                                self +
+                                                '/account/dialog/login?next=' +
+                                                lpAccountNextUrl +
+                                                '&cp=' +
+                                                lpMerchantId
+                                            ),
+        logoutLink = dialog_api + '?url=' + encodeURIComponent(
+                                                self +
+                                                '/account/dialog/logout?jsevents=1&cp=' +
+                                                lpMerchantId
+                                            ),
+        signupLink = dialog_api + '?url=' + encodeURIComponent(
+                                               self +
+                                               '/account/dialog/signup?next=' +
+                                               lpAccountNextUrl +
+                                               '&cp=' +
+                                               lpMerchantId
+                                            );
 
     // render iframe inside of placeholder
     var login_iframe = new Y.LaterPay.IFrame(

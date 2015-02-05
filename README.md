@@ -38,7 +38,7 @@ To generate production CSS from the .styl sources, go to folder 'laterpay' and r
 Contributed PHP code must comply with the WordPress coding standards.
 We recommend testing it with PHP_CodeSniffer + [standard 'WordPress'](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards).
 
-Contributed JS code must be linted with JSHint and the [.jshintrc](https://github.com/laterpay/laterpay-wordpress-plugin/blob/master/.jshintrc) included in this repository.
+All pull requests are automatically linted with JSHint and the [.jshintrc](https://github.com/laterpay/laterpay-wordpress-plugin/blob/master/.jshintrc) included in this repository.
 
 
 ## Versioning
