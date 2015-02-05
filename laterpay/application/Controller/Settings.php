@@ -465,61 +465,61 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
         );
 
         add_settings_field(
-            'laterpay_api_sandbox_url',
-            __( 'Sandbox API endpoint', 'laterpay' ),
+            'laterpay_sandbox_backend_api_url',
+            __( 'Sandbox Backend API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
             array(
-                'name'  => 'laterpay_api_sandbox_url',
+                'name'  => 'laterpay_sandbox_backend_api_url',
                 'type'  => 'url',
                 'class' => 'code',
             )
         );
 
         add_settings_field(
-            'laterpay_api_sandbox_web_url',
-            __( 'Sandbox web URL', 'laterpay' ),
+            'laterpay_sandbox_dialog_api_url',
+            __( 'Sandbox Dialog API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
             array(
-                'name'  => 'laterpay_api_sandbox_web_url',
+                'name'  => 'laterpay_sandbox_dialog_api_url',
                 'type'  => 'url',
                 'class' => 'code',
             )
         );
 
         add_settings_field(
-            'laterpay_api_live_url',
-            __( 'Live API endpoint', 'laterpay' ),
+            'laterpay_live_backend_api_url',
+            __( 'Live Backend API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
             array(
-                'name'  => 'laterpay_api_live_url',
+                'name'  => 'laterpay_live_backend_api_url',
                 'type'  => 'url',
                 'class' => 'code',
             )
         );
 
         add_settings_field(
-            'laterpay_api_live_web_url',
-            __( 'Live web URL', 'laterpay' ),
+            'laterpay_live_dialog_api_url',
+            __( 'Live Dialog API URL', 'laterpay' ),
             array( $this, 'get_text_field_markup' ),
             'laterpay',
             'laterpay_api',
             array(
-                'name'  => 'laterpay_api_live_web_url',
+                'name'  => 'laterpay_live_dialog_api_url',
                 'type'  => 'url',
                 'class' => 'code',
             )
         );
 
-        register_setting( 'laterpay', 'laterpay_api_sandbox_url' );
-        register_setting( 'laterpay', 'laterpay_api_sandbox_web_url' );
-        register_setting( 'laterpay', 'laterpay_api_live_url' );
-        register_setting( 'laterpay', 'laterpay_api_live_web_url' );
+        register_setting( 'laterpay', 'laterpay_sandbox_backend_api_url' );
+        register_setting( 'laterpay', 'laterpay_sandbox_dialog_api_url' );
+        register_setting( 'laterpay', 'laterpay_live_backend_api_url' );
+        register_setting( 'laterpay', 'laterpay_live_dialog_api_url' );
     }
 
     /**

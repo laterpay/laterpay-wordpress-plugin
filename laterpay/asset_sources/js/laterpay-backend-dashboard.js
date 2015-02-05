@@ -167,7 +167,9 @@
                     startTimestamp  = startTimestamp + 86400;
 
                     startDate       = new Date(startTimestamp * 1000);
-                    if (startDate.getDate() >= currentDate.getDate()) { // FIXME: instead of showing an error, we should hide the link for selecting the next interval!
+                        if (startDate.getDate() >= currentDate.getDate()) {
+                            // FIXME: instead of showing an error,
+                            // we should hide the link for selecting the next interval!
                         setMessage(lpVars.i18n.noFutureInterval, false);
                         return;
                     }
