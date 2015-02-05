@@ -295,6 +295,37 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( 'ALTER TABLE ' . $table . ' DROP title_color, DROP description_color, DROP background_color, DROP background_path;' );
         }
     }
+    
+    /**
+     * Changing options names for API URLs.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_api_urls_options_names() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+            return;
+        }
+
+        $old_to_new_option_pair_array = array(
+            'laterpay_api_sandbox_url'      => 'laterpay_sandbox_backend_api_url',
+            'laterpay_api_sandbox_web_url'  => 'laterpay_sandbox_dialog_api_url',
+            'laterpay_api_live_url'         => 'laterpay_live_backend_api_url',
+            'laterpay_api_live_web_url'     => 'laterpay_live_dialog_api_url',
+        );
+
+        foreach ( $old_to_new_option_pair_array as $old_option_name => $new_option_name ) {
+            $old_option_value = get_option( $old_option_name );
+            
+            if ( $old_option_value !== false ) {
+                delete_option( $old_option_name );
+                add_option( $new_option_name, $old_option_value );
+            }
+        }
+    }
 
     /**
      * Update the existing options during update.
@@ -463,10 +494,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_landing_page',                            '' );
 
         // advanced settings
-        add_option( 'laterpay_api_sandbox_url',                         'https://api.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_api_sandbox_web_url',                     'https://web.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_api_live_url',                            'https://api.laterpay.net' );
-        add_option( 'laterpay_api_live_web_url',                        'https://web.laterpay.net' );
+        add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );
+        add_option( 'laterpay_sandbox_dialog_api_url',                  'https://web.sandbox.laterpaytest.net' );
+        add_option( 'laterpay_live_backend_api_url',                    'https://api.laterpay.net' );
+        add_option( 'laterpay_live_dialog_api_url',                     'https://web.laterpay.net' );
         add_option( 'laterpay_api_merchant_backend_url',                'https://merchant.laterpay.net/' );
         add_option( 'laterpay_access_logging_enabled',                  1 );
         add_option( 'laterpay_caching_compatibility',                   (bool) LaterPay_Helper_Cache::site_uses_page_caching() );
