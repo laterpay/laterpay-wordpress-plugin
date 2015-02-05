@@ -129,10 +129,10 @@ function laterpay_get_plugin_config() {
      * @var array
      */
     $default_api_settings = array(
-        'api.sandbox_backend_api_url'   => get_option( 'laterpay_api_sandbox_backend_url' ),
-        'api.sandbox_dialog_api_url'    => get_option( 'laterpay_api_sandbox_dialog_url' ),
-        'api.live_backend_api_url'      => get_option( 'laterpay_api_live_backend_url' ),
-        'api.live_dialog_api_url'       => get_option( 'laterpay_api_live_dialog_url' ),
+        'api.sandbox_backend_api_url'   => get_option( 'laterpay_sandbox_backend_api_url' ),
+        'api.sandbox_dialog_api_url'    => get_option( 'laterpay_sandbox_dialog_api_url' ),
+        'api.live_backend_api_url'      => get_option( 'laterpay_live_backend_api_url' ),
+        'api.live_dialog_api_url'       => get_option( 'laterpay_live_dialog_api_url' ),
         'api.merchant_backend_url'      => get_option( 'laterpay_api_merchant_backend_url' ),
     );
 

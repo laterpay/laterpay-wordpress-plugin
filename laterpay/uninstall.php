@@ -42,11 +42,11 @@ $sql = "DELETE FROM
 $wpdb->query( $sql );
 
 // remove global settings from wp_options table
-delete_option( 'laterpay_api_live_backend_url' );
-delete_option( 'laterpay_api_live_dialog_url' );
+delete_option( 'laterpay_live_backend_api_url' );
+delete_option( 'laterpay_live_dialog_api_url' );
 delete_option( 'laterpay_api_merchant_backend_url' );
-delete_option( 'laterpay_api_sandbox_backend_url' );
-delete_option( 'laterpay_api_sandbox_dialog_url' );
+delete_option( 'laterpay_sandbox_backend_api_url' );
+delete_option( 'laterpay_sandbox_dialog_api_url' );
 
 delete_option( 'laterpay_sandbox_api_key' );
 delete_option( 'laterpay_sandbox_merchant_id' );
