@@ -57,18 +57,18 @@
 
                 toggleItemDetails       : '.lp_js_toggleItemDetails',
 
-                // strings cached for better compression
-                expanded                : 'lp_is-expanded',
-                selected                : 'lp_is-selected',
-                active                  : 'lp_is-active',
-
-                // time passes view screen
+                // time passes customer lifecycle
                 viewSelector            : '.lp_js_view_selector',
                 normalView              : $('#lp_js_normal_view'),
                 tpView                  : $('#lp_js_tp_view'),
                 normalViewTab           : $('#lp_js_normal_view_tab'),
                 tpViewTab               : $('#lp_js_tp_view_tab'),
-                passGraphsPlaceholders  : $('.lp_js_passDiagram'),
+                timepassDiagram         : $('.lp_js_timepassDiagram'),
+
+                // strings cached for better compression
+                expanded                : 'lp_is-expanded',
+                selected                : 'lp_is-selected',
+                active                  : 'lp_is-active',
             },
 
             plotDefaultOptions = {
@@ -390,10 +390,10 @@
                 .always(function() {removeLoadingIndicator($o.conversionDiagram);});
             },
 
-            loadPassesGraphs = function(refresh) {
-                var data = $o.passGraphsPlaceholders;
+            loadTimePassLifecycles = function(refresh) {
+                var data = $o.timepassDiagram;
 
-                $.each($o.passGraphsPlaceholders, function(index) {
+                $.each($o.timepassDiagram, function(index) {
                     var pass_id = $(data[index]).data('id');
 
                     showLoadingIndicator($(data[index]));
@@ -409,6 +409,24 @@
                             backColumns.push([i, max]);
                         }
 
+                        // var markings = [
+                        //         {
+                        //             color               : $o.colorBorder,
+                        //             lineWidth           : 1,
+                        //             xaxis               : {
+                        //                 from            : 3.5,
+                        //                 to              : 3.5,
+                        //             },
+                        //         },
+                        //         {
+                        //             color               : $o.colorBorder,
+                        //             lineWidth           : 1,
+                        //             xaxis               : {
+                        //                 from            : 11.5,
+                        //                 to              : 11.5,
+                        //             },
+                        //         },
+                        //     ];
                         var plotOptions = {
                                 xaxis               : {
                                     ticks           : response.data.x,
@@ -416,23 +434,15 @@
                                 yaxis               : {
                                     show            : false,
                                     max             : max,
-                                    tickFormatter   : function(v) {
-                                                        return parseInt(v, 10);
+                                    tickFormatter   : function(val) {
+                                                        return parseInt(val, 10);
                                                     }
-                                }
+                                },
+                                // grid                : {
+                                //     markings        : markings,
+                                // },
                             },
                             plotData = [
-                                {
-                                    data            : backColumns,
-                                    bars            : {
-                                        align       : 'center',
-                                        barWidth    : 0.6,
-                                        fillColor   : $o.colorBackground,
-                                        horizontal  : false,
-                                        lineWidth   : 0,
-                                        show        : true,
-                                    }
-                                },
                                 {
                                     data            : response.data.y,
                                     bars            : {
@@ -442,7 +452,7 @@
                                         horizontal  : false,
                                         lineWidth   : 0,
                                         show        : true,
-                                    }
+                                    },
                                 },
                             ];
 
@@ -660,7 +670,7 @@
             loadDashboard = function(refresh) {
                 refresh = refresh || false;
                 loadConvertingItems(refresh);
-                loadPassesGraphs(refresh);
+                loadTimePassLifecycles(refresh);
                 loadRevenueItems(refresh);
                 loadSellingItems(refresh);
                 loadKPIs(refresh);

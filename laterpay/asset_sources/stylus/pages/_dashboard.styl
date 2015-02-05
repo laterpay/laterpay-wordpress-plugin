@@ -80,7 +80,7 @@ h1 {
     margin:                         $fs-1 $fs-1 $fs-1 0;
 
     ul {
-        margin:                     0 $fs-1 0 0;
+        margin:                     0 $fs-05 0 0;
         padding:                    0;
     }
 
@@ -176,6 +176,25 @@ h1 {
 
     .lp_value-narrow {
         width:                      3 * $fs-1;
+    }
+}
+
+
+// Time pass customer lifecycle statistics -----------------------------------------------------------------------------
+.lp_time-pass-lifecycle {
+    margin-bottom: $fs-2;
+
+    /* separate the different graphs with a border */
+    &:nth-child(n+3) {
+        border-top: 1px solid $border;
+    }
+
+    .lp_statisticsRow ul {
+        margin-left: $fs-05;
+
+        & + ul {
+            border-top: 1px solid $background;
+        }
     }
 }
 

@@ -22,7 +22,8 @@
             <div>
                 <a id="lp_js_normal_view" class="lp_js_view_selector active" href="#">
                     <?php _e( 'Normal KPI view', 'laterpay' ); ?>
-                </a> |
+                </a>
+                |
                 <a id="lp_js_tp_view" class="lp_js_view_selector" href="#">
                     <?php _e( 'Time passes view', 'laterpay' ); ?>
                 </a>
@@ -171,67 +172,88 @@
             </div>
         </div>
 
-        <div id="lp_js_tp_view_tab" style="display: none;">
+        <div id="lp_js_tp_view_tab" style="display:none;">
             <h1><?php _e( 'Time Pass Customer Lifecycle', 'laterpay' ); ?></h1>
 
-            <div class="lp_row" style="height: 450px;">
-                <h3><?php _e( 'All Time Passes', 'laterpay' ); ?></h3>
-                <ul style="display: inline;">
-                    <li>
-                        <?php _e( 'Active', 'laterpay' ); ?>
-                        <?php echo $laterpay['passes']['summary']['active']; ?>
-                    </li>
-                    <li>
-                        <?php _e( 'Sold', 'laterpay' ); ?>
-                        <?php echo $laterpay['passes']['summary']['sold']; ?>
-                    </li>
-                    <?php if ( isset( $laterpay['passes']['summary']['unredeemed'] ) ) : ?>
-                        <li>
-                            <?php _e( 'Unredeemed', 'laterpay' ); ?>
-                            <?php echo $laterpay['passes']['summary']['unredeemed']; ?>
-                        </li>
-                    <?php endif; ?>
-                    <li>
-                        <?php echo $laterpay['passes']['summary']['committed_revenue']; ?><?php echo $laterpay['currency'] ?>
-                        <?php _e( 'commited', 'laterpay' ); ?>
-                    </li>
-                    <li>
-                        <?php echo $laterpay['passes']['summary']['paid_price']; ?><?php echo $laterpay['currency'] ?>
-                        <?php _e( 'paid', 'laterpay' ); ?>
-                    </li>
-                </ul>
-                <div class="lp_js_passDiagram lp_timePassesGraph" data-id="0" style="width:900px; height:300px; float: right; margin-right: 450px;"></div>
-            </div>
+            <div class="lp_time-pass-lifecycle lp_u_clearfix">
+                <div class="lp_time-pass-lifecycle--kpi lp_u_w-1-4 lp_u_left">
+                    <h2><?php _e( 'All Time Passes', 'laterpay' ); ?></h2>
 
-            <?php if ( isset( $laterpay['passes']['individual'] ) ) : ?>
-                <?php foreach( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
-                    <div class="lp_row" style="height: 450px;">
-                        <h3><?php echo $pass['title']; ?></h3>
-                        <ul style="display: inline;">
-                            <li>
-                                <?php _e( 'Active', 'laterpay' ); ?>
-                                <?php echo $pass['active']; ?>
-                            </li>
-                            <li>
+                    <div class="lp_statisticsRow lp_u_clearfix">
+                        <ul class="lp_u_clearfix">
+                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                <big><?php echo $laterpay['passes']['summary']['sold']; ?></big>
                                 <?php _e( 'Sold', 'laterpay' ); ?>
-                                <?php echo $pass['sold']; ?>
                             </li>
-                            <?php if ( isset( $pass['unredeemed'] ) ) : ?>
-                                <li>
+                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                <big><?php echo $laterpay['passes']['summary']['active']; ?></big>
+                                <?php _e( 'Active', 'laterpay' ); ?>
+                            </li>
+                            <?php if ( isset( $laterpay['passes']['summary']['unredeemed'] ) ): ?>
+                                <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                    <big><?php echo $laterpay['passes']['summary']['unredeemed']; ?></big>
                                     <?php _e( 'Unredeemed', 'laterpay' ); ?>
-                                    <?php echo $pass['unredeemed']; ?>
                                 </li>
                             <?php endif; ?>
-                            <li>
-                                <?php echo $pass['committed_revenue']; ?><?php echo $laterpay['currency'] ?>
-                                <?php _e( 'commited', 'laterpay' ); ?>
+                        </ul>
+                        <ul>
+                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                <big><?php echo $laterpay['passes']['summary']['committed_revenue']; ?><small><?php echo $laterpay['currency']; ?></small></big>
+                                <?php _e( 'Committed', 'laterpay' ); ?>
                             </li>
-                            <li>
-                                <?php echo $pass['paid_price']; ?><?php echo $laterpay['currency'] ?>
-                                <?php _e( 'paid', 'laterpay' ); ?>
+                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                <big><?php echo $laterpay['passes']['summary']['paid_price']; ?><small><?php echo $laterpay['currency']; ?></small></big>
+                                <?php _e( 'Paid', 'laterpay' ); ?>
                             </li>
                         </ul>
-                        <div class="lp_js_passDiagram lp_timePassesGraph" data-id="<?php echo $pass_id; ?>" style="width:900px; height:300px; float: right; margin-right: 450px;"></div>
+                    </div>
+                </div>
+
+                <div class="lp_u_w-3-4 lp_u_left">
+                    <div class="lp_js_timepassDiagram lp_dashboardGraph" data-id="0" style="width:600px;"></div>
+                </div>
+            </div>
+
+            <?php if ( isset( $laterpay['passes']['individual'] ) ): ?>
+                <?php foreach( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
+                    <div class="lp_time-pass-lifecycle lp_u_clearfix">
+                        <div class="lp_time-pass-lifecycle--kpi lp_u_w-1-4 lp_u_left">
+                            <h2><?php echo sprintf( __( 'Time pass \'%s\'', 'laterpay' ), $pass['title'] ); ?></h2>
+                            <dfn>TODO: render conditions of the time pass here!</dfn>
+
+                            <div class="lp_statisticsRow lp_u_clearfix">
+                                <ul class="lp_u_clearfix">
+                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                        <big><?php echo $pass['sold']; ?></big>
+                                        <?php _e( 'Sold', 'laterpay' ); ?>
+                                    </li>
+                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                        <big><?php echo $pass['active']; ?></big>
+                                        <?php _e( 'Active', 'laterpay' ); ?>
+                                    </li>
+                                    <?php if ( isset( $pass['unredeemed'] ) ): ?>
+                                        <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                            <big><?php echo $pass['unredeemed']; ?></big>
+                                            <?php _e( 'Unredeemed', 'laterpay' ); ?>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                                <ul>
+                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                        <big><?php echo $pass['committed_revenue']; ?><small><?php echo $laterpay['currency']; ?></small></big>
+                                        <?php _e( 'Committed', 'laterpay' ); ?>
+                                    </li>
+                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                        <big><?php echo $pass['paid_price']; ?><small><?php echo $laterpay['currency']; ?></small></big>
+                                        <?php _e( 'Paid', 'laterpay' ); ?>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="lp_u_w-3-4 lp_u_left">
+                            <div class="lp_js_timepassDiagram lp_dashboardGraph" data-id="<?php echo $pass_id; ?>" style="width:600px;"></div>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
