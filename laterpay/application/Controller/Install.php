@@ -309,14 +309,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         if ( version_compare( $current_version, '0.9.10', '>' ) ) {
             return;
         }
-        
+
         $old_to_new_option_pair_array = array(
             'laterpay_api_sandbox_url'      => 'laterpay_sandbox_backend_api_url',
             'laterpay_api_sandbox_web_url'  => 'laterpay_sandbox_dialog_api_url',
             'laterpay_api_live_url'         => 'laterpay_live_backend_api_url',
             'laterpay_api_live_web_url'     => 'laterpay_live_dialog_api_url',
         );
-        
+
         foreach ( $old_to_new_option_pair_array as $old_option_name => $new_option_name ) {
             $old_option_value = get_option( $old_option_name );
             
@@ -409,7 +409,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $this->logger->warning( __METHOD__, $notices );
             return;
         }
-        
+
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
         $table_currency        = $wpdb->prefix . 'laterpay_currency';
