@@ -416,8 +416,8 @@
                                 yaxis               : {
                                     show            : false,
                                     max             : max,
-                                    tickFormatter   : function (v, axis) {
-                                                        return parseInt(v);
+                                    tickFormatter   : function(v) {
+                                                        return parseInt(v, 10);
                                                     }
                                 }
                             },
