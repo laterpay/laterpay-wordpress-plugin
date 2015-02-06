@@ -514,9 +514,9 @@ class LaterPay_Helper_Passes
 
         if ( $passes ) {
             foreach ( $passes as $pass ) {
-                $pass           = (array) $pass;
-                $pass_history   = $history_model->get_time_pass_history( $pass['pass_id'] );
-                $duration       = self::get_pass_expiry_time( $pass ); // in seconds
+                $pass         = (array) $pass;
+                $pass_history = $history_model->get_time_pass_history( $pass['pass_id'] );
+                $duration     = self::get_pass_expiry_time( $pass ); // in seconds
 
                 // calculate committed revenue, unredeemed codes, and number of active time passes
                 $committed_revenue   = 0;
@@ -546,7 +546,7 @@ class LaterPay_Helper_Passes
                 }
 
                 $pass_statistics = array(
-                    'title'             => $pass['title'],
+                    'data'              => $pass,
                     'active'            => $active,                 // number of active time passes
                     'sold'              => count( $pass_history ),  // number of purchases
                     'unredeemed'        => $unredeemed,             // number of unredeemed gift codes
