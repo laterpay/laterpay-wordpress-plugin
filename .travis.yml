@@ -10,5 +10,5 @@ install:
     - composer create-project wp-coding-standards/wpcs:dev-master --no-dev
     - npm install jshint
 script:
-    - wpcs/vendor/bin/phpcs -s -p --report-gitblame --report-full --standard=ruleset.xml laterpay
+    - wpcs/vendor/bin/phpcs -s -p --standard=ruleset.xml laterpay
     - jshint laterpay/asset_sources/js
