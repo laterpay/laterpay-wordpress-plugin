@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="LaterPay">
+    <description>A custom set of rules to check for a LaterPay WordPress plugin</description>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="4"/>
+            <property name="ignoreIndentationTokens" type="array" value="T_COMMENT,T_DOC_COMMENT"/>
+            <property name="tabIndent" value="false"/>
+        </properties>
+    </rule>
+    
+    <rule ref="WordPress">
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
+    </rule>
+</ruleset>
