@@ -199,11 +199,7 @@
                         <ul>
                             <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
                                 <big><?php echo $laterpay['passes']['summary']['committed_revenue']; ?><small><?php echo $laterpay['currency']; ?></small></big>
-                                <?php _e( 'Committed', 'laterpay' ); ?>
-                            </li>
-                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
-                                <big><?php echo $laterpay['passes']['summary']['paid_price']; ?><small><?php echo $laterpay['currency']; ?></small></big>
-                                <?php _e( 'Paid', 'laterpay' ); ?>
+                                <?php _e( 'Committed Revenue', 'laterpay' ); ?>
                             </li>
                         </ul>
                     </div>
@@ -241,11 +237,7 @@
                                 <ul>
                                     <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
                                         <big><?php echo $pass['committed_revenue']; ?><small><?php echo $laterpay['currency']; ?></small></big>
-                                        <?php _e( 'Committed', 'laterpay' ); ?>
-                                    </li>
-                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
-                                        <big><?php echo $pass['paid_price']; ?><small><?php echo $laterpay['currency']; ?></small></big>
-                                        <?php _e( 'Paid', 'laterpay' ); ?>
+                                        <?php _e( 'Committed Revenue', 'laterpay' ); ?>
                                     </li>
                                 </ul>
                             </div>
