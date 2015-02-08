@@ -689,4 +689,29 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         }
     }
 
+    /**
+     * Prepare pass details for view
+     *
+     * @param $pass
+     *
+     * @return string
+     */
+    public function show_pass_details( $pass ) {
+        $details  = array();
+        $currency = get_option( 'laterpay_currency' );
+
+        $details['duration'] = $pass['duration'] . ' ' . strtolower( LaterPay_Helper_Passes::get_period_options( $pass['period'], $pass['duration'] > 1 ) );
+        $details['access']   = __( 'access to', 'laterpay' ) . ' ' . strtolower( LaterPay_Helper_Passes::get_access_options( $pass['access_to'] ) );
+
+        if ( $pass['access_to'] > 0 ) {
+            $category_id = $pass['access_category'];
+            $details['category'] = '"' . get_the_category_by_ID( $category_id) . '"';
+        }
+
+        $details['price']    = 'for' . ' ' . LaterPay_Helper_View::format_number( $pass['price'] ) . ' ' . strtoupper( $currency );
+        $details['revenue']  = '(' . strtoupper( $pass['revenue_model'] ) . ')';
+
+        return implode( ' ', $details );
+    }
+
 }
