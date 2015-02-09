@@ -123,6 +123,13 @@ function laterpay_get_plugin_config() {
     );
     $config->import( $plugin_headers );
 
+    // make sure api variables setted
+    if ( ! get_option( 'laterpay_sandbox_backend_api_url' ) )  update_option( 'laterpay_sandbox_backend_api_url',  'https://api.sandbox.laterpaytest.net' );
+    if ( ! get_option( 'laterpay_sandbox_dialog_api_url' ) )   update_option( 'laterpay_sandbox_dialog_api_url',   'https://web.sandbox.laterpaytest.net' );
+    if ( ! get_option( 'laterpay_live_backend_api_url' ) )     update_option( 'laterpay_live_backend_api_url',     'https://api.laterpay.net' );
+    if ( ! get_option( 'laterpay_live_dialog_api_url' ) )      update_option( 'laterpay_live_dialog_api_url',      'https://web.laterpay.net' );
+    if ( ! get_option( 'laterpay_api_merchant_backend_url' ) ) update_option( 'laterpay_api_merchant_backend_url', 'https://merchant.laterpay.net/' );
+
     /**
      * LaterPay API endpoints and API default settings.
      *
