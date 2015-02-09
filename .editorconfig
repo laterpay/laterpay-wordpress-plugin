@@ -7,7 +7,7 @@ end_of_line = lf
 insert_final_newline = true
 
 # Use UTF-8 as charset
-[*.{js,py}]
+[*]
 charset = utf-8
 
 # Indent using 4 spaces
