@@ -59,6 +59,25 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $i18n = array(
             'noData'                => __( 'No data available', 'laterpay' ),
             'noFutureInterval'      => __( 'You can\'t choose an interval that lies in the future', 'laterpay' ),
+            'tooltips'              => array(
+                'day'   => array(
+                    'next'  => __( 'Show next day', 'laterpay' ),
+                    'prev'  => __( 'Show previous day', 'laterpay' ),
+                ),
+                'week'   => array(
+                    'next'  => __( 'Show next 8 days', 'laterpay' ),
+                    'prev'  => __( 'Show previous 8 days', 'laterpay' ),
+                ),
+                '2-weeks'   => array(
+                    'next'  => __( 'Show next 2 weeks', 'laterpay' ),
+                    'prev'  => __( 'Show previous 2 weeks', 'laterpay' ),
+                ),
+                'month'   => array(
+                    'next'  => __( 'Show next month', 'laterpay' ),
+                    'prev'  => __( 'Show previous month', 'laterpay' ),
+                )
+
+            )
         );
         wp_localize_script(
             'laterpay-backend-dashboard',

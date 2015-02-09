@@ -126,6 +126,7 @@
                 $o.configurationSelection
                     .mousedown(function() {
                         var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
+                            nextStartTimestamp,
                             interval;
                         // change selected item to clicked item
                         $(this)
@@ -140,7 +141,17 @@
                             .end()
                             .addClass($o.selected);
 
-                        interval = getInterval();
+                        interval        = getInterval();
+
+                        // check if the "next"-button should be visible or hidden for the given interval.
+                        nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
+                        if ( ! isStartDateValid(nextStartTimestamp) ) {
+                            $o.nextInterval.addClass('lp_nextLink--disabled');
+                        } else {
+                            $o.nextInterval.removeClass('lp_nextLink--disabled');
+                        }
+
+                        setNextPrevTooltip(interval);
                         setTimeRange(startTimestamp, interval);
                         loadDashboard(false);
                     })
@@ -149,19 +160,19 @@
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                     .mousedown(function() {
+
                         var startTimestamp  = $o.currentInterval.data('startTimestamp'),
                             interval        = getInterval(),
-                            currentDate     = new Date(),
-                            startDate;
+                            currentDate     = new Date();
 
-                        // + 1 day
-                        startTimestamp  = startTimestamp + 86400;
+                        if ($(this).hasClass('lp_nextLink--disabled')) {
+                            return;
+                        }
 
-                        startDate       = new Date(startTimestamp * 1000);
-                        if (startDate.getDate() >= currentDate.getDate()) {
-                            // FIXME: instead of showing an error,
-                            // we should hide the link for selecting the next interval!
-                            setMessage(lpVars.i18n.noFutureInterval, false);
+                        currentDate.setDate(currentDate.getDate()-1);
+                        startTimestamp  = startTimestamp + getIntervalDiff(interval);
+                        if (!isStartDateValid(startTimestamp)) {
+                            $o.nextInterval.addClass('lp_nextLink--disabled');
                             return;
                         }
 
@@ -173,12 +184,18 @@
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
                     .mousedown(function() {
+
                         var startTimestamp = $o.currentInterval.data('startTimestamp'),
                             interval = getInterval();
 
-                        // - 1 day
-                        startTimestamp  = startTimestamp - 86400;
+                        if ($(this).hasClass('lp_prevLink--disabled')) {
+                            return;
+                        }
 
+                        $o.nextInterval.removeClass('lp_nextLink--disabled');
+
+                        // - 1 day
+                        startTimestamp  = startTimestamp - getIntervalDiff(interval);
                         setTimeRange(startTimestamp, interval);
                         loadDashboard(false);
 
@@ -203,6 +220,40 @@
                         alert('Toggling post details coming soon');
                     })
                     .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
+            },
+
+            isStartDateValid = function(startTimestamp) {
+                var currentDate = new Date(),
+                    startDate       = new Date(startTimestamp * 1000);
+
+                // yesterday
+                currentDate.setDate(currentDate.getDate()-1);
+
+                // check if the given startDate is gte yesterday
+                return ! (startDate.getMonth === currentDate.getMonth && startDate.getYear() === currentDate.getYear() && startDate.getDate() >= currentDate.getDate());
+            },
+
+            getIntervalDiff = function(interval) {
+                var diff = 86400; // 1 day
+                if (interval === 'day') {
+                    diff = 86400;
+                } else if (interval === 'week') {
+                    diff = diff * 8;
+                } else if (interval === '2-weeks') {
+                    diff = diff * 16;
+                } else if (interval === 'month') {
+                    diff = diff * 30;
+                }
+                return diff;
+            },
+
+            setNextPrevTooltip = function(interval) {
+                if (!lpVars.i18n.tooltips[interval]) {
+                    return;
+                }
+                var i18n = lpVars.i18n.tooltips[interval];
+                $o.nextInterval.attr({'data-tooltip': i18n.next});
+                $o.previousInterval.attr({'data-tooltip': i18n.prev});
             },
 
             getInterval = function() {
@@ -230,15 +281,15 @@
                     timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 } else {
                     timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
-                                ' - ' +
-                                to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    ' - ' +
+                    to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 }
 
                 // set the new startTimestamp as data attribute for refreshing the dashboard data.
                 // set the new timeRange
                 $o.currentInterval
-                .data('startTimestamp', startTimestamp)
-                .html(timeRange);
+                    .data('startTimestamp', startTimestamp)
+                    .html(timeRange);
             },
 
             loadDashboardData = function(section, refresh) {
