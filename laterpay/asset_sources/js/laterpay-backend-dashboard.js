@@ -230,7 +230,11 @@
                 currentDate.setDate(currentDate.getDate()-1);
 
                 // check if the given startDate is gte yesterday
-                return ! (startDate.getMonth === currentDate.getMonth && startDate.getYear() === currentDate.getYear() && startDate.getDate() >= currentDate.getDate());
+                return ! (
+                    startDate.getMonth() === currentDate.getMonth() &&
+                    startDate.getYear() === currentDate.getYear() &&
+                    startDate.getDate() >= currentDate.getDate()
+                );
             },
 
             getIntervalDiff = function(interval) {
