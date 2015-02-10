@@ -124,6 +124,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'bulk_categories_with_price'            => $bulk_categories_with_price,
             'bulk_saved_operations'                 => $bulk_saved_operations,
             'landing_page'                          => get_option( 'laterpay_landing_page' ),
+            'only_time_pass_purchases_allowed'      => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -248,6 +249,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     wp_send_json(
                         $categories
                     );
+                    break;
+
+                case 'change_purchase_mode_form':
+                    $this->change_purchase_mode();
                     break;
 
                 default:
@@ -1001,5 +1006,37 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 )
             );
         }
+    }
+
+    /**
+     * Change allow only time pass purchases option. If not any time passes exstis send succes false and message.
+     *
+     * @return void
+     */
+    private function change_purchase_mode() {
+        if ( isset( $_POST[ 'only_time_pass_purchase_mode' ] ) ) {
+            $only_time_pass = 1;
+        } else {
+            $only_time_pass = 0;
+        }
+
+        if ( $only_time_pass == 1 ) {
+            if ( ! LaterPay_Helper_Passes::get_passes_count() ) {
+                wp_send_json(
+                    array(
+                        'success'       => false,
+                        'message'       => __( 'You have to create a time pass, before you can disable individual purchases.' ),
+                    )
+                );
+            }
+        }
+
+        update_option( 'laterpay_only_time_pass_purchases_allowed', $only_time_pass );
+        
+        wp_send_json(
+            array(
+                'success' => true,
+            )
+        );
     }
 }

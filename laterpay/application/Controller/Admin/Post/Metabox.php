@@ -104,15 +104,16 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 'normal',
                 'high'
             );
-
-            add_meta_box(
-                'lp_postPricing',
-                __( 'Pricing for this Post', 'laterpay' ),
-                array( $this, 'render_post_pricing_form' ),
-                $post_type,
-                'side',
-                'high'
-            );
+            if ( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
+                add_meta_box(
+                    'lp_postPricing',
+                    __( 'Pricing for this Post', 'laterpay' ),
+                    array( $this, 'render_post_pricing_form' ),
+                    $post_type,
+                    'side',
+                    'high'
+                );
+            }
         }
     }
 
@@ -377,6 +378,66 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 $this->set_post_meta(
                     'laterpay_post_prices',
                     $meta_values,
+                    $post_id
+                );
+            }
+        }
+    }
+    
+    /**
+     * Save LaterPay post data without saving of prices data.
+     *
+     * @wp-hook save_post, edit_attachments
+     *
+     * @param int $post_id
+     *
+     * @return void
+     */
+    public function save_laterpay_post_data_without_pricing( $post_id ) {
+
+        if ( ! $this->has_permission( $post_id ) ) {
+            return;
+        }
+
+        // no post found -> do nothing
+        $post = get_post( $post_id );
+        if ( $post === null ) {
+            return;
+        }
+
+        //new form
+        $post_form = new LaterPay_Form_PostWithoutPricing( $_POST );
+        $condition = array(
+            'verify_nonce' => array(
+                'action' => $this->config->get( 'plugin_base_name' )
+            )
+        );
+        $post_form->add_validation( 'laterpay_teaser_content_box_nonce', $condition );
+
+        // nonce not valid -> do nothing
+        if ( $post_form->is_valid() ) {
+
+            // no rights to edit laterpay_edit_teaser_content -> do nothing
+            if ( LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
+
+                $teaser = $post_form->get_field_value( 'laterpay_post_teaser' );
+
+                if ( $teaser ) {
+                    $new_meta_value = wpautop( $teaser );
+                } else {
+                    $new_meta_value = LaterPay_Helper_String::truncate(
+                        $post->post_content,
+                        $this->config->get( 'content.auto_generated_teaser_content_word_count' ),
+                        array (
+                            'html'  => true,
+                            'words' => true,
+                        )
+                    );
+                }
+
+                $this->set_post_meta(
+                    'laterpay_post_teaser',
+                    $new_meta_value,
                     $post_id
                 );
             }

@@ -8,6 +8,7 @@
                 revenueModelLabelDisplay                : '.lp_js_revenueModel_labelDisplay',
                 revenueModelInput                       : '.lp_js_revenueModel_input',
                 priceInput                              : '.lp_js_priceInput',
+                pricingSettingsList                     : $('.lp_js_pricing_settings_list'),
 
                 // global default price
                 globalDefaultPriceForm                  : $('#lp_js_globalDefaultPrice_form'),
@@ -86,6 +87,8 @@
                 landingPageInput                        : '.lp_js_landingPageInput',
                 landingPageSave                         : '#lp_js_landingPageSave',
                 landingPageForm                         : $('#lp_js_landingPageForm'),
+                purchaseModeForm                        : $('#lp_js_changePurchaseModeForm'),
+                purchaseModeInput                       : $('.lp_js_onlyTimePassPurchaseModeInput'),
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
@@ -317,6 +320,11 @@
                 .on('click', $o.landingPageSave, function(e) {
                     saveLandingPage($o.landingPageForm);
                     e.preventDefault();
+                });
+                
+                $o.purchaseModeInput
+                .on('change', function() {
+                    changePurchaseMode($o.purchaseModeForm);
                 });
 
                 // bulk price editor events ----------------------------------------------------------------------------
@@ -1264,6 +1272,27 @@
                             $item.fadeIn(250);
                         }
                         setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
+            },
+                    
+            changePurchaseMode = function($form) {
+                var onlyTimePassModeChecked = $o.purchaseModeInput.is(':checked');
+                $.post(
+                    ajaxurl,
+                    $form.serialize(),
+                    function(data) {
+                        if(data.success) {
+                            if(onlyTimePassModeChecked) {
+                                $o.pricingSettingsList.hide();
+                            } else {
+                                $o.pricingSettingsList.show();
+                            }
+                        } else {
+                            setMessage(data.message, data.success);
+                            $o.purchaseModeInput.attr('checked', false);
+                        }
                     },
                     'json'
                 );

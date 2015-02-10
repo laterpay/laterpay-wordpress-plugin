@@ -279,6 +279,44 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         exit;
     }
+    
+    /**
+     * Ajax callback to render the statistics pane.
+     *
+     * @wp-hook wp_ajax_laterpay_post_statistic_render
+     *
+     * @return void
+     */
+    public function ajax_render_tab_without_statistics() {
+        $statistic_form = new LaterPay_Form_Statistics( $_GET );
+
+        $condition = array(
+            'verify_nonce' => array(
+                'action' => $statistic_form->get_field_value( 'action' ),
+            )
+        );
+        $statistic_form->add_validation( 'nonce', $condition );
+
+        if ( $statistic_form->is_valid() ) {
+            $post_id = $statistic_form->get_field_value( 'post_id' );
+            $post = get_post( $post_id );
+
+            if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+                exit;
+            }
+
+            // assign variables
+            $view_args = array(
+                'preview_post_as_visitor'       => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+                'hide_statistics_pane'          => LaterPay_Helper_User::statistics_pane_is_hidden(),
+            );
+            $this->assign( 'laterpay', $view_args );
+
+            wp_send_json( $this->get_text_view( 'frontend/partials/post/post_select_preivew_tab' ) );
+        }
+
+        exit;
+    }
 
     /**
      * Generate performance data statistics for post.

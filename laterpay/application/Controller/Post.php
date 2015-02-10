@@ -753,6 +753,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'currency'                        => get_option( 'laterpay_currency' ),
             'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'         => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'purchase_button_is_hidden'       => LaterPay_Helper_View::purchase_button_is_hidden(),
         );
 
         $this->logger->info(
@@ -976,6 +977,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'preview_post_as_visitor'               => $preview_post_as_visitor,
             'user_has_already_voted'                => $user_has_already_voted,
             'show_post_ratings'                     => $show_post_ratings,
+            'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
             'time_passes_positioned_manually'       => get_option( 'laterpay_time_passes_positioned_manually' ),
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
         );
