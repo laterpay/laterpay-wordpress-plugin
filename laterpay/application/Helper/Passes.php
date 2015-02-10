@@ -499,6 +499,7 @@ class LaterPay_Helper_Passes
     }
 
     /**
+<<<<<<< HEAD
      * Get time passes statistic.
      *
      * @return array return summary and individual statistics
@@ -645,5 +646,16 @@ class LaterPay_Helper_Passes
         }
 
         return $data;
+    }
+
+    /*
+     * Get count of existing passes.
+     *
+     * @return int count of passes
+     */
+    public static function get_passes_count() {
+        $model = new LaterPay_Model_Pass();
+
+        return $model->get_passes_count();
     }
 }

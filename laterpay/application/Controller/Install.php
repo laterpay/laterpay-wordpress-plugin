@@ -306,7 +306,26 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( 'ALTER TABLE ' . $table . ' DROP title_color, DROP description_color, DROP background_color, DROP background_path;' );
         }
     }
-    
+
+    /**
+     * Adding option to allow only time pass purchases.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maype_add_only_time_pass_purchase_option() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+            return;
+        }
+
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == null ) {
+            add_option( 'laterpay_only_time_pass_purchases_allowed' , 0 );
+        }
+    }
+
     /**
      * Changing options names for API URLs.
      *
@@ -330,7 +349,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         foreach ( $old_to_new_option_pair_array as $old_option_name => $new_option_name ) {
             $old_option_value = get_option( $old_option_name );
-            
+
             if ( $old_option_value !== false ) {
                 delete_option( $old_option_name );
                 add_option( $new_option_name, $old_option_value );
@@ -504,6 +523,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
         add_option( 'laterpay_landing_page',                            '' );
+        add_option( 'laterpay_only_time_pass_purchases_allowed',        0  );
 
         // advanced settings
         add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );
