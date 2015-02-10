@@ -1026,7 +1026,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         }
 
         if ( $only_time_pass == 1 ) {
-            if( ! LaterPay_Helper_Passes::get_passes_count() ) {
+            if ( ! LaterPay_Helper_Passes::get_passes_count() ) {
                 wp_send_json(
                     array(
                         'success'       => false,
