@@ -115,7 +115,7 @@ class LaterPay_Controller_Abstract
             $msg = sprintf(
                 __( '%s : <code>%s</code> not found', 'laterpay' ),
                 __METHOD__,
-                __FILE__
+                $file
             );
 
             $this->logger->error(

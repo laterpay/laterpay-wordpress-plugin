@@ -96,11 +96,23 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
+        $post_views         = new LaterPay_Model_Post_Views();
+        $post_views_args    = array(
+            'fields' => array(
+                'MIN(date) as end_timestamp'
+            )
+        );
+        $end_timestamp = $post_views->get_results( $post_views_args );
+        $end_timestamp = strtotime( $end_timestamp[0]->end_timestamp );
+
         $view_args = array(
             'plugin_is_in_live_mode'    => $this->config->get( 'is_in_live_mode' ),
             'top_nav'                   => $this->get_menu(),
             'admin_menu'                => LaterPay_Helper_View::get_admin_menu(),
             'currency'                  => get_option( 'laterpay_currency' ),
+            'end_timestamp'             => $end_timestamp,
+            'interval_start'            => strtotime( '-1 days' ),
+            'interval_end'              => strtotime( '-8 days' ),
 
             // in wp-config.php the user can disable the WP-Cron completely OR replace it with real server crons.
             // this view variable can be used to show additional information that *maybe* the dashboard
