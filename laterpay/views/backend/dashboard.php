@@ -215,7 +215,7 @@
                     <div class="lp_time-pass-lifecycle lp_u_clearfix">
                         <div class="lp_time-pass-lifecycle--kpi lp_u_w-1-4 lp_u_left">
                             <h2><?php echo sprintf( __( 'Time pass \'%s\'', 'laterpay' ), $pass['data']['title'] ); ?></h2>
-                            <dfn><?php echo $this->show_pass_details( $pass['data'] ); ?></dfn>
+                            <dfn><?php echo LaterPay_Helper_Passes::get_description( $pass['data'], true ); ?></dfn>
 
                             <div class="lp_statisticsRow lp_u_clearfix">
                                 <ul class="lp_u_clearfix">

@@ -145,38 +145,37 @@ class LaterPay_Helper_Passes
     /**
      * Get short time pass description.
      *
-     * @param  int $duration time pass duration
-     * @param  int $period   time pass period
-     * @param  int $access   time pass access
+     * @param  array  $pass_id    time pass data
+     * @param  bool   $full_info  need to display full info
      *
      * @return string short time pass description
      */
-    public static function get_description( $duration = null, $period = null, $access = null ) {
-        if ( ! $duration ) {
-            $duration = self::get_default_options( 'duration' );
-        }
-        if ( ! $period ) {
-            $period = self::get_default_options( 'period' );
-        }
-        if ( ! $access ) {
-            $access = self::get_default_options( 'access_to' );
-        }
-        if ( $period == 1 ) { // Day
-            $period   = 0;
-            $duration = $duration * 24;
+    public static function get_description( $pass = array(), $full_info = false ) {
+        $details  = array();
+
+        if ( ! $pass ) {
+            $pass['duration']  = self::get_default_options( 'duration' );
+            $pass['period']    = self::get_default_options( 'period' );
+            $pass['access_to'] = self::get_default_options( 'access_to' );
         }
 
-        $access_to_string = __( 'access to', 'laterpay' );
+        $currency = get_option( 'laterpay_currency' );
 
-        $str = sprintf(
-            '%d %s %s %s',
-            $duration,
-            self::get_period_options( $period ),
-            $access_to_string,
-            self::get_access_options( $access )
-        );
+        $details['duration'] = $pass['duration'] . ' ' . strtolower( LaterPay_Helper_Passes::get_period_options( $pass['period'], $pass['duration'] > 1 ) );
+        $details['access']   = __( 'access to', 'laterpay' ) . ' ' . strtolower( LaterPay_Helper_Passes::get_access_options( $pass['access_to'] ) );
 
-        return strtolower( $str );
+        // display category, price and revenue only if full_info flag used
+        if ( $full_info ) {
+            if ( $pass['access_to'] > 0 ) {
+                $category_id = $pass['access_category'];
+                $details['category'] = '"' . get_the_category_by_ID( $category_id) . '"';
+            }
+
+            $details['price']    = 'for' . ' ' . LaterPay_Helper_View::format_number( $pass['price'] ) . ' ' . strtoupper( $currency );
+            $details['revenue']  = '(' . strtoupper( $pass['revenue_model'] ) . ')';
+        }
+
+        return implode( ' ', $details );
     }
 
     /**
