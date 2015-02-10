@@ -127,6 +127,7 @@
                     .mousedown(function() {
                         var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
                             nextStartTimestamp,
+                            nextEndTimestamp,
                             interval;
                         // change selected item to clicked item
                         $(this)
@@ -145,10 +146,18 @@
 
                         // check if the "next"-button should be visible or hidden for the given interval.
                         nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
-                        if ( ! isStartDateValid(nextStartTimestamp) ) {
+                        if ( ! isDateWithinInterval(nextStartTimestamp) ) {
                             $o.nextInterval.addClass('lp_nextLink--disabled');
                         } else {
                             $o.nextInterval.removeClass('lp_nextLink--disabled');
+                        }
+
+                        // check if the "previous"-button should be visible or hidden for the given interval.
+                        nextEndTimestamp	= startTimestamp - getIntervalDiff(interval);
+                        if ( ! isDateWithinInterval(nextEndTimestamp) ) {
+                            $o.nextInterval.addClass('lp_previousLink--disabled');
+                        } else {
+                            $o.nextInterval.removeClass('lp_previousLink--disabled');
                         }
 
                         setNextPrevTooltip(interval);
@@ -162,16 +171,17 @@
                     .mousedown(function() {
 
                         var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                            interval        = getInterval(),
-                            currentDate     = new Date();
+                            interval        = getInterval();
 
                         if ($(this).hasClass('lp_nextLink--disabled')) {
                             return;
                         }
 
-                        currentDate.setDate(currentDate.getDate()-1);
+                        // remove the "disabled" from "previous"-button
+                        $o.nextInterval.removeClass('lp_prevLink--disabled');
+
                         startTimestamp  = startTimestamp + getIntervalDiff(interval);
-                        if (!isStartDateValid(startTimestamp)) {
+                        if (!isDateWithinInterval(startTimestamp)) {
                             $o.nextInterval.addClass('lp_nextLink--disabled');
                             return;
                         }
@@ -192,13 +202,16 @@
                             return;
                         }
 
+                        // remove the "disabled" from "next"-button
                         $o.nextInterval.removeClass('lp_nextLink--disabled');
 
-                        // - 1 day
                         startTimestamp  = startTimestamp - getIntervalDiff(interval);
+                        if (!isDateWithinInterval(startTimestamp)) {
+                            $o.nextInterval.addClass('lp_previousLink--disabled');
+                        }
+
                         setTimeRange(startTimestamp, interval);
                         loadDashboard(false);
-
                     })
                     .click(function(e) {e.preventDefault();});
 
@@ -222,19 +235,32 @@
                     .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
             },
 
-            isStartDateValid = function(startTimestamp) {
+            isDateWithinInterval = function(timestamp) {
                 var currentDate = new Date(),
-                    startDate       = new Date(startTimestamp * 1000);
+                    intervalEnd = $o.currentInterval.data( 'intervalEndTimestamp' ),
+                    intervalEndDate = new Date(intervalEnd * 1000),
+                    givenDate	= new Date(timestamp * 1000);
 
                 // yesterday
                 currentDate.setDate(currentDate.getDate()-1);
 
-                // check if the given startDate is gte yesterday
-                return ! (
-                    startDate.getMonth() === currentDate.getMonth() &&
-                    startDate.getYear() === currentDate.getYear() &&
-                    startDate.getDate() >= currentDate.getDate()
-                );
+                // check if the given date is gte yesterday
+                if (givenDate.getMonth() === currentDate.getMonth() &&
+                    givenDate.getYear() === currentDate.getYear() &&
+                    givenDate.getDate() >= currentDate.getDate()) {
+
+                    return false;
+                }
+
+                // check if the given date is lte the interval end date - earliest entry in post_views-table.
+                if (givenDate.getMonth() === intervalEndDate.getMonth() &&
+                    givenDate.getYear() === intervalEndDate.getYear() &&
+                    givenDate.getDate() <= intervalEndDate.getDate()) {
+
+                    return false;
+                }
+
+                return true;
             },
 
             getIntervalDiff = function(interval) {
