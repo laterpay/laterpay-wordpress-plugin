@@ -295,9 +295,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( 'ALTER TABLE ' . $table . ' DROP title_color, DROP description_color, DROP background_color, DROP background_path;' );
         }
     }
-    
+
     /**
-     * Adding only time purchase allowed option.
+     * Adding option to allow only time pass purchases.
      *
      * @since 0.9.11
      * @wp-hook admin_notices
@@ -313,9 +313,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == null ) {
             add_option( 'laterpay_only_time_pass_purchases_allowed' , 0 );
         }
-
     }
-    
+
     /**
      * Changing options names for API URLs.
      *
@@ -339,7 +338,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         foreach ( $old_to_new_option_pair_array as $old_option_name => $new_option_name ) {
             $old_option_value = get_option( $old_option_name );
-            
+
             if ( $old_option_value !== false ) {
                 delete_option( $old_option_name );
                 add_option( $new_option_name, $old_option_value );

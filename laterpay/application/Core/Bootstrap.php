@@ -123,14 +123,14 @@ class LaterPay_Core_Bootstrap
             // add the metaboxes
             add_action( 'add_meta_boxes',                   array( $post_metabox_controller, 'add_meta_boxes' ) );
 
-            // save LaterPay post data. If only time pass purchases than no need to save pricing information, so need to use other action.
+            // save LaterPay post data. If only time pass purchases are allowed than pricing information need not be saved.
             if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == true ) {
-                add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
-                add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
+                add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
+                add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
 
             } else {
-                add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
-                add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+                add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+                add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data' ) );
             }
 
             add_action( 'transition_post_status',           array( $post_metabox_controller, 'update_post_publication_date' ), 10, 3 );
@@ -202,13 +202,13 @@ class LaterPay_Core_Bootstrap
         $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
 
         /**
-         * @link https://github.com/laterpay/laterpay-wordpress-plugin/issues/581 As described in task, if only time pass purchases allowed,
-         * than in statistics tab statistic should be hidden. And if statistic hidden it isn't statistic tab, so seems like new tab needed.
+         * Posts statistics are irrelevant, if only time pass purchases are allowed, but we still need to have the
+         * option to switch the preview mode for the given post, so we only render that switch in this case.
          */
         if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == true ) {
-            add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistics_controller, 'ajax_render_tab_without_statistics' ) );
+            add_action( 'wp_ajax_laterpay_post_statistic_render',       array( $statistics_controller, 'ajax_render_tab_without_statistics' ) );
         } else {
-            add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistics_controller, 'ajax_render_tab' ) );
+            add_action( 'wp_ajax_laterpay_post_statistic_render',       array( $statistics_controller, 'ajax_render_tab' ) );
         }
 
         add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistics_controller, 'ajax_toggle_visibility' ) );

@@ -321,7 +321,7 @@
                     saveLandingPage($o.landingPageForm);
                     e.preventDefault();
                 });
-                
+
                 $o.purchaseModeInput
                 .on('change', function() {
                     changePurchaseMode($o.purchaseModeForm);
@@ -1276,15 +1276,15 @@
                     'json'
                 );
             },
-                    
+
             changePurchaseMode = function($form) {
                 var onlyTimePassModeChecked = $o.purchaseModeInput.is(':checked');
                 $.post(
                     ajaxurl,
                     $form.serialize(),
                     function(data) {
-                        if(data.success) {
-                            if(onlyTimePassModeChecked) {
+                        if (data.success) {
+                            if (onlyTimePassModeChecked) {
                                 $o.pricingSettingsList.hide();
                             } else {
                                 $o.pricingSettingsList.show();

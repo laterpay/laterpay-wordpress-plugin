@@ -1009,30 +1009,31 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Change allow only time pass purchases option. If not any time passes exstis send succes false and message.
+     * Switch plugin between allowing (1) individual purchases and time pass purchases, or (2) time pass purchases only.
+     * Do nothing and render an error message, if no time pass is defined when trying to switch to time pass only mode.
      *
      * @return void
      */
     private function change_purchase_mode() {
         if ( isset( $_POST[ 'only_time_pass_purchase_mode' ] ) ) {
-            $only_time_pass = 1;
+            $only_time_pass = 1; // allow time pass purchases only
         } else {
-            $only_time_pass = 0;
+            $only_time_pass = 0; // allow individual and time pass purchases
         }
 
         if ( $only_time_pass == 1 ) {
             if ( ! LaterPay_Helper_Passes::get_passes_count() ) {
                 wp_send_json(
                     array(
-                        'success'       => false,
-                        'message'       => __( 'You have to create a time pass, before you can disable individual purchases.' ),
+                        'success' => false,
+                        'message' => __( 'You have to create a time pass, before you can disable individual purchases.' ),
                     )
                 );
             }
         }
 
         update_option( 'laterpay_only_time_pass_purchases_allowed', $only_time_pass );
-        
+
         wp_send_json(
             array(
                 'success' => true,

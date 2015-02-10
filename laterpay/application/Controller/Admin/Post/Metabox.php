@@ -111,7 +111,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                     array( $this, 'render_post_pricing_form' ),
                     $post_type,
                     'side',
-                    'high'
+                    'high',
                 );
             }
         }
@@ -383,9 +383,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             }
         }
     }
-    
+
     /**
-     * Save LaterPay post data without saving of prices data.
+     * Save LaterPay post data without saving price data.
      *
      * @wp-hook save_post, edit_attachments
      *
@@ -394,7 +394,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      * @return void
      */
     public function save_laterpay_post_data_without_pricing( $post_id ) {
-
         if ( ! $this->has_permission( $post_id ) ) {
             return;
         }
@@ -405,7 +404,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        //new form
+        // new form
         $post_form = new LaterPay_Form_PostWithoutPricing( $_POST );
         $condition = array(
             'verify_nonce' => array(
@@ -416,10 +415,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         // nonce not valid -> do nothing
         if ( $post_form->is_valid() ) {
-
             // no rights to edit laterpay_edit_teaser_content -> do nothing
             if ( LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
-
                 $teaser = $post_form->get_field_value( 'laterpay_post_teaser' );
 
                 if ( $teaser ) {

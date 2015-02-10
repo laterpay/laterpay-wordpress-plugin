@@ -1,6 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-
 <div id="lp_js_postStatistics" class="lp_postStatistics<?php if ( $laterpay[ 'hide_statistics_pane' ] ) echo ' lp_is-hidden'; ?>">
     <form id="lp_js_postStatistics_visibilityForm" method="post">
         <input type="hidden" name="action" value="laterpay_post_statistic_visibility">

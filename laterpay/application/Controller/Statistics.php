@@ -279,7 +279,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         exit;
     }
-    
+
     /**
      * Ajax callback to render the statistics pane.
      *
@@ -307,12 +307,12 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
             // assign variables
             $view_args = array(
-                'preview_post_as_visitor'       => LaterPay_Helper_User::preview_post_as_visitor( $post ),
-                'hide_statistics_pane'          => LaterPay_Helper_User::statistics_pane_is_hidden(),
+                'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+                'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
             );
             $this->assign( 'laterpay', $view_args );
 
-            wp_send_json( $this->get_text_view( 'frontend/partials/post/post_select_preivew_tab' ) );
+            wp_send_json( $this->get_text_view( 'frontend/partials/post/select_preview_mode_tab' ) );
         }
 
         exit;

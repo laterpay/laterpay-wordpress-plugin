@@ -181,23 +181,25 @@ class LaterPay_Model_Pass
 
         return $success;
     }
-    
+
     /**
-     * Get count on exists passes
+     * Get count of existing passes.
      *
      * @return int the number of passes
      */
     public function get_passes_count() {
         global $wpdb;
+
         $sql = "
             SELECT
-                count(*) as c_passes
+                count(*) AS c_passes
             FROM
                 {$this->passes_table}
             ;
         ";
 
         $list = $wpdb->get_results( $sql );
+
         return $list[0]->c_passes;
     }
 }
