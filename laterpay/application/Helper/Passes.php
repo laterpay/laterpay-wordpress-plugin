@@ -164,14 +164,14 @@ class LaterPay_Helper_Passes
         $details['duration'] = $pass['duration'] . ' ' . strtolower( LaterPay_Helper_Passes::get_period_options( $pass['period'], $pass['duration'] > 1 ) );
         $details['access']   = __( 'access to', 'laterpay' ) . ' ' . strtolower( LaterPay_Helper_Passes::get_access_options( $pass['access_to'] ) );
 
-        // display category, price and revenue only if full_info flag used
+        // also display category, price, and revenue model, if full_info flag is used
         if ( $full_info ) {
             if ( $pass['access_to'] > 0 ) {
                 $category_id = $pass['access_category'];
                 $details['category'] = '"' . get_the_category_by_ID( $category_id) . '"';
             }
 
-            $details['price']    = 'for' . ' ' . LaterPay_Helper_View::format_number( $pass['price'] ) . ' ' . strtoupper( $currency );
+            $details['price']    = __( 'for', 'laterpay' ) . ' ' . LaterPay_Helper_View::format_number( $pass['price'] ) . ' ' . strtoupper( $currency );
             $details['revenue']  = '(' . strtoupper( $pass['revenue_model'] ) . ')';
         }
 
