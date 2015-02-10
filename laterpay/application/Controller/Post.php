@@ -309,6 +309,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'hash'          => $_GET['hash'],
                 'revenue_model' => $_GET['revenue_model'],
                 'pass_id'       => $pass_id,
+                'code'          => isset( $_GET['voucher'] ) ? $_GET['voucher'] : null,
             );
 
             $this->logger->info(

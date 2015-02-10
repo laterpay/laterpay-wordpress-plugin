@@ -11,4 +11,4 @@ install:
 script:
     - jshint laterpay/asset_sources/js
 notifications:
-  slack: laterpay:KtlgyYUZft7naQWn3yjM6yCu
+    slack: laterpay:KtlgyYUZft7naQWn3yjM6yCu
