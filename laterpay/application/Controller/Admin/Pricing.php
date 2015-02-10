@@ -510,12 +510,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function get_category_prices( $category_ids ) {
-        $categories_price_data = array();
-
-        if ( is_array( $category_ids ) && count( $category_ids ) > 0 ) {
-            $category_price_model   = new LaterPay_Model_CategoryPrice();
-            $categories_price_data  = $category_price_model->get_category_price_data_by_category_ids( $category_ids );
-        }
+        $categories_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $category_ids );
 
         wp_send_json( $categories_price_data );
     }
