@@ -7,6 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * we can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute
  */
+
+if( $laterpay_widget[ 'purchase_button_is_hidden' ] ) : ?>
+    <div> &nbsp; </div>
+<?php 
+    return;
+endif;
+
 $args = array(
     'href'                      => '#',
     'class'                     => 'lp_js_doPurchase lp_purchaseLink lp_button',
