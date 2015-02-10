@@ -1291,12 +1291,12 @@
                             }
                         } else {
                             setMessage(data.message, data.success);
-                            $o.purchaseModeInput.attr("checked", false);
+                            $o.purchaseModeInput.attr('checked', false);
                         }
                     },
                     'json'
                 );
-            }
+            },
 
             // throttle the execution of a function by a given delay
             debounce = function(fn, delay) {
