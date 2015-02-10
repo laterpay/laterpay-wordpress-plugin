@@ -888,7 +888,7 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Get category price data by category ids
+     * Get category price data by category ids.
      *
      * @param $category_ids
      *
@@ -902,14 +902,14 @@ class LaterPay_Helper_Pricing
             $ids_used = array();
             $laterpay_category_model = new LaterPay_Model_CategoryPrice();
             $category_price_data     = $laterpay_category_model->get_category_price_data_by_category_ids( $category_ids );
-            // add prices data to result array
+            // add prices data to results array
             foreach ( $category_price_data as $category ) {
                 $ids_used[] = $category->category_id;
                 $result[]   = (array) $category;
             }
 
-            // loop through passed categoryies and check if they have category price
-            // if not then try to get parent category category price
+            // loop through each category and check, if it has a category price
+            // if not, then try to get the parent category's category price
             foreach ( $category_ids as $category_id ) {
                 $has_price = false;
                 foreach ( $category_price_data as $category ) {
