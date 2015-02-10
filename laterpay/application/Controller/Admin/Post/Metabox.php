@@ -104,7 +104,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 'normal',
                 'high'
             );
-            if( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
+            if ( ! get_option( 'laterpay_only_time_pass_purchases_allowed' ) ) {
                 add_meta_box(
                     'lp_postPricing',
                     __( 'Pricing for this Post', 'laterpay' ),

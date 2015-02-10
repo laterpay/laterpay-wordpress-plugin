@@ -180,8 +180,7 @@ class LaterPay_Helper_View
      *
      * @return bool
      */
-    public static function purchase_link_is_hidden()
-    {
+    public static function purchase_link_is_hidden() {
         $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' ) && get_option( 'laterpay_teaser_content_only' );
         return $is_hidden;
     }
@@ -191,8 +190,7 @@ class LaterPay_Helper_View
      *
      * @return bool
      */
-    public static function purchase_button_is_hidden()
-    {
+    public static function purchase_button_is_hidden() {
         $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' );
         return $is_hidden;
     }
