@@ -1030,7 +1030,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success'       => false,
-                        'message'       => __( 'At least one time pass must be created before you can allow only time pass purchases' ),
+                        'message'       => __( 'You have to create a time pass, before you can disable individual purchases.' ),
                     )
                 );
             }
