@@ -9,13 +9,25 @@ class LaterPay_Helper_View
     public static $pluginPage = 'laterpay-plugin';
 
     /**
-     * Get admin menu data.
+     * Get links to be rendered in plugin backend navigation.
      *
      * @var array
      */
     public static function get_admin_menu() {
         return array(
-            'dashboard'     => array( 'url' => 'laterpay-dashboard-tab',    'title' => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ) ),
+            'dashboard'     => array(
+                                     'url'      => 'laterpay-dashboard-tab',
+                                     'title'    => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
+                                     'submenu'  => array(
+                                                        'url'   => '#',
+                                                        'title' => __( 'Time Passes', 'laterpay' ),
+                                                        'id'    => 'lp_js_switchDashboardView',
+                                                        'data'  => array(
+                                                                         'view'     => 'standard-kpis',
+                                                                         'label'    => __( 'Standard KPIs', 'laterpay' ),
+                                                                         ),
+                                                    ),
+                                     ),
             'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
             'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __( 'Appearance', 'laterpay' ) ),
             'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __( 'Account', 'laterpay' ) ),

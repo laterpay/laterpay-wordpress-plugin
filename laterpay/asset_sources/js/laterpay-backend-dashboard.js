@@ -58,11 +58,9 @@
                 toggleItemDetails       : '.lp_js_toggleItemDetails',
 
                 // time passes customer lifecycle
-                viewSelector            : '.lp_js_view_selector',
-                normalView              : $('#lp_js_normal_view'),
-                tpView                  : $('#lp_js_tp_view'),
-                normalViewTab           : $('#lp_js_normal_view_tab'),
-                tpViewTab               : $('#lp_js_tp_view_tab'),
+                viewSelector            : '#lp_js_switchDashboardView',
+                standardKpiTab          : $('#lp_js_standardKpiTab'),
+                timePassesKPITab        : $('#lp_js_timePassesKPITab'),
                 timepassDiagram         : $('.lp_js_timepassDiagram'),
 
                 // strings cached for better compression
@@ -134,6 +132,8 @@
                 // re-render dashboard in selected configuration
                 $o.configurationSelection
                 .mousedown(function() {
+// FIXME: the actual functions do not belong here!!!
+// this is only for binding the events to functions
                     var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
                         interval;
                     // change selected item to clicked item
@@ -158,6 +158,8 @@
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                 .mousedown(function() {
+// FIXME: the actual functions do not belong here!!!
+// this is only for binding the events to functions
                     var startTimestamp  = $o.currentInterval.data('startTimestamp'),
                         interval        = getInterval(),
                         currentDate     = new Date(),
@@ -182,6 +184,8 @@
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
                 .mousedown(function() {
+// FIXME: the actual functions do not belong here!!!
+// this is only for binding the events to functions
                     var startTimestamp = $o.currentInterval.data('startTimestamp'),
                         interval = getInterval();
 
@@ -215,21 +219,26 @@
 
                 $($o.viewSelector)
                 .mousedown(function() {
-                    var viewType = $(this).attr('id');
-
-                    if ( viewType === 'lp_js_normal_view' ) {
-                        $o.normalView.addClass($o.active);
-                        $o.tpView.removeClass($o.active);
-                        $o.normalViewTab.show();
-                        $o.tpViewTab.hide();
-                    } else {
-                        $o.normalView.removeClass($o.active);
-                        $o.tpView.addClass($o.active);
-                        $o.tpViewTab.show();
-                        $o.normalViewTab.hide();
-                    }
+                    switchDashboardView();
                 })
                 .click(function(e) {e.preventDefault();});
+            },
+
+            switchDashboardView = function() {
+// TODO: #563 do the back and forth switching properly
+                var viewType = $(this).data('view');
+
+                if ( viewType === 'standard-kpis' ) {
+                    $o.normalView.addClass($o.active);
+                    $o.tpView.removeClass($o.active);
+                    $o.standardKpiTab.show();
+                    $o.timePassesKPITab.hide();
+                } else {
+                    $o.normalView.removeClass($o.active);
+                    $o.tpView.addClass($o.active);
+                    $o.timePassesKPITab.show();
+                    $o.standardKpiTab.hide();
+                }
             },
 
             getInterval = function() {
