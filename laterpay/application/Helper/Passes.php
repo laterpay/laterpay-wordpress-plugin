@@ -286,7 +286,7 @@ class LaterPay_Helper_Passes
             // get category ids
             foreach ( $post_categories as $category ) {
                 $post_category_ids[] = $category->term_id;
-                // get category parents and include them in ids array also
+                // get category parents and include them in the ids array as well
                 $parent_id = get_category( $category->term_id )->parent;
                 while ( $parent_id ) {
                     $post_category_ids[] = $parent_id;
