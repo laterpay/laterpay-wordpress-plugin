@@ -224,7 +224,7 @@ class LaterPay_Helper_Vouchers
         $pass_vouchers = self::get_time_pass_vouchers( $pass_id, $is_gift );
         $option_name   = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
 
-        // check, if such voucher exists
+        // check, if such a voucher exists
         if ( $pass_vouchers && isset( $pass_vouchers[$code] ) ) {
             // get all voucher statistics for this pass
             $voucher_statistic_data = self::get_time_pass_vouchers_statistic( $pass_id, $is_gift );

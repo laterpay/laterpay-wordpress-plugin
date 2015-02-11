@@ -202,7 +202,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        // check if voucher code exists and pass is available for purchase
+        // check, if voucher code exists and pass is available for purchase
         $code_data = LaterPay_Helper_Vouchers::check_voucher_code( $_GET['code'], (bool) $_GET['is_gift'] );
         if ( $code_data ) {
             if ( LaterPay_Helper_Vouchers::check_gift_code_usages_limit( $_GET['code'] ) || ! $_GET['is_gift'] ) {
@@ -215,7 +215,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $price      = $code_data['price'];
                 $price      = str_replace( ',', '.', $price );
                 $price      = number_format( (float) $price, 2 );
-                // prepare url before usage
+                // prepare URL before usage
                 $data       = array(
                     'voucher' => $_GET['code'],
                     'is_gift' => false,

@@ -169,7 +169,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             wp_send_json( $error );
         }
 
-        // check if we have a valid user
+        // check, if we have a valid user
         $current_user = wp_get_current_user();
         if ( ! is_a( $current_user, 'WP_User' ) ) {
             $error['code'] = 3;

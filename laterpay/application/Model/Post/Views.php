@@ -227,7 +227,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             // % amount
             $data->amount       = $data->quantity / $total_quantity * 100;
 
-            $results[$key]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;
@@ -277,7 +277,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             // % amount
             $data->amount       = $data->quantity / $total_quantity * 100;
 
-            $results[$key]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;

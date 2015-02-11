@@ -589,7 +589,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
                 $inputs_markup .= '<label>';
             }
             $inputs_markup .= '<input type="checkbox" name="' . $field['name'] . '" value="' . $field_value . '"';
-            $inputs_markup .= $option_value ? ' checked="checked"' : '';
+            $inputs_markup .= $option_value ? ' checked' : '';
             $inputs_markup .= '>';
             if ( isset( $field['label'] ) ) {
                 $inputs_markup .= $field['label'];
@@ -619,7 +619,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
                 $inputs_markup .= '<label title="' . $role_data['name'] . '">';
                 $inputs_markup .= '<input type="checkbox" name="laterpay_unlimited_access_to_paid_content" value="' . $role . '" ';
                 if ( in_array( $role, ( array ) $option_value ) ) {
-                    $inputs_markup .= 'checked="checked"';
+                    $inputs_markup .= 'checked';
                 }
                 $inputs_markup .= '>';
                 $inputs_markup .= '<span>' . $role_data['name'] . '</span>';
@@ -648,7 +648,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             $inputs_markup .= '<label title="' . $post_type->labels->name . '">';
             $inputs_markup .= '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . $slug . '" ';
             if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types ) ) {
-                $inputs_markup .= 'checked="checked"';
+                $inputs_markup .= 'checked';
             }
             $inputs_markup .= '>';
             $inputs_markup .= '<span>' . $post_type->labels->name . '</span>';

@@ -1,6 +1,6 @@
 <?php
 /**
- * LaterPay Core Logger Handler Wordpress.
+ * LaterPay Core Logger Handler WordPress.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
