@@ -12,7 +12,7 @@ script:
     - # JSHint
     - jshint laterpay/asset_sources/js
     - # Selenium
-    - cd sources_test/laterpay-wordpress-plugin/selenium-tests/
+    - cd selenium-tests/
     - php codecept.phar run --html --steps -g UI1 --env firefox_win
     - mkdir -p tests/_reports/firefox_win
     - mv -f tests/_output/* tests/_reports/firefox_win
