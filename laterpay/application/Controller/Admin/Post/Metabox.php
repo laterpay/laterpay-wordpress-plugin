@@ -111,7 +111,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                     array( $this, 'render_post_pricing_form' ),
                     $post_type,
                     'side',
-                    'high',
+                    'high'
                 );
             }
         }

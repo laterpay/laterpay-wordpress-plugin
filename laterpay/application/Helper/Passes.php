@@ -255,7 +255,7 @@ class LaterPay_Helper_Passes
      * @return array $result
      */
     public static function get_tokenized_passes( $passes = null ) {
-        if ( ! $passes ) {
+        if ( ! isset( $passes ) ) {
             $passes = self::get_all_passes();
         }
 
@@ -286,6 +286,12 @@ class LaterPay_Helper_Passes
             // get category ids
             foreach ( $post_categories as $category ) {
                 $post_category_ids[] = $category->term_id;
+                // get category parents and include them in ids array also
+                $parent_id = get_category( $category->term_id )->parent;
+                while ( $parent_id ) {
+                    $post_category_ids[] = $parent_id;
+                    $parent_id = get_category( $parent_id )->parent;
+                }
             }
 
             // get post passes
