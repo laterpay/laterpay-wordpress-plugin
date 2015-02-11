@@ -1,11 +1,33 @@
 <?php
+/**
+ * LaterPay plugin AutoLoader.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_AutoLoader
 {
 
+    /**
+     * Storage array for class search directories.
+     * @var array
+     */
     static private $paths = array();
+
+    /**
+     * Formatted array comprising namespases and directories for them.
+     * @var array
+     */
     static private $namespaces = array();
 
+    /**
+     * Namespace registrator.
+     * @param string $dirName Name of directory where classes placed.
+     * @param string $namespace Used namespace for classes.
+     * @return void
+     */
     public static function register_namespace( $dirName, $namespace ) {
         LaterPay_AutoLoader::$namespaces[] = array(
                                                    'path' => $dirName,
@@ -13,6 +35,11 @@ class LaterPay_AutoLoader
                                                 );
     }
 
+    /**
+     * Class directory getter. Get correct directory from class name.
+     * @param string $class class name.
+     * @return string prepared realative class directory.
+     */
     protected static function get_class_relative_path( $class ) {
         $class = str_replace( '..', '', $class );
         if ( strpos( $class, '_' ) !== false ) {
@@ -24,6 +51,11 @@ class LaterPay_AutoLoader
         return $class;
     }
 
+    /**
+     * Namespace class loader.
+     * @param string $class class name
+     * @return void
+     */
     public static function load_class_from_namespace( $class ) {
         $class = self::get_class_relative_path( $class );
 
@@ -42,6 +74,9 @@ class LaterPay_AutoLoader
 
     /**
      * Store the filename (without extension) and full path of all '.php' files found.
+     *
+     * @param string $dirName Directory to search of classes
+     * @return void
      */
     public static function register_directory( $dirName ) {
         LaterPay_AutoLoader::$paths[] = $dirName;
@@ -56,6 +91,11 @@ class LaterPay_AutoLoader
         );
     }
 
+    /**
+     * Class loader. Load class from registered directories if such class exists.
+     * @param string $class Class name
+     * @return void
+     */
     public static function load_class( $class ) {
         $class = self::get_class_relative_path( $class );
 
@@ -70,5 +110,6 @@ class LaterPay_AutoLoader
 
 }
 
+// Registration of LaterPay Autoloaders
 spl_autoload_register( array( 'LaterPay_AutoLoader', 'load_class' ), false );
 spl_autoload_register( array( 'LaterPay_AutoLoader', 'load_class_from_namespace' ), false );

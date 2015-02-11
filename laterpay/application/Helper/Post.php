@@ -64,8 +64,8 @@ class LaterPay_Helper_Post {
 
             $has_access = false;
 
-            foreach ( $result[ 'articles' ] as $article_key => $article_access ) {
-                $access = (bool) $article_access[ 'access' ];
+            foreach ( $result['articles'] as $article_key => $article_access ) {
+                $access = (bool) $article_access['access'];
                 self::$access[ $article_key ] = $access;
                 if ( $access ) {
                     $has_access = true;

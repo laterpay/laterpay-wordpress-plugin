@@ -12,7 +12,7 @@ class LaterPay_Helper_Dashboard
      * @return array $cache_data array with cached data or empty array on failure
      */
     public static function get_cache_data( $options ) {
-        $file_path = $options[ 'cache_file_path' ];
+        $file_path = $options['cache_file_path'];
 
         if ( ! file_exists( $file_path ) ) {
             laterpay_get_logger()->error(
@@ -63,19 +63,19 @@ class LaterPay_Helper_Dashboard
      */
     public static function refresh_cache_data( $options, $data ) {
         $timestamp = strtotime( 'now GMT' );
-        $data[ 'last_update' ] = array(
+        $data['last_update'] = array(
             'date'      => date( 'd.m.Y H.i:s', $timestamp ),
             'timestamp' => $timestamp,
         );
 
-        $cache_dir      = $options[ 'cache_dir' ];
-        $cache_filename = $options[ 'cache_filename' ];
+        $cache_dir      = $options['cache_dir'];
+        $cache_filename = $options['cache_filename'];
 
         // create the cache dir, if it doesn't exist
         wp_mkdir_p( $cache_dir );
 
         $context = $options;
-        $context[ 'data' ] = $data;
+        $context['data'] = $data;
         laterpay_get_logger()->info(
             __METHOD__,
             $context
@@ -120,7 +120,7 @@ class LaterPay_Helper_Dashboard
      * @return string $cache_filename
      */
     public static function get_cache_filename( $options ) {
-        unset( $options[ 'start_timestamp' ] );
+        unset( $options['start_timestamp'] );
         $array_values   = array_values( $options );
         $cache_filename = implode( '-', $array_values ) . '.cache';
 
@@ -292,20 +292,20 @@ class LaterPay_Helper_Dashboard
         $key = 1;
         foreach ( $items as $item ) {
             if ( $interval === 'day' ) {
-                $data[ 'x' ][] = array(
+                $data['x'][] = array(
                     $key,
                     $item->hour,
                 );
-                $data[ 'y' ][] = array(
+                $data['y'][] = array(
                     $key,
                     $item->quantity,
                 );
             } else {
-                $data[ 'x' ][] = array(
+                $data['x'][] = array(
                     $key,
                     $item->day_name,
                 );
-                $data[ 'y' ][] = array(
+                $data['y'][] = array(
                     $key,
                     $item->quantity,
                 );
@@ -532,11 +532,11 @@ class LaterPay_Helper_Dashboard
         // add expiry data for the given number of weeks
         $key = 0;
         while ( $key <= self::TIME_PASSES_WEEKS ) {
-            $data[ 'x' ][] = array(
+            $data['x'][] = array(
                 $key,
                 (string) $key
             );
-            $data[ 'y' ][] = array(
+            $data['y'][] = array(
                 $key,
                 $expiry[$key]
             );

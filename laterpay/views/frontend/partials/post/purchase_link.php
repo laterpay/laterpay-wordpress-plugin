@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( $laterpay[ 'purchase_link_is_hidden' ] ) {
+if ( $laterpay['purchase_link_is_hidden'] ) {
     return;
 }
 /**
@@ -11,9 +11,9 @@ $args = array(
     'class'                     => 'lp_js_doPurchase lp_purchaseLink',
     'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                 => 'b',
-    'data-laterpay'             => $laterpay[ 'link' ],
-    'data-post-id'              => $laterpay[ 'post_id' ],
-    'data-preview-as-visitor'   => $laterpay[ 'preview_post_as_visitor' ]
+    'data-laterpay'             => $laterpay['link'],
+    'data-post-id'              => $laterpay['post_id'],
+    'data-preview-as-visitor'   => $laterpay['preview_post_as_visitor']
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {

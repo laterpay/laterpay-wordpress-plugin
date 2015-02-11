@@ -549,8 +549,8 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         );
 
         if ( $interval === 'day' ) {
-            $args[ 'group_by' ] = 'HOUR(date)';
-            $args[ 'order_by' ] = 'HOUR(date)';
+            $args['group_by'] = 'HOUR(date)';
+            $args['order_by'] = 'HOUR(date)';
         }
 
         $results = $this->get_results( $args );

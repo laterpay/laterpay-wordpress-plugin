@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay plugin Settings Controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 {
@@ -548,15 +555,15 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function get_text_field_markup( $field = null ) {
         $inputs_markup = '';
 
-        if ( $field && isset( $field[ 'name' ] ) ) {
-            $option_value = get_option( $field[ 'name' ] );
-            $type         = isset( $field[ 'type' ] ) ? $field['type']  : 'text';
-            $class        = isset( $field[ 'class'] ) ? $field['class'] : '';
+        if ( $field && isset( $field['name'] ) ) {
+            $option_value = get_option( $field['name'] );
+            $type         = isset( $field['type'] ) ? $field['type']  : 'text';
+            $class        = isset( $field['class'] ) ? $field['class'] : '';
 
-            $inputs_markup = '<input type="' . $type .'" name="' . $field[ 'name' ] . '" ' .
+            $inputs_markup = '<input type="' . $type .'" name="' . $field['name'] . '" ' .
                             'class="regular-text ' . $class . '" value="' . $option_value . '">';
-            if ( isset( $field[ 'appended_text' ] ) ) {
-                $inputs_markup .= '<dfn class="lp_appendedText">' . $field[ 'appended_text' ] . '<dfn>';
+            if ( isset( $field['appended_text'] ) ) {
+                $inputs_markup .= '<dfn class="lp_appendedText">' . $field['appended_text'] . '<dfn>';
             }
         }
 
@@ -573,19 +580,19 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function get_checkbox_field_markup( $field = null ) {
         $inputs_markup = '';
 
-        if ( $field && isset( $field[ 'name' ] ) && isset( $field[ 'value' ] ) ) {
-            $option_value = get_option( $field[ 'name' ] );
-            $field_value  = $field[ 'value' ];
+        if ( $field && isset( $field['name'] ) && isset( $field['value'] ) ) {
+            $option_value = get_option( $field['name'] );
+            $field_value  = $field['value'];
 
             $inputs_markup = '';
-            if ( isset( $field[ 'label' ] ) ) {
+            if ( isset( $field['label'] ) ) {
                 $inputs_markup .= '<label>';
             }
-            $inputs_markup .= '<input type="checkbox" name="' . $field[ 'name' ] . '" value="' . $field_value . '"';
+            $inputs_markup .= '<input type="checkbox" name="' . $field['name'] . '" value="' . $field_value . '"';
             $inputs_markup .= $option_value ? ' checked="checked"' : '';
             $inputs_markup .= '>';
-            if ( isset( $field[ 'label' ] ) ) {
-                $inputs_markup .= $field[ 'label' ];
+            if ( isset( $field['label'] ) ) {
+                $inputs_markup .= $field['label'];
                 $inputs_markup .= '</label>';
             }
         }

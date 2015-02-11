@@ -124,7 +124,7 @@ class LaterPay_Helper_Pricing
         }
 
         $post_price = array();
-        $post_price[ 'type' ] = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
+        $post_price['type'] = LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE;
 
         return update_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, $post_price );
     }
@@ -145,7 +145,7 @@ class LaterPay_Helper_Pricing
             $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
 
             // check, if the post uses a global default price
-            if ( is_array( $post_price ) && ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) ) {
+            if ( is_array( $post_price ) && ( ! array_key_exists( 'type', $post_price ) || $post_price['type'] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) ) {
                 continue;
             }
 
@@ -209,12 +209,12 @@ class LaterPay_Helper_Pricing
         if ( ! is_array( $post_price ) ) {
             $post_price = array();
         }
-        $post_price_type = array_key_exists( 'type', $post_price )        ? $post_price[ 'type' ]        : '';
-        $category_id     = array_key_exists( 'category_id', $post_price ) ? $post_price[ 'category_id' ] : '';
+        $post_price_type = array_key_exists( 'type', $post_price )        ? $post_price['type']        : '';
+        $category_id     = array_key_exists( 'category_id', $post_price ) ? $post_price['category_id'] : '';
 
         switch ( $post_price_type ) {
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
-                $price = array_key_exists( 'price', $post_price ) ? $post_price[ 'price' ] : '';
+                $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : '';
                 break;
 
             case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE:
@@ -305,13 +305,13 @@ class LaterPay_Helper_Pricing
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
         $price_range_type       = $post_price['price_range_type'];
 
-        if ( $post_price[ 'change_start_price_after_days' ] >= $days_since_publication ) {
-            $price = $post_price[ 'start_price' ];
+        if ( $post_price['change_start_price_after_days'] >= $days_since_publication ) {
+            $price = $post_price['start_price'];
         } else {
-            if ( $post_price[ 'transitional_period_end_after_days' ] <= $days_since_publication ||
-                 $post_price[ 'transitional_period_end_after_days' ] == 0
+            if ( $post_price['transitional_period_end_after_days'] <= $days_since_publication ||
+                 $post_price['transitional_period_end_after_days'] == 0
                 ) {
-                $price = $post_price[ 'end_price' ];
+                $price = $post_price['end_price'];
             } else {    // transitional period between start and end of dynamic price change
                 $price = LaterPay_Helper_Pricing::calculate_transitional_price( $post_price, $days_since_publication );
             }
@@ -322,13 +322,13 @@ class LaterPay_Helper_Pricing
 
         switch ( $price_range_type ) {
             case 'ppu':
-                if( $rounded_price < self::ppu_min ) {
+                if ( $rounded_price < self::ppu_min ) {
                     if ( abs( self::price_sis_end - $rounded_price ) < $rounded_price ) {
                         $rounded_price = self::ppu_min;
                     } else {
                         $rounded_price = 0;
                     }
-                } else if( $rounded_price > self::ppu_max ) {
+                } else if ( $rounded_price > self::ppu_max ) {
                     $rounded_price = self::ppu_max;
                 }
                 break;
@@ -347,7 +347,7 @@ class LaterPay_Helper_Pricing
             case 'ppusis':
                 if ( $rounded_price > self::ppusis_max ) {
                     $rounded_price = self::ppusis_max;
-                } else if( $rounded_price < self::sis_min ) {
+                } else if ( $rounded_price < self::sis_min ) {
                     if ( abs( self::sis_min - $rounded_price ) < $rounded_price ) {
                         $rounded_price = self::sis_min;
                     } else {
@@ -399,10 +399,10 @@ class LaterPay_Helper_Pricing
      * @return float
      */
     private static function calculate_transitional_price( $post_price, $days_since_publication ) {
-        $end_price          = $post_price[ 'end_price' ];
-        $start_price        = $post_price[ 'start_price' ];
-        $days_until_end     = $post_price[ 'transitional_period_end_after_days' ];
-        $days_until_start   = $post_price[ 'change_start_price_after_days' ];
+        $end_price          = $post_price['end_price'];
+        $start_price        = $post_price['start_price'];
+        $days_until_end     = $post_price['transitional_period_end_after_days'];
+        $days_until_start   = $post_price['change_start_price_after_days'];
 
         $coefficient = ( $end_price - $start_price ) / ( $days_until_end - $days_until_start );
 
@@ -443,7 +443,7 @@ class LaterPay_Helper_Pricing
             case LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE:
                 if ( array_key_exists( 'category_id', $post_price ) ) {
                     $category_model = new LaterPay_Model_CategoryPrice( );
-                    $revenue_model = $category_model->get_revenue_model_by_category_id( $post_price[ 'category_id' ] );
+                    $revenue_model = $category_model->get_revenue_model_by_category_id( $post_price['category_id'] );
                 }
                 break;
 
@@ -511,16 +511,16 @@ class LaterPay_Helper_Pricing
             $post_prices = array();
         }
 
-        $post_price = array_key_exists( 'price', $post_prices ) ? (float) $post_prices[ 'price' ] : LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $post_price = array_key_exists( 'price', $post_prices ) ? (float) $post_prices['price'] : LaterPay_Helper_Pricing::get_post_price( $post->ID );
         if ( $price !== null ) {
             $post_price = $price;
         }
 
-        $start_price                        = array_key_exists( 'start_price',      $post_prices ) ? (float) $post_prices[ 'start_price' ] : '';
-        $end_price                          = array_key_exists( 'end_price',        $post_prices ) ? (float) $post_prices[ 'end_price' ] : '';
-        $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days',           $post_prices ) ? (float) $post_prices[ 'reach_end_price_after_days' ] : '';
-        $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days',        $post_prices ) ? (float) $post_prices[ 'change_start_price_after_days' ] : '';
-        $transitional_period_end_after_days = array_key_exists( 'transitional_period_end_after_days',   $post_prices ) ? (float) $post_prices[ 'transitional_period_end_after_days' ] : '';
+        $start_price                        = array_key_exists( 'start_price',      $post_prices ) ? (float) $post_prices['start_price'] : '';
+        $end_price                          = array_key_exists( 'end_price',        $post_prices ) ? (float) $post_prices['end_price'] : '';
+        $reach_end_price_after_days         = array_key_exists( 'reach_end_price_after_days',           $post_prices ) ? (float) $post_prices['reach_end_price_after_days'] : '';
+        $change_start_price_after_days      = array_key_exists( 'change_start_price_after_days',        $post_prices ) ? (float) $post_prices['change_start_price_after_days'] : '';
+        $transitional_period_end_after_days = array_key_exists( 'transitional_period_end_after_days',   $post_prices ) ? (float) $post_prices['transitional_period_end_after_days'] : '';
 
         // return dynamic pricing widget start values
         if ( ( $start_price === '' ) && ( $price !== null ) ) {

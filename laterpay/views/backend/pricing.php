@@ -27,7 +27,7 @@
                                name="only_time_pass_purchase_mode"
                                class="lp_js_onlyTimePassPurchaseModeInput lp_toggle_input"
                                value="1"   
-                               <?php if ( $laterpay[ 'only_time_pass_purchases_allowed' ] == true ) { echo 'checked'; } ?>
+                               <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) { echo 'checked'; } ?>
                         >
                         <span class="lp_toggle_text" data-on="" data-off=""></span>
                         <span class="lp_toggle_handle"></span>
@@ -37,7 +37,7 @@
             <?php _e( 'only time pass purchases', 'laterpay' ); ?>
         </div>
 
-        <?php if ( $laterpay[ 'only_time_pass_purchases_allowed' ] == true ) : ?>
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
             <ul class="lp_row lp_u_clearfix lp_js_pricing_settings_list" style="display: none">
         <?php else : ?>
             <ul class="lp_row lp_u_clearfix lp_js_pricing_settings_list">
@@ -112,7 +112,7 @@
                                             <label class="lp_js_revenueModel_label lp_revenueModelLabel lp_u_m-r05 lp_u_m-b025
                                                         <?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo 'lp_is-selected'; } ?>
                                                         <?php if ( $category_price > 5) { echo 'lp_is-disabled'; } ?>">
-                                                <input type="radio" name="laterpay_category_price_revenue_model_<?php echo $category->category_id; ?>" class="lp_js_revenueModel_input" value="ppu"<?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 )) { echo ' checked'; } ?>>PPU
+                                                <input type="radio" name="laterpay_category_price_revenue_model_<?php echo $category->category_id; ?>" class="lp_js_revenueModel_input" value="ppu"<?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo ' checked'; } ?>>PPU
                                             </label>
                                             <label class="lp_js_revenueModel_label lp_revenueModelLabel lp_u_m-r05 lp_u_m-b025
                                                         <?php if ( $category_revenue_model == 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo 'lp_is-selected'; } ?>

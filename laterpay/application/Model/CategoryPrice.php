@@ -133,8 +133,8 @@ class LaterPay_Model_CategoryPrice
      * @return array $clauses
      */
     public function filter_terms_clauses_for_categories_without_price( $clauses ) {
-        $clauses[ 'join' ]  .= ' LEFT JOIN ' . $this->term_table_prices . ' AS tp ON tp.term_id = t.term_id ';
-        $clauses[ 'where' ] .= ' AND tp.term_id IS NULL ';
+        $clauses['join']  .= ' LEFT JOIN ' . $this->term_table_prices . ' AS tp ON tp.term_id = t.term_id ';
+        $clauses['where'] .= ' AND tp.term_id IS NULL ';
 
         return $clauses;
     }

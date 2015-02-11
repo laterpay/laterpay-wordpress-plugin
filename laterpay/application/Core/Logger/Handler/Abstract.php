@@ -101,7 +101,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      * {@inheritdoc}
      */
     public function is_handling( array $record ) {
-        return $record[ 'level' ] >= $this->level;
+        return $record['level'] >= $this->level;
     }
 
 

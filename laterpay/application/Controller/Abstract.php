@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay plugin Abstract Controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Controller_Abstract
 {
@@ -43,7 +50,7 @@ class LaterPay_Controller_Abstract
      * Function which will be called on constructor and can be overwritten by child-class.
      * @return void
      */
-    protected function initialize(){}
+    protected function initialize() {}
 
     /**
      * Load all assets on boot-up.

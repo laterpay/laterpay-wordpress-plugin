@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay plugin Install Controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 {

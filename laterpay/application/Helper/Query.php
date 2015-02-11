@@ -74,7 +74,7 @@ class LaterPay_Helper_Query
      *
      * @return string $sql
      */
-    public function build_join( $joins ){
+    public function build_join( $joins ) {
         $sql = '';
 
         if ( empty( $joins )  ) {
@@ -87,13 +87,13 @@ class LaterPay_Helper_Query
                continue;
             }
 
-            $table = $join[ 'table' ] . '_' . $index;
+            $table = $join['table'] . '_' . $index;
 
-            $sql .= ' ' . strtoupper( $join[ 'type' ] ) . ' JOIN ' . $join[ 'table' ] . ' AS ' . $table;
+            $sql .= ' ' . strtoupper( $join['type'] ) . ' JOIN ' . $join['table'] . ' AS ' . $table;
             $sql .= $this->build_join_on( $join, $table );
 
-            $this->query_args[ 'fields' ] = wp_parse_args(
-                $this->query_args[ 'fields' ],
+            $this->query_args['fields'] = wp_parse_args(
+                $this->query_args['fields'],
                 $this->build_join_fields( $join, $table )
             );
 
@@ -110,10 +110,10 @@ class LaterPay_Helper_Query
      */
     protected function build_join_on( $join, $table ) {
 
-        $field_1    = $table . '.' . $join[ 'on' ][ 'field' ];
-        $compare    = $join[ 'on' ][ 'compare' ];
+        $field_1    = $table . '.' . $join['on']['field'];
+        $compare    = $join['on']['compare'];
         $field_2    = ( $this->table_short !== '' ) ? $this->table_short : $this->table;
-        $field_2    .=  '.' . $join[ 'on' ][ 'join_field' ];
+        $field_2    .=  '.' . $join['on']['join_field'];
 
         return ' ON ' . $field_1 . ' ' . $compare . ' ' . $field_2;
     }
@@ -125,9 +125,9 @@ class LaterPay_Helper_Query
      * @param string $table
      * @return array $fields
      */
-    protected function build_join_fields( $join, $table ){
+    protected function build_join_fields( $join, $table ) {
         $fields = array();
-        if ( empty( $join[ 'fields' ] ) ) {
+        if ( empty( $join['fields'] ) ) {
             $fields[] = $table . '.*';
         } else {
             foreach ( $join['fields'] as $field ) {
@@ -297,14 +297,14 @@ class LaterPay_Helper_Query
         );
         $this->query_args = wp_parse_args( $args, $default_args );
 
-        $join   = $this->build_join( $this->query_args[ 'join' ] );
+        $join   = $this->build_join( $this->query_args['join'] );
 
-        $where  = $this->build_where( $this->query_args[ 'where' ] );
+        $where  = $this->build_where( $this->query_args['where'] );
         $from   = $this->build_from( );
-        $select = $this->build_select( $this->query_args[ 'fields' ] );
-        $group  = $this->build_group_by( $this->query_args[ 'group_by' ] );
-        $order  = $this->build_order_by( $this->query_args[ 'order_by' ],  $this->query_args[ 'order' ] );
-        $limit  = $this->build_limit( $this->query_args[ 'limit' ] );
+        $select = $this->build_select( $this->query_args['fields'] );
+        $group  = $this->build_group_by( $this->query_args['group_by'] );
+        $order  = $this->build_order_by( $this->query_args['order_by'],  $this->query_args['order'] );
+        $limit  = $this->build_limit( $this->query_args['limit'] );
 
         $query = '';
         $query .= $select;

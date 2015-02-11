@@ -224,7 +224,7 @@ abstract class LaterPay_Form_Abstract
     public function add_validation( $field, $condition = array() ) {
         $fields = $this->get_fields();
 
-        if( isset( $fields[$field] ) ) {
+        if ( isset( $fields[$field] ) ) {
             if ( is_array( $condition ) && ! empty( $condition ) ) {
                 // condition should be correct
                 array_push( $fields[$field]['validators'], $condition );

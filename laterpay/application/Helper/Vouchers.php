@@ -171,7 +171,7 @@ class LaterPay_Helper_Vouchers
         if ( $passes && is_array( $passes ) ) {
             foreach ( $passes as $pass ) {
                 $pass = (array) $pass;
-                if ( self::get_time_pass_vouchers( $pass[ 'pass_id' ], $is_gift ) ) {
+                if ( self::get_time_pass_vouchers( $pass['pass_id'], $is_gift ) ) {
                     $has_vouchers = true;
                     break;
                 }

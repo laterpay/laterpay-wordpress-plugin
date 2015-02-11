@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay plugin Statistics Controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 {
@@ -41,7 +48,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         }
 
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ){
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
             $this->logger->warning(
                 __METHOD__. ' - post is not purchasable',
                 array(
@@ -153,25 +160,25 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         // check the admin referer
         if ( ! check_admin_referer( 'laterpay_form' ) ) {
-            $error[ 'code' ] = 1;
+            $error['code'] = 1;
             wp_send_json( $error );
         }
 
         if ( $preview_post === null ) {
-            $error[ 'code' ] = 2;
+            $error['code'] = 2;
             wp_send_json( $error );
         }
 
         // check if we have a valid user
         $current_user = wp_get_current_user();
         if ( ! is_a( $current_user, 'WP_User' ) ) {
-            $error[ 'code' ] = 3;
+            $error['code'] = 3;
             wp_send_json( $error );
         }
 
         // check for required capabilities to perform action
         if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
-            $error[ 'code' ] = 4;
+            $error['code'] = 4;
             wp_send_json( $error );
         }
 
@@ -182,7 +189,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         );
 
         if ( ! $result ) {
-            $error[ 'code' ] = 5;
+            $error['code'] = 5;
             wp_send_json( $error );
         }
 
