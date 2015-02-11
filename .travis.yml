@@ -8,19 +8,6 @@ env:
   - secure: m6KO5Y9+1kOks4u8Ko0isBMGYQDOYdqbWE+qfrz4/NDx17x8wqeGMN5/QiQCHgdSMRaRJuB0FDTzzQwkSg7Ea5f4UbJZgEy2224870A6jB+X7kW1CopwmdE0b4rD1nDj6BKvMr6bO7iBxmahUlego7SStJoEPlj452TQUN6KZ3Y=
 install:
     - npm install jshint
-before_script:
-    - mkdir sources_plugin
-    - cd sources_plugin
-    - git clone git@github.com:laterpay/laterpay-wordpress-plugin.git
-    - cd ../
-    - mkdir sources_test
-    - cd sources_test
-    - git clone -b feature/selenium-tests git@github.com:laterpay/laterpay-wordpress-plugin.git
-    - cd ../
-    - rm -f sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_data/laterpay.zip
-    - cd sources_plugin/laterpay-wordpress-plugin/
-    - zip -r9 ../../sources_test/laterpay-wordpress-plugin/selenium-tests/tests/_data/laterpay.zip laterpay/
-    - cd ../../
 script:
     - # JSHint
     - jshint laterpay/asset_sources/js
