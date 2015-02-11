@@ -8,6 +8,8 @@ env:
   - secure: m6KO5Y9+1kOks4u8Ko0isBMGYQDOYdqbWE+qfrz4/NDx17x8wqeGMN5/QiQCHgdSMRaRJuB0FDTzzQwkSg7Ea5f4UbJZgEy2224870A6jB+X7kW1CopwmdE0b4rD1nDj6BKvMr6bO7iBxmahUlego7SStJoEPlj452TQUN6KZ3Y=
 install:
     - npm install jshint
+before_script:
+    - mysql -e 'CREATE DATABASE wordpress_default;'
 script:
     - # JSHint
     - jshint laterpay/asset_sources/js
