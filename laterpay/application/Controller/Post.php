@@ -211,11 +211,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $price      = number_format( (float) $price, 2 );
                 // prepare url before usage
                 $data       = array(
-                    'voucher' => $_GET[ 'code' ],
-                    'is_gift' => false,
-                    'link'    => $_GET[ 'is_gift'] ? home_url() : $_GET[ 'link' ],
+                    'is_gift' => $_GET[ 'is_gift' ],
+                    'link'    => $_GET[ 'is_gift' ] ? home_url() : $_GET[ 'link' ],
                     'price'   => $price,
                 );
+
+                if ( $_GET[ 'is_gift' ] ) {
+                    $data['voucher'] = $_GET[ 'code' ];
+                }
 
                 // get new purchase URL
                 $url = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $data );
@@ -1139,7 +1142,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'pass_id'     => 0,
             'title'       => LaterPay_Helper_Passes::get_default_options( 'title' ),
             'description' => LaterPay_Helper_Passes::get_description(),
-            'price'       => LaterPay_Helper_Passes::get_access_options( 'price' ),
+            'price'       => LaterPay_Helper_Passes::get_default_options( 'price' ),
             'url'         => '',
         );
 
