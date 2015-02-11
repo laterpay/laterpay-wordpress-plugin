@@ -27,8 +27,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $defaults[ $key ] ) ) {
-                return $defaults[ $key ];
+            if ( isset( $defaults[$key] ) ) {
+                return $defaults[$key];
             }
         }
 
@@ -51,8 +51,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $durations[ $key ] ) ) {
-                return $durations[ $key ];
+            if ( isset( $durations[$key] ) ) {
+                return $durations[$key];
             }
         }
 
@@ -89,8 +89,8 @@ class LaterPay_Helper_Passes
         $selected_array = $pluralized ? $periods_pluralized : $periods;
 
         if ( isset ( $key ) ) {
-            if ( isset( $selected_array[ $key ] ) ) {
-                return $selected_array[ $key ];
+            if ( isset( $selected_array[$key] ) ) {
+                return $selected_array[$key];
             }
         }
 
@@ -111,8 +111,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $revenues[ $key ] ) ) {
-                return $revenues[ $key ];
+            if ( isset( $revenues[$key] ) ) {
+                return $revenues[$key];
             }
         }
 
@@ -134,8 +134,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $access_to[ $key ] ) ) {
-                return $access_to[ $key ];
+            if ( isset( $access_to[$key] ) ) {
+                return $access_to[$key];
             }
         }
 

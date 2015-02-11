@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay Core Response.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Core_Response extends LaterPay_Core_Entity
 {

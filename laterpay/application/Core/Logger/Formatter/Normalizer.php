@@ -1,10 +1,23 @@
 <?php
+/**
+ * LaterPay Logger formatter normalizer.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_Formatter_Interface
 {
 
+    /**
+     * @const string default date format
+     */
     const SIMPLE_DATE = 'H:i:s j.m.Y';
 
+    /**
+     * @var string date format
+     */
     protected $date_format;
 
     /**
@@ -32,6 +45,12 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
         return $records;
     }
 
+    /**
+     * Convert variable into string
+     * 
+     * @param mixed $data - incomind variable for normalizing
+     * @return string
+     */
     protected function normalize( $data ) {
 
         if ( null === $data || is_scalar( $data ) ) {
@@ -72,6 +91,11 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
         return '[unknown(' . gettype( $data ) . ')]';
     }
 
+    /**
+     * Special method for normilizing of exception
+     * @param Exception $e
+     * @return string
+     */
     protected function normalize_exception( Exception $e ) {
         $data = array(
             'class'     => get_class( $e ),
@@ -95,6 +119,12 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
         return $data;
     }
 
+    /**
+     * Convert variable into json
+     * @param variable $data
+     * @param bool $ignoreErrors - ignore errors or not
+     * @return string
+     */
     protected function to_json( $data, $ignoreErrors = false ) {
         // suppress json_encode errors since it's twitchy with some inputs
         if ( $ignoreErrors ) {

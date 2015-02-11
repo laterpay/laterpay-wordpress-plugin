@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * LaterPay Logger formatter interface.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 interface LaterPay_Core_Logger_Formatter_Interface
 {
 

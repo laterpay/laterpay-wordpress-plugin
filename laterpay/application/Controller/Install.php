@@ -417,7 +417,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                     }
 
                     // add the meta_value to the new postmeta array
-                    $new_meta_values[ $new_key ] = $value;
+                    $new_meta_values[$new_key] = $value;
 
                     // delete the old postmeta
                     delete_post_meta( $post_id, $old_meta_key );

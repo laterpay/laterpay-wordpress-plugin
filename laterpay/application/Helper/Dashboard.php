@@ -187,7 +187,7 @@ class LaterPay_Helper_Dashboard
     public static function format_amount_value_most_least_data( $items, $decimal = 2 ) {
         foreach ( $items as $key => $item ) {
             $item->amount = number_format_i18n( $item->amount, $decimal );
-            $items[ $key ] = $item;
+            $items[$key] = $item;
         }
 
         return $items;
@@ -458,7 +458,7 @@ class LaterPay_Helper_Dashboard
                 $item->quantity = 0;
                 $item->date     = $date;
 
-                $items[ $date ] = $item;
+                $items[$date] = $item;
             }
         }
 
@@ -497,9 +497,9 @@ class LaterPay_Helper_Dashboard
                 $item->date     = $date;
                 $item->quantity = 0;
             } else {
-                $item = $items[ $hour ];
+                $item = $items[$hour];
             }
-            $filled_items[ $hour ] = $item;
+            $filled_items[$hour] = $item;
         }
 
         laterpay_get_logger()->info(

@@ -523,7 +523,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         foreach ( $access_result['articles'] as $post_id => $state ) {
-            $this->access[ $post_id ] = (bool) $state['access'];
+            $this->access[$post_id] = (bool) $state['access'];
         }
 
         return $posts;
@@ -550,14 +550,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( $post_id );
         $passes = LaterPay_Helper_Passes::get_tokenized_passes( $passes_list );
         foreach ( $passes as $pass ) {
-            if ( array_key_exists( $pass, $this->access ) && $this->access[ $pass ] ) {
+            if ( array_key_exists( $pass, $this->access ) && $this->access[$pass] ) {
                 return true;
             }
         }
 
         // check access for the particular post
         if ( array_key_exists( $post_id, $this->access ) ) {
-            return (bool) $this->access[ $post_id ];
+            return (bool) $this->access[$post_id];
         }
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
@@ -589,7 +589,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
             foreach ( $result['articles'] as $article_key => $article_access ) {
                 $access = (bool) $article_access['access'];
-                $this->access[ $article_key ] = $access;
+                $this->access[$article_key] = $access;
                 if ( $access ) {
                     $has_access = true;
                 }

@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay Core Logger Handler Interface.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 interface LaterPay_Core_Logger_Handler_Interface
 {

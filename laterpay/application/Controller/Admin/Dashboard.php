@@ -220,7 +220,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $diagram_data = array();
         foreach ( $converting_items as $date => $converting_item ) {
-            $selling_item   = $selling_items[ $date ];
+            $selling_item   = $selling_items[$date];
             $data           = $converting_item;
             if ( $converting_item->quantity == 0 ) {
                 $data->quantity = 0;
@@ -228,7 +228,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 // purchases on {date|hour} / views on {date|hour} * 100
                 $data->quantity = $selling_item->quantity / $converting_item->quantity * 100;
             }
-            $diagram_data[ $date ] = $data;
+            $diagram_data[$date] = $data;
         }
 
         $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $diagram_data, $options['start_timestamp'], $options['interval'] );

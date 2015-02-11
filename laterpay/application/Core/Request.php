@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay Core Request.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Core_Request extends LaterPay_Core_Entity
 {
