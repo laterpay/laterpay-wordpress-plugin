@@ -83,12 +83,12 @@
              <input type="hidden" name="post_default_category" id="lp_js_postDefaultCategoryInput" value="<?php echo $laterpay['post_default_category']; ?>">
              <ul>
                 <?php if ( is_array( $laterpay['category_prices'] ) ): ?>
-                    <?php foreach ( $laterpay['category_prices'] as $c ): ?>
-                        <li data-category="<?php echo $c->category_id; ?>"<?php if ( $c->category_id == $laterpay['post_default_category'] ): ?> class="lp_is-selectedCategory"<?php endif; ?>>
+                    <?php foreach ( $laterpay['category_prices'] as $category ): ?>
+                        <li data-category="<?php echo $category['category_id']; ?>"<?php if ( $category['category_id'] == $laterpay['post_default_category'] ): ?> class="lp_is-selectedCategory"<?php endif; ?>>
                             <a href="#"
-                                data-price="<?php echo LaterPay_Helper_View::format_number( $c->category_price ); ?>"
-                                data-revenue-model="<?php echo $c->revenue_model; ?>">
-                                <span><?php echo LaterPay_Helper_View::format_number( $c->category_price ); ?> <?php echo $laterpay['currency']; ?></span><?php echo $c->category_name; ?>
+                                data-price="<?php echo LaterPay_Helper_View::format_number( $category['category_price'] ); ?>"
+                                data-revenue-model="<?php echo $category['revenue_model']; ?>">
+                                <span><?php echo LaterPay_Helper_View::format_number( $category['category_price'] ); ?> <?php echo $laterpay['currency']; ?></span><?php echo $category['category_name']; ?>
                             </a>
                         </li>
                     <?php endforeach; ?>

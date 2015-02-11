@@ -124,6 +124,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'bulk_categories_with_price'            => $bulk_categories_with_price,
             'bulk_saved_operations'                 => $bulk_saved_operations,
             'landing_page'                          => get_option( 'laterpay_landing_page' ),
+            'only_time_pass_purchases_allowed'      => get_option( 'laterpay_only_time_pass_purchases_allowed' ),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -248,6 +249,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     wp_send_json(
                         $categories
                     );
+                    break;
+
+                case 'change_purchase_mode_form':
+                    $this->change_purchase_mode();
                     break;
 
                 default:
@@ -510,12 +515,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     protected function get_category_prices( $category_ids ) {
-        $categories_price_data = array();
-
-        if ( is_array( $category_ids ) && count( $category_ids ) > 0 ) {
-            $category_price_model   = new LaterPay_Model_CategoryPrice();
-            $categories_price_data  = $category_price_model->get_category_price_data_by_category_ids( $category_ids );
-        }
+        $categories_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $category_ids );
 
         wp_send_json( $categories_price_data );
     }
@@ -1006,5 +1006,38 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 )
             );
         }
+    }
+
+    /**
+     * Switch plugin between allowing (1) individual purchases and time pass purchases, or (2) time pass purchases only.
+     * Do nothing and render an error message, if no time pass is defined when trying to switch to time pass only mode.
+     *
+     * @return void
+     */
+    private function change_purchase_mode() {
+        if ( isset( $_POST[ 'only_time_pass_purchase_mode' ] ) ) {
+            $only_time_pass = 1; // allow time pass purchases only
+        } else {
+            $only_time_pass = 0; // allow individual and time pass purchases
+        }
+
+        if ( $only_time_pass == 1 ) {
+            if ( ! LaterPay_Helper_Passes::get_passes_count() ) {
+                wp_send_json(
+                    array(
+                        'success' => false,
+                        'message' => __( 'You have to create a time pass, before you can disable individual purchases.' ),
+                    )
+                );
+            }
+        }
+
+        update_option( 'laterpay_only_time_pass_purchases_allowed', $only_time_pass );
+
+        wp_send_json(
+            array(
+                'success' => true,
+            )
+        );
     }
 }

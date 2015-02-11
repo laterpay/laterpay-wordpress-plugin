@@ -211,11 +211,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $price      = number_format( (float) $price, 2 );
                 // prepare url before usage
                 $data       = array(
-                    'voucher' => $_GET[ 'code' ],
-                    'is_gift' => false,
-                    'link'    => $_GET[ 'is_gift'] ? home_url() : $_GET[ 'link' ],
+                    'is_gift' => $_GET[ 'is_gift' ],
+                    'link'    => $_GET[ 'is_gift' ] ? home_url() : $_GET[ 'link' ],
                     'price'   => $price,
                 );
+
+                if ( $_GET[ 'is_gift' ] ) {
+                    $data['voucher'] = $_GET[ 'code' ];
+                }
 
                 // get new purchase URL
                 $url = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $data );
@@ -309,6 +312,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 'hash'          => $_GET['hash'],
                 'revenue_model' => $_GET['revenue_model'],
                 'pass_id'       => $pass_id,
+                'code'          => isset( $_GET['voucher'] ) ? $_GET['voucher'] : null,
             );
 
             $this->logger->info(
@@ -753,6 +757,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'currency'                        => get_option( 'laterpay_currency' ),
             'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'         => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'purchase_button_is_hidden'       => LaterPay_Helper_View::purchase_button_is_hidden(),
         );
 
         $this->logger->info(
@@ -976,6 +981,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'preview_post_as_visitor'               => $preview_post_as_visitor,
             'user_has_already_voted'                => $user_has_already_voted,
             'show_post_ratings'                     => $show_post_ratings,
+            'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
             'time_passes_positioned_manually'       => get_option( 'laterpay_time_passes_positioned_manually' ),
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
         );
@@ -1136,7 +1142,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'pass_id'     => 0,
             'title'       => LaterPay_Helper_Passes::get_default_options( 'title' ),
             'description' => LaterPay_Helper_Passes::get_description(),
-            'price'       => LaterPay_Helper_Passes::get_access_options( 'price' ),
+            'price'       => LaterPay_Helper_Passes::get_default_options( 'price' ),
             'url'         => '',
         );
 

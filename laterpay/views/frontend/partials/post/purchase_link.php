@@ -1,5 +1,8 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+if ( $laterpay[ 'purchase_link_is_hidden' ] ) {
+    return;
+}
 /**
  * we can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute
  */

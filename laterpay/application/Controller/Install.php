@@ -94,6 +94,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $is_up_to_date = false;
         $modified      = false;
         $passes_added  = false;
+        $code_added    = false;
+
         foreach ( $columns as $column ) {
             if ( $column->Field === 'revenue_model' ) {
                 $modified      = strpos( strtolower( $column->Type ), 'enum' ) !== false;
@@ -102,6 +104,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
             if ( $column->Field === 'pass_id' ) {
                 $passes_added  = true;
+            }
+
+            if ( $column->Field === 'code' ) {
+                $code_added    = true;
             }
         }
 
@@ -126,10 +132,15 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
         }
 
-        // add pass id field for version >= 0.9.10
+        // add pass id column for version >= 0.9.10
         if ( ! $passes_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
             $wpdb->query( "ALTER TABLE " . $table . " ADD pass_id INT( 11 ) NOT NULL DEFAULT 0;" );
             $wpdb->query( "ALTER TABLE " . $table . " MODIFY post_id INT( 11 ) NOT NULL DEFAULT 0;" );
+        }
+
+        // add voucher code column for version >= 0.9.10
+        if ( ! $code_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
+            $wpdb->query( "ALTER TABLE " . $table . " ADD code VARCHAR(6) NULL DEFAULT NULL;" );
         }
     }
 
@@ -297,6 +308,56 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Adding option to allow only time pass purchases.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maype_add_only_time_pass_purchase_option() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+            return;
+        }
+
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == null ) {
+            add_option( 'laterpay_only_time_pass_purchases_allowed' , 0 );
+        }
+    }
+
+    /**
+     * Changing options names for API URLs.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_api_urls_options_names() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+            return;
+        }
+
+        $old_to_new_option_pair_array = array(
+            'laterpay_api_sandbox_url'      => 'laterpay_sandbox_backend_api_url',
+            'laterpay_api_sandbox_web_url'  => 'laterpay_sandbox_dialog_api_url',
+            'laterpay_api_live_url'         => 'laterpay_live_backend_api_url',
+            'laterpay_api_live_web_url'     => 'laterpay_live_dialog_api_url',
+        );
+
+        foreach ( $old_to_new_option_pair_array as $old_option_name => $new_option_name ) {
+            $old_option_value = get_option( $old_option_name );
+
+            if ( $old_option_value !== false ) {
+                delete_option( $old_option_name );
+                add_option( $new_option_name, $old_option_value );
+            }
+        }
+    }
+
+    /**
      * Update the existing options during update.
      *
      * @deprecated since version 1.0
@@ -409,6 +470,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 hash              VARCHAR(32)          NOT NULL,
                 revenue_model     ENUM('ppu', 'sis')   NOT NULL DEFAULT 'ppu',
                 pass_id           INT(11)              NOT NULL DEFAULT 0,
+                code              VARCHAR(6)           NULL DEFAULT NULL,
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
@@ -426,19 +488,19 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE IF NOT EXISTS $table_passes (
-	        pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
-	        duration          INT(11)       NULL DEFAULT NULL,
-	        period            INT(11)       NULL DEFAULT NULL,
-	        access_to         INT(11)       NULL DEFAULT NULL,
-	        access_category   BIGINT(20)    NULL DEFAULT NULL,
-	        price             DECIMAL(10,2) NULL DEFAULT NULL,
-	        revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
-	        title             VARCHAR(255)  NULL DEFAULT NULL,
-	        description       VARCHAR(255)  NULL DEFAULT NULL,
-	        PRIMARY KEY (pass_id),
-	        INDEX access_to (access_to),
-	        INDEX period (period),
-	        INDEX duration (duration)
+                pass_id           INT(11)       NOT NULL AUTO_INCREMENT,
+                duration          INT(11)       NULL DEFAULT NULL,
+                period            INT(11)       NULL DEFAULT NULL,
+                access_to         INT(11)       NULL DEFAULT NULL,
+                access_category   BIGINT(20)    NULL DEFAULT NULL,
+                price             DECIMAL(10,2) NULL DEFAULT NULL,
+                revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
+                title             VARCHAR(255)  NULL DEFAULT NULL,
+                description       VARCHAR(255)  NULL DEFAULT NULL,
+                PRIMARY KEY (pass_id),
+                INDEX access_to (access_to),
+                INDEX period (period),
+                INDEX duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
@@ -461,12 +523,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
         add_option( 'laterpay_landing_page',                            '' );
+        add_option( 'laterpay_only_time_pass_purchases_allowed',        0  );
 
         // advanced settings
-        add_option( 'laterpay_api_sandbox_url',                         'https://api.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_api_sandbox_web_url',                     'https://web.sandbox.laterpaytest.net' );
-        add_option( 'laterpay_api_live_url',                            'https://api.laterpay.net' );
-        add_option( 'laterpay_api_live_web_url',                        'https://web.laterpay.net' );
+        add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );
+        add_option( 'laterpay_sandbox_dialog_api_url',                  'https://web.sandbox.laterpaytest.net' );
+        add_option( 'laterpay_live_backend_api_url',                    'https://api.laterpay.net' );
+        add_option( 'laterpay_live_dialog_api_url',                     'https://web.laterpay.net' );
         add_option( 'laterpay_api_merchant_backend_url',                'https://merchant.laterpay.net/' );
         add_option( 'laterpay_access_logging_enabled',                  1 );
         add_option( 'laterpay_caching_compatibility',                   (bool) LaterPay_Helper_Cache::site_uses_page_caching() );

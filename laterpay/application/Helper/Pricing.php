@@ -886,4 +886,58 @@ class LaterPay_Helper_Pricing
             }
         }
     }
+
+    /**
+     * Get category price data by category ids.
+     *
+     * @param $category_ids
+     *
+     * @return array
+     */
+    public static function get_category_price_data_by_category_ids( $category_ids ) {
+        $result = array();
+
+        if ( is_array( $category_ids ) && count( $category_ids ) > 0 ) {
+            // this array will prevent category prices from duplication
+            $ids_used = array();
+            $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+            $category_price_data     = $laterpay_category_model->get_category_price_data_by_category_ids( $category_ids );
+            // add prices data to results array
+            foreach ( $category_price_data as $category ) {
+                $ids_used[] = $category->category_id;
+                $result[]   = (array) $category;
+            }
+
+            // loop through each category and check, if it has a category price
+            // if not, then try to get the parent category's category price
+            foreach ( $category_ids as $category_id ) {
+                $has_price = false;
+                foreach ( $category_price_data as $category ) {
+                    if ( $category->category_id == $category_id ) {
+                        $has_price = true;
+                        break;
+                    }
+                }
+
+                if ( ! $has_price ) {
+                    $parent_id = get_category( $category_id )->parent;
+                    while ( $parent_id ) {
+                        $parent_data = $laterpay_category_model->get_category_price_data_by_category_ids( $parent_id );
+                        if ( ! $parent_data ) {
+                            $parent_id = get_category( $parent_id )->parent;
+                        } else {
+                            $parent_data = (array) $parent_data[0];
+                            if ( ! in_array( $parent_data['category_id'], $ids_used ) ) {
+                                $ids_used[] = $parent_data['category_id'];
+                                $result[]   = $parent_data;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
 }

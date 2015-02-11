@@ -123,17 +123,34 @@ function laterpay_get_plugin_config() {
     );
     $config->import( $plugin_headers );
 
+    // make sure all API variables are set
+    if ( ! get_option( 'laterpay_sandbox_backend_api_url' ) ) {
+        update_option( 'laterpay_sandbox_backend_api_url', 'https://api.sandbox.laterpaytest.net' );
+    }
+    if ( ! get_option( 'laterpay_sandbox_dialog_api_url' ) ) {
+        update_option( 'laterpay_sandbox_dialog_api_url', 'https://web.sandbox.laterpaytest.net' );
+    }
+    if ( ! get_option( 'laterpay_live_backend_api_url' ) ) {
+        update_option( 'laterpay_live_backend_api_url', 'https://api.laterpay.net' );
+    }
+    if ( ! get_option( 'laterpay_live_dialog_api_url' ) ) {
+        update_option( 'laterpay_live_dialog_api_url', 'https://web.laterpay.net' );
+    }
+    if ( ! get_option( 'laterpay_api_merchant_backend_url' ) ) {
+        update_option( 'laterpay_api_merchant_backend_url', 'https://merchant.laterpay.net/' );
+    }
+
     /**
      * LaterPay API endpoints and API default settings.
      *
      * @var array
      */
     $default_api_settings = array(
-        'api.sandbox_url'           => get_option( 'laterpay_api_sandbox_url' ),
-        'api.sandbox_web_url'       => get_option( 'laterpay_api_sandbox_web_url' ),
-        'api.live_url'              => get_option( 'laterpay_api_live_url' ),
-        'api.live_web_url'          => get_option( 'laterpay_api_live_web_url' ),
-        'api.merchant_backend_url'  => get_option( 'laterpay_api_merchant_backend_url' ),
+        'api.sandbox_backend_api_url'   => get_option( 'laterpay_sandbox_backend_api_url' ),
+        'api.sandbox_dialog_api_url'    => get_option( 'laterpay_sandbox_dialog_api_url' ),
+        'api.live_backend_api_url'      => get_option( 'laterpay_live_backend_api_url' ),
+        'api.live_dialog_api_url'       => get_option( 'laterpay_live_dialog_api_url' ),
+        'api.merchant_backend_url'      => get_option( 'laterpay_api_merchant_backend_url' ),
     );
 
     /**
