@@ -16,8 +16,7 @@
                         <a href="<?php echo $page['submenu']['url']; ?>"
                             <?php if ( isset( $page['submenu']['id'] ) ): ?>id="<?php echo $page['submenu']['id']; ?>"<?php endif; ?>
                             class="lp_u_block"
-                            <?php // TODO: #563 the content of the data attribute should be rendered as JSON here ?>
-                            <?php if ( isset( $page['submenu']['data'] ) ): ?>data="<?php echo $page['submenu']['data']; ?>"<?php endif; ?>>
+                            <?php if ( isset( $page['submenu']['data'] ) ): ?>data="<?php echo htmlspecialchars( json_encode( $page['submenu']['data'] ), ENT_QUOTES ); ?>"<?php endif; ?>>
                             <?php echo $page['submenu']['title']; ?>
                         </a>
                     </li>

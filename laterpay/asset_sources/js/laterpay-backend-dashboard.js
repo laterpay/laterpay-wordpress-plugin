@@ -58,9 +58,9 @@
                 toggleItemDetails       : '.lp_js_toggleItemDetails',
 
                 // time passes customer lifecycle
-                viewSelector            : '#lp_js_switchDashboardView',
+                viewSelector            : $('#lp_js_switchDashboardView'),
                 standardKpiTab          : $('#lp_js_standardKpiTab'),
-                timePassesKPITab        : $('#lp_js_timePassesKPITab'),
+                timePassesKPITab        : $('#lp_js_timePassesKPITabjs'),
                 timepassDiagram         : $('.lp_js_timepassDiagram'),
 
                 // strings cached for better compression
@@ -132,69 +132,21 @@
                 // re-render dashboard in selected configuration
                 $o.configurationSelection
                 .mousedown(function() {
-// FIXME: the actual functions do not belong here!!!
-// this is only for binding the events to functions
-                    var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
-                        interval;
-                    // change selected item to clicked item
-                    $(this)
-                        .parents($o.dropdown)
-                        .removeClass($o.expanded)
-                            .find($o.dropdownCurrentItem)
-                            .text($(this).text())
-                        .end()
-                            .find('.' + $o.selected)
-                            .removeClass($o.selected)
-                        .end()
-                    .end()
-                    .addClass($o.selected);
-
-                    interval = getInterval();
-                    setTimeRange(startTimestamp, interval);
-                    loadDashboard(false);
+                    reloadDashboard( 0, false, false, $(this) );
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                 .mousedown(function() {
-// FIXME: the actual functions do not belong here!!!
-// this is only for binding the events to functions
-                    var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                        interval        = getInterval(),
-                        currentDate     = new Date(),
-                        startDate;
-
-                    // + 1 day
-                    startTimestamp  = startTimestamp + 86400;
-
-                    startDate       = new Date(startTimestamp * 1000);
-                        if (startDate.getDate() >= currentDate.getDate()) {
-                            // FIXME: instead of showing an error,
-                            // we should hide the link for selecting the next interval!
-                        setMessage(lpVars.i18n.noFutureInterval, false);
-                        return;
-                    }
-
-                    setTimeRange(startTimestamp, interval);
-                    loadDashboard(true);
+                    reloadDashboard( 86400, true, true );
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
                 .mousedown(function() {
-// FIXME: the actual functions do not belong here!!!
-// this is only for binding the events to functions
-                    var startTimestamp = $o.currentInterval.data('startTimestamp'),
-                        interval = getInterval();
-
-                    // - 1 day
-                    startTimestamp  = startTimestamp - 86400;
-
-                    setTimeRange(startTimestamp, interval);
-                    loadDashboard(false);
-
+                    reloadDashboard( -86400, false );
                 })
                 .click(function(e) {e.preventDefault();});
 
@@ -217,25 +169,56 @@
                 })
                 .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
-                $($o.viewSelector)
+                $o.viewSelector
                 .mousedown(function() {
-                    switchDashboardView();
+                    switchDashboardView($(this));
                 })
                 .click(function(e) {e.preventDefault();});
             },
 
-            switchDashboardView = function() {
-// TODO: #563 do the back and forth switching properly
-                var viewType = $(this).data('view');
+            reloadDashboard = function( timeshift, load, hidelink, $item ) {
+                var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                    interval = getInterval();
+
+                if (timeshift) {
+                    startTimestamp  = startTimestamp + timeshift;
+                }
+
+                if (hidelink) {
+                    var currentDate = new Date();
+                    var startDate   = new Date(startTimestamp * 1000);
+                    if (startDate.getDate() >= currentDate.getDate()) {
+                        // FIXME: instead of showing an error,
+                        // we should hide the link for selecting the next interval!
+                        setMessage(lpVars.i18n.noFutureInterval, false);
+                        return;
+                    }
+                }
+
+                if ($item) {
+                    $item.parents($o.dropdown)
+                         .removeClass($o.expanded)
+                         .find($o.dropdownCurrentItem)
+                         .text($item.text())
+                         .end()
+                         .find('.' + $o.selected)
+                         .removeClass($o.selected)
+                         .end()
+                         .end()
+                         .addClass($o.selected);
+                }
+
+                setTimeRange(startTimestamp, interval);
+                loadDashboard(load);
+            },
+
+            switchDashboardView = function($item) {
+                var viewType = $.parseJSON( $item.attr('data') );
 
                 if ( viewType === 'standard-kpis' ) {
-                    $o.normalView.addClass($o.active);
-                    $o.tpView.removeClass($o.active);
                     $o.standardKpiTab.show();
                     $o.timePassesKPITab.hide();
                 } else {
-                    $o.normalView.removeClass($o.active);
-                    $o.tpView.addClass($o.active);
                     $o.timePassesKPITab.show();
                     $o.standardKpiTab.hide();
                 }
