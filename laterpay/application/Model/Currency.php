@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Model Currency.
+ * LaterPay currency model.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
