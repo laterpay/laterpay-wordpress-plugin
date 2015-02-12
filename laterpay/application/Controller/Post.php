@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LaterPay plugin Post Controller.
  *

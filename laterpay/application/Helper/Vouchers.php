@@ -1,12 +1,42 @@
 <?php
 
+/**
+ * LaterPay Helper Vouchers.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Vouchers
 {
+    /**
+     * @const int Default length of voucher code.
+     */
     const VOUCHER_CODE_LENGTH  = 6;
+
+    /**
+     * @const string Chars allowed in voucher code.
+     */
     const VOUCHER_CHARS        = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    /**
+     * @const string Name of option to update if voucher is a gift.
+     */
     const GIFT_CODES_OPTION    = 'laterpay_gift_codes';
+
+    /**
+     * @const string Name of statistic option to update if voucher is a gift.
+     */
     const GIFT_STAT_OPTION     = 'laterpay_gift_statistic';
+
+    /**
+     * @const string Name of option to update if voucher is NOT a gift.
+     */
     const VOUCHER_CODES_OPTION = 'laterpay_voucher_codes';
+
+    /**
+     * @const string Name of statistic option to update if voucher is NOT a gift.
+     */
     const VOUCHER_STAT_OPTION  = 'laterpay_voucher_statistic';
 
     /**

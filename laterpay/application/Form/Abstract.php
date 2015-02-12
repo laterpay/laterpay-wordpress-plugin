@@ -2,6 +2,10 @@
 
 /**
  * LaterPay abstract form class
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
  */
 abstract class LaterPay_Form_Abstract
 {

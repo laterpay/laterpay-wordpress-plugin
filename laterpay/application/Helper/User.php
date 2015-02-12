@@ -1,9 +1,23 @@
 <?php
 
+/**
+ * LaterPay Helper User.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_User
 {
 
+    /**
+     * @var mixed Does user want to preview post as visitor or not?
+     */
     protected static $_preview_post_as_visitor  = null;
+
+    /**
+     * @var mixed Is it needed to hide statistic pane or not?
+     */
     protected static $_hide_statistics_pane     = null;
 
     /**

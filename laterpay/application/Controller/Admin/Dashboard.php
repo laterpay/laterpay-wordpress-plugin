@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LaterPay plugin Admin Dashboard Controller.
  *
@@ -6,7 +7,6 @@
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
  * Author URI: https://laterpay.net/
  */
-
 class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 {
 

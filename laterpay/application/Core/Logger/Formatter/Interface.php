@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LaterPay Logger formatter interface.
  *

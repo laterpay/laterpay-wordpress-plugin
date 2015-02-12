@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LaterPay Core Logger Processor Introspection.
  *
@@ -6,7 +7,6 @@
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
  * Author URI: https://laterpay.net/
  */
-
 class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logger_Processor_Interface
 {
 

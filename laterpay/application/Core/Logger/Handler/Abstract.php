@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LaterPay Abstract Logger Handler.
  *
@@ -6,7 +7,6 @@
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
  * Author URI: https://laterpay.net/
  */
-
 abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Logger_Handler_Interface
 {
 

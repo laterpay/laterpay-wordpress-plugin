@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay Model Payment History.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 {
 

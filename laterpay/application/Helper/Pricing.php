@@ -1,14 +1,30 @@
 <?php
 
+/**
+ * LaterPay Helper Pricing.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Pricing
 {
+    /**
+     * Types of prices.
+     */
     const TYPE_GLOBAL_DEFAULT_PRICE     = 'global default price';
     const TYPE_CATEGORY_DEFAULT_PRICE   = 'category default price';
     const TYPE_INDIVIDUAL_PRICE         = 'individual price';
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
+    /**
+     * @const string Status of post when it published.
+     */
     const STATUS_POST_PUBLISHED         = 'publish';
 
+    /**
+     * Price ranges.
+     */
     const ppu_min                       = 0.05;
     const ppu_max                       = 1.48;
     const ppusis_max                    = 5.00;
