@@ -178,15 +178,15 @@
 
             reloadDashboard = function( timeshift, load, hidelink, $item ) {
                 var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                    interval = getInterval();
+                    interval        = getInterval();
 
                 if (timeshift) {
                     startTimestamp  = startTimestamp + timeshift;
                 }
 
                 if (hidelink) {
-                    var currentDate = new Date();
-                    var startDate   = new Date(startTimestamp * 1000);
+                    var currentDate = new Date(),
+                        startDate   = new Date(startTimestamp * 1000);
                     if (startDate.getDate() >= currentDate.getDate()) {
                         // FIXME: instead of showing an error,
                         // we should hide the link for selecting the next interval!
@@ -197,15 +197,15 @@
 
                 if ($item) {
                     $item.parents($o.dropdown)
-                         .removeClass($o.expanded)
-                         .find($o.dropdownCurrentItem)
-                         .text($item.text())
-                         .end()
-                         .find('.' + $o.selected)
-                         .removeClass($o.selected)
-                         .end()
-                         .end()
-                         .addClass($o.selected);
+                    .removeClass($o.expanded)
+                    .find($o.dropdownCurrentItem)
+                        .text($item.text())
+                        .end()
+                    .find('.' + $o.selected)
+                        .removeClass($o.selected)
+                        .end()
+                    .end()
+                    .addClass($o.selected);
                 }
 
                 setTimeRange(startTimestamp, interval);
