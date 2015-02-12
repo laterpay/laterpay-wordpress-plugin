@@ -17,15 +17,17 @@ class LaterPay_AutoLoader
     static private $paths = array();
 
     /**
-     * Formatted array comprising namespases and directories for them.
+     * Formatted array comprising namespaces and directories for them.
      * @var array
      */
     static private $namespaces = array();
 
     /**
      * Namespace registrator.
+     *
      * @param string $dirName Name of directory where classes placed.
-     * @param string $namespace Used namespace for classes.
+     * @param string $namespace namespace used for classes.
+     *
      * @return void
      */
     public static function register_namespace( $dirName, $namespace ) {
@@ -37,8 +39,10 @@ class LaterPay_AutoLoader
 
     /**
      * Class directory getter. Get correct directory from class name.
+     *
      * @param string $class class name.
-     * @return string prepared realative class directory.
+     *
+     * @return string prepared relative class directory.
      */
     protected static function get_class_relative_path( $class ) {
         $class = str_replace( '..', '', $class );
@@ -53,7 +57,9 @@ class LaterPay_AutoLoader
 
     /**
      * Namespace class loader.
+     *
      * @param string $class class name
+     *
      * @return void
      */
     public static function load_class_from_namespace( $class ) {
@@ -76,6 +82,7 @@ class LaterPay_AutoLoader
      * Store the filename (without extension) and full path of all '.php' files found.
      *
      * @param string $dirName Directory to search of classes
+     *
      * @return void
      */
     public static function register_directory( $dirName ) {
@@ -93,7 +100,9 @@ class LaterPay_AutoLoader
 
     /**
      * Class loader. Load class from registered directories if such class exists.
+     *
      * @param string $class Class name
+     *
      * @return void
      */
     public static function load_class( $class ) {
@@ -110,6 +119,6 @@ class LaterPay_AutoLoader
 
 }
 
-// Registration of LaterPay Autoloaders
+// registration of LaterPay autoloaders
 spl_autoload_register( array( 'LaterPay_AutoLoader', 'load_class' ), false );
 spl_autoload_register( array( 'LaterPay_AutoLoader', 'load_class_from_namespace' ), false );

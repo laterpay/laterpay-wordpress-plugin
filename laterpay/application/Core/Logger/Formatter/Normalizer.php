@@ -46,13 +46,13 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     }
 
     /**
-     * Convert variable into string
-     * 
-     * @param mixed $data - incomind variable for normalizing
+     * Convert variable into string.
+     *
+     * @param mixed $data - incoming variable for normalizing
+     *
      * @return string
      */
     protected function normalize( $data ) {
-
         if ( null === $data || is_scalar( $data ) ) {
             return $data;
         }
@@ -92,8 +92,10 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     }
 
     /**
-     * Special method for normilizing of exception
+     * Special method for normalizing exception.
+     *
      * @param Exception $e
+     *
      * @return string
      */
     protected function normalize_exception( Exception $e ) {
@@ -120,9 +122,11 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     }
 
     /**
-     * Convert variable into json
-     * @param variable $data
-     * @param bool $ignoreErrors - ignore errors or not
+     * Convert variable into JSON.
+     *
+     * @param variable  $data
+     * @param bool      $ignoreErrors - ignore errors or not
+     *
      * @return string
      */
     protected function to_json( $data, $ignoreErrors = false ) {

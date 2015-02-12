@@ -347,7 +347,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
-            $results[$key]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;

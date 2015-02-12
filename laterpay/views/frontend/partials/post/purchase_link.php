@@ -13,7 +13,7 @@ $args = array(
     'data-icon'                 => 'b',
     'data-laterpay'             => $laterpay['link'],
     'data-post-id'              => $laterpay['post_id'],
-    'data-preview-as-visitor'   => $laterpay['preview_post_as_visitor']
+    'data-preview-as-visitor'   => $laterpay['preview_post_as_visitor'],
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {
