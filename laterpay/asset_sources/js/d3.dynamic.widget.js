@@ -45,6 +45,7 @@ var LPCurve = function(container) {
     svg.append('g')
         .attr('class', 'lp_dynamic-pricing__axis lp_dynamic-pricing__axis--y');
 
+
     // draw x-axis with arrowhead
     svg.append('defs')
         .append('marker')
@@ -58,10 +59,7 @@ var LPCurve = function(container) {
                 orient      : 'auto',
             })
             .append('path')
-                .attr({
-                    d       : 'M0,0 V4 L4,2 Z',
-                    class   : 'lp_dynamic-pricing__axis-lineAAA',
-                });
+                .attr('d', 'M0,0 V4 L4,2 Z');
 
 
     // draw y-axis with arrowhead
@@ -77,21 +75,17 @@ var LPCurve = function(container) {
                 orient      : 'auto',
             })
             .append('path')
-                .attr({
-                    d       : 'M0,4 H4 L2,0 Z',
-                    class   : 'lp_dynamic-pricing__axis-lineBBB',
-                });
+                .attr('d', 'M0,4 H4 L2,0 Z');
 
 
     // draw default price marker
     svg.append('line')
         .attr('class', 'lp_dynamic-pricing__default-price-marker');
     svg.append('text')
-        .attr('text-anchor', 'middle')
+        .attr('transform', 'translate(0, 2.5)')
         .attr('class', 'lp_dynamic-pricing__default-price-label')
+        .attr('text-anchor', 'middle')
         .text(this.i18nDefaultPrice);
-    svg.append('path')
-        .attr('class', 'lp_dynamic-pricing__default-price-marker');
 
 
     // draw start price handle with text and input and everything
@@ -112,7 +106,6 @@ var LPCurve = function(container) {
                 class   : 'lp_dynamic-pricing__start-price-input',
                 display : 'none',
             });
-
     svg.append('text')
         .attr('class', 'lp_dynamic-pricing__start-price-value lp_dynamic-pricing__handle-text')
         .attr('text-anchor', 'end');
@@ -366,7 +359,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function()  { return -40; },
+            x: function()  { return -38; },
             y: function(d) { return yScale(d.y) - 14.5; },
         });
     svg.select('.lp_dynamic-pricing__start-price-value')
@@ -374,7 +367,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function()  { return -12; },
+            x: function()  { return -10; },
             y: function(d) { return yScale(d.y) - 0.5; },
         })
         .text(function(d) { return d.y.toFixed(2); });
@@ -384,7 +377,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function()  { return -13; },
+            x: function()  { return -11; },
             y: function(d) { return yScale(d.y) + 9.5; },
         });
     svg.select('.lp_dynamic-pricing__start-price-handle-triangle')
@@ -392,7 +385,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr('d', function(d) {
-            x = -8;
+            x = -6;
             y = yScale(d.y) - 5;
 
             return  'M ' + x + ' ' + y + ' l 5 5 l -5 5 z';
@@ -402,7 +395,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function()  { return -38; },
+            x: function()  { return -36; },
             y: function(d) { return yScale(d.y) - 12.5; },
         });
 
@@ -430,7 +423,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function()  { return width + 46; },
+            x: function()  { return width + 44; },
             y: function(d) { return yScale(d.y) - 1; },
         })
         .text(function(d) { return d.y.toFixed(2); });
@@ -439,7 +432,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr({
-            x: function()  { return width + 46; },
+            x: function()  { return width + 44; },
             y: function(d) { return yScale(d.y) + 9; },
         });
     svg.select('.lp_dynamic-pricing__end-price-handle-triangle')
@@ -447,7 +440,7 @@ LPCurve.prototype.plot = function() {
         .call(dragYAxisBehavior)
         .transition().duration(dragging ? 0 : 250)
         .attr('d', function(d) {
-            x = width + 18;
+            x = width + 16;
             y = yScale(d.y) + 5;
 
             return  'M ' + x + ' ' + y + ' l 0 -10 l -5 5 z';

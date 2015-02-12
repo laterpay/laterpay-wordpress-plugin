@@ -20,20 +20,13 @@
 
 
 // axes ----------------------------------------------------------------------------------------------------------------
-// .lp_dynamic-pricing__axis-line {
-//     fill: none; // XXXXXXXXXXXXXXX this probably applies to right and top border of the graph
-// }
-.lp_dynamic-pricing__axis-line .domain {    // TODO: fix class structure; .lp_dynamic-pricing__axis-line .domain should be .lp_dynamic-pricing__axis-line
-    stroke: hsl(0, 0%, 40%);
+.lp_dynamic-pricing__axis .domain {    // TODO: fix class structure; .lp_dynamic-pricing__axis .domain should be .lp_dynamic-pricing__axis-line
+    stroke: hsl(0, 0%, 67%);
     stroke-dasharray: none;
     stroke-width: 1.5px;
 }
 .lp_dynamic-pricing__axis-arrowhead {
     fill: hsl(0, 0%, 67%);
-}
-
-.lp_dynamic-pricing__graph-grid {
-
 }
 
 .lp_dynamic-pricing__grid-line {
@@ -47,7 +40,7 @@
 
 // price curve ---------------------------------------------------------------------------------------------------------
 .lp_dynamic-pricing__price-curve {
-    opacity: 1;//0.01;
+    opacity: 0.01;
     stroke: $background-laterpay;
     stroke-width: 8px;
 
@@ -55,6 +48,12 @@
         display: none;
     }
 }
+            // FIXME: this was used to style the price curve in the old version
+            .line {
+                fill: none;
+                stroke: red;
+                stroke-width: 3px;
+            }
 
 .lp_dynamic-pricing__price-curve-point {
     fill: $background-laterpay;
@@ -176,15 +175,6 @@
 
 
 
-
-
-
-
-.line {
-    fill: none;
-    stroke: red;
-    stroke-width: 3px;
-}
 
 .lp_is-dragging {
     .tooltip,
