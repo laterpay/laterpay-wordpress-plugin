@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay dynamic pricing data form
+ * LaterPay dynamic pricing data form class
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
