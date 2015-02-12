@@ -77,7 +77,7 @@
             <input type="hidden" name="change_start_price_after_days">
             <input type="hidden" name="transitional_period_end_after_days">
             <input type="hidden" name="reach_end_price_after_days">
-            <div id="lp_js_dynamicPricing_widgetContainer" class="lp_dynamicPricing"></div>
+            <div id="lp_js_dynamicPricing_widgetContainer" class="lp_dynamic-pricing"></div>
         </div>
         <div id="lp_js_priceTypeDetails_categoryDefaultPrice" class="lp_js_useCategoryDefaultPrice lp_useCategoryDefaultPrice lp_js_priceTypeDetails_section"<?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo ' style="display:none;"'; } ?>>
              <input type="hidden" name="post_default_category" id="lp_js_postDefaultCategoryInput" value="<?php echo $laterpay['post_default_category']; ?>">

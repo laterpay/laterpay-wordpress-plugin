@@ -39,15 +39,15 @@
 
 
 // price curve ---------------------------------------------------------------------------------------------------------
-.lp_dynamic-pricing__price-curve {
-    opacity: 0.01;
-    stroke: $background-laterpay;
-    stroke-width: 8px;
+            .lp_dynamic-pricing__price-curve {
+                opacity: 1;//0.01;
+                stroke: $background-laterpay;
+                stroke-width: 8px;
 
-    &.lp_is-hidden {
-        display: none;
-    }
-}
+                &.lp_is-hidden {
+                    display: none;
+                }
+            }
             // FIXME: this was used to style the price curve in the old version
             .line {
                 fill: none;
@@ -56,7 +56,7 @@
             }
 
 .lp_dynamic-pricing__price-curve-point {
-    fill: $background-laterpay;
+    fill: hsl(0, 0%, 13%);
     stroke: hsl(0, 0%, 95%);
     stroke-width: 2px;
     transition: all 0.5s;

@@ -18,9 +18,9 @@ var LPCurve = function(container) {
     this.interpolation      = 'linear';
     this.minPrice           = 0;
     this.maxPrice           = 5;
-    this.todayPrice         = 0;
-    this.pubDays            = 0;
     this.defaultPrice       = 0.49;
+    this.currentPrice       = 0;
+    this.pubDays            = 0;
     this.i18nDefaultPrice   = lpVars.i18nDefaultPrice;
     this.currency           = lpVars.currency;
     this.i18nDays           = lpVars.i18nDays;
@@ -102,10 +102,8 @@ var LPCurve = function(container) {
         .attr('width', '44px')
         .attr('height', '24px')
         .html('<input type="text">')
-            .attr({
-                class   : 'lp_dynamic-pricing__start-price-input',
-                display : 'none',
-            });
+            .attr('class', 'lp_dynamic-pricing__start-price-input')
+            .attr('display', 'none');
     svg.append('text')
         .attr('class', 'lp_dynamic-pricing__start-price-value lp_dynamic-pricing__handle-text')
         .attr('text-anchor', 'end');
@@ -133,10 +131,8 @@ var LPCurve = function(container) {
             height  : '24px',
         })
         .html('<input type="text">')
-            .attr({
-                class   : 'lp_dynamic-pricing__end-price-input',
-                display : 'none',
-            });
+            .attr('class', 'lp_dynamic-pricing__end-price-input')
+            .attr('display', 'none');
     svg.append('text')
         .attr('class', 'lp_dynamic-pricing__end-price-value lp_dynamic-pricing__handle-text')
         .attr('text-anchor', 'end');
@@ -161,11 +157,8 @@ var LPCurve = function(container) {
     });
 // FIXME: why should the above thing require .on whereas the events below don't???
     jQuery('.lp_dynamic-pricing__start-price-input')
-    .change(function() {
-        lpc.toggleStartInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
-    })
     .focusout(function() {
-        lpc.toggleStartInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
+        lpc.toggleStartInput('hide');
     })
     .keydown(function(e) {
         // hide input on Enter or Esc
@@ -181,11 +174,8 @@ var LPCurve = function(container) {
         lpc.toggleEndInput('show');
     })
 // FIXME: why should the above thing require .on whereas the events below don't???
-    .change(function() {
-        lpc.toggleEndInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
-    })
     .focusout(function() {
-        lpc.toggleEndInput('hide'); // have to leave one event only: update or focusout. Depends on point of view.
+        lpc.toggleEndInput('hide');
     })
     .keydown(function(e) {
         // hide input on Enter or Esc
@@ -219,9 +209,9 @@ LPCurve.prototype.set_data = function(data) {
     return this;
 };
 
-LPCurve.prototype.set_today = function(pubDays, todayPrice) {
-    this.pubDays    = pubDays;
-    this.todayPrice = todayPrice;
+LPCurve.prototype.set_today = function(pubDays, currentPrice) {
+    this.pubDays        = pubDays;
+    this.currentPrice   = currentPrice;
 
     return this;
 };
@@ -328,6 +318,7 @@ LPCurve.prototype.plot = function() {
         .datum((self.data))
         .transition().duration(dragging ? 0 : 250)
         .attr('d', line);
+        // .attr('class', 'lp_dynamic-pricing__price-curve');
 
 
     // DRAG BEHAVIOR ---------------------------------------------------------------------------------------------------
@@ -348,9 +339,9 @@ LPCurve.prototype.plot = function() {
     // The virtual selections are enter, update, and exit.
     var end                 = self.data.length,
         point               = svg.selectAll('.lp_dynamic-pricing__price-curve-point.lp_is-draggable').data((self.data)),
-        priceLine           = svg.selectAll('.lp_dynamic-pricing__price-curve').data((self.data).slice(1, end)),
-        todayLine           = svg.selectAll('.lp_dynamic-pricing__current-price-marker').data((self.data).slice(1, end)),
-        priceLineVisible    = svg.selectAll('.lp_priceLineVisible').data((self.data).slice(1, end));    // TODO: lp_priceLineVisible is crap
+        xMarker             = svg.selectAll('.lp_dynamic-pricing__price-curve').data((self.data).slice(1, end)),
+        transparentXMarker  = svg.selectAll('.lp_dynamic-pricing__price-curveXXX').data((self.data).slice(1, end)),
+        currentPrice        = svg.selectAll('.lp_dynamic-pricing__current-price-marker').data((self.data).slice(1, end));
 
 
     // START PRICE -----------------------------------------------------------------------------------------------------
@@ -548,7 +539,7 @@ LPCurve.prototype.plot = function() {
 
 
     // X-AXIS MARKERS --------------------------------------------------------------------------------------------------
-    priceLineVisible.enter().append('line')
+    xMarker.enter().append('line')
         .attr('class', function(point, index) {
             // hide the third vertical dashed line - it's only there to work around technical restrictions
             if (index === self.data.length - 2) {
@@ -557,8 +548,9 @@ LPCurve.prototype.plot = function() {
 
             return 'lp_dynamic-pricing__x-axis-marker';
         });
-    priceLineVisible.exit().remove();
-    priceLineVisible
+    xMarker.exit().remove();
+
+    xMarker
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x1: function(d) { return xScale(d.x); },
@@ -566,8 +558,8 @@ LPCurve.prototype.plot = function() {
             x2: function(d) { return xScale(d.x); },
             y2: function(d) { return yScale(d.y); },
         });
-// TODO: why is this done again here?
-    priceLine.enter().append('line')
+
+    transparentXMarker.enter().append('line')
         .attr('class', function(point, index) {
             if (index === self.data.length - 2) {
                 return 'lp_dynamic-pricing__x-axis-marker lp_is-hidden';
@@ -576,8 +568,8 @@ LPCurve.prototype.plot = function() {
             return 'lp_dynamic-pricing__x-axis-marker';
         })
         .call(dragXAxisBehavior);
-    priceLine.exit().remove();
-    priceLine
+    transparentXMarker.exit().remove();
+    transparentXMarker
         .transition().duration(dragging ? 0 : 250)
         .attr({
             x1: function(d) { return xScale(d.x); },
@@ -593,6 +585,7 @@ LPCurve.prototype.plot = function() {
     // Then we append a circle for each element in data
     point.enter().append('circle')
         .attr('class', function(point,index) {
+            // hide the first and the last point on the price curve
             if (index === 0 || index === self.data.length - 1) {
                 return 'lp_dynamic-pricing__price-curve-point lp_is-draggable lp_is-hidden';
             }
@@ -617,10 +610,10 @@ LPCurve.prototype.plot = function() {
     // effective price.
     // Only shown, if the post was already published.
     if (this.pubDays > 0) {
-        todayLine.enter().append('line')
+        currentPrice.enter().append('line')
             .attr('class', 'lp_dynamic-pricing__current-price-marker');
-        todayLine.exit().remove();
-        todayLine
+        currentPrice.exit().remove();
+        currentPrice
           .transition().duration()
           .attr({
             x1: function() { return xScale(lpc.pubDays); },
@@ -634,7 +627,7 @@ LPCurve.prototype.plot = function() {
             .text(this.i18nToday)
             .datum({
                 x: lpc.pubDays,
-                y: lpc.todayPrice
+                y: lpc.currentPrice,
             })
             .call(dragYAxisBehavior)
             .attr({
@@ -675,12 +668,12 @@ LPCurve.prototype.plot = function() {
 
     function dragstartPoint() {
         self.dragging = true;
-        jQuery(self.container).toggleClass('lp_is-dragging');
+        jQuery(self.container).addClass('lp_is-dragging');
     }
 
     function dragendPoint() {
         self.dragging = false;
-        jQuery(self.container).toggleClass('lp_is-dragging');
+        jQuery(self.container).removeClass('lp_is-dragging');
         lpc.toggleStartInput('update');
         lpc.toggleEndInput('update');
     }
@@ -700,7 +693,9 @@ LPCurve.prototype.plot = function() {
         jQuery(self.container).removeClass('lp_is-dragging-horizontally');
         self.dragging = false;
 
-        for (var i = 0, l = self.data.length; i < l; i++) {
+        var i = 0,
+            l = self.data.length;
+        for (; i < l; i++) {
             self.data[i].x = Math.round((self.data)[i].x);
         }
 
@@ -714,7 +709,7 @@ LPCurve.prototype.plot = function() {
             cappedTargetDate;
 
         if (isDraggingLastPoint) {
-            var dragDelta = (targetDate - d.x ) / (1000 / fps),
+            var dragDelta = (targetDate - d.x ) / (1000/fps), // 30 fps
                 dragStep = function() {
                     cappedTargetDate = +d.x + dragDelta;
                     cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
@@ -726,7 +721,7 @@ LPCurve.prototype.plot = function() {
                     self.plot();
                 };
             clearInterval(dragInterval);
-            dragInterval = setInterval(dragStep, 1000 / fps); // 30 fps
+            dragInterval = setInterval(dragStep, 1000/fps); // 30 fps
             dragStep();
         } else if (isDragHandler) {
             cappedTargetDate = targetDate;
@@ -792,7 +787,7 @@ LPCurve.prototype.toggleStartInput = function(action) {
         jQuery('.lp_dynamic-pricing__start-price-handle').attr('width', '50px');
         jQuery('.lp_dynamic-pricing__start-price-handle-triangle, .lp_dynamic-pricing__start-price-currency, .lp_dynamic-pricing__start-price-value').hide();
         jQuery('.lp_dynamic-pricing__start-price-input-wrapper').show();
-        jQuery('.lp_dynamic-pricing__start-price-input').val( plotPrice.toFixed(2) );
+        jQuery('.lp_dynamic-pricing__start-price-input').val(plotPrice.toFixed(2));
     } else if (action === 'update') {
         if (jQuery('.lp_dynamic-pricing__start-price-input').is(':visible')) {
             var diff = Math.abs(plotPrice - inputPrice);
@@ -823,7 +818,7 @@ LPCurve.prototype.toggleEndInput = function(action) {
             data[0].y = this.maxPrice;
             data[1].y = this.maxPrice;
         } else if (inputPrice < this.minPrice && inputPrice !== 0) {
-            jQuery('.lp_dynamic-pricing__end-price-input').val( this.minPrice );
+            jQuery('.lp_dynamic-pricing__end-price-input').val(this.minPrice);
             data[2].y = this.minPrice;
             data[3].y = this.minPrice;
         } else {
