@@ -357,16 +357,17 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * Render time passes widget from shortcode [laterpay_time_passes].
      *
      * The shortcode [laterpay_time_passes] accepts three optional parameters:
-     * variant: widget variants (small or usual if not provided)
-     * introductory_text:
-     * call_to_action_text:
+     * variant               variant of the time pass widget (currently only 'small' is supported)
+     * introductory_text     additional text rendered at the top of the widget
+     * call_to_action_text   additional text rendered after the time passes and before the voucher code input
+     *
      * You can find the ID of a time pass on the pricing page on the left side of the time pass (e.g. "Pass 3").
      * If no parameters are provided, the shortcode renders the time pass widget w/o parameters.
      *
      * Example:
-     * [laterpay_time_passes id="1"]
-     * or:
      * [laterpay_time_passes]
+     * or:
+     * [laterpay_time_passes call_to_action_text="Get yours now!"]
      *
      * @param array $atts
      *
