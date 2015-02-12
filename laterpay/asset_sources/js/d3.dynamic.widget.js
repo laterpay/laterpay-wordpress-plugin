@@ -104,11 +104,9 @@ var LPCurve = function(container) {
             ry      : 3,
         });
     svg.insert('foreignObject')
-        .attr({
-            class   : 'lp_dynamic-pricing__start-price-input-wrapper',
-            width   : '44px',
-            height  : '24px',
-        })
+        .attr('class', 'lp_dynamic-pricing__start-price-input-wrapper')
+        .attr('width', '44px')
+        .attr('height', '24px')
         .html('<input type="text">')
             .attr({
                 class   : 'lp_dynamic-pricing__start-price-input',
@@ -116,15 +114,11 @@ var LPCurve = function(container) {
             });
 
     svg.append('text')
-        .attr({
-            class       : 'lp_dynamic-pricing__start-price-value lp_dynamic-pricing__handle-text',
-            textAnchor  : 'end',
-        });
+        .attr('class', 'lp_dynamic-pricing__start-price-value lp_dynamic-pricing__handle-text')
+        .attr('text-anchor', 'end');
     svg.append('text')
-        .attr({
-            class       : 'lp_dynamic-pricing__start-price-currency lp_dynamic-pricing__handle-text',
-            textAnchor  : 'end',
-        })
+        .attr('class', 'lp_dynamic-pricing__start-price-currency lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit')
+        .attr('text-anchor', 'end')
         .text(this.currency);
     svg.append('path')
         .attr('class', 'lp_dynamic-pricing__start-price-handle-triangle');
@@ -151,15 +145,11 @@ var LPCurve = function(container) {
                 display : 'none',
             });
     svg.append('text')
-        .attr({
-            class       : 'lp_dynamic-pricing__end-price-value lp_dynamic-pricing__handle-text',
-            textAnchor  : 'end',
-        });
+        .attr('class', 'lp_dynamic-pricing__end-price-value lp_dynamic-pricing__handle-text')
+        .attr('text-anchor', 'end');
     svg.append('text')
-        .attr({
-            class       : 'lp_dynamic-pricing__end-price-currency lp_dynamic-pricing__handle-text',
-            textAnchor  : 'end',
-        })
+        .attr('class', 'lp_dynamic-pricing__end-price-currency lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit')
+        .attr('text-anchor', 'end')
         .text(this.currency);
     svg.append('path')
         .attr('class', 'lp_dynamic-pricing__end-price-handle-triangle');
@@ -527,10 +517,10 @@ LPCurve.prototype.plot = function() {
     xTextDays.enter().append('text')
         .attr('class', function(point, index) {
             if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_is-hidden';
+                return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text';
+            return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit';
         })
         .call(dragXAxisBehavior);
     xTextDays.exit().remove();
