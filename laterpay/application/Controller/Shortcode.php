@@ -361,7 +361,26 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return [type]         [description]
      */
     public function render_time_passes_widget( $atts ) {
-        // array( $post_controller, 'the_time_passes_widget'), 10, 3 );
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
+
+        $data = shortcode_atts( array(
+            'variant'             => '',
+            'introductory_text'   => '',
+            'call_to_action_text' => '',
+        ), $atts );
+
+        $view_args = array(
+            'variant'             => $data['variant'],
+            'introductory_text'   => $data['introductory_text'],
+            'call_to_action_text' => $data['call_to_action_text'],
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $time_passes = $this->get_text_view( 'frontend/partials/post/pass/passes' );
+
+        return $time_passes;
     }
 
     /**
