@@ -237,7 +237,7 @@ LPCurve.prototype.plot = function() {
             height  : height + margin.yAxis,
         })
         .select('.lp_dynamic-pricing__svg-group')
-            .attr('transform', 'translate(' + (margin.left - 10) + ',' + margin.top + ')');
+            .attr('transform', 'translate(' + (margin.left - 9) + ',' + margin.top + ')');
 
     // position graph background
     svg.select('.lp_dynamic-pricing__graph-background')
@@ -709,7 +709,7 @@ LPCurve.prototype.plot = function() {
             cappedTargetDate;
 
         if (isDraggingLastPoint) {
-            var dragDelta = (targetDate - d.x ) / (1000/fps), // 30 fps
+            var dragDelta = (targetDate - d.x ) / (1000 / fps), // 30 fps
                 dragStep = function() {
                     cappedTargetDate = +d.x + dragDelta;
                     cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
@@ -721,7 +721,7 @@ LPCurve.prototype.plot = function() {
                     self.plot();
                 };
             clearInterval(dragInterval);
-            dragInterval = setInterval(dragStep, 1000/fps); // 30 fps
+            dragInterval = setInterval(dragStep, 1000 / fps); // 30 fps
             dragStep();
         } else if (isDragHandler) {
             cappedTargetDate = targetDate;
