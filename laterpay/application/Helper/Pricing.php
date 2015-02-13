@@ -91,10 +91,26 @@ class LaterPay_Helper_Pricing
      * @return array
      */
     public static function get_post_ids_with_price_by_category_id( $category_id ) {
-        $config     = laterpay_get_plugin_config();
+        $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+        $config                  = laterpay_get_plugin_config();
+        $ids                     = array( $category_id );
+
+        // get all childs for $category_id
+        $category_children = get_categories( array(
+            'child_of' => $category_id,
+        ) );
+
+        foreach( $category_children as $category ) {
+            // filter ids with category prices
+            if ( ! $laterpay_category_model->get_category_price_data_by_category_ids( $category->term_id ) ) {
+                $ids[] = (int) $category->term_id;
+            }
+        }
+
         $post_args  = array(
             'fields'         => 'ids',
             'meta_query'     => array( array( 'meta_key' => LaterPay_Helper_Pricing::META_KEY ) ),
+            'category__in'   => $ids,
             'cat'            => $category_id,
             'posts_per_page' => '-1',
             'post_type'      => $config->get( 'content.enabled_post_types' ),
@@ -146,10 +162,12 @@ class LaterPay_Helper_Pricing
 
             // check, if the post uses a global default price
             if ( is_array( $post_price ) && ( ! array_key_exists( 'type', $post_price ) || $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_GLOBAL_DEFAULT_PRICE ) ) {
-                continue;
+                if ( ! self::check_if_category_has_parent_with_price( $category_id ) ) {
+                    continue;
+                }
             }
 
-            $success = LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $category_id, true );
+            $success = LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $category_id );
             if ( $success ) {
                 $updated_post_ids[] = $post_id;
             }
@@ -832,8 +850,16 @@ class LaterPay_Helper_Pricing
      * @return array post ids
      */
     public static function get_posts_by_category_price_id( $category_id ) {
-        $ids   = array();
-        $posts = self::get_all_posts_with_price();
+        $ids     = array();
+        $posts   = self::get_all_posts_with_price();
+        $parents = array();
+
+        // get all parents
+        $parent_id = get_category( $category_id )->parent;
+        while ( $parent_id ) {
+            $parents[] = $parent_id;
+            $parent_id = get_category( $parent_id )->parent;
+        }
 
         foreach ( $posts as $post ) {
             $meta = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
@@ -841,7 +867,7 @@ class LaterPay_Helper_Pricing
                 continue;
             }
 
-            if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] ) ) {
+            if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] || in_array( $meta['category_id'], $parents ) ) ) {
                 $ids[$post->ID] = $meta;
             }
         }
@@ -859,6 +885,19 @@ class LaterPay_Helper_Pricing
     public static function actualize_post_data_after_category_delete( $post_id ) {
         $category_price_model = new LaterPay_Model_CategoryPrice();
         $post_categories      = wp_get_post_categories( $post_id );
+        $parents              = array();
+
+        // add parents
+        foreach( $post_categories as $category_id ) {
+            $parent_id = get_category( $category_id )->parent;
+            while ( $parent_id ) {
+                $parents[] = $parent_id;
+                $parent_id = get_category( $parent_id )->parent;
+            }
+        }
+
+        // merge category ids
+        $post_categories = array_merge( $post_categories, $parents );
 
         if ( empty( $post_categories ) ) {
             // apply the global default price as new price, if no other post categories are found
@@ -882,7 +921,7 @@ class LaterPay_Helper_Pricing
                     }
                 }
 
-                LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $new_category_id, true );
+                LaterPay_Helper_Pricing::apply_category_default_price_to_post( $post_id, $new_category_id );
             }
         }
     }
@@ -925,19 +964,45 @@ class LaterPay_Helper_Pricing
                         $parent_data = $laterpay_category_model->get_category_price_data_by_category_ids( $parent_id );
                         if ( ! $parent_data ) {
                             $parent_id = get_category( $parent_id )->parent;
-                        } else {
-                            $parent_data = (array) $parent_data[0];
-                            if ( ! in_array( $parent_data['category_id'], $ids_used ) ) {
-                                $ids_used[] = $parent_data['category_id'];
-                                $result[]   = $parent_data;
-                            }
-                            break;
+                            continue;
                         }
+                        $parent_data = (array) $parent_data[0];
+                        if ( ! in_array( $parent_data['category_id'], $ids_used ) ) {
+                            $ids_used[] = $parent_data['category_id'];
+                            $result[]   = $parent_data;
+                        }
+                        break;
                     }
                 }
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Check if category has parent category with category price setted
+     *
+     * @param $category_id
+     *
+     * @return bool
+     */
+    public static function check_if_category_has_parent_with_price( $category_id ) {
+        $laterpay_category_model = new LaterPay_Model_CategoryPrice();
+        $has_price               = false;
+
+        // get parent id with price
+        $parent_id = get_category( $category_id )->parent;
+        while ( $parent_id ) {
+            $category_price = $laterpay_category_model->get_category_price_data_by_category_ids( $parent_id );
+            if ( ! $category_price ) {
+                $parent_id = get_category( $parent_id )->parent;
+                continue;
+            }
+            $has_price = $parent_id;
+            break;
+        }
+
+        return $has_price;
     }
 }
