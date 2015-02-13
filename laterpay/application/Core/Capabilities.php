@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Core Capabilities.
+ * LaterPay core capabilities.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

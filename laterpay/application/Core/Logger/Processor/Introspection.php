@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Core Logger Processor Introspection.
+ * LaterPay core logger processor introspection.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

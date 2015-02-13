@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay plugin Admin Pricing Controller.
+ * LaterPay pricing controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

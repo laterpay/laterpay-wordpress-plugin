@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay plugin Statistics Controller.
+ * LaterPay statistics controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

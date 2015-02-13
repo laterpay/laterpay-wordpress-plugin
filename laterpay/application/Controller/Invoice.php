@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay plugin Invoice Controller.
+ * LaterPay invoice controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Auth_Hmac provides tokenizer using openssl extension
+ * Auth_Hmac provides tokenizer using OpenSSL extension.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

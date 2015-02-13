@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay plugin Abstract Controller.
+ * LaterPay abstract controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

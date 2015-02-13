@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Core Entity.
+ * LaterPay core entity.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

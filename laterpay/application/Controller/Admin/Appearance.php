@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay plugin Admin Appearance Controller.
+ * LaterPay appearance controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

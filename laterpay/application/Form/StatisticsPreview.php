@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay post statistics preview mode form class
+ * LaterPay post statistics preview mode form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

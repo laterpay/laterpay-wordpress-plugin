@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay abstract form class
+ * LaterPay abstract form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
@@ -16,7 +16,7 @@ abstract class LaterPay_Form_Abstract
      * @var array
      */
     protected $fields;
-    
+
     /**
      * Validation errors
      *
@@ -276,7 +276,7 @@ abstract class LaterPay_Form_Abstract
 
         return empty($this->errors);
     }
-    
+
     public function get_errors() {
         $aux = $this->errors;
         $this->errors = array();

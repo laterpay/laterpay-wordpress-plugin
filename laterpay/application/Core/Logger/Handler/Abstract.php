@@ -136,7 +136,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
 
 
     /**
-     * @param callable new Processor which must be added into processors list
+     * @param callable new processor which must be added into processors list
      *
      * @return self
      */

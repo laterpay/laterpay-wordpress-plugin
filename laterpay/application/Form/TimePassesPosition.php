@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay time passes position form class
+ * LaterPay time passes position form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

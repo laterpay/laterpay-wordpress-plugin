@@ -1,6 +1,6 @@
 <?php
 /**
- * LaterPay plugin Admin Post Metabox Controller.
+ * LaterPay post metabox controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Core Logger.
+ * LaterPay core logger.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

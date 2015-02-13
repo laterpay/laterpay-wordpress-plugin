@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Core Logger Processor Memory Peak Usage.
+ * LaterPay core logger processor memory peak usage.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay paid content preview mode form class
+ * LaterPay paid content preview mode form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

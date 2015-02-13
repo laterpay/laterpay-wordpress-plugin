@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay plugin mode form class for saving post data without pricing parameters
+ * LaterPay plugin mode form class for saving post data without pricing parameters.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

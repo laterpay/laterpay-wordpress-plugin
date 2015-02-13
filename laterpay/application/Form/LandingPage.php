@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay landing page form class
+ * LaterPay landing page form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

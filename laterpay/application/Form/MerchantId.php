@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay merchant ID form class
+ * LaterPay merchant ID form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

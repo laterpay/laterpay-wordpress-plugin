@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay global price class
+ * LaterPay global price class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

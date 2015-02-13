@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay purchase button position form class
+ * LaterPay purchase button position form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

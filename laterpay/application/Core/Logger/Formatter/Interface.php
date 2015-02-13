@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Logger formatter interface.
+ * LaterPay logger formatter interface.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
