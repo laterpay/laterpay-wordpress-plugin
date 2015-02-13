@@ -67,6 +67,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             array(
                 'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
                 'nonces'    => array( 'dashboard' => wp_create_nonce( $this->ajax_nonce ) ),
+                'submenu'   => array( 'view' => array(
+                    'standart' => 'standard-kpis',
+                    'passes'   => 'time-passes',
+                ) ),
                 'i18n'      => $i18n,
             )
         );

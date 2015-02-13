@@ -23,7 +23,7 @@ class LaterPay_Helper_View
                                                         'title' => __( 'Time Passes', 'laterpay' ),
                                                         'id'    => 'lp_js_switchDashboardView',
                                                         'data'  => array(
-                                                                         'view'     => 'standard-kpis',
+                                                                         'view'     => 'time-passes',
                                                                          'label'    => __( 'Standard KPIs', 'laterpay' ),
                                                                          ),
                                                     ),

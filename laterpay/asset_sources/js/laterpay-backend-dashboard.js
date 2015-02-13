@@ -213,14 +213,31 @@
             },
 
             switchDashboardView = function($item) {
-                var viewType = $.parseJSON( $item.attr('data') );
+                var data          = $.parseJSON( $item.attr('data') );
+                var current_label = $.trim($item.html());
 
-                if ( viewType === 'standard-kpis' ) {
+                if ( data.view === lpVars.submenu.view.standart ) {
+                    // change label
+                    $item.html(data.label);
+                    // set new data view
+                    data.view  = lpVars.submenu.view.passes;
+                    // select view
                     $o.standardKpiTab.show();
                     $o.timePassesKPITab.hide();
-                } else {
+                    // update data
+                    data.label = current_label;
+                    $item.attr('data',JSON.stringify(data));
+                } else if ( data.view === lpVars.submenu.view.passes ) {
+                    // change label
+                    $item.html(data.label);
+                    // set new data view
+                    data.view = lpVars.submenu.view.standart;
+                    // select view
                     $o.timePassesKPITab.show();
                     $o.standardKpiTab.hide();
+                    // update data
+                    data.label = current_label;
+                    $item.attr('data',JSON.stringify(data));
                 }
             },
 
