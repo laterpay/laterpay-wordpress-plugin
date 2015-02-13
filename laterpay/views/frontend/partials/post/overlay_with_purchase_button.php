@@ -4,7 +4,7 @@
     <div class="lp_fullContent">
         <!-- <?php _e( 'Preview a short excerpt from the paid post:', 'laterpay' ); ?> -->
         <?php echo LaterPay_Helper_String::truncate(
-                $laterpay[ 'content' ],
+                $laterpay['content'],
                 LaterPay_Helper_String::determine_number_of_words( $laterpay['content'] ),
                 array(
                     'html'  => true,

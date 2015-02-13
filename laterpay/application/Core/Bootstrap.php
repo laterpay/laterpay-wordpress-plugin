@@ -1,8 +1,11 @@
 <?php
 
 /**
- *  LaterPay bootstrap class
+ * LaterPay bootstrap class.
  *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Bootstrap
 {
@@ -41,7 +44,7 @@ class LaterPay_Core_Bootstrap
         // backend actions part 1
         if ( is_admin() ) {
             // perform requirements check on plugins.php page only
-            if ( ! empty ( $GLOBALS[ 'pagenow' ] ) && $GLOBALS[ 'pagenow' ] === 'plugins.php' ) {
+            if ( ! empty ( $GLOBALS['pagenow'] ) && $GLOBALS['pagenow'] === 'plugins.php' ) {
                 $install_controller->check_requirements();
                 add_action( 'admin_notices',                        array( $install_controller, 'render_requirements_notices' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'check_for_updates' ) );

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay core logger processor memory.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger_Processor_Memory
 {
 

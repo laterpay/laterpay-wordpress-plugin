@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay plugin mode form class
+ * LaterPay time pass form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Form_Pass extends LaterPay_Form_Abstract
 {

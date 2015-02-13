@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay pricing controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 {
 
@@ -168,7 +175,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
                 case 'laterpay_get_category_prices':
                     if ( ! array_key_exists( 'category_ids', $_POST ) ) {
-                        $_POST[ 'category_ids' ] = array();
+                        $_POST['category_ids'] = array();
                     }
                     $this->get_category_prices( $_POST['category_ids'] );
                     break;
@@ -483,12 +490,12 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             }
 
             // check, if the post uses a category default price
-            if ( $post_price[ 'type' ] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
+            if ( $post_price['type'] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) {
                 continue;
             }
 
             // check, if the post has the deleted category_id as category default price
-            if ( (int) $post_price[ 'category_id' ] !== $category_id ) {
+            if ( (int) $post_price['category_id'] !== $category_id ) {
                 continue;
             }
 
@@ -849,7 +856,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $defaults = LaterPay_Helper_Passes::get_default_options();
         $args = array_merge( $defaults, $args );
 
-        if( ! empty($args['pass_id']) ) {
+        if ( ! empty($args['pass_id']) ) {
             $args['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link( $args['pass_id'] );
         }
 
@@ -1015,7 +1022,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     private function change_purchase_mode() {
-        if ( isset( $_POST[ 'only_time_pass_purchase_mode' ] ) ) {
+        if ( isset( $_POST['only_time_pass_purchase_mode'] ) ) {
             $only_time_pass = 1; // allow time pass purchases only
         } else {
             $only_time_pass = 0; // allow individual and time pass purchases
