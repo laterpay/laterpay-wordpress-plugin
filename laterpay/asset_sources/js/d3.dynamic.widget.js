@@ -1,7 +1,7 @@
 var margin = {
-    top     : 45,
+    top     : 37,
     right   : 40,
-    bottom  : 20,
+    bottom  : 13,
     left    : 50,
 };
 margin.xAxis = margin.left + margin.right;
@@ -457,8 +457,8 @@ LPCurve.prototype.plot = function() {
 
     // PRICE CHANGE INTERVAL BOUNDARIES --------------------------------------------------------------------------------
 // TODO: rename all this stuff here
-    var xDragSquare = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle').data((self.data).slice(1, end));
-    xDragSquare.enter().append('rect')
+    var daysHandle = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle').data((self.data).slice(1, end));
+    daysHandle.enter().append('rect')
         .attr('class', function(point, index) {
             if (index === self.data.length - 2) {
                 return 'lp_dynamic-pricing__price-change-days-handle lp_is-hidden';
@@ -467,19 +467,19 @@ LPCurve.prototype.plot = function() {
             return 'lp_dynamic-pricing__price-change-days-handle';
         })
         .call(dragXAxisBehavior);
-    xDragSquare.exit().remove();
-    xDragSquare.transition().duration(dragging ? 0 : 250)
+    daysHandle.exit().remove();
+    daysHandle.transition().duration(dragging ? 0 : 250)
         .attr({
             x       : function(d) { return xScale(d.x) - 15; },
-            y       : function()  { return -40; },
+            y       : function()  { return -35; },
             width   : 30,
             rx      : 3,
             height  : 30,
             ry      : 3,
         });
 
-    var xTriangleBottom = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle-triangle').data((self.data).slice(1, end));
-    xTriangleBottom.enter().append('path')
+    var daysHandleTriangle = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle-triangle').data((self.data).slice(1, end));
+    daysHandleTriangle.enter().append('path')
         .attr('class', function(point, index) {
             if (index === self.data.length - 2) {
                 return 'lp_dynamic-pricing__price-change-days-handle-triangle lp_is-hidden';
@@ -488,37 +488,17 @@ LPCurve.prototype.plot = function() {
             return 'lp_dynamic-pricing__price-change-days-handle-triangle';
         })
         .call(dragXAxisBehavior);
-    xTriangleBottom.exit().remove();
-    xTriangleBottom.transition().duration(dragging ? 0 : 250)
+    daysHandleTriangle.exit().remove();
+    daysHandleTriangle.transition().duration(dragging ? 0 : 250)
         .attr('d', function(d) {
             x = xScale(d.x) - 5;
-            y = -10;
+            y = -5;
 
             return  'M ' + x + ' ' + y + ' l 10 0 l -5 5 z';
         });
 
-    var xTextDays = svg.selectAll('.lp_dynamic-pricing__price-change-days-unit').data((self.data).slice(1, end));
-    xTextDays.enter().append('text')
-        .attr('class', function(point, index) {
-            if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit lp_is-hidden';
-            }
-
-            return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit';
-        })
-        .call(dragXAxisBehavior);
-    xTextDays.exit().remove();
-    xTextDays.transition().duration(dragging ? 0 : 250)
-        .text(this.i18nDays)
-        .attr({
-            x               : function(d) { return xScale(d.x); },
-            y               : function()  { return -16; },
-            height          : 30,
-            'text-anchor'   : 'middle',
-        });
-
-    var xText = svg.selectAll('.lp_dynamic-pricing__price-change-days-value').data((self.data).slice(1, end));
-    xText.enter().append('text')
+    var daysHandleValue = svg.selectAll('.lp_dynamic-pricing__price-change-days-value').data((self.data).slice(1, end));
+    daysHandleValue.enter().append('text')
         .attr('class', function(point, index) {
             if (index === self.data.length - 2) {
                 return 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text lp_is-hidden';
@@ -527,12 +507,32 @@ LPCurve.prototype.plot = function() {
             return 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text';
         })
         .call(dragXAxisBehavior);
-    xText.exit().remove();
-    xText.transition().duration(dragging ? 0 : 250)
+    daysHandleValue.exit().remove();
+    daysHandleValue.transition().duration(dragging ? 0 : 250)
         .text(function(d) { return Math.round(d.x); })
         .attr({
             x               : function(d) { return xScale(d.x); },
-            y               : function()  { return -26; },
+            y               : function()  { return -21; },
+            height          : 30,
+            'text-anchor'   : 'middle',
+        });
+
+    var daysHandleUnit = svg.selectAll('.lp_dynamic-pricing__price-change-days-unit').data((self.data).slice(1, end));
+    daysHandleUnit.enter().append('text')
+        .attr('class', function(point, index) {
+            if (index === self.data.length - 2) {
+                return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit lp_is-hidden';
+            }
+
+            return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit';
+        })
+        .call(dragXAxisBehavior);
+    daysHandleUnit.exit().remove();
+    daysHandleUnit.transition().duration(dragging ? 0 : 250)
+        .text(this.i18nDays)
+        .attr({
+            x               : function(d) { return xScale(d.x); },
+            y               : function()  { return -11; },
             height          : 30,
             'text-anchor'   : 'middle',
         });
