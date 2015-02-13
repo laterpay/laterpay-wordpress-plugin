@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay api key form class
+ * LaterPay API key form class
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Model Payment History.
+ * LaterPay payment history model.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

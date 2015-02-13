@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Model Category Price.
+ * LaterPay category price model.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

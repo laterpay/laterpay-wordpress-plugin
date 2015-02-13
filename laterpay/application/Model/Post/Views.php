@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Model Post Views.
+ * LaterPay post views model.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

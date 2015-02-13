@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Helper Pricing.
+ * LaterPay pricing helper.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

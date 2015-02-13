@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay frontend post rating form class
+ * LaterPay post rating form class
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LaterPay Helper Passes.
+ * LaterPay time pass helper.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
