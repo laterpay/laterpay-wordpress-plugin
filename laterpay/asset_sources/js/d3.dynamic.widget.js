@@ -1,7 +1,7 @@
 var margin = {
     top     : 37,
     right   : 40,
-    bottom  : 13,
+    bottom  : 15,
     left    : 50,
 };
 margin.xAxis = margin.left + margin.right;
@@ -81,6 +81,12 @@ var LPCurve = function(container) {
     // draw default price marker
     svg.append('line')
         .attr('class', 'lp_dynamic-pricing__default-price-marker');
+    svg.append('rect')
+        .attr({
+            class   : 'lp_dynamic-pricing__default-price-label-background',
+            width   : 66,
+            height  : 16,
+        });
     svg.append('text')
         .attr('transform', 'translate(0, 2.5)')
         .attr('class', 'lp_dynamic-pricing__default-price-label')
@@ -288,7 +294,7 @@ LPCurve.prototype.plot = function() {
         .attr('class', 'lp_dynamic-pricing__grid-line-label');
 
 
-    // default price marker
+    // position default price marker
     svg.select('.lp_dynamic-pricing__default-price-marker')
         .transition().duration(dragging ? 0 : 250)
         .attr({
@@ -296,6 +302,12 @@ LPCurve.prototype.plot = function() {
             y1: yScale(this.defaultPrice),
             x2: width + 10,
             y2: yScale(this.defaultPrice),
+        });
+    svg.select('.lp_dynamic-pricing__default-price-label-background')
+        .transition().duration(dragging ? 0 : 250)
+        .attr({
+            x: (width - 66) / 2, // center horizontally
+            y: yScale(self.defaultPrice) - 9, // center vertically
         });
     svg.select('.lp_dynamic-pricing__default-price-label')
         .transition().duration(dragging ? 0 : 250)
@@ -556,7 +568,7 @@ LPCurve.prototype.plot = function() {
             x1: function(d) { return xScale(d.x); },
             y1: function()  { return 0; },
             x2: function(d) { return xScale(d.x); },
-            y2: function(d) { return yScale(d.y); },
+            y2: function(d) { return yScale(d.y) - 5; }, // subtract radius of curve point to avoid overlap
         });
 
     transparentXMarker.enter().append('line')
@@ -575,7 +587,7 @@ LPCurve.prototype.plot = function() {
             x1: function(d) { return xScale(d.x); },
             y1: function()  { return 0; },
             x2: function(d) { return xScale(d.x); },
-            y2: function(d) { return yScale(d.y); },
+            y2: function(d) { return yScale(d.y) - 5; }, // subtract radius of curve point to avoid overlap
         });
 
 
