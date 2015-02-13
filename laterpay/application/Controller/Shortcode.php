@@ -361,14 +361,46 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [render_time_passes_widget description]
+     * Render time passes widget from shortcode [laterpay_time_passes].
      *
-     * @param  [type] $atts [description]
+     * The shortcode [laterpay_time_passes] accepts three optional parameters:
+     * variant               variant of the time pass widget (currently only 'small' is supported)
+     * introductory_text     additional text rendered at the top of the widget
+     * call_to_action_text   additional text rendered after the time passes and before the voucher code input
      *
-     * @return [type]         [description]
+     * You can find the ID of a time pass on the pricing page on the left side of the time pass (e.g. "Pass 3").
+     * If no parameters are provided, the shortcode renders the time pass widget w/o parameters.
+     *
+     * Example:
+     * [laterpay_time_passes]
+     * or:
+     * [laterpay_time_passes call_to_action_text="Get yours now!"]
+     *
+     * @param array $atts
+     *
+     * @return string $time_passes
      */
     public function render_time_passes_widget( $atts ) {
-        // array( $post_controller, 'the_time_passes_widget'), 10, 3 );
+        if ( ! LaterPay_Helper_View::plugin_is_working() ) {
+            return;
+        }
+
+        $data = shortcode_atts( array(
+            'variant'             => '',
+            'introductory_text'   => '',
+            'call_to_action_text' => '',
+        ), $atts );
+
+        $view_args = array(
+            'variant'             => $data['variant'],
+            'introductory_text'   => $data['introductory_text'],
+            'call_to_action_text' => $data['call_to_action_text'],
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        $time_passes = $this->get_text_view( 'frontend/partials/post/pass/passes' );
+
+        return $time_passes;
     }
 
     /**

@@ -2,9 +2,8 @@
     if ( ! defined( 'ABSPATH' ) ) {
         exit;
     }
-    
 ?>
 
-<a href="<?php echo $laterpay['url'] ?>"
-   class="lp_purchaseLinkShortcode lp_purchaseLink"
+<a href="<?php echo $laterpay[ 'url' ] ?>"
+   class="lp_button"
    ><?php echo _e( 'View' ); ?></a>
