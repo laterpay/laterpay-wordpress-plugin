@@ -237,7 +237,7 @@ LPCurve.prototype.plot = function() {
             height  : height + margin.yAxis,
         })
         .select('.lp_dynamic-pricing__svg-group')
-            .attr('transform', 'translate(' + (margin.left - 9) + ',' + margin.top + ')');
+            .attr('transform', 'translate(' + (margin.left - 11) + ',' + margin.top + ')');
 
     // position graph background
     svg.select('.lp_dynamic-pricing__graph-background')
