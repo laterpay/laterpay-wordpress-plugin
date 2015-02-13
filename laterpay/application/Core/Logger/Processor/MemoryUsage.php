@@ -8,7 +8,11 @@
 class LaterPay_Core_Logger_Processor_MemoryUsage extends LaterPay_Core_Logger_Processor_Memory implements LaterPay_Core_Logger_Processor_Interface
 {
     /**
-     * {@inheritdoc}
+     * Record processor
+     *
+     * @param array record data
+     *
+     * @return array processed record
      */
     public function process( array $record ) {
         $bytes      = memory_get_usage( $this->real_usage );

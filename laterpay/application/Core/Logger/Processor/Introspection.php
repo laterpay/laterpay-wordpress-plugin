@@ -27,7 +27,11 @@ class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logg
     }
 
     /**
-     * {@inheritdoc}
+     * Process record data
+     *
+     * @param array Record data
+     *
+     * @return array processed record
      */
     public function process( array $record ) {
 

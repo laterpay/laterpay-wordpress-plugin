@@ -18,7 +18,11 @@ class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Handler_Abs
     }
 
     /**
-     * {@inheritdoc}
+     * To handle record or not to handle
+     *
+     * @param array record data
+     *
+     * @return bool
      */
     public function handle( array $record ) {
         if ( $record['level'] < $this->level ) {

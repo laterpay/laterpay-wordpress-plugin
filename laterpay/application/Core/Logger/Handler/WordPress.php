@@ -49,7 +49,11 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     }
 
     /**
-     * {@inheritdoc}
+     * To handle or not to handle
+     *
+     * @param array Record data
+     *
+     * @return bool
      */
     public function handle( array $record ) {
         if ( $record['level'] < $this->level ) {
@@ -178,6 +182,11 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         );
     }
 
+    /**
+     * Get system info
+     *
+     * @return array
+     */
     public function get_system_info() {
         // get theme data
         $theme_data = wp_get_theme();

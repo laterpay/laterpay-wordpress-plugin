@@ -11,7 +11,11 @@ class LaterPay_Core_Logger_Processor_MemoryPeakUsage extends LaterPay_Core_Logge
 {
 
     /**
-     * {@inheritdoc}
+     * Record processor
+     *
+     * @param array record data
+     *
+     * @return array processed record
      */
     public function process( array $record ) {
         $bytes      = memory_get_peak_usage( $this->real_usage );

@@ -1,12 +1,5 @@
 <?php
 
-/**
- * LaterPay Abstract Logger Handler.
- *
- * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
- * Author URI: https://laterpay.net/
- */
 abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Logger_Handler_Interface
 {
 
@@ -14,8 +7,16 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      * @var FormatterInterface
      */
     protected $formatter;
+
+    /**
+     * @var array Array of processors for record
+     */
     protected $processors = array();
 
+    /**
+     * @see LaterPay_Core_Logger
+     * @var int Level of record to handle
+     */
     protected $level = LaterPay_Core_Logger::DEBUG;
 
     /**
@@ -26,7 +27,11 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
     }
 
     /**
-     * {@inheritdoc}
+     * Hanlder for array of records
+     *
+     * @param array $records Description
+     *
+     * @return void
      */
     public function handle_batch( array $records ) {
         foreach ( $records as $record ) {
@@ -58,6 +63,13 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
         }
     }
 
+    /**
+     * Convert data into string
+     *
+     * @param mixed $data
+     *
+     * @return string
+     */
     protected function convert_to_string( $data ) {
         if ( null === $data || is_scalar( $data ) ) {
             return ( string ) $data;
@@ -70,6 +82,13 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
         return str_replace( '\\/', '/', json_encode( $this->normalize( $data ) ) );
     }
 
+    /**
+     * Data normalization.
+     *
+     * @param mixed $data
+     *
+     * @return mixed
+     */
     protected function normalize( $data ) {
         if ( is_bool( $data ) || is_null( $data ) ) {
             return var_export( $data, true );
@@ -105,15 +124,21 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
     }
 
     /**
-     * {@inheritdoc}
+     * Is needed to handle or not.
+     *
+     * @param array Record data
+     *
+     * @return bool
      */
     public function is_handling( array $record ) {
-        return $record['level'] >= $this->level;
+        return $record[ 'level' ] >= $this->level;
     }
 
 
     /**
-     * {@inheritdoc}
+     * @param callable new Processor which must be added into processors list
+     *
+     * @return self
      */
     public function push_processor( $callback ) {
         if ( ! is_callable( $callback ) ) {
@@ -125,7 +150,9 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
     }
 
     /**
-     * {@inheritdoc}
+     * Remove first processor from stack
+     *
+     * @return callable first processor from stack
      */
     public function pop_processor() {
         if ( ! $this->processors ) {
@@ -136,7 +163,9 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
     }
 
     /**
-     * {@inheritdoc}
+     * @param LaterPay_Core_Logger_Formatter_Interface formatter
+     *
+     * @return self
      */
     public function set_formatter( LaterPay_Core_Logger_Formatter_Interface $formatter ) {
         $this->formatter = $formatter;
@@ -144,7 +173,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
     }
 
     /**
-     * {@inheritdoc}
+     * @return LaterPay_Core_Logger_Formatter_Interface current or default formatter
      */
     public function get_formatter() {
         if ( ! $this->formatter ) {
@@ -158,6 +187,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      * Sets minimum logging level at which this handler will be triggered.
      *
      * @param  integer $level
+     *
      * @return self
      */
     public function set_level( $level ) {
