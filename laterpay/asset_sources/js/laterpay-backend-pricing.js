@@ -8,7 +8,7 @@
                 revenueModelLabelDisplay                : '.lp_js_revenueModel_labelDisplay',
                 revenueModelInput                       : '.lp_js_revenueModel_input',
                 priceInput                              : '.lp_js_priceInput',
-                pricingSettingsList                     : $('.lp_js_pricing_settings_list'),
+                hideOnTimePassOnly                      : $('.lp_js_hide_on_only_time_pass_allowed'),
 
                 // global default price
                 globalDefaultPriceForm                  : $('#lp_js_globalDefaultPrice_form'),
@@ -1285,9 +1285,9 @@
                     function(data) {
                         if (data.success) {
                             if (onlyTimePassModeChecked) {
-                                $o.pricingSettingsList.hide();
+                                $o.hideOnTimePassOnly.hide();
                             } else {
-                                $o.pricingSettingsList.show();
+                                $o.hideOnTimePassOnly.show();
                             }
                         } else {
                             setMessage(data.message, data.success);

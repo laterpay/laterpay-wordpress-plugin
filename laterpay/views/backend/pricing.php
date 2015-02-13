@@ -38,9 +38,9 @@
         </div>
 
         <?php if ( $laterpay[ 'only_time_pass_purchases_allowed' ] == true ) : ?>
-            <ul class="lp_row lp_u_clearfix lp_js_pricing_settings_list" style="display: none">
+            <ul class="lp_row lp_u_clearfix lp_js_hide_on_only_time_pass_allowed" style="display: none">
         <?php else : ?>
-            <ul class="lp_row lp_u_clearfix lp_js_pricing_settings_list">
+            <ul class="lp_row lp_u_clearfix lp_js_hide_on_only_time_pass_allowed">
         <?php endif; ?>
                 <li class="lp_u_left lp_u_w-1-3">
                     <div class="lp_u_m-0 lp_u_m-r1">
@@ -208,24 +208,32 @@
                 </li>
             </ul>
 
-        <div class="lp_row lp_u_m-t3">
-            <p>
-                <span class="lp_revenueModelLabel lp_u_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
-                <dfn>
-                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?><br>
-                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
-                </dfn>
-            </p>
-            <p>
-                <span class="lp_revenueModelLabel lp_u_m-r05">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
-                <dfn>
-                    <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
-                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
-                </dfn>
-            </p>
-        </div>
-        <hr class="lp_u_m-1-0 lp_u_m-b3">
+        <?php if ( $laterpay[ 'only_time_pass_purchases_allowed' ] == true ) : ?>
+            <div class="lp_row lp_u_m-t3 lp_js_hide_on_only_time_pass_allowed" style="display: none">
+        <?php else : ?>
+            <div class="lp_row lp_u_m-t3 lp_js_hide_on_only_time_pass_allowed">
+        <?php endif; ?>
+                <p>
+                    <span class="lp_revenueModelLabel lp_u_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
+                    <dfn>
+                        <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?><br>
+                        <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                    </dfn>
+                </p>
+                <p>
+                    <span class="lp_revenueModelLabel lp_u_m-r05">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
+                    <dfn>
+                        <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
+                        <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                    </dfn>
+                </p>
+            </div>
 
+        <?php if ( $laterpay[ 'only_time_pass_purchases_allowed' ] == true ) : ?>
+            <hr class="lp_u_m-1-0 lp_u_m-b3 lp_js_hide_on_only_time_pass_allowed" style="display: none">
+        <?php else : ?>
+            <hr class="lp_u_m-1-0 lp_u_m-b3 lp_js_hide_on_only_time_pass_allowed">
+        <?php endif; ?>
 
         <div class="lp_row">
             <h2 id="lp_timePasses"><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
