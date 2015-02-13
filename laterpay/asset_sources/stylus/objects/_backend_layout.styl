@@ -19,37 +19,56 @@
     padding-top             2rem
     width                   101.6%
 
-ul.lp_navigation_tabs
+.lp_page .lp_navigation_tabs
     margin-left             $fs-2
 
-    li
-        display             inline-block
-        margin-left         1.5rem
-        position            relative
-        top                 2px
+.lp_navigation_tabs__item
+    display             inline-block
+    margin-left         1.5rem
+    position            relative
+    top                 2px
 
-        &:first-child
-            margin-left     0
+    &:first-child
+        margin-left     0
 
-        a
-            color           $text-lighter
-            font-size       $fs-1
-            padding         0.5em 1em 0.75em
+    &:hover .lp_navigation_tabs__submenu {
+        display: inline-block;
+        position: absolute;
+    }
 
-        &:hover
-            a
-                color       $clickable
+    a {
+        color: $text-lighter;
+        font-size: $fs-1;
+        min-width: 7.5em;
+        padding: 0.5em 1em 0.75em
+        text-align: center;
+    }
 
-    .lp_current
+    &:hover a {
+        color: $clickable;
+
+        &:hover {
+            color: $clickable-highlight;
+        }
+    }
+
+    &.lp_current
         background-color    $background
         border-radius       4px 4px 0 0
         border-top          4px solid $clickable
 
-        &:hover a,
-        a
+        &:hover > a,
+        > a
             color           $text
             cursor          default
             font-weight     600
+
+.lp_navigation_tabs__submenu {
+    background: $background;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.21);
+    border-radius: 0 0 3px 3px;
+    display: none;
+}
 
 
 // plugin mode indicator -----------------------------------------------------------------------------------------------

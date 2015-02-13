@@ -17,20 +17,7 @@
     </div>
 
     <div class="lp_wrap">
-
-        <?php if ( isset( $laterpay['passes']['individual'] ) ): ?>
-            <div>
-                <a id="lp_js_normal_view" class="lp_js_view_selector active" href="#">
-                    <?php _e( 'Normal KPI view', 'laterpay' ); ?>
-                </a>
-                |
-                <a id="lp_js_tp_view" class="lp_js_view_selector" href="#">
-                    <?php _e( 'Time passes view', 'laterpay' ); ?>
-                </a>
-            </div>
-        <?php endif; ?>
-
-        <div id="lp_js_normal_view_tab">
+        <div id="lp_js_standardKpiTab">
             <h1><?php echo sprintf( __( '%s Dashboard of %s Sales from%s%s%s', 'laterpay' ),
                     '<div class="lp_dropdown">' .
                     '<span class="lp_dropdown_currentItem">' . __( '8 Day', 'laterpay' ) . '</span>' .
@@ -172,7 +159,7 @@
             </div>
         </div>
 
-        <div id="lp_js_tp_view_tab" style="display:none;">
+        <div id="lp_js_timePassesKPITabjs" style="display:none;">
             <h1><?php _e( 'Time Pass Customer Lifecycle', 'laterpay' ); ?></h1>
 
             <div class="lp_time-pass-lifecycle lp_u_clearfix">
