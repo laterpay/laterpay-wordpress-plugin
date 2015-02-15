@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay time pass model.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Model_Pass
 {
 

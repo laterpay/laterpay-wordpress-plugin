@@ -84,8 +84,8 @@ function laterpay_get_plugin_config() {
     $config->set( 'cache_dir',          plugin_dir_path( __FILE__ ) . 'cache/' );
 
     $upload_dir = wp_upload_dir();
-    $config->set( 'log_dir',            $upload_dir[ 'basedir' ] . '/laterpay_log/' );
-    $config->set( 'log_url',            $upload_dir[ 'baseurl' ] . '/laterpay_log/' );
+    $config->set( 'log_dir',            $upload_dir['basedir'] . '/laterpay_log/' );
+    $config->set( 'log_url',            $upload_dir['baseurl'] . '/laterpay_log/' );
 
     $plugin_url = $config->get( 'plugin_url' );
     $config->set( 'css_url',    $plugin_url . 'built_assets/css/' );
@@ -165,9 +165,9 @@ function laterpay_get_plugin_config() {
         $api_settings = $default_api_settings;
     }
     // non-editable settings for the LaterPay API
-    $api_settings[ 'api.token_name' ]           = 'token';
-    $api_settings[ 'api.sandbox_merchant_id' ]  = 'LaterPay-WordPressDemo';
-    $api_settings[ 'api.sandbox_api_key' ]      = 'decafbaddecafbaddecafbaddecafbad';
+    $api_settings['api.token_name']           = 'token';
+    $api_settings['api.sandbox_merchant_id']  = 'LaterPay-WordPressDemo';
+    $api_settings['api.sandbox_api_key']      = 'decafbaddecafbaddecafbaddecafbad';
 
     $config->import( $api_settings );
 

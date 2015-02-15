@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay api key form class
+ * LaterPay post statistics form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Form_Statistics extends LaterPay_Form_Abstract
 {

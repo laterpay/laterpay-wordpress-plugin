@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay appearance controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
 {
 

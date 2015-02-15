@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay post helper.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Post {
 
     /**
@@ -35,7 +42,7 @@ class LaterPay_Helper_Post {
         $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( $parent_post );
         $passes      = LaterPay_Helper_Passes::get_tokenized_passes( $passes_list );
         foreach ( $passes as $pass ) {
-            if ( array_key_exists( $pass, self::$access ) && self::$access[ $pass ] ) {
+            if ( array_key_exists( $pass, self::$access ) && self::$access[$pass] ) {
                 return true;
             }
         }
@@ -64,9 +71,9 @@ class LaterPay_Helper_Post {
 
             $has_access = false;
 
-            foreach ( $result[ 'articles' ] as $article_key => $article_access ) {
-                $access = (bool) $article_access[ 'access' ];
-                self::$access[ $article_key ] = $access;
+            foreach ( $result['articles'] as $article_key => $article_access ) {
+                $access = (bool) $article_access['access'];
+                self::$access[$article_key] = $access;
                 if ( $access ) {
                     $has_access = true;
                 }
