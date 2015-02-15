@@ -355,7 +355,7 @@
                     var backColumns = [];
                     i = 0;
                     l = response.data.y.length;
-                    for (i; i < l; i++) {
+                    for (; i < l; i++) {
                         backColumns.push([i + 1, 100]);
                     }
 
@@ -418,25 +418,25 @@
                             backColumns.push([i, max]);
                         }
 
-                        // var markings = [
-                        //         {
-                        //             color               : $o.colorBorder,
-                        //             lineWidth           : 1,
-                        //             xaxis               : {
-                        //                 from            : 3.5,
-                        //                 to              : 3.5,
-                        //             },
-                        //         },
-                        //         {
-                        //             color               : $o.colorBorder,
-                        //             lineWidth           : 1,
-                        //             xaxis               : {
-                        //                 from            : 11.5,
-                        //                 to              : 11.5,
-                        //             },
-                        //         },
-                        //     ];
-                        var plotOptions = {
+                        var markings = [
+                                {
+                                    color           : $o.colorBorder,
+                                    lineWidth       : 1,
+                                    xaxis           : {
+                                        from        : 3.5,
+                                        to          : 3.5,
+                                    },
+                                },
+                                {
+                                    color           : $o.colorBorder,
+                                    lineWidth       : 1,
+                                    xaxis           : {
+                                        from        : 11.5,
+                                        to          : 11.5,
+                                    },
+                                },
+                            ],
+                            markingPlotOptions = {
                                 xaxis               : {
                                     ticks           : response.data.x,
                                 },
@@ -447,9 +447,9 @@
                                                         return parseInt(val, 10);
                                                     }
                                 },
-                                // grid                : {
-                                //     markings        : markings,
-                                // },
+                                grid                : {
+                                    markings        : markings,
+                                },
                             },
                             plotData = [
                                 {
@@ -465,8 +465,8 @@
                                 },
                             ];
 
-                        plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
-                        $.plot($(data[index]), plotData, plotOptions);
+                        var timepassPlotOptions = $.extend(true, plotDefaultOptions, markingPlotOptions);
+                        $.plot($(data[index]), plotData, timepassPlotOptions);
                     })
                     .always(function() {removeLoadingIndicator($(data[index]));});
                 });

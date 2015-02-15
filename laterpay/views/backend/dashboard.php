@@ -163,7 +163,7 @@
             <h1><?php _e( 'Time Pass Customer Lifecycle', 'laterpay' ); ?></h1>
 
             <div class="lp_time-pass-lifecycle lp_u_clearfix">
-                <div class="lp_time-pass-lifecycle--kpi lp_u_w-1-4 lp_u_left">
+                <div class="lp_time-pass-lifecycle__kpi lp_u_w-1-4 lp_u_left">
                     <h2><?php _e( 'All Time Passes', 'laterpay' ); ?></h2>
 
                     <div class="lp_statisticsRow lp_u_clearfix">
@@ -200,7 +200,7 @@
             <?php if ( isset( $laterpay['passes']['individual'] ) ): ?>
                 <?php foreach( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
                     <div class="lp_time-pass-lifecycle lp_u_clearfix">
-                        <div class="lp_time-pass-lifecycle--kpi lp_u_w-1-4 lp_u_left">
+                        <div class="lp_time-pass-lifecycle__kpi lp_u_w-1-4 lp_u_left">
                             <h2><?php echo sprintf( __( 'Time pass \'%s\'', 'laterpay' ), $pass['data']['title'] ); ?></h2>
                             <dfn><?php echo LaterPay_Helper_Passes::get_description( $pass['data'], true ); ?></dfn>
 
