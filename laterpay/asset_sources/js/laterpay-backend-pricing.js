@@ -12,9 +12,7 @@
                 // enabled revenue models
                 purchaseModeForm                        : $('#lp_js_changePurchaseModeForm'),
                 purchaseModeInput                       : $('.lp_js_onlyTimePassPurchaseModeInput'),
-                timePassOnlyHideElements                : $('#lp_js_defaultPriceSettings,' +
-                                                            '.lp_js_revenueModelExplanations,' +
-                                                            '.lp_js_bulkPriceEditorSection'),
+                timePassOnlyHideElements                : $('.lp_js_hideInTimePassOnlyMode'),
 
                 // global default price
                 globalDefaultPriceForm                  : $('#lp_js_globalDefaultPrice_form'),

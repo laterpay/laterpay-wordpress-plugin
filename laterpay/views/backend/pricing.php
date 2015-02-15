@@ -38,9 +38,9 @@
         </div>
 
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
-            <ul id="lp_js_defaultPriceSettings" class="lp_row lp_u_clearfix" style="display:none;">
+            <ul class="lp_js_hideInTimePassOnlyMode lp_row lp_u_clearfix" style="display:none;">
         <?php else : ?>
-            <ul id="lp_js_defaultPriceSettings" class="lp_row lp_u_clearfix">
+            <ul class="lp_js_hideInTimePassOnlyMode lp_row lp_u_clearfix">
         <?php endif; ?>
                 <li class="lp_u_left lp_u_w-1-3">
                     <div class="lp_u_m-0 lp_u_m-r1">
@@ -209,9 +209,9 @@
             </ul>
 
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
-            <div class="lp_js_revenueModelExplanations lp_row lp_u_m-t3" style="display:none;">
+            <div class="lp_js_hideInTimePassOnlyMode lp_row lp_u_m-t3" style="display:none;">
         <?php else : ?>
-            <div class="lp_js_revenueModelExplanations lp_row lp_u_m-t3">
+            <div class="lp_js_hideInTimePassOnlyMode lp_row lp_u_m-t3">
         <?php endif; ?>
                 <p>
                     <span class="lp_revenueModelLabel lp_u_m-r05">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
@@ -229,9 +229,9 @@
                 </p>
             </div>
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
-            <hr class="lp_js_revenueModelExplanations lp_u_m-1-0 lp_u_m-b3" style="display:none;">
+            <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3" style="display:none;">
         <?php else : ?>
-            <hr class="lp_js_revenueModelExplanations lp_u_m-1-0 lp_u_m-b3">
+            <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3">
         <?php endif; ?>
 
         <div class="lp_row">
@@ -426,12 +426,16 @@
                 </div>
             </div>
         </div>
-        <hr class="lp_u_m-1-0 lp_u_m-b3">
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
+            <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3" style="display:none;">
+        <?php else : ?>
+            <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3">
+        <?php endif; ?>
 
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
-            <div class="lp_js_bulkPriceEditorSection lp_row" style="display:none;">
+            <div class="lp_js_hideInTimePassOnlyMode lp_row" style="display:none;">
         <?php else : ?>
-            <div class="lp_js_bulkPriceEditorSection lp_row">
+            <div class="lp_js_hideInTimePassOnlyMode lp_row">
         <?php endif; ?>
                 <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>
                 <form id="lp_js_bulkPriceEditor_form" method="post">
