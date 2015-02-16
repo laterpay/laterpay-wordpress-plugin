@@ -1,6 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( $laterpay[ 'purchase_link_is_hidden' ] ) {
+    echo __('Buy a time pass to read the full content.');
     return;
 }
 /**
