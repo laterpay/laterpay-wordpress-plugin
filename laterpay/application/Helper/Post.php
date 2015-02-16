@@ -7,7 +7,8 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Helper_Post {
+class LaterPay_Helper_Post
+{
 
     /**
      * Contains the access state for all loaded posts.
@@ -37,12 +38,12 @@ class LaterPay_Helper_Post {
             return (bool) self::$access[$post_id];
         }
 
-        // check if parent post has access with passes
-        $parent_post = $is_attachment ? get_the_ID() : $post_id;
-        $passes_list = LaterPay_Helper_Pass::get_time_passes_list_for_the_post( $parent_post );
-        $passes      = LaterPay_Helper_Pass::get_tokenized_passes( $passes_list );
-        foreach ( $passes as $pass ) {
-            if ( array_key_exists( $pass, self::$access ) && self::$access[$pass] ) {
+        // check, if parent post has access with time passes
+        $parent_post        = $is_attachment ? get_the_ID() : $post_id;
+        $time_passes_list   = LaterPay_Helper_Pass::get_time_passes_list_by_post_id( $parent_post );
+        $time_passes        = LaterPay_Helper_Pass::get_tokenized_time_pass_ids( $time_passes_list );
+        foreach ( $time_passes as $time_pass ) {
+            if ( array_key_exists( $time_pass, self::$access ) && self::$access[$time_pass] ) {
                 return true;
             }
         }
@@ -58,7 +59,7 @@ class LaterPay_Helper_Post {
                                     $client_options['web_root'],
                                     $client_options['token_name']
                                 );
-            $result          = $laterpay_client->get_access( array_merge( array( $post_id ), $passes ) );
+            $result          = $laterpay_client->get_access( array_merge( array( $post_id ), $time_passes ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
@@ -93,18 +94,18 @@ class LaterPay_Helper_Post {
     }
 
     /**
-     * Check, if gift code was purchased successfully and we has access
+     * Check, if gift code was purchased successfully and user has access.
      *
-     * @return mixed return false if card incorrect or doesn't exist, access data otherwise
+     * @return mixed return false if gift card is incorrect or doesn't exist, access data otherwise
      */
     public static function has_purchased_gift_card() {
         if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
             // get gift code and unset session variable
-            list( $code, $pass_id ) = explode( '|', $_COOKIE['laterpay_purchased_gift_card'] );
+            list( $code, $time_pass_id ) = explode( '|', $_COOKIE['laterpay_purchased_gift_card'] );
             // create gift code token
             $code_key = '[#' . $code . ']';
 
-            // check if gift code was purchased successfully and we has access
+            // check, if gift code was purchased successfully and user has access
             $client_options  = LaterPay_Helper_Config::get_php_client_options();
             $laterpay_client = new LaterPay_Client(
                 $client_options['cp_key'],
@@ -124,7 +125,7 @@ class LaterPay_Helper_Post {
                 return false;
             }
 
-            // return access data if all ok
+            // return access data, if all is ok
             if ( array_key_exists( $code_key, $result['articles'] ) ) {
                 $access = (bool) $result['articles'][$code_key]['access'];
                 self::$access[$code_key] = $access;
@@ -137,7 +138,7 @@ class LaterPay_Helper_Post {
                 return array(
                     'access'  => $access,
                     'code'    => $code,
-                    'pass_id' => $pass_id,
+                    'pass_id' => $time_pass_id,
                 );
             }
         }
