@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay payment history model.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 {
 
@@ -298,7 +305,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
-            $results[ $key ]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;
@@ -340,7 +347,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
-            $results[ $key ]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;
@@ -468,7 +475,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             // the sparkline for the last x days
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
-            $results[ $key ]    = $data;
+            $results[$key]    = $data;
         }
 
         return $results;
@@ -508,7 +515,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             // the sparkline for the last x days
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
-            $results[ $key ]    = $data;
+            $results[$key]    = $data;
         }
 
         return $results;
@@ -549,8 +556,8 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         );
 
         if ( $interval === 'day' ) {
-            $args[ 'group_by' ] = 'HOUR(date)';
-            $args[ 'order_by' ] = 'HOUR(date)';
+            $args['group_by'] = 'HOUR(date)';
+            $args['order_by'] = 'HOUR(date)';
         }
 
         $results = $this->get_results( $args );

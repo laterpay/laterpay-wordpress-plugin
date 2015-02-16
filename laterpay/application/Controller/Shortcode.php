@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay shortcode controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 {
 
@@ -41,7 +48,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string $html
      */
     public function render_premium_download_box( $atts ) {
-        // check if the plugin is correctly configured and working
+        // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
@@ -77,7 +84,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             );
 
             if ( empty( $a['target_post_title'] ) ) {
-                $a[ 'target_post_title' ] = $a[ 'target_page_title' ];
+                $a['target_post_title'] = $a['target_page_title'];
             }
         }
 
@@ -97,7 +104,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             );
 
             if ( empty( $a['target_post_id'] ) ) {
-                $a[ 'target_post_id' ] = $a[ 'target_page_id' ];
+                $a['target_post_id'] = $a['target_page_id'];
             }
         }
 
@@ -105,24 +112,24 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get URL for target page
         $page = null;
-        if ( $a[ 'target_post_id' ] !== '' ) {
-            $page = get_post( absint( $a[ 'target_post_id' ] ) );
+        if ( $a['target_post_id'] !== '' ) {
+            $page = get_post( absint( $a['target_post_id'] ) );
         }
         // target_post_id was provided, but didn't work
-        if ( $page === null && $a[ 'target_post_id' ] !== '' ) {
+        if ( $page === null && $a['target_post_id'] !== '' ) {
             $error_reason = sprintf(
                                     __( 'We couldn\'t find a page for target_post_id="%s" on this site.', 'laterpay' ),
-                                    absint( $a[ 'target_post_id' ] )
+                                    absint( $a['target_post_id'] )
                                     );
         }
-        if ( $page === null && $a[ 'target_post_title' ] !== '' ) {
+        if ( $page === null && $a['target_post_title'] !== '' ) {
             $page = get_page_by_title( $a['target_post_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
         }
         // target_post_title was provided, but didn't work (no invalid target_post_id was provided)
         if ( $page === null && $error_reason == '' ) {
             $error_reason = sprintf(
                                     __( 'We couldn\'t find a page for target_post_title="%s" on this site.', 'laterpay' ),
-                                    esc_html( $a[ 'target_post_title' ] )
+                                    esc_html( $a['target_post_title'] )
                                     );
         }
         if ( $page === null ) {
@@ -158,7 +165,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             return $error_message;
         }
 
-        // check if page has a custom post type
+        // check, if page has a custom post type
         $custom_post_types      = get_post_types( array( '_builtin' => false ) );
         $custom_types           = array_keys( $custom_post_types );
         $is_custom_post_type    = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types );
@@ -179,7 +186,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
 
         if ( $a['content_type'] == '' ) {
-            // determine $content_type from MIME Type of files attached to post
+            // determine $content_type from MIME type of files attached to post
             $page_mime_type = get_post_mime_type( $page_id );
 
             switch ( $page_mime_type ) {
@@ -269,7 +276,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
-        // check if the plugin is correctly configured and working
+        // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
@@ -514,7 +521,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [add_free_codes_to_passes description]
+     * TODO: [add_free_codes_to_passes description]
      *
      * @param [type] $passes [description]
      */
@@ -562,28 +569,28 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @hook wp_ajax_laterpay_get_gift_card_actions, wp_ajax_nopriv_laterpay_get_gift_card_actions
      */
     public function ajax_load_gift_action() {
-        if ( ! isset( $_GET[ 'action' ] ) || $_GET[ 'action' ] !== 'laterpay_get_gift_card_actions' ) {
+        if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_get_gift_card_actions' ) {
             exit;
         }
 
-        if ( ! isset( $_GET[ 'nonce' ] ) || ! wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) ) {
+        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) ) {
             exit;
         }
 
-        if ( ! isset( $_GET[ 'pass_id' ] ) && ! isset( $GET[ 'link' ] ) ) {
+        if ( ! isset( $_GET['pass_id'] ) && ! isset( $GET['link'] ) ) {
             exit;
         }
 
         $data     = array();
-        $pass_ids = $_GET[ 'pass_id' ];
+        $pass_ids = $_GET['pass_id'];
 
         foreach ( $pass_ids as $pass_id ) {
             $passes       = $pass_id ? $this->get_passes_list_by_id( $pass_id ) : LaterPay_Helper_Passes::get_all_passes();
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page');
 
-            // add gift codes with URLs to passes
-            $passes       = $this->add_free_codes_to_passes( $passes, $_GET[ 'link'] );
+            // add gift codes with URLs to time passes
+            $passes       = $this->add_free_codes_to_passes( $passes, $_GET['link'] );
             $view_args = array(
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,
                 'landing_page'            => $landing_page ? $landing_page : home_url(),

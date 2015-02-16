@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay core request.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Request extends LaterPay_Core_Entity
 {
 

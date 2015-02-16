@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay time pass helper.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Passes
 {
 
@@ -27,8 +34,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $defaults[ $key ] ) ) {
-                return $defaults[ $key ];
+            if ( isset( $defaults[$key] ) ) {
+                return $defaults[$key];
             }
         }
 
@@ -51,8 +58,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $durations[ $key ] ) ) {
-                return $durations[ $key ];
+            if ( isset( $durations[$key] ) ) {
+                return $durations[$key];
             }
         }
 
@@ -89,8 +96,8 @@ class LaterPay_Helper_Passes
         $selected_array = $pluralized ? $periods_pluralized : $periods;
 
         if ( isset ( $key ) ) {
-            if ( isset( $selected_array[ $key ] ) ) {
-                return $selected_array[ $key ];
+            if ( isset( $selected_array[$key] ) ) {
+                return $selected_array[$key];
             }
         }
 
@@ -111,8 +118,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $revenues[ $key ] ) ) {
-                return $revenues[ $key ];
+            if ( isset( $revenues[$key] ) ) {
+                return $revenues[$key];
             }
         }
 
@@ -134,8 +141,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $access_to[ $key ] ) ) {
-                return $access_to[ $key ];
+            if ( isset( $access_to[$key] ) ) {
+                return $access_to[$key];
             }
         }
 
@@ -161,8 +168,8 @@ class LaterPay_Helper_Passes
 
         $currency = get_option( 'laterpay_currency' );
 
-        $details['duration'] = $pass['duration'] . ' ' . strtolower( LaterPay_Helper_Passes::get_period_options( $pass['period'], $pass['duration'] > 1 ) );
-        $details['access']   = __( 'access to', 'laterpay' ) . ' ' . strtolower( LaterPay_Helper_Passes::get_access_options( $pass['access_to'] ) );
+        $details['duration'] = $pass['duration'] . ' ' . LaterPay_Helper_Passes::get_period_options( $pass['period'], $pass['duration'] > 1 );
+        $details['access']   = __( 'access to', 'laterpay' ) . ' ' . LaterPay_Helper_Passes::get_access_options( $pass['access_to'] );
 
         // also display category, price, and revenue model, if full_info flag is used
         if ( $full_info ) {

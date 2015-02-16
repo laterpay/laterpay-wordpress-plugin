@@ -1,12 +1,42 @@
 <?php
 
+/**
+ * LaterPay vouchers helper.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Vouchers
 {
+    /**
+     * @const int Default length of voucher code.
+     */
     const VOUCHER_CODE_LENGTH  = 6;
+
+    /**
+     * @const string Chars allowed in voucher code.
+     */
     const VOUCHER_CHARS        = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    /**
+     * @const string Name of option to update if voucher is a gift.
+     */
     const GIFT_CODES_OPTION    = 'laterpay_gift_codes';
+
+    /**
+     * @const string Name of statistic option to update if voucher is a gift.
+     */
     const GIFT_STAT_OPTION     = 'laterpay_gift_statistic';
+
+    /**
+     * @const string Name of option to update if voucher is NOT a gift.
+     */
     const VOUCHER_CODES_OPTION = 'laterpay_voucher_codes';
+
+    /**
+     * @const string Name of statistic option to update if voucher is NOT a gift.
+     */
     const VOUCHER_STAT_OPTION  = 'laterpay_voucher_statistic';
 
     /**
@@ -59,9 +89,9 @@ class LaterPay_Helper_Vouchers
         }
 
         if ( ! $new_vouchers ) {
-            unset( $vouchers[ $pass_id ] );
+            unset( $vouchers[$pass_id] );
         } else {
-            $vouchers[ $pass_id ] = $new_vouchers;
+            $vouchers[$pass_id] = $new_vouchers;
         }
 
         // save new voucher data
@@ -80,11 +110,11 @@ class LaterPay_Helper_Vouchers
      */
     public static function get_time_pass_vouchers( $pass_id, $is_gift = false ) {
         $vouchers = self::get_all_vouchers( $is_gift );
-        if ( ! isset( $vouchers[ $pass_id ] ) ) {
+        if ( ! isset( $vouchers[$pass_id] ) ) {
             return array();
         }
 
-        return $vouchers[ $pass_id ];
+        return $vouchers[$pass_id];
     }
 
     /**
@@ -171,7 +201,7 @@ class LaterPay_Helper_Vouchers
         if ( $passes && is_array( $passes ) ) {
             foreach ( $passes as $pass ) {
                 $pass = (array) $pass;
-                if ( self::get_time_pass_vouchers( $pass[ 'pass_id' ], $is_gift ) ) {
+                if ( self::get_time_pass_vouchers( $pass['pass_id'], $is_gift ) ) {
                     $has_vouchers = true;
                     break;
                 }
@@ -224,17 +254,17 @@ class LaterPay_Helper_Vouchers
         $pass_vouchers = self::get_time_pass_vouchers( $pass_id, $is_gift );
         $option_name   = $is_gift ? self::GIFT_STAT_OPTION : self::VOUCHER_STAT_OPTION;
 
-        // check, if such voucher exists
-        if ( $pass_vouchers && isset( $pass_vouchers[ $code ] ) ) {
+        // check, if such a voucher exists
+        if ( $pass_vouchers && isset( $pass_vouchers[$code] ) ) {
             // get all voucher statistics for this pass
             $voucher_statistic_data = self::get_time_pass_vouchers_statistic( $pass_id, $is_gift );
             // check, if statistic is empty
             if ( $voucher_statistic_data ) {
                 // increment counter by 1, if statistic exists
-                $voucher_statistic_data[ $code ] += 1;
+                $voucher_statistic_data[$code] += 1;
             } else {
                 // create new data array, if statistic is empty
-                $voucher_statistic_data[ $code ] = 1;
+                $voucher_statistic_data[$code] = 1;
             }
 
             $statistic           = self::get_all_vouchers_statistic( $is_gift );

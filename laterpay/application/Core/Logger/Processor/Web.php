@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay core logger processor web.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Processor_Interface
 {
 
@@ -42,7 +49,11 @@ class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Process
     }
 
     /**
-     * {@inheritdoc}
+     * Record processor
+     *
+     * @param array record data
+     *
+     * @return array processed record
      */
     public function process( array $record ) {
         // skip processing if for some reason request data is not present (CLI or wonky SAPIs)
