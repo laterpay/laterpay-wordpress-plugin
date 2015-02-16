@@ -93,9 +93,9 @@ class LaterPay_Helper_Post {
     }
 
     /**
-     * FIXME: [has_purchased_gift_card description]
+     * Check, if gift code was purchased successfully and we has access
      *
-     * @return boolean [description]
+     * @return mixed return false if card incorrect or doesn't exist, access data otherwise
      */
     public static function has_purchased_gift_card() {
         if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {

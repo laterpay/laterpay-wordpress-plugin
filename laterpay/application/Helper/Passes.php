@@ -512,7 +512,6 @@ class LaterPay_Helper_Passes
     }
 
     /**
-<<<<<<< HEAD
      * Get time passes statistic.
      *
      * @return array return summary and individual statistics

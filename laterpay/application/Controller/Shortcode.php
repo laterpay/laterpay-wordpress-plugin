@@ -521,9 +521,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * TODO: [add_free_codes_to_passes description]
+     * Adding free codes to time passes.
      *
-     * @param [type] $passes [description]
+     * @param array $passes list of pass data
+     * 
+     * @return array
      */
     public function add_free_codes_to_passes( $passes, $link = null ) {
         if ( is_array( $passes ) ) {
@@ -548,11 +550,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * TODO: [get_passes_list_by_id description]
+     * Get passes list by id
      *
-     * @param  [type] $id [description]
+     * @param  int $id id of time pass
      *
-     * @return [type]     [description]
+     * @return array
      */
     public function get_passes_list_by_id( $id ) {
         $passes_list = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $id );
@@ -566,7 +568,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
+     * This acction is called to get gift card throught ajax
+     *
      * @hook wp_ajax_laterpay_get_gift_card_actions, wp_ajax_nopriv_laterpay_get_gift_card_actions
+     *
+     * @return void
      */
     public function ajax_load_gift_action() {
         if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_get_gift_card_actions' ) {
