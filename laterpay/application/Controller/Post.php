@@ -498,7 +498,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // check access for time passes
         $time_passes = LaterPay_Helper_Passes::get_tokenized_time_pass_ids();
         foreach ( $time_passes as $time_pass ) {
-            // add a tokenized pass id to the array of posts to be queried for access, if it's not loaded already
+            // add a tokenized time pass id to the array of posts to be queried for access, if it's not loaded already
             if ( ! array_key_exists( $time_pass, $this->access ) ) {
                 $post_ids[] = $time_pass;
             }
