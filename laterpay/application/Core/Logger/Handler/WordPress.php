@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay core logger handler WordPress.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handler_Abstract
 {
 
@@ -42,7 +49,11 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     }
 
     /**
-     * {@inheritdoc}
+     * To handle or not to handle
+     *
+     * @param array Record data
+     *
+     * @return bool
      */
     public function handle( array $record ) {
         if ( $record['level'] < $this->level ) {
@@ -105,12 +116,12 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                     </li>
                     <?php
                         foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab[ 'content' ] ) ) {
+                            if ( empty( $tab['content'] ) ) {
                                 continue;
                             }
                     ?>
                         <li>
-                            <a href="#"><?php _e( $tab[ 'name' ], 'laterpay' ); ?></a>
+                            <a href="#"><?php _e( $tab['name'], 'laterpay' ); ?></a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -123,13 +134,13 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                     </li>
                     <?php
                         foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab[ 'content' ] ) ) {
+                            if ( empty( $tab['content'] ) ) {
                                 continue;
                             }
                     ?>
                         <li class="lp_debugger_content lp_is-hidden">
                             <table>
-                                <?php foreach ( $tab[ 'content' ] as $key => $value  ): ?>
+                                <?php foreach ( $tab['content'] as $key => $value  ): ?>
                                     <tr>
                                         <th><?php echo $key; ?></th>
                                         <td><?php print_r( $value ); ?></td>
@@ -171,6 +182,11 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         );
     }
 
+    /**
+     * Get system info
+     *
+     * @return array
+     */
     public function get_system_info() {
         // get theme data
         $theme_data = wp_get_theme();

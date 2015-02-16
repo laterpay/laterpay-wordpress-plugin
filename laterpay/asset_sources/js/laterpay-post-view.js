@@ -386,9 +386,10 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                 $.get(
                     lpVars.ajaxUrl,
                     {
-                        action  : 'laterpay_post_load_purchased_content',
-                        post_id : lpVars.post_id,
-                        nonce   : lpVars.nonces.content
+                        action   : 'laterpay_post_load_purchased_content',
+                        post_id  : lpVars.post_id,
+                        is_front : true,
+                        nonce    : lpVars.nonces.content
                     },
                     function(postContent) {
                         if (postContent) {

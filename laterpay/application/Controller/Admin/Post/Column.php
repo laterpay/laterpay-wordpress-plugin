@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay post column controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 {
@@ -56,7 +63,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
                 }
 
                 if ( array_key_exists( 'type', $post_prices ) ) {
-                    switch ( $post_prices[ 'type' ] ) {
+                    switch ( $post_prices['type'] ) {
                         case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
                             $revenue_model      = ( LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ) == 'sis' )
                                                     ? __( 'Single Sale', 'laterpay' )
@@ -92,5 +99,4 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
                 break;
         }
     }
-
 }

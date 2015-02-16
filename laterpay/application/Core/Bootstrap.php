@@ -1,8 +1,11 @@
 <?php
 
 /**
- *  LaterPay bootstrap class
+ * LaterPay bootstrap class.
  *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Bootstrap
 {
@@ -41,7 +44,7 @@ class LaterPay_Core_Bootstrap
         // backend actions part 1
         if ( is_admin() ) {
             // perform requirements check on plugins.php page only
-            if ( ! empty ( $GLOBALS[ 'pagenow' ] ) && $GLOBALS[ 'pagenow' ] === 'plugins.php' ) {
+            if ( ! empty ( $GLOBALS['pagenow'] ) && $GLOBALS['pagenow'] === 'plugins.php' ) {
                 $install_controller->check_requirements();
                 add_action( 'admin_notices',                        array( $install_controller, 'render_requirements_notices' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'check_for_updates' ) );
@@ -69,7 +72,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'load-post-new.php',                    array( $admin_controller, 'help_wp_add_post' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_plugin_admin_assets' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
-                add_action( 'delete_term_taxonomy',                 array( $admin_controller, 'actualize_post_prices_after_category_delete' ) );
+                add_action( 'delete_term_taxonomy',                 array( $admin_controller, 'update_post_prices_after_category_delete' ) );
 
                 $settings_controller = new LaterPay_Controller_Settings( $this->config );
                 add_action( 'admin_menu',                           array( $settings_controller, 'add_laterpay_advanced_settings_page' ) );

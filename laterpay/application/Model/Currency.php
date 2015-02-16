@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay currency model.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Model_Currency
 {
 
@@ -43,8 +50,8 @@ class LaterPay_Model_Currency
         $short_name = null;
 
         foreach ( $this->currencies as $currency ) {
-            if ( (int) $currency[ 'id' ] === (int) $currency_id ) {
-                $short_name = $currency[ 'short_name' ];
+            if ( (int) $currency['id'] === (int) $currency_id ) {
+                $short_name = $currency['short_name'];
                 break;
             }
         }
@@ -63,8 +70,8 @@ class LaterPay_Model_Currency
         $currency_id = null;
 
         foreach ( $this->currencies as $currency ) {
-            if ( $currency[ 'short_name' ] === $name ) {
-                $currency_id = $currency[ 'id' ];
+            if ( $currency['short_name'] === $name ) {
+                $currency_id = $currency['id'];
                 break;
             }
         }
@@ -83,8 +90,8 @@ class LaterPay_Model_Currency
         $full_name = '';
 
         foreach ( $this->currencies as $currency ) {
-            if ( $currency[ 'short_name' ] === $name ) {
-                $full_name = $currency[ 'full_name' ];
+            if ( $currency['short_name'] === $name ) {
+                $full_name = $currency['full_name'];
                 break;
             }
         }

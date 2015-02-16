@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay purchase button position form class
+ * LaterPay purchase button position form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Form_PurchaseButtonPosition extends LaterPay_Form_Abstract
 {

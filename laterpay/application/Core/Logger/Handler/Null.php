@@ -2,6 +2,10 @@
 
 /**
  * Do nothing with log data.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Handler_Abstract
 {
@@ -14,12 +18,17 @@ class LaterPay_Core_Logger_Handler_Null extends LaterPay_Core_Logger_Handler_Abs
     }
 
     /**
-     * {@inheritdoc}
+     * To handle record or not
+     *
+     * @param array record data
+     *
+     * @return bool
      */
     public function handle( array $record ) {
         if ( $record['level'] < $this->level ) {
             return false;
         }
+
         return true;
     }
 

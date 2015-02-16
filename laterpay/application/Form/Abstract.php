@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay abstract form class
+ * LaterPay abstract form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 abstract class LaterPay_Form_Abstract
 {
@@ -12,7 +16,7 @@ abstract class LaterPay_Form_Abstract
      * @var array
      */
     protected $fields;
-    
+
     /**
      * Validation errors
      *
@@ -224,7 +228,7 @@ abstract class LaterPay_Form_Abstract
     public function add_validation( $field, $condition = array() ) {
         $fields = $this->get_fields();
 
-        if( isset( $fields[$field] ) ) {
+        if ( isset( $fields[$field] ) ) {
             if ( is_array( $condition ) && ! empty( $condition ) ) {
                 // condition should be correct
                 array_push( $fields[$field]['validators'], $condition );
@@ -272,7 +276,7 @@ abstract class LaterPay_Form_Abstract
 
         return empty($this->errors);
     }
-    
+
     public function get_errors() {
         $aux = $this->errors;
         $this->errors = array();
