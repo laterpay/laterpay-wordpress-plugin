@@ -968,6 +968,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // check, if user has access to content (because he already bought it)
         $access = $this->has_access_to_post( $post );
+        
+        // purchase mode
+        $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ( $user_can_read_statistics ) {
@@ -994,6 +997,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
             'time_passes_positioned_manually'       => get_option( 'laterpay_time_passes_positioned_manually' ),
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
+            'only_time_pass_purchases_allowed'      => $only_time_passes_allowed,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -1058,6 +1062,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // add the teaser content
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
+        
+        if ( $only_time_passes_allowed ) {
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/after_teaser' ) );
+        }
 
         if ( $teaser_content_only ) {
             // add teaser content plus a purchase link after the teaser content
