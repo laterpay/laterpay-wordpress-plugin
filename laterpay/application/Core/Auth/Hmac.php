@@ -1,16 +1,38 @@
 <?php
 
 /**
- * Auth_Hmac provides tokenizer using openssl extension
+ * Auth_Hmac provides tokenizer using OpenSSL extension.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Auth_Hmac
 {
 
+    /**
+     * @const int time of live for token in seconds
+     */
     const VALID_PERIOD = 86400; // 24 hrs
 
+    /**
+     * @var LaterPay_Core_Auth_Hmac instance of class
+     */
     protected static $_instance = null;
+
+    /**
+     * @var string secret key for token generation
+     */
+
     protected static $privateKey = null;
+    /**
+     * @var string used algorithm for creation of hash
+     */
+
     protected static $hashAlgo = 'sha224';
+    /**
+     * @var bool is base64 encoding for token needed or not
+     */
     protected static $useBase64 = false;
 
     /**

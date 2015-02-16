@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay time passes position form class
+ * LaterPay time passes position form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Form_TimePassesPosition extends LaterPay_Form_Abstract
 {

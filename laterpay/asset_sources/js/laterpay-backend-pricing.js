@@ -9,6 +9,11 @@
                 revenueModelInput                       : '.lp_js_revenueModel_input',
                 priceInput                              : '.lp_js_priceInput',
 
+                // enabled revenue models
+                purchaseModeForm                        : $('#lp_js_changePurchaseModeForm'),
+                purchaseModeInput                       : $('.lp_js_onlyTimePassPurchaseModeInput'),
+                timePassOnlyHideElements                : $('.lp_js_hideInTimePassOnlyMode'),
+
                 // global default price
                 globalDefaultPriceForm                  : $('#lp_js_globalDefaultPrice_form'),
                 globalDefaultPriceInput                 : $('#lp_js_globalDefaultPrice'),
@@ -18,7 +23,7 @@
                 cancelEditingGlobalDefaultPrice         : $('#lp_js_cancelEditingGlobalDefaultPrice'),
                 saveGlobalDefaultPrice                  : $('#lp_js_saveGlobalDefaultPrice'),
                 globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPrice_text,' +
-                                                            ' #lp_js_editGlobalDefaultPrice,' +
+                                                            '#lp_js_editGlobalDefaultPrice,' +
                                                             '#lp_js_globalDefaultPrice_revenueModelLabel'),
                 globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPrice,' +
                                                             '#lp_js_globalDefaultPrice_revenueModel,' +
@@ -144,6 +149,13 @@
                         validatePrice($(this).parents('form'));
                     }, 800)
                 );
+
+                // enabled revenue models events -----------------------------------------------------------------------
+                // change
+                $o.purchaseModeInput
+                .on('change', function() {
+                    changePurchaseMode($o.purchaseModeForm);
+                });
 
                 // global default price events -------------------------------------------------------------------------
                 // edit
@@ -1264,6 +1276,27 @@
                             $item.fadeIn(250);
                         }
                         setMessage(r.message, r.success);
+                    },
+                    'json'
+                );
+            },
+
+            changePurchaseMode = function($form) {
+                var onlyTimePassModeChecked = $o.purchaseModeInput.is(':checked');
+                $.post(
+                    ajaxurl,
+                    $form.serialize(),
+                    function(data) {
+                        if (data.success) {
+                            if (onlyTimePassModeChecked) {
+                                $o.timePassOnlyHideElements.slideUp();
+                            } else {
+                                $o.timePassOnlyHideElements.slideDown();
+                            }
+                        } else {
+                            setMessage(data.message, data.success);
+                            $o.purchaseModeInput.attr('checked', false);
+                        }
                     },
                     'json'
                 );

@@ -7,14 +7,21 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * we can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute
  */
+
+if ( $laterpay_widget['purchase_button_is_hidden'] ) : ?>
+    <div> &nbsp; </div>
+<?php 
+    return;
+endif;
+
 $args = array(
     'href'                      => '#',
     'class'                     => 'lp_js_doPurchase lp_purchaseLink lp_button',
     'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                 => 'b',
-    'data-laterpay'             => $laterpay_widget[ 'link' ],
-    'data-post-id'              => $laterpay_widget[ 'post_id' ],
-    'data-preview-as-visitor'   => $laterpay_widget[ 'preview_post_as_visitor' ],
+    'data-laterpay'             => $laterpay_widget['link'],
+    'data-post-id'              => $laterpay_widget['post_id'],
+    'data-preview-as-visitor'   => $laterpay_widget['preview_post_as_visitor'],
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {
@@ -23,8 +30,8 @@ foreach ( $args as $key => $value ) {
 
 $title = sprintf(
     __( '%s<small>%s</small>', 'laterpay' ),
-    LaterPay_Helper_View::format_number( $laterpay_widget[ 'price' ] ),
-    $laterpay_widget[ 'currency' ]
+    LaterPay_Helper_View::format_number( $laterpay_widget['price'] ),
+    $laterpay_widget['currency']
 );
 ?>
 

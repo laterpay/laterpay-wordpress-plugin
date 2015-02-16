@@ -1,8 +1,18 @@
 <?php
 
+/**
+ * LaterPay core logger.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger
 {
 
+    /**
+     * Logger levels
+     */
     const DEBUG     = 100;
     const INFO      = 200;
     const NOTICE    = 250;
@@ -307,7 +317,7 @@ class LaterPay_Core_Logger
      * @return string $level_name
      */
     public function get_level_name( $level ) {
-        return $this->levels[ $level ];
+        return $this->levels[$level];
     }
 
 }

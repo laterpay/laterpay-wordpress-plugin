@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay settings controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 {
     /**
@@ -224,7 +231,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Sanitize maximum redemptions per gift code
+     * Sanitize maximum redemptions per gift code.
      *
      * @param $input
      *
@@ -247,6 +254,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
                 'error'
             );
         }
+
         return $input;
     }
 
@@ -452,7 +460,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add LaterPay API settings section and fields.
+     * Add LaterPay API URLs section and fields.
      *
      * @return void
      */
@@ -548,15 +556,15 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function get_text_field_markup( $field = null ) {
         $inputs_markup = '';
 
-        if ( $field && isset( $field[ 'name' ] ) ) {
-            $option_value = get_option( $field[ 'name' ] );
-            $type         = isset( $field[ 'type' ] ) ? $field['type']  : 'text';
-            $class        = isset( $field[ 'class'] ) ? $field['class'] : '';
+        if ( $field && isset( $field['name'] ) ) {
+            $option_value = get_option( $field['name'] );
+            $type         = isset( $field['type'] ) ? $field['type']  : 'text';
+            $class        = isset( $field['class'] ) ? $field['class'] : '';
 
-            $inputs_markup = '<input type="' . $type .'" name="' . $field[ 'name' ] . '" ' .
+            $inputs_markup = '<input type="' . $type .'" name="' . $field['name'] . '" ' .
                             'class="regular-text ' . $class . '" value="' . $option_value . '">';
-            if ( isset( $field[ 'appended_text' ] ) ) {
-                $inputs_markup .= '<dfn class="lp_appendedText">' . $field[ 'appended_text' ] . '<dfn>';
+            if ( isset( $field['appended_text'] ) ) {
+                $inputs_markup .= '<dfn class="lp_appendedText">' . $field['appended_text'] . '<dfn>';
             }
         }
 
@@ -573,19 +581,19 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     public function get_checkbox_field_markup( $field = null ) {
         $inputs_markup = '';
 
-        if ( $field && isset( $field[ 'name' ] ) && isset( $field[ 'value' ] ) ) {
-            $option_value = get_option( $field[ 'name' ] );
-            $field_value  = $field[ 'value' ];
+        if ( $field && isset( $field['name'] ) && isset( $field['value'] ) ) {
+            $option_value = get_option( $field['name'] );
+            $field_value  = $field['value'];
 
             $inputs_markup = '';
-            if ( isset( $field[ 'label' ] ) ) {
+            if ( isset( $field['label'] ) ) {
                 $inputs_markup .= '<label>';
             }
-            $inputs_markup .= '<input type="checkbox" name="' . $field[ 'name' ] . '" value="' . $field_value . '"';
-            $inputs_markup .= $option_value ? ' checked="checked"' : '';
+            $inputs_markup .= '<input type="checkbox" name="' . $field['name'] . '" value="' . $field_value . '"';
+            $inputs_markup .= $option_value ? ' checked' : '';
             $inputs_markup .= '>';
-            if ( isset( $field[ 'label' ] ) ) {
-                $inputs_markup .= $field[ 'label' ];
+            if ( isset( $field['label'] ) ) {
+                $inputs_markup .= $field['label'];
                 $inputs_markup .= '</label>';
             }
         }
@@ -612,7 +620,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
                 $inputs_markup .= '<label title="' . $role_data['name'] . '">';
                 $inputs_markup .= '<input type="checkbox" name="laterpay_unlimited_access_to_paid_content" value="' . $role . '" ';
                 if ( in_array( $role, ( array ) $option_value ) ) {
-                    $inputs_markup .= 'checked="checked"';
+                    $inputs_markup .= 'checked';
                 }
                 $inputs_markup .= '>';
                 $inputs_markup .= '<span>' . $role_data['name'] . '</span>';
@@ -641,7 +649,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
             $inputs_markup .= '<label title="' . $post_type->labels->name . '">';
             $inputs_markup .= '<input type="checkbox" name="laterpay_enabled_post_types[]" value="' . $slug . '" ';
             if ( is_array( $enabled_post_types ) && in_array( $slug, $enabled_post_types ) ) {
-                $inputs_markup .= 'checked="checked"';
+                $inputs_markup .= 'checked';
             }
             $inputs_markup .= '>';
             $inputs_markup .= '<span>' . $post_type->labels->name . '</span>';
@@ -650,5 +658,4 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         echo $inputs_markup;
     }
-
 }

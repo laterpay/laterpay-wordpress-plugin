@@ -1,10 +1,23 @@
 <?php
 
+/**
+ * LaterPay logger formatter normalizer.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_Formatter_Interface
 {
 
+    /**
+     * @const string default date format
+     */
     const SIMPLE_DATE = 'H:i:s j.m.Y';
 
+    /**
+     * @var string date format
+     */
     protected $date_format;
 
     /**
@@ -15,14 +28,20 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
     }
 
     /**
-     * {@inheritdoc}
+     * Equile to normalize method
+     *
+     * @param array Record data
+     *
+     * @return void
      */
     public function format( array $record ) {
         return $this->normalize( $record );
     }
 
     /**
-     * {@inheritdoc}
+     * @param array array of records data to normalize
+     *
+     * @return void
      */
     public function format_batch( array $records ) {
         foreach ( $records as $key => $record ) {
@@ -32,8 +51,14 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
         return $records;
     }
 
+    /**
+     * Transform record into normalized form.
+     *
+     * @param mixed $data - incoming variable for normalizing
+     *
+     * @return string
+     */
     protected function normalize( $data ) {
-
         if ( null === $data || is_scalar( $data ) ) {
             return $data;
         }
@@ -72,6 +97,13 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
         return '[unknown(' . gettype( $data ) . ')]';
     }
 
+    /**
+     * Special method for normalizing exception.
+     *
+     * @param Exception $e
+     *
+     * @return string
+     */
     protected function normalize_exception( Exception $e ) {
         $data = array(
             'class'     => get_class( $e ),
@@ -95,6 +127,14 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
         return $data;
     }
 
+    /**
+     * Convert variable into JSON.
+     *
+     * @param variable  $data
+     * @param bool      $ignoreErrors - ignore errors or not
+     *
+     * @return string
+     */
     protected function to_json( $data, $ignoreErrors = false ) {
         // suppress json_encode errors since it's twitchy with some inputs
         if ( $ignoreErrors ) {

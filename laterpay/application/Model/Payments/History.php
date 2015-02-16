@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay payment history model.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
 {
 
@@ -22,6 +29,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         'hash'          => '%s',
         'revenue_model' => '%s',
         'pass_id'       => '%d',
+        'code'          => '%s',
     );
 
     /**
@@ -101,6 +109,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         'hash'          => $data['hash'],
                         'revenue_model' => $data['revenue_model'],
                         'pass_id'       => $data['pass_id'],
+                        'code'          => $data['code'],
                     ),
                     array(
                         '%s',
@@ -112,6 +121,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
                         '%s',
                         '%s',
                         '%d',
+                        '%s',
                     )
             );
         }
@@ -295,7 +305,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
-            $results[ $key ]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;
@@ -337,7 +347,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
-            $results[ $key ]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;
@@ -465,7 +475,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             // the sparkline for the last x days
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
-            $results[ $key ]    = $data;
+            $results[$key]    = $data;
         }
 
         return $results;
@@ -505,7 +515,7 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
             // the sparkline for the last x days
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
-            $results[ $key ]    = $data;
+            $results[$key]    = $data;
         }
 
         return $results;
@@ -546,12 +556,44 @@ class LaterPay_Model_Payments_History extends LaterPay_Helper_Query
         );
 
         if ( $interval === 'day' ) {
-            $args[ 'group_by' ] = 'HOUR(date)';
-            $args[ 'order_by' ] = 'HOUR(date)';
+            $args['group_by'] = 'HOUR(date)';
+            $args['order_by'] = 'HOUR(date)';
         }
 
         $results = $this->get_results( $args );
         return LaterPay_Helper_Dashboard::build_sparkline( $results, $start_timestamp, $interval );
+    }
+
+    public function get_time_pass_history( $pass_id = null ) {
+        global $wpdb;
+
+        $sql = "
+            SELECT
+                pass_id,
+                price,
+                date,
+                code
+            FROM
+                {$this->table}
+            WHERE
+                mode = 'live'";
+
+        if ( $pass_id ) {
+            $sql .= "
+                AND pass_id = $pass_id
+            ";
+        } else {
+            $sql .= "
+                AND pass_id <> 0
+            ";
+        }
+
+        $sql .= "
+            ORDER BY
+                date ASC
+        ";
+
+        return $wpdb->get_results( $sql );
     }
 
 }

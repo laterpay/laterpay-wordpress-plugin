@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay GmbH and Mihail Turalenka
  * Version: 0.9.10
@@ -84,8 +84,8 @@ function laterpay_get_plugin_config() {
     $config->set( 'cache_dir',          plugin_dir_path( __FILE__ ) . 'cache/' );
 
     $upload_dir = wp_upload_dir();
-    $config->set( 'log_dir',            $upload_dir[ 'basedir' ] . '/laterpay_log/' );
-    $config->set( 'log_url',            $upload_dir[ 'baseurl' ] . '/laterpay_log/' );
+    $config->set( 'log_dir',            $upload_dir['basedir'] . '/laterpay_log/' );
+    $config->set( 'log_url',            $upload_dir['baseurl'] . '/laterpay_log/' );
 
     $plugin_url = $config->get( 'plugin_url' );
     $config->set( 'css_url',    $plugin_url . 'built_assets/css/' );
@@ -123,6 +123,23 @@ function laterpay_get_plugin_config() {
     );
     $config->import( $plugin_headers );
 
+    // make sure all API variables are set
+    if ( ! get_option( 'laterpay_sandbox_backend_api_url' ) ) {
+        update_option( 'laterpay_sandbox_backend_api_url', 'https://api.sandbox.laterpaytest.net' );
+    }
+    if ( ! get_option( 'laterpay_sandbox_dialog_api_url' ) ) {
+        update_option( 'laterpay_sandbox_dialog_api_url', 'https://web.sandbox.laterpaytest.net' );
+    }
+    if ( ! get_option( 'laterpay_live_backend_api_url' ) ) {
+        update_option( 'laterpay_live_backend_api_url', 'https://api.laterpay.net' );
+    }
+    if ( ! get_option( 'laterpay_live_dialog_api_url' ) ) {
+        update_option( 'laterpay_live_dialog_api_url', 'https://web.laterpay.net' );
+    }
+    if ( ! get_option( 'laterpay_api_merchant_backend_url' ) ) {
+        update_option( 'laterpay_api_merchant_backend_url', 'https://merchant.laterpay.net/' );
+    }
+
     /**
      * LaterPay API endpoints and API default settings.
      *
@@ -148,9 +165,9 @@ function laterpay_get_plugin_config() {
         $api_settings = $default_api_settings;
     }
     // non-editable settings for the LaterPay API
-    $api_settings[ 'api.token_name' ]           = 'token';
-    $api_settings[ 'api.sandbox_merchant_id' ]  = 'LaterPay-WordPressDemo';
-    $api_settings[ 'api.sandbox_api_key' ]      = 'decafbaddecafbaddecafbaddecafbad';
+    $api_settings['api.token_name']           = 'token';
+    $api_settings['api.sandbox_merchant_id']  = 'LaterPay-WordPressDemo';
+    $api_settings['api.sandbox_api_key']      = 'decafbaddecafbaddecafbaddecafbad';
 
     $config->import( $api_settings );
 

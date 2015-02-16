@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay time pass helper.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Passes
 {
 
@@ -27,8 +34,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $defaults[ $key ] ) ) {
-                return $defaults[ $key ];
+            if ( isset( $defaults[$key] ) ) {
+                return $defaults[$key];
             }
         }
 
@@ -51,8 +58,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $durations[ $key ] ) ) {
-                return $durations[ $key ];
+            if ( isset( $durations[$key] ) ) {
+                return $durations[$key];
             }
         }
 
@@ -89,8 +96,8 @@ class LaterPay_Helper_Passes
         $selected_array = $pluralized ? $periods_pluralized : $periods;
 
         if ( isset ( $key ) ) {
-            if ( isset( $selected_array[ $key ] ) ) {
-                return $selected_array[ $key ];
+            if ( isset( $selected_array[$key] ) ) {
+                return $selected_array[$key];
             }
         }
 
@@ -111,8 +118,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $revenues[ $key ] ) ) {
-                return $revenues[ $key ];
+            if ( isset( $revenues[$key] ) ) {
+                return $revenues[$key];
             }
         }
 
@@ -134,8 +141,8 @@ class LaterPay_Helper_Passes
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $access_to[ $key ] ) ) {
-                return $access_to[ $key ];
+            if ( isset( $access_to[$key] ) ) {
+                return $access_to[$key];
             }
         }
 
@@ -145,38 +152,37 @@ class LaterPay_Helper_Passes
     /**
      * Get short time pass description.
      *
-     * @param  int $duration time pass duration
-     * @param  int $period   time pass period
-     * @param  int $access   time pass access
+     * @param  array  $pass_id    time pass data
+     * @param  bool   $full_info  need to display full info
      *
      * @return string short time pass description
      */
-    public static function get_description( $duration = null, $period = null, $access = null ) {
-        if ( ! $duration ) {
-            $duration = self::get_default_options( 'duration' );
-        }
-        if ( ! $period ) {
-            $period = self::get_default_options( 'period' );
-        }
-        if ( ! $access ) {
-            $access = self::get_default_options( 'access_to' );
-        }
-        if ( $period == 1 ) { // Day
-            $period   = 0;
-            $duration = $duration * 24;
+    public static function get_description( $pass = array(), $full_info = false ) {
+        $details  = array();
+
+        if ( ! $pass ) {
+            $pass['duration']  = self::get_default_options( 'duration' );
+            $pass['period']    = self::get_default_options( 'period' );
+            $pass['access_to'] = self::get_default_options( 'access_to' );
         }
 
-        $access_to_string = __( 'access to', 'laterpay' );
+        $currency = get_option( 'laterpay_currency' );
 
-        $str = sprintf(
-            '%d %s %s %s',
-            $duration,
-            self::get_period_options( $period ),
-            $access_to_string,
-            self::get_access_options( $access )
-        );
+        $details['duration'] = $pass['duration'] . ' ' . LaterPay_Helper_Passes::get_period_options( $pass['period'], $pass['duration'] > 1 );
+        $details['access']   = __( 'access to', 'laterpay' ) . ' ' . LaterPay_Helper_Passes::get_access_options( $pass['access_to'] );
 
-        return strtolower( $str );
+        // also display category, price, and revenue model, if full_info flag is used
+        if ( $full_info ) {
+            if ( $pass['access_to'] > 0 ) {
+                $category_id = $pass['access_category'];
+                $details['category'] = '"' . get_the_category_by_ID( $category_id) . '"';
+            }
+
+            $details['price']    = __( 'for', 'laterpay' ) . ' ' . LaterPay_Helper_View::format_number( $pass['price'] ) . ' ' . strtoupper( $currency );
+            $details['revenue']  = '(' . strtoupper( $pass['revenue_model'] ) . ')';
+        }
+
+        return implode( ' ', $details );
     }
 
     /**
@@ -256,7 +262,7 @@ class LaterPay_Helper_Passes
      * @return array $result
      */
     public static function get_tokenized_passes( $passes = null ) {
-        if ( ! $passes ) {
+        if ( ! isset( $passes ) ) {
             $passes = self::get_all_passes();
         }
 
@@ -287,6 +293,12 @@ class LaterPay_Helper_Passes
             // get category ids
             foreach ( $post_categories as $category ) {
                 $post_category_ids[] = $category->term_id;
+                // get category parents and include them in the ids array as well
+                $parent_id = get_category( $category->term_id )->parent;
+                while ( $parent_id ) {
+                    $post_category_ids[] = $parent_id;
+                    $parent_id = get_category( $parent_id )->parent;
+                }
             }
 
             // get post passes
@@ -499,4 +511,164 @@ class LaterPay_Helper_Passes
         return $time;
     }
 
+    /**
+<<<<<<< HEAD
+     * Get time passes statistic.
+     *
+     * @return array return summary and individual statistics
+     */
+    public static function get_time_passes_statistic() {
+        $history_model      = new LaterPay_Model_Payments_History();
+        $passes             = LaterPay_Helper_Passes::get_all_passes();
+        $summary_active     = 0;
+        $summary_unredeemed = 0;
+        $summary_revenue    = 0;
+        $summary_sold       = 0;
+
+        if ( $passes ) {
+            foreach ( $passes as $pass ) {
+                $pass         = (array) $pass;
+                $pass_history = $history_model->get_time_pass_history( $pass['pass_id'] );
+                $duration     = self::get_pass_expiry_time( $pass ); // in seconds
+
+                // calculate committed revenue, unredeemed codes, and number of active time passes
+                $committed_revenue   = 0;
+                $unredeemed         = 0;
+                $active             = 0;
+
+                if  ( $pass_history && is_array( $pass_history ) ) {
+                    foreach ( $pass_history as $hist ) {
+                        $committed_revenue += $hist->price;
+
+                        // check, if there are unredeemed gift codes
+                        if ( $hist->code && ! LaterPay_Helper_Vouchers::get_gift_code_usages_count( $hist->code ) ) {
+                            $unredeemed++;
+                            $summary_unredeemed++;
+                        }
+
+                        // check, if pass is still active
+                        $start_date   = strtotime( $hist->date );
+                        $current_date = time();
+                        if ( ( $start_date + $duration ) > $current_date ) {
+                            $active++;
+                            $summary_active++;
+                        }
+                    }
+                } else {
+                    $pass_history = array();
+                }
+
+                $pass_statistics = array(
+                    'data'              => $pass,
+                    'active'            => $active,                 // number of active time passes
+                    'sold'              => count( $pass_history ),  // number of purchases
+                    'unredeemed'        => $unredeemed,             // number of unredeemed gift codes
+                    'committed_revenue' => $committed_revenue,      // total value of purchases
+                    'paid_price'        => 0,
+                );
+
+                $statistic['individual'][$pass['pass_id']] = $pass_statistics;
+            }
+        }
+
+        // calculate summary statistics
+        $passes_history = $history_model->get_time_pass_history();
+
+        if ( $passes_history && is_array( $passes_history ) ) {
+            $summary_sold = count( $passes_history );
+            foreach ( $passes_history as $hist ) {
+                $summary_revenue += $hist->price;
+            }
+        }
+
+        $statistic['summary'] = array(
+            'active'            => $summary_active,
+            'sold'              => $summary_sold,
+            'unredeemed'        => $summary_unredeemed,
+            'committed_revenue' => $summary_revenue,
+            'paid_price'        => 0,
+        );
+
+        return $statistic;
+    }
+
+    /**
+     * Get number of expiring time passes for each week, week numbers determined by ticks parameter.
+     *
+     * @param $pass_id pass id | 0 or null for all time passes
+     * @param $ticks   period in weeks
+     *
+     * @return array
+     */
+    public static function get_time_pass_expiry_by_weeks( $pass_id, $ticks ) {
+        $history_model = new LaterPay_Model_Payments_History();
+        $data          = array();
+        $duration      = 0;
+
+        // init array
+        if ( ! $ticks ) {
+            return $data;
+        } else {
+            $i = 0;
+            while ( $i <= $ticks ) {
+                $data[] = 0;
+                $i++;
+            }
+        }
+
+        if ( $pass_id ) {
+            // get history for one given time pass
+            $pass     = (array) self::get_time_pass_by_id( $pass_id );
+            $duration = self::get_pass_expiry_time( $pass );
+            $history  = $history_model->get_time_pass_history( $pass_id );
+        } else {
+            // get history for all time passes
+            $history  = $history_model->get_time_pass_history();
+        }
+
+        if ( $history && is_array( $history ) ) {
+            $week_duration  = 7 * 24 * 60 * 60; // in seconds
+            $current_date   = time();
+
+            // get expiry data for each time pass
+            foreach ( $history as $hist ) {
+                $key        = 0;
+                $start_date = strtotime( $hist->date );
+
+                // determine expiry date of time pass
+                if ( ! $duration ) {
+                    $pass_id        = $hist->pass_id;
+                    $pass           = (array) self::get_time_pass_by_id( $pass_id );
+                    $expiry_date    = $start_date + self::get_pass_expiry_time( $pass );
+                } else {
+                    $expiry_date    = $start_date + $duration;
+                }
+
+                // get week in which time pass expires, if time pass is active
+                if ( $expiry_date > $current_date ) {
+                    $week_number = 1;
+
+                    while( ( $start_date + $week_number * $week_duration ) < $expiry_date ) {
+                        $week_number++;
+                        $key++;
+                    }
+
+                    $data[$key]++;
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /*
+     * Get count of existing passes.
+     *
+     * @return int count of passes
+     */
+    public static function get_passes_count() {
+        $model = new LaterPay_Model_Pass();
+
+        return $model->get_passes_count();
+    }
 }

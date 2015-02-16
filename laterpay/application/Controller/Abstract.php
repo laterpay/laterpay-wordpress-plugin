@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay abstract controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Controller_Abstract
 {
 
@@ -18,7 +25,7 @@ class LaterPay_Controller_Abstract
     protected $config;
 
     /**
-     * Contains the Logger-Instance.
+     * Contains the logger instance.
      *
      * @var LaterPay_Core_Logger
      */
@@ -40,10 +47,10 @@ class LaterPay_Controller_Abstract
     }
 
     /**
-     * Function which will be called on constructor and can be overwritten by child-class.
+     * Function which will be called on constructor and can be overwritten by child class.
      * @return void
      */
-    protected function initialize(){}
+    protected function initialize() {}
 
     /**
      * Load all assets on boot-up.
@@ -171,5 +178,4 @@ class LaterPay_Controller_Abstract
 
         return $this->get_text_view( $file );
     }
-
 }

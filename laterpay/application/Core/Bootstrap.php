@@ -1,8 +1,11 @@
 <?php
 
 /**
- *  LaterPay bootstrap class
+ * LaterPay bootstrap class.
  *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Bootstrap
 {
@@ -41,7 +44,7 @@ class LaterPay_Core_Bootstrap
         // backend actions part 1
         if ( is_admin() ) {
             // perform requirements check on plugins.php page only
-            if ( ! empty ( $GLOBALS[ 'pagenow' ] ) && $GLOBALS[ 'pagenow' ] === 'plugins.php' ) {
+            if ( ! empty ( $GLOBALS['pagenow'] ) && $GLOBALS['pagenow'] === 'plugins.php' ) {
                 $install_controller->check_requirements();
                 add_action( 'admin_notices',                        array( $install_controller, 'render_requirements_notices' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'check_for_updates' ) );
@@ -69,7 +72,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'load-post-new.php',                    array( $admin_controller, 'help_wp_add_post' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_plugin_admin_assets' ) );
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
-                add_action( 'delete_term_taxonomy',                 array( $admin_controller, 'actualize_post_prices_after_category_delete' ) );
+                add_action( 'delete_term_taxonomy',                 array( $admin_controller, 'update_post_prices_after_category_delete' ) );
 
                 $settings_controller = new LaterPay_Controller_Settings( $this->config );
                 add_action( 'admin_menu',                           array( $settings_controller, 'add_laterpay_advanced_settings_page' ) );
@@ -123,9 +126,16 @@ class LaterPay_Core_Bootstrap
             // add the metaboxes
             add_action( 'add_meta_boxes',                   array( $post_metabox_controller, 'add_meta_boxes' ) );
 
-            // save LaterPay post data
-            add_action( 'save_post',                        array( $post_metabox_controller, 'save_laterpay_post_data' ) );
-            add_action( 'edit_attachment',                  array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+            // save LaterPay post data. If only time pass purchases are allowed than pricing information need not be saved.
+            if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == true ) {
+                add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
+                add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
+
+            } else {
+                add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+                add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data' ) );
+            }
+
             add_action( 'transition_post_status',           array( $post_metabox_controller, 'update_post_publication_date' ), 10, 3 );
 
             // load scripts for the admin pages
@@ -193,7 +203,17 @@ class LaterPay_Core_Bootstrap
         add_filter( 'wp_footer',                                        array( $post_controller, 'modify_footer' ) );
 
         $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
-        add_action( 'wp_ajax_laterpay_post_statistic_render',           array( $statistics_controller, 'ajax_render_tab' ) );
+
+        /**
+         * Posts statistics are irrelevant, if only time pass purchases are allowed, but we still need to have the
+         * option to switch the preview mode for the given post, so we only render that switch in this case.
+         */
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == true ) {
+            add_action( 'wp_ajax_laterpay_post_statistic_render',       array( $statistics_controller, 'ajax_render_tab_without_statistics' ) );
+        } else {
+            add_action( 'wp_ajax_laterpay_post_statistic_render',       array( $statistics_controller, 'ajax_render_tab' ) );
+        }
+
         add_action( 'wp_ajax_laterpay_post_statistic_visibility',       array( $statistics_controller, 'ajax_toggle_visibility' ) );
         add_action( 'wp_ajax_laterpay_post_statistic_toggle_preview',   array( $statistics_controller, 'ajax_toggle_preview' ) );
         add_action( 'wp_ajax_laterpay_post_track_views',                array( $statistics_controller, 'ajax_track_views' ) );

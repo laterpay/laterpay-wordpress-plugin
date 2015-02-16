@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay post views model.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
 {
 
@@ -214,7 +221,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         }
 
         // fetch the total count of post views
-        $total_quantity = $this->get_total_post_impression( array( 'where' => $args[ 'where' ] ) );
+        $total_quantity = $this->get_total_post_impression( array( 'where' => $args['where'] ) );
         $total_quantity = $total_quantity->quantity;
 
         laterpay_get_logger()->info( __METHOD__, array( 'total_quantity' => $total_quantity ) );
@@ -227,7 +234,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             // % amount
             $data->amount       = $data->quantity / $total_quantity * 100;
 
-            $results[ $key ]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;
@@ -264,7 +271,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             return $results;
         }
 
-        $total_quantity = $this->get_total_post_impression( array( 'where' => $args[ 'where' ] ) );
+        $total_quantity = $this->get_total_post_impression( array( 'where' => $args['where'] ) );
         $total_quantity = $total_quantity->quantity;
 
         laterpay_get_logger()->info( __METHOD__, array( 'total_quantity' => $total_quantity ) );
@@ -277,7 +284,7 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
             // % amount
             $data->amount       = $data->quantity / $total_quantity * 100;
 
-            $results[ $key ]    = $data;
+            $results[$key]      = $data;
         }
 
         return $results;
@@ -343,11 +350,11 @@ class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
         );
 
         if ( $interval === 'day' ) {
-            $args[ 'group_by' ] = 'HOUR(date)';
-            $args[ 'order_by' ] = 'HOUR(date)';
-        } else if ( $interval === 'month' ){
-            $args[ 'group_by' ] = 'WEEK(date)';
-            $args[ 'order_by' ] = 'WEEK(date)';
+            $args['group_by'] = 'HOUR(date)';
+            $args['order_by'] = 'HOUR(date)';
+        } else if ( $interval === 'month' ) {
+            $args['group_by'] = 'WEEK(date)';
+            $args['order_by'] = 'WEEK(date)';
         }
 
         $results = $this->get_results( $args );
