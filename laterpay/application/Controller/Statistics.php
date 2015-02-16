@@ -34,6 +34,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
                 return false;
             }
         }
+
         // check, if the current post_type is an allowed post_type
         $allowed_post_types = $this->config->get( 'content.enabled_post_types' );
         if ( ! in_array( $post->post_type, $allowed_post_types ) ) {
@@ -415,5 +416,4 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
 
         return $statistic_args;
     }
-
 }
