@@ -17,7 +17,7 @@ class LaterPay_Model_Pass
      *
      * @access public
      */
-    public $passes_table;
+    public $time_passes_table;
 
     /**
      * Constructor for class LaterPay_Model_Pass, load table name.
@@ -31,11 +31,11 @@ class LaterPay_Model_Pass
     /**
      * Get time pass data.
      *
-     * @param int $pass_id time pass id
+     * @param int $time_pass_id time pass id
      *
-     * @return array $pass array of pass data
+     * @return array $time_pass array of time pass data
      */
-    public function get_pass_data( $pass_id ) {
+    public function get_pass_data( $time_pass_id ) {
         global $wpdb;
 
         $sql = "
@@ -47,19 +47,19 @@ class LaterPay_Model_Pass
                 pass_id = %d
             ;
         ";
-        $pass = $wpdb->get_row( $wpdb->prepare( $sql, (int) $pass_id ) );
+        $time_pass = $wpdb->get_row( $wpdb->prepare( $sql, (int) $time_pass_id ) );
 
-        return $pass;
+        return $time_pass;
     }
 
     /**
-     * Update or create new pass.
+     * Update or create new time pass.
      *
      * @param array $data payment data
      *
-     * @return array $data array of saved/updated pass data
+     * @return array $data array of saved/updated time pass data
      */
-    public function update_pass( $data ) {
+    public function update_time_pass( $data ) {
         global $wpdb;
 
         // leave only the required keys
@@ -69,7 +69,7 @@ class LaterPay_Model_Pass
         $data = array_merge( LaterPay_Helper_Passes::get_default_options(), $data );
 
         // pass_id is a primary key, set by autoincrement
-        $pass_id = $data['pass_id'];
+        $time_pass_id = $data['pass_id'];
         unset( $data['pass_id'] );
 
         // format for insert and update statement
@@ -84,7 +84,7 @@ class LaterPay_Model_Pass
             '%s', // description
         );
 
-        if ( empty($pass_id) ) {
+        if ( empty( $time_pass_id ) ) {
             $wpdb->insert(
                 $this->passes_table,
                 $data,
@@ -95,22 +95,22 @@ class LaterPay_Model_Pass
             $wpdb->update(
                     $this->passes_table,
                     $data,
-                    array( 'pass_id' => $pass_id ),
+                    array( 'pass_id' => $time_pass_id ),
                     $format,
                     array( '%d' ) // pass_id
             );
-            $data['pass_id'] = $pass_id;
+            $data['pass_id'] = $time_pass_id;
         }
 
         return $data;
     }
 
     /**
-     * Get all passes
+     * Get all time passes.
      *
-     * @return array $list list of passes
+     * @return array $time_passes list of time passes
      */
-    public function get_all_passes() {
+    public function get_all_time_passes() {
         global $wpdb;
 
         $sql = "
@@ -123,20 +123,20 @@ class LaterPay_Model_Pass
             ;
         ";
 
-        $list = $wpdb->get_results( $sql );
+        $time_passes = $wpdb->get_results( $sql );
 
-        return $list;
+        return $time_passes;
     }
 
     /**
-     * Get post passes by category ids
+     * Get all time passes that apply to a given post by its category ids.
      *
      * @param null $term_ids array of category ids
-     * @param bool $exclude  exclude categories from list
+     * @param bool $exclude  categories to be excluded from the list
      *
-     * @return array $list list of passes
+     * @return array $time_passes list of time passes
      */
-    public function get_post_passes( $term_ids = null, $exclude = null ) {
+    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = null ) {
         global $wpdb;
 
         $sql = "
@@ -165,23 +165,23 @@ class LaterPay_Model_Pass
             ;
         ";
 
-        $list = $wpdb->get_results( $sql );
+        $time_passes = $wpdb->get_results( $sql );
 
-        return $list;
+        return $time_passes;
     }
 
     /**
-     * Delete pass by id.
+     * Delete time pass by id.
      *
-     * @param integer $id pass id
+     * @param integer $time_pass_id time pass id
      *
      * @return int|false the number of rows updated, or false on error
      */
-    public function delete_pass_by_id( $id ) {
+    public function delete_time_pass_by_id( $time_pass_id ) {
         global $wpdb;
 
         $where = array(
-            'pass_id' => (int) $id,
+            'pass_id' => (int) $time_pass_id,
         );
 
         $success = $wpdb->delete( $this->passes_table, $where, '%d' );
@@ -190,11 +190,11 @@ class LaterPay_Model_Pass
     }
 
     /**
-     * Get count of existing passes.
+     * Get count of existing time passes.
      *
-     * @return int the number of passes
+     * @return int number of defined time passes
      */
-    public function get_passes_count() {
+    public function get_time_passes_count() {
         global $wpdb;
 
         $sql = "

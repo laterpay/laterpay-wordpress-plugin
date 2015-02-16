@@ -283,7 +283,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $link    = $url_data['link'];
         $url     = add_query_arg( $url_data, $link );
         $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-        $pass_id = LaterPay_Helper_Passes::get_untokenized_pass_id( $url_data['pass_id'] );
+        $pass_id = LaterPay_Helper_Passes::get_untokenized_time_pass_id( $url_data['pass_id'] );
         $voucher = $url_data['voucher'];
 
         if ( $hash === $_GET['hash'] ) {
@@ -496,7 +496,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // check access for time passes
-        $time_passes = LaterPay_Helper_Passes::get_tokenized_passes();
+        $time_passes = LaterPay_Helper_Passes::get_tokenized_time_pass_ids();
         foreach ( $time_passes as $time_pass ) {
             // add a tokenized pass id to the array of posts to be queried for access, if it's not loaded already
             if ( ! array_key_exists( $time_pass, $this->access ) ) {
@@ -552,8 +552,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
 
         // check access with time passes
-        $time_passes_list   = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( $post_id );
-        $time_passes        = LaterPay_Helper_Passes::get_tokenized_passes( $time_passes_list );
+        $time_passes_list   = LaterPay_Helper_Passes::get_time_passes_list_by_post_id( $post_id );
+        $time_passes        = LaterPay_Helper_Passes::get_tokenized_time_pass_ids( $time_passes_list );
         foreach ( $time_passes as $time_pass ) {
             if ( array_key_exists( $time_pass, $this->access ) && $this->access[$time_pass] ) {
                 return true;
@@ -816,9 +816,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // check, if we are on the homepage or on a post / page page
         if ( $is_homepage ) {
-            $time_passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( null, $time_passes_with_access );
+            $time_passes_list = LaterPay_Helper_Passes::get_time_passes_list_by_post_id( null, $time_passes_with_access );
         } else {
-            $time_passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( get_the_ID(), $time_passes_with_access );
+            $time_passes_list = LaterPay_Helper_Passes::get_time_passes_list_by_post_id( get_the_ID(), $time_passes_with_access );
         }
 
         // don't render the widget, if there are no time passes

@@ -62,7 +62,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         // pass localized strings and variables to script
         $passes_model       = new LaterPay_Model_Pass();
-        $passes_list        = (array) $passes_model->get_all_passes();
+        $passes_list        = (array) $passes_model->get_all_time_passes();
         $vouchers_list      = LaterPay_Helper_Vouchers::get_all_vouchers();
         $vouchers_statistic = LaterPay_Helper_Vouchers::get_all_vouchers_statistic();
 
@@ -96,7 +96,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         // time passes and vouchers data
         $passes_model                   = new LaterPay_Model_Pass();
-        $passes_list                    = (array) $passes_model->get_all_passes();
+        $passes_list                    = (array) $passes_model->get_all_time_passes();
         $vouchers_list                  = LaterPay_Helper_Vouchers::get_all_vouchers();
         $vouchers_statistic             = LaterPay_Helper_Vouchers::get_all_vouchers_statistic();
 
@@ -897,7 +897,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             // ensure valid revenue model
             $data['revenue_model'] = LaterPay_Helper_Pricing::ensure_valid_revenue_model( $data['revenue_model'], $data['price'] );
             // update time pass data or create new time pass
-            $data = $pass_model->update_pass( $data );
+            $data = $pass_model->update_time_pass( $data );
             // save vouchers for this pass
             LaterPay_Helper_Vouchers::save_pass_vouchers( $data['pass_id'], $voucher );
 
@@ -935,7 +935,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             $pass_model = new LaterPay_Model_Pass();
 
             // remove pass
-            $pass_model->delete_pass_by_id( $pass_id );
+            $pass_model->delete_time_pass_by_id( $pass_id );
 
             // remove vouchers
             LaterPay_Helper_Vouchers::delete_voucher_code( $pass_id );
@@ -1037,7 +1037,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         }
 
         if ( $only_time_pass == 1 ) {
-            if ( ! LaterPay_Helper_Passes::get_passes_count() ) {
+            if ( ! LaterPay_Helper_Passes::get_time_passes_count() ) {
                 wp_send_json(
                     array(
                         'success' => false,
