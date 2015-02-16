@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Helper_Passes
+class LaterPay_Helper_Pass
 {
 
     const PASS_TOKEN = 'tlp';
@@ -168,8 +168,8 @@ class LaterPay_Helper_Passes
 
         $currency = get_option( 'laterpay_currency' );
 
-        $details['duration'] = $pass['duration'] . ' ' . LaterPay_Helper_Passes::get_period_options( $pass['period'], $pass['duration'] > 1 );
-        $details['access']   = __( 'access to', 'laterpay' ) . ' ' . LaterPay_Helper_Passes::get_access_options( $pass['access_to'] );
+        $details['duration'] = $pass['duration'] . ' ' . LaterPay_Helper_Pass::get_period_options( $pass['period'], $pass['duration'] > 1 );
+        $details['access']   = __( 'access to', 'laterpay' ) . ' ' . LaterPay_Helper_Pass::get_access_options( $pass['access_to'] );
 
         // also display category, price, and revenue model, if full_info flag is used
         if ( $full_info ) {
@@ -517,8 +517,8 @@ class LaterPay_Helper_Passes
      * @return array return summary and individual statistics
      */
     public static function get_time_passes_statistic() {
-        $history_model      = new LaterPay_Model_Payments_History();
-        $passes             = LaterPay_Helper_Passes::get_all_passes();
+        $history_model      = new LaterPay_Model_Payment_History();
+        $passes             = LaterPay_Helper_Pass::get_all_passes();
         $summary_active     = 0;
         $summary_unredeemed = 0;
         $summary_revenue    = 0;
@@ -540,7 +540,7 @@ class LaterPay_Helper_Passes
                         $committed_revenue += $hist->price;
 
                         // check, if there are unredeemed gift codes
-                        if ( $hist->code && ! LaterPay_Helper_Vouchers::get_gift_code_usages_count( $hist->code ) ) {
+                        if ( $hist->code && ! LaterPay_Helper_Voucher::get_gift_code_usages_count( $hist->code ) ) {
                             $unredeemed++;
                             $summary_unredeemed++;
                         }
@@ -600,7 +600,7 @@ class LaterPay_Helper_Passes
      * @return array
      */
     public static function get_time_pass_expiry_by_weeks( $pass_id, $ticks ) {
-        $history_model = new LaterPay_Model_Payments_History();
+        $history_model = new LaterPay_Model_Payment_History();
         $data          = array();
         $duration      = 0;
 

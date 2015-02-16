@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 {
 
     /**
@@ -89,7 +89,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             )
         );
 
-        LaterPay_Helper_Statistics::track( $post_id );
+        LaterPay_Helper_Statistic::track( $post_id );
     }
 
     /**
@@ -107,7 +107,7 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
             $post       = get_post( $post_id );
 
             if ( $this->check_requirements( $post ) ) {
-                LaterPay_Helper_Statistics::track( $post_id );
+                LaterPay_Helper_Statistic::track( $post_id );
             }
         }
 
@@ -338,8 +338,8 @@ class LaterPay_Controller_Statistics extends LaterPay_Controller_Abstract
         $currency = get_option( 'laterpay_currency' );
 
         // get historical performance data for post
-        $payments_history_model = new LaterPay_Model_Payments_History();
-        $post_views_model       = new LaterPay_Model_Post_Views();
+        $payments_history_model = new LaterPay_Model_Payment_History();
+        $post_views_model       = new LaterPay_Model_Post_View();
         $currency_model         = new LaterPay_Model_Currency();
 
         // get total revenue and total sales

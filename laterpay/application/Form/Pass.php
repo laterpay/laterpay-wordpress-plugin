@@ -61,7 +61,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array_keys( LaterPay_Helper_Passes::get_period_options() ),
+                    'in_array' => array_keys( LaterPay_Helper_Pass::get_period_options() ),
                 ),
                 'filters'    => array(
                     'to_int',
@@ -76,7 +76,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array_keys( LaterPay_Helper_Passes::get_access_options() ),
+                    'in_array' => array_keys( LaterPay_Helper_Pass::get_access_options() ),
                 ),
                 'filters'    => array(
                     'to_int',

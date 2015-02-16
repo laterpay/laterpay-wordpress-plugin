@@ -101,7 +101,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
             'cache_file_exists'         => $this->cache_file_exists,
             'cache_file_is_broken'      => $this->cache_file_is_broken,
-            'passes'                    => LaterPay_Helper_Passes::get_time_passes_statistic(),
+            'passes'                    => LaterPay_Helper_Pass::get_time_passes_statistic(),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -195,10 +195,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function converting_items( $options ) {
-        $post_views_model   = new LaterPay_Model_Post_Views();
+        $post_views_model   = new LaterPay_Model_Post_View();
         $converting_items   = $post_views_model->get_history( $options['query_args'], $options['interval'] );
 
-        $history_model      = new LaterPay_Model_Payments_History();
+        $history_model      = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -261,7 +261,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function selling_items( $options ) {
-        $history_model  = new LaterPay_Model_Payments_History();
+        $history_model  = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -293,7 +293,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function revenue_items( $options ) {
-        $history_model  = new LaterPay_Model_Payments_History();
+        $history_model  = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -325,7 +325,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function most_least_converting_items( $options ) {
-        $post_views_model = new LaterPay_Model_Post_Views();
+        $post_views_model = new LaterPay_Model_Post_View();
         $most   = $post_views_model->get_most_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
         $least  = $post_views_model->get_least_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
         $data   = array(
@@ -353,7 +353,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function most_least_selling_items( $options ) {
-        $history_model = new LaterPay_Model_Payments_History();
+        $history_model = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -395,7 +395,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function most_least_revenue_items( $options ) {
-        $history_model = new LaterPay_Model_Payments_History();
+        $history_model = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -459,8 +459,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $history_args['where']['revenue_model'] = $options['revenue_model'];
         }
 
-        $history_model      = new LaterPay_Model_Payments_History();
-        $post_views_model   = new LaterPay_Model_Post_Views();
+        $history_model      = new LaterPay_Model_Payment_History();
+        $post_views_model   = new LaterPay_Model_Post_View();
 
         // get the user stats for the given parameters
         $user_stats             = $history_model->get_user_stats( $history_args );

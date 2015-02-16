@@ -74,7 +74,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_enqueue_scripts',                array( $admin_controller, 'add_admin_pointers_script' ) );
                 add_action( 'delete_term_taxonomy',                 array( $admin_controller, 'update_post_prices_after_category_delete' ) );
 
-                $settings_controller = new LaterPay_Controller_Settings( $this->config );
+                $settings_controller = new LaterPay_Controller_Setting( $this->config );
                 add_action( 'admin_menu',                           array( $settings_controller, 'add_laterpay_advanced_settings_page' ) );
                 add_action( 'admin_init',                           array( $settings_controller, 'init_laterpay_advanced_settings' ) );
 
@@ -202,7 +202,7 @@ class LaterPay_Core_Bootstrap
         add_filter( 'get_the_excerpt',                                  array( $post_controller, 'modify_post_excerpt' ), 1 );
         add_filter( 'wp_footer',                                        array( $post_controller, 'modify_footer' ) );
 
-        $statistics_controller = new LaterPay_Controller_Statistics( $this->config );
+        $statistics_controller = new LaterPay_Controller_Statistic( $this->config );
 
         /**
          * Posts statistics are irrelevant, if only time pass purchases are allowed, but we still need to have the

@@ -39,8 +39,8 @@ class LaterPay_Helper_Post {
 
         // check if parent post has access with passes
         $parent_post = $is_attachment ? get_the_ID() : $post_id;
-        $passes_list = LaterPay_Helper_Passes::get_time_passes_list_for_the_post( $parent_post );
-        $passes      = LaterPay_Helper_Passes::get_tokenized_passes( $passes_list );
+        $passes_list = LaterPay_Helper_Pass::get_time_passes_list_for_the_post( $parent_post );
+        $passes      = LaterPay_Helper_Pass::get_tokenized_passes( $passes_list );
         foreach ( $passes as $pass ) {
             if ( array_key_exists( $pass, self::$access ) && self::$access[$pass] ) {
                 return true;
