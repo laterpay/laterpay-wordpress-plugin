@@ -114,7 +114,9 @@ var LPCurve = function(container) {
         .attr('class', 'lp_dynamic-pricing__start-price-value lp_dynamic-pricing__handle-text')
         .attr('text-anchor', 'end');
     svg.append('text')
-        .attr('class', 'lp_dynamic-pricing__start-price-currency lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit')
+        .attr('class', 'lp_dynamic-pricing__start-price-currency ' +
+                        'lp_dynamic-pricing__handle-text ' +
+                        'lp_dynamic-pricing__handle-unit')
         .attr('text-anchor', 'end')
         .text(this.currency);
     svg.append('path')
@@ -143,7 +145,9 @@ var LPCurve = function(container) {
         .attr('class', 'lp_dynamic-pricing__end-price-value lp_dynamic-pricing__handle-text')
         .attr('text-anchor', 'end');
     svg.append('text')
-        .attr('class', 'lp_dynamic-pricing__end-price-currency lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit')
+        .attr('class', 'lp_dynamic-pricing__end-price-currency ' +
+                        'lp_dynamic-pricing__handle-text ' +
+                        'lp_dynamic-pricing__handle-unit')
         .attr('text-anchor', 'end')
         .text(this.currency);
     svg.append('path')
@@ -158,7 +162,10 @@ var LPCurve = function(container) {
 
     // start price handle / input events
     jQuery('body')
-    .on('click', '.lp_dynamic-pricing__start-price-handle, .lp_dynamic-pricing__start-price-currency, .lp_dynamic-pricing__start-price-triangle', function() {
+    .on('click',
+        '.lp_dynamic-pricing__start-price-handle, ' +
+        '.lp_dynamic-pricing__start-price-currency, ' +
+        '.lp_dynamic-pricing__start-price-triangle', function() {
         lpc.toggleStartInput('show');
     });
 // FIXME: why should the above thing require .on whereas the events below don't???
@@ -176,7 +183,10 @@ var LPCurve = function(container) {
 
     // end price handle / input events
     jQuery('body')
-    .on('click', '.lp_dynamic-pricing__end-price-handle, .lp_dynamic-pricing__end-price-currency, .lp_dynamic-pricing__end-price-triangle', function() {
+    .on('click',
+        '.lp_dynamic-pricing__end-price-handle, ' +
+        '.lp_dynamic-pricing__end-price-currency, ' +
+        '.lp_dynamic-pricing__end-price-triangle', function() {
         lpc.toggleEndInput('show');
     })
 // FIXME: why should the above thing require .on whereas the events below don't???
@@ -237,7 +247,7 @@ LPCurve.prototype.plot = function() {
         x, y;
 
     // position entire widget
-    d3.select(this.container).select('.lp_dynamic-pricing__svg')
+    d3.select('.lp_dynamic-pricing__svg')
         .attr({
             width   : width + margin.xAxis,
             height  : height + margin.yAxis,
@@ -266,7 +276,8 @@ LPCurve.prototype.plot = function() {
                   .scale(yScale)
                   .tickSize(-height, 0, 0)
                   .ticks(7)
-                  .orient('left');
+                  .orient('left'),
+        classes;
     xScale.domain(xExtent);
     yScale.domain(yExtent);
 
@@ -353,7 +364,9 @@ LPCurve.prototype.plot = function() {
         point               = svg.selectAll('.lp_dynamic-pricing__price-curve-point.lp_is-draggable').data((self.data)),
         xMarker             = svg.selectAll('.lp_dynamic-pricing__price-curve').data((self.data).slice(1, end)),
         transparentXMarker  = svg.selectAll('.lp_dynamic-pricing__price-curveXXX').data((self.data).slice(1, end)),
-        currentPrice        = svg.selectAll('.lp_dynamic-pricing__current-price-marker').data((self.data).slice(1, end));
+        currentPrice        = svg.selectAll('.lp_dynamic-pricing__current-price-marker')
+                                .data((self.data)
+                                .slice(1, end));
 
 
     // START PRICE -----------------------------------------------------------------------------------------------------
@@ -374,7 +387,6 @@ LPCurve.prototype.plot = function() {
             y: function(d) { return yScale(d.y) - 0.5; },
         })
         .text(function(d) { return d.y.toFixed(2); });
-
     svg.select('.lp_dynamic-pricing__start-price-currency')
         .datum((self.data)[0])
         .call(dragYAxisBehavior)
@@ -468,15 +480,20 @@ LPCurve.prototype.plot = function() {
 
 
     // PRICE CHANGE INTERVAL BOUNDARIES --------------------------------------------------------------------------------
-// TODO: rename all this stuff here
+    // handles for setting the number of days after publication, after which
+    // handle 1: the price starts changing
+    // handle 2: the price reaches its final value
+    // There is also a third handle for setting the maximum value on the x-axis which exists as a technical workaround
+    // and is visually hidden.
     var daysHandle = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle').data((self.data).slice(1, end));
     daysHandle.enter().append('rect')
         .attr('class', function(point, index) {
+            classes = 'lp_dynamic-pricing__price-change-days-handle';
             if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__price-change-days-handle lp_is-hidden';
+                classes += ' lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__price-change-days-handle';
+            return classes;
         })
         .call(dragXAxisBehavior);
     daysHandle.exit().remove();
@@ -490,14 +507,18 @@ LPCurve.prototype.plot = function() {
             ry      : 3,
         });
 
-    var daysHandleTriangle = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle-triangle').data((self.data).slice(1, end));
+    var daysHandleTriangle = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle-triangle')
+                                .data((self.data)
+                                .slice(1, end));
     daysHandleTriangle.enter().append('path')
         .attr('class', function(point, index) {
+            classes = 'lp_dynamic-pricing__price-change-days-handle-triangle';
             if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__price-change-days-handle-triangle lp_is-hidden';
+                // hide the third x-axis handle - it's only there to work around technical restrictions
+                classes += ' lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__price-change-days-handle-triangle';
+            return classes;
         })
         .call(dragXAxisBehavior);
     daysHandleTriangle.exit().remove();
@@ -512,11 +533,13 @@ LPCurve.prototype.plot = function() {
     var daysHandleValue = svg.selectAll('.lp_dynamic-pricing__price-change-days-value').data((self.data).slice(1, end));
     daysHandleValue.enter().append('text')
         .attr('class', function(point, index) {
+            classes = 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text';
             if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text lp_is-hidden';
+                // hide the third x-axis handle - it's only there to work around technical restrictions
+                classes += ' lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text';
+            return classes;
         })
         .call(dragXAxisBehavior);
     daysHandleValue.exit().remove();
@@ -532,11 +555,15 @@ LPCurve.prototype.plot = function() {
     var daysHandleUnit = svg.selectAll('.lp_dynamic-pricing__price-change-days-unit').data((self.data).slice(1, end));
     daysHandleUnit.enter().append('text')
         .attr('class', function(point, index) {
+            classes =   'lp_dynamic-pricing__price-change-days-unit ' +
+                        'lp_dynamic-pricing__handle-text ' +
+                        'lp_dynamic-pricing__handle-unit';
             if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit lp_is-hidden';
+                // hide the third x-axis handle - it's only there to work around technical restrictions
+                classes += ' lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__price-change-days-unit lp_dynamic-pricing__handle-text lp_dynamic-pricing__handle-unit';
+            return classes;
         })
         .call(dragXAxisBehavior);
     daysHandleUnit.exit().remove();
@@ -553,12 +580,13 @@ LPCurve.prototype.plot = function() {
     // X-AXIS MARKERS --------------------------------------------------------------------------------------------------
     xMarker.enter().append('line')
         .attr('class', function(point, index) {
-            // hide the third vertical dashed line - it's only there to work around technical restrictions
+            classes = 'lp_dynamic-pricing__x-axis-marker';
             if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__x-axis-marker lp_is-hidden';
+                // hide the third vertical dashed line - it's only there to work around technical restrictions
+                classes += ' lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__x-axis-marker';
+            return classes;
         });
     xMarker.exit().remove();
 
@@ -573,11 +601,13 @@ LPCurve.prototype.plot = function() {
 
     transparentXMarker.enter().append('line')
         .attr('class', function(point, index) {
+            classes = 'lp_dynamic-pricing__x-axis-marker';
             if (index === self.data.length - 2) {
-                return 'lp_dynamic-pricing__x-axis-marker lp_is-hidden';
+                // hide the third transparent x-axis marker - it's only there to work around technical restrictions
+                classes += ' lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__x-axis-marker';
+            return classes;
         })
         .call(dragXAxisBehavior);
     transparentXMarker.exit().remove();
@@ -593,16 +623,17 @@ LPCurve.prototype.plot = function() {
 
     // PRICE CURVE POINTS ----------------------------------------------------------------------------------------------
     // This will return a reference to the placeholder elements (nodes) for each
-    // data element that did not have a corresponding existing DOM Element
-    // Then we append a circle for each element in data
+    // data element that did not have a corresponding existing DOM Element.
+    // Then we append a circle for each element in the data.
     point.enter().append('circle')
-        .attr('class', function(point,index) {
-            // hide the first and the last point on the price curve
+        .attr('class', function(point, index) {
+            classes = 'lp_dynamic-pricing__price-curve-point lp_is-draggable';
             if (index === 0 || index === self.data.length - 1) {
-                return 'lp_dynamic-pricing__price-curve-point lp_is-draggable lp_is-hidden';
+                // hide the first and the last point on the price curve
+                classes += ' lp_is-hidden';
             }
 
-            return 'lp_dynamic-pricing__price-curve-point lp_is-draggable';
+            return classes;
         })
         .attr('r', 0)
         .call(dragYAxisBehavior);
@@ -626,13 +657,13 @@ LPCurve.prototype.plot = function() {
             .attr('class', 'lp_dynamic-pricing__current-price-marker');
         currentPrice.exit().remove();
         currentPrice
-          .transition().duration()
-          .attr({
-            x1: function() { return xScale(lpc.pubDays); },
-            y1: function() { return yScale(0); },
-            x2: function() { return xScale(lpc.pubDays); },
-            y2: function() { return yScale(lpc.maxPrice); },
-        });
+            .transition().duration()
+            .attr({
+                x1: function() { return xScale(lpc.pubDays); },
+                y1: function() { return yScale(0); },
+                x2: function() { return xScale(lpc.pubDays); },
+                y2: function() { return yScale(lpc.maxPrice); },
+            });
         svg.append('text')
             .attr('class', 'lp_dynamic-pricing__current-price-label')
             .attr('text-anchor', 'end')
@@ -667,9 +698,8 @@ LPCurve.prototype.plot = function() {
             self.data[1].y = d.y;
         } else if (i === 1) {
             self.data[0].y = d.y;
-        }
-        // we have to keep the starting price in sync with the last / last but one point
-        else if (i === 0 && self.data[self.data.length-1].x === d.x) {
+        } else if (i === 0 && self.data[self.data.length-1].x === d.x) {
+            // we have to keep the starting price in sync with the last / last but one point
             self.data[self.data.length - 2].y = d.y;
         } else if (i === self.data.length - 2) {
             self.data[self.data.length - 1].y = d.y;
@@ -714,6 +744,9 @@ LPCurve.prototype.plot = function() {
         self.plot();
     }
 
+    /**
+     * Adjust the x-axis scale, if required.
+     */
     function dragDays(d, i) {
         var targetDate          = xScale.invert(d3.event.x),
             isDraggingLastPoint = (i === self.data.length - 2),
@@ -793,11 +826,15 @@ LPCurve.prototype.toggleStartInput = function(action) {
         lpc.set_data(data);
         jQuery('.lp_dynamic-pricing__start-price-handle').attr('width', '32px');
         jQuery('.lp_dynamic-pricing__start-price-input-wrapper').hide();
-        jQuery('.lp_dynamic-pricing__start-price-handle-triangle, .lp_dynamic-pricing__start-price-currency, .lp_dynamic-pricing__start-price-value').show();
+        jQuery('.lp_dynamic-pricing__start-price-handle-triangle, ' +
+               '.lp_dynamic-pricing__start-price-currency, ' +
+               '.lp_dynamic-pricing__start-price-value').show();
         lpc.plot();
     } else if (action === 'show') {
         jQuery('.lp_dynamic-pricing__start-price-handle').attr('width', '50px');
-        jQuery('.lp_dynamic-pricing__start-price-handle-triangle, .lp_dynamic-pricing__start-price-currency, .lp_dynamic-pricing__start-price-value').hide();
+        jQuery('.lp_dynamic-pricing__start-price-handle-triangle, ' +
+               '.lp_dynamic-pricing__start-price-currency, ' +
+               '.lp_dynamic-pricing__start-price-value').hide();
         jQuery('.lp_dynamic-pricing__start-price-input-wrapper').show();
         jQuery('.lp_dynamic-pricing__start-price-input').val(plotPrice.toFixed(2));
     } else if (action === 'update') {
@@ -842,11 +879,15 @@ LPCurve.prototype.toggleEndInput = function(action) {
         lpc.set_data(data);
         jQuery('.lp_dynamic-pricing__end-price-handle').attr('width', '32px');
         jQuery('.lp_dynamic-pricing__end-price-input-wrapper').hide();
-        jQuery('.lp_dynamic-pricing__end-price-handle-triangle, .lp_dynamic-pricing__end-price-currency, .lp_dynamic-pricing__end-price-value').show();
+        jQuery('.lp_dynamic-pricing__end-price-handle-triangle, ' +
+               '.lp_dynamic-pricing__end-price-currency, ' +
+               '.lp_dynamic-pricing__end-price-value').show();
         lpc.plot();
     } else if (action === 'show') {
         jQuery('.lp_dynamic-pricing__end-price-handle').attr('width', '50px').attr('x', basicX);
-        jQuery('.lp_dynamic-pricing__end-price-handle-triangle, .lp_dynamic-pricing__end-price-currency, .lp_dynamic-pricing__end-price-value').hide();
+        jQuery('.lp_dynamic-pricing__end-price-handle-triangle, ' +
+               '.lp_dynamic-pricing__end-price-currency, ' +
+               '.lp_dynamic-pricing__end-price-value').hide();
         jQuery('.lp_dynamic-pricing__end-price-input-wrapper').attr('x', basicX + 2).show();
         jQuery('.lp_dynamic-pricing__end-price-input').val(plotPrice.toFixed(2));
     } else if (action === 'update') {
