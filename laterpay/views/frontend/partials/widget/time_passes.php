@@ -6,7 +6,7 @@
     <?php endif; ?>
 
     <?php foreach ( $laterpay_widget['passes_list'] as $pass ): ?>
-        <?php echo $this->render_pass( (array) $pass ); ?>
+        <?php echo $this->render_time_pass( (array) $pass ); ?>
     <?php endforeach; ?>
 
     <?php if ( $laterpay_widget['has_vouchers'] ): ?>

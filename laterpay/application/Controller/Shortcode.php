@@ -4,7 +4,7 @@
  * LaterPay shortcode controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
@@ -48,7 +48,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string $html
      */
     public function render_premium_download_box( $atts ) {
-        // check if the plugin is correctly configured and working
+        // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
@@ -165,7 +165,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             return $error_message;
         }
 
-        // check if page has a custom post type
+        // check, if page has a custom post type
         $custom_post_types      = get_post_types( array( '_builtin' => false ) );
         $custom_types           = array_keys( $custom_post_types );
         $is_custom_post_type    = ! empty( $custom_types ) && in_array( $page->post_type, $custom_types );
@@ -186,7 +186,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
 
         if ( $a['content_type'] == '' ) {
-            // determine $content_type from MIME Type of files attached to post
+            // determine $content_type from MIME type of files attached to post
             $page_mime_type = get_post_mime_type( $page_id );
 
             switch ( $page_mime_type ) {
@@ -276,7 +276,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     function render_premium_download_box_wrapper( $atts, $content = null ) {
-        // check if the plugin is correctly configured and working
+        // check, if the plugin is correctly configured and working
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
@@ -521,7 +521,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * [add_free_codes_to_passes description]
+     * TODO: [add_free_codes_to_passes description]
      *
      * @param [type] $passes [description]
      */
@@ -589,7 +589,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page');
 
-            // add gift codes with URLs to passes
+            // add gift codes with URLs to time passes
             $passes       = $this->add_free_codes_to_passes( $passes, $_GET['link'] );
             $view_args = array(
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,

@@ -263,7 +263,7 @@
                             <span class="lp_js_timePassId lp_timePass__id"><?php echo $pass->pass_id; ?></span>
                         </div>
                         <div class="lp_js_timePassPreview lp_u_left">
-                            <?php echo $this->render_pass( (array) $pass ); ?>
+                            <?php echo $this->render_time_pass( (array) $pass ); ?>
                         </div>
 
                         <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_m-t05"></div>
@@ -302,7 +302,7 @@
                     </div>
 
                     <div class="lp_js_timePassPreview lp_u_left">
-                        <?php echo $this->render_pass(); ?>
+                        <?php echo $this->render_time_pass(); ?>
                     </div>
 
                     <div class="lp_js_timePass_editorContainer lp_timePass_editorContainer lp_u_m-t05">

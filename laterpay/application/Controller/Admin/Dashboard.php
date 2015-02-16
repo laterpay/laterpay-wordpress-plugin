@@ -4,7 +4,7 @@
  * LaterPay dashboard controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
@@ -75,7 +75,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
                 'nonces'    => array( 'dashboard' => wp_create_nonce( $this->ajax_nonce ) ),
                 'submenu'   => array( 'view' => array(
-                    'standart' => 'standard-kpis',
+                    'standard' => 'standard-kpis',
                     'passes'   => 'time-passes',
                 ) ),
                 'i18n'      => $i18n,
@@ -95,7 +95,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'admin_menu'                => LaterPay_Helper_View::get_admin_menu(),
             'currency'                  => get_option( 'laterpay_currency' ),
 
-            // in wp-config.php the user can disable the WP-Cron completely OR replace it with real server crons.
+            // in wp-config.php the user can disable the WP-cron completely OR replace it with real server crons.
             // this view variable can be used to show additional information that *maybe* the dashboard
             // data will not refresh automatically
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
@@ -151,8 +151,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
     /**
      * Callback for wp-cron to refresh today's dashboard data.
-     * The Cron job provides two params for {x} days back and {n} count of items to
-     * register your own cron with custom params to cache data.
+     * The cron job provides two parameters for {x} days back and {n} count of items to
+     * register your own cron with custom parameters to cache data.
      *
      * @wp-hook laterpay_refresh_dashboard_data
      *
@@ -251,19 +251,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         );
 
         return $converted_diagram_data;
-    }
-
-    /**
-     * Internal function to load the expiring time passes as diagram.
-     *
-     * @param array $options
-     *
-     * @return array $data
-     */
-    private function time_passes_expiry( $options ) {
-        $time_pass_expiry_diagram = LaterPay_Helper_Dashboard::time_pass_expiry_diagram( $options['pass_id'] );
-
-        return $time_pass_expiry_diagram;
     }
 
     /**
@@ -443,6 +430,19 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Internal function to load the expiring time passes as diagram.
+     *
+     * @param array $options
+     *
+     * @return array $data
+     */
+    private function time_passes_expiry( $options ) {
+        $time_pass_expiry_diagram = LaterPay_Helper_Dashboard::time_pass_expiry_diagram( $options['pass_id'] );
+
+        return $time_pass_expiry_diagram;
+    }
+
+    /**
      * Internal function to load KPIs by given options.
      *
      * @param array $options
@@ -450,7 +450,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function metrics( $options ) {
-
         $post_args = array(
             'where' => $options['query_where'],
         );
@@ -463,7 +462,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $history_model      = new LaterPay_Model_Payments_History();
         $post_views_model   = new LaterPay_Model_Post_Views();
 
-        // get the user stats for the given params
+        // get the user stats for the given parameters
         $user_stats             = $history_model->get_user_stats( $history_args );
         $total_customers        = count( $user_stats );
         $new_customers          = 0;
@@ -504,8 +503,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             } else if ( $options['interval'] === 'month' ) {
                 $diff = 30;
             } else {
-                // hour
-                $diff = 24;
+                $diff = 24; // hour
             }
             $avg_items_sold = $total_items_sold / $diff;
         }

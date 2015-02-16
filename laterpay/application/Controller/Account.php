@@ -4,7 +4,7 @@
  * LaterPay account controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
@@ -28,7 +28,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         <?php
 
         if ( empty( $css ) ) {
-            // use laterpay-account-links to style the login / logout links by default
+            // use laterpay-account-links CSS file to style the login / logout links by default
             $css = $this->config->get( 'css_url' ) . 'laterpay-account-links.css';
         }
 
@@ -47,7 +47,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
             $forcelang = substr( get_locale(), 0, 2 );
         }
 
-        // create account links URL with passed params
+        // create account links URL with passed parameters
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
             $client_options['cp_key'],
@@ -57,7 +57,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
             $client_options['token_name']
         );
         $links_url = $client->get_account_links_url( $show, $css, $next, $forcelang );
-        // get merchant id
+        // get Merchant ID
         $is_live = get_option( 'laterpay_plugin_is_in_live_mode' );
         $merchant_id = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
         ?>

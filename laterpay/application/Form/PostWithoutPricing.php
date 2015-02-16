@@ -4,7 +4,7 @@
  * LaterPay plugin mode form class for saving post data without pricing parameters.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Form_PostWithoutPricing extends LaterPay_Form_Abstract

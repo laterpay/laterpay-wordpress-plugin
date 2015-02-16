@@ -3,7 +3,7 @@
  * LaterPay post metabox controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 
@@ -192,7 +192,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return false;
         }
 
-        // check if the current post type is enabled
+        // check, if the current post type is enabled
         if ( ! in_array( $post->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
             return false;
         }
@@ -249,7 +249,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             $post_revenue_model = $global_default_price_revenue_model;
         }
 
-        // allowed price ranges
+        // get valid price ranges
         $price_ranges = LaterPay_Helper_Pricing::get_price_ranges_by_revenue_model();
 
         echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
@@ -305,10 +305,8 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         // nonce not valid -> do nothing
         if ( $post_form->is_valid() ) {
-
             // no rights to edit laterpay_edit_teaser_content -> do nothing
             if ( LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
-
                 $teaser = $post_form->get_field_value( 'laterpay_post_teaser' );
 
                 if ( $teaser ) {
@@ -333,7 +331,6 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
             // no rights to edit laterpay_edit_individual_price -> do nothing
             if ( LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post_id ) ) {
-
                 // postmeta values array
                 $meta_values = array();
 
@@ -411,7 +408,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             return;
         }
 
-        // new form
+        // set up new form
         $post_form = new LaterPay_Form_PostWithoutPricing( $_POST );
         $condition = array(
             'verify_nonce' => array(

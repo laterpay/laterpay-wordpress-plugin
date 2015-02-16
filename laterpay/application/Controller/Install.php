@@ -1,17 +1,17 @@
 <?php
 
 /**
- * LaterPay plugin installation controller.
+ * LaterPay installation controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 {
 
     /**
-     * Render admin notices if requirements are not fulfilled.
+     * Render admin notices, if requirements are not fulfilled.
      *
      * @wp-hook admin_notices
      *
@@ -55,7 +55,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $notices[] = sprintf( $template, 'Wordpress', $required_wp_version, 'Wordpress', $installed_wp_version );
         }
 
-        // deactivate plugin if requirements are not fulfilled
+        // deactivate plugin, if requirements are not fulfilled
         if ( count( $notices ) > 0 ) {
             // suppress 'Plugin activated' notice
             unset( $_GET['activate'] );
@@ -97,7 +97,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $table      = $wpdb->prefix . 'laterpay_payment_history';
         $columns    = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
 
-        // before version 0.9.9 we had no "revenue_model"
+        // before version 0.9.9 we had no 'revenue_model'
         $is_up_to_date = false;
         $modified      = false;
         $passes_added  = false;
@@ -168,7 +168,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $table      = $wpdb->prefix . 'laterpay_terms_price';
         $columns    = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
 
-        // before version 0.9.8 we had no "revenue_model" column
+        // before version 0.9.8 we had no 'revenue_model' column
         $is_up_to_date = false;
         $modified      = false;
         foreach ( $columns as $column ) {
@@ -208,7 +208,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     public function maybe_update_meta_keys() {
         global $wpdb;
 
-        // checks, if the current version is greater than or equal 0.9.7
+        // check, if the current version is greater than or equal 0.9.7
         if ( version_compare( $this->config->get( 'version' ), '0.9.7', '>=' ) ) {
             // map old values to new ones
             $meta_key_mapping = array(
@@ -267,7 +267,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Updating the existing time pass table, remove not used columns
+     * Updating the existing time passes table and remove unused columns.
      *
      * @since 0.9.10
      * @wp-hook admin_notices
@@ -285,7 +285,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $table      = $wpdb->prefix . 'laterpay_passes';
         $columns    = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
 
-        // before version 0.9.10 we have "title_color", "description_color", "background_color" and "background_path" columns
+        // before version 0.9.10 we have 'title_color', 'description_color', 'background_color',
+        //  and 'background_path' columns that we will remove
         $is_up_to_date = true;
         $removed_columns = array(
             'title_color',
@@ -329,7 +330,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         }
 
         if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == null ) {
-            add_option( 'laterpay_only_time_pass_purchases_allowed' , 0 );
+            add_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
         }
     }
 
@@ -384,9 +385,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      *
      * @wp-hook get_post_metadata
      *
-     * @param null $return
-     * @param int $post_id     the current post_id
-     * @param string $meta_key the meta_key
+     * @param null      $return
+     * @param int       $post_id    the current post_id
+     * @param string    $meta_key   the meta_key
      *
      * @return null $return
      */
@@ -562,5 +563,4 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $laterpay_capabilities = new LaterPay_Core_Capabilities();
         $laterpay_capabilities->populate_roles();
     }
-
 }

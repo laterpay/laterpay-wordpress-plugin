@@ -216,7 +216,7 @@
                 var data          = $.parseJSON( $item.attr('data') );
                 var current_label = $.trim($item.html());
 
-                if ( data.view === lpVars.submenu.view.standart ) {
+                if ( data.view === lpVars.submenu.view.standard ) {
                     // change label
                     $item.html(data.label);
                     // set new data view
@@ -231,7 +231,7 @@
                     // change label
                     $item.html(data.label);
                     // set new data view
-                    data.view = lpVars.submenu.view.standart;
+                    data.view = lpVars.submenu.view.standard;
                     // select view
                     $o.timePassesKPITab.show();
                     $o.standardKpiTab.hide();

@@ -4,7 +4,7 @@
  * LaterPay settings controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
@@ -231,7 +231,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Sanitize maximum redemptions per gift code
+     * Sanitize maximum redemptions per gift code.
      *
      * @param $input
      *
@@ -254,6 +254,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
                 'error'
             );
         }
+
         return $input;
     }
 
@@ -459,7 +460,7 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add LaterPay API settings section and fields.
+     * Add LaterPay API URLs section and fields.
      *
      * @return void
      */
@@ -657,5 +658,4 @@ class LaterPay_Controller_Settings extends LaterPay_Controller_Abstract
 
         echo $inputs_markup;
     }
-
 }
