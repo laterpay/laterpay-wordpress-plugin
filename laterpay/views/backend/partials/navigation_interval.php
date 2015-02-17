@@ -14,6 +14,6 @@ endif;
     <?php echo date( 'd.m.Y.', $laterpay[ 'interval_end' ] ) . ' &ndash; ' . date( 'd.m.Y', $laterpay[ 'interval_start' ] ); ?>
 </span>
 
-<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip lp_nextLink--disabled" data-tooltip="<?php _e( 'Show next 8 days', 'laterpay' ); ?>">
+<a href="#" id="lp_js_loadNextInterval" class="lp_prevNextLink lp_tooltip lp_nextLink--disabled">
     <div class="lp_triangle lp_triangle--right"></div>
 </a>

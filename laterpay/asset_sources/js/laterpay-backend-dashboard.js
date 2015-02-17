@@ -153,19 +153,11 @@
 
 						// check if the "next"-button should be visible or hidden for the given interval.
 						nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
-						if ( ! isDateWithinInterval(nextStartTimestamp) ) {
-							$o.nextInterval.addClass('lp_nextLink--disabled');
-						} else {
-							$o.nextInterval.removeClass('lp_nextLink--disabled');
-						}
+						switchNextIntervalState(nextStartTimestamp, interval);
 
 						// check if the "previous"-button should be visible or hidden for the given interval.
 						nextEndTimestamp	= startTimestamp - getIntervalDiff(interval);
-						if ( ! isDateWithinInterval(nextEndTimestamp) ) {
-							$o.previousInterval.addClass('lp_previousLink--disabled');
-						} else {
-							$o.previousInterval.removeClass('lp_previousLink--disabled');
-						}
+						switchPreviousIntervalState(nextEndTimestamp, interval);
 
 						setNextPrevTooltip(interval);
 						setTimeRange(startTimestamp, interval);
@@ -184,15 +176,10 @@
 							return;
 						}
 
-						// remove the "disabled" from "previous"-button
-						$o.nextInterval.removeClass('lp_prevLink--disabled');
+						startTimestamp = startTimestamp + getIntervalDiff(interval);
 
-						startTimestamp  = startTimestamp + getIntervalDiff(interval);
-						if (!isDateWithinInterval(startTimestamp)) {
-							$o.nextInterval.addClass('lp_nextLink--disabled');
-							return;
-						}
-
+						switchNextIntervalState(startTimestamp, interval);
+						switchPreviousIntervalState(startTimestamp, interval);
 						setTimeRange(startTimestamp, interval);
 						loadDashboard(true);
 					})
@@ -202,21 +189,17 @@
 				$o.previousInterval
 					.mousedown(function() {
 
-						var startTimestamp = $o.currentInterval.data('startTimestamp'),
-							interval = getInterval();
+						var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+							interval        = getInterval();
 
 						if ($(this).hasClass('lp_previousLink--disabled')) {
 							return;
 						}
 
-						// remove the "disabled" from "next"-button
-						$o.previousInterval.removeClass('lp_nextLink--disabled');
+						startTimestamp = startTimestamp - getIntervalDiff(interval);
 
-						startTimestamp  = startTimestamp - getIntervalDiff(interval);
-						if (!isDateWithinInterval(startTimestamp)) {
-							$o.previousInterval.addClass('lp_previousLink--disabled');
-						}
-
+						switchNextIntervalState(startTimestamp, interval);
+						switchPreviousIntervalState(startTimestamp, interval);
 						setTimeRange(startTimestamp, interval);
 						loadDashboard(false);
 					})
@@ -247,6 +230,27 @@
 					})
 					.click(function(e) {e.preventDefault();});
 			},
+
+			switchNextIntervalState = function(timestamp, interval) {
+				console.log( "=>" );
+				if (!isDateWithinInterval(timestamp)) {
+					$o.nextInterval.addClass('lp_nextLink--disabled').attr({'data-tooltip' : ''});
+				} else {
+					var i18n = getNextPrevTooltip(interval);
+					$o.nextInterval.removeClass('lp_nextLink--disabled').attr({'data-tooltip' : i18n.next});
+				}
+
+			},
+
+			switchPreviousIntervalState = function(timestamp, interval) {
+				if (!isDateWithinInterval(timestamp)) {
+					$o.previousInterval.addClass('lp_previousLink--disabled').attr({'data-tooltip' : ''});
+				} else {
+					var i18n = getNextPrevTooltip(interval);
+					$o.previousInterval.addClass('lp_previousLink--disabled').attr({'data-tooltip' : i18n.prev});
+				}
+			},
+
 
 			isDateWithinInterval = function(timestamp) {
 				var currentDate = new Date(),
@@ -291,12 +295,19 @@
 			},
 
 			setNextPrevTooltip = function(interval) {
-				if (!lpVars.i18n.tooltips[interval]) {
+				var i18n = getNextPrevTooltip(interval);
+				if (!i18n) {
 					return;
 				}
-				var i18n = lpVars.i18n.tooltips[interval];
 				$o.nextInterval.attr({'data-tooltip': i18n.next});
 				$o.previousInterval.attr({'data-tooltip': i18n.prev});
+			},
+
+			getNextPrevTooltip = function(interval){
+				if (!lpVars.i18n.tooltips[interval]) {
+					return false;
+				}
+				return lpVars.i18n.tooltips[interval];
 			},
 
 			switchDashboardView = function($item) {
@@ -765,14 +776,14 @@
 
 			loadDashboard = function(refresh) {
 				refresh = refresh || false;
+				loadMostLeastConvertingItems(refresh);
+				loadMostLeastRevenueItems(refresh);
+				loadMostLeastSellingItems(refresh);
 				loadConvertingItems(refresh);
 				loadTimePassLifecycles(refresh);
 				loadRevenueItems(refresh);
 				loadSellingItems(refresh);
 				loadKPIs(refresh);
-				loadMostLeastConvertingItems(refresh);
-				loadMostLeastRevenueItems(refresh);
-				loadMostLeastSellingItems(refresh);
 			},
 
 			initializePage = function() {
