@@ -205,6 +205,10 @@ alert('Toggling post details coming soon');
                     return;
                 }
 
+                // if we were able to select the previous interval, it must be possible to switch back to the current
+                // interval so make sure the next link is not disabled
+                $o.previousInterval.removeClass($o.disabled);
+
                 startTimestamp = startTimestamp - getIntervalDiff(interval);
 
                 switchNextIntervalState(startTimestamp, interval);
@@ -221,6 +225,8 @@ alert('Toggling post details coming soon');
                     return;
                 }
 
+                // if we were able to select the next interval, it must be possible to switch back to the current
+                // interval so make sure the prev link is not disabled
                 $o.previousInterval.removeClass($o.disabled);
 
                 startTimestamp = startTimestamp + getIntervalDiff(interval);
