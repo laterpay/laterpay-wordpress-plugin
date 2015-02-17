@@ -754,6 +754,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $post = get_post();
+        $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
+
+        // check, if we on preview post
+        if ( ! $preview_post_as_visitor ) {
+            return;
+        }
 
         // check, if the current post was already purchased
         if ( $this->has_access_to_post( $post ) ) {
@@ -765,7 +771,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'link'                            => $this->get_laterpay_purchase_link( $post->ID ),
             'currency'                        => get_option( 'laterpay_currency' ),
             'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-            'preview_post_as_visitor'         => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'preview_post_as_visitor'         => $preview_post_as_visitor,
             'purchase_button_is_hidden'       => LaterPay_Helper_View::purchase_button_is_hidden(),
         );
 
