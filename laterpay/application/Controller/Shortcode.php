@@ -432,13 +432,13 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $passes_list = $this->get_passes_list_by_id( $data['id'] );
+            $time_passes_list = $this->get_time_passes_list_by_id( $data['id'] );
         } else {
-            $passes_list = LaterPay_Helper_Passes::get_all_passes();
+            $passes_list = LaterPay_Helper_TimePass::get_all_time_passes();
         }
 
         // don't render any gift cards, if there are no time passes
-        if ( ! $passes_list ) {
+        if ( ! $time_passes_list ) {
             $error_reason = __( 'Wrong time pass id or no time passes specified.', 'laterpay' );
 
             $error_message  = '<div class="lp_shortcodeError">';
@@ -455,7 +455,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         }
 
         $view_args = array(
-            'passes_list'             => $passes_list,
+            'passes_list'             => $time_passes_list,
             'standard_currency'       => get_option( 'laterpay_currency' ),
             'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
             'selected_pass_id'        => $data['id'],
@@ -488,8 +488,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $pass = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $data['id'] );
-            if ( ! $pass ) {
+            $time_pass = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
+            if ( ! $time_pass ) {
                 $error_reason = __( 'Wrong time pass id.', 'laterpay' );
 
                 $error_message  = '<div class="lp_shortcodeError">';
@@ -505,11 +505,11 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 return $error_message;
             }
         } else {
-            $pass = array();
+            $time_pass = array();
         }
 
         $view_args = array(
-            'pass_data'               => $pass,
+            'pass_data'               => $time_pass,
             'standard_currency'       => get_option( 'laterpay_currency' ),
             'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
         );
@@ -521,52 +521,61 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * TODO: [add_free_codes_to_passes description]
+     * Add voucher codes to time passes.
      *
-     * @param [type] $passes [description]
+     * @param array $time_passes list of time passes
+     *
+     * @return array
      */
-    public function add_free_codes_to_passes( $passes, $link = null ) {
-        if ( is_array( $passes ) ) {
-            foreach ( $passes as $id => $pass ) {
-                $pass = (array) $pass;
+    public function add_free_codes_to_passes( $time_passes, $link = null ) {
+        if ( is_array( $time_passes ) ) {
+            foreach ( $time_passes as $id => $time_pass ) {
+                $time_pass = (array) $time_pass;
+
                 // generate voucher code
-                $code = LaterPay_Helper_Vouchers::generate_voucher_code();
+
+                $code = LaterPay_Helper_Voucher::generate_voucher_code();
+
                 // create URL with this code
-                $pass_id = $pass['pass_id'];;
+                $time_pass_id = $time_pass['pass_id'];;
                 $data = array(
                     'voucher'           => $code,
                     'is_gift'           => true,
                     'link'              => $link ? $link : get_permalink(),
                 );
 
-                $pass['url'] = LaterPay_Helper_Passes::get_laterpay_purchase_link( $pass_id, $data );
-                $passes[$id] = $pass;
+                $time_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $time_pass_id, $data );
+                $time_passes[$id] = $time_pass;
             }
         }
 
-        return $passes;
+        return $time_passes;
     }
 
     /**
-     * TODO: [get_passes_list_by_id description]
+     * Get time passes list by id.
      *
-     * @param  [type] $id [description]
+     * @param  int $id id of time pass
      *
-     * @return [type]     [description]
+     * @return array
      */
-    public function get_passes_list_by_id( $id ) {
-        $passes_list = (array) LaterPay_Helper_Passes::get_time_pass_by_id( $id );
-        if ( $passes_list ) {
+    public function get_time_passes_list_by_id( $id ) {
+        $time_passes = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $id );
+        if ( $time_passes ) {
             $temp_arr = array();
-            array_push( $temp_arr, $passes_list );
-            $passes_list = $temp_arr;
+            array_push( $temp_arr, $time_passes );
+            $time_passes = $temp_arr;
         }
 
-        return $passes_list;
+        return $time_passes;
     }
 
     /**
+     * Get gift cards through Ajax.
+     *
      * @hook wp_ajax_laterpay_get_gift_card_actions, wp_ajax_nopriv_laterpay_get_gift_card_actions
+     *
+     * @return void
      */
     public function ajax_load_gift_action() {
         if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_get_gift_card_actions' ) {
@@ -581,16 +590,16 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             exit;
         }
 
-        $data     = array();
-        $pass_ids = $_GET['pass_id'];
+        $data           = array();
+        $time_pass_ids  = $_GET['pass_id'];
 
-        foreach ( $pass_ids as $pass_id ) {
-            $passes       = $pass_id ? $this->get_passes_list_by_id( $pass_id ) : LaterPay_Helper_Passes::get_all_passes();
+        foreach ( $time_pass_ids as $time_pass_id ) {
+            $time_passes  = $time_pass_id ? $this->get_time_passes_list_by_id( $time_pass_id ) : LaterPay_Helper_TimePass::get_all_time_passes();
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page');
 
             // add gift codes with URLs to time passes
-            $passes       = $this->add_free_codes_to_passes( $passes, $_GET['link'] );
+            $time_passes  = $this->add_free_codes_to_passes( $time_passes, $_GET['link'] );
             $view_args = array(
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,
                 'landing_page'            => $landing_page ? $landing_page : home_url(),
@@ -598,10 +607,10 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 'standard_currency'       => get_option( 'laterpay_currency' ),
             );
 
-            foreach ( $passes as $pass ) {
-                $has_access = is_array( $access ) && $access['access'] && $access['pass_id'] == $pass['pass_id'];
+            foreach ( $time_passes as $time_pass ) {
+                $has_access = is_array( $access ) && $access['access'] && $access['pass_id'] == $time_pass['pass_id'];
                 $additional_args = array(
-                    'pass'       => $pass,
+                    'pass'       => $time_pass,
                     'has_access' => $has_access,
                 );
                 $this->assign( 'laterpay', array_merge( $view_args, $additional_args ) );
@@ -609,7 +618,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 $html = LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/gift/gift_actions' ) );
                 $info = array(
                     'html'     => $html,
-                    'id'       => $pass['pass_id'],
+                    'id'       => $time_pass['pass_id'],
                     'buy_more' => null,
                 );
 
@@ -619,8 +628,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     $info['buy_more'] = $html;
                 }
 
-                if ( ! isset( $data[$pass['pass_id']] ) ) {
-                    $data[$pass['pass_id']] = $info;
+                if ( ! isset( $data[$time_pass['pass_id']] ) ) {
+                    $data[$time_pass['pass_id']] = $info;
                 }
             }
         }

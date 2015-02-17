@@ -15,112 +15,112 @@
                     },
 
                     // heading with dashboard configuration selections
-                    configurationSelection:  $('.lp_js_selectDashboardInterval, .lp_js_selectRevenueModel'),
-                    intervalChoices:         $('.lp_js_selectDashboardInterval'),
-                    revenueModelChoices:     $('.lp_js_selectRevenueModel'),
-                    currentInterval:         $('#lp_js_displayedInterval'),
-                    previousInterval:        $('#lp_js_loadPreviousInterval'),
-                    nextInterval:            $('#lp_js_loadNextInterval'),
-                    refreshDashboard:        $('#lp_js_refreshDashboard'),
-                    // general dropdown selectors
-                    dropdown:                '.lp_dropdown',
-                    dropdownList:            '.lp_dropdown_list',
-                    dropdownCurrentItem:     '.lp_dropdown_currentItem',
+                    configurationSelection:     $('.lp_js_selectDashboardInterval, .lp_js_selectRevenueModel'),
+                    intervalChoices:            $('.lp_js_selectDashboardInterval'),
+                    revenueModelChoices:        $('.lp_js_selectRevenueModel'),
+                    currentInterval:            $('#lp_js_displayedInterval'),
+                    previousInterval:           $('#lp_js_loadPreviousInterval'),
+                    nextInterval:               $('#lp_js_loadNextInterval'),
+                    // generic dropdown selectors
+                    dropdown:                   '.lp_dropdown',
+                    dropdownList:               '.lp_dropdown_list',
+                    dropdownCurrentItem:        '.lp_dropdown_currentItem',
 
                     // diagrams
-                    conversionDiagram:       $('#lp_js_conversionDiagram'),
-                    salesDiagram:            $('#lp_js_salesDiagram'),
-                    revenueDiagram:          $('#lp_js_revenueDiagram'),
+                    conversionDiagram:          $('#lp_js_conversionDiagram'),
+                    salesDiagram:               $('#lp_js_salesDiagram'),
+                    revenueDiagram:             $('#lp_js_revenueDiagram'),
                     // colors
-                    colorBackground:         '#e3e3e3',
-                    colorBackgroundLaterpay: '#50c371',
-                    colorBorder:             '#ccc',
-                    colorTextLighter:        '#bbb',
+                    colorBackground:            '#e3e3e3',
+                    colorBackgroundLaterpay:    '#50c371',
+                    colorBorder:                '#ccc',
+                    colorTextLighter:           '#bbb',
 
                     // main KPIs
-                    totalImpressionsKPI:     $('#lp_js_totalImpressions'),
-                    avgConversionKPI:        $('#lp_js_avgConversion'),
-                    newCustomersKPI:         $('#lp_js_shareOfNewCustomers'),
+                    totalImpressionsKPI:        $('#lp_js_totalImpressions'),
+                    avgConversionKPI:           $('#lp_js_avgConversion'),
+                    newCustomersKPI:            $('#lp_js_shareOfNewCustomers'),
 
-                    avgItemsSoldKPI:        $('#lp_js_avg-items-sold'),
-                    totalItemsSoldKPI:      $('#lp_js_total-items-sold'),
+                    avgItemsSoldKPI:            $('#lp_js_avg-items-sold'),
+                    totalItemsSoldKPI:          $('#lp_js_total-items-sold'),
 
-                    avgRevenueKPI:          $('#lp_js_avgRevenue'),
-                    totalRevenueKPI:        $('#lp_js_totalRevenue'),
+                    avgRevenueKPI:              $('#lp_js_avgRevenue'),
+                    totalRevenueKPI:            $('#lp_js_totalRevenue'),
 
                     // top / bottom lists
-                    bestConvertingList:  $('#lp_js_bestConvertingList'),
-                    leastConvertingList: $('#lp_js_leastConvertingList'),
-                    bestSellingList:     $('#lp_js_bestSellingList'),
-                    leastSellingList:    $('#lp_js_leastSellingList'),
-                    bestGrossingList:    $('#lp_js_bestGrossingList'),
-                    leastGrossingList:   $('#lp_js_leastGrossingList'),
+                    bestConvertingList:         $('#lp_js_bestConvertingList'),
+                    leastConvertingList:        $('#lp_js_leastConvertingList'),
+                    bestSellingList:            $('#lp_js_bestSellingList'),
+                    leastSellingList:           $('#lp_js_leastSellingList'),
+                    bestGrossingList:           $('#lp_js_bestGrossingList'),
+                    leastGrossingList:          $('#lp_js_leastGrossingList'),
 
-                    toggleItemDetails: '.lp_js_toggleItemDetails',
+                    // post-specific statistics
+                    toggleItemDetails:          '.lp_js_toggleItemDetails',
 
                     // time passes customer lifecycle
-                    viewSelector:      $('#lp_js_switchDashboardView'),
-                    standardKpiTab:    $('#lp_js_standardKpiTab'),
-                    timePassesKPITab:  $('#lp_js_timePassesKPITabjs'),
-                    timepassDiagram:   $('.lp_js_timepassDiagram'),
+                    viewSelector:               $('#lp_js_switchDashboardView'),
+                    standardKpiTab:             $('#lp_js_standardKpiTab'),
+                    timePassesKPITab:           $('#lp_js_timePassesKPITabjs'),
+                    timepassDiagram:            $('.lp_js_timepassDiagram'),
 
                     // state classes
-                    expanded:           'lp_is-expanded',
-                    selected:           'lp_is-selected',
-                    active:             'lp_is-active',
-                    delayed:            'lp_is-delayed',
-                    disabled:           'lp_is-disabled',
+                    expanded:                   'lp_is-expanded',
+                    selected:                   'lp_is-selected',
+                    active:                     'lp_is-active',
+                    delayed:                    'lp_is-delayed',
+                    disabled:                   'lp_is-disabled',
                 },
 
                 plotDefaultOptions = {
                     legend: {
-                        show: false,
+                        show:           false,
                     },
                     xaxis:  {
                         font: {
                             color:      $o.colorTextLighter,
                             lineHeight: 18,
                         },
-                        show: true,
+                        show:           true,
                     },
                     yaxis:  {
-                        font:         {
-                            color: $o.colorTextLighter,
+                        font:           {
+                            color:      $o.colorTextLighter,
                         },
-                        min:          0,
-                        reserveSpace: true,
-                        ticks:        5,
+                        min:            0,
+                        reserveSpace:   true,
+                        ticks:          5,
                     },
                     series: {
-                        shadowSize: 0,
+                        shadowSize:     0,
                     },
                     grid:   {
                         borderWidth: {
-                            top:    0,
-                            right:  0,
-                            bottom: 1,
-                            left:   0,
+                            top:        0,
+                            right:      0,
+                            bottom:     1,
+                            left:       0,
                         },
-                        borderColor: $o.colorBorder,
-                        tickColor:   'rgba(247,247,247,0)', // transparent
+                        borderColor:    $o.colorBorder,
+                        tickColor:      'rgba(247,247,247,0)', // transparent
                     }
                 },
 
                 plotDefaultData = [
                     {
-                        color:  $o.colorBackgroundLaterpay,
+                        color:          $o.colorBackgroundLaterpay,
                         lines:  {
-                            fill:      false,
-                            gaps:      true,
-                            lineWidth: 2.5,
-                            show:      true,
+                            fill:       false,
+                            gaps:       true,
+                            lineWidth:  2.5,
+                            show:       true,
                         },
                         points: {
-                            fill:      true,
-                            fillColor: $o.colorBackgroundLaterpay,
-                            lineWidth: 0,
-                            radius:    4,
-                            show:      true,
+                            fill:       true,
+                            fillColor:  $o.colorBackgroundLaterpay,
+                            lineWidth:  0,
+                            radius:     4,
+                            show:       true,
                         }
                     }
                 ],
@@ -128,123 +128,106 @@
                 bindEvents = function() {
                     // toggle dropdown_list on touch devices
                     $($o.dropdownCurrentItem)
-                        .click(function() {
-                            $(this).parent($o.dropdown).addClass($o.expanded);
-                        });
+                    .click(function() {
+                        $(this).parent($o.dropdown).addClass($o.expanded);
+                    });
 
-                    // re-render dashboard in selected configuration
+                    // switch interval or revenue model filter
                     $o.configurationSelection
-                        .mousedown(function() {
-                            var startTimestamp = $o.currentInterval.data('startTimestamp'),
-                                nextStartTimestamp,
-                                nextEndTimestamp,
-                                interval;
-                            // change selected item to clicked item
-                            $(this)
-                                .parents($o.dropdown)
-                                .removeClass($o.expanded)
+                    .mousedown(function() {
+                        var startTimestamp = $o.currentInterval.data('startTimestamp'),
+                            nextStartTimestamp,
+                            nextEndTimestamp,
+                            interval;
+
+                        // mark clicked item as selected
+                        $(this)
+                            .parents($o.dropdown)
+                            .removeClass($o.expanded)
                                 .find($o.dropdownCurrentItem)
                                 .text($(this).text())
-                                .end()
+                            .end()
                                 .find('.' + $o.selected)
                                 .removeClass($o.selected)
-                                .end()
-                                .end()
-                                .addClass($o.selected);
+                            .end()
+                        .end()
+                        .addClass($o.selected);
 
-                            interval = getInterval();
+                        interval = getInterval();
 
-                            // check if the "next"-button should be visible or hidden for the given interval.
-                            nextStartTimestamp = startTimestamp + getIntervalDiff(interval);
-                            switchNextIntervalState(nextStartTimestamp, interval);
+                        // check, if the 'next' button should be visible or hidden for the given interval
+                        nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
+                        switchNextIntervalState(nextStartTimestamp, interval);
 
-                            // check if the "previous"-button should be visible or hidden for the given interval.
-                            nextEndTimestamp = startTimestamp - getIntervalDiff(interval);
-                            switchPreviousIntervalState(nextEndTimestamp, interval);
+                        // check, if the 'previous' button should be visible or hidden for the given interval
+                        nextEndTimestamp    = startTimestamp - getIntervalDiff(interval);
+                        switchPreviousIntervalState(nextEndTimestamp, interval);
 
-                            setNextPrevTooltip(interval);
-                            setTimeRange(startTimestamp, interval);
-                            loadDashboard(false);
-                        })
-                        .click(function(e) {
-                            e.preventDefault();
-                        });
+                        setNextPrevTooltip(interval);
+                        setTimeRange(startTimestamp, interval);
+                        loadDashboard(false);
+                    })
+                    .click(function(e) {e.preventDefault();});
 
-                    // re-render dashboard with data of next interval
+                    // load next interval
                     $o.nextInterval
-                        .mousedown(function() {
-                            var startTimestamp = $o.currentInterval.data('startTimestamp'),
-                                interval = getInterval();
+                    .mousedown(function() {
+                        loadNextInterval();
+                    })
+                    .click(function(e) {e.preventDefault();});
 
-                            if ($(this).hasClass($o.disabled)) {
-                                return;
-                            }
-
-                            $o.previousInterval.removeClass($o.disabled);
-
-                            startTimestamp = startTimestamp + getIntervalDiff(interval);
-
-                            switchNextIntervalState(startTimestamp, interval);
-                            setTimeRange(startTimestamp, interval);
-                            loadDashboard(true);
-                        })
-                        .click(function(e) {
-                            e.preventDefault();
-                        });
-
-                    // re-render dashboard with data of previous interval
+                    // load previous interval
                     $o.previousInterval
-                        .mousedown(function() {
-                            var startTimestamp = $o.currentInterval.data('startTimestamp'),
-                                interval = getInterval();
-
-                            if ($(this).hasClass('lp_previousLink--disabled')) {
-                                return;
-                            }
-
-                            startTimestamp = startTimestamp - getIntervalDiff(interval);
-
-                            switchNextIntervalState(startTimestamp, interval);
-                            switchPreviousIntervalState(startTimestamp, interval);
-                            setTimeRange(startTimestamp, interval);
-                            loadDashboard(false);
-                        })
-                        .click(function(e) {
-                            e.preventDefault();
-                        });
-
-                    // refresh dashboard
-                    $o.refreshDashboard
-                        .mousedown(function() {
-                            loadDashboard(true);
-                        })
-                        .click(function(e) {
-                            e.preventDefault();
-                        });
-
-                    $($o.revenueModelChoices)
-                        .mousedown(function() {
-                            loadDashboard(true);
-                        })
-                        .click(function(e) {
-                            e.preventDefault();
-                        });
+                    .mousedown(function() {
+                        loadPreviousInterval();
+                    })
+                    .click(function(e) {e.preventDefault();});
 
                     $('body')
-                        .on('mousedown', $o.toggleItemDetails, function() {
-                            alert('Toggling post details coming soon');
-                        })
-                        .on('click', $o.toggleItemDetails, function(e) {
-                            e.preventDefault();
-                        });
+                    .on('mousedown', $o.toggleItemDetails, function() {
+                        alert('Toggling post details coming soon');
+                    })
+                    .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
+                    // switch between normal and time passes view
                     $o.viewSelector
-                        .mousedown(function() {
-                            switchDashboardView($(this));
-                        })
-                        .click(function(e) {
-                            e.preventDefault();
-                        });
+                    .mousedown(function() {
+                        switchDashboardView($(this));
+                    })
+                    .click(function(e) {e.preventDefault();});
+                },
+
+                loadPreviousInterval = function() {
+                    var startTimestamp = $o.currentInterval.data('startTimestamp'),
+                        interval = getInterval();
+
+                    if ($(this).hasClass('lp_previousLink--disabled')) {
+                        return;
+                    }
+
+                    startTimestamp = startTimestamp - getIntervalDiff(interval);
+
+                    switchNextIntervalState(startTimestamp, interval);
+                    switchPreviousIntervalState(startTimestamp, interval);
+                    setTimeRange(startTimestamp, interval);
+                    loadDashboard(false);
+                },
+
+                loadNextInterval = function() {
+                    var startTimestamp = $o.currentInterval.data('startTimestamp'),
+                        interval = getInterval();
+
+                    if ($(this).hasClass($o.disabled)) {
+                        return;
+                    }
+
+                    $o.previousInterval.removeClass($o.disabled);
+
+                    startTimestamp = startTimestamp + getIntervalDiff(interval);
+
+                    switchNextIntervalState(startTimestamp, interval);
+                    setTimeRange(startTimestamp, interval);
+                    loadDashboard(true);
                 },
 
                 switchNextIntervalState = function(timestamp, interval) {
@@ -274,12 +257,27 @@
                     // yesterday
                     startDate.setDate(startDate.getDate() - 1);
 
-                    // reset all days to 0:00:00 for easier comparison
-                    startDate.setHours(0, 0, 0, 0);
-                    endDate.setHours(0, 0, 0, 0);
-                    givenDate.setHours(0, 0, 0, 0);
+                    // check, if the given date is gte yesterday
+                    if (givenDate.getMonth() === currentDate.getMonth() &&
+                        givenDate.getYear() === currentDate.getYear() &&
+                        givenDate.getDate() >= currentDate.getDate()) {
 
-                    return !(givenDate.getTime() <= endDate.getTime() || givenDate.getTime() >= startDate.getTime());
+                        return false;
+                    }
+
+                    // check, if the given date is lte the interval end date - earliest entry in post_views-table
+                    if (givenDate.getMonth() === intervalEndDate.getMonth() &&
+                        givenDate.getYear() === intervalEndDate.getYear() &&
+                        givenDate.getDate() <= intervalEndDate.getDate()) {
+
+                        // reset all days to 0:00:00 for easier comparison
+                        startDate.setHours(0, 0, 0, 0);
+                        endDate.setHours(0, 0, 0, 0);
+                        givenDate.setHours(0, 0, 0, 0);
+
+                        return !(givenDate.getTime() <= endDate.getTime() ||
+                                 givenDate.getTime() >= startDate.getTime());
+                    }
                 },
 
                 getIntervalDiff = function(interval) {
@@ -302,6 +300,7 @@
                     if (!i18n) {
                         return;
                     }
+
                     $o.nextInterval.attr({'data-tooltip': i18n.next});
                     $o.previousInterval.attr({'data-tooltip': i18n.prev});
                 },
@@ -314,40 +313,11 @@
                     return lpVars.i18n.tooltips[interval];
                 },
 
-                switchDashboardView = function($item) {
-                    var data = $.parseJSON($item.attr('data')),
-                        current_label = $.trim($item.html());
-
-                    if (data.view === lpVars.submenu.view.standard) {
-                        // change label
-                        $item.html(data.label);
-                        // set new data view
-                        data.view = lpVars.submenu.view.passes;
-                        // select view
-                        $o.standardKpiTab.show();
-                        $o.timePassesKPITab.hide();
-                        // update data
-                        data.label = current_label;
-                        $item.attr('data', JSON.stringify(data));
-                    } else if (data.view === lpVars.submenu.view.passes) {
-                        // change label
-                        $item.html(data.label);
-                        // set new data view
-                        data.view = lpVars.submenu.view.standard;
-                        // select view
-                        $o.timePassesKPITab.show();
-                        $o.standardKpiTab.hide();
-                        // update data
-                        data.label = current_label;
-                        $item.attr('data', JSON.stringify(data));
-                    }
-                },
-
                 getInterval = function() {
                     return $o.intervalChoices
                         .parents($o.dropdownList)
-                        .find('.' + $o.selected)
-                        .attr('data-interval');
+                            .find('.' + $o.selected)
+                            .attr('data-interval');
                 },
 
                 setTimeRange = function(startTimestamp, interval) {
@@ -372,7 +342,7 @@
                         to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                     }
 
-                    // set the new startTimestamp as data attribute for refreshing the dashboard data.
+                    // set the new startTimestamp as data attribute for refreshing the dashboard data;
                     // set the new timeRange
                     $o.currentInterval
                         .data('startTimestamp', startTimestamp)
@@ -382,9 +352,9 @@
                 loadDashboardData = function(section, refresh, pass) {
                     var interval = getInterval(),
                         revenueModel = $o.revenueModelChoices
-                            .parents($o.dropdownList)
-                            .find('.' + $o.selected)
-                            .attr('data-revenue-model'),
+                                        .parents($o.dropdownList)
+                                        .find('.' + $o.selected)
+                                        .attr('data-revenue-model'),
                         requestData = {
                             // WP Ajax action
                             'action':          'laterpay_get_dashboard_data',
@@ -452,129 +422,54 @@
                     showLoadingIndicator($o.conversionDiagram);
 
                     loadDashboardData('converting_items', refresh)
-                        .done(function(response) {
-                            // generate a data point with 100% y-value for each conversion rate column as background
-                            var backColumns = [];
-                            i = 0;
-                            l = response.data.y.length;
-                            for (i; i < l; i++) {
-                                backColumns.push([i + 1, 100]);
-                            }
+                    .done(function(response) {
+                        // generate a data point with 100% y-value for each conversion rate column as background
+                        var backColumns = [];
+                        i = 0;
+                        l = response.data.y.length;
+                        for (i; i < l; i++) {
+                            backColumns.push([i + 1, 100]);
+                        }
 
-                            var plotOptions = {
-                                    xaxis: {
-                                        ticks: response.data.x,
-                                    },
-                                    yaxis: {
-                                        tickSize: null,
-                                        max:      100,
+                        var plotOptions = {
+                                xaxis: {
+                                    ticks: response.data.x,
+                                },
+                                yaxis: {
+                                    tickSize: null,
+                                    max:      100,
+                                }
+                            },
+                            plotData = [
+                                {
+                                    data: backColumns,
+                                    bars: {
+                                        align:      'center',
+                                        barWidth:   0.6,
+                                        fillColor:  $o.colorBackground,
+                                        horizontal: false,
+                                        lineWidth:  0,
+                                        show:       true,
                                     }
                                 },
-                                plotData = [
-                                    {
-                                        data: backColumns,
-                                        bars: {
-                                            align:      'center',
-                                            barWidth:   0.6,
-                                            fillColor:  $o.colorBackground,
-                                            horizontal: false,
-                                            lineWidth:  0,
-                                            show:       true,
-                                        }
-                                    },
-                                    {
-                                        data: response.data.y,
-                                        bars: {
-                                            align:      'center',
-                                            barWidth:   0.4,
-                                            fillColor:  $o.colorBackgroundLaterpay,
-                                            horizontal: false,
-                                            lineWidth:  0,
-                                            show:       true,
-                                        }
-                                    },
-                                ];
+                                {
+                                    data: response.data.y,
+                                    bars: {
+                                        align:      'center',
+                                        barWidth:   0.4,
+                                        fillColor:  $o.colorBackgroundLaterpay,
+                                        horizontal: false,
+                                        lineWidth:  0,
+                                        show:       true,
+                                    }
+                                },
+                            ];
 
-                            plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
-                            $.plot($o.conversionDiagram, plotData, plotOptions);
-                        })
-                        .always(function() {
-                            removeLoadingIndicator($o.conversionDiagram);
-                        });
-                },
-
-                loadTimePassLifecycles = function(refresh) {
-                    var data = $o.timepassDiagram;
-
-                    $.each($o.timepassDiagram, function(index) {
-                        var pass_id = $(data[index]).data('id');
-
-                        showLoadingIndicator($(data[index]));
-
-                        loadDashboardData('time_passes_expiry', refresh, pass_id)
-                            .done(function(response) {
-                                var max = response.data.max,
-                                    backColumns = [];
-
-                                i = 0;
-                                l = response.data.y.length;
-                                for (i; i < l; i++) {
-                                    backColumns.push([i, max]);
-                                }
-
-                                // var markings = [
-                                //         {
-                                //             color               : $o.colorBorder,
-                                //             lineWidth           : 1,
-                                //             xaxis               : {
-                                //                 from            : 3.5,
-                                //                 to              : 3.5,
-                                //             },
-                                //         },
-                                //         {
-                                //             color               : $o.colorBorder,
-                                //             lineWidth           : 1,
-                                //             xaxis               : {
-                                //                 from            : 11.5,
-                                //                 to              : 11.5,
-                                //             },
-                                //         },
-                                //     ];
-                                var plotOptions = {
-                                        xaxis: {
-                                            ticks: response.data.x,
-                                        },
-                                        yaxis: {
-                                            show:          false,
-                                            max:           max,
-                                            tickFormatter: function(val) {
-                                                return parseInt(val, 10);
-                                            }
-                                        },
-                                        // grid                : {
-                                        //     markings        : markings,
-                                        // },
-                                    },
-                                    plotData = [
-                                        {
-                                            data: response.data.y,
-                                            bars: {
-                                                align:      'center',
-                                                barWidth:   0.4,
-                                                fillColor:  $o.colorBackgroundLaterpay,
-                                                horizontal: false,
-                                                lineWidth:  0,
-                                                show:       true,
-                                            },
-                                        },
-                                    ];
-
-                                plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
-                                $.plot($(data[index]), plotData, plotOptions);
-                            })
-                            .always(function() {
-                                removeLoadingIndicator($(data[index]));
-                            });
+                        plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                        $.plot($o.conversionDiagram, plotData, plotOptions);
+                    })
+                    .always(function() {
+                        removeLoadingIndicator($o.conversionDiagram);
                     });
                 },
 
@@ -801,6 +696,110 @@
                     loadRevenueItems(refresh);
                     loadSellingItems(refresh);
                     loadKPIs(refresh);
+                },
+
+                switchDashboardView = function($item) {
+                    var data = $.parseJSON($item.attr('data')),
+                        current_label = $.trim($item.html());
+
+                    if (data.view === lpVars.submenu.view.standard) {
+                        // change label
+                        $item.html(data.label);
+                        // set new data view
+                        data.view = lpVars.submenu.view.passes;
+                        // select view
+                        $o.standardKpiTab.show();
+                        $o.timePassesKPITab.hide();
+                        // update data
+                        data.label = current_label;
+                        $item.attr('data', JSON.stringify(data));
+                    } else if (data.view === lpVars.submenu.view.passes) {
+                        // change label
+                        $item.html(data.label);
+                        // set new data view
+                        data.view = lpVars.submenu.view.standard;
+                        // select view
+                        $o.timePassesKPITab.show();
+                        $o.standardKpiTab.hide();
+                        // update data
+                        data.label = current_label;
+                        $item.attr('data', JSON.stringify(data));
+                    }
+                },
+
+                loadTimePassLifecycles = function(refresh) {
+                    var data = $o.timepassDiagram;
+
+                    $.each($o.timepassDiagram, function(index) {
+                        var pass_id = $(data[index]).data('id');
+
+                        showLoadingIndicator($(data[index]));
+
+                        loadDashboardData('time_passes_expiry', refresh, pass_id)
+                        .done(function(response) {
+                            var max = response.data.max,
+                                backColumns = [];
+
+                            i = 0;
+                            l = response.data.y.length;
+                            for (i; i < l; i++) {
+                                backColumns.push([i, max]);
+                            }
+
+                            // var markings = [
+                            //         {
+                            //             color               : $o.colorBorder,
+                            //             lineWidth           : 1,
+                            //             xaxis               : {
+                            //                 from            : 3.5,
+                            //                 to              : 3.5,
+                            //             },
+                            //         },
+                            //         {
+                            //             color               : $o.colorBorder,
+                            //             lineWidth           : 1,
+                            //             xaxis               : {
+                            //                 from            : 11.5,
+                            //                 to              : 11.5,
+                            //             },
+                            //         },
+                            //     ];
+                            var plotOptions = {
+                                    xaxis: {
+                                        ticks: response.data.x,
+                                    },
+                                    yaxis: {
+                                        show:          false,
+                                        max:           max,
+                                        tickFormatter: function(val) {
+                                            return parseInt(val, 10);
+                                        }
+                                    },
+                                    // grid                : {
+                                    //     markings        : markings,
+                                    // },
+                                },
+                                plotData = [
+                                    {
+                                        data: response.data.y,
+                                        bars: {
+                                            align:      'center',
+                                            barWidth:   0.4,
+                                            fillColor:  $o.colorBackgroundLaterpay,
+                                            horizontal: false,
+                                            lineWidth:  0,
+                                            show:       true,
+                                        },
+                                    },
+                                ];
+
+                            plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                            $.plot($(data[index]), plotData, plotOptions);
+                        })
+                        .always(function() {
+                            removeLoadingIndicator($(data[index]));
+                        });
+                    });
                 },
 
                 initializePage = function() {
