@@ -147,11 +147,13 @@ class LaterPay_Core_Bootstrap
             add_action( 'wp_ajax_laterpay_get_dynamic_pricing_data',    array( $post_metabox_controller, 'get_dynamic_pricing_data' ) );
             add_action( 'wp_ajax_laterpay_remove_post_dynamic_pricing', array( $post_metabox_controller, 'remove_dynamic_pricing_data' ) );
 
-            // setup custom columns for each allowed post_type
-            $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );
-            foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
-                add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
-                add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
+            // setup custom columns for each allowed post_type, if allowed purchases aren't restricted to time passes
+            if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == false ) {
+                $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );
+                foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
+                    add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
+                    add_action( 'manage_' . $post_type . '_posts_custom_column',   array( $column_controller, 'add_data_to_posts_table' ), 10, 2 );
+                }
             }
         }
 
