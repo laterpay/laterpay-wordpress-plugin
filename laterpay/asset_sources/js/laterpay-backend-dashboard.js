@@ -244,7 +244,7 @@ $('body')
                     $o.previousInterval.addClass('lp_previousLink--disabled').attr({'data-tooltip' : ''});
                 } else {
                     var i18n = getNextPrevTooltip(interval);
-                    $o.previousInterval.addClass('lp_previousLink--disabled').attr({'data-tooltip' : i18n.prev});
+                    $o.previousInterval.removeClass('lp_previousLink--disabled').attr({'data-tooltip' : i18n.prev});
                 }
             },
 
