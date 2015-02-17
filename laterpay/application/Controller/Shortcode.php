@@ -434,7 +434,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $data['id'] ) {
             $time_passes_list = $this->get_time_passes_list_by_id( $data['id'] );
         } else {
-            $passes_list = LaterPay_Helper_Pass::get_all_time_passes();
+            $passes_list = LaterPay_Helper_TimePass::get_all_time_passes();
         }
 
         // don't render any gift cards, if there are no time passes
@@ -488,7 +488,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_pass = (array) LaterPay_Helper_Pass::get_time_pass_by_id( $data['id'] );
+            $time_pass = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
             if ( ! $time_pass ) {
                 $error_reason = __( 'Wrong time pass id.', 'laterpay' );
 
@@ -544,7 +544,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     'link'              => $link ? $link : get_permalink(),
                 );
 
-                $time_pass['url'] = LaterPay_Helper_Pass::get_laterpay_purchase_link( $time_pass_id, $data );
+                $time_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $time_pass_id, $data );
                 $time_passes[$id] = $time_pass;
             }
         }
@@ -560,7 +560,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return array
      */
     public function get_time_passes_list_by_id( $id ) {
-        $time_passes = (array) LaterPay_Helper_Pass::get_time_pass_by_id( $id );
+        $time_passes = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $id );
         if ( $time_passes ) {
             $temp_arr = array();
             array_push( $temp_arr, $time_passes );
@@ -594,7 +594,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $time_pass_ids  = $_GET['pass_id'];
 
         foreach ( $time_pass_ids as $time_pass_id ) {
-            $time_passes  = $time_pass_id ? $this->get_time_passes_list_by_id( $time_pass_id ) : LaterPay_Helper_Pass::get_all_time_passes();
+            $time_passes  = $time_pass_id ? $this->get_time_passes_list_by_id( $time_pass_id ) : LaterPay_Helper_TimePass::get_all_time_passes();
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page');
 

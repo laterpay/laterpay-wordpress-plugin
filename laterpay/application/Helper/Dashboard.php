@@ -533,7 +533,7 @@ class LaterPay_Helper_Dashboard
             'y' => array(),
         );
 
-        $expiry      = LaterPay_Helper_Pass::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
+        $expiry      = LaterPay_Helper_TimePass::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
         $data['max'] = max( $expiry );
 
         // add expiry data for the given number of weeks

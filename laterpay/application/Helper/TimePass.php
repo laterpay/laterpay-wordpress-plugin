@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Helper_Pass
+class LaterPay_Helper_TimePass
 {
 
     const PASS_TOKEN = 'tlp';
@@ -169,9 +169,9 @@ class LaterPay_Helper_Pass
         $currency = get_option( 'laterpay_currency' );
 
         $details['duration'] = $time_pass['duration'] . ' ' .
-                                LaterPay_Helper_Pass::get_period_options( $time_pass['period'], $time_pass['duration'] > 1 );
+                                LaterPay_Helper_TimePass::get_period_options( $time_pass['period'], $time_pass['duration'] > 1 );
         $details['access']   = __( 'access to', 'laterpay' ) . ' ' .
-                                LaterPay_Helper_Pass::get_access_options( $time_pass['access_to'] );
+                                LaterPay_Helper_TimePass::get_access_options( $time_pass['access_to'] );
 
 
         // also display category, price, and revenue model, if full_info flag is used
@@ -525,7 +525,7 @@ class LaterPay_Helper_Pass
      */
     public static function get_time_passes_statistic() {
         $history_model      = new LaterPay_Model_Payment_History();
-        $time_passes        = LaterPay_Helper_Pass::get_all_time_passes();
+        $time_passes        = LaterPay_Helper_TimePass::get_all_time_passes();
         $summary_active     = 0;
         $summary_unredeemed = 0;
         $summary_revenue    = 0;

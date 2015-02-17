@@ -40,8 +40,8 @@ class LaterPay_Helper_Post
 
         // check, if parent post has access with time passes
         $parent_post        = $is_attachment ? get_the_ID() : $post_id;
-        $time_passes_list   = LaterPay_Helper_Pass::get_time_passes_list_by_post_id( $parent_post );
-        $time_passes        = LaterPay_Helper_Pass::get_tokenized_time_pass_ids( $time_passes_list );
+        $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $parent_post );
+        $time_passes        = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
         foreach ( $time_passes as $time_pass ) {
             if ( array_key_exists( $time_pass, self::$access ) && self::$access[$time_pass] ) {
                 return true;

@@ -101,7 +101,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
             'cache_file_exists'         => $this->cache_file_exists,
             'cache_file_is_broken'      => $this->cache_file_is_broken,
-            'passes'                    => LaterPay_Helper_Pass::get_time_passes_statistic(),
+            'passes'                    => LaterPay_Helper_TimePass::get_time_passes_statistic(),
         );
 
         $this->assign( 'laterpay', $view_args );

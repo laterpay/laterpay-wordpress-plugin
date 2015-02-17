@@ -860,11 +860,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return string
      */
     public function render_time_pass( $args = array() ) {
-        $defaults = LaterPay_Helper_Pass::get_default_options();
+        $defaults = LaterPay_Helper_TimePass::get_default_options();
         $args = array_merge( $defaults, $args );
 
         if ( ! empty($args['pass_id']) ) {
-            $args['url'] = LaterPay_Helper_Pass::get_laterpay_purchase_link( $args['pass_id'] );
+            $args['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $args['pass_id'] );
         }
 
         $this->assign( 'laterpay_pass', $args );
@@ -963,7 +963,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return array
      */
     private function get_passes_json( $passes_list = null ) {
-        $passes_array = array( 0 => LaterPay_Helper_Pass::get_default_options() );
+        $passes_array = array( 0 => LaterPay_Helper_TimePass::get_default_options() );
 
         foreach ( $passes_list as $pass ) {
             $pass = (array) $pass;
@@ -1039,7 +1039,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         if ( $only_time_pass == 1 ) {
 
-            if ( ! LaterPay_Helper_Pass::get_time_passes_count() ) {
+            if ( ! LaterPay_Helper_TimePass::get_time_passes_count() ) {
                 wp_send_json(
                     array(
                         'success' => false,

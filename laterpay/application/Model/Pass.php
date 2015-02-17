@@ -63,10 +63,10 @@ class LaterPay_Model_Pass
         global $wpdb;
 
         // leave only the required keys
-        $data = array_intersect_key( $data, LaterPay_Helper_Pass::get_default_options() );
+        $data = array_intersect_key( $data, LaterPay_Helper_TimePass::get_default_options() );
 
         // fill values that weren't set from defaults
-        $data = array_merge( LaterPay_Helper_Pass::get_default_options(), $data );
+        $data = array_merge( LaterPay_Helper_TimePass::get_default_options(), $data );
 
         // pass_id is a primary key, set by autoincrement
         $time_pass_id = $data['pass_id'];
