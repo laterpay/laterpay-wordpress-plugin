@@ -249,13 +249,13 @@ alert('Toggling post details coming soon');
             },
 
             isDateWithinInterval = function(timestamp) {
-                var startDate   = new Date(),
-                    intervalEnd = $o.currentInterval.data('intervalEndTimestamp'),
-                    endDate     = new Date(intervalEnd * 1000),
-                    givenDate   = new Date(timestamp * 1000);
+                var currentDate     = new Date(),
+                    intervalEnd     = $o.currentInterval.data('intervalEndTimestamp'),
+                    intervalEndDate = new Date(intervalEnd * 1000),
+                    givenDate       = new Date(timestamp * 1000);
 
                 // yesterday
-                startDate.setDate(startDate.getDate() - 1);
+                currentDate.setDate(currentDate.getDate() - 1);
 
                 // check, if the given date is gte yesterday
                 if (givenDate.getMonth() === currentDate.getMonth() &&
@@ -270,14 +270,10 @@ alert('Toggling post details coming soon');
                     givenDate.getYear() === intervalEndDate.getYear() &&
                     givenDate.getDate() <= intervalEndDate.getDate()) {
 
-                    // reset all days to 0:00:00 for easier comparison
-                    startDate.setHours(0, 0, 0, 0);
-                    endDate.setHours(0, 0, 0, 0);
-                    givenDate.setHours(0, 0, 0, 0);
-
-                    return !(givenDate.getTime() <= endDate.getTime() ||
-                             givenDate.getTime() >= startDate.getTime());
+                    return false;
                 }
+
+                return true;
             },
 
             getIntervalDiff = function(interval) {
