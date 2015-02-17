@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_Pass
+class LaterPay_Model_TimePass
 {
 
     /**
@@ -20,7 +20,7 @@ class LaterPay_Model_Pass
     public $time_passes_table;
 
     /**
-     * Constructor for class LaterPay_Model_Pass, load table name.
+     * Constructor for class LaterPay_Model_TimePass, load table name.
      */
     function __construct() {
         global $wpdb;

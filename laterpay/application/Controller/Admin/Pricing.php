@@ -61,7 +61,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         );
 
         // pass localized strings and variables to script
-        $passes_model       = new LaterPay_Model_Pass();
+        $passes_model       = new LaterPay_Model_TimePass();
 
         $passes_list        = (array) $passes_model->get_all_time_passes();
         $vouchers_list      = LaterPay_Helper_Voucher::get_all_vouchers();
@@ -96,7 +96,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         $categories_with_defined_price  = $category_price_model->get_categories_with_defined_price();
 
         // time passes and vouchers data
-        $passes_model                   = new LaterPay_Model_Pass();
+        $passes_model                   = new LaterPay_Model_TimePass();
         $passes_list                    = (array) $passes_model->get_all_time_passes();
         $vouchers_list                  = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic             = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
@@ -885,7 +885,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     protected function pass_form_save() {
         $save_pass_form = new LaterPay_Form_Pass( $_POST );
-        $pass_model     = new LaterPay_Model_Pass();
+        $pass_model     = new LaterPay_Model_TimePass();
 
         if ( $save_pass_form->is_valid() ) {
             $voucher = $save_pass_form->get_field_value( 'voucher' );
@@ -933,7 +933,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     protected function pass_delete() {
         if ( isset( $_POST['pass_id'] ) ) {
             $pass_id    = $_POST['pass_id'];
-            $pass_model = new LaterPay_Model_Pass();
+            $pass_model = new LaterPay_Model_TimePass();
 
             // remove pass
             $pass_model->delete_time_pass_by_id( $pass_id );
