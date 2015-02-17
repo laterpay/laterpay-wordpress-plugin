@@ -26,7 +26,6 @@
                     $this->get_text_view( 'backend/partials/navigation_interval' )
             );
            ?>
-            <a href="#" id="lp_js_refreshDashboard" class="lp_DashboardRefreshLink"><?php _e( 'Refresh', 'laterpay' ); ?></a>
         </h1>
 
             <div class="lp_row">

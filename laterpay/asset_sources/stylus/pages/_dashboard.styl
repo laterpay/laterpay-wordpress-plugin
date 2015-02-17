@@ -25,14 +25,10 @@ h1 {
                 border-right-color: $clickable-highlight;
             }
         }
-    }
 
-    #lp_js_loadPreviousInterval.lp_previousLink--disabled {
-      display: none;
-    }
-
-    #lp_js_loadNextInterval.lp_nextLink--disabled {
-      display: none;
+        &.lp_is-disabled {
+            display: none;
+        }
     }
 
     .lp_triangle {
@@ -49,15 +45,6 @@ h1 {
     .lp_triangle--left {
         border-color:               transparent $clickable transparent transparent;
         left:                       -3px; /* correct visual weight of triangle */
-    }
-
-    .lp_DashboardRefreshLink {
-        color:                      $clickable;
-        display:                    none; /* hidden by default - only required when displaying hourly data */
-
-        &:hover {
-            color:                  $clickable-highlight;
-        }
     }
 }
 
@@ -184,6 +171,15 @@ h1 {
 
     .lp_value-narrow {
         width:                      3 * $fs-1;
+    }
+}
+
+
+// Post-specific statistics --------------------------------------------------------------------------------------------
+.lp_post-statistics__container {
+
+    &.lp_is-hidden {
+        display: none;
     }
 }
 
