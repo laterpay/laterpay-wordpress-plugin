@@ -36,6 +36,13 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         add_action( 'admin_bar_menu',        array( &$this, 'admin_bar_menu' ), 1000 );
     }
 
+    /**
+     * Added element into wp menu
+     * 
+     * @global type $wp_admin_bar
+     * 
+     * @return void
+     */
     public function admin_bar_menu() {
         global $wp_admin_bar;
 

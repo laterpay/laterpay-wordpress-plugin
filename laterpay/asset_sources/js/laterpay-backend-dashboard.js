@@ -132,21 +132,74 @@
                 // re-render dashboard in selected configuration
                 $o.configurationSelection
                 .mousedown(function() {
-                    reloadDashboard( 0, false, false, $(this) );
+                    var startTimestamp = $o.currentInterval.data('startTimestamp'),
+                        nextStartTimestamp,
+                        nextEndTimestamp,
+                        interval;
+                    // change selected item to clicked item
+                    $(this)
+                        .parents($o.dropdown)
+                        .removeClass($o.expanded)
+                            .find($o.dropdownCurrentItem)
+                            .text($(this).text())
+                        .end()
+                            .find('.' + $o.selected)
+                            .removeClass($o.selected)
+                        .end()
+                    .end()
+                    .addClass($o.selected);
+
+                    interval        = getInterval();
+
+                    // check, if the 'next' button should be visible or hidden for the given interval
+                    nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
+                    switchNextIntervalState(nextStartTimestamp, interval);
+
+                    // check, if the 'previous' button should be visible or hidden for the given interval
+                    nextEndTimestamp    = startTimestamp - getIntervalDiff(interval);
+                    switchPreviousIntervalState(nextEndTimestamp, interval);
+
+                    setNextPrevTooltip(interval);
+                    setTimeRange(startTimestamp, interval);
+                    loadDashboard(false);
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                 .mousedown(function() {
-                    reloadDashboard( 86400, true, true );
+                    var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                        interval        = getInterval();
+
+                    if ($(this).hasClass('lp_nextLink--disabled')) {
+                        return;
+                    }
+
+                    startTimestamp = startTimestamp + getIntervalDiff(interval);
+
+                    switchNextIntervalState(startTimestamp, interval);
+                    switchPreviousIntervalState(startTimestamp, interval);
+                    setTimeRange(startTimestamp, interval);
+                    loadDashboard(true);
                 })
                 .click(function(e) {e.preventDefault();});
 
                 // re-render dashboard with data of previous interval
                 $o.previousInterval
                 .mousedown(function() {
-                    reloadDashboard( -86400, false );
+                    var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                        interval        = getInterval();
+
+                    if ($(this).hasClass('lp_previousLink--disabled')) {
+                        return;
+                    }
+
+                    startTimestamp = startTimestamp - getIntervalDiff(interval);
+
+                    switchNextIntervalState(startTimestamp, interval);
+                    switchPreviousIntervalState(startTimestamp, interval);
+                    setTimeRange(startTimestamp, interval);
+                    loadDashboard(false);
                 })
                 .click(function(e) {e.preventDefault();});
 
@@ -163,60 +216,103 @@
                 })
                 .click(function(e) {e.preventDefault();});
 
-                $('body')
-                .on('mousedown', $o.toggleItemDetails, function() {
-                    alert('Toggling post details coming soon');
-                })
-                .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
+$('body')
+.on('mousedown', $o.toggleItemDetails, function() {
+    alert('Toggling post details coming soon');
+})
+.on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
                 $o.viewSelector
-                .mousedown(function() {
-                    switchDashboardView($(this));
-                })
-                .click(function(e) {e.preventDefault();});
+                    .mousedown(function() {
+                        switchDashboardView($(this));
+                    })
+                    .click(function(e) {e.preventDefault();});
             },
 
-            reloadDashboard = function( timeshift, load, hidelink, $item ) {
-                var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                    interval        = getInterval();
+            switchNextIntervalState = function(timestamp, interval) {
+                if (!isDateWithinInterval(timestamp)) {
+                    $o.nextInterval.addClass('lp_nextLink--disabled').attr({'data-tooltip' : ''});
+                } else {
+                    var i18n = getNextPrevTooltip(interval);
+                    $o.nextInterval.removeClass('lp_nextLink--disabled').attr({'data-tooltip' : i18n.next});
+                }
+            },
 
-                if (timeshift) {
-                    startTimestamp  = startTimestamp + timeshift;
+            switchPreviousIntervalState = function(timestamp, interval) {
+                if (!isDateWithinInterval(timestamp)) {
+                    $o.previousInterval.addClass('lp_previousLink--disabled').attr({'data-tooltip' : ''});
+                } else {
+                    var i18n = getNextPrevTooltip(interval);
+                    $o.previousInterval.removeClass('lp_previousLink--disabled').attr({'data-tooltip' : i18n.prev});
+                }
+            },
+
+            isDateWithinInterval = function(timestamp) {
+                var currentDate     = new Date(),
+                    intervalEnd     = $o.currentInterval.data('intervalEndTimestamp'),
+                    intervalEndDate = new Date(intervalEnd * 1000),
+                    givenDate       = new Date(timestamp * 1000);
+
+                // yesterday
+                currentDate.setDate(currentDate.getDate() - 1);
+
+                // check, if the given date is gte yesterday
+                if (givenDate.getMonth() === currentDate.getMonth() &&
+                    givenDate.getYear() === currentDate.getYear() &&
+                    givenDate.getDate() >= currentDate.getDate()) {
+
+                    return false;
                 }
 
-                if (hidelink) {
-                    var currentDate = new Date(),
-                        startDate   = new Date(startTimestamp * 1000);
-                    if (startDate.getDate() >= currentDate.getDate()) {
-                        // FIXME: instead of showing an error,
-                        // we should hide the link for selecting the next interval!
-                        setMessage(lpVars.i18n.noFutureInterval, false);
-                        return;
-                    }
+                // check, if the given date is lte the interval end date - earliest entry in post_views-table
+                if (givenDate.getMonth() === intervalEndDate.getMonth() &&
+                    givenDate.getYear() === intervalEndDate.getYear() &&
+                    givenDate.getDate() <= intervalEndDate.getDate()) {
+
+                    return false;
                 }
 
-                if ($item) {
-                    $item.parents($o.dropdown)
-                    .removeClass($o.expanded)
-                    .find($o.dropdownCurrentItem)
-                        .text($item.text())
-                        .end()
-                    .find('.' + $o.selected)
-                        .removeClass($o.selected)
-                        .end()
-                    .end()
-                    .addClass($o.selected);
+                return true;
+            },
+
+            getIntervalDiff = function(interval) {
+                var diff = 86400; // 1 day
+                if (interval === 'day') {
+                    diff = 86400;
+                } else if (interval === 'week') {
+                    diff = diff * 8;
+                } else if (interval === '2-weeks') {
+                    diff = diff * 16;
+                } else if (interval === 'month') {
+                    diff = diff * 30;
                 }
 
-                setTimeRange(startTimestamp, interval);
-                loadDashboard(load);
+                return diff;
+            },
+
+            setNextPrevTooltip = function(interval) {
+                var i18n = getNextPrevTooltip(interval);
+                if (!i18n) {
+                    return;
+                }
+
+                $o.nextInterval.attr({'data-tooltip': i18n.next});
+                $o.previousInterval.attr({'data-tooltip': i18n.prev});
+            },
+
+            getNextPrevTooltip = function(interval) {
+                if (!lpVars.i18n.tooltips[interval]) {
+                    return false;
+                }
+
+                return lpVars.i18n.tooltips[interval];
             },
 
             switchDashboardView = function($item) {
-                var data          = $.parseJSON( $item.attr('data') );
-                var current_label = $.trim($item.html());
+                var data          = $.parseJSON($item.attr('data')),
+                    current_label = $.trim($item.html());
 
-                if ( data.view === lpVars.submenu.view.standard ) {
+                if (data.view === lpVars.submenu.view.standard) {
                     // change label
                     $item.html(data.label);
                     // set new data view
@@ -266,8 +362,8 @@
                     timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 } else {
                     timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
-                                ' - ' +
-                                to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    ' - ' +
+                    to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 }
 
                 // set the new startTimestamp as data attribute for refreshing the dashboard data.
@@ -280,9 +376,9 @@
             loadDashboardData = function(section, refresh, pass) {
                 var interval        = getInterval(),
                     revenueModel    = $o.revenueModelChoices
-                        .parents($o.dropdownList)
-                        .find('.' + $o.selected)
-                        .attr('data-revenue-model'),
+                                        .parents($o.dropdownList)
+                                        .find('.' + $o.selected)
+                                        .attr('data-revenue-model'),
                     requestData     = {
                         // WP Ajax action
                         'action'          : 'laterpay_get_dashboard_data',
@@ -350,53 +446,53 @@
                 showLoadingIndicator($o.conversionDiagram);
 
                 loadDashboardData('converting_items', refresh)
-                .done(function(response) {
-                    // generate a data point with 100% y-value for each conversion rate column as background
-                    var backColumns = [];
-                    i = 0;
-                    l = response.data.y.length;
-                    for (i; i < l; i++) {
-                        backColumns.push([i + 1, 100]);
-                    }
+                    .done(function(response) {
+                        // generate a data point with 100% y-value for each conversion rate column as background
+                        var backColumns = [];
+                        i = 0;
+                        l = response.data.y.length;
+                        for (i; i < l; i++) {
+                            backColumns.push([i + 1, 100]);
+                        }
 
-                    var plotOptions = {
-                            xaxis: {
-                                ticks           : response.data.x,
-                            },
-                            yaxis: {
-                                tickSize        : null,
-                                max             : 100,
-                            }
-                        },
-                        plotData = [
-                            {
-                                data            : backColumns,
-                                bars            : {
-                                    align       : 'center',
-                                    barWidth    : 0.6,
-                                    fillColor   : $o.colorBackground,
-                                    horizontal  : false,
-                                    lineWidth   : 0,
-                                    show        : true,
+                        var plotOptions = {
+                                xaxis: {
+                                    ticks           : response.data.x,
+                                },
+                                yaxis: {
+                                    tickSize        : null,
+                                    max             : 100,
                                 }
                             },
-                            {
-                                data            : response.data.y,
-                                bars            : {
-                                    align       : 'center',
-                                    barWidth    : 0.4,
-                                    fillColor   : $o.colorBackgroundLaterpay,
-                                    horizontal  : false,
-                                    lineWidth   : 0,
-                                    show        : true,
-                                }
-                            },
-                        ];
+                            plotData = [
+                                {
+                                    data            : backColumns,
+                                    bars            : {
+                                        align       : 'center',
+                                        barWidth    : 0.6,
+                                        fillColor   : $o.colorBackground,
+                                        horizontal  : false,
+                                        lineWidth   : 0,
+                                        show        : true,
+                                    }
+                                },
+                                {
+                                    data            : response.data.y,
+                                    bars            : {
+                                        align       : 'center',
+                                        barWidth    : 0.4,
+                                        fillColor   : $o.colorBackgroundLaterpay,
+                                        horizontal  : false,
+                                        lineWidth   : 0,
+                                        show        : true,
+                                    }
+                                },
+                            ];
 
-                    plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
-                    $.plot($o.conversionDiagram, plotData, plotOptions);
-                })
-                .always(function() {removeLoadingIndicator($o.conversionDiagram);});
+                        plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                        $.plot($o.conversionDiagram, plotData, plotOptions);
+                    })
+                    .always(function() {removeLoadingIndicator($o.conversionDiagram);});
             },
 
             loadTimePassLifecycles = function(refresh) {
@@ -408,67 +504,67 @@
                     showLoadingIndicator($(data[index]));
 
                     loadDashboardData('time_passes_expiry', refresh, pass_id)
-                    .done(function(response) {
-                        var max         = response.data.max,
-                            backColumns = [];
+                        .done(function(response) {
+                            var max         = response.data.max,
+                                backColumns = [];
 
-                        i = 0;
-                        l = response.data.y.length;
-                        for (i; i < l; i++) {
-                            backColumns.push([i, max]);
-                        }
+                            i = 0;
+                            l = response.data.y.length;
+                            for (i; i < l; i++) {
+                                backColumns.push([i, max]);
+                            }
 
-                        // var markings = [
-                        //         {
-                        //             color               : $o.colorBorder,
-                        //             lineWidth           : 1,
-                        //             xaxis               : {
-                        //                 from            : 3.5,
-                        //                 to              : 3.5,
-                        //             },
-                        //         },
-                        //         {
-                        //             color               : $o.colorBorder,
-                        //             lineWidth           : 1,
-                        //             xaxis               : {
-                        //                 from            : 11.5,
-                        //                 to              : 11.5,
-                        //             },
-                        //         },
-                        //     ];
-                        var plotOptions = {
-                                xaxis               : {
-                                    ticks           : response.data.x,
-                                },
-                                yaxis               : {
-                                    show            : false,
-                                    max             : max,
-                                    tickFormatter   : function(val) {
-                                                        return parseInt(val, 10);
-                                                    }
-                                },
-                                // grid                : {
-                                //     markings        : markings,
-                                // },
-                            },
-                            plotData = [
-                                {
-                                    data            : response.data.y,
-                                    bars            : {
-                                        align       : 'center',
-                                        barWidth    : 0.4,
-                                        fillColor   : $o.colorBackgroundLaterpay,
-                                        horizontal  : false,
-                                        lineWidth   : 0,
-                                        show        : true,
+                            // var markings = [
+                            //         {
+                            //             color               : $o.colorBorder,
+                            //             lineWidth           : 1,
+                            //             xaxis               : {
+                            //                 from            : 3.5,
+                            //                 to              : 3.5,
+                            //             },
+                            //         },
+                            //         {
+                            //             color               : $o.colorBorder,
+                            //             lineWidth           : 1,
+                            //             xaxis               : {
+                            //                 from            : 11.5,
+                            //                 to              : 11.5,
+                            //             },
+                            //         },
+                            //     ];
+                            var plotOptions = {
+                                    xaxis               : {
+                                        ticks           : response.data.x,
                                     },
+                                    yaxis               : {
+                                        show            : false,
+                                        max             : max,
+                                        tickFormatter   : function(val) {
+                                            return parseInt(val, 10);
+                                        }
+                                    },
+                                    // grid                : {
+                                    //     markings        : markings,
+                                    // },
                                 },
-                            ];
+                                plotData = [
+                                    {
+                                        data            : response.data.y,
+                                        bars            : {
+                                            align       : 'center',
+                                            barWidth    : 0.4,
+                                            fillColor   : $o.colorBackgroundLaterpay,
+                                            horizontal  : false,
+                                            lineWidth   : 0,
+                                            show        : true,
+                                        },
+                                    },
+                                ];
 
-                        plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
-                        $.plot($(data[index]), plotData, plotOptions);
-                    })
-                    .always(function() {removeLoadingIndicator($(data[index]));});
+                            plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                            $.plot($(data[index]), plotData, plotOptions);
+                        })
+                        .always(function() {removeLoadingIndicator($(data[index]));});
                 });
             },
 
@@ -678,14 +774,14 @@
 
             loadDashboard = function(refresh) {
                 refresh = refresh || false;
+                loadMostLeastConvertingItems(refresh);
+                loadMostLeastRevenueItems(refresh);
+                loadMostLeastSellingItems(refresh);
                 loadConvertingItems(refresh);
                 loadTimePassLifecycles(refresh);
                 loadRevenueItems(refresh);
                 loadSellingItems(refresh);
                 loadKPIs(refresh);
-                loadMostLeastConvertingItems(refresh);
-                loadMostLeastRevenueItems(refresh);
-                loadMostLeastSellingItems(refresh);
             },
 
             initializePage = function() {
