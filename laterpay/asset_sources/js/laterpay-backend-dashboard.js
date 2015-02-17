@@ -61,7 +61,7 @@
                 // time passes customer lifecycle
                 viewSelector            : $('#lp_js_switchDashboardView'),
                 standardKpiTab          : $('#lp_js_standardKpiTab'),
-                timePassesKPITab        : $('#lp_js_timePassesKPITabjs'),
+                timePassesKpiTab        : $('#lp_js_timePassesKpiTab'),
                 timepassDiagram         : $('.lp_js_timepassDiagram'),
 
                 // state classes
@@ -715,7 +715,7 @@ alert('Toggling post details coming soon');
 
                     // select view
                     $o.standardKpiTab.show();
-                    $o.timePassesKPITab.hide();
+                    $o.timePassesKpiTab.hide();
 
                     // update data
                     data.label = current_label;
@@ -729,7 +729,7 @@ alert('Toggling post details coming soon');
                     data.view = lpVars.submenu.view.standard;
 
                     // select view
-                    $o.timePassesKPITab.show();
+                    $o.timePassesKpiTab.show();
                     $o.standardKpiTab.hide();
 
                     // update data

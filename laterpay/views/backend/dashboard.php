@@ -117,7 +117,7 @@
             </div>
         </div>
 
-        <div id="lp_js_timePassesKPITabjs" style="display:none;">
+        <div id="lp_js_timePassesKpiTab" style="display:none;">
             <h1><?php _e( 'Time Pass Customer Lifecycle', 'laterpay' ); ?></h1>
 
             <div class="lp_time-pass-lifecycle lp_u_clearfix">
