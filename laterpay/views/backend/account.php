@@ -165,6 +165,36 @@
                 <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>. LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
             </dfn>
         </div>
+        <div class="lp_row lp_js_testModeSettings">
+            <h2><?php _e( 'Test Mode', 'laterpay' ); ?></h2>
+            <?php _e( 'Use <b>invisible</b> mode' , 'laterpay' ); ?>
+            <div class="lp_toggle">
+                <form id="lp_js_changeTestModeForm" method="post" action="">
+                    <input type="hidden" name="form"    value="laterpay_test_mode">
+                    <input type="hidden" name="action"  value="laterpay_account">
+                    <input type="hidden" name="invalid_credentials" value="0" class="lp_js_invalidCredentials">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                    <label class="lp_toggle_label lp_toggle_label_pass">
+                        <input type="checkbox"
+                               name="plugin_is_in_visible_test_mode"
+                               class="lp_js_pluginInVisibleTestMode lp_toggle_input"
+                               value="1"
+                               <?php if ( $laterpay['plugin_is_in_visible_test_mode'] == true ) { echo 'checked'; } ?>
+                        >
+                        <span class="lp_toggle_text"></span>
+                        <span class="lp_toggle_handle"></span>
+                    </label>
+                </form>
+            </div>
+            <?php _e( 'Use <b>visible</b> mode', 'laterpay' ); ?>
+
+            <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
+                <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>. All payments are booked and credited to your account.', 'laterpay' ); ?>
+            </dfn>
+            <dfn id="lp_js_pluginMode_testText" class="lp_u_block"<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
+                <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>. LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
+            </dfn>
+        </div>
     </div>
 
 </div>

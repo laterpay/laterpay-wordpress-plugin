@@ -15,6 +15,12 @@
                 // plugin mode
                 pluginModeToggle            : $('#lp_js_togglePluginMode'),
 
+                // test mode
+                testModeForm                : $('#lp_js_testModeForm'),
+                testModeSettings            : $('.lp_js_testModeSettings'),
+                testModeField               : $('input.lp_js_pluginInVisibleTestMode'),
+                testModeInvalidCredField    : $('input.lp_js_invalidCredentials'),
+
                 showMerchantContractsButton : $('#lp_js_showMerchantContracts'),
 
                 throttledFlashMessage       : undefined,
@@ -59,6 +65,12 @@
                     showMerchantContracts();
                 })
                 .click(function(e) {e.preventDefault();});
+
+                // change test mode type
+                $o.testModeField
+                .change(function() {
+                    changeTestMode();
+                });
             },
 
             autofocusEmptyInput = function() {
@@ -70,6 +82,24 @@
                     }
                 }
             },
+
+            changeTestMode = function() {
+                var noValid = hasNoValidCredentials();
+
+                if(noValid) {
+                    $o.testModeInvalidCredField.val(1);
+                    // restore test mode
+                    $o.testModeField.prop('checked',false);
+                    // focus Merchant ID input in case the user just forgot to enter his credentials
+                    $o.liveMerchantId.focus();
+                    // make sure Ajax request gets sent
+                    $o.requestSent = false;
+
+                } else {
+                    $o.testModeInvalidCredField.val(0);
+                }
+                makeAjaxRequest('lp_js_changeTestModeForm');
+            }
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
