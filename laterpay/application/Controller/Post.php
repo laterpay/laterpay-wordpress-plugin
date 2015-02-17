@@ -904,10 +904,19 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $content;
         }
 
-        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
-        $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $user_has_unlimited_access      = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $timepasses_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
+
+        // assign variables for time passes partial
+        $view_args = array(
+            'time_passes_positioned_manually' => $timepasses_positioned_manually,
+        );
+
+        $this->assign( 'laterpay', $view_args );
 
         if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
             return $content;
         }
 
@@ -944,15 +953,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $context
             );
 
-            // assign variables for time passes partial
-            $view_args = array(
-                'time_passes_positioned_manually' => get_option( 'laterpay_time_passes_positioned_manually' ),
-            );
-
-            $this->assign( 'laterpay', $view_args );
-
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
-
             return $content;
         }
 
@@ -1001,7 +1002,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'user_has_already_voted'                => $user_has_already_voted,
             'show_post_ratings'                     => $show_post_ratings,
             'purchase_link_is_hidden'               => LaterPay_Helper_View::purchase_link_is_hidden(),
-            'time_passes_positioned_manually'       => get_option( 'laterpay_time_passes_positioned_manually' ),
+            'time_passes_positioned_manually'       => $timepasses_positioned_manually,
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'only_time_pass_purchases_allowed'      => $only_time_passes_allowed,
         );
