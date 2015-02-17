@@ -132,7 +132,7 @@
                 // re-render dashboard in selected configuration
                 $o.configurationSelection
                 .mousedown(function() {
-                    var startTimestamp = $o.currentInterval.data( 'startTimestamp' ),
+                    var startTimestamp = $o.currentInterval.data('startTimestamp'),
                         nextStartTimestamp,
                         nextEndTimestamp,
                         interval;
@@ -140,22 +140,22 @@
                     $(this)
                         .parents($o.dropdown)
                         .removeClass($o.expanded)
-                        .find($o.dropdownCurrentItem)
-                        .text($(this).text())
+                            .find($o.dropdownCurrentItem)
+                            .text($(this).text())
                         .end()
-                        .find('.' + $o.selected)
-                        .removeClass($o.selected)
+                            .find('.' + $o.selected)
+                            .removeClass($o.selected)
                         .end()
-                        .end()
-                        .addClass($o.selected);
+                    .end()
+                    .addClass($o.selected);
 
                     interval        = getInterval();
 
-                    // check if the "next"-button should be visible or hidden for the given interval.
+                    // check, if the 'next' button should be visible or hidden for the given interval
                     nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
                     switchNextIntervalState(nextStartTimestamp, interval);
 
-                    // check if the "previous"-button should be visible or hidden for the given interval.
+                    // check, if the 'previous' button should be visible or hidden for the given interval
                     nextEndTimestamp    = startTimestamp - getIntervalDiff(interval);
                     switchPreviousIntervalState(nextEndTimestamp, interval);
 
@@ -168,7 +168,6 @@
                 // re-render dashboard with data of next interval
                 $o.nextInterval
                 .mousedown(function() {
-
                     var startTimestamp  = $o.currentInterval.data('startTimestamp'),
                         interval        = getInterval();
 
@@ -296,11 +295,12 @@ $('body')
                 if (!i18n) {
                     return;
                 }
+
                 $o.nextInterval.attr({'data-tooltip': i18n.next});
                 $o.previousInterval.attr({'data-tooltip': i18n.prev});
             },
 
-            getNextPrevTooltip = function(interval){
+            getNextPrevTooltip = function(interval) {
                 if (!lpVars.i18n.tooltips[interval]) {
                     return false;
                 }
