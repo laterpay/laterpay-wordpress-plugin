@@ -17,16 +17,16 @@
     </div>
 
     <div class="lp_wrap">
-
-        <h1><?php
-            echo sprintf(
-                     __( '%s Dashboard of %s Sales from%s', 'laterpay' ),
-                    $this->get_text_view( 'backend/partials/dropdown_interval' ),
-                    $this->get_text_view( 'backend/partials/dropdown_sales' ),
-                    $this->get_text_view( 'backend/partials/navigation_interval' )
-            );
-           ?>
-        </h1>
+        <div id="lp_js_standardKpiTab">
+            <h1><?php
+                echo sprintf(
+                         __( '%s Dashboard of %s Sales from%s', 'laterpay' ),
+                        $this->get_text_view( 'backend/partials/dropdown_interval' ),
+                        $this->get_text_view( 'backend/partials/dropdown_sales' ),
+                        $this->get_text_view( 'backend/partials/navigation_interval' )
+                );
+               ?>
+            </h1>
 
             <div class="lp_row">
                 <div class="lp_u_w-1-3">
