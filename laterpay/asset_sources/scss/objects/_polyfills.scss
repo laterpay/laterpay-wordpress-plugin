@@ -15,5 +15,6 @@ $end: left bottom;
 
 // opacity
 @mixin opacity($arguments) {
+	opacity: $arguments;
     filter: unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round($arguments * 100) + ')');
 }

@@ -20,19 +20,18 @@ var autoprefixer    = require('gulp-autoprefixer'),
     // sourcemaps      = require('gulp-sourcemaps'),
     // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
-    //stylus          = require('gulp-stylus'),
-	sass            = require('gulp-sass'),
+  	sass            = require('gulp-sass'),
     svgmin          = require('gulp-svgmin'),
     tinypng         = require('gulp-tinypng'),
     uglify          = require('gulp-uglify'),
     p               = {
                         allfiles    : [
                                             './laterpay/**/*.php',
-                                            './laterpay/asset_sources/stylus/**/*.scss',
+                                            './laterpay/asset_sources/scss/**/*.scss',
                                             './laterpay/asset_sources/js/*.js'
                                       ],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
-                        srcStylus   : './laterpay/asset_sources/stylus/*.scss',
+                        srcSCSS   : './laterpay/asset_sources/scss/*.scss',
                         srcJS       : './laterpay/asset_sources/js/',
                         srcSVG      : './laterpay/asset_sources/img/**/*.svg',
                         srcPNG      : './laterpay/asset_sources/img/**/*.png',
@@ -50,8 +49,7 @@ gulp.task('clean', function(cb) {
 
 // CSS related tasks
 gulp.task('css-watch', function() {
-    gulp.src(p.srcStylus)
-        .pipe(sass())
+    gulp.src(p.srcSCSS)
         .pipe(sass())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .on('error', notify.onError())
@@ -59,7 +57,7 @@ gulp.task('css-watch', function() {
 });
 
 gulp.task('css-build', function() {
-    gulp.src(p.srcStylus)
+    gulp.src(p.srcSCSS)
         .pipe(sass())
         // .pipe(base64({                                                          // base64-encode images and inline them using datauris
         //     baseDir         : 'laterpay/assets/img',
@@ -123,7 +121,7 @@ gulp.task('fileformat', function() {
                 spaces          : 4,
                 trailingspaces  : true,
                 newline         : true,
-                newlineMaximum  : 2,
+                newlineMaximum  : 2
             }))
             .pipe(lintspaces.reporter());
 });
@@ -149,7 +147,7 @@ gulp.task('updateSubmodules', function() {
 gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function() {
     // watch for changes
     gulp.watch(p.allfiles,          ['fileformat']);
-
+    gulp.watch(p.srcSCSS,           ['css-watch']);
     gulp.watch(p.srcJS + '*.js',    ['js-watch']);
 });
 

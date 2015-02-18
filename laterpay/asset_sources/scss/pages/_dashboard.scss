@@ -201,6 +201,17 @@ h1 {
     }
 }
 
+.lp_time-pass-diagram__label {
+    background: $background;
+    color: $text-lighter;
+    font-size: 10px;
+    line-height: 1.4;
+    padding: 0.5em;
+    position: absolute;
+    text-align: center;
+    white-space: nowrap;
+}
+
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1050px) {

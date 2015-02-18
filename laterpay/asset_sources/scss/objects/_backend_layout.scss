@@ -57,7 +57,7 @@
         }
     }
 
-    &.lp_current {
+    &.lp_is-current{
         background-color: $background;
         border-radius: 4px 4px 0 0;
         border-top: 4px solid $clickable;
@@ -76,6 +76,11 @@
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.21);
     border-radius: 0 0 3px 3px;
     display: none;
+	margin-top: -3px;
+}
+
+.lp_navigation_tabs__item.lp_is-current .lp_navigation_tabs__submenu {
+	background: $background;
 }
 
 
@@ -129,7 +134,7 @@
 .lp_flashMessage {
     box-shadow: 0 1px 4px 0 hsla(0, 0%, 0%, 0.55);
     margin: 0;
-    opacity: 0.9;
+    @include opacity(0.9);
     position: fixed; // always show flash message at top of screen, even if page is scrolled down
     top: 2.5rem;
     width: 96%;

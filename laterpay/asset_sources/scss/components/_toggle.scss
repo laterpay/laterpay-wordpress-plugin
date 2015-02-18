@@ -14,7 +14,7 @@
 
     // frame
     .lp_toggle_label {
-        linear-gradient: hsl(0, 0%, 93%), 0%, $background-lightest, 100%;
+        @include linear-gradient(hsl(0, 0%, 93%), 0%, $background-lightest, 100%, $start, $end);
         border-radius: 1em;
         box-shadow: inset 0 -1px $background-lightest, inset 0 1px 1px hsla(0, 0%, 0%, 0.05);
         box-sizing: content-box;
@@ -29,7 +29,7 @@
 
         .lp_toggle_input {
             left: 0;
-            opacity: 0;
+            @include opacity(0);
             position: absolute;
             top: 0;
         }
@@ -72,7 +72,7 @@
             &:after {
                 content: attr(data-on);
                 left: 0.75em;
-                opacity: 0;
+                @include opacity(0);
             }
         }
 
@@ -83,7 +83,7 @@
             box-shadow: 1px 1px 5px hsla(0, 0%, 0%, 0.2);
             height: 1.55em;
             left: 0.35em;
-            linear-gradient: $background-lightest, 40%, hsl(0, 0%, 94%), 100%;
+            @include linear-gradient($background-lightest, 40%, hsl(0, 0%, 94%), 100%, $start, $end);
             position: absolute;
             top: 0.35em;
             transition: left 0.15s ease-out;
@@ -95,7 +95,7 @@
                 content: '';
                 height: 1.1em;
                 left: 50%;
-                linear-gradient: hsl(0, 0%, 96%), 0%, hsl(0, 0%, 90%), 100%;
+                @include linear-gradient(hsl(0, 0%, 96%), 0%, hsl(0, 0%, 90%), 100%, $start, $end);
                 margin: -0.55em 0 0 -0.55em;
                 position: absolute;
                 top: 50%;
@@ -111,11 +111,11 @@
                 box-shadow: inset 0 1px 2px hsla(0, 0%, 0%, 0.15), inset 0 0 3px hsla(0, 0%, 0%, 0.2);
 
                 &:before {
-                    opacity: 0;
+                    @include opacity(0);
                 }
 
                 &:after {
-                    opacity: 1;
+                    @include opacity(1);
                 }
             }
 

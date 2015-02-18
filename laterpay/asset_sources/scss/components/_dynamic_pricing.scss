@@ -62,7 +62,7 @@ rect.x-drag-square,
 path.start-price-triangle,
 path.end-price-triangle {
     fill: $clickable;
-    opacity: 0.85;
+    @include opacity(0.85);
 }
 
 rect.lp_dynamicPricing_background {
@@ -73,13 +73,13 @@ rect.lp_dynamicPricing_background {
 
     .tooltip,
     .pointer {
-        opacity: 0;
+        @include opacity(0);
     }
 }
 
 .lp_priceLine {
     cursor: col-resize;
-    opacity: 0.01;
+    @include opacity(0.01);
     stroke: hsl(0, 0%, 100%);
     stroke-width: 8px;
 }

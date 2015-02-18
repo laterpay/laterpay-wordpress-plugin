@@ -5,7 +5,7 @@
 @import 'objects/_variables';
 
 h3 {
-	margin: round(4 * $fs-1) 0 $fs-1;
+	margin: (4 * $fs-1) 0 $fs-1;
 
 	&:first-of-type {
 		margin-top: $fs-1;
@@ -38,5 +38,5 @@ h3 {
 }
 
 p.submit {
-	margin-top: round(4 * $fs-1);
+	margin-top: (4 * $fs-1);
 }

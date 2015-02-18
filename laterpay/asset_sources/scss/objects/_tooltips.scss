@@ -6,7 +6,7 @@
 
     &:before,
     &:after {
-        opacity: 0;
+        @include opacity(0);
         pointer-events: none;
         position: absolute;
         transform: translate3d(0, 0, 0);
@@ -49,7 +49,7 @@
     &:hover:after,
     &:focus:before,
     &:focus:after {
-        opacity: 1;
+        @include opacity(1);
         visibility: visible;
         transform: translateY(-8px);
     }

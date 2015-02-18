@@ -31,13 +31,13 @@
 
 .lp_timePass__front {
     background: url('../img/time-pass-background.png') 0 0 / 100% no-repeat;
-    padding: $fs-1 round(4 * $fs-1) $fs-1 $fs-1;
+    padding: $fs-1 (4 * $fs-1) $fs-1 $fs-1;
 }
 
 .lp_timePass__back {
     background: url('../img/time-pass-background-flip.png') 0 0 / 100% no-repeat;
     display: none;
-    padding: $fs-1 $fs-1 $fs-1 round(4 * $fs-1);
+    padding: $fs-1 $fs-1 $fs-1 (4 * $fs-1);
 }
 
 .lp_timePass.lp_is-flipped {
@@ -136,7 +136,6 @@
 }
 
 .lp_timePass_frontsideLink {
-    -webkit-transition: all 0.25s;
     background: $clickable;
     border-radius: 16px;
     color: $text-inverse;
@@ -291,7 +290,7 @@
 .lp_timePassWidget_voucherCodeWrapper {
     margin: $fs-1 !important;
     max-width: 308px !important;
-    min-width: round(18 * $fs-1) !important;
+    min-width: (18 * $fs-1) !important;
     position: relative !important;
 }
 
@@ -532,12 +531,12 @@
 
     .lp_timePass__front {
         background: url(../img/time-pass-background-small.png) 0 0 / 100% no-repeat !important;
-        padding: $fs-05 round(6 * $fs-05) $fs-05 $fs-05 !important;
+        padding: $fs-05 (6 * $fs-05) $fs-05 $fs-05 !important;
     }
 
     .lp_timePass__back {
         background: url(../img/time-pass-background-flip-small.png) 0 0 / 100% no-repeat !important;
-        padding: $fs-05 $fs-05 $fs-05 round(6 * $fs-05) !important;
+        padding: $fs-05 $fs-05 $fs-05 (6 * $fs-05) !important;
     }
 
     .lp_timePass_title {

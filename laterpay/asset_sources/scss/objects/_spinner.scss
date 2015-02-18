@@ -4,7 +4,7 @@
     background-size: contain;
     height: 2rem;
     margin: 20px auto;
-    opacity: 0.7;
+    @include opacity(0.7);
     position: relative;
     width: 2rem;
     animation: rotate 1.2s infinite steps(12);

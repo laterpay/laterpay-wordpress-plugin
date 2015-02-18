@@ -89,7 +89,7 @@
             position: relative !important;
 
             header {
-                background: hsl(135, 38%, 49%) url(../img/benefits-header.png) 50% 50% / 100% no-repeat !important;
+                background: hsl(135, 38%, 49%) url('../img/benefits-header.png') 50% 50% / 100% no-repeat !important;
                 border-radius: 5px 5px 0 0 !important;
                 left: 0 !important;
                 padding: 1.5em 0  !important;
@@ -131,7 +131,7 @@
             }
 
             li {
-                background: url(../img/laterpay-icon-buy.svg) 6px 0 / 60px no-repeat !important;
+                background: url('../img/laterpay-icon-buy.svg') 6px 0 / 60px no-repeat !important;
                 list-style: none !important;
                 margin: 0 !important;
                 padding: 0 0 0 80px !important;
@@ -153,15 +153,15 @@
             }
 
             li.lp_benefitBuyNow {
-                background-image: url(../img/laterpay-icon-buy.svg) !important;
+                background-image: url('../img/laterpay-icon-buy.svg') !important;
             }
 
             li.lp_benefitUseImmediately {
-                background-image: url(../img/laterpay-icon-read.svg) !important;
+                background-image: url('../img/laterpay-icon-read.svg') !important;
             }
 
             li.lp_benefitPayLater {
-                background-image: url(../img/laterpay-icon-pay.svg) !important;
+                background-image: url('../img/laterpay-icon-pay.svg') !important;
             }
 
             svg.lp_teaser-overlay-icons {
@@ -220,7 +220,7 @@
 
 // shortcodes for linked premium files in free to read posts -----------------------------------------------------------
 .lp_premiumFileBox {
-    background: hsl(0, 0%, 90%) url(../img/premium-text.png) 50% 50% no-repeat;
+    background: hsl(0, 0%, 90%) url('../img/premium-text.png') 50% 50% no-repeat;
     background-size: cover !important;
     border-radius: 3px !important;
     box-shadow: 1px 1px 2px hsla(0, 0%, 0%, 0.34) !important;
@@ -252,23 +252,23 @@
 }
 
 .lp_contentTypeText {
-    background-image: url(../img/premium-text.png);
+    background-image: url('../img/premium-text.png');
 }
 
 .lp_contentTypeAudio {
-    background-image: url(../img/premium-audio.png);
+    background-image: url('../img/premium-audio.png');
 }
 
 .lp_contentTypeVideo {
-    background-image: url(../img/premium-video.png);
+    background-image: url('../img/premium-video.png');
 }
 
 .lp_contentTypeGallery {
-    background-image: url(../img/premium-gallery.png);
+    background-image: url('../img/premium-gallery.png');
 }
 
 .lp_contentTypeFile {
-    background-image: url(../img/premium-download.png);
+    background-image: url('../img/premium-download.png');
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -276,23 +276,23 @@
 
     // serve retina images for hires displays
     .lp_contentTypeText {
-        background-image: url(../img/premium-text_2x.png);
+        background-image: url('../img/premium-text_2x.png');
     }
 
     .lp_contentTypeAudio {
-        background-image: url(../img/premium-audio_2x.png);
+        background-image: url('../img/premium-audio_2x.png');
     }
 
     .lp_contentTypeVideo {
-        background-image: url(../img/premium-video_2x.png);
+        background-image: url('../img/premium-video_2x.png');
     }
 
     .lp_contentTypeGallery {
-        background-image: url(../img/premium-gallery_2x.png);
+        background-image: url('../img/premium-gallery_2x.png');
     }
 
     .lp_contentTypeFile {
-        background-image: url(../img/premium-download_2x.png);
+        background-image: url('../img/premium-download_2x.png');
     }
 }
 
