@@ -675,10 +675,11 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
 
         if ( $role ) {
             $inputs_markup .= '<select multiple class="lp_input lp_multi-select" name="laterpay_unlimited[' . $role . '][]">';
+            $need_default   = ! isset( $unlimited[$role] ) || ! $unlimited[$role];
             foreach ( $categories as $id => $name ) {
-                $is_selected    = isset( $unlimited[$role] ) ? in_array( $id, $unlimited[$role] ) : false;
+                $is_selected    = ! $need_default ? in_array( $id, $unlimited[$role] ) : false;
                 $inputs_markup .= '<option value="' . $id . '" ';
-                $inputs_markup .= $is_selected ? 'lp_is-selected' : '';
+                $inputs_markup .= $is_selected || ( $need_default && $id === 'none' ) ? 'p_is-selected' : '';
                 $inputs_markup .= '>' . $name . '</option>';
             }
             $inputs_markup .= '</select>';
