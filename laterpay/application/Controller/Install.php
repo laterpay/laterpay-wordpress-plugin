@@ -560,7 +560,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         LaterPay_Helper_Cache::reset_opcode_cache();
 
         // update capabilities
-        $laterpay_capabilities = new LaterPay_Core_Capabilities();
+        $laterpay_capabilities = new LaterPay_Core_Capability ();
         $laterpay_capabilities->populate_roles();
     }
 }

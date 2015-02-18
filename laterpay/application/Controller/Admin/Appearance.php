@@ -113,7 +113,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
 
             // update rating functionality (on / off) for purchased items
             case 'ratings':
-                $ratings_form = new LaterPay_Form_Ratings();
+                $ratings_form = new LaterPay_Form_Rating();
 
                 if ( ! $ratings_form->is_valid( $_POST ) ) {
                     wp_send_json(
@@ -179,7 +179,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                 break;
 
             case 'time_passes_position':
-                $time_passes_pos_form = new LaterPay_Form_TimePassesPosition( $_POST );
+                $time_passes_pos_form = new LaterPay_Form_TimePassPosition( $_POST );
 
                 if ( ! $time_passes_pos_form->is_valid() ) {
                     wp_send_json(
