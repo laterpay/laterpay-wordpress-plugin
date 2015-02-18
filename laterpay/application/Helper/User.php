@@ -91,7 +91,7 @@ class LaterPay_Helper_User
             return true;
         }
 
-        $unlimited_access = get_option( 'laterpay_unlimited' );
+        $unlimited_access = get_option( 'laterpay_unlimited_access' );
         if ( ! $unlimited_access ) {
             return false;
         }

@@ -426,7 +426,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay'
         );
 
-        register_setting( 'laterpay', 'laterpay_unlimited', array( $this, 'validate_unlimited_access' ) );
+        register_setting( 'laterpay', 'laterpay_unlimited_access', array( $this, 'validate_unlimited_access' ) );
 
         // add options for each custom role
         foreach ( $custom_roles as $role => $name ) {
@@ -669,7 +669,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     public function get_unlimited_access_markup( $field = null ) {
         $role       = isset( $field['role'] ) ? $field['role'] : null;
         $categories = isset( $field['categories'] ) ? $field['categories'] : array();
-        $unlimited  = get_option( 'laterpay_unlimited' ) ? get_option( 'laterpay_unlimited' ) : array();
+        $unlimited  = get_option( 'laterpay_unlimited_access' ) ? get_option( 'laterpay_unlimited_access' ) : array();
 
         $inputs_markup  = '';
         $count          = 1;
@@ -677,14 +677,14 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         if ( $role ) {
             foreach ( $categories as $id => $name ) {
                 $need_default   = ! isset( $unlimited[$role] ) || ! $unlimited[$role];
-                $is_none_or_all = $id === 'none' || $id === 'all'; // TODO: rather check for intersecting arrays?
+                $is_none_or_all = in_array( $id, array( 'none', 'all' ), true );
                 $is_selected    = ! $need_default ? in_array( $id, $unlimited[$role] ) : false;
 
                 $inputs_markup .= '<input type="checkbox" ';
                 $inputs_markup .= 'id="lp_category--' . $role . $count . '"';
                 $inputs_markup .= 'class="lp_category-access-input';
                 $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
-                $inputs_markup .= 'name="laterpay_unlimited[' . $role . '][]"';
+                $inputs_markup .= 'name="laterpay_unlimited_access[' . $role . '][]"';
                 $inputs_markup .= 'value="' . $id . '" ';
                 $inputs_markup .= $is_selected || ( $need_default && $id === 'none' ) ? 'checked' : '';
                 $inputs_markup .= '>';
