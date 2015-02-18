@@ -671,18 +671,31 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         $categories = isset( $field['categories'] ) ? $field['categories'] : array();
         $unlimited  = get_option( 'laterpay_unlimited' ) ? get_option( 'laterpay_unlimited' ) : array();
 
-        $inputs_markup = '';
+        $inputs_markup  = '';
+        $count          = 1;
 
         if ( $role ) {
-            $inputs_markup .= '<select multiple class="lp_input lp_multi-select" name="laterpay_unlimited[' . $role . '][]">';
-            $need_default   = ! isset( $unlimited[$role] ) || ! $unlimited[$role];
             foreach ( $categories as $id => $name ) {
+                $need_default   = ! isset( $unlimited[$role] ) || ! $unlimited[$role];
+                $is_none_or_all = $id === 'none' || $id === 'all'; // TODO: rather check for intersecting arrays?
                 $is_selected    = ! $need_default ? in_array( $id, $unlimited[$role] ) : false;
-                $inputs_markup .= '<option value="' . $id . '" ';
-                $inputs_markup .= $is_selected || ( $need_default && $id === 'none' ) ? 'p_is-selected' : '';
-                $inputs_markup .= '>' . $name . '</option>';
+
+                $inputs_markup .= '<input type="checkbox" ';
+                $inputs_markup .= 'id="lp_category--' . $role . $count . '"';
+                $inputs_markup .= 'class="lp_category-access-input';
+                $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
+                $inputs_markup .= 'name="laterpay_unlimited[' . $role . '][]"';
+                $inputs_markup .= 'value="' . $id . '" ';
+                $inputs_markup .= $is_selected || ( $need_default && $id === 'none' ) ? 'checked' : '';
+                $inputs_markup .= '>';
+                $inputs_markup .= '<label class="lp_category-access-label';
+                $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
+                $inputs_markup .= 'for="lp_category--' . $role . $count . '">';
+                $inputs_markup .= $name;
+                $inputs_markup .= '</label>';
+
+                $count += 1;
             }
-            $inputs_markup .= '</select>';
         }
 
         echo $inputs_markup;
