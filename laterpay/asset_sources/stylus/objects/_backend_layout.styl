@@ -63,11 +63,15 @@
             cursor          default
             font-weight     600
 
-.lp_navigation_tabs__submenu {
-    background: $background;
+.lp_navigation_tabs__item .lp_navigation_tabs__submenu {
+    background: $background-lightest;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.21);
     border-radius: 0 0 3px 3px;
     display: none;
+    margin-top: -3px;
+}
+.lp_navigation_tabs__item.lp_is-current .lp_navigation_tabs__submenu {
+    background: $background;
 }
 
 
