@@ -108,7 +108,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
-        $post_views         = new LaterPay_Model_Post_Views();
+        $post_views         = new LaterPay_Model_Post_View();
         $post_views_args    = array(
             'fields' => array(
                 'MIN(date) as end_timestamp'
