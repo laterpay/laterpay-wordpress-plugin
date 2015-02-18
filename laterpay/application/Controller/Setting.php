@@ -662,9 +662,9 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     /**
      * Render the inputs for the unlimited access section.
      *
-     * @param array $field array of field params
+     * @param array $field array of field parameters
      *
-     * @return string unlimited access checkboxes markup
+     * @return string unlimited access form markup
      */
     public function get_unlimited_access_markup( $field = null ) {
         $role       = isset( $field['role'] ) ? $field['role'] : null;
@@ -674,11 +674,11 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         $inputs_markup = '';
 
         if ( $role ) {
-            $inputs_markup .= '<select multiple class="lp_input" name="laterpay_unlimited[' . $role . '][]">';
+            $inputs_markup .= '<select multiple class="lp_input lp_multi-select" name="laterpay_unlimited[' . $role . '][]">';
             foreach ( $categories as $id => $name ) {
                 $is_selected    = isset( $unlimited[$role] ) ? in_array( $id, $unlimited[$role] ) : false;
                 $inputs_markup .= '<option value="' . $id . '" ';
-                $inputs_markup .= $is_selected ? 'selected' : '';
+                $inputs_markup .= $is_selected ? 'lp_is-selected' : '';
                 $inputs_markup .= '>' . $name . '</option>';
             }
             $inputs_markup .= '</select>';
@@ -688,7 +688,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Validate unlimited access inputs before save
+     * Validate unlimited access inputs before saving.
      *
      * @param $input
      *
@@ -699,10 +699,10 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
 
         foreach ( $input as $role => $data ) {
             if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
-                // unset all if all and none selected both
+                // unset option 'all', if option 'all' and option 'none' are selected at the same time
                 unset( $data[array_search( 'all', $data )] );
             } elseif ( count( $data ) > 1 ) {
-                // unset all and none if at least one category selected
+                // unset option 'all' and option 'none', if at least one category is selected
                 unset( $data[array_search( 'all', $data )] );
                 unset( $data[array_search( 'none', $data )] );
             }
