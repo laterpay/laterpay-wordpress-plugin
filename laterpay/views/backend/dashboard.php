@@ -126,23 +126,23 @@
 
                     <div class="lp_statisticsRow lp_u_clearfix">
                         <ul class="lp_u_clearfix">
-                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                            <li class="lp_tooltip" data-tooltip="<?php _e( 'Total number of sold time passes', 'laterpay' ); ?>">
                                 <big><?php echo $laterpay['passes']['summary']['sold']; ?></big>
                                 <?php _e( 'Sold', 'laterpay' ); ?>
                             </li>
-                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                            <li class="lp_tooltip" data-tooltip="<?php _e( 'Total number of active time passes', 'laterpay' ); ?>">
                                 <big><?php echo $laterpay['passes']['summary']['active']; ?></big>
                                 <?php _e( 'Active', 'laterpay' ); ?>
                             </li>
                             <?php if ( isset( $laterpay['passes']['summary']['unredeemed'] ) ): ?>
-                                <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                <li class="lp_tooltip" data-tooltip="<?php _e( 'Total number of unredeemed time pass vouchers', 'laterpay' ); ?>">
                                     <big><?php echo $laterpay['passes']['summary']['unredeemed']; ?></big>
                                     <?php _e( 'Unredeemed', 'laterpay' ); ?>
                                 </li>
                             <?php endif; ?>
                         </ul>
                         <ul>
-                            <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                            <li class="lp_tooltip" data-tooltip="<?php _e( 'Total value of sold time passes', 'laterpay' ); ?>">
                                 <big><?php echo $laterpay['passes']['summary']['committed_revenue']; ?><small><?php echo $laterpay['currency']; ?></small></big>
                                 <?php _e( 'Committed Revenue', 'laterpay' ); ?>
                             </li>
@@ -164,23 +164,23 @@
 
                             <div class="lp_statisticsRow lp_u_clearfix">
                                 <ul class="lp_u_clearfix">
-                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'Number of sold time passes', 'laterpay' ); ?>">
                                         <big><?php echo $pass['sold']; ?></big>
                                         <?php _e( 'Sold', 'laterpay' ); ?>
                                     </li>
-                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'Number of active time passes', 'laterpay' ); ?>">
                                         <big><?php echo $pass['active']; ?></big>
                                         <?php _e( 'Active', 'laterpay' ); ?>
                                     </li>
                                     <?php if ( isset( $pass['unredeemed'] ) ): ?>
-                                        <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                        <li class="lp_tooltip" data-tooltip="<?php _e( 'Number of unredeemed time pass vouchers', 'laterpay' ); ?>">
                                             <big><?php echo $pass['unredeemed']; ?></big>
                                             <?php _e( 'Unredeemed', 'laterpay' ); ?>
                                         </li>
                                     <?php endif; ?>
                                 </ul>
                                 <ul>
-                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'operationalization here', 'laterpay' ); ?>">
+                                    <li class="lp_tooltip" data-tooltip="<?php _e( 'Value of sold time passes', 'laterpay' ); ?>">
                                         <big><?php echo $pass['committed_revenue']; ?><small><?php echo $laterpay['currency']; ?></small></big>
                                         <?php _e( 'Committed Revenue', 'laterpay' ); ?>
                                     </li>
