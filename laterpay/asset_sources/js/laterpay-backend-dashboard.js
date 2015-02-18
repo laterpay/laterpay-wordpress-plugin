@@ -34,7 +34,7 @@
                 colorBackground         : '#e3e3e3',
                 colorBackgroundLaterpay : '#50c371',
                 colorBorder             : '#ccc',
-                colorTextLighter        : '#bbb',
+                colorTextLighter        : '#ababab',
 
                 // main KPIs
                 totalImpressionsKPI     : $('#lp_js_totalImpressions'),
@@ -430,7 +430,7 @@ alert('Toggling post details coming soon');
                     var backColumns = [];
                     i = 0;
                     l = response.data.y.length;
-                    for (i; i < l; i++) {
+                    for (; i < l; i++) {
                         backColumns.push([i + 1, 100]);
                     }
 
@@ -468,7 +468,8 @@ alert('Toggling post details coming soon');
                             },
                         ];
 
-                    plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                    // extend empty object to merge specific with default plotOptions without modifying the defaults
+                    plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
                     $.plot($o.conversionDiagram, plotData, plotOptions);
                 })
                 .always(function() {
@@ -491,7 +492,8 @@ alert('Toggling post details coming soon');
                         },
                         plotData = plotDefaultData;
 
-                    plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                    // extend empty object to merge specific with default plotOptions without modifying the defaults
+                    plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
                     plotData[0].data = response.data.y;
 
                     $.plot($o.salesDiagram, plotData, plotOptions);
@@ -516,7 +518,8 @@ alert('Toggling post details coming soon');
                         },
                         plotData = plotDefaultData;
 
-                    plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                    // extend empty object to merge specific with default plotOptions without modifying the defaults
+                    plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
                     plotData[0].data = response.data.y;
 
                     $.plot($o.revenueDiagram, plotData, plotOptions);
@@ -757,8 +760,10 @@ alert('Toggling post details coming soon');
                             backColumns.push([i, max]);
                         }
 
-                        var markings = [
+                        var $placeholder = $(data[index]),
+                            markings = [
                                 {
+                                    // separator 1 after first 4 weeks (1 month)
                                     color           : $o.colorBorder,
                                     lineWidth       : 1,
                                     xaxis           : {
@@ -767,6 +772,7 @@ alert('Toggling post details coming soon');
                                     },
                                 },
                                 {
+                                    // separator 2 after first 12 weeks (3 months)
                                     color           : $o.colorBorder,
                                     lineWidth       : 1,
                                     xaxis           : {
@@ -775,7 +781,7 @@ alert('Toggling post details coming soon');
                                     },
                                 },
                             ],
-                            markingPlotOptions = {
+                            plotOptions = {
                                 xaxis               : {
                                     ticks           : response.data.x,
                                 },
@@ -789,9 +795,6 @@ alert('Toggling post details coming soon');
                                 grid                : {
                                     markings        : markings,
                                 },
-                                // grid                : {
-                                //     markings        : markings,
-                                // },
                             },
                             plotData = [
                                 {
@@ -807,8 +810,52 @@ alert('Toggling post details coming soon');
                                 },
                             ];
 
-                        var timepassPlotOptions = $.extend(true, plotDefaultOptions, markingPlotOptions);
-                        $.plot($(data[index]), plotData, timepassPlotOptions);
+                        // extend empty object to merge specific with default plotOptions without modifying the defaults
+                        plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
+                        var $graph = $.plot($placeholder, plotData, plotOptions);
+
+                        // add labels to the flot graph:
+                        // get the offset of separator 1 within the flot placeholder
+                        var o1      = $graph.pointOffset({x: 3.5, y: 0}),
+                            label1  = '<div class="lp_time-pass-diagram__label" ' +
+                                        'style="left:' + (o1.left - 30) + 'px; top:2px;">' +
+// TODO: add internationalized text
+                                        'ending in<br>' +
+                                        '< 1 month' +
+                                    '</div>';
+                        // append that label to the graph
+                        $placeholder.append(label1);
+                        // get the offset of separator 2 within the flot placeholder
+                        var o2      = $graph.pointOffset({x: 11.5, y: 0}),
+                            label2  = '<div class="lp_time-pass-diagram__label" ' +
+                                        'style="left:' + (o2.left - 30) + 'px; top:2px;">' +
+// TODO: add internationalized text
+                                        'ending in<br>' +
+                                        '< 3 months' +
+                                    '</div>';
+                        // append that label to the graph
+                        $placeholder.append(label2);
+
+                        // add arrowhead to x-axis
+                        var  o3 = $graph.pointOffset({x: 13, y: 0}),
+                            ctx = $graph.getCanvas().getContext('2d');
+                        o3.left += 8;
+                        o3.top  += 4;
+                        ctx.beginPath();
+                        ctx.moveTo(o3.left,     o3.top);
+                        ctx.lineTo(o3.left,     o3.top - 7);
+                        ctx.lineTo(o3.left + 6, o3.top - 3.5);
+                        ctx.lineTo(o3.left,     o3.top);
+                        ctx.fillStyle = $o.colorBorder;
+                        ctx.fill();
+
+                        // add x-axis label
+                        var xAxisLabel = '<div class="lp_time-pass-diagram__label" ' +
+                                            'style="left:' + (o3.left + 10) + 'px; top:' + o3.top + 'px;">' +
+// TODO: add internationalized text
+                                            'weeks left' +
+                                        '</div>';
+                        $placeholder.append(xAxisLabel);
                     })
                     .always(function() {
                         removeLoadingIndicator($(data[index]));
