@@ -21,7 +21,7 @@
                 previousInterval        : $('#lp_js_loadPreviousInterval'),
                 nextInterval            : $('#lp_js_loadNextInterval'),
                 refreshDashboard        : $('#lp_js_refreshDashboard'),
-                // general dropdown selectors
+                // generic dropdown selectors
                 dropdown                : '.lp_dropdown',
                 dropdownList            : '.lp_dropdown_list',
                 dropdownCurrentItem     : '.lp_dropdown_currentItem',
@@ -55,18 +55,21 @@
                 bestGrossingList        : $('#lp_js_bestGrossingList'),
                 leastGrossingList       : $('#lp_js_leastGrossingList'),
 
+                // post-specific statistics
                 toggleItemDetails       : '.lp_js_toggleItemDetails',
 
                 // time passes customer lifecycle
                 viewSelector            : $('#lp_js_switchDashboardView'),
                 standardKpiTab          : $('#lp_js_standardKpiTab'),
-                timePassesKPITab        : $('#lp_js_timePassesKPITabjs'),
+                timePassesKpiTab        : $('#lp_js_timePassesKpiTab'),
                 timepassDiagram         : $('.lp_js_timepassDiagram'),
 
-                // strings cached for better compression
+                // state classes
                 expanded                : 'lp_is-expanded',
                 selected                : 'lp_is-selected',
                 active                  : 'lp_is-active',
+                delayed                 : 'lp_is-delayed',
+                disabled                : 'lp_is-disabled',
             },
 
             plotDefaultOptions = {
@@ -129,46 +132,64 @@
                     $(this).parent($o.dropdown).addClass($o.expanded);
                 });
 
-                // re-render dashboard in selected configuration
+                // switch interval or revenue model filter
                 $o.configurationSelection
                 .mousedown(function() {
-                    reloadDashboard( 0, false, false, $(this) );
+                    var startTimestamp = $o.currentInterval.data('startTimestamp'),
+                        nextStartTimestamp,
+                        nextEndTimestamp,
+                        interval;
+
+                    // mark clicked item as selected
+                    $(this)
+                        .parents($o.dropdown)
+                        .removeClass($o.expanded)
+                            .find($o.dropdownCurrentItem)
+                            .text($(this).text())
+                        .end()
+                            .find('.' + $o.selected)
+                            .removeClass($o.selected)
+                        .end()
+                    .end()
+                    .addClass($o.selected);
+
+                    interval = getInterval();
+
+                    // check, if the 'next' button should be visible or hidden for the given interval
+                    nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
+                    switchNextIntervalState(nextStartTimestamp, interval);
+
+                    // check, if the 'previous' button should be visible or hidden for the given interval
+                    nextEndTimestamp    = startTimestamp - getIntervalDiff(interval);
+                    switchPreviousIntervalState(nextEndTimestamp, interval);
+
+                    setNextPrevTooltip(interval);
+                    setTimeRange(startTimestamp, interval);
+                    loadDashboard(false);
                 })
                 .click(function(e) {e.preventDefault();});
 
-                // re-render dashboard with data of next interval
+                // load next interval
                 $o.nextInterval
                 .mousedown(function() {
-                    reloadDashboard( 86400, true, true );
+                    loadNextInterval();
                 })
                 .click(function(e) {e.preventDefault();});
 
-                // re-render dashboard with data of previous interval
+                // load previous interval
                 $o.previousInterval
                 .mousedown(function() {
-                    reloadDashboard( -86400, false );
+                    loadPreviousInterval();
                 })
                 .click(function(e) {e.preventDefault();});
 
-                // refresh dashboard
-                $o.refreshDashboard
-                .mousedown(function() {
-                    loadDashboard(true);
-                })
-                .click(function(e) {e.preventDefault();});
+$('body')
+.on('mousedown', $o.toggleItemDetails, function() {
+alert('Toggling post details coming soon');
+})
+.on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
-                $($o.revenueModelChoices)
-                .mousedown(function() {
-                    loadDashboard(true);
-                })
-                .click(function(e) {e.preventDefault();});
-
-                $('body')
-                .on('mousedown', $o.toggleItemDetails, function() {
-                    alert('Toggling post details coming soon');
-                })
-                .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
-
+                // switch between normal and time passes view
                 $o.viewSelector
                 .mousedown(function() {
                     switchDashboardView($(this));
@@ -176,76 +197,129 @@
                 .click(function(e) {e.preventDefault();});
             },
 
-            reloadDashboard = function( timeshift, load, hidelink, $item ) {
+            loadPreviousInterval = function() {
                 var startTimestamp  = $o.currentInterval.data('startTimestamp'),
                     interval        = getInterval();
 
-                if (timeshift) {
-                    startTimestamp  = startTimestamp + timeshift;
+                if ($(this).hasClass($o.disabled)) {
+                    return;
                 }
 
-                if (hidelink) {
-                    var currentDate = new Date(),
-                        startDate   = new Date(startTimestamp * 1000);
-                    if (startDate.getDate() >= currentDate.getDate()) {
-                        // FIXME: instead of showing an error,
-                        // we should hide the link for selecting the next interval!
-                        setMessage(lpVars.i18n.noFutureInterval, false);
-                        return;
-                    }
-                }
+                // if we were able to select the previous interval, it must be possible to switch back to the current
+                // interval so make sure the next link is not disabled
+                $o.previousInterval.removeClass($o.disabled);
 
-                if ($item) {
-                    $item.parents($o.dropdown)
-                    .removeClass($o.expanded)
-                    .find($o.dropdownCurrentItem)
-                        .text($item.text())
-                        .end()
-                    .find('.' + $o.selected)
-                        .removeClass($o.selected)
-                        .end()
-                    .end()
-                    .addClass($o.selected);
-                }
+                startTimestamp = startTimestamp - getIntervalDiff(interval);
 
+                switchNextIntervalState(startTimestamp, interval);
+                switchPreviousIntervalState(startTimestamp, interval);
                 setTimeRange(startTimestamp, interval);
-                loadDashboard(load);
+                loadDashboard(false);
             },
 
-            switchDashboardView = function($item) {
-                var data          = $.parseJSON( $item.attr('data') );
-                var current_label = $.trim($item.html());
+            loadNextInterval = function() {
+                var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                    interval        = getInterval();
 
-                if ( data.view === lpVars.submenu.view.standart ) {
-                    // change label
-                    $item.html(data.label);
-                    // set new data view
-                    data.view  = lpVars.submenu.view.passes;
-                    // select view
-                    $o.standardKpiTab.show();
-                    $o.timePassesKPITab.hide();
-                    // update data
-                    data.label = current_label;
-                    $item.attr('data',JSON.stringify(data));
-                } else if ( data.view === lpVars.submenu.view.passes ) {
-                    // change label
-                    $item.html(data.label);
-                    // set new data view
-                    data.view = lpVars.submenu.view.standart;
-                    // select view
-                    $o.timePassesKPITab.show();
-                    $o.standardKpiTab.hide();
-                    // update data
-                    data.label = current_label;
-                    $item.attr('data',JSON.stringify(data));
+                if ($(this).hasClass($o.disabled)) {
+                    return;
                 }
+
+                // if we were able to select the next interval, it must be possible to switch back to the current
+                // interval so make sure the prev link is not disabled
+                $o.previousInterval.removeClass($o.disabled);
+
+                startTimestamp = startTimestamp + getIntervalDiff(interval);
+
+                switchNextIntervalState(startTimestamp, interval);
+                setTimeRange(startTimestamp, interval);
+                loadDashboard(true);
+            },
+
+            switchNextIntervalState = function(timestamp, interval) {
+                if (!isDateWithinInterval(timestamp)) {
+                    $o.nextInterval.addClass($o.disabled).removeAttr('data-tooltip');
+                } else {
+                    var i18n = getNextPrevTooltip(interval);
+                    $o.nextInterval.removeClass($o.disabled).attr({'data-tooltip': i18n.next});
+                }
+            },
+
+            switchPreviousIntervalState = function(timestamp, interval) {
+                if (!isDateWithinInterval(timestamp)) {
+                    $o.previousInterval.addClass($o.disabled).removeAttr('data-tooltip');
+                } else {
+                    var i18n = getNextPrevTooltip(interval);
+                    $o.previousInterval.removeClass($o.disabled).attr({'data-tooltip': i18n.prev});
+                }
+            },
+
+            isDateWithinInterval = function(timestamp) {
+                var currentDate     = new Date(),
+                    intervalEnd     = $o.currentInterval.data('intervalEndTimestamp'),
+                    intervalEndDate = new Date(intervalEnd * 1000),
+                    givenDate       = new Date(timestamp * 1000);
+
+                // yesterday
+                currentDate.setDate(currentDate.getDate() - 1);
+
+                // check, if the given date is gte yesterday
+                if (givenDate.getMonth() === currentDate.getMonth() &&
+                    givenDate.getYear() === currentDate.getYear() &&
+                    givenDate.getDate() >= currentDate.getDate()) {
+
+                    return false;
+                }
+
+                // check, if the given date is lte the interval end date - earliest entry in post_views-table
+                if (givenDate.getMonth() === intervalEndDate.getMonth() &&
+                    givenDate.getYear() === intervalEndDate.getYear() &&
+                    givenDate.getDate() <= intervalEndDate.getDate()) {
+
+                    return false;
+                }
+
+                return true;
+            },
+
+            getIntervalDiff = function(interval) {
+                var diff = 86400; // 1 day
+                if (interval === 'day') {
+                    diff = 86400;
+                } else if (interval === 'week') {
+                    diff = diff * 8;
+                } else if (interval === '2-weeks') {
+                    diff = diff * 16;
+                } else if (interval === 'month') {
+                    diff = diff * 30;
+                }
+
+                return diff;
+            },
+
+            setNextPrevTooltip = function(interval) {
+                var i18n = getNextPrevTooltip(interval);
+                if (!i18n) {
+                    return;
+                }
+
+                $o.nextInterval.attr({'data-tooltip': i18n.next});
+                $o.previousInterval.attr({'data-tooltip': i18n.prev});
+            },
+
+            getNextPrevTooltip = function(interval) {
+                if (!lpVars.i18n.tooltips[interval]) {
+                    return false;
+                }
+
+                return lpVars.i18n.tooltips[interval];
             },
 
             getInterval = function() {
                 return $o.intervalChoices
                     .parents($o.dropdownList)
-                    .find('.' + $o.selected)
-                    .attr('data-interval');
+                        .find('.' + $o.selected)
+                        .attr('data-interval');
             },
 
             setTimeRange = function(startTimestamp, interval) {
@@ -259,18 +333,19 @@
                 endTimestamp = startTimestamp - intervalInMs;
 
                 // * 1000 because of php strtotime()
-                to      = new Date(startTimestamp * 1000);
-                from    = new Date(endTimestamp * 1000);
+                to = new Date(startTimestamp * 1000);
+                from = new Date(endTimestamp * 1000);
 
+// FIXME: this is not an internationalized date format!
                 if (interval === 'day') {
                     timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 } else {
                     timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
-                                ' - ' +
-                                to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    ' - ' +
+                    to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                 }
 
-                // set the new startTimestamp as data attribute for refreshing the dashboard data.
+                // set the new startTimestamp as data attribute for refreshing the dashboard data;
                 // set the new timeRange
                 $o.currentInterval
                 .data('startTimestamp', startTimestamp)
@@ -278,40 +353,40 @@
             },
 
             loadDashboardData = function(section, refresh, pass) {
-                var interval        = getInterval(),
-                    revenueModel    = $o.revenueModelChoices
-                        .parents($o.dropdownList)
-                        .find('.' + $o.selected)
-                        .attr('data-revenue-model'),
-                    requestData     = {
+                var interval = getInterval(),
+                    revenueModel = $o.revenueModelChoices
+                                    .parents($o.dropdownList)
+                                    .find('.' + $o.selected)
+                                    .attr('data-revenue-model'),
+                    requestData = {
                         // WP Ajax action
-                        'action'          : 'laterpay_get_dashboard_data',
+                        'action'            : 'laterpay_get_dashboard_data',
                         // nonce for validation and XSS protection
-                        '_wpnonce'        : lpVars.nonces.dashboard,
+                        '_wpnonce'          : lpVars.nonces.dashboard,
                         // data section to be loaded:
                         // converting_items | selling_items | revenue_items | most_least_converting_items |
                         // most_least_selling_items | most_least_revenue_items | metrics
-                        'section'         : section,
+                        'section'           : section,
                         // day | week | 2-weeks | month
-                        'interval'        : interval,
+                        'interval'          : interval,
                         // count of best / least performing items
-                        'count'           : $o.itemsPerList,
+                        'count'             : $o.itemsPerList,
                         // 1 (true): refresh data, 0 (false): only load the cached data; default: 1
-                        'refresh'         : refresh ? 1 : 0,
+                        'refresh'           : refresh ? 1 : 0,
                         // revenue model 'ppu', 'sis', or 'all'
-                        'revenue_model'   : revenueModel,
+                        'revenue_model'     : revenueModel,
                         // start-day to go backwards by interval
-                        'start_timestamp' : $o.currentInterval.data('startTimestamp'),
+                        'start_timestamp'   : $o.currentInterval.data('startTimestamp'),
                         // time pass id (optional)
-                        'pass_id'         : pass
+                        'pass_id'           : pass
                     },
                     jqxhr;
 
                 jqxhr = $.ajax({
-                    'url'      : lpVars.ajaxUrl,
-                    'async'    : true,
-                    'method'   : 'POST',
-                    'data'     : requestData,
+                    'url'       : lpVars.ajaxUrl,
+                    'async'     : true,
+                    'method'    : 'POST',
+                    'data'      : requestData,
                 });
 
                 jqxhr.done(function(data) {
@@ -326,10 +401,10 @@
 
             showLoadingIndicator = function($target) {
                 // add a state class, indicating that the element will be showing a loading indicator after a delay
-                $target.addClass('lp_is-delayed');
+                $target.addClass($o.delayed);
 
                 setTimeout(function() {
-                    if ($target.hasClass('lp_is-delayed')) {
+                    if ($target.hasClass($o.delayed)) {
                         // add the loading indicator after a delay, if the element still has that state class
                         $target.html('<div class="lp_loadingIndicator"></div>');
                     }
@@ -337,9 +412,9 @@
             },
 
             removeLoadingIndicator = function($target) {
-                if ($target.hasClass('lp_is-delayed')) {
+                if ($target.hasClass($o.delayed)) {
                     // remove the state class, thus canceling adding the loading indicator
-                    $target.removeClass('lp_is-delayed');
+                    $target.removeClass($o.delayed);
                 } else {
                     // remove the loading indicator
                     $target.find('.lp_loadingIndicator').remove();
@@ -355,15 +430,15 @@
                     var backColumns = [];
                     i = 0;
                     l = response.data.y.length;
-                    for (; i < l; i++) {
+                    for (i; i < l; i++) {
                         backColumns.push([i + 1, 100]);
                     }
 
                     var plotOptions = {
-                            xaxis: {
+                            xaxis               : {
                                 ticks           : response.data.x,
                             },
-                            yaxis: {
+                            yaxis               : {
                                 tickSize        : null,
                                 max             : 100,
                             }
@@ -396,25 +471,289 @@
                     plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
                     $.plot($o.conversionDiagram, plotData, plotOptions);
                 })
-                .always(function() {removeLoadingIndicator($o.conversionDiagram);});
+                .always(function() {
+                    removeLoadingIndicator($o.conversionDiagram);
+                });
+            },
+
+            loadSellingItems = function(refresh) {
+                showLoadingIndicator($o.salesDiagram);
+
+                loadDashboardData('selling_items', refresh)
+                .done(function(response) {
+                    var plotOptions = {
+                            xaxis       : {
+                                ticks   : response.data.x,
+                            },
+                            yaxis       : {
+                                max     : null,
+                            },
+                        },
+                        plotData = plotDefaultData;
+
+                    plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                    plotData[0].data = response.data.y;
+
+                    $.plot($o.salesDiagram, plotData, plotOptions);
+                })
+                .always(function() {
+                    removeLoadingIndicator($o.salesDiagram);
+                });
+            },
+
+            loadRevenueItems = function(refresh) {
+                showLoadingIndicator($o.revenueDiagram);
+
+                loadDashboardData('revenue_items', refresh)
+                .done(function(response) {
+                    var plotOptions = {
+                            xaxis       : {
+                                ticks   : response.data.x,
+                            },
+                            yaxis: {
+                                max     : null,
+                            },
+                        },
+                        plotData = plotDefaultData;
+
+                    plotOptions = $.extend(true, plotDefaultOptions, plotOptions);
+                    plotData[0].data = response.data.y;
+
+                    $.plot($o.revenueDiagram, plotData, plotOptions);
+                })
+                .always(function() {
+                    removeLoadingIndicator($o.revenueDiagram);
+                });
+            },
+
+            loadMostLeastConvertingItems = function(refresh) {
+                showLoadingIndicator($o.bestConvertingList);
+                showLoadingIndicator($o.leastConvertingList);
+
+                loadDashboardData('most_least_converting_items', refresh)
+                .done(function(response) {
+                    if (!response.data.most) {
+                        response.data.most = {};
+                    }
+
+                    if (!response.data.least) {
+                        response.data.least = {};
+                    }
+
+                    renderTopBottomList($o.bestConvertingList, response.data.most);
+                    renderSparklines($o.bestConvertingList);
+
+                    renderTopBottomList($o.leastConvertingList, response.data.least);
+                    renderSparklines($o.leastConvertingList);
+                })
+                .always(function() {
+                    removeLoadingIndicator($o.bestConvertingList);
+                    removeLoadingIndicator($o.leastConvertingList);
+                });
+            },
+
+            loadMostLeastSellingItems = function(refresh) {
+                showLoadingIndicator($o.bestSellingList);
+                showLoadingIndicator($o.leastSellingList);
+
+                loadDashboardData('most_least_selling_items', refresh)
+                .done(function(response) {
+                    if (!response.data.most) {
+                        response.data.most = {};
+                    }
+
+                    if (!response.data.least) {
+                        response.data.least = {};
+                    }
+
+                    renderTopBottomList($o.bestSellingList, response.data.most);
+                    renderSparklines($o.bestSellingList);
+
+                    renderTopBottomList($o.leastSellingList, response.data.least);
+                    renderSparklines($o.leastSellingList);
+                })
+                .always(function() {
+                    removeLoadingIndicator($o.bestSellingList);
+                    removeLoadingIndicator($o.leastSellingList);
+                });
+            },
+
+            loadMostLeastRevenueItems = function(refresh) {
+                showLoadingIndicator($o.bestGrossingList);
+                showLoadingIndicator($o.leastGrossingList);
+
+                loadDashboardData('most_least_revenue_items', refresh)
+                .done(function(response) {
+                    if (!response.data.most) {
+                        response.data.most = {};
+                    }
+
+                    if (!response.data.least) {
+                        response.data.least = {};
+                    }
+
+                    renderTopBottomList($o.bestGrossingList, response.data.most);
+                    renderSparklines($o.bestGrossingList);
+
+                    renderTopBottomList($o.leastGrossingList, response.data.least);
+                    renderSparklines($o.leastGrossingList);
+                })
+                .always(function() {
+                    removeLoadingIndicator($o.bestGrossingList);
+                    removeLoadingIndicator($o.leastGrossingList);
+                });
+            },
+
+            loadKPIs = function(refresh) {
+                loadDashboardData('metrics', refresh)
+                .done(function(response) {
+                    // column 1: conversion data
+                    $o.totalImpressionsKPI.text(response.data.impressions || 0);
+                    $o.avgConversionKPI.text(response.data.conversion || 0);
+                    $o.newCustomersKPI.text(response.data.new_customers || 0);
+
+                    // column 2: sales data
+                    $o.avgItemsSoldKPI.text(response.data.avg_items_sold || 0);
+                    $o.totalItemsSoldKPI.text(response.data.total_items_sold || 0);
+
+                    // column 3: revenue data
+                    $o.avgRevenueKPI.text(response.data.avg_purchase || 0);
+                    $o.totalRevenueKPI.text(response.data.total_revenue || 0);
+                });
+            },
+
+            renderTopBottomList = function($list, data) {
+                $o.list = [];
+
+                i = 0;
+                l = data ? data.length : 0;
+
+                if (l > 0) {
+                    // create list item for each data set
+                    for (; i < l; i++) {
+                        $o.list.push(renderListItem(
+                            data[i].post_id,
+                            data[i].post_title,
+                            data[i].amount,
+                            data[i].unit,
+                            data[i].sparkline
+                        ));
+                    }
+                } else {
+                    $o.list = ['<dfn>' + lpVars.i18n.noData + '</dfn>'];
+                }
+
+                // replace existing HTML
+                $list.html($o.list.join(''));
+            },
+
+            renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
+                var kpi         = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue,
+                    valueClass  = 'lp_value';
+
+                if (kpiUnit === '%' || kpiUnit === '') {
+                    valueClass = 'lp_value-narrow';
+                }
+
+                return '<li>' +
+                    '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
+                    '<strong class="' + valueClass + '">' + kpi + '</strong>' +
+                    '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
+                    '</li>';
+            },
+
+            renderSparklines = function($context) {
+                var $sparkline = $('.lp_sparklineBar', $context),
+                // get the number of data points from the first matched sparkline
+                    dataPoints = $sparkline.first().text().split(',').length;
+
+                if (dataPoints > 8) {
+                    // render lots of data points as line chart, because bars would have < 1 px width each
+                    $sparkline
+                        .peity('line', {
+                            fill    : $o.colorBackground,
+                            height  : 14,
+                            stroke  : $o.colorBorder,
+                            width   : 34,
+                        });
+                } else {
+                    $sparkline
+                        .peity('bar', {
+                            fill    : function() {
+                                        return $o.colorBorder;
+                                    },
+                            gap     : 1,
+                            height  : 14,
+                            width   : 34,
+                        });
+                }
+            },
+
+            loadDashboard = function(refresh) {
+                refresh = refresh || false;
+                loadMostLeastConvertingItems(refresh);
+                loadMostLeastRevenueItems(refresh);
+                loadMostLeastSellingItems(refresh);
+                loadConvertingItems(refresh);
+                loadTimePassLifecycles(refresh);
+                loadRevenueItems(refresh);
+                loadSellingItems(refresh);
+                loadKPIs(refresh);
+            },
+
+            switchDashboardView = function($item) {
+                var data            = $.parseJSON($item.attr('data')),
+                    current_label   = $.trim($item.html());
+
+                if (data.view === lpVars.submenu.view.standard) {
+                    // standard KPI dashboard
+                    // change label
+                    $item.html(data.label);
+
+                    // set new data view
+                    data.view = lpVars.submenu.view.passes;
+
+                    // select view
+                    $o.standardKpiTab.show();
+                    $o.timePassesKpiTab.hide();
+
+                    // update data
+                    data.label = current_label;
+                    $item.attr('data', JSON.stringify(data));
+                } else if (data.view === lpVars.submenu.view.passes) {
+                    // time passes dashboard
+                    // change label
+                    $item.html(data.label);
+
+                    // set new data view
+                    data.view = lpVars.submenu.view.standard;
+
+                    // select view
+                    $o.timePassesKpiTab.show();
+                    $o.standardKpiTab.hide();
+
+                    // update data
+                    data.label = current_label;
+                    $item.attr('data', JSON.stringify(data));
+                }
             },
 
             loadTimePassLifecycles = function(refresh) {
                 var data = $o.timepassDiagram;
 
                 $.each($o.timepassDiagram, function(index) {
-                    var pass_id = $(data[index]).data('id');
+                    var timePassId = $(data[index]).data('id');
 
                     showLoadingIndicator($(data[index]));
 
-                    loadDashboardData('time_passes_expiry', refresh, pass_id)
+                    loadDashboardData('time_passes_expiry', refresh, timePassId)
                     .done(function(response) {
                         var max         = response.data.max,
                             backColumns = [];
 
                         i = 0;
                         l = response.data.y.length;
-                        for (i; i < l; i++) {
+                        for (; i < l; i++) {
                             backColumns.push([i, max]);
                         }
 
@@ -468,224 +807,10 @@
                         var timepassPlotOptions = $.extend(true, plotDefaultOptions, markingPlotOptions);
                         $.plot($(data[index]), plotData, timepassPlotOptions);
                     })
-                    .always(function() {removeLoadingIndicator($(data[index]));});
+                    .always(function() {
+                        removeLoadingIndicator($(data[index]));
+                    });
                 });
-            },
-
-            loadSellingItems = function(refresh) {
-                showLoadingIndicator($o.salesDiagram);
-
-                loadDashboardData('selling_items', refresh)
-                    .done(function(response) {
-                        var plotOptions = {
-                                xaxis: {
-                                    ticks: response.data.x,
-                                },
-                                yaxis: {
-                                    max: null,
-                                }
-                            },
-                            plotData = plotDefaultData;
-
-                        plotOptions         = $.extend(true, plotDefaultOptions, plotOptions);
-                        plotData[0].data    = response.data.y;
-
-                        $.plot($o.salesDiagram, plotData, plotOptions);
-                    })
-                    .always(function() {removeLoadingIndicator($o.salesDiagram);});
-            },
-
-            loadRevenueItems = function(refresh) {
-                showLoadingIndicator($o.revenueDiagram);
-
-                loadDashboardData('revenue_items', refresh)
-                    .done(function(response) {
-                        var plotOptions = {
-                                xaxis: {
-                                    ticks: response.data.x,
-                                },
-                                yaxis: {
-                                    max: null,
-                                }
-                            },
-                            plotData = plotDefaultData;
-
-                        plotOptions         = $.extend(true, plotDefaultOptions, plotOptions);
-                        plotData[0].data    = response.data.y;
-
-                        $.plot($o.revenueDiagram, plotData, plotOptions);
-                    })
-                    .always(function() {removeLoadingIndicator($o.revenueDiagram);});
-            },
-
-            loadMostLeastConvertingItems = function(refresh) {
-                showLoadingIndicator($o.bestConvertingList);
-                showLoadingIndicator($o.leastConvertingList);
-
-                loadDashboardData('most_least_converting_items', refresh)
-                    .done(function(response) {
-                        if (!response.data.most) {
-                            response.data.most = {};
-                        }
-
-                        if (!response.data.least) {
-                            response.data.least = {};
-                        }
-
-                        renderTopBottomList($o.bestConvertingList, response.data.most);
-                        renderSparklines($o.bestConvertingList);
-
-                        renderTopBottomList($o.leastConvertingList, response.data.least);
-                        renderSparklines($o.leastConvertingList);
-                    })
-                    .always(function() {
-                        removeLoadingIndicator($o.bestConvertingList);
-                        removeLoadingIndicator($o.leastConvertingList);
-                    });
-            },
-
-            loadMostLeastSellingItems = function(refresh) {
-                showLoadingIndicator($o.bestSellingList);
-                showLoadingIndicator($o.leastSellingList);
-
-                loadDashboardData('most_least_selling_items', refresh)
-                    .done(function(response) {
-                        if (!response.data.most) {
-                            response.data.most = {};
-                        }
-
-                        if (!response.data.least) {
-                            response.data.least = {};
-                        }
-
-                        renderTopBottomList($o.bestSellingList, response.data.most);
-                        renderSparklines($o.bestSellingList);
-
-                        renderTopBottomList($o.leastSellingList, response.data.least);
-                        renderSparklines($o.leastSellingList);
-                    })
-                    .always(function() {
-                        removeLoadingIndicator($o.bestSellingList);
-                        removeLoadingIndicator($o.leastSellingList);
-                    });
-            },
-
-            loadMostLeastRevenueItems = function(refresh) {
-                showLoadingIndicator($o.bestGrossingList);
-                showLoadingIndicator($o.leastGrossingList);
-
-                loadDashboardData('most_least_revenue_items', refresh)
-                    .done(function(response) {
-                        if (!response.data.most) {
-                            response.data.most = {};
-                        }
-
-                        if (!response.data.least) {
-                            response.data.least = {};
-                        }
-
-                        renderTopBottomList($o.bestGrossingList, response.data.most);
-                        renderSparklines($o.bestGrossingList);
-
-                        renderTopBottomList($o.leastGrossingList, response.data.least);
-                        renderSparklines($o.leastGrossingList);
-                    })
-                    .always(function() {
-                        removeLoadingIndicator($o.bestGrossingList);
-                        removeLoadingIndicator($o.leastGrossingList);
-                    });
-            },
-
-            loadKPIs = function(refresh) {
-                loadDashboardData('metrics', refresh)
-                    .done(function(response) {
-                        $o.totalImpressionsKPI.text(response.data.impressions || 0);
-                        $o.avgConversionKPI.text(response.data.conversion || 0);
-                        $o.newCustomersKPI.text(response.data.new_customers || 0);
-
-                        $o.avgItemsSoldKPI.text(response.data.avg_items_sold || 0);
-                        $o.totalItemsSoldKPI.text(response.data.total_items_sold || 0);
-
-                        $o.avgRevenueKPI.text(response.data.avg_purchase || 0);
-                        $o.totalRevenueKPI.text(response.data.total_revenue || 0);
-                    });
-            },
-
-            renderTopBottomList = function($list, data) {
-                $o.list = [];
-
-                i = 0;
-                l = data ? data.length : 0;
-
-                if (l > 0) {
-                    // create list item for each data set
-                    for (; i < l; i++) {
-                        $o.list.push(renderListItem(
-                            data[i].post_id,
-                            data[i].post_title,
-                            data[i].amount,
-                            data[i].unit,
-                            data[i].sparkline
-                        ));
-                    }
-                } else {
-                    $o.list = ['<dfn>' + lpVars.i18n.noData + '</dfn>'];
-                }
-
-                // replace existing HTML
-                $list.html($o.list.join(''));
-            },
-
-            renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
-                var kpi         = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue,
-                    valueClass  = 'lp_value';
-
-                if (kpiUnit === '%' || kpiUnit === '') {
-                    valueClass = 'lp_value-narrow';
-                }
-
-                return '<li>' +
-                    '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
-                    '<strong class="' + valueClass + '">' + kpi + '</strong>' +
-                    '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
-                    '</li>';
-            },
-
-            renderSparklines = function($context) {
-                var $sparkline  = $('.lp_sparklineBar', $context),
-                // get the number of data points from the first matched sparkline
-                    dataPoints  = $sparkline.first().text().split(',').length;
-
-                if (dataPoints > 8) {
-                    // render lots of data points as line chart, because bars would have < 1 px width each
-                    $sparkline
-                        .peity('line', {
-                            fill    : $o.colorBackground,
-                            height  : 14,
-                            stroke  : $o.colorBorder,
-                            width   : 34,
-                        });
-                } else {
-                    $sparkline
-                        .peity('bar', {
-                            fill    : function() {return $o.colorBorder;},
-                            gap     : 1,
-                            height  : 14,
-                            width   : 34,
-                        });
-                }
-            },
-
-            loadDashboard = function(refresh) {
-                refresh = refresh || false;
-                loadConvertingItems(refresh);
-                loadTimePassLifecycles(refresh);
-                loadRevenueItems(refresh);
-                loadSellingItems(refresh);
-                loadKPIs(refresh);
-                loadMostLeastConvertingItems(refresh);
-                loadMostLeastRevenueItems(refresh);
-                loadMostLeastSellingItems(refresh);
             },
 
             initializePage = function() {
