@@ -267,13 +267,7 @@
                 endDate.setHours(0,0,0,0);
                 givenDate.setHours(0,0,0,0);
 
-                console.log(endDate.toString());
-                console.log(givenDate.toString());
-                console.log(startDate.toString());
-                console.log("------------------");
-
                 return !(givenDate.getTime() <= endDate.getTime() || givenDate.getTime() >= startDate.getTime());
-
             },
 
             getIntervalDiff = function(interval) {
@@ -289,16 +283,6 @@
                 }
 
                 return diff;
-            },
-
-            setNextPrevTooltip = function(interval) {
-                var i18n = getNextPrevTooltip(interval);
-                if (!i18n) {
-                    return;
-                }
-
-                $o.nextInterval.attr({'data-tooltip': i18n.next});
-                $o.previousInterval.attr({'data-tooltip': i18n.prev});
             },
 
             getNextPrevTooltip = function(interval) {
