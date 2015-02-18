@@ -717,8 +717,13 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                 unset( $data[array_search( 'all', $data )] );
             } elseif ( count( $data ) > 1 ) {
                 // unset option 'all' and option 'none', if at least one category is selected
-                unset( $data[array_search( 'all', $data )] );
-                unset( $data[array_search( 'none', $data )] );
+                if ( array_search( 'all', $data ) !== false ) {
+                    unset( $data[array_search( 'all', $data )] );
+                }
+
+                if ( array_search( 'none', $data ) !== false ) {
+                    unset( $data[array_search( 'none', $data )] );
+                }
             }
 
             $valid[$role] = array_values( $data );
