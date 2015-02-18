@@ -789,7 +789,8 @@
                                     },
                                 ];
 
-                            // extend empty object to merge specific with default plotOptions without modifying the defaults
+                            // extend empty object to merge specific with default plotOptions without
+                            // modifying the defaults
                             plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
                             var $graph = $.plot($placeholder, plotData, plotOptions);
 
@@ -798,7 +799,6 @@
                             var o1      = $graph.pointOffset({x: 3.5, y: 0}),
                                 label1  = '<div class="lp_time-pass-diagram__label" ' +
                                     'style="left:' + (o1.left - 30) + 'px; top:2px;">' +
-
                                     lpVars.i18n.endingIn + '<br>' +
                                     '< 1 ' + lpVars.i18n.month +
                                     '</div>';
@@ -808,9 +808,8 @@
                             var o2      = $graph.pointOffset({x: 11.5, y: 0}),
                                 label2  = '<div class="lp_time-pass-diagram__label" ' +
                                     'style="left:' + (o2.left - 30) + 'px; top:2px;">' +
-
-                                    lpVars.i18n['endingIn'] + '<br>' +
-                                    '< 3 months' +
+                                    lpVars.i18n.endingIn + '<br>' +
+                                    '< 3 ' + lpVars.i18n.months +
                                     '</div>';
                             // append that label to the graph
                             $placeholder.append(label2);
