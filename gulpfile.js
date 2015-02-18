@@ -20,18 +20,19 @@ var autoprefixer    = require('gulp-autoprefixer'),
     // sourcemaps      = require('gulp-sourcemaps'),
     // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
-    stylus          = require('gulp-stylus'),
+    //stylus          = require('gulp-stylus'),
+	sass            = require('gulp-sass'),
     svgmin          = require('gulp-svgmin'),
     tinypng         = require('gulp-tinypng'),
     uglify          = require('gulp-uglify'),
     p               = {
                         allfiles    : [
                                             './laterpay/**/*.php',
-                                            './laterpay/asset_sources/stylus/**/*.styl',
+                                            './laterpay/asset_sources/stylus/**/*.scss',
                                             './laterpay/asset_sources/js/*.js'
                                       ],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
-                        srcStylus   : './laterpay/asset_sources/stylus/*.styl',
+                        srcStylus   : './laterpay/asset_sources/stylus/*.scss',
                         srcJS       : './laterpay/asset_sources/js/',
                         srcSVG      : './laterpay/asset_sources/img/**/*.svg',
                         srcPNG      : './laterpay/asset_sources/img/**/*.png',
@@ -50,11 +51,8 @@ gulp.task('clean', function(cb) {
 // CSS related tasks
 gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
-        .pipe(stylus({                                                          // process Stylus sources to CSS
-            use     : nib(),
-            linenos : true,                                                      // make line numbers available in browser dev tools
-            // TODO: generate sourcemap
-        }))
+        .pipe(sass())
+        .pipe(sass())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .on('error', notify.onError())
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
@@ -62,10 +60,7 @@ gulp.task('css-watch', function() {
 
 gulp.task('css-build', function() {
     gulp.src(p.srcStylus)
-        .pipe(stylus({                                                          // process Stylus sources to CSS
-            use     : nib(),
-            compress: true
-        }))
+        .pipe(sass())
         // .pipe(base64({                                                          // base64-encode images and inline them using datauris
         //     baseDir         : 'laterpay/assets/img',
         //     extensions      : ['png', svg],
@@ -154,7 +149,7 @@ gulp.task('updateSubmodules', function() {
 gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function() {
     // watch for changes
     gulp.watch(p.allfiles,          ['fileformat']);
-    gulp.watch(p.stylus,            ['css-watch']);
+
     gulp.watch(p.srcJS + '*.js',    ['js-watch']);
 });
 
