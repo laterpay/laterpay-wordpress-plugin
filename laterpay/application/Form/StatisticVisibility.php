@@ -1,35 +1,21 @@
 <?php
 
 /**
- * LaterPay rating feature form class.
+ * LaterPay post statistics visibility form class.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Form_Ratings extends LaterPay_Form_Abstract
+class LaterPay_Form_StatisticVisibility extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method.
+     * Implementation of abstract method
      *
      * @return void
      */
     public function init() {
-        $this->set_field(
-            'form',
-            array(
-                'validators' => array(
-                    'is_string',
-                    'cmp' => array(
-                        array(
-                            'eq' => 'ratings',
-                        ),
-                    ),
-                )
-            )
-        );
-
         $this->set_field(
             'action',
             array(
@@ -37,10 +23,10 @@ class LaterPay_Form_Ratings extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_appearance',
+                            'eq' => 'laterpay_post_statistic_visibility',
                         ),
                     ),
-                )
+                ),
             )
         );
 
@@ -54,21 +40,19 @@ class LaterPay_Form_Ratings extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
         $this->set_field(
-            'enable_ratings',
+            'hide_statistics_pane',
             array(
                 'validators' => array(
-                    'is_string',
-                    'in_array' => array( 'on' ),
+                    'is_int',
                 ),
                 'filters' => array(
-                    'to_string',
+                    'to_int',
                 ),
-                'can_be_null' => true,
             )
         );
     }

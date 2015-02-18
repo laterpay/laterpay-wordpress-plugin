@@ -4,7 +4,7 @@
  * LaterPay logger HTML formatter.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter_Normalizer
@@ -109,6 +109,13 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         return $html;
     }
 
+    /**
+     * Convert data into string
+     *
+     * @param mixed $data
+     *
+     * @return sting
+     */
     protected function convert_to_string( $data ) {
         if ( null === $data || is_scalar( $data ) ) {
             return (string) $data;

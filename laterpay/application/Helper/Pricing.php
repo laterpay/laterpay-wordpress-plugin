@@ -4,7 +4,7 @@
  * LaterPay pricing helper.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Helper_Pricing
@@ -18,7 +18,7 @@ class LaterPay_Helper_Pricing
     const TYPE_INDIVIDUAL_DYNAMIC_PRICE = 'individual price, dynamic';
 
     /**
-     * @const string Status of post when it published.
+     * @const string Status of post at time of publication.
      */
     const STATUS_POST_PUBLISHED         = 'publish';
 
@@ -899,7 +899,7 @@ class LaterPay_Helper_Pricing
      *
      * @return void
      */
-    public static function actualize_post_data_after_category_delete( $post_id ) {
+    public static function update_post_data_after_category_delete( $post_id ) {
         $category_price_model = new LaterPay_Model_CategoryPrice();
         $post_categories      = wp_get_post_categories( $post_id );
         $parents              = array();

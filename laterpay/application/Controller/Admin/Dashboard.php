@@ -4,7 +4,7 @@
  * LaterPay dashboard controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
@@ -67,6 +67,25 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $i18n = array(
             'noData'                => __( 'No data available', 'laterpay' ),
             'noFutureInterval'      => __( 'You can\'t choose an interval that lies in the future', 'laterpay' ),
+            'tooltips'              => array(
+                'day'   => array(
+                    'next'  => __( 'Show next day', 'laterpay' ),
+                    'prev'  => __( 'Show previous day', 'laterpay' ),
+                ),
+                'week'   => array(
+                    'next'  => __( 'Show next 8 days', 'laterpay' ),
+                    'prev'  => __( 'Show previous 8 days', 'laterpay' ),
+                ),
+                '2-weeks'   => array(
+                    'next'  => __( 'Show next 2 weeks', 'laterpay' ),
+                    'prev'  => __( 'Show previous 2 weeks', 'laterpay' ),
+                ),
+                'month'   => array(
+                    'next'  => __( 'Show next month', 'laterpay' ),
+                    'prev'  => __( 'Show previous month', 'laterpay' ),
+                )
+
+            )
         );
         wp_localize_script(
             'laterpay-backend-dashboard',
@@ -75,7 +94,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
                 'nonces'    => array( 'dashboard' => wp_create_nonce( $this->ajax_nonce ) ),
                 'submenu'   => array( 'view' => array(
-                    'standart' => 'standard-kpis',
+                    'standard' => 'standard-kpis',
                     'passes'   => 'time-passes',
                 ) ),
                 'i18n'      => $i18n,
@@ -89,19 +108,31 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     public function render_page() {
         $this->load_assets();
 
+        $post_views         = new LaterPay_Model_Post_Views();
+        $post_views_args    = array(
+            'fields' => array(
+                'MIN(date) as end_timestamp'
+            )
+        );
+        $end_timestamp = $post_views->get_results( $post_views_args );
+        $end_timestamp = strtotime( $end_timestamp[0]->end_timestamp );
+
         $view_args = array(
             'plugin_is_in_live_mode'    => $this->config->get( 'is_in_live_mode' ),
             'top_nav'                   => $this->get_menu(),
             'admin_menu'                => LaterPay_Helper_View::get_admin_menu(),
             'currency'                  => get_option( 'laterpay_currency' ),
+            'end_timestamp'             => $end_timestamp,
+            'interval_start'            => strtotime( '-1 days' ),
+            'interval_end'              => strtotime( '-8 days' ),
 
-            // in wp-config.php the user can disable the WP-Cron completely OR replace it with real server crons.
+            // in wp-config.php the user can disable the WP-cron completely OR replace it with real server crons.
             // this view variable can be used to show additional information that *maybe* the dashboard
             // data will not refresh automatically
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
             'cache_file_exists'         => $this->cache_file_exists,
             'cache_file_is_broken'      => $this->cache_file_is_broken,
-            'passes'                    => LaterPay_Helper_Passes::get_time_passes_statistic(),
+            'passes'                    => LaterPay_Helper_TimePass::get_time_passes_statistic(),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -151,8 +182,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
     /**
      * Callback for wp-cron to refresh today's dashboard data.
-     * The Cron job provides two params for {x} days back and {n} count of items to
-     * register your own cron with custom params to cache data.
+     * The cron job provides two parameters for {x} days back and {n} count of items to
+     * register your own cron with custom parameters to cache data.
      *
      * @wp-hook laterpay_refresh_dashboard_data
      *
@@ -195,10 +226,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function converting_items( $options ) {
-        $post_views_model   = new LaterPay_Model_Post_Views();
+        $post_views_model   = new LaterPay_Model_Post_View();
         $converting_items   = $post_views_model->get_history( $options['query_args'], $options['interval'] );
 
-        $history_model      = new LaterPay_Model_Payments_History();
+        $history_model      = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -254,19 +285,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Internal function to load the expiring time passes as diagram.
-     *
-     * @param array $options
-     *
-     * @return array $data
-     */
-    private function time_passes_expiry( $options ) {
-        $time_pass_expiry_diagram = LaterPay_Helper_Dashboard::time_pass_expiry_diagram( $options['pass_id'] );
-
-        return $time_pass_expiry_diagram;
-    }
-
-    /**
      * Internal function to load the sales data as diagram.
      *
      * @param array $options
@@ -274,7 +292,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function selling_items( $options ) {
-        $history_model  = new LaterPay_Model_Payments_History();
+        $history_model  = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -306,7 +324,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function revenue_items( $options ) {
-        $history_model  = new LaterPay_Model_Payments_History();
+        $history_model  = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -338,7 +356,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function most_least_converting_items( $options ) {
-        $post_views_model = new LaterPay_Model_Post_Views();
+        $post_views_model = new LaterPay_Model_Post_View();
         $most   = $post_views_model->get_most_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
         $least  = $post_views_model->get_least_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
         $data   = array(
@@ -366,7 +384,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function most_least_selling_items( $options ) {
-        $history_model = new LaterPay_Model_Payments_History();
+        $history_model = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -408,7 +426,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function most_least_revenue_items( $options ) {
-        $history_model = new LaterPay_Model_Payments_History();
+        $history_model = new LaterPay_Model_Payment_History();
 
         if ( $options['revenue_model'] !== 'all' ) {
             $options['query_args']['where']['revenue_model'] = $options['revenue_model'];
@@ -443,6 +461,19 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Internal function to load the expiring time passes as diagram.
+     *
+     * @param array $options
+     *
+     * @return array $data
+     */
+    private function time_passes_expiry( $options ) {
+        $time_pass_expiry_diagram = LaterPay_Helper_Dashboard::time_pass_expiry_diagram( $options['pass_id'] );
+
+        return $time_pass_expiry_diagram;
+    }
+
+    /**
      * Internal function to load KPIs by given options.
      *
      * @param array $options
@@ -450,7 +481,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function metrics( $options ) {
-
         $post_args = array(
             'where' => $options['query_where'],
         );
@@ -460,10 +490,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $history_args['where']['revenue_model'] = $options['revenue_model'];
         }
 
-        $history_model      = new LaterPay_Model_Payments_History();
-        $post_views_model   = new LaterPay_Model_Post_Views();
+        $history_model      = new LaterPay_Model_Payment_History();
+        $post_views_model   = new LaterPay_Model_Post_View();
 
-        // get the user stats for the given params
+        // get the user stats for the given parameters
         $user_stats             = $history_model->get_user_stats( $history_args );
         $total_customers        = count( $user_stats );
         $new_customers          = 0;
@@ -504,8 +534,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             } else if ( $options['interval'] === 'month' ) {
                 $diff = 30;
             } else {
-                // hour
-                $diff = 24;
+                $diff = 24; // hour
             }
             $avg_items_sold = $total_items_sold / $diff;
         }

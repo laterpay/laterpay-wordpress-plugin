@@ -4,7 +4,7 @@
  * LaterPay core logger processor introspection.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logger_Processor_Interface

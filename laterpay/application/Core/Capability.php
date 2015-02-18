@@ -4,10 +4,10 @@
  * LaterPay core capabilities.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Core_Capabilities
+class LaterPay_Core_Capability 
 {
 
     /**

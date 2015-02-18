@@ -4,10 +4,10 @@
  * LaterPay statistics helper.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Helper_Statistics
+class LaterPay_Helper_Statistic
 {
 
     /**
@@ -155,7 +155,7 @@ class LaterPay_Helper_Statistics
             );
         }
 
-        $model = new LaterPay_Model_Post_Views();
+        $model = new LaterPay_Model_Post_View();
 
         $data = array(
             'post_id'   => $post_id,

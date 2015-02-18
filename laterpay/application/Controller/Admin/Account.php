@@ -4,7 +4,7 @@
  * LaterPay account controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
@@ -31,9 +31,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             'laterpay-backend-account',
             'lpVars',
             array(
-                'i18nApiKeyInvalid'         => __( 'The API key you entered is not a valid LaterPay API key!', 'laterpay' ),
-                'i18nMerchantIdInvalid'     => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
-                'i18nPreventUnload'         => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
+                'i18nApiKeyInvalid'     => __( 'The API key you entered is not a valid LaterPay API key!', 'laterpay' ),
+                'i18nMerchantIdInvalid' => __( 'The Merchant ID you entered is not a valid LaterPay Merchant ID!', 'laterpay' ),
+                'i18nPreventUnload'     => __( 'LaterPay does not work properly with invalid API credentials.', 'laterpay' ),
             )
         );
     }
@@ -264,5 +264,4 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
         die;
     }
-
 }

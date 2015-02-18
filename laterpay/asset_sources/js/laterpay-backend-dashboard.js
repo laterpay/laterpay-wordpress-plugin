@@ -789,6 +789,9 @@ alert('Toggling post details coming soon');
                                 grid                : {
                                     markings        : markings,
                                 },
+                                // grid                : {
+                                //     markings        : markings,
+                                // },
                             },
                             plotData = [
                                 {

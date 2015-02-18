@@ -4,7 +4,7 @@
  * LaterPay abstract controller.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Controller_Abstract
@@ -25,7 +25,7 @@ class LaterPay_Controller_Abstract
     protected $config;
 
     /**
-     * Contains the Logger-Instance.
+     * Contains the logger instance.
      *
      * @var LaterPay_Core_Logger
      */
@@ -47,7 +47,7 @@ class LaterPay_Controller_Abstract
     }
 
     /**
-     * Function which will be called on constructor and can be overwritten by child-class.
+     * Function which will be called on constructor and can be overwritten by child class.
      * @return void
      */
     protected function initialize() {}
@@ -122,7 +122,7 @@ class LaterPay_Controller_Abstract
             $msg = sprintf(
                 __( '%s : <code>%s</code> not found', 'laterpay' ),
                 __METHOD__,
-                __FILE__
+                $file
             );
 
             $this->logger->error(
@@ -178,5 +178,4 @@ class LaterPay_Controller_Abstract
 
         return $this->get_text_view( $file );
     }
-
 }

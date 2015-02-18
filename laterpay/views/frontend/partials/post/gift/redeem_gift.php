@@ -11,14 +11,14 @@
                 $laterpay['standard_currency']
             );
 
-            $period = LaterPay_Helper_Passes::get_period_options( $pass['period'] );
+            $period = LaterPay_Helper_TimePass::get_period_options( $pass['period'] );
             if ( $pass['duration'] > 1 ) {
-                $period = LaterPay_Helper_Passes::get_period_options( $pass['period'], true );
+                $period = LaterPay_Helper_TimePass::get_period_options( $pass['period'], true );
             }
 
             $price = LaterPay_Helper_View::format_number( $pass['price'] );
 
-            $access_type = LaterPay_Helper_Passes::get_access_options( $pass['access_to'] );
+            $access_type = LaterPay_Helper_TimePass::get_access_options( $pass['access_to'] );
             $access_dest = __( 'on this website', 'laterpay' );
             $category = get_category( $pass['access_category'] );
             if ( $pass['access_to'] != 0 ) {

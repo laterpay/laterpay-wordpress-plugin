@@ -4,10 +4,10 @@
  * LaterPay post statistics form class.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Form_Statistics extends LaterPay_Form_Abstract
+class LaterPay_Form_Statistic extends LaterPay_Form_Abstract
 {
 
     /**

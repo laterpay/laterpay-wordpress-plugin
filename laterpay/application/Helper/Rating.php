@@ -4,7 +4,7 @@
  * LaterPay rating helper.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Helper_Rating
@@ -82,7 +82,7 @@ class LaterPay_Helper_Rating
      * @return bool
      */
     public static function check_if_user_voted_post_already( $post_id ) {
-        $user_id          = LaterPay_Helper_Statistics::get_user_unique_id();
+        $user_id          = LaterPay_Helper_Statistic::get_user_unique_id();
         $users_voted_data = get_post_meta( $post_id, 'laterpay_users_voted' );
         if ( ! $users_voted_data ) {
             return false;
@@ -100,7 +100,7 @@ class LaterPay_Helper_Rating
      * @return void
      */
     public static function set_user_voted( $post_id ) {
-        $user_id          = LaterPay_Helper_Statistics::get_user_unique_id();
+        $user_id          = LaterPay_Helper_Statistic::get_user_unique_id();
         $users_voted_data = get_post_meta( $post_id, 'laterpay_users_voted');
         $users_voted      = $users_voted_data ? $users_voted_data[0] : array();
         $users_voted[]    = $user_id;

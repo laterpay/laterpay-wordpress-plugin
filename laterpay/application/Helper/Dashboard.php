@@ -4,7 +4,7 @@
  * LaterPay dashboard helper.
  *
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
 class LaterPay_Helper_Dashboard
@@ -533,7 +533,7 @@ class LaterPay_Helper_Dashboard
             'y' => array(),
         );
 
-        $expiry      = LaterPay_Helper_Passes::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
+        $expiry      = LaterPay_Helper_TimePass::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
         $data['max'] = max( $expiry );
 
         // add expiry data for the given number of weeks
