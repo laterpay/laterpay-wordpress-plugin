@@ -5,7 +5,7 @@
     <?php foreach ( $laterpay['menu'] as $page ): ?>
         <?php $slug = ! $num ? $laterpay['plugin_page'] : $page['url']; ?>
         <?php $is_current_page = $laterpay['current_page'] == $page['url'] || ( ! $num && $laterpay['current_page'] == $laterpay['plugin_page'] ); ?>
-        <li class="lp_navigation_tabs__item<?php if ( $is_current_page ): ?> lp_current<?php endif; ?>">
+        <li class="lp_navigation_tabs__item<?php if ( $is_current_page ): ?> lp_is-current<?php endif; ?>">
             <a href="<?php echo add_query_arg( array( 'page' => $slug ), admin_url( 'admin.php' ) ); ?>"
                 class="lp_u_block"<?php if ( $is_current_page ): ?> rel="prefetch"<?php endif; ?>>
                 <?php echo $page['title']; ?>
