@@ -65,6 +65,9 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         // pass localized strings and variables to script
         $i18n = array(
+            'endingIn'              => _x( 'ending in', 'used in wp_localize_script for the float graph in loadTimePassLifecycles()', 'laterpay' ),
+            'month'                 => _x( 'month', 'used in wp_localize_script for the float graph in loadTimePassLifecycles()', 'laterpay' ),
+            'weeksLeft'             => _x( 'weeks left', 'used in wp_localize_script as x-axis label for loadTimePassLifecycles()', 'laterpay' ),
             'noData'                => __( 'No data available', 'laterpay' ),
             'noFutureInterval'      => __( 'You can\'t choose an interval that lies in the future', 'laterpay' ),
             'tooltips'              => array(

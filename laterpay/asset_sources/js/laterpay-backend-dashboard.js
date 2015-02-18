@@ -128,80 +128,79 @@
             bindEvents = function() {
                 // toggle dropdown_list on touch devices
                 $($o.dropdownCurrentItem)
-                .click(function() {
-                    $(this).parent($o.dropdown).addClass($o.expanded);
-                });
+                    .click(function() {
+                        $(this).parent($o.dropdown).addClass($o.expanded);
+                    });
 
                 // switch interval or revenue model filter
                 $o.configurationSelection
-                .mousedown(function() {
-                    var startTimestamp = $o.currentInterval.data('startTimestamp'),
-                        nextStartTimestamp,
-                        nextEndTimestamp,
-                        interval;
+                    .mousedown(function() {
+                        var startTimestamp = $o.currentInterval.data('startTimestamp'),
+                            nextStartTimestamp,
+                            nextEndTimestamp,
+                            interval;
 
-                    // mark clicked item as selected
-                    $(this)
-                        .parents($o.dropdown)
-                        .removeClass($o.expanded)
+                        // mark clicked item as selected
+                        $(this)
+                            .parents($o.dropdown)
+                            .removeClass($o.expanded)
                             .find($o.dropdownCurrentItem)
                             .text($(this).text())
-                        .end()
+                            .end()
                             .find('.' + $o.selected)
                             .removeClass($o.selected)
-                        .end()
-                    .end()
-                    .addClass($o.selected);
+                            .end()
+                            .end()
+                            .addClass($o.selected);
 
-                    interval = getInterval();
+                        interval = getInterval();
 
-                    // check, if the 'next' button should be visible or hidden for the given interval
-                    nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
-                    switchNextIntervalState(nextStartTimestamp, interval);
+                        // check, if the 'next' button should be visible or hidden for the given interval
+                        nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
+                        switchNextIntervalState(nextStartTimestamp, interval);
 
-                    // check, if the 'previous' button should be visible or hidden for the given interval
-                    nextEndTimestamp    = startTimestamp - getIntervalDiff(interval);
-                    switchPreviousIntervalState(nextEndTimestamp, interval);
+                        // check, if the 'previous' button should be visible or hidden for the given interval
+                        nextEndTimestamp    = startTimestamp - getIntervalDiff(interval);
+                        switchPreviousIntervalState(nextEndTimestamp, interval);
 
-                    setNextPrevTooltip(interval);
-                    setTimeRange(startTimestamp, interval);
-                    loadDashboard(false);
-                })
-                .click(function(e) {e.preventDefault();});
+                        setTimeRange(startTimestamp, interval);
+                        loadDashboard(false);
+                    })
+                    .click(function(e) {e.preventDefault();});
 
                 // load next interval
                 $o.nextInterval
-                .mousedown(function() {
-                    loadNextInterval();
-                })
-                .click(function(e) {e.preventDefault();});
+                    .mousedown(function() {
+                        loadNextInterval();
+                    })
+                    .click(function(e) {e.preventDefault();});
 
                 // load previous interval
                 $o.previousInterval
-                .mousedown(function() {
-                    loadPreviousInterval();
-                })
-                .click(function(e) {e.preventDefault();});
+                    .mousedown(function() {
+                        loadPreviousInterval();
+                    })
+                    .click(function(e) {e.preventDefault();});
 
-$('body')
-.on('mousedown', $o.toggleItemDetails, function() {
-alert('Toggling post details coming soon');
-})
-.on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
+                $('body')
+                    .on('mousedown', $o.toggleItemDetails, function() {
+                        alert('Toggling post details coming soon');
+                    })
+                    .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
                 // switch between normal and time passes view
                 $o.viewSelector
-                .mousedown(function() {
-                    switchDashboardView($(this));
-                })
-                .click(function(e) {e.preventDefault();});
+                    .mousedown(function() {
+                        switchDashboardView($(this));
+                    })
+                    .click(function(e) {e.preventDefault();});
             },
 
             loadPreviousInterval = function() {
                 var startTimestamp  = $o.currentInterval.data('startTimestamp'),
                     interval        = getInterval();
 
-                if ($(this).hasClass($o.disabled)) {
+                if ($o.previousInterval.hasClass($o.disabled)) {
                     return;
                 }
 
@@ -221,7 +220,7 @@ alert('Toggling post details coming soon');
                 var startTimestamp  = $o.currentInterval.data('startTimestamp'),
                     interval        = getInterval();
 
-                if ($(this).hasClass($o.disabled)) {
+                if ($o.nextInterval.hasClass($o.disabled)) {
                     return;
                 }
 
@@ -255,31 +254,26 @@ alert('Toggling post details coming soon');
             },
 
             isDateWithinInterval = function(timestamp) {
-                var currentDate     = new Date(),
-                    intervalEnd     = $o.currentInterval.data('intervalEndTimestamp'),
-                    intervalEndDate = new Date(intervalEnd * 1000),
-                    givenDate       = new Date(timestamp * 1000);
+                var startDate   = new Date(),
+                    intervalEnd = $o.currentInterval.data('intervalEndTimestamp'),
+                    endDate     = new Date(intervalEnd * 1000),
+                    givenDate   = new Date(timestamp * 1000);
 
                 // yesterday
-                currentDate.setDate(currentDate.getDate() - 1);
+                startDate.setDate(startDate.getDate() - 1);
 
-                // check, if the given date is gte yesterday
-                if (givenDate.getMonth() === currentDate.getMonth() &&
-                    givenDate.getYear() === currentDate.getYear() &&
-                    givenDate.getDate() >= currentDate.getDate()) {
+                // reset all days to 0:00:00 for easier comparison
+                startDate.setHours(0,0,0,0);
+                endDate.setHours(0,0,0,0);
+                givenDate.setHours(0,0,0,0);
 
-                    return false;
-                }
+                console.log(endDate.toString());
+                console.log(givenDate.toString());
+                console.log(startDate.toString());
+                console.log("------------------");
 
-                // check, if the given date is lte the interval end date - earliest entry in post_views-table
-                if (givenDate.getMonth() === intervalEndDate.getMonth() &&
-                    givenDate.getYear() === intervalEndDate.getYear() &&
-                    givenDate.getDate() <= intervalEndDate.getDate()) {
+                return !(givenDate.getTime() <= endDate.getTime() || givenDate.getTime() >= startDate.getTime());
 
-                    return false;
-                }
-
-                return true;
             },
 
             getIntervalDiff = function(interval) {
@@ -318,8 +312,8 @@ alert('Toggling post details coming soon');
             getInterval = function() {
                 return $o.intervalChoices
                     .parents($o.dropdownList)
-                        .find('.' + $o.selected)
-                        .attr('data-interval');
+                    .find('.' + $o.selected)
+                    .attr('data-interval');
             },
 
             setTimeRange = function(startTimestamp, interval) {
@@ -348,16 +342,16 @@ alert('Toggling post details coming soon');
                 // set the new startTimestamp as data attribute for refreshing the dashboard data;
                 // set the new timeRange
                 $o.currentInterval
-                .data('startTimestamp', startTimestamp)
-                .html(timeRange);
+                    .data('startTimestamp', startTimestamp)
+                    .html(timeRange);
             },
 
             loadDashboardData = function(section, refresh, pass) {
                 var interval = getInterval(),
                     revenueModel = $o.revenueModelChoices
-                                    .parents($o.dropdownList)
-                                    .find('.' + $o.selected)
-                                    .attr('data-revenue-model'),
+                        .parents($o.dropdownList)
+                        .find('.' + $o.selected)
+                        .attr('data-revenue-model'),
                     requestData = {
                         // WP Ajax action
                         'action'            : 'laterpay_get_dashboard_data',
@@ -425,108 +419,108 @@ alert('Toggling post details coming soon');
                 showLoadingIndicator($o.conversionDiagram);
 
                 loadDashboardData('converting_items', refresh)
-                .done(function(response) {
-                    // generate a data point with 100% y-value for each conversion rate column as background
-                    var backColumns = [];
-                    i = 0;
-                    l = response.data.y.length;
-                    for (; i < l; i++) {
-                        backColumns.push([i + 1, 100]);
-                    }
+                    .done(function(response) {
+                        // generate a data point with 100% y-value for each conversion rate column as background
+                        var backColumns = [];
+                        i = 0;
+                        l = response.data.y.length;
+                        for (; i < l; i++) {
+                            backColumns.push([i + 1, 100]);
+                        }
 
-                    var plotOptions = {
-                            xaxis               : {
-                                ticks           : response.data.x,
-                            },
-                            yaxis               : {
-                                tickSize        : null,
-                                max             : 100,
-                            }
-                        },
-                        plotData = [
-                            {
-                                data            : backColumns,
-                                bars            : {
-                                    align       : 'center',
-                                    barWidth    : 0.6,
-                                    fillColor   : $o.colorBackground,
-                                    horizontal  : false,
-                                    lineWidth   : 0,
-                                    show        : true,
+                        var plotOptions = {
+                                xaxis               : {
+                                    ticks           : response.data.x,
+                                },
+                                yaxis               : {
+                                    tickSize        : null,
+                                    max             : 100,
                                 }
                             },
-                            {
-                                data            : response.data.y,
-                                bars            : {
-                                    align       : 'center',
-                                    barWidth    : 0.4,
-                                    fillColor   : $o.colorBackgroundLaterpay,
-                                    horizontal  : false,
-                                    lineWidth   : 0,
-                                    show        : true,
-                                }
-                            },
-                        ];
+                            plotData = [
+                                {
+                                    data            : backColumns,
+                                    bars            : {
+                                        align       : 'center',
+                                        barWidth    : 0.6,
+                                        fillColor   : $o.colorBackground,
+                                        horizontal  : false,
+                                        lineWidth   : 0,
+                                        show        : true,
+                                    }
+                                },
+                                {
+                                    data            : response.data.y,
+                                    bars            : {
+                                        align       : 'center',
+                                        barWidth    : 0.4,
+                                        fillColor   : $o.colorBackgroundLaterpay,
+                                        horizontal  : false,
+                                        lineWidth   : 0,
+                                        show        : true,
+                                    }
+                                },
+                            ];
 
-                    // extend empty object to merge specific with default plotOptions without modifying the defaults
-                    plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
-                    $.plot($o.conversionDiagram, plotData, plotOptions);
-                })
-                .always(function() {
-                    removeLoadingIndicator($o.conversionDiagram);
-                });
+                        // extend empty object to merge specific with default plotOptions without modifying the defaults
+                        plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
+                        $.plot($o.conversionDiagram, plotData, plotOptions);
+                    })
+                    .always(function() {
+                        removeLoadingIndicator($o.conversionDiagram);
+                    });
             },
 
             loadSellingItems = function(refresh) {
                 showLoadingIndicator($o.salesDiagram);
 
                 loadDashboardData('selling_items', refresh)
-                .done(function(response) {
-                    var plotOptions = {
-                            xaxis       : {
-                                ticks   : response.data.x,
+                    .done(function(response) {
+                        var plotOptions = {
+                                xaxis       : {
+                                    ticks   : response.data.x,
+                                },
+                                yaxis       : {
+                                    max     : null,
+                                },
                             },
-                            yaxis       : {
-                                max     : null,
-                            },
-                        },
-                        plotData = plotDefaultData;
+                            plotData = plotDefaultData;
 
-                    // extend empty object to merge specific with default plotOptions without modifying the defaults
-                    plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
-                    plotData[0].data = response.data.y;
+                        // extend empty object to merge specific with default plotOptions without modifying the defaults
+                        plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
+                        plotData[0].data = response.data.y;
 
-                    $.plot($o.salesDiagram, plotData, plotOptions);
-                })
-                .always(function() {
-                    removeLoadingIndicator($o.salesDiagram);
-                });
+                        $.plot($o.salesDiagram, plotData, plotOptions);
+                    })
+                    .always(function() {
+                        removeLoadingIndicator($o.salesDiagram);
+                    });
             },
 
             loadRevenueItems = function(refresh) {
                 showLoadingIndicator($o.revenueDiagram);
 
                 loadDashboardData('revenue_items', refresh)
-                .done(function(response) {
-                    var plotOptions = {
-                            xaxis       : {
-                                ticks   : response.data.x,
+                    .done(function(response) {
+                        var plotOptions = {
+                                xaxis       : {
+                                    ticks   : response.data.x,
+                                },
+                                yaxis: {
+                                    max     : null,
+                                },
                             },
-                            yaxis: {
-                                max     : null,
-                            },
-                        },
-                        plotData = plotDefaultData;
+                            plotData = plotDefaultData;
 
-                    // extend empty object to merge specific with default plotOptions without modifying the defaults
-                    plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
-                    plotData[0].data = response.data.y;
+                        // extend empty object to merge specific with default plotOptions without modifying the defaults
+                        plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
+                        plotData[0].data = response.data.y;
 
-                    $.plot($o.revenueDiagram, plotData, plotOptions);
-                })
-                .always(function() {
-                    removeLoadingIndicator($o.revenueDiagram);
-                });
+                        $.plot($o.revenueDiagram, plotData, plotOptions);
+                    })
+                    .always(function() {
+                        removeLoadingIndicator($o.revenueDiagram);
+                    });
             },
 
             loadMostLeastConvertingItems = function(refresh) {
@@ -534,25 +528,25 @@ alert('Toggling post details coming soon');
                 showLoadingIndicator($o.leastConvertingList);
 
                 loadDashboardData('most_least_converting_items', refresh)
-                .done(function(response) {
-                    if (!response.data.most) {
-                        response.data.most = {};
-                    }
+                    .done(function(response) {
+                        if (!response.data.most) {
+                            response.data.most = {};
+                        }
 
-                    if (!response.data.least) {
-                        response.data.least = {};
-                    }
+                        if (!response.data.least) {
+                            response.data.least = {};
+                        }
 
-                    renderTopBottomList($o.bestConvertingList, response.data.most);
-                    renderSparklines($o.bestConvertingList);
+                        renderTopBottomList($o.bestConvertingList, response.data.most);
+                        renderSparklines($o.bestConvertingList);
 
-                    renderTopBottomList($o.leastConvertingList, response.data.least);
-                    renderSparklines($o.leastConvertingList);
-                })
-                .always(function() {
-                    removeLoadingIndicator($o.bestConvertingList);
-                    removeLoadingIndicator($o.leastConvertingList);
-                });
+                        renderTopBottomList($o.leastConvertingList, response.data.least);
+                        renderSparklines($o.leastConvertingList);
+                    })
+                    .always(function() {
+                        removeLoadingIndicator($o.bestConvertingList);
+                        removeLoadingIndicator($o.leastConvertingList);
+                    });
             },
 
             loadMostLeastSellingItems = function(refresh) {
@@ -560,25 +554,25 @@ alert('Toggling post details coming soon');
                 showLoadingIndicator($o.leastSellingList);
 
                 loadDashboardData('most_least_selling_items', refresh)
-                .done(function(response) {
-                    if (!response.data.most) {
-                        response.data.most = {};
-                    }
+                    .done(function(response) {
+                        if (!response.data.most) {
+                            response.data.most = {};
+                        }
 
-                    if (!response.data.least) {
-                        response.data.least = {};
-                    }
+                        if (!response.data.least) {
+                            response.data.least = {};
+                        }
 
-                    renderTopBottomList($o.bestSellingList, response.data.most);
-                    renderSparklines($o.bestSellingList);
+                        renderTopBottomList($o.bestSellingList, response.data.most);
+                        renderSparklines($o.bestSellingList);
 
-                    renderTopBottomList($o.leastSellingList, response.data.least);
-                    renderSparklines($o.leastSellingList);
-                })
-                .always(function() {
-                    removeLoadingIndicator($o.bestSellingList);
-                    removeLoadingIndicator($o.leastSellingList);
-                });
+                        renderTopBottomList($o.leastSellingList, response.data.least);
+                        renderSparklines($o.leastSellingList);
+                    })
+                    .always(function() {
+                        removeLoadingIndicator($o.bestSellingList);
+                        removeLoadingIndicator($o.leastSellingList);
+                    });
             },
 
             loadMostLeastRevenueItems = function(refresh) {
@@ -586,43 +580,43 @@ alert('Toggling post details coming soon');
                 showLoadingIndicator($o.leastGrossingList);
 
                 loadDashboardData('most_least_revenue_items', refresh)
-                .done(function(response) {
-                    if (!response.data.most) {
-                        response.data.most = {};
-                    }
+                    .done(function(response) {
+                        if (!response.data.most) {
+                            response.data.most = {};
+                        }
 
-                    if (!response.data.least) {
-                        response.data.least = {};
-                    }
+                        if (!response.data.least) {
+                            response.data.least = {};
+                        }
 
-                    renderTopBottomList($o.bestGrossingList, response.data.most);
-                    renderSparklines($o.bestGrossingList);
+                        renderTopBottomList($o.bestGrossingList, response.data.most);
+                        renderSparklines($o.bestGrossingList);
 
-                    renderTopBottomList($o.leastGrossingList, response.data.least);
-                    renderSparklines($o.leastGrossingList);
-                })
-                .always(function() {
-                    removeLoadingIndicator($o.bestGrossingList);
-                    removeLoadingIndicator($o.leastGrossingList);
-                });
+                        renderTopBottomList($o.leastGrossingList, response.data.least);
+                        renderSparklines($o.leastGrossingList);
+                    })
+                    .always(function() {
+                        removeLoadingIndicator($o.bestGrossingList);
+                        removeLoadingIndicator($o.leastGrossingList);
+                    });
             },
 
             loadKPIs = function(refresh) {
                 loadDashboardData('metrics', refresh)
-                .done(function(response) {
-                    // column 1: conversion data
-                    $o.totalImpressionsKPI.text(response.data.impressions || 0);
-                    $o.avgConversionKPI.text(response.data.conversion || 0);
-                    $o.newCustomersKPI.text(response.data.new_customers || 0);
+                    .done(function(response) {
+                        // column 1: conversion data
+                        $o.totalImpressionsKPI.text(response.data.impressions || 0);
+                        $o.avgConversionKPI.text(response.data.conversion || 0);
+                        $o.newCustomersKPI.text(response.data.new_customers || 0);
 
-                    // column 2: sales data
-                    $o.avgItemsSoldKPI.text(response.data.avg_items_sold || 0);
-                    $o.totalItemsSoldKPI.text(response.data.total_items_sold || 0);
+                        // column 2: sales data
+                        $o.avgItemsSoldKPI.text(response.data.avg_items_sold || 0);
+                        $o.totalItemsSoldKPI.text(response.data.total_items_sold || 0);
 
-                    // column 3: revenue data
-                    $o.avgRevenueKPI.text(response.data.avg_purchase || 0);
-                    $o.totalRevenueKPI.text(response.data.total_revenue || 0);
-                });
+                        // column 3: revenue data
+                        $o.avgRevenueKPI.text(response.data.avg_purchase || 0);
+                        $o.totalRevenueKPI.text(response.data.total_revenue || 0);
+                    });
             },
 
             renderTopBottomList = function($list, data) {
@@ -683,8 +677,8 @@ alert('Toggling post details coming soon');
                     $sparkline
                         .peity('bar', {
                             fill    : function() {
-                                        return $o.colorBorder;
-                                    },
+                                return $o.colorBorder;
+                            },
                             gap     : 1,
                             height  : 14,
                             width   : 34,
@@ -693,6 +687,7 @@ alert('Toggling post details coming soon');
             },
 
             loadDashboard = function(refresh) {
+
                 refresh = refresh || false;
                 loadMostLeastConvertingItems(refresh);
                 loadMostLeastRevenueItems(refresh);
@@ -750,116 +745,115 @@ alert('Toggling post details coming soon');
                     showLoadingIndicator($(data[index]));
 
                     loadDashboardData('time_passes_expiry', refresh, timePassId)
-                    .done(function(response) {
-                        var max         = response.data.max,
-                            backColumns = [];
+                        .done(function(response) {
+                            var max         = response.data.max,
+                                backColumns = [];
 
-                        i = 0;
-                        l = response.data.y.length;
-                        for (; i < l; i++) {
-                            backColumns.push([i, max]);
-                        }
+                            i = 0;
+                            l = response.data.y.length;
+                            for (; i < l; i++) {
+                                backColumns.push([i, max]);
+                            }
 
-                        var $placeholder = $(data[index]),
-                            markings = [
-                                {
-                                    // separator 1 after first 4 weeks (1 month)
-                                    color           : $o.colorBorder,
-                                    lineWidth       : 1,
-                                    xaxis           : {
-                                        from        : 3.5,
-                                        to          : 3.5,
+                            var $placeholder = $(data[index]),
+                                markings = [
+                                    {
+                                        // separator 1 after first 4 weeks (1 month)
+                                        color           : $o.colorBorder,
+                                        lineWidth       : 1,
+                                        xaxis           : {
+                                            from        : 3.5,
+                                            to          : 3.5,
+                                        },
+                                    },
+                                    {
+                                        // separator 2 after first 12 weeks (3 months)
+                                        color           : $o.colorBorder,
+                                        lineWidth       : 1,
+                                        xaxis           : {
+                                            from        : 11.5,
+                                            to          : 11.5,
+                                        },
+                                    },
+                                ],
+                                plotOptions = {
+                                    xaxis               : {
+                                        ticks           : response.data.x,
+                                    },
+                                    yaxis               : {
+                                        show            : false,
+                                        max             : max,
+                                        tickFormatter   : function(val) {
+                                            return parseInt(val, 10);
+                                        }
+                                    },
+                                    grid                : {
+                                        markings        : markings,
                                     },
                                 },
-                                {
-                                    // separator 2 after first 12 weeks (3 months)
-                                    color           : $o.colorBorder,
-                                    lineWidth       : 1,
-                                    xaxis           : {
-                                        from        : 11.5,
-                                        to          : 11.5,
+                                plotData = [
+                                    {
+                                        data            : response.data.y,
+                                        bars            : {
+                                            align       : 'center',
+                                            barWidth    : 0.4,
+                                            fillColor   : $o.colorBackgroundLaterpay,
+                                            horizontal  : false,
+                                            lineWidth   : 0,
+                                            show        : true,
+                                        },
                                     },
-                                },
-                            ],
-                            plotOptions = {
-                                xaxis               : {
-                                    ticks           : response.data.x,
-                                },
-                                yaxis               : {
-                                    show            : false,
-                                    max             : max,
-                                    tickFormatter   : function(val) {
-                                                        return parseInt(val, 10);
-                                                    }
-                                },
-                                grid                : {
-                                    markings        : markings,
-                                },
-                            },
-                            plotData = [
-                                {
-                                    data            : response.data.y,
-                                    bars            : {
-                                        align       : 'center',
-                                        barWidth    : 0.4,
-                                        fillColor   : $o.colorBackgroundLaterpay,
-                                        horizontal  : false,
-                                        lineWidth   : 0,
-                                        show        : true,
-                                    },
-                                },
-                            ];
+                                ];
 
-                        // extend empty object to merge specific with default plotOptions without modifying the defaults
-                        plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
-                        var $graph = $.plot($placeholder, plotData, plotOptions);
+                            // extend empty object to merge specific with default plotOptions without modifying the defaults
+                            plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
+                            var $graph = $.plot($placeholder, plotData, plotOptions);
 
-                        // add labels to the flot graph:
-                        // get the offset of separator 1 within the flot placeholder
-                        var o1      = $graph.pointOffset({x: 3.5, y: 0}),
-                            label1  = '<div class="lp_time-pass-diagram__label" ' +
-                                        'style="left:' + (o1.left - 30) + 'px; top:2px;">' +
-// TODO: add internationalized text
-                                        'ending in<br>' +
-                                        '< 1 month' +
+                            // add labels to the flot graph:
+                            // get the offset of separator 1 within the flot placeholder
+                            var o1      = $graph.pointOffset({x: 3.5, y: 0}),
+                                label1  = '<div class="lp_time-pass-diagram__label" ' +
+                                    'style="left:' + (o1.left - 30) + 'px; top:2px;">' +
+
+                                    lpVars.i18n.endingIn + '<br>' +
+                                    '< 1 ' + lpVars.i18n.month +
                                     '</div>';
-                        // append that label to the graph
-                        $placeholder.append(label1);
-                        // get the offset of separator 2 within the flot placeholder
-                        var o2      = $graph.pointOffset({x: 11.5, y: 0}),
-                            label2  = '<div class="lp_time-pass-diagram__label" ' +
-                                        'style="left:' + (o2.left - 30) + 'px; top:2px;">' +
-// TODO: add internationalized text
-                                        'ending in<br>' +
-                                        '< 3 months' +
+                            // append that label to the graph
+                            $placeholder.append(label1);
+                            // get the offset of separator 2 within the flot placeholder
+                            var o2      = $graph.pointOffset({x: 11.5, y: 0}),
+                                label2  = '<div class="lp_time-pass-diagram__label" ' +
+                                    'style="left:' + (o2.left - 30) + 'px; top:2px;">' +
+
+                                    lpVars.i18n['endingIn'] + '<br>' +
+                                    '< 3 months' +
                                     '</div>';
-                        // append that label to the graph
-                        $placeholder.append(label2);
+                            // append that label to the graph
+                            $placeholder.append(label2);
 
-                        // add arrowhead to x-axis
-                        var  o3 = $graph.pointOffset({x: 13, y: 0}),
-                            ctx = $graph.getCanvas().getContext('2d');
-                        o3.left += 8;
-                        o3.top  += 4;
-                        ctx.beginPath();
-                        ctx.moveTo(o3.left,     o3.top);
-                        ctx.lineTo(o3.left,     o3.top - 7);
-                        ctx.lineTo(o3.left + 6, o3.top - 3.5);
-                        ctx.lineTo(o3.left,     o3.top);
-                        ctx.fillStyle = $o.colorBorder;
-                        ctx.fill();
+                            // add arrowhead to x-axis
+                            var  o3 = $graph.pointOffset({x: 13, y: 0}),
+                                ctx = $graph.getCanvas().getContext('2d');
+                            o3.left += 8;
+                            o3.top  += 4;
+                            ctx.beginPath();
+                            ctx.moveTo(o3.left,     o3.top);
+                            ctx.lineTo(o3.left,     o3.top - 7);
+                            ctx.lineTo(o3.left + 6, o3.top - 3.5);
+                            ctx.lineTo(o3.left,     o3.top);
+                            ctx.fillStyle = $o.colorBorder;
+                            ctx.fill();
 
-                        // add x-axis label
-                        var xAxisLabel = '<div class="lp_time-pass-diagram__label" ' +
-                                            'style="left:' + (o3.left + 10) + 'px; top:' + o3.top + 'px;">' +
-// TODO: add internationalized text
-                                            'weeks left' +
-                                        '</div>';
-                        $placeholder.append(xAxisLabel);
-                    })
-                    .always(function() {
-                        removeLoadingIndicator($(data[index]));
-                    });
+                            // add x-axis label
+                            var xAxisLabel = '<div class="lp_time-pass-diagram__label" ' +
+                                'style="left:' + (o3.left + 10) + 'px; top:' + o3.top + 'px;">' +
+                                lpVars.i18n.weeksLeft +
+                                '</div>';
+                            $placeholder.append(xAxisLabel);
+                        })
+                        .always(function() {
+                            removeLoadingIndicator($(data[index]));
+                        });
                 });
             },
 
