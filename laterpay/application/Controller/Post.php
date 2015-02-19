@@ -757,10 +757,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $post = get_post();
-        $preview_post_as_visitor = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
 
-        // check, if we on preview post
-        if ( ! $preview_post_as_visitor ) {
+        // check, if we on preview post as admin
+        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
             return;
         }
 
