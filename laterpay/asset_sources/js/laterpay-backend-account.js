@@ -129,10 +129,13 @@
                     $o.liveMerchantId.focus();
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
+                    $o.testModeSettings.show();
                 } else if (hasSwitchedToLiveMode) {
+                    $o.testModeSettings.hide();
                     $input.val(liveMode);
                 } else {
                     $input.val(testMode);
+                    $o.testModeSettings.show();
                 }
 
                 // save plugin mode
@@ -181,6 +184,10 @@
                     $o.throttledFlashMessage = window.setTimeout(function() {
                         setMessage(lpVars.i18nApiKeyInvalid, false);
                     }, $o.flashMessageTimeout);
+
+                    if($form.attr('id') == $o.testApiKey.parents('form').attr('id')) {
+                        changeTestMode();
+                    }
                 }
 
                 // switch from live mode to test mode, if there are no valid live credentials
@@ -211,6 +218,10 @@
                     $o.throttledFlashMessage = window.setTimeout(function() {
                         setMessage(lpVars.i18nMerchantIdInvalid, false);
                     }, $o.flashMessageTimeout);
+
+                    if($form.attr('id') == $o.testMerchantId.parents('form').attr('id')) {
+                        changeTestMode();
+                    }
                 }
 
                 // switch from live mode to test mode, if there are no valid live credentials
