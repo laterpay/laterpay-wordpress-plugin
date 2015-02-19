@@ -97,6 +97,10 @@ var LPCurve = function(container) {
         .text(this.i18nDefaultPrice);
 
 
+    // draw price curve
+    svg.append('path').attr('class', 'lp_dynamic-pricing__price-curve');
+
+
     // draw start price handle with text and input and everything
     svg.append('rect')
         .attr({
@@ -351,15 +355,15 @@ LPCurve.prototype.plot = function() {
 
 
     // PRICE CURVE -----------------------------------------------------------------------------------------------------
-    // D3.js provides us with a Path Data Generator Function for lines
+    // D3.js provides us with a path data generator function for lines
     var priceCurve = d3.svg.line()
                       .interpolate(self.interpolation)
                       .x(function(d) { return xScale(d.x); })
                       .y(function(d) { return yScale(d.y); });
 
-    // .attr('d', lineFunction(lineData)) is where the magic happens.
-    // This is where we send the data to the accessor function which returns the SVG Path Commands.
-    svg.select('path.xxxPriceCurveSuckas') // TODO: we need a class here!
+    // .attr('d', lineFunction(lineData)) is where the magic happens:
+    // this is where we send the data to the accessor function which returns the SVG path commands
+    svg.select('.lp_dynamic-pricing__price-curve')
         .datum((self.data))
         .transition().duration(dragging ? 0 : 250)
         .attr('d', priceCurve);
