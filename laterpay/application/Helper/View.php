@@ -118,9 +118,10 @@ class LaterPay_Helper_View
      * @return bool
      */
     public static function plugin_is_working() {
-        $modeIsLive = get_option( 'laterpay_plugin_is_in_live_mode' );
-        $sandboxKey = get_option( 'laterpay_sandbox_api_key' );
-        $liveKey    = get_option( 'laterpay_live_api_key' );
+        $modeIsLive         = get_option( 'laterpay_plugin_is_in_live_mode' );
+        $sandboxKey         = get_option( 'laterpay_sandbox_api_key' );
+        $liveKey            = get_option( 'laterpay_live_api_key' );
+        $inVisibleTestMode  = get_option( 'laterpay_is_in_visible_test_mode' );
         if ( ! function_exists( 'wp_get_current_user' ) ) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
@@ -133,6 +134,11 @@ class LaterPay_Helper_View
         // check, if plugin is not in live mode and Sandbox API key exists
         if ( ! $modeIsLive && empty( $sandboxKey ) ) {
             return false;
+        }
+
+        // check, if plugin is not in live mode and in visible test mode
+        if ( ! $modeIsLive && $inVisibleTestMode ) {
+            return true;
         }
 
         // check, if plugin is not in live mode and current user has sufficient capabilities

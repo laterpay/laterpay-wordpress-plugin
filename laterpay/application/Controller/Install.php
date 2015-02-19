@@ -364,6 +364,25 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             }
         }
     }
+    
+    /**
+     * Adding option for visible\invisible test mode.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_add_is_in_visible_test_mode_option() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+            return;
+        }
+
+        if ( get_option( 'laterpay_is_in_visible_test_mode' ) === null ) {
+            add_option( 'laterpay_is_in_visible_test_mode', 0 );
+        }
+    }
 
     /**
      * Update the existing options during update.
@@ -532,6 +551,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
         add_option( 'laterpay_landing_page',                            '' );
         add_option( 'laterpay_only_time_pass_purchases_allowed',        0  );
+        add_option( 'laterpay_is_in_visible_test_mode',                 0  );
 
         // advanced settings
         add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );

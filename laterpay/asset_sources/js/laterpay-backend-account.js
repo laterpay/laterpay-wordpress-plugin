@@ -16,7 +16,6 @@
                 pluginModeToggle            : $('#lp_js_togglePluginMode'),
 
                 // test mode
-                testModeForm                : $('#lp_js_testModeForm'),
                 testModeSettings            : $('.lp_js_testModeSettings'),
                 testModeField               : $('input.lp_js_pluginInVisibleTestMode'),
                 testModeInvalidCredField    : $('input.lp_js_invalidCredentials'),
@@ -91,7 +90,7 @@
                     // restore test mode
                     $o.testModeField.prop('checked',false);
                     // focus Merchant ID input in case the user just forgot to enter his credentials
-                    $o.liveMerchantId.focus();
+                    $o.testMerchantId.focus();
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
 
