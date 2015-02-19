@@ -1,35 +1,21 @@
 <?php
 
 /**
- * LaterPay time passes position form class.
+ * LaterPay post statistics form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Form_TimePassesPosition extends LaterPay_Form_Abstract
+class LaterPay_Form_Statistic extends LaterPay_Form_Abstract
 {
 
     /**
-     * Implementation of abstract method.
+     * Implementation of abstract method
      *
      * @return void
      */
     public function init() {
-        $this->set_field(
-            'form',
-            array(
-                'validators' => array(
-                    'is_string',
-                    'cmp' => array(
-                        array(
-                            'eq' => 'time_passes_position',
-                        ),
-                    ),
-                )
-            )
-        );
-
         $this->set_field(
             'action',
             array(
@@ -37,15 +23,15 @@ class LaterPay_Form_TimePassesPosition extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_appearance',
+                            'eq' => 'laterpay_post_statistic_render',
                         ),
                     ),
-                )
+                ),
             )
         );
 
         $this->set_field(
-            '_wpnonce',
+            'nonce',
             array(
                 'validators' => array(
                     'is_string',
@@ -54,22 +40,22 @@ class LaterPay_Form_TimePassesPosition extends LaterPay_Form_Abstract
                             'ne' => null,
                         ),
                     ),
-                )
+                ),
             )
         );
 
         $this->set_field(
-            'time_passes_positioned_manually',
+            'post_id',
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array( 1 ),
+                    'post_exist',
                 ),
                 'filters' => array(
                     'to_int',
                 ),
-                'can_be_null' => true,
             )
         );
     }
 }
+
