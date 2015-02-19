@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Model_Post_Views extends LaterPay_Helper_Query
+class LaterPay_Model_Post_View extends LaterPay_Helper_Query
 {
 
     /**
