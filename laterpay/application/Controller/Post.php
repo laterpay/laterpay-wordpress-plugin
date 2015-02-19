@@ -765,10 +765,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        // check, if the current post was already purchased
-        if ( $this->has_access_to_post( $post ) ) {
+        // check, if the current post was already purchased and current user not admin
+        if ( $this->has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
             return;
         }
+
+        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is-in_live_mode' );
 
         $view_args = array(
             'post_id'                         => $post->ID,
@@ -777,6 +779,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'         => $preview_post_as_visitor,
             'purchase_button_is_hidden'       => LaterPay_Helper_View::purchase_button_is_hidden(),
+            'visible_test_mode_active'        => $is_active_visible_test_mode,
         );
 
         $this->logger->info(
@@ -979,9 +982,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // check, if user has access to content (because he already bought it)
         $access = $this->has_access_to_post( $post );
-        
+
         // purchase mode
         $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
+
+        // test mode
+        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is-in_live_mode' );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ( $user_can_read_statistics ) {
@@ -1009,6 +1015,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'time_passes_positioned_manually'       => $timepasses_positioned_manually,
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'only_time_pass_purchases_allowed'      => $only_time_passes_allowed,
+            'visible_test_mode_active'              => $is_active_visible_test_mode,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -1167,6 +1174,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return string
      */
     public function render_time_pass( $pass = array() ) {
+        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is-in_live_mode' );
+
         $defaults = array(
             'pass_id'     => 0,
             'title'       => LaterPay_Helper_TimePass::get_default_options( 'title' ),
@@ -1181,8 +1190,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $args = array(
-            'standard_currency'       => get_option( 'laterpay_currency' ),
-            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
+            'standard_currency'         => get_option( 'laterpay_currency' ),
+            'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
+            'visible_test_mode_active'  => $is_active_visible_test_mode,
         );
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );

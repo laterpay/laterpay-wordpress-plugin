@@ -8,13 +8,14 @@ if ( $laterpay['purchase_link_is_hidden'] ) {
  * we can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute
  */
 $args = array(
-    'href'                      => '#',
-    'class'                     => 'lp_js_doPurchase lp_purchaseLink',
-    'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
-    'data-icon'                 => 'b',
-    'data-laterpay'             => $laterpay['link'],
-    'data-post-id'              => $laterpay['post_id'],
-    'data-preview-as-visitor'   => $laterpay['preview_post_as_visitor'],
+    'href'                          => '#',
+    'class'                         => 'lp_js_doPurchase lp_purchaseLink',
+    'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
+    'data-icon'                     => 'b',
+    'data-laterpay'                 => $laterpay['link'],
+    'data-post-id'                  => $laterpay['post_id'],
+    'data-preview-as-visitor'       => $laterpay['preview_post_as_visitor'],
+    'data-visible-test-mode-active' => $laterpay['visible_test_mode_active'],
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {

@@ -414,7 +414,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             handlePurchaseInTestMode = function(trigger) {
-                if ($(trigger).data('preview-as-visitor')) {
+                if ($(trigger).data('preview-as-visitor') && ! $(trigger).data('visible-test-mode-active')) {
                     // show alert instead of loading LaterPay purchase dialogs
                     alert(lpVars.i18n.alert);
                 }
@@ -486,7 +486,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         'click',
         function(event) {
             event.preventDefault();
-            if (event.currentTarget.getData('preview-as-visitor')) {
+            if (event.currentTarget.getData('preview-as-visitor') && ! event.currentTarget.getData('visible-test-mode-active')) {
                 alert(lpVars.i18n.alert);
             } else {
                 var url = event.currentTarget.getAttribute('href');

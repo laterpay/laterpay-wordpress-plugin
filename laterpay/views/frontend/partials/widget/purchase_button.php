@@ -15,13 +15,14 @@ if ( $laterpay_widget['purchase_button_is_hidden'] ) : ?>
 endif;
 
 $args = array(
-    'href'                      => '#',
-    'class'                     => 'lp_js_doPurchase lp_purchaseLink lp_button',
-    'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
-    'data-icon'                 => 'b',
-    'data-laterpay'             => $laterpay_widget['link'],
-    'data-post-id'              => $laterpay_widget['post_id'],
-    'data-preview-as-visitor'   => $laterpay_widget['preview_post_as_visitor'],
+    'href'                          => '#',
+    'class'                         => 'lp_js_doPurchase lp_purchaseLink lp_button',
+    'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
+    'data-icon'                     => 'b',
+    'data-laterpay'                 => $laterpay_widget['link'],
+    'data-post-id'                  => $laterpay_widget['post_id'],
+    'data-preview-as-visitor'       => $laterpay_widget['preview_post_as_visitor'],
+    'data-visible-test-mode-active' => $laterpay_widget['visible_test_mode_active'],
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {
