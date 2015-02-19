@@ -385,6 +385,35 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Set correct values for API URLs.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_clean_api_key_options() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+            return;
+        }
+
+        $options = array(
+            'laterpay_sandbox_backend_api_url' => 'https://api.sandbox.laterpaytest.net',
+            'laterpay_sandbox_dialog_api_url'  => 'https://web.sandbox.laterpaytest.net',
+            'laterpay_live_backend_api_url'    => 'https://api.laterpay.net',
+            'laterpay_live_dialog_api_url'     => 'https://web.laterpay.net',
+        );
+
+        foreach ( $options as $option_name => $correct_value ) {
+            $option_value = get_option( $option_name );
+            if ( $option_value != $correct_value ) {
+                update_option( $option_name, $correct_value );
+            }
+        }
+    }
+
+    /**
      * Update the existing options during update.
      *
      * @deprecated since version 1.0
