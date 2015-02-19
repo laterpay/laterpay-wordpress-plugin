@@ -39,21 +39,21 @@
 
 
 // price curve ---------------------------------------------------------------------------------------------------------
-            .lp_dynamic-pricing__price-curve {
-                opacity: 1;//0.01;
-                stroke: $background-laterpay;
-                stroke-width: 8px;
+.lp_dynamic-pricing__price-curve {
+    opacity: 1;//0.01;
+    stroke: $background-laterpay;
+    stroke-width: 8px;
 
-                &.lp_is-hidden {
-                    display: none;
-                }
-            }
-            // FIXME: this was used to style the price curve in the old version
-            .line {
-                fill: none;
-                stroke: red;
-                stroke-width: 3px;
-            }
+    &.lp_is-hidden {
+        display: none;
+    }
+}
+    // FIXME: legacy style to style the price curve in the old version
+    .line {
+        fill: none;
+        stroke: red;
+        stroke-width: 3px;
+    }
 
 .lp_dynamic-pricing__price-curve-point {
     fill: hsl(0, 0%, 13%);
@@ -153,8 +153,7 @@
 .lp_dynamic-pricing__price-change-days-handle,
 .lp_dynamic-pricing__price-change-days-handle-triangle,
 .lp_dynamic-pricing__price-change-days-value,
-.lp_dynamic-pricing__price-change-days-unit,
-.lp_is-dragging-horizontally {
+.lp_dynamic-pricing__price-change-days-unit {
     cursor: col-resize; /* 1 */
 }
 
@@ -167,21 +166,5 @@
 .lp_dynamic-pricing__handle-unit {
     &.lp_is-hidden {
         display: none; /* 1 */
-    }
-}
-
-
-
-
-
-
-
-
-
-
-.lp_is-dragging {
-    .tooltip,
-    .pointer {
-        opacity: 0;
     }
 }
