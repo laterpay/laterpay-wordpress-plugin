@@ -127,14 +127,27 @@
     font-weight: normal;
 }
 
+/*
+ * !important is used to make sure our input renders as intended, regardless of crappy theme or browser styles
+ */
 .lp_dynamic-pricing__start-price-input,
 .lp_dynamic-pricing__end-price-input {
-    background: #fff;
-    border: 2px solid $border;
-    border-radius: 3px;
-    font-size: 12px;
-    padding: 2px;
-    width: 100%;
+    background: #fff !important;
+    border: 2px solid $clickable !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+    display: none;
+    font-size: 12px !important;
+    height: 29px !important;
+    margin: 0 !important;
+    padding: 4px !important;
+    width: 100% !important;
+
+    &:focus {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border-color: $clickable !important;
+    }
 }
 
 /*
