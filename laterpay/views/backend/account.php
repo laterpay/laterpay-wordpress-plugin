@@ -2,18 +2,18 @@
 
 <div class="lp_page wp-core-ui">
 
-    <div id="lp_js_flashMessage" class="lp_flashMessage" style="display:none;">
+    <div id="lp_js_flashMessage" class="lp_message" style="display:none;">
         <p></p>
     </div>
 
     <div class="lp_navigation lp_u_relative">
         <a  href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
             id="lp_js_pluginModeIndicator"
-            class="lp_pluginModeIndicator lp_u_absolute"
+            class="lp_plugin-mode-indicator lp_u_absolute"
             <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>style="display:none;"<?php endif; ?>
             data-icon="h">
-            <h2><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
-            <span><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
+            <h2 class="lp_plugin-mode-indicator__title"><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
+            <span class="lp_plugin-mode-indicator__text"><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
         </a>
         <?php echo $laterpay['top_nav']; ?>
     </div>

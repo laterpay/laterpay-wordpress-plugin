@@ -20,7 +20,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     // sourcemaps      = require('gulp-sourcemaps'),
     // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
-  	sass            = require('gulp-sass'),
+    sass            = require('gulp-sass'),
     svgmin          = require('gulp-svgmin'),
     tinypng         = require('gulp-tinypng'),
     uglify          = require('gulp-uglify'),
@@ -37,7 +37,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
                         srcPNG      : './laterpay/asset_sources/img/**/*.png',
                         distJS      : './laterpay/built_assets/js/',
                         distCSS     : './laterpay/built_assets/css/',
-                        distIMG     : './laterpay/built_assets/img/',
+                        distIMG     : './laterpay/built_assets/img/'
                     };
 
 
@@ -97,7 +97,7 @@ gulp.task('js-format', function() {
     return gulp.src(p.srcJS + '*.js')
             .pipe(prettify({
                 config  : '.jsbeautifyrc',
-                mode    : 'VERIFY_AND_WRITE',
+                mode    : 'VERIFY_AND_WRITE'
             }))
             .pipe(gulp.dest(p.srcJS));
 });

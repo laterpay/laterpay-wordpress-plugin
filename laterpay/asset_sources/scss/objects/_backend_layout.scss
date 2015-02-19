@@ -41,7 +41,7 @@
         position: absolute;
     }
 
-    a {
+    .lp_navigation_tabs__link {
         color: $text-lighter;
         font-size: $fs-1;
         min-width: 7.5em;
@@ -49,7 +49,7 @@
         text-align: center;
     }
 
-    &:hover a {
+    &:hover .lp_navigation_tabs__link {
         color: $clickable;
 
         &:hover {
@@ -62,8 +62,8 @@
         border-radius: 4px 4px 0 0;
         border-top: 4px solid $clickable;
 
-        &:hover > a,
-        > a {
+        &:hover > .lp_navigation_tabs__link,
+        > .lp_navigation_tabs__link {
             color: $text;
             cursor: default;
             font-weight: 600;
@@ -85,7 +85,7 @@
 
 
 // plugin mode indicator -----------------------------------------------------------------------------------------------
-.lp_pluginModeIndicator {
+.lp_plugin-mode-indicator {
     right: 7rem;
     top: 0.4rem;
 
@@ -100,38 +100,37 @@
         top: 1.8rem;
     }
 
-    h2,
-    i {
-        color: $clickable;
-    }
+	.lp_plugin-mode-indicator__title {
+		font-size: 2rem;
+		color: $clickable;
+	}
 
     &:active,
     &:focus,
     &:hover {
 
         &:before,
-        h2,
+		.lp_plugin-mode-indicator__title,
         i {
             color: $clickable-highlight;
         }
     }
 
-    h2 {
-        font-size: 2rem;
-    }
-
     i {
+		color: $clickable;
         font-style: normal;
     }
 
-    span {
-        color: hsl(0, 0%, 60%);
-    }
+	.lp_plugin-mode-indicator__text {
+		color: hsl(0, 0%, 60%);
+	}
 }
 
 
+
+
 // flash messages ------------------------------------------------------------------------------------------------------
-.lp_flashMessage {
+.lp_message {
     box-shadow: 0 1px 4px 0 hsla(0, 0%, 0%, 0.55);
     margin: 0;
     @include opacity(0.9);
