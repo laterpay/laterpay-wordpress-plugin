@@ -267,22 +267,27 @@ class LaterPay_Helper_Post
             return;
         };
 
-        // don't render the purchase button, if the current post was already purchased
-        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
-            return;
-        };
-
         // render purchase button for administrator always in preview mode, too prevent accidental purchase by admin.
         $preview_mode = LaterPay_Helper_User::preview_post_as_visitor( $post );
         if ( current_user_can( 'administrator' ) ) {
             $preview_mode = true;
         }
+
+        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
+
+        // don't render the purchase button, if the current post was already purchased
+        // also even if item was purchased in visible test mode by admin it must be displayed
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_mode ) {
+            return;
+        };
+
         $view_args = array(
-            'post_id'                 => $post->ID,
-            'link'                    => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
-            'currency'                => get_option( 'laterpay_currency' ),
-            'price'                   => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-            'preview_post_as_visitor' => $preview_mode,
+            'post_id'                   => $post->ID,
+            'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
+            'currency'                  => get_option( 'laterpay_currency' ),
+            'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+            'preview_post_as_visitor'   => $preview_mode,
+            'visible_test_mode_active'  => $is_active_visible_test_mode,
         );
 
         laterpay_get_logger()->info(
