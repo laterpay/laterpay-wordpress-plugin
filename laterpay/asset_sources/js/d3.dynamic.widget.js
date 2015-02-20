@@ -259,7 +259,7 @@ LPCurve.prototype.set_today = function(pubDays, currentPrice) {
 };
 
 LPCurve.prototype._setDimensions = function () {
-    this.dimentions = {
+    this.dimensions = {
         width: jQuery(this.container).width() - margin.xAxis,
         height: jQuery(this.container).height() - margin.yAxis
     };
@@ -486,7 +486,7 @@ LPCurve.prototype._setDragBehavior = function() {
 
 LPCurve.prototype._plotStartPrice = function () {
 
-    var self;
+    var self = this;
 
     this.svg.select('.lp_dynamic-pricing__start-price-handle')
         .datum((this.data)[0])
