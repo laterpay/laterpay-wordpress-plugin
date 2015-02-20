@@ -258,71 +258,52 @@ LPCurve.prototype.set_today = function(pubDays, currentPrice) {
     return this;
 };
 
+LPCurve.prototype._setDimensions = function () {
+    this.dimentions = {
+        width: jQuery(this.container).width() - margin.xAxis,
+        height: jQuery(this.container).height() - margin.yAxis
+    };
+};
 
-LPCurve.prototype.plot = function() {
-    var self        = this,
-        svg         = this.svg,
-        dragging    = this.dragging,
-        width       = jQuery(this.container).width() - margin.xAxis,
-        height      = jQuery(this.container).height() - margin.yAxis,
-        xScale      = d3.scale.linear().range([0, width + 10]),
-        yScale      = d3.scale.linear().range([height, 0]),
-        x, y;
+LPCurve.prototype._setScale = function () {
+    this.scale = {
+        x: d3.scale.linear().range([0, this.dimensions.width + 10]),
+        y: d3.scale.linear().range([this.dimensions.height, 0])
+    };
+};
 
+LPCurve.prototype._plotAxes = function() {
 
-    // position entire widget
-    d3.select('.lp_dynamic-pricing__svg')
-        .attr({
-            width   : width + margin.xAxis,
-            height  : height + margin.yAxis,
-        })
-        .select('.lp_dynamic-pricing__svg-group')
-            .attr('transform', 'translate(' + (margin.left - 11) + ',' + margin.top + ')');
+    this.xExtent = d3.extent(this.data, function(d) { return d.x; });
+    this.yExtent = [0.00, this.maxPrice];
 
-
-    // position graph background
-    svg.select('.lp_dynamic-pricing__graph-background')
-        .transition().duration(dragging ? 0 : 250)
-        .attr({
-            width   : width + 10,
-            height  : height,
-        });
-
-
-    // AXES ------------------------------------------------------------------------------------------------------------
-    var xExtent = d3.extent(self.data, function(d) { return d.x; }),
-        yExtent = [0.00, self.maxPrice],
-        xAxis   = d3.svg.axis()
-                  .scale(xScale)
-                  .tickSize(-height, 0, 0)
+    var xAxis   = d3.svg.axis()
+                  .scale(this.scale.x)
+                  .tickSize(-this.dimensions.height, 0, 0)
                   .ticks(7)
                   .orient('bottom'),
         yAxis   = d3.svg.axis()
-                  .scale(yScale)
-                  .tickSize(-height, 0, 0)
+                  .scale(this.scale.y)
+                  .tickSize(-this.dimensions.height, 0, 0)
                   .ticks(7)
-                  .orient('left'),
-        classes;
-    xScale.domain(xExtent);
-    yScale.domain(yExtent);
-
+                  .orient('left');
+    this.scale.x.domain(this.xExtent);
+    this.scale.y.domain(this.yExtent);
 
     // x-axis
-    svg.select('.lp_dynamic-pricing__axis--x')
+    this.svg.select('.lp_dynamic-pricing__axis--x')
         .attr({
-            transform   : 'translate(0,' + height + ')',
-            'marker-end': 'url(#lp_dynamic-pricing__axis-arrowhead--x)',
+            transform   : 'translate(0,' + this.dimensions.height + ')',
+            'marker-end': 'url(#lp_dynamic-pricing__axis-arrowhead--x)'
         })
-        .transition().duration(dragging ? 0 : 250)
+        .transition().duration(this.dragging ? 0 : 250)
         .call(xAxis);
 
-
     // y-axis
-    svg.select('.lp_dynamic-pricing__axis--y')
+    this.svg.select('.lp_dynamic-pricing__axis--y')
         .attr('marker-start', 'url(#lp_dynamic-pricing__axis-arrowhead--y)')
-        .transition().duration(dragging ? 0 : 250)
+        .transition().duration(this.dragging ? 0 : 250)
         .call(yAxis);
-
 
     // ticks (grid lines of graph)
     d3.selectAll('.tick').select('line')
@@ -330,287 +311,384 @@ LPCurve.prototype.plot = function() {
     d3.selectAll('.tick').select('text')
         .attr('class', 'lp_dynamic-pricing__grid-line-label');
 
-
     // position default price marker
-    svg.select('.lp_dynamic-pricing__default-price-marker')
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__default-price-marker')
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x1: 0,
-            y1: yScale(self.defaultPrice),
-            x2: width + 10,
-            y2: yScale(self.defaultPrice),
+            y1: this.scale.y(this.defaultPrice),
+            x2: this.dimensions.width + 10,
+            y2: this.scale.y(this.defaultPrice)
         });
-    svg.select('.lp_dynamic-pricing__default-price-label-background')
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__default-price-label-background')
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x: (width - 66) / 2, // center horizontally
-            y: yScale(self.defaultPrice) - 9, // center vertically
+            x: (this.dimensions.width - 66) / 2, // center horizontally
+            y: this.scale.y(this.defaultPrice) - 9 // center vertically
         });
-    svg.select('.lp_dynamic-pricing__default-price-label')
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__default-price-label')
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x: width / 2,
-            y: yScale(self.defaultPrice),
+            x: this.dimensions.width / 2,
+            y: this.scale.y(this.defaultPrice)
         });
 
+};
 
-    // PRICE CURVE -----------------------------------------------------------------------------------------------------
+LPCurve.prototype._plotCurve = function() {
+
+    var self = this;
+
     // D3.js provides us with a path data generator function for lines
     var priceCurve = d3.svg.line()
-                      .interpolate(self.interpolation)
-                      .x(function(d) { return xScale(d.x); })
-                      .y(function(d) { return yScale(d.y); });
+                      .interpolate(this.interpolation)
+                      .x(function(d) { return self.scale.x(d.x); })
+                      .y(function(d) { return self.scale.y(d.y); });
 
     // .attr('d', lineFunction(lineData)) is where the magic happens:
     // this is where we send the data to the accessor function which returns the SVG path commands
-    svg.select('.lp_dynamic-pricing__price-curve')
-        .datum((self.data))
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__price-curve')
+        .datum((this.data))
+        .transition().duration(this.dragging ? 0 : 250)
         .attr('d', priceCurve);
 
+};
 
-    // DRAG BEHAVIOR ---------------------------------------------------------------------------------------------------
-    // dragging behavior of 'days' on x-axis
-    var dragXAxisBehavior = d3.behavior.drag()
-        .on('dragstart',    dragstartDays)
-        .on('drag',         dragDays)
-        .on('dragend',      dragendDays);
+LPCurve.prototype._setDragBehavior = function() {
+
+    // DRAG Y AXIS 'price' FUNCTIONS ----------------------------------------------------------------------------
+    function dragstartPrice() {
+        this.dragging = true;
+    }
+
+    function dragPrice(d, i) {
+        var p = this.scale.y.invert(d3.event.y);
+        if (p < this.yExtent[0]) {
+            p = this.yExtent[0];
+        }
+        if (p > this.yExtent[1]) {
+            p = this.yExtent[1];
+        }
+        d.y = p;
+
+        // we have to keep the starting price in sync with the first / second point
+        if (i === 0 && this.data[0].x === d.x) {
+            // the second check is to make sure we are dragging the first point
+            // since the handles have only one element of the data array, i is always 0
+            this.data[1].y = d.y;
+        } else if (i === 1) {
+            this.data[0].y = d.y;
+        } else if (i === 0 && this.data[this.data.length - 1].x === d.x) {
+            // we have to keep the starting price in sync with the last / last but one point
+            this.data[this.data.length - 2].y = d.y;
+        } else if (i === this.data.length - 2) {
+            this.data[this.data.length - 1].y = d.y;
+        }
+
+        this.plot();
+    }
+
+    function dragendPrice() {
+        this.dragging = false;
+    }
 
 
-    // dragging behavior of 'price' on y-axis
-    var dragYAxisBehavior = d3.behavior.drag()
-        .on('dragstart',    dragstartPrice)
-        .on('drag',         dragPrice)
-        .on('dragend',      dragendPrice);
+    // DRAG AXIS X 'days' FUNCTIONS ------------------------------------------------------------------------------------
+    var fps = 60,
+        dragInterval;
 
+    function dragstartDays() {
+        this.dragging = true;
+    }
 
-    // The D3.js Data Operator returns virtual selections rather than the regular ones returned by other methods,
-    // one per each element in data.
-    // The virtual selections are enter, update, and exit.
-    var end                 = self.data.length,
-        point               = svg.selectAll('.lp_dynamic-pricing__price-curve-point').data((self.data)),
-        xMarker             = svg.selectAll('.lp_dynamic-pricing__x-axis-marker').data((self.data).slice(1, end)),
-        currentPrice        = svg.selectAll('.lp_dynamic-pricing__current-price-marker')
-                                .data((self.data)
-                                .slice(1, end));
+    function dragDays(d, i) {
+        var targetDate          = this.scale.x.invert(d3.event.x),
+            isDraggingLastPoint = (i === this.data.length - 2),
+            isDragHandler       = (i === this.data.length - 3),
+            cappedTargetDate;
 
+        if (isDraggingLastPoint) {
+            var dragDelta   = (targetDate - d.x) / (1000 / fps), // 30 fps
+                dragStep    = function() {
+                                cappedTargetDate = +d.x + dragDelta;
+                                cappedTargetDate = Math.max(cappedTargetDate, this.data[i].x + 0.51);
+                                cappedTargetDate = Math.max(cappedTargetDate, 29.51); // minimum: 30 days
+                                cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum: 60 days
 
-    // START PRICE ('price') -------------------------------------------------------------------------------------------
-    var startPrice;
-    svg.select('.lp_dynamic-pricing__start-price-handle')
-        .datum((self.data)[0])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
-        .attr({
-            x: function()  { return -38; },
-            y: function(d) { return yScale(d.y) - 14.5; },
-        });
-    svg.select('.lp_dynamic-pricing__start-price-value')
-        .datum((self.data)[0])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
-        .attr({
-            x: function()  { return -10; },
-            y: function(d) { return yScale(d.y) - 0.5; },
-        })
-        .text(function(d) {
-            startPrice = d.y.toFixed(2);
+                                // update the scale.x value, as it could have changed
+                                d.x = cappedTargetDate;
+                                this.scale.x.domain(d3.extent(this.data, function(d) { return d.x; }));
 
-            // localize price for displaying
-            if (lpVars.locale === 'de_DE') {
-                startPrice = startPrice.replace('.', ',');
+                                this.plot();
+                            };
+
+            clearInterval(dragInterval);
+
+            dragInterval = setInterval(dragStep, 1000 / fps); // 30 fps
+
+            dragStep();
+        } else if (isDragHandler) {
+            cappedTargetDate = targetDate;
+            cappedTargetDate = Math.max(cappedTargetDate, this.data[i].x + 0.51);
+            cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum: 60 days
+
+            if (cappedTargetDate >= 25) {
+                this.data[i + 2].x = cappedTargetDate + 5;
+            } else {
+                this.data[i + 2].x = 30;
             }
 
-            return startPrice;
-        });
-    svg.select('.lp_dynamic-pricing__start-price-currency')
-        .datum((self.data)[0])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
-        .attr({
-            x: function()  { return -11; },
-            y: function(d) { return yScale(d.y) + 9.5; },
-        });
-    svg.select('.lp_dynamic-pricing__start-price-handle-triangle')
-        .datum((self.data)[0])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
-        .attr('d', function(d) {
-            x = -6;
-            y = yScale(d.y) - 5;
+            // update the scale.x value, as it could have changed
+            d.x = cappedTargetDate;
+            this.scale.x.domain(d3.extent(this.data, function(d) { return d.x; }));
 
-            return  'M ' + x + ' ' + y + ' l 5 5 l -5 5 z';
-        });
-    svg.select('.lp_dynamic-pricing__start-price-input-wrapper')
-        .datum((self.data)[0])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
+            this.plot();
+        } else {
+            cappedTargetDate = targetDate;
+            cappedTargetDate = Math.max(cappedTargetDate, this.data[i].x + 0.51);
+            cappedTargetDate = Math.min(cappedTargetDate, this.data[i + 2].x - 0.51);
+
+            // update the scale.x value, as it could have changed
+            d.x = cappedTargetDate;
+            this.scale.x.domain(d3.extent(this.data, function(d) { return d.x; }));
+
+            this.plot();
+        }
+    }
+
+    function dragendDays() {
+        clearInterval(dragInterval);
+
+        this.dragging = false;
+
+        var i = 0,
+            l = this.data.length;
+        for (; i < l; i++) {
+            this.data[i].x = Math.round((this.data)[i].x);
+        }
+
+        this.plot();
+    }
+
+    // dragging behavior of 'days' on x-axis
+    this.dragBehavior = {
+        x: d3.behavior.drag()
+            .on('dragstart',    dragstartDays.bind(this))
+            .on('drag',         dragDays.bind(this))
+            .on('dragend',      dragendDays.bind(this)),
+        y: d3.behavior.drag()
+        .on('dragstart',    dragstartPrice.bind(this))
+        .on('drag',         dragPrice.bind(this))
+        .on('dragend',      dragendPrice.bind(this))
+    };
+
+};
+
+LPCurve.prototype._plotStartPrice = function () {
+
+    var self;
+
+    this.svg.select('.lp_dynamic-pricing__start-price-handle')
+        .datum((this.data)[0])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function()  { return -38; },
-            y: function(d) { return yScale(d.y) - 14; },
+            y: function(d) { return self.scale.y(d.y) - 14.5; }
+        });
+    this.svg.select('.lp_dynamic-pricing__start-price-value')
+        .datum((this.data)[0])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr({
+            x: function()  { return -10; },
+            y: function(d) { return self.scale.y(d.y) - 0.5; }
+        })
+        .text(function(d) {
+            return (lpVars.locale === 'de_DE') ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
+        });
+    this.svg.select('.lp_dynamic-pricing__start-price-currency')
+        .datum((this.data)[0])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr({
+            x: function()  { return -11; },
+            y: function(d) { return self.scale.y(d.y) + 9.5; }
+        });
+    this.svg.select('.lp_dynamic-pricing__start-price-handle-triangle')
+        .datum((this.data)[0])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr('d', function(d) {
+            var x = -6;
+            var y = self.scale.y(d.y) - 5;
+            return  'M ' + x + ' ' + y + ' l 5 5 l -5 5 z';
+        });
+    this.svg.select('.lp_dynamic-pricing__start-price-input-wrapper')
+        .datum((this.data)[0])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr({
+            x: function()  { return -38; },
+            y: function(d) { return self.scale.y(d.y) - 14; }
         });
 
+};
 
-    // END PRICE ('price') ---------------------------------------------------------------------------------------------
-    var endPrice;
-    svg.select('.lp_dynamic-pricing__end-price-handle')
-        .datum((self.data)[self.data.length - 1])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
+LPCurve.prototype._plotEndPrice = function () {
+    var self;
+
+    this.svg.select('.lp_dynamic-pricing__end-price-handle')
+        .datum((this.data)[this.data.length - 1])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
             x: function()  {
                     if (
                         jQuery('.lp_dynamic-pricing__end-price-input-wrapper') &&
                         jQuery('.lp_dynamic-pricing__end-price-input').is(':visible')
                     ) {
-                        return width;
+                        return self.dimensions.width;
                     } else {
-                        return width + 16;
+                        return self.dimensions.width + 16;
                     }
                 },
-            y: function(d) { return yScale(d.y) - 15; },
+            y: function(d) { return self.scale.y(d.y) - 15; }
         });
-    svg.select('.lp_dynamic-pricing__end-price-value')
-        .datum((self.data)[self.data.length - 1])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__end-price-value')
+        .datum((this.data)[this.data.length - 1])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x: function()  { return width + 44; },
-            y: function(d) { return yScale(d.y) - 1; },
+            x: function()  { return self.dimensions.width + 44; },
+            y: function(d) { return self.scale.y(d.y) - 1; }
         })
         .text(function(d) {
-            endPrice = d.y.toFixed(2);
-
-            // localize price for displaying
-            if (lpVars.locale === 'de_DE') {
-                endPrice = endPrice.replace('.', ',');
-            }
-
-            return endPrice;
+            return (lpVars.locale === 'de_DE') ? d.y.toFixed(2).replace('.', ',') : d.y.toFixed(2);
         });
-    svg.select('.lp_dynamic-pricing__end-price-currency')
-        .datum((self.data)[self.data.length - 1])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__end-price-currency')
+        .datum((this.data)[this.data.length - 1])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x: function()  { return width + 44; },
-            y: function(d) { return yScale(d.y) + 9; },
+            x: function()  { return self.dimensions.width + 44; },
+            y: function(d) { return self.scale.y(d.y) + 9; }
         });
-    svg.select('.lp_dynamic-pricing__end-price-handle-triangle')
-        .datum((self.data)[self.data.length - 1])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__end-price-handle-triangle')
+        .datum((this.data)[this.data.length - 1])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
         .attr('d', function(d) {
-            x = width + 16;
-            y = yScale(d.y) + 5;
-
+            var x = self.dimensions.width + 16;
+            var y = self.scale.y(d.y) + 5;
             return  'M ' + x + ' ' + y + ' l 0 -10 l -5 5 z';
         });
-    svg.select('.lp_dynamic-pricing__end-price-input-wrapper')
-        .datum((self.data)[self.data.length - 1])
-        .call(dragYAxisBehavior)
-        .transition().duration(dragging ? 0 : 250)
+    this.svg.select('.lp_dynamic-pricing__end-price-input-wrapper')
+        .datum((this.data)[this.data.length - 1])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x: function()  { return width + 8; },
-            y: function(d) { return yScale(d.y) - 15; },
+            x: function()  { return self.dimensions.width + 8; },
+            y: function(d) { return self.scale.y(d.y) - 15; }
         });
 
+};
 
-    // PRICE CHANGE INTERVAL BOUNDARIES ('days') -----------------------------------------------------------------------
+LPCurve.prototype._plotDaysHandle = function() {
+    var self = this;
+
     // handles for setting the number of days after publication, after which
     // handle 1: the price starts changing
     // handle 2: the price reaches its final value
     // There is also a third handle for setting the maximum value on the x-axis which exists as a technical workaround
     // and is visually hidden.
-    var daysHandle = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle').data((self.data).slice(1, end));
+    var daysHandle = this.svg.selectAll('.lp_dynamic-pricing__price-change-days-handle')
+                             .data((this.data).slice(1, this.data.length));
 
     daysHandle.enter().append('rect')
         .attr('class', function(point, index) {
-            classes = 'lp_dynamic-pricing__price-change-days-handle';
-            if (index === self.data.length - 2) {
+            var classes = 'lp_dynamic-pricing__price-change-days-handle';
+            if (index === this.data.length - 2) {
                 classes += ' lp_is-hidden';
             }
-
             return classes;
         })
-        .call(dragXAxisBehavior);
+        .call(this.dragBehavior.x);
 
     daysHandle.exit().remove();
 
-    daysHandle.transition().duration(dragging ? 0 : 250)
+    daysHandle.transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x       : function(d) { return xScale(d.x) - 15; },
+            x       : function(d) { return self.scale.x(d.x) - 15; },
             y       : function()  { return -35; },
             width   : 30,
             rx      : 3,
             height  : 30,
-            ry      : 3,
+            ry      : 3
         });
 
-
-    var daysHandleTriangle = svg.selectAll('.lp_dynamic-pricing__price-change-days-handle-triangle')
-                                .data((self.data)
-                                .slice(1, end));
+    var daysHandleTriangle = this.svg.selectAll('.lp_dynamic-pricing__price-change-days-handle-triangle')
+                                .data((this.data)
+                                .slice(1, this.data.length));
 
     daysHandleTriangle.enter().append('path')
         .attr('class', function(point, index) {
-            classes = 'lp_dynamic-pricing__price-change-days-handle-triangle';
-            if (index === self.data.length - 2) {
+            var classes = 'lp_dynamic-pricing__price-change-days-handle-triangle';
+            if (index === this.data.length - 2) {
                 // hide the third x-axis handle - it's only there to work around technical restrictions when
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
             }
-
             return classes;
         })
-        .call(dragXAxisBehavior);
+        .call(this.dragBehavior.x);
 
     daysHandleTriangle.exit().remove();
 
-    daysHandleTriangle.transition().duration(dragging ? 0 : 250)
+    daysHandleTriangle.transition().duration(this.dragging ? 0 : 250)
         .attr('d', function(d) {
-            x = xScale(d.x) - 5;
-            y = -5;
-
+            var x = self.scale.x(d.x) - 5;
+            var y = -5;
             return  'M ' + x + ' ' + y + ' l 10 0 l -5 5 z';
         });
 
 
-    var daysHandleValue = svg.selectAll('.lp_dynamic-pricing__price-change-days-value').data((self.data).slice(1, end));
+    var daysHandleValue = this.svg.selectAll('.lp_dynamic-pricing__price-change-days-value')
+                                  .data((this.data).slice(1, this.data.length));
 
     daysHandleValue.enter().append('text')
         .attr('class', function(point, index) {
-            classes = 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text';
-            if (index === self.data.length - 2) {
+            var classes = 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text';
+            if (index === this.data.length - 2) {
                 // hide the third x-axis handle - it's only there to work around technical restrictions when
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
             }
-
             return classes;
         })
-        .call(dragXAxisBehavior);
+        .call(this.dragBehavior.x);
 
     daysHandleValue.exit().remove();
 
-    daysHandleValue.transition().duration(dragging ? 0 : 250)
+    daysHandleValue.transition().duration(this.dragging ? 0 : 250)
         .text(function(d) { return Math.round(d.x); })
         .attr({
-            x               : function(d) { return xScale(d.x); },
+            x               : function(d) { return self.scale.x(d.x); },
             y               : function()  { return -21; },
             height          : 30,
-            'text-anchor'   : 'middle',
+            'text-anchor'   : 'middle'
         });
 
 
-    var daysHandleUnit = svg.selectAll('.lp_dynamic-pricing__price-change-days-unit').data((self.data).slice(1, end));
+    var daysHandleUnit = this.svg.selectAll('.lp_dynamic-pricing__price-change-days-unit')
+                                 .data((this.data).slice(1, this.data.length));
 
     daysHandleUnit.enter().append('text')
         .attr('class', function(point, index) {
-            classes =   'lp_dynamic-pricing__price-change-days-unit ' +
+            var classes =   'lp_dynamic-pricing__price-change-days-unit ' +
                         'lp_dynamic-pricing__handle-text ' +
                         'lp_dynamic-pricing__handle-unit';
-            if (index === self.data.length - 2) {
+            if (index === this.data.length - 2) {
                 // hide the third x-axis handle - it's only there to work around technical restrictions when
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
@@ -618,54 +696,60 @@ LPCurve.prototype.plot = function() {
 
             return classes;
         })
-        .call(dragXAxisBehavior);
+        .call(this.dragBehavior.x);
 
     daysHandleUnit.exit().remove();
 
-    daysHandleUnit.transition().duration(dragging ? 0 : 250)
+    daysHandleUnit.transition().duration(this.dragging ? 0 : 250)
         .text(this.i18nDays)
         .attr({
-            x               : function(d) { return xScale(d.x); },
+            x               : function(d) { return self.scale.x(d.x); },
             y               : function()  { return -11; },
             height          : 30,
-            'text-anchor'   : 'middle',
+            'text-anchor'   : 'middle'
         });
+};
 
+LPCurve.prototype._plotXMarker = function () {
+    var self = this,
+        xMarker = this.svg.selectAll('.lp_dynamic-pricing__x-axis-marker').data((this.data).slice(1, this.data.length));
 
-    // X-AXIS MARKERS --------------------------------------------------------------------------------------------------
     // to make it easier to understand that the 'days' handle on the x-axis affects the point on the price curve,
     // we connect the handle with the point by a (dashed) line
     xMarker.enter().append('line')
         .attr('class', function(point, index) {
-            classes = 'lp_dynamic-pricing__x-axis-marker';
+            var classes = 'lp_dynamic-pricing__x-axis-marker';
             if (index === self.data.length - 2) {
                 // hide the third x-axis marker - it's only there to work around technical restrictions when
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
             }
-
             return classes;
         })
-        .call(dragXAxisBehavior);
+        .call(this.dragBehavior.x);
 
     xMarker.exit().remove();
 
     xMarker
-        .transition().duration(dragging ? 0 : 250)
+        .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x1: function(d) { return xScale(d.x); },
+            x1: function(d) { return self.scale.x(d.x); },
             y1: function()  { return 0; },
-            x2: function(d) { return xScale(d.x); },
-            y2: function(d) { return yScale(d.y) - 5; }, // subtract radius of price curve point to avoid overlap
+            x2: function(d) { return self.scale.x(d.x); },
+            y2: function(d) { return self.scale.y(d.y) - 5; } // subtract radius of price curve point to avoid overlap
         });
 
+};
 
-    // PRICE CURVE POINTS ----------------------------------------------------------------------------------------------
+LPCurve.prototype._plotPoint = function () {
+    var self = this,
+        point = this.svg.selectAll('.lp_dynamic-pricing__price-curve-point').data((this.data));
+
     // Returns a reference to the placeholder elements (nodes) for each data element that did not have a corresponding
     // existing DOM element and appends a circle for each element in the data.
     point.enter().append('circle')
         .attr('class', function(point, index) {
-            classes = 'lp_dynamic-pricing__price-curve-point';
+            var classes = 'lp_dynamic-pricing__price-curve-point';
             if (index === 0 || index === self.data.length - 1) {
                 // hide the first and the last point on the price curve, mainly for aesthetic reasons
                 classes += ' lp_is-hidden';
@@ -675,17 +759,24 @@ LPCurve.prototype.plot = function() {
         })
         .attr('r', 0);
 
-    point.transition().duration(dragging ? 0 : 250)
+    point.transition().duration(this.dragging ? 0 : 250)
         .attr({
             r   : 5,
-            cx  : function(d) { return xScale(d.x); },
-            cy  : function(d) { return yScale(d.y); },
+            cx  : function(d) { return self.scale.x(d.x); },
+            cy  : function(d) { return self.scale.y(d.y); }
         });
 
     point.exit().remove();
 
+};
 
-    // CURRENT PRICE MARKER --------------------------------------------------------------------------------------------
+LPCurve.prototype._plotPriceMarker = function () {
+
+    var self = this,
+        currentPrice = this.svg.selectAll('.lp_dynamic-pricing__current-price-marker')
+                               .data((this.data)
+                               .slice(1, this.data.length));
+
     // Renders a vertical line indicating the current position on the set price curve and the resulting effective price.
     // Only shown, if the post was already published.
     if (this.pubDays > 0) {
@@ -697,141 +788,81 @@ LPCurve.prototype.plot = function() {
         currentPrice
             .transition().duration()
             .attr({
-                x1: function() { return xScale(lpc.pubDays); },
-                y1: function() { return yScale(0); },
-                x2: function() { return xScale(lpc.pubDays); },
-                y2: function() { return yScale(lpc.maxPrice); },
+                x1: function() { return self.scale.x(lpc.pubDays); },
+                y1: function() { return self.scale.y(0); },
+                x2: function() { return self.scale.x(lpc.pubDays); },
+                y2: function() { return self.scale.y(lpc.maxPrice); }
             });
 
-        svg.append('text')
+        this.svg.append('text')
             .attr('class', 'lp_dynamic-pricing__current-price-label')
             .attr('text-anchor', 'end')
             .text(this.i18nToday)
             .datum({
                 x: lpc.pubDays,
-                y: lpc.currentPrice,
+                y: lpc.currentPrice
             })
-            .call(dragYAxisBehavior)
+            .call(this.dragBehavior.y)
             .attr({
-                x: function() { return xScale(parseInt(lpc.pubDays, 10) + 2); },
-                y: function() { return yScale(-10); },
+                x: function() { return self.scale.x(parseInt(lpc.pubDays, 10) + 2); },
+                y: function() { return self.scale.y(-10); }
             });
     }
 
+};
 
-    // DRAG Y AXIS 'price' FUNCTIONS ----------------------------------------------------------------------------
-    function dragstartPrice() {
-        self.dragging = true;
-    }
+LPCurve.prototype.plot = function() {
 
-    function dragPrice(d, i) {
-        var p = yScale.invert(d3.event.y);
-        if (p < yExtent[0]) {
-            p = yExtent[0];
-        }
-        if (p > yExtent[1]) {
-            p = yExtent[1];
-        }
-        d.y = p;
+    this._setDimensions();
+    this._setScale();
 
-        // we have to keep the starting price in sync with the first / second point
-        if (i === 0 && self.data[0].x === d.x) {
-            // the second check is to make sure we are dragging the first point
-            // since the handles have only one element of the data array, i is always 0
-            self.data[1].y = d.y;
-        } else if (i === 1) {
-            self.data[0].y = d.y;
-        } else if (i === 0 && self.data[self.data.length - 1].x === d.x) {
-            // we have to keep the starting price in sync with the last / last but one point
-            self.data[self.data.length - 2].y = d.y;
-        } else if (i === self.data.length - 2) {
-            self.data[self.data.length - 1].y = d.y;
-        }
+    // position entire widget
+    d3.select('.lp_dynamic-pricing__svg')
+        .attr({
+            width   : this.dimensions.width + margin.xAxis,
+            height  : this.dimensions.height + margin.yAxis
+        })
+        .select('.lp_dynamic-pricing__svg-group')
+            .attr('transform', 'translate(' + (margin.left - 11) + ',' + margin.top + ')');
 
-        self.plot();
-    }
+    // position graph background
+    this.svg.select('.lp_dynamic-pricing__graph-background')
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr({
+            width   : this.dimensions.width + 10,
+            height  : this.dimensions.height
+        });
 
-    function dragendPrice() {
-        self.dragging = false;
-    }
+    // AXES ------------------------------------------------------------------------------------------------------------
+    this._plotAxes();
+    // PRICE CURVE -----------------------------------------------------------------------------------------------------
+    this._plotCurve();
 
+    // DRAG BEHAVIOR ---------------------------------------------------------------------------------------------------
+    this._setDragBehavior();
 
-    // DRAG AXIS X 'days' FUNCTIONS ------------------------------------------------------------------------------------
-    var fps = 60,
-        dragInterval;
+    // The D3.js Data Operator returns virtual selections rather than the regular ones returned by other methods,
+    // one per each element in data.
+    // The virtual selections are enter, update, and exit.
 
-    function dragstartDays() {
-        self.dragging = true;
-    }
+    // START PRICE ('price') -------------------------------------------------------------------------------------------
+    this._plotStartPrice();
 
-    function dragDays(d, i) {
-        var targetDate          = xScale.invert(d3.event.x),
-            isDraggingLastPoint = (i === self.data.length - 2),
-            isDragHandler       = (i === self.data.length - 3),
-            cappedTargetDate;
+    // END PRICE ('price') ---------------------------------------------------------------------------------------------
+    this._plotEndPrice();
 
-        if (isDraggingLastPoint) {
-            var dragDelta   = (targetDate - d.x) / (1000 / fps), // 30 fps
-                dragStep    = function() {
-                                cappedTargetDate = +d.x + dragDelta;
-                                cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
-                                cappedTargetDate = Math.max(cappedTargetDate, 29.51); // minimum: 30 days
-                                cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum: 60 days
+    // PRICE CHANGE INTERVAL BOUNDARIES ('days') -----------------------------------------------------------------------
+    this._plotDaysHandle();
 
-                                // update the xScale value, as it could have changed
-                                d.x = cappedTargetDate;
-                                xScale.domain(d3.extent(self.data, function(d) { return d.x; }));
+    // X-AXIS MARKERS --------------------------------------------------------------------------------------------------
+    this._plotXMarker();
 
-                                self.plot();
-                            };
+    // PRICE CURVE POINTS ----------------------------------------------------------------------------------------------
+    this._plotPoint();
 
-            clearInterval(dragInterval);
+    // CURRENT PRICE MARKER --------------------------------------------------------------------------------------------
+    this._plotPriceMarker();
 
-            dragInterval = setInterval(dragStep, 1000 / fps); // 30 fps
-
-            dragStep();
-        } else if (isDragHandler) {
-            cappedTargetDate = targetDate;
-            cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
-            cappedTargetDate = Math.min(cappedTargetDate, 60.49); // maximum: 60 days
-
-            if (cappedTargetDate >= 25) {
-                self.data[i + 2].x = cappedTargetDate + 5;
-            } else {
-                self.data[i + 2].x = 30;
-            }
-
-            // update the xScale value, as it could have changed
-            d.x = cappedTargetDate;
-            xScale.domain(d3.extent(self.data, function(d) { return d.x; }));
-
-            self.plot();
-        } else {
-            cappedTargetDate = targetDate;
-            cappedTargetDate = Math.max(cappedTargetDate, self.data[i].x + 0.51);
-            cappedTargetDate = Math.min(cappedTargetDate, self.data[i + 2].x - 0.51);
-
-            // update the xScale value, as it could have changed
-            d.x = cappedTargetDate;
-            xScale.domain(d3.extent(self.data, function(d) { return d.x; }));
-
-            self.plot();
-        }
-    }
-
-    function dragendDays() {
-        clearInterval(dragInterval);
-
-        self.dragging = false;
-
-        var i = 0,
-            l = self.data.length;
-        for (; i < l; i++) {
-            self.data[i].x = Math.round((self.data)[i].x);
-        }
-
-        self.plot();
-    }
 };
 
 
