@@ -156,14 +156,14 @@
 
                         newInterval = getInterval();
 
-                        // on "day"-interval it's allowed to view "today", but when moving back to another interval
-                        // we've to switch automatically back to 'yesterday'.
+                        // for the 24 hour interval it's allowed to view 'today', but when switching to another interval
+                        // we have to automatically switch back to 'yesterday'
                         if (oldInterval === 'day' && newInterval !== 'day') {
                             var todayDate   = new Date(),
-                                startDate   = new Date(startTimestamp*1000);
+                                startDate   = new Date(startTimestamp * 1000);
 
-                            todayDate.setHours(0,0,0, 0);
-                            startDate.setHours(0,0,0, 0);
+                            todayDate.setHours(0, 0, 0, 0);
+                            startDate.setHours(0, 0, 0, 0);
 
                             if (todayDate.getTime() === startDate.getTime()) {
                                 startTimestamp = startTimestamp - getIntervalDiff(oldInterval);
@@ -212,7 +212,7 @@
             },
 
             loadPreviousInterval = function() {
-                var endTimestamp  = $o.currentInterval.data('startTimestamp'),
+                var endTimestamp    = $o.currentInterval.data('startTimestamp'),
                     interval        = getInterval(),
                     intervalDiff    = getIntervalDiff(interval);
 
@@ -281,7 +281,7 @@
                     givenDate   = new Date(timestamp * 1000),
                     interval    = getInterval();
 
-                // for day-interval we allow "today" as startDate, else "yesterday"
+                // for the 24 hour interval we allow 'today' as startDate, else we default to 'yesterday'
                 if (interval !== 'day') {
                     startDate.setDate(startDate.getDate() - 1);
                 }
