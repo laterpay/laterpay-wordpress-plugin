@@ -408,12 +408,12 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         // get custom roles
         foreach ( $wp_roles->roles as $role => $role_data ) {
             if ( ! in_array( $role, $default_roles ) ) {
-                $this->has_custom_roles    = true;
+                $this->has_custom_roles = true;
                 $custom_roles[$role] = $role_data['name'];
             }
         }
 
-        // get categories and add to the array
+        // get categories and add them to the array
         $wp_categories = get_categories( $args );
         foreach( $wp_categories as $category ) {
             $categories[$category->term_id] = $category->name;
@@ -467,7 +467,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                         </tr>
                   </table>';
         } else {
-            // inform that you need to add custom roles
+            // tell the user that he needs to have at least one custom role defined
             echo '<h4>' . __( 'Please add a custom role first.', 'laterpay' ) . '</h4>';
         }
     }
@@ -716,13 +716,18 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                 // unset option 'all', if option 'all' and option 'none' are selected at the same time
                 unset( $data[array_search( 'all', $data )] );
             } elseif ( count( $data ) > 1 ) {
-                // unset option 'all' and option 'none', if at least one category is selected
+                // unset option 'all', if at least one category is selected
                 if ( array_search( 'all', $data ) !== false ) {
                     unset( $data[array_search( 'all', $data )] );
                 }
 
+                // unset all categories, if option 'none' is selected
                 if ( array_search( 'none', $data ) !== false ) {
-                    unset( $data[array_search( 'none', $data )] );
+                    foreach ( $data as $option ) {
+                        if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                            unset( $data[$option] );
+                        }
+                    }
                 }
             }
 
