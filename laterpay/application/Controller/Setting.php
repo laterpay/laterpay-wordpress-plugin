@@ -709,9 +709,33 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
      * return $valid array of valid values
      */
     public function validate_unlimited_access( $input ) {
-        $valid = array();
+        $valid      = array();
+        $args       = array(
+            'hide_empty' => false,
+            'taxonomy'   => 'category',
+            'parent'     => 0,
+        );
+
+        // get only 1-st level categories
+        $categories = get_categories( $args );
 
         foreach ( $input as $role => $data ) {
+            // check if selected categories cover whole blog
+            $covered = 1;
+            foreach ( $categories as $category ) {
+                if ( ! in_array( $category->term_id, $data ) ) {
+                    $covered = 0;
+                    break;
+                }
+            }
+
+            // if covered set 'all' option for this role
+            if ( $covered ) {
+                $valid[$role] = array( 'all' );
+                continue;
+            }
+
+            // if whole blog not covered filter values
             if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
                 // unset option 'all', if option 'all' and option 'none' are selected at the same time
                 unset( $data[array_search( 'all', $data )] );
