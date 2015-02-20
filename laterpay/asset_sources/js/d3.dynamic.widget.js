@@ -780,7 +780,7 @@ DynamicPricingWidget.prototype._plotPriceMarker = function() {
         currentPrice.exit().remove();
 
         currentPrice
-            .transition().duration()
+            .transition().duration(this.dragging ? 0 : 250)
             .attr({
                 x1: function() { return self.scale.x(dynamicPricingWidget.pubDays); },
                 y1: function() { return self.scale.y(0); },
