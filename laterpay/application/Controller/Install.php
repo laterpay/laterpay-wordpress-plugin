@@ -434,6 +434,26 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Update the unlimited access option.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_unlimited_access() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '>=' ) ) {
+            return;
+        }
+
+        if ( $unlimited_role = get_option( 'laterpay_unlimited_access_to_paid_content' ) ) {
+            add_option( 'laterpay_unlimited_access', array( $unlimited_role => array( 'all' ) ) );
+            delete_option( 'laterpay_unlimited_access_to_paid_content' );
+        }
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
