@@ -396,6 +396,7 @@ LPCurve.prototype.plot = function() {
 
 
     // START PRICE ('price') -------------------------------------------------------------------------------------------
+    var startPrice;
     svg.select('.lp_dynamic-pricing__start-price-handle')
         .datum((self.data)[0])
         .call(dragYAxisBehavior)
@@ -412,7 +413,16 @@ LPCurve.prototype.plot = function() {
             x: function()  { return -10; },
             y: function(d) { return yScale(d.y) - 0.5; },
         })
-        .text(function(d) { return d.y.toFixed(2); });
+        .text(function(d) {
+            startPrice = d.y.toFixed(2);
+
+            // localize price for displaying
+            if (lpVars.locale === 'de_DE') {
+                startPrice = startPrice.replace('.', ',');
+            }
+
+            return startPrice;
+        });
     svg.select('.lp_dynamic-pricing__start-price-currency')
         .datum((self.data)[0])
         .call(dragYAxisBehavior)
@@ -442,6 +452,7 @@ LPCurve.prototype.plot = function() {
 
 
     // END PRICE ('price') ---------------------------------------------------------------------------------------------
+    var endPrice;
     svg.select('.lp_dynamic-pricing__end-price-handle')
         .datum((self.data)[self.data.length - 1])
         .call(dragYAxisBehavior)
@@ -467,7 +478,16 @@ LPCurve.prototype.plot = function() {
             x: function()  { return width + 44; },
             y: function(d) { return yScale(d.y) - 1; },
         })
-        .text(function(d) { return d.y.toFixed(2); });
+        .text(function(d) {
+            endPrice = d.y.toFixed(2);
+
+            // localize price for displaying
+            if (lpVars.locale === 'de_DE') {
+                endPrice = endPrice.replace('.', ',');
+            }
+
+            return endPrice;
+        });
     svg.select('.lp_dynamic-pricing__end-price-currency')
         .datum((self.data)[self.data.length - 1])
         .call(dragYAxisBehavior)
@@ -827,11 +847,16 @@ LPCurve.prototype.toggleStartInput = function(action) {
         $priceInput = jQuery('.lp_dynamic-pricing__start-price-input'),
         inputPrice  = $priceInput.val();
 
-    // convert price to proper float value
+    // de-localize price for processing (convert to proper float value)
     if (inputPrice.indexOf(',') > -1) {
         inputPrice = parseFloat(inputPrice.replace(',', '.'));
     } else {
         inputPrice = parseFloat(inputPrice);
+    }
+
+    // localize price for displaying
+    if (lpVars.locale === 'de_DE') {
+        plotPrice = plotPrice.replace('.', ',');
     }
 
     if (action === 'show') {
@@ -874,11 +899,16 @@ LPCurve.prototype.toggleEndInput = function(action) {
         $priceInput = jQuery('.lp_dynamic-pricing__end-price-input'),
         inputPrice  = $priceInput.val();
 
-    // convert price to proper float value
+    // de-localize price for processing (convert to proper float value)
     if (inputPrice.indexOf(',') > -1) {
         inputPrice = parseFloat(inputPrice.replace(',', '.'));
     } else {
         inputPrice = parseFloat(inputPrice);
+    }
+
+    // localize price for displaying
+    if (lpVars.locale === 'de_DE') {
+        plotPrice = plotPrice.replace('.', ',');
     }
 
     if (action === 'show') {
