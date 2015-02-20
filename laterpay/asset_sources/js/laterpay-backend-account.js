@@ -93,12 +93,11 @@
                     $o.testMerchantId.focus();
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
-
                 } else {
                     $o.testModeInvalidCredField.val(0);
                 }
                 makeAjaxRequest('lp_js_changeTestModeForm');
-            }
+            },
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
