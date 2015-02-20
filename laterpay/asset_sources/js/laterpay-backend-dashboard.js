@@ -291,10 +291,6 @@
                 endDate.setHours(0,0,0,0);
                 givenDate.setHours(0,0,0,0);
 
-                console.log( 'startDate: ' + startDate.toString() );
-                console.log( 'endDate: ' + endDate.toString() );
-                console.log( 'givenDate: ' + givenDate.toString() );
-
                 if (interval === 'day') {
                     return !(givenDate.getTime() <= endDate.getTime() || givenDate.getTime() > startDate.getTime());
                 } else {
