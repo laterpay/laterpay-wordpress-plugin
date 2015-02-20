@@ -486,7 +486,10 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         'click',
         function(event) {
             event.preventDefault();
-            if (event.currentTarget.getData('preview-as-visitor') && ! event.currentTarget.getData('visible-test-mode-active')) {
+            if (
+                event.currentTarget.getData('preview-as-visitor') &&
+                ! event.currentTarget.getData('visible-test-mode-active')
+            ) {
                 alert(lpVars.i18n.alert);
             } else {
                 var url = event.currentTarget.getAttribute('href');
