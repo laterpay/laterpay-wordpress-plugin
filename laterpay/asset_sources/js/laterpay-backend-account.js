@@ -184,7 +184,8 @@
                         setMessage(lpVars.i18nApiKeyInvalid, false);
                     }, $o.flashMessageTimeout);
 
-                    if($form.attr('id') == $o.testApiKey.parents('form').attr('id')) {
+                    var current_form_id = $o.testApiKey.parents('form').attr('id');
+                    if($form.attr('id') === current_form_id) {
                         changeTestMode();
                     }
                 }
@@ -218,7 +219,8 @@
                         setMessage(lpVars.i18nMerchantIdInvalid, false);
                     }, $o.flashMessageTimeout);
 
-                    if($form.attr('id') == $o.testMerchantId.parents('form').attr('id')) {
+                    var current_form_id = $o.testMerchantId.parents('form').attr('id');
+                    if($form.attr('id') === current_form_id) {
                         changeTestMode();
                     }
                 }
