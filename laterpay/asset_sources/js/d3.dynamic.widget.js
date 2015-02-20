@@ -532,7 +532,7 @@ DynamicPricingWidget.prototype._plotStartPrice = function() {
 };
 
 DynamicPricingWidget.prototype._plotEndPrice = function() {
-    var self;
+    var self = this;
 
     this.svg.select('.lp_dynamic-pricing__end-price-handle')
         .datum((this.data)[this.data.length - 1])
