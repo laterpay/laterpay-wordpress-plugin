@@ -175,13 +175,13 @@ var DynamicPricingWidget = function(container) {
         '.lp_dynamic-pricing__start-price-value, ' +
         '.lp_dynamic-pricing__start-price-currency',
         function() {
-            lpc.toggleStartInput('show');
+            dynamicPricingWidget.toggleStartInput('show');
     })
     // bind events to start price input
     .on('focusout',
         '.lp_dynamic-pricing__start-price-input',
         function() {
-            lpc.toggleStartInput('hide');
+            dynamicPricingWidget.toggleStartInput('hide');
     })
     .on('keydown',
         '.lp_dynamic-pricing__start-price-input',
@@ -189,7 +189,7 @@ var DynamicPricingWidget = function(container) {
             // hide input on Enter or Esc
             if (e.keyCode === 13 || e.keyCode === 27) {
                 e.preventDefault();
-                lpc.toggleStartInput('hide');
+                dynamicPricingWidget.toggleStartInput('hide');
             }
     });
 
@@ -201,13 +201,13 @@ var DynamicPricingWidget = function(container) {
         '.lp_dynamic-pricing__end-price-value, ' +
         '.lp_dynamic-pricing__end-price-currency',
         function() {
-            lpc.toggleEndInput('show');
+            dynamicPricingWidget.toggleEndInput('show');
     })
     // bind events to end price input
     .on('focusout',
         '.lp_dynamic-pricing__end-price-input',
         function() {
-            lpc.toggleEndInput('hide');
+            dynamicPricingWidget.toggleEndInput('hide');
     })
     .on('keydown',
         '.lp_dynamic-pricing__end-price-input',
@@ -215,7 +215,7 @@ var DynamicPricingWidget = function(container) {
             // hide input on Enter or Esc
             if (e.keyCode === 13 || e.keyCode === 27) {
                 e.preventDefault();
-                lpc.toggleEndInput('hide');
+                dynamicPricingWidget.toggleEndInput('hide');
             }
     });
 };
@@ -782,10 +782,10 @@ DynamicPricingWidget.prototype._plotPriceMarker = function() {
         currentPrice
             .transition().duration()
             .attr({
-                x1: function() { return self.scale.x(lpc.pubDays); },
+                x1: function() { return self.scale.x(dynamicPricingWidget.pubDays); },
                 y1: function() { return self.scale.y(0); },
-                x2: function() { return self.scale.x(lpc.pubDays); },
-                y2: function() { return self.scale.y(lpc.maxPrice); }
+                x2: function() { return self.scale.x(dynamicPricingWidget.pubDays); },
+                y2: function() { return self.scale.y(dynamicPricingWidget.maxPrice); }
             });
 
         this.svg.append('text')
@@ -793,12 +793,12 @@ DynamicPricingWidget.prototype._plotPriceMarker = function() {
             .attr('text-anchor', 'end')
             .text(this.i18nToday)
             .datum({
-                x: lpc.pubDays,
-                y: lpc.currentPrice
+                x: dynamicPricingWidget.pubDays,
+                y: dynamicPricingWidget.currentPrice
             })
             .call(this.dragBehavior.y)
             .attr({
-                x: function() { return self.scale.x(parseInt(lpc.pubDays, 10) + 2); },
+                x: function() { return self.scale.x(parseInt(dynamicPricingWidget.pubDays, 10) + 2); },
                 y: function() { return self.scale.y(-10); }
             });
     }
@@ -847,7 +847,7 @@ DynamicPricingWidget.prototype.plot = function() {
 
 
 DynamicPricingWidget.prototype.toggleStartInput = function(action) {
-    var data        = lpc.get_data(),
+    var data        = dynamicPricingWidget.get_data(),
         plotPrice   = data[0].y.toFixed(2),
         $handle     = jQuery(
                         '.lp_dynamic-pricing__start-price-handle, ' +
@@ -892,14 +892,14 @@ DynamicPricingWidget.prototype.toggleStartInput = function(action) {
         $handle.show();
 
         // update graph
-        lpc.set_data(data);
-        lpc.plot();
+        dynamicPricingWidget.set_data(data);
+        dynamicPricingWidget.plot();
     }
 };
 
 
 DynamicPricingWidget.prototype.toggleEndInput = function(action) {
-    var data        = lpc.get_data(),
+    var data        = dynamicPricingWidget.get_data(),
         plotPrice   = data[2].y.toFixed(2),
         $handle     = jQuery(
                         '.lp_dynamic-pricing__end-price-handle, ' +
@@ -944,7 +944,7 @@ DynamicPricingWidget.prototype.toggleEndInput = function(action) {
         $handle.show();
 
         // update graph
-        lpc.set_data(data);
-        lpc.plot();
+        dynamicPricingWidget.set_data(data);
+        dynamicPricingWidget.plot();
     }
 };
