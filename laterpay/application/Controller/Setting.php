@@ -718,14 +718,18 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             } elseif ( count( $data ) > 1 ) {
                 // unset option 'all', if at least one category is selected
                 if ( array_search( 'all', $data ) !== false ) {
-                    unset( $data[array_search( 'all', $data )] );
+                    foreach ( $data as $key => $option ) {
+                        if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                            unset( $data[$key] );
+                        }
+                    }
                 }
 
                 // unset all categories, if option 'none' is selected
                 if ( array_search( 'none', $data ) !== false ) {
-                    foreach ( $data as $option ) {
+                    foreach ( $data as $key => $option ) {
                         if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
-                            unset( $data[$option] );
+                            unset( $data[$key] );
                         }
                     }
                 }
