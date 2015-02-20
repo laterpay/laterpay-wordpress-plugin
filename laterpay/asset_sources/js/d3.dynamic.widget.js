@@ -7,7 +7,7 @@ var margin = {
 margin.xAxis = margin.left + margin.right;
 margin.yAxis = margin.top + margin.bottom;
 
-var LPCurve = function(container) {
+var DynamicPricingWidget = function(container) {
     var self = this,
         svg;
 
@@ -221,14 +221,14 @@ var LPCurve = function(container) {
 };
 
 
-LPCurve.prototype.interpolate = function(i) {
+DynamicPricingWidget.prototype.interpolate = function(i) {
     this.interpolation = i;
 
     return this;
 };
 
 
-LPCurve.prototype.setPrice = function(min, max, defaultPrice) {
+DynamicPricingWidget.prototype.setPrice = function(min, max, defaultPrice) {
     this.minPrice = min;
     this.maxPrice = max;
     if (defaultPrice) {
@@ -239,41 +239,40 @@ LPCurve.prototype.setPrice = function(min, max, defaultPrice) {
 };
 
 
-LPCurve.prototype.set_data = function(data) {
+DynamicPricingWidget.prototype.set_data = function(data) {
     this.data = data;
 
     return this;
 };
 
 
-LPCurve.prototype.get_data = function() {
+DynamicPricingWidget.prototype.get_data = function() {
     return this.data;
 };
 
 
-LPCurve.prototype.set_today = function(pubDays, currentPrice) {
+DynamicPricingWidget.prototype.set_today = function(pubDays, currentPrice) {
     this.pubDays        = pubDays;
     this.currentPrice   = currentPrice;
 
     return this;
 };
 
-LPCurve.prototype._setDimensions = function () {
+DynamicPricingWidget.prototype._setDimensions = function() {
     this.dimentions = {
         width: jQuery(this.container).width() - margin.xAxis,
         height: jQuery(this.container).height() - margin.yAxis
     };
 };
 
-LPCurve.prototype._setScale = function () {
+DynamicPricingWidget.prototype._setScale = function() {
     this.scale = {
         x: d3.scale.linear().range([0, this.dimensions.width + 10]),
         y: d3.scale.linear().range([this.dimensions.height, 0])
     };
 };
 
-LPCurve.prototype._plotAxes = function() {
-
+DynamicPricingWidget.prototype._plotAxes = function() {
     this.xExtent = d3.extent(this.data, function(d) { return d.x; });
     this.yExtent = [0.00, this.maxPrice];
 
@@ -335,8 +334,7 @@ LPCurve.prototype._plotAxes = function() {
 
 };
 
-LPCurve.prototype._plotCurve = function() {
-
+DynamicPricingWidget.prototype._plotCurve = function() {
     var self = this;
 
     // D3.js provides us with a path data generator function for lines
@@ -354,8 +352,7 @@ LPCurve.prototype._plotCurve = function() {
 
 };
 
-LPCurve.prototype._setDragBehavior = function() {
-
+DynamicPricingWidget.prototype._setDragBehavior = function() {
     // DRAG Y AXIS 'price' FUNCTIONS ----------------------------------------------------------------------------
     function dragstartPrice() {
         this.dragging = true;
@@ -484,8 +481,7 @@ LPCurve.prototype._setDragBehavior = function() {
 
 };
 
-LPCurve.prototype._plotStartPrice = function () {
-
+DynamicPricingWidget.prototype._plotStartPrice = function() {
     var self;
 
     this.svg.select('.lp_dynamic-pricing__start-price-handle')
@@ -535,7 +531,7 @@ LPCurve.prototype._plotStartPrice = function () {
 
 };
 
-LPCurve.prototype._plotEndPrice = function () {
+DynamicPricingWidget.prototype._plotEndPrice = function() {
     var self;
 
     this.svg.select('.lp_dynamic-pricing__end-price-handle')
@@ -594,7 +590,7 @@ LPCurve.prototype._plotEndPrice = function () {
 
 };
 
-LPCurve.prototype._plotDaysHandle = function() {
+DynamicPricingWidget.prototype._plotDaysHandle = function() {
     var self = this;
 
     // handles for setting the number of days after publication, after which
@@ -651,7 +647,6 @@ LPCurve.prototype._plotDaysHandle = function() {
             var y = -5;
             return  'M ' + x + ' ' + y + ' l 10 0 l -5 5 z';
         });
-
 
     var daysHandleValue = this.svg.selectAll('.lp_dynamic-pricing__price-change-days-value')
                                   .data((this.data).slice(1, this.data.length));
@@ -710,7 +705,7 @@ LPCurve.prototype._plotDaysHandle = function() {
         });
 };
 
-LPCurve.prototype._plotXMarker = function () {
+DynamicPricingWidget.prototype._plotXMarker = function() {
     var self = this,
         xMarker = this.svg.selectAll('.lp_dynamic-pricing__x-axis-marker').data((this.data).slice(1, this.data.length));
 
@@ -741,7 +736,7 @@ LPCurve.prototype._plotXMarker = function () {
 
 };
 
-LPCurve.prototype._plotPoint = function () {
+DynamicPricingWidget.prototype._plotPoint = function() {
     var self = this,
         point = this.svg.selectAll('.lp_dynamic-pricing__price-curve-point').data((this.data));
 
@@ -770,8 +765,7 @@ LPCurve.prototype._plotPoint = function () {
 
 };
 
-LPCurve.prototype._plotPriceMarker = function () {
-
+DynamicPricingWidget.prototype._plotPriceMarker = function() {
     var self = this,
         currentPrice = this.svg.selectAll('.lp_dynamic-pricing__current-price-marker')
                                .data((this.data)
@@ -811,8 +805,7 @@ LPCurve.prototype._plotPriceMarker = function () {
 
 };
 
-LPCurve.prototype.plot = function() {
-
+DynamicPricingWidget.prototype.plot = function() {
     this._setDimensions();
     this._setScale();
 
@@ -833,40 +826,27 @@ LPCurve.prototype.plot = function() {
             height  : this.dimensions.height
         });
 
-    // AXES ------------------------------------------------------------------------------------------------------------
     this._plotAxes();
-    // PRICE CURVE -----------------------------------------------------------------------------------------------------
+
     this._plotCurve();
 
-    // DRAG BEHAVIOR ---------------------------------------------------------------------------------------------------
     this._setDragBehavior();
 
-    // The D3.js Data Operator returns virtual selections rather than the regular ones returned by other methods,
-    // one per each element in data.
-    // The virtual selections are enter, update, and exit.
-
-    // START PRICE ('price') -------------------------------------------------------------------------------------------
     this._plotStartPrice();
 
-    // END PRICE ('price') ---------------------------------------------------------------------------------------------
     this._plotEndPrice();
 
-    // PRICE CHANGE INTERVAL BOUNDARIES ('days') -----------------------------------------------------------------------
     this._plotDaysHandle();
 
-    // X-AXIS MARKERS --------------------------------------------------------------------------------------------------
     this._plotXMarker();
 
-    // PRICE CURVE POINTS ----------------------------------------------------------------------------------------------
     this._plotPoint();
 
-    // CURRENT PRICE MARKER --------------------------------------------------------------------------------------------
     this._plotPriceMarker();
-
 };
 
 
-LPCurve.prototype.toggleStartInput = function(action) {
+DynamicPricingWidget.prototype.toggleStartInput = function(action) {
     var data        = lpc.get_data(),
         plotPrice   = data[0].y.toFixed(2),
         $handle     = jQuery(
@@ -918,7 +898,7 @@ LPCurve.prototype.toggleStartInput = function(action) {
 };
 
 
-LPCurve.prototype.toggleEndInput = function(action) {
+DynamicPricingWidget.prototype.toggleEndInput = function(action) {
     var data        = lpc.get_data(),
         plotPrice   = data[2].y.toFixed(2),
         $handle     = jQuery(

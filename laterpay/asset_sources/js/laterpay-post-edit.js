@@ -477,7 +477,7 @@
                     },
                     function(data) {
                         if (data) {
-                            var lpc                = new LPCurve($o.dynamicPricingContainer),
+                            var lpc                = new DynamicPricingWidget($o.dynamicPricingContainer),
                                 startPrice         = data.values[0].y,
                                 endPrice           = data.values[3].y,
                                 minPrice           = 0,
