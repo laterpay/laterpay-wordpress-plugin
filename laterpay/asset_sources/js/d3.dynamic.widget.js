@@ -482,7 +482,7 @@ DynamicPricingWidget.prototype._setDragBehavior = function() {
 };
 
 DynamicPricingWidget.prototype._plotStartPrice = function() {
-    var self;
+    var self = this;
 
     this.svg.select('.lp_dynamic-pricing__start-price-handle')
         .datum((this.data)[0])
