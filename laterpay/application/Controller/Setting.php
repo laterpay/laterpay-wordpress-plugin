@@ -716,11 +716,11 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'parent'     => 0,
         );
 
-        // get only 1-st level categories
+        // get only 1st level categories
         $categories = get_categories( $args );
 
         foreach ( $input as $role => $data ) {
-            // check if selected categories cover whole blog
+            // check, if selected categories cover entire blog
             $covered = 1;
             foreach ( $categories as $category ) {
                 if ( ! in_array( $category->term_id, $data ) ) {
@@ -729,13 +729,13 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                 }
             }
 
-            // if covered set 'all' option for this role
+            // set option 'all' for this role, if entire blog is covered
             if ( $covered ) {
                 $valid[$role] = array( 'all' );
                 continue;
             }
 
-            // if whole blog not covered filter values
+            // filter values, if entire blog is not covered
             if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
                 // unset option 'all', if option 'all' and option 'none' are selected at the same time
                 unset( $data[array_search( 'all', $data )] );
