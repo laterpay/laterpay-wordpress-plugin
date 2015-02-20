@@ -20,7 +20,9 @@
 
 
 // axes ----------------------------------------------------------------------------------------------------------------
-.lp_dynamic-pricing__axis .domain {    // TODO: fix class structure; .lp_dynamic-pricing__axis .domain should be .lp_dynamic-pricing__axis-line
+// .domain is the axis line and should therefore better be called .lp_dynamic-pricing__axis-line,
+// but I have no idea, how to assign it that class name
+.lp_dynamic-pricing__axis .domain {
     stroke: hsl(0, 0%, 67%);
     stroke-dasharray: none;
     stroke-width: 1.5px;
@@ -42,7 +44,8 @@
 .lp_dynamic-pricing__price-curve {
     fill: none;
     stroke: hsl(0, 0%, 13%);
-    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-width: 2.5px;
 }
 
 .lp_dynamic-pricing__price-curve-point {
@@ -73,7 +76,11 @@
 
 .lp_dynamic-pricing__current-price-marker {
     stroke: $background-laterpay;
-    stroke-width: 1.5px;
+    stroke-width: 0.5px;
+}
+.lp_dynamic-pricing__current-price-label {
+    fill: $background-laterpay;
+    font-size: 9px;
 }
 
 .lp_dynamic-pricing__default-price-marker {

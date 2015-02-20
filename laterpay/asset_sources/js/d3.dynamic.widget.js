@@ -53,13 +53,13 @@ var DynamicPricingWidget = function(container) {
     svg.append('defs')
         .append('marker')
             .attr({
-                id          : 'lp_dynamic-pricing__axis-arrowhead--x',
-                class       : 'lp_dynamic-pricing__axis-arrowhead',
-                refX        : 2,
-                refY        : 2,
-                markerWidth : 4,
-                markerHeight: 4,
-                orient      : 'auto',
+                id              : 'lp_dynamic-pricing__axis-arrowhead--x',
+                class           : 'lp_dynamic-pricing__axis-arrowhead',
+                refX            : 2,
+                refY            : 2,
+                markerWidth     : 4,
+                markerHeight    : 4,
+                orient          : 'auto',
             })
             .append('path')
                 .attr('d', 'M0,0 V4 L4,2 Z');
@@ -69,13 +69,13 @@ var DynamicPricingWidget = function(container) {
     svg.append('defs')
         .append('marker')
             .attr({
-                id          : 'lp_dynamic-pricing__axis-arrowhead--y',
-                class       : 'lp_dynamic-pricing__axis-arrowhead',
-                refX        : 2,
-                refY        : 2,
-                markerWidth : 4,
-                markerHeight: 4,
-                orient      : 'auto',
+                id              : 'lp_dynamic-pricing__axis-arrowhead--y',
+                class           : 'lp_dynamic-pricing__axis-arrowhead',
+                refX            : 2,
+                refY            : 2,
+                markerWidth     : 4,
+                markerHeight    : 4,
+                orient          : 'auto',
             })
             .append('path')
                 .attr('d', 'M0,4 H4 L2,0 Z');
@@ -110,11 +110,13 @@ var DynamicPricingWidget = function(container) {
             height  : 29,
             ry      : 3,
         });
+    svg.append('path')
+        .attr('class', 'lp_dynamic-pricing__start-price-handle-triangle');
     svg.insert('foreignObject')
         .attr({
             class   : 'lp_dynamic-pricing__start-price-input-wrapper',
             // foreign objects do not render without a width and height, so we have to provide those
-            width   : '40px',
+            width   : '52px',
             height  : '30px',
         })
         .html('<input type="text" class="lp_dynamic-pricing__start-price-input">');
@@ -127,8 +129,6 @@ var DynamicPricingWidget = function(container) {
                         'lp_dynamic-pricing__handle-unit')
         .attr('text-anchor', 'end')
         .text(this.currency);
-    svg.append('path')
-        .attr('class', 'lp_dynamic-pricing__start-price-handle-triangle');
 
 
     // draw end price handle with text and input and everything
@@ -140,11 +140,13 @@ var DynamicPricingWidget = function(container) {
                 height  : 29,
                 ry      : 3,
             });
+    svg.append('path')
+        .attr('class', 'lp_dynamic-pricing__end-price-handle-triangle');
     svg.insert('foreignObject')
         .attr({
             class   : 'lp_dynamic-pricing__end-price-input-wrapper',
             // foreign objects do not render without a width and height, so we have to provide those
-            width   : '40px',
+            width   : '52px',
             height  : '30px',
         })
         .html('<input type="text" class="lp_dynamic-pricing__end-price-input">');
@@ -157,8 +159,6 @@ var DynamicPricingWidget = function(container) {
                         'lp_dynamic-pricing__handle-unit')
         .attr('text-anchor', 'end')
         .text(this.currency);
-    svg.append('path')
-        .attr('class', 'lp_dynamic-pricing__end-price-handle-triangle');
 
 
     this.svg = svg;
@@ -181,15 +181,24 @@ var DynamicPricingWidget = function(container) {
     .on('focusout',
         '.lp_dynamic-pricing__start-price-input',
         function() {
-            dynamicPricingWidget.toggleStartInput('hide');
+            dynamicPricingWidget.toggleStartInput('save');
     })
     .on('keydown',
         '.lp_dynamic-pricing__start-price-input',
         function(e) {
-            // hide input on Enter or Esc
-            if (e.keyCode === 13 || e.keyCode === 27) {
+            // save price on Enter
+            if (e.keyCode === 13) {
                 e.preventDefault();
-                dynamicPricingWidget.toggleStartInput('hide');
+                dynamicPricingWidget.toggleStartInput('save');
+            }
+    })
+    .on('keydown',
+        '.lp_dynamic-pricing__start-price-input',
+        function(e) {
+            // cancel editing on Esc
+            if (e.keyCode === 27) {
+                e.preventDefault();
+                dynamicPricingWidget.toggleStartInput('cancel');
             }
     });
 
@@ -207,26 +216,33 @@ var DynamicPricingWidget = function(container) {
     .on('focusout',
         '.lp_dynamic-pricing__end-price-input',
         function() {
-            dynamicPricingWidget.toggleEndInput('hide');
+            dynamicPricingWidget.toggleEndInput('save');
     })
     .on('keydown',
         '.lp_dynamic-pricing__end-price-input',
         function(e) {
-            // hide input on Enter or Esc
-            if (e.keyCode === 13 || e.keyCode === 27) {
+            // save price on Enter
+            if (e.keyCode === 13) {
                 e.preventDefault();
-                dynamicPricingWidget.toggleEndInput('hide');
+                dynamicPricingWidget.toggleEndInput('save');
+            }
+    })
+    .on('keydown',
+        '.lp_dynamic-pricing__end-price-input',
+        function(e) {
+            // cancel editing on Esc
+            if (e.keyCode === 27) {
+                e.preventDefault();
+                dynamicPricingWidget.toggleEndInput('cancel');
             }
     });
 };
-
 
 DynamicPricingWidget.prototype.interpolate = function(i) {
     this.interpolation = i;
 
     return this;
 };
-
 
 DynamicPricingWidget.prototype.setPrice = function(min, max, defaultPrice) {
     this.minPrice = min;
@@ -238,18 +254,15 @@ DynamicPricingWidget.prototype.setPrice = function(min, max, defaultPrice) {
     return this;
 };
 
-
 DynamicPricingWidget.prototype.set_data = function(data) {
     this.data = data;
 
     return this;
 };
 
-
 DynamicPricingWidget.prototype.get_data = function() {
     return this.data;
 };
-
 
 DynamicPricingWidget.prototype.set_today = function(pubDays, currentPrice) {
     this.pubDays        = pubDays;
@@ -286,17 +299,20 @@ DynamicPricingWidget.prototype._plotAxes = function() {
                   .tickSize(-this.dimensions.height, 0, 0)
                   .ticks(7)
                   .orient('left');
+
     this.scale.x.domain(this.xExtent);
     this.scale.y.domain(this.yExtent);
+
 
     // x-axis
     this.svg.select('.lp_dynamic-pricing__axis--x')
         .attr({
-            transform   : 'translate(0,' + this.dimensions.height + ')',
-            'marker-end': 'url(#lp_dynamic-pricing__axis-arrowhead--x)'
+            transform       : 'translate(0,' + this.dimensions.height + ')',
+            'marker-end'    : 'url(#lp_dynamic-pricing__axis-arrowhead--x)'
         })
         .transition().duration(this.dragging ? 0 : 250)
         .call(xAxis);
+
 
     // y-axis
     this.svg.select('.lp_dynamic-pricing__axis--y')
@@ -304,11 +320,13 @@ DynamicPricingWidget.prototype._plotAxes = function() {
         .transition().duration(this.dragging ? 0 : 250)
         .call(yAxis);
 
+
     // ticks (grid lines of graph)
     d3.selectAll('.tick').select('line')
         .attr('class', 'lp_dynamic-pricing__grid-line');
     d3.selectAll('.tick').select('text')
         .attr('class', 'lp_dynamic-pricing__grid-line-label');
+
 
     // position default price marker
     this.svg.select('.lp_dynamic-pricing__default-price-marker')
@@ -331,10 +349,9 @@ DynamicPricingWidget.prototype._plotAxes = function() {
             x: this.dimensions.width / 2,
             y: this.scale.y(this.defaultPrice)
         });
-
 };
 
-DynamicPricingWidget.prototype._plotCurve = function() {
+DynamicPricingWidget.prototype._plotPriceCurve = function() {
     var self = this;
 
     // D3.js provides us with a path data generator function for lines
@@ -353,7 +370,7 @@ DynamicPricingWidget.prototype._plotCurve = function() {
 };
 
 DynamicPricingWidget.prototype._setDragBehavior = function() {
-    // DRAG Y AXIS 'price' FUNCTIONS ----------------------------------------------------------------------------
+    // DRAG PRICE FUNCTIONS --------------------------------------------------------------------------------------------
     function dragstartPrice() {
         this.dragging = true;
     }
@@ -390,7 +407,7 @@ DynamicPricingWidget.prototype._setDragBehavior = function() {
     }
 
 
-    // DRAG AXIS X 'days' FUNCTIONS ------------------------------------------------------------------------------------
+    // DRAG DAYS FUNCTIONS ---------------------------------------------------------------------------------------------
     var fps = 60,
         dragInterval;
 
@@ -474,14 +491,13 @@ DynamicPricingWidget.prototype._setDragBehavior = function() {
             .on('drag',         dragDays.bind(this))
             .on('dragend',      dragendDays.bind(this)),
         y: d3.behavior.drag()
-        .on('dragstart',    dragstartPrice.bind(this))
-        .on('drag',         dragPrice.bind(this))
-        .on('dragend',      dragendPrice.bind(this))
+            .on('dragstart',    dragstartPrice.bind(this))
+            .on('drag',         dragPrice.bind(this))
+            .on('dragend',      dragendPrice.bind(this))
     };
-
 };
 
-DynamicPricingWidget.prototype._plotStartPrice = function() {
+DynamicPricingWidget.prototype._plotStartPriceHandle = function() {
     var self = this;
 
     this.svg.select('.lp_dynamic-pricing__start-price-handle')
@@ -491,6 +507,16 @@ DynamicPricingWidget.prototype._plotStartPrice = function() {
         .attr({
             x: function()  { return -38; },
             y: function(d) { return self.scale.y(d.y) - 14.5; }
+        });
+    this.svg.select('.lp_dynamic-pricing__start-price-handle-triangle')
+        .datum((this.data)[0])
+        .call(this.dragBehavior.y)
+        .transition().duration(this.dragging ? 0 : 250)
+        .attr('d', function(d) {
+            var x = -6;
+            var y = self.scale.y(d.y) - 5;
+
+            return  'M ' + x + ' ' + y + ' l 5 5 l -5 5 z';
         });
     this.svg.select('.lp_dynamic-pricing__start-price-value')
         .datum((this.data)[0])
@@ -511,15 +537,6 @@ DynamicPricingWidget.prototype._plotStartPrice = function() {
             x: function()  { return -11; },
             y: function(d) { return self.scale.y(d.y) + 9.5; }
         });
-    this.svg.select('.lp_dynamic-pricing__start-price-handle-triangle')
-        .datum((this.data)[0])
-        .call(this.dragBehavior.y)
-        .transition().duration(this.dragging ? 0 : 250)
-        .attr('d', function(d) {
-            var x = -6;
-            var y = self.scale.y(d.y) - 5;
-            return  'M ' + x + ' ' + y + ' l 5 5 l -5 5 z';
-        });
     this.svg.select('.lp_dynamic-pricing__start-price-input-wrapper')
         .datum((this.data)[0])
         .call(this.dragBehavior.y)
@@ -528,10 +545,9 @@ DynamicPricingWidget.prototype._plotStartPrice = function() {
             x: function()  { return -38; },
             y: function(d) { return self.scale.y(d.y) - 14; }
         });
-
 };
 
-DynamicPricingWidget.prototype._plotEndPrice = function() {
+DynamicPricingWidget.prototype._plotEndPriceHandle = function() {
     var self = this;
 
     this.svg.select('.lp_dynamic-pricing__end-price-handle')
@@ -584,7 +600,7 @@ DynamicPricingWidget.prototype._plotEndPrice = function() {
         .call(this.dragBehavior.y)
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x: function()  { return self.dimensions.width + 8; },
+            x: function()  { return self.dimensions.width - 4; },
             y: function(d) { return self.scale.y(d.y) - 15; }
         });
 
@@ -635,6 +651,7 @@ DynamicPricingWidget.prototype._plotDaysHandle = function() {
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
             }
+
             return classes;
         })
         .call(this.dragBehavior.x);
@@ -643,8 +660,9 @@ DynamicPricingWidget.prototype._plotDaysHandle = function() {
 
     daysHandleTriangle.transition().duration(this.dragging ? 0 : 250)
         .attr('d', function(d) {
-            var x = self.scale.x(d.x) - 5;
-            var y = -5;
+            var x = self.scale.x(d.x) - 5,
+                y = -5;
+
             return  'M ' + x + ' ' + y + ' l 10 0 l -5 5 z';
         });
 
@@ -659,6 +677,7 @@ DynamicPricingWidget.prototype._plotDaysHandle = function() {
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
             }
+
             return classes;
         })
         .call(this.dragBehavior.x);
@@ -719,6 +738,7 @@ DynamicPricingWidget.prototype._plotXMarker = function() {
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
             }
+
             return classes;
         })
         .call(this.dragBehavior.x);
@@ -731,14 +751,13 @@ DynamicPricingWidget.prototype._plotXMarker = function() {
             x1: function(d) { return self.scale.x(d.x); },
             y1: function()  { return 0; },
             x2: function(d) { return self.scale.x(d.x); },
-            y2: function(d) { return self.scale.y(d.y) - 5; } // subtract radius of price curve point to avoid overlap
+            y2: function(d) { return self.scale.y(d.y) - 4.5; } // subtract radius of price curve point to avoid overlap
         });
-
 };
 
-DynamicPricingWidget.prototype._plotPoint = function() {
-    var self = this,
-        point = this.svg.selectAll('.lp_dynamic-pricing__price-curve-point').data((this.data));
+DynamicPricingWidget.prototype._plotPriceCurvePoints = function() {
+    var self    = this,
+        point   = this.svg.selectAll('.lp_dynamic-pricing__price-curve-point').data((this.data));
 
     // Returns a reference to the placeholder elements (nodes) for each data element that did not have a corresponding
     // existing DOM element and appends a circle for each element in the data.
@@ -756,29 +775,26 @@ DynamicPricingWidget.prototype._plotPoint = function() {
 
     point.transition().duration(this.dragging ? 0 : 250)
         .attr({
-            r   : 5,
+            r   : 4.5,
             cx  : function(d) { return self.scale.x(d.x); },
             cy  : function(d) { return self.scale.y(d.y); }
         });
 
     point.exit().remove();
-
 };
 
 DynamicPricingWidget.prototype._plotPriceMarker = function() {
-    var self = this,
-        currentPrice = this.svg.selectAll('.lp_dynamic-pricing__current-price-marker')
-                               .data((this.data)
-                               .slice(1, this.data.length));
+    var self            = this,
+        currentPrice    = this.svg.selectAll('.lp_dynamic-pricing__current-price-marker')
+                                   .data((this.data)
+                                   .slice(1, this.data.length));
 
     // Renders a vertical line indicating the current position on the set price curve and the resulting effective price.
     // Only shown, if the post was already published.
     if (this.pubDays > 0) {
         currentPrice.enter().append('line')
             .attr('class', 'lp_dynamic-pricing__current-price-marker');
-
         currentPrice.exit().remove();
-
         currentPrice
             .transition().duration(this.dragging ? 0 : 250)
             .attr({
@@ -787,22 +803,21 @@ DynamicPricingWidget.prototype._plotPriceMarker = function() {
                 x2: function() { return self.scale.x(dynamicPricingWidget.pubDays); },
                 y2: function() { return self.scale.y(dynamicPricingWidget.maxPrice); }
             });
-
-        this.svg.append('text')
-            .attr('class', 'lp_dynamic-pricing__current-price-label')
-            .attr('text-anchor', 'end')
-            .text(this.i18nToday)
-            .datum({
-                x: dynamicPricingWidget.pubDays,
-                y: dynamicPricingWidget.currentPrice
-            })
-            .call(this.dragBehavior.y)
-            .attr({
-                x: function() { return self.scale.x(parseInt(dynamicPricingWidget.pubDays, 10) + 2); },
-                y: function() { return self.scale.y(-10); }
-            });
+        // TODO: commented our for now, because it needs a) to be properly added and b) to have drag behavior
+        // this.svg.append('text')
+        //     .attr('class', 'lp_dynamic-pricing__current-price-label')
+        //     .attr('text-anchor', 'middle')
+        //     .text(this.i18nToday)
+        //     .datum({
+        //         x: dynamicPricingWidget.pubDays,
+        //         y: dynamicPricingWidget.currentPrice
+        //     })
+        //     .call(this.dragBehavior.y)
+        //     .attr({
+        //         x: function() { return self.scale.x(parseInt(dynamicPricingWidget.pubDays, 10)); },
+        //         y: function() { return self.scale.y(); }
+        //     });
     }
-
 };
 
 DynamicPricingWidget.prototype.plot = function() {
@@ -828,23 +843,18 @@ DynamicPricingWidget.prototype.plot = function() {
 
     this._plotAxes();
 
-    this._plotCurve();
+    this._plotPriceCurve();
+    this._plotPriceCurvePoints();
 
     this._setDragBehavior();
 
-    this._plotStartPrice();
-
-    this._plotEndPrice();
-
+    this._plotStartPriceHandle();
+    this._plotEndPriceHandle();
     this._plotDaysHandle();
 
     this._plotXMarker();
-
-    this._plotPoint();
-
     this._plotPriceMarker();
 };
-
 
 DynamicPricingWidget.prototype.toggleStartInput = function(action) {
     var data        = dynamicPricingWidget.get_data(),
@@ -877,7 +887,7 @@ DynamicPricingWidget.prototype.toggleStartInput = function(action) {
         .val(plotPrice)
         .show()
         .focus();
-    } else if (action === 'hide') {
+    } else if (action === 'save') {
         // cap prices that are outside of the valid range
         if (inputPrice > this.maxPrice) {
             inputPrice = this.maxPrice;
@@ -894,9 +904,11 @@ DynamicPricingWidget.prototype.toggleStartInput = function(action) {
         // update graph
         dynamicPricingWidget.set_data(data);
         dynamicPricingWidget.plot();
+    } else if (action === 'cancel') {
+        $priceInput.hide();
+        $handle.show();
     }
 };
-
 
 DynamicPricingWidget.prototype.toggleEndInput = function(action) {
     var data        = dynamicPricingWidget.get_data(),
@@ -929,7 +941,7 @@ DynamicPricingWidget.prototype.toggleEndInput = function(action) {
         .val(plotPrice)
         .show()
         .focus();
-    } else if (action === 'hide') {
+    } else if (action === 'save') {
         // cap prices that are outside of the valid range
         if (inputPrice > this.maxPrice) {
             inputPrice = this.maxPrice;
@@ -946,5 +958,8 @@ DynamicPricingWidget.prototype.toggleEndInput = function(action) {
         // update graph
         dynamicPricingWidget.set_data(data);
         dynamicPricingWidget.plot();
+    } else if (action === 'cancel') {
+        $priceInput.hide();
+        $handle.show();
     }
 };
