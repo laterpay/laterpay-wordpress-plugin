@@ -54,6 +54,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_time_passes_table' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_payment_history_add_revenue_model' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_api_urls_options_names' ) );
+                add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_unlimited_access') );
             }
 
             if ( ! function_exists( 'is_plugin_active' ) ) {

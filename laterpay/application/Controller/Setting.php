@@ -9,6 +9,8 @@
  */
 class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
 {
+    private $has_custom_roles = false;
+
     /**
      * Add LaterPay advanced settings to the settings menu.
      *
@@ -382,6 +384,41 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_unlimited_access_settings() {
+        global $wp_roles;
+        $custom_roles  = array();
+
+        $default_roles = array(
+            'administrator',
+            'editor',
+            'contributor',
+            'author',
+            'subscriber',
+        );
+
+        $categories    = array(
+            'none' => 'none',
+            'all'  => 'all',
+        );
+
+        $args          = array(
+            'hide_empty' => false,
+            'taxonomy'   => 'category',
+        );
+
+        // get custom roles
+        foreach ( $wp_roles->roles as $role => $role_data ) {
+            if ( ! in_array( $role, $default_roles ) ) {
+                $this->has_custom_roles = true;
+                $custom_roles[$role] = $role_data['name'];
+            }
+        }
+
+        // get categories and add them to the array
+        $wp_categories = get_categories( $args );
+        foreach( $wp_categories as $category ) {
+            $categories[$category->term_id] = $category->name;
+        }
+
         add_settings_section(
             'laterpay_unlimited_access',
             __( 'Unlimited Access to Paid Content', 'laterpay' ),
@@ -389,15 +426,23 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay'
         );
 
-        add_settings_field(
-            'laterpay_unlimited_access_to_paid_content',
-            __( 'Roles with Unlimited Access', 'laterpay' ),
-            array( $this, 'get_unlimited_access_markup' ),
-            'laterpay',
-            'laterpay_unlimited_access'
-        );
+        register_setting( 'laterpay', 'laterpay_unlimited_access', array( $this, 'validate_unlimited_access' ) );
 
-        register_setting( 'laterpay', 'laterpay_unlimited_access_to_paid_content' );
+        // add options for each custom role
+        foreach ( $custom_roles as $role => $name ) {
+            add_settings_field(
+                $role,
+                $name,
+                array( $this, 'get_unlimited_access_markup' ),
+                'laterpay',
+                'laterpay_unlimited_access',
+                array(
+                    'role'       => $role,
+                    'categories' => $categories,
+                )
+            );
+        }
+
     }
 
     /**
@@ -407,11 +452,24 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
      */
     public function get_unlimited_access_section_description() {
         echo '<p>' .
-                __( "Logged in users can skip LaterPay entirely, if they have a role with unlimited access
-                    to paid content.<br>
-                    You can use this e.g. for giving free access to existing subscribers.<br>
+                __( "You can give logged-in users unlimited access to specific categories depending on their user
+                    role.<br>
+                    This feature can be useful e.g. for giving free access to existing subscribers.<br>
                     We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay') .
             '</p>';
+
+        if ( $this->has_custom_roles ) {
+            // show header
+            echo '<table class="form-table">
+                        <tr>
+                            <th>' . __( 'User Role', 'laterpay' ) . '</th>
+                            <td>' . __( 'Unlimited Access to Categories', 'laterpay' ) . '</td>
+                        </tr>
+                  </table>';
+        } else {
+            // tell the user that he needs to have at least one custom role defined
+            echo '<h4>' . __( 'Please add a custom role first.', 'laterpay' ) . '</h4>';
+        }
     }
 
     /**
@@ -604,35 +662,107 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     /**
      * Render the inputs for the unlimited access section.
      *
-     * @return string unlimited access checkboxes markup
+     * @param array $field array of field parameters
+     *
+     * @return string unlimited access form markup
      */
-    public function get_unlimited_access_markup() {
-        global $wp_roles;
+    public function get_unlimited_access_markup( $field = null ) {
+        $role       = isset( $field['role'] ) ? $field['role'] : null;
+        $categories = isset( $field['categories'] ) ? $field['categories'] : array();
+        $unlimited  = get_option( 'laterpay_unlimited_access' ) ? get_option( 'laterpay_unlimited_access' ) : array();
 
-        $default_roles    = array( 'administrator', 'editor', 'contributor', 'author', 'subscriber' );
-        $has_custom_roles = false;
-        $option_value     = get_option( 'laterpay_unlimited_access_to_paid_content' );
+        $inputs_markup  = '';
+        $count          = 1;
 
-        $inputs_markup = '';
-        foreach ( $wp_roles->roles as $role => $role_data ) {
-            if ( ! in_array( $role, $default_roles ) ) {
-                $has_custom_roles = true;
-                $inputs_markup .= '<label title="' . $role_data['name'] . '">';
-                $inputs_markup .= '<input type="checkbox" name="laterpay_unlimited_access_to_paid_content" value="' . $role . '" ';
-                if ( in_array( $role, ( array ) $option_value ) ) {
-                    $inputs_markup .= 'checked';
-                }
+        if ( $role ) {
+            foreach ( $categories as $id => $name ) {
+                $need_default   = ! isset( $unlimited[$role] ) || ! $unlimited[$role];
+                $is_none_or_all = in_array( $id, array( 'none', 'all' ), true );
+                $is_selected    = ! $need_default ? in_array( $id, $unlimited[$role] ) : false;
+
+                $inputs_markup .= '<input type="checkbox" ';
+                $inputs_markup .= 'id="lp_category--' . $role . $count . '"';
+                $inputs_markup .= 'class="lp_category-access-input';
+                $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
+                $inputs_markup .= 'name="laterpay_unlimited_access[' . $role . '][]"';
+                $inputs_markup .= 'value="' . $id . '" ';
+                $inputs_markup .= $is_selected || ( $need_default && $id === 'none' ) ? 'checked' : '';
                 $inputs_markup .= '>';
-                $inputs_markup .= '<span>' . $role_data['name'] . '</span>';
-                $inputs_markup .= '</label><br>';
+                $inputs_markup .= '<label class="lp_category-access-label';
+                $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
+                $inputs_markup .= 'for="lp_category--' . $role . $count . '">';
+                $inputs_markup .= $is_none_or_all ? __( $name, 'laterpay' ) : $name;
+                $inputs_markup .= '</label>';
+
+                $count += 1;
             }
         }
 
-        if ( ! $has_custom_roles ) {
-            $inputs_markup = __( 'Please add a custom role first.', 'laterpay' );
+        echo $inputs_markup;
+    }
+
+    /**
+     * Validate unlimited access inputs before saving.
+     *
+     * @param $input
+     *
+     * return $valid array of valid values
+     */
+    public function validate_unlimited_access( $input ) {
+        $valid      = array();
+        $args       = array(
+            'hide_empty' => false,
+            'taxonomy'   => 'category',
+            'parent'     => 0,
+        );
+
+        // get only 1st level categories
+        $categories = get_categories( $args );
+
+        foreach ( $input as $role => $data ) {
+            // check, if selected categories cover entire blog
+            $covered = 1;
+            foreach ( $categories as $category ) {
+                if ( ! in_array( $category->term_id, $data ) ) {
+                    $covered = 0;
+                    break;
+                }
+            }
+
+            // set option 'all' for this role, if entire blog is covered
+            if ( $covered ) {
+                $valid[$role] = array( 'all' );
+                continue;
+            }
+
+            // filter values, if entire blog is not covered
+            if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
+                // unset option 'all', if option 'all' and option 'none' are selected at the same time
+                unset( $data[array_search( 'all', $data )] );
+            } elseif ( count( $data ) > 1 ) {
+                // unset option 'all', if at least one category is selected
+                if ( array_search( 'all', $data ) !== false ) {
+                    foreach ( $data as $key => $option ) {
+                        if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                            unset( $data[$key] );
+                        }
+                    }
+                }
+
+                // unset all categories, if option 'none' is selected
+                if ( array_search( 'none', $data ) !== false ) {
+                    foreach ( $data as $key => $option ) {
+                        if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                            unset( $data[$key] );
+                        }
+                    }
+                }
+            }
+
+            $valid[$role] = array_values( $data );
         }
 
-        echo $inputs_markup;
+        return $valid;
     }
 
     /**

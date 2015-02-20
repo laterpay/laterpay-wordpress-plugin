@@ -39,3 +39,14 @@ h3 {
 p.submit {
     margin-top: round(4 * $fs-1);
 }
+
+// hide the individual category checkboxes, if access was granted to 'all' or 'no' categories
+.lp_global-access:checked ~ .lp_category-access-input:not(.lp_global-access),
+.lp_global-access:checked ~ .lp_category-access-label:not(.lp_global-access) {
+    display: none;
+}
+
+.lp_category-access-label {
+    line-height: 1.8;
+    margin-right: 1em;
+}
