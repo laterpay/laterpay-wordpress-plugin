@@ -85,8 +85,8 @@
     // Custom Globals
     "globals"       : {
         "d3"                        : true,
-        "lpc"                       : true,
-        "DynamicPricingWidget"                   : true,
+        "dynamicPricingWidget"      : true,
+        "DynamicPricingWidget"      : true,
         "lpInvoiceIndicatorVars"    : true,
         "lpVars"                    : true,
         "lpAccountLinksUrl"         : true,

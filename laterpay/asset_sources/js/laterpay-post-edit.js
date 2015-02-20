@@ -477,12 +477,12 @@
                     },
                     function(data) {
                         if (data) {
-                            var lpc                = new DynamicPricingWidget($o.dynamicPricingContainer),
-                                startPrice         = data.values[0].y,
-                                endPrice           = data.values[3].y,
-                                minPrice           = 0,
-                                maxPrice           = 5;
-                            window.lpc = lpc;
+                            var dynamicPricingWidget    = new DynamicPricingWidget($o.dynamicPricingContainer),
+                                startPrice              = data.values[0].y,
+                                endPrice                = data.values[3].y,
+                                minPrice                = 0,
+                                maxPrice                = 5;
+                            window.dynamicPricingWidget = dynamicPricingWidget;
 
                             $o.priceInput.attr('disabled', 'disabled');
 
@@ -500,17 +500,17 @@
                                 minPrice = lpVars.limits.ppu_min;
                             }
 
-                            if ( data.price.pubDays > 0 && data.price.pubDays <= 30 ) {
-                                lpc.set_today(data.price.pubDays, data.price.todayPrice);
+                            if (data.price.pubDays > 0 && data.price.pubDays <= 30) {
+                                dynamicPricingWidget.set_today(data.price.pubDays, data.price.todayPrice);
                             }
 
                             if (data.values.length === 4) {
-                                lpc
+                                dynamicPricingWidget
                                 .set_data(data.values)
                                 .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
                                 .plot();
                             } else {
-                                lpc
+                                dynamicPricingWidget
                                 .set_data(data.values)
                                 .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
                                 .interpolate('step-before')
@@ -529,14 +529,14 @@
                 }
 
                 // save dynamic pricing data
-                var data = window.lpc.get_data();
-                if (window.lpc.get_data().length === 4) {
+                var data = window.dynamicPricingWidget.get_data();
+                if (window.dynamicPricingWidget.get_data().length === 4) {
                     $('input[name=start_price]').val(data[0].y);
                     $('input[name=end_price]').val(data[3].y);
                     $('input[name=change_start_price_after_days]').val(data[1].x);
                     $('input[name=transitional_period_end_after_days]').val(data[2].x);
                     $('input[name=reach_end_price_after_days]').val(data[3].x);
-                } else if (window.lpc.get_data().length === 3) {
+                } else if (window.dynamicPricingWidget.get_data().length === 3) {
                     $('input[name=start_price]').val(data[0].y);
                     $('input[name=end_price]').val(data[2].y);
                     $('input[name=change_start_price_after_days]').val(data[1].x);
