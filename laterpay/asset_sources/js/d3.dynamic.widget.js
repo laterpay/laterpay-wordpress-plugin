@@ -604,7 +604,7 @@ DynamicPricingWidget.prototype._plotDaysHandle = function() {
     daysHandle.enter().append('rect')
         .attr('class', function(point, index) {
             var classes = 'lp_dynamic-pricing__price-change-days-handle';
-            if (index === this.data.length - 2) {
+            if (index === self.data.length - 2) {
                 classes += ' lp_is-hidden';
             }
             return classes;
@@ -630,7 +630,7 @@ DynamicPricingWidget.prototype._plotDaysHandle = function() {
     daysHandleTriangle.enter().append('path')
         .attr('class', function(point, index) {
             var classes = 'lp_dynamic-pricing__price-change-days-handle-triangle';
-            if (index === this.data.length - 2) {
+            if (index === self.data.length - 2) {
                 // hide the third x-axis handle - it's only there to work around technical restrictions when
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
@@ -654,7 +654,7 @@ DynamicPricingWidget.prototype._plotDaysHandle = function() {
     daysHandleValue.enter().append('text')
         .attr('class', function(point, index) {
             var classes = 'lp_dynamic-pricing__price-change-days-value lp_dynamic-pricing__handle-text';
-            if (index === this.data.length - 2) {
+            if (index === self.data.length - 2) {
                 // hide the third x-axis handle - it's only there to work around technical restrictions when
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
@@ -683,7 +683,7 @@ DynamicPricingWidget.prototype._plotDaysHandle = function() {
             var classes =   'lp_dynamic-pricing__price-change-days-unit ' +
                         'lp_dynamic-pricing__handle-text ' +
                         'lp_dynamic-pricing__handle-unit';
-            if (index === this.data.length - 2) {
+            if (index === self.data.length - 2) {
                 // hide the third x-axis handle - it's only there to work around technical restrictions when
                 // automatically rescaling the x-axis
                 classes += ' lp_is-hidden';
