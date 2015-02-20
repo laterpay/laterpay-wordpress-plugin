@@ -770,7 +770,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is-in_live_mode' );
+        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is_in_live_mode' );
 
         $view_args = array(
             'post_id'                         => $post->ID,
@@ -987,7 +987,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
 
         // test mode
-        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is-in_live_mode' );
+        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is_in_live_mode' );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ( $user_can_read_statistics ) {
@@ -1174,7 +1174,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @return string
      */
     public function render_time_pass( $pass = array() ) {
-        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is-in_live_mode' );
+        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! $this->config->get( 'is_in_live_mode' );
 
         $defaults = array(
             'pass_id'     => 0,
