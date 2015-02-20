@@ -691,7 +691,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                 $inputs_markup .= '<label class="lp_category-access-label';
                 $inputs_markup .= $is_none_or_all ? ' lp_global-access" ' : '" ';
                 $inputs_markup .= 'for="lp_category--' . $role . $count . '">';
-                $inputs_markup .= $name;
+                $inputs_markup .= $is_none_or_all ? __( $name, 'laterpay' ) : $name;
                 $inputs_markup .= '</label>';
 
                 $count += 1;
