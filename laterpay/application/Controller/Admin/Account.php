@@ -298,7 +298,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
                 )
             );
-
         }
 
         update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
