@@ -126,16 +126,24 @@
                     // restore test mode
                     $input.val(testMode);
                     $toggle.prop('checked', false);
+
                     // focus Merchant ID input in case the user just forgot to enter his credentials
                     $o.liveMerchantId.focus();
+
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
+
+                    // show additional toggle for switching between visible and invisible test mode
                     $o.testModeSettings.slideDown();
                 } else if (hasSwitchedToLiveMode) {
-                    $o.testModeSettings.slideUp();
                     $input.val(liveMode);
+
+                    // hide toggle for switching between visible and invisible test mode
+                    $o.testModeSettings.slideUp();
                 } else {
                     $input.val(testMode);
+
+                    // hide toggle for switching between visible and invisible test mode
                     $o.testModeSettings.slideDown();
                 }
 
@@ -186,8 +194,9 @@
                         setMessage(lpVars.i18nApiKeyInvalid, false);
                     }, $o.flashMessageTimeout);
 
-                    var current_form_id = $o.testApiKey.parents('form').attr('id');
-                    if ($form.attr('id') === current_form_id) {
+// TODO: why is this being done?
+                    var currentFormId = $o.testApiKey.parents('form').attr('id');
+                    if ($form.attr('id') === currentFormId) {
                         changeTestMode();
                     }
                 }

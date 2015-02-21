@@ -273,7 +273,7 @@ class LaterPay_Helper_Post
             $preview_mode = true;
         }
 
-        $is_active_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
+        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
 
         // don't render the purchase button, if the current post was already purchased
         // also even if item was purchased in visible test mode by admin it must be displayed
@@ -287,7 +287,7 @@ class LaterPay_Helper_Post
             'currency'                  => get_option( 'laterpay_currency' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
-            'is_in_visible_test_mode'  => $is_active_visible_test_mode,
+            'is_in_visible_test_mode'   => $is_in_visible_test_mode,
         );
 
         laterpay_get_logger()->info(
