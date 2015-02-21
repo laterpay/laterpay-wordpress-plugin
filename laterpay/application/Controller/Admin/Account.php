@@ -271,7 +271,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Toggle test mode between hidden and visible.
+     * Toggle test mode between invisible and visible.
      *
      * @return void
      */
