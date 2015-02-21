@@ -134,17 +134,17 @@
                     $o.requestSent = false;
 
                     // show additional toggle for switching between visible and invisible test mode
-                    $o.testModeSettings.slideDown();
+                    $o.testModeSettings.fadeIn(250);
                 } else if (hasSwitchedToLiveMode) {
                     $input.val(liveMode);
 
                     // hide toggle for switching between visible and invisible test mode
-                    $o.testModeSettings.slideUp();
+                    $o.testModeSettings.fadeOut(250);
                 } else {
                     $input.val(testMode);
 
                     // hide toggle for switching between visible and invisible test mode
-                    $o.testModeSettings.slideDown();
+                    $o.testModeSettings.fadeIn(250);
                 }
 
                 // save plugin mode
