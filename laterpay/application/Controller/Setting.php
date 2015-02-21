@@ -517,22 +517,6 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render the hint text for the API settings section.
-     *
-     * @return string description
-     */
-    public function get_api_settings_section_description() {
-        echo '<p>' .
-                __( 'There is only a single reason for changing the API settings:<br>
-                    By replacing the Live API URLs with the Sandbox API URLs,
-                    you can configure your installation to be in
-                    Test mode, but behave like an installation in Live mode.<br>
-                    This is what LaterPay is doing at <a href="www.laterpaydemo.com">laterpaydemo.com</a>.',
-                    'laterpay') .
-            '</p>';
-    }
-
-    /**
      * Generic method to render text inputs (text, url, email, number).
      *
      * @param array $field array of field params
