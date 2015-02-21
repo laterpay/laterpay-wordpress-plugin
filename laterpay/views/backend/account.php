@@ -167,7 +167,7 @@
         </div>
         <div class="lp_row lp_js_testModeSettings">
             <h2><?php _e( 'Test Mode', 'laterpay' ); ?></h2>
-            <?php _e( 'Use <b>invisible</b> mode' , 'laterpay' ); ?>
+            <?php _e( 'Use <strong>invisible</strong> mode' , 'laterpay' ); ?>
             <div class="lp_toggle">
                 <form id="lp_js_changeTestModeForm" method="post" action="">
                     <input type="hidden" name="form"    value="laterpay_test_mode">
@@ -186,7 +186,7 @@
                     </label>
                 </form>
             </div>
-            <?php _e( 'Use <b>visible</b> mode', 'laterpay' ); ?>
+            <?php _e( 'Use <strong>visible</strong> mode', 'laterpay' ); ?>
 
             <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>. All payments are booked and credited to your account.', 'laterpay' ); ?>

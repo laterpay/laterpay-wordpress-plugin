@@ -17,8 +17,8 @@
 
                 // test mode
                 testModeSettings            : $('.lp_js_testModeSettings'),
-                testModeField               : $('input.lp_js_pluginInVisibleTestMode'),
-                testModeInvalidCredField    : $('input.lp_js_invalidCredentials'),
+                testModeField               : $('.lp_js_pluginInVisibleTestMode'),
+                testModeInvalidCredField    : $('.lp_js_invalidCredentials'),
 
                 showMerchantContractsButton : $('#lp_js_showMerchantContracts'),
 
@@ -65,7 +65,7 @@
                 })
                 .click(function(e) {e.preventDefault();});
 
-                // change test mode type
+                // change test mode
                 $o.testModeField
                 .change(function() {
                     changeTestMode();
@@ -83,19 +83,21 @@
             },
 
             changeTestMode = function() {
-                var noValid = hasNoValidCredentials();
-
-                if(noValid) {
+                if (hasNoValidCredentials()) {
                     $o.testModeInvalidCredField.val(1);
+
                     // restore test mode
-                    $o.testModeField.prop('checked',false);
+                    $o.testModeField.prop('checked', false);
+
                     // focus Merchant ID input in case the user just forgot to enter his credentials
                     $o.testMerchantId.focus();
+
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
                 } else {
                     $o.testModeInvalidCredField.val(0);
                 }
+
                 makeAjaxRequest('lp_js_changeTestModeForm');
             },
 
@@ -128,13 +130,13 @@
                     $o.liveMerchantId.focus();
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
-                    $o.testModeSettings.show();
+                    $o.testModeSettings.slideDown();
                 } else if (hasSwitchedToLiveMode) {
-                    $o.testModeSettings.hide();
+                    $o.testModeSettings.slideUp();
                     $input.val(liveMode);
                 } else {
                     $input.val(testMode);
-                    $o.testModeSettings.show();
+                    $o.testModeSettings.slideDown();
                 }
 
                 // save plugin mode
@@ -185,7 +187,7 @@
                     }, $o.flashMessageTimeout);
 
                     var current_form_id = $o.testApiKey.parents('form').attr('id');
-                    if($form.attr('id') === current_form_id) {
+                    if ($form.attr('id') === current_form_id) {
                         changeTestMode();
                     }
                 }
@@ -219,8 +221,9 @@
                         setMessage(lpVars.i18nMerchantIdInvalid, false);
                     }, $o.flashMessageTimeout);
 
-                    var current_form_id = $o.testMerchantId.parents('form').attr('id');
-                    if($form.attr('id') === current_form_id) {
+// TODO: why is this being done?
+                    var currentFormId = $o.testMerchantId.parents('form').attr('id');
+                    if ($form.attr('id') === currentFormId) {
                         changeTestMode();
                     }
                 }

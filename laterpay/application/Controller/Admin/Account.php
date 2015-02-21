@@ -271,8 +271,8 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Changing test mode from hidden to visible and back
-     * 
+     * Toggle test mode between hidden and visible.
+     *
      * @return void
      */
     public static function change_test_mode() {
@@ -304,9 +304,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
 
         if ( $is_in_visible_test_mode ) {
-            $message = __( 'LaterPay plugin in <b>visible</b> test mode now.', 'laterpay' );
+            $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
         } else {
-            $message = __( 'LaterPay plugin in <b>invisible</b> test mode now.', 'laterpay' );
+            $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
         }
 
         wp_send_json(

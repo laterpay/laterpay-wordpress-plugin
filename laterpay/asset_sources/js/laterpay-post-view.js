@@ -414,7 +414,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             handlePurchaseInTestMode = function(trigger) {
-                if ($(trigger).data('preview-as-visitor') && ! $(trigger).data('visible-test-mode-active')) {
+                if ($(trigger).data('preview-as-visitor') && !$(trigger).data('visible-test-mode-active')) {
                     // show alert instead of loading LaterPay purchase dialogs
                     alert(lpVars.i18n.alert);
                 }
@@ -474,7 +474,6 @@ laterPayPostView();
 
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
-
     var ppuContext      = {
                             showCloseBtn        : true,
                             canSkipAddToInvoice : false,
@@ -488,7 +487,7 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
             event.preventDefault();
             if (
                 event.currentTarget.getData('preview-as-visitor') &&
-                ! event.currentTarget.getData('visible-test-mode-active')
+                !event.currentTarget.getData('visible-test-mode-active')
             ) {
                 alert(lpVars.i18n.alert);
             } else {
@@ -502,4 +501,3 @@ YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', func
         '.lp_js_doPurchase'
     );
 });
-
