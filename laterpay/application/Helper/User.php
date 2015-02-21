@@ -36,7 +36,7 @@ class LaterPay_Helper_User
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
 
-        if ( self::current_user_can( $capability ) ) {
+        if ( self::current_user_can( $capability, $post ) ) {
             if ( ! $strict ) {
                 // if $strict = false, it's sufficient that a capability is added to the role of the current user
                 $allowed = true;
@@ -81,30 +81,46 @@ class LaterPay_Helper_User
     /**
      * Check, if user has a given capability.
      *
-     * @param string $capability capability
+     * @param string  $capability capability
+     * @param WP_Post $post       post object
      *
      * @return bool
      */
-    public static function current_user_can( $capability ) {
+    public static function current_user_can( $capability, $post = null ) {
+        if ( current_user_can( $capability ) ) {
+            return true;
+        }
+
+        $unlimited_access = get_option( 'laterpay_unlimited_access' );
+        if ( ! $unlimited_access ) {
+            return false;
+        }
+
+        // check, if user has a role that has the given capability
+        $user = wp_get_current_user();
+        if ( ! $user instanceof WP_User || ! $user->roles ) {
+            return false;
+        }
+
         $has_cap = false;
 
-        if ( current_user_can( $capability ) ) {
-            $has_cap = true;
-        } else {
-            $unlimited_access = get_option( 'laterpay_unlimited_access_to_paid_content' );
-            if ( $unlimited_access ) {
-                // check, if user has a role that has the given capability
-                $user = wp_get_current_user();
-                if ( $user instanceof WP_User ) {
-                    if ( $user->roles ) {
-                        foreach ( $user->roles as $role ) {
-                            if ( in_array( $role, (array) $unlimited_access ) ) {
-                                $has_cap = true;
-                                break;
-                            }
-                        }
-                    }
-                }
+        foreach ( $user->roles as $role ) {
+            if ( ! isset( $unlimited_access[$role] ) || false !== array_search( 'none', $unlimited_access[$role] ) ) {
+                continue;
+            }
+
+            $categories       = array( 'all' );
+            // get post categories and their parents
+            $post_categories  = wp_get_post_categories( $post->ID );
+            foreach( $post_categories as $post_category_id ) {
+                $categories[] = $post_category_id;
+                $parents      = LaterPay_Helper_Pricing::get_category_parents( $post_category_id );
+                $categories   = array_merge( $categories, $parents );
+            }
+
+            if ( array_intersect( $categories, $unlimited_access[$role] ) ) {
+                $has_cap = true;
+                break;
             }
         }
 

@@ -1022,4 +1022,23 @@ class LaterPay_Helper_Pricing
 
         return $has_price;
     }
+
+    /**
+     * Get category parents
+     *
+     * @param $category_id
+     *
+     * @return array of parent categories ids
+     */
+    public static function get_category_parents( $category_id ) {
+        $parents = array();
+
+        $parent_id = get_category( $category_id )->parent;
+        while ( $parent_id ) {
+            $parents[] = $parent_id;
+            $parent_id = get_category( $parent_id )->parent;
+        }
+
+        return $parents;
+    }
 }

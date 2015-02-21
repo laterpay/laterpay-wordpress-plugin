@@ -135,10 +135,11 @@
                 // switch interval or revenue model filter
                 $o.configurationSelection
                     .mousedown(function() {
-                        var startTimestamp = $o.currentInterval.data('startTimestamp'),
+                        var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                            oldInterval     = getInterval(),
                             nextStartTimestamp,
                             nextEndTimestamp,
-                            interval;
+                            newInterval;
 
                         // mark clicked item as selected
                         $(this)
@@ -153,17 +154,31 @@
                             .end()
                             .addClass($o.selected);
 
-                        interval = getInterval();
+                        newInterval = getInterval();
+
+                        // for the 24 hour interval it's allowed to view 'today', but when switching to another interval
+                        // we have to automatically switch back to 'yesterday'
+                        if (oldInterval === 'day' && newInterval !== 'day') {
+                            var todayDate   = new Date(),
+                                startDate   = new Date(startTimestamp * 1000);
+
+                            todayDate.setHours(0, 0, 0, 0);
+                            startDate.setHours(0, 0, 0, 0);
+
+                            if (todayDate.getTime() === startDate.getTime()) {
+                                startTimestamp = startTimestamp - getIntervalDiff(oldInterval);
+                            }
+                        }
 
                         // check, if the 'next' button should be visible or hidden for the given interval
-                        nextStartTimestamp  = startTimestamp + getIntervalDiff(interval);
-                        switchNextIntervalState(nextStartTimestamp, interval);
+                        nextStartTimestamp  = startTimestamp + getIntervalDiff(newInterval);
+                        switchNextIntervalState(nextStartTimestamp, newInterval);
 
                         // check, if the 'previous' button should be visible or hidden for the given interval
-                        nextEndTimestamp    = startTimestamp - getIntervalDiff(interval);
-                        switchPreviousIntervalState(nextEndTimestamp, interval);
+                        nextEndTimestamp    = startTimestamp - getIntervalDiff(newInterval);
+                        switchPreviousIntervalState(nextEndTimestamp, newInterval);
 
-                        setTimeRange(startTimestamp, interval);
+                        setTimeRange(startTimestamp, newInterval);
                         loadDashboard(false);
                     })
                     .click(function(e) {e.preventDefault();});
@@ -197,8 +212,9 @@
             },
 
             loadPreviousInterval = function() {
-                var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                    interval        = getInterval();
+                var endTimestamp    = $o.currentInterval.data('startTimestamp'),
+                    interval        = getInterval(),
+                    intervalDiff    = getIntervalDiff(interval);
 
                 if ($o.previousInterval.hasClass($o.disabled)) {
                     return;
@@ -208,17 +224,19 @@
                 // interval so make sure the next link is not disabled
                 $o.previousInterval.removeClass($o.disabled);
 
-                startTimestamp = startTimestamp - getIntervalDiff(interval);
+                endTimestamp = endTimestamp - intervalDiff;
 
-                switchNextIntervalState(startTimestamp, interval);
-                switchPreviousIntervalState(startTimestamp, interval);
-                setTimeRange(startTimestamp, interval);
+                switchNextIntervalState(endTimestamp, interval);
+                switchPreviousIntervalState(endTimestamp, interval);
+                setTimeRange(endTimestamp, interval);
                 loadDashboard(false);
             },
 
             loadNextInterval = function() {
                 var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                    interval        = getInterval();
+                    nextStartTimestamp,
+                    interval        = getInterval(),
+                    intervalDiff    = getIntervalDiff(interval);
 
                 if ($o.nextInterval.hasClass($o.disabled)) {
                     return;
@@ -228,9 +246,12 @@
                 // interval so make sure the prev link is not disabled
                 $o.previousInterval.removeClass($o.disabled);
 
-                startTimestamp = startTimestamp + getIntervalDiff(interval);
+                startTimestamp = startTimestamp + intervalDiff;
 
-                switchNextIntervalState(startTimestamp, interval);
+                // check if the next startTimestamp is within the interval
+                nextStartTimestamp = startTimestamp + intervalDiff;
+                switchNextIntervalState(nextStartTimestamp, interval);
+
                 setTimeRange(startTimestamp, interval);
                 loadDashboard(true);
             },
@@ -257,17 +278,24 @@
                 var startDate   = new Date(),
                     intervalEnd = $o.currentInterval.data('intervalEndTimestamp'),
                     endDate     = new Date(intervalEnd * 1000),
-                    givenDate   = new Date(timestamp * 1000);
+                    givenDate   = new Date(timestamp * 1000),
+                    interval    = getInterval();
 
-                // yesterday
-                startDate.setDate(startDate.getDate() - 1);
+                // for the 24 hour interval we allow 'today' as startDate, else we default to 'yesterday'
+                if (interval !== 'day') {
+                    startDate.setDate(startDate.getDate() - 1);
+                }
 
                 // reset all days to 0:00:00 for easier comparison
                 startDate.setHours(0,0,0,0);
                 endDate.setHours(0,0,0,0);
                 givenDate.setHours(0,0,0,0);
 
-                return !(givenDate.getTime() <= endDate.getTime() || givenDate.getTime() >= startDate.getTime());
+                if (interval === 'day') {
+                    return !(givenDate.getTime() <= endDate.getTime() || givenDate.getTime() > startDate.getTime());
+                } else {
+                    return !(givenDate.getTime() <= endDate.getTime() || givenDate.getTime() >= startDate.getTime());
+                }
             },
 
             getIntervalDiff = function(interval) {
