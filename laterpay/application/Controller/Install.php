@@ -366,7 +366,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Add option for hidden / visible test mode.
+     * Add option for invisible / visible test mode.
      *
      * @since 0.9.11
      * @wp-hook admin_notices

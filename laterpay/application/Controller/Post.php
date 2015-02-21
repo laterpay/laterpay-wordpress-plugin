@@ -780,7 +780,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'         => $preview_post_as_visitor,
             'purchase_button_is_hidden'       => LaterPay_Helper_View::purchase_button_is_hidden(),
-            'visible_test_mode_active'        => $is_in_visible_test_mode,
+            'is_in_visible_test_mode'        => $is_in_visible_test_mode,
         );
 
         $this->logger->info(
@@ -1023,7 +1023,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'time_passes_positioned_manually'       => $timepasses_positioned_manually,
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'only_time_pass_purchases_allowed'      => $only_time_passes_allowed,
-            'visible_test_mode_active'              => $is_in_visible_test_mode,
+            'is_in_visible_test_mode'              => $is_in_visible_test_mode,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -1199,7 +1199,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $args = array(
             'standard_currency'         => get_option( 'laterpay_currency' ),
             'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
-            'visible_test_mode_active'  => $is_in_visible_test_mode,
+            'is_in_visible_test_mode'  => $is_in_visible_test_mode,
         );
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );

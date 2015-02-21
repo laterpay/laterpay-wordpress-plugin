@@ -287,7 +287,7 @@ class LaterPay_Helper_Post
             'currency'                  => get_option( 'laterpay_currency' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,
-            'visible_test_mode_active'  => $is_active_visible_test_mode,
+            'is_in_visible_test_mode'  => $is_active_visible_test_mode,
         );
 
         laterpay_get_logger()->info(

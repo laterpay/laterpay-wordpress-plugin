@@ -15,7 +15,7 @@ $args = array(
     'data-laterpay'                 => $laterpay['link'],
     'data-post-id'                  => $laterpay['post_id'],
     'data-preview-as-visitor'       => $laterpay['preview_post_as_visitor'],
-    'data-visible-test-mode-active' => $laterpay['visible_test_mode_active'],
+    'data-is-in-visible-test-mode' => $laterpay['is_in_visible_test_mode'],
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {
