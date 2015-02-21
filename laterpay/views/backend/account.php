@@ -159,7 +159,7 @@
             </div><?php _e( 'mode.', 'laterpay' ); ?>
             <div class="lp_js_testModeSettings lp_u_inlineBlock"
                 <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
-                <?php _e( 'It is <strong>invisible</strong>' , 'laterpay' ); ?>
+                <?php _e( 'It is' , 'laterpay' ); ?>
                 <div class="lp_toggle">
                     <form id="lp_js_changeTestModeForm" method="post" action="">
                         <input type="hidden" name="form"    value="laterpay_test_mode">
@@ -172,12 +172,15 @@
                                    class="lp_js_pluginInVisibleTestMode lp_toggle_input"
                                    value="1"
                                    <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
-                            <span class="lp_toggle_text"></span>
+                            <span class="lp_toggle_text"
+                                data-on="<?php _e( 'visible', 'laterpay' ); ?>"
+                                data-off="<?php _e( 'invisible', 'laterpay' ); ?>">
+                            </span>
                             <span class="lp_toggle_handle"></span>
                         </label>
                     </form>
                 </div>
-                <?php _e( '<strong>visible</strong> to visitors.', 'laterpay' ); ?>
+                <?php _e( 'to visitors.', 'laterpay' ); ?>
             </div>
 
             <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
