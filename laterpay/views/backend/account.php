@@ -165,9 +165,8 @@
             </div><?php _e( 'mode.', 'laterpay' ); ?>
             <div id="lp_js_pluginVisibilitySetting" class="lp_u_inlineBlock"
                 <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
-                <?php _e( 'It is invisible' , 'laterpay' ); ?>
-                <div class="lp_toggle">
-                    <form id="lp_js_changeTestModeForm" method="post" action="">
+                <?php _e( 'It is invisible' , 'laterpay' ); ?><div class="lp_toggle">
+                    <form id="laterpay_test_mode" method="post">
                         <input type="hidden" name="form"    value="laterpay_test_mode">
                         <input type="hidden" name="action"  value="laterpay_account">
                         <input type="hidden" id="lp_js_hasInvalidSandboxCredentials" name="invalid_credentials" value="0">
@@ -184,8 +183,7 @@
                             <span class="lp_toggle_handle"></span>
                         </label>
                     </form>
-                </div>
-                <?php _e( 'visible to visitors.', 'laterpay' ); ?>
+                </div><?php _e( 'visible to visitors.', 'laterpay' ); ?>
             </div>
 
             <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
