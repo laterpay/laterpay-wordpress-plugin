@@ -323,9 +323,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function maype_add_only_time_pass_purchase_option() {
+    public function maybe_add_only_time_pass_purchase_option() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
 
@@ -344,7 +344,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      */
     public function maybe_update_api_urls_options_names() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
 
@@ -443,13 +443,46 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      */
     public function maybe_update_unlimited_access() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.11', '>=' ) ) {
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
 
         if ( $unlimited_role = get_option( 'laterpay_unlimited_access_to_paid_content' ) ) {
             add_option( 'laterpay_unlimited_access', array( $unlimited_role => array( 'all' ) ) );
             delete_option( 'laterpay_unlimited_access_to_paid_content' );
+        }
+    }
+
+    /**
+     * Update post view table structure
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_post_views() {
+        global $wpdb;
+
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        $table   = $wpdb->prefix . 'laterpay_post_views';
+        $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
+
+        $is_up_to_date = false;
+
+        foreach ( $columns as $column ) {
+            if ( $column->Field === 'mode' ) {
+                $is_up_to_date = true;
+            }
+        }
+
+        if ( ! $is_up_to_date ) {
+            $wpdb->query( "ALTER TABLE " . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
+            $wpdb->query( "UPDATE " . $table . " SET mode = 'live';" );
         }
     }
 
@@ -505,11 +538,12 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE $table_post_views (
-                post_id           INT(11)         NOT NULL,
-                date              DATETIME        NOT NULL,
-                user_id           VARCHAR(32)     NOT NULL,
-                count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
-                ip                VARBINARY(16)   NOT NULL,
+                post_id           INT(11)              NOT NULL,
+                mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
+                date               DATETIME             NOT NULL,
+                user_id           VARCHAR(32)          NOT NULL,
+                count             BIGINT UNSIGNED      NOT NULL DEFAULT 1,
+                ip                VARBINARY(16)        NOT NULL,
                 UNIQUE KEY  (post_id, user_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
