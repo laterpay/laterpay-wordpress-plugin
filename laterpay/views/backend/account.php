@@ -113,7 +113,10 @@
                                     class="lp_js_validateApiKey lp_input lp_apiKeyInput"
                                     value="<?php echo $laterpay['live_api_key']; ?>"
                                     required>
-                                <label for="laterpay_sandbox_api_key" alt="<?php _e( 'Paste Live API Key here', 'laterpay' ); ?>" placeholder="<?php _e( 'API Key', 'laterpay' ); ?>"></label>
+                                <label for="laterpay_sandbox_api_key"
+                                        alt="<?php _e( 'Paste Live API Key here', 'laterpay' ); ?>"
+                                        placeholder="<?php _e( 'API Key', 'laterpay' ); ?>">
+                                </label>
                             </li>
                         </ul>
                         <ul class="lp_u_clearfix">
@@ -121,7 +124,10 @@
                                 &nbsp;
                             </li>
                             <li class="lp_u_left">
-                                <a href="#" id="lp_js_showMerchantContracts" class="lp_requestLiveCredentials button button-primary">
+                                <a href="#"
+                                    id="lp_js_showMerchantContracts"
+                                    class="lp_requestLiveCredentials button button-primary"
+                                    <?php if ( $laterpay['plugin_is_in_live_mode'] == 1 ) { echo 'style="display:none";'; } ?>>
                                     <?php _e( 'Request Live API Credentials', 'laterpay' ); ?>
                                 </a>
                             </li>
@@ -157,7 +163,7 @@
                     </label>
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>
-            <div class="lp_js_testModeSettings lp_u_inlineBlock"
+            <div id="lp_js_pluginVisibilitySetting" class="lp_u_inlineBlock"
                 <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'It is invisible' , 'laterpay' ); ?>
                 <div class="lp_toggle">
@@ -169,7 +175,8 @@
                         <label class="lp_toggle_label lp_toggle_label_pass">
                             <input type="checkbox"
                                    name="plugin_is_in_visible_test_mode"
-                                   class="lp_js_pluginInVisibleTestMode lp_toggle_input"
+                                   id="lp_js_toggleVisibilityInTestMode"
+                                   class="lp_toggle_input"
                                    value="1"
                                    <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
                             <span class="lp_toggle_text" data-on="" data-off="">
