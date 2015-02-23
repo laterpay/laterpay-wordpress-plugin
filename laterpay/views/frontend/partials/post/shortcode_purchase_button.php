@@ -11,6 +11,7 @@
    data-laterpay="<?php echo $laterpay['link']; ?>"
    data-post-id="<?php echo $laterpay['post_id']; ?>"
    data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']; ?>"
+   data-is-in-visible-test-mode="<?php echo $laterpay['is_in_visible_test_mode']; ?>"
    ><?php
        echo sprintf(
                __( '%s<small>%s</small>', 'laterpay' ), LaterPay_Helper_View::format_number( $laterpay['price'] ), $laterpay['currency']

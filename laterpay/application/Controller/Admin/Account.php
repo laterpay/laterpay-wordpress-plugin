@@ -45,13 +45,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         $this->load_assets();
 
         $view_args = array(
-            'sandbox_merchant_id'    => get_option( 'laterpay_sandbox_merchant_id' ),
-            'sandbox_api_key'        => get_option( 'laterpay_sandbox_api_key' ),
-            'live_merchant_id'       => get_option( 'laterpay_live_merchant_id' ),
-            'live_api_key'           => get_option( 'laterpay_live_api_key' ),
-            'plugin_is_in_live_mode' => $this->config->get( 'is_in_live_mode' ),
-            'top_nav'                => $this->get_menu(),
-            'admin_menu'             => LaterPay_Helper_View::get_admin_menu(),
+            'sandbox_merchant_id'               => get_option( 'laterpay_sandbox_merchant_id' ),
+            'sandbox_api_key'                   => get_option( 'laterpay_sandbox_api_key' ),
+            'live_merchant_id'                  => get_option( 'laterpay_live_merchant_id' ),
+            'live_api_key'                      => get_option( 'laterpay_live_api_key' ),
+            'plugin_is_in_live_mode'            => $this->config->get( 'is_in_live_mode' ),
+            'plugin_is_in_visible_test_mode'    => get_option( 'laterpay_is_in_visible_test_mode' ),
+            'top_nav'                           => $this->get_menu(),
+            'admin_menu'                        => LaterPay_Helper_View::get_admin_menu(),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -98,6 +99,10 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
                 case 'laterpay_plugin_mode':
                     self::update_plugin_mode();
+                    break;
+
+                case 'laterpay_test_mode':
+                    self::change_test_mode();
                     break;
 
                 default:
@@ -263,5 +268,52 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         }
 
         die;
+    }
+
+    /**
+     * Toggle test mode between invisible and visible.
+     *
+     * @return void
+     */
+    public static function change_test_mode() {
+        $plugin_test_mode_form = new LaterPay_Form_TestMode();
+
+        if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
+                )
+            );
+        }
+        $is_in_visible_test_mode = $plugin_test_mode_form->get_field_value( 'plugin_is_in_visible_test_mode' );
+        $is_credentials_invalid = $plugin_test_mode_form->get_field_value( 'invalid_credentials' );
+
+        if ( $is_credentials_invalid ) {
+            update_option( 'laterpay_is_in_visible_test_mode', 0 );
+            wp_send_json(
+                array(
+                    'success'   => false,
+                    'mode'      => 'test',
+                    'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
+                )
+            );
+        }
+
+        update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
+
+        if ( $is_in_visible_test_mode ) {
+            $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
+        } else {
+            $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
+        }
+
+        wp_send_json(
+            array(
+                'success' => true,
+                'mode'    => 'test',
+                'message' => $message,
+            )
+        );
     }
 }

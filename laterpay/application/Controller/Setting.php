@@ -67,7 +67,6 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
         $this->add_logger_settings();
-        $this->add_api_settings();
     }
 
     /**
@@ -514,93 +513,6 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                     blog.<br>
                     This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
                     It will automatically be deleted after three months.', 'laterpay') .
-            '</p>';
-    }
-
-    /**
-     * Add LaterPay API URLs section and fields.
-     *
-     * @return void
-     */
-    public function add_api_settings() {
-        add_settings_section(
-            'laterpay_api',
-            __( 'LaterPay API URLs', 'laterpay' ),
-            array( $this, 'get_api_settings_section_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_sandbox_backend_api_url',
-            __( 'Sandbox Backend API URL', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
-            'laterpay',
-            'laterpay_api',
-            array(
-                'name'  => 'laterpay_sandbox_backend_api_url',
-                'type'  => 'url',
-                'class' => 'code',
-            )
-        );
-
-        add_settings_field(
-            'laterpay_sandbox_dialog_api_url',
-            __( 'Sandbox Dialog API URL', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
-            'laterpay',
-            'laterpay_api',
-            array(
-                'name'  => 'laterpay_sandbox_dialog_api_url',
-                'type'  => 'url',
-                'class' => 'code',
-            )
-        );
-
-        add_settings_field(
-            'laterpay_live_backend_api_url',
-            __( 'Live Backend API URL', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
-            'laterpay',
-            'laterpay_api',
-            array(
-                'name'  => 'laterpay_live_backend_api_url',
-                'type'  => 'url',
-                'class' => 'code',
-            )
-        );
-
-        add_settings_field(
-            'laterpay_live_dialog_api_url',
-            __( 'Live Dialog API URL', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
-            'laterpay',
-            'laterpay_api',
-            array(
-                'name'  => 'laterpay_live_dialog_api_url',
-                'type'  => 'url',
-                'class' => 'code',
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_sandbox_backend_api_url' );
-        register_setting( 'laterpay', 'laterpay_sandbox_dialog_api_url' );
-        register_setting( 'laterpay', 'laterpay_live_backend_api_url' );
-        register_setting( 'laterpay', 'laterpay_live_dialog_api_url' );
-    }
-
-    /**
-     * Render the hint text for the API settings section.
-     *
-     * @return string description
-     */
-    public function get_api_settings_section_description() {
-        echo '<p>' .
-                __( 'There is only a single reason for changing the API settings:<br>
-                    By replacing the Live API URLs with the Sandbox API URLs,
-                    you can configure your installation to be in
-                    Test mode, but behave like an installation in Live mode.<br>
-                    This is what LaterPay is doing at <a href="www.laterpaydemo.com">laterpaydemo.com</a>.',
-                    'laterpay') .
             '</p>';
     }
 

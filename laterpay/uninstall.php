@@ -53,6 +53,7 @@ delete_option( 'laterpay_sandbox_merchant_id' );
 delete_option( 'laterpay_live_api_key' );
 delete_option( 'laterpay_live_merchant_id' );
 delete_option( 'laterpay_plugin_is_in_live_mode' );
+delete_option( 'laterpay_is_in_visible_test_mode' );
 
 delete_option( 'laterpay_enabled_post_types' );
 

@@ -113,7 +113,10 @@
                                     class="lp_js_validateApiKey lp_input lp_apiKeyInput"
                                     value="<?php echo $laterpay['live_api_key']; ?>"
                                     required>
-                                <label for="laterpay_sandbox_api_key" alt="<?php _e( 'Paste Live API Key here', 'laterpay' ); ?>" placeholder="<?php _e( 'API Key', 'laterpay' ); ?>"></label>
+                                <label for="laterpay_sandbox_api_key"
+                                        alt="<?php _e( 'Paste Live API Key here', 'laterpay' ); ?>"
+                                        placeholder="<?php _e( 'API Key', 'laterpay' ); ?>">
+                                </label>
                             </li>
                         </ul>
                         <ul class="lp_u_clearfix">
@@ -121,7 +124,10 @@
                                 &nbsp;
                             </li>
                             <li class="lp_u_left">
-                                <a href="#" id="lp_js_showMerchantContracts" class="lp_requestLiveCredentials button button-primary">
+                                <a href="#"
+                                    id="lp_js_showMerchantContracts"
+                                    class="lp_requestLiveCredentials button button-primary"
+                                    <?php if ( $laterpay['plugin_is_in_live_mode'] == 1 ) { echo 'style="display:none";'; } ?>>
                                     <?php _e( 'Request Live API Credentials', 'laterpay' ); ?>
                                 </a>
                             </li>
@@ -137,7 +143,7 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>
-            <?php _e( 'This site is in', 'laterpay' ); ?><div class="lp_toggle">
+            <?php _e( 'The LaterPay plugin is in', 'laterpay' ); ?><div class="lp_toggle">
                 <form id="laterpay_plugin_mode" method="post">
                     <input type="hidden" name="form"    value="laterpay_plugin_mode">
                     <input type="hidden" name="action"  value="laterpay_account">
@@ -157,14 +163,39 @@
                     </label>
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>
+            <div id="lp_js_pluginVisibilitySetting" class="lp_u_inlineBlock"
+                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
+                <?php _e( 'It is invisible' , 'laterpay' ); ?>
+                <div class="lp_toggle">
+                    <form id="lp_js_changeTestModeForm" method="post" action="">
+                        <input type="hidden" name="form"    value="laterpay_test_mode">
+                        <input type="hidden" name="action"  value="laterpay_account">
+                        <input type="hidden" id="lp_js_hasInvalidSandboxCredentials" name="invalid_credentials" value="0">
+                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                        <label class="lp_toggle_label lp_toggle_label_pass">
+                            <input type="checkbox"
+                                   name="plugin_is_in_visible_test_mode"
+                                   id="lp_js_toggleVisibilityInTestMode"
+                                   class="lp_toggle_input"
+                                   value="1"
+                                   <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
+                            <span class="lp_toggle_text" data-on="" data-off="">
+                            </span>
+                            <span class="lp_toggle_handle"></span>
+                        </label>
+                    </form>
+                </div>
+                <?php _e( 'visible to visitors.', 'laterpay' ); ?>
+            </div>
 
             <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>. All payments are booked and credited to your account.', 'laterpay' ); ?>
             </dfn>
             <dfn id="lp_js_pluginMode_testText" class="lp_u_block"<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
-                <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>. LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
+                <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay' ); ?>
             </dfn>
         </div>
+
     </div>
 
 </div>
