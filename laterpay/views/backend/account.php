@@ -170,7 +170,7 @@
                     <form id="lp_js_changeTestModeForm" method="post" action="">
                         <input type="hidden" name="form"    value="laterpay_test_mode">
                         <input type="hidden" name="action"  value="laterpay_account">
-                        <input type="hidden" name="invalid_credentials" value="0" class="lp_js_invalidCredentials">
+                        <input type="hidden" id="lp_js_hasInvalidSandboxCredentials" name="invalid_credentials" value="0">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <label class="lp_toggle_label lp_toggle_label_pass">
                             <input type="checkbox"

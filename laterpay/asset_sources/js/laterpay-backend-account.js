@@ -4,30 +4,29 @@
     function laterPayBackendAccount() {
         var $o = {
                 // API credentials
-                apiKeyInput                 : $('.lp_js_validateApiKey'),
-                merchantIdInput             : $('.lp_js_validateMerchantId'),
-                apiCredentialsInputs        : $('.lp_js_validateApiKey, .lp_js_validateMerchantId'),
-                testMerchantId              : $('#lp_js_sandboxMerchantId'),
-                testApiKey                  : $('#lp_js_sandboxApiKey'),
-                liveMerchantId              : $('#lp_js_liveMerchantId'),
-                liveApiKey                  : $('#lp_js_liveApiKey'),
-                isLive                      : 'lp_is-live',
+                apiKeyInput                     : $('.lp_js_validateApiKey'),
+                merchantIdInput                 : $('.lp_js_validateMerchantId'),
+                apiCredentialsInputs            : $('.lp_js_validateApiKey, .lp_js_validateMerchantId'),
+                testMerchantId                  : $('#lp_js_sandboxMerchantId'),
+                testApiKey                      : $('#lp_js_sandboxApiKey'),
+                liveMerchantId                  : $('#lp_js_liveMerchantId'),
+                liveApiKey                      : $('#lp_js_liveApiKey'),
 
                 // plugin mode
-                pluginModeIndicator         : $('#lp_js_pluginModeIndicator'),
-                pluginModeToggle            : $('#lp_js_togglePluginMode'),
-                pluginVisibilitySetting     : $('#lp_js_pluginVisibilitySetting'),
-                pluginVisibilityToggle      : $('#lp_js_toggleVisibilityInTestMode'),
-                pluginModeTestText          : $('#lp_js_pluginMode_testText'),
-                pluginModeLiveText          : $('#lp_js_pluginMode_liveText'),
-                    // FIXME: wtf is this??
-                    testModeInvalidCredField    : $('.lp_js_invalidCredentials'),
+                pluginModeIndicator             : $('#lp_js_pluginModeIndicator'),
+                pluginModeToggle                : $('#lp_js_togglePluginMode'),
+                pluginVisibilitySetting         : $('#lp_js_pluginVisibilitySetting'),
+                pluginVisibilityToggle          : $('#lp_js_toggleVisibilityInTestMode'),
+                pluginModeTestText              : $('#lp_js_pluginMode_testText'),
+                pluginModeLiveText              : $('#lp_js_pluginMode_liveText'),
+                hasInvalidSandboxCredentials    : $('#lp_js_hasInvalidSandboxCredentials'),
+                isLive                          : 'lp_is-live',
 
-                showMerchantContractsButton : $('#lp_js_showMerchantContracts'),
+                showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
 
-                throttledFlashMessage       : undefined,
-                flashMessageTimeout         : 800,
-                requestSent                 : false,
+                throttledFlashMessage           : undefined,
+                flashMessageTimeout             : 800,
+                requestSent                     : false,
             },
 
             bindEvents = function() {
@@ -88,10 +87,10 @@
 
             toggleVisibilityInTestMode = function() {
                 if (hasNoValidCredentials()) {
-                    // FIXME: wtf is this?
-                    $o.testModeInvalidCredField.val(1);
+                    // save information in form that credentials are invalid
+                    $o.hasInvalidSandboxCredentials.val(1);
 
-                    // restore test mode
+                    // switch to invisible test mode to make sure visitors don't see a broken site
                     $o.pluginVisibilityToggle.prop('checked', false);
 
                     // focus Merchant ID input in case the user just forgot to enter his credentials
@@ -100,7 +99,7 @@
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
                 } else {
-                    $o.testModeInvalidCredField.val(0);
+                    $o.hasInvalidSandboxCredentials.val(0);
                 }
 
                 makeAjaxRequest('lp_js_toggleVisibilityInTestModeForm');
@@ -201,7 +200,10 @@
                         setMessage(lpVars.i18nApiKeyInvalid, false);
                     }, $o.flashMessageTimeout);
 
-// TODO: why is this being done?
+                    // switch to invisible test mode to make sure visitors don't see a broken site,
+                    // if we are in test mode;
+                    // no action is required here, if we are in live mode, because there is another check below,
+                    // if we need to switch from live to test mode
                     var currentFormId = $o.testApiKey.parents('form').attr('id');
                     if ($form.attr('id') === currentFormId) {
                         toggleVisibilityInTestMode();
@@ -237,7 +239,10 @@
                         setMessage(lpVars.i18nMerchantIdInvalid, false);
                     }, $o.flashMessageTimeout);
 
-// TODO: why is this being done?
+                    // switch to invisible test mode to make sure visitors don't see a broken site,
+                    // if we are in test mode;
+                    // no action is required here, if we are in live mode, because there is another check below,
+                    // if we need to switch from live to test mode
                     var currentFormId = $o.testMerchantId.parents('form').attr('id');
                     if ($form.attr('id') === currentFormId) {
                         toggleVisibilityInTestMode();
