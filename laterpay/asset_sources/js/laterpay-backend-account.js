@@ -102,7 +102,8 @@
                     $o.hasInvalidSandboxCredentials.val(0);
                 }
 
-                makeAjaxRequest('lp_js_toggleVisibilityInTestModeForm');
+                // save visibility in test mode
+                makeAjaxRequest('laterpay_test_mode');
             },
 
             togglePluginModeIndicators = function(mode) {
@@ -112,6 +113,8 @@
                     $o.pluginModeLiveText.show();
                     $o.pluginModeIndicator.fadeOut();
                     $('.lp_liveCredentials').addClass($o.isLive);
+                    // reset plugin visibility mode to 'invisible'
+                    $o.pluginVisibilityToggle.prop('checked', false);
                 } else {
                     $o.showMerchantContractsButton.fadeIn(250);
                     $o.pluginModeTestText.show();

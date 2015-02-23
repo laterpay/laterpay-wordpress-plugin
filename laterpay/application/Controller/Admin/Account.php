@@ -102,7 +102,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     break;
 
                 case 'laterpay_test_mode':
-                    self::change_test_mode();
+                    self::update_plugin_visibility_in_test_mode();
                     break;
 
                 default:
@@ -220,7 +220,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update LaterPay plugin mode (test or live).
+     * Toggle LaterPay plugin mode between TEST and LIVE.
      *
      * @return void
      */
@@ -249,13 +249,23 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     )
                 );
             } else {
-                wp_send_json(
-                    array(
-                        'success'   => true,
-                        'mode'      => 'test',
-                        'message'   => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
-                    )
-                );
+                if ( get_option( 'plugin_is_in_visible_test_mode' ) ) {
+                    wp_send_json(
+                        array(
+                            'success'   => true,
+                            'mode'      => 'test',
+                            'message'   => __( 'The LaterPay plugin is in visible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
+                        )
+                    );
+                } else {
+                    wp_send_json(
+                        array(
+                            'success'   => true,
+                            'mode'      => 'test',
+                            'message'   => __( 'The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
+                        )
+                    );
+                }
             }
         } else {
             wp_send_json(
@@ -271,26 +281,29 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Toggle test mode between invisible and visible.
+     * Toggle LaterPay plugin test mode between INVISIBLE and VISIBLE.
      *
      * @return void
      */
-    public static function change_test_mode() {
+    public static function update_plugin_visibility_in_test_mode() {
         $plugin_test_mode_form = new LaterPay_Form_TestMode();
 
         if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) {
             wp_send_json(
                 array(
-                    'success' => false,
-                    'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' )
+                    'success'   => false,
+                    'mode'      => 'test',
+                    'message'   => __( 'An error occurred. Incorrect data provided.', 'laterpay' ),
                 )
             );
         }
-        $is_in_visible_test_mode = $plugin_test_mode_form->get_field_value( 'plugin_is_in_visible_test_mode' );
-        $is_credentials_invalid = $plugin_test_mode_form->get_field_value( 'invalid_credentials' );
 
-        if ( $is_credentials_invalid ) {
+        $is_in_visible_test_mode = $plugin_test_mode_form->get_field_value( 'plugin_is_in_visible_test_mode' );
+        $has_invalid_credentials = $plugin_test_mode_form->get_field_value( 'invalid_credentials' );
+
+        if ( $has_invalid_credentials ) {
             update_option( 'laterpay_is_in_visible_test_mode', 0 );
+
             wp_send_json(
                 array(
                     'success'   => false,
@@ -298,22 +311,22 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
                 )
             );
-        }
-
-        update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
-
-        if ( $is_in_visible_test_mode ) {
-            $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
         } else {
-            $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
-        }
+            update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
 
-        wp_send_json(
-            array(
-                'success' => true,
-                'mode'    => 'test',
-                'message' => $message,
-            )
-        );
+            if ( $is_in_visible_test_mode ) {
+                $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
+            } else {
+                $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
+            }
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'mode'    => 'test',
+                    'message' => $message,
+                )
+            );
+        }
     }
 }
