@@ -269,7 +269,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $diagram_data[$date] = $data;
         }
 
-        $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $diagram_data, $options['start_timestamp'], $options['interval'] );
+        $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
+                                    $diagram_data,
+                                    $options['start_timestamp'],
+                                    $options['interval']
+                                );
 
         $context = array(
             'options'                   => $options,

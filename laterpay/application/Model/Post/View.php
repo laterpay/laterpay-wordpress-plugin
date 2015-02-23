@@ -140,6 +140,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             ),
         );
         $args = wp_parse_args( $args, $default_args );
+
         return $this->get_results( $args );
     }
 
@@ -241,8 +242,8 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
     }
 
     /**
-     * Get least viewed posts x days back. By default with maximum of 10 posts.
-     * Leave end- and start-timestamp empty to fetch the results without sparkline.
+     * Get least viewed posts x days back. By default a maximum of 10 posts.
+     * Leave end and start timestamp empty to fetch the results without sparkline.
      *
      * @param array     $args
      * @param int       $start_timestamp
@@ -312,6 +313,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             ),
             'join'  => $this->post_join,
         );
+
         return $this->get_results( $args );
     }
 
