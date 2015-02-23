@@ -137,7 +137,7 @@
 
         <div class="lp_row">
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>
-            <?php _e( 'This site is in', 'laterpay' ); ?><div class="lp_toggle">
+            <?php _e( 'The LaterPay plugin is in', 'laterpay' ); ?><div class="lp_toggle">
                 <form id="laterpay_plugin_mode" method="post">
                     <input type="hidden" name="form"    value="laterpay_plugin_mode">
                     <input type="hidden" name="action"  value="laterpay_account">
