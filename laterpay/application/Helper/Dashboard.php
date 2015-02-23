@@ -58,7 +58,7 @@ class LaterPay_Helper_Dashboard
 
     /**
      * Callback for wp-ajax and wp-cron to refresh today's dashboard data.
-     * The Cron job provides two params for {x} days back and {n} count of items to
+     * The cron job provides two params for {x} days back and {n} count of items to
      * register your own cron with custom params to cache data.
      *
      * @wp-hook laterpay_refresh_dashboard_data
@@ -184,7 +184,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper function to format the amount in most-/least-items.
+     * Helper function to format the amount in most- / least-items.
      *
      * @param array     $items
      * @param int       $decimal
@@ -337,7 +337,7 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Monday
+     *                          [day_name]  => Mon
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -349,7 +349,8 @@ class LaterPay_Helper_Dashboard
      */
     public static function sort_items_by_date( $items ) {
         if ( empty( $items ) ) {
-            laterpay_get_logger()->warning( __METHOD__ . ' - empty items-array' );
+            laterpay_get_logger()->warning( __METHOD__ . ' - empty items array' );
+
             return array();
         }
 
@@ -376,7 +377,7 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Monday
+     *                          [day_name]  => Mon
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -388,13 +389,16 @@ class LaterPay_Helper_Dashboard
      */
     public static function sort_items_by_hour( $items ) {
         if ( empty( $items ) ) {
-            laterpay_get_logger()->warning( __METHOD__ . ' - empty items-array' );
+            laterpay_get_logger()->warning( __METHOD__ . ' - empty items array' );
+
             return array();
         }
+
         $items_by_hour = array();
         foreach ( $items as $item ) {
             $items_by_hour[ $item->hour ] = $item;
         }
+
         laterpay_get_logger()->info(
             __METHOD__,
             array(
@@ -402,6 +406,7 @@ class LaterPay_Helper_Dashboard
                 'output'    => $items_by_hour,
             )
         );
+
         return $items_by_hour;
     }
 
@@ -459,6 +464,7 @@ class LaterPay_Helper_Dashboard
         foreach ( $last_days as $day_item ) {
             $date       = $day_item->date;
             $day_name   = $day_item->day_name;
+
             if ( ! array_key_exists( $date, $items ) ) {
                 $item           = new stdClass();
                 $item->day_name = $day_name;
@@ -493,19 +499,20 @@ class LaterPay_Helper_Dashboard
     public static function fill_empty_hours( $items, $start_timestamp ) {
         $filled_items = array();
 
-        $day = gmdate( 'd', $start_timestamp );
-        $date= gmdate( 'Y-m-d', $start_timestamp );
+        $day_name   = gmdate( 'D', $start_timestamp );
+        $date       = gmdate( 'Y-m-d', $start_timestamp );
 
         for ( $hour = 0; $hour < 24; $hour++ ) {
             if ( ! array_key_exists( $hour, $items ) ) {
                 $item           = new stdClass();
                 $item->hour     = $hour;
-                $item->day      = $day;
+                $item->day      = $day_name;
                 $item->date     = $date;
                 $item->quantity = 0;
             } else {
                 $item = $items[$hour];
             }
+
             $filled_items[$hour] = $item;
         }
 
@@ -547,6 +554,7 @@ class LaterPay_Helper_Dashboard
                 $key,
                 $expiry[$key]
             );
+
             $key++;
         }
 
