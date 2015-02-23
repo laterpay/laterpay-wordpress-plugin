@@ -430,11 +430,11 @@ class LaterPay_Helper_Dashboard
         }
 
         for ( $i = 0; $i < $days; $i++ ) {
-            $time_stamp     = strtotime( '-' . $i . ' days', $start_timestamp );
+            $timestamp      = strtotime( '-' . $i . ' days', $start_timestamp );
 
             $item           = new stdClass();
-            $item->date     = gmdate( 'Y-m-d', $time_stamp );
-            $item->day_name = gmdate( 'D', $time_stamp );
+            $item->date     = gmdate( 'Y-m-d', $timestamp );
+            $item->day_name = gmdate( 'D', $timestamp );
 
             $last_days[]    = $item;
         }
