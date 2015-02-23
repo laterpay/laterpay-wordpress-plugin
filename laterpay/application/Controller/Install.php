@@ -502,7 +502,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Update post view table structure
+     * Update post view table structure.
      *
      * @since 0.9.11
      * @wp-hook admin_notices
@@ -530,6 +530,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         if ( ! $is_up_to_date ) {
             $wpdb->query( "ALTER TABLE " . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
+            // count all existing date as 'live' data to ensure continuity of statistics after migration
             $wpdb->query( "UPDATE " . $table . " SET mode = 'live';" );
         }
     }
