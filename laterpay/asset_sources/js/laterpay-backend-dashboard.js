@@ -758,17 +758,9 @@
 
                     loadDashboardData('time_passes_expiry', refresh, timePassId)
                         .done(function(response) {
-                            var max         = response.data.max,
-                                backColumns = [];
-
-                            i = 0;
-                            l = response.data.y.length;
-                            for (; i < l; i++) {
-                                backColumns.push([i, max]);
-                            }
-
-                            var $placeholder = $(data[index]),
-                                markings = [
+                            var max             = parseInt(response.data.max, 10) + 5, // add some air to y-axis scale
+                                $placeholder    = $(data[index]),
+                                markings        = [
                                     {
                                         // separator 1 after first 4 weeks (1 month)
                                         color           : $o.colorBorder,
@@ -788,7 +780,7 @@
                                         },
                                     },
                                 ],
-                                plotOptions = {
+                                plotOptions     = {
                                     xaxis               : {
                                         ticks           : response.data.x,
                                     },
@@ -803,7 +795,7 @@
                                         markings        : markings,
                                     },
                                 },
-                                plotData = [
+                                plotData        = [
                                     {
                                         data            : response.data.y,
                                         bars            : {
