@@ -272,11 +272,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $diagram_data, $options['start_timestamp'], $options['interval'] );
 
         $context = array(
-            'options'               => $options,
-            'converting_items'      => $converting_items,
-            'selling'               => $selling_items,
-            'diagram_data'          => $diagram_data,
-            'converted_diagram_data'=> $converted_diagram_data,
+            'options'                   => $options,
+            'converting_items'          => $converting_items,
+            'selling'                   => $selling_items,
+            'diagram_data'              => $diagram_data,
+            'converted_diagram_data'    => $converted_diagram_data,
         );
 
         $this->logger->info(

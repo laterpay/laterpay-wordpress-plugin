@@ -537,10 +537,10 @@ class LaterPay_Helper_TimePass
                 $time_pass_history  = $history_model->get_time_pass_history( $time_pass['pass_id'] );
                 $duration           = self::get_time_pass_expiry_time( $time_pass ); // in seconds
 
-                // calculate committed revenue, unredeemed codes, and number of active time passes
-                $committed_revenue  = 0;
-                $unredeemed         = 0;
-                $active             = 0;
+                // calculate time pass KPIs
+                $committed_revenue  = 0; // total value of purchased time passes
+                $unredeemed         = 0; // number of unredeemed gift codes
+                $active             = 0; // number of active time passes
 
                 if  ( $time_pass_history && is_array( $time_pass_history ) ) {
                     foreach ( $time_pass_history as $hist ) {
@@ -566,11 +566,10 @@ class LaterPay_Helper_TimePass
 
                 $time_pass_statistics = array(
                     'data'              => $time_pass,
-                    'active'            => $active,                     // number of active time passes
-                    'sold'              => count( $time_pass_history ), // number of purchases
-                    'unredeemed'        => $unredeemed,                 // number of unredeemed gift codes
-                    'committed_revenue' => $committed_revenue,          // total value of purchases
-                    'paid_price'        => 0,
+                    'active'            => LaterPay_Helper_View::format_number( $active, false ),
+                    'sold'              => LaterPay_Helper_View::format_number( count( $time_pass_history ), false ),
+                    'unredeemed'        => LaterPay_Helper_View::format_number( $unredeemed, false ),
+                    'committed_revenue' => number_format_i18n( $committed_revenue, 2 ),
                 );
 
                 $statistic['individual'][$time_pass['pass_id']] = $time_pass_statistics;
@@ -588,11 +587,10 @@ class LaterPay_Helper_TimePass
         }
 
         $statistic['summary'] = array(
-            'active'            => $summary_active,
-            'sold'              => $summary_sold,
-            'unredeemed'        => $summary_unredeemed,
-            'committed_revenue' => $summary_revenue,
-            'paid_price'        => 0,
+            'active'            => LaterPay_Helper_View::format_number( $summary_active, false ),
+            'sold'              => LaterPay_Helper_View::format_number( $summary_sold, false ),
+            'unredeemed'        => LaterPay_Helper_View::format_number( $summary_unredeemed, false ),
+            'committed_revenue' => number_format_i18n( $summary_revenue, 2 ),
         );
 
         return $statistic;

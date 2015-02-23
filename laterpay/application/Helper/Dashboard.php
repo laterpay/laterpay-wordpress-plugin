@@ -263,7 +263,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper Function to convert a wpdb-result to diagram data.
+     * Helper Function to convert a wpdb result to diagram data.
      *
      * @param array     $items array(
      *                      stdClass Object (
