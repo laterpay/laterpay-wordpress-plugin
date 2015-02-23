@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Mon Feb 23 2015 17:01:18 GMT+0100 (CET)\n"
+"PO-Revision-Date: Mon Feb 23 2015 18:13:15 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -817,11 +817,11 @@ msgstr "Modus."
 msgid "It is invisible"
 msgstr "Es ist für Besucher nicht sichtbar"
 
-#: ../views/backend/account.php:188
+#: ../views/backend/account.php:186
 msgid "visible to visitors."
 msgstr "sichtbar."
 
-#: ../views/backend/account.php:192
+#: ../views/backend/account.php:190
 msgid ""
 "Your visitors <strong>can now purchase with LaterPay</strong>. All payments "
 "are booked and credited to your account."
@@ -829,7 +829,7 @@ msgstr ""
 "Ihre Besucher <strong>können jetzt mit LaterPay kaufen</strong>. Alle "
 "Zahlungen werden gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: ../views/backend/account.php:195
+#: ../views/backend/account.php:193
 msgid "Payments are only simulated and <strong>not actually booked</strong>."
 msgstr ""
 "Zahlungen werden nur simuliert und <strong>nicht tatsächlich "
@@ -2992,7 +2992,6 @@ msgid "The API key you entered is not a valid LaterPay %s API key!"
 msgstr "Der eingegebene API-Key ist kein gültiger LaterPay %s API-Key!"
 
 #: ../application/Controller/Admin/Account.php:234 ..
-#: application/Controller/Admin/Account.php:285 ..
 #: application/Controller/Admin/Pricing.php:301
 msgid "Error occurred. Incorrect data provided."
 msgstr "Ein Fehler ist aufgetreten. Falsche Daten wurden übergeben."
@@ -3005,24 +3004,36 @@ msgstr ""
 "Das LaterPay Plugin ist jetzt im LIVE-Modus. Alle Zahlungen werden "
 "tatsächlich gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: ../application/Controller/Admin/Account.php:256
+#: ../application/Controller/Admin/Account.php:257
 msgid ""
-"The LaterPay plugin is in TEST mode now. Payments are only simulated and not "
-"actually booked."
+"The LaterPay plugin is in visible TEST mode now. Payments are only simulated "
+"and not actually booked."
 msgstr ""
-"Das LaterPay Plugin ist jetzt im TEST-Modus. Zahlungen werden nur simuliert "
-"und nicht tatsächlich gebucht."
+"Das LaterPay Plugin ist jetzt im TEST-Modus und für Ihre Nutzer sichtbar. "
+"Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
-#: ../application/Controller/Admin/Account.php:265 ..
-#: application/Controller/Admin/Account.php:298
+#: ../application/Controller/Admin/Account.php:265
+msgid ""
+"The LaterPay plugin is in invisible TEST mode now. Payments are only "
+"simulated and not actually booked."
+msgstr ""
+"Das LaterPay Plugin ist jetzt im TEST-Modus und für Ihre Nutzer nicht "
+"sichtbar. Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
+
+#: ../application/Controller/Admin/Account.php:275 ..
+#: application/Controller/Admin/Account.php:311
 msgid "The LaterPay plugin needs valid API credentials to work."
 msgstr "Das LaterPay Plugin benötigt gültige API Zugangsdaten."
 
-#: ../application/Controller/Admin/Account.php:306
+#: ../application/Controller/Admin/Account.php:296
+msgid "An error occurred. Incorrect data provided."
+msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
+
+#: ../application/Controller/Admin/Account.php:318
 msgid "The plugin is in <strong>visible</strong> test mode now."
 msgstr "Das Plugin ist jetzt im Test-Modus und für Nutzer <strong>sichtbar</strong>."
 
-#: ../application/Controller/Admin/Account.php:308
+#: ../application/Controller/Admin/Account.php:320
 msgid "The plugin is in <strong>invisible</strong> test mode now."
 msgstr ""
 "Das Plugin ist jetzt im Test-Modus und für Nutzer <strong>nicht "
