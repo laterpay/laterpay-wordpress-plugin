@@ -268,7 +268,7 @@ class LaterPay_Helper_Dashboard
      * @param array     $items array(
      *                      stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Mon
+     *                          [day_name]  => 2014-10-27 10:28:29
      *                          [day]       => 27
      *                      ),
      *                      ..
@@ -310,7 +310,7 @@ class LaterPay_Helper_Dashboard
             } else {
                 $data['x'][] = array(
                     $key,
-                    $item->day_name,
+                    gmdate( 'D', $item->day_name ),
                 );
                 $data['y'][] = array(
                     $key,
@@ -337,7 +337,7 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Mon
+     *                          [day_name]  => 2014-10-27 10:28:29
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -377,7 +377,7 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Mon
+     *                          [day_name]  => 2014-10-27 10:28:29
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -463,7 +463,7 @@ class LaterPay_Helper_Dashboard
     public static function fill_empty_days( $items, $last_days ) {
         foreach ( $last_days as $day_item ) {
             $date       = $day_item->date;
-            $day_name   = $day_item->day_name;
+            $day_name   = gmdate( 'D', $day_item->day_name );
 
             if ( ! array_key_exists( $date, $items ) ) {
                 $item           = new stdClass();
@@ -499,14 +499,14 @@ class LaterPay_Helper_Dashboard
     public static function fill_empty_hours( $items, $start_timestamp ) {
         $filled_items = array();
 
-        $day_name   = gmdate( 'D', $start_timestamp );
-        $date       = gmdate( 'Y-m-d', $start_timestamp );
+        $day    = gmdate( 'd', $start_timestamp );
+        $date   = gmdate( 'Y-m-d', $start_timestamp );
 
         for ( $hour = 0; $hour < 24; $hour++ ) {
             if ( ! array_key_exists( $hour, $items ) ) {
                 $item           = new stdClass();
                 $item->hour     = $hour;
-                $item->day      = $day_name;
+                $item->day      = $day;
                 $item->date     = $date;
                 $item->quantity = 0;
             } else {

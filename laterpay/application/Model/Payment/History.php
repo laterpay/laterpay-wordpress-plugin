@@ -166,7 +166,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'MONTH(date)    AS month',
-                'DAYNAME(date)  AS day_name',
+                'date           AS day_name',
                 'HOUR(date)     AS hour',
             )
         );
@@ -193,7 +193,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'MONTH(date)    AS month',
-                'DAYNAME(date)  AS day_name',
+                'date           AS day_name',
                 'HOUR(date)     AS hour',
             )
         );
