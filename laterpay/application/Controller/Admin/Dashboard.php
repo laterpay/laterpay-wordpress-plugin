@@ -156,7 +156,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $options = $this->get_ajax_request_options( $_POST );
 
-        if ( $options['refresh'] ) {
+        if ( true ) {
             $section    = $options['section'];
             $data       = $this->$section( $options );
             LaterPay_Helper_Dashboard::refresh_cache_data( $options, $data );
