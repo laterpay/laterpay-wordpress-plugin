@@ -532,6 +532,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( "ALTER TABLE " . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
             // count all existing date as 'live' data to ensure continuity of statistics after migration
             $wpdb->query( "UPDATE " . $table . " SET mode = 'live';" );
+            $wpdb->query( "ALTER TABLE " . $table . " DROP INDEX post_id;" );
+            $wpdb->query( "ALTER TABLE " . $table . " ADD UNIQUE INDEX (post_id, user_id, mode);" );
         }
     }
 
@@ -589,11 +591,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             CREATE TABLE $table_post_views (
                 post_id           INT(11)              NOT NULL,
                 mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
-                date               DATETIME             NOT NULL,
+                date              DATETIME             NOT NULL,
                 user_id           VARCHAR(32)          NOT NULL,
                 count             BIGINT UNSIGNED      NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)        NOT NULL,
-                UNIQUE KEY  (post_id, user_id)
+                UNIQUE KEY  (post_id, user_id, mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
