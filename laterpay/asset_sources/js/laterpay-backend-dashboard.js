@@ -344,23 +344,30 @@
                 from = new Date(endTimestamp * 1000);
 
                 // format date string for current interval
-                // use international standard date format by default (YYYY-MM-DD)
+                // use international standard date format by default (YYYY-MM-DD); getMonth and getDate need to be
+                // zero-padded for this
                 if (interval === 'day') {
                     if (lpVars.locale === 'de_DE') {
                         // getMonth is 0-based so we need to compensate that by adding 1 to it
                         timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                     } else {
-                        timeRange = to.getFullYear() + '-' + (to.getMonth() + 1) + '-' + to.getDate();
+                        timeRange = to.getFullYear() + '-' +
+                                    ('0' + (to.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + to.getDate()).slice(-2);
                     }
                 } else {
                     if (lpVars.locale === 'de_DE') {
                         timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
-                        ' - ' +
-                        to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                                    ' &ndash; ' +
+                                    to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
                     } else {
-                        timeRange = from.getFullYear() + '-' + (from.getMonth() + 1) + '-' + from.getDate() +
-                        ' - ' +
-                        to.getFullYear() + '-' + (to.getMonth() + 1) + '-' + to.getDate();
+                        timeRange = from.getFullYear() + '-' +
+                                    ('0' + (from.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + from.getDate()).slice(-2) +
+                                    ' &ndash; ' +
+                                    to.getFullYear() + '-' +
+                                    ('0' + (to.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + to.getDate()).slice(-2);
                     }
                 }
 
