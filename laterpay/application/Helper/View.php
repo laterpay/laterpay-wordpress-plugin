@@ -150,7 +150,7 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Get current plugin mode
+     * Get current plugin mode.
      *
      * @return string $mode
      */
@@ -160,6 +160,7 @@ class LaterPay_Helper_View
         } else {
             $mode = 'test';
         }
+
         return $mode;
     }
 
