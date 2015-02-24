@@ -842,8 +842,15 @@
                             var $graph  = $.plot($placeholder, plotData, plotOptions);
 
                             // calculate the sum of time passes that expire in 0-4 and 5-12 weeks, respectively
-                            var sum04   = 12,   // TODO
-                                sum512  = 21;   // TODO
+                            var sum04   = 0,
+                                sum512  = 0,
+                                i;
+                            for (i = 0; i < 5; i++) {
+                                sum04 += response.data.y[i][1];
+                            }
+                            for (i = 5; i < 13; i++) {
+                                sum512 += response.data.y[i][1];
+                            }
 
                             // add labels to the flot graph:
                             // get the offset of separator 1 within the flot placeholder
