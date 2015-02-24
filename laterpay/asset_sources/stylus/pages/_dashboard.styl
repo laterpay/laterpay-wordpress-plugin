@@ -64,6 +64,13 @@ h1 {
     margin:                         0 $fs-1 0 0;
 }
 
+/*
+ * 1. Center flot tick labels horizontally below data point
+ */
+.flot-x-axis div {
+    margin-left -5px; /* 1 */
+}
+
 .lp_dashboardGraph + .lp_statisticsRow {
     margin:                         $fs-075 $fs-1 $fs-125 0;
 }
@@ -211,6 +218,18 @@ h1 {
     position: absolute;
     text-align: center;
     white-space: nowrap;
+}
+
+.lp_time-pass-diagram__sum {
+    background: $background;
+    color: $text;
+    font-size: $fs-15;
+    line-height: 1.4;
+    padding: 0 5px;
+    position: absolute;
+    text-align: center;
+    white-space: nowrap;
+    width: 40px;
 }
 
 

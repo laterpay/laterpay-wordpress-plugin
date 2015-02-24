@@ -81,6 +81,7 @@
                         color       : $o.colorTextLighter,
                         lineHeight  : 18,
                     },
+                    labelWidth      : 20,
                     show            : true,
                 },
                 yaxis               : {
@@ -342,13 +343,32 @@
                 to = new Date(startTimestamp * 1000);
                 from = new Date(endTimestamp * 1000);
 
-// FIXME: this is not an internationalized date format!
+                // format date string for current interval
+                // use international standard date format by default (YYYY-MM-DD); getMonth and getDate need to be
+                // zero-padded for this
                 if (interval === 'day') {
-                    timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    if (lpVars.locale === 'de_DE') {
+                        // getMonth is 0-based so we need to compensate that by adding 1 to it
+                        timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    } else {
+                        timeRange = to.getFullYear() + '-' +
+                                    ('0' + (to.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + to.getDate()).slice(-2);
+                    }
                 } else {
-                    timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
-                    ' - ' +
-                    to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    if (lpVars.locale === 'de_DE') {
+                        timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
+                                    ' &ndash; ' +
+                                    to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    } else {
+                        timeRange = from.getFullYear() + '-' +
+                                    ('0' + (from.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + from.getDate()).slice(-2) +
+                                    ' &ndash; ' +
+                                    to.getFullYear() + '-' +
+                                    ('0' + (to.getMonth() + 1)).slice(-2) + '-' +
+                                    ('0' + to.getDate()).slice(-2);
+                    }
                 }
 
                 // set the new startTimestamp as data attribute for refreshing the dashboard data;
@@ -758,17 +778,9 @@
 
                     loadDashboardData('time_passes_expiry', refresh, timePassId)
                         .done(function(response) {
-                            var max         = response.data.max,
-                                backColumns = [];
-
-                            i = 0;
-                            l = response.data.y.length;
-                            for (; i < l; i++) {
-                                backColumns.push([i, max]);
-                            }
-
-                            var $placeholder = $(data[index]),
-                                markings = [
+                            var max             = parseInt(response.data.max, 10) + 5, // add some air to y-axis scale
+                                $placeholder    = $(data[index]),
+                                markings        = [
                                     {
                                         // separator 1 after first 4 weeks (1 month)
                                         color           : $o.colorBorder,
@@ -787,8 +799,34 @@
                                             to          : 11.5,
                                         },
                                     },
+                                    {
+                                        // horizontal summary line for first month
+                                        color           : $o.colorBorder,
+                                        lineWidth       : 2,
+                                        xaxis           : {
+                                            from        : 0.25,
+                                            to          : 3.25,
+                                        },
+                                        yaxis           : {
+                                            from        : max - 1,
+                                            to          : max - 1,
+                                        },
+                                    },
+                                    {
+                                        // horizontal summary line for month 2-3
+                                        color           : $o.colorBorder,
+                                        lineWidth       : 2,
+                                        xaxis           : {
+                                            from        : 3.75,
+                                            to          : 11.25,
+                                        },
+                                        yaxis           : {
+                                            from        : max - 1,
+                                            to          : max - 1,
+                                        },
+                                    },
                                 ],
-                                plotOptions = {
+                                plotOptions     = {
                                     xaxis               : {
                                         ticks           : response.data.x,
                                     },
@@ -803,7 +841,7 @@
                                         markings        : markings,
                                     },
                                 },
-                                plotData = [
+                                plotData        = [
                                     {
                                         data            : response.data.y,
                                         bars            : {
@@ -820,7 +858,18 @@
                             // extend empty object to merge specific with default plotOptions without
                             // modifying the defaults
                             plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
-                            var $graph = $.plot($placeholder, plotData, plotOptions);
+                            var $graph  = $.plot($placeholder, plotData, plotOptions);
+
+                            // calculate the sum of time passes that expire in 0-4 and 5-12 weeks, respectively
+                            var sum04   = 0,
+                                sum512  = 0,
+                                i;
+                            for (i = 0; i < 5; i++) {
+                                sum04 += response.data.y[i][1];
+                            }
+                            for (i = 5; i < 13; i++) {
+                                sum512 += response.data.y[i][1];
+                            }
 
                             // add labels to the flot graph:
                             // get the offset of separator 1 within the flot placeholder
@@ -861,6 +910,22 @@
                                 lpVars.i18n.weeksLeft +
                                 '</div>';
                             $placeholder.append(xAxisLabel);
+
+                            // add sum to 0-4 weeks interval
+                            var o4          = $graph.pointOffset({x: 1.5, y: max - 1}),
+                                sum04Label  = '<div class="lp_time-pass-diagram__sum" ' +
+                                    'style="left:' + (o4.left - 30) + 'px; top:' + (o4.top - 14) + 'px;">' +
+                                    sum04 +
+                                    '</div>';
+                            $placeholder.append(sum04Label);
+
+                            // add sum to 5-12 weeks interval
+                            var o5          = $graph.pointOffset({x: 7.5, y: max - 1}),
+                                sum512Label = '<div class="lp_time-pass-diagram__sum" ' +
+                                    'style="left:' + (o5.left - 30) + 'px; top:' + (o5.top - 14) + 'px;">' +
+                                    sum512 +
+                                    '</div>';
+                            $placeholder.append(sum512Label);
                         })
                         .always(function() {
                             removeLoadingIndicator($(data[index]));

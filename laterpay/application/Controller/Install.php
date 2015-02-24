@@ -375,7 +375,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      */
     public function maybe_add_is_in_visible_test_mode_option() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
 
@@ -394,7 +394,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      */
     public function maybe_clean_api_key_options() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
 
@@ -534,6 +534,24 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             $wpdb->query( "ALTER TABLE " . $table . " DROP INDEX post_id;" );
             $wpdb->query( "ALTER TABLE " . $table . " ADD UNIQUE INDEX (post_id, user_id, mode);" );
         }
+    }
+
+    /**
+     * Clear dashboard cache
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_clear_dashboard_cache() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        // remove cache directory
+        LaterPay_Helper_File::delete_directory( laterpay_get_plugin_config()->get( 'cache_dir' ) . 'cron/' );
     }
 
     /**

@@ -398,4 +398,29 @@ class LaterPay_Helper_File
         return $content;
     }
 
+    /**
+     * Remove directory with files
+     *
+     * @param $path
+     */
+    public static function delete_directory( $path ) {
+        if ( ! @is_dir( $path ) ) {
+            return;
+        }
+
+        if ( substr( $path, strlen( $path ) - 1, 1 ) != '/' ) {
+            $path .= '/';
+        }
+        $files = glob( $path . '*', GLOB_MARK );
+        foreach ( $files as $file ) {
+            if ( @is_dir( $file ) ) {
+                self::delete_directory( $file );
+            } else {
+                unlink( $file );
+            }
+        }
+        @rmdir( $path );
+
+        return;
+    }
 }

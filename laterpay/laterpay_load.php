@@ -1,10 +1,6 @@
 <?php
 /**
  * LaterPay plugin AutoLoader.
- *
- * Plugin Name: LaterPay
- * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
- * Author URI: https://laterpay.net/
  */
 
 class LaterPay_AutoLoader
