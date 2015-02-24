@@ -150,14 +150,11 @@
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                     <label class="lp_toggle_label">
                         <input type="checkbox"
-                                name="plugin_is_in_live_mode_checkbox"
+                                name="plugin_is_in_live_mode"
                                 id="lp_js_togglePluginMode"
                                 class="lp_toggle_input"
+                                value="1"
                                 <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>checked<?php endif; ?>>
-                        <input type="hidden"
-                                name="plugin_is_in_live_mode"
-                                id="lp_js_pluginMode_hiddenInput"
-                                value="<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 1; } else { echo 0; } ?>">
                         <span class="lp_toggle_text" data-on="LIVE" data-off="TEST"></span>
                         <span class="lp_toggle_handle"></span>
                     </label>
