@@ -81,6 +81,7 @@
                         color       : $o.colorTextLighter,
                         lineHeight  : 18,
                     },
+                    labelWidth      : 20,
                     show            : true,
                 },
                 yaxis               : {
@@ -779,6 +780,32 @@
                                             to          : 11.5,
                                         },
                                     },
+                                    {
+                                        // horizontal summary line for first month
+                                        color           : $o.colorBorder,
+                                        lineWidth       : 2,
+                                        xaxis           : {
+                                            from        : 0.25,
+                                            to          : 3.25,
+                                        },
+                                        yaxis           : {
+                                            from        : max - 1,
+                                            to          : max - 1,
+                                        },
+                                    },
+                                    {
+                                        // horizontal summary line for month 2-3
+                                        color           : $o.colorBorder,
+                                        lineWidth       : 2,
+                                        xaxis           : {
+                                            from        : 3.75,
+                                            to          : 11.25,
+                                        },
+                                        yaxis           : {
+                                            from        : max - 1,
+                                            to          : max - 1,
+                                        },
+                                    },
                                 ],
                                 plotOptions     = {
                                     xaxis               : {
@@ -812,7 +839,11 @@
                             // extend empty object to merge specific with default plotOptions without
                             // modifying the defaults
                             plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
-                            var $graph = $.plot($placeholder, plotData, plotOptions);
+                            var $graph  = $.plot($placeholder, plotData, plotOptions);
+
+                            // calculate the sum of time passes that expire in 0-4 and 5-12 weeks, respectively
+                            var sum04   = 12,   // TODO
+                                sum512  = 21;   // TODO
 
                             // add labels to the flot graph:
                             // get the offset of separator 1 within the flot placeholder
@@ -853,6 +884,22 @@
                                 lpVars.i18n.weeksLeft +
                                 '</div>';
                             $placeholder.append(xAxisLabel);
+
+                            // add sum to 0-4 weeks interval
+                            var o4          = $graph.pointOffset({x: 1.5, y: max - 1}),
+                                sum04Label  = '<div class="lp_time-pass-diagram__sum" ' +
+                                    'style="left:' + (o4.left - 30) + 'px; top:' + (o4.top - 14) + 'px;">' +
+                                    sum04 +
+                                    '</div>';
+                            $placeholder.append(sum04Label);
+
+                            // add sum to 5-12 weeks interval
+                            var o5          = $graph.pointOffset({x: 7.5, y: max - 1}),
+                                sum512Label = '<div class="lp_time-pass-diagram__sum" ' +
+                                    'style="left:' + (o5.left - 30) + 'px; top:' + (o5.top - 14) + 'px;">' +
+                                    sum512 +
+                                    '</div>';
+                            $placeholder.append(sum512Label);
                         })
                         .always(function() {
                             removeLoadingIndicator($(data[index]));
