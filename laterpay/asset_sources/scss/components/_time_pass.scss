@@ -1,5 +1,5 @@
 // time passes
-.lp_timePass {
+.lp_time-pass {
     color: $text; /* make sure, the text is not white by default */
     display: inline-block;
     font-family: Arial, sans-serif !important;
@@ -9,9 +9,9 @@
     margin-right: $fs-1;
 }
 
-.lp_timePass,
-.lp_timePass__front,
-.lp_timePass__back {
+.lp_time-pass,
+.lp_time-pass__front,
+.lp_time-pass__back {
     height: 154px;
     width: 308px;
 }
@@ -23,30 +23,30 @@
  * 1. Allow child elements (e.g. the purchase button) to be positioned at the bottom of the pass
  * 2. Avoid padding to be added to height and width
  */
-.lp_timePass__front,
-.lp_timePass__back {
+.lp_time-pass__front,
+.lp_time-pass__back {
     box-sizing: border-box; /* 2 */
     position: relative; /* 1 */
 }
 
-.lp_timePass__front {
+.lp_time-pass__front {
     background: url('../img/time-pass-background.png') 0 0 / 100% no-repeat;
     padding: $fs-1 (4 * $fs-1) $fs-1 $fs-1;
 }
 
-.lp_timePass__back {
+.lp_time-pass__back {
     background: url('../img/time-pass-background-flip.png') 0 0 / 100% no-repeat;
     display: none;
     padding: $fs-1 $fs-1 $fs-1 (4 * $fs-1);
 }
 
-.lp_timePass.lp_is-flipped {
+.lp_time-pass.lp_is-flipped {
 
-    .lp_timePass__front {
+	.lp_time-pass__front {
         display: none;
     }
 
-    .lp_timePass__back {
+	.lp_time-pass__back {
         display: block;
     }
 }
@@ -59,7 +59,7 @@
  * 1. Restrict title to one line
  * 2. Cut off excess text, if supported by browser, with an ellipsis
  */
-.lp_timePass_title {
+.lp_time-pass__title {
     color: $text;
     font-size: $fs-15;
     line-height: 1.3;
@@ -76,7 +76,7 @@
  * 1. Normalize appearance
  * 2. Restrict description to three lines
  */
-.lp_timePass_description {
+.lp_time-pass__description {
     color: $text-lighter;
     font-size: $fs-1; /* 1 */
     height: 3.9em; /* 2 */
@@ -91,13 +91,13 @@
  *
  * 1. Take up full available width, i.e. 100% - padding of .lp_timePass
  */
-.lp_timePass_actions {
+.lp_time-pass__actions {
     bottom: 1em;
     position: absolute;
     width: 80%; /* 1 - fallback for browsers that don't support calc */
     width: calc(100% - 4em); /* 1 */
 
-    .lp_purchaseLink.lp_button {
+    .lp_purchase-link.lp_button {
         display: inline-block !important;
         float: none !important;
         vertical-align: middle !important;
@@ -112,7 +112,7 @@
 
 
 // time pass flipside --------------------------------------------------------------------------------------------------
-.lp_timePass__conditions {
+.lp_time-pass__conditions {
     border: 0 none !important;
     border-collapse: collapse !important;
 
@@ -135,7 +135,7 @@
     }
 }
 
-.lp_timePass_frontsideLink {
+.lp_time-pass__front-side-link {
     background: $clickable;
     border-radius: 16px;
     color: $text-inverse;
@@ -214,11 +214,11 @@
         }
     }
 
-    .lp_purchaseLink.lp_button {
+    .lp_purchase-link.lp_button {
         float: left !important;
     }
 
-    .lp_voucherCodeLabel {
+    .lp_voucher__code {
         margin: 0 $fs-025;
         padding: 0 $fs-05;
     }
@@ -232,7 +232,7 @@
 
 // voucher codes -------------------------------------------------------------------------------------------------------
 /* the six-character voucher code */
-.lp_voucherCodeLabel {
+.lp_voucher__code {
     background: $background-lightest;
     border: 2px solid orange;
     color: orange;
@@ -245,11 +245,11 @@
 
 
 /* price and number of times redeemed */
-.lp_voucherCodeInfos {
+.lp_voucher__code-infos {
     display: inline-block;
 }
 
-.lp_voucherList .lp_voucherCodeInfos {
+.lp_vouchers .lp_voucher__code-infos {
     vertical-align: top;
 }
 
@@ -261,7 +261,7 @@
 .lp_timePassWidget {
     // unstyled, to simplify integration into theme
 
-    .lp_timePass {
+    .lp_time-pass {
         display: block !important;
         margin: $fs-1 !important;
 
@@ -522,41 +522,41 @@
     margin-bottom: $fs-05 !important;
     margin-right: $fs-05 !important;
 
-    .lp_timePass,
-    .lp_timePass__front,
-    .lp_timePass__back {
+    .lp_time-pass,
+	.lp_time-pass__front,
+	.lp_time-pass__back {
         height: 112px !important;
         width: 224px !important;
     }
 
-    .lp_timePass__front {
+	.lp_time-pass__front {
         background: url(../img/time-pass-background-small.png) 0 0 / 100% no-repeat !important;
         padding: $fs-05 (6 * $fs-05) $fs-05 $fs-05 !important;
     }
 
-    .lp_timePass__back {
+	.lp_time-pass__back {
         background: url(../img/time-pass-background-flip-small.png) 0 0 / 100% no-repeat !important;
         padding: $fs-05 $fs-05 $fs-05 (6 * $fs-05) !important;
     }
 
-    .lp_timePass_title {
+    .lp_time-pass__title {
         font-size: $fs-1 !important;
 		margin-left: $fs-025 !important;
 		margin-top: $fs-05 !important;
     }
 
-    .lp_timePass_description {
+    .lp_time-pass__description {
         font-size: $fs-075 !important;
         height: 2.9em !important;
         margin-left: $fs-025 !important;
     }
 
-    .lp_timePass_actions {
+    .lp_time-pass__actions {
         bottom: 0.5em !important;
         width: 80% !important;   /* 1 - fallback for browsers that don't support calc */
         width: calc(100% - 2em) !important;   /* 1 */
 
-        .lp_purchaseLink.lp_button {
+        .lp_purchase-link.lp_button {
             font-size: $fs-15 !important;
 
             &:before {
@@ -569,10 +569,10 @@
         }
     }
 
-    .lp_timePass__conditions {
+    .lp_time-pass__conditions {
 
-        th,
-        td {
+        .lp_time-pass__condition-title,
+		.lp_time-pass__condition-value {
             font-size: $fs-075 !important;
             padding-bottom: 0 !important;
         }
@@ -582,7 +582,7 @@
         }
     }
 
-    .lp_timePass_frontsideLink {
+    .lp_time-pass__front-side-link {
         font-size: $fs-075 !important;
         padding: $fs-025 $fs-05 !important;
 

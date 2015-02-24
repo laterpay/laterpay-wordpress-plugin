@@ -31,14 +31,14 @@ ul.lp_row li:nth-child(3) h2 + hr {
     height: 2.4em;
 }
 
-.lp_revenueModel {
+.lp_price-settings__label-list {
     width: 3.5em;
 }
 
-span.lp_revenueModelLabel {
+span.lp_price-settings__label {
     background-color: hsl(0, 0%, 83%);
     color: $text-inverse;
-    padding: 1px $fs-025;
+    padding: $fs-025 $fs-025;
 }
 
 
@@ -51,17 +51,17 @@ span.lp_revenueModelLabel {
     width: 10rem;
 }
 
-.lp_categoryTitle {
+.lp_price-settings__category-title {
     min-width: 8.75em;
 }
 
 
 // time passes ---------------------------------------------------------------------------------------------------------
-.lp_addTimePass.button {
+.lp_time-passes__add-link.button {
     margin-bottom: $fs-1;
 }
 
-.lp_timePassWrapper {
+.lp_time-passes__item {
     background: $background-darker;
     border-radius: 3px;
     margin-bottom: $fs-1;
@@ -69,7 +69,7 @@ span.lp_revenueModelLabel {
     padding: $fs-1;
     position: relative;
 
-    .lp_timePass__idWrapper {
+    .lp_time-pass__id-wrapper {
         background: $background-darker;
         border-radius: 4px 0 0 4px;
         left: - round(3.5 * $fs-1);
@@ -80,20 +80,20 @@ span.lp_revenueModelLabel {
         width: $fs-3;
     }
 
-    .lp_timePass__id {
+    .lp_time-pass__id {
         font-size: $fs-2;
     }
 
-    .lp_timePass {
+    .lp_time-pass {
         margin-bottom: 0;
     }
 }
 
-.lp_timePass_editorContainer {
+.lp_time-pass-editor {
     display: inline-block;
     vertical-align: top;
 
-    .lp_timePass_formColumn {
+    .lp_time-pass-editor__column {
         display: inline-block;
         margin-right: $fs-2;
         vertical-align: top;
@@ -113,27 +113,27 @@ span.lp_revenueModelLabel {
         height: 4.75em;
     }
 
-    .lp_saveLink {
+    .lp_save-link {
         margin-top: 1em;
         margin-left: 0.5em;
     }
 
-    .lp_toggle_label_pass {
+    .lp_toggle__label_pass {
         width: 3.5em;
 
-        .lp_toggle_input:checked ~ .lp_toggle_text {
+        .lp_toggle__input:checked ~ .lp_toggle__text {
             background: hsl(0, 0%, 80%);
         }
     }
 }
 
 // voucher editor
-.lp_voucherRow {
+.lp_voucher {
     margin-top: $fs-05;
     margin-right: $fs-1;
 }
 
-.lp_voucherList .lp_voucherRow {
+.lp_vouchers .lp_voucher {
     float: left;
 }
 
@@ -157,7 +157,7 @@ select.lp_is-disabled {
     }
 }
 
-.lp_bulkOperation {
+.lp_bulk-price__item {
     width: 600px;
 
     span {
@@ -173,7 +173,7 @@ select.lp_is-disabled {
 // responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px) {
 
-    .lp_editLink {
+    .lp_edit-link {
         margin-left: $fs-05;
     }
 

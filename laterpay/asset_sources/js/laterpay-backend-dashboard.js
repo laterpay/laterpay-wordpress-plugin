@@ -22,9 +22,9 @@
                 nextInterval            : $('#lp_js_loadNextInterval'),
                 refreshDashboard        : $('#lp_js_refreshDashboard'),
                 // generic dropdown selectors
-                dropdown                : '.lp_dropdown',
-                dropdownList            : '.lp_dropdown_list',
-                dropdownCurrentItem     : '.lp_dropdown_currentItem',
+                dropdown                : '.lp_js_dropdown',
+                dropdownList            : '.lp_js_dropdownList',
+                dropdownCurrentItem     : '.lp_js_dropdownCurrentItem',
 
                 // diagrams
                 conversionDiagram       : $('#lp_js_conversionDiagram'),
@@ -384,7 +384,7 @@
                 setTimeout(function() {
                     if ($target.hasClass($o.delayed)) {
                         // add the loading indicator after a delay, if the element still has that state class
-                        $target.html('<div class="lp_loadingIndicator"></div>');
+                        $target.html('<div class="lp_loading-indicator"></div>');
                     }
                 }, 600);
             },
@@ -395,7 +395,7 @@
                     $target.removeClass($o.delayed);
                 } else {
                     // remove the loading indicator
-                    $target.find('.lp_loadingIndicator').remove();
+                    $target.find('.lp_loading-indicator').remove();
                 }
             },
 
@@ -630,21 +630,21 @@
 
             renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
                 var kpi         = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue,
-                    valueClass  = 'lp_value';
+                    valueClass  = 'lp_dashboard-data__value';
 
                 if (kpiUnit === '%' || kpiUnit === '') {
-                    valueClass = 'lp_value-narrow';
+                    valueClass = 'lp_dashboard-data__value-narrow';
                 }
 
-                return '<li>' +
-                    '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
+                return '<li class="lp_dashboard-data__item">' +
+                    '<span class="lp_dashboard-data__sparkline">' + sparklineData + '</span>' +
                     '<strong class="' + valueClass + '">' + kpi + '</strong>' +
-                    '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
+                    '<i><a href="#" class="lp_js_toggleItemDetails lp_dashboard-data__link">' + itemName + '</a></i>' +
                     '</li>';
             },
 
             renderSparklines = function($context) {
-                var $sparkline = $('.lp_sparklineBar', $context),
+                var $sparkline = $('.lp_dashboard-data__sparkline', $context),
                 // get the number of data points from the first matched sparkline
                     dataPoints = $sparkline.first().text().split(',').length;
 
@@ -797,7 +797,7 @@
                             // add labels to the flot graph:
                             // get the offset of separator 1 within the flot placeholder
                             var o1      = $graph.pointOffset({x: 3.5, y: 0}),
-                                label1  = '<div class="lp_time-pass-diagram__label" ' +
+                                label1  = '<div class="lp_dashboard-graph__label" ' +
                                     'style="left:' + (o1.left - 30) + 'px; top:2px;">' +
                                     lpVars.i18n.endingIn + '<br>' +
                                     '< 1 ' + lpVars.i18n.month +
@@ -806,7 +806,7 @@
                             $placeholder.append(label1);
                             // get the offset of separator 2 within the flot placeholder
                             var o2      = $graph.pointOffset({x: 11.5, y: 0}),
-                                label2  = '<div class="lp_time-pass-diagram__label" ' +
+                                label2  = '<div class="lp_dashboard-graph__label" ' +
                                     'style="left:' + (o2.left - 30) + 'px; top:2px;">' +
                                     lpVars.i18n.endingIn + '<br>' +
                                     '< 3 ' + lpVars.i18n.months +
@@ -828,7 +828,7 @@
                             ctx.fill();
 
                             // add x-axis label
-                            var xAxisLabel = '<div class="lp_time-pass-diagram__label" ' +
+                            var xAxisLabel = '<div class="lp_dashboard-graph__label" ' +
                                 'style="left:' + (o3.left + 10) + 'px; top:' + o3.top + 'px;">' +
                                 lpVars.i18n.weeksLeft +
                                 '</div>';

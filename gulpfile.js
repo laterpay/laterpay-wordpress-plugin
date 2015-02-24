@@ -37,7 +37,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
                         srcPNG      : './laterpay/asset_sources/img/**/*.png',
                         distJS      : './laterpay/built_assets/js/',
                         distCSS     : './laterpay/built_assets/css/',
-                        distIMG     : './laterpay/built_assets/img/'
+                        distIMG     : './laterpay/built_assets/img/',
                     };
 
 
@@ -97,7 +97,7 @@ gulp.task('js-format', function() {
     return gulp.src(p.srcJS + '*.js')
             .pipe(prettify({
                 config  : '.jsbeautifyrc',
-                mode    : 'VERIFY_AND_WRITE'
+                mode    : 'VERIFY_AND_WRITE',
             }))
             .pipe(gulp.dest(p.srcJS));
 });
@@ -121,7 +121,7 @@ gulp.task('fileformat', function() {
                 spaces          : 4,
                 trailingspaces  : true,
                 newline         : true,
-                newlineMaximum  : 2
+                newlineMaximum  : 2,
             }))
             .pipe(lintspaces.reporter());
 });
@@ -132,7 +132,7 @@ gulp.task('sniffphp', function() {
             .pipe(phpcs({
                 bin             : '/usr/local/bin/phpcs',
                 standard        : 'WordPress',
-                warningSeverity : 0
+                warningSeverity : 0,
             }))
             .pipe(phpcs.reporter('log'));
 });

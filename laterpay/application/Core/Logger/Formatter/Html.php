@@ -35,7 +35,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      */
     public function format( array $record ) {
         $output  = '<li>';
-        $output .= '<table class="lp_debugger-content__table lp_debugger-content__table--is-hidden lp_js_debugger-logEntryTable">';
+        $output .= '<table class="lp_debugger-content__table lp_debugger-content__table--is-hidden lp_js_debugger-contentTable">';
 
         // generate thead of log record
         $output .= $this->add_head_row( (string) $record['message'], $record['level'] );
@@ -75,9 +75,9 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
     private function add_head_row( $message = '', $level ) {
         $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . __( 'Details', 'laterpay' ) . '</a>';
 
-        $html = "<thead class='lp_debugger-content__table-title'>
+        $html = "<thead class='lp_debugger-content__table-title lp_js_debuggerContentTableTitle'>
                     <tr>
-                        <td class='lp_debugger-content__table-td'><span class=\"lp_debugger_logLevel lp_debugger_logLevel-$level lp_vectorIcon\"></span>$message</td>
+                        <td class='lp_debugger-content__table-td'><span class=\'lp_debugger_logLevel lp_debugger_logLevel-$level lp_vectorIcon\'></span>$message</td>
                         <td class='lp_debugger-content__table-td'>$show_details_link</td>
                     </tr>
                 </thead>";

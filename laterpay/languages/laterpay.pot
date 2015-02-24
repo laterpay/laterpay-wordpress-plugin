@@ -779,7 +779,7 @@ msgstr ""
 msgid ""
 "You can offer <strong>gift cards</strong> for each time pass. Please follow "
 "the instructions in the <a href=\"admin.php?page=laterpay-appearance-"
-"tab#lp_giftCardsAppearance\">appearance tab</a>."
+"tab#lp_gift-cards-appearance\">appearance tab</a>."
 msgstr ""
 
 #: ../views/backend/pricing.php:218

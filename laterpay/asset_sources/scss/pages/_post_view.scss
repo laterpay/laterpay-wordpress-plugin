@@ -168,7 +168,7 @@
                 fill: hsl(135, 38%, 49%) !important;
             }
 
-            .lp_purchaseLink.lp_button {
+            .lp_purchase-link.lp_button {
                 display: inline-block !important;
                 float: none !important;
                 margin-top: 1em !important;
@@ -230,7 +230,7 @@
     width: 300px !important;
 
     .lp_button,
-    .lp_purchaseLink.lp_button,
+    .lp_purchase-link.lp_button,
     .lp_purchaseLinkShortcode.lp_button {
         font-size: 21px !important;
         margin: 0 !important;
@@ -367,7 +367,7 @@
             display: none !important;
         }
 
-        .lp_purchaseLink.lp_button {
+        .lp_purchase-link.lp_button {
             margin-left: 2em !important;
         }
     }

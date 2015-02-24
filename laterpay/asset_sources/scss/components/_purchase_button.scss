@@ -1,7 +1,7 @@
 // LaterPay purchase button
 
 // rendered as plain link ----------------------------------------------------------------------------------------------
-.lp_purchaseLink {
+.lp_purchase-link {
     display: block !important;
     font-family: Arial, sans-serif !important;
     font-weight: 400 !important;
@@ -38,7 +38,7 @@
 
 // rendered as button --------------------------------------------------------------------------------------------------
 .lp_button,
-.lp_purchaseLink.lp_button {
+.lp_purchase-link.lp_button {
     @include linear-gradient($background-laterpay, 0%, $background-laterpay-darker, 100%, $start, $end);
     border-color: hsl(166, 64%, 31%) hsl(166, 64%, 35%) !important;
     border-radius: 5px !important;

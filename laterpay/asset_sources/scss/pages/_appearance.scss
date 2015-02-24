@@ -1,34 +1,33 @@
 // 'Appearance' tab in plugin backend
 
 // content preview mode ------------------------------------------------------------------------------------------------
-.lp_previewMode-1,
-.lp_previewMode-2 {
+.lp_preview-mode__image {
     background-repeat: no-repeat;
     height: 208px;
     margin: 0.5em 4em 0.25em 1.75em;
     width: 300px;
-}
 
-.lp_previewMode-1 {
-    background-image: url('../img/preview-mode-1.png');
-    background-size: 100%;
-}
+	&.lp_preview-mode__image--teaser-only {
+		background-image: url('../img/preview-mode-1.png');
+		background-size: 100%;
+	}
 
-.lp_previewMode-2 {
-    background-image: url('../img/preview-mode-2.png');
-    background-size: 100%;
+	&.lp_preview-mode__image--teaser-and-content {
+		background-image: url('../img/preview-mode-2.png');
+		background-size: 100%;
+	}
 }
 
 
 // code snippets -------------------------------------------------------------------------------------------------------
-.lp_uiElementPreview {
+.lp_element-preview {
     width: 110px;
 }
-.lp_uiElementPreview.lp--large {
+.lp_element-preview.lp--large {
     width: 300px;
 }
 
-.lp_codeSnippet {
+.lp_code-snippet {
     background-color: $background-lightest;
     border: 1px solid $border-darker;
     border-radius: 3px;
@@ -42,7 +41,7 @@
     }
 }
 
-.lp_codeSnippet.lp--shownAbove {
+.lp_code-snippet.lp--shown-above {
     margin: $fs-075 0 $fs-05;
     max-width: 540px;
 

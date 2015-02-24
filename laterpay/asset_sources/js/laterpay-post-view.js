@@ -428,7 +428,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             flipTimePass = function(trigger) {
-                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
+                $(trigger).parents('.lp_time-pass').toggleClass('lp_is-flipped');
             },
 
             delete_cookie = function( name ) {

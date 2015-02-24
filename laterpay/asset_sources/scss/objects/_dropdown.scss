@@ -6,10 +6,10 @@
     cursor: pointer;
     display: inline-block;
     position: relative;
+}
 
-    .lp_dropdown_currentItem {
-        color: $clickable;
-    }
+.lp_dropdown__current-item {
+	color: $clickable;
 }
 
 
@@ -17,12 +17,12 @@
 .lp_dropdown:hover,
 .lp_dropdown.lp_is-expanded {
 
-    .lp_dropdown_list {
+    .lp_dropdown__list {
         display: block;
     }
 }
 
-.lp_dropdown_list {
+.lp_dropdown__list {
     background: $background-lightest;
     border: 2px solid $border;
     border-radius: 3px;
@@ -34,47 +34,49 @@
     top: (3 * $fs-1);
     width: 6em;
     z-index: $zindex-overlayed_1;
-
-
-    /* upward-pointing arrow */
-    .lp_triangle {
-        border: 13px solid $background-lightest;
-        border-color: transparent transparent $background-lightest transparent;
-        height: 0;
-        left: -13px;
-        position: absolute;
-        top: -10px;
-        width: 0;
-        z-index: $zindex-elevated_2;
-    }
-
-
-    /* border for upward-pointing arrow */
-    .lp_outerTriangle {
-        border-bottom-color: $border;
-        border-width: 14px;
-        left: 50%;
-        margin-left: -14px;
-        top: -28px;
-        z-index: $zindex-elevated_1;
-    }
 }
 
-.lp_dropdown_listItem {
+
+
+/* upward-pointing arrow */
+.lp_dropdown__triangle {
+	border: 13px solid $background-lightest;
+	border-color: transparent transparent $background-lightest transparent;
+	height: 0;
+	left: -13px;
+	position: absolute;
+	top: -10px;
+	width: 0;
+	z-index: $zindex-elevated_2;
+
+
+	/* border for upward-pointing arrow */
+	&.lp_dropdown__triangle--outer-triangle {
+		border-bottom-color: $border;
+		border-width: 14px;
+		left: 50%;
+		margin-left: -14px;
+		top: -28px;
+		z-index: $zindex-elevated_1;
+	}
+}
+
+.lp_dropdown__item {
     display: block;
     line-height: 1;
     padding: $fs-05;
     white-space: nowrap;
-}
 
-/**
- * Highlight the selected item and remove all styling that makes it look as if you could interact with it
- */
-.lp_dropdown_listItem.lp_is-selected {
-    color: $text-lighter;
 
-    &:hover {
-        color: $text-lighter;
-        cursor: default;
-    }
+	/**
+	 * Highlight the selected item and remove all styling that makes it look as if you could interact with it
+	 */
+	&.lp_is-selected {
+		color: $text-lighter;
+
+		&:hover {
+			color: $text-lighter;
+			cursor: default;
+		}
+	}
 }

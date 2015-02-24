@@ -5,10 +5,10 @@
                 menuItem            : $('#wp-admin-bar-lp_js_toggleDebuggerVisibility'),
                 debugger            : $('#lp_js_debugger'),
                 debuggerHeader      : $('#lp_js_debuggerHeader'),
-                tabs                : $('#lp_js_debuggerTabs li'),
+                tabs                : $('.lp_js_debuggerTabItem'),
                 content             : $('.lp_js_debuggerContent'),
-                logMessage          : '.lp_js_debugger-logEntryTable',
-                logMessageHeader    : $('.lp_js_debugger-logEntryTable thead'),
+                logMessage          : '.lp_js_debugger-contentTable',
+                logMessageHeader    : $('.lp_js_debuggerContentTableTitle'),
                 logDetails          : '.lp_js_logEntryDetails',
 
                 hidden              : 'lp_is-hidden',

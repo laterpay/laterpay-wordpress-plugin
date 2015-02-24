@@ -388,7 +388,7 @@
             },
 
             validatePrice = function($form, invalidPrice, $input) {
-                var $priceInput = $input ? $input : $('.lp_numberInput', $form),
+                var $priceInput = $input ? $input : $('.lp_number-input', $form),
                     price       = $priceInput.val();
 
                 // strip non-number characters
@@ -855,7 +855,7 @@
                     $($o.timePassPreviewAccess, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
-                    $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
+                    $('.lp_purchase-link', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
                     $($o.timePassPreviewPrice).text(text + ' ' + lpVars.defaultCurrency);
                 } else if ($input.hasClass($o.timePassTitleClass)) {
                     // update pass title in pass preview
@@ -1004,7 +1004,7 @@
             },
 
             flipTimePass = function(trigger) {
-                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
+                $(trigger).parents('.lp_time-pass').toggleClass('lp_is-flipped');
             },
 
             changeTimePassScope = function($trigger) {
@@ -1040,15 +1040,15 @@
 
             addVoucher = function(code, priceValue, $timePass) {
                 var price   = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' +
+                    voucher =   '<div class="lp_js_voucher lp_voucher" ' +
                                         'data-code="' + code + '" ' +
                                         'style="display:none;">' +
                                     '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
-                                    '<span class="lp_voucherCodeLabel">' + code + '</span>' +
-                                    '<span class="lp_voucherCodeInfos">' +
+                                    '<span class="lp_voucher__code">' + code + '</span>' +
+                                    '<span class="lp_voucher__code-infos">' +
                                         lpVars.i18n.voucherText + ' ' + price +
                                     '</span>' +
-                                    '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
+                                    '<a href="#" class="lp_js_deleteVoucher lp_edit-link lp_delete-link" data-icon="g">' +
                                         lpVars.i18n.delete +
                                     '</a>' +
                                 '</div>';
@@ -1060,8 +1060,8 @@
                 var passId          = $timePass.data('pass-id'),
                     timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
                     price           = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' + 'data-code="' + code + '">' +
-                                    '<span class="lp_voucherCodeInfos">' +
+                    voucher =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
+                                    '<span class="lp_voucher__code-infos">' +
                                         lpVars.i18n.voucherText + ' ' + price + '.<br>' +
                                         '<span class="lp_js_voucherTimesRedeemed">' +
                                             timesRedeemed +
@@ -1239,8 +1239,8 @@
             },
 
             createSavedBulkOperation = function(bulkOperationId, bulkMessage) {
-                var operation = '<p class="lp_bulkOperation" data-value="' +  bulkOperationId + '">' +
-                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" ' +
+                var operation = '<p class="lp_bulk-price__item" data-value="' +  bulkOperationId + '">' +
+                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" ' +
                                             'data-icon="g">' +
                                         lpVars.i18n.delete +
                                     '</a>' +

@@ -1,11 +1,11 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="lp_dropdown">
-    <span class="lp_dropdown_currentItem"><?php _e( 'all', 'laterpay' ); ?></span>
-    <div class="lp_dropdown_list">
-        <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
-        <a href="#" class="lp_js_selectRevenueModel lp_dropdown_listItem lp_is-selected" data-revenue-model="all"><?php _e( 'all', 'laterpay' ); ?></a>
-        <a href="#" class="lp_js_selectRevenueModel lp_dropdown_listItem" data-revenue-model="ppu"><?php _e( 'PPU', 'laterpay' ); ?></a>
-        <a href="#" class="lp_js_selectRevenueModel lp_dropdown_listItem" data-revenue-model="sis"><?php _e( 'SIS', 'laterpay' ); ?></a>
+<div class="lp_dropdown lp_js_dropdown">
+    <span class="lp_dropdown__current-item lp_js_dropdownCurrentItem"><?php _e( 'all', 'laterpay' ); ?></span>
+    <div class="lp_dropdown__list lp_js_dropdownList">
+        <div class="lp_dropdown__triangle lp_dropdown__triangle--outer-triangle"><div class="lp_dropdown__triangle"></div></div>
+        <a href="#" class="lp_js_selectRevenueModel lp_dropdown__item lp_is-selected" data-revenue-model="all"><?php _e( 'all', 'laterpay' ); ?></a>
+        <a href="#" class="lp_js_selectRevenueModel lp_dropdown__item" data-revenue-model="ppu"><?php _e( 'PPU', 'laterpay' ); ?></a>
+        <a href="#" class="lp_js_selectRevenueModel lp_dropdown__item" data-revenue-model="sis"><?php _e( 'SIS', 'laterpay' ); ?></a>
     </div>
 </div>

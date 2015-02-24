@@ -9,7 +9,7 @@ if ( $laterpay['purchase_link_is_hidden'] ) {
  */
 $args = array(
     'href'                      => '#',
-    'class'                     => 'lp_js_doPurchase lp_purchaseLink',
+    'class'                     => 'lp_js_doPurchase lp_purchase-link',
     'title'                     => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                 => 'b',
     'data-laterpay'             => $laterpay['link'],

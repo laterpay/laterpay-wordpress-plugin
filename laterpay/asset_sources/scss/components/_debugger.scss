@@ -261,6 +261,19 @@
 .lp_debugger-content__table {
 	margin: 0;
 	width: 100%;
+
+	&.lp_is-hidden {
+
+		.lp_debugger-content__table-body .lp_debugger-content__table-th,
+		.lp_debugger-content__table-body .lp_debugger-content__table-td {
+			padding: 0 $fs-05 $fs-025;
+		}
+
+		.lp_debugger-content__table-body .lp_debugger-content__table-th {
+			padding-left: 2.75em;
+			width: 12em;
+		}
+	}
 }
 
 .lp_debugger-content__table,
@@ -285,19 +298,6 @@
 	padding-left: $fs-05;
 	text-overflow: ellipsis;
 	width: 12em;
-}
-
-.lp_debugger-content__table--is-hidden {
-
-	.lp_debugger-content__table-body .lp_debugger-content__table-th,
-	.lp_debugger-content__table-body .lp_debugger-content__table-td {
-		padding: 0 $fs-05 $fs-025;
-	}
-
-	.lp_debugger-content__table-body .lp_debugger-content__table-th {
-		padding-left: 2.75em;
-		width: 12em;
-	}
 }
 
 

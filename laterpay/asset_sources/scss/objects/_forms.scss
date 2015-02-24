@@ -37,15 +37,14 @@ select.lp_input {
 
 // special inputs ------------------------------------------------------------------------------------------------------
 // API Key and Merchant ID inputs
-input[type=text].lp_apiKeyInput,
-input[type=text].lp_merchantIdInput {
+input[type=text].lp_account-input__input {
     padding-left: 2.8em;
     width: 22em;
 }
 
 
 // number inputs
-input[type=text].lp_numberInput {
+input[type=text].lp_number-input {
     padding: 0.25em 0.35em;
     text-align: right;
     width: 4em;
@@ -53,7 +52,7 @@ input[type=text].lp_numberInput {
 
 
 // iconized inputs
-.lp_iconizedInput {
+.lp_account-input__icon {
     color: $border;
     font-size: 2em;
     margin: 0.04em 0 0 0.35em;
@@ -185,7 +184,7 @@ input[type=text][required] {
     }
 }
 
-.lp_iconizedInput + input[type=text][required] + label[placeholder]:before {
+.lp_account-input__icon + input[type=text][required] + label[placeholder]:before {
     margin: 1.4em 0 0 calc(3em - 1px);
 }
 
@@ -252,20 +251,20 @@ label:hover .ez-mark {
 
 
 // edit links ----------------------------------------------------------------------------------------------------------
-.lp_editLink {
+.lp_edit-link {
     margin-left: 1em;
     padding: 0.5em 0;
 }
 
 
 // revenue model labels ------------------------------------------------------------------------------------------------
-.lp_revenueModelLabel {
+.lp_price-settings__label {
     background-color: $background-darker;
     border-radius: 3px;
     color: $clickable;
     display: inline-block;
     font-weight: bold;
-    padding: $fs-025 $fs-05;
+    padding: $fs-025 $fs-025;
     text-align: center;
     text-transform: uppercase;
     width: 2em;
@@ -275,16 +274,16 @@ label:hover .ez-mark {
     }
 }
 
-label.lp_revenueModelLabel:hover {
+label.lp_price-settings__label:hover {
     background-color: $clickable-highlight;
     color: $text-inverse;
 }
 
-.lp_revenueModelLabel.lp_is-disabled {
-    visibility: hidden;
+.lp_price-settings__label.lp_is-disabled {
+    display: none;
 }
 
-.lp_revenueModelLabel.lp_is-selected {
+.lp_price-settings__label.lp_is-selected {
     background-color: $background-laterpay;
     color: $text-inverse;
 

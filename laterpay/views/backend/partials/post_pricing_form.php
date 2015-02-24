@@ -11,7 +11,7 @@
         <input type="text"
                 name="post-price"
                 id="lp_js_postPrice_priceInput"
-                class="lp_input lp_numberInput lp_u_fs-3"
+                class="lp_input lp_number-input lp_u_fs-3"
                 value="<?php echo LaterPay_Helper_View::format_number( $laterpay['price'] ); ?>"
                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                 <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled="disabled"'; } ?>>
@@ -19,7 +19,7 @@
     </p>
 
     <div id="lp_js_postPrice_revenueModel" class="lp_postRevenueModel lp_u_relative">
-            <label class="lp_revenueModelLabel lp_u_m-t125 lp_u_m-b05 lp_tooltip
+            <label class="lp_price-settings__label lp_u_m-t125 lp_u_m-b05 lp_tooltip
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo ' lp_is-selected'; } ?>
                         <?php if ( $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>
@@ -32,7 +32,7 @@
                     value="ppu"
                     <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'checked'; } ?>>PPU
             </label>
-            <label class="lp_revenueModelLabel lp_tooltip
+            <label class="lp_price-settings__label lp_tooltip
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo ' lp_is-selected'; } ?>
                         <?php if ( $laterpay['price'] < LaterPay_Helper_Pricing::sis_min ) { echo ' lp_is-disabled'; } ?>
