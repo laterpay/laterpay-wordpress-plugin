@@ -135,7 +135,6 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'MONTH(date)    AS month',
-                'date           AS day_name',
                 'HOUR(date)     AS hour',
             ),
         );
