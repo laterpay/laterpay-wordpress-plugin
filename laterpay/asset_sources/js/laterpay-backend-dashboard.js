@@ -778,7 +778,7 @@
 
                     loadDashboardData('time_passes_expiry', refresh, timePassId)
                         .done(function(response) {
-                            var max             = parseInt(response.data.max, 10) + 5, // add some air to y-axis scale
+                            var max             = parseInt(lpVars.timePassesMaxYAxis, 10) + 5, // add some air to y-axis scale
                                 $placeholder    = $(data[index]),
                                 markings        = [
                                     {
