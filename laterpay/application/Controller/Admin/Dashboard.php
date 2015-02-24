@@ -100,6 +100,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                     'standard' => 'standard-kpis',
                     'passes'   => 'time-passes',
                 ) ),
+                'locale'    => get_locale(),
                 'i18n'      => $i18n,
             )
         );

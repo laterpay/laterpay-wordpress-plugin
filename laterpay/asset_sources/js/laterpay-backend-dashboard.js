@@ -343,13 +343,25 @@
                 to = new Date(startTimestamp * 1000);
                 from = new Date(endTimestamp * 1000);
 
-// FIXME: this is not an internationalized date format!
+                // format date string for current interval
+                // use international standard date format by default (YYYY-MM-DD)
                 if (interval === 'day') {
-                    timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    if (lpVars.locale === 'de_DE') {
+                        // getMonth is 0-based so we need to compensate that by adding 1 to it
+                        timeRange = to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    } else {
+                        timeRange = to.getFullYear() + '-' + (to.getMonth() + 1) + '-' + to.getDate();
+                    }
                 } else {
-                    timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
-                    ' - ' +
-                    to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    if (lpVars.locale === 'de_DE') {
+                        timeRange = from.getDate() + '.' + (from.getMonth() + 1) + '.' + from.getFullYear() +
+                        ' - ' +
+                        to.getDate() + '.' + (to.getMonth() + 1) + '.' + to.getFullYear();
+                    } else {
+                        timeRange = from.getFullYear() + '-' + (from.getMonth() + 1) + '-' + from.getDate() +
+                        ' - ' +
+                        to.getFullYear() + '-' + (to.getMonth() + 1) + '-' + to.getDate();
+                    }
                 }
 
                 // set the new startTimestamp as data attribute for refreshing the dashboard data;
