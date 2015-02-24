@@ -669,7 +669,7 @@
                         ));
                     }
                 } else {
-                    $o.list = ['<dfn>' + lpVars.i18n.noData + '</dfn>'];
+                    $o.list = ['<dfn class="lp_topBottomList__empty-state">' + lpVars.i18n.noData + '</dfn>'];
                 }
 
                 // replace existing HTML
@@ -778,7 +778,7 @@
 
                     loadDashboardData('time_passes_expiry', refresh, timePassId)
                         .done(function(response) {
-                            var max             = parseInt(lpVars.timePassesMaxYAxis, 10) + 5, // add some air to y-axis scale
+                            var max             = parseInt(lpVars.maxYValue, 10) + 5, // add some air to y-axis scale
                                 $placeholder    = $(data[index]),
                                 markings        = [
                                     {
