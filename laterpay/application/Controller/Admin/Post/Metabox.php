@@ -49,7 +49,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         );
         wp_register_script(
             'laterpay-d3-dynamic-pricing-widget',
-            $this->config->get( 'js_url' ) . '/d3.dynamic.widget.js',
+            $this->config->get( 'js_url' ) . '/laterpay-dynamic-pricing-widget.js',
             array( 'laterpay-d3' ),
             $this->config->get( 'version' ),
             true
