@@ -549,9 +549,12 @@ class LaterPay_Helper_TimePass
 
                         // check, if there are unredeemed gift codes
                         if ( $hist->code && ! LaterPay_Helper_Voucher::get_gift_code_usages_count( $hist->code ) ) {
-                            $has_unredeemed = true;
                             $unredeemed++;
                             $summary_unredeemed++;
+                        }
+
+                        if ( $hist->code ) {
+                            $has_unredeemed = true;
                         }
 
                         // check, if pass is still active
