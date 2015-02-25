@@ -150,6 +150,21 @@ class LaterPay_Helper_View
     }
 
     /**
+     * Get current plugin mode.
+     *
+     * @return string $mode
+     */
+    public static function get_plugin_mode() {
+        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
+            $mode = 'live';
+        } else {
+            $mode = 'test';
+        }
+
+        return $mode;
+    }
+
+    /**
      * Remove extra spaces from string.
      *
      * @param string $string

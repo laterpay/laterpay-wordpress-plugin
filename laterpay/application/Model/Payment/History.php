@@ -89,12 +89,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
     public function set_payment_history( $data ) {
         global $wpdb;
 
-        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
-            $mode = 'live';
-        } else {
-            $mode = 'test';
-        }
-
+        $mode    = LaterPay_Helper_View::get_plugin_mode();
         $payment = $this->get_payment_by_hash( $mode, $data['hash'] );
         if ( empty( $payment ) ) {
             $wpdb->insert(
@@ -144,7 +139,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                                 'ip',
                                 'COUNT(ip)  AS quantity',
                                 'SUM(price) AS amount',
-                            )
+                            ),
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -167,7 +162,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'DAY(date)      AS day',
                 'MONTH(date)    AS month',
                 'HOUR(date)     AS hour',
-            )
+            ),
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -193,7 +188,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'DAY(date)      AS day',
                 'MONTH(date)    AS month',
                 'HOUR(date)     AS hour',
-            )
+            ),
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -208,12 +203,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
      * @return array history
      */
     public function get_total_history_by_post_id( $post_id ) {
-        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
-            $mode = 'live';
-        } else {
-            $mode = 'test';
-        }
-
+        $mode = LaterPay_Helper_View::get_plugin_mode();
         $args = array(
             'fields' => array(
                 'currency_id',
@@ -221,7 +211,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'COUNT(id)  AS quantity',
             ),
             'where' => array(
-                'mode'      => (string) $mode,
+                'mode'      => $mode,
                 'post_id'   => (int) $post_id,
             ),
             'group_by' => 'currency_id'
@@ -238,12 +228,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
      * @return array history
      */
     public function get_todays_history_by_post_id( $post_id ) {
-        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
-            $mode = 'live';
-        } else {
-            $mode = 'test';
-        }
-
+        $mode  = LaterPay_Helper_View::get_plugin_mode();
         $today = strtotime( 'today GMT' );
 
         $args = array(
@@ -288,7 +273,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'SUM(price) AS amount',
             ),
             'limit' => 10,
-            'join'  => $this->post_join
+            'join'  => $this->post_join,
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -329,7 +314,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'SUM(price) AS amount',
             ),
             'limit' => 10,
-            'join'  => $this->post_join
+            'join'  => $this->post_join,
         );
 
         $args = wp_parse_args( $args, $default_args );
@@ -361,6 +346,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
     public function get_last_30_days_history_by_post_id( $post_id ) {
         $today      = strtotime( 'today GMT' );
         $month_ago  = strtotime( '-1 month' );
+        $mode       = LaterPay_Helper_View::get_plugin_mode();
 
         $args = array(
             'fields' => array(
@@ -370,7 +356,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'COUNT(id)  AS quantity',
             ),
             'where' => array(
-                'mode'      => ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) ? 'live' : 'test',
+                'mode'      => $mode,
                 'post_id'   => (int) $post_id,
                 'date'      => array(
                     array(
@@ -459,7 +445,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             'order_by'  => 'amount',
             'order'     => 'DESC',
             'limit'     => 10,
-            'join'      => $this->post_join
+            'join'      => $this->post_join,
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -499,7 +485,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             'order_by'  => 'amount',
             'order'     => 'ASC',
             'limit'     => 10,
-            'join'      => $this->post_join
+            'join'      => $this->post_join,
         );
         $args = wp_parse_args( $args, $default_args );
 
@@ -529,8 +515,8 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
      * @return array $sparkline
      */
     public function get_sparkline( $post_id, $start_timestamp, $interval ) {
-
         $end_timestamp = LaterPay_Helper_Dashboard::get_end_timestamp( $start_timestamp, $interval );
+        $mode          = LaterPay_Helper_View::get_plugin_mode();
 
         $args = array(
             'fields' => array(
@@ -548,6 +534,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                     )
                 ),
                 'post_id' => (int) $post_id,
+                'mode'    => $mode,
             ),
             'group_by' => 'DAY(date)',
             'order_by' => 'DATE(date)',
@@ -565,6 +552,8 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
     public function get_time_pass_history( $pass_id = null ) {
         global $wpdb;
 
+        $mode = LaterPay_Helper_View::get_plugin_mode();
+
         $sql = "
             SELECT
                 pass_id,
@@ -574,7 +563,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             FROM
                 {$this->table}
             WHERE
-                mode = 'live'";
+                mode = '$mode'";
 
         if ( $pass_id ) {
             $sql .= "

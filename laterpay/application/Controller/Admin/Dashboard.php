@@ -587,6 +587,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      */
     private function get_query_options( $options ) {
         $end_timestamp = LaterPay_Helper_Dashboard::get_end_timestamp( $options['start_timestamp'], $options['interval'] );
+        $mode          = LaterPay_Helper_View::get_plugin_mode();
         $where = array(
             'date' => array(
                 array(
@@ -594,21 +595,22 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                     'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $end_timestamp ),
                 ),
             ),
+            'mode' => $mode,
         );
 
         // add the query options to the options array
-        $options ['query_args'] = array(
+        $options['query_args'] = array(
             'order_by'  => LaterPay_Helper_Dashboard::get_order_by( $options['interval']  ),
             'group_by'  => LaterPay_Helper_Dashboard::get_group_by( $options['interval']  ),
             'where'     => $where,
         );
 
-        $options ['most_least_query'] = array(
+        $options['most_least_query'] = array(
             'where' => $where,
             'limit' => $options['count'],
         );
 
-        $options ['query_where'] = $where;
+        $options['query_where'] = $where;
 
         return $options;
     }

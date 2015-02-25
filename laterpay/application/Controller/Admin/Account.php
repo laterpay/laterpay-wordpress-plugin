@@ -240,6 +240,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         $result         = update_option( 'laterpay_plugin_is_in_live_mode', $plugin_mode );
 
         if ( $result ) {
+            // delete dashboard cache directory after mode was changed
+            LaterPay_Helper_File::delete_directory( laterpay_get_plugin_config()->get( 'cache_dir' ) . 'cron/' );
+
             if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
                 wp_send_json(
                     array(

@@ -502,7 +502,43 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Clear dashboard cache.
+     * Update post view table structure.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_post_views() {
+        global $wpdb;
+
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        $table   = $wpdb->prefix . 'laterpay_post_views';
+        $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
+
+        $is_up_to_date = false;
+
+        foreach ( $columns as $column ) {
+            if ( $column->Field === 'mode' ) {
+                $is_up_to_date = true;
+            }
+        }
+
+        if ( ! $is_up_to_date ) {
+            $wpdb->query( "ALTER TABLE " . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
+            // count all existing date as 'live' data to ensure continuity of statistics after migration
+            $wpdb->query( "UPDATE " . $table . " SET mode = 'live';" );
+            $wpdb->query( "ALTER TABLE " . $table . " DROP INDEX post_id;" );
+            $wpdb->query( "ALTER TABLE " . $table . " ADD UNIQUE INDEX (post_id, user_id, mode);" );
+        }
+    }
+
+    /**
+     * Clear dashboard cache
      *
      * @since 0.9.11
      * @wp-hook admin_notices
@@ -571,12 +607,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE $table_post_views (
-                post_id           INT(11)         NOT NULL,
-                date              DATETIME        NOT NULL,
-                user_id           VARCHAR(32)     NOT NULL,
-                count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
-                ip                VARBINARY(16)   NOT NULL,
-                UNIQUE KEY  (post_id, user_id)
+                post_id           INT(11)              NOT NULL,
+                mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
+                date              DATETIME             NOT NULL,
+                user_id           VARCHAR(32)          NOT NULL,
+                count             BIGINT UNSIGNED      NOT NULL DEFAULT 1,
+                ip                VARBINARY(16)        NOT NULL,
+                UNIQUE KEY  (post_id, user_id, mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
