@@ -530,7 +530,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         if ( ! $is_up_to_date ) {
             $wpdb->query( "ALTER TABLE " . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
-            // count all existing date as 'live' data to ensure continuity of statistics after migration
+            // count all existing data as 'live' data to ensure continuity of statistics after migration
             $wpdb->query( "UPDATE " . $table . " SET mode = 'live';" );
             $wpdb->query( "ALTER TABLE " . $table . " DROP INDEX post_id;" );
             $wpdb->query( "ALTER TABLE " . $table . " ADD UNIQUE INDEX (post_id, user_id, mode);" );
@@ -538,7 +538,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Clear dashboard cache
+     * Clear dashboard cache.
      *
      * @since 0.9.11
      * @wp-hook admin_notices
