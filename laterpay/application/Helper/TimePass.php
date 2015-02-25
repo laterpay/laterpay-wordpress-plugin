@@ -541,11 +541,16 @@ class LaterPay_Helper_TimePass
                 $committed_revenue  = 0; // total value of purchased time passes
                 $unredeemed         = 0; // number of unredeemed gift codes
                 $active             = 0; // number of active time passes
+                $sold               = 0; // number of sold time passes
 
                 if  ( $time_pass_history && is_array( $time_pass_history ) ) {
                     foreach ( $time_pass_history as $hist ) {
                         $has_unredeemed     = false;
                         $committed_revenue += $hist->price;
+
+                        if ( $hist->price > 0 ) {
+                            $sold++;
+                        }
 
                         // check, if there are unredeemed gift codes
                         if ( $hist->code && ! LaterPay_Helper_Voucher::get_gift_code_usages_count( $hist->code ) ) {
@@ -567,14 +572,12 @@ class LaterPay_Helper_TimePass
                             }
                         }
                     }
-                } else {
-                    $time_pass_history = array();
                 }
 
                 $time_pass_statistics = array(
                     'data'              => $time_pass,
                     'active'            => LaterPay_Helper_View::format_number( $active, false ),
-                    'sold'              => LaterPay_Helper_View::format_number( count( $time_pass_history ), false ),
+                    'sold'              => LaterPay_Helper_View::format_number( $sold, false ),
                     'unredeemed'        => LaterPay_Helper_View::format_number( $unredeemed, false ),
                     'committed_revenue' => number_format_i18n( $committed_revenue, 2 ),
                 );
