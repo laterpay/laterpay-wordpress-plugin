@@ -563,7 +563,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             FROM
                 {$this->table}
             WHERE
-                mode = $mode";
+                mode = '$mode'";
 
         if ( $pass_id ) {
             $sql .= "

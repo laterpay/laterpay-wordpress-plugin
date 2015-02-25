@@ -55,7 +55,7 @@ class LaterPay_Core_Bootstrap
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_payment_history_add_revenue_model' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_add_only_time_pass_purchase_option' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_api_urls_options_names' ) );
-                add_action( 'admin_notices',                        array( $install_controller, 'maype_add_only_time_pass_purchase_option' ) );
+                add_action( 'admin_notices',                        array( $install_controller, 'maybe_add_only_time_pass_purchase_option' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_add_is_in_visible_test_mode_option' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_clean_api_key_options' ) );
                 add_action( 'admin_notices',                        array( $install_controller, 'maybe_update_unlimited_access' ) );
