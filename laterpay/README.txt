@@ -257,7 +257,7 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
-= 0.9.11 (February 24, 2015): Time Pass Additions Release =
+= 0.9.11 (February 25, 2015): Time Pass Additions Release =
 * Added option to allow only time pass purchases or time pass and individual post purchases
 * Added dashboard page for time pass customer lifecycle that shows how many time passes are sold and active, and when
   the currently active time passes will expire
