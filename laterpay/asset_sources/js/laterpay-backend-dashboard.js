@@ -778,7 +778,8 @@
 
                     loadDashboardData('time_passes_expiry', refresh, timePassId)
                         .done(function(response) {
-                            var max             = parseInt(lpVars.maxYValue, 10) + 4, // add some air to y-axis scale
+                            var max             = parseInt(lpVars.maxYValue, 10),
+                                yAxisScale      = Math.max(max, 10) + 4, // add some air to y-axis scale
                                 $placeholder    = $(data[index]),
                                 markings        = [
                                     {
@@ -808,8 +809,8 @@
                                             to          : 3.25,
                                         },
                                         yaxis           : {
-                                            from        : max - 2,
-                                            to          : max - 2,
+                                            from        : yAxisScale - 2,
+                                            to          : yAxisScale - 2,
                                         },
                                     },
                                     {
@@ -821,8 +822,8 @@
                                             to          : 11.25,
                                         },
                                         yaxis           : {
-                                            from        : max - 2,
-                                            to          : max - 2,
+                                            from        : yAxisScale - 2,
+                                            to          : yAxisScale - 2,
                                         },
                                     },
                                 ],
@@ -832,7 +833,7 @@
                                     },
                                     yaxis               : {
                                         show            : false,
-                                        max             : max,
+                                        max             : yAxisScale,
                                         tickFormatter   : function(val) {
                                             return parseInt(val, 10);
                                         }
@@ -912,7 +913,7 @@
                             $placeholder.append(xAxisLabel);
 
                             // add sum to 0-4 weeks interval
-                            var o4          = $graph.pointOffset({x: 1.5, y: max - 2}),
+                            var o4          = $graph.pointOffset({x: 1.5, y: yAxisScale - 2}),
                                 sum04Label  = '<div class="lp_time-pass-diagram__sum" ' +
                                     'style="left:' + (o4.left - 30) + 'px; top:' + (o4.top - 14) + 'px;">' +
                                     sum04 +
@@ -920,7 +921,7 @@
                             $placeholder.append(sum04Label);
 
                             // add sum to 5-12 weeks interval
-                            var o5          = $graph.pointOffset({x: 7.5, y: max - 2}),
+                            var o5          = $graph.pointOffset({x: 7.5, y: yAxisScale - 2}),
                                 sum512Label = '<div class="lp_time-pass-diagram__sum" ' +
                                     'style="left:' + (o5.left - 30) + 'px; top:' + (o5.top - 14) + 'px;">' +
                                     sum512 +
