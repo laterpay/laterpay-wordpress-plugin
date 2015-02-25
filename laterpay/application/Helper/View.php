@@ -26,7 +26,7 @@ class LaterPay_Helper_View
                                      'url'      => 'laterpay-dashboard-tab',
                                      'title'    => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
                                      'submenu'  => array(
-                                                        'url'   => '#',
+                                                        'url'   => 'laterpay-dashboard-tab',
                                                         'title' => __( 'Time Passes', 'laterpay' ),
                                                         'id'    => 'lp_js_switchDashboardView',
                                                         'data'  => array(
