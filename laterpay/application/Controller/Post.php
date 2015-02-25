@@ -223,10 +223,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'price'   => $price,
                 );
 
-                if ( $_GET['is_gift'] ) {
-                    $data['voucher'] = $_GET['code'];
-                }
-
                 // get new purchase URL
                 $url = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
 
