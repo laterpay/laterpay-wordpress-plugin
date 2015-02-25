@@ -1,57 +1,49 @@
 // 'Dashboard' tab in plugin backend
 
-
 // Heading -------------------------------------------------------------------------------------------------------------
 .lp_dashboard-title {
     font-weight: 400;
-    margin: $fs-2 0 $fs-1;
+    margin: $fs--2 0 $fs;
     position: relative;
     text-align: center;
 }
 
 .lp_dashboard-title__arrow-link {
-	display: inline-block;
-	height: 1.5em;
-	padding: 0 $fs-05;
-	position: relative;
-	vertical-align: top;
-	width: $fs-125;
+    display: inline-block;
+    height: 1.5em;
+    padding: 0 $fs--05;
+    position: relative;
+    vertical-align: top;
+    width: $fs--125;
 
-	&:hover {
+    &:hover .lp_triangle {
+        border-right-color: $clickable--highlight;
+    }
 
-		.lp_dashboard-title__triangle--right {
-			border-left-color:  $clickable-highlight;
-		}
+    .lp_triangle {
+        border: $fs--08 solid $clickable;
+        top: 0.5em;
 
-		.lp_dashboard-title__triangle--left {
-			border-right-color: $clickable-highlight;
-		}
-	}
-}
+        &.lp_triangle--right {
+            border-color: transparent transparent transparent $clickable;
+            left: inherit;
+            right: 0; /* correct visual weight of triangle */
+        }
 
-.lp_dashboard-title__triangle {
-	border: $fs-08 solid $clickable;
-	top: 0.5em;
-}
-
-.lp_dashboard-title__triangle--right {
-	border-color: transparent transparent transparent $clickable;
-	left: inherit;
-	right: 0; /* correct visual weight of triangle */
-}
-
-.lp_dashboard-title__triangle--left {
-	border-color: transparent $clickable transparent transparent;
-	left: -3px; /* correct visual weight of triangle */
+        &.lp_triangle--left {
+            border-color: transparent $clickable transparent transparent;
+            left: -3px; /* correct visual weight of triangle */
+        }
+    }
 }
 
 .lp_dashboard-refresh-link {
-	color: $clickable;
-	display: none; /* hidden by default - only required when displaying hourly data */
+    color: $clickable;
+    display: none; /* hidden by default - only required when displaying hourly data */
 
-	&:hover {
-		color: $clickable-highlight;
-	}
+    &:hover {
+        color: $clickable--highlight;
+    }
 }
 
 
@@ -60,67 +52,67 @@
     float: left;
 
     h2 {
-        margin: $fs-1 0 0.4em;
+        margin: $fs 0 0.4em;
         text-align: center;
     }
 }
 
 .lp_dashboard-graph {
-    height: 15 * $fs-1;
-    margin: 0 $fs-1 0 0;
+    height: 15 * $fs;
+    margin: 0 $fs 0 0;
 
-	&.lp_dashboard-graph--margin-bottom {
-		margin-bottom: 30px;
-	}
+    &.lp_dashboard-graph--margin-bottom {
+        margin-bottom: 30px;
+    }
 }
 
-.lp_dashboard-graph + .lp_dashboard-statistics {
-    margin: $fs-075 $fs-1 $fs-125 0;
+.lp_dashboard-graph + .lp_statistics-row {
+    margin: $fs--075 $fs $fs--125 0;
 }
 
 
 /* statistics rows */
-.lp_dashboard-statistics {
-    background: $background-darker;
+.lp_statistics-row {
+    background: $background--darker;
     border-radius: 3px;
-    margin: $fs-1 $fs-1 $fs-1 0;
+    margin: $fs $fs $fs 0;
 
-	.lp_dashboard-statistics__item {
-		border-right: 1px solid $background;
-		color: $text-lighter;
-		float: left;
-		list-style-type: none;
-		margin: $fs-025 0;
-		padding: $fs-05 $fs-05 0 $fs-075;
-		text-align: right;
+    .lp_statistics-row__item {
+        border-right: 1px solid $background;
+        color: $text--lighter;
+        float: left;
+        list-style-type: none;
+        margin: $fs--025 0;
+        padding: $fs--05 $fs--05 0 $fs--075;
+        text-align: right;
 
-		&:last-child {
-			border: 0 none;
-		}
-	}
+        &:last-child {
+            border: 0 none;
+        }
+    }
 }
 
-.lp_dashboard-statistics__link {
-	margin: 0 $fs-05 0 0;
-	padding: 0;
+.lp_statistics-row__link {
+    margin: 0 $fs--05 0 0;
+    padding: 0;
 }
 
-.lp_dashboard-statistics__text-big {
-	color: $text;
-	display: block;
-	font-size: $fs-15;
+.lp_statistics-row__text-big {
+    color: $text;
+    display: block;
+    font-size: $fs--15;
 }
 
-.lp_dashboard-statistics__text-small,
-.lp_dashboard-statistics__text-big .lp_dashboard-statistics__text-small {
-	color: $text-lighter;
-	font-size: $fs-1;
+.lp_statistics-row__text-small,
+.lp_statistics-row__text-big .lp_statistics-row__text-small {
+    color: $text--lighter;
+    font-size: $fs;
 }
 
-.lp_dashboard-statistics__text-big .lp_dashboard-statistics__text-small {
-	font-size: 0.667em;
-	line-height: 0.667;
-	padding: 0 0 0 2px;
+.lp_statistics-row__text-big .lp_statistics-row__text-small {
+    font-size: 0.667em;
+    line-height: 0.667;
+    padding: 0 0 0 2px;
 }
 
 
@@ -130,7 +122,7 @@
  */
 .lp_dashboard-data {
     min-height: 17em; /* 1 */
-    margin: 0 $fs-1 $fs-1 0;
+    margin: 0 $fs $fs 0;
     padding: 0;
 
     .lp_dashboard-data__item {
@@ -139,7 +131,7 @@
         padding: 2px 0 2px;
 
         &:hover {
-            background-color: $background-highlight;
+            background-color: $background--highlight;
             border-radius: 3px;
         }
     }
@@ -162,33 +154,33 @@
 
     .peity {
         float: right;
-        margin: 0 $fs-1;
+        margin: 0 $fs;
     }
 
     .lp_dashboard-data__value {
-        color: $text-lighter;
+        color: $text--lighter;
         float: left;
         margin: 0 0.4em 0 0;
         text-align: right;
-        width: round(4.5 * $fs-1);
+        width: round(4.5 * $fs);
 
         small {
-            color: $text-lightest;
-            font-size: $fs-08;
+            color: $text--lightest;
+            font-size: $fs--08;
             line-height: 1;
             padding: 0 0 0 2px;
         }
-    }
 
-    .lp_dashboard-data__value-narrow {
-        width: 3 * $fs-1;
+        &.lp_dashboard-data__value--narrow {
+            width: 3 * $fs;
+        }
     }
 }
 
 
 // Time pass customer lifecycle statistics -----------------------------------------------------------------------------
 .lp_time-pass-lifecycle {
-    margin-bottom: $fs-2;
+    margin-bottom: $fs--2;
 
 
     /* separate the different graphs with a border */
@@ -196,17 +188,16 @@
         border-top: 1px solid $border;
     }
 
-
 }
 
-.lp_dashboard-statistics ul {
-	margin-left: $fs-05;
-	border-top: 1px solid $background;
+.lp_statistics-row ul {
+    margin-left: $fs--05;
+    border-top: 1px solid $background;
 }
 
 .lp_dashboard-graph__label {
     background: $background;
-    color: $text-lighter;
+    color: $text--lighter;
     font-size: 10px;
     line-height: 1.4;
     padding: 0.5em;
@@ -217,6 +208,6 @@
 
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
-@media (max-width:1050px) {
+@media (max-width: 1050px) {
     // TODO
 }

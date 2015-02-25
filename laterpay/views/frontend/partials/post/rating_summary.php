@@ -22,7 +22,7 @@
         <?php endfor; ?>
     </div>
     <div class="lp_rating__distribution">
-        <div class="lp_triangle lp_outerTriangle"><div class="lp_triangle"></div></div>
+        <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
         <p class="lp_rating__distribution-heading"><?php echo __( 'Buyer Ratings for this Post', 'laterpay' ); ?></p>
         <dl>
             <?php foreach( $laterpay['post_rating_data'] as $rating => $votes ): ?>

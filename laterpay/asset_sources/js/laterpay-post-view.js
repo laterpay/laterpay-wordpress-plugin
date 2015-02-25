@@ -7,14 +7,14 @@
                 postStatisticsPane              : $('#lp_js_postStatistics'),
 
                 // post preview mode
-                postPreviewModeForm             : $('#lp_js_postStatistics_pluginPreviewModeForm'),
+                postPreviewModeForm             : $('#lp_js_postStatisticsPluginPreviewModeForm'),
                 postPreviewModeToggle           : $('#lp_js_togglePostPreviewMode'),
                 postPreviewModeInput            : $('#lp_js_postPreviewModeInput'),
 
                 // post statistics pane visibility
-                postStatisticsVisibilityForm    : $('#lp_js_postStatistics_visibilityForm'),
+                postStatisticsVisibilityForm    : $('#lp_js_postStatisticsVisibilityForm'),
                 postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
-                postStatisticsVisibilityInput   : $('#lp_js_postStatistics_visibilityInput'),
+                postStatisticsVisibilityInput   : $('#lp_js_postStatisticsVisibilityInput'),
 
                 // time passes
                 timePass                        : '.lp_js_timePass',
@@ -48,12 +48,12 @@
 
             recachePostStatisticsPane = function() {
                 $o.postStatisticsPane              = $('#lp_js_postStatistics');
-                $o.postPreviewModeForm             = $('#lp_js_postStatistics_pluginPreviewModeForm');
+                $o.postPreviewModeForm             = $('#lp_js_postStatisticsPluginPreviewModeForm');
                 $o.postPreviewModeToggle           = $('#lp_js_togglePostPreviewMode');
                 $o.postPreviewModeInput            = $('#lp_js_postPreviewModeInput');
-                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatistics_visibilityForm');
+                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatisticsVisibilityForm');
                 $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
-                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatistics_visibilityInput');
+                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatisticsVisibilityInput');
             },
 
             recacheRatingForm = function() {

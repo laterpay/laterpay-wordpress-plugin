@@ -5,10 +5,10 @@
 @import 'objects/_variables';
 
 h3 {
-	margin: (4 * $fs-1) 0 $fs-1;
+	margin: (4 * $fs) 0 $fs;
 
 	&:first-of-type {
-		margin-top: $fs-1;
+		margin-top: $fs;
 	}
 }
 
@@ -17,12 +17,12 @@ h3 {
 
 	th {
 		font-weight: normal;
-		padding-top: $fs-1;
-		padding-bottom: $fs-05;
+		padding-top: $fs;
+		padding-bottom: $fs--05;
 	}
 
     td {
-        padding-top: $fs-05;
+        padding-top: $fs--05;
         padding-bottom: 0;
     }
 }
@@ -33,10 +33,10 @@ h3 {
 }
 
 .lp_appendedText {
-	color: $text-lighter;
-	padding-left: $fs-05;
+	color: $text--lighter;
+	padding-left: $fs--05;
 }
 
 p.submit {
-	margin-top: (4 * $fs-1);
+	margin-top: (4 * $fs);
 }

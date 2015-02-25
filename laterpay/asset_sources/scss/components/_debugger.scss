@@ -9,7 +9,7 @@
 }
 
 .lp_debugger {
-    background-color: $background-darker;
+    background-color: $background--darker;
     bottom: 0;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
     font-size: 14px;
@@ -19,7 +19,7 @@
     position: fixed;
     transition: 0.25s ease-in-out;
     width: 100%;
-    z-index: $zindex-topmost_1;
+    z-index: $zindex--topmost-1;
 
 	.lp_debugger-header__title {
 		display: inline-block;
@@ -69,7 +69,7 @@
 	font-weight: bold;
 	height: 2em;
 	line-height: 2em;
-	margin: $fs-025 $fs-025 0 0;
+	margin: $fs--025 $fs--025 0 0;
 	text-align: center;
 	transform: rotate(90deg);
 	transition: transform 0.2s;
@@ -82,7 +82,7 @@
 	}
 
 	&:hover {
-		color: $clickable-highlight;
+		color: $clickable--highlight;
 	}
 }
 
@@ -97,13 +97,13 @@
 
 // debugger pane tabs --------------------------------------------------------------------------------------------------
 .lp_debugger-tabs {
-    border-bottom: 1px solid $border-darker;
-    margin: $fs-075 $fs-075 0;
+    border-bottom: 1px solid $border--darker;
+    margin: $fs--075 $fs--075 0;
     position: relative;
-    z-index: $zindex-base;
+    z-index: $zindex;
 
 	.lp_is-selected {
-        border-color: $border-darker $border-darker hsl(0, 0%, 90%);
+        border-color: $border--darker $border--darker hsl(0, 0%, 90%);
 
 		.lp_debugger-tabs__link,
         &:hover .lp_debugger-tabs__link {
@@ -121,23 +121,23 @@
 .lp_debugger-tabs__link {
 	color: $clickable;
 	display: block;
-	padding: $fs-05 $fs-1;
+	padding: $fs--05 $fs;
 
 	&:hover {
-		color: $clickable-highlight;
+		color: $clickable--highlight;
 
 		span {
-			background-color: $clickable-highlight;
+			background-color: $clickable--highlight;
 		}
 	}
 
 	span {
 		background-color: $clickable;
 		border-radius: 2px;
-		color: $text-inverse;
+		color: $text--inverse;
 		display: inline-block;
-		margin-left: $fs-05;
-		min-width: $fs-075;
+		margin-left: $fs--05;
+		min-width: $fs--075;
 		padding: 1px 5px;
 		text-align: center;
 	}
@@ -153,14 +153,14 @@
 	padding: 0;
 
 	&:hover {
-		border-color: $border-darker $border-darker hsl(0, 0%, 90%);
+		border-color: $border--darker $border--darker hsl(0, 0%, 90%);
 	}
 }
 
 
 // debugging messages --------------------------------------------------------------------------------------------------
 .lp_debugger-content-list {
-    margin: 0 $fs-075 $fs-1;
+    margin: 0 $fs--075 $fs;
     padding: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -187,10 +187,10 @@
     }
 
     .lp_debugger_logLevel:before {
-        font-size: $fs-175;
+        font-size: $fs--175;
         height: 0;
         line-height: 0;
-        margin-right: $fs-025;
+        margin-right: $fs--025;
         position: relative;
         top: 0.23em;
     }
@@ -200,7 +200,7 @@
     .lp_debugger_logLevel-100:before
     .lp_debugger_logLevel-200:before
     .lp_debugger_logLevel-250:before {
-        color: $text-lighter;
+        color: $text--lighter;
         content: 'm';
     }
 
@@ -223,17 +223,17 @@
 
     a {
         color: $clickable;
-        padding: $fs-05 0 $fs-05 $fs-05;
+        padding: $fs--05 0 $fs--05 $fs--05;
     }
 
     &:hover a,
     a:hover{
-        color: $clickable-highlight;
+        color: $clickable--highlight;
 
     }
 
     code {
-        font-size: $fs-1;
+        font-size: $fs;
         line-height: 1.3;
     }
 }
@@ -248,11 +248,11 @@
 
 	&:hover .lp_debugger-content__table-th,
 	&:hover .lp_debugger-content__table-td {
-		background-color: $background-highlight;
+		background-color: $background--highlight;
 	}
 
 	.lp_debugger-content__table-td:last-child {
-		color: $text-lighter;
+		color: $text--lighter;
 		max-width: 10em;
 		text-align: right;
 	}
@@ -266,7 +266,7 @@
 
 		.lp_debugger-content__table-body .lp_debugger-content__table-th,
 		.lp_debugger-content__table-body .lp_debugger-content__table-td {
-			padding: 0 $fs-05 $fs-025;
+			padding: 0 $fs--05 $fs--025;
 		}
 
 		.lp_debugger-content__table-body .lp_debugger-content__table-th {
@@ -285,17 +285,17 @@
 
 .lp_debugger-content__table-th,
 .lp_debugger-content__table-td {
-	padding: $fs-05;
+	padding: $fs--05;
 	text-align: left;
 	vertical-align: top;
 }
 
 .lp_debugger-content__table-th {
-	color: $text-lighter;
+	color: $text--lighter;
 	font-weight: normal;
 	max-width: 12em;
 	overflow: hidden;
-	padding-left: $fs-05;
+	padding-left: $fs--05;
 	text-overflow: ellipsis;
 	width: 12em;
 }

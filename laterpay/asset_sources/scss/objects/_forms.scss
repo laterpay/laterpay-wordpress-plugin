@@ -3,7 +3,7 @@ input[type=number].lp_input,
 input[type=text].lp_input,
 textarea.lp_input,
 select.lp_input {
-    background-color: $background-lightest;
+    background-color: $background--lightest;
     border-radius: 4px;
     border: 2px solid $border;
     box-shadow: none;
@@ -15,7 +15,7 @@ select.lp_input {
     &:focus {
         -moz-appearance: none;
         -webkit-appearance: none;
-        border-color: $clickable-highlight;
+        border-color: $clickable--highlight;
     }
 
     &:disabled {
@@ -52,7 +52,7 @@ input[type=text].lp_number-input {
 
 
 // iconized inputs
-.lp_account-input__icon {
+.lp_iconized-input {
     color: $border;
     font-size: 2em;
     margin: 0.04em 0 0 0.35em;
@@ -75,8 +75,8 @@ input[type=text].lp_number-input {
     }
 
     .select2-container-active .select2-choice {
-        border-color: $clickable-highlight;
-        color: $text-lighter;
+        border-color: $clickable--highlight;
+        color: $text--lighter;
     }
 
     .select2-dropdown-open .select2-choice {
@@ -89,7 +89,7 @@ input[type=text].lp_number-input {
 .select2-drop {
 
     &.select2-drop-active {
-        border-color: $clickable-highlight;
+        border-color: $clickable--highlight;
         border-width: 0 2px 2px;
     }
 
@@ -98,12 +98,12 @@ input[type=text].lp_number-input {
         padding-right: 0;
 
         input {
-            background: $background-darker;
+            background: $background--darker;
             border: 0 none;
             box-shadow: none;
 
             &:focus {
-                border-color: $clickable-highlight;
+                border-color: $clickable--highlight;
             }
         }
     }
@@ -126,13 +126,13 @@ input[type=text].lp_number-input {
 
         li:hover,
         .select2-highlighted {
-            background: $background-highlight;
+            background: $background--highlight;
             color: $text;
         }
     }
 
     .select2-result-label {
-        padding: $fs-05;
+        padding: $fs--05;
     }
 }
 
@@ -141,7 +141,7 @@ input[type=text].lp_number-input {
 .lp_input::-webkit-input-placeholder,
 .lp_input::-moz-placeholder,
 .lp_input:-ms-input-placeholder {
-    color: $text-lighter;
+    color: $text--lighter;
     line-height: 1;
 }
 
@@ -157,7 +157,7 @@ input[type=text][required] + label[placeholder] {
     &:before {
         @include linear-gradient(hsla(0, 0%, 100%, 0), 46%, hsla(0, 0%, 100%, 1), 47%, $start, $end);
         background-repeat: no-repeat;
-        color: $text-lighter;
+        color: $text--lighter;
         content: attr(placeholder);
         display: inline-block;
         margin: 1.4em 0 0 0.5em;
@@ -176,7 +176,7 @@ input[type=text][required] {
     }
 
     &:focus + label[placeholder]:before {
-        color: $clickable-highlight;
+        color: $clickable--highlight;
     }
 
     &:invalid + label[placeholder][alt]:before {
@@ -184,7 +184,7 @@ input[type=text][required] {
     }
 }
 
-.lp_account-input__icon + input[type=text][required] + label[placeholder]:before {
+.lp_iconized-input + input[type=text][required] + label[placeholder]:before {
     margin: 1.4em 0 0 calc(3em - 1px);
 }
 
@@ -197,7 +197,7 @@ input[type=text][required] {
     margin-right: 0.1em;
     position: relative;
     width: 1.5em;
-    z-index: $zindex-elevated_1;
+    z-index: $zindex--elevated-1;
     zoom: 1;
 
     input[type=radio],
@@ -214,11 +214,11 @@ input[type=text][required] {
         position: absolute;
 
         .frame {
-            fill: $border-darker;
+            fill: $border--darker;
         }
 
         .frameBack {
-            fill: $background-lightest;
+            fill: $background--lightest;
         }
 
         .check {
@@ -235,7 +235,7 @@ input[type=text][required] {
 label:hover .ez-mark {
 
     svg .frame {
-        fill: $clickable-highlight;
+        fill: $clickable--highlight;
     }
 }
 
@@ -258,13 +258,13 @@ label:hover .ez-mark {
 
 
 // revenue model labels ------------------------------------------------------------------------------------------------
-.lp_price-settings__label {
-    background-color: $background-darker;
+.lp_revenue-model {
+    background-color: $background--darker;
     border-radius: 3px;
     color: $clickable;
     display: inline-block;
     font-weight: bold;
-    padding: $fs-025 $fs-025;
+    padding: $fs--025 $fs--025;
     text-align: center;
     text-transform: uppercase;
     width: 2em;
@@ -274,21 +274,21 @@ label:hover .ez-mark {
     }
 }
 
-label.lp_price-settings__label:hover {
-    background-color: $clickable-highlight;
-    color: $text-inverse;
+label.lp_revenue-model:hover {
+    background-color: $clickable--highlight;
+    color: $text--inverse;
 }
 
-.lp_price-settings__label.lp_is-disabled {
+.lp_revenue-model.lp_is-disabled {
     display: none;
 }
 
-.lp_price-settings__label.lp_is-selected {
-    background-color: $background-laterpay;
-    color: $text-inverse;
+.lp_revenue-model.lp_is-selected {
+    background-color: $laterpay-brand;
+    color: $text--inverse;
 
     &:hover {
-        background-color: $background-laterpay;
+        background-color: $laterpay-brand;
         cursor: default;
     }
 }

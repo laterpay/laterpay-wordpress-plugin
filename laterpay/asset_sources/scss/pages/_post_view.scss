@@ -9,7 +9,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: $zindex-topmost_1;
+    z-index: $zindex--topmost-1;
 }
 
 .yui3-panel,
@@ -98,7 +98,7 @@
                 top: 0 !important;
 
                 h2 {
-                    color: $text-inverse !important;
+                    color: $text--inverse !important;
                     font-size: 28px !important;
                     font-weight: lighter !important;
                     line-height: 1.05 !important;
@@ -113,7 +113,7 @@
                  * 1. Use px values instead of em, because some browsers (e.g. IE10) don't render correct sizes
                  */
                 h2 span {
-                    color: $text-inverse !important;
+                    color: $text--inverse !important;
                     display: block !important;
                     font-size: 200px !important;
                     height: 42px !important;
@@ -336,7 +336,7 @@
 .lp_shortcodeError {
     background-color: hsl(0, 73%, 64%) !important;
     border-radius: 3px !important;
-    color: $text-inverse !important;
+    color: $text--inverse !important;
     margin: 1em 2em !important;
     padding: 0.5em 1em !important;
 }
@@ -345,8 +345,8 @@
 // LaterPay login and logout links rendered from shortcode / action ----------------------------------------------------
 .lp_account-links iframe {
     background: transparent;
-    margin: $fs-1;
-    padding: $fs-05;
+    margin: $fs;
+    padding: $fs--05;
 }
 
 

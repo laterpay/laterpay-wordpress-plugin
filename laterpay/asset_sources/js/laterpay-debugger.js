@@ -7,7 +7,7 @@
                 debuggerHeader      : $('#lp_js_debuggerHeader'),
                 tabs                : $('.lp_js_debuggerTabItem'),
                 content             : $('.lp_js_debuggerContent'),
-                logMessage          : '.lp_js_debugger-contentTable',
+                logMessage          : '.lp_js_debuggerContentTable',
                 logMessageHeader    : $('.lp_js_debuggerContentTableTitle'),
                 logDetails          : '.lp_js_logEntryDetails',
 

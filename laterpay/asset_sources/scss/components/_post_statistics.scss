@@ -7,7 +7,7 @@
 }
 
 .lp_postStatistics {
-    background-color: $background-darker;
+    background-color: $background--darker;
     border-radius: 0 0 0 3px;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
     color: hsl(0, 0%, 33%);
@@ -19,7 +19,7 @@
     top: 8em;
     transition: 0.25s ease-in-out;
     width: 333px;
-    z-index: $zindex-overlayed_1;
+    z-index: $zindex--overlayed-1;
 
     h2 {
         font-size: 1.25em;
@@ -47,7 +47,7 @@
 
     // toggle visibility of statistics pane --------------------------------------------------------------------------------
     .lp_postStatistics_visibilityToggle {
-        background-color: $background-darker;
+        background-color: $background--darker;
         border-radius: 3px 0 0 3px;
         color: $clickable;
         height: 45px;
@@ -69,7 +69,7 @@
         }
 
         &:hover {
-            color: $clickable-highlight;
+            color: $clickable--highlight;
         }
     }
 
@@ -177,14 +177,14 @@
                 border-bottom: 1px solid hsl(0, 0%, 60%);
                 padding: 0 3px;
                 position: relative;
-                z-index: $zindex-elevated_2;
+                z-index: $zindex--elevated-2;
             }
 
             .lp_sparklineBackgroundBar + svg.peity {
                 border: 0 none;
                 left: 0.92em;
                 position: absolute;
-                z-index: $zindex-elevated_1;
+                z-index: $zindex--elevated-1;
             }
 
             big {
@@ -200,7 +200,7 @@
 
     // totals column, showing current day's data
     .lp_postStatistics_totals {
-        background-color: $background-lightest;
+        background-color: $background--lightest;
 
         ul {
             list-style-type: none;
@@ -248,13 +248,13 @@
         }
 
         p {
-            background-color: $background-darker;
+            background-color: $background--darker;
             display: inline;
             font-size: 0.75em;
             margin: 0;
             padding: 0 0.5em;
             position: relative;
-            z-index: $zindex-overlayed_3;
+            z-index: $zindex--overlayed-3;
         }
 
         hr {
@@ -264,7 +264,7 @@
             margin: 1em 0 0.5em;
             position: relative;
             top: -1.66em;
-            z-index: $zindex-overlayed_2;
+            z-index: $zindex--overlayed-2;
         }
     }
 

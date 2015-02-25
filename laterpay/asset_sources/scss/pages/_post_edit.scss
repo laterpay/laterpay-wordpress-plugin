@@ -63,7 +63,7 @@
 
 .lp_currency {
     bottom: 0.75em;
-    color: $text-lightest;
+    color: $text--lightest;
     font-size: 1.5em;
 }
 
@@ -104,10 +104,10 @@
             }
 
             &:hover {
-                background-color: $clickable-highlight;
+                background-color: $clickable--highlight;
 
                 a {
-                    color: $text-inverse;
+                    color: $text--inverse;
                 }
             }
 
@@ -119,7 +119,7 @@
 
         .lp_is-selected,
         .lp_is-selected:hover {
-            background-color: $background-laterpay;
+            background-color: $laterpay-brand;
         }
 
         li.lp_is-selected {
@@ -127,7 +127,7 @@
 
             a,
             &:hover a {
-                color: $text-inverse;
+                color: $text--inverse;
                 cursor: default;
                 text-shadow: none;
             }
@@ -163,7 +163,7 @@
         }
 
         li {
-            border-top: 1px solid $border-lightest;
+            border-top: 1px solid $border--lightest;
 
             &:nth-child(even) {
                 background-color: hsl(0, 0%, 97%);
@@ -174,7 +174,7 @@
             }
 
             &:hover {
-                background-color: $background-highlight;
+                background-color: $background--highlight;
             }
 
             a {
@@ -190,7 +190,7 @@
 
         .lp_is-selectedCategory,
         .lp_is-selectedCategory:nth-child(even) {
-            background-color: $background-highlight;
+            background-color: $background--highlight;
 
             a {
                 color: hsl(0, 0%, 27%);

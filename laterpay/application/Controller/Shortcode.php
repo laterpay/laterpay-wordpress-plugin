@@ -334,7 +334,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 $button_page_url = $page_url;
             }
             $html_button =  '<a href="' . $button_page_url . '" ' .
-                                'class="lp_purchaseLinkShortcode lp_purchase-link lp_button" ' .
+                                'class="lp_purchaseLinkShortcode lp_purchase-link lp_js_purchaseLink lp_button" ' .
                                 'rel="prefetch" ' .
                                 'data-icon="b">' .
                                 $button_label .

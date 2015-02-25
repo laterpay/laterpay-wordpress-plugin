@@ -19,10 +19,10 @@
     </div>
 
     <div class="lp_pagewrap lp_account">
-        <div class="lp_row lp_u_clearfix lp_account-credentials">
+        <div class="lp_row lp_u_clearfix lp_api-credentials">
             <h2><?php _e( 'LaterPay API Credentials', 'laterpay' ); ?></h2>
 
-            <div class="lp_u_w-1-2 lp_u_left lp_u_relative lp_account-credentials lp_account-credentials--sandbox" data-icon="h">
+            <div class="lp_u_w-1-2 lp_u_left lp_u_relative lp_api-credentials lp_api-credentials--sandbox" data-icon="h">
                 <fieldset class="lp_u_b-r3 lp_u_b-1 lp_u_b-embossed lp_u_m-1 lp_u_m-b0 lp_u_m-l0">
                     <legend class="lp_u_fs-1 lp_u_bold lp_u_pd-0-05"><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for testing purposes', 'laterpay' ); ?></dfn>
@@ -35,7 +35,7 @@
                                 &nbsp;
                             </li>
                             <li class="lp_u_left lp_account-input">
-                                <span class="lp_account-input__icon lp_merchant-id-icon" data-icon="i"></span>
+                                <span class="lp_iconized-input lp_merchant-id-icon" data-icon="i"></span>
                                 <input type="text"
                                     maxlength="22"
                                     id="lp_js_sandboxMerchantId"
@@ -56,7 +56,7 @@
                                 &nbsp;
                             </li>
                             <li class="lp_u_left lp_account-input">
-                                <span class="lp_account-input__icon lp_api-key-icon" data-icon="j"></span>
+                                <span class="lp_iconized-input lp_api-key-icon" data-icon="j"></span>
                                 <input type="text"
                                     maxlength="32"
                                     id="lp_js_sandboxApiKey"
@@ -71,7 +71,7 @@
                 </fieldset>
             </div>
 
-            <div class="lp_u_w-1-2 lp_u_left lp_u_relative lp_account-credentials lp_account-credentials--live<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>" data-icon="k">
+            <div class="lp_u_w-1-2 lp_u_left lp_u_relative lp_api-credentials lp_api-credentials--live lp_js_<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>" data-icon="k">
                 <fieldset class="lp_u_b-r3 lp_u_b-1 lp_u_b-embossed lp_u_m-1 lp_u_m-b0 lp_u_m-l0">
                     <legend class="lp_u_fs-1 lp_u_bold lp_u_pd-0-05"><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for processing real financial transactions', 'laterpay' ); ?></dfn>
@@ -84,7 +84,7 @@
                                 &nbsp;
                             </li>
                             <li class="lp_u_left lp_account-input">
-                                <span class="lp_account-input__icon lp_merchant-id-icon live" data-icon="i"></span>
+                                <span class="lp_iconized-input lp_merchant-id-icon live" data-icon="i"></span>
                                 <input type="text"
                                     maxlength="22"
                                     id="lp_js_liveMerchantId"
@@ -105,7 +105,7 @@
                                 &nbsp;
                             </li>
                             <li class="lp_u_left lp_account-input">
-                                <span class="lp_account-input__icon lp_api-key-icon live" data-icon="j"></span>
+                                <span class="lp_iconized-input lp_api-key-icon live" data-icon="j"></span>
                                 <input type="text"
                                     maxlength="32"
                                     name="laterpay_live_api_key"
@@ -121,7 +121,7 @@
                                 &nbsp;
                             </li>
                             <li class="lp_u_left">
-                                <a href="#" id="lp_js_showMerchantContracts" class="lp_requestLiveCredentials button button-primary">
+                                <a href="#" id="lp_js_showMerchantContracts" class="lp_request-live-credentials button button-primary">
                                     <?php _e( 'Request Live API Credentials', 'laterpay' ); ?>
                                 </a>
                             </li>

@@ -8,7 +8,7 @@
     margin: 1em 0 0 !important;
     position: relative !important;
     text-decoration: none !important;
-    z-index: $zindex-elevated_1 !important;
+    z-index: $zindex--elevated-1 !important;
 
 
     /**
@@ -39,12 +39,12 @@
 // rendered as button --------------------------------------------------------------------------------------------------
 .lp_button,
 .lp_purchase-link.lp_button {
-    @include linear-gradient($background-laterpay, 0%, $background-laterpay-darker, 100%, $start, $end);
+    @include linear-gradient($laterpay-brand, 0%, $laterpay-brand--darker, 100%, $start, $end);
     border-color: hsl(166, 64%, 31%) hsl(166, 64%, 35%) !important;
     border-radius: 5px !important;
     border: 1px solid hsl(166, 64%, 35%) !important;
     border-width: 0 1px 2px 0 !important;
-    color: $text-inverse !important;
+    color: $text--inverse !important;
     cursor: pointer !important;
     float: right !important;
     font-size: 28px !important;
@@ -72,8 +72,8 @@
     &:hover,
     &:focus,
     &:active {
-        @include linear-gradient($background-laterpay-highlight, 0%, $background-laterpay, 100%, $start, $end);
-        color: $text-inverse !important;
+        @include linear-gradient($laterpay-brand--highlight, 0%, $laterpay-brand, 100%, $start, $end);
+        color: $text--inverse !important;
         text-decoration: none !important;
     }
 
@@ -85,7 +85,7 @@
 
     small {
         bottom: 0.7em !important;
-        color: $text-inverse !important;
+        color: $text--inverse !important;
         font-size: 0.5em !important;
         padding-left: 4px !important;
         position: relative !important;

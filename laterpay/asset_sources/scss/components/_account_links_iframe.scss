@@ -22,13 +22,13 @@
  */
 .actionlink {
     color: $clickable;
-    padding: $fs-05 $fs-1; /* 1 */
+    padding: $fs--05 $fs; /* 1 */
     text-decoration: none;
 
     &:hover,
     &:focus,
     &:active {
-        color: $clickable-highlight;
+        color: $clickable--highlight;
         text-decoration: none;
     }
 }

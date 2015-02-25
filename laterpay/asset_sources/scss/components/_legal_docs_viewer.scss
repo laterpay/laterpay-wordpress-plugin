@@ -1,6 +1,7 @@
 // Widget to display LaterPay legal documents for merchants within an iframe
 
-#lp_legal-docs-iframe {
+
+.lp_legal-docs-iframe {
     background-color: hsl(210, 3%, 31%);
     display: none;
     position: relative;
@@ -22,7 +23,7 @@
         width: 1.5em;
 
         &:hover {
-            background-color: $clickable-highlight;
+            background-color: $clickable--highlight;
         }
     }
 }

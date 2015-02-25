@@ -28,21 +28,21 @@
 
 
 // render icons from icon font in pseudo elements
-.lp_u_w-1-2.lp_account-credentials[data-icon] {
+.lp_u_w-1-2.lp_api-credentials[data-icon] {
 
     &:before {
         color: $border;
         position: absolute;
-        z-index: $zindex-recessed;
+        z-index: $zindex--recessed;
     }
 
-	&.lp_account-credentials--sandbox:before {
+	&.lp_api-credentials--sandbox:before {
 		font-size: 90px;
 		left: 26px;
 		top: 57px;
 	}
 
-	&.lp_account-credentials--live:before {
+	&.lp_api-credentials--live:before {
 		font-size: 75px;
 		left: 15px;
 		margin: 0.1em 0 0 1px;
@@ -50,29 +50,23 @@
 	}
 }
 
-.lp_u_w-1-2.lp_account-credentials--live[data-icon].lp_is-live:before {
-	color: $background-laterpay;
-}
-
-
-// Legal documents viewer ----------------------------------------------------------------------------------------------
-.lp_requestLiveCredentials {
-
+.lp_u_w-1-2.lp_api-credentials--live[data-icon].lp_is-live:before {
+	color: $laterpay-brand;
 }
 
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1050px) {
 
-    .lp_account-credentials {
+    .lp_api-credentials {
 
-        &.lp_account-credentials--sandbox[data-icon]:before {
+        &.lp_api-credentials--sandbox[data-icon]:before {
             font-size: 75px;
             left: 24px;
             top: 61px;
         }
 
-        &.lp_account-credentials--live[data-icon]:before {
+        &.lp_api-credentials--live[data-icon]:before {
             font-size: 60px;
             left: 14px;
             top: 79px;

@@ -41,8 +41,8 @@
                 avgConversionKPI        : $('#lp_js_avgConversion'),
                 newCustomersKPI         : $('#lp_js_shareOfNewCustomers'),
 
-                avgItemsSoldKPI         : $('#lp_js_avg-items-sold'),
-                totalItemsSoldKPI       : $('#lp_js_total-items-sold'),
+                avgItemsSoldKPI         : $('#lp_js_avgItemsSold'),
+                totalItemsSoldKPI       : $('#lp_js_totalItemsSold'),
 
                 avgRevenueKPI           : $('#lp_js_avgRevenue'),
                 totalRevenueKPI         : $('#lp_js_totalRevenue'),
@@ -384,7 +384,7 @@
                 setTimeout(function() {
                     if ($target.hasClass($o.delayed)) {
                         // add the loading indicator after a delay, if the element still has that state class
-                        $target.html('<div class="lp_loading-indicator"></div>');
+                        $target.html('<div class="lp_loading-indicator lp_js_loadingIndicator"></div>');
                     }
                 }, 600);
             },
@@ -395,7 +395,7 @@
                     $target.removeClass($o.delayed);
                 } else {
                     // remove the loading indicator
-                    $target.find('.lp_loading-indicator').remove();
+                    $target.find('.lp_js_loadingIndicator').remove();
                 }
             },
 
@@ -633,18 +633,18 @@
                     valueClass  = 'lp_dashboard-data__value';
 
                 if (kpiUnit === '%' || kpiUnit === '') {
-                    valueClass = 'lp_dashboard-data__value-narrow';
+                    valueClass = 'lp_dashboard-data__value lp_dashboard-data__value--narrow';
                 }
 
                 return '<li class="lp_dashboard-data__item">' +
-                    '<span class="lp_dashboard-data__sparkline">' + sparklineData + '</span>' +
+                    '<span class="lp_dashboard-data__sparkline lp_js_sparkLine">' + sparklineData + '</span>' +
                     '<strong class="' + valueClass + '">' + kpi + '</strong>' +
                     '<i><a href="#" class="lp_js_toggleItemDetails lp_dashboard-data__link">' + itemName + '</a></i>' +
                     '</li>';
             },
 
             renderSparklines = function($context) {
-                var $sparkline = $('.lp_dashboard-data__sparkline', $context),
+                var $sparkline = $('.lp_js_sparkLine', $context),
                 // get the number of data points from the first matched sparkline
                     dataPoints = $sparkline.first().text().split(',').length;
 

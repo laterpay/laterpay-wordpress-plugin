@@ -20,70 +20,71 @@
 
 
 // code snippets -------------------------------------------------------------------------------------------------------
-.lp_element-preview {
+.lp_ui-element-preview {
     width: 110px;
-}
-.lp_element-preview.lp--large {
-    width: 300px;
+
+    &.lp_ui-element-preview--large {
+        width: 300px;
+    }
 }
 
 .lp_code-snippet {
-    background-color: $background-lightest;
-    border: 1px solid $border-darker;
+    background-color: $background--lightest;
+    border: 1px solid $border--darker;
     border-radius: 3px;
-    margin: $fs-075 0 0 125px;
+    margin: $fs--075 0 0 125px;
     max-width: 700px;
-    padding: $fs-075 $fs-1 $fs-05;
+    padding: $fs--075 $fs $fs--05;
     position: relative;
 
-    &.lp--large {
+    &.lp_code-snippet--large {
         margin-left: 325px;
     }
-}
 
-.lp_code-snippet.lp--shown-above {
-    margin: $fs-075 0 $fs-05;
-    max-width: 540px;
+    &.lp_code-snippet--shown-above {
+        margin: $fs--075 0 $fs--05;
+        max-width: 540px;
 
-    .lp_triangle {
-        border-color: $background-lightest transparent transparent transparent;
-        bottom: -8px;
-        left: -9px;
-        top: auto;
-    }
+        .lp_triangle {
+            border-color: $background--lightest transparent transparent transparent;
+            bottom: -8px;
+            left: -9px;
+            top: auto;
+        }
 
-    .lp_outerTriangle {
-        border-right-color: transparent;
-        border-top-color: hsl(0, 0%, 77%);
-        bottom: -20px;
-        left: 70px;
-        top: auto;
+        .lp_triangle--outer-triangle {
+            border-right-color: transparent;
+            border-top-color: hsl(0, 0%, 77%);
+            bottom: -20px;
+            left: 70px;
+            top: auto;
+        }
     }
 }
 
 .lp_triangle {
-    border: 9px solid $background-lightest;
-    border-color: transparent $background-lightest transparent transparent;
+    border: 9px solid $background--lightest;
+    border-color: transparent $background--lightest transparent transparent;
     height: 0;
     left: -8px;
     position: absolute;
     top: -9px;
     width: 0;
-    z-index: $zindex-elevated_2;
+    z-index: $zindex--elevated-2;
 }
 
-.lp_outerTriangle {
+.lp_triangle--outer-triangle {
     border-right-color: hsl(0, 0%, 77%);
     border-width: 10px;
     left: -20px;
     top: 7px;
-    z-index: $zindex-elevated_1;
+    z-index: $zindex--elevated-1;
 }
 
 table {
 
     td {
-        padding: $fs-05;
+        padding: $fs--05;
         vertical-align: top;
    }
 

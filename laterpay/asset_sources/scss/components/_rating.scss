@@ -53,13 +53,13 @@
 }
 
 .lp_rating__star svg {
-    fill: $background-darker;
+    fill: $background--darker;
 }
 
 .lp_rating__star.lp_is-full {
 
     .lp_star__full {
-        fill: $background-laterpay;
+        fill: $laterpay-brand;
     }
 
     .lp_star__half {
@@ -70,7 +70,7 @@
 .lp_rating__star.lp_is-half {
 
     .lp_star__half {
-        fill: $background-laterpay;
+        fill: $laterpay-brand;
     }
 }
 
@@ -96,19 +96,19 @@
     &:hover svg,
     &:hover ~ .lp_rating__star svg,   /* 1 */
     &:checked ~ .lp_rating__star svg {   /* 2 */
-        fill: $clickable-highlight;
+        fill: $clickable--highlight;
     }
 }
 
 .lp_rating__ratings-count {
-    color: $text-lightest;
+    color: $text--lightest;
     display: inline-block;
 }
 
 
 // rating form ---------------------------------------------------------------------------------------------------------
 .lp_rating {
-    background: $background-lightest;
+    background: $background--lightest;
     border: 1px solid $border;
     border-radius: 3px;
     height: 1.5em;
@@ -118,7 +118,7 @@
 }
 
 .lp_rating.lp_is-fading-out {
-     background: $background-highlight;
+     background: $background--highlight;
      border-color: transparent;
      text-align: center;
  }
@@ -168,7 +168,7 @@
  * 2. vertically align items compressed
  */
 .lp_rating__distribution {
-    background: $background-lightest;
+    background: $background--lightest;
     border: 1px solid $border;
     border-radius: 3px;
     display: none;
@@ -179,34 +179,34 @@
     padding: 1em;
     position: absolute;
     width: 13.5em;
-    z-index: $zindex-overlayed_1;
+    z-index: $zindex--overlayed-1;
 
 
     /* upward-pointing arrow */
     .lp_triangle {
-        border: 9px solid $background-lightest;
-        border-color: transparent transparent $background-lightest transparent;
+        border: 9px solid $background--lightest;
+        border-color: transparent transparent $background--lightest transparent;
         height: 0;
         left: -9px;
         position: absolute;
         top: -8px;
         width: 0;
-        z-index: $zindex-elevated_2;
+        z-index: $zindex--elevated-2;
     }
 
 
     /* border for upward-pointing arrow */
-    .lp_outerTriangle {
+    .lp_triangle--outer-triangle {
         border-bottom-color: hsl(0, 0%, 77%);
         border-width: 10px;
         left: 50%;
         margin-left: -10px;
         top: -20px;
-        z-index: $zindex-elevated_1;
+        z-index: $zindex--elevated-1;
     }
 
     .lp_rating__distribution-heading {
-        color: $text-lighter;
+        color: $text--lighter;
         margin: 0 0 1em;
         text-align: center;
     }
@@ -247,13 +247,13 @@
     }
 
     .lp_rating__background-bar {
-        background: $background-darker;
+        background: $background--darker;
         display: inline-block;
         width: 5em;
     }
 
     .lp_rating__bar {
-        background: $background-laterpay;
+        background: $laterpay-brand;
         border-radius: 1px;
         float: left;
     }

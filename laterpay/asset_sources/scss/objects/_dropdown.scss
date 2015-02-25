@@ -6,6 +6,29 @@
     cursor: pointer;
     display: inline-block;
     position: relative;
+
+    /* upward-pointing arrow */
+    .lp_triangle {
+        border: 13px solid $background--lightest;
+        border-color: transparent transparent $background--lightest transparent;
+        height: 0;
+        left: -13px;
+        position: absolute;
+        top: -10px;
+        width: 0;
+        z-index: $zindex--elevated-2;
+
+
+        /* border for upward-pointing arrow */
+        &.lp_triangle--outer-triangle {
+            border-bottom-color: $border;
+            border-width: 14px;
+            left: 50%;
+            margin-left: -14px;
+            top: -28px;
+            z-index: $zindex--elevated-1;
+        }
+    }
 }
 
 .lp_dropdown__current-item {
@@ -23,48 +46,23 @@
 }
 
 .lp_dropdown__list {
-    background: $background-lightest;
+    background: $background--lightest;
     border: 2px solid $border;
     border-radius: 3px;
     display: none;
     left: 50%;
     margin-left: -3em;
-    padding: $fs-05;
+    padding: $fs--05;
     position: absolute;
-    top: (3 * $fs-1);
+    top: (3 * $fs);
     width: 6em;
-    z-index: $zindex-overlayed_1;
-}
-
-
-
-/* upward-pointing arrow */
-.lp_dropdown__triangle {
-	border: 13px solid $background-lightest;
-	border-color: transparent transparent $background-lightest transparent;
-	height: 0;
-	left: -13px;
-	position: absolute;
-	top: -10px;
-	width: 0;
-	z-index: $zindex-elevated_2;
-
-
-	/* border for upward-pointing arrow */
-	&.lp_dropdown__triangle--outer-triangle {
-		border-bottom-color: $border;
-		border-width: 14px;
-		left: 50%;
-		margin-left: -14px;
-		top: -28px;
-		z-index: $zindex-elevated_1;
-	}
+    z-index: $zindex--overlayed-1;
 }
 
 .lp_dropdown__item {
     display: block;
     line-height: 1;
-    padding: $fs-05;
+    padding: $fs--05;
     white-space: nowrap;
 
 
@@ -72,10 +70,10 @@
 	 * Highlight the selected item and remove all styling that makes it look as if you could interact with it
 	 */
 	&.lp_is-selected {
-		color: $text-lighter;
+		color: $text--lighter;
 
 		&:hover {
-			color: $text-lighter;
+			color: $text--lighter;
 			cursor: default;
 		}
 	}

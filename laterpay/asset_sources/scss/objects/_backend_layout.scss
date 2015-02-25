@@ -5,7 +5,7 @@
 
 .lp_pagewrap {
     max-width: 1240px;
-    padding: $fs-1;
+    padding: $fs;
 }
 
 /*.lp_row*/
@@ -14,16 +14,16 @@
 
 // tabs ----------------------------------------------------------------------------------------------------------------
 .lp_navigation {
-    background-color: $background-lightest;
-    border-bottom: 1px solid $border-darker;
-    box-shadow: 0 1px 0 $background-lightest;
+    background-color: $background--lightest;
+    border-bottom: 1px solid $border--darker;
+    box-shadow: 0 1px 0 $background--lightest;
     left: -20px;
     padding-top: 2rem;
     width: 100%;
 }
 
 .lp_page .lp_navigation-tabs {
-    margin-left: $fs-2;
+    margin-left: $fs--2;
 }
 
 .lp_navigation-tabs__item {
@@ -42,8 +42,8 @@
     }
 
     .lp_navigation-tabs__link {
-        color: $text-lighter;
-        font-size: $fs-1;
+        color: $text--lighter;
+        font-size: $fs;
         min-width: 7.5em;
         padding: 0.5em 1em 0.75em;
         text-align: center;
@@ -53,7 +53,7 @@
         color: $clickable;
 
         &:hover {
-            color: $clickable-highlight;
+            color: $clickable--highlight;
         }
     }
 
@@ -112,7 +112,7 @@
         &:before,
 		.lp_plugin-mode-indicator__title,
         i {
-            color: $clickable-highlight;
+            color: $clickable--highlight;
         }
     }
 
@@ -137,18 +137,18 @@
     position: fixed; // always show flash message at top of screen, even if page is scrolled down
     top: 2.5rem;
     width: 96%;
-    z-index: $zindex-overlayed_1;
+    z-index: $zindex--overlayed-1;
 }
 
 
 // contextual help -----------------------------------------------------------------------------------------------------
 #screen-meta { // WordPress selector
     position: absolute;
-    z-index: $zindex-elevated_1;
+    z-index: $zindex--elevated-1;
 }
 
 #contextual-help-link-wrap {// WordPress selector
-    z-index: $zindex-elevated_2;
+    z-index: $zindex--elevated-2;
 }
 
 

@@ -3,9 +3,9 @@
 <?php $currency = $laterpay['currency']; ?>
 
 <div id="lp_js_postStatistics" class="lp_postStatistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' lp_is-hidden'; ?>">
-    <form id="lp_js_postStatistics_visibilityForm" method="post">
+    <form id="lp_js_postStatisticsVisibilityForm" method="post">
         <input type="hidden" name="action" value="laterpay_post_statistic_visibility">
-        <input type="hidden" id="lp_js_postStatistics_visibilityInput" name="hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
+        <input type="hidden" id="lp_js_postStatisticsVisibilityInput" name="hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
     <a href="#" id="lp_js_togglePostStatisticsVisibility" class="lp_postStatistics_visibilityToggle" data-icon="l"></a>
@@ -65,7 +65,7 @@
     <div class="lp_postStatistics_pluginPreviewMode">
         <?php _e( 'Preview post as', 'laterpay' ); ?> <strong><?php _e( 'Admin', 'laterpay' ); ?></strong>
         <div class="lp_toggle">
-            <form id="lp_js_postStatistics_pluginPreviewModeForm" method="post">
+            <form id="lp_js_postStatisticsPluginPreviewModeForm" method="post">
                 <input type="hidden" name="action" value="laterpay_post_statistic_toggle_preview">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                 <label class="lp_toggle__label">
