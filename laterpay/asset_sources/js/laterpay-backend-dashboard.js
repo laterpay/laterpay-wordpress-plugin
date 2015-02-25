@@ -725,7 +725,7 @@
                 loadMostLeastRevenueItems(refresh);
                 loadMostLeastSellingItems(refresh);
                 loadConvertingItems(refresh);
-                loadTimePassLifecycles(refresh);
+                loadTimePassLifecycles(true);
                 loadRevenueItems(refresh);
                 loadSellingItems(refresh);
                 loadKPIs(refresh);
