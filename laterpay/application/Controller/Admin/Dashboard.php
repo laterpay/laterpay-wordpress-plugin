@@ -90,6 +90,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
             )
         );
+        // get maximum number of expiring time passes per week across all time passes to scale the y-axis
+        // of the timepass diagrams
+        $max_y_value = max( LaterPay_Helper_TimePass::get_time_pass_expiry_by_weeks( null, LaterPay_Helper_Dashboard::TIME_PASSES_WEEKS ) );
+
         wp_localize_script(
             'laterpay-backend-dashboard',
             'lpVars',
@@ -97,11 +101,12 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
                 'nonces'    => array( 'dashboard' => wp_create_nonce( $this->ajax_nonce ) ),
                 'submenu'   => array( 'view' => array(
-                    'standard' => 'standard-kpis',
-                    'passes'   => 'time-passes',
+                                    'standard' => 'standard-kpis',
+                                    'passes'   => 'time-passes',
                 ) ),
                 'locale'    => get_locale(),
                 'i18n'      => $i18n,
+                'maxYValue' => $max_y_value,
             )
         );
     }

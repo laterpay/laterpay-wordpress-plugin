@@ -544,6 +544,7 @@ class LaterPay_Helper_TimePass
 
                 if  ( $time_pass_history && is_array( $time_pass_history ) ) {
                     foreach ( $time_pass_history as $hist ) {
+                        $has_unredeemed     = false;
                         $committed_revenue += $hist->price;
 
                         // check, if there are unredeemed gift codes
@@ -552,12 +553,18 @@ class LaterPay_Helper_TimePass
                             $summary_unredeemed++;
                         }
 
+                        if ( $hist->code ) {
+                            $has_unredeemed = true;
+                        }
+
                         // check, if pass is still active
-                        $start_date   = strtotime( $hist->date );
-                        $current_date = time();
-                        if ( ( $start_date + $duration ) > $current_date ) {
-                            $active++;
-                            $summary_active++;
+                        if ( ! $has_unredeemed ) {
+                            $start_date   = strtotime( $hist->date );
+                            $current_date = time();
+                            if ( ( $start_date + $duration ) > $current_date ) {
+                                $active++;
+                                $summary_active++;
+                            }
                         }
                     }
                 } else {
@@ -657,7 +664,9 @@ class LaterPay_Helper_TimePass
                         $key++;
                     }
 
-                    $data[$key]++;
+                    if ( ! $hist->code ) {
+                        $data[$key]++;
+                    }
                 }
             }
         }

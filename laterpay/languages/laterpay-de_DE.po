@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Mon Feb 23 2015 18:13:15 GMT+0100 (CET)\n"
+"PO-Revision-Date: Tue Feb 24 2015 22:10:23 GMT+0100 (CET)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -809,19 +809,19 @@ msgstr "Plugin-Modus"
 msgid "The LaterPay plugin is in"
 msgstr "Das LaterPay Plugin ist im"
 
-#: ../views/backend/account.php:165
+#: ../views/backend/account.php:162
 msgid "mode."
 msgstr "Modus."
 
-#: ../views/backend/account.php:168
+#: ../views/backend/account.php:165
 msgid "It is invisible"
 msgstr "Es ist für Besucher nicht sichtbar"
 
-#: ../views/backend/account.php:186
+#: ../views/backend/account.php:183
 msgid "visible to visitors."
 msgstr "sichtbar."
 
-#: ../views/backend/account.php:190
+#: ../views/backend/account.php:187
 msgid ""
 "Your visitors <strong>can now purchase with LaterPay</strong>. All payments "
 "are booked and credited to your account."
@@ -829,7 +829,7 @@ msgstr ""
 "Ihre Besucher <strong>können jetzt mit LaterPay kaufen</strong>. Alle "
 "Zahlungen werden gebucht und Ihrem Händlerkonto gutgeschrieben."
 
-#: ../views/backend/account.php:193
+#: ../views/backend/account.php:190
 msgid "Payments are only simulated and <strong>not actually booked</strong>."
 msgstr ""
 "Zahlungen werden nur simuliert und <strong>nicht tatsächlich "
@@ -2626,8 +2626,8 @@ msgstr "Aktualisiert."
 
 #: ../application/Controller/Statistic.php:218 ..
 #: application/Controller/Admin/Account.php:75 ..
-#: application/Controller/Admin/Dashboard.php:717 ..
 #: application/Controller/Admin/Dashboard.php:727 ..
+#: application/Controller/Admin/Dashboard.php:737 ..
 #: application/Controller/Admin/Appearance.php:70 ..
 #: application/Controller/Admin/Pricing.php:159
 msgid "You don't have sufficient user capabilities to do this."
@@ -3009,7 +3009,7 @@ msgid ""
 "The LaterPay plugin is in visible TEST mode now. Payments are only simulated "
 "and not actually booked."
 msgstr ""
-"Das LaterPay Plugin ist jetzt im TEST-Modus und für Ihre Nutzer sichtbar. "
+"Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher sichtbar. "
 "Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
 #: ../application/Controller/Admin/Account.php:265
@@ -3017,8 +3017,8 @@ msgid ""
 "The LaterPay plugin is in invisible TEST mode now. Payments are only "
 "simulated and not actually booked."
 msgstr ""
-"Das LaterPay Plugin ist jetzt im TEST-Modus und für Ihre Nutzer nicht "
-"sichtbar. Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
+"Das LaterPay Plugin ist jetzt im TEST-Modus und für Besucher nicht sichtbar. "
+"Zahlungen werden nur simuliert und nicht tatsächlich gebucht."
 
 #: ../application/Controller/Admin/Account.php:275 ..
 #: application/Controller/Admin/Account.php:311
@@ -3031,12 +3031,14 @@ msgstr "Ein Fehler ist aufgetreten: Falsche Daten angegeben."
 
 #: ../application/Controller/Admin/Account.php:318
 msgid "The plugin is in <strong>visible</strong> test mode now."
-msgstr "Das Plugin ist jetzt im Test-Modus und für Nutzer <strong>sichtbar</strong>."
+msgstr ""
+"Das Plugin ist jetzt im Test-Modus und für Besucher "
+"<strong>sichtbar</strong>."
 
 #: ../application/Controller/Admin/Account.php:320
 msgid "The plugin is in <strong>invisible</strong> test mode now."
 msgstr ""
-"Das Plugin ist jetzt im Test-Modus und für Nutzer <strong>nicht "
+"Das Plugin ist jetzt im Test-Modus und für Besucher <strong>nicht "
 "sichtbar</strong>."
 
 #: ../application/Controller/Admin/Dashboard.php:68
@@ -3087,21 +3089,21 @@ msgstr "Nächsten Monat anzeigen"
 msgid "Show previous month"
 msgstr "Vorherigen Monat anzeigen"
 
-#: ../application/Controller/Admin/Dashboard.php:169
+#: ../application/Controller/Admin/Dashboard.php:175
 #, php-format
 msgid "Cache data is empty on <code>%s</code>"
 msgstr "Cache data is empty on <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:683
+#: ../application/Controller/Admin/Dashboard.php:693
 msgid "Error, missing section on request"
 msgstr "Error, missing section on request"
 
-#: ../application/Controller/Admin/Dashboard.php:692
+#: ../application/Controller/Admin/Dashboard.php:702
 #, php-format
 msgid "Section is not allowed <code>%s</code>"
 msgstr "Section is not allowed <code>%s</code>"
 
-#: ../application/Controller/Admin/Dashboard.php:701
+#: ../application/Controller/Admin/Dashboard.php:711
 #, php-format
 msgid "Invalid section <code>%s</code>"
 msgstr "Invalid section <code>%s</code>"
@@ -3128,19 +3130,19 @@ msgstr "Die Bewertung gekaufter Beiträge wurde deaktiviert."
 
 #: ../application/Controller/Admin/Appearance.php:166
 msgid "Purchase buttons are now rendered at a custom position."
-msgstr "Kauf-Buttons werden ab jetzt an ihrer Standard-Position angezeigt."
+msgstr "Kauf-Buttons werden ab jetzt an einer benutzerdefinierten Position angezeigt."
 
 #: ../application/Controller/Admin/Appearance.php:173
 msgid "Purchase buttons are now rendered at their default position."
-msgstr "Kauf-Buttons werden ab jetzt an einer benutzerdefinierten Position angezeigt."
+msgstr "Kauf-Buttons werden ab jetzt an ihrer Standard-Position angezeigt.\n"
 
 #: ../application/Controller/Admin/Appearance.php:199
 msgid "Time passes are now rendered at a custom position."
-msgstr "Zeitpässe werden ab jetzt an ihrer Standard-Position angezeigt."
+msgstr "Zeitpässe werden ab jetzt an einer benutzerdefinierten Position angezeigt."
 
 #: ../application/Controller/Admin/Appearance.php:206
 msgid "Time passes are now rendered at their default position."
-msgstr "Zeitpässe werden ab jetzt an einer benutzerdefinierten Position angezeigt."
+msgstr "Zeitpässe werden ab jetzt an ihrer Standard-Position angezeigt.\n"
 
 #: ../application/Controller/Admin/Pricing.php:49
 msgid "Make"

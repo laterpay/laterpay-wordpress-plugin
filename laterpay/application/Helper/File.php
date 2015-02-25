@@ -399,7 +399,7 @@ class LaterPay_Helper_File
     }
 
     /**
-     * Remove directory with files
+     * Remove directory and all included files.
      *
      * @param $path
      */

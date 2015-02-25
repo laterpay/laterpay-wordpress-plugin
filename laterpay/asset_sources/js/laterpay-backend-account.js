@@ -126,14 +126,10 @@
 
             togglePluginMode = function() {
                 var $toggle                 = $o.pluginModeToggle,
-                    $input                  = $('#lp_js_pluginMode_hiddenInput'), // FIXME: wtf!? a hidden input for storing the value of a checkbox???
-                    testMode                = 0,
-                    liveMode                = 1,
                     hasSwitchedToLiveMode   = $toggle.prop('checked');
 
                 if (hasNoValidCredentials()) {
                     // restore test mode
-                    $input.val(testMode);
                     $toggle.prop('checked', false);
 
                     // focus Merchant ID input in case the user just forgot to enter his credentials
@@ -145,13 +141,9 @@
                     // show additional toggle for switching between visible and invisible test mode
                     $o.pluginVisibilitySetting.fadeIn(250);
                 } else if (hasSwitchedToLiveMode) {
-                    $input.val(liveMode);
-
                     // hide toggle for switching between visible and invisible test mode
                     $o.pluginVisibilitySetting.fadeOut(250);
                 } else {
-                    $input.val(testMode);
-
                     // hide toggle for switching between visible and invisible test mode
                     $o.pluginVisibilitySetting.fadeIn(250);
                 }
