@@ -323,7 +323,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function maype_add_only_time_pass_purchase_option() {
+    public function maybe_add_only_time_pass_purchase_option() {
         $current_version = get_option( 'laterpay_version' );
         if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
