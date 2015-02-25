@@ -13,7 +13,7 @@
             <?php if ( isset( $page['submenu'] ) ): ?>
                 <ul class="lp_navigation_tabs__submenu">
                     <li class="lp_navigation_tabs__item">
-                        <a href="<?php echo $page['submenu']['url']; ?>"
+                        <a href="<?php echo add_query_arg( array( 'page' => $laterpay['plugin_page'] ), admin_url( 'admin.php' ) ); ?>"
                             <?php if ( isset( $page['submenu']['id'] ) ): ?>id="<?php echo $page['submenu']['id']; ?>"<?php endif; ?>
                             class="lp_u_block"
                             <?php if ( isset( $page['submenu']['data'] ) ): ?>data="<?php echo htmlspecialchars( json_encode( $page['submenu']['data'] ), ENT_QUOTES ); ?>"<?php endif; ?>>
