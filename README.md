@@ -30,10 +30,6 @@ Now you can run any of the tasks defined in the gulpfile from the repository roo
 During development you can either watch the repo for changes and automatically recompile the modified assets using ```gulp```.
 For exporting the assets for a release, you can also run ```gulp build```.
 
-The plugin uses the CSS preprocessor [Stylus](http://learnboost.github.io/stylus/).
-Stylus is a node.js module. If you have node.js running, you can install Stylus with ```sudo npm install -g stylus```.
-To generate production CSS from the .styl sources, go to folder 'laterpay' and run ```stylus asset_sources/stylus --out built_assets/css --compress```.
-
 An [EditorConfig](http://editorconfig.org) file is supplied to make it easier to adjust your IDE to the project standards in applying whitespace.
 
 Contributed PHP code must comply with the WordPress coding standards.
