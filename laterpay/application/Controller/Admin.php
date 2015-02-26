@@ -43,6 +43,18 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                 $slug,
                 array( $this, 'run_' . $name )
             );
+            if ( isset( $page['submenu'] ) ) {
+                $sub_page = $page['submenu'];
+
+                add_submenu_page(
+                    $sub_page['name'],
+                    $sub_page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
+                    $sub_page['title'],
+                    'activate_plugins',
+                    $sub_page['url'],
+                    array( $this, 'run_' . $sub_page['name'] )
+                );
+            }
             add_action( 'load-' . $page_id, array( $this, 'help_' . $name ) );
             $page_number++;
         }
@@ -131,8 +143,14 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         }
 
         switch ( $tab ) {
-            default:
 
+            // render time_passes tab
+            case 'time_passes':
+                $time_passes_controller = new LaterPay_Controller_Admin_TimePasses( $this->config );
+                $time_passes_controller->render_page();
+                break;
+
+            default:
             // render dashboard tab
             case 'dashboard':
                 $dashboard_controller = new LaterPay_Controller_Admin_Dashboard( $this->config );
