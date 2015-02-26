@@ -2,8 +2,7 @@
 
     // encapsulate all LaterPay Javascript in function laterPayBackendTimePasses
     function laterPayBackendTimePasses() {
-        var i, l,
-            $o = {
+        var $o = {
                 // time passes customer lifecycle
                 timepassDiagram         : $('.lp_js_timepassDiagram')
             },

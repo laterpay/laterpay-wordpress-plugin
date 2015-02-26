@@ -30,13 +30,12 @@ function clearMessage() {
 }
 
 function showLoadingIndicator($target) {
-
     // add a state class, indicating that the element will be showing a loading indicator after a delay
     $target.addClass('lp_is-delayed');
 
     setTimeout(function() {
         if ($target.hasClass('lp_is-delayed')) {
-            // add the loading indicator after a delay, if the element still has that state class
+            // inject the loading indicator after a delay, if the element still has that state class
             $target.html('<div class="lp_loadingIndicator"></div>');
         }
     }, 600);
