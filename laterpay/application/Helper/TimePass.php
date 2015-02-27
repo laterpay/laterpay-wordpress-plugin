@@ -549,9 +549,11 @@ class LaterPay_Helper_TimePass
                     foreach ( $time_pass_history as $hist ) {
                         $has_unredeemed     = false;
                         $committed_revenue += $hist->price;
+                        $summary_revenue   += $hist->price;
 
                         if ( $hist->price > 0 ) {
                             $sold++;
+                            $summary_sold ++;
                         }
 
                         // check, if there are unredeemed gift codes
@@ -585,16 +587,6 @@ class LaterPay_Helper_TimePass
                 );
 
                 $statistic['individual'][$time_pass['pass_id']] = $time_pass_statistics;
-            }
-        }
-
-        // calculate summary statistics
-        $time_passes_history = $history_model->get_time_pass_history();
-
-        if ( $time_passes_history && is_array( $time_passes_history ) ) {
-            $summary_sold = count( $time_passes_history );
-            foreach ( $time_passes_history as $hist ) {
-                $summary_revenue += $hist->price;
             }
         }
 
