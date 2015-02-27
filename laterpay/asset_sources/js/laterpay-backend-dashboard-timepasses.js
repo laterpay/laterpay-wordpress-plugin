@@ -203,7 +203,7 @@
 
                 // add x-axis label
                 var xAxisLabel = '<div class="lp_time-pass-diagram__label" ' +
-                    'style="left:' + (o3.left + 10) + 'px; top:' + o3.top + 'px;">' +
+                    'style="left:' + (o3.left + 10) + 'px; top:' + (o3.top - 2) + 'px;">' +
                     lpVars.i18n.weeksLeft +
                     '</div>';
                 $element.append(xAxisLabel);
