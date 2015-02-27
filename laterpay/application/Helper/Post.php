@@ -297,4 +297,34 @@ class LaterPay_Helper_Post
 
         return $view_args;
     }
+
+    /**
+     * Add teaser to the post or update it.
+     *
+     * @param object $post post object
+     * @param null $teaser teaser data
+     * @param bool $need_update
+     *
+     * @return string $new_meta_value teaser content
+     */
+    public static function add_teaser_to_the_post( $post, $teaser = null, $need_update = true ) {
+        if ( $teaser ) {
+            $new_meta_value = $teaser;
+        } else {
+            $new_meta_value = LaterPay_Helper_String::truncate(
+                preg_replace( '/\s+/', ' ', strip_shortcodes( $post->post_content ) ),
+                get_option( 'laterpay_teaser_content_word_count' ),
+                array (
+                    'html'  => true,
+                    'words' => true,
+                )
+            );
+        }
+
+        if ( $need_update ) {
+            update_post_meta( $post->ID, 'laterpay_post_teaser', $new_meta_value );
+        }
+
+        return $new_meta_value;
+    }
 }

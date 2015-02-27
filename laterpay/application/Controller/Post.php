@@ -914,24 +914,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $content;
         }
 
-        $user_has_unlimited_access      = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
-        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
-        $timepasses_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
-
-        // assign variables for time passes partial
-        $view_args = array(
-            'time_passes_positioned_manually' => $timepasses_positioned_manually,
-        );
-
-        $this->assign( 'laterpay', $view_args );
-
-        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
-            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
-            return $content;
-        }
-
         $post_id = $post->ID;
 
+        // return the content, if post is not in the enabled post types
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
             $context = array(
                 'post'                  => $post,
@@ -947,9 +932,16 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get pricing data
-        $currency       = get_option( 'laterpay_currency' );
-        $price          = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
+        $currency                       = get_option( 'laterpay_currency' );
+        $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
+        $revenue_model                  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
+
+        // assign variables for time passes partial
+        $timepasses_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
+        $view_args = array(
+            'time_passes_positioned_manually' => $timepasses_positioned_manually,
+        );
+        $this->assign( 'laterpay', $view_args );
 
         // return the content, if no price was found for the post
         if ( $price == 0 ) {
@@ -967,11 +959,26 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $content;
         }
 
+        // get the teaser content
+        $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
+        // generate teaser content, if it's empty
+        if ( ! $teaser_content ) {
+            $teaser_content = LaterPay_Helper_Post::add_teaser_to_the_post( $post );
+        }
+        // process teaser content through wpautop
+        $teaser_content = wpautop( $teaser_content );
+
+        // check, if user has admin rights
+        $user_has_unlimited_access      = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+        $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
+
+        if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+            return $content;
+        }
+
         // get purchase link
         $purchase_link                  = $this->get_laterpay_purchase_link( $post_id );
-
-        // get the teaser content
-        $teaser_content                 = get_post_meta( $post_id, 'laterpay_post_teaser', true );
 
         // output states
         $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
