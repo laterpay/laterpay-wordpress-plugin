@@ -159,6 +159,12 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             'quicktags'       => 1,
         );
         $content = get_post_meta( $post->ID, 'laterpay_post_teaser', true );
+
+        // prefill teaser content
+        if ( ! $content ) {
+            $content = LaterPay_Helper_Post::add_teaser_to_the_post( $post, null, false );
+        }
+
         $editor_id = 'postcueeditor';
 
         echo '<dfn>' . __( "This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . '</dfn>';
@@ -308,25 +314,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             // no rights to edit laterpay_edit_teaser_content -> do nothing
             if ( LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
                 $teaser = $post_form->get_field_value( 'laterpay_post_teaser' );
-
-                if ( $teaser ) {
-                    $new_meta_value = wpautop( $teaser );
-                } else {
-                    $new_meta_value = LaterPay_Helper_String::truncate(
-                        $post->post_content,
-                        $this->config->get( 'content.auto_generated_teaser_content_word_count' ),
-                        array (
-                            'html'  => true,
-                            'words' => true,
-                        )
-                    );
-                }
-
-                $this->set_post_meta(
-                    'laterpay_post_teaser',
-                    $new_meta_value,
-                    $post_id
-                );
+                LaterPay_Helper_Post::add_teaser_to_the_post( $post, $teaser );
             }
 
             // no rights to edit laterpay_edit_individual_price -> do nothing
@@ -422,25 +410,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
             // no rights to edit laterpay_edit_teaser_content -> do nothing
             if ( LaterPay_Helper_User::can( 'laterpay_edit_teaser_content', $post_id ) ) {
                 $teaser = $post_form->get_field_value( 'laterpay_post_teaser' );
-
-                if ( $teaser ) {
-                    $new_meta_value = wpautop( $teaser );
-                } else {
-                    $new_meta_value = LaterPay_Helper_String::truncate(
-                        $post->post_content,
-                        $this->config->get( 'content.auto_generated_teaser_content_word_count' ),
-                        array (
-                            'html'  => true,
-                            'words' => true,
-                        )
-                    );
-                }
-
-                $this->set_post_meta(
-                    'laterpay_post_teaser',
-                    $new_meta_value,
-                    $post_id
-                );
+                LaterPay_Helper_Post::add_teaser_to_the_post( $post, $teaser );
             }
         }
     }

@@ -488,7 +488,7 @@
                                     id="lp_js_setBulkChangeAmount"
                                     class="lp_input lp_numberInput"
                                     value="<?php echo $laterpay['global_default_price']; ?>"
-                                    placeholder="0.00">
+                                    placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
                             <select name="bulk_change_unit" id="lp_js_selectBulkChangeUnit" class="lp_input lp_bulkPriceUnit lp_is-disabled">
                                 <option value="<?php echo $laterpay['standard_currency']; ?>">
                                     <?php echo $laterpay['standard_currency']; ?>
