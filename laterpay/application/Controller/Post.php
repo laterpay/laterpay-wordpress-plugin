@@ -908,7 +908,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         global $wp_embed;
 
         $post = get_post();
-
         if ( $post === null || $this->is_excerpt ) {
             // disable excerpt
             $this->is_excerpt = false;
