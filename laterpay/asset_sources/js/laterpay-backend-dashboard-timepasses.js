@@ -1,43 +1,48 @@
 (function($) {$(function() {
 
-    // encapsulate all LaterPay Javascript in function laterPayBackendTimePasses
-    function laterPayBackendTimePasses() {
+    // encapsulate all LaterPay Javascript in function laterPayBackendDashboardTimePasses
+    function laterPayBackendDashboardTimePasses() {
         var $o = {
                 // time passes customer lifecycle
-                timepassDiagram     : $('.lp_js_timepassDiagram')
+                timepassDiagram         : $('.lp_js_timepassDiagram'),
+                // colors
+                colorBackground         : '#e3e3e3',
+                colorBackgroundLaterpay : '#50c371',
+                colorBorder             : '#ccc',
+                colorTextLighter        : '#ababab',
             },
 
             plotDefaultOptions = {
-                legend              : {
-                    show            : false,
+                legend                  : {
+                    show                : false,
                 },
-                xaxis               : {
-                    font            : {
-                        color       : $o.colorTextLighter,
-                        lineHeight  : 18,
+                xaxis                   : {
+                    font                : {
+                        color           : $o.colorTextLighter,
+                        lineHeight      : 18,
                     },
-                    show            : true,
+                    show                : true,
                 },
-                yaxis               : {
-                    font            : {
-                        color       : $o.colorTextLighter,
+                yaxis                   : {
+                    font                : {
+                        color           : $o.colorTextLighter,
                     },
-                    min             : 0,
-                    reserveSpace    : true,
-                    ticks           : 5,
+                    min                 : 0,
+                    reserveSpace        : true,
+                    ticks               : 5,
                 },
-                series              : {
-                    shadowSize      : 0,
+                series                  : {
+                    shadowSize          : 0,
                 },
-                grid                : {
-                    borderWidth     : {
-                        top         : 0,
-                        right       : 0,
-                        bottom      : 1,
-                        left        : 0,
+                grid                    : {
+                    borderWidth         : {
+                        top             : 0,
+                        right           : 0,
+                        bottom          : 1,
+                        left            : 0,
                     },
-                    borderColor     : $o.colorBorder,
-                    tickColor       : 'rgba(247,247,247,0)', // transparent
+                    borderColor         : $o.colorBorder,
+                    tickColor           : 'rgba(247,247,247,0)', // transparent
                 }
             },
 
@@ -248,6 +253,6 @@
     }
 
     // initialize page
-    laterPayBackendTimePasses();
+    laterPayBackendDashboardTimePasses();
 
 });})(jQuery);

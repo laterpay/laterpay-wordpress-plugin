@@ -28,7 +28,7 @@ class LaterPay_Controller_Admin_TimePasses extends LaterPay_Controller_Abstract
         );
         wp_enqueue_script(
             'laterpay-backend-dashboard',
-            $this->config->get( 'js_url' ) . 'laterpay-backend-time_passes.js',
+            $this->config->get( 'js_url' ) . 'laterpay-backend-dashboard-timepasses.js',
             array( 'jquery', 'laterpay-flot' ),
             $this->config->get( 'version' ),
             true
