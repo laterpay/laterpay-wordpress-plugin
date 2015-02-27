@@ -916,7 +916,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $post_id = $post->ID;
 
-        // return the content, if post not in enabled post types
+        // return the content, if post is not in the enabled post types
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
             $context = array(
                 'post'                  => $post,
@@ -961,14 +961,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // get the teaser content
         $teaser_content = get_post_meta( $post_id, 'laterpay_post_teaser', true );
-        // generate teaser content if it's empty
+        // generate teaser content, if it's empty
         if ( ! $teaser_content ) {
             $teaser_content = LaterPay_Helper_Post::add_teaser_to_the_post( $post );
         }
         // process teaser content through wpautop
         $teaser_content = wpautop( $teaser_content );
 
-        // check if user has admin rights
+        // check, if user has admin rights
         $user_has_unlimited_access      = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
         $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
