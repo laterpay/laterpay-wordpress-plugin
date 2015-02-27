@@ -165,7 +165,7 @@ class LaterPay_Core_Bootstrap
         }
 
         $time_passes_controller = new LaterPay_Controller_Admin_TimePasses( $this->config );
-        add_action( 'wp_ajax_laterpay_get_time_passes_data',                  array( $time_passes_controller, 'ajax_get_time_passes_data' ) );
+        add_action( 'wp_ajax_laterpay_get_time_passes_data',                array( $time_passes_controller, 'ajax_get_time_passes_data' ) );
 
         $dashboard_controller = new LaterPay_Controller_Admin_Dashboard( $this->config );
         add_action( 'laterpay_refresh_dashboard_data',                      array( $dashboard_controller, 'refresh_dashboard_data' ), 10, 3 );

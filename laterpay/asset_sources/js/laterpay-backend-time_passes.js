@@ -4,7 +4,7 @@
     function laterPayBackendTimePasses() {
         var $o = {
                 // time passes customer lifecycle
-                timepassDiagram         : $('.lp_js_timepassDiagram')
+                timepassDiagram     : $('.lp_js_timepassDiagram')
             },
 
             plotDefaultOptions = {
@@ -44,11 +44,11 @@
             loadTimePassData = function(pass) {
                 var requestData = {
                         // WP Ajax action
-                        'action'            : 'laterpay_get_time_passes_data',
+                        'action'    : 'laterpay_get_time_passes_data',
                         // nonce for validation and XSS protection
-                        '_wpnonce'          : lpVars.nonces.time_passes,
+                        '_wpnonce'  : lpVars.nonces.time_passes,
                         // time pass id (optional)
-                        'pass_id'           : pass
+                        'pass_id'   : pass
                     },
                     jqxhr;
 

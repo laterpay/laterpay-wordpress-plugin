@@ -64,7 +64,6 @@ class LaterPay_Controller_Admin_TimePasses extends LaterPay_Controller_Abstract
             $localization
         );
 
-
         $this->logger->info( __METHOD__, $localization );
     }
 

@@ -98,7 +98,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $localization
         );
 
-
         $this->logger->info( __METHOD__, $localization );
     }
 
