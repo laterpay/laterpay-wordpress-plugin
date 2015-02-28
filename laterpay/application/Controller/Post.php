@@ -911,6 +911,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( $post === null || $this->is_excerpt ) {
             // disable excerpt
             $this->is_excerpt = false;
+
             return $content;
         }
 
@@ -956,6 +957,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             );
 
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+
             return $content;
         }
 
@@ -974,6 +976,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+
             return $content;
         }
 
