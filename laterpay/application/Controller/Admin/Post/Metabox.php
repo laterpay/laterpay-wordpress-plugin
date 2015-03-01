@@ -228,10 +228,9 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         $post_status           = $post->post_status;
 
         // category default price data
-        $category_price_data    = null;
-        $category_default_price = null;
-        $category_default_price_revenue_model = null;
-        $categories_of_post     = wp_get_post_categories( $post->ID );
+        $category_price_data                    = null;
+        $category_default_price_revenue_model   = null;
+        $categories_of_post                     = wp_get_post_categories( $post->ID );
         if ( ! empty( $categories_of_post ) ) {
             $category_price_data = LaterPay_Helper_Pricing::get_category_price_data_by_category_ids( $categories_of_post );
             // if the post has a category defined from which to use the category default price then let's get that price
