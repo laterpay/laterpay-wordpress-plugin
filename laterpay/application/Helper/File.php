@@ -123,7 +123,6 @@ class LaterPay_Helper_File
         $path       = ABSPATH . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
 
-
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
             $client_options['cp_key'],
@@ -201,7 +200,6 @@ class LaterPay_Helper_File
         // variables
         $access     = false;
         $upload_dir = wp_upload_dir();
-        $basedir    = $upload_dir['basedir'];
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $api_key = get_option( 'laterpay_live_api_key' );
         } else {
