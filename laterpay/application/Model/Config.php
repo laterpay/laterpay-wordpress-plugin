@@ -96,7 +96,7 @@ class LaterPay_Model_Config
             return $this->stop( 'This object has been frozen. You cannot change the parent anymore.' );
         }
 
-        if ( ! is_array( $var ) and ! is_object( $var ) ) {
+        if ( ! is_array( $var ) && ! is_object( $var ) ) {
             return $this->stop(
                 'Cannot import this variable. Use arrays and objects only, not a "' . gettype( $var ) . '".'
             );
