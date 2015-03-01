@@ -107,7 +107,7 @@ class LaterPay_Helper_File
     public static function get_encrypted_resource_url( $post_id, $url, $use_auth, $set_file_disposition = null ) {
         $resource_url_parts = parse_url( $url );
         if ( ! self::check_url_encrypt( $resource_url_parts ) ) {
-            // return unmodified URl, if file should not be encrypted
+            // return unmodified URL, if file should not be encrypted
             return $url;
         }
 
@@ -305,10 +305,11 @@ class LaterPay_Helper_File
      * @return string
      */
     protected function get_decrypted_file_name( $file ) {
-        $request    = new LaterPay_Core_Request();
         $response   = new LaterPay_Core_Response();
-        $file = strtr( $file, '-_', '+/' );
-        $file = base64_decode( $file );
+        // prepare file for further processing
+        $file       = strtr( $file, '-_', '+/' );
+        $file       = base64_decode( $file );
+
         if ( empty( $file ) ) {
             laterpay_get_logger()->error( 'RESOURCE:: cannot decode $file - empty result' );
 
@@ -316,6 +317,7 @@ class LaterPay_Helper_File
             $response->send_response();
             exit();
         }
+
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
         $file   = ABSPATH . $cipher->decrypt( $file );
