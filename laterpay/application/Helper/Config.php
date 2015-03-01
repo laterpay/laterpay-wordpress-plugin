@@ -11,7 +11,7 @@ class LaterPay_Helper_Config {
     private static $options = array();
 
     /**
-     * Get options for LaterPay PHP client
+     * Get options for LaterPay PHP client.
      *
      * @return array
      */
