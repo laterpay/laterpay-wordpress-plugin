@@ -134,7 +134,7 @@ class LaterPay_Core_Bootstrap
             add_action( 'add_meta_boxes',                   array( $post_metabox_controller, 'add_meta_boxes' ) );
 
             // save LaterPay post data. If only time pass purchases are allowed than pricing information need not be saved.
-            if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == true ) {
+            if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === true ) {
                 add_action( 'save_post',                    array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
                 add_action( 'edit_attachment',              array( $post_metabox_controller, 'save_laterpay_post_data_without_pricing' ) );
 
@@ -155,7 +155,7 @@ class LaterPay_Core_Bootstrap
             add_action( 'wp_ajax_laterpay_remove_post_dynamic_pricing', array( $post_metabox_controller, 'remove_dynamic_pricing_data' ) );
 
             // setup custom columns for each allowed post_type, if allowed purchases aren't restricted to time passes
-            if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == false ) {
+            if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === false ) {
                 $column_controller = new LaterPay_Controller_Admin_Post_Column( $this->config );
                 foreach ( $this->config->get( 'content.enabled_post_types' ) as $post_type ) {
                     add_filter( 'manage_' . $post_type . '_posts_columns',         array( $column_controller, 'add_columns_to_posts_table' ) );
@@ -220,7 +220,7 @@ class LaterPay_Core_Bootstrap
          * Posts statistics are irrelevant, if only time pass purchases are allowed, but we still need to have the
          * option to switch the preview mode for the given post, so we only render that switch in this case.
          */
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == true ) {
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === true ) {
             add_action( 'wp_ajax_laterpay_post_statistic_render',       array( $statistics_controller, 'ajax_render_tab_without_statistics' ) );
         } else {
             add_action( 'wp_ajax_laterpay_post_statistic_render',       array( $statistics_controller, 'ajax_render_tab' ) );

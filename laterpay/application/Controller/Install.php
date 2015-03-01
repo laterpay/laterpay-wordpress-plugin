@@ -329,7 +329,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             return;
         }
 
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == null ) {
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === null ) {
             add_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
         }
     }
