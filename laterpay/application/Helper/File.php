@@ -267,7 +267,7 @@ class LaterPay_Helper_File
             $tokenInstance = new LaterPay_Core_Auth_Hmac( $api_key );
             if ( $tokenInstance->validate_token( $client->get_laterpay_token(), time(), $auth ) ) {
                 laterpay_get_logger()->error( 'RESOURCE:: Auth param is valid. Sending file.' );
-                $this->send_response( $file, $mt, $file_disposition );
+                $this->send_response( $file, $file_disposition );
                 exit();
             }
             laterpay_get_logger()->debug( 'RESOURCE:: Auth param is not valid.' );
@@ -286,7 +286,7 @@ class LaterPay_Helper_File
         // send file
         if ( $access ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Has access - sending file.' );
-            $this->send_response( $file, $mt, $file_disposition );
+            $this->send_response( $file, $file_disposition );
         } else {
             laterpay_get_logger()->error( 'RESOURCE:: Doesn\'t have access. Finish.' );
             $response->set_http_response_code( 403 );
