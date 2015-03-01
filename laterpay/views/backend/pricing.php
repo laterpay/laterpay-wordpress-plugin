@@ -27,7 +27,7 @@
                                name="only_time_pass_purchase_mode"
                                class="lp_js_onlyTimePassPurchaseModeInput lp_toggle_input"
                                value="1"
-                               <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) { echo 'checked'; } ?>
+                               <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) { echo 'checked'; } ?>
                         >
                         <span class="lp_toggle_text"></span>
                         <span class="lp_toggle_handle"></span>
@@ -37,7 +37,7 @@
             <?php _e( '<strong>only time pass purchases.</strong>', 'laterpay' ); ?>
         </div>
 
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <ul class="lp_js_hideInTimePassOnlyMode lp_row lp_u_clearfix" style="display:none;">
         <?php else : ?>
             <ul class="lp_js_hideInTimePassOnlyMode lp_row lp_u_clearfix">
@@ -208,7 +208,7 @@
                 </li>
             </ul>
 
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <div class="lp_js_hideInTimePassOnlyMode lp_row lp_u_m-t3" style="display:none;">
         <?php else : ?>
             <div class="lp_js_hideInTimePassOnlyMode lp_row lp_u_m-t3">
@@ -228,7 +228,7 @@
                     </dfn>
                 </p>
             </div>
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3" style="display:none;">
         <?php else : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3">
@@ -426,13 +426,13 @@
                 </div>
             </div>
         </div>
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3" style="display:none;">
         <?php else : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_u_m-1-0 lp_u_m-b3">
         <?php endif; ?>
 
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] == true ) : ?>
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <div class="lp_js_hideInTimePassOnlyMode lp_row" style="display:none;">
         <?php else : ?>
             <div class="lp_js_hideInTimePassOnlyMode lp_row">

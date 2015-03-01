@@ -199,7 +199,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 case 'reset_post_publication_date':
                     if ( ! empty( $_POST['post_id'] ) ) {
                         $post = get_post( $_POST['post_id'] );
-                        if ( $post != null ) {
+                        if ( $post !== null ) {
                             LaterPay_Helper_Pricing::reset_post_publication_date( $post );
                             wp_send_json(
                                 array(

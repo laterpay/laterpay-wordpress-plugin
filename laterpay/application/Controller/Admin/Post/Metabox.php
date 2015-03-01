@@ -480,7 +480,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
     public function reset_post_publication_date() {
         if ( ! empty( $_POST['post_id'] ) ) {
             $post = get_post( $_POST['post_id'] );
-            if ( $post != null ) {
+            if ( $post !== null ) {
                 LaterPay_Helper_Pricing::reset_post_publication_date( $post );
                 wp_send_json(
                     array(
