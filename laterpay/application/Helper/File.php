@@ -158,7 +158,7 @@ class LaterPay_Helper_File
     /**
      * Ajax callback to load a file through a script to prevent direct access.
      *
-     * @return  void
+     * @return void
      */
     public function load_file() {
         unset( $_GET['action'] );
@@ -329,12 +329,11 @@ class LaterPay_Helper_File
      * Send a secured file to the user.
      *
      * @param string      $file
-     * @param string      $mt
      * @param string|null $disposition
      *
      * @return void
      */
-    protected function send_response( $file, $mt = null, $disposition = null ) {
+    protected function send_response( $file, $disposition = null ) {
         $response = new LaterPay_Core_Response();
 
         if ( empty( $disposition ) ) {
@@ -349,6 +348,7 @@ class LaterPay_Helper_File
             $response->send_response();
             exit();
         }
+
         $filetype = wp_check_filetype( $file );
         $fsize    = filesize( $file );
         $data     = file_get_contents( $file );
