@@ -221,6 +221,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                 break;
         }
 
-        die;
+        exit;
     }
 }

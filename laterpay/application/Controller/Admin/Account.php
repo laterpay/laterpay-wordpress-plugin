@@ -113,7 +113,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                         )
                     );
 
-                    die;
+                    exit;
             }
         }
     }
@@ -165,7 +165,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             );
         }
 
-        die;
+        exit;
     }
 
     /**
@@ -216,7 +216,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             );
         }
 
-        die;
+        exit;
     }
 
     /**
@@ -280,7 +280,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             );
         }
 
-        die;
+        exit;
     }
 
     /**
