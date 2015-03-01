@@ -261,7 +261,7 @@ class LaterPay_Helper_Post
      *
      * @return void
      */
-    public static function the_purchase_button_args( $post ) {
+    public static function the_purchase_button_args( WP_Post $post ) {
         // don't render the purchase button, if the current post is not purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
             return;
@@ -307,7 +307,7 @@ class LaterPay_Helper_Post
      *
      * @return string $new_meta_value teaser content
      */
-    public static function add_teaser_to_the_post( $post, $teaser = null, $need_update = true ) {
+    public static function add_teaser_to_the_post( WP_Post $post, $teaser = null, $need_update = true ) {
         if ( $teaser ) {
             $new_meta_value = $teaser;
         } else {
