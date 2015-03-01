@@ -301,7 +301,7 @@ class LaterPay_Helper_Post
     /**
      * Add teaser to the post or update it.
      *
-     * @param object $post post object
+     * @param WP_Post $post
      * @param null $teaser teaser data
      * @param bool $need_update
      *
