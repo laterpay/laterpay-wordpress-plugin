@@ -434,7 +434,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $data['id'] ) {
             $time_passes_list = $this->get_time_passes_list_by_id( $data['id'] );
         } else {
-            $passes_list = LaterPay_Helper_TimePass::get_all_time_passes();
+            $time_passes_list = LaterPay_Helper_TimePass::get_all_time_passes();
         }
 
         // don't render any gift cards, if there are no time passes
