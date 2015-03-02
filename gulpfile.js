@@ -11,7 +11,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     notify          = require('gulp-notify'),
     phpcs           = require('gulp-phpcs'),
     prettify        = require('gulp-jsbeautifier'),
-    // sourcemaps      = require('gulp-sourcemaps'),
+    sourcemaps      = require('gulp-sourcemaps'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
     svgmin          = require('gulp-svgmin'),
@@ -43,6 +43,7 @@ gulp.task('clean', function(cb) {
 // CSS related tasks
 gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
+        .pipe(sourcemaps.init())
         .pipe(stylus({                                                          // process Stylus sources to CSS
             use     : nib(),
             linenos : true,                                                     // make line numbers available in browser dev tools
@@ -50,17 +51,20 @@ gulp.task('css-watch', function() {
         }))
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .on('error', notify.onError())
+        .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
 gulp.task('css-build', function() {
     gulp.src(p.srcStylus)
+        .pipe(sourcemaps.init())
         .pipe(stylus({                                                          // process Stylus sources to CSS
             use     : nib(),
             compress: true
         }))
         .on('error', notify.onError())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
+        .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
@@ -70,6 +74,8 @@ gulp.task('js-watch', function() {
         .pipe(cached('hinting'))                                                // only process modified files
             .pipe(jshint('.jshintrc'))
             .pipe(jshint.reporter(stylish))
+            .pipe(sourcemaps.init())
+            .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(p.distJS));                                         // move to target folder
 });
 
@@ -78,16 +84,20 @@ gulp.task('js-build', function() {
         // .pipe(fixmyjs())                                                        // fix JSHint errors if possible
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish))
-        .pipe(uglify())                                                         // compress with uglify
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./maps'))                                                         // compress with uglify
         .pipe(gulp.dest(p.distJS));                                             // move to target folder
 });
 
 gulp.task('js-format', function() {
     return gulp.src(p.srcJS + '*.js')
+            .pipe(sourcemaps.init())
             .pipe(prettify({
                 config  : '.jsbeautifyrc',
                 mode    : 'VERIFY_AND_WRITE',
             }))
+            .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(p.srcJS));
 });
 
