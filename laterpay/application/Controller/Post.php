@@ -18,13 +18,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     protected $access = array();
 
     /**
-     * Determine, if current post was called with excerpt function.
-     *
-     * @var bool
-     */
-    protected $is_excerpt = false;
-
-    /**
      * Ajax method to get the cached article.
      * Required, because there could be a price change in LaterPay and we always need the current article price.
      *
@@ -877,20 +870,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Modify the post excerpt and set is_excerpt variable, if excerpt was called.
-     *
-     * @param $excerpt
-     *
-     * @return mixed
-     */
-    public function modify_post_excerpt( $excerpt ) {
-        // set excerpt variable to true
-        $this->is_excerpt = true;
-
-        return $excerpt;
-    }
-
-    /**
      * Modify the post content of paid posts.
      *
      * Depending on the configuration, the content of paid posts is modified and several elements are added to the content:
@@ -911,10 +890,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         global $wp_embed;
 
         $post = get_post();
-        if ( $post === null || $this->is_excerpt ) {
-            // disable excerpt
-            $this->is_excerpt = false;
-
+        if ( $post === null ) {
             return $content;
         }
 
