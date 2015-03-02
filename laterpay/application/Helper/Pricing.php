@@ -998,7 +998,7 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Check if category has parent category with category price setted
+     * Check if category has parent category with category price set
      *
      * @param $category_id
      *

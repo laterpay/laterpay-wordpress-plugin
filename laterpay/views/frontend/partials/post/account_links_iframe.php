@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
 <div>
     <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ): ?>

@@ -112,8 +112,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                         )
                     );
-
-                    exit;
             }
         }
     }
@@ -153,19 +151,17 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     ),
                 )
             );
-        } else {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => sprintf(
-                        __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
-                        ucfirst( $merchant_id_type )
-                    ),
-                )
-            );
         }
 
-        exit;
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => sprintf(
+                    __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
+                    ucfirst( $merchant_id_type )
+                ),
+            )
+        );
     }
 
     /**
@@ -204,19 +200,18 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     ),
                 )
             );
-        } else {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => sprintf(
-                        __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
-                        ucfirst( $api_key_type )
-                    ),
-                )
-            );
         }
 
-        exit;
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => sprintf(
+                    __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
+                    ucfirst( $api_key_type )
+                ),
+            )
+        );
+
     }
 
     /**
@@ -251,36 +246,32 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                         'message'   => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
                     )
                 );
-            } else {
-                if ( get_option( 'plugin_is_in_visible_test_mode' ) ) {
-                    wp_send_json(
-                        array(
-                            'success'   => true,
-                            'mode'      => 'test',
-                            'message'   => __( 'The LaterPay plugin is in visible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
-                        )
-                    );
-                } else {
-                    wp_send_json(
-                        array(
-                            'success'   => true,
-                            'mode'      => 'test',
-                            'message'   => __( 'The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
-                        )
-                    );
-                }
+            } elseif ( get_option( 'plugin_is_in_visible_test_mode' ) ) {
+                wp_send_json(
+                    array(
+                        'success'   => true,
+                        'mode'      => 'test',
+                        'message'   => __( 'The LaterPay plugin is in visible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
+                    )
+                );
             }
-        } else {
+
             wp_send_json(
                 array(
-                    'success'   => false,
+                    'success'   => true,
                     'mode'      => 'test',
-                    'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
+                    'message'   => __( 'The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
                 )
             );
         }
 
-        exit;
+        wp_send_json(
+            array(
+                'success'   => false,
+                'mode'      => 'test',
+                'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
+            )
+        );
     }
 
     /**
@@ -314,22 +305,22 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
                 )
             );
-        } else {
-            update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
-
-            if ( $is_in_visible_test_mode ) {
-                $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
-            } else {
-                $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
-            }
-
-            wp_send_json(
-                array(
-                    'success' => true,
-                    'mode'    => 'test',
-                    'message' => $message,
-                )
-            );
         }
+
+        update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
+
+        if ( $is_in_visible_test_mode ) {
+            $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
+        } else {
+            $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
+        }
+
+        wp_send_json(
+            array(
+                'success' => true,
+                'mode'    => 'test',
+                'message' => $message,
+            )
+        );
     }
 }

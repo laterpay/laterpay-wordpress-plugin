@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
 <a href="#"
    class="lp_purchaseLinkShortcode lp_js_doPurchase lp_purchaseLink lp_button"

@@ -605,15 +605,18 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      */
     public function ajax_load_gift_action() {
         if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_get_gift_card_actions' ) {
-            exit;
+            // exit Ajax request, if action is not set or has incorrect value
+            wp_die();
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) ) {
-            exit;
+            // exit Ajax request, if nonce is not set or not correct
+            wp_die();
         }
 
         if ( ! isset( $_GET['pass_id'] ) && ! isset( $GET['link'] ) ) {
-            exit;
+            // exit Ajax request, if additional parameters aren't set
+            wp_die();
         }
 
         $data           = array();

@@ -27,15 +27,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      */
     public function ajax_load_purchased_content() {
         if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_post_load_purchased_content' ) {
-            exit;
+            wp_die();
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) ) {
-            exit;
+            wp_die();
         }
 
         if ( ! isset( $_GET['post_id'] ) ) {
-            return;
+            wp_die();
         }
 
         global $post;
@@ -44,15 +44,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post       = get_post( $post_id );
 
         if ( $post === null ) {
-            exit;
+            wp_die();
         }
 
         if ( ! is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
-            // check access to paid post for not logged in users only
-            exit;
+            // check access to paid post for not logged in users only and prevent
+            wp_die();
         } else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ) {
             // return, if user is logged in and 'preview_as_visitor' is activated
-            exit;
+            wp_die();
         }
 
         // call 'the_post' hook to enable modification of loaded data by themes and plugins
@@ -76,6 +76,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         echo $content;
+        // return Ajax content
         exit;
     }
 
@@ -134,22 +135,22 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      */
     public function ajax_load_rating_summary() {
         if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_post_rating_summary' ) {
-            exit;
+            wp_die();
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) ) {
-            exit;
+            wp_die();
         }
 
         if ( ! isset( $_GET['post_id'] ) ) {
-            return;
+            wp_die();
         }
 
         $post_id = absint( $_GET['post_id'] );
         $post    = get_post( $post_id );
 
         if ( $post === null ) {
-            exit;
+            wp_die();
         }
 
         // get post rating summary
@@ -169,6 +170,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         echo LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_summary' ) );
+        // return Ajax content
         exit;
     }
 
@@ -181,19 +183,15 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      */
     public function ajax_redeem_voucher_code() {
         if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_redeem_voucher_code' ) {
-            exit;
+            wp_die();
         }
 
         if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) ) {
-            exit;
+            wp_die();
         }
 
-        if ( ! isset( $_GET['code'] ) ) {
-            return;
-        }
-
-        if ( ! isset( $_GET['link'] ) || ! isset( $_GET['is_gift'] ) ) {
-            return;
+        if ( ! isset( $_GET['code'] ) || ! isset( $_GET['link'] ) || ! isset( $_GET['is_gift'] ) ) {
+            wp_die();
         }
 
         // check, if voucher code exists and time pass is available for purchase
@@ -322,6 +320,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         wp_redirect( $link );
+        // exit script after redirect was set
         exit;
     }
 
@@ -417,6 +416,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         wp_redirect( $redirect_url );
+        // exit script after redirect was set
         exit;
     }
 

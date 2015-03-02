@@ -666,7 +666,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 3,
             );
             wp_send_json_error( $error );
-            exit;
         }
 
         if ( ! in_array( $_POST['section'], $this->ajax_sections ) ) {
@@ -675,7 +674,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 4,
             );
             wp_send_json_error( $error );
-            exit;
         }
 
         if ( ! method_exists( $this, $_POST['section'] ) ) {
@@ -684,7 +682,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 4,
             );
             wp_send_json_error( $error );
-            exit;
         }
     }
 
@@ -700,7 +697,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 1,
             );
             wp_send_json_error( $error );
-            exit;
         }
 
         $nonce = $_POST['_wpnonce'];
@@ -710,7 +706,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 2,
             );
             wp_send_json_error( $error );
-            exit;
         }
     }
 }
