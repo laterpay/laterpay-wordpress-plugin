@@ -76,7 +76,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         echo $content;
-        // return ajax content
+        // return Ajax content
         exit;
     }
 
@@ -170,7 +170,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         echo LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_summary' ) );
-        // return ajax content
+        // return Ajax content
         exit;
     }
 
@@ -320,7 +320,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         wp_redirect( $link );
-        // exit script after redirect was setted
+        // exit script after redirect was set
         exit;
     }
 
@@ -416,7 +416,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         wp_redirect( $redirect_url );
-        // exit script after redirect was setted
+        // exit script after redirect was set
         exit;
     }
 
