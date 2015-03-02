@@ -86,7 +86,7 @@ class LaterPay_Helper_User
      *
      * @return bool
      */
-    public static function current_user_can( $capability, $post = null ) {
+    public static function current_user_can( $capability, WP_Post $post = null ) {
         if ( current_user_can( $capability ) ) {
             return true;
         }
