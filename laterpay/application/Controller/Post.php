@@ -62,7 +62,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             exit;
         }
 
-        // call 'the_post'-hook to enable modification of loaded data by themes and plugins
+        // call 'the_post' hook to enable modification of loaded data by themes and plugins
         do_action_ref_array( 'the_post', array( &$post ) );
 
         $content = apply_filters( 'the_content', $post->post_content );
@@ -166,7 +166,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $post_rating_data        = LaterPay_Helper_Rating::get_post_rating_data( $post_id );
         $maximum_number_of_votes = max( $post_rating_data );
 
-        // assign all required vars to the view templates
+        // assign variables to the view templates
         $view_args = array(
             'post_rating_data'       => $post_rating_data,
             'post_aggregated_rating' => $aggregated_post_rating,
@@ -336,9 +336,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * Save purchase in purchase history.
      *
      * @wp-hook template_redirect
-     * @return  void
+     * @return void
      */
     public function buy_post() {
+        // return, if the request was not a redirect after a purchase
         if ( ! isset( $_GET['buy'] ) ) {
             return;
         }
@@ -566,7 +567,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
-        if ( $price != 0 ) {
+        // only check access for paid posts (i.e. posts with a price > 0)
+        if ( $price > 0 ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $laterpay_client = new LaterPay_Client(
                     $client_options['cp_key'],
@@ -657,7 +659,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $url    = $this->get_after_purchase_redirect_url( $url_params );
         $hash   = LaterPay_Helper_Pricing::get_hash_by_url( $url );
 
-        // parameters for LaterPay purchase form
+        // parameters for LaterPay purchase link
         $params = array(
             'article_id'    => $post_id,
             'pricing'       => $currency . ( $price * 100 ),
@@ -756,7 +758,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $preview_post_as_visitor   = LaterPay_Helper_User::preview_post_as_visitor( $post );
         $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
 
-        // check, if we on preview post as admin
+        // check, if we are in 'preview post as admin' mode
         if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
             return;
         }
@@ -766,6 +768,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
+        // check, if the current post is rendered in visible test mode
         $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' )
                                     && ! $this->config->get( 'is_in_live_mode' );
 
@@ -808,7 +811,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // prevent execution, if the current post is not the given post and we are not on the homepage,
         // or the action was called a second time,
-        // or post is free and we can't show time pass widget on free posts
+        // or the post is free and we can't show the time pass widget on free posts
         if ( LaterPay_Helper_Pricing::is_purchasable() === false && ! $is_homepage ||
              did_action( 'laterpay_time_passes' ) > 1 ||
              LaterPay_Helper_Pricing::is_purchasable() === null && ! $show_widget_on_free_posts
@@ -842,7 +845,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return;
         }
 
-        // check if post has vouchers
+        // check, if the time passes to be rendered have vouchers
         $has_vouchers = LaterPay_Helper_Voucher::passes_have_vouchers( $time_passes_list );
 
         // get the associated CSS class to be applied for the specified variant
@@ -874,7 +877,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Modify the post excerpt and set is_excerpt variable if excerpt was called.
+     * Modify the post excerpt and set is_excerpt variable, if excerpt was called.
      *
      * @param $excerpt
      *
@@ -937,14 +940,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $price                          = LaterPay_Helper_Pricing::get_post_price( $post_id );
         $revenue_model                  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
 
-        // assign variables for time passes partial
+        // assign variables to time passes partial
         $timepasses_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
         $view_args = array(
             'time_passes_positioned_manually' => $timepasses_positioned_manually,
         );
         $this->assign( 'laterpay', $view_args );
 
-        // return the content, if no price was found for the post
+        // return the full content, if no price was found for the post
         if ( $price == 0 ) {
             $context = array(
                 'post'  => $post,
@@ -975,6 +978,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $preview_post_as_visitor        = LaterPay_Helper_User::preview_post_as_visitor( $post );
 
         if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
+            // append time passes to content
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
             return $content;
@@ -983,11 +987,14 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // get purchase link
         $purchase_link                  = $this->get_laterpay_purchase_link( $post_id );
 
-        // output states
+        // get values for output states
         $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
         $show_post_ratings              = get_option( 'laterpay_ratings' );
         $user_has_already_voted         = LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id );
         $user_can_read_statistics       = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id );
+        $only_time_passes_allowed       = get_option( 'laterpay_only_time_pass_purchases_allowed' );
+        $is_in_visible_test_mode        = get_option( 'laterpay_is_in_visible_test_mode' )
+                                            && ! $this->config->get( 'is_in_live_mode' );
 
         // caching and Ajax
         $caching_is_active              = (bool) $this->config->get( 'caching.compatible_mode' );
@@ -995,13 +1002,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // check, if user has access to content (because he already bought it)
         $access = $this->has_access_to_post( $post );
-
-        // purchase mode
-        $only_time_passes_allowed = get_option( 'laterpay_only_time_pass_purchases_allowed' );
-
-        // test mode
-        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' )
-                                        && ! $this->config->get( 'is_in_live_mode' );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ( $user_can_read_statistics ) {

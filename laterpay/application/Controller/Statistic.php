@@ -13,10 +13,19 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
     /**
      * Check requirements for logging and rendering the post statistic pane via Ajax callback.
      *
+     * @param WP_Post $post
+     *
      * @return bool
      */
     protected function check_requirements( $post = null ) {
-        if ( empty($post) ) {
+        // check, if logging is enabled
+        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
+            $this->logger->warning( __METHOD__. ' - access logging is not enabled' );
+
+            return false;
+        }
+
+        if ( empty( $post ) ) {
             // check, if we're on a singular page
             if ( ! is_singular() ) {
                 $this->logger->warning(
@@ -25,6 +34,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
                         'post' => $post,
                     )
                 );
+
                 return false;
             }
 
@@ -45,6 +55,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
                     'allowed_post_types' => $allowed_post_types,
                 )
             );
+
             return false;
         }
 
@@ -56,12 +67,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
                     'post' => $post,
                 )
             );
-            return false;
-        }
 
-        // check, if logging is enabled
-        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
-            $this->logger->warning( __METHOD__. ' - access logging is not enabled' );
             return false;
         }
 

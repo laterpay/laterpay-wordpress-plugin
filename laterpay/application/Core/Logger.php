@@ -23,7 +23,7 @@ class LaterPay_Core_Logger
     const EMERGENCY = 600;
 
     /**
-     * contains all debugging levels.
+     * Contains all debugging levels.
      *
      * @var array
      */
@@ -71,10 +71,10 @@ class LaterPay_Core_Logger
      * @param LaterPay_Core_Logger_Processor_Interface[] $processors Optional array of processors
      */
     public function __construct( $name = 'default', array $handlers = array(), array $processors = array() ) {
-        $this->name = $name;
-        $this->handlers = $handlers;
-        $this->processors = $processors;
-        $this->timezone = new DateTimeZone( date_default_timezone_get() ? date_default_timezone_get() : 'UTC' );
+        $this->name         = $name;
+        $this->handlers     = $handlers;
+        $this->processors   = $processors;
+        $this->timezone     = new DateTimeZone( date_default_timezone_get() ? date_default_timezone_get() : 'UTC' );
     }
 
     /**
@@ -102,71 +102,72 @@ class LaterPay_Core_Logger
     }
 
     /**
-     * Adds a log record at the INFO level.
+     * Add a log record at the INFO level.
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
      *
-     * @return Boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
     public function info( $message, array $context = array() ) {
         return $this->add_record( self::INFO, $message, $context );
     }
 
     /**
-     * Adds a log record at the NOTICE level.
+     * Add a log record at the NOTICE level.
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
      *
-     * @return Boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
     public function notice( $message, array $context = array() ) {
         return $this->add_record( self::NOTICE, $message, $context );
     }
 
     /**
-     * Adds a log record at the WARNING level.
+     * Add a log record at the WARNING level.
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
      *
-     * @return Boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
     public function warning( $message, array $context = array() ) {
         return $this->add_record( self::WARNING, $message, $context );
     }
 
     /**
-     * Adds a log record at the CRITICAL level.
+     * Add a log record at the CRITICAL level.
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
      *
-     * @return Boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
     public function critical( $message, array $context = array() ) {
         return $this->add_record( self::CRITICAL, $message, $context );
     }
 
     /**
-     * Adds a log record at the ALERT level.
+     * Add a log record at the ALERT level.
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
-     * @return Boolean Whether the record has been processed
+     *
+     * @return boolean Whether the record has been processed
      */
     public function alert( $message, array $context = array() ) {
         return $this->add_record( self::ALERT, $message, $context );
     }
 
     /**
-     * Adds a log record at the EMERGENCY level.
+     * Add a log record at the EMERGENCY level.
      *
      * @param  string  $message The log message
      * @param  array   $context The log context
      *
-     * @return Boolean Whether the record has been processed
+     * @return boolean Whether the record has been processed
      */
     public function emergency( $message, array $context = array() ) {
         return $this->add_record( self::EMERGENCY, $message, $context );
@@ -182,7 +183,6 @@ class LaterPay_Core_Logger
      * @return boolean
      */
     public function add_record( $level, $message, array $context = array() ) {
-
         if ( ! $this->handlers ) {
             $this->push_handler( new LaterPay_Core_Logger_Handler_Null( ) );
         }
@@ -209,15 +209,18 @@ class LaterPay_Core_Logger
         }
 
         if ( $handler_key === null ) {
-            // none found
+            // no handler found
             return false;
         }
 
-        // found at least one, process message and dispatch it
+        // found at least one handler, so process message and dispatch it
         foreach ( $this->processors as $processor ) {
             $record = $processor->process( $record );
         }
-        while ( isset( $this->handlers[$handler_key] ) && $this->handlers[ $handler_key]->handle( $record ) === false ) {
+        while (
+           isset( $this->handlers[$handler_key] ) &&
+           $this->handlers[ $handler_key]->handle( $record ) === false
+        ) {
             $handler_key++;
         }
 
@@ -232,7 +235,7 @@ class LaterPay_Core_Logger
     }
 
     /**
-     * Pushes a handler onto the stack.
+     * Push a handler onto the stack.
      *
      * @param LaterPay_Core_Logger_Handler_Interface $handler
      */
@@ -241,7 +244,7 @@ class LaterPay_Core_Logger
     }
 
     /**
-     * Pops a handler from the stack.
+     * Pop a handler from the stack.
      *
      * @return LaterPay_Core_Logger_Handler_Interface
      */
@@ -249,6 +252,7 @@ class LaterPay_Core_Logger
         if ( ! $this->handlers ) {
             throw new \LogicException( 'You tried to pop from an empty handler stack.' );
         }
+
         return array_shift( $this->handlers );
     }
 
@@ -260,7 +264,7 @@ class LaterPay_Core_Logger
     }
 
     /**
-     * Adds a processor onto the stack.
+     * Add a processor to the stack.
      *
      * @param LaterPay_Core_Logger_Processor_Interface $callback
      */
@@ -269,7 +273,7 @@ class LaterPay_Core_Logger
     }
 
     /**
-     * Removes the processor on top of the stack and returns it.
+     * Remove the processor on top of the stack and return it.
      *
      * @return callable
      */
@@ -289,11 +293,11 @@ class LaterPay_Core_Logger
     }
 
     /**
-     * Checks whether the Logger has a handler that listens on the given level
+     * Check, if the logger has a handler that listens on the given level.
      *
      * @param integer $level
      *
-     * @return Boolean
+     * @return boolean
      */
     public function is_handling( $level ) {
         $record = array(
@@ -319,5 +323,4 @@ class LaterPay_Core_Logger
     public function get_level_name( $level ) {
         return $this->levels[$level];
     }
-
 }
