@@ -81,12 +81,12 @@ class LaterPay_Helper_User
     /**
      * Check, if user has a given capability.
      *
-     * @param string  $capability capability
-     * @param WP_Post $post       post object
+     * @param string       $capability capability
+     * @param WP_Post|null $post       post object
      *
      * @return bool
      */
-    public static function current_user_can( $capability, WP_Post $post = null ) {
+    public static function current_user_can( $capability, $post = null ) {
         if ( current_user_can( $capability ) ) {
             return true;
         }

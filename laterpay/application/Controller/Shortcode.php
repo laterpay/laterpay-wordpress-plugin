@@ -378,7 +378,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * @param array $atts
      *
-     * @return string $time_passes
+     * @return string
      */
     public function render_time_passes_widget( $atts ) {
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
@@ -398,9 +398,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $time_passes = $this->get_text_view( 'frontend/partials/post/pass/passes' );
-
-        return $time_passes;
+        return $this->get_text_view( 'frontend/partials/post/pass/passes' );
     }
 
     /**
@@ -418,7 +416,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * @param array $atts
      *
-     * @return string $html
+     * @return string
      */
     public function render_gift_card( $atts ) {
         // check, if the plugin is correctly configured and working
@@ -462,9 +460,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $gift_cards = $this->get_text_view( 'frontend/partials/post/gift/gift_card' );
-
-        return $gift_cards;
+        return $this->get_text_view( 'frontend/partials/post/gift/gift_card' );
     }
 
     /**
@@ -474,7 +470,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * where the user has to confirm the purchase of the associated time pass for a price of 0.00 Euro.
      * This step is done to ensure that this user accepts the LaterPay terms of use.
      *
-     * @return string $html
+     * @return string
      */
     public function render_redeem_gift_code( $atts ) {
         // check, if the plugin is correctly configured and working
@@ -515,9 +511,39 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $gift_cards = $this->get_text_view( 'frontend/partials/post/gift/redeem_gift' );
+        return $this->get_text_view( 'frontend/partials/post/gift/gift_redeem' );
+    }
 
-        return $gift_cards;
+    /**
+     * Render gift card.
+     *
+     * @param array $gift_pass
+     * @param bool  $show_redeem
+     *
+     * @return string
+     */
+    public function render_gift_pass( $gift_pass, $show_redeem = false ) {
+        // check if gift_pass is not empty and is array
+        if ( ! $gift_pass || ! is_array( $gift_pass ) ) {
+            return '';
+        }
+
+        $view_args = array(
+            'gift_pass'   => $gift_pass,
+            'show_redeem' => $show_redeem,
+        );
+        $this->assign( 'laterpay_gift', $view_args );
+
+        return $this->get_text_view( 'frontend/partials/post/gift/gift_pass' );
+    }
+
+    /**
+     * Render redeem gift card form.
+     *
+     * @return string
+     */
+    public function render_redeem_form() {
+        return $this->get_text_view( 'frontend/partials/post/gift/redeem_form' );
     }
 
     /**
@@ -659,7 +685,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      *
      * @param array $atts
      *
-     * @return string $html
+     * @return string
      */
     public function render_account_links( $atts ) {
         // check, if the plugin is correctly configured and working
@@ -683,8 +709,6 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        $login = $this->get_text_view( 'frontend/partials/post/account_links_iframe' );
-
-        return $login;
+        return $this->get_text_view( 'frontend/partials/post/account_links_iframe' );
     }
 }
