@@ -1,24 +1,17 @@
 var autoprefixer    = require('gulp-autoprefixer'),
-    // base64          = require('gulp-base64'),
-    // bundle          = require('gulp-bundle-assets'),
     cached          = require('gulp-cached'),
-    // changed         = require('gulp-changed'),
     csslint         = require('gulp-csslint'),
     del             = require('del'),
-    // docco           = require('gulp-docco'),
     fixmyjs         = require('gulp-fixmyjs'),
     git             = require('gulp-git'),
     gulp            = require('gulp'),
-    // include         = require('gulp-file-include'),
     jshint          = require('gulp-jshint'),
     lintspaces      = require('gulp-lintspaces'),
     nib             = require('nib'),
     notify          = require('gulp-notify'),
-    // Pageres         = require('pageres'),
     phpcs           = require('gulp-phpcs'),
     prettify        = require('gulp-jsbeautifier'),
     // sourcemaps      = require('gulp-sourcemaps'),
-    // stripDebug      = require('gulp-strip-debug'),
     stylish         = require('jshint-stylish'),
     stylus          = require('gulp-stylus'),
     svgmin          = require('gulp-svgmin'),
@@ -52,7 +45,7 @@ gulp.task('css-watch', function() {
     gulp.src(p.srcStylus)
         .pipe(stylus({                                                          // process Stylus sources to CSS
             use     : nib(),
-            linenos : true,                                                      // make line numbers available in browser dev tools
+            linenos : true,                                                     // make line numbers available in browser dev tools
             // TODO: generate sourcemap
         }))
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
@@ -66,13 +59,6 @@ gulp.task('css-build', function() {
             use     : nib(),
             compress: true
         }))
-        // .pipe(base64({                                                          // base64-encode images and inline them using datauris
-        //     baseDir         : 'laterpay/assets/img',
-        //     extensions      : ['png', svg],
-        //     exclude         : ['laterpay-wordpress-icons'],
-        //     maxImageSize    : 12*1024,
-        //     debug           : true
-        // }))
         .on('error', notify.onError())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
@@ -84,16 +70,12 @@ gulp.task('js-watch', function() {
         .pipe(cached('hinting'))                                                // only process modified files
             .pipe(jshint('.jshintrc'))
             .pipe(jshint.reporter(stylish))
-            .pipe(gulp.dest(p.distJS));                                          // move to target folder;
+            .pipe(gulp.dest(p.distJS));                                         // move to target folder
 });
 
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
-        // can't use stripDebug, as it kills the one alert we are using on purpose in laterpay-post-view.js
-        // .pipe(stripDebug())                                                     // remove console, alert, and debugger statements
-        // .pipe(fixmyjs({                                                         // fix JSHint errors if possible
-        //     lookup: false
-        // }))
+        // .pipe(fixmyjs())                                                        // fix JSHint errors if possible
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish))
         .pipe(uglify())                                                         // compress with uglify
@@ -161,9 +143,7 @@ gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function()
 // check code quality before git commit
 gulp.task('precommit', ['sniffphp', 'js-format'], function() {
     gulp.src(p.srcJS + '*.js')
-        .pipe(fixmyjs({                                                         // fix JSHint errors if possible
-            lookup: false
-        }))
+        // .pipe(fixmyjs())                                                        // fix JSHint errors if possible
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish));
 
