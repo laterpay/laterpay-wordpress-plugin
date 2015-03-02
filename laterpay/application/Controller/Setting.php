@@ -631,47 +631,49 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         // get only 1st level categories
         $categories = get_categories( $args );
 
-        foreach ( $input as $role => $data ) {
-            // check, if selected categories cover entire blog
-            $covered = 1;
-            foreach ( $categories as $category ) {
-                if ( ! in_array( $category->term_id, $data ) ) {
-                    $covered = 0;
-                    break;
+        if ( $input && is_array( $input ) ) {
+            foreach ( $input as $role => $data ) {
+                // check, if selected categories cover entire blog
+                $covered = 1;
+                foreach ( $categories as $category ) {
+                    if ( ! in_array( $category->term_id, $data ) ) {
+                        $covered = 0;
+                        break;
+                    }
                 }
-            }
 
-            // set option 'all' for this role, if entire blog is covered
-            if ( $covered ) {
-                $valid[$role] = array( 'all' );
-                continue;
-            }
+                // set option 'all' for this role, if entire blog is covered
+                if ( $covered ) {
+                    $valid[$role] = array( 'all' );
+                    continue;
+                }
 
-            // filter values, if entire blog is not covered
-            if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
-                // unset option 'all', if option 'all' and option 'none' are selected at the same time
-                unset( $data[array_search( 'all', $data )] );
-            } elseif ( count( $data ) > 1 ) {
-                // unset option 'all', if at least one category is selected
-                if ( array_search( 'all', $data ) !== false ) {
-                    foreach ( $data as $key => $option ) {
-                        if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
-                            unset( $data[$key] );
+                // filter values, if entire blog is not covered
+                if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
+                    // unset option 'all', if option 'all' and option 'none' are selected at the same time
+                    unset( $data[array_search( 'all', $data )] );
+                } elseif ( count( $data ) > 1 ) {
+                    // unset option 'all', if at least one category is selected
+                    if ( array_search( 'all', $data ) !== false ) {
+                        foreach ( $data as $key => $option ) {
+                            if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                                unset( $data[$key] );
+                            }
+                        }
+                    }
+
+                    // unset all categories, if option 'none' is selected
+                    if ( array_search( 'none', $data ) !== false ) {
+                        foreach ( $data as $key => $option ) {
+                            if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
+                                unset( $data[$key] );
+                            }
                         }
                     }
                 }
 
-                // unset all categories, if option 'none' is selected
-                if ( array_search( 'none', $data ) !== false ) {
-                    foreach ( $data as $key => $option ) {
-                        if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
-                            unset( $data[$key] );
-                        }
-                    }
-                }
+                $valid[$role] = array_values( $data );
             }
-
-            $valid[$role] = array_values( $data );
         }
 
         return $valid;
