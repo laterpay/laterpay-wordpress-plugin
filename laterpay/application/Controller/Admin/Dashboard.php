@@ -63,8 +63,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         // pass localized strings and variables to script
         $i18n = array(
-            'noData'                => __( 'No data available', 'laterpay' ),
-            'tooltips'              => array(
+            'noData'    => __( 'No data available', 'laterpay' ),
+            'tooltips'  => array(
                 'day'   => array(
                     'next'  => __( 'Show next day', 'laterpay' ),
                     'prev'  => __( 'Show previous day', 'laterpay' ),

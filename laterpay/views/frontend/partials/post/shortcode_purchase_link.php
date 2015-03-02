@@ -1,8 +1,4 @@
-<?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        exit;
-    }
-?>
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
 <a href="<?php echo $laterpay[ 'url' ] ?>"
    class="lp_button"
