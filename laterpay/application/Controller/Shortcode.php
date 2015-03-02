@@ -515,7 +515,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render gift pass
+     * Render gift card.
      *
      * @param array $gift_pass
      * @param bool  $show_redeem
@@ -523,7 +523,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     public function render_gift_pass( $gift_pass, $show_redeem = false ) {
-        // check if gift_pass not empty and is array
+        // check if gift_pass is not empty and is array
         if ( ! $gift_pass || ! is_array( $gift_pass ) ) {
             return '';
         }
@@ -538,7 +538,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Render redeem form
+     * Render redeem gift card form.
      *
      * @return string
      */
