@@ -146,7 +146,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
             // render time_passes tab
             case 'time_passes':
-                $time_passes_controller = new LaterPay_Controller_Admin_TimePasses( $this->config );
+                $time_passes_controller = new LaterPay_Controller_Admin_TimePass( $this->config );
                 $time_passes_controller->render_page();
                 break;
 

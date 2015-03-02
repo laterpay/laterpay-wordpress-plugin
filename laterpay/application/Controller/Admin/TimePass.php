@@ -1,13 +1,13 @@
 <?php
 
 /**
- * LaterPay time_passes controller.
+ * LaterPay time pass controller.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_TimePasses extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
 {
 
     private $ajax_nonce = 'laterpay_time_passes';
