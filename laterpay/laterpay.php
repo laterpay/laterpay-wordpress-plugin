@@ -88,9 +88,9 @@ function laterpay_get_plugin_config() {
     $config->set( 'log_url',            $upload_dir['baseurl'] . '/laterpay_log/' );
 
     $plugin_url = $config->get( 'plugin_url' );
-    $config->set( 'css_url',    $plugin_url . 'built_assets/css/' );
-    $config->set( 'js_url',     $plugin_url . 'built_assets/js/' );
-    $config->set( 'image_url',  $plugin_url . 'built_assets/img/' );
+    $config->set( 'css_url',            $plugin_url . 'built_assets/css/' );
+    $config->set( 'js_url',             $plugin_url . 'built_assets/js/' );
+    $config->set( 'image_url',          $plugin_url . 'built_assets/img/' );
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
@@ -99,13 +99,13 @@ function laterpay_get_plugin_config() {
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {
-        $laterpay_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
+        $laterpay_dialog_library_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
     } elseif ( $config->get( 'script_debug_mode' ) ) {
-        $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
+        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
     } else {
-        $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
+        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
     }
-    $config->set( 'laterpay_yui_js', $laterpay_src );
+    $config->set( 'laterpay_yui_js', $laterpay_dialog_library_src );
 
     // plugin headers
     $plugin_headers = get_file_data(
@@ -187,11 +187,12 @@ function laterpay_get_plugin_config() {
      * files and then uses an Ajax request to load either the preview content or the full content,
      * depending on the current visitor
      *
-     * @var boolean$caching_compatible_mode
+     * @var boolean $caching_compatible_mode
      *
-     * @return boolean$caching_compatible_mode
+     * @return boolean $caching_compatible_mode
      */
     $config->set( 'caching.compatible_mode', get_option( 'laterpay_caching_compatibility' ) );
+
     $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
 
     // content preview settings
@@ -236,11 +237,11 @@ function laterpay_get_plugin_config() {
         // Auto-update browscap library
         // The plugin requires browscap to ensure search engine bots, social media sites, etc. don't crash when visiting a paid post
         // When set to true, the plugin will automatically fetch updates of this library from browscap.org
-        'browscap.autoupdate' => false,
-        'browscap.silent' => true,
+        'browscap.autoupdate'               => false,
+        'browscap.silent'                   => true,
         // If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
         // on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
-        'browscap.manually_updated_copy' => null,
+        'browscap.manually_updated_copy'    => null,
     );
 
     /**
@@ -284,7 +285,7 @@ function laterpay_before_start() {
  * @return LaterPay_Core_Logger
  */
 function laterpay_get_logger() {
-    // check, if the config is in cache -> don't load it again.
+    // check, if the config is cached -> don't load it again
     $logger = wp_cache_get( 'logger', 'laterpay' );
     if ( is_a( $logger, 'LaterPay_Core_Logger' ) ) {
         return $logger;

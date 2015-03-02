@@ -1,6 +1,6 @@
 <?php
 /**
- * LaterPay plugin AutoLoader.
+ * LaterPay plugin autoloader.
  */
 
 class LaterPay_AutoLoader
