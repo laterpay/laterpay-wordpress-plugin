@@ -1,8 +1,8 @@
 // add / edit post page in WordPress backend
 
 // LaterPay vector logo for pricing and teaser metabox -----------------------------------------------------------------
-#lp_postPricing,
-#lp_postTeaser {
+#lp_post-pricing,
+#lp_post-teaser {
 
     h3 span {
         left: 6.25em;
@@ -10,8 +10,8 @@
     }
 }
 
-#lp_postPricing h3 span:before,
-#lp_postTeaser h3 span:before {
+#lp_post-pricing h3 span:before,
+#lp_post-teaser h3 span:before {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     content: 'a';
@@ -28,14 +28,14 @@
     top: 0.106em;
 }
 
-#lp_postTeaser h3 span:before {
+#lp_post-teaser h3 span:before {
     top: 0.11em;
 }
 
 
 // pricing metabox -----------------------------------------------------------------------------------------------------
-#lp_postPricing a {
-    text-decoration: none;
+#lp_post-pricing a {
+    text-decoration: none!important;
 
 
     // remove dotted outline and box shadows from links
@@ -67,24 +67,25 @@
     font-size: 1.5em;
 }
 
-.lp_postRevenueModel {
-    width: 3em;
+.lp_is-disabled + .lp_revenue-model,
+.lp_revenue-model:first-child {
+    margin-top: 18px;
 }
 
 
 // select price type section
-.lp_priceType {
+.lp_price-type {
     border: 1px solid $border;
     border-radius: 3px;
 
 
     // switch for selecting price type
-    ul.lp_buttonGroup {
+    .lp_price-type__list {
         background-color: hsl(0, 0%, 91%);
         margin: 0;
         padding: 0;
 
-        li {
+        .lp_price-type__item {
             box-shadow: inset 1px 0 0 hsl(0, 0%, 87%), inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
             float: left;
             line-height: 1.25;
@@ -106,12 +107,12 @@
             &:hover {
                 background-color: $clickable--highlight;
 
-                a {
+                .lp_price-type__link {
                     color: $text--inverse;
                 }
             }
 
-            a {
+            .lp_price-type__link {
                 display: block;
                 height: 2.5em;
             }
@@ -125,8 +126,8 @@
         li.lp_is-selected {
             box-shadow: inset 0 1px 3px hsla(0, 0%, 0%, 0.34);
 
-            a,
-            &:hover a {
+            .lp_price-type__link,
+            &:hover .lp_price-type__link {
                 color: $text--inverse;
                 cursor: default;
                 text-shadow: none;
@@ -135,7 +136,7 @@
 
         .lp_is-disabled {
 
-            a {
+            .lp_price-type__link {
                 color: hsl(0, 0%, 84%);
                 cursor: not-allowed;
                 visibility: visible;
@@ -144,7 +145,7 @@
             &:hover {
                 background-color: hsl(0, 0%, 91%);
 
-                a {
+                .lp_price-type__link {
                     color: hsl(0, 0%, 84%);
                     cursor: not-allowed;
                 }
@@ -154,7 +155,7 @@
 
 
     // details for selected price type
-    .lp_priceType_details .lp_useCategoryDefaultPrice {
+    .lp_price-type__details .lp_price-type__details-item {
 
         ul,
         li {
@@ -200,14 +201,14 @@
     }
 }
 
-.lp_dynamicPricingToggle,
-.lp_dynamicPricingReset {
+.lp_dynamic-pricing-toggle ,
+.lp_dynamic-pricing-reset {
     padding: 0.75em 0.25em 0;
 }
 
 
 // teaser content metabox ----------------------------------------------------------------------------------------------
-#lp_postTeaser dfn {
+#lp_post-teaser dfn {
     color: hsl(0, 0%, 60%);
     display: block;
     font-style: italic;

@@ -2,7 +2,7 @@
 
 <div class="lp_page wp-core-ui">
 
-    <div id="lp_js_flashMessage" class="lp_message" style="display:none;">
+    <div id="lp_js_flashMessage" class="lp_flash-message" style="display:none;">
         <p></p>
     </div>
 
@@ -150,7 +150,7 @@
                                 <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>checked<?php endif; ?>>
                         <input type="hidden"
                                 name="plugin_is_in_live_mode"
-                                id="lp_js_pluginMode_hiddenInput"
+                                id="lp_js_pluginModeHiddenInput"
                                 value="<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 1; } else { echo 0; } ?>">
                         <span class="lp_toggle__text" data-on="LIVE" data-off="TEST"></span>
                         <span class="lp_toggle__handle"></span>
@@ -158,10 +158,10 @@
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>
 
-            <dfn id="lp_js_pluginMode_liveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
+            <dfn id="lp_js_pluginModeLiveText" class="lp_u_block"<?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>. All payments are booked and credited to your account.', 'laterpay' ); ?>
             </dfn>
-            <dfn id="lp_js_pluginMode_testText" class="lp_u_block"<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
+            <dfn id="lp_js_pluginModeTestText" class="lp_u_block"<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>. LaterPay is <strong>not visible for regular visitors</strong>.', 'laterpay' ); ?>
             </dfn>
         </div>

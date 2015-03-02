@@ -192,13 +192,13 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             showVoucherCodeFeedbackMessage = function(message, $wrapper) {
-                var $feedbackMessage =  $('<div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
+                var $feedbackMessage =  $('<div id="lp_js_voucherCodeFeedbackMessage" class="lp_voucher__feedback-message" style="display:none;">' +
                                             message +
                                         '</div>');
 
                 $wrapper.prepend($feedbackMessage);
 
-                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $wrapper);
+                $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
                 $feedbackMessage
                 .fadeIn(250)
                 .click(function() {
@@ -320,7 +320,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                 bindPostStatisticsEvents();
 
                 // render sparklines within post statistics pane
-                $('.lp_sparklineBar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_js_sparklineBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,
@@ -342,7 +342,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                                 }
                 });
 
-                $('.lp_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_js_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,

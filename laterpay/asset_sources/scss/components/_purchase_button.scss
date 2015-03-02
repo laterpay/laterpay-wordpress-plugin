@@ -2,8 +2,11 @@
 
 // rendered as plain link ----------------------------------------------------------------------------------------------
 .lp_purchase-link {
+    border: none !important;
+    color: $clickable !important;
     display: block !important;
     font-family: Arial, sans-serif !important;
+    font-size: $fs !important;
     font-weight: 400 !important;
     margin: 1em 0 0 !important;
     position: relative !important;
@@ -27,11 +30,15 @@
 
 
     // currency ISO code
-    small {
+    .lp_purchase-link__currency {
         bottom: 0.45em !important;
         font-size: 0.6em !important;
         padding: 0 1px 0 2px !important;
         position: relative !important;
+    }
+
+    &:hover {
+        color: $clickable--highlight !important;
     }
 }
 
@@ -83,7 +90,7 @@
         border-width: 2px 1px 0 0 !important;
     }
 
-    small {
+    .lp_purchase-link__currency {
         bottom: 0.7em !important;
         color: $text--inverse !important;
         font-size: 0.5em !important;

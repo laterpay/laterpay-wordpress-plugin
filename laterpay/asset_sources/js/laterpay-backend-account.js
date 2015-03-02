@@ -73,13 +73,13 @@
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
-                    $('#lp_js_pluginMode_testText').hide();
-                    $('#lp_js_pluginMode_liveText').show();
+                    $('#lp_js_pluginModeTestText').hide();
+                    $('#lp_js_pluginModeLiveText').show();
                     $('#lp_js_pluginModeIndicator').fadeOut();
                     $('.lp_js_liveCredentials').addClass($o.isLive);
                 } else {
-                    $('#lp_js_pluginMode_liveText').hide();
-                    $('#lp_js_pluginMode_testText').show();
+                    $('#lp_js_pluginModeLiveText').hide();
+                    $('#lp_js_pluginModeTestText').show();
                     $('#lp_js_pluginModeIndicator').fadeIn();
                     $('.lp_js_liveCredentials').removeClass($o.isLive);
                 }
@@ -87,7 +87,7 @@
 
             togglePluginMode = function() {
                 var $toggle                 = $o.pluginModeToggle,
-                    $input                  = $('#lp_js_pluginMode_hiddenInput'),
+                    $input                  = $('#lp_js_pluginModeHiddenInput'),
                     testMode                = 0,
                     liveMode                = 1,
                     hasSwitchedToLiveMode   = $toggle.prop('checked');
@@ -219,10 +219,10 @@
                     viewportHeight          = parseInt($(window).height(), 10),
                     topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
                     iframeHeight            = viewportHeight - topMargin,
-                    $iframeWrapperObject    = $('<div id="lp_js_legal-docs-iframe" class="lp_legal-docs-iframe" style="height:' +
+                    $iframeWrapperObject    = $('<div id="lp_js_legalDocsIframe" class="lp_legal-docs-iframe" style="height:' +
                                                 iframeHeight +
                                               'px;"></div>'),
-                    $iframeWrapper          = $('#lp_js_legal-docs-iframe'),
+                    $iframeWrapper          = $('#lp_js_legalDocsIframe'),
                     iframeOffset,
                     scrollPosition;
 
@@ -235,7 +235,7 @@
                 if ($iframeWrapper.length === 0) {
                     $('#lp_js_credentialsHint').after($iframeWrapperObject.slideDown(400, function() {
                         // scroll document so that iframe fills viewport
-                        iframeOffset = $('#lp_js_legal-docs-iframe').offset();
+                        iframeOffset = $('#lp_js_legalDocsIframe').offset();
                         scrollPosition = iframeOffset.top - topMargin;
                         $('BODY, HTML').animate({
                             scrollTop: scrollPosition
@@ -244,7 +244,7 @@
                 }
 
                 // re-cache object after replacing it
-                $iframeWrapper = $('#lp_js_legal-docs-iframe');
+                $iframeWrapper = $('#lp_js_legalDocsIframe');
 
                 // inject a new iframe into the wrapper with the requested src parameter
                 $iframeWrapper
@@ -261,7 +261,7 @@
                 // close merchant contracts
                 $('#lp_js_hideMerchantContracts', $iframeWrapper).bind('click', function(e) {
                     $(this).fadeOut()
-                        .parent('#lp_js_legal-docs-iframe').slideUp(400, function() {
+                        .parent('#lp_js_legalDocsIframe').slideUp(400, function() {
                             $(this).remove();
                         });
                     $o.showMerchantContractsButton.fadeIn();

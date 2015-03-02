@@ -135,7 +135,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
                 <ul class="lp_debugger-content-list">
                     <li class="lp_debugger-content lp_js_debuggerContent">
-                        <ul>
+                        <ul class="lp_debugger-content-list">
                             <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
                         </ul>
                     </li>

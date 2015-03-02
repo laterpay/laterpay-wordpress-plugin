@@ -1,7 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 <div class="lp_page wp-core-ui">
 
-    <div id="lp_js_flashMessage" class="lp_message" style="display:none;">
+    <div id="lp_js_flashMessage" class="lp_flash-message" style="display:none;">
         <p></p>
     </div>
 
@@ -110,7 +110,7 @@
                                         <?php $category_revenue_model = $category->revenue_model; ?>
 
                                         <div class="lp_js_revenueModel lp_revenue-model__list lp_u_relative lp_u_left" style="display:none;">
-                                            <label class="lp_js_revenueModelLabel lp_price-settings__label lp_u_m-r05 lp_u_m-b025
+                                            <label class="lp_js_revenueModelLabel lp_revenue-model lp_u_m-r05 lp_u_m-b025
                                                         <?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo 'lp_is-selected'; } ?>
                                                         <?php if ( $category_price > 5) { echo 'lp_is-disabled'; } ?>">
                                                 <input type="radio" name="laterpay_category_price_revenue_model_<?php echo $category->category_id; ?>" class="lp_js_revenueModelInput" value="ppu"<?php if ( $category_revenue_model == 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo ' checked'; } ?>>PPU
@@ -159,7 +159,7 @@
                                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                                 <div class="lp_js_revenueModel lp_revenue-model__list lp_u_relative lp_u_left">
-                                    <label class="lp_js_revenueModelLabel lp_price-settings__label lp_u_m-r05 lp_u_m-b025
+                                    <label class="lp_js_revenueModelLabel lp_revenue-model lp_u_m-r05 lp_u_m-b025
                                             <?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < 5 ) ) { echo 'lp_is-selected'; } ?>">
                                         <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenueModelInput" value="ppu"<?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < 5 ) ) { echo ' checked'; } ?>>PPU
                                     </label>
@@ -267,7 +267,7 @@
                             <?php echo $this->render_time_pass( (array) $pass ); ?>
                         </div>
 
-                        <div class="lp_js_timePass_editorContainer lp_time-pass-editor lp_u_m-t05"></div>
+                        <div class="lp_js_timePassEditorContainer lp_time-pass-editor lp_u_m-t05"></div>
 
                         <a href="#" class="lp_js_saveTimePass lp_save-link button button-primary lp_u_hide"><?php _e( 'Save', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_inline-block lp_u_pd-05 lp_u_hide" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
@@ -306,7 +306,7 @@
                         <?php echo $this->render_time_pass(); ?>
                     </div>
 
-                    <div class="lp_js_timePass_editorContainer lp_time-pass-editor lp_u_m-t05">
+                    <div class="lp_js_timePassEditorContainer lp_time-pass-editor lp_u_m-t05">
                         <form id="lp_js_timePassFormTemplate" class="lp_js_timePassEditorForm lp_time-passes-editor__form lp_u_hide lp_u_clearfix" method="post">
                             <input type="hidden" name="form" value="time_pass_form_save">
                             <input type="hidden" name="action" value="laterpay_pricing">

@@ -1,12 +1,12 @@
 // post statistics pane
 
 // statistics pane header with LaterPay vector logo --------------------------------------------------------------------
-.lp_postStatistics,
-.lp_postStatistics h2 {
+.lp_post-statistics,
+.lp_post-statistics__title {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.lp_postStatistics {
+.lp_post-statistics {
     background-color: $background--darker;
     border-radius: 0 0 0 3px;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
@@ -21,75 +21,27 @@
     width: 333px;
     z-index: $zindex--overlayed-1;
 
-    h2 {
-        font-size: 1.25em;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 1;
-        margin: 0.4em 0 0.8em 6.75em;
-
-
-        /**
-         * LaterPay logo
-         * 1. Use px values instead of em, because some browsers (e.g. IE10) don't render correct sizes
-         */
-        &:before {
-            display: block;
-            font-size: 6em;
-            height: 0;
-            left: -108px;   /* 1 */
-            line-height: 0;
-            position: relative;
-            top: 8px;   /* 1 */
-        }
-    }
-
-
-    // toggle visibility of statistics pane --------------------------------------------------------------------------------
-    .lp_postStatistics_visibilityToggle {
-        background-color: $background--darker;
-        border-radius: 3px 0 0 3px;
-        color: $clickable;
-        height: 45px;
-        left: 0;
-        position: absolute;
-        text-align: center;
-        text-decoration: none;
-        top: 0;
-        transition: 0.25s ease-in-out;
-        width: 45px;
-
-        &:before {
-            font-size: 25px;
-            line-height: 42px;
-            @include opacity(0);
-            padding-left: 0.25em;
-            position: relative;
-            transition: 0.1s ease-in-out;
-        }
-
-        &:hover {
-            color: $clickable--highlight;
-        }
-    }
-
     &:hover {
 
 
         // reveal link for hiding the statistics pane when it is hovered
-        .lp_postStatistics_visibilityToggle {
+        .lp_post-statistics__visibility-toggle {
             left: -45px;
 
             &:before {
                 @include opacity(1);
                 transition: 0.25s ease-in-out 0.1s;
             }
+
+            &:hover {
+                text-decoration: none;
+            }
         }
     }
 
 
     // remove dotted outline and box shadows from .lp_postStatistics_visibilityToggle link
-    .lp_postStatistics_visibilityToggle,
+    .lp_post-statistics__visibility-toggle,
     &:focus,
     &:active,
     &:visited {
@@ -98,12 +50,63 @@
     }
 }
 
+.lp_post-statistics__title {
+    font-size: 1.25em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    margin: 0.4em 0 0.8em 6.75em;
+
+
+    /**
+     * LaterPay logo
+     * 1. Use px values instead of em, because some browsers (e.g. IE10) don't render correct sizes
+     */
+    &:before {
+        display: block;
+        font-size: 6em;
+        height: 0;
+        left: -108px;   /* 1 */
+        line-height: 0;
+        position: relative;
+        top: 8px;   /* 1 */
+    }
+}
+
+// toggle visibility of statistics pane --------------------------------------------------------------------------------
+.lp_post-statistics__visibility-toggle {
+    background-color: $background--darker;
+    border-radius: 3px 0 0 3px;
+    color: $clickable;
+    height: 45px;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    top: 0;
+    transition: 0.25s ease-in-out;
+    width: 45px;
+
+    &:before {
+        font-size: 25px;
+        line-height: 42px;
+        @include opacity(0);
+        padding-left: 0.25em;
+        position: relative;
+        transition: 0.1s ease-in-out;
+    }
+
+    &:hover {
+        color: $clickable--highlight;
+    }
+}
+
 
 // hidden statistics pane
-.lp_postStatistics.lp_is-hidden {
+.lp_post-statistics.lp_is-hidden {
     right: -345px;
 
-    .lp_postStatistics_visibilityToggle {
+    .lp_post-statistics__visibility-toggle {
         box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
         left: -55px;
         text-align: left;
@@ -122,40 +125,40 @@
 
 
 // statistics pane body with actual post statistics --------------------------------------------------------------------
-.lp_postStatistics {
+.lp_post-statistics {
 
 
     // values of key performance indicators (KPI)
-    big {
+    .lp_post-statistics__value {
         color: hsl(0, 0%, 33%);
         font-size: 2em;
         line-height: 1;
 
-        small {
+        .lp_post-statistics__text {
             display: inline;
             font-size: 0.375em;
             padding-left: 2px;
         }
     }
 
-    small {
+    .lp_post-statistics__text {
         display: block;
         font-size: 0.75em;
         line-height: 1;
     }
 
+    .lp_post-statistics__list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
 
     // details column, showing data for last 30 days
-    .lp_postStatistics_details {
+    .lp_post-statistics__details {
         margin: 0 0 0 0.75em;
 
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        li {
+        .lp_post-statistics__item {
             display: inline-block;
             font-size: 1em;
             margin: 1em 0 0;
@@ -168,8 +171,8 @@
                 width: 59%;
             }
 
-            .lp_sparklineBar,
-            .lp_sparklineBackgroundBar {
+            .lp_sparkline-bar,
+            .lp_sparkline-bar__background {
                 color: transparent;
             }
 
@@ -180,17 +183,17 @@
                 z-index: $zindex--elevated-2;
             }
 
-            .lp_sparklineBackgroundBar + svg.peity {
+            .lp_sparkline-bar__background + svg.peity {
                 border: 0 none;
                 left: 0.92em;
                 position: absolute;
                 z-index: $zindex--elevated-1;
             }
 
-            big {
+            .lp_post-statistics__value {
                 font-size: 1.5em;
 
-                small {
+                .lp_post-statistics__text {
                     font-size: 0.5em;
                 }
             }
@@ -199,16 +202,10 @@
 
 
     // totals column, showing current day's data
-    .lp_postStatistics_totals {
+    .lp_post-statistics__totals {
         background-color: $background--lightest;
 
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        li {
+        .lp_post-statistics__item {
             display: inline-block;
             font-size: 1em;
             margin: 0;
@@ -224,16 +221,10 @@
 
 
     // separator between different KPI
-    .lp_postStatistics_separator {
+    .lp_post-statistics__separator {
         margin: 1em 0 -2em 0.75em;
 
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        li {
+        .lp_post-statistics__item {
             display: inline-block;
             font-size: 1em;
             margin: 0 0 0 2%;
@@ -247,7 +238,7 @@
             }
         }
 
-        p {
+        .lp_post-statistics__text {
             background-color: $background--darker;
             display: inline;
             font-size: 0.75em;
@@ -257,7 +248,7 @@
             z-index: $zindex--overlayed-3;
         }
 
-        hr {
+        .lp_post-statistics__separator-line {
             background: hsl(0, 0%, 73%) none;
             border: 0 none;
             height: 1px;
@@ -268,15 +259,14 @@
         }
     }
 
-    small,
-    .lp_postStatistics_separator p {
+    .lp_post-statistics__text {
         color: hsl(0, 0%, 60%);
     }
 }
 
 
 // statistics pane footer with toggle for previewing post as visitor or as admin ---------------------------------------
-.lp_postStatistics .lp_postStatistics_pluginPreviewMode {
+.lp_post-statistics .lp_post-statistics__plugin-preview-mode {
     background-color: hsl(47, 100%, 50%);
     border-radius: 0 0 0 3px;
     margin: 7px 0 0;
@@ -287,7 +277,7 @@
 // Chrome browser hack -------------------------------------------------------------------------------------------------
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 
-    .lp_postStatistics .lp_postStatistics_details .lp_sparklineBackgroundBar + svg.peity {
+    .lp_post-statistics .lp_post-statistics__details .lp_sparkline-bar__background + svg.peity {
         margin-top: -48px;
     }
 }

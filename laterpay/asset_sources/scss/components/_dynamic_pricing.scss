@@ -8,7 +8,7 @@ svg text {
     user-select: none;
 }
 
-.lp_dynamicPricing {
+.lp_dynamic-pricing {
     height: 240px;
     width: 254px;
 }
@@ -30,7 +30,7 @@ svg text {
     stroke-width: 1.5px;
 }
 
-.lp_dynamicPricing_arrowhead {
+.lp_dynamic-pricing__arrowhead {
     fill: hsl(0, 0%, 67%);
 }
 
@@ -65,7 +65,7 @@ path.end-price-triangle {
     @include opacity(0.85);
 }
 
-rect.lp_dynamicPricing_background {
+rect.lp_dynamic-pricing__background {
     fill: hsl(0, 0%, 95%);
 }
 
@@ -77,18 +77,18 @@ rect.lp_dynamicPricing_background {
     }
 }
 
-.lp_priceLine {
+.lp_price-line {
     cursor: col-resize;
     @include opacity(0.01);
     stroke: hsl(0, 0%, 100%);
     stroke-width: 8px;
 }
 
-.lp_priceLine.lp_is-hidden {
+.lp_price-line.lp_is-hidden {
     display: none;
 }
 
-.lp_priceLineVisible {
+.lp_price-line-visible {
     stroke: hsl(0, 0%, 33%);
     stroke-dasharray: 5;
     stroke-width: 1.5px;
@@ -103,7 +103,7 @@ rect.lp_dynamicPricing_background {
     stroke-width: 1.5px;
 }
 
-.lp_dynamicPricing.ew-resize,
+.lp_dynamic-pricing.ew-resize,
 rect.x-drag-square,
 .x-triangle-bottom {
     cursor: col-resize;
@@ -120,14 +120,14 @@ rect.x-drag-square.lp_is-hidden,
 .x-text-days,
 text.start-price,
 text.end-price,
-text.lp_dynamicPricing_currency {
+text.lp_dynamic-pricing_currency {
     cursor: col-resize;
     fill: hsl(0, 0%, 100%);
 }
 
 text.start-price,
 text.end-price,
-text.lp_dynamicPricing_currency,
+text.lp_dynamic-pricing_currency,
 rect.end-price,
 rect.start-price {
     cursor: row-resize;
@@ -141,18 +141,18 @@ text.end-price {
 }
 
 text.x-text-days,
-text.lp_dynamicPricing_currency {
+text.lp_dynamic-pricing_currency {
     font-size: 9px;
     font-weight: 400;
 }
 
-text.lp_dynamicPricing_defaultPrice {
+text.lp_dynamic-pricing__default-price {
     fill: hsl(0, 0%, 67%);
     font-size: 10px;
 }
 
-.lp_dynamicPricing_startPriceInput input,
-.lp_dynamicPricing_endPriceInput input {
+.lp_dynamic-pricing__start-price-input input,
+.lp_dynamic-pricing_end-price-input input {
     border: 2px solid gainsboro;
     border-radius: 3px;
     background-color: #fff;

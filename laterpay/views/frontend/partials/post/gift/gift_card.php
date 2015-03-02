@@ -31,20 +31,20 @@
             <p class="lp_gift-card__description"><?php echo $pass['description']; ?></p>
             <table class="lp_gift-card___conditions">
                 <tr>
-                    <th><?php _e( 'Validity', 'laterpay' ) ?></th>
-                    <td>
+                    <th class="lp_gift-card___conditions-title"><?php _e( 'Validity', 'laterpay' ) ?></th>
+                    <td class="lp_gift-card___conditions-value">
                         <?php echo $pass['duration'] . ' ' . $period; ?>
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Access to', 'laterpay' ); ?></th>
-                    <td>
+                    <th class="lp_gift-card___conditions-title"><?php _e( 'Access to', 'laterpay' ); ?></th>
+                    <td class="lp_gift-card___conditions-value">
                         <?php echo $access_type . ' ' . $access_dest; ?>
                     </td>
                 </tr>
                 <tr>
-                    <th><?php _e( 'Renewal', 'laterpay' ) ?></th>
-                    <td>
+                    <th class="lp_gift-card___conditions-title"><?php _e( 'Renewal', 'laterpay' ) ?></th>
+                    <td class="lp_gift-card___conditions-value">
                         <?php _e( 'No automatic renewal', 'laterpay' ); ?>
                     </td>
                 </tr>

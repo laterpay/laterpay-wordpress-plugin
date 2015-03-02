@@ -331,7 +331,7 @@
                         if (data) {
                             data.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
-                                categoriesList +=   '<li data-category="' + category.category_id + '">' +
+                                categoriesList +=   '<li data-category="' + category.category_id + '" class="lp_price-type-categorized__item">' +
                                                         '<a href="#" ' +
                                                                 'data-price="' + category.category_price + '" ' +
                                                                 'data-revenue-model="' + category.revenue_model + '">' +

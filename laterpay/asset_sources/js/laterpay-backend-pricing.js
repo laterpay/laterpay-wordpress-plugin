@@ -764,7 +764,7 @@
             editTimePass = function($timePass) {
                 // insert cloned form into current time pass editor container
                 var $timePassForm = $o.timePassFormTemplate.clone().attr('id', $o.timePassFormId);
-                $('.lp_js_timePass_editorContainer', $timePass).html($timePassForm);
+                $('.lp_js_timePassEditorContainer', $timePass).html($timePassForm);
 
                 populateTimePassForm($timePass);
 
@@ -855,7 +855,7 @@
                     $($o.timePassPreviewAccess, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
-                    $('.lp_js_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
+                    $('.lp_js_purchaseLink', $timePass).html(text + '<small class="lp_purchase-link__currency">' + lpVars.defaultCurrency + '</small>');
                     $($o.timePassPreviewPrice).text(text + ' ' + lpVars.defaultCurrency);
                 } else if ($input.hasClass($o.timePassTitleClass)) {
                     // update pass title in pass preview

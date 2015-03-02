@@ -3,7 +3,7 @@
 
 // debugger pane header with LaterPay vector logo ----------------------------------------------------------------------
 .lp_debugger,
-.lp_debugger h2 {
+.lp_debugger-header__title {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-style: normal;
 }
@@ -166,13 +166,13 @@
     overflow-y: auto;
     height: 29em;
 
-    ul,
-    li {
+    .lp_debugger-content-list,
+    .lp_debugger-content {
         margin: 0;
         padding: 0;
     }
 
-    li {
+    .lp_debugger-content {
         list-style: none outside none;
     }
 
@@ -186,7 +186,7 @@
         display: none;
     }
 
-    .lp_debugger_logLevel:before {
+    .lp_debugger__log-level:before {
         font-size: $fs--175;
         height: 0;
         line-height: 0;
@@ -197,26 +197,26 @@
 
 
     // infos
-    .lp_debugger_logLevel-100:before
-    .lp_debugger_logLevel-200:before
-    .lp_debugger_logLevel-250:before {
+    .lp_debugger__log-level--100:before
+    .lp_debugger__log-level--200:before
+    .lp_debugger__log-level--250:before {
         color: $text--lighter;
         content: 'm';
     }
 
 
     // warnings
-    .lp_debugger_logLevel-300:before {
+    .lp_debugger__log-level--300:before {
         color: hsl(39, 100%, 50%);
         content: 'n';
     }
 
 
     // errors
-    .lp_debugger_logLevel-400:before
-    .lp_debugger_logLevel-500:before
-    .lp_debugger_logLevel-550:before
-    .lp_debugger_logLevel-600:before {
+    .lp_debugger__log-level--400:before
+    .lp_debugger__log-level--500:before
+    .lp_debugger__log-level--550:before
+    .lp_debugger__log-level--600:before {
         color: hsl(6, 100%, 50%);
         content: 'o';
     }

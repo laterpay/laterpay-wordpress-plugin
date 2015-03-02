@@ -181,7 +181,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         // get price of content
         $price      = LaterPay_Helper_View::format_number( LaterPay_Helper_Pricing::get_post_price( $page_id ) );
         $currency   = get_option( 'laterpay_currency' );
-        $price_tag  = sprintf( __( '%s<small>%s</small>', 'laterpay' ), $price, $currency );
+        $price_tag  = sprintf( __( '%s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ), $price, $currency );
 
         $content_types = array( 'file', 'gallery', 'audio', 'video', 'text' );
 
@@ -245,9 +245,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // build the HTML for the teaser box
         if ( $image_path != '' ) {
-            $html = '<div class="lp_premiumFileBox" style="background-image:url(' . $image_path . ')">';
+            $html = '<div class="lp_premium-file-box" style="background-image:url(' . $image_path . ')">';
         } else {
-            $html = '<div class="lp_premiumFileBox lp_contentType' . ucfirst( $content_type ) . '">';
+            $html = '<div class="lp_premium-file-box lp_contentType' . ucfirst( $content_type ) . '">';
         }
         // create a shortcode link
         $html .= $this->get_premium_shortcode_link( $page, $content_type, $page_url, $price_tag );
@@ -280,7 +280,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
-        return '<div class="lp_premiumFileBox_wrapper lp_u_clearfix">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premium-file-box_wrapper lp_u_clearfix">' . do_shortcode( $content ) . '</div>';
     }
 
     /**
