@@ -178,12 +178,13 @@ class LaterPay_Helper_Post
 
         // data to register purchase after redirect from LaterPay
         $url_params = array(
-            'post_id'     => $post_id,
-            'id_currency' => $currency_model->get_currency_id_by_iso4217_code( $currency ),
-            'price'       => $price,
-            'date'        => time(),
-            'buy'         => 'true',
-            'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
+            'post_id'       => $post_id,
+            'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
+            'price'         => $price,
+            'date'          => time(),
+            'buy'           => 'true',
+            'ip'            => ip2long( $_SERVER['REMOTE_ADDR'] ),
+            'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
         );
 
         if ( $post->post_type == 'attachment' ) {
@@ -193,14 +194,13 @@ class LaterPay_Helper_Post
 
         $url  = self::get_after_purchase_redirect_url( $url_params );
         $hash = self::get_hash_by_url( $url );
-        $url  = $url . '&hash=' . $hash;
 
         // parameters for LaterPay purchase form
         $params = array(
             'article_id' => $post_id,
             'pricing'    => $currency . ( $price * 100 ),
             'vat'        => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
-            'url'        => $url,
+            'url'        => $url . '&hash=' . $hash,
             'title'      => $post->post_title,
         );
 

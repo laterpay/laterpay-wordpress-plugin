@@ -610,72 +610,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get the LaterPay purchase link for a post.
-     *
-     * @param int $post_id
-     *
-     * @return string url || empty string if something went wrong
-     */
-    public function get_laterpay_purchase_link( $post_id ) {
-        $post = get_post( $post_id );
-        if ( $post === null ) {
-            return '';
-        }
-
-        // re-set the post_id
-        $post_id        = $post->ID;
-
-        $currency       = get_option( 'laterpay_currency' );
-        $price          = LaterPay_Helper_Pricing::get_post_price( $post_id );
-        $revenue_model  = LaterPay_Helper_Pricing::get_post_revenue_model( $post_id );
-
-        $currency_model = new LaterPay_Model_Currency();
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-        );
-
-        // data to register purchase after redirect from LaterPay
-        $url_params = array(
-            'post_id'       => $post_id,
-            'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
-            'price'         => $price,
-            'date'          => time(),
-            'buy'           => 'true',
-            'ip'            => ip2long( $_SERVER['REMOTE_ADDR'] ),
-            'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
-        );
-        $url    = $this->get_after_purchase_redirect_url( $url_params );
-        $hash   = LaterPay_Helper_Pricing::get_hash_by_url( $url );
-
-        // parameters for LaterPay purchase link
-        $params = array(
-            'article_id'    => $post_id,
-            'pricing'       => $currency . ( $price * 100 ),
-            'vat'           => $this->config->get( 'currency.default_vat' ),
-            'url'           => $url . '&hash=' . $hash,
-            'title'         => $post->post_title,
-        );
-
-        $this->logger->info(
-            __METHOD__,
-            $params
-        );
-
-        if ( $revenue_model == 'sis' ) {
-            // Single Sale purchase
-            return $client->get_buy_url( $params );
-        } else {
-            // Pay-per-Use purchase
-            return $client->get_add_url( $params );
-        }
-    }
-
-    /**
      * Generate the URL to which the user is redirected to after buying a given post.
      *
      * @param array $data
@@ -767,7 +701,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $view_args = array(
             'post_id'                         => $post->ID,
-            'link'                            => $this->get_laterpay_purchase_link( $post->ID ),
+            'link'                            => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
             'currency'                        => get_option( 'laterpay_currency' ),
             'price'                           => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'         => $preview_post_as_visitor,
@@ -961,7 +895,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         // get purchase link
-        $purchase_link                  = $this->get_laterpay_purchase_link( $post_id );
+        $purchase_link                  = LaterPay_Helper_Post::get_laterpay_purchase_link( $post_id );
 
         // get values for output states
         $teaser_content_only            = get_option( 'laterpay_teaser_content_only' );
