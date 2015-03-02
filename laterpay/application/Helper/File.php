@@ -211,12 +211,14 @@ class LaterPay_Helper_File
             laterpay_get_logger()->error( 'RESOURCE:: empty $file or $aid' );
             $response->set_http_response_code( 400 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             laterpay_get_logger()->debug( 'RESOURCE:: plugin is not available. Sending file ...' );
             $this->send_response( $file );
+            // exit script after response was created
             exit();
         }
 
@@ -225,6 +227,7 @@ class LaterPay_Helper_File
                 laterpay_get_logger()->error( 'RESOURCE:: invalid $hmac or $ts has expired' );
                 $response->set_http_response_code( 401 );
                 $response->send_response();
+                // exit script after response was created
                 exit();
             }
             laterpay_get_logger()->debug( 'RESOURCE:: $hmac and $ts are valid' );
@@ -232,6 +235,7 @@ class LaterPay_Helper_File
             laterpay_get_logger()->error( 'RESOURCE:: empty $hmac or $ts' );
             $response->set_http_response_code( 401 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
@@ -254,6 +258,7 @@ class LaterPay_Helper_File
             $response->set_header( 'Location', $new_url );
             $response->set_http_response_code( 302 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
@@ -268,6 +273,7 @@ class LaterPay_Helper_File
             if ( $tokenInstance->validate_token( $client->get_laterpay_token(), time(), $auth ) ) {
                 laterpay_get_logger()->error( 'RESOURCE:: Auth param is valid. Sending file.' );
                 $this->send_response( $file, $file_disposition );
+                // exit script after response was created
                 exit();
             }
             laterpay_get_logger()->debug( 'RESOURCE:: Auth param is not valid.' );
@@ -287,14 +293,15 @@ class LaterPay_Helper_File
         if ( $access ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Has access - sending file.' );
             $this->send_response( $file, $file_disposition );
-        } else {
-            laterpay_get_logger()->error( 'RESOURCE:: Doesn\'t have access. Finish.' );
-            $response->set_http_response_code( 403 );
-            $response->send_response();
+            // exit script after response was created
             exit();
         }
 
-        exit;
+        laterpay_get_logger()->error( 'RESOURCE:: Doesn\'t have access. Finish.' );
+        $response->set_http_response_code( 403 );
+        $response->send_response();
+        // exit script after response was created
+        exit();
     }
 
     /**
@@ -315,6 +322,7 @@ class LaterPay_Helper_File
 
             $response->set_http_response_code( 500 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
@@ -346,6 +354,7 @@ class LaterPay_Helper_File
 
             $response->set_http_response_code( 404 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
@@ -363,6 +372,7 @@ class LaterPay_Helper_File
 
         laterpay_get_logger()->debug( 'RESOURCE:: file sent. done.', array( 'file' => $file ) );
 
+        // exit script after response was created
         exit();
     }
 

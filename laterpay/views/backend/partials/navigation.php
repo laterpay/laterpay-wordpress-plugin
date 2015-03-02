@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
 <ul class="lp_navigation_tabs">
     <?php $num = 0; ?>

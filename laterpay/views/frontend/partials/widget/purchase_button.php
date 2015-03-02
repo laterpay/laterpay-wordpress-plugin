@@ -2,7 +2,11 @@
 /**
  * this template is used for do_action( 'laterpay_purchase_button' );
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 
 /**
  * We can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute

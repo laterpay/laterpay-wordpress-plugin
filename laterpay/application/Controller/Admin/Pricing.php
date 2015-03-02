@@ -241,7 +241,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         wp_send_json(
                             $category_price_model->get_categories_without_price_by_term( $args )
                         );
-                        exit;
                     }
                     break;
 
@@ -283,7 +282,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
             )
         );
-        exit;
     }
 
     /**
