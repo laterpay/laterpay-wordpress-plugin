@@ -1,6 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-
 if ( $laterpay['purchase_link_is_hidden'] ) {
     return;
 }
