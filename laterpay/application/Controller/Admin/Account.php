@@ -124,8 +124,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * @return void
      */
     protected static function update_merchant_id( $is_live = null ) {
-        $merchant_id_form = new LaterPay_Form_MerchantId( $_POST );
-
+        $merchant_id_form   = new LaterPay_Form_MerchantId( $_POST );
         $merchant_id        = $merchant_id_form->get_field_value( 'merchant_id' );
         $merchant_id_type   = $is_live ? 'live' : 'sandbox';
 
@@ -172,8 +171,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * @return void
      */
     protected static function update_api_key( $is_live = null ) {
-        $api_key_form = new LaterPay_Form_ApiKey( $_POST );
-
+        $api_key_form       = new LaterPay_Form_ApiKey( $_POST );
         $api_key            = $api_key_form->get_field_value( 'api_key' );
         $api_key_type       = $is_live ? 'live' : 'sandbox';
         $transaction_type   = $is_live ? 'REAL' : 'TEST';
@@ -317,9 +315,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
 
         wp_send_json(
             array(
-                'success' => true,
-                'mode'    => 'test',
-                'message' => $message,
+                'success'   => true,
+                'mode'      => 'test',
+                'message'   => $message,
             )
         );
     }

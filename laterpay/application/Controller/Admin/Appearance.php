@@ -71,7 +71,6 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
                 )
             );
         }
-
         if ( function_exists( 'check_admin_referer' ) ) {
             check_admin_referer( 'laterpay_form' );
         }

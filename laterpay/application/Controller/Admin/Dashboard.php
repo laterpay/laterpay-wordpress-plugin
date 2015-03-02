@@ -60,7 +60,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             true
         );
 
-
         // pass localized strings and variables to script
         $i18n = array(
             'noData'    => __( 'No data available', 'laterpay' ),
@@ -69,7 +68,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                     'next'  => __( 'Show next day', 'laterpay' ),
                     'prev'  => __( 'Show previous day', 'laterpay' ),
                 ),
-                'week'   => array(
+                'week'  => array(
                     'next'  => __( 'Show next 8 days', 'laterpay' ),
                     'prev'  => __( 'Show previous 8 days', 'laterpay' ),
                 ),
@@ -77,11 +76,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                     'next'  => __( 'Show next 2 weeks', 'laterpay' ),
                     'prev'  => __( 'Show previous 2 weeks', 'laterpay' ),
                 ),
-                'month'   => array(
+                'month' => array(
                     'next'  => __( 'Show next month', 'laterpay' ),
                     'prev'  => __( 'Show previous month', 'laterpay' ),
-                )
-
+                ),
             )
         );
 
@@ -125,7 +123,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'interval_start'            => strtotime( '-1 days' ),
             'interval_end'              => strtotime( '-8 days' ),
 
-            // in wp-config.php the user can disable the WP-cron completely OR replace it with real server crons.
+            // in wp-config.php the user can disable the WP cron completely OR replace it with real server cron jobs.
             // this view variable can be used to show additional information that *maybe* the dashboard
             // data will not refresh automatically
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
@@ -179,7 +177,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Callback for wp-cron to refresh today's dashboard data.
+     * Callback for WP cron to refresh today's dashboard data.
      * The cron job provides two parameters for {x} days back and {n} count of items to
      * register your own cron with custom parameters to cache data.
      *
@@ -205,7 +203,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         );
 
         foreach ( $this->ajax_sections as $section ) {
-            $args['section']  = $section;
+            $args['section']    = $section;
             $options            = $this->get_ajax_request_options( $args );
             $this->logger->info(
                 __METHOD__ . ' - ' . $section,
