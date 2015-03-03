@@ -23,7 +23,7 @@
 }
 
 .lp_navigation-tabs {
-    margin-left: $fs--2;
+    margin-left: $fs--15 !important; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
 }
 
 .lp_navigation-tabs__item {
@@ -72,11 +72,11 @@
 }
 
 .lp_navigation-tabs__submenu {
-    background: $background;
+    background: $background--lightest;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.21);
     border-radius: 0 0 3px 3px;
     display: none;
-    margin-top: -3px;
+    margin-top: -3px !important; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
 }
 
 .lp_navigation-tabs__item.lp_is-current .lp_navigation-tabs__submenu {
