@@ -11,7 +11,7 @@ class LaterPay_Helper_Browser
 {
 
     /**
-     * @var Browscap $browscap library
+     * @var browscap $browscap library
      */
     protected static $browscap = null;
 
@@ -21,20 +21,21 @@ class LaterPay_Helper_Browser
     protected static $browser = null;
 
     /**
-     * Return object of all browscap library.
+     * Return object of entire browscap library.
      *
      * @return object
      */
     public static function php_browscap() {
-
         $config = laterpay_get_plugin_config();
 
         if ( empty( self::$browscap ) ) {
             self::$browscap = new Browscap( $config->get( 'cache_dir' ) );
             self::$browscap->doAutoUpdate = $config->get( 'browscap.autoupdate' );
+
             if ( $config->has( 'browscap.manually_updated_copy' ) ) {
                 self::$browscap->localFile = $config->get( 'browscap.manually_updated_copy' );
             }
+
             self::$browscap->silent = $config->get( 'browscap.silent' );
         }
 
@@ -53,7 +54,7 @@ class LaterPay_Helper_Browser
             self::$browser = self::php_browscap()->getBrowser( NULL, true );
         }
 
-        return (array)self::$browser;
+        return (array) self::$browser;
     }
 
     /**
@@ -63,19 +64,22 @@ class LaterPay_Helper_Browser
      */
     public static function browser_supports_cookies() {
         $browserInfo = self::php_browser_info();
-        if ( empty($browserInfo) ) {
+
+        if ( empty( $browserInfo ) ) {
             return true;
         }
+
         if ( isset( $browserInfo['Cookies'] ) ) {
             if ( $browserInfo['Cookies'] == 1 || $browserInfo['Cookies'] == 'true' ) {
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     * Conditional to test for crawler
+     * Conditional to test for crawler.
      *
      * @param string $version specific browser version
      *
@@ -83,20 +87,21 @@ class LaterPay_Helper_Browser
      */
     public static function is_crawler( $version = '' ) {
         $browserInfo = self::php_browser_info();
-        if ( empty($browserInfo) ) {
+
+        if ( empty( $browserInfo ) ) {
             return false;
         }
-        if ( isset( $browserInfo['Crawler'] ) && ($browserInfo['Crawler'] == 1 || $browserInfo['Crawler'] == 'true') ) {
-            if ( $version == '' ) :
+
+        if ( isset( $browserInfo['Crawler'] ) && ( $browserInfo['Crawler'] == 1 || $browserInfo['Crawler'] == 'true' ) ) {
+            if ( $version == '' ) {
                 return true;
-            elseif ( $browserInfo['MajorVer'] == $version ) :
+            } elseif ( $browserInfo['MajorVer'] == $version ) {
                 return true;
-            else :
+            } else {
                 return false;
-            endif;
+            }
         } else {
             return false;
         }
     }
-
 }
