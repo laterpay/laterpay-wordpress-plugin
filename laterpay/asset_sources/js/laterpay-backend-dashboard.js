@@ -364,6 +364,22 @@
                     .html(timeRange);
             },
 
+            abortLoadingDashboardData = function() {
+                if ($o.xhrRequests.length < 1) {
+                    // don't abort, if there is only one running request
+                    return;
+                }
+
+                // abort all older requests, so only the current one is executed
+                $.each($o.xhrRequests, function(i, jqXHR) {
+                    if (!jqXHR) {
+                        return;
+                    }
+                    jqXHR.abort();
+                });
+                $o.xhrRequests = [];
+            },
+
             loadDashboardData = function(section, refresh, pass) {
                 var interval = getInterval(),
                     revenueModel = $o.revenueModelChoices
@@ -393,6 +409,19 @@
                         'pass_id'           : pass
                     },
                     jqxhr;
+
+                $.ajaxSetup({
+                    beforeSend: function(jqXHR) {
+                        // add new request to array of running requests
+                        $o.xhrRequests.push(jqXHR);
+                    },
+                    complete: function(jqXHR) {
+                        var index = $o.xhrRequests.indexOf(jqXHR);
+                        if (index > -1) {
+                            $o.xhrRequests.splice(index, 1);
+                        }
+                    }
+                });
 
                 jqxhr = $.ajax({
                     'url'       : lpVars.ajaxUrl,
@@ -657,7 +686,7 @@
 
             renderSparklines = function($context) {
                 var $sparkline = $('.lp_sparklineBar', $context),
-                // get the number of data points from the first matched sparkline
+                    // get the number of data points from the first matched sparkline
                     dataPoints = $sparkline.first().text().split(',').length;
 
                 if (dataPoints > 8) {
@@ -683,6 +712,8 @@
             },
 
             loadDashboard = function(refresh) {
+                // abort all older running requests to load dashboard data
+                abortLoadingDashboardData();
 
                 refresh = refresh || false;
                 loadMostLeastConvertingItems(refresh);
