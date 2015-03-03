@@ -364,6 +364,19 @@
                     .html(timeRange);
             },
 
+            abortLoadingDashboardData = function() {
+                if ( $o.xhrRequests.length < 1) {
+                    return;
+                }
+                $.each($o.xhrRequests, function(i, jqXHR) {
+                    if (!jqXHR) {
+                        return;
+                    }
+                    jqXHR.abort();
+                });
+                $o.xhrRequests = [];
+            },
+
             loadDashboardData = function(section, refresh, pass) {
                 var interval = getInterval(),
                     revenueModel = $o.revenueModelChoices
@@ -393,6 +406,18 @@
                         'pass_id'           : pass
                     },
                     jqxhr;
+
+                $.ajaxSetup({
+                    beforeSend: function(jqXHR) {
+                        $o.xhrRequests.push(jqXHR);
+                    },
+                    complete: function(jqXHR) {
+                        var index = $o.xhrRequests.indexOf(jqXHR);
+                        if (index > -1) {
+                            $o.xhrRequests.splice(index, 1);
+                        }
+                    }
+                });
 
                 jqxhr = $.ajax({
                     'url'       : lpVars.ajaxUrl,
@@ -683,6 +708,8 @@
             },
 
             loadDashboard = function(refresh) {
+
+                abortLoadingDashboardData();
 
                 refresh = refresh || false;
                 loadMostLeastConvertingItems(refresh);
