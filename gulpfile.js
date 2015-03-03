@@ -53,13 +53,6 @@ gulp.task('css-watch', function() {
 gulp.task('css-build', function() {
     gulp.src(p.srcSCSS)
         .pipe(sass())
-        // .pipe(base64({                                                          // base64-encode images and inline them using datauris
-        //     baseDir         : 'laterpay/assets/img',
-        //     extensions      : ['png', svg],
-        //     exclude         : ['laterpay-wordpress-icons'],
-        //     maxImageSize    : 12*1024,
-        //     debug           : true
-        // }))
         .on('error', notify.onError())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .pipe(sourcemaps.write('./maps'))                                       // write sourcemaps
@@ -79,7 +72,6 @@ gulp.task('js-watch', function() {
 
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
-        // .pipe(fixmyjs())                                                        // fix JSHint errors if possible
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish))
         .pipe(sourcemaps.init())
@@ -151,7 +143,6 @@ gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function()
 // check code quality before git commit
 gulp.task('precommit', ['sniffphp', 'js-format'], function() {
     gulp.src(p.srcJS + '*.js')
-        // .pipe(fixmyjs())                                                        // fix JSHint errors if possible
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish));
 
