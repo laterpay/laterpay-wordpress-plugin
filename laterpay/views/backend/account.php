@@ -162,7 +162,7 @@
                     </label>
                 </form>
             </div><?php _e( 'mode.', 'laterpay' ); ?>
-            <div id="lp_js_pluginVisibilitySetting" class="lp_inlineBlock"
+            <div id="lp_js_pluginVisibilitySetting" class="lp_inline-block"
                 <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
                 <?php _e( 'It is invisible' , 'laterpay' ); ?><div class="lp_toggle">
                     <form id="laterpay_test_mode" method="post">
