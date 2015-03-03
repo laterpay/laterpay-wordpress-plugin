@@ -19,11 +19,11 @@
              <p class="lp_time-pass__call-to-action-text"><?php echo $laterpay_widget['time_pass_call_to_action_text']; ?></p>
          <?php endif; ?>
 
-        <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_redeem__wrapper lp_u_clearfix">
-            <input type="text" name="time_pass_voucher_code" class="lp_js_voucherCodeInput lp_redeem__code lp_redeem__code--is-hidden" maxlength="6">
-            <p class="lp_redeem__input-hint"><?php _e( 'Code', 'laterpay' ); ?></p>
-            <div class="lp_js_voucherRedeemButton lp_redeem__button lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></div>
-            <p class="lp_redeem__hint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
+        <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_redeem-code__wrapper lp_u_clearfix">
+            <input type="text" name="time_pass_voucher_code" class="lp_js_voucherCodeInput lp_redeem-code__value lp_redeem-code__value--is-hidden" maxlength="6">
+            <p class="lp_redeem-code__input-hint"><?php _e( 'Code', 'laterpay' ); ?></p>
+            <div class="lp_js_voucherRedeemButton lp_redeem-code__button lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></div>
+            <p class="lp_redeem-code__hint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>
         </div>
     <?php endif; ?>
 </div>

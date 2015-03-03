@@ -517,34 +517,5 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
-
-<<<<<<< HEAD
-
-<?php # commented out as long as there is only a single currency ?>
-<?php /* ?>
-        <div class="lp_row">
-            <h2><?php _e( 'Currency', 'laterpay' ); ?></h2>
-            <form id="lp_js_defaultCurrencyForm" method="post">
-                <input type="hidden" name="form"    value="currency_form">
-                <input type="hidden" name="action"  value="laterpay_pricing">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-
-                <div>
-                    <p><?php _e( 'All prices are given in', 'laterpay' ); ?>
-                        <select name="laterpay_currency" id="lp_js_changeDefaultCurrency" class="lp_input">
-                            <?php foreach ( $currencies as $currency ): ?>
-                                <option<?php if ( $currency->short_name == $standard_currency ): ?> selected<?php endif; ?> value="<?php echo $currency->short_name; ?>">
-                                    <?php echo $currency->full_name . ' (' . $currency->short_name . ')'; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </p>
-                </div>
-            </form>
-        </div>
-<?php */ ?>
-
-=======
->>>>>>> master
     </div>
 </div>

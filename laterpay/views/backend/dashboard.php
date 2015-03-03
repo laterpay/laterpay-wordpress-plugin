@@ -40,15 +40,15 @@
                     <div class="lp_statistics-row lp_u_clearfix">
                         <ul class="lp_statistics-row__list">
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Number of times a page with purchasable content has been viewed in selected interval', 'laterpay' ); ?>">
-                                <big class="lp_statistics-row__text-big"><span id="lp_js_totalImpressions">0</span></big>
+                                <big class="lp_statistics-row__value"><span id="lp_js_totalImpressions">0</span></big>
                                 <?php _e( 'Views', 'laterpay' ); ?>
                             </li>
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Share of purchases of all page views of pages with purchasable content', 'laterpay' ); ?>">
-                                <big class="lp_statistics-row__text-big"><span id="lp_js_avgConversion">0.0</span><small class="lp_statistics-row__text-small">%</small></big>
+                                <big class="lp_statistics-row__value"><span id="lp_js_avgConversion">0.0</span><small class="lp_statistics-row__text-small">%</small></big>
                                 <?php _e( 'Conversion', 'laterpay' ); ?>
                             </li>
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Share of new buyers of all buyers in selected interval', 'laterpay' ); ?>">
-                                <big class="lp_statistics-row__text-big"><span id="lp_js_shareOfNewCustomers">0</span><small class="lp_statistics-row__text-small">%</small></big>
+                                <big class="lp_statistics-row__value"><span id="lp_js_shareOfNewCustomers">0</span><small class="lp_statistics-row__text-small">%</small></big>
                                 <?php _e( 'New Customers', 'laterpay' ); ?>
                             </li>
                         </ul>
@@ -60,11 +60,11 @@
                     <div class="lp_statistics-row lp_u_clearfix">
                         <ul class="lp_statistics-row__list">
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Average number of items sold per day in selected interval', 'laterpay' ); ?>">
-                                <big class="lp_statistics-row__text-big"><span id="lp_js_avgItemsSold">0.0</span></big>
+                                <big class="lp_statistics-row__value"><span id="lp_js_avgItemsSold">0.0</span></big>
                                 <?php _e( 'AVG Items Sold', 'laterpay' ); ?>
                             </li>
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Total number of items sold in selected interval', 'laterpay' ); ?>">
-                                <big class="lp_statistics-row__text-big"><span id="lp_js_totalItemsSold">0</span></big>
+                                <big class="lp_statistics-row__value"><span id="lp_js_totalItemsSold">0</span></big>
                                 <?php _e( 'Items Sold', 'laterpay' ); ?>
                             </li>
                         </ul>
@@ -76,11 +76,11 @@
                     <div class="lp_statistics-row lp_u_clearfix">
                         <ul class="lp_statistics-row__list">
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Average value of items sold in selected interval', 'laterpay' ); ?>">
-                                <big class="lp_statistics-row__text-big"><span id="lp_js_avgRevenue">0.00</span><small class="lp_statistics-row__text-small"><?php echo $laterpay['currency']; ?></small></big>
+                                <big class="lp_statistics-row__value"><span id="lp_js_avgRevenue">0.00</span><small class="lp_statistics-row__text-small"><?php echo $laterpay['currency']; ?></small></big>
                                 <?php _e( 'AVG Purchase', 'laterpay' ); ?>
                             </li>
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Total value of items sold in selected interval', 'laterpay' ); ?>">
-                                <big class="lp_statistics-row__text-big"><span id="lp_js_totalRevenue">0.00</span><small class="lp_statistics-row__text-small"><?php echo $laterpay['currency']; ?></small></big>
+                                <big class="lp_statistics-row__value"><span id="lp_js_totalRevenue">0.00</span><small class="lp_statistics-row__text-small"><?php echo $laterpay['currency']; ?></small></big>
                                 <?php _e( 'Committed Revenue', 'laterpay' ); ?>
                             </li>
                         </ul>
@@ -121,6 +121,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
 </div>

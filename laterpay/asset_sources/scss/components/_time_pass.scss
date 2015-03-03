@@ -331,21 +331,21 @@
 
 
 // redeem gift code widget ---------------------------------------------------------------------------------------------
-.lp_redeem__wrapper,
-.lp_redeem__code {
+.lp_redeem-code__wrapper,
+.lp_redeem-code__value {
     height: round(3.75 * $fs) !important; /* 6 - TODO: this is a magic number that should not be required */
     position: relative !important;
     width: 300px !important;
 }
 
 // add a background to the wrapper so that the transparent input works on both light and dark themes
-.lp_redeem__wrapper {
+.lp_redeem-code__wrapper {
     background: $background--lightest;
     border-radius: 6px;
     margin: 1em 0;
 }
 
-.lp_redeem__feedback-message {
+.lp_redeem-code__feedback-message {
     background: $background--highlight !important;
     border-radius: 3px !important;
     color: $text !important;
@@ -363,7 +363,7 @@
 /**
  * input for gift code
  */
-.lp_redeem__code {
+.lp_redeem-code__value {
     background: transparent !important;
     border: 2px solid $border !important;
     border-radius: 5px !important;
@@ -389,7 +389,7 @@
     }
 }
 
-.lp_redeem__input-hint {
+.lp_redeem-code__input-hint {
     color: $text--lighter !important;
     font-family: Arial, sans-serif !important;
     font-size: $fs--15 !important;
@@ -400,7 +400,7 @@
     top: $fs--075 !important;
 }
 
-.lp_redeem__button {
+.lp_redeem-code__button {
     background: $clickable !important;
     border-radius: 4px !important;
     bottom: $fs--05 !important;
@@ -426,8 +426,8 @@
 
 
 // define line-height to minimize influence of theme styles
-.lp_redeem__code,
-.lp_redeem__button {
+.lp_redeem-code__value,
+.lp_redeem-code__button {
     line-height: 1.5 !important;
 }
 
@@ -438,7 +438,7 @@
  *
  * 1. Remove ugly browser default styles
  */
-.lp_redeem__code.lp_redeem__code--is-hidden {
+.lp_redeem-code__value.lp_redeem-code__value--is-hidden {
     /* 1 */
     background: transparent !important;
     border: 2px solid transparent !important;
@@ -447,7 +447,7 @@
     &:hover {
         border-color: transparent !important;
 
-        ~ .lp_redeem__hint {
+        ~ .lp_redeem-code__hint {
             color: $clickable--highlight !important;
         }
     }
@@ -459,19 +459,19 @@
 
 
         /* hide / show siblings, when the voucher input is focused */
-        ~ .lp_redeem__hint {
+        ~ .lp_redeem-code__hint {
             visibility: hidden !important; /* 3 */
         }
 
-        ~ .lp_redeem__input-hint {
+        ~ .lp_redeem-code__input-hint {
             display: block !important; /* 3 */
         }
 
-        ~ .lp_redeem__button {
+        ~ .lp_redeem-code__button {
             display: block !important; /* 3 */
         }
 
-        ~ .lp_redeem__code {
+        ~ .lp_redeem-code__value {
             background: transparent !important;
             display: inline-block !important; /* 3 */
 
@@ -484,19 +484,19 @@
         }
     }
 
-    ~ .lp_redeem__input-hint {
+    ~ .lp_redeem-code__input-hint {
         display: none !important;
     }
 
     /**
      * button for redeeming voucher code
      */
-    ~ .lp_redeem__button {
+    ~ .lp_redeem-code__button {
         display: none !important;
     }
 }
 
-.lp_redeem__hint {
+.lp_redeem-code__hint {
     color: $clickable !important;
     display: block !important; /* 1 */
     font-family: Arial, sans-serif !important;
@@ -511,7 +511,7 @@
  * time pass widget variant 'small'
  * reduced height, width, font-size, margins, and paddings
  */
-.lp_time-pass-widget-small {
+.lp_time-pass-widget--small {
     margin-bottom: $fs--05 !important;
     margin-right: $fs--05 !important;
 
@@ -563,6 +563,7 @@
     }
 
     .lp_time-pass__conditions {
+        margin: 0 !important;
 
         .lp_time-pass__condition-title,
         .lp_time-pass__condition-value {

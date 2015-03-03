@@ -170,16 +170,16 @@
                         <input type="hidden" name="action"  value="laterpay_account">
                         <input type="hidden" id="lp_js_hasInvalidSandboxCredentials" name="invalid_credentials" value="0">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                        <label class="lp_toggle_label lp_toggle_label_pass">
+                        <label class="lp_toggle__label lp_toggle__label-pass">
                             <input type="checkbox"
                                    name="plugin_is_in_visible_test_mode"
                                    id="lp_js_toggleVisibilityInTestMode"
-                                   class="lp_toggle_input"
+                                   class="lp_toggle__input"
                                    value="1"
                                    <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
-                            <span class="lp_toggle_text" data-on="" data-off="">
+                            <span class="lp_toggle__text" data-on="" data-off="">
                             </span>
-                            <span class="lp_toggle_handle"></span>
+                            <span class="lp_toggle__handle"></span>
                         </label>
                     </form>
                 </div><?php _e( 'visible to visitors.', 'laterpay' ); ?>

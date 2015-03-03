@@ -97,19 +97,19 @@
     padding: 0;
 }
 
-.lp_statistics-row__text-big {
+.lp_statistics-row__value {
     color: $text;
     display: block;
     font-size: $fs--15;
 }
 
 .lp_statistics-row__text-small,
-.lp_statistics-row__text-big .lp_statistics-row__text-small {
+.lp_statistics-row__value .lp_statistics-row__text-small {
     color: $text--lighter;
     font-size: $fs;
 }
 
-.lp_statistics-row__text-big .lp_statistics-row__text-small {
+.lp_statistics-row__value .lp_statistics-row__text-small {
     font-size: 0.667em;
     line-height: 0.667;
     padding: 0 0 0 2px;
@@ -195,7 +195,7 @@
     border-top: 1px solid $background;
 }
 
-.lp_dashboard-graph__label {
+.lp_time-pass-diagram__label {
     background: $background;
     color: $text--lighter;
     font-size: 10px;
@@ -204,6 +204,18 @@
     position: absolute;
     text-align: center;
     white-space: nowrap;
+}
+
+.lp_time-pass-diagram__sum {
+    background: $background;
+    color: $text;
+    font-size: $fs--15;
+    line-height: 1.4;
+    padding: 0 5px;
+    position: absolute;
+    text-align: center;
+    white-space: nowrap;
+    width: 40px;
 }
 
 
