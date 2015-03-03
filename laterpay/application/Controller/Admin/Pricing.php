@@ -161,10 +161,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 );
             }
             switch ( $_POST['form'] ) {
-                // case 'currency_form':
-                //     $this->update_currency();
-                //     break;
-
                 case 'global_price_form':
                     $this->update_global_default_price();
                     break;
