@@ -803,7 +803,7 @@ DynamicPricingWidget.prototype._plotPriceMarker = function() {
                 x2: function() { return self.scale.x(dynamicPricingWidget.pubDays); },
                 y2: function() { return self.scale.y(dynamicPricingWidget.maxPrice); }
             });
-        // TODO: commented our for now, because it needs a) to be properly added and b) to have drag behavior
+        // #657: add label properly added and attach drag behavior
         // this.svg.append('text')
         //     .attr('class', 'lp_dynamic-pricing__current-price-label')
         //     .attr('text-anchor', 'middle')
