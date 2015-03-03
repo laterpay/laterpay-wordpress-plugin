@@ -58,17 +58,9 @@
                 // post-specific statistics
                 toggleItemDetails       : '.lp_js_toggleItemDetails',
 
-                // time passes customer lifecycle
-                viewSelector            : $('#lp_js_switchDashboardView'),
-                standardKpiTab          : $('#lp_js_standardKpiTab'),
-                timePassesKpiTab        : $('#lp_js_timePassesKpiTab'),
-                timepassDiagram         : $('.lp_js_timepassDiagram'),
-
                 // state classes
                 expanded                : 'lp_is-expanded',
                 selected                : 'lp_is-selected',
-                active                  : 'lp_is-active',
-                delayed                 : 'lp_is-delayed',
                 disabled                : 'lp_is-disabled',
             },
 
@@ -204,12 +196,6 @@
                     })
                     .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
-                // switch between normal and time passes view
-                $o.viewSelector
-                    .mousedown(function() {
-                        switchDashboardView($(this));
-                    })
-                    .click(function(e) {e.preventDefault();});
             },
 
             loadPreviousInterval = function() {
@@ -423,28 +409,6 @@
                 });
 
                 return jqxhr;
-            },
-
-            showLoadingIndicator = function($target) {
-                // add a state class, indicating that the element will be showing a loading indicator after a delay
-                $target.addClass($o.delayed);
-
-                setTimeout(function() {
-                    if ($target.hasClass($o.delayed)) {
-                        // add the loading indicator after a delay, if the element still has that state class
-                        $target.html('<div class="lp_loadingIndicator"></div>');
-                    }
-                }, 600);
-            },
-
-            removeLoadingIndicator = function($target) {
-                if ($target.hasClass($o.delayed)) {
-                    // remove the state class, thus canceling adding the loading indicator
-                    $target.removeClass($o.delayed);
-                } else {
-                    // remove the loading indicator
-                    $target.find('.lp_loadingIndicator').remove();
-                }
             },
 
             loadConvertingItems = function(refresh) {
@@ -725,213 +689,9 @@
                 loadMostLeastRevenueItems(refresh);
                 loadMostLeastSellingItems(refresh);
                 loadConvertingItems(refresh);
-                loadTimePassLifecycles(true);
                 loadRevenueItems(refresh);
                 loadSellingItems(refresh);
                 loadKPIs(refresh);
-            },
-
-            switchDashboardView = function($item) {
-                var data            = $.parseJSON($item.attr('data')),
-                    current_label   = $.trim($item.html());
-
-                if (data.view === lpVars.submenu.view.standard) {
-                    // standard KPI dashboard
-                    // change label
-                    $item.html(data.label);
-
-                    // set new data view
-                    data.view = lpVars.submenu.view.passes;
-
-                    // select view
-                    $o.standardKpiTab.show();
-                    $o.timePassesKpiTab.hide();
-
-                    // update data
-                    data.label = current_label;
-                    $item.attr('data', JSON.stringify(data));
-                } else if (data.view === lpVars.submenu.view.passes) {
-                    // time passes dashboard
-                    // change label
-                    $item.html(data.label);
-
-                    // set new data view
-                    data.view = lpVars.submenu.view.standard;
-
-                    // select view
-                    $o.timePassesKpiTab.show();
-                    $o.standardKpiTab.hide();
-
-                    // update data
-                    data.label = current_label;
-                    $item.attr('data', JSON.stringify(data));
-                }
-            },
-
-            loadTimePassLifecycles = function(refresh) {
-                var data = $o.timepassDiagram;
-
-                $.each($o.timepassDiagram, function(index) {
-                    var timePassId = $(data[index]).data('id');
-
-                    showLoadingIndicator($(data[index]));
-
-                    loadDashboardData('time_passes_expiry', refresh, timePassId)
-                        .done(function(response) {
-                            var max             = parseInt(lpVars.maxYValue, 10),
-                                yAxisScale      = Math.max(max, 10) + 4, // add some air to y-axis scale
-                                $placeholder    = $(data[index]),
-                                markings        = [
-                                    {
-                                        // separator 1 after first 4 weeks (1 month)
-                                        color           : $o.colorBorder,
-                                        lineWidth       : 1,
-                                        xaxis           : {
-                                            from        : 3.5,
-                                            to          : 3.5,
-                                        },
-                                    },
-                                    {
-                                        // separator 2 after first 12 weeks (3 months)
-                                        color           : $o.colorBorder,
-                                        lineWidth       : 1,
-                                        xaxis           : {
-                                            from        : 11.5,
-                                            to          : 11.5,
-                                        },
-                                    },
-                                    {
-                                        // horizontal summary line for first month
-                                        color           : $o.colorBorder,
-                                        lineWidth       : 2,
-                                        xaxis           : {
-                                            from        : 0.25,
-                                            to          : 3.25,
-                                        },
-                                        yaxis           : {
-                                            from        : yAxisScale - 2,
-                                            to          : yAxisScale - 2,
-                                        },
-                                    },
-                                    {
-                                        // horizontal summary line for month 2-3
-                                        color           : $o.colorBorder,
-                                        lineWidth       : 2,
-                                        xaxis           : {
-                                            from        : 3.75,
-                                            to          : 11.25,
-                                        },
-                                        yaxis           : {
-                                            from        : yAxisScale - 2,
-                                            to          : yAxisScale - 2,
-                                        },
-                                    },
-                                ],
-                                plotOptions     = {
-                                    xaxis               : {
-                                        ticks           : response.data.x,
-                                    },
-                                    yaxis               : {
-                                        show            : false,
-                                        max             : yAxisScale,
-                                        tickFormatter   : function(val) {
-                                            return parseInt(val, 10);
-                                        }
-                                    },
-                                    grid                : {
-                                        markings        : markings,
-                                    },
-                                },
-                                plotData        = [
-                                    {
-                                        data            : response.data.y,
-                                        bars            : {
-                                            align       : 'center',
-                                            barWidth    : 0.4,
-                                            fillColor   : $o.colorBackgroundLaterpay,
-                                            horizontal  : false,
-                                            lineWidth   : 0,
-                                            show        : true,
-                                        },
-                                    },
-                                ];
-
-                            // extend empty object to merge specific with default plotOptions without
-                            // modifying the defaults
-                            plotOptions = $.extend(true, {}, plotDefaultOptions, plotOptions);
-                            var $graph  = $.plot($placeholder, plotData, plotOptions);
-
-                            // calculate the sum of time passes that expire in 0-4 and 5-12 weeks, respectively
-                            var sum04   = 0,
-                                sum512  = 0,
-                                i;
-                            for (i = 0; i < 5; i++) {
-                                sum04 += response.data.y[i][1];
-                            }
-                            for (i = 5; i < 13; i++) {
-                                sum512 += response.data.y[i][1];
-                            }
-
-                            // add labels to the flot graph:
-                            // get the offset of separator 1 within the flot placeholder
-                            var o1      = $graph.pointOffset({x: 3.5, y: 0}),
-                                label1  = '<div class="lp_time-pass-diagram__label" ' +
-                                    'style="left:' + (o1.left - 30) + 'px; top:2px;">' +
-                                    lpVars.i18n.endingIn + '<br>' +
-                                    '< 1 ' + lpVars.i18n.month +
-                                    '</div>';
-                            // append that label to the graph
-                            $placeholder.append(label1);
-                            // get the offset of separator 2 within the flot placeholder
-                            var o2      = $graph.pointOffset({x: 11.5, y: 0}),
-                                label2  = '<div class="lp_time-pass-diagram__label" ' +
-                                    'style="left:' + (o2.left - 30) + 'px; top:2px;">' +
-                                    lpVars.i18n.endingIn + '<br>' +
-                                    '< 3 ' + lpVars.i18n.months +
-                                    '</div>';
-                            // append that label to the graph
-                            $placeholder.append(label2);
-
-                            // add arrowhead to x-axis
-                            var  o3 = $graph.pointOffset({x: 13, y: 0}),
-                                ctx = $graph.getCanvas().getContext('2d');
-                            o3.left += 8;
-                            o3.top  += 4;
-                            ctx.beginPath();
-                            ctx.moveTo(o3.left,     o3.top);
-                            ctx.lineTo(o3.left,     o3.top - 7);
-                            ctx.lineTo(o3.left + 6, o3.top - 3.5);
-                            ctx.lineTo(o3.left,     o3.top);
-                            ctx.fillStyle = $o.colorBorder;
-                            ctx.fill();
-
-                            // add x-axis label
-                            var xAxisLabel = '<div class="lp_time-pass-diagram__label" ' +
-                                'style="left:' + (o3.left + 10) + 'px; top:' + o3.top + 'px;">' +
-                                lpVars.i18n.weeksLeft +
-                                '</div>';
-                            $placeholder.append(xAxisLabel);
-
-                            // add sum to 0-4 weeks interval
-                            var o4          = $graph.pointOffset({x: 1.5, y: yAxisScale - 2}),
-                                sum04Label  = '<div class="lp_time-pass-diagram__sum" ' +
-                                    'style="left:' + (o4.left - 30) + 'px; top:' + (o4.top - 14) + 'px;">' +
-                                    sum04 +
-                                    '</div>';
-                            $placeholder.append(sum04Label);
-
-                            // add sum to 5-12 weeks interval
-                            var o5          = $graph.pointOffset({x: 7.5, y: yAxisScale - 2}),
-                                sum512Label = '<div class="lp_time-pass-diagram__sum" ' +
-                                    'style="left:' + (o5.left - 30) + 'px; top:' + (o5.top - 14) + 'px;">' +
-                                    sum512 +
-                                    '</div>';
-                            $placeholder.append(sum512Label);
-                        })
-                        .always(function() {
-                            removeLoadingIndicator($(data[index]));
-                        });
-                });
             },
 
             initializePage = function() {

@@ -107,7 +107,7 @@ class LaterPay_Helper_File
     public static function get_encrypted_resource_url( $post_id, $url, $use_auth, $set_file_disposition = null ) {
         $resource_url_parts = parse_url( $url );
         if ( ! self::check_url_encrypt( $resource_url_parts ) ) {
-            // return unmodified URl, if file should not be encrypted
+            // return unmodified URL, if file should not be encrypted
             return $url;
         }
 
@@ -122,7 +122,6 @@ class LaterPay_Helper_File
         $request    = new LaterPay_Core_Request();
         $path       = ABSPATH . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
-
 
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client = new LaterPay_Client(
@@ -159,7 +158,7 @@ class LaterPay_Helper_File
     /**
      * Ajax callback to load a file through a script to prevent direct access.
      *
-     * @return  void
+     * @return void
      */
     public function load_file() {
         unset( $_GET['action'] );
@@ -201,7 +200,6 @@ class LaterPay_Helper_File
         // variables
         $access     = false;
         $upload_dir = wp_upload_dir();
-        $basedir    = $upload_dir['basedir'];
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $api_key = get_option( 'laterpay_live_api_key' );
         } else {
@@ -213,12 +211,14 @@ class LaterPay_Helper_File
             laterpay_get_logger()->error( 'RESOURCE:: empty $file or $aid' );
             $response->set_http_response_code( 400 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             laterpay_get_logger()->debug( 'RESOURCE:: plugin is not available. Sending file ...' );
             $this->send_response( $file );
+            // exit script after response was created
             exit();
         }
 
@@ -227,6 +227,7 @@ class LaterPay_Helper_File
                 laterpay_get_logger()->error( 'RESOURCE:: invalid $hmac or $ts has expired' );
                 $response->set_http_response_code( 401 );
                 $response->send_response();
+                // exit script after response was created
                 exit();
             }
             laterpay_get_logger()->debug( 'RESOURCE:: $hmac and $ts are valid' );
@@ -234,6 +235,7 @@ class LaterPay_Helper_File
             laterpay_get_logger()->error( 'RESOURCE:: empty $hmac or $ts' );
             $response->set_http_response_code( 401 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
@@ -256,6 +258,7 @@ class LaterPay_Helper_File
             $response->set_header( 'Location', $new_url );
             $response->set_http_response_code( 302 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
 
@@ -269,7 +272,8 @@ class LaterPay_Helper_File
             $tokenInstance = new LaterPay_Core_Auth_Hmac( $api_key );
             if ( $tokenInstance->validate_token( $client->get_laterpay_token(), time(), $auth ) ) {
                 laterpay_get_logger()->error( 'RESOURCE:: Auth param is valid. Sending file.' );
-                $this->send_response( $file, $mt, $file_disposition );
+                $this->send_response( $file, $file_disposition );
+                // exit script after response was created
                 exit();
             }
             laterpay_get_logger()->debug( 'RESOURCE:: Auth param is not valid.' );
@@ -288,15 +292,16 @@ class LaterPay_Helper_File
         // send file
         if ( $access ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Has access - sending file.' );
-            $this->send_response( $file, $mt, $file_disposition );
-        } else {
-            laterpay_get_logger()->error( 'RESOURCE:: Doesn\'t have access. Finish.' );
-            $response->set_http_response_code( 403 );
-            $response->send_response();
+            $this->send_response( $file, $file_disposition );
+            // exit script after response was created
             exit();
         }
 
-        exit;
+        laterpay_get_logger()->error( 'RESOURCE:: Doesn\'t have access. Finish.' );
+        $response->set_http_response_code( 403 );
+        $response->send_response();
+        // exit script after response was created
+        exit();
     }
 
     /**
@@ -307,17 +312,20 @@ class LaterPay_Helper_File
      * @return string
      */
     protected function get_decrypted_file_name( $file ) {
-        $request    = new LaterPay_Core_Request();
         $response   = new LaterPay_Core_Response();
-        $file = strtr( $file, '-_', '+/' );
-        $file = base64_decode( $file );
+        // prepare file for further processing
+        $file       = strtr( $file, '-_', '+/' );
+        $file       = base64_decode( $file );
+
         if ( empty( $file ) ) {
             laterpay_get_logger()->error( 'RESOURCE:: cannot decode $file - empty result' );
 
             $response->set_http_response_code( 500 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
+
         $cipher = new Crypt_AES();
         $cipher->setKey( SECURE_AUTH_SALT );
         $file   = ABSPATH . $cipher->decrypt( $file );
@@ -329,12 +337,11 @@ class LaterPay_Helper_File
      * Send a secured file to the user.
      *
      * @param string      $file
-     * @param string      $mt
      * @param string|null $disposition
      *
      * @return void
      */
-    protected function send_response( $file, $mt = null, $disposition = null ) {
+    protected function send_response( $file, $disposition = null ) {
         $response = new LaterPay_Core_Response();
 
         if ( empty( $disposition ) ) {
@@ -347,8 +354,10 @@ class LaterPay_Helper_File
 
             $response->set_http_response_code( 404 );
             $response->send_response();
+            // exit script after response was created
             exit();
         }
+
         $filetype = wp_check_filetype( $file );
         $fsize    = filesize( $file );
         $data     = file_get_contents( $file );
@@ -363,6 +372,7 @@ class LaterPay_Helper_File
 
         laterpay_get_logger()->debug( 'RESOURCE:: file sent. done.', array( 'file' => $file ) );
 
+        // exit script after response was created
         exit();
     }
 

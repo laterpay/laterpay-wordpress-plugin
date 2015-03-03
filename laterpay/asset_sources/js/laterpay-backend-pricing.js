@@ -1127,8 +1127,8 @@
                             $(this).remove();
                         }
                     })
-                        .end()
-                        .addClass($o.disabled);
+                .end()
+                .addClass($o.disabled);
 
                 // clear object options
                 $o.bulkPriceObjects
@@ -1320,8 +1320,8 @@
             initializePage = function() {
                 bindEvents();
 
-                // trigger change event of bulk price editor on page load
-                // FIXME: why is this required?
+                // trigger change event of bulk price editor on page load to initialize the bulk price editor,
+                // see handleBulkEditorSettingsUpdate()
                 $o.bulkPriceAction.change();
             };
 

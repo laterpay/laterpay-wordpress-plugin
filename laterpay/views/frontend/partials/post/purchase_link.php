@@ -1,5 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; }
+<?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 
 if ( $laterpay['purchase_link_is_hidden'] ) {
     return;

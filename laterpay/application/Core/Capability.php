@@ -7,11 +7,11 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Core_Capability 
+class LaterPay_Core_Capability
 {
 
     /**
-     *  Execute LaterPay role creation for the various plugin versions.
+     * Create LaterPay roles for the various plugin versions.
      *
      * @return void
      */
@@ -52,5 +52,4 @@ class LaterPay_Core_Capability
             $role->add_cap( 'laterpay_edit_individual_price' );
         }
     }
-
 }

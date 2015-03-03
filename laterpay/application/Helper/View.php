@@ -18,27 +18,42 @@ class LaterPay_Helper_View
     /**
      * Get links to be rendered in plugin backend navigation.
      *
-     * @var array
+     * @return array
      */
     public static function get_admin_menu() {
-        return array(
-            'dashboard'     => array(
-                                     'url'      => 'laterpay-dashboard-tab',
-                                     'title'    => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
-                                     'submenu'  => array(
-                                                        'url'   => 'laterpay-dashboard-tab',
-                                                        'title' => __( 'Time Passes', 'laterpay' ),
-                                                        'id'    => 'lp_js_switchDashboardView',
-                                                        'data'  => array(
-                                                                         'view'     => 'time-passes',
-                                                                         'label'    => __( 'Standard KPIs', 'laterpay' ),
-                                                                         ),
-                                                    ),
-                                     ),
-            'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
-            'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __( 'Appearance', 'laterpay' ) ),
-            'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __( 'Account', 'laterpay' ) ),
+        $menu = array();
+
+        $menu[ 'dashboard' ] = array(
+            'url'      => 'laterpay-plugin',
+            'title'    => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
+            'submenu'  => array(
+                'name'  => 'time_passes',
+                'url'   => 'laterpay-timepass-dashboard-tab',
+                'title' => __( 'Time Passes', 'laterpay' ),
+                'id'    => 'lp_js_switchDashboardView',
+                'data'  => array(
+                    'view'     => 'time-passes',
+                    'label'    => __( 'Standard KPIs', 'laterpay' ),
+                ),
+            ),
         );
+
+        $menu[ 'pricing' ] = array(
+            'url' => 'laterpay-pricing-tab',
+            'title' => __( 'Pricing', 'laterpay' )
+        );
+
+        $menu[ 'appearance' ] = array(
+            'url' => 'laterpay-appearance-tab',
+            'title' => __( 'Appearance', 'laterpay' )
+        );
+
+        $menu[ 'account' ] = array(
+            'url' => 'laterpay-account-tab',
+            'title' => __( 'Account', 'laterpay' )
+        );
+
+        return $menu;
     }
 
     /**

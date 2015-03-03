@@ -22,9 +22,9 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
     }
 
     /**
-     * Normalize a header name.
+     * Normalize header name.
      *
-     * Normalizes a header name to X-Capitalized-Names
+     * Normalizes a header name to X-Capitalized-Names.
      *
      * @param string $name
      *
@@ -41,8 +41,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
     /**
      * Set a header.
      *
-     * If $replace is true, replaces any headers already defined with that
-     * $name.
+     * Replaces any headers already defined with that $name, if $replace is true.
      *
      * @param  string  $name
      * @param  string  $value
@@ -62,6 +61,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
                 }
             }
         }
+
         $headers[] = array(
             'name'      => $name,
             'value'     => $value,
@@ -73,7 +73,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
     }
 
     /**
-     * Send all headers. Sends any headers specified.
+     * Send all headers. Sends all specified headers.
      *
      * @return  LaterPay_Core_Response
      */
@@ -81,7 +81,9 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         if ( headers_sent() ) {
             return $this;
         }
+
         $httpCodeSent = false;
+
         foreach ( $this->get_data_set_default( 'headers', array() ) as $header ) {
             if ( ! $httpCodeSent ) {
                 header( $header['name'] . ': ' . $header['value'], $header['replace'], $this->get_data( 'http_response_code' ) );
@@ -125,6 +127,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
      */
     public function output_body() {
         $body = $this->get_data( 'body' );
+
         if ( is_array( $body ) ) {
             $body = implode( '', $body );
         }
@@ -141,5 +144,4 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         $this->send_headers();
         $this->output_body();
     }
-
 }

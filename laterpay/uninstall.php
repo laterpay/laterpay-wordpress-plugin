@@ -1,7 +1,7 @@
 <?php
 
-// exit, if uninstall was not called from WordPress
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+    // exit, if uninstall was not called from WordPress
     exit;
 }
 
@@ -15,12 +15,14 @@ $table_postmeta     = $wpdb->postmeta;
 $table_usermeta     = $wpdb->usermeta;
 
 // remove custom tables
-$sql = "DROP TABLE IF EXISTS
-            $table_terms_price,
-            $table_history,
-            $table_post_views,
-            $table_time_passes;
-        ";
+$sql = "
+    DROP TABLE IF EXISTS
+        $table_terms_price,
+        $table_history,
+        $table_post_views,
+        $table_time_passes
+    ;
+";
 $wpdb->query( $sql );
 
 // remove pricing and voting data from wp_postmeta table
@@ -30,15 +32,16 @@ delete_post_meta_by_key( 'laterpay_rating' );
 delete_post_meta_by_key( 'laterpay_users_voted' );
 
 // remove user settings from wp_usermeta table
-$sql = "DELETE FROM
-            $table_usermeta
-        WHERE
-            meta_key IN (
-                'laterpay_preview_post_as_visitor',
-                'laterpay_hide_statistics_pane'
-            )
-        ;
-        ";
+$sql = "
+    DELETE FROM
+        $table_usermeta
+    WHERE
+        meta_key IN (
+            'laterpay_preview_post_as_visitor',
+            'laterpay_hide_statistics_pane'
+        )
+    ;
+";
 $wpdb->query( $sql );
 
 // remove global settings from wp_options table

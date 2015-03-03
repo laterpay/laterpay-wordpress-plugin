@@ -10,6 +10,8 @@
 class LaterPay_Helper_TimePass
 {
 
+    const TIME_PASSES_WEEKS = 13;
+
     const PASS_TOKEN = 'tlp';
 
     /**
@@ -547,9 +549,11 @@ class LaterPay_Helper_TimePass
                     foreach ( $time_pass_history as $hist ) {
                         $has_unredeemed     = false;
                         $committed_revenue += $hist->price;
+                        $summary_revenue   += $hist->price;
 
                         if ( $hist->price > 0 ) {
                             $sold++;
+                            $summary_sold ++;
                         }
 
                         // check, if there are unredeemed gift codes
@@ -583,16 +587,6 @@ class LaterPay_Helper_TimePass
                 );
 
                 $statistic['individual'][$time_pass['pass_id']] = $time_pass_statistics;
-            }
-        }
-
-        // calculate summary statistics
-        $time_passes_history = $history_model->get_time_pass_history();
-
-        if ( $time_passes_history && is_array( $time_passes_history ) ) {
-            $summary_sold = count( $time_passes_history );
-            foreach ( $time_passes_history as $hist ) {
-                $summary_revenue += $hist->price;
             }
         }
 
@@ -686,5 +680,39 @@ class LaterPay_Helper_TimePass
         $model = new LaterPay_Model_TimePass();
 
         return $model->get_time_passes_count();
+    }
+
+
+    /**
+     * Prepare params for time passes graph.
+     *
+     * @param $pass_id
+     *
+     * @return array
+     */
+    public static function time_pass_expiry_diagram( $pass_id ) {
+        $data = array(
+            'x' => array(),
+            'y' => array(),
+        );
+
+        $expiry = LaterPay_Helper_TimePass::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
+
+        // add expiry data for the given number of weeks
+        $key = 0;
+        while ( $key <= self::TIME_PASSES_WEEKS ) {
+            $data['x'][] = array(
+                $key,
+                (string) $key
+            );
+            $data['y'][] = array(
+                $key,
+                $expiry[$key]
+            );
+
+            $key++;
+        }
+
+        return $data;
     }
 }

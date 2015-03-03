@@ -1,4 +1,10 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
+
 <?php
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_die( __( "You don't have sufficient permissions to manage options for this site.", 'laterpay' ) );

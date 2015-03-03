@@ -335,7 +335,7 @@ class LaterPay_Helper_Pricing
      *
      * @return float price
      */
-    public static function get_dynamic_price( $post ) {
+    public static function get_dynamic_price( WP_Post $post ) {
         $post_price             = get_post_meta( $post->ID, LaterPay_Helper_Pricing::META_KEY, true );
         $days_since_publication = self::dynamic_price_days_after_publication( $post );
         $price_range_type       = $post_price['price_range_type'];
@@ -404,7 +404,7 @@ class LaterPay_Helper_Pricing
      *
      * @return int days
      */
-    public static function dynamic_price_days_after_publication( $post ) {
+    public static function dynamic_price_days_after_publication( WP_Post $post ) {
         $days_since_publication = 0;
 
         // unpublished posts always have 0 days after publication
@@ -536,7 +536,7 @@ class LaterPay_Helper_Pricing
      *
      * @return array
      */
-    public static function get_dynamic_prices( $post, $price = null ) {
+    public static function get_dynamic_prices( WP_Post $post, $price = null ) {
         if ( ! LaterPay_Helper_User::can( 'laterpay_edit_individual_price', $post ) ) {
             return;
         }
@@ -836,7 +836,7 @@ class LaterPay_Helper_Pricing
      *
      * @return void
      */
-    public static function reset_post_publication_date( $post ) {
+    public static function reset_post_publication_date( WP_Post $post ) {
         $actual_date        = date( 'Y-m-d H:i:s' );
         $actual_date_gmt    = gmdate( 'Y-m-d H:i:s' );
         $post_update_data   = array(
@@ -998,7 +998,7 @@ class LaterPay_Helper_Pricing
     }
 
     /**
-     * Check if category has parent category with category price setted
+     * Check if category has parent category with category price set
      *
      * @param $category_id
      *

@@ -329,7 +329,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             return;
         }
 
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == null ) {
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === null ) {
             add_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
         }
     }
@@ -572,7 +572,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-        $table_currency        = $wpdb->prefix . 'laterpay_currency';
         $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
         $table_history         = $wpdb->prefix . 'laterpay_payment_history';
         $table_post_views      = $wpdb->prefix . 'laterpay_post_views';

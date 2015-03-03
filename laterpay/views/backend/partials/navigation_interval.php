@@ -1,10 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
-$disabled_class = '';
-if ( $laterpay[ 'end_timestamp' ] > $laterpay[ 'interval_end' ] ) :
-    $disabled_class = 'lp_is-disabled';
-endif;
+<?php
+    $disabled_class = '';
+    if ( $laterpay[ 'end_timestamp' ] > $laterpay[ 'interval_end' ] ) {
+        $disabled_class = 'lp_is-disabled';
+    }
 ?>
 <a href="#" id="lp_js_loadPreviousInterval" class="lp_prevNextLink lp_tooltip <?php echo $disabled_class; ?>" data-tooltip="<?php _e( 'Show previous 8 days', 'laterpay' ); ?>">
     <div class="lp_triangle lp_triangle--left"></div>
