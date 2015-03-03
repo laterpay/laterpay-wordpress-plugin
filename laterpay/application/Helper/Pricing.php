@@ -61,21 +61,20 @@ class LaterPay_Helper_Pricing
     /**
      * Check, if the current post or a given post is purchasable.
      *
-     * @param null|WP_Post $post
+     * @param null|int $post_id
      *
      * @return null|bool true|false (null if post is free)
      */
-    public static function is_purchasable( $post = null ) {
-        if ( ! is_a( $post, 'WP_POST' ) ) {
-            // load the current post in $GLOBAL['post']
-            $post = get_post();
-            if ( $post === null ) {
+    public static function is_purchasable( $post_id = null ) {
+        if ( $post_id === null ) {
+            $post_id = get_the_ID();
+            if ( ! $post_id ) {
                 return false;
             }
         }
 
         // check, if the current post price is not 0
-        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
+        $price = LaterPay_Helper_Pricing::get_post_price( $post_id );
         if ( $price == 0 ) {
             // return null for this case
             return null;

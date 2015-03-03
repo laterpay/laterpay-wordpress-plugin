@@ -263,7 +263,7 @@ class LaterPay_Helper_Post
      */
     public static function the_purchase_button_args( WP_Post $post ) {
         // don't render the purchase button, if the current post is not purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
             return;
         };
 

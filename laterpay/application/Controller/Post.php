@@ -431,6 +431,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
         $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
 
+        // on single-pages with non-purchaseable posts, don't check or create the "lptoken".
+        if ( is_single() && ! LaterPay_Helper_Pricing::is_purchasable( ) ) {
+            return;
+        }
+
         $context = array(
             'support_cookies'   => $browser_supports_cookies,
             'is_crawler'        => $browser_is_crawler,

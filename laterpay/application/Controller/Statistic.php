@@ -60,7 +60,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         }
 
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
             $this->logger->warning(
                 __METHOD__. ' - post is not purchasable',
                 array(
