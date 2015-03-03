@@ -40,9 +40,10 @@ gulp.task('clean', function(cb) {
     del([p.distJS + '*.js', p.distCSS + '*.css'], cb);
 });
 
-// CSS related tasks
+// CSS-related tasks
 gulp.task('css-watch', function() {
     gulp.src(p.srcSCSS)
+        .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .on('error', notify.onError())
@@ -52,6 +53,7 @@ gulp.task('css-watch', function() {
 
 gulp.task('css-build', function() {
     gulp.src(p.srcSCSS)
+        .pipe(sourcemaps.init())
         .pipe(sass())
         .on('error', notify.onError())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
@@ -59,7 +61,7 @@ gulp.task('css-build', function() {
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
-// Javascript related tasks
+// Javascript-related tasks
 gulp.task('js-watch', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(cached('hinting'))                                                // only process modified files
@@ -91,7 +93,7 @@ gulp.task('js-format', function() {
             .pipe(gulp.dest(p.srcJS));
 });
 
-// Image related tasks
+// Image-related tasks
 gulp.task('img-build', function() {
     gulp.src(p.srcSVG)
         .pipe(svgmin())                                                         // compress with svgmin
