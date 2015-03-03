@@ -62,16 +62,16 @@
         display: block;
         font-size: 6em;
         height: 0;
-        left: -108px;   /* 1 */
+        left: -108px; /* 1 */
         line-height: 0;
         position: relative;
-        top: 8px;   /* 1 */
+        top: 8px; /* 1 */
     }
 }
 
 // toggle visibility of statistics pane --------------------------------------------------------------------------------
 .lp_post-statistics__visibility-toggle {
-    background-color: $background--darker;
+    background: $background--darker;
     border-radius: 3px 0 0 3px;
     color: $clickable;
     height: 45px;
@@ -96,7 +96,6 @@
         color: $clickable--highlight;
     }
 }
-
 
 // hidden statistics pane
 .lp_post-statistics.lp_is-hidden {
@@ -123,6 +122,7 @@
 // statistics pane body with actual post statistics --------------------------------------------------------------------
 .lp_post-statistics {
 
+// FIXME: this whole block looks really wrong. Very repetitive, not componentized at all :-(
 
     // values of key performance indicators (KPI)
     .lp_post-statistics__value {
@@ -149,16 +149,15 @@
         padding: 0;
     }
 
-
     // details column, showing data for last 30 days
     .lp_post-statistics__details {
         margin: 0 0 0 0.75em;
 
         .lp_post-statistics__item {
             display: inline-block;
-            font-size: 1em;
-            margin: 1em 0 0;
-            padding: 0.5em 0 0;
+            font-size: $fs;
+            margin: $fs 0 0;
+            padding: $fs--05 0 0;
             text-align: right;
             width: 37%;
 
@@ -196,14 +195,13 @@
         }
     }
 
-
     // totals column, showing current day's data
     .lp_post-statistics__totals {
-        background-color: $background--lightest;
+        background: $background--lightest;
 
         .lp_post-statistics__item {
             display: inline-block;
-            font-size: 1em;
+            font-size: $fs;
             margin: 0;
             padding: 0.65em 0 0.75em;
             text-align: right;
@@ -215,14 +213,13 @@
         }
     }
 
-
     // separator between different KPI
     .lp_post-statistics__separator {
         margin: 1em 0 -2em 0.75em;
 
         .lp_post-statistics__item {
             display: inline-block;
-            font-size: 1em;
+            font-size: $fs;
             margin: 0 0 0 2%;
             padding: 0;
             text-align: center;
@@ -235,7 +232,7 @@
         }
 
         .lp_post-statistics__text {
-            background-color: $background--darker;
+            background: $background--darker;
             display: inline;
             font-size: 0.75em;
             margin: 0;
@@ -272,7 +269,7 @@
 
 // Chrome browser hack -------------------------------------------------------------------------------------------------
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-
+// FIXME: this is so completely and utterly wrong :-( :-(
     .lp_post-statistics .lp_post-statistics__details .lp_sparkline-bar__background + svg.peity {
         margin-top: -48px;
     }

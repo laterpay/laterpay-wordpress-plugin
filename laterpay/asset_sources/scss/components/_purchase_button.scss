@@ -7,12 +7,11 @@
     display: block !important;
     font-family: Arial, sans-serif !important;
     font-size: $fs !important;
-    font-weight: 400 !important;
+    font-weight: normal !important;
     margin: 1em 0 0 !important;
     position: relative !important;
     text-decoration: none !important;
     z-index: $zindex--elevated-1 !important;
-
 
     /**
      * LaterPay logo (rendered in pseudo element from icon font)
@@ -27,7 +26,6 @@
         position: relative !important;
         top: 0.31em !important;
     }
-
 
     // currency ISO code
     .lp_purchase-link__currency {
@@ -54,13 +52,12 @@
     color: $text--inverse !important;
     cursor: pointer !important;
     float: right !important;
-    font-size: 28px !important;
+    font-size: $fs--2 !important;
     line-height: 1.1 !important;
     margin: 0 !important;
     padding: 0.2em 0.2em 0.1em 0 !important;
     text-shadow: 0 -1px 0 hsl(166, 65%, 38%) !important;
     white-space: nowrap !important;
-
 
     /**
      * LaterPay logo (rendered in pseudo element from icon font)
@@ -93,7 +90,7 @@
     .lp_purchase-link__currency {
         bottom: 0.7em !important;
         color: $text--inverse !important;
-        font-size: 0.5em !important;
+        font-size: $fs--05 !important;
         padding-left: 4px !important;
         position: relative !important;
         text-decoration: none !important;
@@ -103,7 +100,6 @@
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:567px) {
-
     .lp_button {
         margin-left: 2.75em !important;
         margin-top: 0.5em !important;

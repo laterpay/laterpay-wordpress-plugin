@@ -48,8 +48,8 @@
  * 1. some browsers (e.g. IE10) require both height and width to render the star as intended
  */
 .lp_rating__star {
-    height: 1em;   /* 1 */
-    width: 1em;   /* 1 */
+    height: 1em; /* 1 */
+    width: 1em; /* 1 */
 }
 
 .lp_rating__star svg {
@@ -88,14 +88,14 @@
 .lp_rating .lp_rating__star,
 .lp_rating:hover .lp_rating__star {
     cursor: pointer;
-    float: right;   /* 3 */
-    height: 1.5em;   /* 4 */
+    float: right; /* 3 */
+    height: 1.5em; /* 4 */
     margin-left: 0.1em;
-    width: 1.5em;   /* 4 */
+    width: 1.5em; /* 4 */
 
     &:hover svg,
-    &:hover ~ .lp_rating__star svg,   /* 1 */
-    &:checked ~ .lp_rating__star svg {   /* 2 */
+    &:hover ~ .lp_rating__star svg, /* 1 */
+    &:checked ~ .lp_rating__star svg { /* 2 */
         fill: $clickable--highlight;
     }
 }
@@ -123,7 +123,6 @@
      text-align: center;
  }
 
-
 /**
  * store ratings in (hidden) radio buttons
  */
@@ -148,19 +147,16 @@
     top: 2.75em;
     width: 8em;
 
-
     /* show the details when hovering the results */
     &:hover .lp_rating-results__distribution {
         display: block;
     }
 }
 
-
 /* average rating and number of votes displayed beneath purchase button */
 .lp_rating-results__aggregated-result {
     line-height: 1.1;
 }
-
 
 /**
  * popover with distribution of ratings
@@ -176,15 +172,14 @@
     border-radius: 3px;
     box-sizing: content-box !important;
     display: none;
-    left: 50%;   /* 1 */
-    line-height: 1;   /* 1 */
-    margin-left: -8.33em;   /* 1 */
+    left: 50%; /* 1 */
+    line-height: 1; /* 1 */
+    margin-left: -8.33em; /* 1 */
     margin-top: 1em;
     padding: 1em;
     position: absolute;
     width: 13.5em;
     z-index: $zindex--overlayed-1;
-
 
     /* upward-pointing arrow */
     .lp_triangle {
@@ -197,7 +192,6 @@
         width: 0;
         z-index: $zindex--elevated-2;
     }
-
 
     /* border for upward-pointing arrow */
     .lp_triangle--outer-triangle {
@@ -227,7 +221,6 @@
         margin: 0 !important;
     }
 
-
     /* rating category (number of stars) */
     .lp_rating-results__distribution-item-value {
         width: 5.5em;
@@ -237,13 +230,11 @@
         width: 1em;
     }
 
-
     /* rating distribution (number of times the rating category was chosen) */
     .lp_rating-results__distribution-item-count {
         margin-bottom: 0;
         text-align: right;
     }
-
 
     /**
      * simple bar graph to display number of ratings per rating value
