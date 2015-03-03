@@ -33,16 +33,16 @@
                     <div class="lp_statistics-row lp_clearfix">
                         <ul class="lp_clearfix lp_statistics-row__list">
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Total number of sold time passes', 'laterpay' ); ?>">
-                                <big><?php echo $laterpay['passes']['summary']['sold']; ?></big>
+                                <big class="lp_statistics-row__value"><?php echo $laterpay['passes']['summary']['sold']; ?></big>
                                 <?php _e( 'Sold', 'laterpay' ); ?>
                             </li>
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Total number of active time passes', 'laterpay' ); ?>">
-                                <big><?php echo $laterpay['passes']['summary']['active']; ?></big>
+                                <big class="lp_statistics-row__value"><?php echo $laterpay['passes']['summary']['active']; ?></big>
                                 <?php _e( 'Active', 'laterpay' ); ?>
                             </li>
                             <?php if ( isset( $laterpay['passes']['summary']['unredeemed'] ) ): ?>
                                 <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Total number of unredeemed time pass vouchers', 'laterpay' ); ?>">
-                                    <big><?php echo $laterpay['passes']['summary']['unredeemed']; ?></big>
+                                    <big class="lp_statistics-row__value"><?php echo $laterpay['passes']['summary']['unredeemed']; ?></big>
                                     <?php _e( 'Unredeemed', 'laterpay' ); ?>
                                 </li>
                             <?php endif; ?>
