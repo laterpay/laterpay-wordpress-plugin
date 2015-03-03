@@ -145,7 +145,7 @@ function laterpay_get_plugin_config() {
      *
      * @var array
      */
-    $default_api_settings = array(
+    $api_settings = array(
         'api.sandbox_backend_api_url'   => get_option( 'laterpay_sandbox_backend_api_url' ),
         'api.sandbox_dialog_api_url'    => get_option( 'laterpay_sandbox_dialog_api_url' ),
         'api.live_backend_api_url'      => get_option( 'laterpay_live_backend_api_url' ),
@@ -153,17 +153,6 @@ function laterpay_get_plugin_config() {
         'api.merchant_backend_url'      => get_option( 'laterpay_api_merchant_backend_url' ),
     );
 
-    /**
-     * Plugin filter for manipulating the API endpoint URLs.
-     *
-     * @param array $api_settings
-     *
-     * @return array $api_settings
-     */
-    $api_settings = apply_filters( 'laterpay_get_api_settings', $default_api_settings );
-    if ( ! is_array( $api_settings ) ) {
-        $api_settings = $default_api_settings;
-    }
     // non-editable settings for the LaterPay API
     $api_settings['api.token_name']           = 'token';
     $api_settings['api.sandbox_merchant_id']  = 'LaterPay-WordPressDemo';
@@ -204,22 +193,6 @@ function laterpay_get_plugin_config() {
         'content.show_purchase_button'                      => get_option( 'laterpay_show_purchase_button' ),
         'content.enabled_post_types'                        => $enabled_post_types ? $enabled_post_types : array(),
     );
-
-    /**
-     * Content filter to change the settings for preview output.
-     *
-     * @var array $content_settings
-     *
-     * @return array $content_settings array(
-     *                                     'content.auto_generated_teaser_content_word_count'   => Integer - Number of words used for automatically extracting teaser content for paid posts,
-     *                                     'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
-     *                                     'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
-     *                                     'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
-     *                                     'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
-     *                                     'content.enabled_post_types'                         => Array - allowed post_types that support LaterPay purchases
-     *                                  );
-     */
-    $content_settings = apply_filters( 'laterpay_get_content_settings', $content_settings );
     $config->import( $content_settings );
 
     /**
@@ -243,13 +216,6 @@ function laterpay_get_plugin_config() {
         // on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
         'browscap.manually_updated_copy'    => null,
     );
-
-    /**
-     * @var array $browscap_settings
-     *
-     * @return array $browscap_settings
-     */
-    $browscap_settings = apply_filters( 'laterpay_get_browscap_settings', $browscap_settings );
     $config->import( $browscap_settings );
 
     // cache the config
