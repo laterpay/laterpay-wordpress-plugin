@@ -1,7 +1,7 @@
 // 'Account' tab in plugin backend
 
 // API credentials -----------------------------------------------------------------------------------------------------
-.lp_1/2 {
+.lp_1\/2 {
 
     ul.lp_clearfix {
         margin: 1.25em 0 -0.8em;
@@ -22,13 +22,13 @@
 
 
 // Chrome browser hack
-.lp_1/2 fieldset form:first-of-type:not(*:root) {
+.lp_1\/2 fieldset form:first-of-type:not(*:root) {
     display: inline;
 }
 
 
 // render icons from icon font in pseudo elements
-.lp_1/2.lp_api-credentials[data-icon] {
+.lp_1\/2.lp_api-credentials[data-icon] {
 
     &:before {
         color: $border;
@@ -50,7 +50,7 @@
     }
 }
 
-.lp_1/2.lp_api-credentials--live[data-icon].lp_is-live:before {
+.lp_1\/2.lp_api-credentials--live[data-icon].lp_is-live:before {
     color: $laterpay-brand;
 }
 

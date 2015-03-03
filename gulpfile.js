@@ -2,12 +2,10 @@ var autoprefixer    = require('gulp-autoprefixer'),
     cached          = require('gulp-cached'),
     csslint         = require('gulp-csslint'),
     del             = require('del'),
-    fixmyjs         = require('gulp-fixmyjs'),
     git             = require('gulp-git'),
     gulp            = require('gulp'),
     jshint          = require('gulp-jshint'),
     lintspaces      = require('gulp-lintspaces'),
-    nib             = require('nib'),
     notify          = require('gulp-notify'),
     phpcs           = require('gulp-phpcs'),
     prettify        = require('gulp-jsbeautifier'),
@@ -24,7 +22,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
                                             './laterpay/asset_sources/js/*.js'
                                       ],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
-                        srcSCSS   : './laterpay/asset_sources/scss/*.scss',
+                        srcSCSS     : './laterpay/asset_sources/scss/*.scss',
                         srcJS       : './laterpay/asset_sources/js/',
                         srcSVG      : './laterpay/asset_sources/img/**/*.svg',
                         srcPNG      : './laterpay/asset_sources/img/**/*.png',
@@ -44,7 +42,10 @@ gulp.task('clean', function(cb) {
 gulp.task('css-watch', function() {
     gulp.src(p.srcSCSS)
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass({
+            errLogToConsole : true,
+            sourceComments  : 'normal'
+        }))
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .on('error', notify.onError())
         .pipe(sourcemaps.write('./maps'))                                       // write sourcemaps
@@ -54,7 +55,10 @@ gulp.task('css-watch', function() {
 gulp.task('css-build', function() {
     gulp.src(p.srcSCSS)
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass({
+            errLogToConsole : true,
+            sourceComments  : 'normal'
+        }))
         .on('error', notify.onError())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
         .pipe(sourcemaps.write('./maps'))                                       // write sourcemaps
