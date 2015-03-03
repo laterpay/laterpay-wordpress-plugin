@@ -365,9 +365,12 @@
             },
 
             abortLoadingDashboardData = function() {
-                if ( $o.xhrRequests.length < 1) {
+                if ($o.xhrRequests.length < 1) {
+                    // don't abort, if there is only one running request
                     return;
                 }
+
+                // abort all older requests, so only the current one is executed
                 $.each($o.xhrRequests, function(i, jqXHR) {
                     if (!jqXHR) {
                         return;
@@ -409,6 +412,7 @@
 
                 $.ajaxSetup({
                     beforeSend: function(jqXHR) {
+                        // add new request to array of running requests
                         $o.xhrRequests.push(jqXHR);
                     },
                     complete: function(jqXHR) {
@@ -682,7 +686,7 @@
 
             renderSparklines = function($context) {
                 var $sparkline = $('.lp_sparklineBar', $context),
-                // get the number of data points from the first matched sparkline
+                    // get the number of data points from the first matched sparkline
                     dataPoints = $sparkline.first().text().split(',').length;
 
                 if (dataPoints > 8) {
@@ -708,7 +712,7 @@
             },
 
             loadDashboard = function(refresh) {
-
+                // abort all older running requests to load dashboard data
                 abortLoadingDashboardData();
 
                 refresh = refresh || false;
