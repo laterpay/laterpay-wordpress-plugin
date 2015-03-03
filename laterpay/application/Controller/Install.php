@@ -379,7 +379,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             return;
         }
 
-        if ( get_option( 'laterpay_is_in_visible_test_mode' ) === null ) {
+        if ( get_option( 'laterpay_is_in_visible_test_mode' ) === false ) {
             add_option( 'laterpay_is_in_visible_test_mode', 0 );
         }
     }
