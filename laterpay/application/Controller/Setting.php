@@ -534,7 +534,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             $inputs_markup = '<input type="' . $type .'" name="' . $field['name'] . '" ' .
                             'class="regular-text ' . $class . '" value="' . $option_value . '">';
             if ( isset( $field['appended_text'] ) ) {
-                $inputs_markup .= '<dfn class="lp_appendedText">' . $field['appended_text'] . '<dfn>';
+                $inputs_markup .= '<dfn class="lp_appended-text">' . $field['appended_text'] . '<dfn>';
             }
         }
 

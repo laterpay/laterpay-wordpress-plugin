@@ -11,9 +11,9 @@
         <p></p>
     </div>
 
-    <div class="lp_navigation lp_u_relative">
+    <div class="lp_navigation lp_relative">
         <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
-            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator lp_u_absolute" data-icon="h">
+            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator lp_absolute" data-icon="h">
                 <h2 class="lp_plugin-mode-indicator__title"><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
                 <span class="lp_plugin-mode-indicator__text"><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
             </a>
@@ -26,12 +26,12 @@
         <div id="lp_js_timePassesKpiTab">
             <h1><?php _e( 'Time Pass Customer Lifecycle', 'laterpay' ); ?></h1>
 
-            <div class="lp_time-pass-lifecycle lp_u_clearfix">
-                <div class="lp_time-pass-lifecycle__kpi lp_u_w-1-4 lp_u_left">
+            <div class="lp_time-pass-lifecycle lp_clearfix">
+                <div class="lp_time-pass-lifecycle__kpi lp_1/4 lp_left">
                     <h2><?php _e( 'All Time Passes', 'laterpay' ); ?></h2>
 
-                    <div class="lp_statistics-row lp_u_clearfix">
-                        <ul class="lp_u_clearfix lp_statistics-row__list">
+                    <div class="lp_statistics-row lp_clearfix">
+                        <ul class="lp_clearfix lp_statistics-row__list">
                             <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Total number of sold time passes', 'laterpay' ); ?>">
                                 <big><?php echo $laterpay['passes']['summary']['sold']; ?></big>
                                 <?php _e( 'Sold', 'laterpay' ); ?>
@@ -47,7 +47,7 @@
                                 </li>
                             <?php endif; ?>
                         </ul>
-                        <ul class="lp_u_clearfix lp_statistics-row__list">
+                        <ul class="lp_clearfix lp_statistics-row__list">
                             <li class="lp_tooltip lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Total value of sold time passes', 'laterpay' ); ?>">
                                 <big class="lp_statistics-row__value"><?php echo $laterpay['passes']['summary']['committed_revenue']; ?><small class="lp_statistics-row__text-small"><?php echo $laterpay['currency']; ?></small></big>
                                 <?php _e( 'Committed Revenue', 'laterpay' ); ?>
@@ -56,20 +56,20 @@
                     </div>
                 </div>
 
-                <div class="lp_u_w-3-4 lp_u_left">
+                <div class="lp_3/4 lp_left">
                     <div class="lp_js_timepassDiagram lp_dashboard-graph" data-id="0" style="width:600px;"></div>
                 </div>
             </div>
 
             <?php if ( isset( $laterpay['passes']['individual'] ) ): ?>
                 <?php foreach( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
-                    <div class="lp_time-pass-lifecycle lp_u_clearfix">
-                        <div class="lp_time-pass-lifecycle__kpi lp_u_w-1-4 lp_u_left">
+                    <div class="lp_time-pass-lifecycle lp_clearfix">
+                        <div class="lp_time-pass-lifecycle__kpi lp_1/4 lp_left">
                             <h2><?php echo sprintf( __( 'Time pass \'%s\'', 'laterpay' ), $pass['data']['title'] ); ?></h2>
                             <dfn><?php echo LaterPay_Helper_TimePass::get_description( $pass['data'], true ); ?></dfn>
 
-                            <div class="lp_statistics-row lp_u_clearfix">
-                                <ul class="lp_u_clearfix lp_statistics-row__list">
+                            <div class="lp_statistics-row lp_clearfix">
+                                <ul class="lp_clearfix lp_statistics-row__list">
                                     <li class="lp_tooltip lp_statistics-row__item" data-tooltip="<?php _e( 'Number of sold time passes', 'laterpay' ); ?>">
                                         <big class="lp_statistics-row__value"><?php echo $pass['sold']; ?></big>
                                         <?php _e( 'Sold', 'laterpay' ); ?>
@@ -94,7 +94,7 @@
                             </div>
                         </div>
 
-                        <div class="lp_u_w-3-4 lp_u_left">
+                        <div class="lp_3/4 lp_left">
                             <div class="lp_js_timepassDiagram lp_dashboard-graph" data-id="<?php echo $pass_id; ?>" style="width:600px;"></div>
                         </div>
                     </div>

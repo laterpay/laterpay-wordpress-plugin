@@ -7,15 +7,15 @@
     margin: 0.5em 4em 0.25em 1.75em;
     width: 300px;
 
-	&.lp_preview-mode__image--teaser-only {
-		background-image: url('../img/preview-mode-1.png');
-		background-size: 100%;
-	}
+    &.lp_preview-mode__image--teaser-only {
+        background-image: url('../img/preview-mode-1.png');
+        background-size: 100%;
+    }
 
-	&.lp_preview-mode__image--teaser-and-content {
-		background-image: url('../img/preview-mode-2.png');
-		background-size: 100%;
-	}
+    &.lp_preview-mode__image--teaser-and-content {
+        background-image: url('../img/preview-mode-2.png');
+        background-size: 100%;
+    }
 }
 
 
@@ -29,7 +29,7 @@
 }
 
 .lp_code-snippet {
-    background-color: $background--lightest;
+    background: $background--lightest;
     border: 1px solid $border--darker;
     border-radius: 3px;
     margin: $fs--075 0 0 125px;

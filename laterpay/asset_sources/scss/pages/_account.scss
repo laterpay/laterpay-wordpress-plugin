@@ -1,34 +1,34 @@
 // 'Account' tab in plugin backend
 
 // API credentials -----------------------------------------------------------------------------------------------------
-.lp_u_w-1-2 {
+.lp_1/2 {
 
-    ul.lp_u_clearfix {
+    ul.lp_clearfix {
         margin: 1.25em 0 -0.8em;
 
         .lp_icon-spacer {
-            width: 84px;
+            width: (6 * $fs);
         }
     }
 
     fieldset {
-        min-height: 165px;
+        min-height: (12 * $fs);
 
         form:first-of-type {
-            margin-top: 2em;
+            margin-top: $fs--2;
         }
     }
 }
 
 
 // Chrome browser hack
-.lp_u_w-1-2 fieldset form:first-of-type:not(*:root) {
+.lp_1/2 fieldset form:first-of-type:not(*:root) {
     display: inline;
 }
 
 
 // render icons from icon font in pseudo elements
-.lp_u_w-1-2.lp_api-credentials[data-icon] {
+.lp_1/2.lp_api-credentials[data-icon] {
 
     &:before {
         color: $border;
@@ -36,28 +36,27 @@
         z-index: $zindex--recessed;
     }
 
-	&.lp_api-credentials--sandbox:before {
-		font-size: 90px;
-		left: 26px;
-		top: 57px;
-	}
+    &.lp_api-credentials--sandbox:before {
+        font-size: 90px;
+        left: 26px;
+        top: 57px;
+    }
 
-	&.lp_api-credentials--live:before {
-		font-size: 75px;
-		left: 15px;
-		margin: 0.1em 0 0 1px;
-		top: 72px;
-	}
+    &.lp_api-credentials--live:before {
+        font-size: 75px;
+        left: 15px;
+        margin: 0.1em 0 0 1px;
+        top: 72px;
+    }
 }
 
-.lp_u_w-1-2.lp_api-credentials--live[data-icon].lp_is-live:before {
-	color: $laterpay-brand;
+.lp_1/2.lp_api-credentials--live[data-icon].lp_is-live:before {
+    color: $laterpay-brand;
 }
 
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1050px) {
-
     .lp_api-credentials {
 
         &.lp_api-credentials--sandbox[data-icon]:before {

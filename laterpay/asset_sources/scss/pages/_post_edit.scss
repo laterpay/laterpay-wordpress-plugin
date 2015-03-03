@@ -2,7 +2,7 @@
 
 // LaterPay vector logo for pricing and teaser metabox -----------------------------------------------------------------
 #lp_post-pricing,
-#lp_post-teaser {
+#lp_post-teaser { // WordPress selectors
 
     h3 span {
         left: 6.25em;
@@ -36,7 +36,6 @@
 // pricing metabox -----------------------------------------------------------------------------------------------------
 #lp_post-pricing a {
     text-decoration: none!important;
-
 
     // remove dotted outline and box shadows from links
     &:focus,
@@ -77,7 +76,6 @@
 .lp_price-type {
     border: 1px solid $border;
     border-radius: 3px;
-
 
     // switch for selecting price type
     .lp_price-type__list {
@@ -201,7 +199,7 @@
     }
 }
 
-.lp_dynamic-pricing-toggle ,
+.lp_dynamic-pricing-toggle,
 .lp_dynamic-pricing-reset {
     padding: 0.75em 0.25em 0;
 }
@@ -212,5 +210,5 @@
     color: hsl(0, 0%, 60%);
     display: block;
     font-style: italic;
-    margin: 1em 0;
+    margin: $fs 0;
 }

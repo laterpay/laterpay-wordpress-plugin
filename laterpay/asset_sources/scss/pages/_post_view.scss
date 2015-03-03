@@ -28,7 +28,7 @@
 
     a {
         color: hsl(0, 0%, 100%);
-        padding: 0.75rem;
+        padding: $fs--075;
         text-decoration: none;
     }
 }
@@ -42,8 +42,8 @@
 
 // content preview mode 2: teaser + excerpt from actual content, covered by overlay ------------------------------------
 .lp_paid-content {
-    bottom: 1em !important;
-    margin-bottom: 5em !important;
+    bottom: $fs !important;
+    margin-bottom: (5 * $fs) !important;
     min-height: 500px !important;
     position: relative !important;
     top: 0 !important;
@@ -58,7 +58,7 @@
     // obfuscate excerpt of full post content by making it look blurred
     .lp_full-content {
         color: transparent !important;
-        padding: 0.25em !important;
+        padding: $fs--025 !important;
         text-shadow: 0 0 4px hsl(0, 0%, 0%) !important;
     }
 
@@ -99,7 +99,7 @@
 
                 .lp_benefits__title {
                     color: $text--inverse !important;
-                    font-size: 28px !important;
+                    font-size: $fs--2 !important;
                     font-weight: lighter !important;
                     line-height: 1.05 !important;
                     margin: 0 !important;
@@ -116,17 +116,17 @@
                     color: $text--inverse !important;
                     display: block !important;
                     font-size: 200px !important;
-                    height: 42px !important;
+                    height: $fs--3 !important;
                     line-height: 0 !important;
-                    left: 28px !important;  /* 1 */
+                    left: $fs--2 !important; /* 1 */
                     position: relative !important;
                     text-align: center !important;
-                    top: -84px !important; /* 1 */
+                    top: -(7 * $fs) !important; /* 1 */
                 }
             }
 
             ul {
-                margin: 0.5em 1em 0 !important;
+                margin: $fs--05 $fs 0 !important;
                 padding: 0 !important;
             }
 
@@ -138,11 +138,11 @@
 
                 .lp_benefit__title {
                     color: hsl(135, 38%, 49%) !important;
-                    font-size: 1.25em !important;
+                    font-size: $fs--125 !important;
                     font-style: normal !important;
                     font-weight: bold !important;
                     line-height: 1.3 !important;
-                    margin: 1.25em 0 0.1em !important;
+                    margin: $fs--125 0 0.1em !important;
                 }
 
                 p {
@@ -171,9 +171,9 @@
             .lp_purchase-link.lp_button {
                 display: inline-block !important;
                 float: none !important;
-                margin-top: 1em !important;
-                margin-bottom: 1em !important;
-                margin-left: 6em !important;
+                margin-top: $fs !important;
+                margin-bottom: $fs !important;
+                margin-left: (6 * $fs) !important;
             }
 
             .lp_powered-by {
@@ -190,7 +190,7 @@
 
                     &:before {
                         color: hsl(0, 0%, 77%) !important;
-                        font-size: 6em !important;
+                        font-size: (6 * $fs) !important;
                         line-height: 0 !important;
                         padding-left: 0.05em !important;
                         position: relative !important;
@@ -205,10 +205,8 @@
 
 // Chrome browser hacks
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-
     .lp_benefits .lp_powered-by {
         margin-top: 1.5em !important;
-
 
         // LaterPay logo (rendered in pseudo element from icon font)
         span[data-icon]:before {
@@ -232,20 +230,20 @@
     .lp_button,
     .lp_purchase-link.lp_button,
     .lp_purchaseLinkShortcode.lp_button {
-        font-size: 21px !important;
+        font-size: $fs--15 !important;
         margin: 0 !important;
         right: 0.45em !important;
-        top: 0.5em !important;
+        top: $fs--05 !important;
 
         &:before {
-            font-size: 36px !important;
+            font-size: round(2.5 * $fs) !important;
             left: -2px !important;
         }
     }
 
     .lp_button {
-        padding-right: 0.5em !important;
-        padding-left: 0.5em !important;
+        padding-right: $fs--05 !important;
+        padding-left: $fs--05 !important;
         position: relative !important;
         text-decoration: none !important;
     }
@@ -272,8 +270,6 @@
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-
-
     // serve retina images for hires displays
     .lp_contentTypeText {
         background-image: url('../img/premium-text_2x.png');
@@ -302,7 +298,7 @@
     bottom: 0 !important;
     box-sizing: border-box !important;
     color: hsl(0, 0%, 53%) !important;
-    font-size: 14px !important;
+    font-size: $fs !important;
     font-style: normal !important;
     line-height: 1.2 !important;
     padding: 10px !important;
@@ -311,8 +307,8 @@
 
     h3 {
         color: $text !important;
-        font-size: 14px !important;
-        font-weight: 600 !important;
+        font-size: $fs !important;
+        font-weight: bold !important;
         margin: 0 !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
@@ -337,8 +333,8 @@
     background-color: hsl(0, 73%, 64%) !important;
     border-radius: 3px !important;
     color: $text--inverse !important;
-    margin: 1em 2em !important;
-    padding: 0.5em 1em !important;
+    margin: $fs $fs--2 !important;
+    padding: $fs--05 $fs !important;
 }
 
 
@@ -352,7 +348,6 @@
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:567px) {
-
     .lp_overlay-text .lp_benefits {
 
         .lp_benefits__title {
@@ -360,7 +355,7 @@
         }
 
         ul {
-            margin: 0 0.5em !important;
+            margin: 0 $fs--05 !important;
         }
 
         li br {
@@ -368,7 +363,7 @@
         }
 
         .lp_purchase-link.lp_button {
-            margin-left: 2em !important;
+            margin-left: $fs--2 !important;
         }
     }
 

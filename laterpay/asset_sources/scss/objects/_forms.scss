@@ -3,7 +3,7 @@ input[type=number].lp_input,
 input[type=text].lp_input,
 textarea.lp_input,
 select.lp_input {
-    background-color: $background--lightest;
+    background: $background--lightest;
     border-radius: 4px;
     border: 2px solid $border;
     box-shadow: none;
@@ -42,14 +42,12 @@ input[type=text].lp_account-input__input {
     width: 22em;
 }
 
-
 // number inputs
 input[type=text].lp_number-input {
     padding: 0.25em 0.35em;
     text-align: right;
     width: 4em;
 }
-
 
 // iconized inputs
 .lp_iconized-input {
@@ -59,8 +57,7 @@ input[type=text].lp_number-input {
     position: absolute;
 }
 
-
-// select2 selects
+// select2 selects (vendor component)
 .lp_page {
 
     .select2-container {
@@ -114,7 +111,6 @@ input[type=text].lp_number-input {
 
         li {
             margin-bottom: 0;
-
 
             // apply border-radius to last element to ensure it does not overlap its container's border;
             // radius reduced to compensate for line width of container
@@ -189,9 +185,8 @@ input[type=text][required] {
 }
 
 
-// styled radio buttons and checkboxes  --------------------------------------------------------------------------------
+// styled radio buttons and checkboxes ---------------------------------------------------------------------------------
 .ez-mark {
-    /*display: inline;*/
     cursor: pointer;
     display: inline-block;
     margin-right: 0.1em;
@@ -259,7 +254,7 @@ label:hover .ez-mark {
 
 // revenue model labels ------------------------------------------------------------------------------------------------
 .lp_revenue-model {
-    background-color: $background--darker;
+    background: $background--darker;
     border-radius: 3px;
     color: $clickable;
     display: inline-block;
@@ -275,7 +270,7 @@ label:hover .ez-mark {
 }
 
 label.lp_revenue-model:hover {
-    background-color: $clickable--highlight;
+    background: $clickable--highlight;
     color: $text--inverse;
 }
 
@@ -284,11 +279,11 @@ label.lp_revenue-model:hover {
 }
 
 .lp_revenue-model.lp_is-selected {
-    background-color: $laterpay-brand;
+    background: $laterpay-brand;
     color: $text--inverse;
 
     &:hover {
-        background-color: $laterpay-brand;
+        background: $laterpay-brand;
         cursor: default;
     }
 }

@@ -2,11 +2,11 @@
 .lp_loading-indicator {
     background-image: url(../img/spinner.svg);
     background-size: contain;
-    height: 2rem;
-    margin: 20px auto;
+    height: $fs--2;
+    margin: $fs--2 auto;
     @include opacity(0.7);
     position: relative;
-    width: 2rem;
+    width: $fs--2;
     animation: rotate 1.2s infinite steps(12);
 }
 

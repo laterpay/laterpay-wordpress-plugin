@@ -4,7 +4,10 @@
     font-style: normal;
     font-weight: normal;
     src: url('../fonts/laterpay-wordpress-icons_v099.eot');
-    src: url('../fonts/laterpay-wordpress-icons_v099.eot?#iefix') format('embedded-opentype'), url('../fonts/laterpay-wordpress-icons_v099.woff') format('woff'), url('../fonts/laterpay-wordpress-icons_v099.ttf') format('truetype'), url('../fonts/laterpay-wordpress-icons_v099.svg#laterpay-wordpress-icons') format('svg');
+    src: url('../fonts/laterpay-wordpress-icons_v099.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/laterpay-wordpress-icons_v099.woff') format('woff'),
+        url('../fonts/laterpay-wordpress-icons_v099.ttf') format('truetype'),
+        url('../fonts/laterpay-wordpress-icons_v099.svg#laterpay-wordpress-icons') format('svg');
 }
 
 
@@ -28,8 +31,8 @@
 }
 
 .icon {
-    height: 42px;
-    width: 42px;
+    height: $fs--3;
+    width: $fs--3;
     display: inline-block;
     fill: currentColor;
 }

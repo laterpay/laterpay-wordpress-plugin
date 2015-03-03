@@ -2,7 +2,7 @@
 
 // Heading -------------------------------------------------------------------------------------------------------------
 .lp_dashboard-title {
-    font-weight: 400;
+    font-weight: normal;
     margin: $fs--2 0 $fs;
     position: relative;
     text-align: center;
@@ -48,7 +48,7 @@
 
 
 // Diagrams ------------------------------------------------------------------------------------------------------------
-.lp_u_w-1-3 {
+.lp_1/3 {
     float: left;
 
     h2 {
@@ -97,6 +97,7 @@
     padding: 0;
 }
 
+// FIXME: god no. This is a .kpi component!
 .lp_statistics-row__value {
     color: $text;
     display: block;
@@ -181,7 +182,6 @@
 // Time pass customer lifecycle statistics -----------------------------------------------------------------------------
 .lp_time-pass-lifecycle {
     margin-bottom: $fs--2;
-
 
     /* separate the different graphs with a border */
     &:nth-child(n+3) {

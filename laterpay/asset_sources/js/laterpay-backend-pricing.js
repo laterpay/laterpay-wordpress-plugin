@@ -127,7 +127,7 @@
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
-                hidden                                  : 'lp_u_hide',
+                hidden                                  : 'lp_hidden',
             },
 
             bindEvents = function() {
@@ -726,11 +726,11 @@
                 // show time pass
                 $timePass
                 .slideDown(250, function() {
-                    $(this).removeClass('lp_u_hide');
+                    $(this).removeClass('lp_hidden');
                 })
                 .find($o.timePassForm)
                 .slideDown(250, function() {
-                    $(this).removeClass('lp_u_hide');
+                    $(this).removeClass('lp_hidden');
                 });
             },
 
@@ -742,12 +742,12 @@
                 populateTimePassForm($timePass);
 
                 // hide action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_u_hide');
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_hidden');
 
                 // show action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass('lp_u_hide');
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass('lp_hidden');
 
-                $timePassForm.removeClass('lp_u_hide');
+                $timePassForm.removeClass('lp_hidden');
             },
 
             populateTimePassForm = function($timePass) {
@@ -858,10 +858,10 @@
                 // #656: unbind events
 
                 // show action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_hidden');
 
                 // hide action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
 
                 // show "add time pass" button, if it is hidden
                 if ($o.addTimePass.is(':hidden')) {
@@ -898,9 +898,9 @@
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');
+                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
+                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_hidden');
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
                                 });
@@ -924,14 +924,14 @@
 
                                 // hide action links required when editing time pass
                                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass)
-                                .addClass('lp_u_hide');
+                                .addClass('lp_hidden');
                                 // show action links required when displaying time pass
                                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass)
-                                .removeClass('lp_u_hide');
+                                .removeClass('lp_hidden');
 
                                 $timePass.fadeOut(250, function() {
                                     $(this).remove();
-                                    $newTimePass.removeClass('lp_u_hide');
+                                    $newTimePass.removeClass('lp_hidden');
                                 });
                             }
                         }

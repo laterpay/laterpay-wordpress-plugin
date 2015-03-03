@@ -1,11 +1,10 @@
 .lp_page {
 
-
     // headings --------------------------------------------------------------------------------------------------------
     h2,
     h3 {
-        font-weight: 400;
-        margin: 1rem 0 0.5rem;
+        font-weight: normal;
+        margin: $fs 0 $fs--05;
     }
 
     h2 {
@@ -21,7 +20,6 @@
     // links -----------------------------------------------------------------------------------------------------------
     a {
         text-decoration: none;
-
 
         // remove dotted outline and box shadows from links
         &:active,

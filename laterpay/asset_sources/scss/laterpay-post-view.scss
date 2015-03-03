@@ -20,7 +20,7 @@
 
 // override a few default settings of the toggle
 .lp_toggle label.lp_toggle__label {
-    width: 4em;
+    width: (4 * $fs);
 
     .lp_toggle__input:checked ~ .lp_toggle__text {
         background-color: hsl(0, 0%, 80%);

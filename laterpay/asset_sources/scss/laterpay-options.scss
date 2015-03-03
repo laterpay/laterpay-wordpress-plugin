@@ -5,21 +5,21 @@
 @import 'objects/_variables';
 
 h3 {
-	margin: (4 * $fs) 0 $fs;
+    margin: (4 * $fs) 0 $fs;
 
-	&:first-of-type {
-		margin-top: $fs;
-	}
+    &:first-of-type {
+        margin-top: $fs;
+    }
 }
 
 .form-table {
-	margin-top: 0;
+    margin-top: 0;
 
-	th {
-		font-weight: normal;
-		padding-top: $fs;
-		padding-bottom: $fs--05;
-	}
+    th {
+        font-weight: normal;
+        padding-top: $fs;
+        padding-bottom: $fs--05;
+    }
 
     td {
         padding-top: $fs--05;
@@ -28,15 +28,15 @@ h3 {
 }
 
 .regular-text.lp_number-input {
-	text-align: right;
-	width: 4em;
+    text-align: right;
+    width: (4 * $fs);
 }
 
-.lp_appendedText {
-	color: $text--lighter;
-	padding-left: $fs--05;
+.lp_appended-text {
+    color: $text--lighter;
+    padding-left: $fs--05;
 }
 
 p.submit {
-	margin-top: (4 * $fs);
+    margin-top: (4 * $fs);
 }

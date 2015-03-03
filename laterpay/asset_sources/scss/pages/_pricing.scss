@@ -32,7 +32,7 @@ ul.lp_row li:nth-child(3) h2 + hr {
 }
 
 .lp_revenue-model__list {
-    width: 3.5em;
+    width: round(3.5 * $fs);
 }
 
 span.lp_revenue-model {
@@ -48,7 +48,7 @@ span.lp_revenue-model {
 .select2-search,
 .select2-search input {
     margin-bottom: 32px;
-    width: 10rem;
+    width: (10 * $fs);
 }
 
 .lp_price-settings__category-title {
@@ -114,12 +114,12 @@ span.lp_revenue-model {
     }
 
     .lp_save-link {
-        margin-top: 1em;
-        margin-left: 0.5em;
+        margin-top: $fs;
+        margin-left: $fs--05;
     }
 
     .lp_toggle__label-pass {
-        width: 3.5em;
+        width: round(3.5 * $fs);
 
         .lp_toggle__input:checked ~ .lp_toggle__text {
             background: hsl(0, 0%, 80%);
@@ -172,7 +172,6 @@ select.lp_is-disabled {
 
 // responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px) {
-
     .lp_edit-link {
         margin-left: $fs--05;
     }

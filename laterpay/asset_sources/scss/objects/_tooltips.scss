@@ -16,7 +16,6 @@
         z-index: $zindex--overlayed-1;
     }
 
-
     // downward-pointing arrow
     &:before {
         background: transparent;
@@ -27,7 +26,6 @@
         position: absolute;
         z-index: $zindex--overlayed-2;
     }
-
 
     // text content of the tooltip
     &:after {

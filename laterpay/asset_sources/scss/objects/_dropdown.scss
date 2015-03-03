@@ -18,7 +18,6 @@
         width: 0;
         z-index: $zindex--elevated-2;
 
-
         /* border for upward-pointing arrow */
         &.lp_triangle--outer-triangle {
             border-bottom-color: $border;
@@ -32,9 +31,8 @@
 }
 
 .lp_dropdown__current-item {
-	color: $clickable;
+    color: $clickable;
 }
-
 
 /* Reveal dropdown_list on hover or when state class 'is-expanded' is added */
 .lp_dropdown:hover,
@@ -65,16 +63,15 @@
     padding: $fs--05;
     white-space: nowrap;
 
+    /**
+     * Highlight the selected item and remove all styling that makes it look as if you could interact with it
+     */
+    &.lp_is-selected {
+        color: $text--lighter;
 
-	/**
-	 * Highlight the selected item and remove all styling that makes it look as if you could interact with it
-	 */
-	&.lp_is-selected {
-		color: $text--lighter;
-
-		&:hover {
-			color: $text--lighter;
-			cursor: default;
-		}
-	}
+        &:hover {
+            color: $text--lighter;
+            cursor: default;
+        }
+    }
 }
