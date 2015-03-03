@@ -7,11 +7,11 @@
 }
 
 .lp_post-statistics {
-    background-color: $background--darker;
+    background: $background--darker;
     border-radius: 0 0 0 3px;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
     color: hsl(0, 0%, 33%);
-    font-size: 14px;
+    font-size: $fs;
     line-height: 1.5;
     padding: 7px 5px 0 0;
     position: fixed;
@@ -22,8 +22,6 @@
     z-index: $zindex--overlayed-1;
 
     &:hover {
-
-
         // reveal link for hiding the statistics pane when it is hovered
         .lp_post-statistics__visibility-toggle {
             left: -45px;
@@ -39,8 +37,7 @@
         }
     }
 
-
-    // remove dotted outline and box shadows from .lp_postStatistics_visibilityToggle link
+    // remove dotted outline and box shadows from .lp_post-statistics__visibility-toggle link
     .lp_post-statistics__visibility-toggle,
     &:focus,
     &:active,
@@ -53,10 +50,9 @@
 .lp_post-statistics__title {
     font-size: 1.25em;
     font-style: normal;
-    font-weight: 400;
+    font-weight: normal;
     line-height: 1;
     margin: 0.4em 0 0.8em 6.75em;
-
 
     /**
      * LaterPay logo

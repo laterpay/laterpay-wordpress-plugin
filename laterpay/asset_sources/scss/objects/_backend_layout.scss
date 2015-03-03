@@ -22,7 +22,7 @@
     width: 100%;
 }
 
-.lp_page .lp_navigation-tabs {
+.lp_navigation-tabs {
     margin-left: $fs--2;
 }
 
@@ -57,7 +57,7 @@
         }
     }
 
-    &.lp_is-current{
+    &.lp_is-current {
         background-color: $background;
         border-radius: 4px 4px 0 0;
         border-top: 4px solid $clickable;
@@ -66,7 +66,7 @@
         > .lp_navigation-tabs__link {
             color: $text;
             cursor: default;
-            font-weight: 600;
+            font-weight: bold;
         }
     }
 }
@@ -76,11 +76,11 @@
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.21);
     border-radius: 0 0 3px 3px;
     display: none;
-	margin-top: -3px;
+    margin-top: -3px;
 }
 
 .lp_navigation-tabs__item.lp_is-current .lp_navigation-tabs__submenu {
-	background: $background;
+    background: $background;
 }
 
 
@@ -88,7 +88,6 @@
 .lp_plugin-mode-indicator {
     right: 7rem;
     top: 0.4rem;
-
 
     // LaterPay logo (rendered in pseudo element from icon font)
     &:before {
@@ -100,33 +99,31 @@
         top: 1.8rem;
     }
 
-	.lp_plugin-mode-indicator__title {
-		font-size: 2rem;
-		color: $clickable;
-	}
+    .lp_plugin-mode-indicator__title {
+        color: $clickable;
+        font-size: 2rem;
+    }
 
     &:active,
     &:focus,
     &:hover {
 
         &:before,
-		.lp_plugin-mode-indicator__title,
+        .lp_plugin-mode-indicator__title,
         i {
             color: $clickable--highlight;
         }
     }
 
     i {
-		color: $clickable;
+        color: $clickable;
         font-style: normal;
     }
 
-	.lp_plugin-mode-indicator__text {
-		color: hsl(0, 0%, 60%);
-	}
+    .lp_plugin-mode-indicator__text {
+        color: hsl(0, 0%, 60%);
+    }
 }
-
-
 
 
 // flash messages ------------------------------------------------------------------------------------------------------
@@ -147,14 +144,13 @@
     z-index: $zindex--elevated-1;
 }
 
-#contextual-help-link-wrap {// WordPress selector
+#contextual-help-link-wrap { // WordPress selector
     z-index: $zindex--elevated-2;
 }
 
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:1279px) {
-
     .lp_pagewrap {
         padding: 0;
     }

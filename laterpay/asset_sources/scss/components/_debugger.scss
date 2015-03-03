@@ -9,10 +9,10 @@
 }
 
 .lp_debugger {
-    background-color: $background--darker;
+    background: $background--darker;
     bottom: 0;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
-    font-size: 14px;
+    font-size: $fs;
     height: 35em;
     line-height: 1.3;
     overflow-y: hidden;
@@ -21,23 +21,23 @@
     width: 100%;
     z-index: $zindex--topmost-1;
 
-	.lp_debugger-header__title {
-		display: inline-block;
-		font-size: 1.25em;
-		font-weight: 400;
-		line-height: 1;
-		margin: 0.5em 0 0.5em 6.75em;
+    .lp_debugger-header__title {
+        display: inline-block;
+        font-size: 1.25em;
+        font-weight: normal;
+        line-height: 1;
+        margin: 0.5em 0 0.5em 6.75em;
 
-		&:before {
-			display: block;
-			font-size: 6em;
-			height: 0;
-			left: -1.02em;
-			line-height: 0;
-			position: relative;
-			top: 0.08em;
-		}
-	}
+        &:before {
+            display: block;
+            font-size: 6em;
+            height: 0;
+            left: -1.02em;
+            line-height: 0;
+            position: relative;
+            top: 0.08em;
+        }
+    }
 
     a {
         box-shadow: none;
@@ -54,36 +54,36 @@
 }
 
 .lp_debugger-header {
-	background-color: darken(hsl(0, 0%, 89%), 13%);
-	cursor: pointer;
-	height: 2.5em;
+    background: darken(hsl(0, 0%, 89%), 13%);
+    cursor: pointer;
+    height: 2.5em;
 }
 
 .lp_debugger-header__text {
-	line-height: 2.5em;
-	padding: 0 0.5em;
+    line-height: 2.5;
+    padding: 0 0.5em;
 }
 
 .lp_debugger__close-link {
-	color: $clickable;
-	font-weight: bold;
-	height: 2em;
-	line-height: 2em;
-	margin: $fs--025 $fs--025 0 0;
-	text-align: center;
-	transform: rotate(90deg);
-	transition: transform 0.2s;
-	width: 2em;
+    color: $clickable;
+    font-weight: bold;
+    height: 2em;
+    line-height: 2;
+    margin: $fs--025 $fs--025 0 0;
+    text-align: center;
+    transform: rotate(90deg);
+    transition: transform 0.2s;
+    width: 2em;
 
-	&:before {
-		line-height: 2em;
-		padding: 0 0 0 0.1em;
-		top: auto;
-	}
+    &:before {
+        line-height: 2;
+        padding: 0 0 0 0.1em;
+        top: auto;
+    }
 
-	&:hover {
-		color: $clickable--highlight;
-	}
+    &:hover {
+        color: $clickable--highlight;
+    }
 }
 
 .lp_debugger.lp_is-hidden {
@@ -102,10 +102,10 @@
     position: relative;
     z-index: $zindex;
 
-	.lp_is-selected {
+    .lp_is-selected {
         border-color: $border--darker $border--darker hsl(0, 0%, 90%);
 
-		.lp_debugger-tabs__link,
+        .lp_debugger-tabs__link,
         &:hover .lp_debugger-tabs__link {
             color: $text;
             cursor: default;
@@ -119,52 +119,52 @@
 }
 
 .lp_debugger-tabs__link {
-	color: $clickable;
-	display: block;
-	padding: $fs--05 $fs;
+    color: $clickable;
+    display: block;
+    padding: $fs--05 $fs;
 
-	&:hover {
-		color: $clickable--highlight;
+    &:hover {
+        color: $clickable--highlight;
 
-		span {
-			background-color: $clickable--highlight;
-		}
-	}
+        span {
+            background-color: $clickable--highlight;
+        }
+    }
 
-	span {
-		background-color: $clickable;
-		border-radius: 2px;
-		color: $text--inverse;
-		display: inline-block;
-		margin-left: $fs--05;
-		min-width: $fs--075;
-		padding: 1px 5px;
-		text-align: center;
-	}
+    span {
+        background: $clickable;
+        border-radius: 2px;
+        color: $text--inverse;
+        display: inline-block;
+        margin-left: $fs--05;
+        min-width: $fs--075;
+        padding: 1px 5px;
+        text-align: center;
+    }
 }
 
 .lp_debugger-tabs__item {
-	border: 1px solid transparent;
-	border-radius: 3px 3px 0 0;
-	float: left;
-	height: 2.5em;
-	list-style: none outside none;
-	margin: 0 2px -1px 0;
-	padding: 0;
+    border: 1px solid transparent;
+    border-radius: 3px 3px 0 0;
+    float: left;
+    height: 2.5em;
+    list-style: none outside none;
+    margin: 0 2px -1px 0;
+    padding: 0;
 
-	&:hover {
-		border-color: $border--darker $border--darker hsl(0, 0%, 90%);
-	}
+    &:hover {
+        border-color: $border--darker $border--darker hsl(0, 0%, 90%);
+    }
 }
 
 
 // debugging messages --------------------------------------------------------------------------------------------------
 .lp_debugger-content-list {
+    height: 29em;
     margin: 0 $fs--075 $fs;
-    padding: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    height: 29em;
+    padding: 0;
 
     .lp_debugger-content-list,
     .lp_debugger-content {
@@ -180,7 +180,6 @@
         border-bottom: 1px solid darken(hsl(0, 0%, 87%), 3%);
     }
 
-
     // TODO: state classes should only be used as adjoining classes
     .lp_is-hidden {
         display: none;
@@ -195,7 +194,6 @@
         top: 0.23em;
     }
 
-
     // infos
     .lp_debugger__log-level--100:before
     .lp_debugger__log-level--200:before
@@ -204,13 +202,11 @@
         content: 'm';
     }
 
-
     // warnings
     .lp_debugger__log-level--300:before {
         color: hsl(39, 100%, 50%);
         content: 'n';
     }
-
 
     // errors
     .lp_debugger__log-level--400:before
@@ -239,70 +235,69 @@
 }
 
 .lp_debugger-content__table-title {
-	cursor: pointer;
+    cursor: pointer;
 
-	.lp_debugger-content__table-th,
-	.lp_debugger-content__table-td {
-		transition: background-color 0.25s;
-	}
+    .lp_debugger-content__table-th,
+    .lp_debugger-content__table-td {
+        transition: background 0.25s;
+    }
 
-	&:hover .lp_debugger-content__table-th,
-	&:hover .lp_debugger-content__table-td {
-		background-color: $background--highlight;
-	}
+    &:hover .lp_debugger-content__table-th,
+    &:hover .lp_debugger-content__table-td {
+        background: $background--highlight;
+    }
 
-	.lp_debugger-content__table-td:last-child {
-		color: $text--lighter;
-		max-width: 10em;
-		text-align: right;
-	}
+    .lp_debugger-content__table-td:last-child {
+        color: $text--lighter;
+        max-width: 10em;
+        text-align: right;
+    }
 }
 
 .lp_debugger-content__table {
-	margin: 0;
-	width: 100%;
+    margin: 0;
+    width: 100%;
 
-	&.lp_is-hidden {
+    &.lp_is-hidden {
 
-		.lp_debugger-content__table-body .lp_debugger-content__table-th,
-		.lp_debugger-content__table-body .lp_debugger-content__table-td {
-			padding: 0 $fs--05 $fs--025;
-		}
+        .lp_debugger-content__table-body .lp_debugger-content__table-th,
+        .lp_debugger-content__table-body .lp_debugger-content__table-td {
+            padding: 0 $fs--05 $fs--025;
+        }
 
-		.lp_debugger-content__table-body .lp_debugger-content__table-th {
-			padding-left: 2.75em;
-			width: 12em;
-		}
-	}
+        .lp_debugger-content__table-body .lp_debugger-content__table-th {
+            padding-left: 2.75em;
+            width: 12em;
+        }
+    }
 }
 
 .lp_debugger-content__table,
 .lp_debugger-content__table-th,
 .lp_debugger-content__table-td {
-	border: 0 none;
-	border-collapse: collapse;
+    border: 0 none;
+    border-collapse: collapse;
 }
 
 .lp_debugger-content__table-th,
 .lp_debugger-content__table-td {
-	padding: $fs--05;
-	text-align: left;
-	vertical-align: top;
+    padding: $fs--05;
+    text-align: left;
+    vertical-align: top;
 }
 
 .lp_debugger-content__table-th {
-	color: $text--lighter;
-	font-weight: normal;
-	max-width: 12em;
-	overflow: hidden;
-	padding-left: $fs--05;
-	text-overflow: ellipsis;
-	width: 12em;
+    color: $text--lighter;
+    font-weight: normal;
+    max-width: 12em;
+    overflow: hidden;
+    padding-left: $fs--05;
+    text-overflow: ellipsis;
+    width: 12em;
 }
 
 
 // admin bar menu for toggling debugger pane ---------------------------------------------------------------------------
-// WordPress selector
-.ab-item {
+.ab-item { // WordPress selector
     cursor: pointer;
 }
