@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
 <div class="lp_rating-results">
     <div class="lp_rating-results__aggregated-result">

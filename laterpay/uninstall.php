@@ -1,7 +1,7 @@
 <?php
 
-// exit, if uninstall was not called from WordPress
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+    // exit, if uninstall was not called from WordPress
     exit;
 }
 
@@ -15,12 +15,14 @@ $table_postmeta     = $wpdb->postmeta;
 $table_usermeta     = $wpdb->usermeta;
 
 // remove custom tables
-$sql = "DROP TABLE IF EXISTS
-            $table_terms_price,
-            $table_history,
-            $table_post_views,
-            $table_time_passes;
-        ";
+$sql = "
+    DROP TABLE IF EXISTS
+        $table_terms_price,
+        $table_history,
+        $table_post_views,
+        $table_time_passes
+    ;
+";
 $wpdb->query( $sql );
 
 // remove pricing and voting data from wp_postmeta table
@@ -30,15 +32,16 @@ delete_post_meta_by_key( 'laterpay_rating' );
 delete_post_meta_by_key( 'laterpay_users_voted' );
 
 // remove user settings from wp_usermeta table
-$sql = "DELETE FROM
-            $table_usermeta
-        WHERE
-            meta_key IN (
-                'laterpay_preview_post_as_visitor',
-                'laterpay_hide_statistics_pane'
-            )
-        ;
-        ";
+$sql = "
+    DELETE FROM
+        $table_usermeta
+    WHERE
+        meta_key IN (
+            'laterpay_preview_post_as_visitor',
+            'laterpay_hide_statistics_pane'
+        )
+    ;
+";
 $wpdb->query( $sql );
 
 // remove global settings from wp_options table
@@ -53,6 +56,7 @@ delete_option( 'laterpay_sandbox_merchant_id' );
 delete_option( 'laterpay_live_api_key' );
 delete_option( 'laterpay_live_merchant_id' );
 delete_option( 'laterpay_plugin_is_in_live_mode' );
+delete_option( 'laterpay_is_in_visible_test_mode' );
 
 delete_option( 'laterpay_enabled_post_types' );
 
@@ -74,7 +78,7 @@ delete_option( 'laterpay_preview_excerpt_word_count_max' );
 
 delete_option( 'laterpay_show_purchase_button' );
 
-delete_option( 'laterpay_unlimited_access_to_paid_content' );
+delete_option( 'laterpay_unlimited_access' );
 
 delete_option( 'laterpay_bulk_operations' );
 

@@ -9,7 +9,6 @@
  */
 class LaterPay_Helper_Dashboard
 {
-    const TIME_PASSES_WEEKS = 13;
 
     /**
      * Helper function to load the cached data by a given file path.
@@ -58,7 +57,7 @@ class LaterPay_Helper_Dashboard
 
     /**
      * Callback for wp-ajax and wp-cron to refresh today's dashboard data.
-     * The Cron job provides two params for {x} days back and {n} count of items to
+     * The cron job provides two params for {x} days back and {n} count of items to
      * register your own cron with custom params to cache data.
      *
      * @wp-hook laterpay_refresh_dashboard_data
@@ -184,7 +183,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper function to format the amount in most-/least-items.
+     * Helper function to format the amount in most- / least-items.
      *
      * @param array     $items
      * @param int       $decimal
@@ -263,12 +262,11 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper Function to convert a wpdb-result to diagram data.
+     * Helper Function to convert a wpdb result to diagram data.
      *
      * @param array     $items array(
      *                      stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Mon
      *                          [day]       => 27
      *                      ),
      *                      ..
@@ -310,7 +308,7 @@ class LaterPay_Helper_Dashboard
             } else {
                 $data['x'][] = array(
                     $key,
-                    $item->day_name,
+                    date_i18n( 'D', strtotime( $item->date ) ),
                 );
                 $data['y'][] = array(
                     $key,
@@ -337,7 +335,6 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Monday
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -349,7 +346,8 @@ class LaterPay_Helper_Dashboard
      */
     public static function sort_items_by_date( $items ) {
         if ( empty( $items ) ) {
-            laterpay_get_logger()->warning( __METHOD__ . ' - empty items-array' );
+            laterpay_get_logger()->warning( __METHOD__ . ' - empty items array' );
+
             return array();
         }
 
@@ -376,7 +374,6 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Monday
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -388,13 +385,16 @@ class LaterPay_Helper_Dashboard
      */
     public static function sort_items_by_hour( $items ) {
         if ( empty( $items ) ) {
-            laterpay_get_logger()->warning( __METHOD__ . ' - empty items-array' );
+            laterpay_get_logger()->warning( __METHOD__ . ' - empty items array' );
+
             return array();
         }
+
         $items_by_hour = array();
         foreach ( $items as $item ) {
             $items_by_hour[ $item->hour ] = $item;
         }
+
         laterpay_get_logger()->info(
             __METHOD__,
             array(
@@ -402,6 +402,7 @@ class LaterPay_Helper_Dashboard
                 'output'    => $items_by_hour,
             )
         );
+
         return $items_by_hour;
     }
 
@@ -425,11 +426,10 @@ class LaterPay_Helper_Dashboard
         }
 
         for ( $i = 0; $i < $days; $i++ ) {
-            $time_stamp     = strtotime( '-' . $i . ' days', $start_timestamp );
-
+            $timestamp      = strtotime( '-' . $i . ' days', $start_timestamp );
             $item           = new stdClass();
-            $item->date     = gmdate( 'Y-m-d', $time_stamp );
-            $item->day_name = gmdate( 'D', $time_stamp );
+            $item->date     = date( 'Y-m-d', $timestamp );
+            $item->day_name = date_i18n( 'D', $timestamp );
 
             $last_days[]    = $item;
         }
@@ -457,15 +457,13 @@ class LaterPay_Helper_Dashboard
      */
     public static function fill_empty_days( $items, $last_days ) {
         foreach ( $last_days as $day_item ) {
-            $date       = $day_item->date;
-            $day_name   = $day_item->day_name;
+            $date     = $day_item->date;
+
             if ( ! array_key_exists( $date, $items ) ) {
                 $item           = new stdClass();
-                $item->day_name = $day_name;
                 $item->quantity = 0;
                 $item->date     = $date;
-
-                $items[$date] = $item;
+                $items[$date]   = $item;
             }
         }
 
@@ -493,19 +491,17 @@ class LaterPay_Helper_Dashboard
     public static function fill_empty_hours( $items, $start_timestamp ) {
         $filled_items = array();
 
-        $day = gmdate( 'd', $start_timestamp );
-        $date= gmdate( 'Y-m-d', $start_timestamp );
-
         for ( $hour = 0; $hour < 24; $hour++ ) {
             if ( ! array_key_exists( $hour, $items ) ) {
                 $item           = new stdClass();
                 $item->hour     = $hour;
-                $item->day      = $day;
-                $item->date     = $date;
+                $item->day      = date( 'd', $start_timestamp );
+                $item->date     = date( 'Y-m-d', $start_timestamp );
                 $item->quantity = 0;
             } else {
                 $item = $items[$hour];
             }
+
             $filled_items[$hour] = $item;
         }
 
@@ -520,36 +516,4 @@ class LaterPay_Helper_Dashboard
         return $filled_items;
     }
 
-    /**
-     * Prepare params for time passes graph.
-     *
-     * @param $pass_id
-     *
-     * @return array
-     */
-    public static function time_pass_expiry_diagram( $pass_id ) {
-        $data = array(
-            'x' => array(),
-            'y' => array(),
-        );
-
-        $expiry      = LaterPay_Helper_TimePass::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
-        $data['max'] = max( $expiry );
-
-        // add expiry data for the given number of weeks
-        $key = 0;
-        while ( $key <= self::TIME_PASSES_WEEKS ) {
-            $data['x'][] = array(
-                $key,
-                (string) $key
-            );
-            $data['y'][] = array(
-                $key,
-                $expiry[$key]
-            );
-            $key++;
-        }
-
-        return $data;
-    }
 }

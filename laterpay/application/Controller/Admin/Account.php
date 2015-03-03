@@ -45,13 +45,14 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         $this->load_assets();
 
         $view_args = array(
-            'sandbox_merchant_id'    => get_option( 'laterpay_sandbox_merchant_id' ),
-            'sandbox_api_key'        => get_option( 'laterpay_sandbox_api_key' ),
-            'live_merchant_id'       => get_option( 'laterpay_live_merchant_id' ),
-            'live_api_key'           => get_option( 'laterpay_live_api_key' ),
-            'plugin_is_in_live_mode' => $this->config->get( 'is_in_live_mode' ),
-            'top_nav'                => $this->get_menu(),
-            'admin_menu'             => LaterPay_Helper_View::get_admin_menu(),
+            'sandbox_merchant_id'               => get_option( 'laterpay_sandbox_merchant_id' ),
+            'sandbox_api_key'                   => get_option( 'laterpay_sandbox_api_key' ),
+            'live_merchant_id'                  => get_option( 'laterpay_live_merchant_id' ),
+            'live_api_key'                      => get_option( 'laterpay_live_api_key' ),
+            'plugin_is_in_live_mode'            => $this->config->get( 'is_in_live_mode' ),
+            'plugin_is_in_visible_test_mode'    => get_option( 'laterpay_is_in_visible_test_mode' ),
+            'top_nav'                           => $this->get_menu(),
+            'admin_menu'                        => LaterPay_Helper_View::get_admin_menu(),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -100,6 +101,10 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     self::update_plugin_mode();
                     break;
 
+                case 'laterpay_test_mode':
+                    self::update_plugin_visibility_in_test_mode();
+                    break;
+
                 default:
                     wp_send_json(
                         array(
@@ -107,8 +112,6 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                             'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
                         )
                     );
-
-                    die;
             }
         }
     }
@@ -121,8 +124,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * @return void
      */
     protected static function update_merchant_id( $is_live = null ) {
-        $merchant_id_form = new LaterPay_Form_MerchantId( $_POST );
-
+        $merchant_id_form   = new LaterPay_Form_MerchantId( $_POST );
         $merchant_id        = $merchant_id_form->get_field_value( 'merchant_id' );
         $merchant_id_type   = $is_live ? 'live' : 'sandbox';
 
@@ -148,19 +150,17 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     ),
                 )
             );
-        } else {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => sprintf(
-                        __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
-                        ucfirst( $merchant_id_type )
-                    ),
-                )
-            );
         }
 
-        die;
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => sprintf(
+                    __( 'The Merchant ID you entered is not a valid LaterPay %s Merchant ID!', 'laterpay' ),
+                    ucfirst( $merchant_id_type )
+                ),
+            )
+        );
     }
 
     /**
@@ -171,8 +171,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
      * @return void
      */
     protected static function update_api_key( $is_live = null ) {
-        $api_key_form = new LaterPay_Form_ApiKey( $_POST );
-
+        $api_key_form       = new LaterPay_Form_ApiKey( $_POST );
         $api_key            = $api_key_form->get_field_value( 'api_key' );
         $api_key_type       = $is_live ? 'live' : 'sandbox';
         $transaction_type   = $is_live ? 'REAL' : 'TEST';
@@ -199,23 +198,22 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                     ),
                 )
             );
-        } else {
-            wp_send_json(
-                array(
-                    'success' => false,
-                    'message' => sprintf(
-                        __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
-                        ucfirst( $api_key_type )
-                    ),
-                )
-            );
         }
 
-        die;
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => sprintf(
+                    __( 'The API key you entered is not a valid LaterPay %s API key!', 'laterpay' ),
+                    ucfirst( $api_key_type )
+                ),
+            )
+        );
+
     }
 
     /**
-     * Update LaterPay plugin mode (test or live).
+     * Toggle LaterPay plugin mode between TEST and LIVE.
      *
      * @return void
      */
@@ -235,6 +233,9 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
         $result         = update_option( 'laterpay_plugin_is_in_live_mode', $plugin_mode );
 
         if ( $result ) {
+            // delete dashboard cache directory after mode was changed
+            LaterPay_Helper_File::delete_directory( laterpay_get_plugin_config()->get( 'cache_dir' ) . 'cron/' );
+
             if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
                 wp_send_json(
                     array(
@@ -243,16 +244,58 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                         'message'   => __( 'The LaterPay plugin is in LIVE mode now. All payments are actually booked and credited to your account.', 'laterpay' ),
                     )
                 );
-            } else {
+            } elseif ( get_option( 'plugin_is_in_visible_test_mode' ) ) {
                 wp_send_json(
                     array(
                         'success'   => true,
                         'mode'      => 'test',
-                        'message'   => __( 'The LaterPay plugin is in TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
+                        'message'   => __( 'The LaterPay plugin is in visible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
                     )
                 );
             }
-        } else {
+
+            wp_send_json(
+                array(
+                    'success'   => true,
+                    'mode'      => 'test',
+                    'message'   => __( 'The LaterPay plugin is in invisible TEST mode now. Payments are only simulated and not actually booked.', 'laterpay' ),
+                )
+            );
+        }
+
+        wp_send_json(
+            array(
+                'success'   => false,
+                'mode'      => 'test',
+                'message'   => __( 'The LaterPay plugin needs valid API credentials to work.', 'laterpay' ),
+            )
+        );
+    }
+
+    /**
+     * Toggle LaterPay plugin test mode between INVISIBLE and VISIBLE.
+     *
+     * @return void
+     */
+    public static function update_plugin_visibility_in_test_mode() {
+        $plugin_test_mode_form = new LaterPay_Form_TestMode();
+
+        if ( ! $plugin_test_mode_form->is_valid( $_POST ) ) {
+            wp_send_json(
+                array(
+                    'success'   => false,
+                    'mode'      => 'test',
+                    'message'   => __( 'An error occurred. Incorrect data provided.', 'laterpay' ),
+                )
+            );
+        }
+
+        $is_in_visible_test_mode = $plugin_test_mode_form->get_field_value( 'plugin_is_in_visible_test_mode' );
+        $has_invalid_credentials = $plugin_test_mode_form->get_field_value( 'invalid_credentials' );
+
+        if ( $has_invalid_credentials ) {
+            update_option( 'laterpay_is_in_visible_test_mode', 0 );
+
             wp_send_json(
                 array(
                     'success'   => false,
@@ -262,6 +305,20 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
             );
         }
 
-        die;
+        update_option( 'laterpay_is_in_visible_test_mode', $is_in_visible_test_mode );
+
+        if ( $is_in_visible_test_mode ) {
+            $message = __( 'The plugin is in <strong>visible</strong> test mode now.', 'laterpay' );
+        } else {
+            $message = __( 'The plugin is in <strong>invisible</strong> test mode now.', 'laterpay' );
+        }
+
+        wp_send_json(
+            array(
+                'success'   => true,
+                'mode'      => 'test',
+                'message'   => $message,
+            )
+        );
     }
 }

@@ -414,7 +414,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             handlePurchaseInTestMode = function(trigger) {
-                if ($(trigger).data('preview-as-visitor')) {
+                if ($(trigger).data('preview-as-visitor') && !$(trigger).data('is-in-visible-test-mode')) {
                     // show alert instead of loading LaterPay purchase dialogs
                     alert(lpVars.i18n.alert);
                 }
@@ -474,29 +474,27 @@ laterPayPostView();
 
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
+    var dm = new Y.LaterPay.DialogManager();
 
-    var ppuContext      = {
-                            showCloseBtn        : true,
-                            canSkipAddToInvoice : false,
-                          },
-        dm              = new Y.LaterPay.DialogManager();
-
-    // bind event to purchase link and if 'preview as visitor' is activated for admins handle it accordingly
+    // bind event to purchase link and if 'preview as visitor' is activated for admins, handle it accordingly
     Y.one(Y.config.doc).delegate(
         'click',
         function(event) {
             event.preventDefault();
-            if (event.currentTarget.getData('preview-as-visitor')) {
-                alert(lpVars.i18n.alert);
+            if (
+                event.currentTarget.getData('preview-as-visitor') &&
+                !event.currentTarget.getData('is-in-visible-test-mode')
+            ) {
+                alert(lpVars.i18n.alert); // only show an alert instead of opening the dialog
             } else {
                 var url = event.currentTarget.getAttribute('href');
                 if (event.currentTarget.hasAttribute('data-laterpay')) {
                     url = event.currentTarget.getAttribute('data-laterpay');
                 }
-                dm.openDialog(url, ppuContext.showCloseBtn);
+
+                dm.openDialog(url, true); // show the dialog
             }
         },
         '.lp_js_doPurchase'
     );
 });
-

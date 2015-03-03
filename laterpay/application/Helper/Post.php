@@ -178,12 +178,13 @@ class LaterPay_Helper_Post
 
         // data to register purchase after redirect from LaterPay
         $url_params = array(
-            'post_id'     => $post_id,
-            'id_currency' => $currency_model->get_currency_id_by_iso4217_code( $currency ),
-            'price'       => $price,
-            'date'        => time(),
-            'buy'         => 'true',
-            'ip'          => ip2long( $_SERVER['REMOTE_ADDR'] ),
+            'post_id'       => $post_id,
+            'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
+            'price'         => $price,
+            'date'          => time(),
+            'buy'           => 'true',
+            'ip'            => ip2long( $_SERVER['REMOTE_ADDR'] ),
+            'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
         );
 
         if ( $post->post_type == 'attachment' ) {
@@ -193,14 +194,13 @@ class LaterPay_Helper_Post
 
         $url  = self::get_after_purchase_redirect_url( $url_params );
         $hash = self::get_hash_by_url( $url );
-        $url  = $url . '&hash=' . $hash;
 
         // parameters for LaterPay purchase form
         $params = array(
             'article_id' => $post_id,
             'pricing'    => $currency . ( $price * 100 ),
             'vat'        => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
-            'url'        => $url,
+            'url'        => $url . '&hash=' . $hash,
             'title'      => $post->post_title,
         );
 
@@ -261,14 +261,9 @@ class LaterPay_Helper_Post
      *
      * @return void
      */
-    public static function the_purchase_button_args( $post ) {
+    public static function the_purchase_button_args( WP_Post $post ) {
         // don't render the purchase button, if the current post is not purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
-            return;
-        };
-
-        // don't render the purchase button, if the current post was already purchased
-        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
             return;
         };
 
@@ -277,12 +272,22 @@ class LaterPay_Helper_Post
         if ( current_user_can( 'administrator' ) ) {
             $preview_mode = true;
         }
+
+        $is_in_visible_test_mode = get_option( 'laterpay_is_in_visible_test_mode' ) && ! get_option( 'laterpay_plugin_is_in_live_mode' );
+
+        // don't render the purchase button, if the current post was already purchased
+        // also even if item was purchased in visible test mode by admin it must be displayed
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_mode ) {
+            return;
+        };
+
         $view_args = array(
-            'post_id'                 => $post->ID,
-            'link'                    => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
-            'currency'                => get_option( 'laterpay_currency' ),
-            'price'                   => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
-            'preview_post_as_visitor' => $preview_mode,
+            'post_id'                   => $post->ID,
+            'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
+            'currency'                  => get_option( 'laterpay_currency' ),
+            'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
+            'preview_post_as_visitor'   => $preview_mode,
+            'is_in_visible_test_mode'   => $is_in_visible_test_mode,
         );
 
         laterpay_get_logger()->info(
@@ -291,5 +296,35 @@ class LaterPay_Helper_Post
         );
 
         return $view_args;
+    }
+
+    /**
+     * Add teaser to the post or update it.
+     *
+     * @param WP_Post $post
+     * @param null $teaser teaser data
+     * @param bool $need_update
+     *
+     * @return string $new_meta_value teaser content
+     */
+    public static function add_teaser_to_the_post( WP_Post $post, $teaser = null, $need_update = true ) {
+        if ( $teaser ) {
+            $new_meta_value = $teaser;
+        } else {
+            $new_meta_value = LaterPay_Helper_String::truncate(
+                preg_replace( '/\s+/', ' ', strip_shortcodes( $post->post_content ) ),
+                get_option( 'laterpay_teaser_content_word_count' ),
+                array (
+                    'html'  => true,
+                    'words' => true,
+                )
+            );
+        }
+
+        if ( $need_update ) {
+            update_post_meta( $post->ID, 'laterpay_post_teaser', $new_meta_value );
+        }
+
+        return $new_meta_value;
     }
 }

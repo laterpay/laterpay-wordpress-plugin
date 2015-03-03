@@ -10,6 +10,8 @@
 class LaterPay_Helper_TimePass
 {
 
+    const TIME_PASSES_WEEKS = 13;
+
     const PASS_TOKEN = 'tlp';
 
     /**
@@ -537,14 +539,22 @@ class LaterPay_Helper_TimePass
                 $time_pass_history  = $history_model->get_time_pass_history( $time_pass['pass_id'] );
                 $duration           = self::get_time_pass_expiry_time( $time_pass ); // in seconds
 
-                // calculate committed revenue, unredeemed codes, and number of active time passes
-                $committed_revenue  = 0;
-                $unredeemed         = 0;
-                $active             = 0;
+                // calculate time pass KPIs
+                $committed_revenue  = 0; // total value of purchased time passes
+                $unredeemed         = 0; // number of unredeemed gift codes
+                $active             = 0; // number of active time passes
+                $sold               = 0; // number of sold time passes
 
                 if  ( $time_pass_history && is_array( $time_pass_history ) ) {
                     foreach ( $time_pass_history as $hist ) {
+                        $has_unredeemed     = false;
                         $committed_revenue += $hist->price;
+                        $summary_revenue   += $hist->price;
+
+                        if ( $hist->price > 0 ) {
+                            $sold++;
+                            $summary_sold ++;
+                        }
 
                         // check, if there are unredeemed gift codes
                         if ( $hist->code && ! LaterPay_Helper_Voucher::get_gift_code_usages_count( $hist->code ) ) {
@@ -552,47 +562,39 @@ class LaterPay_Helper_TimePass
                             $summary_unredeemed++;
                         }
 
+                        if ( $hist->code ) {
+                            $has_unredeemed = true;
+                        }
+
                         // check, if pass is still active
-                        $start_date   = strtotime( $hist->date );
-                        $current_date = time();
-                        if ( ( $start_date + $duration ) > $current_date ) {
-                            $active++;
-                            $summary_active++;
+                        if ( ! $has_unredeemed ) {
+                            $start_date   = strtotime( $hist->date );
+                            $current_date = time();
+                            if ( ( $start_date + $duration ) > $current_date ) {
+                                $active++;
+                                $summary_active++;
+                            }
                         }
                     }
-                } else {
-                    $time_pass_history = array();
                 }
 
                 $time_pass_statistics = array(
                     'data'              => $time_pass,
-                    'active'            => $active,                     // number of active time passes
-                    'sold'              => count( $time_pass_history ), // number of purchases
-                    'unredeemed'        => $unredeemed,                 // number of unredeemed gift codes
-                    'committed_revenue' => $committed_revenue,          // total value of purchases
-                    'paid_price'        => 0,
+                    'active'            => LaterPay_Helper_View::format_number( $active, false ),
+                    'sold'              => LaterPay_Helper_View::format_number( $sold, false ),
+                    'unredeemed'        => LaterPay_Helper_View::format_number( $unredeemed, false ),
+                    'committed_revenue' => number_format_i18n( $committed_revenue, 2 ),
                 );
 
                 $statistic['individual'][$time_pass['pass_id']] = $time_pass_statistics;
             }
         }
 
-        // calculate summary statistics
-        $time_passes_history = $history_model->get_time_pass_history();
-
-        if ( $time_passes_history && is_array( $time_passes_history ) ) {
-            $summary_sold = count( $time_passes_history );
-            foreach ( $time_passes_history as $hist ) {
-                $summary_revenue += $hist->price;
-            }
-        }
-
         $statistic['summary'] = array(
-            'active'            => $summary_active,
-            'sold'              => $summary_sold,
-            'unredeemed'        => $summary_unredeemed,
-            'committed_revenue' => $summary_revenue,
-            'paid_price'        => 0,
+            'active'            => LaterPay_Helper_View::format_number( $summary_active, false ),
+            'sold'              => LaterPay_Helper_View::format_number( $summary_sold, false ),
+            'unredeemed'        => LaterPay_Helper_View::format_number( $summary_unredeemed, false ),
+            'committed_revenue' => number_format_i18n( $summary_revenue, 2 ),
         );
 
         return $statistic;
@@ -659,7 +661,9 @@ class LaterPay_Helper_TimePass
                         $key++;
                     }
 
-                    $data[$key]++;
+                    if ( ! $hist->code ) {
+                        $data[$key]++;
+                    }
                 }
             }
         }
@@ -676,5 +680,39 @@ class LaterPay_Helper_TimePass
         $model = new LaterPay_Model_TimePass();
 
         return $model->get_time_passes_count();
+    }
+
+
+    /**
+     * Prepare params for time passes graph.
+     *
+     * @param $pass_id
+     *
+     * @return array
+     */
+    public static function time_pass_expiry_diagram( $pass_id ) {
+        $data = array(
+            'x' => array(),
+            'y' => array(),
+        );
+
+        $expiry = LaterPay_Helper_TimePass::get_time_pass_expiry_by_weeks( $pass_id, self::TIME_PASSES_WEEKS );
+
+        // add expiry data for the given number of weeks
+        $key = 0;
+        while ( $key <= self::TIME_PASSES_WEEKS ) {
+            $data['x'][] = array(
+                $key,
+                (string) $key
+            );
+            $data['y'][] = array(
+                $key,
+                $expiry[$key]
+            );
+
+            $key++;
+        }
+
+        return $data;
     }
 }

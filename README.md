@@ -1,7 +1,7 @@
 laterpay-wordpress-plugin
 =========================
 
-[![Build Status](https://travis-ci.org/laterpay/laterpay-wordpress-plugin.svg?branch=master)](https://travis-ci.org/laterpay/laterpay-wordpress-plugin)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c0535748-172c-4419-8403-e3be9715aa53/small.png)](https://insight.sensiolabs.com/projects/c0535748-172c-4419-8403-e3be9715aa53)  [![Build Status](https://travis-ci.org/laterpay/laterpay-wordpress-plugin.svg?branch=master)](https://travis-ci.org/laterpay/laterpay-wordpress-plugin)
 
 This is the official LaterPay plugin for selling digital content with WordPress.
 
@@ -29,10 +29,6 @@ Then go to the repository root folder and install the required gulp plugins with
 Now you can run any of the tasks defined in the gulpfile from the repository root folder.
 During development you can either watch the repo for changes and automatically recompile the modified assets using ```gulp```.
 For exporting the assets for a release, you can also run ```gulp build```.
-
-The plugin uses the CSS preprocessor [Stylus](http://learnboost.github.io/stylus/).
-Stylus is a node.js module. If you have node.js running, you can install Stylus with ```sudo npm install -g stylus```.
-To generate production CSS from the .styl sources, go to folder 'laterpay' and run ```stylus asset_sources/stylus --out built_assets/css --compress```.
 
 An [EditorConfig](http://editorconfig.org) file is supplied to make it easier to adjust your IDE to the project standards in applying whitespace.
 

@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
 <div class="lp_dropdown lp_js_dropdown">
     <span class="lp_dropdown__current-item lp_js_dropdownCurrentItem"><?php _e( 'all', 'laterpay' ); ?></span>

@@ -120,11 +120,6 @@
                 bulkDeleteOperationLink                 : '.lp_js_deleteSavedBulkOperation',
                 bulkApplySavedOperationLink             : '.lp_js_applySavedBulkOperation',
 
-                // default currency
-                defaultCurrencyForm                     : $('#lp_js_defaultCurrencyForm'),
-                defaultCurrency                         : $('#lp_js_changeDefaultCurrency'),
-                currency                                : '.lp_js_currency',
-
                 // strings cached for better compression
                 editing                                 : 'lp_is-editing',
                 unsaved                                 : 'lp_is-unsaved',
@@ -378,13 +373,6 @@
                     deleteSavedBulkOperation($(this).parent());
                 })
                 .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
-
-                // default currency events -----------------------------------------------------------------------------
-                // switch default currency
-                $o.defaultCurrency
-                .change(function() {
-                    switchCurrency();
-                });
             },
 
             validatePrice = function($form, invalidPrice, $input) {
@@ -724,21 +712,6 @@
                 });
             },
 
-            switchCurrency = function() {
-                $.post(
-                    ajaxurl,
-                    $o.defaultCurrencyForm.serializeArray(),
-                    function(r) {
-                        if (r.success) {
-                            // update all instances of the default currency
-                            $($o.currency).html(r.laterpay_currency);
-                        }
-                        setMessage(r.message, r.success);
-                    },
-                    'json'
-                );
-            },
-
             addTimePass = function() {
                 // hide "add time pass" button
                 $o.addTimePass.fadeOut(250);
@@ -881,7 +854,8 @@
                         $(this).remove();
                     });
                 }
-                // TODO: unbind events
+
+                // #656: unbind events
 
                 // show action links required when displaying time pass
                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
@@ -990,7 +964,7 @@
                                 function(r) {
                                     if (r.success) {
                                         $(this).remove();
-                                        // TODO: unbind events
+                                        // #656: unbind events
                                     } else {
                                         $(this).stop().show();
                                     }
@@ -1127,8 +1101,8 @@
                             $(this).remove();
                         }
                     })
-                        .end()
-                        .addClass($o.disabled);
+                .end()
+                .addClass($o.disabled);
 
                 // clear object options
                 $o.bulkPriceObjects
@@ -1320,8 +1294,8 @@
             initializePage = function() {
                 bindEvents();
 
-                // trigger change event of bulk price editor on page load
-                // FIXME: why is this required?
+                // trigger change event of bulk price editor on page load to initialize the bulk price editor,
+                // see handleBulkEditorSettingsUpdate()
                 $o.bulkPriceAction.change();
             };
 

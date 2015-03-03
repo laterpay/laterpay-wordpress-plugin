@@ -13,10 +13,19 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
     /**
      * Check requirements for logging and rendering the post statistic pane via Ajax callback.
      *
+     * @param WP_Post $post
+     *
      * @return bool
      */
     protected function check_requirements( $post = null ) {
-        if ( empty($post) ) {
+        // check, if logging is enabled
+        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
+            $this->logger->warning( __METHOD__. ' - access logging is not enabled' );
+
+            return false;
+        }
+
+        if ( empty( $post ) ) {
             // check, if we're on a singular page
             if ( ! is_singular() ) {
                 $this->logger->warning(
@@ -25,6 +34,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
                         'post' => $post,
                     )
                 );
+
                 return false;
             }
 
@@ -45,23 +55,19 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
                     'allowed_post_types' => $allowed_post_types,
                 )
             );
+
             return false;
         }
 
         // check, if the current post is purchasable
-        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post ) ) {
+        if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
             $this->logger->warning(
                 __METHOD__. ' - post is not purchasable',
                 array(
                     'post' => $post,
                 )
             );
-            return false;
-        }
 
-        // check, if logging is enabled
-        if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
-            $this->logger->warning( __METHOD__. ' - access logging is not enabled' );
             return false;
         }
 
@@ -111,7 +117,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             }
         }
 
-        exit;
+        wp_die();
     }
 
     /**
@@ -262,30 +268,29 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         );
         $statistic_form->add_validation( 'nonce', $condition );
 
-        if ( $statistic_form->is_valid() ) {
-            $post_id = $statistic_form->get_field_value( 'post_id' );
-            $post = get_post( $post_id );
-
-            if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-                exit;
-            }
-
-            $statistic = $this->initialize_post_statistics( $post );
-
-            // assign variables
-            $view_args = array(
-                'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( $post ),
-                'hide_statistics_pane'    => LaterPay_Helper_User::statistics_pane_is_hidden(),
-                'currency'                => get_option( 'laterpay_currency' ),
-                'post_id'                 => $post_id,
-                'statistic'               => $statistic,
-            );
-            $this->assign( 'laterpay', $view_args );
-
-            wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
+        if ( ! $statistic_form->is_valid() ) {
+            wp_die();
         }
 
-        exit;
+        $post_id = $statistic_form->get_field_value( 'post_id' );
+        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+            wp_die();
+        }
+
+        $post = get_post( $post_id );
+        $statistic = $this->initialize_post_statistics( $post );
+
+        // assign variables
+        $view_args = array(
+            'preview_post_as_visitor' => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'hide_statistics_pane'    => LaterPay_Helper_User::statistics_pane_is_hidden(),
+            'currency'                => get_option( 'laterpay_currency' ),
+            'post_id'                 => $post_id,
+            'statistic'               => $statistic,
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
     }
 
     /**
@@ -305,25 +310,24 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         );
         $statistic_form->add_validation( 'nonce', $condition );
 
-        if ( $statistic_form->is_valid() ) {
-            $post_id = $statistic_form->get_field_value( 'post_id' );
-            $post = get_post( $post_id );
-
-            if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
-                exit;
-            }
-
-            // assign variables
-            $view_args = array(
-                'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
-                'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
-            );
-            $this->assign( 'laterpay', $view_args );
-
-            wp_send_json( $this->get_text_view( 'frontend/partials/post/select_preview_mode_tab' ) );
+        if ( ! $statistic_form->is_valid() ) {
+            wp_die();
         }
 
-        exit;
+        $post_id = $statistic_form->get_field_value( 'post_id' );
+        if ( ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+            wp_die();
+        }
+
+        $post = get_post( $post_id );
+        // assign variables
+        $view_args = array(
+            'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( $post ),
+            'hide_statistics_pane'      => LaterPay_Helper_User::statistics_pane_is_hidden(),
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/select_preview_mode_tab' ) );
     }
 
     /**

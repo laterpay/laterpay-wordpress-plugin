@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
 <?php if ( ! $laterpay['user_has_already_voted'] ) : ?>
     <form class="lp_js_ratingForm lp_u_clearfix" method="post">

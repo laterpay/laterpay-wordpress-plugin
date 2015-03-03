@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.1
+Tested up to: 4.1.1
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -256,6 +256,25 @@ your theme after installing the LaterPay WordPress plugin.
 9. The statistics pane provides useful sales statistics for each post.
 
 == Changelog ==
+
+= 0.9.11 (February 25, 2015): Time Pass Additions Release =
+* Added option to allow only time pass purchases or time pass and individual post purchases
+* Added dashboard page for time pass customer lifecycle that shows how many time passes are sold and active, and when
+  the currently active time passes will expire
+* Added shortcode for rendering time passes
+* Added option to have the plugin visible or invisible for visitors in test mode
+* Added advanced setting for defining unrestricted access for a user role on a per category basis
+* Added proper handling of subcategories for time pass access checks
+* Added proper handling of subcategories for category prices
+* Added separation of analytics data between data collected in test mode and in live mode
+* Fixed bug where category-specific time pass would give access to entire site
+* Fixed bug where number of page views was not rendered correctly in post statistics pane
+* Fixed a lot of usability and rendering bugs of the dynamic pricing widget
+* Fixed bug where custom position of purchase was not respected in admin preview
+* Fixed bug where custom position of time passes was not respected in admin preview
+* Fixed bug with day names in dashboard
+* Added missing documentation and fixed inconsistencies in coding style
+* The post statistics pane is now rendered again in debug mode after WordPress update 4.1.1 was released
 
 = 0.9.10 (January 21, 2015): Gift Cards Release =
 * Added gift cards for time passes to allow giving away time passes as a present

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * LaterPay currency form class.
+ * LaterPay test mode form class.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Form_Currency extends LaterPay_Form_Abstract
+class LaterPay_Form_TestMode extends LaterPay_Form_Abstract
 {
 
     /**
@@ -23,7 +23,7 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'currency_form',
+                            'eq' => 'laterpay_test_mode',
                         ),
                     ),
                 ),
@@ -37,9 +37,22 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
                     'is_string',
                     'cmp' => array(
                         array(
-                            'eq' => 'laterpay_pricing',
+                            'eq' => 'laterpay_account',
                         ),
                     ),
+                ),
+            )
+        );
+
+        $this->set_field(
+            'invalid_credentials',
+            array(
+                'validators' => array(
+                    'is_int',
+                    'in_array' => array( 0, 1 ),
+                ),
+                'filters' => array(
+                    'to_int',
                 ),
             )
         );
@@ -59,18 +72,17 @@ class LaterPay_Form_Currency extends LaterPay_Form_Abstract
         );
 
         $this->set_field(
-            'laterpay_currency',
+            'plugin_is_in_visible_test_mode',
             array(
                 'validators' => array(
-                    'is_string',
-                    'in_array' => array( get_option( 'laterpay_currency' ) ),
+                    'is_int',
+                    'in_array' => array( 0, 1 ),
                 ),
                 'filters' => array(
-                    'to_string',
+                    'to_int',
                 ),
             )
         );
     }
 }
-
 

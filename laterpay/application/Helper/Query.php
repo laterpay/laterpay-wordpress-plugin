@@ -36,6 +36,8 @@ class LaterPay_Helper_Query
     protected $field_types = array();
 
     /**
+     * Build the FROM clause of a query.
+     *
      * @return string $sql
      */
     public function build_from() {
@@ -89,7 +91,6 @@ class LaterPay_Helper_Query
         }
 
         foreach ( $joins as $index => $join ) {
-
             if ( ! is_array( $join ) ) {
                continue;
             }
@@ -103,33 +104,35 @@ class LaterPay_Helper_Query
                 $this->query_args['fields'],
                 $this->build_join_fields( $join, $table )
             );
-
         }
 
         return $sql;
     }
 
     /**
-     * Builds the join "ON"-Statement.
+     * Build the 'ON' statement of a JOIN clause.
+     *
      * @param array $join
      * @param string $table
+     *
      * @return string $sql
      */
     protected function build_join_on( $join, $table ) {
 
-        $field_1    = $table . '.' . $join['on']['field'];
-        $compare    = $join['on']['compare'];
-        $field_2    = ( $this->table_short !== '' ) ? $this->table_short : $this->table;
-        $field_2    .=  '.' . $join['on']['join_field'];
+        $field_1 = $table . '.' . $join['on']['field'];
+        $compare = $join['on']['compare'];
+        $field_2 = ( $this->table_short !== '' ) ? $this->table_short : $this->table;
+        $field_2 .=  '.' . $join['on']['join_field'];
 
         return ' ON ' . $field_1 . ' ' . $compare . ' ' . $field_2;
     }
 
     /**
-     * Builds the join fields with table-prefix.
+     * Build the fields of a JOIN clause with table prefix.
      *
      * @param array $join
      * @param string $table
+     *
      * @return array $fields
      */
     protected function build_join_fields( $join, $table ) {
@@ -141,6 +144,7 @@ class LaterPay_Helper_Query
                 $fields[] = $table . '.' . $field;
             }
         }
+
         return $fields;
     }
 
@@ -229,6 +233,7 @@ class LaterPay_Helper_Query
                 $sql .= ' AND ' . $this->get_row_suffix() . $key . ' = ' . $wpdb->prepare( $type, $value ) . ' ';
             }
         }
+
         return $sql;
     }
 
@@ -260,7 +265,7 @@ class LaterPay_Helper_Query
     }
 
     /**
-     * Get a single row-result of a query.
+     * Get a single row result of a query.
      *
      * @param array $args
      *
@@ -279,7 +284,7 @@ class LaterPay_Helper_Query
             array(
                 'args'      => $this->query_args,
                 'query'     => $query,
-                'results'   => $result
+                'results'   => $result,
             )
         );
 
@@ -287,30 +292,30 @@ class LaterPay_Helper_Query
     }
 
     /**
-     * Creating a query.
+     * Create a SQL query.
      *
      * @param array $args
+     *
      * @return string $query
      */
     public function create_query( $args = array() ) {
         $default_args = array(
-            'fields'    => array('*'),
+            'fields'    => array( '*' ),
             'limit'     => '',
             'group_by'  => '',
             'order_by'  => '',
             'order'     => '',
             'join'      => array(),
-            'where'     => array()
+            'where'     => array(),
         );
         $this->query_args = wp_parse_args( $args, $default_args );
 
-        $join   = $this->build_join( $this->query_args['join'] );
-
-        $where  = $this->build_where( $this->query_args['where'] );
-        $from   = $this->build_from( );
         $select = $this->build_select( $this->query_args['fields'] );
+        $from   = $this->build_from();
+        $join   = $this->build_join( $this->query_args['join'] );
+        $where  = $this->build_where( $this->query_args['where'] );
         $group  = $this->build_group_by( $this->query_args['group_by'] );
-        $order  = $this->build_order_by( $this->query_args['order_by'],  $this->query_args['order'] );
+        $order  = $this->build_order_by( $this->query_args['order_by'], $this->query_args['order'] );
         $limit  = $this->build_limit( $this->query_args['limit'] );
 
         $query = '';
@@ -321,6 +326,7 @@ class LaterPay_Helper_Query
         $query .= $group;
         $query .= $order;
         $query .= $limit;
+
         return $query;
     }
 
@@ -330,5 +336,4 @@ class LaterPay_Helper_Query
     public function get_last_query() {
         return $this->last_query;
     }
-
 }

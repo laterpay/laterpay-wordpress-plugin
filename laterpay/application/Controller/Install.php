@@ -323,13 +323,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      *
      * @return void
      */
-    public function maype_add_only_time_pass_purchase_option() {
+    public function maybe_add_only_time_pass_purchase_option() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
 
-        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) == null ) {
+        if ( get_option( 'laterpay_only_time_pass_purchases_allowed' ) === null ) {
             add_option( 'laterpay_only_time_pass_purchases_allowed', 0 );
         }
     }
@@ -344,7 +344,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
      */
     public function maybe_update_api_urls_options_names() {
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '>' ) ) {
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
             return;
         }
 
@@ -361,6 +361,54 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
             if ( $old_option_value !== false ) {
                 delete_option( $old_option_name );
                 add_option( $new_option_name, $old_option_value );
+            }
+        }
+    }
+
+    /**
+     * Add option for invisible / visible test mode.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_add_is_in_visible_test_mode_option() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        if ( get_option( 'laterpay_is_in_visible_test_mode' ) === null ) {
+            add_option( 'laterpay_is_in_visible_test_mode', 0 );
+        }
+    }
+
+    /**
+     * Set correct values for API URLs.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_clean_api_key_options() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        $options = array(
+            'laterpay_sandbox_backend_api_url' => 'https://api.sandbox.laterpaytest.net',
+            'laterpay_sandbox_dialog_api_url'  => 'https://web.sandbox.laterpaytest.net',
+            'laterpay_live_backend_api_url'    => 'https://api.laterpay.net',
+            'laterpay_live_dialog_api_url'     => 'https://web.laterpay.net',
+        );
+
+        foreach ( $options as $option_name => $correct_value ) {
+            $option_value = get_option( $option_name );
+            if ( $option_value != $correct_value ) {
+                update_option( $option_name, $correct_value );
             }
         }
     }
@@ -434,6 +482,80 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Update the unlimited access option.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_unlimited_access() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        if ( $unlimited_role = get_option( 'laterpay_unlimited_access_to_paid_content' ) ) {
+            add_option( 'laterpay_unlimited_access', array( $unlimited_role => array( 'all' ) ) );
+            delete_option( 'laterpay_unlimited_access_to_paid_content' );
+        }
+    }
+
+    /**
+     * Update post view table structure.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_update_post_views() {
+        global $wpdb;
+
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        $table   = $wpdb->prefix . 'laterpay_post_views';
+        $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table .';' );
+
+        $is_up_to_date = false;
+
+        foreach ( $columns as $column ) {
+            if ( $column->Field === 'mode' ) {
+                $is_up_to_date = true;
+            }
+        }
+
+        if ( ! $is_up_to_date ) {
+            $wpdb->query( "ALTER TABLE " . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
+            // count all existing data as 'live' data to ensure continuity of statistics after migration
+            $wpdb->query( "UPDATE " . $table . " SET mode = 'live';" );
+            $wpdb->query( "ALTER TABLE " . $table . " DROP INDEX post_id;" );
+            $wpdb->query( "ALTER TABLE " . $table . " ADD UNIQUE INDEX (post_id, user_id, mode);" );
+        }
+    }
+
+    /**
+     * Clear dashboard cache.
+     *
+     * @since 0.9.11
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function maybe_clear_dashboard_cache() {
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11', '<' ) ) {
+            return;
+        }
+
+        // remove cache directory
+        LaterPay_Helper_File::delete_directory( laterpay_get_plugin_config()->get( 'cache_dir' ) . 'cron/' );
+    }
+
+    /**
      * Create custom tables and set the required options.
      *
      * @return void
@@ -450,7 +572,6 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-        $table_currency        = $wpdb->prefix . 'laterpay_currency';
         $table_terms_price     = $wpdb->prefix . 'laterpay_terms_price';
         $table_history         = $wpdb->prefix . 'laterpay_payment_history';
         $table_post_views      = $wpdb->prefix . 'laterpay_post_views';
@@ -485,12 +606,13 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE $table_post_views (
-                post_id           INT(11)         NOT NULL,
-                date              DATETIME        NOT NULL,
-                user_id           VARCHAR(32)     NOT NULL,
-                count             BIGINT UNSIGNED NOT NULL DEFAULT 1,
-                ip                VARBINARY(16)   NOT NULL,
-                UNIQUE KEY  (post_id, user_id)
+                post_id           INT(11)              NOT NULL,
+                mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
+                date              DATETIME             NOT NULL,
+                user_id           VARCHAR(32)          NOT NULL,
+                count             BIGINT UNSIGNED      NOT NULL DEFAULT 1,
+                ip                VARBINARY(16)        NOT NULL,
+                UNIQUE KEY  (post_id, user_id, mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
@@ -532,6 +654,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
         add_option( 'laterpay_landing_page',                            '' );
         add_option( 'laterpay_only_time_pass_purchases_allowed',        0  );
+        add_option( 'laterpay_is_in_visible_test_mode',                 0  );
 
         // advanced settings
         add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );

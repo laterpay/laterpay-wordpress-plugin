@@ -1,4 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<?php
+    if ( ! defined( 'ABSPATH' ) ) {
+        // prevent direct access to this file
+        exit;
+    }
+?>
 
 <div class="lp_time-pass-widget <?php echo $laterpay_widget['time_pass_widget_class']; ?>">
     <?php if ( $laterpay_widget['time_pass_introductory_text'] ): ?>

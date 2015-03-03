@@ -24,7 +24,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         'most_least_selling_items',
         'most_least_revenue_items',
         'metrics',
-        'time_passes_expiry',
     );
 
     private $cache_file_exists;
@@ -61,21 +60,15 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             true
         );
 
-        $this->logger->info( __METHOD__ );
-
         // pass localized strings and variables to script
         $i18n = array(
-            'endingIn'              => _x( 'ending in', 'used in wp_localize_script for the flot graph in loadTimePassLifecycles()', 'laterpay' ),
-            'month'                 => _x( 'month', 'used in wp_localize_script for the flot graph in loadTimePassLifecycles()', 'laterpay' ),
-            'months'                => _x( 'months', 'used in wp_localize_script for the flot graph in loadTimePassLifecycles()', 'laterpay' ),
-            'weeksLeft'             => _x( 'weeks left', 'used in wp_localize_script as x-axis label for loadTimePassLifecycles()', 'laterpay' ),
-            'noData'                => __( 'No data available', 'laterpay' ),
-            'tooltips'              => array(
+            'noData'    => __( 'No data available', 'laterpay' ),
+            'tooltips'  => array(
                 'day'   => array(
                     'next'  => __( 'Show next day', 'laterpay' ),
                     'prev'  => __( 'Show previous day', 'laterpay' ),
                 ),
-                'week'   => array(
+                'week'  => array(
                     'next'  => __( 'Show next 8 days', 'laterpay' ),
                     'prev'  => __( 'Show previous 8 days', 'laterpay' ),
                 ),
@@ -83,26 +76,27 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                     'next'  => __( 'Show next 2 weeks', 'laterpay' ),
                     'prev'  => __( 'Show previous 2 weeks', 'laterpay' ),
                 ),
-                'month'   => array(
+                'month' => array(
                     'next'  => __( 'Show next month', 'laterpay' ),
                     'prev'  => __( 'Show previous month', 'laterpay' ),
-                )
-
+                ),
             )
         );
+
+        $localization = array(
+            'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+            'nonces'    => array( 'dashboard' => wp_create_nonce( $this->ajax_nonce ) ),
+            'locale'    => get_locale(),
+            'i18n'      => $i18n,
+        );
+
         wp_localize_script(
             'laterpay-backend-dashboard',
             'lpVars',
-            array(
-                'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-                'nonces'    => array( 'dashboard' => wp_create_nonce( $this->ajax_nonce ) ),
-                'submenu'   => array( 'view' => array(
-                    'standard' => 'standard-kpis',
-                    'passes'   => 'time-passes',
-                ) ),
-                'i18n'      => $i18n,
-            )
+            $localization
         );
+
+        $this->logger->info( __METHOD__, $localization );
     }
 
     /**
@@ -129,13 +123,12 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'interval_start'            => strtotime( '-1 days' ),
             'interval_end'              => strtotime( '-8 days' ),
 
-            // in wp-config.php the user can disable the WP-cron completely OR replace it with real server crons.
+            // in wp-config.php the user can disable the WP cron completely OR replace it with real server cron jobs.
             // this view variable can be used to show additional information that *maybe* the dashboard
             // data will not refresh automatically
             'is_cron_enabled'           => ! defined( 'DISABLE_WP_CRON' ) || ( defined( 'DISABLE_WP_CRON' ) && ! DISABLE_WP_CRON ),
             'cache_file_exists'         => $this->cache_file_exists,
             'cache_file_is_broken'      => $this->cache_file_is_broken,
-            'passes'                    => LaterPay_Helper_TimePass::get_time_passes_statistic(),
         );
 
         $this->assign( 'laterpay', $view_args );
@@ -184,7 +177,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Callback for wp-cron to refresh today's dashboard data.
+     * Callback for WP cron to refresh today's dashboard data.
      * The cron job provides two parameters for {x} days back and {n} count of items to
      * register your own cron with custom parameters to cache data.
      *
@@ -210,7 +203,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         );
 
         foreach ( $this->ajax_sections as $section ) {
-            $args['section']  = $section;
+            $args['section']    = $section;
             $options            = $this->get_ajax_request_options( $args );
             $this->logger->info(
                 __METHOD__ . ' - ' . $section,
@@ -269,14 +262,18 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $diagram_data[$date] = $data;
         }
 
-        $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data( $diagram_data, $options['start_timestamp'], $options['interval'] );
+        $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
+                                    $diagram_data,
+                                    $options['start_timestamp'],
+                                    $options['interval']
+                                );
 
         $context = array(
-            'options'               => $options,
-            'converting_items'      => $converting_items,
-            'selling'               => $selling_items,
-            'diagram_data'          => $diagram_data,
-            'converted_diagram_data'=> $converted_diagram_data,
+            'options'                   => $options,
+            'converting_items'          => $converting_items,
+            'selling'                   => $selling_items,
+            'diagram_data'              => $diagram_data,
+            'converted_diagram_data'    => $converted_diagram_data,
         );
 
         $this->logger->info(
@@ -464,19 +461,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Internal function to load the expiring time passes as diagram.
-     *
-     * @param array $options
-     *
-     * @return array $data
-     */
-    private function time_passes_expiry( $options ) {
-        $time_pass_expiry_diagram = LaterPay_Helper_Dashboard::time_pass_expiry_diagram( $options['pass_id'] );
-
-        return $time_pass_expiry_diagram;
-    }
-
-    /**
      * Internal function to load KPIs by given options.
      *
      * @param array $options
@@ -577,6 +561,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      */
     private function get_query_options( $options ) {
         $end_timestamp = LaterPay_Helper_Dashboard::get_end_timestamp( $options['start_timestamp'], $options['interval'] );
+        $mode          = LaterPay_Helper_View::get_plugin_mode();
         $where = array(
             'date' => array(
                 array(
@@ -584,21 +569,22 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                     'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $end_timestamp ),
                 ),
             ),
+            'mode' => $mode,
         );
 
         // add the query options to the options array
-        $options ['query_args'] = array(
+        $options['query_args'] = array(
             'order_by'  => LaterPay_Helper_Dashboard::get_order_by( $options['interval']  ),
             'group_by'  => LaterPay_Helper_Dashboard::get_group_by( $options['interval']  ),
             'where'     => $where,
         );
 
-        $options ['most_least_query'] = array(
+        $options['most_least_query'] = array(
             'where' => $where,
             'limit' => $options['count'],
         );
 
-        $options ['query_where'] = $where;
+        $options['query_where'] = $where;
 
         return $options;
     }
@@ -636,11 +622,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $refresh = (bool) $post_args['refresh'];
         }
 
-        $pass_id    = 0;
-        if ( isset( $post_args['pass_id'] ) ) {
-            $pass_id = (int) $post_args['pass_id'];
-        }
-
         $section = (string) $post_args['section'];
 
         // initial options
@@ -651,7 +632,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             'count'             => $count,
             'section'           => $section,
             'revenue_model'     => $revenue_model,
-            'pass_id'           => $pass_id,
         );
 
         $cache_dir      = LaterPay_Helper_Dashboard::get_cache_dir( $start_timestamp );
@@ -684,7 +664,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 3,
             );
             wp_send_json_error( $error );
-            exit;
         }
 
         if ( ! in_array( $_POST['section'], $this->ajax_sections ) ) {
@@ -693,7 +672,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 4,
             );
             wp_send_json_error( $error );
-            exit;
         }
 
         if ( ! method_exists( $this, $_POST['section'] ) ) {
@@ -702,7 +680,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 4,
             );
             wp_send_json_error( $error );
-            exit;
         }
     }
 
@@ -718,7 +695,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 1,
             );
             wp_send_json_error( $error );
-            exit;
         }
 
         $nonce = $_POST['_wpnonce'];
@@ -728,7 +704,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 'step'      => 2,
             );
             wp_send_json_error( $error );
-            exit;
         }
     }
 }
