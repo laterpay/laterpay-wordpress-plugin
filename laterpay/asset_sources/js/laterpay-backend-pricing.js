@@ -120,11 +120,6 @@
                 bulkDeleteOperationLink                 : '.lp_js_deleteSavedBulkOperation',
                 bulkApplySavedOperationLink             : '.lp_js_applySavedBulkOperation',
 
-                // default currency
-                defaultCurrencyForm                     : $('#lp_js_defaultCurrency_form'),
-                defaultCurrency                         : $('#lp_js_changeDefaultCurrency'),
-                currency                                : '.lp_js_currency',
-
                 // strings cached for better compression
                 editing                                 : 'lp_is-editing',
                 unsaved                                 : 'lp_is-unsaved',
@@ -378,13 +373,6 @@
                     deleteSavedBulkOperation($(this).parent());
                 })
                 .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
-
-                // default currency events -----------------------------------------------------------------------------
-                // switch default currency
-                $o.defaultCurrency
-                .change(function() {
-                    switchCurrency();
-                });
             },
 
             validatePrice = function($form, invalidPrice, $input) {
@@ -722,21 +710,6 @@
                     formatSelection : format_func,
                     escapeMarkup    : function(m) {return m;}
                 });
-            },
-
-            switchCurrency = function() {
-                $.post(
-                    ajaxurl,
-                    $o.defaultCurrencyForm.serializeArray(),
-                    function(r) {
-                        if (r.success) {
-                            // update all instances of the default currency
-                            $($o.currency).html(r.laterpay_currency);
-                        }
-                        setMessage(r.message, r.success);
-                    },
-                    'json'
-                );
             },
 
             addTimePass = function() {

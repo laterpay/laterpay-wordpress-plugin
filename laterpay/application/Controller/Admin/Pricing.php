@@ -161,10 +161,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                 );
             }
             switch ( $_POST['form'] ) {
-                // case 'currency_form':
-                //     $this->update_currency();
-                //     break;
-
                 case 'global_price_form':
                     $this->update_global_default_price();
                     break;
@@ -283,37 +279,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             )
         );
     }
-
-    // /**
-    //  * Update the currency used for all prices.
-    //  *
-    //  * @return void
-    //  */
-    // protected function update_currency() {
-    //     $currency_form = new LaterPay_Form_Currency();
-
-    //     if ( ! $currency_form->is_valid( $_POST ) ) {
-    //         wp_send_json(
-    //             array(
-    //                 'success' => false,
-    //                 'message' => __( 'Error occurred. Incorrect data provided.', 'laterpay' ),
-    //             )
-    //         );
-    //     }
-
-    //     update_option( 'laterpay_currency', $currency_form->get_field_value( 'laterpay_currency' ) );
-
-    //     wp_send_json(
-    //         array(
-    //             'success'           => true,
-    //             'laterpay_currency' => get_option( 'laterpay_currency' ),
-    //             'message'           => sprintf(
-    //                                         __( 'The currency for this website is %s now.', 'laterpay' ),
-    //                                         get_option( 'laterpay_currency' )
-    //                                     )
-    //         )
-    //     );
-    // }
 
     /**
      * Update the global price.
