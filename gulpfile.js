@@ -163,7 +163,6 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
 
 // build project for release
 gulp.task('build', ['clean', 'updateSubmodules'], function() {
-    // TODO: git archive is the right option to export the entire repo
     gulp.start('img-build');
     gulp.start('css-build');
     gulp.start('js-build');
