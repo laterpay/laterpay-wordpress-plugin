@@ -854,7 +854,8 @@
                         $(this).remove();
                     });
                 }
-                // TODO: unbind events
+
+                // #656: unbind events
 
                 // show action links required when displaying time pass
                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
@@ -963,7 +964,7 @@
                                 function(r) {
                                     if (r.success) {
                                         $(this).remove();
-                                        // TODO: unbind events
+                                        // #656: unbind events
                                     } else {
                                         $(this).stop().show();
                                     }
