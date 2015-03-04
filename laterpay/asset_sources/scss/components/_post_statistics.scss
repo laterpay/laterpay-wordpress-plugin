@@ -8,7 +8,7 @@
 
 .lp_post-statistics {
     background: $background--darker;
-    border-radius: 0 0 0 3px;
+    border-radius: 0 0 0 $border-radius;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
     color: hsl(0, 0%, 33%);
     font-size: $fs;
@@ -72,7 +72,7 @@
 // toggle visibility of statistics pane --------------------------------------------------------------------------------
 .lp_post-statistics__visibility-toggle {
     background: $background--darker;
-    border-radius: 3px 0 0 3px;
+    border-radius: $border-radius 0 0 $border-radius;
     color: $clickable;
     height: 45px;
     left: 0;
@@ -261,7 +261,7 @@
 // statistics pane footer with toggle for previewing post as visitor or as admin ---------------------------------------
 .lp_post-statistics .lp_post-statistics__plugin-preview-mode {
     background-color: hsl(47, 100%, 50%);
-    border-radius: 0 0 0 3px;
+    border-radius: 0 0 0 $border-radius;
     margin: 7px 0 0;
     padding: 1em 0.75em 0.66em;
 }

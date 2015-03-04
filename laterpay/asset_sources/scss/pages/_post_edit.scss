@@ -75,7 +75,7 @@
 // select price type section
 .lp_price-type {
     border: 1px solid $border;
-    border-radius: 3px;
+    border-radius: $border-radius;
 
     // switch for selecting price type
     .lp_price-type__list {

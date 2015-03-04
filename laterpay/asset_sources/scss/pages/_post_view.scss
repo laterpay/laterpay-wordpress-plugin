@@ -220,7 +220,7 @@
 .lp_premium-file-box {
     background: hsl(0, 0%, 90%) url('../img/premium-text.png') 50% 50% no-repeat;
     background-size: cover !important;
-    border-radius: 3px !important;
+    border-radius: $border-radius !important;
     box-shadow: 1px 1px 2px hsla(0, 0%, 0%, 0.34) !important;
     height: 300px !important;
     margin: 0 10px 20px 10px !important;
@@ -331,7 +331,7 @@
 // error messages displayed instead of broken shortcodes
 .lp_shortcodeError {
     background-color: hsl(0, 73%, 64%) !important;
-    border-radius: 3px !important;
+    border-radius: $border-radius !important;
     color: $text--inverse !important;
     margin: $fs $fs--2 !important;
     padding: $fs--05 $fs !important;

@@ -110,7 +110,7 @@
 .lp_rating {
     background: $background--lightest;
     border: 1px solid $border;
-    border-radius: 3px;
+    border-radius: $border-radius;
     height: 1.5em;
     line-height: 1.5em;
     margin: 1em 0;
@@ -169,7 +169,7 @@
 .lp_rating-results__distribution {
     background: $background--lightest;
     border: 1px solid $border;
-    border-radius: 3px;
+    border-radius: $border-radius;
     box-sizing: content-box !important;
     display: none;
     left: 50%; /* 1 */

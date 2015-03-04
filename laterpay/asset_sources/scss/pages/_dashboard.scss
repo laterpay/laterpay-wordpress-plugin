@@ -74,7 +74,7 @@
 /* statistics rows */
 .lp_statistics-row {
     background: $background--darker;
-    border-radius: 3px;
+    border-radius: $border-radius;
     margin: $fs $fs $fs 0;
 
     .lp_statistics-row__item {
@@ -133,7 +133,7 @@
 
         &:hover {
             background-color: $background--highlight;
-            border-radius: 3px;
+            border-radius: $border-radius;
         }
     }
 

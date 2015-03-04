@@ -3,7 +3,7 @@
 // enabled revenue models ----------------------------------------------------------------------------------------------
 .lp_enabled-revenue-models {
     background: $background--darker;
-    border-radius: 3px;
+    border-radius: $border-radius;
     margin-top: $fs;
     margin-bottom: $fs;
     padding: $fs;
@@ -63,7 +63,7 @@ span.lp_revenue-model {
 
 .lp_time-passes__item {
     background: $background--darker;
-    border-radius: 3px;
+    border-radius: $border-radius;
     margin-bottom: $fs;
     margin-left: round(2.5 * $fs);
     padding: $fs;

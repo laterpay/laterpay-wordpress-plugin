@@ -30,7 +30,7 @@
     // text content of the tooltip
     &:after {
         background: $text;
-        border-radius: 3px;
+        border-radius: $border-radius;
         color: $text--inverse;
         content: attr(data-tooltip);
         font-size: $fs--08;

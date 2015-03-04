@@ -74,7 +74,7 @@
 .lp_navigation-tabs__submenu {
     background: $background--lightest;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.21);
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 $border-radius $border-radius;
     display: none;
     margin-top: -3px !important; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
 }

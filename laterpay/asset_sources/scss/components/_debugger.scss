@@ -145,7 +145,7 @@
 
 .lp_debugger-tabs__item {
     border: 1px solid transparent;
-    border-radius: 3px 3px 0 0;
+    border-radius: $border-radius $border-radius 0 0;
     float: left;
     height: 2.5em;
     list-style: none outside none;

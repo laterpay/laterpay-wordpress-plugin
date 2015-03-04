@@ -1,67 +1,81 @@
 // font sizes ----------------------------------------------------------------------------------------------------------
-$fs: 14px;
-$fs--125: round(1.25 * $fs);
-$fs--15: round(1.5 * $fs);
-$fs--175: round(1.75 * $fs);
-$fs--2: 2 * $fs;
-$fs--3: 3 * $fs;
-$fs--08: round(0.8 * $fs);
-$fs--075: round(0.75 * $fs);
-$fs--05: round(0.5 * $fs);
-$fs--025: round(0.25 * $fs);
+$fs:                        14px;
+$fs--125:                   round(1.25 * $fs);
+$fs--15:                    round(1.5 * $fs);
+$fs--175:                   round(1.75 * $fs);
+$fs--2:                     2 * $fs;
+$fs--3:                     3 * $fs;
+$fs--08:                    round(0.8 * $fs);
+$fs--075:                   round(0.75 * $fs);
+$fs--05:                    round(0.5 * $fs);
+$fs--025:                   round(0.25 * $fs);
 
 
 // colors --------------------------------------------------------------------------------------------------------------
 // text colors
-$text: hsl(0, 0%, 33%);
-$text--lighter: hsl(0, 0%, 67%);
-$text--lightest: hsl(0, 0%, 80%);
-$text--inverse: hsl(0, 0%, 100%);
+$text:                      hsl(0, 0%, 33%);
+
+$text--lighter:             lighten($text, 34%);
+$text--lightest:            lighten($text, 56%);
+
+$text--inverse:             hsl(0, 0%, 100%);
 
 
 // colors for clickable items (links, buttons, etc.)
-$clickable: hsl(197, 100%, 32%);
-$clickable--highlight: hsl(197, 63%, 49%);
+$clickable:                 hsl(197, 100%, 32%);
+
+$clickable--highlight:      desaturate(lighten($clickable, 17%), 37%);
 
 
 // background colors
-$background: hsl(0, 0%, 95%);
-$background--darker: hsl(0, 0%, 89%);
-$background--lightest: hsl(0, 0%, 100%);
-$background--highlight: hsl(51, 98%, 76%);
+$background:                desaturate(lighten($clickable, 60%), 91%);
+
+$background--darker:        darken($background, 13%);
+
+$background--lightest:      lighten($background, 5%);
+
+$background--highlight:     hsl(51, 98%, 76%);
 
 
 // LaterPay brand colors
-$laterpay-brand: hsl(137, 54%, 56%);
-$laterpay-brand--darker: hsl(137, 49%, 54%);
-$laterpay-brand--highlight: hsl(137, 61%, 59%);
+$laterpay-brand:            hsl(138, 54%, 55%);
+
+$laterpay-brand--darker:    desaturate(darken($laterpay-brand, 17%), 2%);
+
+$laterpay-brand--highlight: saturate(lighten($laterpay-brand, 5%), 8%);
 
 
 // border colors
-$border: hsl(0, 0%, 87%);
-$border--darker: hsl(0, 0%, 80%);
-$border--darkest: hsl(0, 0%, 40%);
-$border--lightest: hsl(0, 0%, 98%);
+$border:                    desaturate(lighten($clickable, 50%), 91%);
+
+$border--darker:            darken($border, 8%);
+$border--darkest:           darken($border, 56%);
+
+$border--lightest:          lighten($border, 13%);
+
+
+// border radii --------------------------------------------------------------------------------------------------------
+$border-radius:             3px;
 
 
 // z-indexes -----------------------------------------------------------------------------------------------------------
-$zindex: 0;
-$zindex--recessed: -1;
+$zindex:                    0;
+$zindex--recessed:          -1;
 
 
 // elements on the base layer that need to stick out
-$zindex--elevated-1: 10;
-$zindex--elevated-2: 11;
-$zindex--elevated-3: 12;
+$zindex--elevated-1:        10;
+$zindex--elevated-2:        11;
+$zindex--elevated-3:        12;
 
 
 // elements that float over the base layer
-$zindex--overlayed-1: 100;
-$zindex--overlayed-2: 110;
-$zindex--overlayed-3: 120;
+$zindex--overlayed-1:       100;
+$zindex--overlayed-2:       110;
+$zindex--overlayed-3:       120;
 
 
 // elements that must never be covered
-$zindex--topmost-1: 1000000;
-$zindex--topmost-2: 1000010;
-$zindex--topmost-3: 1000020;
+$zindex--topmost-1:         1000000;
+$zindex--topmost-2:         1000010;
+$zindex--topmost-3:         1000020;

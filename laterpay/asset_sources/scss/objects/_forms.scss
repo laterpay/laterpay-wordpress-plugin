@@ -255,7 +255,7 @@ label:hover .ez-mark {
 // revenue model labels ------------------------------------------------------------------------------------------------
 .lp_revenue-model {
     background: $background--darker;
-    border-radius: 3px;
+    border-radius: $border-radius;
     color: $clickable;
     display: inline-block;
     font-weight: bold;

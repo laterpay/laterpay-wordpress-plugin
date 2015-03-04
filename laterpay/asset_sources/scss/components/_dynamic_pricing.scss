@@ -148,7 +148,7 @@
 .lp_dynamic-pricing__end-price-input {
     background: #fff !important;
     border: 2px solid $clickable !important;
-    border-radius: 3px !important;
+    border-radius: $border-radius !important;
     box-shadow: none !important;
     display: none;
     font-size: 12px !important;

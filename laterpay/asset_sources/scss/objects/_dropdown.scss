@@ -46,7 +46,7 @@
 .lp_dropdown__list {
     background: $background--lightest;
     border: 2px solid $border;
-    border-radius: 3px;
+    border-radius: $border-radius;
     display: none;
     left: 50%;
     margin-left: -3em;
