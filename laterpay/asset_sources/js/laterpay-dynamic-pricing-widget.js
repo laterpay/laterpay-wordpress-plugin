@@ -119,7 +119,7 @@ var DynamicPricingWidget = function(container) {
             width   : '52px',
             height  : '30px',
         })
-        .html('<input type="text" class="lp_dynamic-pricing__start-price-input">');
+        .html('<input type="text" class="lp_dynamic-pricing__start-price-input" maxlength="6">');
     svg.append('text')
         .attr('class', 'lp_dynamic-pricing__start-price-value lp_dynamic-pricing__handle-text')
         .attr('text-anchor', 'end');
@@ -149,7 +149,7 @@ var DynamicPricingWidget = function(container) {
             width   : '52px',
             height  : '30px',
         })
-        .html('<input type="text" class="lp_dynamic-pricing__end-price-input">');
+        .html('<input type="text" class="lp_dynamic-pricing__end-price-input" maxlength="6">');
     svg.append('text')
         .attr('class', 'lp_dynamic-pricing__end-price-value lp_dynamic-pricing__handle-text')
         .attr('text-anchor', 'end');
