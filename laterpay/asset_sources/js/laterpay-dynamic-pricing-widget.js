@@ -116,7 +116,7 @@ var DynamicPricingWidget = function(container) {
         .attr({
             class   : 'lp_dynamic-pricing__start-price-input-wrapper',
             // foreign objects do not render without a width and height, so we have to provide those
-            width   : '52px',
+            width   : '56px',
             height  : '30px',
         })
         .html('<input type="text" class="lp_dynamic-pricing__start-price-input" maxlength="6">');
@@ -133,20 +133,20 @@ var DynamicPricingWidget = function(container) {
 
     // draw end price handle with text and input and everything
     svg.append('rect')
-            .attr({
-                class   : 'lp_dynamic-pricing__end-price-handle',
-                width   : 32,
-                rx      : 3,
-                height  : 29,
-                ry      : 3,
-            });
+        .attr({
+            class   : 'lp_dynamic-pricing__end-price-handle',
+            width   : 32,
+            rx      : 3,
+            height  : 29,
+            ry      : 3,
+        });
     svg.append('path')
         .attr('class', 'lp_dynamic-pricing__end-price-handle-triangle');
     svg.insert('foreignObject')
         .attr({
             class   : 'lp_dynamic-pricing__end-price-input-wrapper',
             // foreign objects do not render without a width and height, so we have to provide those
-            width   : '52px',
+            width   : '56px',
             height  : '30px',
         })
         .html('<input type="text" class="lp_dynamic-pricing__end-price-input" maxlength="6">');
@@ -600,7 +600,7 @@ DynamicPricingWidget.prototype._plotEndPriceHandle = function() {
         .call(this.dragBehavior.y)
         .transition().duration(this.dragging ? 0 : 250)
         .attr({
-            x: function()  { return self.dimensions.width - 4; },
+            x: function()  { return self.dimensions.width - 8; },
             y: function(d) { return self.scale.y(d.y) - 15; }
         });
 
