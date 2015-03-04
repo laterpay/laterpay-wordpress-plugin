@@ -8,9 +8,6 @@
     padding: $fs;
 }
 
-/*.lp_row*/
-    // no particular styles attached
-
 
 // tabs ----------------------------------------------------------------------------------------------------------------
 .lp_navigation {
@@ -18,6 +15,7 @@
     border-bottom: 1px solid $border--darker;
     box-shadow: 0 1px 0 $background--lightest;
     left: -20px;
+    padding-right: 20px;
     padding-top: 2rem;
     width: 100%;
 }
@@ -43,6 +41,7 @@
 
     .lp_navigation-tabs__link {
         color: $text--lighter;
+        display: block;
         font-size: $fs;
         min-width: 7.5em;
         padding: 0.5em 1em 0.75em;

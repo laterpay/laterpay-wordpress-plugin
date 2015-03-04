@@ -280,7 +280,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( ! LaterPay_Helper_View::plugin_is_working() ) {
             return;
         }
-        return '<div class="lp_premium-file-box_wrapper lp_clearfix">' . do_shortcode( $content ) . '</div>';
+        return '<div class="lp_premium-file-box__wrapper lp_clearfix">' . do_shortcode( $content ) . '</div>';
     }
 
     /**
@@ -334,7 +334,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 $button_page_url = $page_url;
             }
             $html_button =  '<a href="' . $button_page_url . '" ' .
-                                'class="lp_purchaseLinkShortcode lp_purchase-link lp_js_purchaseLink lp_button" ' .
+                                'class="lp_purchase-link-shortcode lp_purchase-link lp_js_purchaseLink lp_button" ' .
                                 'rel="prefetch" ' .
                                 'data-icon="b">' .
                                 $button_label .

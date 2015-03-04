@@ -142,7 +142,7 @@
                                         if (passId === r.pass_id) {
                                             // update purchase button price and url
                                             var priceWithVoucher = r.price +
-                                                '<small>' + lpVars.default_currency + '</small>';
+                                                '<small class="lp_purchase-link__currency">' + lpVars.default_currency + '</small>';
 
                                             // update purchase button on time pass
                                             $(this)

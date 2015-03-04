@@ -50,7 +50,7 @@
 
 
     // hide purchase button, if it is covered by our paid content overlay
-    .lp_purchaseLinkShortcode {
+    .lp_purchase-link-shortcode {
         display: none !important;
     }
 
@@ -229,7 +229,7 @@
 
     .lp_button,
     .lp_purchase-link.lp_button,
-    .lp_purchaseLinkShortcode.lp_button {
+    .lp_purchase-link-shortcode.lp_button {
         font-size: $fs--15 !important;
         margin: 0 !important;
         right: 0.45em !important;

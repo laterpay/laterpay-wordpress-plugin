@@ -40,7 +40,7 @@ class LaterPay_Helper_View
             $data = 'data="' . esc_attr( $data ) . '"';
         }
 
-        return '<a href="' . $href . '" ' . $data . ' class="lp_u_block">' . $page[ 'title' ] . '</a>';
+        return '<a href="' . $href . '" ' . $data . ' class="lp_u_block lp_navigation-tabs__link">' . $page[ 'title' ] . '</a>';
     }
 
     /**

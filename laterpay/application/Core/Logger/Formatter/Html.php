@@ -76,11 +76,11 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . __( 'Details', 'laterpay' ) . '</a>';
 
         $html = '<thead class="lp_debugger-content__table-title lp_js_debuggerContentTableTitle">
-                    <tr>
-                        <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . $level . ' lp_vectorIcon"></span>' . $message . '</td>
-                        <td class="lp_debugger-content__table-td">' . $show_details_link . '</td>
-                    </tr>
-                </thead>';
+            <tr>
+                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . $level . ' lp_vectorIcon"></span>' . $message . '</td>
+                <td class="lp_debugger-content__table-td">' . $show_details_link . '</td>
+            </tr>
+        </thead>';
 
         return $html;
     }

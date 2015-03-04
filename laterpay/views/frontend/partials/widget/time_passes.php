@@ -20,7 +20,7 @@
          <?php endif; ?>
 
         <div id="lp_js_voucherCodeWrapper" class="lp_js_voucherCodeWrapper lp_redeem-code__wrapper lp_clearfix">
-            <input type="text" name="time_pass_voucher_code" class="lp_js_voucherCodeInput lp_redeem-code__value lp_redeem-code__value--is-hidden" maxlength="6">
+            <input type="text" name="time_pass_voucher_code" class="lp_js_voucherCodeInput lp_redeem-code__value lp_is-hidden" maxlength="6">
             <p class="lp_redeem-code__input-hint"><?php _e( 'Code', 'laterpay' ); ?></p>
             <div class="lp_js_voucherRedeemButton lp_redeem-code__button lp_button"><?php _e( 'Redeem', 'laterpay' ); ?></div>
             <p class="lp_redeem-code__hint"><?php _e( 'Redeem Voucher >', 'laterpay' ); ?></p>

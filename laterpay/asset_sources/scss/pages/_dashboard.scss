@@ -22,7 +22,7 @@
 
     .lp_triangle {
         border: $fs--08 solid $clickable;
-        top: 0.5em;
+        top: 0;
 
         &.lp_triangle--right {
             border-color: transparent transparent transparent $clickable;

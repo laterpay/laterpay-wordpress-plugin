@@ -16,7 +16,7 @@ $fs--025:                   round(0.25 * $fs);
 $text:                      hsl(0, 0%, 33%);
 
 $text--lighter:             lighten($text, 34%);
-$text--lightest:            lighten($text, 56%);
+$text--lightest:            lighten($text, 47%);
 
 $text--inverse:             hsl(0, 0%, 100%);
 
@@ -24,15 +24,15 @@ $text--inverse:             hsl(0, 0%, 100%);
 // colors for clickable items (links, buttons, etc.)
 $clickable:                 hsl(197, 100%, 32%);
 
-$clickable--highlight:      desaturate(lighten($clickable, 17%), 37%);
+$clickable--highlight:      desaturate(lighten($clickable, 11%), 37%);
 
 
 // background colors
-$background:                desaturate(lighten($clickable, 60%), 91%);
+$background:                lighten($text, 62%);
 
-$background--darker:        darken($background, 13%);
+$background--darker:        darken($background, 6%);
 
-$background--lightest:      lighten($background, 5%);
+$background--lightest:      lighten($background, 67%);
 
 $background--highlight:     hsl(51, 98%, 76%);
 
@@ -40,18 +40,18 @@ $background--highlight:     hsl(51, 98%, 76%);
 // LaterPay brand colors
 $laterpay-brand:            hsl(138, 54%, 55%);
 
-$laterpay-brand--darker:    desaturate(darken($laterpay-brand, 17%), 2%);
+$laterpay-brand--darker:    desaturate(darken($laterpay-brand, 2%), 5%);
 
-$laterpay-brand--highlight: saturate(lighten($laterpay-brand, 5%), 8%);
+$laterpay-brand--highlight: saturate(lighten($laterpay-brand, 3%), 7%);
 
 
 // border colors
-$border:                    desaturate(lighten($clickable, 50%), 91%);
+$border:                    lighten($text, 44%);
 
-$border--darker:            darken($border, 8%);
-$border--darkest:           darken($border, 56%);
+$border--darker:            darken($border, 7%);
+$border--darkest:           darken($border, 47%);
 
-$border--lightest:          lighten($border, 13%);
+$border--lightest:          lighten($border, 11%);
 
 
 // border radii --------------------------------------------------------------------------------------------------------

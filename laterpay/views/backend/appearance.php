@@ -124,7 +124,7 @@
                 <dfn>
                     <?php _e( 'Insert shortcode [laterpay_premium_download] into a post to render a box for selling additional paid content.', 'laterpay' ); ?>
                 </dfn>
-                <code class="lp_code-snippet lp--shown-above lp_block">
+                <code class="lp_code-snippet lp_code-snippet--shown-above lp_block">
                     <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
                     <?php _e( '[laterpay_premium_download target_post_id="<dfn>127</dfn>" target_post_title="<dfn>Event video footage</dfn>" content_type="<dfn>video</dfn>" teaser_image_path="<dfn>/uploads/images/concert-video-still.jpg</dfn>" heading_text="<dfn>Video footage of concert</dfn>" description_text="<dfn>Full HD video of the entire concert, including behind the scenes action.</dfn>"]', 'laterpay' ) ?>
                 </code>
@@ -196,7 +196,7 @@
                 <dfn class="lp_clearfix">
                     <?php _e( 'Enclose multiple [laterpay_premium_download] shortcodes in a [laterpay_box_wrapper] shortcode to align them in a three-column layout.', 'laterpay' ); ?>
                 </dfn>
-                <code class="lp_code-snippet lp--shown-above lp_block">
+                <code class="lp_code-snippet lp_code-snippet--shown-above lp_block">
                     <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
                     <?php _e( '[laterpay_box_wrapper]<dfn>[laterpay_premium_download &hellip;][laterpay_premium_download &hellip;]</dfn>[/laterpay_box_wrapper]', 'laterpay' ) ?>
                 </code>
