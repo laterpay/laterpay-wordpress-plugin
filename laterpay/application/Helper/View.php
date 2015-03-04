@@ -16,41 +16,77 @@ class LaterPay_Helper_View
     public static $pluginPage = 'laterpay-plugin';
 
     /**
-     * Get links to be rendered in plugin backend navigation.
+     * Helper function to render a plugin backend navigation tab link.
+     *
+     * @param array $page array(
+     *                      'url'   => String
+     *                      'title' => String
+     *                      'cap'   => String
+     *                      'data'  => Array|String     // optional
+     *                    )
+     *
+     * @return string $link
+     */
+    public static function get_admin_menu_link( $page ) {
+        $query_args = array(
+            'page' => $page[ 'url' ]
+        );
+        $href = admin_url('admin.php');
+        $href = add_query_arg( $query_args, $href );
+
+        $data = '';
+        if ( isset( $page[ 'data' ] ) ){
+            $data = json_encode( $page[ 'data' ] );
+            $data = 'data="' . esc_attr( $data ) . '"';
+        }
+
+        return '<a href="' . $href . '" ' . $data . ' class="lp_u_block">' . $page[ 'title' ] . '</a>';
+    }
+
+    /**
+     * Get links to be rendered in the plugin backend navigation.
      *
      * @return array
      */
     public static function get_admin_menu() {
         $menu = array();
 
+        // @link http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table
+        // cap "activate_plugins"   => Super Admin, Admin
+        // cap "moderate_comments"  => Super Admin, Admin, Editor
+
         $menu[ 'dashboard' ] = array(
-            'url'      => 'laterpay-plugin',
-            'title'    => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
-            'submenu'  => array(
-                'name'  => 'time_passes',
-                'url'   => 'laterpay-timepass-dashboard-tab',
-                'title' => __( 'Time Passes', 'laterpay' ),
-                'id'    => 'lp_js_switchDashboardView',
-                'data'  => array(
-                    'view'     => 'time-passes',
-                    'label'    => __( 'Standard KPIs', 'laterpay' ),
+            'url'       => 'laterpay-plugin',
+            'title'     => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
+            'cap'       => 'moderate_comments',
+            'submenu'   => array(
+                'name'      => 'time_passes',
+                'url'       => 'laterpay-timepass-dashboard-tab',
+                'cap'       => 'moderate_comments',
+                'title'     => __( 'Time Passes', 'laterpay' ),
+                'data'      => array(
+                    'view'      => 'time-passes',
+                    'label'     => __( 'Standard KPIs', 'laterpay' ),
                 ),
             ),
         );
 
         $menu[ 'pricing' ] = array(
-            'url' => 'laterpay-pricing-tab',
-            'title' => __( 'Pricing', 'laterpay' )
+            'url'   => 'laterpay-pricing-tab',
+            'title' => __( 'Pricing', 'laterpay' ),
+            'cap'   => 'activate_plugins',
         );
 
         $menu[ 'appearance' ] = array(
-            'url' => 'laterpay-appearance-tab',
-            'title' => __( 'Appearance', 'laterpay' )
+            'url'   => 'laterpay-appearance-tab',
+            'title' => __( 'Appearance', 'laterpay' ),
+            'cap'   => 'activate_plugins',
         );
 
         $menu[ 'account' ] = array(
-            'url' => 'laterpay-account-tab',
-            'title' => __( 'Account', 'laterpay' )
+            'url'   => 'laterpay-account-tab',
+            'title' => __( 'Account', 'laterpay' ),
+            'cap'   => 'activate_plugins',
         );
 
         return $menu;

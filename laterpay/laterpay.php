@@ -164,7 +164,6 @@ function laterpay_get_plugin_config() {
     $currency_settings = array(
         'currency.default'          => 'EUR',
         'currency.default_price'    => 0.29,
-        'currency.default_vat'      => 'DE19',
     );
     $config->import( $currency_settings );
 

@@ -33,7 +33,7 @@
                                name="only_time_pass_purchase_mode"
                                class="lp_js_onlyTimePassPurchaseModeInput lp_toggle__input"
                                value="1"
-                               <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) { echo 'checked'; } ?>
+                               <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
                         >
                         <span class="lp_toggle__text"></span>
                         <span class="lp_toggle__handle"></span>
@@ -43,8 +43,8 @@
             <?php _e( '<strong>only time pass purchases.</strong>', 'laterpay' ); ?>
         </div>
 
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <ul class="lp_js_hideInTimePassOnlyMode lp_row lp_clearfix" style="display:none;">
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) : ?>
+            <ul class="lp_js_hideInTimePassOnlyMode lp_row lp_u_clearfix" style="display:none;">
         <?php else : ?>
             <ul class="lp_js_hideInTimePassOnlyMode lp_row lp_clearfix">
         <?php endif; ?>
