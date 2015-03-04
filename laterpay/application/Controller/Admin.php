@@ -24,7 +24,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         add_menu_page(
             __( 'LaterPay Plugin Settings', 'laterpay' ),
             'LaterPay',
-            'activate_plugins',
+            'moderate_comments', // allow: Super Admin, Admin, Editor to view the Settings-Page
             $plugin_page,
             array( $this, 'run' ),
             'dashicons-laterpay-logo',
@@ -34,23 +34,22 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         $page_number    = 0;
         $menu           = LaterPay_Helper_View::get_admin_menu();
         foreach ( $menu as $name => $page ) {
-            $slug = ! $page_number ? $plugin_page : $page['url'];
+            $slug   = ! $page_number ? $plugin_page : $page['url'];
             $page_id = add_submenu_page(
                 $plugin_page,
                 $page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
                 $page['title'],
-                'activate_plugins',
+                $page['cap'],
                 $slug,
                 array( $this, 'run_' . $name )
             );
             if ( isset( $page['submenu'] ) ) {
-                $sub_page = $page['submenu'];
-
+                $sub_page   = $page['submenu'];
                 add_submenu_page(
                     $sub_page['name'],
                     $sub_page['title'] . ' | ' . __( 'LaterPay Plugin Settings', 'laterpay' ),
                     $sub_page['title'],
-                    'activate_plugins',
+                    $page['cap'],
                     $sub_page['url'],
                     array( $this, 'run_' . $sub_page['name'] )
                 );
