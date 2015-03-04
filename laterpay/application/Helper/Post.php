@@ -199,7 +199,6 @@ class LaterPay_Helper_Post
         $params = array(
             'article_id' => $post_id,
             'pricing'    => $currency . ( $price * 100 ),
-            'vat'        => laterpay_get_plugin_config()->get( 'currency.default_vat' ),
             'url'        => $url . '&hash=' . $hash,
             'title'      => $post->post_title,
         );
