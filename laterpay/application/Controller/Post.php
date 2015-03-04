@@ -60,21 +60,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $content = apply_filters( 'the_content', $post->post_content );
         $content = str_replace( ']]>', ']]&gt;', $content );
-
-        $show_post_ratings = get_option( 'laterpay_ratings' );
-
-        if ( $show_post_ratings ) {
-            // set args for partial
-            $view_args = array(
-                'post_id'                 => $post_id,
-                'user_has_already_voted'  => LaterPay_Helper_Rating::check_if_user_voted_post_already( $post_id ),
-            );
-            $this->assign( 'laterpay', $view_args );
-
-            // append rating form to content, if content rating is enabled
-            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
-        }
-
+        
         echo $content;
         // return Ajax content
         exit;
