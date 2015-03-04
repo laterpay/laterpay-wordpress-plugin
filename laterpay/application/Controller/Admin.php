@@ -24,7 +24,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         add_menu_page(
             __( 'LaterPay Plugin Settings', 'laterpay' ),
             'LaterPay',
-            'moderate_comments', // allow: Super Admin, Admin, Editor to view the Settings-Page
+            'moderate_comments', // allow Super Admin, Admin, and Editor to view the settings page
             $plugin_page,
             array( $this, 'run' ),
             'dashicons-laterpay-logo',

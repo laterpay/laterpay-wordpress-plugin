@@ -16,7 +16,7 @@ class LaterPay_Helper_View
     public static $pluginPage = 'laterpay-plugin';
 
     /**
-     * Helper function to print a tab-item link
+     * Helper function to render a plugin backend navigation tab link.
      *
      * @param array $page array(
      *                      'url'   => String
@@ -27,7 +27,7 @@ class LaterPay_Helper_View
      *
      * @return string $link
      */
-    public static function get_tab_item_link( $page ) {
+    public static function get_admin_menu_link( $page ) {
         $query_args = array(
             'page' => $page[ 'url' ]
         );
@@ -44,7 +44,7 @@ class LaterPay_Helper_View
     }
 
     /**
-     * Get links to be rendered in plugin backend navigation.
+     * Get links to be rendered in the plugin backend navigation.
      *
      * @return array
      */
@@ -59,34 +59,34 @@ class LaterPay_Helper_View
             'url'       => 'laterpay-plugin',
             'title'     => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
             'cap'       => 'moderate_comments',
-            'submenu'  => array(
-                'name'  => 'time_passes',
-                'url'   => 'laterpay-timepass-dashboard-tab',
+            'submenu'   => array(
+                'name'      => 'time_passes',
+                'url'       => 'laterpay-timepass-dashboard-tab',
                 'cap'       => 'moderate_comments',
-                'title' => __( 'Time Passes', 'laterpay' ),
-                'data'  => array(
-                    'view'     => 'time-passes',
-                    'label'    => __( 'Standard KPIs', 'laterpay' ),
+                'title'     => __( 'Time Passes', 'laterpay' ),
+                'data'      => array(
+                    'view'      => 'time-passes',
+                    'label'     => __( 'Standard KPIs', 'laterpay' ),
                 ),
             ),
         );
 
         $menu[ 'pricing' ] = array(
-            'url' => 'laterpay-pricing-tab',
+            'url'   => 'laterpay-pricing-tab',
             'title' => __( 'Pricing', 'laterpay' ),
-            'cap'       => 'activate_plugins',
+            'cap'   => 'activate_plugins',
         );
 
         $menu[ 'appearance' ] = array(
-            'url' => 'laterpay-appearance-tab',
+            'url'   => 'laterpay-appearance-tab',
             'title' => __( 'Appearance', 'laterpay' ),
-            'cap'       => 'activate_plugins',
+            'cap'   => 'activate_plugins',
         );
 
         $menu[ 'account' ] = array(
-            'url' => 'laterpay-account-tab',
+            'url'   => 'laterpay-account-tab',
             'title' => __( 'Account', 'laterpay' ),
-            'cap'       => 'activate_plugins',
+            'cap'   => 'activate_plugins',
         );
 
         return $menu;

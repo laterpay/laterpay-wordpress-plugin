@@ -1,5 +1,5 @@
 <?php
-if (!defined('ABSPATH')){
+if ( ! defined( 'ABSPATH' ) ) {
     // prevent direct access to this file
     exit;
 }
@@ -21,11 +21,11 @@ if (!defined('ABSPATH')){
     endif;
     ?>
     <li class="lp_navigation_tabs__item <?php echo $current_page_class; ?>">
-        <?php echo LaterPay_Helper_View::get_tab_item_link( $page ); ?>
+        <?php echo LaterPay_Helper_View::get_admin_menu_link( $page ); ?>
         <?php if ( isset( $page[ 'submenu' ] ) ) : ?>
             <ul class="lp_navigation_tabs__submenu">
                 <li class="lp_navigation_tabs__item">
-                    <?php echo LaterPay_Helper_View::get_tab_item_link( $page[ 'submenu' ] ); ?>
+                    <?php echo LaterPay_Helper_View::get_admin_menu_link( $page[ 'submenu' ] ); ?>
                 </li>
             </ul>
         <?php endif; ?>
