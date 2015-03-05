@@ -13,6 +13,8 @@
                     'month'             : (86400 * 30),
                 },
 
+                xhrRequests             : [],
+
                 // heading with dashboard configuration selections
                 configurationSelection  : $('.lp_js_selectDashboardInterval, .lp_js_selectRevenueModel'),
                 intervalChoices         : $('.lp_js_selectDashboardInterval'),
