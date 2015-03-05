@@ -5,9 +5,9 @@
     }
 ?>
 
-<div class="lp_dropdown lp_js_dropdown">
-    <span class="lp_dropdown__current-item lp_js_dropdownCurrentItem"><?php _e( 'all', 'laterpay' ); ?></span>
-    <div class="lp_dropdown__list lp_js_dropdownList">
+<div class="lp_js_dropdown lp_dropdown">
+    <span class="lp_js_dropdownCurrentItem lp_dropdown__current-item"><?php _e( 'all', 'laterpay' ); ?></span>
+    <div class="lp_js_dropdownList lp_dropdown__list">
         <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
         <a href="#" class="lp_js_selectRevenueModel lp_dropdown__item lp_is-selected" data-revenue-model="all"><?php _e( 'all', 'laterpay' ); ?></a>
         <a href="#" class="lp_js_selectRevenueModel lp_dropdown__item" data-revenue-model="ppu"><?php _e( 'PPU', 'laterpay' ); ?></a>

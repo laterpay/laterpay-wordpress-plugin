@@ -207,8 +207,7 @@
 
 // teaser content metabox ----------------------------------------------------------------------------------------------
 #lp_post-teaser dfn {
-    color: hsl(0, 0%, 60%);
+    @extend %defining-text;
     display: block;
-    font-style: italic;
     margin: $fs 0;
 }

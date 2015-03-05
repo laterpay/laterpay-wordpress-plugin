@@ -21,10 +21,12 @@
 }
 
 .lp_navigation-tabs {
-    margin-left: $fs--15 !important; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
+    @extend %default-list;
+    margin-left: $fs--15; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
 }
 
 .lp_navigation-tabs__item {
+    @extend %default-list;
     display: inline-block;
     margin-left: 1.5rem;
     position: relative;

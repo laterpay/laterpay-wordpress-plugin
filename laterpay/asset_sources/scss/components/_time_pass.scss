@@ -97,7 +97,7 @@
     width: 80%; /* 1 - fallback for browsers that don't support calc */
     width: calc(100% - 4em); /* 1 */
 
-    .lp_purchase-link.lp_button {
+    .lp_purchase-button {
         display: inline-block !important;
         float: none !important;
         vertical-align: middle !important;
@@ -238,7 +238,7 @@
         }
     }
 
-    .lp_purchase-link.lp_button {
+    .lp_purchase-button {
         float: left !important;
     }
 
@@ -368,6 +368,7 @@
     font-family: Arial, sans-serif !important;
     font-size: $fs--15 !important;
     height: 53px!important;
+    outline: none !important;
     padding: $fs $fs $fs--075 3.5em !important;
     position: absolute !important;
     top: 0 !important;
@@ -538,7 +539,7 @@
         width: 80% !important; /* 1 - fallback for browsers that don't support calc */
         width: calc(100% - 2em) !important; /* 1 */
 
-        .lp_purchase-link.lp_button {
+        .lp_purchase-button {
             font-size: $fs--15 !important;
 
             &:before {

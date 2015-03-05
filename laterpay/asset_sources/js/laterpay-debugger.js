@@ -4,7 +4,7 @@
         var $o = {
                 menuItem            : $('#wp-admin-bar-lp_js_toggleDebuggerVisibility'),
                 debugger            : $('#lp_js_debugger'),
-                debuggerHeader      : $('#lp_js_debuggerHeader'),
+                debuggerHeader      : $('#lp_js_toggleDebuggerVisibility'),
                 tabs                : $('.lp_js_debuggerTabItem'),
                 content             : $('.lp_js_debuggerContent'),
                 logMessage          : '.lp_js_debuggerContentTable',

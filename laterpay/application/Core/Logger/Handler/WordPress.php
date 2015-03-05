@@ -111,14 +111,14 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     public function render_records() {
         ?>
             <div id="lp_js_debugger" class="lp_debugger lp_is-hidden">
-                <header id="lp_js_debuggerHeader" class="lp_debugger-header">
+                <header id="lp_js_toggleDebuggerVisibility" class="lp_debugger-header">
                     <a href="#" class="lp_debugger__close-link lp_right" data-icon="l"></a>
                     <div class="lp_debugger-header__text lp_right"><?php echo sprintf( __( '%s Memory Usage', 'laterpay' ), number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB' ); ?></div>
                     <h2 data-icon="a" class="lp_debugger-header__title"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 </header>
 
                 <ul id="lp_js_debuggerTabs" class="lp_debugger-tabs lp_clearfix">
-                    <li class="lp_is-selected lp_debugger-tabs__item lp_js_debuggerTabItem">
+                    <li class="lp_js_debuggerTabItem lp_is-selected lp_debugger-tabs__item">
                         <a href="#" class="lp_debugger-tabs__link"><?php echo sprintf( __( 'Messages<span>%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
                     </li>
                     <?php
@@ -127,14 +127,14 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                                 continue;
                             }
                     ?>
-                        <li class="lp_debugger-tabs__item lp_js_debuggerTabItem">
+                        <li class="lp_js_debuggerTabItem lp_debugger-tabs__item">
                             <a href="#" class="lp_debugger-tabs__link"><?php _e( $tab['name'], 'laterpay' ); ?></a>
                         </li>
                     <?php } ?>
                 </ul>
 
                 <ul class="lp_debugger-content-list">
-                    <li class="lp_debugger-content lp_js_debuggerContent">
+                    <li class="lp_js_debuggerContent lp_debugger-content">
                         <ul class="lp_debugger-content-list">
                             <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
                         </ul>
@@ -145,7 +145,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                                 continue;
                             }
                     ?>
-                        <li class="lp_debugger-content lp_js_debuggerContent lp_is-hidden">
+                        <li class="lp_js_debuggerContentlp_debugger-content lp_is-hidden">
                             <table class="lp_debugger-content__table">
                                 <?php foreach ( $tab['content'] as $key => $value  ): ?>
                                     <tr>

@@ -20,7 +20,7 @@ endif;
 
 $args = array(
     'href'                          => '#',
-    'class'                         => 'lp_js_doPurchase lp_purchase-link lp_button',
+    'class'                         => 'lp_js_doPurchase lp_purchase-button',
     'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
     'data-icon'                     => 'b',
     'data-laterpay'                 => $laterpay_widget['link'],

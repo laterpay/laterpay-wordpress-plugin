@@ -662,7 +662,7 @@
                         ));
                     }
                 } else {
-                    $o.list = ['<dfn class="lp_topBottomList__empty-state">' + lpVars.i18n.noData + '</dfn>'];
+                    $o.list = ['<dfn class="lp_top-bottom-list__empty-state">' + lpVars.i18n.noData + '</dfn>'];
                 }
 
                 // replace existing HTML
@@ -678,7 +678,7 @@
                 }
 
                 return '<li class="lp_dashboard-data__item">' +
-                    '<span class="lp_dashboard-data__sparkline lp_js_sparkLine">' + sparklineData + '</span>' +
+                    '<span class="lp_js_sparkLine lp_dashboard-data__sparkline">' + sparklineData + '</span>' +
                     '<strong class="' + valueClass + '">' + kpi + '</strong>' +
                     '<i><a href="#" class="lp_js_toggleItemDetails lp_dashboard-data__link">' + itemName + '</a></i>' +
                     '</li>';

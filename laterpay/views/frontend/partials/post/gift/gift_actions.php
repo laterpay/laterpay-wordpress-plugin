@@ -22,6 +22,6 @@
         <a href="<?php echo $laterpay['landing_page']; ?>"><?php echo $laterpay['landing_page']; ?></a>
         -->
     <?php else: ?>
-        <a href="#" class="lp_js_doPurchase lp_purchase-link lp_button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $pass['url']; ?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title; ?></a>
+        <a href="#" class="lp_js_doPurchase lp_purchase-button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $pass['url']; ?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title; ?></a>
     <?php endif; ?>
 </div>

@@ -387,7 +387,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                                                     </p>
 
                                                     <p>
-                                                    <strong>Deleting Time Passes</strong><br>
+                                                     <strong>Deleting Time Passes</strong><br>
                                                     Please be aware, that after <strong>deleting</strong> a time pass, users who have bought this time pass <strong>will lose</strong> their access to the covered content. <strong>Time Passes cannot be restored.</strong>
                                                     </p>
 

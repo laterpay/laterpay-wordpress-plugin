@@ -1,10 +1,10 @@
 // LaterPay dialogs iframe
 
 .laterpay-overlay {
+    @include opacity(0.89);
     background: hsl(0, 0%, 0%) !important;
     height: 100% !important;
     left: 0 !important;
-    @include opacity(0.89);
     position: fixed !important;
     top: 0 !important;
     width: 100% !important;
@@ -37,29 +37,29 @@
         color: hsl(0, 0%, 60%) !important;
         text-decoration: none !important;
     }
-}
 
-// TODO: why is this selector used twice, once with an attribute selector?
-.laterpay-dialog-close-button[data-icon] {
+    &[data-icon] {
 
-    &:before {
-        background: $text !important;
-        border-radius: 1em !important;
-        color: hsl(0, 0%, 0%) !important;
-        margin-right: 0.4em !important;
-        padding: 0.1em !important;
-        position: relative !important;
-        top: 0.15em !important;
-    }
+        &:before {
+            background: $text !important;
+            border-radius: 1em !important;
+            color: hsl(0, 0%, 0%) !important;
+            margin-right: 0.4em !important;
+            padding: 0.1em !important;
+            position: relative !important;
+            top: 0.15em !important;
+        }
 
-    &:hover:before {
-        background: hsl(0, 0%, 60%);
+        &:hover:before {
+            background: hsl(0, 0%, 60%);
+        }
     }
 }
 
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:567px) {
+
     .laterpay-iframe .laterpay-dialog-close-button {
         padding: 0.2em 0.5em 1em 2em !important;
     }

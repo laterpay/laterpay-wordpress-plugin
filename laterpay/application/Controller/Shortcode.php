@@ -133,7 +133,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                                     );
         }
         if ( $page === null ) {
-            $error_message  = '<div class="lp_shortcodeError">';
+            $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
@@ -152,7 +152,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
             $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
 
-            $error_message  = '<div class="lp_shortcodeError">';
+            $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
@@ -247,14 +247,14 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( $image_path != '' ) {
             $html = '<div class="lp_premium-file-box" style="background-image:url(' . $image_path . ')">';
         } else {
-            $html = '<div class="lp_premium-file-box lp_contentType' . ucfirst( $content_type ) . '">';
+            $html = '<div class="lp_premium-file-box lp_is-' . $content_type . '">';
         }
         // create a shortcode link
         $html .= $this->get_premium_shortcode_link( $page, $content_type, $page_url, $price_tag );
-        $html .= '    <div class="lp_premiumFileDetails">';
-        $html .= "        <h3>$heading</h3>";
+        $html .= '    <div class="lp_premium-file-box__details">';
+        $html .= '        <h3 class="lp_premium-file-box__title">$heading</h3>';
         if ( $description != '' ) {
-            $html .= "    <p>$description</p>";
+            $html .= '    <p class="lp_premium-file-box__text">$description</p>';
         }
         $html .= '    </div>';
         $html .= '</div>';
@@ -334,7 +334,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 $button_page_url = $page_url;
             }
             $html_button =  '<a href="' . $button_page_url . '" ' .
-                                'class="lp_purchase-link-shortcode lp_purchase-link lp_js_purchaseLink lp_button" ' .
+                                'class="lp_js_purchaseLink lp_purchase-button lp_purchase-button--shortcode" ' .
                                 'rel="prefetch" ' .
                                 'data-icon="b">' .
                                 $button_label .
@@ -439,7 +439,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         if ( ! $time_passes_list ) {
             $error_reason = __( 'Wrong time pass id or no time passes specified.', 'laterpay' );
 
-            $error_message  = '<div class="lp_shortcodeError">';
+            $error_message  = '<div class="lp_shortcode-error">';
             $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
             $error_message .= $error_reason;
             $error_message .= '</div>';
@@ -488,7 +488,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             if ( ! $time_pass ) {
                 $error_reason = __( 'Wrong time pass id.', 'laterpay' );
 
-                $error_message  = '<div class="lp_shortcodeError">';
+                $error_message  = '<div class="lp_shortcode-error">';
                 $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
                 $error_message .= $error_reason;
                 $error_message .= '</div>';

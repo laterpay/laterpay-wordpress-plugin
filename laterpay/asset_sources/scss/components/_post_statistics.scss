@@ -195,68 +195,68 @@
         }
     }
 
-    // totals column, showing current day's data
-    .lp_post-statistics__totals {
-        background: $background--lightest;
-
-        .lp_post-statistics__item {
-            display: inline-block;
-            font-size: $fs;
-            margin: 0;
-            padding: 0.65em 0 0.75em;
-            text-align: right;
-            width: 44%;
-
-            &:first-child {
-                width: 52%;
-            }
-        }
-    }
-
-    // separator between different KPI
-    .lp_post-statistics__separator {
-        margin: 1em 0 -2em 0.75em;
-
-        .lp_post-statistics__item {
-            display: inline-block;
-            font-size: $fs;
-            margin: 0 0 0 2%;
-            padding: 0;
-            text-align: center;
-            width: 34%;
-
-            &:first-child {
-                margin-left: 0;
-                width: 60%;
-            }
-        }
-
-        .lp_post-statistics__text {
-            background: $background--darker;
-            display: inline;
-            font-size: 0.75em;
-            margin: 0;
-            padding: 0 0.5em;
-            position: relative;
-            z-index: $zindex--overlayed-3;
-        }
-
-        .lp_post-statistics__separator-line {
-            background: hsl(0, 0%, 73%) none;
-            border: 0 none;
-            height: 1px;
-            margin: 1em 0 0.5em;
-            position: relative;
-            top: -1.66em;
-            z-index: $zindex--overlayed-2;
-        }
-    }
-
     .lp_post-statistics__text {
         color: hsl(0, 0%, 60%);
     }
 }
 
+
+// totals column, showing current day's data
+.lp_post-statistics__totals {
+    background: $background--lightest;
+
+    .lp_post-statistics__item {
+        display: inline-block;
+        font-size: $fs;
+        margin: 0;
+        padding: 0.65em 0 0.75em;
+        text-align: right;
+        width: 44%;
+
+        &:first-child {
+            width: 52%;
+        }
+    }
+}
+
+// separator between different KPI
+.lp_post-statistics__separator {
+    margin: 1em 0 -2em 0.75em;
+
+    .lp_post-statistics__item {
+        display: inline-block;
+        font-size: $fs;
+        margin: 0 0 0 2%;
+        padding: 0;
+        text-align: center;
+        width: 34%;
+
+        &:first-child {
+            margin-left: 0;
+            width: 60%;
+        }
+    }
+
+    .lp_post-statistics__text {
+        background: $background--darker;
+        display: inline;
+        font-size: 0.75em;
+        margin: 0;
+        padding: 0 0.5em;
+        position: relative;
+        z-index: $zindex--overlayed-3;
+    }
+
+    .lp_post-statistics__separator-line {
+        background: hsl(0, 0%, 73%) none;
+        border: 0 none;
+        height: 1px;
+        margin: 1em 0 0.5em;
+        position: relative;
+        top: -1.66em;
+        z-index: $zindex--overlayed-2;
+    }
+}
 
 // statistics pane footer with toggle for previewing post as visitor or as admin ---------------------------------------
 .lp_post-statistics .lp_post-statistics__plugin-preview-mode {

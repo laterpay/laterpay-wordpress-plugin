@@ -50,7 +50,7 @@
 
 
     // hide purchase button, if it is covered by our paid content overlay
-    .lp_purchase-link-shortcode {
+    .lp_purchase-button--shortcode {
         display: none !important;
     }
 
@@ -168,12 +168,12 @@
                 fill: hsl(135, 38%, 49%) !important;
             }
 
-            .lp_purchase-link.lp_button {
+            .lp_purchase-button {
                 display: inline-block !important;
                 float: none !important;
                 margin-top: $fs !important;
                 margin-bottom: $fs !important;
-                margin-left: (6 * $fs) !important;
+                margin-left: (10 * $fs) !important;
             }
 
             .lp_powered-by {
@@ -228,8 +228,8 @@
     width: 300px !important;
 
     .lp_button,
-    .lp_purchase-link.lp_button,
-    .lp_purchase-link-shortcode.lp_button {
+    .lp_purchase-button,
+    .lp_purchase-button.lp_purchase-button--shortcode {
         font-size: $fs--15 !important;
         margin: 0 !important;
         right: 0.45em !important;
@@ -238,6 +238,7 @@
         &:before {
             font-size: round(2.5 * $fs) !important;
             left: -2px !important;
+            top: 10px !important;
         }
     }
 
@@ -249,50 +250,50 @@
     }
 }
 
-.lp_contentTypeText {
+.lp_is-text {
     background-image: url('../img/premium-text.png');
 }
 
-.lp_contentTypeAudio {
+.lp_is-audio {
     background-image: url('../img/premium-audio.png');
 }
 
-.lp_contentTypeVideo {
+.lp_is-video {
     background-image: url('../img/premium-video.png');
 }
 
-.lp_contentTypeGallery {
+.lp_is-gallery {
     background-image: url('../img/premium-gallery.png');
 }
 
-.lp_contentTypeFile {
+.lp_is-file {
     background-image: url('../img/premium-download.png');
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     // serve retina images for hires displays
-    .lp_contentTypeText {
+    .lp_is-text {
         background-image: url('../img/premium-text_2x.png');
     }
 
-    .lp_contentTypeAudio {
+    .lp_is-audio {
         background-image: url('../img/premium-audio_2x.png');
     }
 
-    .lp_contentTypeVideo {
+    .lp_is-video {
         background-image: url('../img/premium-video_2x.png');
     }
 
-    .lp_contentTypeGallery {
+    .lp_is-gallery {
         background-image: url('../img/premium-gallery_2x.png');
     }
 
-    .lp_contentTypeFile {
+    .lp_is-file {
         background-image: url('../img/premium-download_2x.png');
     }
 }
 
-.lp_premiumFileDetails {
+.lp_premium-file-box__details {
     background-color: hsla(0, 0%, 90%, 0.89) !important;
     border-radius: 0 0 2px 2px !important;
     bottom: 0 !important;
@@ -305,7 +306,7 @@
     position: absolute !important;
     width: 100% !important;
 
-    h3 {
+    .lp_premium-file-box__title {
         color: $text !important;
         font-size: $fs !important;
         font-weight: bold !important;
@@ -315,7 +316,7 @@
         white-space: nowrap !important;
     }
 
-    p {
+    .lp_premium-file-box__text {
         margin: 0.375em 0 0 !important;
         max-height: 3.6em !important;
         overflow: hidden !important;
@@ -329,7 +330,7 @@
 
 
 // error messages displayed instead of broken shortcodes
-.lp_shortcodeError {
+.lp_shortcode-error {
     background-color: hsl(0, 73%, 64%) !important;
     border-radius: $border-radius !important;
     color: $text--inverse !important;
@@ -362,7 +363,7 @@
             display: none !important;
         }
 
-        .lp_purchase-link.lp_button {
+        .lp_purchase-button {
             margin-left: $fs--2 !important;
         }
     }

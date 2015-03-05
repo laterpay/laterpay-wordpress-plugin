@@ -96,151 +96,151 @@
 
 
 // top margins
-.lp_u_m-t0 {
+.lp_m--t0 {
     margin-top: 0;
 }
 
-.lp_u_m-t025 {
+.lp_m--t025 {
     margin-top: $fs--025;
 }
 
-.lp_u_m-t05 {
+.lp_m--t05 {
     margin-top: $fs--05;
 }
 
-.lp_u_m-t1 {
+.lp_m--t1 {
     margin-top: $fs;
 }
 
-.lp_u_m-t125 {
+.lp_m--t125 {
     margin-top: $fs--125;
 }
 
-.lp_u_m-t2 {
+.lp_m--t2 {
     margin-top: $fs--2;
 }
 
-.lp_u_m-t3 {
+.lp_m--t3 {
     margin-top: $fs--3;
 }
 
 
 // right margins
-.lp_u_m-r0 {
+.lp_m--r0 {
     margin-right: 0;
 }
 
-.lp_u_m-r025 {
+.lp_m--r025 {
     margin-right: $fs--025;
 }
 
-.lp_u_m-r05 {
+.lp_m--r05 {
     margin-right: $fs--05;
 }
 
-.lp_u_m-r1 {
+.lp_m--r1 {
     margin-right: $fs;
 }
 
-.lp_u_m-r2 {
+.lp_m--r2 {
     margin-right: $fs--2;
 }
 
 
 // bottom margins
-.lp_u_m-b0 {
+.lp_m--b0 {
     margin-bottom: 0;
 }
 
-.lp_u_m-b025 {
+.lp_m--b025 {
     margin-bottom: $fs--025;
 }
 
-.lp_u_m-b05 {
+.lp_m--b05 {
     margin-bottom: $fs--05;
 }
 
-.lp_u_m-b1 {
+.lp_m--b1 {
     margin-bottom: $fs;
 }
 
-.lp_u_m-b2 {
+.lp_m--b2 {
     margin-bottom: $fs--2;
 }
 
-.lp_u_m-b3 {
+.lp_m--b3 {
     margin-bottom: $fs--3;
 }
 
 
 // left margins
-.lp_u_m-l0 {
+.lp_m--l0 {
     margin-left: 0;
 }
 
-.lp_u_m-l025 {
+.lp_m--l025 {
     margin-left: $fs--025;
 }
 
-.lp_u_m-l05 {
+.lp_m--l05 {
     margin-left: $fs--05;
 }
 
-.lp_u_m-l1 {
+.lp_m--l1 {
     margin-left: $fs;
 }
 
-.lp_u_m-l2 {
+.lp_m--l2 {
     margin-left: $fs--2;
 }
 
 
 // paddings ------------------------------------------------------------------------------------------------------------
-.lp_u_pd-0 {
+.lp_pd--0 {
     padding: 0;
 }
 
-.lp_u_pd-05 {
+.lp_pd--05 {
     padding: $fs--05;
 }
 
-.lp_u_pd-1 {
+.lp_pd--1 {
     padding: $fs;
 }
 
 
 // combinations
-.lp_u_pd-0-05 {
+.lp_pd--0-05 {
     padding: 0 $fs--05;
 }
 
-.lp_u_pd-0-1 {
+.lp_pd--0-1 {
     padding: 0 $fs;
 }
 
-.lp_u_pd-025-05 {
+.lp_pd--025-05 {
     padding: $fs--025 $fs--05;
 }
 
 
 // top paddings
-.lp_u_pd-t0 {
+.lp_pd--t0 {
     padding-top: 0;
 }
 
-.lp_u_pd-t05 {
+.lp_pd--t05 {
     padding-top: $fs--05;
 }
 
 
 // right paddings
-.lp_u_pd-r2 {
+.lp_pd--r2 {
     padding-right: $fs--2;
 }
 
 
 // left paddings
-.lp_u_pd-l0 {
+.lp_pd--l0 {
     padding-left: 0;
 }
 
@@ -254,19 +254,19 @@
     position: relative;
 }
 
-.lp_u_top-0 {
+.lp_top--0 {
     top: 0;
 }
 
-.lp_right-0 {
+.lp_right--0 {
     right: 0;
 }
 
-.lp_u_bottom-0 {
+.lp_bottom--0 {
     bottom: 0;
 }
 
-.lp_left-0 {
+.lp_left--0 {
     left: 0;
 }
 

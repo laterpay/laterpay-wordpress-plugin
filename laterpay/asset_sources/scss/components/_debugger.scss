@@ -22,11 +22,11 @@
     z-index: $zindex--topmost-1;
 
     .lp_debugger-header__title {
+        @extend %default-h2;
         display: inline-block;
-        font-size: 1.25em;
         font-weight: normal;
         line-height: 1;
-        margin: 0.5em 0 0.5em 6.75em;
+        margin: $fs--05 0 $fs--05 6.75em;
 
         &:before {
             display: block;
@@ -61,19 +61,19 @@
 
 .lp_debugger-header__text {
     line-height: 2.5;
-    padding: 0 0.5em;
+    padding: 0 $fs--05;
 }
 
 .lp_debugger__close-link {
     color: $clickable;
     font-weight: bold;
-    height: 2em;
+    height: $fs--2;
     line-height: 2;
     margin: $fs--025 $fs--025 0 0;
     text-align: center;
     transform: rotate(90deg);
     transition: transform 0.2s;
-    width: 2em;
+    width: $fs--2;
 
     &:before {
         line-height: 2;
@@ -101,21 +101,6 @@
     margin: $fs--075 $fs--075 0;
     position: relative;
     z-index: $zindex;
-
-    .lp_is-selected {
-        border-color: $border--darker $border--darker hsl(0, 0%, 90%);
-
-        .lp_debugger-tabs__link,
-        &:hover .lp_debugger-tabs__link {
-            color: $text;
-            cursor: default;
-        }
-
-        span,
-        &:hover span {
-            background-color: lighten(hsl(0, 0%, 33%), 20%);
-        }
-    }
 }
 
 .lp_debugger-tabs__link {
@@ -155,6 +140,21 @@
     &:hover {
         border-color: $border--darker $border--darker hsl(0, 0%, 90%);
     }
+
+    .lp_is-selected {
+        border-color: $border--darker $border--darker hsl(0, 0%, 90%);
+
+        .lp_debugger-tabs__link,
+        &:hover .lp_debugger-tabs__link {
+            color: $text;
+            cursor: default;
+        }
+
+        span,
+        &:hover span {
+            background-color: lighten(hsl(0, 0%, 33%), 20%);
+        }
+    }
 }
 
 
@@ -174,15 +174,14 @@
 
     .lp_debugger-content {
         list-style: none outside none;
+
+        &.lp_is-hidden {
+            display: none;
+        }
     }
 
     .lp_debugger-content li {
         border-bottom: 1px solid darken(hsl(0, 0%, 87%), 3%);
-    }
-
-    // TODO: state classes should only be used as adjoining classes
-    .lp_is-hidden {
-        display: none;
     }
 
     .lp_debugger__log-level:before {

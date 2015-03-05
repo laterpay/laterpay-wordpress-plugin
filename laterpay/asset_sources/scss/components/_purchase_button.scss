@@ -1,9 +1,8 @@
 // LaterPay purchase button
 
 // rendered as plain link ----------------------------------------------------------------------------------------------
-.lp_purchase-link {
+.lp_purchase-link, .lp_purchase-button {
     border: none !important;
-    color: $clickable !important;
     display: block !important;
     font-family: Arial, sans-serif !important;
     font-size: $fs !important;
@@ -34,16 +33,12 @@
         padding: 0 1px 0 2px !important;
         position: relative !important;
     }
-
-    &:hover {
-        color: $clickable--highlight !important;
-    }
 }
 
 
 // rendered as button --------------------------------------------------------------------------------------------------
 .lp_button,
-.lp_purchase-link.lp_button {
+.lp_purchase-button {
     @include linear-gradient($laterpay-brand, 0%, $laterpay-brand--darker, 100%, $start, $end);
     border-color: hsl(166, 64%, 31%) hsl(166, 64%, 35%) !important;
     border-radius: 5px !important;
@@ -56,6 +51,7 @@
     line-height: 1.1 !important;
     margin: 0 !important;
     padding: 0.2em 0.2em 0.1em 0 !important;
+    text-decoration: none !important;
     text-shadow: 0 -1px 0 hsl(166, 65%, 38%) !important;
     white-space: nowrap !important;
 
@@ -89,8 +85,8 @@
 
     .lp_purchase-link__currency {
         bottom: .7em !important;
-        color: #fff !important;
-        font-size: .5em !important;
+        color: $text--inverse !important;
+        font-size: 0.6em !important;
         padding-left: 4px !important;
         position: relative !important;
         text-decoration: none !important;
