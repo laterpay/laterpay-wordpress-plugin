@@ -257,6 +257,19 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.11.1 (March 5, 2015): Bugfix Release (v1.0 RC1) =
+* Added capability to also allow users with role 'editor' to see the dashboards in the plugin backend
+* Fixed bug that caused link checker plugins to report broken links
+* Fixed bug that prevented time passes widget to render, if a specific time pass id was not provided
+* Visual fixes for redeem voucher code form in some themes
+* Fixed bug that caused custom columns in posts page to not be rendered
+* Improved dashboard behavior: running Ajax requests are aborted now, when changing the dashboard configuration
+* Improved performance: do not check LaterPay token on free posts
+* Removed default values for VAT, which were made obsolete by VATMOSS
+* Removed filters from plugin config, because of recent introduction of advanced settings page
+* Removed commented out function to switch the default currency
+* Lots of internal refactoring and clean-up
+
 = 0.9.11 (February 25, 2015): Time Pass Additions Release =
 * Added option to allow only time pass purchases or time pass and individual post purchases
 * Added dashboard page for time pass customer lifecycle that shows how many time passes are sold and active, and when
