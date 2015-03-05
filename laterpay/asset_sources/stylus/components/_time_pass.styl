@@ -254,7 +254,6 @@
  * 3. When the input is focused, it is rendered like an input, the hint text is hidden, and the button is shown
  * 4. Make sure the input is wide enough for the six character voucher code
  * 5. Prevent the input to be wider than the time pass and look weird
- * 6. Give a reasonable height to the wrapper to allow positioning the elements with top, bottom, left, right
  */
 .lp_timePassWidget_voucherCodeWrapper
     clear                   left                                                                    !important
@@ -262,10 +261,6 @@
     max-width               308px /* 5 */                                                           !important
     min-width               round(18 * $fs-1) /* 4 */                                               !important
     position                relative                                                                !important
-
-// .lp_timePassWidget_voucherCodeWrapper,
-// .lp_timePassWidget_voucherCode
-//     height                  round(3.75 * $fs-1) /* 6 - TODO: this is a magic number that should not be required */ !important
 
 .lp_voucherCodeFeedbackMessage
     background              $background-highlight                                                   !important
