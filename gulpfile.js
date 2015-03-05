@@ -2,7 +2,6 @@ var autoprefixer    = require('gulp-autoprefixer'),
     cached          = require('gulp-cached'),
     csslint         = require('gulp-csslint'),
     del             = require('del'),
-    fixmyjs         = require('gulp-fixmyjs'),
     git             = require('gulp-git'),
     gulp            = require('gulp'),
     jshint          = require('gulp-jshint'),
@@ -19,9 +18,9 @@ var autoprefixer    = require('gulp-autoprefixer'),
     uglify          = require('gulp-uglify'),
     p               = {
                         allfiles    : [
-                                            './laterpay/**/*.php',
-                                            './laterpay/asset_sources/stylus/**/*.styl',
-                                            './laterpay/asset_sources/js/*.js'
+                                        './laterpay/**/*.php',
+                                        './laterpay/asset_sources/stylus/**/*.styl',
+                                        './laterpay/asset_sources/js/*.js'
                                       ],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
                         srcStylus   : './laterpay/asset_sources/stylus/*.styl',
@@ -80,7 +79,6 @@ gulp.task('js-watch', function() {
 
 gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
-        // .pipe(fixmyjs())                                                        // fix JSHint errors if possible
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish))
         .pipe(sourcemaps.init())
@@ -107,7 +105,7 @@ gulp.task('img-build', function() {
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 
     gulp.src(p.srcPNG)
-        .pipe(tinypng('-XMDmj3TW4Rymyizj1jcUXIvtc-uYJcM'))                      // compress with TinyPNG
+        .pipe(tinypng('6r1BdukU9EqrtUQ5obGa-6VpaH2ZlI-a'))                      // compress with TinyPNG
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
 
@@ -152,7 +150,6 @@ gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function()
 // check code quality before git commit
 gulp.task('precommit', ['sniffphp', 'js-format'], function() {
     gulp.src(p.srcJS + '*.js')
-        // .pipe(fixmyjs())                                                        // fix JSHint errors if possible
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish));
 
