@@ -60,7 +60,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $content = apply_filters( 'the_content', $post->post_content );
         $content = str_replace( ']]>', ']]&gt;', $content );
-        
+
         echo $content;
         // return Ajax content
         exit;
@@ -417,7 +417,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
         $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
 
-        // on single-pages with non-purchaseable posts, don't check or create the "lptoken".
+        // don't check or create the 'lptoken' on single pages with non-purchasable posts
         if ( is_single() && ! LaterPay_Helper_Pricing::is_purchasable( ) ) {
             return;
         }
