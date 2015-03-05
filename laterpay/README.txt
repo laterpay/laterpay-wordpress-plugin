@@ -257,6 +257,10 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.11.2 (March 5, 2015): Bugfix Release (v1.0 RC1) =
+* Fixed undefined variable on dashboard
+* Removed sourcemaps from production assets
+
 = 0.9.11.1 (March 5, 2015): Bugfix Release (v1.0 RC1) =
 * Added capability to also allow users with role 'editor' to see the dashboards in the plugin backend
 * Fixed bug that caused link checker plugins to report broken links
