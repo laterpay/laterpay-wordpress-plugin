@@ -512,7 +512,7 @@
                         <p class="lp_bulk-operation" data-value="<?php echo $bulk_operation_id; ?>">
                             <a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                             <a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m--l2"><?php _e( 'Update Prices', 'laterpay' ); ?></a>
-                            <span><?php echo $bulk_operation_data['message']; ?></span>
+                            <span><?php echo stripslashes( $bulk_operation_data['message'] ); ?></span>
                         </p>
                     <?php endforeach; ?>
                 <?php endif; ?>
