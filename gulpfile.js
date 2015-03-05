@@ -17,9 +17,9 @@ var autoprefixer    = require('gulp-autoprefixer'),
     uglify          = require('gulp-uglify'),
     p               = {
                         allfiles    : [
-                                            './laterpay/**/*.php',
-                                            './laterpay/asset_sources/scss/**/*.scss',
-                                            './laterpay/asset_sources/js/*.js'
+                                        './laterpay/**/*.php',
+                                        './laterpay/asset_sources/stylus/**/*.styl',
+                                        './laterpay/asset_sources/js/*.js'
                                       ],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
                         srcSCSS     : './laterpay/asset_sources/scss/*.scss',
@@ -61,7 +61,6 @@ gulp.task('css-build', function() {
         }))
         .on('error', notify.onError())
         .pipe(autoprefixer('last 3 versions', '> 2%', 'ff > 23', 'ie > 8'))     // vendorize properties for supported browsers
-        .pipe(sourcemaps.write('./maps'))                                       // write sourcemaps
         .pipe(gulp.dest(p.distCSS));                                            // move to target folder
 });
 
@@ -80,9 +79,7 @@ gulp.task('js-build', function() {
     gulp.src(p.srcJS + '*.js')
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter(stylish))
-        .pipe(sourcemaps.init())
         .pipe(uglify())                                                         // compress with uglify
-        .pipe(sourcemaps.write('./maps'))                                       // write sourcemaps
         .pipe(gulp.dest(p.distJS));                                             // move to target folder
 });
 
@@ -104,7 +101,7 @@ gulp.task('img-build', function() {
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 
     gulp.src(p.srcPNG)
-        .pipe(tinypng('-XMDmj3TW4Rymyizj1jcUXIvtc-uYJcM'))                      // compress with TinyPNG
+        .pipe(tinypng('6r1BdukU9EqrtUQ5obGa-6VpaH2ZlI-a'))                      // compress with TinyPNG
         .pipe(gulp.dest(p.distIMG));                                            // move to target folder
 });
 
