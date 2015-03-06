@@ -48,7 +48,7 @@
 }
 
 .lp_post-statistics__title {
-    font-size: 1.25em;
+    font-size: $fs--125;
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -127,7 +127,7 @@
     // values of key performance indicators (KPI)
     .lp_post-statistics__value {
         color: hsl(0, 0%, 33%);
-        font-size: 2em;
+        font-size: $fs--2;
         line-height: 1;
 
         .lp_post-statistics__text {
@@ -139,7 +139,7 @@
 
     .lp_post-statistics__text {
         display: block;
-        font-size: 0.75em;
+        font-size: $fs--075;
         line-height: 1;
     }
 
@@ -151,7 +151,7 @@
 
     // details column, showing data for last 30 days
     .lp_post-statistics__details {
-        margin: 0 0 0 0.75em;
+        margin: 0 0 0 $fs--075;
 
         .lp_post-statistics__item {
             display: inline-block;
@@ -173,7 +173,7 @@
 
             svg.peity {
                 border-bottom: 1px solid hsl(0, 0%, 60%);
-                padding: 0 3px;
+                padding: 0 $fs--025;
                 position: relative;
                 z-index: $zindex--elevated-2;
             }
@@ -186,10 +186,10 @@
             }
 
             .lp_post-statistics__value {
-                font-size: 1.5em;
+                font-size: $fs--15;
 
                 .lp_post-statistics__text {
-                    font-size: 0.5em;
+                    font-size: $fs--05;
                 }
             }
         }
@@ -209,7 +209,7 @@
         display: inline-block;
         font-size: $fs;
         margin: 0;
-        padding: 0.65em 0 0.75em;
+        padding: 0.65em 0 $fs--075;
         text-align: right;
         width: 44%;
 
@@ -221,7 +221,7 @@
 
 // separator between different KPI
 .lp_post-statistics__separator {
-    margin: 1em 0 -2em 0.75em;
+    margin: $fs 0 -$fs--2 $fs--075;
 
     .lp_post-statistics__item {
         display: inline-block;
@@ -240,20 +240,21 @@
     .lp_post-statistics__text {
         background: $background--darker;
         display: inline;
-        font-size: 0.75em;
+        font-size: $fs--075;
         margin: 0;
         padding: 0 0.5em;
         position: relative;
         z-index: $zindex--overlayed-3;
     }
 
+
     .lp_post-statistics__separator-line {
         background: hsl(0, 0%, 73%) none;
         border: 0 none;
         height: 1px;
-        margin: 1em 0 0.5em;
+        margin: $fs 0 $fs--05;
         position: relative;
-        top: -1.66em;
+        top: -1.66em;   // TODO: this is a magic number that should not be required
         z-index: $zindex--overlayed-2;
     }
 }
@@ -262,8 +263,8 @@
 .lp_post-statistics .lp_post-statistics__plugin-preview-mode {
     background-color: hsl(47, 100%, 50%);
     border-radius: 0 0 0 $border-radius;
-    margin: 7px 0 0;
-    padding: 1em 0.75em 0.66em;
+    margin: $fs--05 0 0;
+    padding: $fs $fs--075 0.66em;
 }
 
 

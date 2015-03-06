@@ -3,7 +3,6 @@
 // LaterPay vector logo for pricing and teaser metabox -----------------------------------------------------------------
 #lp_post-pricing,
 #lp_post-teaser { // WordPress selectors
-
     h3 span {
         left: 6.25em;
         position: relative;
@@ -48,8 +47,9 @@
 
 
 // enter / display post price section
-.lp_postPrice .lp_number-input {
-    padding: 0.1em 0.35em;
+// TODO: this selector is wrong, but it should definitely have its own class anyway!
+.lp_postPrice .lp_input.lp_number-input {
+    height: calc(1.5em + 4px);
     transition-duration: 0.4s;
     width: 3.9em;
 
