@@ -9,10 +9,7 @@
 }
 
 .lp_dashboard-title__arrow-link {
-    display: inline-block;
-    height: 1.5em;
-    padding: 0 $fs--05;
-    position: relative;
+    margin-left: $fs--05;
     vertical-align: top;
     width: $fs--125;
 
@@ -21,17 +18,17 @@
     }
 
     .lp_triangle {
-        border: $fs--08 solid $clickable;
+        color: inherit;
         top: 0;
 
         &.lp_triangle--right {
-            border-color: transparent transparent transparent $clickable;
+            @include triangle($fs--08, right, inherit);
             left: inherit;
             right: 0; /* correct visual weight of triangle */
         }
 
         &.lp_triangle--left {
-            border-color: transparent $clickable transparent transparent;
+            @include triangle($fs--08, left, inherit);
             left: -3px; /* correct visual weight of triangle */
         }
     }
@@ -176,6 +173,10 @@
             width: 3 * $fs;
         }
     }
+}
+
+.lp_top-bottom-list__empty-state {
+    @extend %defining-text;
 }
 
 

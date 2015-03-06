@@ -28,7 +28,7 @@
 
 
 // render icons from icon font in pseudo elements
-.lp_1\/2.lp_api-credentials[data-icon] {
+.lp_api-credentials[data-icon] {
 
     &:before {
         color: $border;
@@ -50,7 +50,7 @@
     }
 }
 
-.lp_1\/2.lp_api-credentials--live[data-icon].lp_is-live:before {
+.lp_api-credentials--live[data-icon].lp_is-live:before {
     color: $laterpay-brand;
 }
 
@@ -75,7 +75,7 @@
             width: 70px;
         }
 
-        input.lp_account-input__input[type=text] {
+        .lp_account-input__input[type=text] {
             width: 290px;
         }
     }

@@ -145,7 +145,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                                 continue;
                             }
                     ?>
-                        <li class="lp_js_debuggerContentlp_debugger-content lp_is-hidden">
+                        <li class="lp_js_debuggerContent lp_debugger-content lp_is-hidden">
                             <table class="lp_debugger-content__table">
                                 <?php foreach ( $tab['content'] as $key => $value  ): ?>
                                     <tr>

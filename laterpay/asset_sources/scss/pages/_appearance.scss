@@ -46,16 +46,15 @@
         max-width: 540px;
 
         .lp_triangle {
-            border-color: $background--lightest transparent transparent transparent;
-            bottom: -8px;
+            @include triangle(9px, bottom, $background--lightest);
+            bottom: 2px;
             left: -9px;
             top: auto;
         }
 
         .lp_triangle--outer-triangle {
-            border-right-color: transparent;
-            border-top-color: hsl(0, 0%, 77%);
-            bottom: -20px;
+            @include triangle(9px, bottom, hsl(0, 0%, 77%));
+            bottom: -10px;
             left: 70px;
             top: auto;
         }
@@ -63,22 +62,15 @@
 }
 
 .lp_triangle {
-    border: 9px solid $background--lightest;
-    border-color: transparent $background--lightest transparent transparent;
-    height: 0;
-    left: -8px;
-    position: absolute;
-    top: -9px;
-    width: 0;
-    z-index: $zindex--elevated-2;
+    @include triangle(10px, left, $background--lightest);
+    left: 2px;
+    top: -10px;
 }
 
 .lp_triangle--outer-triangle {
-    border-right-color: hsl(0, 0%, 77%);
-    border-width: 10px;
-    left: -20px;
+    @include triangle(10px, left, hsl(0, 0%, 77%));
+    left: -10px;
     top: 7px;
-    z-index: $zindex--elevated-1;
 }
 
 table {

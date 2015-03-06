@@ -9,23 +9,17 @@
 
     /* upward-pointing arrow */
     .lp_triangle {
-        border: 13px solid $background--lightest;
-        border-color: transparent transparent $background--lightest transparent;
-        height: 0;
+        @include triangle(13px, top, $background--lightest );
         left: -13px;
-        position: absolute;
-        top: -10px;
-        width: 0;
-        z-index: $zindex--elevated-2;
+        top: 3px;
+
 
         /* border for upward-pointing arrow */
         &.lp_triangle--outer-triangle {
-            border-bottom-color: $border;
-            border-width: 14px;
+            @include triangle(14px, top, $border );
             left: 50%;
             margin-left: -14px;
-            top: -28px;
-            z-index: $zindex--elevated-1;
+            top: -15px;
         }
     }
 }

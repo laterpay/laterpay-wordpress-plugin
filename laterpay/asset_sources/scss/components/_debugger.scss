@@ -141,7 +141,7 @@
         border-color: $border--darker $border--darker hsl(0, 0%, 90%);
     }
 
-    .lp_is-selected {
+    &.lp_is-selected {
         border-color: $border--darker $border--darker hsl(0, 0%, 90%);
 
         .lp_debugger-tabs__link,

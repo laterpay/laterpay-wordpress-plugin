@@ -26,63 +26,62 @@
     position: relative;
     vertical-align: top;
     width: 5em;
+}
 
-    .lp_toggle__input {
-        left: 0;
-        @include opacity(0);
+
+
+// toggle knob
+.lp_toggle__handle {
+    border-radius: 1em;
+    box-shadow: 1px 1px 5px hsla(0, 0%, 0%, 0.2);
+    height: 1.55em;
+    left: 0.35em;
+    @include linear-gradient($background--lightest, 40%, hsl(0, 0%, 94%), 100%, $start, $end);
+    position: absolute;
+    top: 0.35em;
+    transition: left 0.15s ease-out;
+    width: 1.55em;
+
+    &:before {
+        border-radius: 50%;
+        box-shadow: inset 0 1px hsla(0, 0%, 0%, 0.02);
+        content: '';
+        height: 1.1em;
+        left: 50%;
+        @include linear-gradient(hsl(0, 0%, 96%), 0%, hsl(0, 0%, 90%), 100%, $start, $end);
+        margin: -0.55em 0 0 -0.55em;
         position: absolute;
-        top: 0;
-    }
-
-    // toggle knob
-    .lp_toggle__handle {
-        border-radius: 1em;
-        box-shadow: 1px 1px 5px hsla(0, 0%, 0%, 0.2);
-        height: 1.55em;
-        left: 0.35em;
-        @include linear-gradient($background--lightest, 40%, hsl(0, 0%, 94%), 100%, $start, $end);
-        position: absolute;
-        top: 0.35em;
-        transition: left 0.15s ease-out;
-        width: 1.55em;
-
-        &:before {
-            border-radius: 50%;
-            box-shadow: inset 0 1px hsla(0, 0%, 0%, 0.02);
-            content: '';
-            height: 1.1em;
-            left: 50%;
-            @include linear-gradient(hsl(0, 0%, 96%), 0%, hsl(0, 0%, 90%), 100%, $start, $end);
-            margin: -0.55em 0 0 -0.55em;
-            position: absolute;
-            top: 50%;
-            width: 1.1em;
-        }
-    }
-
-    // show 'on'-state when checked
-    .lp_toggle__input {
-
-        &:checked ~ .lp_toggle__text {
-            background-color: $laterpay-brand--darker;
-            box-shadow: inset 0 1px 2px hsla(0, 0%, 0%, 0.15), inset 0 0 3px hsla(0, 0%, 0%, 0.2);
-
-            &:before {
-                @include opacity(0);
-            }
-
-            &:after {
-                @include opacity(1);
-            }
-        }
-
-        &:checked ~ .lp_toggle__handle {
-            box-shadow: -1px 1px 5px hsla(0, 0%, 0%, 0.2);
-            left: auto;
-            right: 0.4em;
-        }
+        top: 50%;
+        width: 1.1em;
     }
 }
+
+.lp_toggle__input {
+    left: 0;
+    @include opacity(0);
+    position: absolute;
+    top: 0;
+
+    &:checked ~ .lp_toggle__text {
+        background-color: $laterpay-brand--darker;
+        box-shadow: inset 0 1px 2px hsla(0, 0%, 0%, 0.15), inset 0 0 3px hsla(0, 0%, 0%, 0.2);
+
+        &:before {
+            @include opacity(0);
+        }
+
+        &:after {
+            @include opacity(1);
+        }
+    }
+
+    &:checked ~ .lp_toggle__handle {
+        box-shadow: -1px 1px 5px hsla(0, 0%, 0%, 0.2);
+        left: auto;
+        right: 0.4em;
+    }
+}
+
 
 // text within toggle
 .lp_toggle__text {

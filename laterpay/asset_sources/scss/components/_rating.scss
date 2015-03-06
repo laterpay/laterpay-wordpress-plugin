@@ -183,24 +183,17 @@
 
     /* upward-pointing arrow */
     .lp_triangle {
-        border: 9px solid $background--lightest;
-        border-color: transparent transparent $background--lightest transparent;
-        height: 0;
+        @include triangle(9px, top, $background--lightest);
         left: -9px;
-        position: absolute;
-        top: -8px;
-        width: 0;
-        z-index: $zindex--elevated-2;
+        top: 2px;
     }
 
     /* border for upward-pointing arrow */
     .lp_triangle--outer-triangle {
-        border-bottom-color: hsl(0, 0%, 77%);
-        border-width: 10px;
+        @include triangle(10px, top, hsl(0, 0%, 77%));
         left: 50%;
         margin-left: -10px;
-        top: -20px;
-        z-index: $zindex--elevated-1;
+        top: -11px;
     }
 
     .lp_rating-results__distribution-heading {

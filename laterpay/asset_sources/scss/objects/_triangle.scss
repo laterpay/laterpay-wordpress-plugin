@@ -1,0 +1,26 @@
+
+@mixin triangle ($size: 5px, $direction: left, $triangle-color: #ffffff) {
+    border-width: $size;
+    border-color: transparent;
+    border-style: solid;
+    display: block;
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    z-index: $zindex--elevated-2;
+
+    @if $direction == "right" {
+        border-left-color: $triangle-color;
+        border-right-width: 0px;
+    } @else if $direction == "left" {
+        border-right-color: $triangle-color;
+        border-left-width: 0px;
+    } @else if $direction == "top" {
+        border-bottom-color: $triangle-color;
+        border-top-width: 0px;
+    } @else if $direction == "bottom" {
+        border-top-color: $triangle-color;
+        border-bottom-width: 0px;
+    }
+}
+

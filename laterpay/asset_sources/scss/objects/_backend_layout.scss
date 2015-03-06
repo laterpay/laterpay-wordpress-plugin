@@ -41,15 +41,6 @@
         position: absolute;
     }
 
-    .lp_navigation-tabs__link {
-        color: $text--lighter;
-        display: block;
-        font-size: $fs;
-        min-width: 7.5em;
-        padding: 0.5em 1em 0.75em;
-        text-align: center;
-    }
-
     &:hover .lp_navigation-tabs__link {
         color: $clickable;
 
@@ -70,6 +61,15 @@
             font-weight: bold;
         }
     }
+}
+
+.lp_navigation-tabs__link {
+    color: $text--lighter;
+    display: block;
+    font-size: $fs;
+    min-width: 7.5em;
+    padding: 0.5em 1em 0.75em;
+    text-align: center;
 }
 
 .lp_navigation-tabs__submenu {
