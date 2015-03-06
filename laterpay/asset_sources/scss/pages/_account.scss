@@ -12,7 +12,7 @@
     }
 
     fieldset {
-        min-height: (12 * $fs);
+        min-height: round(12.5 * $fs);
 
         form:first-of-type {
             margin-top: $fs--2;
