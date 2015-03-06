@@ -18,7 +18,7 @@ var autoprefixer    = require('gulp-autoprefixer'),
     p               = {
                         allfiles    : [
                                         './laterpay/**/*.php',
-                                        './laterpay/asset_sources/stylus/**/*.styl',
+                                        './laterpay/asset_sources/scss/**/*.scss',
                                         './laterpay/asset_sources/js/*.js'
                                       ],
                         phpfiles    : ['./laterpay/**/*.php', '!./laterpay/library/**/*.php'],
