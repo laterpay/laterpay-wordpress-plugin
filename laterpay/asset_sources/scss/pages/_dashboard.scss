@@ -46,11 +46,11 @@
 }
 
 .lp_dashboard-graph {
-    height: 15 * $fs;
+    height: ($fs * 15);
     margin: 0 $fs 0 0;
 
     &.lp_dashboard-graph--margin-bottom {
-        margin-bottom: 30px;
+        margin-bottom: $fs--2;
     }
 }
 
@@ -151,7 +151,7 @@
         float: left;
         margin: 0 0.4em 0 0;
         text-align: right;
-        width: round(4.5 * $fs);
+        width: round($fs * 4.5);
 
         small {
             color: $text--lightest;
@@ -161,18 +161,25 @@
         }
 
         &.lp_dashboard-data__value--narrow {
-            width: 3 * $fs;
+            width: $fs * 3;
         }
     }
 }
 
 .lp_top-bottom-list__empty-state {
     @extend %hint-text;
+
+    display: inline-block;
+    margin-top: ($fs * 7);
+    text-align: center;
+    width: 100%;
 }
 
 
 // Time pass customer lifecycle statistics -----------------------------------------------------------------------------
 .lp_time-pass-lifecycle {
+    @extend %clearfix;
+
     margin-bottom: $fs--2;
 
     /* separate the different graphs with a border */
@@ -192,7 +199,7 @@
     color: $text--lighter;
     font-size: 10px;
     line-height: 1.4;
-    padding: 0.5em;
+    padding: $fs--05;
     position: absolute;
     text-align: center;
     white-space: nowrap;

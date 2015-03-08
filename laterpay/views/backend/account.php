@@ -150,7 +150,7 @@
             </div>
 
         </div>
-        <dfn id="lp_js_credentialsHint" class="lp_block lp_mb">
+        <dfn id="lp_js_credentialsHint">
             <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
         </dfn>
         <hr class="lp_form-group-separator">
