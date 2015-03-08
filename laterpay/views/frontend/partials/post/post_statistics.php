@@ -17,13 +17,17 @@
     <h2 class="lp_post-statistics__title" data-icon="a"><?php _e( 'Statistics for this Post', 'laterpay' ); ?></h2>
     <div class="lp_post-statistics__totals">
         <ul class="lp_post-statistics__list">
-            <li class="lp_post-statistics__item">
-                <big class="lp_post-statistics__value"><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux ); ?><small><?php echo $laterpay['currency']; ?></small></big>
-                <small class="lp_post-statistics__text"><?php _e( 'Total Committed Revenue', 'laterpay' ); ?></small>
+            <li class="lp_post-statistics__item lp_kpi">
+                <div>
+                    <big><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux ); ?><small><?php echo $laterpay['currency']; ?></small></big>
+                    <small><?php _e( 'Total Committed Revenue', 'laterpay' ); ?></small>
+                </div>
             </li>
-            <li class="lp_post-statistics__item">
-                <big class="lp_post-statistics__value"><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['quantity']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux, false ); ?></big>
-                <small class="lp_post-statistics__text"><?php _e( 'Total Sales', 'laterpay' ); ?></small>
+            <li class="lp_post-statistics__item lp_kpi">
+                <div>
+                    <big><?php if ( isset( $laterpay['statistic']['total'][$currency] ) ) { $aux = $laterpay['statistic']['total'][$currency]['quantity']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux, false ); ?></big>
+                    <small><?php _e( 'Total Sales', 'laterpay' ); ?></small>
+                </div>
             </li>
         </ul>
     </div>
@@ -38,9 +42,11 @@
             <li class="lp_post-statistics__item">
                 <span class="lp_js_sparklineBar lp_sparkline-bar"><?php if ( isset( $laterpay['statistic']['last30DaysRevenue'][$currency] ) ) { $aux = $laterpay['statistic']['last30DaysRevenue'][$currency]; } else { $aux = array(); }; echo LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ); ?></span>
             </li>
-            <li class="lp_post-statistics__item">
-                <big class="lp_post-statistics__value"><?php if ( isset( $laterpay['statistic']['todayRevenue'][$currency] ) ) { $aux = $laterpay['statistic']['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux ); ?><small><?php echo $laterpay['currency']; ?></small></big>
-                <small class="lp_post-statistics__text"><?php _e( 'Committed Revenue', 'laterpay' ); ?></small>
+            <li class="lp_post-statistics__item lp_kpi">
+                <div>
+                    <big><?php if ( isset( $laterpay['statistic']['todayRevenue'][$currency] ) ) { $aux = $laterpay['statistic']['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux ); ?><small><?php echo $laterpay['currency']; ?></small></big>
+                    <small><?php _e( 'Committed Revenue', 'laterpay' ); ?></small>
+                </div>
             </li>
         </ul>
     </div>
@@ -50,9 +56,11 @@
                 <span class="lp_js_sparklineBar lp_sparkline-bar" data-max="0.5"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysBuyers'], 'percentage', ';' ); ?></span>
                 <span class="lp_js_sparklineBackgroundBar lp_sparkline-bar__background">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
             </li>
-            <li class="lp_post-statistics__item">
-                <big class="lp_post-statistics__value"><?php echo $laterpay['statistic']['todayBuyers']; ?><small>%</small></big>
-                <small class="lp_post-statistics__text"><?php _e( 'Conversion', 'laterpay' ); ?></small>
+            <li class="lp_post-statistics__item lp_kpi">
+                <div>
+                    <big><?php echo $laterpay['statistic']['todayBuyers']; ?><small>%</small></big>
+                    <small><?php _e( 'Conversion', 'laterpay' ); ?></small>
+                </div>
             </li>
         </ul>
     </div>
@@ -61,9 +69,11 @@
             <li class="lp_post-statistics__item">
                 <span class="lp_js_sparklineBar lp_sparkline-bar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysVisitors'], 'quantity', ';' ); ?></span>
             </li>
-            <li class="lp_post-statistics__item">
-                <big class="lp_post-statistics__value"><?php echo LaterPay_Helper_View::format_number( $laterpay['statistic']['todayVisitors'], false ); ?></big>
-                <small class="lp_post-statistics__text"><?php _e( 'Views', 'laterpay' ); ?></small>
+            <li class="lp_post-statistics__item lp_kpi">
+                <div>
+                    <big><?php echo LaterPay_Helper_View::format_number( $laterpay['statistic']['todayVisitors'], false ); ?></big>
+                    <small><?php _e( 'Views', 'laterpay' ); ?></small>
+                </div>
             </li>
         </ul>
     </div>

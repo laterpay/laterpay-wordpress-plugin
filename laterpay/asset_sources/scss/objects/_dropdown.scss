@@ -9,14 +9,14 @@
 
     /* upward-pointing arrow */
     .lp_triangle {
-        @include triangle(13px, top, $background--lightest );
+        @include triangle(13px, top, $background--lightest);
         left: -13px;
         top: 3px;
 
 
         /* border for upward-pointing arrow */
         &.lp_triangle--outer-triangle {
-            @include triangle(14px, top, $border );
+            @include triangle(14px, top, $border);
             left: 50%;
             margin-left: -14px;
             top: -15px;

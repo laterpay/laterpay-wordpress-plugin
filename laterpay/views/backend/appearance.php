@@ -11,9 +11,9 @@
         <p></p>
     </div>
 
-    <div class="lp_navigation lp_relative">
+    <div class="lp_navigation">
         <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
-            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator lp_absolute" data-icon="h">
+            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator" data-icon="h">
                 <h2 class="lp_plugin-mode-indicator__title"><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
                 <span class="lp_plugin-mode-indicator__text"><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
             </a>
@@ -48,7 +48,7 @@
                 </label>
             </form>
         </div>
-        <hr class="lp_m-0 lp_m--b3">
+        <hr class="lp_form-group-separator">
 
         <div class="lp_row lp_clearfix lp_m--b1 lp_appearence__item">
             <h2 id="lp_gift-cards-appearance"><?php _e( 'Offering of Gift Cards for Time Passes', 'laterpay' ); ?></h2>
@@ -87,7 +87,7 @@
                 </code>
             </div>
         </div>
-        <hr class="lp_m-0 lp_m--b3">
+        <hr class="lp_form-group-separator">
 
         <div class="lp_row lp_clearfix lp_m--b1 lp_appearence__item">
             <h2><?php _e( 'Rating of Purchased Content', 'laterpay' ); ?></h2>
@@ -116,7 +116,7 @@
                 <?php _e( 'These ratings will be displayed to users who have not purchased that content yet as a quality indicator.', 'laterpay' ); ?>
             </dfn>
         </div>
-        <hr class="lp_m-0 lp_m--b3">
+        <hr class="lp_form-group-separator">
         <div class="lp_appearence__item">
             <div class="lp_row">
                 <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
@@ -203,7 +203,7 @@
                 <img class="lp_ui-element-preview lp_ui-element-preview--large lp_m--t05" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
             </div>
          </div>
-        <hr class="lp_m-0 lp_m--b3">
+        <hr class="lp_form-group-separator">
         <div class="lp_appearence__item">
             <div class="lp_row">
                 <h2><?php _e( 'Integration Into Theme', 'laterpay' ); ?></h2>

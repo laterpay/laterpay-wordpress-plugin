@@ -11,10 +11,10 @@
         <p></p>
     </div>
 
-    <div class="lp_navigation lp_relative">
+    <div class="lp_navigation">
         <a  href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
             id="lp_js_pluginModeIndicator"
-            class="lp_plugin-mode-indicator lp_absolute"
+            class="lp_plugin-mode-indicator"
             <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>style="display:none;"<?php endif; ?>
             data-icon="h">
             <h2 class="lp_plugin-mode-indicator__title"><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
@@ -36,7 +36,7 @@
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="lp_clearfix">
-                            <li class="lp_left lp_icon-spacer">
+                            <li class="lp_icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="lp_left lp_account-input">
@@ -57,7 +57,7 @@
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="lp_clearfix">
-                            <li class="lp_left lp_icon-spacer">
+                            <li class="lp_icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="lp_left lp_account-input">
@@ -85,7 +85,7 @@
                         <input type="hidden" name="action" value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="lp_clearfix">
-                            <li class="lp_left lp_icon-spacer">
+                            <li class="lp_icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="lp_left lp_account-input">
@@ -106,7 +106,7 @@
                         <input type="hidden" name="action"  value="laterpay_account">
                         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                         <ul class="lp_clearfix">
-                            <li class="lp_left lp_icon-spacer">
+                            <li class="lp_icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="lp_left lp_account-input">
@@ -125,7 +125,7 @@
                             </li>
                         </ul>
                         <ul class="lp_clearfix">
-                            <li class="lp_left lp_icon-spacer">
+                            <li class="lp_icon-spacer">
                                 &nbsp;
                             </li>
                             <li class="lp_left">
@@ -141,7 +141,7 @@
         <dfn id="lp_js_credentialsHint" class="lp_block lp_m-0">
             <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
         </dfn>
-        <hr class="lp_m-0 lp_m--b3">
+        <hr class="lp_form-group-separator">
 
         <div class="lp_row lp_account-mode-switch">
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>

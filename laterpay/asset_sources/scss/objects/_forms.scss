@@ -291,9 +291,13 @@ label.lp_revenue-model:hover {
 
 // fieldsets -----------------------------------------------------------------------------------------------------------
 fieldset {
-    padding: 0.5em 1em 0.8em;
+    padding: $fs--05 $fs 0.8em;
 }
 
 legend {
-    margin-left: -0.5em;
+    margin-left: -($fs--05);
+}
+
+.lp_form-group-separator {
+    margin: 0 0 $fs--3;
 }

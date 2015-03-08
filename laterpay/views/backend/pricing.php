@@ -11,9 +11,9 @@
         <p></p>
     </div>
 
-    <div class="lp_navigation lp_relative">
+    <div class="lp_navigation">
         <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
-            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator lp_absolute" data-icon="h">
+            <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>" class="lp_plugin-mode-indicator" data-icon="h">
                 <h2 class="lp_plugin-mode-indicator__title"><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
                 <span class="lp_plugin-mode-indicator__text"><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
             </a>
@@ -236,9 +236,9 @@
                 </p>
             </div>
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_m-0 lp_m--b3" style="display:none;">
+            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator" style="display:none;">
         <?php else : ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_m-0 lp_m--b3">
+            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator">
         <?php endif; ?>
 
         <div class="lp_row" id="lp_time-passes">
@@ -434,9 +434,9 @@
             </div>
         </div>
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_m-0 lp_m--b3" style="display:none;">
+            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator" style="display:none;">
         <?php else : ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_m-0 lp_m--b3">
+            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator">
         <?php endif; ?>
 
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>

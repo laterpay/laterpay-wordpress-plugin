@@ -35,7 +35,6 @@ a {
 }
 
 %defining-text {
-    color: hsl(0, 0%, 60%);
+    color: $text--lighter;
     font-style: italic;
 }
-
