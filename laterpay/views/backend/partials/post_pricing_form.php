@@ -16,7 +16,7 @@
         <input type="text"
                 name="post-price"
                 id="lp_js_postPriceInput"
-                class="lp_input lp_number-input lp_fs--3"
+                class="lp_input lp_number-input lp_fs++"
                 value="<?php echo LaterPay_Helper_View::format_number( $laterpay['price'] ); ?>"
                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                 <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled="disabled"'; } ?>>
@@ -24,7 +24,7 @@
     </p>
 
     <div id="lp_js_postPriceRevenueModel" class="lp_revenue-model__list lp_relative">
-            <label class="lp_revenue-model lp_m--b05 lp_tooltip
+            <label class="lp_revenue-model lp_mb- lp_tooltip
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo ' lp_is-selected'; } ?>
                         <?php if ( $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo ' lp_is-disabled'; } ?>

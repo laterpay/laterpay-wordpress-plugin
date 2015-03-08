@@ -39,7 +39,7 @@
     font-size: $fs;
 }
 
-.lp_fs--3 {
+.lp_fs++ {
     font-size: $fs--3;
 }
 
@@ -67,7 +67,7 @@
  */
 %clearfix:before,
 %clearfix:after {
-    content: " "; /* 1 */
+    content: ' '; /* 1 */
     display: table; /* 2 */
 }
 %clearfix:after {
@@ -114,116 +114,88 @@
 
 
 // top margins
-.lp_m--t0 {
+.lp_mt0 {
     margin-top: 0;
 }
 
-.lp_m--t025 {
+.lp_mt-- {
     margin-top: $fs--025;
 }
 
-.lp_m--t05 {
+.lp_mt- {
     margin-top: $fs--05;
 }
 
-.lp_m--t1 {
+.lp_mt {
     margin-top: $fs;
 }
 
-.lp_m--t125 {
-    margin-top: $fs--125;
-}
-
-.lp_m--t2 {
+.lp_mt+ {
     margin-top: $fs--2;
 }
 
-.lp_m--t3 {
+.lp_mt++ {
     margin-top: $fs--3;
 }
 
 
 // right margins
-.lp_m--r0 {
-    margin-right: 0;
-}
-
-.lp_m--r025 {
+.lp_mr-- {
     margin-right: $fs--025;
 }
 
-.lp_m--r05 {
+.lp_mr- {
     margin-right: $fs--05;
 }
 
-.lp_m--r1 {
+.lp_mr {
     margin-right: $fs;
 }
 
-.lp_m--r2 {
+.lp_mr+ {
     margin-right: $fs--2;
 }
 
 
 // bottom margins
-.lp_m--b0 {
+.lp_mb0 {
     margin-bottom: 0;
 }
 
-.lp_m--b025 {
+.lp_mb-- {
     margin-bottom: $fs--025;
 }
 
-.lp_m--b05 {
+.lp_mb- {
     margin-bottom: $fs--05;
 }
 
-.lp_m--b1 {
+.lp_mb {
     margin-bottom: $fs;
 }
 
-.lp_m--b2 {
+.lp_mb+ {
     margin-bottom: $fs--2;
-}
-
-.lp_m--b3 {
-    margin-bottom: $fs--3;
 }
 
 
 // left margins
-.lp_m--l0 {
-    margin-left: 0;
-}
-
-.lp_m--l025 {
-    margin-left: $fs--025;
-}
-
-.lp_m--l05 {
+.lp_mb- {
     margin-left: $fs--05;
 }
 
-.lp_m--l1 {
+.lp_mb {
     margin-left: $fs;
 }
 
-.lp_m--l2 {
+.lp_mb+ {
     margin-left: $fs--2;
 }
 
 
 // paddings ------------------------------------------------------------------------------------------------------------
-.lp_pd--0 {
-    padding: 0;
-}
-
-.lp_pd--05 {
+.lp_pd- {
     padding: $fs--05;
-}
-
-.lp_pd--1 {
-    padding: $fs;
 }
 
 
@@ -232,33 +204,19 @@
     padding: 0 $fs--05;
 }
 
-.lp_pd--0-1 {
-    padding: 0 $fs;
-}
-
-.lp_pd--025-05 {
-    padding: $fs--025 $fs--05;
-}
-
 
 // top paddings
-.lp_pd--t0 {
+.lp_pdt0 {
     padding-top: 0;
 }
 
-.lp_pd--t05 {
+.lp_pdt- {
     padding-top: $fs--05;
 }
 
 
-// right paddings
-.lp_pd--r2 {
-    padding-right: $fs--2;
-}
-
-
 // left paddings
-.lp_pd--l0 {
+.lp_pdl0 {
     padding-left: 0;
 }
 
