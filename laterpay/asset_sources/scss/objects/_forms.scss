@@ -290,8 +290,8 @@ label:hover .ez-mark {
     border: 1px solid $border;
     border-radius: $border-radius;
     box-shadow: 1px 1px 0 $border--lightest;
-    margin: $fs $fs 0 0;
-    padding: $fs--05 $fs $fs--08;
+    margin: $fs $fs $fs 0;
+    padding: $fs--05 $fs $fs;
 }
 
 .lp_legend,

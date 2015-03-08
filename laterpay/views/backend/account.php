@@ -18,7 +18,7 @@
             class="lp_plugin-mode-indicator"
             <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>style="display:none;"<?php endif; ?>
             data-icon="h">
-            <h2 class="lp_plugin-mode-indicator__title"><?php _e( '<strong>Test</strong> mode', 'laterpay' ); ?></h2>
+            <h2 class="lp_plugin-mode-indicator__title"><?php _e( 'Test mode', 'laterpay' ); ?></h2>
             <span class="lp_plugin-mode-indicator__text"><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>
         </a>
 
@@ -32,7 +32,6 @@
 
 
             <div class="lp_api-credentials lp_api-credentials--sandbox" data-icon="h">
-
                 <fieldset class="lp_api-credentials__fieldset">
                     <legend class="lp_api-credentials__legend"><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
 
@@ -40,11 +39,8 @@
                         <?php _e( 'for testing purposes', 'laterpay' ); ?>
                     </dfn>
 
-                    <ul class="lp_api-credentials__row">
-                        <li class="lp_api-credentials__row__spacer">
-                            &nbsp;
-                        </li>
-                        <li class="lp_api-credentials__row__form-wrapper">
+                    <ul class="lp_api-credentials__list">
+                        <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="i"></span>
                             <form method="post">
                                 <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
@@ -64,13 +60,7 @@
                                 </label>
                             </form>
                         </li>
-                    </ul>
-
-                    <ul class="lp_api-credentials__row">
-                        <li class="lp_api-credentials__row__spacer">
-                            &nbsp;
-                        </li>
-                        <li class="lp_api-credentials__row__form-wrapper">
+                        <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="j"></span>
                             <form method="post">
                                 <input type="hidden" name="form"   value="laterpay_sandbox_api_key">
@@ -93,26 +83,20 @@
                     </ul>
 
                 </fieldset>
-
             </div>
-
 
             <div id="lp_js_liveCredentials"
                 class="lp_api-credentials lp_api-credentials--live<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>"
                 data-icon="k">
-
                 <fieldset class="lp_api-credentials__fieldset">
                     <legend class="lp_api-credentials__legend"><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
 
-                    <dfn<dfn class="lp_api-credentials__hint">
+                    <dfn class="lp_api-credentials__hint">
                         <?php _e( 'for processing real financial transactions', 'laterpay' ); ?>
                     </dfn>
 
-                    <ul class="lp_api-credentials__row">
-                        <li class="lp_api-credentials__row__spacer">
-                            &nbsp;
-                        </li>
-                        <li class="lp_api-credentials__row__form-wrapper">
+                    <ul class="lp_api-credentials__list">
+                        <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="i"></span>
                             <form method="post">
                                 <input type="hidden" name="form"   value="laterpay_live_merchant_id">
@@ -132,13 +116,7 @@
                                 </label>
                             </form>
                         </li>
-                    </ul>
-
-                    <ul class="lp_api-credentials__row">
-                        <li class="lp_api-credentials__row__spacer">
-                            &nbsp;
-                        </li>
-                        <li class="lp_api-credentials__row__form-wrapper">
+                        <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="j"></span>
                             <form method="post">
                                 <input type="hidden" name="form"    value="laterpay_live_api_key">
@@ -158,13 +136,7 @@
                                 </label>
                             </form>
                         </li>
-                    </ul>
-
-                    <ul class="lp_api-credentials__row">
-                        <li class="lp_api-credentials__row__spacer">
-                            &nbsp;
-                        </li>
-                        <li class="lp_api-credentials__row__form-wrapper">
+                        <li class="lp_api-credentials__list-item">
                             <a href="#"
                                 id="lp_js_showMerchantContracts"
                                 class="button button-primary"
@@ -175,11 +147,10 @@
                     </ul>
 
                 </fieldset>
-
             </div>
 
         </div>
-        <dfn id="lp_js_credentialsHint" class="lp_block lp_m-0">
+        <dfn id="lp_js_credentialsHint" class="lp_block lp_m--b1">
             <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
         </dfn>
         <hr class="lp_form-group-separator">
