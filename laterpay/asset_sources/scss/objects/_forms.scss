@@ -2,7 +2,8 @@
 input[type=number].lp_input,
 input[type=text].lp_input,
 textarea.lp_input,
-select.lp_input {
+select.lp_input,
+%input {
     background: $background--lightest;
     border-radius: 4px;
     border: 2px solid $border;
@@ -36,12 +37,6 @@ select.lp_input {
 
 
 // special inputs ------------------------------------------------------------------------------------------------------
-// API Key and Merchant ID inputs
-input[type=text].lp_account-input__input {
-    padding-left: 2.8em;
-    width: 22em;
-}
-
 // number inputs
 input[type=text].lp_number-input {
     padding: 0.25em 0.35em;
@@ -290,7 +285,8 @@ label:hover .ez-mark {
 
 
 // fieldsets -----------------------------------------------------------------------------------------------------------
-.lp_fieldset {
+.lp_fieldset,
+%fieldset {
     border: 1px solid $border;
     border-radius: $border-radius;
     box-shadow: 1px 1px 0 $border--lightest;
@@ -298,7 +294,8 @@ label:hover .ez-mark {
     padding: $fs--05 $fs $fs--08;
 }
 
-.lp_fieldset__legend {
+.lp_legend,
+%legend {
     font-size: $fs;
     font-weight: bold;
     margin-left: -($fs--05);

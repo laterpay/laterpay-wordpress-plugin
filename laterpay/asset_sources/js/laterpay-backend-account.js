@@ -111,12 +111,12 @@
                     $('#lp_js_pluginModeTestText').hide();
                     $('#lp_js_pluginModeLiveText').show();
                     $('#lp_js_pluginModeIndicator').fadeOut();
-                    $('.lp_js_liveCredentials').addClass($o.isLive);
+                    $('#lp_js_liveCredentials').addClass($o.isLive);
                 } else {
                     $('#lp_js_pluginModeLiveText').hide();
                     $('#lp_js_pluginModeTestText').show();
                     $('#lp_js_pluginModeIndicator').fadeIn();
-                    $('.lp_js_liveCredentials').removeClass($o.isLive);
+                    $('#lp_js_liveCredentials').removeClass($o.isLive);
                 }
             },
 

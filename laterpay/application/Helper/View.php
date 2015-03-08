@@ -57,7 +57,7 @@ class LaterPay_Helper_View
 
         $menu[ 'dashboard' ] = array(
             'url'       => 'laterpay-plugin',
-            'title'     => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
+            'title'     => __( 'Dashboard', 'laterpay' ),
             'cap'       => 'moderate_comments',
             'submenu'   => array(
                 'name'      => 'time_passes',

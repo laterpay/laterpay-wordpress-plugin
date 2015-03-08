@@ -34,15 +34,6 @@
     }
 }
 
-.lp_dashboard-refresh-link {
-    color: $clickable;
-    display: none; /* hidden by default - only required when displaying hourly data */
-
-    &:hover {
-        color: $clickable--highlight;
-    }
-}
-
 
 // Diagrams ------------------------------------------------------------------------------------------------------------
 .lp_1\/3 {
@@ -176,7 +167,7 @@
 }
 
 .lp_top-bottom-list__empty-state {
-    @extend %defining-text;
+    @extend %hint-text;
 }
 
 

@@ -207,7 +207,7 @@
 
 // teaser content metabox ----------------------------------------------------------------------------------------------
 #lp_post-teaser dfn {
-    @extend %defining-text;
+    @extend %hint-text;
     display: block;
     margin: $fs 0;
 }
