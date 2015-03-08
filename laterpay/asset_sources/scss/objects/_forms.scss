@@ -247,8 +247,8 @@ label:hover .ez-mark {
 
 // edit links ----------------------------------------------------------------------------------------------------------
 .lp_edit-link {
-    margin-left: 1em;
-    padding: 0.5em 0;
+    margin-left: $fs;
+    padding: $fs--05 0;
 }
 
 
@@ -262,42 +262,53 @@ label:hover .ez-mark {
     padding: $fs--025 $fs--025;
     text-align: center;
     text-transform: uppercase;
-    width: 2em;
+    width: $fs--2;
 
     input[type=radio] {
         display: none;
     }
-}
-
-label.lp_revenue-model:hover {
-    background: $clickable--highlight;
-    color: $text--inverse;
-}
-
-.lp_revenue-model.lp_is-disabled {
-    display: none;
-}
-
-.lp_revenue-model.lp_is-selected {
-    background: $laterpay-brand;
-    color: $text--inverse;
 
     &:hover {
+        background: $clickable--highlight;
+        color: $text--inverse;
+    }
+
+    &.lp_is-disabled {
+        display: none;
+    }
+
+    &.lp_is-selected {
         background: $laterpay-brand;
-        cursor: default;
+        color: $text--inverse;
+
+        &:hover {
+            background: $laterpay-brand;
+            cursor: default;
+        }
     }
 }
 
 
 // fieldsets -----------------------------------------------------------------------------------------------------------
-fieldset {
-    padding: $fs--05 $fs 0.8em;
+.lp_fieldset {
+    border: 1px solid $border;
+    border-radius: $border-radius;
+    box-shadow: 1px 1px 0 $border--lightest;
+    margin: $fs $fs 0 0;
+    padding: $fs--05 $fs $fs--08;
 }
 
-legend {
+.lp_fieldset__legend {
+    font-size: $fs;
+    font-weight: bold;
     margin-left: -($fs--05);
+    padding: 0 $fs--05;
 }
 
 .lp_form-group-separator {
+    border-top: 1px solid $border;
+    border-right: 0 none;
+    border-bottom: 1px solid $border--lightest;
+    border-left: 0 none;
     margin: 0 0 $fs--3;
 }

@@ -1,6 +1,7 @@
 // 'Account' tab in plugin backend
 
 // API credentials -----------------------------------------------------------------------------------------------------
+// TODO: those styles are terrible and need to be cleaned up:
 .lp_1\/2 {
 
     ul.lp_clearfix {
@@ -11,19 +12,19 @@
             width: (6 * $fs);
         }
     }
+}
 
-    fieldset {
-        min-height: round(12.5 * $fs);
+.lp_fieldset {
+    min-height: round(12.5 * $fs);
 
-        form:first-of-type {
-            margin-top: $fs--2;
-        }
+    form:first-of-type {
+        margin-top: $fs--2;
     }
 }
 
 
 // Chrome browser hack
-.lp_1\/2 fieldset form:first-of-type:not(*:root) {
+.lp_fieldset form:first-of-type:not(*:root) {
     display: inline;
 }
 
@@ -51,7 +52,7 @@
     }
 }
 
-.lp_api-credentials--live[data-icon].lp_is-live:before {
+.lp_api-credentials--live.lp_is-live:before {
     color: $laterpay-brand;
 }
 
@@ -60,13 +61,13 @@
 @media (max-width:1050px) {
     .lp_api-credentials {
 
-        &.lp_api-credentials--sandbox[data-icon]:before {
+        &.lp_api-credentials--sandbox:before {
             font-size: 75px;
             left: 24px;
             top: 61px;
         }
 
-        &.lp_api-credentials--live[data-icon]:before {
+        &.lp_api-credentials--live:before {
             font-size: 60px;
             left: 14px;
             top: 79px;

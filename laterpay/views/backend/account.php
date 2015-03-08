@@ -24,12 +24,12 @@
     </div>
 
     <div class="lp_pagewrap lp_account">
-        <div class="lp_row lp_clearfix lp_api-credentials">
+        <div class="lp_row lp_clearfix">
             <h2><?php _e( 'LaterPay API Credentials', 'laterpay' ); ?></h2>
 
             <div class="lp_1/2 lp_left lp_relative lp_api-credentials lp_api-credentials--sandbox" data-icon="h">
-                <fieldset class="lp_border-radius lp_border lp_embossed lp_m lp_m--b0 lp_m--l0">
-                    <legend class="lp_fs lp_bold lp_pd--0-05"><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
+                <fieldset class="lp_fieldset">
+                    <legend class="lp_fieldset__legend"><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for testing purposes', 'laterpay' ); ?></dfn>
                     <form id="laterpay_sandbox_merchant_id_form" method="post">
                         <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
@@ -77,8 +77,8 @@
             </div>
 
             <div class="lp_1/2 lp_left lp_relative lp_api-credentials lp_api-credentials--live lp_js_liveCredentials <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>" data-icon="k">
-                <fieldset class="lp_border-radius lp_border lp_embossed lp_m lp_m--b0 lp_m--l0">
-                    <legend class="lp_fs lp_bold lp_pd--0-05"><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
+                <fieldset class="lp_fieldset">
+                    <legend class="lp_fieldset__legend"><?php _e( 'Live Environment', 'laterpay' ); ?></legend>
                     <dfn><?php _e( 'for processing real financial transactions', 'laterpay' ); ?></dfn>
                     <form id="laterpay_live_merchant_id_form" method="post">
                         <input type="hidden" name="form"   value="laterpay_live_merchant_id">

@@ -4,7 +4,7 @@
 }
 
 .lp_pagewrap {
-    max-width: 1240px;
+    max-width: $fs * 88;
     padding: $fs;
 }
 
@@ -16,18 +16,20 @@
     box-shadow: 0 1px 0 $background--lightest;
     left: -20px;
     padding-right: 20px;
-    padding-top: 2rem;
+    padding-top: $fs--2;
     position: relative;
     width: 100%;
 }
 
 .lp_navigation-tabs {
     @extend %default-list;
+
     margin-left: $fs--15; // FIXME: this important is required, because of the prefixing with .lp_page in _tags.scss
 }
 
 .lp_navigation-tabs__item {
     @extend %default-list;
+
     display: inline-block;
     margin-left: 1.5rem;
     position: relative;
@@ -68,8 +70,8 @@
     color: $text--lighter;
     display: block;
     font-size: $fs;
-    min-width: 7.5em;
-    padding: 0.5em 1em 0.75em;
+    min-width: round($fs * 7.5);
+    padding: $fs--05 $fs $fs--075;
     text-align: center;
 }
 
@@ -89,13 +91,13 @@
 // plugin mode indicator -----------------------------------------------------------------------------------------------
 .lp_plugin-mode-indicator {
     position: absolute;
-    right: 7rem;
-    top: 0.4rem;
+    right: $fs * 7; // leave sufficient space for contextual help link
+    top: $fs--025;
 
     // LaterPay logo (rendered in pseudo element from icon font)
     &:before {
         float: left;
-        font-size: 4rem;
+        font-size: $fs * 4;
         left: -2.75rem;
         line-height: 0;
         position: relative;
@@ -104,7 +106,7 @@
 
     .lp_plugin-mode-indicator__title {
         color: $clickable;
-        font-size: 2rem;
+        font-size: $fs--2;
     }
 
     &:active,
@@ -124,7 +126,7 @@
     }
 
     .lp_plugin-mode-indicator__text {
-        color: hsl(0, 0%, 60%);
+        color: $text--lighter;
     }
 }
 
