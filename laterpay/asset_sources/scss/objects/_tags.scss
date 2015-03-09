@@ -38,3 +38,7 @@ a {
     color: $text--lighter;
     font-style: italic;
 }
+
+dfn {
+    @extend %hint-text;
+}

@@ -25,6 +25,6 @@
     width: (4 * $fs);
 
     .lp_toggle__input:checked ~ .lp_toggle__text {
-        background-color: hsl(0, 0%, 80%);
+        background-color: $text--lightest;
     }
 }

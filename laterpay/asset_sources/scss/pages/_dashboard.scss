@@ -61,6 +61,7 @@
 
 /* statistics rows */
 .lp_statistics-row {
+    @extend %default-list;
     background: $background--darker;
     border-radius: $border-radius;
     margin: $fs $fs $fs 0;
@@ -190,8 +191,14 @@
 }
 
 .lp_statistics-row ul {
+    @extend %default-list;
+
     margin-left: $fs--05;
     border-top: 1px solid $background;
+
+    &:first-child {
+        border: none;
+    }
 }
 
 .lp_time-pass-diagram__label {

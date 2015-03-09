@@ -258,7 +258,7 @@
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                     <label><?php _e( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ); ?></label>
                     <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
-                    <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_mb lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                    <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
                 </form>
             </div>
 
@@ -497,7 +497,7 @@
                             </select>
                             <?php endif; ?>
 
-                            <span id="lp_js_bulkPriceEditorAmountPreposition" class="lp_inline-block lp_mr- lp_mb-"><?php _e( 'to', 'laterpay' ); ?></span>
+                            <span id="lp_js_bulkPriceEditorAmountPreposition" class="lp_inline-block lp_mr- lp_ml-"><?php _e( 'to', 'laterpay' ); ?></span>
                             <input type="text"
                                 name="bulk_price"
                                 id="lp_js_setBulkChangeAmount"
@@ -512,10 +512,10 @@
                             </select>
                             <button type="submit"
                                 id="lp_js_applyBulkOperation"
-                                class="button button-primary lp_mb+">
+                                class="button button-primary lp_ml+">
                                 <?php _e( 'Update Prices', 'laterpay' ); ?>
                             </button>
-                            <a href="#" id="lp_js_saveBulkOperation" class="lp_edit-link lp_save-link lp_inline-block lp_mb lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" id="lp_js_saveBulkOperation" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
                         </p>
                     </div>
                 </form>
@@ -523,7 +523,7 @@
                     <?php foreach ( $laterpay['bulk_saved_operations'] as $bulk_operation_id => $bulk_operation_data ): ?>
                         <p class="lp_bulk-operation" data-value="<?php echo $bulk_operation_id; ?>">
                             <a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                            <a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_mb+"><?php _e( 'Update Prices', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_ml+"><?php _e( 'Update Prices', 'laterpay' ); ?></a>
                             <span><?php echo stripslashes( $bulk_operation_data['message'] ); ?></span>
                         </p>
                     <?php endforeach; ?>

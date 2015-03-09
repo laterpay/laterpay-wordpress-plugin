@@ -53,7 +53,7 @@
         }
 
         .lp_triangle--outer-triangle {
-            @include triangle(9px, bottom, hsl(0, 0%, 77%));
+            @include triangle(9px, bottom, lighten($text--lighter, 10%));
             bottom: -10px;
             left: 70px;
             top: auto;
@@ -68,7 +68,7 @@
 }
 
 .lp_triangle--outer-triangle {
-    @include triangle(10px, left, hsl(0, 0%, 77%));
+    @include triangle(10px, left, lighten($text--lighter, 10%));
     left: -10px;
     top: 7px;
 }

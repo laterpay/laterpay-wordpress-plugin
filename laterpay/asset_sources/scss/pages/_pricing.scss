@@ -16,15 +16,15 @@ ul.lp_row h2 + hr {
 }
 
 ul.lp_row li:nth-child(1) h2 + hr {
-    background-color: hsl(0, 0%, 83%);
+    background-color: darken($background, 12%);
 }
 
 ul.lp_row li:nth-child(2) h2 + hr {
-    background-color: hsl(0, 0%, 65%);
+    background-color: darken($text--lighter, 2%);
 }
 
 ul.lp_row li:nth-child(3) h2 + hr {
-    background-color: hsl(0, 0%, 46%);
+    background-color: darken($text--lighter, 21%);
 }
 
 .lp_spacer {
@@ -36,7 +36,7 @@ ul.lp_row li:nth-child(3) h2 + hr {
 }
 
 span.lp_revenue-model {
-    background-color: hsl(0, 0%, 83%);
+    background-color: darken($background, 13%);
     color: $text--inverse;
     padding: $fs--025 $fs--025;
 }
@@ -122,7 +122,7 @@ span.lp_revenue-model {
         width: round(3.5 * $fs);
 
         .lp_toggle__input:checked ~ .lp_toggle__text {
-            background: hsl(0, 0%, 80%);
+            background: darken($background, 16%);
         }
     }
 }
@@ -150,7 +150,7 @@ select.lp_is-disabled {
     appearance: none; /* 1 */
     background-color: transparent;
     border-color: transparent;
-    color: hsl(0, 0%, 20%);
+    color: darken($text, 13%);
 
     &::-ms-expand {
         display: none; /* 1 - IE */

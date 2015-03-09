@@ -58,7 +58,7 @@
             <?php _e( 'Please follow these two steps to offer gift cards for time passes. A user will be able to purchase a voucher for a time pass, which he can give away as a present. The receiver can then redeem this voucher code and will get access to the purchased time pass.', 'laterpay' ); ?>
             </dfn>
             <div class="lp_clearfix lp_mb+">
-                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
+                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt++ lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
                 <strong class="lp_block lp_mt lp_mb- lp_pdt-">
                     <?php _e( 'Step 1: Display Gift Cards', 'laterpay' ); ?>
                 </strong>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="lp_clearfix">
-                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
+                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt++ lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
                 <strong class="lp_block lp_mt lp_mb- lp_pdt-">
                     <?php _e( 'Step 2: Add Option to Redeem Vouchers', 'laterpay' ); ?>
                 </strong>

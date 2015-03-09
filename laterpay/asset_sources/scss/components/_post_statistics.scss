@@ -10,13 +10,13 @@
     background: $background--darker;
     border-radius: 0 0 0 $border-radius;
     box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
-    color: hsl(0, 0%, 33%);
+    color: $text;
     font-size: $fs;
     line-height: 1.5;
     padding: 7px 5px 0 0;
     position: fixed;
     right: -5px;
-    top: 8em;
+    top: ($fs * 8);
     transition: 0.25s ease-in-out;
     width: 333px;
     z-index: $zindex--overlayed-1;
@@ -24,7 +24,7 @@
     &:hover {
         // reveal link for hiding the statistics pane when it is hovered
         .lp_post-statistics__visibility-toggle {
-            left: -45px;
+            left: -($fs * 3);
 
             &:before {
                 @include opacity(1);
@@ -52,7 +52,7 @@
     font-style: normal;
     font-weight: normal;
     line-height: 1;
-    margin: 0.4em 0 0.8em 6.75em;
+    margin: ($fs * 0.4) 0 ($fs * 0.8) ($fs * 6.75);
 
     /**
      * LaterPay logo
@@ -60,9 +60,9 @@
      */
     &:before {
         display: block;
-        font-size: 6em;
+        font-size: ($fs * 6);
         height: 0;
-        left: -108px; /* 1 */
+        left: -($fs * 6.25); /* 1 */
         line-height: 0;
         position: relative;
         top: 8px; /* 1 */
@@ -74,20 +74,20 @@
     background: $background--darker;
     border-radius: $border-radius 0 0 $border-radius;
     color: $clickable;
-    height: 45px;
+    height: $fs * 3;
     left: 0;
     position: absolute;
     text-align: center;
     text-decoration: none;
     top: 0;
     transition: 0.25s ease-in-out;
-    width: 45px;
+    width: $fs * 3;
 
     &:before {
         font-size: 25px;
         line-height: 42px;
         @include opacity(0);
-        padding-left: 0.25em;
+        padding-left: $fs--025;
         position: relative;
         transition: 0.1s ease-in-out;
     }
@@ -109,8 +109,8 @@
 
         &:before {
             content: 'b';
-            font-size: 45px;
-            line-height: 45px;
+            font-size: $fs * 3;
+            line-height: $fs * 3;
             padding-left: 0;
             @include opacity(1);
             top: 2px;
@@ -126,13 +126,13 @@
 
     // values of key performance indicators (KPI)
     .lp_post-statistics__value {
-        color: hsl(0, 0%, 33%);
+        color: $text;
         font-size: $fs--2;
         line-height: 1;
 
         .lp_post-statistics__text {
             display: inline;
-            font-size: 0.375em;
+            font-size: ($fs * 0.375);
             padding-left: 2px;
         }
     }
@@ -172,7 +172,7 @@
             }
 
             svg.peity {
-                border-bottom: 1px solid hsl(0, 0%, 60%);
+                border-bottom: 1px solid darken($text--lighter, 7%);
                 padding: 0 $fs--025;
                 position: relative;
                 z-index: $zindex--elevated-2;
@@ -180,7 +180,7 @@
 
             .lp_sparkline-bar__background + svg.peity {
                 border: 0 none;
-                left: 0.92em;
+                left: ($fs * 0.92);
                 position: absolute;
                 z-index: $zindex--elevated-1;
             }
@@ -196,7 +196,7 @@
     }
 
     .lp_post-statistics__text {
-        color: hsl(0, 0%, 60%);
+        color: darken($text--lighter, 7%);
     }
 }
 
@@ -209,7 +209,7 @@
         display: inline-block;
         font-size: $fs;
         margin: 0;
-        padding: 0.65em 0 $fs--075;
+        padding: ($fs * 0.65) 0 $fs--075;
         text-align: right;
         width: 44%;
 
@@ -242,29 +242,29 @@
         display: inline;
         font-size: $fs--075;
         margin: 0;
-        padding: 0 0.5em;
+        padding: 0 $fs--05;
         position: relative;
         z-index: $zindex--overlayed-3;
     }
 
 
     .lp_post-statistics__separator-line {
-        background: hsl(0, 0%, 73%) none;
+        background: lighten($text--lighter, 10%) none;
         border: 0 none;
         height: 1px;
         margin: $fs 0 $fs--05;
         position: relative;
-        top: -1.66em;   // TODO: this is a magic number that should not be required
+        top: -($fs * 1.66);   // TODO: this is a magic number that should not be required
         z-index: $zindex--overlayed-2;
     }
 }
 
 // statistics pane footer with toggle for previewing post as visitor or as admin ---------------------------------------
 .lp_post-statistics .lp_post-statistics__plugin-preview-mode {
-    background-color: hsl(47, 100%, 50%);
+    background-color: adjust_hue(saturate(lighten($text, 17%), 100%), 47);
     border-radius: 0 0 0 $border-radius;
     margin: $fs--05 0 0;
-    padding: $fs $fs--075 0.66em;
+    padding: $fs $fs--075 ($fs * 0.66);
 }
 
 

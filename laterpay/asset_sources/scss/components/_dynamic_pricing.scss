@@ -16,7 +16,7 @@
 
 // graph area ----------------------------------------------------------------------------------------------------------
 .lp_dynamic-pricing__graph-background {
-    fill: hsl(0, 0%, 95%);
+    fill: $background;
 }
 
 
@@ -24,17 +24,17 @@
 // .domain is the axis line and should therefore better be called .lp_dynamic-pricing__axis-line,
 // but I have no idea, how to assign it that class name
 .lp_dynamic-pricing__axis .domain {
-    stroke: hsl(0, 0%, 67%);
+    stroke: $text--lighter;
     stroke-dasharray: none;
     stroke-width: 1.5px;
 }
 
 .lp_dynamic-pricing__axis-arrowhead {
-    fill: hsl(0, 0%, 67%);
+    fill: $text--lighter;
 }
 
 .lp_dynamic-pricing__grid-line {
-    stroke: hsl(0, 0%, 67%);
+    stroke: $text--lighter;
     stroke-width: 0.1px;
 }
 
@@ -45,14 +45,14 @@
 // price curve ---------------------------------------------------------------------------------------------------------
 .lp_dynamic-pricing__price-curve {
     fill: none;
-    stroke: hsl(0, 0%, 13%);
+    stroke: darken($text, 20%);
     stroke-linecap: round;
     stroke-width: 2.5px;
 }
 
 .lp_dynamic-pricing__price-curve-point {
-    fill: hsl(0, 0%, 13%);
-    stroke: hsl(0, 0%, 95%);
+    fill: darken($text, 20%);
+    stroke: $background;
     stroke-width: 2px;
     transition: all 0.5s;
 
@@ -67,7 +67,7 @@
  * 1. hide vertical lines for maximum x-axis value, because it just has to be inserted as a technical workaround
  */
 .lp_dynamic-pricing__x-axis-marker {
-    stroke: hsl(0, 0%, 33%);
+    stroke: $text;
     stroke-dasharray: 5;
     stroke-width: 1px;
 
@@ -87,16 +87,16 @@
 }
 
 .lp_dynamic-pricing__default-price-marker {
-    stroke: hsl(0, 0%, 67%);
+    stroke: $text--lighter;
     stroke-width: 1px;
 }
 
 .lp_dynamic-pricing__default-price-label-background {
-    fill: hsl(0, 0%, 95%);
+    fill: $background;
 }
 
 .lp_dynamic-pricing__default-price-label {
-    fill: hsl(0, 0%, 67%);
+    fill: $text--lighter;
     font-size: 9px;
 }
 

@@ -190,7 +190,7 @@
 
     /* border for upward-pointing arrow */
     .lp_triangle--outer-triangle {
-        @include triangle(10px, top, hsl(0, 0%, 77%));
+        @include triangle(10px, top, lighten($text--lighter, 10%));
         left: 50%;
         margin-left: -10px;
         top: -11px;

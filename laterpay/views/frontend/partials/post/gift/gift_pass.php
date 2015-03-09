@@ -9,7 +9,7 @@
     $gift_pass = $laterpay_gift['gift_pass'];
 
     $title = sprintf(
-        '%s<small>%s</small>',
+        '%s<small class="lp_purchase-link__currency">%s</small>',
         LaterPay_Helper_View::format_number( $gift_pass['price'] ),
         $laterpay['standard_currency']
     );

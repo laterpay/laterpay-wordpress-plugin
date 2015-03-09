@@ -39,7 +39,7 @@
     font-size: $fs;
 }
 
-.lp_fs++ {
+.lp_fs\+\+ {
     font-size: $fs--3;
 }
 
@@ -130,11 +130,11 @@
     margin-top: $fs;
 }
 
-.lp_mt+ {
+.lp_mt\+ {
     margin-top: $fs--2;
 }
 
-.lp_mt++ {
+.lp_mt\+\+ {
     margin-top: $fs--3;
 }
 
@@ -152,7 +152,7 @@
     margin-right: $fs;
 }
 
-.lp_mr+ {
+.lp_mr\+ {
     margin-right: $fs--2;
 }
 
@@ -174,21 +174,21 @@
     margin-bottom: $fs;
 }
 
-.lp_mb+ {
+.lp_mb\+ {
     margin-bottom: $fs--2;
 }
 
 
 // left margins
-.lp_mb- {
+.lp_ml- {
     margin-left: $fs--05;
 }
 
-.lp_mb {
+.lp_ml {
     margin-left: $fs;
 }
 
-.lp_mb+ {
+.lp_ml\+ {
     margin-left: $fs--2;
 }
 

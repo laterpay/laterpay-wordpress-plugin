@@ -55,7 +55,7 @@
 
     &:disabled {
         border-color: transparent;
-        color: hsl(0, 0%, 20%);
+        color: darken($text, 13%);
         transition-duration: 0.4s;
     }
 }
@@ -79,12 +79,12 @@
 
     // switch for selecting price type
     .lp_price-type__list {
-        background-color: hsl(0, 0%, 91%);
+        background-color: darken($background, 4%);
         margin: 0;
         padding: 0;
 
         .lp_price-type__item {
-            box-shadow: inset 1px 0 0 hsl(0, 0%, 87%), inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
+            box-shadow: inset 1px 0 0 $border, inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
             float: left;
             line-height: 1.25;
             margin: 0;
@@ -99,7 +99,7 @@
 
             &:last-child {
                 border-radius: 0 2px 2px 0;
-                box-shadow: inset 1px 0 0 hsl(0, 0%, 87%), inset -1px 1px 0 hsla(0, 0%, 100%, 0.55);
+                box-shadow: inset 1px 0 0 $border, inset -1px 1px 0 hsla(0, 0%, 100%, 0.55);
             }
 
             &:hover {
@@ -135,16 +135,16 @@
         .lp_is-disabled {
 
             .lp_price-type__link {
-                color: hsl(0, 0%, 84%);
+                color: lighten($text--lightest, 4%);
                 cursor: not-allowed;
                 visibility: visible;
             }
 
             &:hover {
-                background-color: hsl(0, 0%, 91%);
+                background-color: darken($background, 4%);
 
                 .lp_price-type__link {
-                    color: hsl(0, 0%, 84%);
+                    color: lighten($text--lightest, 4%);
                     cursor: not-allowed;
                 }
             }
@@ -165,7 +165,7 @@
             border-top: 1px solid $border--lightest;
 
             &:nth-child(even) {
-                background-color: hsl(0, 0%, 97%);
+                background-color: lighten($background, 2%);
             }
 
             &:last-child {
@@ -181,7 +181,7 @@
                 padding: $fs--05 $fs--075;
 
                 span {
-                    color: hsl(0, 0%, 53%);
+                    color: lighten($text, 20%);
                     float: right;
                 }
             }
@@ -192,7 +192,7 @@
             background-color: $background--highlight;
 
             a {
-                color: hsl(0, 0%, 27%);
+                color: darken($text, 6%);
                 cursor: default;
             }
         }

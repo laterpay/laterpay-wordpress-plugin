@@ -151,7 +151,7 @@ input[type=text][required] + label[placeholder] {
         color: $text--lighter;
         content: attr(placeholder);
         display: inline-block;
-        margin: 1.4em 0 0 0.5em;
+        margin: 1.4em 0 0 3em;
         padding: 0 3px;
         transition: 0.3s ease-in-out;
         white-space: nowrap;
@@ -232,7 +232,7 @@ label:hover .ez-mark {
 .ez-checked.ez-checkbox svg .check,
 .ez-checked.ez-radio svg .dot {
     display: block;
-    fill: hsl(0, 0%, 40%);
+    fill: $border--darkest;
 }
 
 .ez-hide {
