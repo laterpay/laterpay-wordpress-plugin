@@ -42,7 +42,7 @@
 
         &:before {
             background: $text !important;
-            border-radius: $fs !important;
+            border-radius: 50% !important;
             color: darken($text, 33%) !important;
             margin-right: ($fs * 0.4) !important;
             padding: ($fs * 0.1) !important;

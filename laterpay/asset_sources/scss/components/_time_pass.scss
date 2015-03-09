@@ -25,7 +25,7 @@
 .lp_time-pass__front,
 .lp_time-pass__back {
     box-sizing: border-box; /* 2 */
-    position: relative; /* 1 */
+    position: absolute; /* 1 */
 }
 
 .lp_time-pass__front {

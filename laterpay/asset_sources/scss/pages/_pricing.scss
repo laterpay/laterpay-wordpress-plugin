@@ -48,7 +48,7 @@ span.lp_revenue-model {
 .select2-search,
 .select2-search input {
     margin-bottom: 32px;
-    width: (10 * $fs);
+    width: ($fs * 10);
 }
 
 .lp_price-settings__category-title {
@@ -87,10 +87,16 @@ span.lp_revenue-model {
     .lp_time-pass {
         margin-bottom: 0;
     }
+
+    .lp_save-link {
+        margin-top: $fs--025;
+        margin-bottom: $fs--025;
+    }
 }
 
 .lp_time-pass-editor {
     display: inline-block;
+    float: left;
     vertical-align: top;
 
     .lp_time-pass-editor__column {
@@ -110,16 +116,11 @@ span.lp_revenue-model {
     }
 
     .lp_timePass_descriptionInput {
-        height: 4.75em;
-    }
-
-    .lp_save-link {
-        margin-top: $fs;
-        margin-left: $fs--05;
+        height: round($fs * 4.75);
     }
 
     .lp_toggle__label-pass {
-        width: round(3.5 * $fs);
+        width: round($fs * 3.5);
 
         .lp_toggle__input:checked ~ .lp_toggle__text {
             background: darken($background, 16%);

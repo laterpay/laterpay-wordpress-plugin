@@ -159,9 +159,9 @@
                         <a href="#" id="lp_js_addCategoryDefaultPrice" class="lp_block lp_mt" data-icon="c"><?php _e( 'Set default price for another category', 'laterpay' ); ?></a>
 
                         <form method="post" id="lp_js_categoryDefaultPriceTemplate" class="lp_js_categoryDefaultPriceForm lp_category-price-form lp_is-unsaved" style="display:none;">
-                            <input type="hidden" name="form" value="price_category_form">
-                            <input type="hidden" name="action" value="laterpay_pricing">
-                            <input type="hidden" name="category_id" class="lp_js_categoryDefaultPriceCategoryId" value="">
+                            <input type="hidden" name="form"        value="price_category_form">
+                            <input type="hidden" name="action"      value="laterpay_pricing">
+                            <input type="hidden" name="category_id" value="" class="lp_js_categoryDefaultPriceCategoryId">
 
                             <p class="lp_mt--">
                                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
@@ -275,7 +275,7 @@
                             <?php echo $this->render_time_pass( (array) $pass ); ?>
                         </div>
 
-                        <div class="lp_js_timePassEditorContainer lp_time-pass-editor lp_mt-"></div>
+                        <div class="lp_js_timePassEditorContainer lp_time-pass-editor"></div>
 
                         <a href="#" class="lp_js_saveTimePass lp_save-link button button-primary lp_hidden"><?php _e( 'Save', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_inline-block lp_pd- lp_hidden" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
@@ -288,7 +288,7 @@
                                     <div class="lp_js_voucher lp_voucher">
                                         <span class="lp_voucher__code"><?php echo $voucher_code; ?></span>
                                         <span class="lp_voucher__code-infos">
-                                        <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
+                                            <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
                                             <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>.<br>
                                             <span class="lp_js_voucherTimesRedeemed">
                                                 <?php
@@ -318,7 +318,7 @@
                         <?php echo $this->render_time_pass(); ?>
                     </div>
 
-                    <div class="lp_js_timePassEditorContainer lp_time-pass-editor lp_mt-">
+                    <div class="lp_js_timePassEditorContainer lp_time-pass-editor">
                         <form id="lp_js_timePassFormTemplate" class="lp_js_timePassEditorForm lp_time-passes-editor__form lp_hidden lp_clearfix" method="post">
                             <input type="hidden" name="form"    value="time_pass_form_save">
                             <input type="hidden" name="action"  value="laterpay_pricing">
@@ -362,7 +362,8 @@
                                         <input type="text"
                                             class="lp_js_timePassPriceInput lp_input lp_number-input"
                                             name="price"
-                                            value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ?>">
+                                            value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ?>"
+                                            maxlength="6">
                                         <?php echo $laterpay['standard_currency']; ?>
                                         <?php _e( 'later', 'laterpay' ); ?><div class="lp_toggle">
                                             <label class="lp_toggle__label lp_toggle__label-pass">
@@ -371,7 +372,7 @@
                                                    class="lp_js_timePassRevenueModelInput lp_toggle__input"
                                                    value="sis"
                                                    <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo 'checked'; } ?>>
-                                                <span class="lp_toggle__text" data-on="" data-off=""></span>
+                                                <span class="lp_toggle__text"></span>
                                                 <span class="lp_toggle__handle"></span>
                                             </label>
                                         </div><?php _e( 'immediately', 'laterpay' ); ?>
@@ -411,12 +412,13 @@
 
                             <hr>
 
-                            <div class="lp_js_voucherEditor lp_voucher-editor">
+                            <div class="lp_js_voucherEditor">
                                 <?php _e( 'Offer this time pass at a reduced price of', 'laterpay' ); ?>
                                 <input type="text"
                                        name="voucher_price"
                                        class="lp_js_voucherPriceInput lp_input lp_number-input"
-                                       value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ?>">
+                                       value="<?php echo LaterPay_Helper_View::format_number( LaterPay_Helper_TimePass::get_default_options( 'price' ) ) ?>"
+                                       maxlength="6">
                                 <span><?php echo $laterpay['standard_currency']; ?></span>
                                 <a href="#" class="lp_js_generateVoucherCode lp_edit-link lp_add-link" data-icon="c">
                                     <?php _e( 'Generate voucher code', 'laterpay' ); ?>

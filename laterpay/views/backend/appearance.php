@@ -24,7 +24,8 @@
     </div>
 
     <div class="lp_pagewrap lp_appearence">
-        <div class="lp_row lp_clearfix lp_appearence__item">
+
+        <div class="lp_clearfix lp_appearence__item">
             <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
             <form id="lp_js_previewModeForm" method="post" class="lp_preview-mode">
                 <input type="hidden" name="form"    value="paid_content_preview">
@@ -52,13 +53,14 @@
         </div>
         <hr class="lp_form-group-separator">
 
-        <div class="lp_row lp_clearfix lp_mb lp_appearence__item">
+
+        <div class="lp_clearfix lp_appearence__item">
             <h2 id="lp_gift-cards-appearance"><?php _e( 'Offering of Gift Cards for Time Passes', 'laterpay' ); ?></h2>
             <dfn>
             <?php _e( 'Please follow these two steps to offer gift cards for time passes. A user will be able to purchase a voucher for a time pass, which he can give away as a present. The receiver can then redeem this voucher code and will get access to the purchased time pass.', 'laterpay' ); ?>
             </dfn>
             <div class="lp_clearfix lp_mb+">
-                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt++ lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
+                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-1.png'; ?>">
                 <strong class="lp_block lp_mt lp_mb- lp_pdt-">
                     <?php _e( 'Step 1: Display Gift Cards', 'laterpay' ); ?>
                 </strong>
@@ -76,7 +78,7 @@
             </div>
 
             <div class="lp_clearfix">
-                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt++ lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
+                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'gift-card-instructions-step-2.png'; ?>">
                 <strong class="lp_block lp_mt lp_mb- lp_pdt-">
                     <?php _e( 'Step 2: Add Option to Redeem Vouchers', 'laterpay' ); ?>
                 </strong>
@@ -91,7 +93,8 @@
         </div>
         <hr class="lp_form-group-separator">
 
-        <div class="lp_row lp_clearfix lp_mb lp_appearence__item">
+
+        <div class="lp_clearfix lp_appearence__item">
             <h2><?php _e( 'Rating of Purchased Content', 'laterpay' ); ?></h2>
             <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt- lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'content-rating-2x.png'; ?>">
             <div class="lp_mt+">
@@ -119,8 +122,10 @@
             </dfn>
         </div>
         <hr class="lp_form-group-separator">
-        <div class="lp_appearence__item">
-            <div class="lp_row">
+
+
+        <div class="lp_clearfix lp_appearence__item">
+            <div>
                 <h2><?php _e( 'Offer of Paid Content within (Free) Posts', 'laterpay' ); ?></h2>
                 <h3><?php _e( 'Offer of Additional Paid Content', 'laterpay' ); ?></h3>
                 <dfn>
@@ -193,25 +198,30 @@
                     </tr>
                 </table>
             </div>
-            <div class="lp_row">
+
+
+            <div class="lp_clearfix">
                 <h3><?php _e( 'Alignment of Additional Paid Content Boxes', 'laterpay' ); ?></h3>
                 <dfn class="lp_clearfix">
                     <?php _e( 'Enclose multiple [laterpay_premium_download] shortcodes in a [laterpay_box_wrapper] shortcode to align them in a three-column layout.', 'laterpay' ); ?>
                 </dfn>
-                <code class="lp_code-snippet lp_code-snippet--shown-above lp_block">
+                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_left lp_mt lp_mr+" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
+                <code class="lp_code-snippet lp_code-snippet--large lp_block">
                     <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
                     <?php _e( '[laterpay_box_wrapper]<dfn>[laterpay_premium_download &hellip;][laterpay_premium_download &hellip;]</dfn>[/laterpay_box_wrapper]', 'laterpay' ) ?>
                 </code>
-                <img class="lp_ui-element-preview lp_ui-element-preview--large lp_mt-" src="<?php echo $config->get( 'image_url' ) . 'shortcode-alignment-2x.png'; ?>">
             </div>
          </div>
         <hr class="lp_form-group-separator">
+
+
         <div class="lp_appearence__item">
-            <div class="lp_row">
+            <div>
                 <h2><?php _e( 'Integration Into Theme', 'laterpay' ); ?></h2>
             </div>
 
-            <div class="lp_row lp_clearfix lp_mb+">
+
+            <div class="lp_clearfix lp_mb+">
                 <form id="lp_js_purchaseButtonPositionForm" method="post">
                     <input type="hidden" name="form" value="purchase_button_position">
                     <input type="hidden" name="action" value="laterpay_appearance">
@@ -244,7 +254,8 @@
                 </form>
             </div>
 
-            <div class="lp_row lp_clearfix lp_mb+">
+
+            <div class="lp_clearfix lp_mb+">
                 <form id="lp_js_timePassesPositionForm" method="post">
                     <input type="hidden" name="form" value="time_passes_position">
                     <input type="hidden" name="action" value="laterpay_appearance">
@@ -281,7 +292,8 @@
                 </form>
             </div>
 
-            <div class="lp_row lp_clearfix lp_mb+">
+
+            <div class="lp_clearfix lp_mb+">
                 <h3><?php _e( 'Display of LaterPay Invoice Balance', 'laterpay' ); ?></h3>
                 <dfn class="lp_clearfix">
                     <?php _e( 'Call action \'laterpay_invoice_indicator\' in your theme to show your users their LaterPay invoice balance.', 'laterpay' ); ?><br>
@@ -294,7 +306,7 @@
                 </code>
             </div>
 
-            <div class="lp_row lp_clearfix lp_mb+">
+            <div class="lp_clearfix lp_mb+">
                 <h3><?php _e( 'Display of LaterPay Login / Logout Links', 'laterpay' ); ?></h3>
                 <dfn class="lp_clearfix">
                     <?php _e( 'Call action \'laterpay_account_links\' in your theme or use the shortcode \'[laterpay_account_links]\' to embed a LaterPay login / logout link in your page.', 'laterpay' ); ?><br>

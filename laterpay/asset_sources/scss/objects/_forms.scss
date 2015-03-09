@@ -13,11 +13,15 @@ select.lp_input,
     margin: 0;
     padding: 0.5em;
 
-    &:hover,
-    &:focus,
-    &:active {
+    &:focus {
         -moz-appearance: none;
         -webkit-appearance: none;
+        border-color: $clickable--highlight;
+        box-shadow: none;
+    }
+
+    &:hover,
+    &:active {
         border-color: $clickable--highlight;
         box-shadow: none;
     }
@@ -60,7 +64,6 @@ input[type=text].lp_number-input {
 
     .select2-container {
         margin-left: 2px;
-        max-width: 100px;
         width: 100%;
 
         .select2-choice {

@@ -65,7 +65,7 @@
         font-size: 49px !important; /* 1 */
         left: -3px !important;
         line-height: 0 !important; /* 2 */
-        margin: 0 ($fs * (-0.2)) 0 0 !important;
+        margin: 0 - ($fs * 0.2) 0 0 !important;
         position: relative !important;
         top: ($fs * 1.1) !important;
     }

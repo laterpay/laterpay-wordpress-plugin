@@ -947,7 +947,6 @@
                                 $timePass.fadeOut(250, function() {
                                     $(this).remove();
 
-// TODO: we don't actually need to REgenerate the list for a new time pass...
                                     // re-generate vouchers list
                                     clearVouchersList($newTimePass);
                                     if (lpVars.vouchers_list[passId] instanceof Object) {
@@ -1044,7 +1043,7 @@
                 var price   = priceValue + ' ' + lpVars.defaultCurrency,
                     voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
                                 '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
-                                '<span class="lp_voucher__code">' + code + '</span>' +
+                                '<span class="lp_voucher__code">' + code + '</span> ' + // space at end is intentional
                                 '<span class="lp_voucher__code-infos">' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                 '</span>' +
