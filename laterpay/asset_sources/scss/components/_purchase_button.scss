@@ -21,16 +21,16 @@
         font-size: $fs--2 !important;
         left: -$fs--025 !important;
         line-height: 0 !important; /* 1 */
-        margin: 0 -$fs--05 0 0 !important;
+        margin: 0 (-$fs--05) 0 0 !important;
         position: relative !important;
-        top: ($fs * 0.6) !important;
+        top: $fs--05 !important;
     }
 
     // currency ISO code
     .lp_purchase-link__currency {
-        bottom: ($fs * 0.45) !important;
-        font-size: ($fs * 0.6) !important;
-        padding: 0 1px 0 2px !important;
+        bottom: $fs--05 !important;
+        font-size: $fs--05 !important;
+        padding: 0 2px 0 0.5ch !important;
         position: relative !important;
     }
 }
@@ -40,9 +40,9 @@
 .lp_button,
 .lp_purchase-button {
     @include linear-gradient($laterpay-brand, 0%, $laterpay-brand--darker, 100%, $start, $end);
-    border-color: adjust_hue(saturate(darken($text, 3%), 64%), 166) adjust_hue(saturate(darken($text, 2%), 64%), 166) !important;
-    border-radius: 5px !important;
-    border: 1px solid adjust_hue(saturate(darken($text, 2%), 64%), 166) !important;
+    border: 1px solid $laterpay-brand--darker !important;
+    border-color: darken($laterpay-brand--darker, 13%) darken($laterpay-brand--darker, 5%) !important;
+    border-radius: 4px !important;
     border-width: 0 1px 2px 0 !important;
     color: $text--inverse !important;
     cursor: pointer !important;
@@ -50,9 +50,9 @@
     font-size: $fs--2 !important;
     line-height: 1.1 !important;
     margin: 0 !important;
-    padding: ($fs * 0.2) ($fs * 0.2) ($fs * 0.1) 0 !important;
+    padding: $fs--025 $fs--025 $fs--025 0 !important;
     text-decoration: none !important;
-    text-shadow: 0 -1px 0 adjust_hue(saturate(darken($text, 5%), 65%), 166) !important;
+    text-shadow: 0 -1px 0 darken($laterpay-brand--darker, 13%) !important;
     white-space: nowrap !important;
 
     /**
@@ -63,9 +63,9 @@
      */
     &:before {
         font-size: 49px !important; /* 1 */
-        left: -3px !important;
+        left: -$fs--025 !important;
         line-height: 0 !important; /* 2 */
-        margin: 0 - ($fs * 0.2) 0 0 !important;
+        margin: 0 (-$fs--05) 0 0 !important;
         position: relative !important;
         top: ($fs * 1.1) !important;
     }
