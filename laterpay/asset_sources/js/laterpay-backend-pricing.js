@@ -1014,18 +1014,16 @@
 
             addVoucher = function(code, priceValue, $timePass) {
                 var price   = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucher lp_voucher" ' +
-                                        'data-code="' + code + '" ' +
-                                        'style="display:none;">' +
-                                    '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
-                                    '<span class="lp_voucher__code">' + code + '</span>' +
-                                    '<span class="lp_voucher__code-infos">' +
-                                        lpVars.i18n.voucherText + ' ' + price +
-                                    '</span>' +
-                                    '<a href="#" class="lp_js_deleteVoucher lp_edit-link lp_delete-link" data-icon="g">' +
-                                        lpVars.i18n.delete +
-                                    '</a>' +
-                                '</div>';
+                    voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
+                                '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
+                                '<span class="lp_voucher__code">' + code + '</span>' +
+                                '<span class="lp_voucher__code-infos">' +
+                                    lpVars.i18n.voucherText + ' ' + price +
+                                '</span>' +
+                                '<a href="#" class="lp_js_deleteVoucher lp_edit-link lp_delete-link" data-icon="g">' +
+                                    lpVars.i18n.delete +
+                                '</a>' +
+                            '</div>';
 
                 $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
@@ -1034,14 +1032,15 @@
                 var passId          = $timePass.data('pass-id'),
                     timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
                     price           = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
-                                    '<span class="lp_voucher__code-infos">' +
-                                        lpVars.i18n.voucherText + ' ' + price + '.<br>' +
-                                        '<span class="lp_js_voucherTimesRedeemed">' +
-                                            timesRedeemed +
-                                        '</span>' + lpVars.i18n.timesRedeemed +
-                                    '</span>' +
-                                '</div>';
+                    voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
+                                            '<span class="lp_voucher__code">' + code + '</span>' +
+                                            '<span class="lp_voucher__code-infos">' +
+                                                lpVars.i18n.voucherText + ' ' + price + '.<br>' +
+                                                '<span class="lp_js_voucherTimesRedeemed">' +
+                                                    timesRedeemed +
+                                                '</span>' + ' ' + lpVars.i18n.timesRedeemed +
+                                            '</span>' +
+                                        '</div>';
 
                 $timePass.find($o.voucherList).append(voucher);
             },
