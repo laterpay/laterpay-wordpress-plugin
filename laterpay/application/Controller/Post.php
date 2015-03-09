@@ -719,10 +719,11 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @param string $variant               variant of the time pass widget (currently only 'small' is supported)
      * @param string $introductory_text     additional text rendered at the top of the widget
      * @param string $call_to_action_text   additional text rendered after the time passes and before the voucher code input
+     * @param int    $time_pass_id          specific time pass id for render
      *
      * @return void
      */
-    public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '' ) {
+    public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '', $time_pass_id = null ) {
         $is_homepage                     = is_front_page() && is_home();
         $show_widget_on_free_posts       = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
         $time_passes_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
@@ -756,6 +757,13 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                                     get_the_ID(),
                                     $time_passes_with_access
                                 );
+        }
+
+        if ( isset( $time_pass_id ) ) {
+            $time_passes_list = array( (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) );
+            if ( in_array( $time_pass_id, $time_passes_with_access ) ) {
+                return;
+            }
         }
 
         // don't render the widget, if there are no time passes
