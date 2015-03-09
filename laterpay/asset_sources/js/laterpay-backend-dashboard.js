@@ -123,81 +123,85 @@
             bindEvents = function() {
                 // toggle dropdown_list on touch devices
                 $($o.dropdownCurrentItem)
-                    .click(function() {
-                        $(this).parent($o.dropdown).addClass($o.expanded);
-                    });
+                .click(function() {
+                    $(this).parent($o.dropdown).addClass($o.expanded);
+                });
 
                 // switch interval or revenue model filter
                 $o.configurationSelection
-                    .mousedown(function() {
-                        var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                            oldInterval     = getInterval(),
-                            nextStartTimestamp,
-                            nextEndTimestamp,
-                            newInterval;
-
-                        // mark clicked item as selected
-                        $(this)
-                            .parents($o.dropdown)
-                            .removeClass($o.expanded)
-                            .find($o.dropdownCurrentItem)
-                            .text($(this).text())
-                            .end()
-                            .find('.' + $o.selected)
-                            .removeClass($o.selected)
-                            .end()
-                            .end()
-                            .addClass($o.selected);
-
-                        newInterval = getInterval();
-
-                        // for the 24 hour interval it's allowed to view 'today', but when switching to another interval
-                        // we have to automatically switch back to 'yesterday'
-                        if (oldInterval === 'day' && newInterval !== 'day') {
-                            var todayDate   = new Date(),
-                                startDate   = new Date(startTimestamp * 1000);
-
-                            todayDate.setHours(0, 0, 0, 0);
-                            startDate.setHours(0, 0, 0, 0);
-
-                            if (todayDate.getTime() === startDate.getTime()) {
-                                startTimestamp = startTimestamp - getIntervalDiff(oldInterval);
-                            }
-                        }
-
-                        // check, if the 'next' button should be visible or hidden for the given interval
-                        nextStartTimestamp  = startTimestamp + getIntervalDiff(newInterval);
-                        switchNextIntervalState(nextStartTimestamp, newInterval);
-
-                        // check, if the 'previous' button should be visible or hidden for the given interval
-                        nextEndTimestamp    = startTimestamp - getIntervalDiff(newInterval);
-                        switchPreviousIntervalState(nextEndTimestamp, newInterval);
-
-                        setTimeRange(startTimestamp, newInterval);
-                        loadDashboard(false);
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    applyFilterSettings($(this));
+                })
+                .click(function(e) {e.preventDefault();});
 
                 // load next interval
                 $o.nextInterval
-                    .mousedown(function() {
-                        loadNextInterval();
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    loadNextInterval();
+                })
+                .click(function(e) {e.preventDefault();});
 
                 // load previous interval
                 $o.previousInterval
-                    .mousedown(function() {
-                        loadPreviousInterval();
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    loadPreviousInterval();
+                })
+                .click(function(e) {e.preventDefault();});
 
                 $('body')
-                    .on('mousedown', $o.toggleItemDetails, function() {
-                        alert('Toggling post details coming soon');
-                    })
-                    .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
+                .on('mousedown', $o.toggleItemDetails, function() {
+                    alert('Toggling post details coming soon');
+                })
+                .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
+            },
+
+            applyFilterSettings = function($trigger) {
+                var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                    oldInterval     = getInterval(),
+                    nextStartTimestamp,
+                    nextEndTimestamp,
+                    newInterval;
+
+                // mark clicked item as selected
+                $trigger
+                    .parents($o.dropdown)
+                    .removeClass($o.expanded)
+                        .find($o.dropdownCurrentItem)
+                        .text($trigger.text())
+                    .end()
+                        .find('.' + $o.selected)
+                        .removeClass($o.selected)
+                    .end()
+                .end()
+                .addClass($o.selected);
+
+                newInterval = getInterval();
+
+                // for the 24 hour interval it's allowed to view 'today', but when switching to another interval
+                // we have to automatically switch back to 'yesterday'
+                if (oldInterval === 'day' && newInterval !== 'day') {
+                    var todayDate   = new Date(),
+                        startDate   = new Date(startTimestamp * 1000);
+
+                    todayDate.setHours(0, 0, 0, 0);
+                    startDate.setHours(0, 0, 0, 0);
+
+                    if (todayDate.getTime() === startDate.getTime()) {
+                        startTimestamp = startTimestamp - getIntervalDiff(oldInterval);
+                    }
+                }
+
+                // check, if the 'next' button should be visible or hidden for the given interval
+                nextStartTimestamp  = startTimestamp + getIntervalDiff(newInterval);
+                switchNextIntervalState(nextStartTimestamp, newInterval);
+
+                // check, if the 'previous' button should be visible or hidden for the given interval
+                nextEndTimestamp    = startTimestamp - getIntervalDiff(newInterval);
+                switchPreviousIntervalState(nextEndTimestamp, newInterval);
+
+                setTimeRange(startTimestamp, newInterval);
+                loadDashboard(false);
             },
 
             loadPreviousInterval = function() {
