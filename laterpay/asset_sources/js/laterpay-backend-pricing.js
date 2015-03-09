@@ -87,6 +87,7 @@
                 timePassPreviewValidity                 : '.lp_js_timePassPreviewValidity',
                 timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
+                timePass                                : '.lp_js_timePass',
                 timePassId                              : '.lp_js_timePassId',
                 landingPageInput                        : '.lp_js_landingPageInput',
                 landingPageSave                         : '#lp_js_landingPageSave',
@@ -840,8 +841,7 @@
             },
 
             cancelEditingTimePass = function($timePass) {
-                // show vouchers
-                $timePass.find($o.voucherList).show();
+                var passId = $timePass.find($o.timePass).data('pass-id');
 
                 if ($($o.timePassForm, $timePass).hasClass($o.unsaved)) {
                     // remove entire time pass, if it is a new, unsaved pass
@@ -863,7 +863,18 @@
                 // hide action links required when editing time pass
                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
 
-                // show "add time pass" button, if it is hidden
+                // re-generate vouchers list
+                clearVouchersList($timePass);
+                if (lpVars.vouchers_list[passId] instanceof Object) {
+                    $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                        addVoucherToList(code, priceValue, $timePass);
+                    });
+
+                    // show vouchers
+                    $timePass.find($o.voucherList).show();
+                }
+
+                // show 'add time pass' button, if it is hidden
                 if ($o.addTimePass.is(':hidden')) {
                     $o.addTimePass.fadeIn(250);
                 }
@@ -880,29 +891,32 @@
                             // update vouchers
                             lpVars.vouchers_list[passId] = r.vouchers;
 
-                            // re-generate vouchers list
-                            clearVouchersList($timePass);
-                            if (lpVars.vouchers_list[passId] instanceof Object) {
-                                $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                                    addVoucherToList(code, priceValue, $timePass);
-                                });
-
-                                // show vouchers
-                                $timePass.find($o.voucherList).show();
-                            }
-
                             if (lpVars.time_passes_list[passId]) {
                                 // pass already exists (update)
                                 lpVars.time_passes_list[passId] = r.data;
+
                                 // insert time pass rendered on server
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
 
                                 // hide action links required when editing time pass
                                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
+
                                 // show action links required when displaying time pass
                                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_hidden');
+
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
+
+                                    // re-generate vouchers list
+                                    clearVouchersList($timePass);
+                                    if (lpVars.vouchers_list[passId] instanceof Object) {
+                                        $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                            addVoucherToList(code, priceValue, $timePass);
+                                        });
+
+                                        // show vouchers
+                                        $timePass.find($o.voucherList).show();
+                                    }
                                 });
                             } else {
                                 // pass was just created (add)
@@ -925,12 +939,26 @@
                                 // hide action links required when editing time pass
                                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass)
                                 .addClass('lp_hidden');
+
                                 // show action links required when displaying time pass
                                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass)
                                 .removeClass('lp_hidden');
 
                                 $timePass.fadeOut(250, function() {
                                     $(this).remove();
+
+// TODO: we don't actually need to REgenerate the list for a new time pass...
+                                    // re-generate vouchers list
+                                    clearVouchersList($newTimePass);
+                                    if (lpVars.vouchers_list[passId] instanceof Object) {
+                                        $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                            addVoucherToList(code, priceValue, $newTimePass);
+                                        });
+
+                                        // show vouchers
+                                        $newTimePass.find($o.voucherList).show();
+                                    }
+
                                     $newTimePass.removeClass('lp_hidden');
                                 });
                             }
