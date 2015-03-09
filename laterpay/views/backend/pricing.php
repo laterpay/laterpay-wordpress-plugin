@@ -268,7 +268,7 @@
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_time-passes__item lp_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
                         <div class="lp_time-pass__id-wrapper">
-                            <?php _e( 'Pass' , 'laterpay'); ?>
+                            <?php _e( 'Pass', 'laterpay'); ?>
                             <span class="lp_js_timePassId lp_time-pass__id"><?php echo $pass->pass_id; ?></span>
                         </div>
                         <div class="lp_js_timePassPreview lp_left">
@@ -290,11 +290,13 @@
                                         <span class="lp_voucher__code-infos">
                                         <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
                                             <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>.<br>
-                                            <?php
-                                                echo ( ! isset( $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code] ) ) ?
-                                                    0 :
-                                                    $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code];
-                                            ?>
+                                            <span class="lp_js_voucherTimesRedeemed">
+                                                <?php
+                                                    echo ( ! isset( $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code] ) ) ?
+                                                        0 :
+                                                        $laterpay['vouchers_statistic'][$pass->pass_id][$voucher_code];
+                                                ?>
+                                            </span>
                                             <?php _e( 'times redeemed.', 'laterpay' ); ?>
                                         </span>
                                     </div>
@@ -433,7 +435,7 @@
                     <a href="#" class="lp_js_editTimePass lp_change-link lp_inline-block lp_pd- lp_hidden" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a><br>
                     <a href="#" class="lp_js_deleteTimePass lp_delete-link lp_inline-block lp_pd- lp_hidden" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
 
-                    <div class="lp_js_voucherList"></div>
+                    <div class="lp_js_voucherList lp_vouchers"></div>
                 </div>
             </div>
         </div>
