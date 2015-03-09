@@ -66,9 +66,7 @@
                 </div>
 
                 <div class="lp_3/4 lp_left">
-                    <div class="lp_js_timepassDiagram lp_dashboard-graph"
-                        data-id="0"
-                        style="width:600px;">
+                    <div class="lp_js_timepassDiagram lp_dashboard-graph lp_dashboard-graph--time-pass-lifeycle" data-id="0">
                     </div>
                 </div>
 
@@ -114,9 +112,7 @@
                         </div>
 
                         <div class="lp_3/4 lp_left">
-                            <div class="lp_js_timepassDiagram lp_dashboard-graph"
-                                data-id="<?php echo $pass_id; ?>"
-                                style="width:600px;">
+                            <div class="lp_js_timepassDiagram lp_dashboard-graph lp_dashboard-graph--time-pass-lifeycle" data-id="<?php echo $pass_id; ?>">
                             </div>
                         </div>
 

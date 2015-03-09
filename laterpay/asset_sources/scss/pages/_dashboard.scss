@@ -49,8 +49,9 @@
     height: ($fs * 15);
     margin: 0 $fs 0 0;
 
-    &.lp_dashboard-graph--margin-bottom {
-        margin-bottom: $fs--2;
+    &.lp_dashboard-graph--time-pass-lifeycle {
+        margin-top: round($fs * 2.5);
+        width: 600px;
     }
 }
 
