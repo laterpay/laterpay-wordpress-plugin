@@ -480,7 +480,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_pass = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
+            $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
             if ( ! $time_pass ) {
                 $error_message = $this->get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
                 return $error_message;
@@ -571,7 +571,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return array
      */
     public function get_time_passes_list_by_id( $id ) {
-        return array( (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $id ) );
+        return array( LaterPay_Helper_TimePass::get_time_pass_by_id( $id ) );
     }
 
     /**

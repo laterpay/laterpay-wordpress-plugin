@@ -760,10 +760,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         if ( isset( $time_pass_id ) ) {
-            $time_passes_list = array( (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) );
             if ( in_array( $time_pass_id, $time_passes_with_access ) ) {
                 return;
             }
+            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) );
         }
 
         // don't render the widget, if there are no time passes

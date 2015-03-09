@@ -403,7 +403,7 @@ class LaterPay_Helper_TimePass
         $model = new LaterPay_Model_TimePass();
 
         if ( $time_pass_id ) {
-            return $model->get_pass_data( (int) $time_pass_id );
+            return (array) $model->get_pass_data( (int) $time_pass_id );
         }
 
         return array();
