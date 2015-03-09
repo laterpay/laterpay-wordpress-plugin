@@ -719,7 +719,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @param string $variant               variant of the time pass widget (currently only 'small' is supported)
      * @param string $introductory_text     additional text rendered at the top of the widget
      * @param string $call_to_action_text   additional text rendered after the time passes and before the voucher code input
-     * @param int    $time_pass_id          specific time pass id for render
+     * @param int    $time_pass_id          id of one time pass to be rendered instead of all time passes
      *
      * @return void
      */
