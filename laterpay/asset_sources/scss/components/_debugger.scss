@@ -21,24 +21,11 @@
     width: 100%;
     z-index: $zindex--topmost-1;
 
-    .lp_debugger-header__title {
-        @extend %default-h2;
-        display: inline-block;
-        font-weight: normal;
-        line-height: 1;
-        margin: $fs--05 0 $fs--05 ($fs * 6.75);
-
-        &:before {
-            display: block;
-            font-size: ($fs * 6);
-            height: 0;
-            left: -($fs * 6.25);
-            line-height: 0;
-            position: relative;
-            top: $fs--05;
-        }
+    &.lp_is-hidden {
+        bottom: -($fs * 32.5);
     }
 
+    // reset link styles
     a {
         box-shadow: none;
         outline: 0 none;
@@ -56,41 +43,56 @@
 .lp_debugger-header {
     background: darken($background--darker, 13%);
     cursor: pointer;
-    height: ($fs * 2.5);
-}
+    height: round($fs * 2.5);
 
-.lp_debugger-header__text {
-    line-height: 2.5;
-    padding: 0 $fs--05;
-}
+    .lp_debugger-header__title {
+        @extend %default-h2;
+        display: inline-block;
+        font-weight: normal;
+        line-height: 1;
+        margin: $fs--05 0 $fs--05 ($fs * 8.5);
 
-.lp_debugger__close-link {
-    color: $clickable;
-    font-weight: bold;
-    height: $fs--2;
-    line-height: 2;
-    margin: $fs--025 $fs--025 0 0;
-    text-align: center;
-    transform: rotate(90deg);
-    transition: transform 0.2s;
-    width: $fs--2;
-
-    &:before {
-        line-height: 2;
-        padding: 0 0 0 ($fs * 0.1);
-        top: auto;
+        // LaterPay logo rendered from icon font
+        &:before {
+            display: block;
+            font-size: ($fs * 7.5);
+            height: 0;
+            left: -($fs * 7.75);
+            line-height: 0;
+            position: relative;
+            top: 8px;
+        }
     }
 
-    &:hover {
-        color: $clickable--highlight;
+    .lp_debugger-header__text {
+        line-height: 1;
+        padding: $fs--075 $fs--05;
     }
-}
-
-.lp_debugger.lp_is-hidden {
-    bottom: -($fs * 32.5);
 
     .lp_debugger__close-link {
-        transform: rotate(-90deg);
+        color: $clickable;
+        font-weight: bold;
+        height: $fs--2;
+        line-height: 2;
+        margin: $fs--025 $fs--025 0 0;
+        text-align: center;
+        transform: rotate(90deg);
+        transition: transform 0.2s;
+        width: $fs--2;
+
+        &:before {
+            line-height: 2;
+            padding: 0 0 0 ($fs * 0.1);
+            top: auto;
+        }
+
+        &:hover {
+            color: $clickable--highlight;
+        }
+
+        .lp_debugger.lp_is-hidden & {
+            transform: rotate(-90deg);
+        }
     }
 }
 
