@@ -17,8 +17,7 @@
     > div {
         color: $text--lighter;
         float: right;
-        min-height: 4rem;
-        padding: 0.5em 1em;
+        margin: $fs--05;
         text-align: right;
     }
 
@@ -34,14 +33,16 @@
         padding: $fs--025 0;
 
         small {
-            padding-left: 2px;
+            padding-left: $fs--025;
+            padding-left: 0.5ch;
         }
     }
 
     small,
     big small {
         color: $text--lighter;
-        font-size: $fs;
+        font-size: $fs--075;
+        white-space: nowrap;
     }
 
     p {
@@ -51,6 +52,6 @@
 
 .lp_unit {
     color: $text--lighter;
-    padding-left: 4px;
+    padding-left: $fs--025;
     padding-left: 0.5ch;
 }
