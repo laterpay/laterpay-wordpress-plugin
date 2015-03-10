@@ -270,6 +270,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             'order'     => 'ASC',
             'fields'    => array(
                 'post_id',
+                'post_title',
                 'SUM(price) AS amount',
             ),
             'limit' => 10,
@@ -311,6 +312,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             'order'     => 'DESC',
             'fields'    => array(
                 'post_id',
+                'post_title',
                 'SUM(price) AS amount',
             ),
             'limit' => 10,
@@ -439,6 +441,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
         $default_args = array(
             'fields'    => array(
                                 'post_id',
+                                'post_title',
                                 'COUNT(*) AS amount',
                              ),
             'group_by'  => 'post_id',
@@ -479,6 +482,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
         $default_args = array(
             'fields'    => array(
                                 'post_id',
+                                'post_title',
                                 'COUNT(*)   AS amount',
                             ),
             'group_by'  => 'post_id',

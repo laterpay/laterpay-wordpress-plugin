@@ -209,6 +209,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         $default_args = array(
             'fields'    => array(
                                  'post_id',
+                                 'post_title',
                                  'SUM(count) AS quantity',
                             ),
             'group_by'  => 'post_id',
@@ -259,6 +260,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         $default_args = array(
             'fields'    => array(
                                 'post_id',
+                                'post_title',
                                 'SUM(count) AS quantity',
                             ),
             'group_by'  => 'post_id',
