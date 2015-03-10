@@ -14,12 +14,16 @@
 .lp_kpi {
     color: $text--lighter;
     float: right;
-    font-size: $fs--05;
-    margin: $fs--05;
+    font-size: $fs--08;
+    padding: $fs--05 $fs;
     text-align: right;
 
     &:last-child {
         border: 0;
+    }
+
+    p {
+        margin: 0;
     }
 }
 
@@ -37,12 +41,11 @@
 
 .lp_kpi__text {
     color: $text--lighter;
-    font-size: $fs--075;
-    white-space: nowrap;
+    font-size: $fs--08;
 }
 
 .lp_unit {
     color: $text--lighter;
-    padding-left: $fs--025;
+    padding-left: 4px;
     padding-left: 0.5ch;
 }

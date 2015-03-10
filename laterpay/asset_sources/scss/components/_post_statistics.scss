@@ -18,8 +18,24 @@
     right: -5px;
     top: ($fs * 8);
     transition: 0.25s ease-in-out;
-    width: ($fs * 25);
+    width: 333px;
     z-index: $zindex--overlayed-1;
+
+    &:hover {
+        // reveal link for hiding the statistics pane when it is hovered
+        .lp_post-statistics__visibility-toggle {
+            left: -($fs * 3);
+
+            &:before {
+                @include opacity(1);
+                transition: 0.25s ease-in-out 0.1s;
+            }
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
 
     // remove dotted outline and box shadows from .lp_post-statistics__visibility-toggle link
     .lp_post-statistics__visibility-toggle,
@@ -29,10 +45,6 @@
         box-shadow: none;
         outline: 0 none;
     }
-
-    &.lp_is-hidden {
-        right: -($fs * 26); // move off the canvas (width of pane + 1 width unit)
-    }
 }
 
 .lp_post-statistics__title {
@@ -40,7 +52,7 @@
     font-style: normal;
     font-weight: normal;
     line-height: 1;
-    margin: $fs--05 0 $fs ($fs * 9);
+    margin: ($fs * 0.4) 0 ($fs * 0.8) ($fs * 6.75);
 
     /**
      * LaterPay logo
@@ -48,33 +60,32 @@
      */
     &:before {
         display: block;
-        font-size: round($fs * 7.5);
+        font-size: ($fs * 6);
         height: 0;
-        left: -($fs * 8); /* 1 */
+        left: -($fs * 6.25); /* 1 */
         line-height: 0;
         position: relative;
         top: 8px; /* 1 */
     }
 }
 
-
-// statistics pane visibility toggle -----------------------------------------------------------------------------------
+// toggle visibility of statistics pane --------------------------------------------------------------------------------
 .lp_post-statistics__visibility-toggle {
     background: $background--darker;
     border-radius: $border-radius 0 0 $border-radius;
     color: $clickable;
-    height: $fs--3;
+    height: $fs * 3;
     left: 0;
     position: absolute;
     text-align: center;
     text-decoration: none;
     top: 0;
     transition: 0.25s ease-in-out;
-    width: $fs--3;
+    width: $fs * 3;
 
     &:before {
-        font-size: $fs--15;
-        line-height: $fs--3;
+        font-size: 25px;
+        line-height: 42px;
         @include opacity(0);
         padding-left: $fs--025;
         position: relative;
@@ -84,161 +95,181 @@
     &:hover {
         color: $clickable--highlight;
     }
+}
 
-    // reveal toggle when the statistics pane is hovered
-    .lp_post-statistics:hover & {
-        left: -$fs--3;
+// hidden statistics pane
+.lp_post-statistics.lp_is-hidden {
+    right: -345px;
 
-        &:before {
-            @include opacity(1);
-            transition: 0.25s ease-in-out 0.1s;
-        }
-
-        &:hover {
-            text-decoration: none;
-        }
-    }
-
-    // hidden statistics pane
-    .lp_post-statistics.lp_is-hidden & {
+    .lp_post-statistics__visibility-toggle {
         box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
-        left: -($fs * 4);
+        left: -55px;
         text-align: left;
-        width: ($fs * 4);
+        width: 54px;
 
-        /*
-         * Show LaterPay logo instead of toggle icon in hidden state
-         *
-         * 1. Ugly alignment fix for an ill-balanced logo
-         */
         &:before {
             content: 'b';
-            font-size: $fs--3;
-            line-height: $fs--3;
+            font-size: $fs * 3;
+            line-height: $fs * 3;
+            padding-left: 0;
             @include opacity(1);
-            padding-left: 1px; /* 1 */
-            top: 1px; /* 1 */
+            top: 2px;
         }
     }
 }
 
 
 // statistics pane body with actual post statistics --------------------------------------------------------------------
-.lp_post-statistics__list,
-.lp_post-statistics__item {
-    @extend %default-list;
-    text-align: center;
-}
+.lp_post-statistics {
 
-.lp_post-statistics__item {
-    display: inline-block;
-}
+// FIXME: this whole block looks really wrong. Very repetitive, not componentized at all :-(
 
-.lp_post-statistics__separator,
-.lp_post-statistics__details {
-    margin: $fs--05;
+    // values of key performance indicators (KPI)
+    .lp_post-statistics__value {
+        color: $text;
+        font-size: $fs--2;
+        line-height: 1;
 
-    .lp_post-statistics__item {
-
-        // adjust width and add a margin to create a visual gap
-        &:first-child {
-            margin-right: 2%;
-            width: 58%;
+        .lp_post-statistics__text {
+            display: inline;
+            font-size: ($fs * 0.375);
+            padding-left: 2px;
         }
+    }
 
-        &:last-child {
-            margin-left: 2%;
-            width: 38%;
+    .lp_post-statistics__text {
+        display: block;
+        font-size: $fs--075;
+        line-height: 1;
+    }
+
+    .lp_post-statistics__list {
+        @extend %default-list;
+    }
+
+    // details column, showing data for last 30 days
+    .lp_post-statistics__details {
+        margin: 0 0 0 $fs--075;
+
+        .lp_post-statistics__item {
+            display: inline-block;
+            font-size: $fs;
+            margin: $fs 0 0;
+            padding: $fs--05 0 0;
+            text-align: right;
+            width: 37%;
+
+            &:first-child {
+                margin-left: 0;
+                width: 59%;
+            }
+
+            .lp_sparkline-bar,
+            .lp_sparkline-bar__background {
+                color: transparent;
+            }
+
+            svg.peity {
+                border-bottom: 1px solid darken($text--lighter, 7%);
+                padding: 0 $fs--025;
+                position: relative;
+                z-index: $zindex--elevated-2;
+            }
+
+            .lp_sparkline-bar__background + svg.peity {
+                border: 0 none;
+                left: ($fs * 0.92);
+                position: absolute;
+                z-index: $zindex--elevated-1;
+            }
+
+            .lp_post-statistics__value {
+                font-size: $fs--15;
+
+                .lp_post-statistics__text {
+                    font-size: $fs--05;
+                }
+            }
         }
+    }
+
+    .lp_post-statistics__text {
+        color: darken($text--lighter, 7%);
     }
 }
 
 
-// total revenue and sales of the post ---------------------------------------------------------------------------------
+// totals column, showing current day's data
 .lp_post-statistics__totals {
     background: $background--lightest;
 
     .lp_post-statistics__item {
-        width: 49%;
-    }
+        display: inline-block;
+        font-size: $fs;
+        margin: 0;
+        padding: ($fs * 0.65) 0 $fs--075;
+        text-align: right;
+        width: 44%;
 
-    .lp_kpi {
-        // remove space after elements created by floating
-        > div {
-            float: none;
-        }
-
-        // bigger KPI values in totals row
-        big {
-            font-size: $fs--2;
+        &:first-child {
+            width: 52%;
         }
     }
 }
 
-// separator between totals and details --------------------------------------------------------------------------------
+// separator between different KPI
 .lp_post-statistics__separator {
+    margin: $fs 0 (-$fs--2) $fs--075;
+
+    .lp_post-statistics__item {
+        display: inline-block;
+        font-size: $fs;
+        margin: 0 0 0 2%;
+        padding: 0;
+        text-align: center;
+        width: 34%;
+
+        &:first-child {
+            margin-left: 0;
+            width: 60%;
+        }
+    }
 
     .lp_post-statistics__text {
         background: $background--darker;
-        color: $text--lighter;
+        display: inline;
         font-size: $fs--075;
+        margin: 0;
         padding: 0 $fs--05;
         position: relative;
         z-index: $zindex--overlayed-3;
     }
 
+
     .lp_post-statistics__separator-line {
-        background: $border--darker;
+        background: lighten($text--lighter, 10%) none;
         border: 0 none;
         height: 1px;
-        margin: -$fs--075 0 0;
-    }
-}
-
-
-// details for various KPI over the last 30 days and for the current day -----------------------------------------------
-.lp_post-statistics__details {
-
-    .lp_post-statistics__item {
-        vertical-align: top;
-    }
-
-    .lp_sparkline-bar,
-    .lp_sparkline-bar__background {
-        color: transparent;
-    }
-
-    svg.peity {
-        border-bottom: 1px solid $border--darker;
-        padding: 0 $fs--025;
+        margin: $fs 0 $fs--05;
         position: relative;
-        z-index: $zindex--elevated-2;
-    }
-
-    .lp_sparkline-bar__background + svg.peity {
-        border: 0 none;
-        left: ($fs * 0.92);
-        position: absolute;
-        z-index: $zindex--elevated-1;
-    }
-
-    // Chrome browser hack
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-        .lp_sparkline-bar__background + svg.peity {
-            margin-top: -($fs * 4);
-        }
-    }
-
-    // fix right margin
-    .lp_kpi > div {
-        margin-right: 0;
+        top: -($fs * 1.66);   // TODO: this is a magic number that should not be required
+        z-index: $zindex--overlayed-2;
     }
 }
 
-
-// footer with toggle for previewing post as visitor or as admin -------------------------------------------------------
+// statistics pane footer with toggle for previewing post as visitor or as admin ---------------------------------------
 .lp_post-statistics .lp_post-statistics__plugin-preview-mode {
-    background-color: hsl(47, 100%, 50%);
+    background-color: adjust_hue(saturate(lighten($text, 17%), 100%), 47);
     border-radius: 0 0 0 $border-radius;
+    margin: $fs--05 0 0;
     padding: $fs $fs--075 ($fs * 0.66);
+}
+
+
+// Chrome browser hack -------------------------------------------------------------------------------------------------
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+// FIXME: this is so completely and utterly wrong :-( :-(
+    .lp_post-statistics .lp_post-statistics__details .lp_sparkline-bar__background + svg.peity {
+        margin-top: -48px;
+    }
 }

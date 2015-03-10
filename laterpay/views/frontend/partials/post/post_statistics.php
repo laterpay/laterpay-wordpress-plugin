@@ -33,22 +33,16 @@
     </div>
     <div class="lp_post-statistics__separator">
         <ul class="lp_post-statistics__list">
-            <li class="lp_post-statistics__item">
-                <span class="lp_post-statistics__text"><?php _e( 'Last 30 days', 'laterpay' ); ?></span>
-                <hr class="lp_post-statistics__separator-line">
-            </li><!-- no space here due to inline-block
-        --><li class="lp_post-statistics__item">
-                <span class="lp_post-statistics__text"><?php _e( 'Today', 'laterpay' ); ?></span>
-                <hr class="lp_post-statistics__separator-line">
-            </li>
+            <li class="lp_post-statistics__item"><p class="lp_post-statistics__text"><?php _e( 'Last 30 days', 'laterpay' ); ?></p><hr class="lp_post-statistics__separator-line"></li>
+            <li class="lp_post-statistics__item"><p class="lp_post-statistics__text"><?php _e( 'Today', 'laterpay' ); ?></p><hr class="lp_post-statistics__separator-line"></li>
         </ul>
     </div>
     <div class="lp_post-statistics__details">
         <ul class="lp_post-statistics__list">
             <li class="lp_post-statistics__item">
                 <span class="lp_js_sparklineBar lp_sparkline-bar"><?php if ( isset( $laterpay['statistic']['last30DaysRevenue'][$currency] ) ) { $aux = $laterpay['statistic']['last30DaysRevenue'][$currency]; } else { $aux = array(); }; echo LaterPay_Helper_View::get_days_statistics_as_string( $aux, 'sum', ';' ); ?></span>
-            </li><!-- no space here due to inline-block
-        --><li class="lp_post-statistics__item">
+            </li>
+            <li class="lp_post-statistics__item">
                 <div class="lp_kpi">
                     <big class="lp_kpi__value"><?php if ( isset( $laterpay['statistic']['todayRevenue'][$currency] ) ) { $aux = $laterpay['statistic']['todayRevenue'][$currency]['sum']; } else { $aux = 0; }; echo LaterPay_Helper_View::format_number( (float) $aux ); ?><small class="lp_kpi__text"><?php echo $laterpay['currency']; ?></small></big>
                     <small class="lp_kpi__text"><?php _e( 'Committed Revenue', 'laterpay' ); ?></small>
@@ -61,8 +55,8 @@
             <li class="lp_post-statistics__item">
                 <span class="lp_js_sparklineBar lp_sparkline-bar" data-max="0.5"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysBuyers'], 'percentage', ';' ); ?></span>
                 <span class="lp_js_sparklineBackgroundBar lp_sparkline-bar__background">1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</span>
-            </li><!-- no space here due to inline-block
-        --><li class="lp_post-statistics__item">
+            </li>
+            <li class="lp_post-statistics__item">
                 <div class="lp_kpi">
                     <big class="lp_kpi__value"><?php echo $laterpay['statistic']['todayBuyers']; ?><small class="lp_kpi__text">%</small></big>
                     <small class="lp_kpi__text"><?php _e( 'Conversion', 'laterpay' ); ?></small>
@@ -74,8 +68,8 @@
         <ul class="lp_post-statistics__list">
             <li class="lp_post-statistics__item">
                 <span class="lp_js_sparklineBar lp_sparkline-bar"><?php echo LaterPay_Helper_View::get_days_statistics_as_string( $laterpay['statistic']['last30DaysVisitors'], 'quantity', ';' ); ?></span>
-            </li><!-- no space here due to inline-block
-            --><li class="lp_post-statistics__item">
+            </li>
+            <li class="lp_post-statistics__item">
                 <div class="lp_kpi">
                     <big class="lp_kpi__value"><?php echo LaterPay_Helper_View::format_number( $laterpay['statistic']['todayVisitors'], false ); ?></big>
                     <small class="lp_kpi__text"><?php _e( 'Views', 'laterpay' ); ?></small>
