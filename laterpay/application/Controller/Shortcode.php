@@ -386,19 +386,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         }
 
         $data = shortcode_atts( array(
-            'id'                  => null,
             'variant'             => '',
             'introductory_text'   => '',
             'call_to_action_text' => '',
         ), $atts );
 
-        if ( isset( $data['id'] ) && ! LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] ) ) {
-            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
-            return $error_message;
-        }
-
         $view_args = array(
-            'id'                  => $data['id'],
             'variant'             => $data['variant'],
             'introductory_text'   => $data['introductory_text'],
             'call_to_action_text' => $data['call_to_action_text'],
@@ -444,7 +437,18 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // don't render any gift cards, if there are no time passes
         if ( ! $time_passes_list ) {
-            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
+            $error_reason = __( 'Wrong time pass id or no time passes specified.', 'laterpay' );
+
+            $error_message  = '<div class="lp_shortcode-error">';
+            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+            $error_message .= $error_reason;
+            $error_message .= '</div>';
+
+            $this->logger->error(
+                __METHOD__ . ' - ' . $error_reason,
+                array( 'args' => $atts, )
+            );
+
             return $error_message;
         }
 
@@ -480,9 +484,20 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
+            $time_pass = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
             if ( ! $time_pass ) {
-                $error_message = $this->get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
+                $error_reason = __( 'Wrong time pass id.', 'laterpay' );
+
+                $error_message  = '<div class="lp_shortcode-error">';
+                $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+                $error_message .= $error_reason;
+                $error_message .= '</div>';
+
+                $this->logger->error(
+                    __METHOD__ . ' - ' . $error_reason,
+                    array( 'args' => $atts, )
+                );
+
                 return $error_message;
             }
         } else {
@@ -571,7 +586,14 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return array
      */
     public function get_time_passes_list_by_id( $id ) {
-        return array( LaterPay_Helper_TimePass::get_time_pass_by_id( $id ) );
+        $time_passes = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $id );
+        if ( $time_passes ) {
+            $temp_arr = array();
+            array_push( $temp_arr, $time_passes );
+            $time_passes = $temp_arr;
+        }
+
+        return $time_passes;
     }
 
     /**
@@ -691,19 +713,5 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         return $this->get_text_view( 'frontend/partials/post/account_links_iframe' );
-    }
-
-    public function get_error_message( $error_reason, $atts ) {
-        $error_message  = '<div class="lp_shortcodeError">';
-        $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-        $error_message .= $error_reason;
-        $error_message .= '</div>';
-
-        $this->logger->error(
-            __METHOD__ . ' - ' . $error_reason,
-            array( 'args' => $atts, )
-        );
-
-        return $error_message;
     }
 }

@@ -250,7 +250,7 @@ class LaterPay_Core_Bootstrap
         add_action( 'laterpay_purchase_button',         array( $post_controller, 'the_purchase_button' ) );
 
         // add custom action to echo the LaterPay time passes
-        add_action( 'laterpay_time_passes',             array( $post_controller, 'the_time_passes_widget'), 10, 4 );
+        add_action( 'laterpay_time_passes',             array( $post_controller, 'the_time_passes_widget'), 10, 3 );
 
         // add custom action to echo the LaterPay invoice indicator
         $invoice_controller = $this->get_controller( 'Invoice' );
