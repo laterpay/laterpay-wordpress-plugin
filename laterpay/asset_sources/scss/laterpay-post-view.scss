@@ -5,7 +5,7 @@
 @import 'objects/_variables';
 @import 'objects/_polyfills';
 @import 'objects/_triangle';
-@import 'objects/_tags';          // FIXME: tags in tags.styl are currently prefixed in .lp_pagewrap
+@import 'objects/_tags';
 @import 'objects/_utilities';
 @import 'objects/_kpi';
 @import 'objects/_vector_icons';
@@ -22,7 +22,7 @@
 
 // override a few default settings of the toggle
 .lp_toggle label.lp_toggle__label {
-    width: (4 * $fs);
+    width: ($fs * 4);
 
     .lp_toggle__input:checked ~ .lp_toggle__text {
         background-color: $text--lightest;

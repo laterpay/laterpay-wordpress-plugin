@@ -171,7 +171,7 @@
             .lp_purchase-button {
                 display: inline-block !important;
                 float: none !important;
-                margin-top: $fs !important;
+                margin-top: $fs--2 !important;
                 margin-bottom: $fs !important;
                 margin-left: ($fs * 11) !important;
             }
@@ -196,19 +196,6 @@
                     }
                 }
             }
-        }
-    }
-}
-
-
-// Chrome browser hacks
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    .lp_benefits .lp_powered-by {
-        margin-top: $fs--15 !important;
-
-        // LaterPay logo (rendered in pseudo element from icon font)
-        span[data-icon]:before {
-            top: 0.08em !important;
         }
     }
 }

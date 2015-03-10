@@ -19,11 +19,10 @@
      */
     &:before {
         font-size: $fs--2 !important;
-        left: -$fs--025 !important;
         line-height: 0 !important; /* 1 */
-        margin: 0 (-$fs--05) 0 0 !important;
+        margin: 0 (-$fs--025) 0 0 !important;
         position: relative !important;
-        top: $fs--05 !important;
+        top: 9px !important;
     }
 
     // currency ISO code
