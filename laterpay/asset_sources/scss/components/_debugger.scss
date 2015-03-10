@@ -43,7 +43,7 @@
 .lp_debugger-header {
     background: darken($background--darker, 13%);
     cursor: pointer;
-    height: round($fs * 2.5;
+    height: round($fs * 2.5);
 
     .lp_debugger-header__title {
         @extend %default-h2;
