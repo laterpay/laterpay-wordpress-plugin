@@ -129,12 +129,13 @@
 }
 
 .lp_debugger-tabs__item {
-    @extend %default-list;
     border: 1px solid transparent;
     border-radius: $border-radius $border-radius 0 0;
     float: left;
     height: ($fs * 2.5);
+    list-style: none outside none;
     margin: 0 2px -1px 0;
+    padding: 0;
 
     &:hover {
         border-color: $border--darker $border--darker darken($background, 5%);
