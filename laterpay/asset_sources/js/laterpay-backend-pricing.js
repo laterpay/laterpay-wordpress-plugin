@@ -1247,7 +1247,7 @@
                                     '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' +
                                         lpVars.i18n.updatePrices +
                                     '</a>' +
-                                    '<span>' + bulkMessage + '</span>' +
+                                    '<span class="lp_bulk-operation__message">' + bulkMessage + '</span>' +
                                 '</p>';
 
                 $o.bulkPriceForm.after(operation);

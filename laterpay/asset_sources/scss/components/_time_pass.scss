@@ -155,7 +155,7 @@
 .lp_time-pass__front-side-link {
     background: $clickable;
     border: none !important;
-    border-radius: 16px;
+    border-radius: 50%;
     color: $text--inverse !important;
     left: -($fs--05);
     line-height: 1.3 !important;
@@ -223,8 +223,8 @@
             border: 0 none !important;
             color: $text--lighter !important;
             font-weight: normal !important;
-            letter-spacing: normal!important;
-            line-height: 1.5!important;
+            letter-spacing: normal !important;
+            line-height: 1.5 !important;
         }
 
         .lp_gift-card___conditions-title {

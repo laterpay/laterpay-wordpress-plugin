@@ -161,8 +161,8 @@ select.lp_is-disabled {
 .lp_bulk-operation {
     width: 600px;
 
-    span {
-        line-height: 2.25em;
+    .lp_bulk-operation__message {
+        line-height: 2.25;
     }
 
     a {
