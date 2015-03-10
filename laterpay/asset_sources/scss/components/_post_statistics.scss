@@ -1,6 +1,5 @@
 // post statistics pane
 
-
 // statistics pane header with LaterPay vector logo --------------------------------------------------------------------
 .lp_post-statistics,
 .lp_post-statistics__title {
@@ -14,14 +13,13 @@
     color: $text;
     font-size: $fs;
     line-height: 1.5;
-    padding: $fs--05 5px 0 0;
+    padding: 7px 5px 0 0;
     position: fixed;
     right: -5px;
     top: ($fs * 8);
     transition: 0.25s ease-in-out;
     width: ($fs * 25);
     z-index: $zindex--overlayed-1;
-
 
     // remove dotted outline and box shadows from .lp_post-statistics__visibility-toggle link
     .lp_post-statistics__visibility-toggle,
@@ -43,7 +41,6 @@
     font-weight: normal;
     line-height: 1;
     margin: $fs--05 0 $fs ($fs * 9);
-
 
     /**
      * LaterPay logo
@@ -76,10 +73,9 @@
     width: $fs--3;
 
     &:before {
-        @include opacity(0);
-
         font-size: $fs--15;
         line-height: $fs--3;
+        @include opacity(0);
         padding-left: $fs--025;
         position: relative;
         transition: 0.1s ease-in-out;
@@ -89,14 +85,12 @@
         color: $clickable--highlight;
     }
 
-
     // reveal toggle when the statistics pane is hovered
     .lp_post-statistics:hover & {
         left: -$fs--3;
 
         &:before {
             @include opacity(1);
-
             transition: 0.25s ease-in-out 0.1s;
         }
 
@@ -105,7 +99,6 @@
         }
     }
 
-
     // hidden statistics pane
     .lp_post-statistics.lp_is-hidden & {
         box-shadow: -1px 1px 6px hsla(0, 0%, 0%, 0.34);
@@ -113,18 +106,16 @@
         text-align: left;
         width: ($fs * 4);
 
-
         /*
          * Show LaterPay logo instead of toggle icon in hidden state
          *
          * 1. Ugly alignment fix for an ill-balanced logo
          */
         &:before {
-            @include opacity(1);
-
             content: 'b';
             font-size: $fs--3;
             line-height: $fs--3;
+            @include opacity(1);
             padding-left: 1px; /* 1 */
             top: 1px; /* 1 */
         }
@@ -136,23 +127,29 @@
 .lp_post-statistics__list,
 .lp_post-statistics__item {
     @extend %default-list;
-
     text-align: center;
 }
 
 .lp_post-statistics__item {
     display: inline-block;
+}
 
+.lp_post-statistics__separator,
+.lp_post-statistics__details {
+    margin: $fs--05;
 
-    // adjust width and add a margin to create a visual gap
-    &:first-child {
-        margin-right: 2%;
-        width: 58%;
-    }
+    .lp_post-statistics__item {
 
-    &:last-child {
-        margin-left: 2%;
-        width: 38%;
+        // adjust width and add a margin to create a visual gap
+        &:first-child {
+            margin-right: 2%;
+            width: 58%;
+        }
+
+        &:last-child {
+            margin-left: 2%;
+            width: 38%;
+        }
     }
 }
 
@@ -162,32 +159,40 @@
     background: $background--lightest;
 
     .lp_post-statistics__item {
-        margin: 0;
         width: 49%;
+    }
+
+    .lp_kpi {
+        // remove space after elements created by floating
+        > div {
+            float: none;
+        }
+
+        // bigger KPI values in totals row
+        big {
+            font-size: $fs--2;
+        }
     }
 }
 
-
 // separator between totals and details --------------------------------------------------------------------------------
-.lp_post-statistics__text {
-    background: $background--darker;
-    color: $text--lighter;
-    font-size: $fs--075;
-    padding: 0 $fs--05;
-    position: relative;
-    z-index: $zindex--overlayed-3;
-}
+.lp_post-statistics__separator {
 
-.lp_post-statistics__separator-line {
-    background: $border--darker;
-    border: 0 none;
-    height: 1px;
-    margin: -$fs--075 0 0;
-}
+    .lp_post-statistics__text {
+        background: $background--darker;
+        color: $text--lighter;
+        font-size: $fs--075;
+        padding: 0 $fs--05;
+        position: relative;
+        z-index: $zindex--overlayed-3;
+    }
 
-.lp_post-statistics__separator,
-.lp_post-statistics__details {
-    margin: $fs--05;
+    .lp_post-statistics__separator-line {
+        background: $border--darker;
+        border: 0 none;
+        height: 1px;
+        margin: -$fs--075 0 0;
+    }
 }
 
 
@@ -212,22 +217,20 @@
 
     .lp_sparkline-bar__background + svg.peity {
         border: 0 none;
-        left: round($fs * 0.7);
+        left: ($fs * 0.92);
         position: absolute;
         z-index: $zindex--elevated-1;
     }
 
-
     // Chrome browser hack
-    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
         .lp_sparkline-bar__background + svg.peity {
             margin-top: -($fs * 4);
         }
     }
 
-
     // fix right margin
-    .lp_kpi {
+    .lp_kpi > div {
         margin-right: 0;
     }
 }
@@ -237,5 +240,5 @@
 .lp_post-statistics .lp_post-statistics__plugin-preview-mode {
     background-color: hsl(47, 100%, 50%);
     border-radius: 0 0 0 $border-radius;
-    padding: $fs $fs--075 $fs--075;
+    padding: $fs $fs--075 ($fs * 0.66);
 }

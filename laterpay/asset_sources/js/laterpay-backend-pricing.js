@@ -1240,14 +1240,14 @@
 
             createSavedBulkOperation = function(bulkOperationId, bulkMessage) {
                 var operation = '<p class="lp_bulk-operation" data-value="' +  bulkOperationId + '">' +
-                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_delete-link" ' +
+                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" ' +
                                             'data-icon="g">' +
                                         lpVars.i18n.delete +
                                     '</a>' +
                                     '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' +
                                         lpVars.i18n.updatePrices +
                                     '</a>' +
-                                    '<span class="lp_bulk-operation__message">' + bulkMessage + '</span>' +
+                                    '<span>' + bulkMessage + '</span>' +
                                 '</p>';
 
                 $o.bulkPriceForm.after(operation);

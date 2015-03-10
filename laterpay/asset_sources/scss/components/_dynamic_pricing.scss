@@ -9,8 +9,8 @@
 
 // container -----------------------------------------------------------------------------------------------------------
 .lp_dynamic-pricing {
-    height: ($fs * 16);
-    width: ($fs * 18);
+    height: 225px;
+    width: 254px;
 }
 
 
@@ -83,7 +83,7 @@
 
 .lp_dynamic-pricing__current-price-label {
     fill: $laterpay-brand;
-    font-size: $fs--075;
+    font-size: 9px;
 }
 
 .lp_dynamic-pricing__default-price-marker {
@@ -97,7 +97,7 @@
 
 .lp_dynamic-pricing__default-price-label {
     fill: $text--lighter;
-    font-size: $fs--075;
+    font-size: 9px;
 }
 
 
@@ -131,12 +131,12 @@
 .lp_dynamic-pricing__start-price-value,
 .lp_dynamic-pricing__end-price-value,
 .lp_dynamic-pricing__price-change-days-value {
-    font-size: round($fs * 8.5);
+    font-size: 12px;
     font-weight: bold;
 }
 
 .lp_dynamic-pricing__handle-unit {
-    font-size: $fs--075;
+    font-size: 9px;
     font-weight: normal;
 }
 
@@ -151,10 +151,10 @@
     border-radius: $border-radius !important;
     box-shadow: none !important;
     display: none;
-    font-size: round($fs * 8.5) !important;
-    height: $fs--2 !important;
+    font-size: 12px !important;
+    height: 29px !important;
     margin: 0 !important;
-    padding: round($fs--025) !important;
+    padding: 4px !important;
     width: 100% !important;
 
     &:focus {

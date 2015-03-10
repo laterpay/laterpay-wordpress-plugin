@@ -42,7 +42,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
 
         // generate tbody of log record with details
         $output .= '<tbody class="lp_js_logEntryDetails lp_debugger-content__table-body" style="display:none;">';
-        $output .= '<tr><td class="lp_debugger-content__table-td" colspan="2"><table class="lp_debugger-content__table">';
+        $output .= '<tr><td class="lp_debugger-content__table-td" colspan="2"><table>';
 
         if ( $record['context'] ) {
             foreach ( $record['context'] as $key => $value ) {
