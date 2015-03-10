@@ -1,0 +1,79 @@
+// tabs ----------------------------------------------------------------------------------------------------------------
+.lp_navigation {
+    background-color: $background--lightest;
+    border-bottom: 1px solid $border--darker;
+    box-shadow: 0 1px 0 $background--lightest;
+    left: -$fs--15;
+    padding-right: $fs--2;
+    padding-top: $fs--2;
+    position: relative;
+    width: 100%;
+}
+
+.lp_navigation-tabs {
+    @extend %default-list;
+
+    margin-left: $fs--15;
+}
+
+.lp_navigation-tabs__item {
+    @extend %default-list;
+
+    display: inline-block;
+    margin-left: $fs;
+    position: relative;
+    top: 2px;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    &:hover .lp_navigation-tabs__submenu {
+        display: inline-block;
+        position: absolute;
+    }
+
+    &:hover .lp_navigation-tabs__link {
+        color: $clickable;
+
+        &:hover {
+            color: $clickable--highlight;
+        }
+    }
+
+    &.lp_is-current {
+        background-color: $background;
+        border-radius: $border-radius $border-radius 0 0;
+        border-top: 4px solid $clickable;
+
+        &:hover > .lp_navigation-tabs__link,
+        > .lp_navigation-tabs__link {
+            color: $text;
+            cursor: default;
+            font-weight: bold;
+        }
+    }
+}
+
+.lp_navigation-tabs__link {
+    color: $text--lighter;
+    display: block;
+    font-size: $fs;
+    min-width: round($fs * 7.5);
+    padding: $fs--05 $fs $fs--075;
+    text-align: center;
+}
+
+.lp_navigation-tabs__submenu {
+    @extend %default-list;
+
+    background: $background--lightest;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.21);
+    border-radius: 0 0 $border-radius $border-radius;
+    display: none;
+    margin-top: -3px;
+}
+
+.lp_navigation-tabs__item.lp_is-current .lp_navigation-tabs__submenu {
+    background: $background;
+}

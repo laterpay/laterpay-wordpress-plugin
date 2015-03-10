@@ -48,8 +48,8 @@
  * 1. some browsers (e.g. IE10) require both height and width to render the star as intended
  */
 .lp_rating__star {
-    height: 1em; /* 1 */
-    width: 1em; /* 1 */
+    height: $fs; /* 1 */
+    width: $fs; /* 1 */
 }
 
 .lp_rating__star svg {
@@ -89,9 +89,9 @@
 .lp_rating:hover .lp_rating__star {
     cursor: pointer;
     float: right; /* 3 */
-    height: 1.5em; /* 4 */
-    margin-left: 0.1em;
-    width: 1.5em; /* 4 */
+    height: $fs--15; /* 4 */
+    margin-left: ($fs * 0.1);
+    width: $fs--15; /* 4 */
 
     &:hover svg,
     &:hover ~ .lp_rating__star svg, /* 1 */
@@ -111,10 +111,10 @@
     background: $background--lightest;
     border: 1px solid $border;
     border-radius: $border-radius;
-    height: 1.5em;
-    line-height: 1.5em;
-    margin: 1em 0;
-    padding: 1em;
+    height: $fs--15;
+    line-height: $fs--15;
+    margin: $fs 0;
+    padding: $fs;
 }
 
 .lp_rating.lp_is-fading-out {
@@ -141,11 +141,11 @@
 .lp_rating-results {
     box-sizing: content-box !important;
     font-family: Arial, sans-serif !important;
-    font-size: 16px !important;
+    font-size: ($fs * 1.2) !important;
     position: absolute;
     right: 0;
-    top: 2.75em;
-    width: 8em;
+    top: ($fs * 2.75);
+    width: ($fs * 8);
 
     /* show the details when hovering the results */
     &:hover .lp_rating-results__distribution {

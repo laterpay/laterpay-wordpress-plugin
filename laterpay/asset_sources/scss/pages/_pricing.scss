@@ -65,7 +65,7 @@ span.lp_revenue-model {
     background: $background--darker;
     border-radius: $border-radius;
     margin-bottom: $fs;
-    margin-left: round(2.5 * $fs);
+    margin-left: round($fs * 3.5);
     padding: $fs;
     position: relative;
 
@@ -161,7 +161,7 @@ select.lp_is-disabled {
 .lp_bulk-operation {
     width: 600px;
 
-    span {
+    .lp_bulk-operation__message {
         line-height: 2.25em;
     }
 

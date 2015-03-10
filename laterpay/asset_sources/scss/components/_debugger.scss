@@ -64,35 +64,36 @@
         }
     }
 
-    .lp_debugger-header__text {
-        line-height: 1;
-        padding: $fs--075 $fs--05;
+}
+
+.lp_debugger-header__text {
+    line-height: 1;
+    padding: $fs--075 $fs--05;
+}
+
+.lp_debugger__close-link {
+    color: $clickable;
+    font-weight: bold;
+    height: $fs--2;
+    line-height: 2;
+    margin: $fs--025 $fs--025 0 0;
+    text-align: center;
+    transform: rotate(90deg);
+    transition: transform 0.2s;
+    width: $fs--2;
+
+    &:before {
+        line-height: 2;
+        padding: 0 0 0 ($fs * 0.1);
+        top: auto;
     }
 
-    .lp_debugger__close-link {
-        color: $clickable;
-        font-weight: bold;
-        height: $fs--2;
-        line-height: 2;
-        margin: $fs--025 $fs--025 0 0;
-        text-align: center;
-        transform: rotate(90deg);
-        transition: transform 0.2s;
-        width: $fs--2;
+    &:hover {
+        color: $clickable--highlight;
+    }
 
-        &:before {
-            line-height: 2;
-            padding: 0 0 0 ($fs * 0.1);
-            top: auto;
-        }
-
-        &:hover {
-            color: $clickable--highlight;
-        }
-
-        .lp_debugger.lp_is-hidden & {
-            transform: rotate(-90deg);
-        }
+    .lp_debugger.lp_is-hidden & {
+        transform: rotate(-90deg);
     }
 }
 
@@ -113,21 +114,21 @@
     &:hover {
         color: $clickable--highlight;
 
-        span {
+        .lp_debugger-tabs__count {
             background-color: $clickable--highlight;
         }
     }
+}
 
-    span {
-        background: $clickable;
-        border-radius: $border-radius;
-        color: $text--inverse;
-        display: inline-block;
-        margin-left: $fs--05;
-        min-width: $fs--075;
-        padding: 1px 5px;
-        text-align: center;
-    }
+.lp_debugger-tabs__count {
+    background: $clickable;
+    border-radius: $border-radius;
+    color: $text--inverse;
+    display: inline-block;
+    margin-left: $fs--05;
+    min-width: $fs--075;
+    padding: 1px 5px;
+    text-align: center;
 }
 
 .lp_debugger-tabs__item {
@@ -151,8 +152,8 @@
             cursor: default;
         }
 
-        span,
-        &:hover span {
+        .lp_debugger-tabs__count,
+        &:hover .lp_debugger-tabs__count {
             background-color: lighten($text, 20%);
         }
     }
@@ -191,7 +192,7 @@
         line-height: 0;
         margin-right: $fs--025;
         position: relative;
-        top: 0.23em;
+        top: ($fs * 0.23);
     }
 
     // infos

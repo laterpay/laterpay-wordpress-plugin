@@ -23,8 +23,8 @@
         <?php echo $laterpay['top_nav']; ?>
     </div>
 
-    <div class="lp_pagewrap">
-        <div class="lp-row lp_enabled-revenue-models">
+    <div class="lp_pagewrap lp_pricing">
+        <div class="lp_enabled-revenue-models">
             <?php _e( 'Allow <strong>individual and time pass purchases</strong>', 'laterpay' ); ?>
             <div class="lp_toggle">
                 <form id="lp_js_changePurchaseModeForm" method="post" action="">
@@ -44,7 +44,7 @@
             </div>
             <?php _e( '<strong>only time pass purchases.</strong>', 'laterpay' ); ?>
         </div>
-
+        <div class="lp_pricing__item">
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) : ?>
             <ul class="lp_js_hideInTimePassOnlyMode lp_clearfix" style="display:none;">
         <?php else : ?>
@@ -237,13 +237,14 @@
                     </dfn>
                 </p>
             </div>
+        </div>
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator" style="display:none;">
         <?php else : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator">
         <?php endif; ?>
 
-        <div id="lp_time-passes">
+        <div id="lp_pricing__item">
             <h2><?php _e( 'Time Passes', 'laterpay' ); ?></h2>
 
             <dfn class="lp_block lp_mb">
@@ -446,7 +447,7 @@
         <?php else : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator">
         <?php endif; ?>
-
+        <div class="lp_pricing__item">
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
         <?php else : ?>
@@ -508,7 +509,7 @@
                                 class="lp_input lp_number-input"
                                 value="<?php echo $laterpay['global_default_price']; ?>"
                                 placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
-                            <select name="bulk_change_unit" id="lp_js_selectBulkChangeUnit" class="lp_input lp_bulkPriceUnit lp_is-disabled">
+                            <select name="bulk_change_unit" id="lp_js_selectBulkChangeUnit" class="lp_input lp_is-disabled">
                                 <option value="<?php echo $laterpay['standard_currency']; ?>">
                                     <?php echo $laterpay['standard_currency']; ?>
                                 </option>
@@ -519,19 +520,20 @@
                                 class="button button-primary lp_ml+">
                                 <?php _e( 'Update Prices', 'laterpay' ); ?>
                             </button>
-                            <a href="#" id="lp_js_saveBulkOperation" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                            <a href="#" id="lp_js_saveBulkOperation" class="lp_save-link lp_ml lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
                         </p>
                     </div>
                 </form>
                 <?php if ( $laterpay['bulk_saved_operations'] ): ?>
                     <?php foreach ( $laterpay['bulk_saved_operations'] as $bulk_operation_id => $bulk_operation_data ): ?>
                         <p class="lp_bulk-operation" data-value="<?php echo $bulk_operation_id; ?>">
-                            <a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                            <a href="#" class="lp_js_deleteSavedBulkOperation lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                             <a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_ml+"><?php _e( 'Update Prices', 'laterpay' ); ?></a>
-                            <span><?php echo stripslashes( $bulk_operation_data['message'] ); ?></span>
+                            <span class="lp_bulk-operation__message"><?php echo stripslashes( $bulk_operation_data['message'] ); ?></span>
                         </p>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
+        </div>
     </div>
 </div>
