@@ -144,9 +144,7 @@
     }
 
     .lp_post-statistics__list {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
+        @extend %default-list;
     }
 
     // details column, showing data for last 30 days
@@ -221,7 +219,7 @@
 
 // separator between different KPI
 .lp_post-statistics__separator {
-    margin: $fs 0 -$fs--2 $fs--075;
+    margin: $fs 0 (-$fs--2) $fs--075;
 
     .lp_post-statistics__item {
         display: inline-block;
