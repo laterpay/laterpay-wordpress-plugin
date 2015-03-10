@@ -155,7 +155,7 @@
 .lp_time-pass__front-side-link {
     background: $clickable;
     border: none !important;
-    border-radius: 50%;
+    border-radius: 999em; // creates a pill shape
     color: $text--inverse !important;
     left: -($fs--05);
     line-height: 1.3 !important;
