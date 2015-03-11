@@ -829,7 +829,8 @@
                     $($o.timePassPreviewAccess, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
-                    $('.lp_js_purchaseLink', $timePass).html(text + '<small class="lp_purchase-link__currency">' + lpVars.defaultCurrency + '</small>');
+                    $('.lp_js_purchaseLink', $timePass)
+                    .html(text + '<small class="lp_purchase-link__currency">' + lpVars.defaultCurrency + '</small>');
                     $($o.timePassPreviewPrice).text(text + ' ' + lpVars.defaultCurrency);
                 } else if ($input.hasClass($o.timePassTitleClass)) {
                     // update pass title in pass preview

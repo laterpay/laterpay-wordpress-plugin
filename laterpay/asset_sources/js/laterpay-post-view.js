@@ -142,7 +142,9 @@
                                         if (passId === r.pass_id) {
                                             // update purchase button price and url
                                             var priceWithVoucher = r.price +
-                                                '<small class="lp_purchase-link__currency">' + lpVars.default_currency + '</small>';
+                                                '<small class="lp_purchase-link__currency">' +
+                                                    lpVars.default_currency +
+                                                '</small>';
 
                                             // update purchase button on time pass
                                             $(this)
@@ -170,10 +172,10 @@
                                     }
                                 } else {
                                     $('#fakebtn').attr('data-laterpay', r.url);
-// fire purchase event on hidden fake button
-YUI().use('node', 'node-event-simulate', function(Y) {
-    Y.one('#fakebtn').simulate('click');
-});
+                                    // fire purchase event on hidden fake button
+                                    YUI().use('node', 'node-event-simulate', function(Y) {
+                                        Y.one('#fakebtn').simulate('click');
+                                    });
                                 }
                             } else {
                                 // clear input
@@ -192,9 +194,12 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             showVoucherCodeFeedbackMessage = function(message, $wrapper) {
-                var $feedbackMessage =  $('<div id="lp_js_voucherCodeFeedbackMessage" class="lp_voucher__feedback-message" style="display:none;">' +
-                                            message +
-                                        '</div>');
+                var $feedbackMessage = $(
+                                            '<div id="lp_js_voucherCodeFeedbackMessage" ' +
+                                                'class="lp_voucher__feedback-message" style="display:none;">' +
+                                                message +
+                                            '</div>'
+                                        );
 
                 $wrapper.prepend($feedbackMessage);
 
