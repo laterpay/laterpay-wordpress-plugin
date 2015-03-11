@@ -3,12 +3,12 @@
     function laterPayDebugger() {
         var $o = {
                 menuItem            : $('#wp-admin-bar-lp_js_toggleDebuggerVisibility'),
-                debugger            : $('.lp_debugger'),
-                debuggerHeader      : 'header',
-                tabs                : $('.lp_debugger_tabs li'),
-                content             : $('.lp_debugger_content'),
-                logMessage          : '.lp_debugger_logEntryTable',
-                logMessageHeader    : $('.lp_debugger_logEntryTable thead'),
+                debugger            : $('#lp_js_debugger'),
+                debuggerHeader      : $('#lp_js_toggleDebuggerVisibility'),
+                tabs                : $('.lp_js_debuggerTabItem'),
+                content             : $('.lp_js_debuggerContent'),
+                logMessage          : '.lp_js_debuggerContentTable',
+                logMessageHeader    : $('.lp_js_debuggerContentTableTitle'),
                 logDetails          : '.lp_js_logEntryDetails',
 
                 hidden              : 'lp_is-hidden',

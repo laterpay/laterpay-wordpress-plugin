@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<ul class="lp_navigation_tabs">
+<ul class="lp_navigation-tabs">
 <?php $num = 0; ?>
 <?php foreach ( $laterpay[ 'menu' ] as $page ) : ?>
     <?php if ( ! current_user_can( $page[ 'cap' ] ) ) :
@@ -20,11 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
         $current_page_class = 'lp_is-current';
     endif;
     ?>
-    <li class="lp_navigation_tabs__item <?php echo $current_page_class; ?>">
+    <li class="lp_navigation-tabs__item <?php echo $current_page_class; ?>">
         <?php echo LaterPay_Helper_View::get_admin_menu_link( $page ); ?>
         <?php if ( isset( $page[ 'submenu' ] ) ) : ?>
-            <ul class="lp_navigation_tabs__submenu">
-                <li class="lp_navigation_tabs__item">
+            <ul class="lp_navigation-tabs__submenu">
+                <li class="lp_navigation-tabs__item">
                     <?php echo LaterPay_Helper_View::get_admin_menu_link( $page[ 'submenu' ] ); ?>
                 </li>
             </ul>

@@ -4,9 +4,9 @@
     function laterPayBackendPricing() {
         var $o = {
                 revenueModel                            : '.lp_js_revenueModel',
-                revenueModelLabel                       : '.lp_js_revenueModel_label',
-                revenueModelLabelDisplay                : '.lp_js_revenueModel_labelDisplay',
-                revenueModelInput                       : '.lp_js_revenueModel_input',
+                revenueModelLabel                       : '.lp_js_revenueModelLabel',
+                revenueModelLabelDisplay                : '.lp_js_revenueModelLabelDisplay',
+                revenueModelInput                       : '.lp_js_revenueModelInput',
                 priceInput                              : '.lp_js_priceInput',
 
                 // enabled revenue models
@@ -15,47 +15,47 @@
                 timePassOnlyHideElements                : $('.lp_js_hideInTimePassOnlyMode'),
 
                 // global default price
-                globalDefaultPriceForm                  : $('#lp_js_globalDefaultPrice_form'),
+                globalDefaultPriceForm                  : $('#lp_js_globalDefaultPriceForm'),
                 globalDefaultPriceInput                 : $('#lp_js_globalDefaultPrice'),
-                globalDefaultPriceDisplay               : $('#lp_js_globalDefaultPrice_text'),
-                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_globalDefaultPrice_revenueModelLabel'),
+                globalDefaultPriceDisplay               : $('#lp_js_globalDefaultPriceText'),
+                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_globalDefaultPriceRevenueModelLabel'),
                 editGlobalDefaultPrice                  : $('#lp_js_editGlobalDefaultPrice'),
                 cancelEditingGlobalDefaultPrice         : $('#lp_js_cancelEditingGlobalDefaultPrice'),
                 saveGlobalDefaultPrice                  : $('#lp_js_saveGlobalDefaultPrice'),
-                globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPrice_text,' +
+                globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPriceText,' +
                                                             '#lp_js_editGlobalDefaultPrice,' +
-                                                            '#lp_js_globalDefaultPrice_revenueModelLabel'),
+                                                            '#lp_js_globalDefaultPriceRevenueModelLabel'),
                 globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPrice,' +
-                                                            '#lp_js_globalDefaultPrice_revenueModel,' +
+                                                            '#lp_js_globalDefaultPriceRevenueModel,' +
                                                             '#lp_js_cancelEditingGlobalDefaultPrice,' +
                                                             '#lp_js_saveGlobalDefaultPrice'),
 
                 // category default price
-                categoryDefaultPrices                   : $('#lp_js_categoryDefaultPrice_list'),
+                categoryDefaultPrices                   : $('#lp_js_categoryDefaultPriceList'),
                 addCategory                             : $('#lp_js_addCategoryDefaultPrice'),
 
-                categoryDefaultPriceTemplate            : $('#lp_js_categoryDefaultPrice_template'),
-                categoryDefaultPriceForm                : '.lp_js_categoryDefaultPrice_form',
+                categoryDefaultPriceTemplate            : $('#lp_js_categoryDefaultPriceTemplate'),
+                categoryDefaultPriceForm                : '.lp_js_categoryDefaultPriceForm',
                 editCategoryDefaultPrice                : '.lp_js_editCategoryDefaultPrice',
                 cancelEditingCategoryDefaultPrice       : '.lp_js_cancelEditingCategoryDefaultPrice',
                 saveCategoryDefaultPrice                : '.lp_js_saveCategoryDefaultPrice',
                 deleteCategoryDefaultPrice              : '.lp_js_deleteCategoryDefaultPrice',
-                categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPrice_categoryTitle,' +
-                                                            '.lp_js_revenueModel_labelDisplay,' +
-                                                            '.lp_js_categoryDefaultPrice_display,' +
+                categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPriceCategoryTitle,' +
+                                                            '.lp_js_revenueModelLabelDisplay,' +
+                                                            '.lp_js_categoryDefaultPriceDisplay,' +
                                                             '.lp_js_editCategoryDefaultPrice,' +
                                                             '.lp_js_deleteCategoryDefaultPrice',
-                categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPrice_input,' +
+                categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPriceInput,' +
                                                             '.lp_js_revenueModel,' +
                                                             '.lp_js_saveCategoryDefaultPrice,' +
                                                             '.lp_js_cancelEditingCategoryDefaultPrice',
 
-                categoryTitle                           : '.lp_js_categoryDefaultPrice_categoryTitle',
-                categoryDefaultPriceDisplay             : '.lp_js_categoryDefaultPrice_display',
+                categoryTitle                           : '.lp_js_categoryDefaultPriceCategoryTitle',
+                categoryDefaultPriceDisplay             : '.lp_js_categoryDefaultPriceDisplay',
 
                 selectCategory                          : '.lp_js_selectCategory',
-                categoryDefaultPriceInput               : '.lp_js_categoryDefaultPrice_input',
-                categoryId                              : '.lp_js_categoryDefaultPrice_categoryId',
+                categoryDefaultPriceInput               : '.lp_js_categoryDefaultPriceInput',
+                categoryId                              : '.lp_js_categoryDefaultPriceCategoryId',
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
@@ -64,7 +64,7 @@
                 timePassWrapper                         : '.lp_js_timePassWrapper',
                 timePassFormTemplate                    : $('#lp_js_timePassFormTemplate'),
                 timePassFormId                          : 'lp_js_timePassForm',
-                timePassForm                            : '.lp_js_timePassEditor_form',
+                timePassForm                            : '.lp_js_timePassEditorForm',
                 timePassDuration                        : '.lp_js_switchTimePassDuration',
                 timePassDurationClass                   : 'lp_js_switchTimePassDuration',
                 timePassPeriod                          : '.lp_js_switchTimePassPeriod',
@@ -87,6 +87,7 @@
                 timePassPreviewValidity                 : '.lp_js_timePassPreviewValidity',
                 timePassPreviewAccess                   : '.lp_js_timePassPreviewAccess',
                 timePassPreviewPrice                    : '.lp_js_timePassPreviewPrice',
+                timePass                                : '.lp_js_timePass',
                 timePassId                              : '.lp_js_timePassId',
                 landingPageInput                        : '.lp_js_landingPageInput',
                 landingPageSave                         : '#lp_js_landingPageSave',
@@ -97,22 +98,22 @@
                 generateVoucherCode                     : '.lp_js_generateVoucherCode',
                 voucherDeleteLink                       : '.lp_js_deleteVoucher',
                 voucherEditor                           : '.lp_js_voucherEditor',
-                voucherHiddenPassId                     : '#lp_js_timePassEditor_hiddenPassId',
+                voucherHiddenPassId                     : '#lp_js_timePassEditorHiddenPassId',
                 voucherPlaceholder                      : '.lp_js_voucherPlaceholder',
                 voucherList                             : '.lp_js_voucherList',
                 voucher                                 : '.lp_js_voucher',
                 voucherTimesRedeemed                    : '.lp_js_voucherTimesRedeemed',
 
                 // bulk price editor
-                bulkPriceForm                           : $('#lp_js_bulkPriceEditor_form'),
-                bulkPriceFormHiddenField                : $('#lp_js_bulkPriceEditor_hiddenFormInput'),
-                bulkPriceOperationIdHiddenField         : $('#lp_js_bulkPriceEditor_hiddenIdInput'),
-                bulkPriceMessageHiddenField             : $('#lp_js_bulkPriceEditor_hiddenMessageInput'),
+                bulkPriceForm                           : $('#lp_js_bulkPriceEditorForm'),
+                bulkPriceFormHiddenField                : $('#lp_js_bulkPriceEditorHiddenFormInput'),
+                bulkPriceOperationIdHiddenField         : $('#lp_js_bulkPriceEditorHiddenIdInput'),
+                bulkPriceMessageHiddenField             : $('#lp_js_bulkPriceEditorHiddenMessageInput'),
                 bulkPriceAction                         : $('#lp_js_selectBulkAction'),
                 bulkPriceObjects                        : $('#lp_js_selectBulkObjects'),
                 bulkPriceObjectsCategory                : $('#lp_js_selectBulkObjectsCategory'),
                 bulkPriceObjectsCategoryWithPrice       : $('#lp_js_selectBulkObjectsCategoryWithPrice'),
-                bulkPriceChangeAmountPreposition        : $('#lp_js_bulkPriceEditor_amountPreposition'),
+                bulkPriceChangeAmountPreposition        : $('#lp_js_bulkPriceEditorAmountPreposition'),
                 bulkPriceChangeAmount                   : $('#lp_js_setBulkChangeAmount'),
                 bulkPriceChangeUnit                     : $('#lp_js_selectBulkChangeUnit'),
                 bulkPriceSubmit                         : $('#lp_js_applyBulkOperation'),
@@ -127,7 +128,7 @@
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
-                hidden                                  : 'lp_u_hide',
+                hidden                                  : 'lp_hidden',
             },
 
             bindEvents = function() {
@@ -376,7 +377,7 @@
             },
 
             validatePrice = function($form, invalidPrice, $input) {
-                var $priceInput = $input ? $input : $('.lp_numberInput', $form),
+                var $priceInput = $input ? $input : $('.lp_number-input', $form),
                     price       = $priceInput.val();
 
                 // strip non-number characters
@@ -426,7 +427,7 @@
                 var currentRevenueModel;
 
                 // for passes
-                if ($form.hasClass('lp_js_timePassEditor_form')) {
+                if ($form.hasClass('lp_js_timePassEditorForm')) {
                     var $toggle         = $($o.timePassRevenueModel, $form),
                         hasRevenueModel = $toggle.prop('checked');
 
@@ -442,8 +443,8 @@
                     }
                 // for category price and global price
                 } else {
-                    var $payPerUse          = $('.lp_js_revenueModel_input[value=' + $o.payPerUse + ']', $form),
-                        $singleSale         = $('.lp_js_revenueModel_input[value=' + $o.singleSale + ']', $form);
+                    var $payPerUse          = $('.lp_js_revenueModelInput[value=' + $o.payPerUse + ']', $form),
+                        $singleSale         = $('.lp_js_revenueModelInput[value=' + $o.singleSale + ']', $form);
 
                     currentRevenueModel = $('input:radio:checked', $form).val();
 
@@ -479,7 +480,7 @@
 
                     // highlight current revenue model
                     $('label', $form).removeClass($o.selected);
-                    $('.lp_js_revenueModel_input:checked', $form).parent('label').addClass($o.selected);
+                    $('.lp_js_revenueModelInput:checked', $form).parent('label').addClass($o.selected);
                 }
             },
 
@@ -502,7 +503,7 @@
                 // reset revenue model input to current revenue model
                 var currentRevenueModel = $o.globalDefaultPriceRevenueModelDisplay.text().toLowerCase();
                 $($o.revenueModelLabel, $o.globalDefaultPriceForm).removeClass($o.selected);
-                $('.lp_js_revenueModel_input[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
+                $('.lp_js_revenueModelInput[value=' + currentRevenueModel + ']', $o.globalDefaultPriceForm)
                 .prop('checked', 'checked')
                     .parent('label')
                     .addClass($o.selected);
@@ -534,7 +535,7 @@
                 var $form = $o.categoryDefaultPriceTemplate
                             .clone()
                             .removeAttr('id')
-                            .appendTo('#lp_js_categoryDefaultPrice_list')
+                            .appendTo('#lp_js_categoryDefaultPriceList')
                             .fadeIn(250);
 
                 editCategoryDefaultPrice($form);
@@ -542,7 +543,7 @@
 
             editCategoryDefaultPrice = function($form) {
                 // exit edit mode of all other category prices
-                $('.lp_js_categoryDefaultPrice_form.lp_is-editing').each(function() {
+                $('.lp_js_categoryDefaultPriceForm.lp_is-editing').each(function() {
                     exitEditModeCategoryDefaultPrice($(this), true);
                 });
 
@@ -605,7 +606,7 @@
                     // reset revenue model input to current revenue model
                     var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).text().toLowerCase();
                     $($o.revenueModelLabel, $form).removeClass($o.selected);
-                    $('.lp_js_revenueModel_input[value=' + currentRevenueModel + ']', $form)
+                    $('.lp_js_revenueModelInput[value=' + currentRevenueModel + ']', $form)
                     .prop('checked', 'checked')
                         .parent('label')
                         .addClass($o.selected);
@@ -640,7 +641,7 @@
             formatSelect2Selection = function(data, container) {
                 var $form = $(container).parent().parent().parent();
                 $('.lp_js_selectCategory', $form).val(data.text);
-                $('.lp_js_categoryDefaultPrice_categoryId', $form).val(data.id);
+                $('.lp_js_categoryDefaultPriceCategoryId', $form).val(data.id);
 
                 return data.text;
             },
@@ -726,28 +727,28 @@
                 // show time pass
                 $timePass
                 .slideDown(250, function() {
-                    $(this).removeClass('lp_u_hide');
+                    $(this).removeClass('lp_hidden');
                 })
-                    .find($o.timePassForm)
-                    .slideDown(250, function() {
-                        $(this).removeClass('lp_u_hide');
-                    });
+                .find($o.timePassForm)
+                .slideDown(250, function() {
+                    $(this).removeClass('lp_hidden');
+                });
             },
 
             editTimePass = function($timePass) {
                 // insert cloned form into current time pass editor container
                 var $timePassForm = $o.timePassFormTemplate.clone().attr('id', $o.timePassFormId);
-                $('.lp_js_timePass_editorContainer', $timePass).html($timePassForm);
+                $('.lp_js_timePassEditorContainer', $timePass).html($timePassForm);
 
                 populateTimePassForm($timePass);
 
                 // hide action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_u_hide');
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_hidden');
 
                 // show action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass('lp_u_hide');
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass('lp_hidden');
 
-                $timePassForm.removeClass('lp_u_hide');
+                $timePassForm.removeClass('lp_hidden');
             },
 
             populateTimePassForm = function($timePass) {
@@ -828,8 +829,8 @@
                     $($o.timePassPreviewAccess, $timePass).text(text);
                 } else if ($input.hasClass($o.timePassPriceClass)) {
                     // update pass price in pass preview
-                    $('.lp_purchaseLink', $timePass).html(text + '<small>' + lpVars.defaultCurrency + '</small>');
-                    $($o.timePassPreviewPrice, $timePass).text(text + ' ' + lpVars.defaultCurrency);
+                    $('.lp_js_purchaseLink', $timePass).html(text + '<small class="lp_purchase-link__currency">' + lpVars.defaultCurrency + '</small>');
+                    $($o.timePassPreviewPrice).text(text + ' ' + lpVars.defaultCurrency);
                 } else if ($input.hasClass($o.timePassTitleClass)) {
                     // update pass title in pass preview
                     $($o.timePassPreviewTitle, $timePass).text(text);
@@ -840,8 +841,7 @@
             },
 
             cancelEditingTimePass = function($timePass) {
-                // show vouchers
-                $timePass.find($o.voucherList).show();
+                var passId = $timePass.find($o.timePass).data('pass-id');
 
                 if ($($o.timePassForm, $timePass).hasClass($o.unsaved)) {
                     // remove entire time pass, if it is a new, unsaved pass
@@ -858,12 +858,23 @@
                 // #656: unbind events
 
                 // show action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_hidden');
 
                 // hide action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
 
-                // show "add time pass" button, if it is hidden
+                // re-generate vouchers list
+                clearVouchersList($timePass);
+                if (lpVars.vouchers_list[passId] instanceof Object) {
+                    $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                        addVoucherToList(code, priceValue, $timePass);
+                    });
+
+                    // show vouchers
+                    $timePass.find($o.voucherList).show();
+                }
+
+                // show 'add time pass' button, if it is hidden
                 if ($o.addTimePass.is(':hidden')) {
                     $o.addTimePass.fadeIn(250);
                 }
@@ -880,29 +891,32 @@
                             // update vouchers
                             lpVars.vouchers_list[passId] = r.vouchers;
 
-                            // re-generate vouchers list
-                            clearVouchersList($timePass);
-                            if (lpVars.vouchers_list[passId] instanceof Object) {
-                                $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                                    addVoucherToList(code, priceValue, $timePass);
-                                });
-
-                                // show vouchers
-                                $timePass.find($o.voucherList).show();
-                            }
-
                             if (lpVars.time_passes_list[passId]) {
                                 // pass already exists (update)
                                 lpVars.time_passes_list[passId] = r.data;
+
                                 // insert time pass rendered on server
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_u_hide');
+                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
+
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_u_hide');
+                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_hidden');
+
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
+
+                                    // re-generate vouchers list
+                                    clearVouchersList($timePass);
+                                    if (lpVars.vouchers_list[passId] instanceof Object) {
+                                        $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                            addVoucherToList(code, priceValue, $timePass);
+                                        });
+
+                                        // show vouchers
+                                        $timePass.find($o.voucherList).show();
+                                    }
                                 });
                             } else {
                                 // pass was just created (add)
@@ -924,14 +938,27 @@
 
                                 // hide action links required when editing time pass
                                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass)
-                                .addClass('lp_u_hide');
+                                .addClass('lp_hidden');
+
                                 // show action links required when displaying time pass
                                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass)
-                                .removeClass('lp_u_hide');
+                                .removeClass('lp_hidden');
 
                                 $timePass.fadeOut(250, function() {
                                     $(this).remove();
-                                    $newTimePass.removeClass('lp_u_hide');
+
+                                    // re-generate vouchers list
+                                    clearVouchersList($newTimePass);
+                                    if (lpVars.vouchers_list[passId] instanceof Object) {
+                                        $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                            addVoucherToList(code, priceValue, $newTimePass);
+                                        });
+
+                                        // show vouchers
+                                        $newTimePass.find($o.voucherList).show();
+                                    }
+
+                                    $newTimePass.removeClass('lp_hidden');
                                 });
                             }
                         }
@@ -978,7 +1005,7 @@
             },
 
             flipTimePass = function(trigger) {
-                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
+                $(trigger).parents('.lp_time-pass').toggleClass('lp_is-flipped');
             },
 
             changeTimePassScope = function($trigger) {
@@ -1014,18 +1041,16 @@
 
             addVoucher = function(code, priceValue, $timePass) {
                 var price   = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' +
-                                        'data-code="' + code + '" ' +
-                                        'style="display:none;">' +
-                                    '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
-                                    '<span class="lp_voucherCodeLabel">' + code + '</span>' +
-                                    '<span class="lp_voucherCodeInfos">' +
-                                        lpVars.i18n.voucherText + ' ' + price +
-                                    '</span>' +
-                                    '<a href="#" class="lp_js_deleteVoucher lp_editLink lp_deleteLink" data-icon="g">' +
-                                        lpVars.i18n.delete +
-                                    '</a>' +
-                                '</div>';
+                    voucher = '<div class="lp_js_voucher lp_voucher" data-code="' + code + '" style="display:none;">' +
+                                '<input type="hidden" name="voucher[]" value="' + code + '|' + priceValue + '">' +
+                                '<span class="lp_voucher__code">' + code + '</span> ' + // space at end is intentional
+                                '<span class="lp_voucher__code-infos">' +
+                                    lpVars.i18n.voucherText + ' ' + price +
+                                '</span>' +
+                                '<a href="#" class="lp_js_deleteVoucher lp_edit-link lp_delete-link" data-icon="g">' +
+                                    lpVars.i18n.delete +
+                                '</a>' +
+                            '</div>';
 
                 $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
             },
@@ -1034,14 +1059,15 @@
                 var passId          = $timePass.data('pass-id'),
                     timesRedeemed   = lpVars.vouchers_statistic[passId] ? lpVars.vouchers_statistic[passId] : 0,
                     price           = priceValue + ' ' + lpVars.defaultCurrency,
-                    voucher =   '<div class="lp_js_voucher lp_voucherRow" ' + 'data-code="' + code + '">' +
-                                    '<span class="lp_voucherCodeInfos">' +
-                                        lpVars.i18n.voucherText + ' ' + price + '.<br>' +
-                                        '<span class="lp_js_voucherTimesRedeemed">' +
-                                            timesRedeemed +
-                                        '</span>' + lpVars.i18n.timesRedeemed +
-                                    '</span>' +
-                                '</div>';
+                    voucher         =   '<div class="lp_js_voucher lp_voucher" ' + 'data-code="' + code + '">' +
+                                            '<span class="lp_voucher__code">' + code + '</span>' +
+                                            '<span class="lp_voucher__code-infos">' +
+                                                lpVars.i18n.voucherText + ' ' + price + '.<br>' +
+                                                '<span class="lp_js_voucherTimesRedeemed">' +
+                                                    timesRedeemed +
+                                                '</span>' + ' ' + lpVars.i18n.timesRedeemed +
+                                            '</span>' +
+                                        '</div>';
 
                 $timePass.find($o.voucherList).append(voucher);
             },
@@ -1213,15 +1239,15 @@
             },
 
             createSavedBulkOperation = function(bulkOperationId, bulkMessage) {
-                var operation = '<p class="lp_bulkOperation" data-value="' +  bulkOperationId + '">' +
-                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_editLink lp_deleteLink" ' +
+                var operation = '<p class="lp_bulk-operation" data-value="' +  bulkOperationId + '">' +
+                                    '<a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" ' +
                                             'data-icon="g">' +
                                         lpVars.i18n.delete +
                                     '</a>' +
                                     '<a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_m-l2">' +
                                         lpVars.i18n.updatePrices +
                                     '</a>' +
-                                    '<span>' + bulkMessage + '</span>' +
+                                    '<span class="lp_bulk-operation__message">' + bulkMessage + '</span>' +
                                 '</p>';
 
                 $o.bulkPriceForm.after(operation);

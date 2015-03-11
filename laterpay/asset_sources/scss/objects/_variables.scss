@@ -1,0 +1,83 @@
+// font sizes ----------------------------------------------------------------------------------------------------------
+$fs:                        14px; // base size for font size, margins, and paddings
+
+$fs--125:                   round($fs * 1.25);
+$fs--15:                    round($fs * 1.5);
+$fs--175:                   round($fs * 1.75);
+$fs--2:                     $fs * 2;
+$fs--3:                     $fs * 3;
+
+$fs--08:                    round($fs * 0.8);
+$fs--075:                   round($fs * 0.75);
+$fs--05:                    round($fs * 0.5);
+$fs--025:                   round($fs * 0.25);
+
+
+// colors --------------------------------------------------------------------------------------------------------------
+// text colors
+$text:                      hsl(0, 0%, 33%);
+
+$text--lighter:             lighten($text, 34%);
+$text--lightest:            lighten($text, 47%);
+
+$text--inverse:             hsl(0, 0%, 100%);
+
+
+// colors for clickable items (links, buttons, etc.)
+$clickable:                 hsl(197, 100%, 32%);
+
+$clickable--highlight:      desaturate(lighten($clickable, 11%), 37%);
+
+
+// background colors
+$background:                lighten($text, 62%);
+
+$background--darker:        darken($background, 6%);
+
+$background--lightest:      lighten($background, 67%);
+
+$background--highlight:     hsl(51, 98%, 76%);
+
+
+// LaterPay brand colors
+$laterpay-brand:            hsl(137, 54%, 56%);
+
+$laterpay-brand--darker:    desaturate(darken($laterpay-brand, 2%), 5%);
+
+$laterpay-brand--highlight: saturate(lighten($laterpay-brand, 3%), 7%);
+
+
+// border colors
+$border:                    lighten($text, 53%);
+
+$border--darker:            darken($border, 7%);
+$border--darkest:           darken($border, 47%);
+
+$border--lightest:          lighten($border, 11%);
+
+
+// border radii --------------------------------------------------------------------------------------------------------
+$border-radius:             3px;
+
+
+// z-indexes -----------------------------------------------------------------------------------------------------------
+$zindex:                    0;
+$zindex--recessed:          -1;
+
+
+// elements on the base layer that need to stick out
+$zindex--elevated-1:        10;
+$zindex--elevated-2:        11;
+$zindex--elevated-3:        12;
+
+
+// elements that float over the base layer
+$zindex--overlayed-1:       100;
+$zindex--overlayed-2:       110;
+$zindex--overlayed-3:       120;
+
+
+// elements that must never be covered
+$zindex--topmost-1:         1000000;
+$zindex--topmost-2:         1000010;
+$zindex--topmost-3:         1000020;

@@ -4,15 +4,15 @@
     function laterPayPostEdit() {
         var $o = {
                 // post price inputs
-                priceInput              : $('#lp_js_postPrice_priceInput'),
-                priceTypeInput          : $('#lp_js_postPrice_priceTypeInput'),
-                revenueModel            : $('#lp_js_postPrice_revenueModel'),
+                priceInput              : $('#lp_js_postPriceInput'),
+                priceTypeInput          : $('#lp_js_postPriceTypeInput'),
+                revenueModel            : $('#lp_js_postPriceRevenueModel'),
                 categoryInput           : $('#lp_js_postDefaultCategoryInput'),
 
                 // button group for choosing pricing type
                 priceSection            : $('#lp_js_priceType'),
-                pricingTypeButtonGroup  : $('#lp_js_priceType_buttonGroup'),
-                pricingTypeButtons      : $('.lp_js_priceType_button'),
+                pricingTypeButtonGroup  : $('#lp_js_priceTypeButtonGroup'),
+                pricingTypeButtons      : $('.lp_js_priceTypeButton'),
                 individualPriceButton   : $('#lp_js_useIndividualPrice').parent(),
                 categoryPriceSelector   : '#lp_js_useCategoryDefaultPrice',
                 categoryPriceButton     : $('#lp_js_useCategoryDefaultPrice').parent(),
@@ -20,13 +20,13 @@
 
                 // details sections for chosen pricing type
                 details                 : $('#lp_js_priceTypeDetails'),
-                detailsSections         : $('.lp_js_priceTypeDetails_section'),
-                individualPriceDetails  : $('#lp_js_priceTypeDetails_individualPrice'),
-                categoryPriceDetails    : $('#lp_js_priceTypeDetails_categoryDefaultPrice'),
-                categoriesList          : $('#lp_js_priceTypeDetails_categoryDefaultPrice ul'),
-                categories              : $('#lp_js_priceTypeDetails_categoryDefaultPrice li'),
+                detailsSections         : $('.lp_js_priceTypeDetailsSection'),
+                individualPriceDetails  : $('#lp_js_priceTypeDetailsIndividualPrice'),
+                categoryPriceDetails    : $('#lp_js_priceTypeDetailsCategoryDefaultPrice'),
+                categoriesList          : $('.lp_js_priceTypeDetailsCategoryDefaultPriceList'),
+                categories              : $('.lp_js_priceTypeDetailsCategoryDefaultPriceItem'),
                 dynamicPricingToggle    : $('#lp_js_toggleDynamicPricing'),
-                dynamicPricingContainer : '#lp_js_dynamicPricing_widgetContainer',
+                dynamicPricingContainer : '#lp_js_dynamicPricingWidgetContainer',
                 dynamicPricingResetDate : $('#lp_js_resetDynamicPricingStartDate'),
 
                 // strings cached for better compression
@@ -331,7 +331,7 @@
                         if (data) {
                             data.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
-                                categoriesList +=   '<li data-category="' + category.category_id + '">' +
+                                categoriesList +=   '<li data-category="' + category.category_id + '" class="lp_price-type-categorized__item">' +
                                                         '<a href="#" ' +
                                                                 'data-price="' + category.category_price + '" ' +
                                                                 'data-revenue-model="' + category.revenue_model + '">' +
@@ -345,7 +345,7 @@
                             if (data.length) {
                                 $o.categoryPriceButton.removeClass($o.disabled).removeClass($o.selected);
                                 // update cached selector
-                                $o.categories = $('#lp_js_priceTypeDetails_categoryDefaultPrice li');
+                                $o.categories = $('#lp_js_priceTypeDetailsCategoryDefaultPrice li');
                                 switchPricingType($o.categoryPriceSelector);
                                 $o.globalPriceButton.addClass($o.disabled);
                             } else {

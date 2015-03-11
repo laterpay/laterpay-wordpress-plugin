@@ -7,14 +7,14 @@
                 postStatisticsPane              : $('#lp_js_postStatistics'),
 
                 // post preview mode
-                postPreviewModeForm             : $('#lp_js_postStatistics_pluginPreviewModeForm'),
+                postPreviewModeForm             : $('#lp_js_postStatisticsPluginPreviewModeForm'),
                 postPreviewModeToggle           : $('#lp_js_togglePostPreviewMode'),
                 postPreviewModeInput            : $('#lp_js_postPreviewModeInput'),
 
                 // post statistics pane visibility
-                postStatisticsVisibilityForm    : $('#lp_js_postStatistics_visibilityForm'),
+                postStatisticsVisibilityForm    : $('#lp_js_postStatisticsVisibilityForm'),
                 postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
-                postStatisticsVisibilityInput   : $('#lp_js_postStatistics_visibilityInput'),
+                postStatisticsVisibilityInput   : $('#lp_js_postStatisticsVisibilityInput'),
 
                 // time passes
                 timePass                        : '.lp_js_timePass',
@@ -48,12 +48,12 @@
 
             recachePostStatisticsPane = function() {
                 $o.postStatisticsPane              = $('#lp_js_postStatistics');
-                $o.postPreviewModeForm             = $('#lp_js_postStatistics_pluginPreviewModeForm');
+                $o.postPreviewModeForm             = $('#lp_js_postStatisticsPluginPreviewModeForm');
                 $o.postPreviewModeToggle           = $('#lp_js_togglePostPreviewMode');
                 $o.postPreviewModeInput            = $('#lp_js_postPreviewModeInput');
-                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatistics_visibilityForm');
+                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatisticsVisibilityForm');
                 $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
-                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatistics_visibilityInput');
+                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatisticsVisibilityInput');
             },
 
             recacheRatingForm = function() {
@@ -142,7 +142,7 @@
                                         if (passId === r.pass_id) {
                                             // update purchase button price and url
                                             var priceWithVoucher = r.price +
-                                                '<small>' + lpVars.default_currency + '</small>';
+                                                '<small class="lp_purchase-link__currency">' + lpVars.default_currency + '</small>';
 
                                             // update purchase button on time pass
                                             $(this)
@@ -192,13 +192,13 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             showVoucherCodeFeedbackMessage = function(message, $wrapper) {
-                var $feedbackMessage =  $('<div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
+                var $feedbackMessage =  $('<div id="lp_js_voucherCodeFeedbackMessage" class="lp_voucher__feedback-message" style="display:none;">' +
                                             message +
                                         '</div>');
 
                 $wrapper.prepend($feedbackMessage);
 
-                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $wrapper);
+                $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
                 $feedbackMessage
                 .fadeIn(250)
                 .click(function() {
@@ -320,7 +320,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                 bindPostStatisticsEvents();
 
                 // render sparklines within post statistics pane
-                $('.lp_sparklineBar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_js_sparklineBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,
@@ -342,7 +342,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                                 }
                 });
 
-                $('.lp_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_js_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,
@@ -428,7 +428,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             flipTimePass = function(trigger) {
-                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
+                $(trigger).parents('.lp_time-pass').toggleClass('lp_is-flipped');
             },
 
             delete_cookie = function( name ) {

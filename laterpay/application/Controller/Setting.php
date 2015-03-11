@@ -213,7 +213,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay_gift_codes',
             array(
                 'name'  => 'laterpay_maximum_redemptions_per_gift_code',
-                'class' => 'lp_numberInput',
+                'class' => 'lp_number-input',
             )
         );
 
@@ -280,7 +280,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay_teaser_content',
             array(
                 'name'          => 'laterpay_teaser_content_word_count',
-                'class'         => 'lp_numberInput',
+                'class'         => 'lp_number-input',
                 'appended_text' => __( 'Number of words extracted from paid posts as teaser content.', 'laterpay' ),
             )
         );
@@ -324,7 +324,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay_preview_excerpt',
             array(
                 'name'          => 'laterpay_preview_excerpt_percentage_of_content',
-                'class'         => 'lp_numberInput',
+                'class'         => 'lp_number-input',
                 'appended_text' => __( 'Percentage of content to be extracted;
                                       20 means "extract 20% of the total number of words of the post".', 'laterpay' ),
             )
@@ -338,7 +338,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay_preview_excerpt',
             array(
                 'name'          => 'laterpay_preview_excerpt_word_count_min',
-                'class'         => 'lp_numberInput',
+                'class'         => 'lp_number-input',
                 'appended_text' => __( 'Applied if number of words as percentage of the total number of words is less
                                       than this value.', 'laterpay' ),
             )
@@ -352,7 +352,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay_preview_excerpt',
             array(
                 'name'          => 'laterpay_preview_excerpt_word_count_max',
-                'class'         => 'lp_numberInput',
+                'class'         => 'lp_number-input',
                 'appended_text' => __( 'Applied if number of words as percentage of the total number of words exceeds
                                       this value.', 'laterpay' ),
             )
@@ -534,7 +534,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             $inputs_markup = '<input type="' . $type .'" name="' . $field['name'] . '" ' .
                             'class="regular-text ' . $class . '" value="' . $option_value . '">';
             if ( isset( $field['appended_text'] ) ) {
-                $inputs_markup .= '<dfn class="lp_appendedText">' . $field['appended_text'] . '<dfn>';
+                $inputs_markup .= '<dfn class="lp_appended-text">' . $field['appended_text'] . '<dfn>';
             }
         }
 

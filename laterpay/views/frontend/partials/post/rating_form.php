@@ -6,7 +6,7 @@
 ?>
 
 <?php if ( ! $laterpay['user_has_already_voted'] ) : ?>
-    <form class="lp_js_ratingForm lp_u_clearfix" method="post">
+    <form class="lp_js_ratingForm lp_clearfix" method="post">
         <input type="hidden" name="action" value="laterpay_post_rate_purchased_content">
         <input type="hidden" name="post_id" value="<?php echo $laterpay['post_id']; ?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>

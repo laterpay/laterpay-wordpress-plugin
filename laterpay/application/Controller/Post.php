@@ -719,11 +719,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
      * @param string $variant               variant of the time pass widget (currently only 'small' is supported)
      * @param string $introductory_text     additional text rendered at the top of the widget
      * @param string $call_to_action_text   additional text rendered after the time passes and before the voucher code input
-     * @param int    $time_pass_id          id of one time pass to be rendered instead of all time passes
      *
      * @return void
      */
-    public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '', $time_pass_id = null ) {
+    public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '' ) {
         $is_homepage                     = is_front_page() && is_home();
         $show_widget_on_free_posts       = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
         $time_passes_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
@@ -759,13 +758,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                                 );
         }
 
-        if ( isset( $time_pass_id ) ) {
-            if ( in_array( $time_pass_id, $time_passes_with_access ) ) {
-                return;
-            }
-            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) );
-        }
-
         // don't render the widget, if there are no time passes
         if ( count( $time_passes_list ) == 0 ) {
             return;
@@ -777,7 +769,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // get the associated CSS class to be applied for the specified variant
         switch ( $variant ) {
             case 'small':
-                $class = 'lp_timePassWidget-small';
+                $class = 'lp_time-pass-widget--small';
                 break;
 
             default:
@@ -995,7 +987,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         // add a purchase button as very first element of the content
         if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
-            $html .= '<div class="lp_u_clearfix lp_u_relative lp_u_m-t1 lp_u_m-b2">';
+            $html .= '<div class="lp_clearfix lp_relative lp_mt lp_mb+">';
             $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase_button' ) );
             $html .= '</div>';
         }

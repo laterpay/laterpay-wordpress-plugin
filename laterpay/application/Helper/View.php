@@ -40,7 +40,7 @@ class LaterPay_Helper_View
             $data = 'data="' . esc_attr( $data ) . '"';
         }
 
-        return '<a href="' . $href . '" ' . $data . ' class="lp_u_block">' . $page[ 'title' ] . '</a>';
+        return '<a href="' . $href . '" ' . $data . ' class="lp_navigation-tabs__link">' . $page[ 'title' ] . '</a>';
     }
 
     /**
@@ -57,7 +57,7 @@ class LaterPay_Helper_View
 
         $menu[ 'dashboard' ] = array(
             'url'       => 'laterpay-plugin',
-            'title'     => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ),
+            'title'     => __( 'Dashboard', 'laterpay' ),
             'cap'       => 'moderate_comments',
             'submenu'   => array(
                 'name'      => 'time_passes',

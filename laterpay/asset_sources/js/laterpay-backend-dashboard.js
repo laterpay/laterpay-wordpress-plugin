@@ -24,9 +24,9 @@
                 nextInterval            : $('#lp_js_loadNextInterval'),
                 refreshDashboard        : $('#lp_js_refreshDashboard'),
                 // generic dropdown selectors
-                dropdown                : '.lp_dropdown',
-                dropdownList            : '.lp_dropdown_list',
-                dropdownCurrentItem     : '.lp_dropdown_currentItem',
+                dropdown                : '.lp_js_dropdown',
+                dropdownList            : '.lp_js_dropdownList',
+                dropdownCurrentItem     : '.lp_js_dropdownCurrentItem',
 
                 // diagrams
                 conversionDiagram       : $('#lp_js_conversionDiagram'),
@@ -43,8 +43,8 @@
                 avgConversionKPI        : $('#lp_js_avgConversion'),
                 newCustomersKPI         : $('#lp_js_shareOfNewCustomers'),
 
-                avgItemsSoldKPI         : $('#lp_js_avg-items-sold'),
-                totalItemsSoldKPI       : $('#lp_js_total-items-sold'),
+                avgItemsSoldKPI         : $('#lp_js_avgItemsSold'),
+                totalItemsSoldKPI       : $('#lp_js_totalItemsSold'),
 
                 avgRevenueKPI           : $('#lp_js_avgRevenue'),
                 totalRevenueKPI         : $('#lp_js_totalRevenue'),
@@ -123,81 +123,85 @@
             bindEvents = function() {
                 // toggle dropdown_list on touch devices
                 $($o.dropdownCurrentItem)
-                    .click(function() {
-                        $(this).parent($o.dropdown).addClass($o.expanded);
-                    });
+                .click(function() {
+                    $(this).parent($o.dropdown).addClass($o.expanded);
+                });
 
                 // switch interval or revenue model filter
                 $o.configurationSelection
-                    .mousedown(function() {
-                        var startTimestamp  = $o.currentInterval.data('startTimestamp'),
-                            oldInterval     = getInterval(),
-                            nextStartTimestamp,
-                            nextEndTimestamp,
-                            newInterval;
-
-                        // mark clicked item as selected
-                        $(this)
-                            .parents($o.dropdown)
-                            .removeClass($o.expanded)
-                            .find($o.dropdownCurrentItem)
-                            .text($(this).text())
-                            .end()
-                            .find('.' + $o.selected)
-                            .removeClass($o.selected)
-                            .end()
-                            .end()
-                            .addClass($o.selected);
-
-                        newInterval = getInterval();
-
-                        // for the 24 hour interval it's allowed to view 'today', but when switching to another interval
-                        // we have to automatically switch back to 'yesterday'
-                        if (oldInterval === 'day' && newInterval !== 'day') {
-                            var todayDate   = new Date(),
-                                startDate   = new Date(startTimestamp * 1000);
-
-                            todayDate.setHours(0, 0, 0, 0);
-                            startDate.setHours(0, 0, 0, 0);
-
-                            if (todayDate.getTime() === startDate.getTime()) {
-                                startTimestamp = startTimestamp - getIntervalDiff(oldInterval);
-                            }
-                        }
-
-                        // check, if the 'next' button should be visible or hidden for the given interval
-                        nextStartTimestamp  = startTimestamp + getIntervalDiff(newInterval);
-                        switchNextIntervalState(nextStartTimestamp, newInterval);
-
-                        // check, if the 'previous' button should be visible or hidden for the given interval
-                        nextEndTimestamp    = startTimestamp - getIntervalDiff(newInterval);
-                        switchPreviousIntervalState(nextEndTimestamp, newInterval);
-
-                        setTimeRange(startTimestamp, newInterval);
-                        loadDashboard(false);
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    applyFilterSettings($(this));
+                })
+                .click(function(e) {e.preventDefault();});
 
                 // load next interval
                 $o.nextInterval
-                    .mousedown(function() {
-                        loadNextInterval();
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    loadNextInterval();
+                })
+                .click(function(e) {e.preventDefault();});
 
                 // load previous interval
                 $o.previousInterval
-                    .mousedown(function() {
-                        loadPreviousInterval();
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    loadPreviousInterval();
+                })
+                .click(function(e) {e.preventDefault();});
 
                 $('body')
-                    .on('mousedown', $o.toggleItemDetails, function() {
-                        alert('Toggling post details coming soon');
-                    })
-                    .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
+                .on('mousedown', $o.toggleItemDetails, function() {
+                    alert('Toggling post details coming soon');
+                })
+                .on('click', $o.toggleItemDetails, function(e) {e.preventDefault();});
 
+            },
+
+            applyFilterSettings = function($trigger) {
+                var startTimestamp  = $o.currentInterval.data('startTimestamp'),
+                    oldInterval     = getInterval(),
+                    nextStartTimestamp,
+                    nextEndTimestamp,
+                    newInterval;
+
+                // mark clicked item as selected
+                $trigger
+                    .parents($o.dropdown)
+                    .removeClass($o.expanded)
+                        .find($o.dropdownCurrentItem)
+                        .text($trigger.text())
+                    .end()
+                        .find('.' + $o.selected)
+                        .removeClass($o.selected)
+                    .end()
+                .end()
+                .addClass($o.selected);
+
+                newInterval = getInterval();
+
+                // for the 24 hour interval it's allowed to view 'today', but when switching to another interval
+                // we have to automatically switch back to 'yesterday'
+                if (oldInterval === 'day' && newInterval !== 'day') {
+                    var todayDate   = new Date(),
+                        startDate   = new Date(startTimestamp * 1000);
+
+                    todayDate.setHours(0, 0, 0, 0);
+                    startDate.setHours(0, 0, 0, 0);
+
+                    if (todayDate.getTime() === startDate.getTime()) {
+                        startTimestamp = startTimestamp - getIntervalDiff(oldInterval);
+                    }
+                }
+
+                // check, if the 'next' button should be visible or hidden for the given interval
+                nextStartTimestamp  = startTimestamp + getIntervalDiff(newInterval);
+                switchNextIntervalState(nextStartTimestamp, newInterval);
+
+                // check, if the 'previous' button should be visible or hidden for the given interval
+                nextEndTimestamp    = startTimestamp - getIntervalDiff(newInterval);
+                switchPreviousIntervalState(nextEndTimestamp, newInterval);
+
+                setTimeRange(startTimestamp, newInterval);
+                loadDashboard(false);
             },
 
             loadPreviousInterval = function() {
@@ -664,7 +668,7 @@
                         ));
                     }
                 } else {
-                    $o.list = ['<dfn class="lp_topBottomList__empty-state">' + lpVars.i18n.noData + '</dfn>'];
+                    $o.list = ['<dfn class="lp_top-bottom-list__empty-state">' + lpVars.i18n.noData + '</dfn>'];
                 }
 
                 // replace existing HTML
@@ -673,21 +677,21 @@
 
             renderListItem = function(postId, itemName, kpiValue, kpiUnit, sparklineData) {
                 var kpi         = kpiUnit ? kpiValue + '<small>' + kpiUnit + '</small>' : kpiValue,
-                    valueClass  = 'lp_value';
+                    valueClass  = 'lp_dashboard-data__value';
 
                 if (kpiUnit === '%' || kpiUnit === '') {
-                    valueClass = 'lp_value-narrow';
+                    valueClass = 'lp_dashboard-data__value lp_dashboard-data__value--narrow';
                 }
 
-                return '<li>' +
-                    '<span class="lp_sparklineBar">' + sparklineData + '</span>' +
+                return '<li class="lp_dashboard-data__item">' +
+                    '<span class="lp_js_sparkLine lp_dashboard-data__sparkline">' + sparklineData + '</span>' +
                     '<strong class="' + valueClass + '">' + kpi + '</strong>' +
-                    '<i><a href="#" class="lp_js_toggleItemDetails">' + itemName + '</a></i>' +
+                    '<i><a href="#" class="lp_js_toggleItemDetails lp_dashboard-data__link">' + itemName + '</a></i>' +
                     '</li>';
             },
 
             renderSparklines = function($context) {
-                var $sparkline = $('.lp_sparklineBar', $context),
+                var $sparkline = $('.lp_js_sparkLine', $context),
                     // get the number of data points from the first matched sparkline
                     dataPoints = $sparkline.first().text().split(',').length;
 

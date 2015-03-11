@@ -14,10 +14,10 @@
                 // position of LaterPay elements
                 purchaseButtonPositionForm      : $('#lp_js_purchaseButtonPositionForm'),
                 togglePurchaseButtonPosition    : $('#lp_js_togglePurchaseButtonPosition'),
-                purchaseButtonExplanation       : $('#lp_js_purchaseButtonPosition__explanation'),
+                purchaseButtonExplanation       : $('#lp_js_purchaseButtonPositionExplanation'),
                 timePassPositionForm            : $('#lp_js_timePassesPositionForm'),
                 toggleTimePassesPosition        : $('#lp_js_toggleTimePassesPosition'),
-                timePassesExplanation           : $('#lp_js_timePassesPosition__explanation'),
+                timePassesExplanation           : $('#lp_js_timePassesPositionExplanation'),
             },
 
             bindEvents = function() {

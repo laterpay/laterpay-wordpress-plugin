@@ -1,0 +1,103 @@
+// LaterPay purchase button
+
+// rendered as plain link ----------------------------------------------------------------------------------------------
+.lp_purchase-link {
+    border: none !important;
+    display: block !important;
+    font-family: Arial, sans-serif !important;
+    font-size: $fs !important;
+    font-weight: normal !important;
+    margin: $fs 0 0 !important;
+    position: relative !important;
+    text-decoration: none !important;
+    z-index: $zindex--elevated-1 !important;
+
+    /**
+     * LaterPay logo (rendered in pseudo element from icon font)
+     *
+     * 1. Nullify line-height to avoid icon overlapping other elements
+     */
+    &:before {
+        font-size: $fs--2 !important;
+        line-height: 0 !important; /* 1 */
+        margin: 0 (-$fs--025) 0 0 !important;
+        position: relative !important;
+        top: 9px !important;
+    }
+
+    // currency ISO code
+    .lp_purchase-link__currency {
+        bottom: $fs--05 !important;
+        font-size: $fs--05 !important;
+        padding: 0 2px 0 0.5ch !important;
+        position: relative !important;
+    }
+}
+
+
+// rendered as button --------------------------------------------------------------------------------------------------
+.lp_button,
+.lp_purchase-button {
+    @include linear-gradient($laterpay-brand, 0%, $laterpay-brand--darker, 100%, $start, $end);
+    border: 1px solid $laterpay-brand--darker !important;
+    border-color: darken($laterpay-brand--darker, 13%) darken($laterpay-brand--darker, 5%) !important;
+    border-radius: 4px !important;
+    border-width: 0 1px 2px 0 !important;
+    color: $text--inverse !important;
+    cursor: pointer !important;
+    float: right !important;
+    font-size: $fs--2 !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    padding: $fs--025 $fs--025 $fs--025 0 !important;
+    text-decoration: none !important;
+    text-shadow: 0 -1px 0 darken($laterpay-brand--darker, 13%) !important;
+    white-space: nowrap !important;
+
+    /**
+     * LaterPay logo (rendered in pseudo element from icon font)
+     *
+     * 1. Set font-size in pixels, because IE gets confused with em here
+     * 2. Nullify line-height to avoid icon overlapping other elements
+     */
+    &:before {
+        font-size: 49px !important; /* 1 */
+        left: -$fs--025 !important;
+        line-height: 0 !important; /* 2 */
+        margin: 0 (-$fs--05) 0 0 !important;
+        position: relative !important;
+        top: ($fs * 1.1) !important;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+        @include linear-gradient($laterpay-brand--highlight, 0%, $laterpay-brand, 100%, $start, $end);
+        color: $text--inverse !important;
+        text-decoration: none !important;
+    }
+
+    &:focus,
+    &:active {
+        border-top-color: transparent !important;
+        border-width: 2px 1px 0 0 !important;
+    }
+
+    .lp_purchase-link__currency {
+        bottom: ($fs * 0.7) !important;
+        color: $text--inverse !important;
+        font-size: ($fs * 1.2) !important;
+        padding-left: 4px !important;
+        position: relative !important;
+        text-decoration: none !important;
+    }
+}
+
+
+// Responsiveness ------------------------------------------------------------------------------------------------------
+@media (max-width:567px) {
+    .lp_button {
+        margin-left: ($fs * 2.75) !important;
+        margin-top: $fs--05 !important;
+    }
+}
