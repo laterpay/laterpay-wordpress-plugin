@@ -14,6 +14,7 @@
     "gulp-jsbeautifier": "0.0.3",
     "gulp-jshint": "^1.8.5",
     "gulp-lintspaces": "^0.2.2",
+    "gulp-load-plugins": "^0.8.1",
     "gulp-minify-css": "^0.4.5",
     "gulp-notify": "^2.0.0",
     "gulp-phpcs": "^0.2.1",
