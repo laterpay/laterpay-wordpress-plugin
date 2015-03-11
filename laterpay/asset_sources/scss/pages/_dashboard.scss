@@ -23,13 +23,14 @@
 
         &.lp_triangle--right {
             @include triangle($fs--08, right, inherit);
-            left: inherit;
+            position: relative;
             right: 0; /* correct visual weight of triangle */
         }
 
         &.lp_triangle--left {
             @include triangle($fs--08, left, inherit);
             left: -3px; /* correct visual weight of triangle */
+            position: relative;
         }
     }
 }
