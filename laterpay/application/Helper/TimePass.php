@@ -644,11 +644,12 @@ class LaterPay_Helper_TimePass
 
                 // determine expiry date of time pass
                 if ( ! $duration ) {
-                    $time_pass_id   = $hist->pass_id;
-                    $time_pass      = (array) self::get_time_pass_by_id( $time_pass_id );
-                    $expiry_date    = $start_date + self::get_time_pass_expiry_time( $time_pass );
+                    $time_pass_id = $hist->pass_id;
+                    $time_pass    = (array) self::get_time_pass_by_id( $time_pass_id );
+                    if ( ! $time_pass ) continue;
+                    $expiry_date  = $start_date + self::get_time_pass_expiry_time( $time_pass );
                 } else {
-                    $expiry_date    = $start_date + $duration;
+                    $expiry_date  = $start_date + $duration;
                 }
 
                 // get week in which time pass expires, if time pass is active
