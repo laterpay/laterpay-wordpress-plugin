@@ -42,7 +42,7 @@
                     <ul class="lp_api-credentials__list">
                         <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="i"></span>
-                            <form method="post">
+                            <form id="laterpay_sandbox_merchant_id" method="post">
                                 <input type="hidden" name="form"   value="laterpay_sandbox_merchant_id">
                                 <input type="hidden" name="action" value="laterpay_account">
                                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
@@ -62,7 +62,7 @@
                         </li>
                         <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="j"></span>
-                            <form method="post">
+                            <form id="laterpay_sandbox_api_key" method="post">
                                 <input type="hidden" name="form"   value="laterpay_sandbox_api_key">
                                 <input type="hidden" name="action" value="laterpay_account">
                                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
@@ -98,7 +98,7 @@
                     <ul class="lp_api-credentials__list">
                         <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="i"></span>
-                            <form method="post">
+                            <form id="laterpay_live_merchant_id" method="post">
                                 <input type="hidden" name="form"   value="laterpay_live_merchant_id">
                                 <input type="hidden" name="action" value="laterpay_account">
                                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
@@ -118,7 +118,7 @@
                         </li>
                         <li class="lp_api-credentials__list-item">
                             <span class="lp_iconized-input" data-icon="j"></span>
-                            <form method="post">
+                            <form id="laterpay_live_api_key" method="post">
                                 <input type="hidden" name="form"    value="laterpay_live_api_key">
                                 <input type="hidden" name="action"  value="laterpay_account">
                                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
