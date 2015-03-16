@@ -41,7 +41,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
                 $page['title'],
                 $page['cap'],
                 $slug,
-                array( $this, 'run_' . $name )
+                isset( $page['run'] ) ? $page['run'] : array( $this, 'run_' . $name )
             );
             if ( isset( $page['submenu'] ) ) {
                 $sub_page   = $page['submenu'];

@@ -89,6 +89,9 @@ class LaterPay_Helper_View
             'cap'   => 'activate_plugins',
         );
 
+        // modify laterpay menu
+        apply_filters( 'modify_menu', $menu );
+
         return $menu;
     }
 
