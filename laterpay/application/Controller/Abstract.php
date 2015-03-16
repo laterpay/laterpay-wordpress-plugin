@@ -63,14 +63,17 @@ class LaterPay_Controller_Abstract
      * Render HTML file.
      *
      * @param string $file file to get HTML string
+     * @param string $view_dir view directory
      *
      * @return void
      */
-    public function render( $file ) {
+    public function render( $file, $view_dir = null ) {
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
-        $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
+
+        $view_dir  = isset( $view_dir ) ? $view_dir : $this->config->get( 'view_dir' );
+        $view_file = $view_dir . $file . '.php';
         if ( ! file_exists( $view_file ) ) {
             $msg = sprintf(
                 __( '%s : <code>%s</code> not found', 'laterpay' ),
@@ -110,14 +113,17 @@ class LaterPay_Controller_Abstract
      * Get HTML from file.
      *
      * @param string $file file to get HTML string
+     * @param string $view_dir  view directory
      *
      * @return string $html html output as string
      */
-    public function get_text_view( $file ) {
+    public function get_text_view( $file, $view_dir = null ) {
         foreach ( $this->variables as $key => $value ) {
             ${$key} = $value;
         }
-        $view_file = $this->config->get( 'view_dir' ) . $file . '.php';
+
+        $view_dir  = isset( $view_dir ) ? $view_dir : $this->config->get( 'view_dir' );
+        $view_file = $view_dir . $file . '.php';
         if ( ! file_exists( $view_file ) ) {
             $msg = sprintf(
                 __( '%s : <code>%s</code> not found', 'laterpay' ),
@@ -151,10 +157,11 @@ class LaterPay_Controller_Abstract
      * Render the navigation for the plugin backend.
      *
      * @param string $file
+     * @param string $view_dir view directory
      *
      * @return string $html
      */
-    public function get_menu( $file = null ) {
+    public function get_menu( $file = null, $view_dir = null ) {
         if ( empty( $file ) ) {
             $file = 'backend/partials/navigation';
         }
@@ -176,6 +183,6 @@ class LaterPay_Controller_Abstract
             $view_args
         );
 
-        return $this->get_text_view( $file );
+        return $this->get_text_view( $file, $view_dir );
     }
 }
