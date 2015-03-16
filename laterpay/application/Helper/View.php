@@ -90,7 +90,7 @@ class LaterPay_Helper_View
         );
 
         // modify laterpay menu
-        apply_filters( 'modify_menu', $menu );
+        $menu = apply_filters( 'modify_menu', $menu );
 
         return $menu;
     }
