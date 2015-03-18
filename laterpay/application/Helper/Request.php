@@ -25,6 +25,10 @@ class LaterPay_Helper_Request {
      */
     public static function get_current_url() {
         $ssl = isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on';
+        // Check for Cloudflare Universal SSL / flexible SSL
+        if ( isset( $_SERVER['HTTP_CF_VISITOR'] ) && strpos( $_SERVER['HTTP_CF_VISITOR'], 'https' ) !== false ) {
+            $ssl = true;
+        }
         $uri = $_SERVER['REQUEST_URI'];
 
         // process Ajax requests
