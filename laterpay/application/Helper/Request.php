@@ -52,12 +52,16 @@ class LaterPay_Helper_Request {
         } else {
             $pageURL = 'http://';
         }
+        $serverName = $_SERVER['SERVER_NAME'];
+        if ( $serverName == 'localhost' and function_exists('site_url')) {
+           $serverName = (str_replace(array('http://', 'https://'), '', site_url())) ; // WP function 
+        }
         if ( ! $ssl && $_SERVER['SERVER_PORT'] != '80' ) {
-            $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $uri;
+            $pageURL .= $serverName . ':' . $_SERVER['SERVER_PORT'] . $uri;
         } else if ( $ssl && $_SERVER['SERVER_PORT'] != '443' ) {
-            $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $uri;
+            $pageURL .= $serverName . ':' . $_SERVER['SERVER_PORT'] . $uri;
         } else {
-            $pageURL .= $_SERVER['SERVER_NAME'] . $uri;
+            $pageURL .= $serverName . $uri;
         }
 
         return $pageURL;
