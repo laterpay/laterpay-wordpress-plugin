@@ -25,6 +25,10 @@ class LaterPay_Helper_Request {
      */
     public static function get_current_url() {
         $ssl = isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on';
+        // Check for Cloudflare Universal SSL / flexible SSL
+        if ( isset( $_SERVER['HTTP_CF_VISITOR'] ) && strpos( $_SERVER['HTTP_CF_VISITOR'], 'https' ) !== false ) {
+            $ssl = true;
+        }
         $uri = $_SERVER['REQUEST_URI'];
 
         // process Ajax requests
@@ -52,12 +56,23 @@ class LaterPay_Helper_Request {
         } else {
             $pageURL = 'http://';
         }
-        if ( ! $ssl && $_SERVER['SERVER_PORT'] != '80' ) {
-            $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $uri;
-        } else if ( $ssl && $_SERVER['SERVER_PORT'] != '443' ) {
-            $pageURL .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $uri;
+        $serverPort = $_SERVER['SERVER_PORT'];
+        $serverName = $_SERVER['SERVER_NAME'];
+        if ( $serverName == 'localhost' and function_exists('site_url')) {
+            $serverName = (str_replace(array('http://', 'https://'), '', site_url())) ; // WP function 
+            // overwrite port on Heroku 
+            if ( isset( $_SERVER['HTTP_CF_VISITOR'] ) && strpos( $_SERVER['HTTP_CF_VISITOR'], 'https' ) !== false ) {
+                $serverPort = 443;
+            } else {
+                $serverPort = 80;
+            }
+        }
+        if ( ! $ssl && $serverPort != '80' ) {
+            $pageURL .= $serverName . ':' . $serverPort . $uri;
+        } else if ( $ssl && $serverPort != '443' ) {
+            $pageURL .= $serverName . ':' . $serverPort . $uri;
         } else {
-            $pageURL .= $_SERVER['SERVER_NAME'] . $uri;
+            $pageURL .= $serverName . $uri;
         }
 
         return $pageURL;
