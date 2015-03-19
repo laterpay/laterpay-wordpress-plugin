@@ -140,7 +140,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
                 __METHOD__ . ' - current user can not edit teaser content',
                 array(
                     'post'          => $post,
-                    'current_user'  => wp_get_current_user()
+                    'current_user'  => wp_get_current_user(),
                 )
             );
 
@@ -169,7 +169,11 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         $editor_id = 'postcueeditor';
 
-        echo '<dfn>' . __( "This is shown to visitors, who haven't purchased the article yet. Use an excerpt of the article that makes them want to buy the whole thing! ", 'laterpay' ) . '</dfn>';
+        echo '<dfn>' .
+                __( 'Visitors will see the teaser content <strong>instead of the full content</strong> before purchase.', 'laterpay' ) . '<br>' .
+                __( 'If you do not enter any teaser content, the plugin will use an excerpt of the full content as teaser content.', 'laterpay' ) . '<br>' .
+                __( 'We do recommend to write dedicated teaser content to increase your sales though.', 'laterpay' ) .
+            '</dfn>';
         wp_editor( $content, $editor_id, $settings );
         echo '<input type="hidden" name="laterpay_teaser_content_box_nonce" value="' . wp_create_nonce( $this->config->get( 'plugin_base_name' ) ) . '" />';
     }
