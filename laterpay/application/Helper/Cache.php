@@ -62,6 +62,7 @@ class LaterPay_Helper_Cache
             'hyper-cache/plugin.php',               // Hyper Cache
             'hyper-cache-extended/plugin.php',      // Hyper Cache Extended
             'really-static/main.php',               // Really Static
+            'wp-ffpc/wp-ffpc.php',                  // WP-FFPC
         );
 
         foreach ( $caching_plugins as $plugin ) {
