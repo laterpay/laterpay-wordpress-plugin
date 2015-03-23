@@ -425,7 +425,6 @@ abstract class LaterPay_Form_Abstract
                             foreach ( $value as $v ) {
                                 // recursively call extra validator
                                 $is_valid = $this->validate_value( $v, $extra_validator, $validator_data );
-                                // break loop if something not valid
                                 if ( ! $is_valid ) {
                                     break;
                                 }
