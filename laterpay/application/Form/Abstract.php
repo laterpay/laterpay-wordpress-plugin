@@ -417,6 +417,30 @@ abstract class LaterPay_Form_Abstract
                 }
                 break;
 
+            // check array values
+            case 'array_check':
+                if ( $validator_params && is_array( $validator_params ) ) {
+                    foreach ( $validator_params as $extra_validator => $validator_data ) {
+                        if ( is_array( $value ) ) {
+                            foreach ( $value as $v ) {
+                                // recursively call extra validator
+                                $is_valid = $this->validate_value( $v, $extra_validator, $validator_data );
+                                // break loop if something not valid
+                                if ( ! $is_valid ) {
+                                    break;
+                                }
+                            }
+                        } else {
+                            $is_valid = false;
+                        }
+
+                        if ( ! $is_valid ) {
+                            break;
+                        }
+                    }
+                }
+                break;
+
             // check, if value is in array
             case 'in_array':
                 if ( $validator_params && is_array( $validator_params ) ) {
