@@ -332,7 +332,7 @@
                             $.each(r.data, function(i) {
                                 url = r.data[i];
                                 $.each(boxes, function(j) {
-                                    if ($(boxes[j]).data('post-id') == i) {
+                                    if ($(boxes[j]).data('post-id').toString() === i) {
                                         $(boxes[j]).prepend(url);
                                     }
                                 });
