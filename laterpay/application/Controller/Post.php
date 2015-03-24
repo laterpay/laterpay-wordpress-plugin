@@ -1192,6 +1192,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'rating'            => wp_create_nonce( 'laterpay_post_rating_summary' ),
                     'voucher'           => wp_create_nonce( 'laterpay_redeem_voucher_code' ),
                     'gift'              => wp_create_nonce( 'laterpay_get_gift_card_actions' ),
+                    'premium'           => wp_create_nonce( 'laterpay_get_premium_shortcode_link' ),
                 ),
                 'i18n'                  => array(
                     'alert'             => __( 'In Live mode, your visitors would now see the LaterPay purchase dialog.', 'laterpay' ),

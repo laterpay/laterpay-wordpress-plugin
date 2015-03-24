@@ -150,10 +150,11 @@ class LaterPay_Helper_Post
      * Get the LaterPay purchase link for a post.
      *
      * @param int $post_id
+     * @param int $current_post_id optional for attachments
      *
      * @return string url || empty string, if something went wrong
      */
-    public static function get_laterpay_purchase_link( $post_id ) {
+    public static function get_laterpay_purchase_link( $post_id, $current_post_id = null ) {
         $post = get_post( $post_id );
         if ( $post === null ) {
             return '';
@@ -188,7 +189,7 @@ class LaterPay_Helper_Post
         );
 
         if ( $post->post_type == 'attachment' ) {
-            $url_params['post_id']           = get_the_ID();
+            $url_params['post_id']           = $current_post_id;
             $url_params['download_attached'] = $post_id;
         }
 
@@ -256,11 +257,12 @@ class LaterPay_Helper_Post
      *
      * @wp-hook laterpay_purchase_button
      *
-     * @param WP_Post $post
+     * @param WP_Post  $post
+     * @param null|int $current_post_id optional for attachments
      *
      * @return void
      */
-    public static function the_purchase_button_args( WP_Post $post ) {
+    public static function the_purchase_button_args( WP_Post $post, $current_post_id = null ) {
         // don't render the purchase button, if the current post is not purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
             return;
@@ -282,7 +284,7 @@ class LaterPay_Helper_Post
 
         $view_args = array(
             'post_id'                   => $post->ID,
-            'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID ),
+            'link'                      => LaterPay_Helper_Post::get_laterpay_purchase_link( $post->ID, $current_post_id ),
             'currency'                  => get_option( 'laterpay_currency' ),
             'price'                     => LaterPay_Helper_Pricing::get_post_price( $post->ID ),
             'preview_post_as_visitor'   => $preview_mode,

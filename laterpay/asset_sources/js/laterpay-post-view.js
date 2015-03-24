@@ -44,6 +44,9 @@
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
                 fadingOut                       : 'lp_is-fading-out',
+
+                // premium content
+                premiumBox                      : '.lp_js_premium-file-box',
             },
 
             recachePostStatisticsPane = function() {
@@ -300,6 +303,46 @@
                 );
             },
 
+            loadPremiumUrls = function() {
+                var ids   = [],
+                    types = [],
+                    urls  = [],
+                    boxes = $($o.premiumBox);
+
+                // get all pass ids from wrappers
+                $.each(boxes, function(i) {
+                    ids.push($(boxes[i]).data('post-id'));
+                    types.push($(boxes[i]).data('content-type'));
+                    urls.push($(boxes[i]).data('page-url'));
+                });
+
+                $.get(
+                    lpVars.ajaxUrl,
+                    {
+                        action  : 'laterpay_get_premium_shortcode_link',
+                        nonce   : lpVars.nonces.premium,
+                        ids     : ids,
+                        types   : types,
+                        urls    : urls,
+                        post_id : lpVars.post_id,
+                    },
+                    function(r) {
+                        if (r.data) {
+                            var url = null;
+                            $.each(r.data, function(i) {
+                                url = r.data[i];
+                                $.each(boxes, function(j){
+                                    if ( $(boxes[j]).data('post-id') == i ) {
+                                        $(boxes[j]).prepend(url);
+                                    }
+                                });
+                            });
+                        }
+                        initiateAttachmentDownload();
+                    }
+                );
+            },
+
             loadPostStatistics = function() {
                 $.get(
                     lpVars.ajaxUrl,
@@ -403,6 +446,7 @@
                             recacheRatingForm();
                             bindRatingEvents();
                         }
+                        loadPremiumUrls();
                     }
                 );
             },
@@ -461,11 +505,13 @@
                     loadGiftCards();
                 }
 
+                if ($($o.premiumBox).length >=1 && !$o.postContentPlaceholder.length) {
+                    loadPremiumUrls();
+                }
+
                 bindPurchaseEvents();
                 bindRatingEvents();
                 bindTimePassesEvents();
-
-                initiateAttachmentDownload();
             };
 
         initializePage();
