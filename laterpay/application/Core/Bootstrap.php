@@ -383,7 +383,7 @@ class LaterPay_Core_Bootstrap
         add_action( 'wp_ajax_laterpay_get_gift_card_actions',               array( $controller, 'ajax_load_gift_action' ) );
         add_action( 'wp_ajax_nopriv_laterpay_get_gift_card_actions',        array( $controller, 'ajax_load_gift_action' ) );
 
-        // premiun content links
+        // premium content links
         add_action( 'wp_ajax_laterpay_get_premium_shortcode_link',          array( $controller, 'ajax_get_premium_shortcode_link' ) );
         add_action( 'wp_ajax_nopriv_laterpay_get_premium_shortcode_link',   array( $controller, 'ajax_get_premium_shortcode_link' ) );
     }
