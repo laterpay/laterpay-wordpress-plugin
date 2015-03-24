@@ -56,7 +56,7 @@
     &.lp_is-current {
         background-color: $background;
         border-radius: 4px 4px 0 0;
-        border-top: 4px solid $clickable;
+        border-top: 4px solid $laterpay-brand;
 
         &:hover > .lp_navigation-tabs__link,
         > .lp_navigation-tabs__link {
