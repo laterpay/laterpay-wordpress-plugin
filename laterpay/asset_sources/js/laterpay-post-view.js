@@ -470,9 +470,11 @@
             },
 
             initiateAttachmentDownload = function() {
+                var url = get_cookie('laterpay_download_attached');
                 // start attachment download, if requested
-                if (lpVars.download_attachment) {
-                    window.location.href = lpVars.download_attachment;
+                if ( url ) {
+                    delete_cookie('laterpay_download_attached');
+                    window.location.href = url;
                 }
             },
 
@@ -484,7 +486,14 @@
                 document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';
             },
 
-            initializePage = function() {
+            get_cookie = function(name) {
+                var matches = document.cookie.match(
+                    new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+                return matches ? decodeURIComponent(matches[1]) : undefined;
+            },
+
+
+        initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
                 // (recognizable by the presence of lp_js_postContentPlaceholder
                 if ($o.postContentPlaceholder.length === 1) {

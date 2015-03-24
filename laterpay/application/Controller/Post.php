@@ -1169,14 +1169,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             true
         );
 
-        // set attachment URL
-        $attachment_url = null;
-        if ( isset( $_COOKIE['laterpay_download_attached'] ) ) {
-            $attachment_url = $_COOKIE['laterpay_download_attached'];
-            // remove cookie with attachment URL to prevent multiple downloads
-            LaterPay_Helper_User::remove_cookie_by_name( 'laterpay_download_attached' );
-        }
-
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
@@ -1201,7 +1193,6 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                     'codeTooShort'      => __( 'Please enter a six-digit voucher code.', 'laterpay' ),
                     'generalAjaxError'  => __( 'An error occurred. Please try again.', 'laterpay' ),
                 ),
-                'download_attachment'   => $attachment_url,
                 'default_currency'      => get_option( 'laterpay_currency' ),
             )
         );
