@@ -331,8 +331,8 @@
                             var url = null;
                             $.each(r.data, function(i) {
                                 url = r.data[i];
-                                $.each(boxes, function(j){
-                                    if ( $(boxes[j]).data('post-id') == i ) {
+                                $.each(boxes, function(j) {
+                                    if ($(boxes[j]).data('post-id') === i) {
                                         $(boxes[j]).prepend(url);
                                     }
                                 });
@@ -488,7 +488,7 @@
 
             get_cookie = function(name) {
                 var matches = document.cookie.match(
-                    new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+                    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
                 return matches ? decodeURIComponent(matches[1]) : undefined;
             },
 
