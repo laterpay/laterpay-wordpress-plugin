@@ -92,10 +92,11 @@ delete_option( 'laterpay_gift_codes_usages' );
 
 delete_option( 'laterpay_purchase_button_positioned_manually' );
 delete_option( 'laterpay_time_passes_positioned_manually' );
-
 delete_option( 'laterpay_show_time_passes_widget_on_free_posts' );
 
 delete_option( 'laterpay_landing_page' );
+
+delete_option( 'laterpay_only_time_pass_purchases_allowed' );
 
 delete_option( 'laterpay_maximum_redemptions_per_gift_code' );
 
