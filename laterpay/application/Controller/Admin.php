@@ -91,8 +91,15 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
             'open-sans',
             '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=latin,latin-ext'
         );
-        wp_enqueue_style( 'laterpay-backend' );
+        wp_register_style(
+            'laterpay-select2',
+            $this->config->get( 'css_url' ) . 'vendor/select2.min.css',
+            array(),
+            $this->config->get( 'version' )
+        );
         wp_enqueue_style( 'open-sans' );
+        wp_enqueue_style( 'laterpay-select2' );
+        wp_enqueue_style( 'laterpay-backend' );
 
         // load LaterPay-specific JS
         wp_register_script(

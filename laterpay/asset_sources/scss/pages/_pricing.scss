@@ -43,12 +43,14 @@ span.lp_revenue-model {
 
 
 // category default prices ---------------------------------------------------------------------------------------------
-.select2-container,
-.select2-drop,
-.select2-search,
-.select2-search input {
-    margin-bottom: 32px;
-    width: ($fs * 10);
+.lp_category-price-form {
+
+    .select2-container,
+    .select2-drop,
+    .select2-search,
+    .select2-search input {
+        width: ($fs * 12);
+    }
 }
 
 .lp_price-settings__category-title {

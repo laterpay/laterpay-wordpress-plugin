@@ -16,15 +16,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
     public function load_assets() {
         parent::load_assets();
 
-        // load page-specific CSS
-        wp_register_style(
-            'laterpay-select2',
-            $this->config->get( 'css_url' ) . 'vendor/select2.min.css',
-            array(),
-            $this->config->get( 'version' )
-        );
-        wp_enqueue_style( 'laterpay-select2' );
-
         // load page-specific JS
         wp_register_script(
             'laterpay-select2',

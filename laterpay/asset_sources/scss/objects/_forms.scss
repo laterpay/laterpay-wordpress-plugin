@@ -27,7 +27,7 @@ select.lp_input,
     }
 
     &:disabled {
-        border-color: $border;
+        border-color: transparent;
         cursor: not-allowed;
     }
 }
@@ -62,28 +62,27 @@ input[type=text].lp_number-input {
 }
 
 // select2 selects (vendor component)
-.lp_page {
+.select2-container {
+    margin-left: 2px;
+    width: 100%;
 
-    .select2-container {
-        margin-left: 2px;
-        width: 100%;
-
-        .select2-choice {
-            border: 2px solid $border;
-            border-radius: 4px;
-        }
+    .select2-choice {
+        border-color: $border;
+        border-radius: 4px;
+        border-width: 2px;
     }
 
-    .select2-container-active .select2-choice {
+    &.select2-container-active .select2-choice {
         border-color: $clickable--highlight;
+        box-shadow: none;
         color: $text--lighter;
     }
+}
 
-    .select2-dropdown-open .select2-choice {
-        border-bottom-color: transparent;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
+.select2-dropdown-open .select2-choice {
+    border-bottom-color: transparent;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .select2-drop {
