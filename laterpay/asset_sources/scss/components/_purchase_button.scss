@@ -6,7 +6,9 @@
     display: block !important;
     font-family: Arial, sans-serif !important;
     font-size: $fs !important;
+    font-style: normal !important;
     font-weight: normal !important;
+    line-height: 1.3 !important;
     margin: $fs 0 0 !important;
     position: relative !important;
     text-decoration: none !important;
@@ -24,14 +26,15 @@
         position: relative !important;
         top: 9px !important;
     }
+}
 
-    // currency ISO code
-    .lp_purchase-link__currency {
-        bottom: $fs--05 !important;
-        font-size: $fs--05 !important;
-        padding: 0 2px 0 0.5ch !important;
-        position: relative !important;
-    }
+// currency ISO code
+.lp_purchase-link__currency {
+    font-size: 0.5em !important;
+    padding: 0 0 0 1ch !important;
+    position: relative !important;
+    text-decoration: none !important;
+    vertical-align: text-top !important;
 }
 
 
@@ -46,10 +49,13 @@
     color: $text--inverse !important;
     cursor: pointer !important;
     float: right !important;
+    font-family: Arial, sans-serif !important;
     font-size: $fs--2 !important;
-    line-height: 1.1 !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    line-height: 1.3 !important;
     margin: 0 !important;
-    padding: $fs--025 $fs--025 $fs--025 0 !important;
+    padding: $fs--025 $fs--025 0 0 !important;
     text-decoration: none !important;
     text-shadow: 0 -1px 0 darken($laterpay-brand--darker, 13%) !important;
     white-space: nowrap !important;
@@ -81,15 +87,6 @@
     &:active {
         border-top-color: transparent !important;
         border-width: 2px 1px 0 0 !important;
-    }
-
-    .lp_purchase-link__currency {
-        bottom: ($fs * 0.7) !important;
-        color: $text--inverse !important;
-        font-size: ($fs * 1.2) !important;
-        padding-left: 4px !important;
-        position: relative !important;
-        text-decoration: none !important;
     }
 }
 
