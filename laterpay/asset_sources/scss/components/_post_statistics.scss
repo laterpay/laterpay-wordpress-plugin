@@ -216,18 +216,12 @@
         z-index: $zindex--elevated-2;
     }
 
+    // light grey background bars behind sparkline with percentage data
     .lp_sparkline-bar__background + svg.peity {
         border: 0 none;
-        left: ($fs * 0.92);
+        left: 9px;
         position: absolute;
         z-index: $zindex--elevated-1;
-    }
-
-    // Chrome browser hack
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-        .lp_sparkline-bar__background + svg.peity {
-            margin-top: -($fs * 4);
-        }
     }
 
     // fix right margin
@@ -241,5 +235,5 @@
 .lp_post-statistics .lp_post-statistics__plugin-preview-mode {
     background-color: hsl(47, 100%, 50%);
     border-radius: 0 0 0 $border-radius;
-    padding: $fs $fs--075 ($fs * 0.66);
+    padding: $fs $fs--075 $fs--075;
 }
