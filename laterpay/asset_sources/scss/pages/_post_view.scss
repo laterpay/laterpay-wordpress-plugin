@@ -179,7 +179,7 @@
             .lp_powered-by {
                 color: darken($text--lighter, 6%) !important;
                 left: 50% !important;
-                margin: -$fs 0 0 -($fs * 7) !important;
+                margin: -$fs 0 0 ($fs * -7) !important;
                 position: absolute !important;
 
                 // LaterPay logo (rendered in pseudo element from icon font)
