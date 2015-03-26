@@ -217,6 +217,7 @@
     .lp_purchase-button.lp_purchase-button--shortcode {
         font-size: $fs--15 !important;
         margin: 0 !important;
+        position: relative !important;
         right: 0.45em !important;
         top: $fs--05 !important;
 
@@ -230,7 +231,6 @@
     .lp_button {
         padding-right: $fs--05 !important;
         padding-left: $fs--05 !important;
-        position: relative !important;
         text-decoration: none !important;
     }
 }
