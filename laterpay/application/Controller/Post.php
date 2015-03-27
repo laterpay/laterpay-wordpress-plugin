@@ -191,9 +191,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             $can_be_used = LaterPay_Helper_Voucher::check_gift_code_usages_limit( $_GET['code'] );
         }
 
-        // if code data exist and limit not exceeded
+        // if gift code data exists and usage limit is not exceeded
         if ( $code_data && $can_be_used ) {
-            // update code usages
+            // update gift code usage
             if ( $is_gift ) {
                 LaterPay_Helper_Voucher::update_gift_code_usages( $_GET['code'] );
             }
