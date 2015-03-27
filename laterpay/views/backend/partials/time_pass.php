@@ -33,7 +33,7 @@
         <h4 class="lp_js_timePassPreviewTitle lp_time-pass__title"><?php echo $laterpay_pass['title']; ?></h4>
         <p class="lp_js_timePassPreviewDescription lp_time-pass__description"><?php echo $laterpay_pass['description']; ?></p>
         <div class="lp_time-pass__actions">
-            <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo $laterpay_pass['url']?>" data-preview-as-visitor="<?php echo $laterpay['preview_post_as_visitor']?>"><?php echo $title ?></a>
+            <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b"><?php echo $title ?></a>
             <a href="#" class="lp_js_flipTimePass lp_time-pass__terms"><?php _e( 'Terms', 'laterpay' ); ?></a>
         </div>
     </section>
