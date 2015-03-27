@@ -32,8 +32,8 @@ class LaterPay_Core_Bootstrap
         $this->config = $config;
 
         // load the textdomain for 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook'
-        $textdomain_dir = dirname( $this->config->get( 'plugin_base_name' ) );
-        $textdomain_path= $textdomain_dir . $this->config->get( 'text_domain_path' );
+        $textdomain_dir     = dirname( $this->config->get( 'plugin_base_name' ) );
+        $textdomain_path    = $textdomain_dir . $this->config->get( 'text_domain_path' );
         load_plugin_textdomain(
             'laterpay',
             false,
