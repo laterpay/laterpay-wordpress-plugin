@@ -128,8 +128,7 @@
                             action  : 'laterpay_redeem_voucher_code',
                             code    : code,
                             nonce   : lpVars.nonces.voucher,
-                            link    : window.location.href,
-                            is_gift : is_gift ? 1 : 0
+                            link    : window.location.href
                         },
                         function(r) {
                             if (r.success) {

@@ -176,42 +176,50 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             wp_die();
         }
 
-        if ( ! isset( $_GET['code'] ) || ! isset( $_GET['link'] ) || ! isset( $_GET['is_gift'] ) ) {
+        if ( ! isset( $_GET['code'] ) || ! isset( $_GET['link'] ) ) {
             wp_die();
         }
 
         // check, if voucher code exists and time pass is available for purchase
-        $code_data = LaterPay_Helper_Voucher::check_voucher_code( $_GET['code'], (bool) $_GET['is_gift'] );
-        if ( $code_data ) {
-            if ( LaterPay_Helper_Voucher::check_gift_code_usages_limit( $_GET['code'] ) || ! $_GET['is_gift'] ) {
-                if ( $_GET['is_gift'] ) {
-                    LaterPay_Helper_Voucher::update_gift_code_usages( $_GET['code'] );
-                }
-                // get new URL for this time pass
-                $pass_id    = $code_data['pass_id'];
-                // get price, delocalize it, and format it
-                $price      = $code_data['price'];
-                $price      = str_replace( ',', '.', $price );
-                $price      = number_format( (float) $price, 2 );
-                // prepare URL before use
-                $data       = array(
-                    'is_gift' => $_GET['is_gift'],
-                    'link'    => $_GET['is_gift'] ? home_url() : $_GET['link'],
-                    'price'   => $price,
-                );
+        $is_gift     = true;
+        $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $_GET['code'], $is_gift );
+        if ( ! $code_data ) {
+            $is_gift     = false;
+            $can_be_used = true;
+            $code_data   = LaterPay_Helper_Voucher::check_voucher_code( $_GET['code'], $is_gift );
+        } else {
+            $can_be_used = LaterPay_Helper_Voucher::check_gift_code_usages_limit( $_GET['code'] );
+        }
 
-                // get new purchase URL
-                $url = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
-
-                wp_send_json(
-                    array(
-                        'success' => true,
-                        'pass_id' => $pass_id,
-                        'price'   => LaterPay_Helper_View::format_number( $price ),
-                        'url'     => $url,
-                    )
-                );
+        // if gift code data exists and usage limit is not exceeded
+        if ( $code_data && $can_be_used ) {
+            // update gift code usage
+            if ( $is_gift ) {
+                LaterPay_Helper_Voucher::update_gift_code_usages( $_GET['code'] );
             }
+            // get new URL for this time pass
+            $pass_id    = $code_data['pass_id'];
+            // get price, delocalize it, and format it
+            $price      = $code_data['price'];
+            $price      = str_replace( ',', '.', $price );
+            $price      = number_format( (float) $price, 2 );
+            // prepare URL before use
+            $data       = array(
+                'link'    => $is_gift ? home_url() : $_GET['link'],
+                'price'   => $price,
+            );
+
+            // get new purchase URL
+            $url = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $pass_id, $data );
+
+            wp_send_json(
+                array(
+                    'success' => true,
+                    'pass_id' => $pass_id,
+                    'price'   => LaterPay_Helper_View::format_number( $price ),
+                    'url'     => $url,
+                )
+            );
         }
 
         wp_send_json(
