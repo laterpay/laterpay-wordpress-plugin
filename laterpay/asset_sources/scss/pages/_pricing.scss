@@ -32,7 +32,7 @@ ul.lp_row li:nth-child(3) h2 + hr {
 }
 
 .lp_revenue-model__list {
-    width: round(3.5 * $fs);
+    width: ($fs * 3);
 }
 
 span.lp_revenue-model {

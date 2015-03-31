@@ -66,6 +66,10 @@
     font-size: 1.5em;
 }
 
+.lp_revenue-model__list {
+    width: ($fs * 3);
+}
+
 .lp_is-disabled + .lp_revenue-model,
 .lp_revenue-model:first-child {
     margin-top: 18px;
