@@ -127,7 +127,7 @@
         margin: 0 2px -1px 0;
         padding: 0;
 
-        /* 1. assign the background color to the bottom border to make it invisible */
+        // 1. assign the background color to the bottom border to make it invisible
         &:hover,
         &.lp_is-selected {
             border-color: $border--darker $border--darker $background--darker; /* 1 */
@@ -141,7 +141,7 @@
                 cursor: default;
             }
 
-            /* 1. apply same background color as to pane header */
+            // 1. apply same background color as to pane header
             .lp_badge,
             &:hover .lp_badge {
                 background: darken($background--darker, 13%); /* 1 */
@@ -165,7 +165,7 @@
 
     .lp_debugger-content-list__item {
 
-        /* 1. separate nested list items with a border */
+        // 1. separate nested list items with a border
         .lp_debugger-content-list__item:not(:last-child) {
             border-bottom: 1px solid $border--darker; /* 1 */
         }
