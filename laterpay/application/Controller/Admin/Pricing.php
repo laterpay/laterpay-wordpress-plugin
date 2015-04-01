@@ -938,6 +938,18 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     private function generate_voucher_code() {
+        if ( ! isset( $_POST['price'] ) ||
+             ! ( $_POST['price'] >= 0 && $_POST['price'] <= 149.99 ) ||
+             ( $_POST['price'] > 0 && $_POST['price'] < 0.05 )
+        ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'Incorrect voucher price.', 'laterpay' ),
+                )
+            );
+        }
+
         // generate voucher code
         wp_send_json(
             array(
