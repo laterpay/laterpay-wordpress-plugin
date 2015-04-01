@@ -11,34 +11,35 @@
 
 
 // price type sections -------------------------------------------------------------------------------------------------
-ul.lp_row h2 + hr {
-    height: 2px;
+.lp_price-section {
+
+    hr {
+        border: 0 none;
+        height: 2px;
+        margin: $fs--05 0;
+    }
+
+    &:nth-child(1) hr {
+        background: darken($background, 13%);
+    }
+
+    &:nth-child(2) hr {
+        background: darken($background, 34%);
+    }
+
+    &:nth-child(3) hr {
+        background: darken($background, 55%);
+    }
+
+    .lp_spacer {
+        height: 2.4em;
+    }
 }
 
-ul.lp_row li:nth-child(1) h2 + hr {
-    background-color: darken($background, 12%);
-}
-
-ul.lp_row li:nth-child(2) h2 + hr {
-    background-color: darken($text--lighter, 2%);
-}
-
-ul.lp_row li:nth-child(3) h2 + hr {
-    background-color: darken($text--lighter, 21%);
-}
-
-.lp_spacer {
-    height: 2.4em;
-}
-
-.lp_revenue-model__list {
+.lp_revenue-model-list {
+    display: inline-block;
+    vertical-align: middle;
     width: ($fs * 3);
-}
-
-span.lp_revenue-model {
-    background-color: darken($background, 13%);
-    color: $text--inverse;
-    padding: $fs--025 $fs--025;
 }
 
 
@@ -142,10 +143,6 @@ span.lp_revenue-model {
 
 
 // bulk price editor ---------------------------------------------------------------------------------------------------
-.button.button-primary.lp_mb+ {
-    margin-left: $fs--2;
-}
-
 /**
  * 1. Remove arrows from select
  */
@@ -160,16 +157,20 @@ select.lp_is-disabled {
     }
 }
 
-.lp_bulk-operation {
+.lp_saved-bulk-operation {
     width: 600px;
 
-    .lp_bulk-operation__message {
+    .lp_saved-bulk-operation__message {
         line-height: 2.25;
     }
 
     a {
         float: right;
     }
+}
+
+.button.button-primary.lp_ml\+ {
+    margin-left: $fs--2;
 }
 
 

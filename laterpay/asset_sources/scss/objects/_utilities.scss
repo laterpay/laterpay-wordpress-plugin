@@ -39,10 +39,6 @@
     font-size: $fs;
 }
 
-.lp_fs\+\+ {
-    font-size: $fs--3;
-}
-
 .lp_bold {
     font-weight: bold;
 }
@@ -212,6 +208,12 @@
 
 .lp_pdt- {
     padding-top: $fs--05;
+}
+
+
+// right paddings
+.lp_pdr {
+    padding-right: $fs;
 }
 
 

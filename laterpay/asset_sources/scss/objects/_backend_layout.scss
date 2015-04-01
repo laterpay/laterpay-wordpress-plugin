@@ -4,7 +4,7 @@
 }
 
 .lp_pagewrap {
-    max-width: $fs * 88;
+    max-width: ($fs * 88);
     overflow-x: hidden;
     padding: $fs;
 }

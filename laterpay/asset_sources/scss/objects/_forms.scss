@@ -254,16 +254,9 @@ label:hover .ez-mark {
 }
 
 
-// revenue model labels ------------------------------------------------------------------------------------------------
-.lp_revenue-model {
-    background: $background--darker;
-    border-radius: $border-radius;
+// revenue model badges ------------------------------------------------------------------------------------------------
+.lp_badge--revenue-model {
     color: $clickable;
-    display: inline-block;
-    font-weight: bold;
-    padding: $fs--025 $fs--025;
-    text-align: center;
-    text-transform: uppercase;
     width: $fs--2;
 
     input[type=radio] {
@@ -276,7 +269,7 @@ label:hover .ez-mark {
     }
 
     &.lp_is-disabled {
-        display: none;
+        visibility: hidden;
     }
 
     &.lp_is-selected {

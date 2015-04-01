@@ -119,7 +119,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
                 <ul id="lp_js_debuggerTabs" class="lp_debugger-tabs lp_clearfix">
                     <li class="lp_js_debuggerTabItem lp_is-selected lp_debugger-tabs__item">
-                        <a href="#" class="lp_debugger-tabs__link"><?php echo sprintf( __( 'Messages<span class="lp_debugger-tabs__count">%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
+                        <a href="#" class="lp_debugger-tabs__link"><?php echo sprintf( __( 'Messages<span class="lp_badge">%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
                     </li>
                     <?php
                         foreach ( $this->get_tabs() as $key => $tab ) {
@@ -134,7 +134,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                 </ul>
 
                 <ul class="lp_debugger-content-list">
-                    <li class="lp_js_debuggerContent lp_debugger-content">
+                    <li class="lp_js_debuggerContent lp_debugger-content-list__item">
                         <ul class="lp_debugger-content-list">
                             <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
                         </ul>
@@ -145,7 +145,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                                 continue;
                             }
                     ?>
-                        <li class="lp_js_debuggerContent lp_debugger-content lp_is-hidden">
+                        <li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
                             <table class="lp_debugger-content__table">
                                 <?php foreach ( $tab['content'] as $key => $value  ): ?>
                                     <tr>
@@ -175,7 +175,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                 'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
-                'name'      => sprintf( __( 'Cookies<span class="lp_debugger-tabs__count">%s</span>', 'laterpay' ), count( $_COOKIE ) ),
+                'name'      => sprintf( __( 'Cookies<span class="lp_badge">%s</span>', 'laterpay' ), count( $_COOKIE ) ),
                 'content'   => $_COOKIE,
             ),
             array(

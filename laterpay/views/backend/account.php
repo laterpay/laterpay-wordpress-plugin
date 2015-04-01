@@ -36,7 +36,7 @@
                     <legend class="lp_api-credentials__legend"><?php _e( 'Sandbox Environment', 'laterpay' ); ?></legend>
 
                     <dfn class="lp_api-credentials__hint">
-                        <?php _e( 'for testing purposes', 'laterpay' ); ?>
+                        <?php _e( 'for testing with simulated payments', 'laterpay' ); ?>
                     </dfn>
 
                     <ul class="lp_api-credentials__list">
@@ -197,17 +197,6 @@
                     </form>
                 </div><?php _e( 'visible to visitors.', 'laterpay' ); ?>
             </div>
-
-            <dfn id="lp_js_pluginModeLiveText"
-                class="lp_block"
-                <?php if ( ! $laterpay['plugin_is_in_live_mode'] ) { echo 'style="display:none;"'; } ?>>
-                <?php _e( 'Your visitors <strong>can now purchase with LaterPay</strong>. All payments are booked and credited to your account.', 'laterpay' ); ?>
-            </dfn>
-            <dfn id="lp_js_pluginModeTestText"
-                class="lp_block"
-                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 'style="display:none;"'; } ?>>
-                <?php _e( 'Payments are only simulated and <strong>not actually booked</strong>.', 'laterpay' ); ?>
-            </dfn>
         </div>
 
 

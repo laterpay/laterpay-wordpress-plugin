@@ -34,45 +34,38 @@
 
 // pricing metabox -----------------------------------------------------------------------------------------------------
 #lp_post-pricing a {
-    text-decoration: none!important;
+    text-decoration: none !important;
 
     // remove dotted outline and box shadows from links
     &:focus,
     &:active,
     &:visited {
-        box-shadow: none;
-        outline: 0 none;
+        box-shadow: none !important;
+        outline: 0 none !important;
     }
 }
 
 
 // enter / display post price section
-// TODO: this selector is wrong, but it should definitely have its own class anyway!
-.lp_postPrice .lp_input.lp_number-input {
-    height: calc(1.5em + 4px);
-    transition-duration: 0.4s;
-    width: 3.9em;
+.lp_post-price-input {
+    font-size: $fs--3 !important;
+    height: calc(1.5em + 4px) !important;
+    padding: $fs--05 $fs--075 !important;
+    text-align: right !important;
+    transition-duration: 0.4s !important;
+    width: 3.9em !important;
 
     &:disabled {
-        border-color: transparent;
-        color: darken($text, 13%);
-        transition-duration: 0.4s;
+        border-color: transparent !important;
+        color: darken($text, 13%) !important;
+        transition-duration: 0.4s !important;
     }
 }
 
 .lp_currency {
-    bottom: 0.75em;
     color: $text--lightest;
     font-size: 1.5em;
-}
-
-.lp_revenue-model__list {
-    width: ($fs * 3);
-}
-
-.lp_is-disabled + .lp_revenue-model,
-.lp_revenue-model:first-child {
-    margin-top: 18px;
+    margin-top: $fs;
 }
 
 
