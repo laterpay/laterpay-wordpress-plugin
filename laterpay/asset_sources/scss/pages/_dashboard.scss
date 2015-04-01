@@ -3,7 +3,7 @@
 // Heading -------------------------------------------------------------------------------------------------------------
 .lp_dashboard-title {
     font-weight: normal;
-    margin: $fs--2 0 $fs;
+    margin: $fs--3 0 $fs--2;
     position: relative;
     text-align: center;
 }
@@ -57,7 +57,7 @@
 }
 
 .lp_dashboard-graph + .lp_statistics-row {
-    margin: $fs--075 $fs $fs--125 0;
+    margin: $fs $fs $fs 0;
 }
 
 
@@ -195,7 +195,7 @@
 .lp_statistics-row ul {
     @extend %default-list;
 
-    margin-left: $fs--05;
+    margin: 0 $fs--05;
     border-top: 1px solid $background;
 
     &:first-child {

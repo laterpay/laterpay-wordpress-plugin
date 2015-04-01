@@ -17,8 +17,6 @@
                 pluginModeToggle                : $('#lp_js_togglePluginMode'),
                 pluginVisibilitySetting         : $('#lp_js_pluginVisibilitySetting'),
                 pluginVisibilityToggle          : $('#lp_js_toggleVisibilityInTestMode'),
-                pluginModeTestText              : $('#lp_js_pluginMode_testText'),
-                pluginModeLiveText              : $('#lp_js_pluginMode_liveText'),
                 hasInvalidSandboxCredentials    : $('#lp_js_hasInvalidSandboxCredentials'),
                 isLive                          : 'lp_is-live',
 
@@ -108,13 +106,9 @@
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
-                    $('#lp_js_pluginModeTestText').hide();
-                    $('#lp_js_pluginModeLiveText').show();
                     $('#lp_js_pluginModeIndicator').fadeOut();
                     $('#lp_js_liveCredentials').addClass($o.isLive);
                 } else {
-                    $('#lp_js_pluginModeLiveText').hide();
-                    $('#lp_js_pluginModeTestText').show();
                     $('#lp_js_pluginModeIndicator').fadeIn();
                     $('#lp_js_liveCredentials').removeClass($o.isLive);
                 }

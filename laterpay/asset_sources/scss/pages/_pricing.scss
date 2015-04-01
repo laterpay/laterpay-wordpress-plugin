@@ -14,18 +14,21 @@
 .lp_price-section {
 
     hr {
-        background: darken($background, 12%);
         border: 0 none;
         height: 2px;
-        margin: $fs--05 0 $fs--025;
+        margin: $fs--05 0;
+    }
+
+    &:nth-child(1) hr {
+        background: darken($background, 13%);
     }
 
     &:nth-child(2) hr {
-        background: darken($text--lighter, 2%);
+        background: darken($background, 34%);
     }
 
     &:nth-child(3) hr {
-        background: darken($text--lighter, 21%);
+        background: darken($background, 55%);
     }
 
     .lp_spacer {
