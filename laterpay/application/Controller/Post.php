@@ -1120,8 +1120,8 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         }
 
         $args = array(
-            'standard_currency'         => get_option( 'laterpay_currency' ),
-            'preview_post_as_visitor'   => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
+            'standard_currency'        => get_option( 'laterpay_currency' ),
+            'preview_post_as_visitor'  => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
             'is_in_visible_test_mode'  => $is_in_visible_test_mode,
         );
         $this->assign( 'laterpay',      $args );
