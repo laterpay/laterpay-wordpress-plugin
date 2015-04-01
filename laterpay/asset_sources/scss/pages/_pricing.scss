@@ -11,28 +11,31 @@
 
 
 // price type sections -------------------------------------------------------------------------------------------------
-ul.lp_row h2 + hr {
-    height: 2px;
-}
+.lp_price-section {
 
-ul.lp_row li:nth-child(1) h2 + hr {
-    background-color: darken($background, 12%);
-}
+    hr {
+        background: darken($background, 12%);
+        border: 0 none;
+        height: 2px;
+        margin: $fs--05 0 $fs--025;
+    }
 
-ul.lp_row li:nth-child(2) h2 + hr {
-    background-color: darken($text--lighter, 2%);
-}
+    &:nth-child(2) hr {
+        background: darken($text--lighter, 2%);
+    }
 
-ul.lp_row li:nth-child(3) h2 + hr {
-    background-color: darken($text--lighter, 21%);
-}
+    &:nth-child(3) hr {
+        background: darken($text--lighter, 21%);
+    }
 
-.lp_spacer {
-    height: 2.4em;
+    .lp_spacer {
+        height: 2.4em;
+    }
 }
 
 .lp_revenue-model-list {
     display: inline-block;
+    vertical-align: middle;
     width: ($fs * 3);
 }
 
