@@ -585,10 +585,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 $time_pass = (array) $time_pass;
 
                 // generate voucher code
-
                 $code = LaterPay_Helper_Voucher::generate_voucher_code();
 
-                // create URL with this code
+                // create URL with the generated voucher code
                 $time_pass_id = $time_pass['pass_id'];;
                 $data = array(
                     'voucher'           => $code,
@@ -724,7 +723,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get error message
+     * Get error message for shortcode.
      *
      * @param string  $error_reason
      * @param array   $atts         shortcode attributes
