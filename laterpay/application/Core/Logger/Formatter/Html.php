@@ -34,7 +34,7 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return mixed The formatted record
      */
     public function format( array $record ) {
-        $output  = '<li class="lp_debugger-content">';
+        $output  = '<li class="lp_debugger-content-list__item">';
         $output .= '<table class="lp_js_debuggerContentTable lp_debugger-content__table lp_is-hidden">';
 
         // generate thead of log record

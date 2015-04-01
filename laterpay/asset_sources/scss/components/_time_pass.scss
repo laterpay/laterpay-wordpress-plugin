@@ -2,7 +2,7 @@
 .lp_time-pass {
     color: $text; /* make sure, the text is not white by default */
     display: inline-block;
-    font-family: Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs !important;
     font-weight: normal !important;
     margin-bottom: $fs;
@@ -60,7 +60,7 @@
  */
 .lp_time-pass__title {
     color: $text;
-    font-family: Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs--15 !important;
     line-height: 1.3 !important;
     margin: 0 0 $fs--05 !important;
@@ -178,7 +178,7 @@
     background: $background--lightest url('../img/gift-card-background.png') 0 0/100% no-repeat !important;
     box-sizing: border-box !important;
     color: $text--lighter !important;
-    font-family: Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs !important;
     font-weight: normal !important;
     height: 252px !important;
@@ -192,7 +192,7 @@
      */
     .lp_gift-card__title {
         color: #d82b17 !important;
-        font-family: Arial, sans-serif !important;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
         font-size: $fs--15 !important;
         font-style: normal !important;
         margin: $fs--05 0 $fs !important;
@@ -365,7 +365,7 @@
     box-shadow: none !important; /* 1 */
     bottom: 0 !important;
     color: $text !important;
-    font-family: Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs--15 !important;
     height: 53px!important;
     outline: none !important;
@@ -386,7 +386,7 @@
 
 .lp_redeem-code__input-hint {
     color: $text--lighter !important;
-    font-family: Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs--15 !important;
     left: $fs--15 !important;
     line-height: 1.5 !important;
@@ -402,7 +402,7 @@
     color: $text--inverse !important;
     cursor: pointer !important;
     display: inline-block;
-    font-family: Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs--125 !important;
     padding: $fs--05 $fs !important;
     position: absolute !important;
@@ -490,7 +490,7 @@
 .lp_redeem-code__hint {
     color: $clickable !important;
     display: block !important; /* 1 */
-    font-family: Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs--125 !important;
     margin: 0 !important;
     text-decoration: none !important;

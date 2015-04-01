@@ -8,8 +8,7 @@
     border-radius: $border-radius;
     color: $text--inverse;
     display: inline-block;
-    font-weight: bold;
-    min-width: 2em;
+    min-width: $fs--075;
     padding: 1px $fs--025;
     text-align: center;
     text-transform: uppercase;
