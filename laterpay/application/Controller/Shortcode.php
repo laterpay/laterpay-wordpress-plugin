@@ -723,6 +723,14 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         return $this->get_text_view( 'frontend/partials/post/account_links_iframe' );
     }
 
+    /**
+     * Get error message
+     *
+     * @param string  $error_reason
+     * @param array   $atts         shortcode attributes
+     *
+     * @return string $error_message
+     */
     public function get_error_message( $error_reason, $atts ) {
         $error_message  = '<div class="lp_shortcodeError">';
         $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
