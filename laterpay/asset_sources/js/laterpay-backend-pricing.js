@@ -376,7 +376,7 @@
                 .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
             },
 
-            validatePrice = function($form, invalidPrice, $input) {
+            validatePrice = function($form, notValidateRevenue, $input) {
                 var $priceInput = $input ? $input : $('.lp_number-input', $form),
                     price       = $priceInput.val();
 
@@ -398,14 +398,14 @@
                 // prevent negative prices
                 price = Math.abs(price);
 
-                if (!invalidPrice) {
-                    // correct prices outside the allowed range of 0.05 - 149.49
-                    if (price > 149.99) {
-                        price       = 149.99;
-                    } else if (price > 0 && price < 0.05) {
-                        price       = 0.05;
-                    }
+                // correct prices outside the allowed range of 0.05 - 149.99
+                if (price > 149.99) {
+                    price       = 149.99;
+                } else if (price > 0 && price < 0.05) {
+                    price       = 0.05;
+                }
 
+                if ( ! notValidateRevenue ) {
                     validateRevenueModel(price, $form);
                 }
 
@@ -1030,11 +1030,14 @@
                     ajaxurl,
                     {
                         form   : 'generate_voucher_code',
-                        action : 'laterpay_pricing'
+                        action : 'laterpay_pricing',
+                        price  : $timePass.find($o.voucherPriceInput).val(),
                     },
                     function(r) {
                         if (r.success) {
                             addVoucher(r.code, $timePass.find($o.voucherPriceInput).val(), $timePass);
+                        } else {
+                            setMessage(r.message, r.success);
                         }
                     }
                 );
