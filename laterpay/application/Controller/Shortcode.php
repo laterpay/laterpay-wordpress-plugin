@@ -427,12 +427,19 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         }
 
         $data = shortcode_atts( array(
+            'id'                  => null,
             'variant'             => '',
             'introductory_text'   => '',
             'call_to_action_text' => '',
         ), $atts );
 
+        if ( isset( $data['id'] ) && ! LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] ) ) {
+            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
+            return $error_message;
+        }
+
         $view_args = array(
+            'id'                  => $data['id'],
             'variant'             => $data['variant'],
             'introductory_text'   => $data['introductory_text'],
             'call_to_action_text' => $data['call_to_action_text'],
@@ -471,25 +478,14 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_passes_list = $this->get_time_passes_list_by_id( $data['id'] );
+            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] ) );
         } else {
             $time_passes_list = LaterPay_Helper_TimePass::get_all_time_passes();
         }
 
         // don't render any gift cards, if there are no time passes
         if ( ! $time_passes_list ) {
-            $error_reason = __( 'Wrong time pass id or no time passes specified.', 'laterpay' );
-
-            $error_message  = '<div class="lp_shortcode-error">';
-            $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-            $error_message .= $error_reason;
-            $error_message .= '</div>';
-
-            $this->logger->error(
-                __METHOD__ . ' - ' . $error_reason,
-                array( 'args' => $atts, )
-            );
-
+            $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
             return $error_message;
         }
 
@@ -525,20 +521,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_pass = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
+            $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
             if ( ! $time_pass ) {
-                $error_reason = __( 'Wrong time pass id.', 'laterpay' );
-
-                $error_message  = '<div class="lp_shortcode-error">';
-                $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
-                $error_message .= $error_reason;
-                $error_message .= '</div>';
-
-                $this->logger->error(
-                    __METHOD__ . ' - ' . $error_reason,
-                    array( 'args' => $atts, )
-                );
-
+                $error_message = $this->get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
                 return $error_message;
             }
         } else {
@@ -620,24 +605,6 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Get time passes list by id.
-     *
-     * @param  int $id id of time pass
-     *
-     * @return array
-     */
-    public function get_time_passes_list_by_id( $id ) {
-        $time_passes = (array) LaterPay_Helper_TimePass::get_time_pass_by_id( $id );
-        if ( $time_passes ) {
-            $temp_arr = array();
-            array_push( $temp_arr, $time_passes );
-            $time_passes = $temp_arr;
-        }
-
-        return $time_passes;
-    }
-
-    /**
      * Get gift cards through Ajax.
      *
      * @hook wp_ajax_laterpay_get_gift_card_actions, wp_ajax_nopriv_laterpay_get_gift_card_actions
@@ -664,7 +631,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $time_pass_ids  = $_GET['pass_id'];
 
         foreach ( $time_pass_ids as $time_pass_id ) {
-            $time_passes  = $time_pass_id ? $this->get_time_passes_list_by_id( $time_pass_id ) : LaterPay_Helper_TimePass::get_all_time_passes();
+            $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) ) : LaterPay_Helper_TimePass::get_all_time_passes();
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page');
 
@@ -754,5 +721,19 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay', $view_args );
 
         return $this->get_text_view( 'frontend/partials/post/account_links_iframe' );
+    }
+
+    public function get_error_message( $error_reason, $atts ) {
+        $error_message  = '<div class="lp_shortcodeError">';
+        $error_message .= __( 'Problem with inserted shortcode:', 'laterpay' ) . '<br>';
+        $error_message .= $error_reason;
+        $error_message .= '</div>';
+
+        $this->logger->error(
+            __METHOD__ . ' - ' . $error_reason,
+            array( 'args' => $atts, )
+        );
+
+        return $error_message;
     }
 }
