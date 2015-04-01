@@ -257,6 +257,13 @@ your theme after installing the LaterPay WordPress plugin.
 
 == Changelog ==
 
+= 0.9.11.3 (April 2, 2015): Bugfix Release (v1.0 RC2) =
+* Added parameter 'id' to the shortcode [laterpay_time_passes] to display only one specific time pass
+* Fixed display of voucher code statistics in pricing tab
+* Visual fixes for LaterPay purchase button
+* Fixed attachment download via the shortcode [laterpay_premium_download] in caching mode
+* Fixed redeeming voucher codes via the shortcode [laterpay_redeem_voucher]
+
 = 0.9.11.2 (March 5, 2015): Bugfix Release (v1.0 RC1) =
 * Fixed undefined variable on dashboard
 * Removed sourcemaps from production assets

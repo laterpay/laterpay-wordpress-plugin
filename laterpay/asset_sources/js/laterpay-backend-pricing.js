@@ -376,7 +376,7 @@
                 .on('click', $o.bulkDeleteOperationLink, function(e) {e.preventDefault();});
             },
 
-            validatePrice = function($form, notValidateRevenue, $input) {
+            validatePrice = function($form, dontValidateRevenueModel, $input) {
                 var $priceInput = $input ? $input : $('.lp_number-input', $form),
                     price       = $priceInput.val();
 
@@ -405,7 +405,7 @@
                     price       = 0.05;
                 }
 
-                if ( ! notValidateRevenue ) {
+                if ( ! dontValidateRevenueModel ) {
                     validateRevenueModel(price, $form);
                 }
 
