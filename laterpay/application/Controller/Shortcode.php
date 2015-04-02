@@ -331,7 +331,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $html_button   = '';
             $is_attachment = $post->post_type == 'attachment';
 
-            $access = LaterPay_Helper_Post::has_access_to_post( $post, $is_attachment );
+            $access = LaterPay_Helper_Post::has_access_to_post( $post, $is_attachment, $current_post_id );
 
             if ( $access ) {
                 // the user has already purchased the item
