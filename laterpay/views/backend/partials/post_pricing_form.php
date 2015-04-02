@@ -40,8 +40,8 @@
                     value="sis"
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'checked'; } ?>>SIS
             </label>
-        </div><!--
-     --><div class="lp_layout__item lp_2/3">
+        </div>
+        <div class="lp_layout__item lp_2/3">
             <input type="text"
                     id="lp_js_postPriceInput"
                     class="lp_post-price-input lp_input"
@@ -49,8 +49,8 @@
                     value="<?php echo LaterPay_Helper_View::format_number( $laterpay['price'] ); ?>"
                     placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                     <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled'; } ?>>
-        </div><!--
-     --><div class="lp_layout__item lp_1/6">
+        </div>
+        <div class="lp_layout__item lp_1/6">
             <div class="lp_currency"><?php echo $laterpay['currency']; ?></div>
         </div>
     </div>
@@ -97,7 +97,7 @@
              <ul class="lp_js_priceTypeDetailsCategoryDefaultPriceList lp_price-type-categorized__list">
                 <?php if ( is_array( $laterpay['category_prices'] ) ): ?>
                     <?php foreach ( $laterpay['category_prices'] as $category ): ?>
-                        <li data-category="<?php echo $category['category_id']; ?>"<?php if ( $category['category_id'] == $laterpay['post_default_category'] ): ?> class="lp_js_priceTypeDetailsCategoryDefaultPriceItem lp_price-type-categorized__item lp_is-selectedCategory"<?php endif; ?>>
+                        <li data-category="<?php echo $category['category_id']; ?>" class="lp_js_priceTypeDetailsCategoryDefaultPriceItem lp_price-type-categorized__item<?php if ( $category['category_id'] == $laterpay['post_default_category'] ): echo ' lp_is-selectedCategory'; endif; ?>">
                             <a href="#"
                                 data-price="<?php echo LaterPay_Helper_View::format_number( $category['category_price'] ); ?>"
                                 data-revenue-model="<?php echo $category['revenue_model']; ?>">
