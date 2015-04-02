@@ -40,7 +40,7 @@
                     value="sis"
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'checked'; } ?>>SIS
             </label>
-        </div><!--
+        </div><!-- layout works with display:inline-block; comments are there to suppress spaces
      --><div class="lp_layout__item lp_2/3">
             <input type="text"
                     id="lp_js_postPriceInput"
@@ -49,7 +49,7 @@
                     value="<?php echo LaterPay_Helper_View::format_number( $laterpay['price'] ); ?>"
                     placeholder="<?php _e( '0.00', 'laterpay' ); ?>"
                     <?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE ) { echo 'disabled'; } ?>>
-        </div><!--
+        </div><!-- layout works with display:inline-block; comments are there to suppress spaces
      --><div class="lp_layout__item lp_1/6">
             <div class="lp_currency"><?php echo $laterpay['currency']; ?></div>
         </div>
