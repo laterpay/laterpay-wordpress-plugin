@@ -13,6 +13,10 @@
     vertical-align: top;
     width: $fs--125;
 
+    &.lp_is-disabled {
+        display: none;
+    }
+
     &:hover .lp_triangle {
         border-right-color: $clickable--highlight;
     }

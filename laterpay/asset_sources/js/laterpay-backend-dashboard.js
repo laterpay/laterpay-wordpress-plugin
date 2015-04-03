@@ -215,7 +215,7 @@
 
                 // if we were able to select the previous interval, it must be possible to switch back to the current
                 // interval so make sure the next link is not disabled
-                $o.previousInterval.removeClass($o.disabled);
+                $o.nextInterval.removeClass($o.disabled);
 
                 endTimestamp = endTimestamp - intervalDiff;
 
