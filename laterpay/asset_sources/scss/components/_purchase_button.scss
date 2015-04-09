@@ -90,6 +90,13 @@
     }
 }
 
+// wrapper used to set the purchase button apart from the post content when positioned automatically
+.lp_purchase-button-wrapper {
+    @extend %clearfix;
+
+    margin: $fs 0 $fs--2 !important;
+}
+
 
 // Responsiveness ------------------------------------------------------------------------------------------------------
 @media (max-width:567px) {

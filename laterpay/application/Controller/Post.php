@@ -666,7 +666,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
     /**
      * Callback to generate a LaterPay purchase button within the theme that can be freely positioned.
-     * When doing this, you should set config option 'content.show_purchase_button' to FALSE to disable the default
+     * When doing this, you should set config option 'laterpay_purchase_button_positioned_manually' to TRUE to disable the default
      * rendering of a purchase button at the beginning of the post content, thus avoiding multiple purchase buttons
      * on the post page.
      *
@@ -1001,9 +1001,9 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $content;
         }
 
-        // add a purchase button as very first element of the content
-        if ( (bool) $this->config->get( 'content.show_purchase_button' ) ) {
-            $html .= '<div class="lp_clearfix lp_relative lp_mt lp_mb+">';
+        // add the purchase button as very first element of the content, if it is not positioned manually
+        if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
+            $html .= '<div class="lp_purchase-button-wrapper">';
             $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase_button' ) );
             $html .= '</div>';
         }

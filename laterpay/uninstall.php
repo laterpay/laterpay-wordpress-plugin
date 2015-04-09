@@ -76,8 +76,6 @@ delete_option( 'laterpay_preview_excerpt_percentage_of_content' );
 delete_option( 'laterpay_preview_excerpt_word_count_min' );
 delete_option( 'laterpay_preview_excerpt_word_count_max' );
 
-delete_option( 'laterpay_show_purchase_button' );
-
 delete_option( 'laterpay_unlimited_access' );
 
 delete_option( 'laterpay_bulk_operations' );

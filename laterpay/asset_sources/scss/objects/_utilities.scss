@@ -63,11 +63,11 @@
  */
 %clearfix:before,
 %clearfix:after {
-    content: ' '; /* 1 */
-    display: table; /* 2 */
+    content: ' ' !important; /* 1 */
+    display: table !important; /* 2 */
 }
 %clearfix:after {
-    clear: both;
+    clear: both !important;
 }
 
 // helper class for clearfix
