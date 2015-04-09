@@ -200,9 +200,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             // get new URL for this time pass
             $pass_id    = $code_data['pass_id'];
             // get price, delocalize it, and format it
-            $price      = $code_data['price'];
-            $price      = str_replace( ',', '.', $price );
-            $price      = number_format( (float) $price, 2 );
+            $price      = number_format( LaterPay_Helper_View::normalize( $code_data['price'] ), 2 );
             // prepare URL before use
             $data       = array(
                 'link'    => $is_gift ? home_url() : $_GET['link'],

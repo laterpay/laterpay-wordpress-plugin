@@ -242,7 +242,7 @@ class LaterPay_Helper_View
      */
     public static function format_number( $number, $is_monetary = true ) {
         // delocalize number
-        $number = (float) str_replace( ',', '.', $number );
+        $number = self::normalize( $number );
 
         if ( $is_monetary ) {
             // format monetary values
@@ -268,6 +268,22 @@ class LaterPay_Helper_View
         }
 
         return $formatted;
+    }
+
+    /**
+     * Number normalization
+     *
+     * @param $number
+     *
+     * @return float
+     */
+    public static function normalize( $number ) {
+        global $wp_locale;
+
+        $number = str_replace( $wp_locale->number_format['thousands_sep'], "", (string) $number );
+        $number = str_replace( $wp_locale->number_format['decimal_point'], ".", $number );
+
+        return (float) $number;
     }
 
     /**
