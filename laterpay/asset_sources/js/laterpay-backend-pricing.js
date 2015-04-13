@@ -16,19 +16,14 @@
 
                 // global default price
                 globalDefaultPriceForm                  : $('#lp_js_globalDefaultPriceForm'),
-                globalDefaultPriceInput                 : $('#lp_js_globalDefaultPrice'),
-                globalDefaultPriceDisplay               : $('#lp_js_globalDefaultPriceText'),
-                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_globalDefaultPriceRevenueModelLabel'),
+                globalDefaultPriceInput                 : $('#lp_js_globalDefaultPriceInput'),
+                globalDefaultPriceDisplay               : $('#lp_js_globalDefaultPriceDisplay'),
+                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_globalDefaultPriceRevenueModelDisplay'),
                 editGlobalDefaultPrice                  : $('#lp_js_editGlobalDefaultPrice'),
                 cancelEditingGlobalDefaultPrice         : $('#lp_js_cancelEditingGlobalDefaultPrice'),
                 saveGlobalDefaultPrice                  : $('#lp_js_saveGlobalDefaultPrice'),
-                globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPriceText,' +
-                                                            '#lp_js_editGlobalDefaultPrice,' +
-                                                            '#lp_js_globalDefaultPriceRevenueModelLabel'),
-                globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPrice,' +
-                                                            '#lp_js_globalDefaultPriceRevenueModel,' +
-                                                            '#lp_js_cancelEditingGlobalDefaultPrice,' +
-                                                            '#lp_js_saveGlobalDefaultPrice'),
+                globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPriceShowElements'),
+                globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPriceEditElements'),
 
                 // category default price
                 categoryDefaultPrices                   : $('#lp_js_categoryDefaultPriceList'),
@@ -481,7 +476,7 @@
                 $o.globalDefaultPriceShowElements.hide();
                 $o.globalDefaultPriceEditElements.show(0, function() {
                     setTimeout(function() {
-                        $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text()).focus();
+                        $o.globalDefaultPriceInput.val($.trim($o.globalDefaultPriceDisplay.text())).focus();
                     }, 50);
                 });
                 $o.globalDefaultPriceForm.addClass($o.editing);
@@ -512,8 +507,8 @@
                     $o.globalDefaultPriceForm.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            $o.globalDefaultPriceDisplay.html(r.laterpay_global_price);
-                            $o.globalDefaultPriceRevenueModelDisplay.text(r.laterpay_price_revenue_model);
+                            $o.globalDefaultPriceDisplay.text(r.price);
+                            $o.globalDefaultPriceRevenueModelDisplay.text(r.revenue_model);
                         }
                         setMessage(r.message, r.success);
                         exitEditModeGlobalDefaultPrice();

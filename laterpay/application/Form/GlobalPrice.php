@@ -128,4 +128,3 @@ class LaterPay_Form_GlobalPrice extends LaterPay_Form_Abstract
         );
     }
 }
-

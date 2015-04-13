@@ -56,41 +56,75 @@
                     <input type="hidden" name="action"  value="laterpay_pricing">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                    <p>
-                        <div class="lp_revenue-model-list">
-                            <span id="lp_js_globalDefaultPriceRevenueModelLabel" class="lp_js_revenueModelLabelDisplay lp_badge lp_badge--revenue-model lp_mr--"><?php echo $laterpay['global_default_price_revenue_model']; ?></span>
-                            <span id="lp_js_globalDefaultPriceRevenueModel" class="lp_js_revenueModel lp_is-editing lp_relative lp_left" style="display:none;">
-                                <label class="lp_js_revenueModelLabel lp_badge lp_badge--revenue-model lp_js_globalDefaultPriceRevenueModelLabel lp_mr- lp_mb--
-                                        <?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ! $laterpay['global_default_price_revenue_model'] ) { echo 'lp_is-selected'; } ?>
-                                        <?php if ( $laterpay['global_default_price'] > 5 ) { echo 'lp_is-disabled'; } ?>">
-                                    <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu"<?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < 5 ) ) { echo ' checked'; } ?>>PPU
-                                </label>
-                                <label class="lp_js_revenueModelLabel lp_badge lp_badge--revenue-model lp_js_globalDefaultPriceRevenueModelLabel lp_mr- lp_mb--
-                                        <?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
-                                        <?php if ( $laterpay['global_default_price'] < 1.49) { echo 'lp_is-disabled'; } ?>">
-                                    <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis"<?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo ' checked'; } ?>>SIS
-                                </label>
-                            </span>
-                        </div>
+                    <div id="lp_js_globalDefaultPriceEditElements" class="lp_box--bordered" style="display:none;">
+                        <table class="lp_table--form">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <?php _e( 'Edit Global Default Price', 'laterpay' ); ?>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <?php _e( 'Price', 'laterpay' ); ?>
+                                    </th>
+                                    <td>
+                                        <input  type="text"
+                                                id="lp_js_globalDefaultPriceInput"
+                                                class="lp_js_priceInput lp_input lp_number-input"
+                                                name="laterpay_global_price"
+                                                value="<?php echo $laterpay['global_default_price']; ?>"
+                                                placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>">
+                                        <span class="lp_js_currency lp_currency"><?php echo $laterpay['standard_currency']; ?></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <?php _e( 'Revenue Model', 'laterpay' ); ?>
+                                    </th>
+                                    <td>
+                                        <div class="lp_js_revenueModel lp_button-group">
+                                            <label class="lp_js_revenueModelLabel lp_button-group__button
+                                                    <?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ! $laterpay['global_default_price_revenue_model'] ) { echo 'lp_is-selected'; } ?>
+                                                    <?php if ( $laterpay['global_default_price'] > 5 ) { echo 'lp_is-disabled'; } ?>">
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="ppu"<?php if ( $laterpay['global_default_price_revenue_model'] == 'ppu' || ( ! $laterpay['global_default_price_revenue_model'] && $laterpay['global_default_price'] < 5 ) ) { echo ' checked'; } ?>>PPU
+                                            </label><!--
+                                         --><label class="lp_js_revenueModelLabel lp_button-group__button
+                                                    <?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
+                                                    <?php if ( $laterpay['global_default_price'] < 1.49) { echo 'lp_is-disabled'; } ?>">
+                                                <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis"<?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo ' checked'; } ?>>SIS
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <a href="#" id="lp_js_saveGlobalDefaultPrice" class="button button-primary"><?php _e( 'Save', 'laterpay' ); ?></a>
+                                        <a href="#" id="lp_js_cancelEditingGlobalDefaultPrice" class="lp_inline-block lp_pd--05-1"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
+                    <p id="lp_js_globalDefaultPriceShowElements">
                         <?php _e( '<strong>Every post</strong> costs', 'laterpay' ); ?>
-                        <strong class="lp_price-settings__value">
-                            <input  type="text"
-                                    name="laterpay_global_price"
-                                    id="lp_js_globalDefaultPrice"
-                                    class="lp_js_priceInput lp_input lp_number-input lp_price-settings__value-input"
-                                    value="<?php echo $laterpay['global_default_price']; ?>"
-                                    style="display:none;"
-                                    placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>"
-                                    autocomplete="off">
-                            <span id="lp_js_globalDefaultPriceText" class="lp_price-settings__value-text"><?php echo $laterpay['global_default_price']; ?></span>
-                            <span class="lp_js_currency lp_price-settings__currency"><?php echo $laterpay['standard_currency']; ?></span>
+                        <strong id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
+                            <?php echo $laterpay['global_default_price']; ?>
                         </strong>
+                        <strong class="lp_js_currency lp_currency">
+                            <?php echo $laterpay['standard_currency']; ?>
+                        </strong>
+                        <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge lp_badge--revenue-model">
+                            <?php echo $laterpay['global_default_price_revenue_model']; ?>
+                        </span>
 
                         <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-
-                        <a href="#" id="lp_js_cancelEditingGlobalDefaultPrice" class="lp_edit-link lp_cancel-link" data-icon="e" style="display:none;"><?php _e( 'Cancel', 'laterpay' ); ?></a>
-                        <a href="#" id="lp_js_saveGlobalDefaultPrice" class="lp_edit-link lp_save-link" data-icon="f" style="display:none;"><?php _e( 'Save', 'laterpay' ); ?></a>
                     </p>
                 </form>
             </div><!--
@@ -138,7 +172,7 @@
                                                         name="price"
                                                         class="lp_js_priceInput lp_js_categoryDefaultPriceInput lp_input lp_number-input"
                                                         value="<?php echo LaterPay_Helper_View::format_number( $category->category_price ); ?>"
-                                                        placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
+                                                        placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>">
                                                 <span class="lp_js_currency lp_currency"><?php echo $laterpay['standard_currency']; ?></span>
                                             </td>
                                         </tr>
@@ -182,9 +216,9 @@
                                 <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
                                     <?php echo $category_price; ?>
                                 </strong>
-                                <span class="lp_js_currency lp_currency">
+                                <strong class="lp_js_currency lp_currency">
                                     <?php echo $laterpay['standard_currency']; ?>
-                                </span>
+                                </strong>
                                 <span class="lp_js_revenueModelLabelDisplay lp_badge lp_badge--revenue-model">
                                     <?php echo $category_revenue_model; ?>
                                 </span>
@@ -231,7 +265,7 @@
                                                 name="price"
                                                 class="lp_js_priceInput lp_js_categoryDefaultPriceInput lp_input lp_number-input"
                                                 value="<?php echo $laterpay['global_default_price']; ?>"
-                                                placeholder="<?php _e( '0.00', 'laterpay' ); ?>">
+                                                placeholder="<?php echo LaterPay_Helper_View::format_number( 0 ); ?>">
                                         <span class="lp_js_currency lp_currency"><?php echo $laterpay['standard_currency']; ?></span>
                                     </td>
                                 </tr>
