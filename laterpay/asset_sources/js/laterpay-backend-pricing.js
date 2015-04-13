@@ -40,15 +40,8 @@
                 cancelEditingCategoryDefaultPrice       : '.lp_js_cancelEditingCategoryDefaultPrice',
                 saveCategoryDefaultPrice                : '.lp_js_saveCategoryDefaultPrice',
                 deleteCategoryDefaultPrice              : '.lp_js_deleteCategoryDefaultPrice',
-                categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPriceCategoryTitle,' +
-                                                            '.lp_js_revenueModelLabelDisplay,' +
-                                                            '.lp_js_categoryDefaultPriceDisplay,' +
-                                                            '.lp_js_editCategoryDefaultPrice,' +
-                                                            '.lp_js_deleteCategoryDefaultPrice',
-                categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPriceInput,' +
-                                                            '.lp_js_revenueModel,' +
-                                                            '.lp_js_saveCategoryDefaultPrice,' +
-                                                            '.lp_js_cancelEditingCategoryDefaultPrice',
+                categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPriceShowElements',
+                categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPriceEditElements',
 
                 categoryTitle                           : '.lp_js_categoryDefaultPriceCategoryTitle',
                 categoryDefaultPriceDisplay             : '.lp_js_categoryDefaultPriceDisplay',

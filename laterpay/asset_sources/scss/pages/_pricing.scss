@@ -14,25 +14,10 @@
 .lp_price-section {
 
     hr {
+        background: darken($background, 13%);
         border: 0 none;
         height: 2px;
         margin: $fs--05 0;
-    }
-
-    &:nth-child(1) hr {
-        background: darken($background, 13%);
-    }
-
-    &:nth-child(2) hr {
-        background: darken($background, 34%);
-    }
-
-    &:nth-child(3) hr {
-        background: darken($background, 55%);
-    }
-
-    .lp_spacer {
-        height: 2.4em;
     }
 }
 
@@ -50,12 +35,94 @@
     .select2-drop,
     .select2-search,
     .select2-search input {
-        width: ($fs * 12);
+        width: ($fs * 20);
     }
 }
 
 .lp_price-settings__category-title {
-    min-width: 8.75em;
+    min-width: ($fs * 10);
+}
+
+.lp_box--bordered {
+    border: 2px solid $border;
+    border-radius: $border-radius;
+    display: inline-block;
+    padding: $fs;
+}
+
+.lp_table--form {
+    margin: 0;
+
+    th,
+    td {
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    th {
+        color: $text--lighter;
+        font-weight: normal;
+        padding-left: 0;
+    }
+
+    td {
+        padding-right: 0;
+    }
+
+    thead th {
+        color: $text;
+        font-size: $fs--125;
+        padding: $fs--05 0 $fs;
+        text-align: center;
+    }
+
+    tfoot td {
+        padding-top: $fs;
+        padding-bottom: 0;
+    }
+}
+
+// switch for selecting price type
+.lp_button-group {
+    background: $background--darker;
+    border: 2px solid $border;
+    border-radius: $border-radius;
+
+    .lp_button-group__button {
+        box-shadow: inset 1px 0 0 $border, inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
+        color: $clickable;
+        display: inline-block;
+        line-height: 1.25;
+        margin: 0;
+        padding: 0.5em 0;
+        text-align: center;
+        width: 33.333%;
+
+        input[type=radio] {
+            display: none;
+        }
+
+        &:hover {
+            background-color: $clickable--highlight;
+            color: $text--inverse;
+        }
+
+        &:first-child {
+            border-radius: 2px 0 0 2px;
+            box-shadow: inset 1px 0 0 hsla(0, 0%, 100%, 0.55);
+        }
+
+        &:last-child {
+            border-radius: 0 2px 2px 0;
+            box-shadow: inset 1px 0 0 $border, inset -1px 0 0 hsla(0, 0%, 100%, 0.55);
+        }
+
+        &.lp_is-selected,
+        &.lp_is-selected:hover {
+            background-color: $laterpay-brand;
+            color: $text--inverse;
+        }
+    }
 }
 
 
