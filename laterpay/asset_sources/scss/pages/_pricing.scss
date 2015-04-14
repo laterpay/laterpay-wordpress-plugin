@@ -55,6 +55,13 @@
     }
 }
 
+.lp_price-section {
+    .lp_badge {
+        margin-left: $fs--025;
+        width: $fs--2;
+    }
+}
+
 .lp_button-group {
     background: $background--darker;
     border: 2px solid $border;

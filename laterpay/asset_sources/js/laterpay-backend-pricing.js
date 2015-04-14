@@ -473,8 +473,8 @@
             },
 
             enterEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceShowElements.hide();
-                $o.globalDefaultPriceEditElements.show(0, function() {
+                $o.globalDefaultPriceShowElements.slideUp(250);
+                $o.globalDefaultPriceEditElements.slideDown(250, function() {
                     setTimeout(function() {
                         $o.globalDefaultPriceInput.val($.trim($o.globalDefaultPriceDisplay.text())).focus();
                     }, 50);
@@ -483,8 +483,8 @@
             },
 
             exitEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceShowElements.show();
-                $o.globalDefaultPriceEditElements.hide();
+                $o.globalDefaultPriceShowElements.slideDown(250);
+                $o.globalDefaultPriceEditElements.slideUp(250);
                 $o.globalDefaultPriceForm.removeClass($o.editing);
                 // reset value of price input to current global default price
                 $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text());
@@ -524,7 +524,7 @@
                             .clone()
                             .removeAttr('id')
                             .appendTo('#lp_js_categoryDefaultPriceList')
-                            .fadeIn(250);
+                            .slideDown(250);
 
                 editCategoryDefaultPrice($form);
             },
@@ -537,9 +537,9 @@
 
                 // initialize edit mode
                 $form.addClass($o.editing);
-                $($o.categoryDefaultPriceShowElements, $form).hide();
+                $($o.categoryDefaultPriceShowElements, $form).slideUp(250);
                 $o.addCategory.fadeOut(250);
-                $($o.categoryDefaultPriceEditElements, $form).show();
+                $($o.categoryDefaultPriceEditElements, $form).slideDown(250);
                 renderCategorySelect(
                     $form,
                     $o.selectCategory,
@@ -581,16 +581,16 @@
 
                 if ($form.hasClass($o.unsaved)) {
                     // remove form, if creating a new category default price has been canceled
-                    $form.fadeOut(250, function() {
+                    $form.slideUp(250, function() {
                         $(this).remove();
                     });
                 } else {
                     // hide form, if a new category default price has been saved
                     // or editing an existing category default price has been canceled
-                    $($o.categoryDefaultPriceEditElements, $form).hide();
+                    $($o.categoryDefaultPriceEditElements, $form).slideUp(250);
                     $($o.selectCategory, $form).select2('destroy');
                     // reset value of price input to current category default price
-                    $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text());
+                    $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text().trim());
                     // reset revenue model input to current revenue model
                     var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).text().toLowerCase();
                     $($o.revenueModelLabel, $form).removeClass($o.selected);
@@ -599,7 +599,7 @@
                         .parent('label')
                         .addClass($o.selected);
                     // show elements for displaying defined price again
-                    $($o.categoryDefaultPriceShowElements, $form).show();
+                    $($o.categoryDefaultPriceShowElements, $form).slideDown(250);
                 }
 
                 // show 'Add' button again
@@ -616,7 +616,7 @@
                     $form.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            $form.fadeOut(400, function() {
+                            $form.slideUp(250, function() {
                                 $(this).remove();
                             });
                         }
