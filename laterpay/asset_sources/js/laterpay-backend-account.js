@@ -283,7 +283,7 @@
                     $('iframe', $iframeWrapper).remove();
                 }
                 if ($iframeWrapper.length === 0) {
-                    $('#lp_js_credentialsHint').after($iframeWrapperObject.slideDown(400, function() {
+                    $('#lp_js_apiCredentialsSection').after($iframeWrapperObject.slideDown(400, function() {
                         // scroll document so that iframe fills viewport
                         iframeOffset = $('#lp_js_legalDocsIframe').offset();
                         scrollPosition = iframeOffset.top - topMargin;

@@ -27,7 +27,7 @@
 
 
     <div class="lp_pagewrap">
-        <div class="lp_clearfix">
+        <div id="lp_js_apiCredentialsSection" class="lp_clearfix">
             <h2><?php _e( 'LaterPay API Credentials', 'laterpay' ); ?></h2>
 
 
@@ -145,16 +145,9 @@
                             </a>
                         </li>
                     </ul>
-
                 </fieldset>
             </div>
-
         </div>
-        <dfn id="lp_js_credentialsHint">
-            <?php echo sprintf( __( 'Go to your <a href="%s">LaterPay Merchantbackend</a> to get your LaterPay API credentials.', 'laterpay' ), $config->get( 'api.merchant_backend_url' ) ); ?>
-        </dfn>
-        <hr class="lp_form-group-separator">
-
 
         <div class="lp_account-mode-switch">
             <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>
