@@ -36,7 +36,7 @@ class LaterPay_Helper_User
             return $allowed;
         }
 
-        // try to get WP_Post object if id passed
+        // try to get WP_Post object, if post id was passed instead of post object
         if ( ! $post instanceof WP_Post ) {
             $post = get_post( $post );
         }
