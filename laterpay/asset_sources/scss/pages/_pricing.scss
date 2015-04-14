@@ -96,10 +96,18 @@
             box-shadow: inset 1px 0 0 $border, inset -1px 0 0 hsla(0, 0%, 100%, 0.55);
         }
 
+        &.lp_is-disabled,
+        &.lp_is-disabled:hover {
+            background: transparent;
+            color: $text--lighter;
+            cursor: default;
+        }
+
         &.lp_is-selected,
         &.lp_is-selected:hover {
-            background-color: $laterpay-brand;
+            background: $laterpay-brand;
             color: $text--inverse;
+            cursor: default;
         }
     }
 }

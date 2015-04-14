@@ -56,6 +56,21 @@
                     <input type="hidden" name="action"  value="laterpay_pricing">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
+                    <p id="lp_js_globalDefaultPriceShowElements">
+                        <?php _e( '<strong>Every post</strong> costs', 'laterpay' ); ?>
+                        <strong id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
+                            <?php echo $laterpay['global_default_price']; ?>
+                        </strong>
+                        <strong class="lp_js_currency lp_currency">
+                            <?php echo $laterpay['standard_currency']; ?>
+                        </strong>
+                        <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge">
+                            <?php echo $laterpay['global_default_price_revenue_model']; ?>
+                        </span>
+
+                        <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                    </p>
+
                     <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mt" style="display:none;">
                         <table class="lp_table--form">
                             <thead>
@@ -111,21 +126,6 @@
                             </tfoot>
                         </table>
                     </div>
-
-                    <p id="lp_js_globalDefaultPriceShowElements">
-                        <?php _e( '<strong>Every post</strong> costs', 'laterpay' ); ?>
-                        <strong id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
-                            <?php echo $laterpay['global_default_price']; ?>
-                        </strong>
-                        <strong class="lp_js_currency lp_currency">
-                            <?php echo $laterpay['standard_currency']; ?>
-                        </strong>
-                        <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge">
-                            <?php echo $laterpay['global_default_price_revenue_model']; ?>
-                        </span>
-
-                        <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                    </p>
                 </form>
             </div><!--
          --><div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
@@ -144,6 +144,25 @@
 
                             <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
                             <?php $category_revenue_model = $category->revenue_model; ?>
+
+                            <p class="lp_js_categoryDefaultPriceShowElements">
+                                <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
+                                    <?php echo $category->category_name; ?>
+                                </strong>
+                                <?php _e( 'costs', 'laterpay' ); ?>
+                                <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
+                                    <?php echo $category_price; ?>
+                                </strong>
+                                <strong class="lp_js_currency lp_currency">
+                                    <?php echo $laterpay['standard_currency']; ?>
+                                </strong>
+                                <span class="lp_js_revenueModelLabelDisplay lp_badge">
+                                    <?php echo $category_revenue_model; ?>
+                                </span>
+
+                                <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                                <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                            </p>
 
                             <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mt" style="display:none;">
                                 <table class="lp_table--form">
@@ -207,25 +226,6 @@
                                     </tfoot>
                                 </table>
                             </div>
-
-                            <p class="lp_js_categoryDefaultPriceShowElements">
-                                <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
-                                    <?php echo $category->category_name; ?>
-                                </strong>
-                                <?php _e( 'costs', 'laterpay' ); ?>
-                                <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
-                                    <?php echo $category_price; ?>
-                                </strong>
-                                <strong class="lp_js_currency lp_currency">
-                                    <?php echo $laterpay['standard_currency']; ?>
-                                </strong>
-                                <span class="lp_js_revenueModelLabelDisplay lp_badge">
-                                    <?php echo $category_revenue_model; ?>
-                                </span>
-
-                                <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                                <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                            </p>
                         </form>
                     <?php endforeach; ?>
                 </div>
@@ -237,6 +237,22 @@
                     <input type="hidden" name="action"      value="laterpay_pricing">
                     <input type="hidden" name="category_id" value="" class="lp_js_categoryDefaultPriceCategoryId">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+
+                    <p class="lp_js_categoryDefaultPriceShowElements" style="display:none;">
+                        <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
+                        </strong>
+                        <?php _e( 'costs', 'laterpay' ); ?>
+                        <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
+                        </strong>
+                        <span class="lp_js_currency lp_currency">
+                            <?php echo $laterpay['standard_currency']; ?>
+                        </span>
+                        <span class="lp_js_revenueModelLabelDisplay lp_badge">
+                        </span>
+
+                        <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                    </p>
 
                     <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mt">
                         <table class="lp_table--form">
@@ -299,22 +315,6 @@
                             </tfoot>
                         </table>
                     </div>
-
-                    <p class="lp_js_categoryDefaultPriceShowElements" style="display:none;">
-                        <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
-                        </strong>
-                        <?php _e( 'costs', 'laterpay' ); ?>
-                        <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
-                        </strong>
-                        <span class="lp_js_currency lp_currency">
-                            <?php echo $laterpay['standard_currency']; ?>
-                        </span>
-                        <span class="lp_js_revenueModelLabelDisplay lp_badge">
-                        </span>
-
-                        <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                    </p>
                 </form>
             </div>
         </div>
