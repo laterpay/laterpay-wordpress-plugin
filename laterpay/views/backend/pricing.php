@@ -48,7 +48,6 @@
         <div class="lp_js_hideInTimePassOnlyMode lp_layout"<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { ' style="display:none;"'; } ?>>
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php _e( 'Global Default Price', 'laterpay' ); ?></h2>
-                <hr>
                 <dfn class="lp_block lp_mb"><?php _e( 'The category default price overwrites the global default price. It is automatically used for all posts in the respective category that don‘t have an individual price.', 'laterpay' ); ?></dfn>
 
                 <form id="lp_js_globalDefaultPriceForm" method="post" action="" class="lp_price-settings">
@@ -130,7 +129,6 @@
             </div><!--
          --><div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php _e( 'Category Default Prices', 'laterpay' ); ?></h2>
-                <hr>
                 <dfn class="lp_block lp_mb"><?php _e( 'The global default price is used for every post that doesn‘t have a category default price or individual price. You can set individual prices when editing a post.', 'laterpay' ); ?></dfn>
 
                 <div id="lp_js_categoryDefaultPriceList">
