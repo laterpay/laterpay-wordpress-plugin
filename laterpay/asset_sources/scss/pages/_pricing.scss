@@ -46,7 +46,6 @@
         color: $text;
         font-size: $fs--125;
         padding: $fs--05 0 $fs;
-        text-align: center;
     }
 
     tfoot td {
@@ -120,7 +119,7 @@
     .select2-drop,
     .select2-search,
     .select2-search input {
-        width: ($fs * 16);
+        width: round($fs * 12.75);
     }
 }
 

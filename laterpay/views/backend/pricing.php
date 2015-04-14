@@ -49,14 +49,14 @@
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php _e( 'Global Default Price', 'laterpay' ); ?></h2>
                 <hr>
-                <dfn class="lp_block"><?php _e( 'The category default price overwrites the global default price. It is automatically used for all posts in the respective category that don‘t have an individual price.', 'laterpay' ); ?></dfn>
+                <dfn class="lp_block lp_mb"><?php _e( 'The category default price overwrites the global default price. It is automatically used for all posts in the respective category that don‘t have an individual price.', 'laterpay' ); ?></dfn>
 
                 <form id="lp_js_globalDefaultPriceForm" method="post" action="" class="lp_price-settings">
                     <input type="hidden" name="form"    value="global_price_form">
                     <input type="hidden" name="action"  value="laterpay_pricing">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                    <p id="lp_js_globalDefaultPriceShowElements">
+                    <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox">
                         <?php _e( '<strong>Every post</strong> costs', 'laterpay' ); ?>
                         <strong id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
                             <?php echo $laterpay['global_default_price']; ?>
@@ -69,9 +69,9 @@
                         </span>
 
                         <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                    </p>
+                    </div>
 
-                    <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mt" style="display:none;">
+                    <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mb-" style="display:none;">
                         <table class="lp_table--form">
                             <thead>
                                 <tr>
@@ -131,10 +131,9 @@
          --><div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php _e( 'Category Default Prices', 'laterpay' ); ?></h2>
                 <hr>
-                <dfn class="lp_block"><?php _e( 'The global default price is used for every post that doesn‘t have a category default price or individual price. You can set individual prices when editing a post.', 'laterpay' ); ?></dfn>
+                <dfn class="lp_block lp_mb"><?php _e( 'The global default price is used for every post that doesn‘t have a category default price or individual price. You can set individual prices when editing a post.', 'laterpay' ); ?></dfn>
 
                 <div id="lp_js_categoryDefaultPriceList">
-                    <p class="lp_m-0-0"><strong><?php _e( 'Every post in category', 'laterpay' ); ?> &hellip;</strong></p>
                     <?php foreach ( $laterpay['categories_with_defined_price'] as $category ): ?>
                         <form method="post" class="lp_js_categoryDefaultPriceForm lp_category-price-form">
                             <input type="hidden" name="form"        value="price_category_form">
@@ -145,7 +144,7 @@
                             <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
                             <?php $category_revenue_model = $category->revenue_model; ?>
 
-                            <p class="lp_js_categoryDefaultPriceShowElements">
+                            <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-">
                                 <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
                                     <?php echo $category->category_name; ?>
                                 </strong>
@@ -162,9 +161,9 @@
 
                                 <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
                                 <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                            </p>
+                            </div>
 
-                            <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mt" style="display:none;">
+                            <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-" style="display:none;">
                                 <table class="lp_table--form">
                                     <thead>
                                         <tr>
@@ -238,7 +237,7 @@
                     <input type="hidden" name="category_id" value="" class="lp_js_categoryDefaultPriceCategoryId">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                    <p class="lp_js_categoryDefaultPriceShowElements" style="display:none;">
+                    <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-" style="display:none;">
                         <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
                         </strong>
                         <?php _e( 'costs', 'laterpay' ); ?>
@@ -252,9 +251,9 @@
 
                         <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
                         <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
-                    </p>
+                    </div>
 
-                    <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mt">
+                    <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-">
                         <table class="lp_table--form">
                             <thead>
                                 <tr>

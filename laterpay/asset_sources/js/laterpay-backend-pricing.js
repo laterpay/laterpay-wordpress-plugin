@@ -538,8 +538,10 @@
                 // initialize edit mode
                 $form.addClass($o.editing);
                 $($o.categoryDefaultPriceShowElements, $form).slideUp(250);
-                $o.addCategory.fadeOut(250);
-                $($o.categoryDefaultPriceEditElements, $form).slideDown(250);
+                $o.addCategory.slideUp(250);
+                $($o.categoryDefaultPriceEditElements, $form).slideDown(250, function() {
+                    $($o.categoryDefaultPriceInput, $form).focus();
+                });
                 renderCategorySelect(
                     $form,
                     $o.selectCategory,
@@ -604,7 +606,7 @@
 
                 // show 'Add' button again
                 if (!editAnotherCategory) {
-                    $o.addCategory.fadeIn(250);
+                    $o.addCategory.slideDown(250);
                 }
             },
 
