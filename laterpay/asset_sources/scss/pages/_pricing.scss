@@ -59,6 +59,23 @@
         margin-left: $fs--025;
         width: $fs--2;
     }
+
+    .lp_edit-link {
+        margin: (-$fs) (-$fs) 0 $fs;
+        padding: $fs;
+        font-size: $fs--125;
+        float: right;
+
+        &:hover {
+            background: $clickable--highlight;
+            color: $text--inverse;
+        }
+
+        &:before {
+            padding-right: 0;
+            top: 0;
+        }
+    }
 }
 
 .lp_button-group {
@@ -121,10 +138,6 @@
     .select2-search input {
         width: round($fs * 12.75);
     }
-}
-
-.lp_price-settings__category-title {
-    min-width: ($fs * 8);
 }
 
 

@@ -68,7 +68,7 @@
                             <?php echo $laterpay['global_default_price_revenue_model']; ?>
                         </span>
 
-                        <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
+                        <a href="#" id="lp_js_editGlobalDefaultPrice" class="lp_edit-link lp_change-link lp_rounded--right" data-icon="d"></a>
                     </div>
 
                     <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mb-" style="display:none;">
@@ -145,7 +145,8 @@
                             <?php $category_revenue_model = $category->revenue_model; ?>
 
                             <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-">
-                                <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
+                                <?php _e( 'Every post in', 'laterpay' ); ?>
+                                <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
                                     <?php echo $category->category_name; ?>
                                 </strong>
                                 <?php _e( 'costs', 'laterpay' ); ?>
@@ -159,8 +160,8 @@
                                     <?php echo $category_revenue_model; ?>
                                 </span>
 
-                                <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                                <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                                <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link lp_rounded--right" data-icon="g"></a>
+                                <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"></a>
                             </div>
 
                             <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-" style="display:none;">
@@ -238,7 +239,8 @@
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                     <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-" style="display:none;">
-                        <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_price-settings__category-title lp_inline-block">
+                        <?php _e( 'Every post in', 'laterpay' ); ?>
+                        <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
                         </strong>
                         <?php _e( 'costs', 'laterpay' ); ?>
                         <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
@@ -249,8 +251,8 @@
                         <span class="lp_js_revenueModelLabelDisplay lp_badge">
                         </span>
 
-                        <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"><?php _e( 'Change', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_deleteCategoryDefaultPrice lp_edit-link lp_delete-link lp_rounded--right" data-icon="g"></a>
+                        <a href="#" class="lp_js_editCategoryDefaultPrice lp_edit-link lp_change-link" data-icon="d"></a>
                     </div>
 
                     <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mb-">

@@ -11,6 +11,10 @@
     border-radius: $border-radius;
 }
 
+.lp_rounded--right {
+    border-radius: 0 $border-radius $border-radius 0;
+}
+
 .lp_embossed {
     box-shadow: 1px 1px 0 $border--lightest;
 }
