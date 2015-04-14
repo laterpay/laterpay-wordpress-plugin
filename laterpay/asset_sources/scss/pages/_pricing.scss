@@ -23,14 +23,6 @@
 
 
 // global / category default prices ------------------------------------------------------------------------------------
-.lp_box--bordered {
-    border: 2px solid $border;
-    border-radius: $border-radius;
-    display: inline-block;
-    padding: $fs;
-    margin-top: $fs;
-}
-
 .lp_table--form {
     margin: 0;
 
@@ -63,7 +55,6 @@
     }
 }
 
-// switch for selecting price type
 .lp_button-group {
     background: $background--darker;
     border: 2px solid $border;

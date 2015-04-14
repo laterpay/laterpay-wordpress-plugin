@@ -56,7 +56,7 @@
                     <input type="hidden" name="action"  value="laterpay_pricing">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                    <div id="lp_js_globalDefaultPriceEditElements" class="lp_box--bordered" style="display:none;">
+                    <div id="lp_js_globalDefaultPriceEditElements" class="lp_greybox--outline lp_mt" style="display:none;">
                         <table class="lp_table--form">
                             <thead>
                                 <tr>
@@ -145,7 +145,7 @@
                             <?php $category_price         = LaterPay_Helper_View::format_number( $category->category_price ); ?>
                             <?php $category_revenue_model = $category->revenue_model; ?>
 
-                            <div class="lp_js_categoryDefaultPriceEditElements lp_box--bordered" style="display:none;">
+                            <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mt" style="display:none;">
                                 <table class="lp_table--form">
                                     <thead>
                                         <tr>
@@ -238,7 +238,7 @@
                     <input type="hidden" name="category_id" value="" class="lp_js_categoryDefaultPriceCategoryId">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
-                    <div class="lp_js_categoryDefaultPriceEditElements lp_box--bordered">
+                    <div class="lp_js_categoryDefaultPriceEditElements lp_greybox--outline lp_mt">
                         <table class="lp_table--form">
                             <thead>
                                 <tr>
