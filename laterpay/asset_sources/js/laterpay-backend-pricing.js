@@ -16,19 +16,14 @@
 
                 // global default price
                 globalDefaultPriceForm                  : $('#lp_js_globalDefaultPriceForm'),
-                globalDefaultPriceInput                 : $('#lp_js_globalDefaultPrice'),
-                globalDefaultPriceDisplay               : $('#lp_js_globalDefaultPriceText'),
-                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_globalDefaultPriceRevenueModelLabel'),
+                globalDefaultPriceInput                 : $('#lp_js_globalDefaultPriceInput'),
+                globalDefaultPriceDisplay               : $('#lp_js_globalDefaultPriceDisplay'),
+                globalDefaultPriceRevenueModelDisplay   : $('#lp_js_globalDefaultPriceRevenueModelDisplay'),
                 editGlobalDefaultPrice                  : $('#lp_js_editGlobalDefaultPrice'),
                 cancelEditingGlobalDefaultPrice         : $('#lp_js_cancelEditingGlobalDefaultPrice'),
                 saveGlobalDefaultPrice                  : $('#lp_js_saveGlobalDefaultPrice'),
-                globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPriceText,' +
-                                                            '#lp_js_editGlobalDefaultPrice,' +
-                                                            '#lp_js_globalDefaultPriceRevenueModelLabel'),
-                globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPrice,' +
-                                                            '#lp_js_globalDefaultPriceRevenueModel,' +
-                                                            '#lp_js_cancelEditingGlobalDefaultPrice,' +
-                                                            '#lp_js_saveGlobalDefaultPrice'),
+                globalDefaultPriceShowElements          : $('#lp_js_globalDefaultPriceShowElements'),
+                globalDefaultPriceEditElements          : $('#lp_js_globalDefaultPriceEditElements'),
 
                 // category default price
                 categoryDefaultPrices                   : $('#lp_js_categoryDefaultPriceList'),
@@ -40,15 +35,8 @@
                 cancelEditingCategoryDefaultPrice       : '.lp_js_cancelEditingCategoryDefaultPrice',
                 saveCategoryDefaultPrice                : '.lp_js_saveCategoryDefaultPrice',
                 deleteCategoryDefaultPrice              : '.lp_js_deleteCategoryDefaultPrice',
-                categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPriceCategoryTitle,' +
-                                                            '.lp_js_revenueModelLabelDisplay,' +
-                                                            '.lp_js_categoryDefaultPriceDisplay,' +
-                                                            '.lp_js_editCategoryDefaultPrice,' +
-                                                            '.lp_js_deleteCategoryDefaultPrice',
-                categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPriceInput,' +
-                                                            '.lp_js_revenueModel,' +
-                                                            '.lp_js_saveCategoryDefaultPrice,' +
-                                                            '.lp_js_cancelEditingCategoryDefaultPrice',
+                categoryDefaultPriceShowElements        : '.lp_js_categoryDefaultPriceShowElements',
+                categoryDefaultPriceEditElements        : '.lp_js_categoryDefaultPriceEditElements',
 
                 categoryTitle                           : '.lp_js_categoryDefaultPriceCategoryTitle',
                 categoryDefaultPriceDisplay             : '.lp_js_categoryDefaultPriceDisplay',
@@ -485,18 +473,18 @@
             },
 
             enterEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceShowElements.hide();
-                $o.globalDefaultPriceEditElements.show(0, function() {
+                $o.globalDefaultPriceShowElements.slideUp(250);
+                $o.globalDefaultPriceEditElements.slideDown(250, function() {
                     setTimeout(function() {
-                        $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text()).focus();
+                        $o.globalDefaultPriceInput.val($.trim($o.globalDefaultPriceDisplay.text())).focus();
                     }, 50);
                 });
                 $o.globalDefaultPriceForm.addClass($o.editing);
             },
 
             exitEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceShowElements.show();
-                $o.globalDefaultPriceEditElements.hide();
+                $o.globalDefaultPriceShowElements.slideDown(250);
+                $o.globalDefaultPriceEditElements.slideUp(250);
                 $o.globalDefaultPriceForm.removeClass($o.editing);
                 // reset value of price input to current global default price
                 $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text());
@@ -519,8 +507,8 @@
                     $o.globalDefaultPriceForm.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            $o.globalDefaultPriceDisplay.html(r.laterpay_global_price);
-                            $o.globalDefaultPriceRevenueModelDisplay.text(r.laterpay_price_revenue_model);
+                            $o.globalDefaultPriceDisplay.text(r.price);
+                            $o.globalDefaultPriceRevenueModelDisplay.text(r.revenue_model);
                         }
                         setMessage(r.message, r.success);
                         exitEditModeGlobalDefaultPrice();
@@ -536,7 +524,7 @@
                             .clone()
                             .removeAttr('id')
                             .appendTo('#lp_js_categoryDefaultPriceList')
-                            .fadeIn(250);
+                            .slideDown(250);
 
                 editCategoryDefaultPrice($form);
             },
@@ -549,9 +537,11 @@
 
                 // initialize edit mode
                 $form.addClass($o.editing);
-                $($o.categoryDefaultPriceShowElements, $form).hide();
-                $o.addCategory.fadeOut(250);
-                $($o.categoryDefaultPriceEditElements, $form).show();
+                $($o.categoryDefaultPriceShowElements, $form).slideUp(250);
+                $o.addCategory.slideUp(250);
+                $($o.categoryDefaultPriceEditElements, $form).slideDown(250, function() {
+                    $($o.categoryDefaultPriceInput, $form).focus();
+                });
                 renderCategorySelect(
                     $form,
                     $o.selectCategory,
@@ -593,16 +583,16 @@
 
                 if ($form.hasClass($o.unsaved)) {
                     // remove form, if creating a new category default price has been canceled
-                    $form.fadeOut(250, function() {
+                    $form.slideUp(250, function() {
                         $(this).remove();
                     });
                 } else {
                     // hide form, if a new category default price has been saved
                     // or editing an existing category default price has been canceled
-                    $($o.categoryDefaultPriceEditElements, $form).hide();
+                    $($o.categoryDefaultPriceEditElements, $form).slideUp(250);
                     $($o.selectCategory, $form).select2('destroy');
                     // reset value of price input to current category default price
-                    $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text());
+                    $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text().trim());
                     // reset revenue model input to current revenue model
                     var currentRevenueModel = $($o.revenueModelLabelDisplay, $form).text().toLowerCase();
                     $($o.revenueModelLabel, $form).removeClass($o.selected);
@@ -611,12 +601,12 @@
                         .parent('label')
                         .addClass($o.selected);
                     // show elements for displaying defined price again
-                    $($o.categoryDefaultPriceShowElements, $form).show();
+                    $($o.categoryDefaultPriceShowElements, $form).slideDown(250);
                 }
 
                 // show 'Add' button again
                 if (!editAnotherCategory) {
-                    $o.addCategory.fadeIn(250);
+                    $o.addCategory.slideDown(250);
                 }
             },
 
@@ -628,7 +618,7 @@
                     $form.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            $form.fadeOut(400, function() {
+                            $form.slideUp(250, function() {
                                 $(this).remove();
                             });
                         }

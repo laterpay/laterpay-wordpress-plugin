@@ -1,5 +1,5 @@
 /**
- * Dropdown component
+ * Dropdown object
  */
 
 .lp_dropdown {
@@ -28,8 +28,6 @@
     color: $clickable;
 }
 
-/* Reveal dropdown_list on hover or when state class 'is-expanded' is added */
-
 .lp_dropdown__list {
     background: $background--lightest;
     border: 2px solid $border;
@@ -44,6 +42,7 @@
     z-index: $zindex--overlayed-1;
 }
 
+// Reveal dropdown_list on hover or when state class 'is-expanded' is added
 .lp_dropdown:hover .lp_dropdown__list,
 .lp_dropdown.lp_is-expanded .lp_dropdown__list {
     display: block;
@@ -55,9 +54,7 @@
     padding: $fs--05;
     white-space: nowrap;
 
-    /**
-     * Highlight the selected item and remove all styling that makes it look as if you could interact with it
-     */
+    // Highlight the selected item and remove all styling that makes it look as if you could interact with it
     &.lp_is-selected {
         color: $text--lighter;
 

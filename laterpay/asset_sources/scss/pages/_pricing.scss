@@ -10,36 +10,110 @@
 }
 
 
-// price type sections -------------------------------------------------------------------------------------------------
-.lp_price-section {
+// global / category default prices ------------------------------------------------------------------------------------
+.lp_table--form {
+    margin: 0;
 
-    hr {
-        border: 0 none;
-        height: 2px;
-        margin: $fs--05 0;
+    th,
+    td {
+        text-align: left;
+        vertical-align: middle;
     }
 
-    &:nth-child(1) hr {
-        background: darken($background, 13%);
+    th {
+        color: $text--lighter;
+        font-weight: normal;
+        padding-left: 0;
     }
 
-    &:nth-child(2) hr {
-        background: darken($background, 34%);
+    td {
+        padding-right: 0;
     }
 
-    &:nth-child(3) hr {
-        background: darken($background, 55%);
+    thead th {
+        color: $text;
+        font-size: $fs--125;
+        padding: $fs--05 0 $fs;
     }
 
-    .lp_spacer {
-        height: 2.4em;
+    tfoot td {
+        padding-top: $fs;
+        padding-bottom: 0;
     }
 }
 
-.lp_revenue-model-list {
-    display: inline-block;
-    vertical-align: middle;
-    width: ($fs * 3);
+.lp_price-section {
+    .lp_badge {
+        margin-left: $fs--025;
+        width: $fs--2;
+    }
+
+    .lp_edit-link {
+        margin: (-$fs) (-$fs) 0 $fs;
+        padding: $fs;
+        font-size: $fs--125;
+        float: right;
+
+        &:hover {
+            background: $clickable--highlight;
+            color: $text--inverse;
+        }
+
+        &:before {
+            padding-right: 0;
+            top: 0;
+        }
+    }
+}
+
+.lp_button-group {
+    background: $background--darker;
+    border: 2px solid $border;
+    border-radius: $border-radius;
+
+    .lp_button-group__button {
+        box-shadow: inset 1px 0 0 $border, inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
+        color: $clickable;
+        display: inline-block;
+        line-height: 1.25;
+        margin: 0;
+        padding: 0.5em 0;
+        text-align: center;
+        width: 33.333%;
+
+        input[type=radio] {
+            display: none;
+        }
+
+        &:hover {
+            background-color: $clickable--highlight;
+            color: $text--inverse;
+        }
+
+        &:first-child {
+            border-radius: 2px 0 0 2px;
+            box-shadow: inset 1px 0 0 hsla(0, 0%, 100%, 0.55);
+        }
+
+        &:last-child {
+            border-radius: 0 2px 2px 0;
+            box-shadow: inset 1px 0 0 $border, inset -1px 0 0 hsla(0, 0%, 100%, 0.55);
+        }
+
+        &.lp_is-disabled,
+        &.lp_is-disabled:hover {
+            background: transparent;
+            color: $text--lighter;
+            cursor: default;
+        }
+
+        &.lp_is-selected,
+        &.lp_is-selected:hover {
+            background: $laterpay-brand;
+            color: $text--inverse;
+            cursor: default;
+        }
+    }
 }
 
 
@@ -50,12 +124,8 @@
     .select2-drop,
     .select2-search,
     .select2-search input {
-        width: ($fs * 12);
+        width: round($fs * 12.75);
     }
-}
-
-.lp_price-settings__category-title {
-    min-width: 8.75em;
 }
 
 

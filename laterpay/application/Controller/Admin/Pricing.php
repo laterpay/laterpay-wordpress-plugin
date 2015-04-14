@@ -285,10 +285,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
         if ( ! $global_price_form->is_valid( $_POST ) ) {
             wp_send_json(
                 array(
-                    'success'                       => false,
-                    'laterpay_global_price'         => get_option( 'laterpay_global_price' ),
-                    'laterpay_price_revenue_model'  => get_option( 'laterpay_global_price_revenue_model' ),
-                    'message'                       => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' ),
+                    'success'       => false,
+                    'price'         => get_option( 'laterpay_global_price' ),
+                    'revenue_model' => get_option( 'laterpay_global_price_revenue_model' ),
+                    'message'       => __( 'The price you tried to set is outside the allowed range of 0 or 0.05-149.99.', 'laterpay' ),
                 )
             );
         }
@@ -316,10 +316,10 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
         wp_send_json(
             array(
-                'success'                       => true,
-                'laterpay_global_price'         => $localized_global_price,
-                'laterpay_price_revenue_model'  => $global_price_revenue_model,
-                'message'                       => $message,
+                'success'       => true,
+                'price'         => $localized_global_price,
+                'revenue_model' => $global_price_revenue_model,
+                'message'       => $message,
             )
         );
     }
