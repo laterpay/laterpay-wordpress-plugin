@@ -88,6 +88,11 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 
         $post_id = get_the_ID();
 
+        // don't track admin users (everybody who is allowed to view statistics data) in order to no skew the data
+        if ( LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post_id ) ) {
+            return;
+        }
+
         $this->logger->info(
             __METHOD__,
             array(
@@ -109,10 +114,12 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $statistic_form = new LaterPay_Form_Statistic();
 
         if ( $statistic_form->is_valid( $_POST ) ) {
-            $post_id    = $statistic_form->get_field_value( 'post_id' );
-            $post       = get_post( $post_id );
+            $post_id             = $statistic_form->get_field_value( 'post_id' );
+            $post                = get_post( $post_id );
+            $can_read_statistics = LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );
 
-            if ( $this->check_requirements( $post ) ) {
+            // don't track admin users (everybody who is allowed to view statistics data) in order to no skew the data
+            if ( $this->check_requirements( $post ) && ! $can_read_statistics ) {
                 LaterPay_Helper_Statistic::track( $post_id );
             }
         }
