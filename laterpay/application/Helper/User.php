@@ -32,6 +32,15 @@ class LaterPay_Helper_User
     public static function can( $capability, $post = null, $strict = true ) {
         $allowed = false;
 
+        if ( empty( $post ) ) {
+            return $allowed;
+        }
+
+        // try to get WP_Post object if id passed
+        if ( ! $post instanceof WP_Post ) {
+            $post = get_post( $post );
+        }
+
         if ( ! function_exists( 'wp_get_current_user' ) ) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
