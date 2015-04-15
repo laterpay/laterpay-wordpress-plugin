@@ -27,9 +27,50 @@
 
 
     <div class="lp_pagewrap">
-        <div id="lp_js_apiCredentialsSection" class="lp_clearfix">
-            <h2><?php _e( 'LaterPay API Credentials', 'laterpay' ); ?></h2>
 
+        <div class="lp_greybox lp_mt lp_mb">
+            <?php _e( 'The LaterPay plugin is in', 'laterpay' ); ?><div class="lp_toggle">
+                <form id="laterpay_plugin_mode" method="post">
+                    <input type="hidden" name="form"    value="laterpay_plugin_mode">
+                    <input type="hidden" name="action"  value="laterpay_account">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                    <label class="lp_toggle__label">
+                        <input type="checkbox"
+                                id="lp_js_togglePluginMode"
+                                class="lp_toggle__input"
+                                name="plugin_is_in_live_mode"
+                                value="1"
+                                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 'checked'; } ?>>
+                        <span class="lp_toggle__text" data-on="LIVE" data-off="TEST"></span>
+                        <span class="lp_toggle__handle"></span>
+                    </label>
+                </form>
+            </div><?php _e( 'mode.', 'laterpay' ); ?>
+            <div id="lp_js_pluginVisibilitySetting"
+                class="lp_inline-block"
+                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
+                <?php _e( 'It is invisible', 'laterpay' ); ?><div class="lp_toggle">
+                    <form id="laterpay_test_mode" method="post">
+                        <input type="hidden" name="form"    value="laterpay_test_mode">
+                        <input type="hidden" name="action"  value="laterpay_account">
+                        <input type="hidden" id="lp_js_hasInvalidSandboxCredentials" name="invalid_credentials" value="0">
+                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
+                        <label class="lp_toggle__label lp_toggle__label-pass">
+                            <input type="checkbox"
+                                   id="lp_js_toggleVisibilityInTestMode"
+                                   class="lp_toggle__input"
+                                   name="plugin_is_in_visible_test_mode"
+                                   value="1"
+                                   <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
+                            <span class="lp_toggle__text" data-on="" data-off=""></span>
+                            <span class="lp_toggle__handle"></span>
+                        </label>
+                    </form>
+                </div><?php _e( 'visible to visitors.', 'laterpay' ); ?>
+            </div>
+        </div>
+
+        <div id="lp_js_apiCredentialsSection" class="lp_clearfix">
 
             <div class="lp_api-credentials lp_api-credentials--sandbox" data-icon="h">
                 <fieldset class="lp_api-credentials__fieldset">
@@ -140,7 +181,7 @@
                             <a href="#"
                                 id="lp_js_showMerchantContracts"
                                 class="button button-primary"
-                                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 'style="display:none";'; } ?>>
+                                <?php if ( ! empty( $laterpay['live_merchant_id'] ) && ! empty( $laterpay['live_api_key'] ) ) { echo 'style="display:none";'; } ?>>
                                 <?php _e( 'Request Live API Credentials', 'laterpay' ); ?>
                             </a>
                         </li>
@@ -148,50 +189,6 @@
                 </fieldset>
             </div>
         </div>
-
-        <div class="lp_account-mode-switch">
-            <h2><?php _e( 'Plugin Mode', 'laterpay' ); ?></h2>
-            <?php _e( 'The LaterPay plugin is in', 'laterpay' ); ?><div class="lp_toggle">
-                <form id="laterpay_plugin_mode" method="post">
-                    <input type="hidden" name="form"    value="laterpay_plugin_mode">
-                    <input type="hidden" name="action"  value="laterpay_account">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-                    <label class="lp_toggle__label">
-                        <input type="checkbox"
-                                id="lp_js_togglePluginMode"
-                                class="lp_toggle__input"
-                                name="plugin_is_in_live_mode"
-                                value="1"
-                                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo 'checked'; } ?>>
-                        <span class="lp_toggle__text" data-on="LIVE" data-off="TEST"></span>
-                        <span class="lp_toggle__handle"></span>
-                    </label>
-                </form>
-            </div><?php _e( 'mode.', 'laterpay' ); ?>
-            <div id="lp_js_pluginVisibilitySetting"
-                class="lp_inline-block"
-                <?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' style="display:none;"'; } ?>>
-                <?php _e( 'It is invisible', 'laterpay' ); ?><div class="lp_toggle">
-                    <form id="laterpay_test_mode" method="post">
-                        <input type="hidden" name="form"    value="laterpay_test_mode">
-                        <input type="hidden" name="action"  value="laterpay_account">
-                        <input type="hidden" id="lp_js_hasInvalidSandboxCredentials" name="invalid_credentials" value="0">
-                        <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
-                        <label class="lp_toggle__label lp_toggle__label-pass">
-                            <input type="checkbox"
-                                   id="lp_js_toggleVisibilityInTestMode"
-                                   class="lp_toggle__input"
-                                   name="plugin_is_in_visible_test_mode"
-                                   value="1"
-                                   <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
-                            <span class="lp_toggle__text" data-on="" data-off=""></span>
-                            <span class="lp_toggle__handle"></span>
-                        </label>
-                    </form>
-                </div><?php _e( 'visible to visitors.', 'laterpay' ); ?>
-            </div>
-        </div>
-
 
     </div>
 
