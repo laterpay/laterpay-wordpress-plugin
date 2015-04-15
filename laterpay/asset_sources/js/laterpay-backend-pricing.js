@@ -717,11 +717,11 @@
                 // show time pass
                 $timePass
                 .slideDown(250, function() {
-                    $(this).removeClass('lp_hidden');
+                    $(this).removeClass($o.hidden);
                 })
                 .find($o.timePassForm)
                 .slideDown(250, function() {
-                    $(this).removeClass('lp_hidden');
+                    $(this).removeClass($o.hidden);
                 });
             },
 
@@ -733,12 +733,12 @@
                 populateTimePassForm($timePass);
 
                 // hide action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass('lp_hidden');
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass($o.hidden);
 
                 // show action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass('lp_hidden');
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass($o.hidden);
 
-                $timePassForm.removeClass('lp_hidden');
+                $timePassForm.removeClass($o.hidden);
             },
 
             populateTimePassForm = function($timePass) {
@@ -849,10 +849,10 @@
                 // #656: unbind events
 
                 // show action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_hidden');
+                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass($o.hidden);
 
                 // hide action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
+                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass($o.hidden);
 
                 // re-generate vouchers list
                 clearVouchersList($timePass);
@@ -890,10 +890,10 @@
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass('lp_hidden');
+                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass($o.hidden);
 
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass('lp_hidden');
+                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass($o.hidden);
 
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
@@ -929,11 +929,11 @@
 
                                 // hide action links required when editing time pass
                                 $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass)
-                                .addClass('lp_hidden');
+                                .addClass($o.hidden);
 
                                 // show action links required when displaying time pass
                                 $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass)
-                                .removeClass('lp_hidden');
+                                .removeClass($o.hidden);
 
                                 $timePass.fadeOut(250, function() {
                                     $(this).remove();
@@ -949,7 +949,7 @@
                                         $newTimePass.find($o.voucherList).show();
                                     }
 
-                                    $newTimePass.removeClass('lp_hidden');
+                                    $newTimePass.removeClass($o.hidden);
                                 });
                             }
                         }
@@ -1134,7 +1134,7 @@
                         }
                     });
 
-                // hide some of bulk price editor settings
+                // hide some of the bulk price editor settings
                 $o.bulkPriceObjectsCategory.prop('disabled', true).hide();
                 $o.bulkPriceObjectsCategoryWithPrice.prop('disabled', true).hide();
                 $o.bulkPriceChangeAmountPreposition.hide();
