@@ -58,13 +58,13 @@
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
 
                     <div id="lp_js_globalDefaultPriceShowElements" class="lp_greybox">
-                        <?php _e( '<strong>Every post</strong> costs', 'laterpay' ); ?>
-                        <strong id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
+                        <?php _e( 'Every post costs', 'laterpay' ); ?>
+                        <span id="lp_js_globalDefaultPriceDisplay" class="lp_price-settings__value-text">
                             <?php echo $laterpay['global_default_price']; ?>
-                        </strong>
-                        <strong class="lp_js_currency lp_currency">
+                        </span>
+                        <span class="lp_js_currency lp_currency">
                             <?php echo $laterpay['standard_currency']; ?>
-                        </strong>
+                        </span>
                         <span id="lp_js_globalDefaultPriceRevenueModelDisplay" class="lp_badge">
                             <?php echo $laterpay['global_default_price_revenue_model']; ?>
                         </span>
@@ -153,16 +153,16 @@
 
                             <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-">
                                 <?php _e( 'Every post in', 'laterpay' ); ?>
-                                <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
+                                <span class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
                                     <?php echo $category->category_name; ?>
-                                </strong>
+                                </span>
                                 <?php _e( 'costs', 'laterpay' ); ?>
-                                <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
+                                <span class="lp_js_categoryDefaultPriceDisplay lp_category-price">
                                     <?php echo $category_price; ?>
-                                </strong>
-                                <strong class="lp_js_currency lp_currency">
+                                </span>
+                                <span class="lp_js_currency lp_currency">
                                     <?php echo $laterpay['standard_currency']; ?>
-                                </strong>
+                                </span>
                                 <span class="lp_js_revenueModelLabelDisplay lp_badge">
                                     <?php echo $category_revenue_model; ?>
                                 </span>
@@ -245,11 +245,11 @@
 
                     <div class="lp_js_categoryDefaultPriceShowElements lp_greybox lp_mb-" style="display:none;">
                         <?php _e( 'Every post in', 'laterpay' ); ?>
-                        <strong class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
-                        </strong>
+                        <span class="lp_js_categoryDefaultPriceCategoryTitle lp_inline-block">
+                        </span>
                         <?php _e( 'costs', 'laterpay' ); ?>
-                        <strong class="lp_js_categoryDefaultPriceDisplay lp_category-price">
-                        </strong>
+                        <span class="lp_js_categoryDefaultPriceDisplay lp_category-price">
+                        </span>
                         <span class="lp_js_currency lp_currency">
                             <?php echo $laterpay['standard_currency']; ?>
                         </span>
