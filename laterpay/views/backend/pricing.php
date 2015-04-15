@@ -135,7 +135,7 @@
                 </h2>
 
                 <div id="lp_js_categoryDefaultPriceList">
-                    <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['categories_with_defined_price'] ) ) { echo ' style="display: none;'; } ?>>
+                    <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['categories_with_defined_price'] ) ) { echo ' style="display:none;"'; } ?>>
                         <p>
                             <?php _e( 'Category default prices supersede the global default price for all posts in the given category. The highest priority have individual prices for posts, which you can set on the add / edit post page.', 'laterpay' ); ?>
                         </p>
@@ -372,7 +372,7 @@
             </div>
 -->
             <div id="lp_js_timePassEditor" class="lp_time-passes__list lp_layout">
-                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display: none;'; } ?>>
+                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
                     <p>
                         <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?>
                     </p>

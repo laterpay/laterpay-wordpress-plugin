@@ -9,6 +9,8 @@
                 revenueModelInput                       : '.lp_js_revenueModelInput',
                 priceInput                              : '.lp_js_priceInput',
 
+                emptyState                              : '.lp_js_emptyState',
+
                 // enabled revenue models
                 purchaseModeForm                        : $('#lp_js_changePurchaseModeForm'),
                 purchaseModeInput                       : $('.lp_js_onlyTimePassPurchaseModeInput'),
@@ -522,6 +524,11 @@
             addCategoryDefaultPrice = function() {
                 $o.addCategory.fadeOut(250);
 
+                // hide empty state hint, if it is visible
+                if ($($o.emptyState, $o.categoryDefaultPrices).is(':visible')) {
+                    $($o.emptyState, $o.categoryDefaultPrices).fadeOut(250);
+                }
+
                 // clone category default price template
                 var $form = $o.categoryDefaultPriceTemplate
                             .clone()
@@ -588,6 +595,11 @@
                     // remove form, if creating a new category default price has been canceled
                     $form.slideUp(250, function() {
                         $(this).remove();
+
+                        // show empty state hint, if there are no category default prices
+                        if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
+                            $($o.emptyState, $o.categoryDefaultPrices).fadeIn(250);
+                        }
                     });
                 } else {
                     // hide form, if a new category default price has been saved
@@ -623,6 +635,11 @@
                         if (r.success) {
                             $form.slideUp(250, function() {
                                 $(this).remove();
+
+                                // show empty state hint, if there are no category default prices
+                                if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
+                                    $($o.emptyState, $o.categoryDefaultPrices).fadeIn(250);
+                                }
                             });
                         }
                         setMessage(r.message, r.success);
@@ -709,6 +726,11 @@
             addTimePass = function() {
                 // hide "add time pass" button
                 $o.addTimePass.fadeOut(250);
+
+                // hide empty state hint, if it is visible
+                if ($($o.emptyState, $o.timePassEditor).is(':visible')) {
+                    $($o.emptyState, $o.timePassEditor).fadeOut(250);
+                }
 
                 // prepend cloned time pass template to time pass editor
                 $o.timePassEditor.prepend($o.timePassTemplate.clone().removeAttr('id'));
@@ -842,6 +864,11 @@
                     // remove entire time pass, if it is a new, unsaved pass
                     $timePass.fadeOut(250, function() {
                         $(this).remove();
+
+                        // show empty state hint, if there are no time passes
+                        if ($($o.timePassWrapper + ':visible').length === 0) {
+                            $($o.emptyState, $o.timePassEditor).fadeIn(250);
+                        }
                     });
                 } else {
                     // remove cloned time pass form
@@ -986,10 +1013,17 @@
                                 function(r) {
                                     if (r.success) {
                                         $(this).remove();
+
                                         // #656: unbind events
+
+                                        // show empty state hint, if there are no time passes
+                                        if ($($o.timePassWrapper + ':visible').length === 0) {
+                                            $($o.emptyState, $o.timePassEditor).fadeIn(250);
+                                        }
                                     } else {
                                         $(this).stop().show();
                                     }
+
                                     setMessage(r.message, r.success);
                                 },
                                 'json'
