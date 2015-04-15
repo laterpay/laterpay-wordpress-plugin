@@ -108,6 +108,7 @@
     .lp_plugin-mode-indicator__title {
         color: $clickable;
         font-size: $fs--2;
+        margin: $fs 0 $fs--05;
     }
 
     &:active,

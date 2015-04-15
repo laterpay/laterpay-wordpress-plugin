@@ -47,7 +47,7 @@
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
-                timePassEditor                          : $('.lp_js_timePassEditor'),
+                timePassEditor                          : $('#lp_js_timePassEditor'),
                 timePassTemplate                        : $('#lp_js_timePassTemplate'),
                 timePassWrapper                         : '.lp_js_timePassWrapper',
                 timePassFormTemplate                    : $('#lp_js_timePassFormTemplate'),
@@ -80,6 +80,8 @@
                 landingPageInput                        : '.lp_js_landingPageInput',
                 landingPageSave                         : '#lp_js_landingPageSave',
                 landingPageForm                         : $('#lp_js_landingPageForm'),
+                timePassShowElements                    : '.lp_js_saveTimePass, .lp_js_cancelEditingTimePass',
+                timePassEditElements                    : '.lp_js_editTimePass, .lp_js_deleteTimePass',
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
@@ -519,6 +521,7 @@
 
             addCategoryDefaultPrice = function() {
                 $o.addCategory.fadeOut(250);
+
                 // clone category default price template
                 var $form = $o.categoryDefaultPriceTemplate
                             .clone()
@@ -538,7 +541,7 @@
                 // initialize edit mode
                 $form.addClass($o.editing);
                 $($o.categoryDefaultPriceShowElements, $form).slideUp(250);
-                $o.addCategory.slideUp(250);
+                $o.addCategory.fadeOut(250);
                 $($o.categoryDefaultPriceEditElements, $form).slideDown(250, function() {
                     $($o.categoryDefaultPriceInput, $form).focus();
                 });
@@ -606,7 +609,7 @@
 
                 // show 'Add' button again
                 if (!editAnotherCategory) {
-                    $o.addCategory.slideDown(250);
+                    $o.addCategory.fadeIn(250);
                 }
             },
 
@@ -707,9 +710,10 @@
                 // hide "add time pass" button
                 $o.addTimePass.fadeOut(250);
 
-                // append cloned time pass template to time pass editor
-                $o.timePassEditor.append($o.timePassTemplate.clone().removeAttr('id'));
-                var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).last();
+                // prepend cloned time pass template to time pass editor
+                $o.timePassEditor.prepend($o.timePassTemplate.clone().removeAttr('id'));
+                // we added the template as first thing in the list, so let's select the first time pass
+                var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).first();
                 $($o.timePassForm, $timePass).attr('id', $o.timePassFormId).addClass($o.unsaved);
 
                 populateTimePassForm($timePass);
@@ -733,10 +737,10 @@
                 populateTimePassForm($timePass);
 
                 // hide action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass($o.hidden);
+                $($o.timePassEditElements, $timePass).addClass($o.hidden);
 
                 // show action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass($o.hidden);
+                $($o.timePassShowElements, $timePass).removeClass($o.hidden);
 
                 $timePassForm.removeClass($o.hidden);
             },
@@ -849,10 +853,10 @@
                 // #656: unbind events
 
                 // show action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass($o.hidden);
+                $($o.timePassEditElements, $timePass).removeClass($o.hidden);
 
                 // hide action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass($o.hidden);
+                $($o.timePassShowElements, $timePass).addClass($o.hidden);
 
                 // re-generate vouchers list
                 clearVouchersList($timePass);
@@ -890,10 +894,10 @@
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass($o.hidden);
+                                $($o.timePassShowElements, $timePass).addClass($o.hidden);
 
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass($o.hidden);
+                                $($o.timePassEditElements, $timePass).removeClass($o.hidden);
 
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
@@ -923,16 +927,16 @@
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
                                 $($o.timePassForm, $timePass).remove();
 
-                                $o.addTimePass.before($newTimePass);
+                                $o.timePassEditor.prepend($newTimePass);
 
                                 populateTimePassForm($newTimePass);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass)
+                                $($o.timePassShowElements, $newTimePass)
                                 .addClass($o.hidden);
 
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass)
+                                $($o.timePassEditElements, $newTimePass)
                                 .removeClass($o.hidden);
 
                                 $timePass.fadeOut(250, function() {

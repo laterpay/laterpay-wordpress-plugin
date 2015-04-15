@@ -271,6 +271,22 @@ label:hover .ez-mark {
     }
 }
 
+/*
+ * 1. Pull up the button to better align with the text
+ * 2. Compensate for additional height of button
+ */
+.lp_heading-button {
+    margin-top: -5px !important; /* 1 */
+    margin-bottom: -($fs--05) !important; /* 2 */
+    margin-left: $fs--05 !important;
+
+    // align icon with button text
+    &:before {
+        padding-right: 0.5em !important;
+        top: 0.15em !important;
+    }
+}
+
 
 // revenue model badges ------------------------------------------------------------------------------------------------
 .lp_badge--revenue-model {
