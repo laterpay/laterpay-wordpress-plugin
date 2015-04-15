@@ -120,11 +120,11 @@
 .lp_time-passes__item {
     background: $background--darker;
     border-radius: $border-radius;
-    margin-bottom: $fs;
-    margin-left: round($fs * 3.5);
-    padding: $fs $fs $fs--075;
+    display: inline-block;
+    margin: 0 ($fs * 4) $fs round($fs * 3.5);
+    padding: $fs $fs $fs--05;
     position: relative;
-    width: ($fs * 27);
+    width: ($fs * 26.5);
 
     .lp_time-pass__id-wrapper {
         background: $background--darker;

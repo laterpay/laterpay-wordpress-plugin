@@ -383,7 +383,7 @@
                         <div class="lp_js_timePassEditorContainer lp_time-pass-editor"></div>
 
                         <a href="#" class="lp_js_saveTimePass lp_save-link button button-primary lp_hidden"><?php _e( 'Save', 'laterpay' ); ?></a>
-                        <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_inline-block lp_pd- lp_hidden" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                        <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_inline-block lp_pd- lp_hidden"><?php _e( 'Cancel', 'laterpay' ); ?></a>
 
                         <a href="#" class="lp_js_editTimePass lp_edit-link--bold lp_change-link lp_rounded--topright lp_inline-block" data-icon="d"></a><br>
                         <a href="#" class="lp_js_deleteTimePass lp_edit-link--bold lp_delete-link lp_inline-block" data-icon="g"></a>
@@ -541,7 +541,7 @@
                     </div>
 
                     <a href="#" class="lp_js_saveTimePass lp_save-link button button-primary"><?php _e( 'Save', 'laterpay' ); ?></a>
-                    <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_inline-block lp_pd-" data-icon="e"><?php _e( 'Cancel', 'laterpay' ); ?></a>
+                    <a href="#" class="lp_js_cancelEditingTimePass lp_cancelLink lp_inline-block lp_pd-"><?php _e( 'Cancel', 'laterpay' ); ?></a>
 
                     <a href="#" class="lp_js_editTimePass lp_edit-link--bold lp_change-link lp_rounded--topright lp_inline-block lp_hidden" data-icon="d"></a><br>
                     <a href="#" class="lp_js_deleteTimePass lp_edit-link--bold lp_delete-link lp_inline-block lp_hidden" data-icon="g"></a>

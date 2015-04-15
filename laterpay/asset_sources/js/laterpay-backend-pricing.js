@@ -1041,9 +1041,7 @@
                                 '<span class="lp_voucher__code-infos">' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                 '</span>' +
-                                '<a href="#" class="lp_js_deleteVoucher lp_edit-link lp_delete-link" data-icon="g">' +
-                                    lpVars.i18n.delete +
-                                '</a>' +
+                                '<a href="#" class="lp_js_deleteVoucher lp_edit-link--bold" data-icon="g"></a>' +
                             '</div>';
 
                 $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
