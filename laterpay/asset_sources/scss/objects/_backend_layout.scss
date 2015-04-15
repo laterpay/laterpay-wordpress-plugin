@@ -145,6 +145,27 @@
 }
 
 
+// empty states --------------------------------------------------------------------------------------------------------
+.lp_empty-state {
+    background: darken($background, 2%);
+    border: 2px dashed $border;
+    border-radius: ($border-radius * 3);
+    color: $text--lighter;
+    margin: $fs--4 auto;
+    max-width: ($fs * 28);
+    padding: $fs $fs--15;
+    text-align: center;
+
+    p:not(:last-child) {
+        margin: 0 0 $fs;
+    }
+
+    p:last-child {
+        margin: 0;
+    }
+}
+
+
 // contextual help -----------------------------------------------------------------------------------------------------
 #screen-meta { // WordPress selector
     position: absolute;

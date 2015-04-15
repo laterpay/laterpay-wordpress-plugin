@@ -48,9 +48,6 @@
         <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++"<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { ' style="display:none;"'; } ?>>
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php _e( 'Global Default Price', 'laterpay' ); ?></h2>
-<!--
-                <dfn class="lp_block lp_mb"><?php _e( 'The category default price overwrites the global default price. It is automatically used for all posts in the respective category that don‘t have an individual price.', 'laterpay' ); ?></dfn>
--->
 
                 <form id="lp_js_globalDefaultPriceForm" method="post" action="" class="lp_price-settings">
                     <input type="hidden" name="form"    value="global_price_form">
@@ -136,11 +133,17 @@
                         <?php _e( 'Create', 'laterpay' ); ?>
                     </a>
                 </h2>
-<!--
-                <dfn class="lp_block lp_mb"><?php _e( 'The global default price is used for every post that doesn‘t have a category default price or individual price. You can set individual prices when editing a post.', 'laterpay' ); ?></dfn>
--->
 
                 <div id="lp_js_categoryDefaultPriceList">
+                    <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['categories_with_defined_price'] ) ) { echo ' style="display: none;'; } ?>>
+                        <p>
+                            <?php _e( 'Category default prices supersede the global default price for all posts in the given category. The highest priority have individual prices for posts, which you can set on the add / edit post page.', 'laterpay' ); ?>
+                        </p>
+                        <p>
+                            <?php _e( 'Click the "Create" button to set a default price for a category.', 'laterpay' ); ?>
+                        </p>
+                    </div>
+
                     <?php foreach ( $laterpay['categories_with_defined_price'] as $category ): ?>
                         <form method="post" class="lp_js_categoryDefaultPriceForm lp_category-price-form">
                             <input type="hidden" name="form"        value="price_category_form">
@@ -355,12 +358,8 @@
                     <?php _e( 'Create', 'laterpay' ); ?>
                 </a>
             </h2>
-<!--
-            <dfn class="lp_block lp_mb">
-                <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?><br>
-                <?php _e( 'You can offer <strong>gift cards</strong> for each time pass. Please follow the instructions in the <a href="admin.php?page=laterpay-appearance-tab#lp_gift-cards-appearance">appearance tab</a>.', 'laterpay' ); ?>
-            </dfn>
 
+<!--
             <div class="lp_mb">
                 <form id="lp_js_landingPageForm" method="post">
                     <input type="hidden" name="form" value="save_landing_page">
@@ -373,6 +372,15 @@
             </div>
 -->
             <div id="lp_js_timePassEditor" class="lp_time-passes__list lp_layout">
+                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display: none;'; } ?>>
+                    <p>
+                        <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?>
+                    </p>
+                    <p>
+                        <?php _e( 'Click the "Create" button to add a Time Pass.', 'laterpay' ); ?>
+                    </p>
+                </div>
+
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
                         <div class="lp_time-pass__id-wrapper">
