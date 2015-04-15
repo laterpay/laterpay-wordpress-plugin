@@ -394,7 +394,7 @@
                                     <div class="lp_js_voucher lp_voucher">
                                         <span class="lp_voucher__code"><?php echo $voucher_code; ?></span>
                                         <span class="lp_voucher__code-infos">
-                                            <?php _e( 'allows purchasing this pass for', 'laterpay' ); ?>
+                                            <?php _e( 'reduces the price to', 'laterpay' ); ?>
                                             <?php echo $voucher_price . ' ' . $laterpay['standard_currency']; ?>.<br>
                                             <span class="lp_js_voucherTimesRedeemed">
                                                 <?php

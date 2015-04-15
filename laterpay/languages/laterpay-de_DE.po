@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Tue Apr 07 2015 13:33:25 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Wed Apr 15 2015 13:58:41 GMT+0200 (CEST)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -742,82 +742,65 @@ msgstr "Einfaches Beispiel"
 msgid "Advanced Example"
 msgstr "Erweitertes Beispiel"
 
-#: ../views/backend/account.php:31
-msgid "LaterPay API Credentials"
-msgstr "LaterPay API Zugangsdaten"
-
-#: ../views/backend/account.php:36
-msgid "Sandbox Environment"
-msgstr "Sandbox"
-
-#: ../views/backend/account.php:39
-msgid "for testing with simulated payments"
-msgstr "zu Testzwecken mit simulierten Zahlungen"
-
-#: ../views/backend/account.php:58
-msgid "Paste Sandbox Merchant ID here"
-msgstr "Sandbox Merchant ID hier einfügen"
-
-#: ../views/backend/account.php:59 ../views/backend/account.php:115
-msgid "Merchant ID"
-msgstr "Merchant ID"
-
-#: ../views/backend/account.php:78
-msgid "Paste Sandbox API Key here"
-msgstr "Sandbox API Key hier einfügen"
-
-#: ../views/backend/account.php:79 ../views/backend/account.php:135
-msgid "API Key"
-msgstr "API Key"
-
-#: ../views/backend/account.php:92
-msgid "Live Environment"
-msgstr "Live"
-
-#: ../views/backend/account.php:95
-msgid "for processing real financial transactions"
-msgstr "Produktivumgebung für echte Käufe und Zahlungen"
-
-#: ../views/backend/account.php:114
-msgid "Paste Live Merchant ID here"
-msgstr "Live Merchant ID hier einfügen"
-
-#: ../views/backend/account.php:134
-msgid "Paste Live API Key here"
-msgstr "Live API Key hier einfügen"
-
-#: ../views/backend/account.php:144
-msgid "Request Live API Credentials"
-msgstr "Live API Zugangsdaten anfordern"
-
-#: ../views/backend/account.php:154
-#, php-format
-msgid ""
-"Go to your <a href=\"%s\">LaterPay Merchantbackend</a> to get your LaterPay "
-"API credentials."
-msgstr ""
-"Besuchen Sie Ihr <a href=\"%s\">LaterPay Händlerkonto</a>, um Ihre LaterPay "
-"API Zugangsdaten abzurufen."
-
-#: ../views/backend/account.php:160 ../application/Controller/Admin.php:657
-msgid "Plugin Mode"
-msgstr "Plugin-Modus"
-
-#: ../views/backend/account.php:161
+#: ../views/backend/account.php:32
 msgid "The LaterPay plugin is in"
 msgstr "Das LaterPay Plugin ist im"
 
-#: ../views/backend/account.php:177
+#: ../views/backend/account.php:48
 msgid "mode."
 msgstr "Modus."
 
-#: ../views/backend/account.php:181
+#: ../views/backend/account.php:52
 msgid "It is invisible"
 msgstr "Es ist für Besucher nicht sichtbar"
 
-#: ../views/backend/account.php:198
+#: ../views/backend/account.php:69
 msgid "visible to visitors."
 msgstr "sichtbar."
+
+#: ../views/backend/account.php:77
+msgid "Sandbox Environment"
+msgstr "Sandbox"
+
+#: ../views/backend/account.php:80
+msgid "for testing with simulated payments"
+msgstr "zu Testzwecken mit simulierten Zahlungen"
+
+#: ../views/backend/account.php:99
+msgid "Paste Sandbox Merchant ID here"
+msgstr "Sandbox Merchant ID hier einfügen"
+
+#: ../views/backend/account.php:100 ../views/backend/account.php:156
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+#: ../views/backend/account.php:119
+msgid "Paste Sandbox API Key here"
+msgstr "Sandbox API Key hier einfügen"
+
+#: ../views/backend/account.php:120 ../views/backend/account.php:176
+msgid "API Key"
+msgstr "API Key"
+
+#: ../views/backend/account.php:133
+msgid "Live Environment"
+msgstr "Live"
+
+#: ../views/backend/account.php:136
+msgid "for processing real financial transactions"
+msgstr "Produktivumgebung für echte Käufe und Zahlungen"
+
+#: ../views/backend/account.php:155
+msgid "Paste Live Merchant ID here"
+msgstr "Live Merchant ID hier einfügen"
+
+#: ../views/backend/account.php:175
+msgid "Paste Live API Key here"
+msgstr "Live API Key hier einfügen"
+
+#: ../views/backend/account.php:185
+msgid "Request Live API Credentials"
+msgstr "Live API Zugangsdaten anfordern"
 
 #: ../views/backend/pricing.php:28
 msgid "Allow <strong>individual and time pass purchases</strong>"
@@ -829,89 +812,98 @@ msgstr "<strong>nur Zeitpass-Käufe</strong> erlauben."
 
 #: ../views/backend/pricing.php:50 ../application/Controller/Admin.php:333
 msgid "Global Default Price"
-msgstr "Standardpreis"
+msgstr "Allgemeiner Standardpreis"
 
-#: ../views/backend/pricing.php:76
+#: ../views/backend/pricing.php:52
+msgid ""
+"The category default price overwrites the global default price. It is "
+"automatically used for all posts in the respective category that don‘t have "
+"an individual price."
+msgstr ""
+"Der kategoriespezifische Standardpreis überschreibt den allgemeinen "
+"Standardpreis. Er wird automatisch für alle Beiträge der jeweiligen "
+"Kategorie verwendet, die keinen individuellen Preis haben."
+
+#: ../views/backend/pricing.php:61
 msgid "<strong>Every post</strong> costs"
 msgstr "<strong>Jeder Beitrag</strong> kostet"
 
-#: ../views/backend/pricing.php:90 ../views/backend/pricing.php:148 ..
-#: views/backend/pricing.php:196 ../views/backend/pricing.php:274 ..
-#: views/backend/pricing.php:429
-msgid "Change"
-msgstr "Ändern"
+#: ../views/backend/pricing.php:80
+msgid "Edit Global Default Price"
+msgstr "Allgemeinen Standardpreis bearbeiten"
 
-#: ../views/backend/pricing.php:92 ../views/backend/pricing.php:147 ..
-#: views/backend/pricing.php:195 ../views/backend/pricing.php:273 ..
-#: views/backend/pricing.php:428
-msgid "Cancel"
-msgstr "Abbrechen"
+#: ../views/backend/pricing.php:87 ../views/backend/pricing.php:189 ..
+#: views/backend/pricing.php:280 ../views/backend/partials/time_pass.php:63 ..
+#: application/Controller/Admin/Post/Column.php:27
+msgid "Price"
+msgstr "Preis"
 
-#: ../views/backend/pricing.php:93 ../views/backend/pricing.php:146 ..
-#: views/backend/pricing.php:194 ../views/backend/pricing.php:253 ..
-#: views/backend/pricing.php:272 ../views/backend/pricing.php:427 ..
-#: views/backend/pricing.php:514
+#: ../views/backend/pricing.php:101 ../views/backend/pricing.php:202 ..
+#: views/backend/pricing.php:293
+msgid "Revenue Model"
+msgstr "Erlösmodell"
+
+#: ../views/backend/pricing.php:123 ../views/backend/pricing.php:224 ..
+#: views/backend/pricing.php:314 ../views/backend/pricing.php:368 ..
+#: views/backend/pricing.php:385 ../views/backend/pricing.php:543 ..
+#: views/backend/pricing.php:632
 msgid "Save"
 msgstr "Speichern"
 
-#: ../views/backend/pricing.php:98 ../application/Controller/Admin.php:347
+#: ../views/backend/pricing.php:124 ../views/backend/pricing.php:225 ..
+#: views/backend/pricing.php:315 ../views/backend/pricing.php:386 ..
+#: views/backend/pricing.php:544
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ../views/backend/pricing.php:133 ../application/Controller/Admin.php:347
 msgid "Category Default Prices"
-msgstr "Kategorie-Standardpreise"
+msgstr "Kategoriespezifische Standardpreise"
 
-#: ../views/backend/pricing.php:100
-msgid "Category default prices overwrite global default prices."
-msgstr "Kategorie-Standardpreise überschreiben den Standardpreis."
+#: ../views/backend/pricing.php:135
+msgid ""
+"The global default price is used for every post that doesn‘t have a category "
+"default price or individual price. You can set individual prices when "
+"editing a post."
+msgstr ""
+"Der allgemeine Standardpreis wird für alle Beiträge verwendet, die keinen "
+"kategoriespezifischen Standardpreis oder individuellen Preis haben. Sie "
+"können einen individuellen Preis beim Bearbeiten eines Beitrags setzen."
 
-#: ../views/backend/pricing.php:103
-msgid "Every post in category"
-msgstr "Jeder Beitrag in der Kategorie"
+#: ../views/backend/pricing.php:150 ../views/backend/pricing.php:244
+msgid "Every post in"
+msgstr "Jeder Beitrag in"
 
-#: ../views/backend/pricing.php:134 ../views/backend/pricing.php:182
+#: ../views/backend/pricing.php:154 ../views/backend/pricing.php:247
 msgid "costs"
 msgstr "kostet"
 
-#: ../views/backend/pricing.php:141 ../views/backend/pricing.php:189 ..
-#: views/backend/pricing.php:502 ../views/backend/partials/post_pricing_form.php:
-#: 50
-msgid "0.00"
-msgstr "0,00"
+#: ../views/backend/pricing.php:174
+msgid "Edit Category Default Price"
+msgstr "Kategoriespezifischen Standardpreis bearbeiten"
 
-#: ../views/backend/pricing.php:149 ../views/backend/pricing.php:197 ..
-#: views/backend/pricing.php:275 ../views/backend/pricing.php:430 ..
-#: views/backend/pricing.php:521 ../application/Controller/Admin/Pricing.php:47
-msgid "Delete"
-msgstr "Löschen"
+#: ../views/backend/pricing.php:181 ../views/backend/pricing.php:272
+msgid "Category"
+msgstr "Kategorie"
 
-#: ../views/backend/pricing.php:155
+#: ../views/backend/pricing.php:235
 msgid "Set default price for another category"
 msgstr "Standardpreis für weitere Kategorie setzen"
 
-#: ../views/backend/pricing.php:202
-msgid "Individual Prices"
-msgstr "Individuelle Preise"
+#: ../views/backend/pricing.php:265
+msgid "Add a Category Default Price"
+msgstr "Kategoriespezifischen Standardpreis hinzufügen"
 
-#: ../views/backend/pricing.php:204
-msgid "Individual prices overwrite global and category default prices."
-msgstr ""
-"Individuelle Preise überschreiben den Standardpreis und Kategorie-"
-"Standardpreise."
-
-#: ../views/backend/pricing.php:207
-msgid "You can set individual prices for posts,<br>when adding or editing a post."
-msgstr ""
-"Sie können individuelle Preise für Beiträge setzen,<br> wenn Sie einen "
-"Beitrag erstellen oder bearbeiten."
-
-#: ../views/backend/pricing.php:227
+#: ../views/backend/pricing.php:341
 msgid "The user has to log in to LaterPay and pay immediately."
 msgstr "Der Nutzer muss sich bei LaterPay einloggen und sofort bezahlen."
 
-#: ../views/backend/pricing.php:239 ../application/Helper/View.php:66 ..
+#: ../views/backend/pricing.php:354 ../application/Helper/View.php:66 ..
 #: application/Controller/Admin.php:382 ../application/Controller/Admin.php:490
 msgid "Time Passes"
 msgstr "Zeitpässe"
 
-#: ../views/backend/pricing.php:242
+#: ../views/backend/pricing.php:357
 msgid ""
 "Time passes provide access to your entire site or specific categories for a "
 "limited time."
@@ -919,7 +911,7 @@ msgstr ""
 "Zeitpässe geben einen zeitlich begrenzten Zugriff auf Ihre gesamte Seite "
 "oder eine bestimmte Kategorie."
 
-#: ../views/backend/pricing.php:243
+#: ../views/backend/pricing.php:358
 msgid ""
 "You can offer <strong>gift cards</strong> for each time pass. Please follow "
 "the instructions in the <a href=\"admin.php?page=laterpay-appearance-"
@@ -930,82 +922,91 @@ msgstr ""
 "<a href=\"admin.php?page=laterpay-appearance-tab#lp_gift-cards-"
 "appearance\">Tab Darstellung</a>."
 
-#: ../views/backend/pricing.php:251
+#: ../views/backend/pricing.php:366
 msgid "Forward users to this URL after they have redeemed a gift card:"
 msgstr ""
 "Leiten Sie Nutzer nach dem Einlösen eines Geschenkgutscheins zu dieser URL "
 "weiter:"
 
-#: ../views/backend/pricing.php:258
-msgid "New Time Pass"
-msgstr "Neuer Zeitpass"
-
-#: ../views/backend/pricing.php:263 ../views/backend/pricing.php:305
+#: ../views/backend/pricing.php:376 ../views/backend/pricing.php:421
 msgid "Pass"
 msgstr "Pass"
 
-#: ../views/backend/pricing.php:283 ../application/Controller/Admin/Pricing.php:50
-msgid "allows purchasing this pass for"
-msgstr "ermöglicht den Kauf dieses Passes für"
+#: ../views/backend/pricing.php:397 ../application/Controller/Admin/Pricing.php:50
+msgid "reduces the price to"
+msgstr "reduziert den Preis auf"
 
-#: ../views/backend/pricing.php:292 ../application/Controller/Admin/Pricing.php:51
+#: ../views/backend/pricing.php:406 ../application/Controller/Admin/Pricing.php:51
 msgid "times redeemed."
 msgstr "Mal eingelöst."
 
-#: ../views/backend/pricing.php:323
+#: ../views/backend/pricing.php:415
+msgid "New Time Pass"
+msgstr "Neuer Zeitpass"
+
+#: ../views/backend/pricing.php:439
 msgid "The pass is valid for "
 msgstr "Dieser Pass gilt für "
 
-#: ../views/backend/pricing.php:330
+#: ../views/backend/pricing.php:446
 msgid "and grants"
 msgstr "und gibt"
 
-#: ../views/backend/pricing.php:335 ../application/Helper/TimePass.php:175
+#: ../views/backend/pricing.php:451 ../application/Helper/TimePass.php:175
 msgid "access to"
 msgstr "Zugriff auf"
 
-#: ../views/backend/pricing.php:353
+#: ../views/backend/pricing.php:469
 msgid "The user pays"
 msgstr "Der Nutzer zahlt"
 
-#: ../views/backend/pricing.php:360 ../application/Helper/TimePass.php:118
+#: ../views/backend/pricing.php:476 ../application/Helper/TimePass.php:118
 msgid "later"
 msgstr "später"
 
-#: ../views/backend/pricing.php:370 ../application/Helper/TimePass.php:119
+#: ../views/backend/pricing.php:486 ../application/Helper/TimePass.php:119
 msgid "immediately"
 msgstr "sofort"
 
-#: ../views/backend/pricing.php:378
+#: ../views/backend/pricing.php:494
 msgid "Title"
 msgstr "Titel"
 
-#: ../views/backend/pricing.php:389
+#: ../views/backend/pricing.php:505
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../views/backend/pricing.php:408
+#: ../views/backend/pricing.php:524
 msgid "Offer this time pass at a reduced price of"
 msgstr "Diesen Zeitpass zu einem reduzierten Preis anbieten:"
 
-#: ../views/backend/pricing.php:416
+#: ../views/backend/pricing.php:532
 msgid "Generate voucher code"
 msgstr "Gutschein-Code erstellen"
 
-#: ../views/backend/pricing.php:447 ../application/Controller/Admin.php:425
+#: ../views/backend/pricing.php:565 ../application/Controller/Admin.php:425
 msgid "Bulk Price Editor"
 msgstr "Bulk Price Editor"
 
-#: ../views/backend/pricing.php:496 ../application/Controller/Admin/Pricing.php:
+#: ../views/backend/pricing.php:614 ../application/Controller/Admin/Pricing.php:
 #: 42 ../application/Controller/Admin/Pricing.php:535 ..
 #: application/Controller/Admin/Pricing.php:566
 msgid "to"
 msgstr "auf"
 
-#: ../views/backend/pricing.php:512 ../views/backend/pricing.php:522 ..
+#: ../views/backend/pricing.php:620 ../views/backend/partials/post_pricing_form.
+#: php:50
+msgid "0.00"
+msgstr "0,00"
+
+#: ../views/backend/pricing.php:630 ../views/backend/pricing.php:640 ..
 #: application/Controller/Admin/Pricing.php:46
 msgid "Update Prices"
 msgstr "Preise aktualisieren"
+
+#: ../views/backend/pricing.php:639 ../application/Controller/Admin/Pricing.php:47
+msgid "Delete"
+msgstr "Löschen"
 
 #: ../views/backend/partials/dropdown_sales.php:9 ..
 #: views/backend/partials/dropdown_sales.php:12
@@ -1108,11 +1109,6 @@ msgstr "Details"
 #: ../views/backend/partials/time_pass.php:42
 msgid "Back"
 msgstr "Zurück"
-
-#: ../views/backend/partials/time_pass.php:63 ..
-#: application/Controller/Admin/Post/Column.php:27
-msgid "Price"
-msgstr "Preis"
 
 #: ../views/backend/partials/dropdown_interval.php:9 ..
 #: views/backend/partials/dropdown_interval.php:13
@@ -1301,30 +1297,30 @@ msgstr ""
 msgid "Thank you very much for rating!"
 msgstr "Vielen Dank für Ihre Bewertung!"
 
-#: ../application/Controller/Post.php:961
+#: ../application/Controller/Post.php:959
 #, php-format
 msgid "&mdash; Visit the post to buy its full content for %s %s &mdash; "
 msgstr ""
 "&mdash; Besuchen Sie den Beitrag, um den gesamten Inhalt für %s %s zu kaufen "
 "&mdash; "
 
-#: ../application/Controller/Post.php:1206
+#: ../application/Controller/Post.php:1204
 msgid "In Live mode, your visitors would now see the LaterPay purchase dialog."
 msgstr "Im Live-Modus würden Ihre Besucher jetzt den LaterPay Kaufdialog sehen."
 
-#: ../application/Controller/Post.php:1207
+#: ../application/Controller/Post.php:1205
 msgid "Voucher code accepted."
 msgstr "Gutschein-Code akzeptiert."
 
-#: ../application/Controller/Post.php:1208
+#: ../application/Controller/Post.php:1206
 msgid " is not a valid voucher code!"
 msgstr " ist kein gültiger Gutschein-Code!"
 
-#: ../application/Controller/Post.php:1209
+#: ../application/Controller/Post.php:1207
 msgid "Please enter a six-digit voucher code."
 msgstr "Bitte geben Sie einen sechsstelligen Gutschein-Code ein."
 
-#: ../application/Controller/Post.php:1210
+#: ../application/Controller/Post.php:1208
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 
@@ -1587,10 +1583,13 @@ msgid ""
 "                                                    </p>"
 msgstr ""
 "<p>\n"
-"Der Standardpreis wird für alle Beiträge verwendet, für die kein Kategorie-"
-"Standardpreis oder individueller Preis festgelegt wurde.<br>\n"
-"Bei einem Standardpreis von 0 Euro sind somit alle Beiträge kostenlos, für "
-"die kein Kategorie-Standardpreis oder individueller Preis gesetzt wurde.\n"
+"Der allgemeine Standardpreis wird für alle Beiträge verwendet, für die kein \n"
+"kategoriespezifischer Standardpreis\n"
+" oder individueller Preis festgelegt wurde.<br>\n"
+"Bei einem allgemeinen Standardpreis von 0 Euro sind somit alle Beiträge "
+"kostenlos, für die kein \n"
+"kategoriespezifischer Standardpreis\n"
+" oder individueller Preis gesetzt wurde.\n"
 "</p>"
 
 #: ../application/Controller/Admin.php:348
@@ -1617,15 +1616,21 @@ msgid ""
 "                                                    </p>"
 msgstr ""
 "<p>\n"
-"Ein Kategorie-Standardpreis wird auf alle Beiträge einer Kategorie "
-"angewendet, für die kein individueller Preis gesetzt wurde.<br>\n"
-"Ein Kategorie-Standardpreis überschreibt den Standardpreis.<br>\n"
+"Ein \n"
+"kategoriespezifischer Standardpreis\n"
+" wird auf alle Beiträge einer Kategorie angewendet, für die kein "
+"individueller Preis gesetzt wurde.<br>\n"
+"Ein \n"
+"kategoriespezifischer Standardpreis\n"
+" überschreibt den Standardpreis.<br>\n"
 "Wenn ein Beitrag zu mehreren Kategorien gehört, können Sie auf der Seite "
-"\"Neuen Beitrag erstellen\" bzw. \"Beitrag bearbeiten\" wählen, welcher "
-"Kategorie-Standardpreis angewendet werden soll.<br>\n"
-"Wenn Sie also z. B. einen Standardpreis von 0,15 Euro gesetzt haben und ein "
-"Beitrag in einer Kategorie mit Kategorie-Standardpreis 0,30 Euro liegt, "
-"kostet dieser Beitrag 0,30 Euro.\n"
+"\"Neuen Beitrag erstellen\" bzw. \"Beitrag bearbeiten\" wählen, welcher \n"
+"kategoriespezifische Standardpreis\n"
+" angewendet werden soll.<br>\n"
+"Wenn Sie also z. B. einen allgemeinen Standardpreis von 0,15 Euro gesetzt "
+"haben und ein Beitrag in einer Kategorie mit \n"
+"kategoriespezifischem Standardpreis\n"
+" 0,30 Euro liegt, kostet dieser Beitrag 0,30 Euro.\n"
 "</p>"
 
 #: ../application/Controller/Admin.php:365
@@ -1660,9 +1665,9 @@ msgstr ""
 "Wenn Sie die Währung Ihres Blogs ändern, werden bereits gesetzte Preise "
 "nicht umgerechnet.\n"
 "Nur die angezeigte Währung ändert sich.<br>\n"
-"Wenn Sie also z. B. einen Standardpreis von 0,10 Euro gesetzt haben und die "
-"Standardwährung auf U.S. dollar ändern, wird der Standardpreis 0,10 U.S. "
-"dollar betragen. \n"
+"Wenn Sie also z. B. einen allgemeinen Standardpreis von 0,10 Euro gesetzt "
+"haben und die Standardwährung auf U.S. dollar ändern, wird der allgemeine "
+"Standardpreis 0,10 U.S. dollar betragen. \n"
 "</p>"
 
 #: ../application/Controller/Admin.php:383
@@ -1981,35 +1986,42 @@ msgstr ""
 "Das Plugin wird dabei immer versuchen, die <strong>bestehende Preisstruktur "
 "zu erhalten</strong>. Das bedeutet, dass in den <strong>meisten</strong> "
 "Fällen Beiträge mit einem individuellen Preis nach einer Bulk-Price-Änderung "
-"weiterhin ihren individuellen Preis verwenden, Beiträge mit einem Kategorie-"
-"Standardpreis weiterhin den Kategorie-Standardpreis anwenden und Beiträge "
-"mit Standardpreis weiterhin den Standardpreis nutzen.<br><br>\n"
+"weiterhin ihren individuellen Preis verwenden, Beiträge mit einem \n"
+"kategoriespezifischen Standardpreis\n"
+" weiterhin den \n"
+"kategoriespezifischen Standardpreis\n"
+" anwenden und Beiträge mit allgemeinem Standardpreis weiterhin den "
+"allgemeinen Standardpreis nutzen.<br><br>\n"
 "Änderungen, die die bestehende Preisstruktur <strong>erhalten</strong>, sind:"
 "\n"
 "<ul>\n"
 "<li>\n"
 "<strong>Setze die Preise aller Beiträge auf X EUR.</strong><br>\n"
 "Diese Aktion setzt die individuellen Preise aller Beiträge mit individuellem "
-"Preis auf X EUR, alle Kategorie-Standardpreise auf X EUR und den "
-"Standardpreis auf X EUR.\n"
+"Preis auf X EUR, alle \n"
+"kategoriespezifischen Standardpreise\n"
+" auf X EUR und den allgemeinen Standardpreis auf X EUR.\n"
 "</li>\n"
 "<li>\n"
 "<strong>Erhöhe die Preise aller Beiträge um X EUR/%.</strong><br>\n"
 "Diese Aktion erhöht die individuellen Preise aller Beiträge mit "
-"individuellem Preis um X EUR/%, alle Kategorie-Standardpreise um X EUR/% und "
-"den Standardpreis um X EUR/%.                                                "
-"          </li>\n"
+"individuellem Preis um X EUR/%, alle \n"
+"kategoriespezifischen Standardpreise\n"
+" um X EUR/% und den allgemeinen Standardpreis um X EUR/%.                    "
+"                                      </li>\n"
 "<li>\n"
 "<strong>Reduziere die Preise aller Beiträge um X EUR/%.</strong><br>\n"
 "Diese Aktion reduziert die individuellen Preise aller Beiträge mit "
-"individuellem Preis um X EUR/%, alle Kategorie-Standardpreise um X EUR/% und "
-"den Standardpreis um X EUR/%.\n"
+"individuellem Preis um X EUR/%, alle \n"
+"kategoriespezifischen Standardpreise\n"
+" um X EUR/% und den allgemeinen Standardpreis um X EUR/%.\n"
 "</li>\n"
 "<li>\n"
 "<strong>Mach alle Beiträge kostenlos.</strong><br>\n"
 "Diese Aktion setzt die individuellen Preise aller Beiträge mit individuellem "
-"Preis auf 0,00 EUR, alle Kategorie-Standardpreise auf 0,00 EUR und den "
-"Standardpreis auf 0,00 EUR.\n"
+"Preis auf 0,00 EUR, alle \n"
+"kategoriespezifischen Standardpreise\n"
+" auf 0,00 EUR und den allgemeinen Standardpreis auf 0,00 EUR.\n"
 "</li>\n"
 "</ul>\n"
 "</p>\n"
@@ -2020,24 +2032,32 @@ msgstr ""
 "<li>\n"
 "<strong>Mach alle Beiträge in Kategorie X kostenlos.</strong><br>\n"
 "Diese Aktion setzt die individuellen Preise aller Beiträge mit individuellem "
-"Preis in Kategorie X auf 0,00 EUR. Falls ein Kategorie-Standardpreis für "
-"Kategorie X existiert, wird dieser auf 0,00 EUR gesetzt und allen Beiträgen "
-"in Kategorie X mit Kategorie-Standardpreis oder Standardpreis zugewiesen. "
-"Wenn kein Kategorie-Standardpreis für Kategorie X existiert, wird er "
-"erstellt, auf 0,00 EUR gesetzt und allen Beiträgen in Kategorie X mit "
-"Kategorie-Standardpreis oder Standardpreis zugewiesen.\n"
+"Preis in Kategorie X auf 0,00 EUR. Falls ein \n"
+"kategoriespezifischer Standardpreis\n"
+" für Kategorie X existiert, wird dieser auf 0,00 EUR gesetzt und allen "
+"Beiträgen in Kategorie X mit \n"
+"kategoriespezifischem Standardpreis\n"
+" oder allgemeinem Standardpreis zugewiesen. Wenn kein \n"
+"kategoriespezifischer Standardpreis\n"
+" für Kategorie X existiert, wird er erstellt, auf 0,00 EUR gesetzt und allen "
+"Beiträgen in Kategorie X mit \n"
+"kategoriespezifischem Standardpreis\n"
+" oder allgemeinem Standardpreis zugewiesen.\n"
 "</li>\n"
 "<li>\n"
 "<strong>Zurücksetzen der Preise aller Beiträge in Kategorie X auf den "
-"Kategorie-Standardpreis</strong><br>\n"
-"Diese Aktion wendet den Kategorie-Standardpreis auf alle Beiträge in "
-"Kategorie X an.\n"
+"kategoriespezifischen Standardpreis</strong><br>\n"
+"Diese Aktion wendet den \n"
+"kategoriespezifischen Standardpreis\n"
+" auf alle Beiträge in Kategorie X an.\n"
 "</li>\n"
 "<li>\n"
-"<strong>Zurücksetzen der Preise aller Beiträge auf den "
+"<strong>Zurücksetzen der Preise aller Beiträge auf den allgemeinen "
 "Standardpreis</strong><br>\n"
-"Diese Aktion löscht alle Kategorie-Standardpreise und individuellen Preise "
-"und wendet den Standardpreis auf alle Beiträge an.\n"
+"Diese Aktion löscht alle \n"
+"kategoriespezifischen Standardpreise\n"
+" und individuellen Preise und wendet den allgemeinen Standardpreis auf alle "
+"Beiträge an.\n"
 "</li>\n"
 "</ul>\n"
 "</p>\n"
@@ -2511,6 +2531,10 @@ msgstr ""
 "Händler</strong> per Post erhalten haben.\n"
 "                                                    </p>\n"
 
+#: ../application/Controller/Admin.php:657
+msgid "Plugin Mode"
+msgstr "Plugin-Modus"
+
 #: ../application/Controller/Admin.php:658
 msgid ""
 "\n"
@@ -2580,7 +2604,7 @@ msgstr ""
 "konfigurieren, bevor Sie es auf Ihrem Produktivsystem aktivieren. \n"
 "                                                    </p>"
 
-#: ../application/Controller/Statistic.php:165 ..
+#: ../application/Controller/Statistic.php:177 ..
 #: application/Controller/Admin/Account.php:112 ..
 #: application/Controller/Admin/Appearance.php:87 ..
 #: application/Controller/Admin/Appearance.php:121 ..
@@ -2602,12 +2626,12 @@ msgstr ""
 "Während des Speicherns ist ein Fehler aufgetreten. Bitte versuchen Sie es "
 "erneut."
 
-#: ../application/Controller/Statistic.php:206 ..
-#: application/Controller/Statistic.php:249
+#: ../application/Controller/Statistic.php:218 ..
+#: application/Controller/Statistic.php:261
 msgid "Updated."
 msgstr "Aktualisiert."
 
-#: ../application/Controller/Statistic.php:224 ..
+#: ../application/Controller/Statistic.php:236 ..
 #: application/Controller/Admin/Account.php:75 ..
 #: application/Controller/Admin/Dashboard.php:694 ..
 #: application/Controller/Admin/Dashboard.php:703 ..
@@ -3145,7 +3169,7 @@ msgstr "um"
 #: ../application/Controller/Admin/Pricing.php:44 ..
 #: application/Controller/Admin/Pricing.php:620
 msgid "to global default price of"
-msgstr "auf den Standardpreis"
+msgstr "auf den allgemeinen Standardpreis"
 
 #: ../application/Controller/Admin/Pricing.php:45 ..
 #: application/Controller/Admin/Pricing.php:626
@@ -3199,7 +3223,7 @@ msgstr "Alle Beiträge sind nun standardmäßig kostenlos."
 #: ../application/Controller/Admin/Pricing.php:311
 #, php-format
 msgid "The global default price for all posts is %s %s now."
-msgstr "Der Standardpreis für alle Beiträge ist jetzt %s %s."
+msgstr "Der allgemeine Standardpreis für alle Beiträge ist jetzt %s %s."
 
 #: ../application/Controller/Admin/Pricing.php:368
 msgid "There is no such category on this website."
