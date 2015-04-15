@@ -251,6 +251,24 @@ label:hover .ez-mark {
 .lp_edit-link {
     margin-left: $fs;
     padding: $fs--05 0;
+
+    &--bold {
+        background: darken($background--darker, 2%);
+        margin: (-$fs) (-$fs) $fs $fs;
+        padding: $fs;
+        font-size: $fs--125;
+        float: right;
+
+        &:hover {
+            background: $clickable--highlight;
+            color: $text--inverse;
+        }
+
+        &[data-icon]:before {
+            padding-right: 0;
+            top: 0;
+        }
+    }
 }
 
 

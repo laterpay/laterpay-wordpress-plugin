@@ -707,9 +707,9 @@
                 // hide "add time pass" button
                 $o.addTimePass.fadeOut(250);
 
-                // prepend cloned time pass template to time pass editor
-                $o.timePassEditor.prepend($o.timePassTemplate.clone().removeAttr('id'));
-                var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).first();
+                // append cloned time pass template to time pass editor
+                $o.timePassEditor.append($o.timePassTemplate.clone().removeAttr('id'));
+                var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).last();
                 $($o.timePassForm, $timePass).attr('id', $o.timePassFormId).addClass($o.unsaved);
 
                 populateTimePassForm($timePass);
@@ -923,7 +923,7 @@
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
                                 $($o.timePassForm, $timePass).remove();
 
-                                $o.addTimePass.after($newTimePass);
+                                $o.addTimePass.before($newTimePass);
 
                                 populateTimePassForm($newTimePass);
 

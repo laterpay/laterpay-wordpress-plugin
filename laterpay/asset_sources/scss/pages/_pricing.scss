@@ -47,23 +47,6 @@
         margin-left: $fs--025;
         width: $fs--2;
     }
-
-    .lp_edit-link {
-        margin: (-$fs) (-$fs) 0 $fs;
-        padding: $fs;
-        font-size: $fs--125;
-        float: right;
-
-        &:hover {
-            background: $clickable--highlight;
-            color: $text--inverse;
-        }
-
-        &:before {
-            padding-right: 0;
-            top: 0;
-        }
-    }
 }
 
 .lp_button-group {
@@ -138,14 +121,15 @@
     background: $background--darker;
     border-radius: $border-radius;
     margin-bottom: $fs;
-    margin-left: round(2.5 * $fs);
-    padding: $fs;
+    margin-left: round($fs * 3.5);
+    padding: $fs $fs $fs--075;
     position: relative;
+    width: ($fs * 27);
 
     .lp_time-pass__id-wrapper {
         background: $background--darker;
         border-radius: 4px 0 0 4px;
-        left: - round(3.5 * $fs);
+        left: - round($fs * 3.5);
         line-height: 1.2;
         padding: $fs--05 $fs--025;
         position: absolute;
@@ -204,7 +188,6 @@
 // voucher editor
 .lp_voucher {
     margin-top: $fs--05;
-    margin-right: $fs;
 }
 
 .lp_vouchers .lp_voucher {
