@@ -18,9 +18,9 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
      * @return bool
      */
     protected function check_requirements( $post = null ) {
-        // check, if logging is enabled
+        // don't collect statistics data, if logging is disabled
         if ( ! $this->config->get( 'logging.access_logging_enabled' ) ) {
-            $this->logger->warning( __METHOD__. ' - access logging is not enabled' );
+            $this->logger->warning( __METHOD__ . ' - access logging is not enabled' );
 
             return false;
         }
@@ -29,7 +29,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             // check, if we're on a singular page
             if ( ! is_singular() ) {
                 $this->logger->warning(
-                    __METHOD__. ' - !is_singular',
+                    __METHOD__ . ' - !is_singular',
                     array(
                         'post' => $post,
                     )
@@ -45,24 +45,29 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             }
         }
 
-        // check, if the current post_type is an allowed post_type
+        // don't collect statistics data, if the current post is not published
+        if ( $post->post_status !== LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
+            return false;
+        }
+
+        // don't collect statistics data, if the current post_type is not an allowed post_type
         $allowed_post_types = $this->config->get( 'content.enabled_post_types' );
         if ( ! in_array( $post->post_type, $allowed_post_types ) ) {
             $this->logger->warning(
-                __METHOD__. ' - post is not purchasable',
+                __METHOD__ . ' - post is not purchasable',
                 array(
-                    'post' => $post,
-                    'allowed_post_types' => $allowed_post_types,
+                    'post'                  => $post,
+                    'allowed_post_types'    => $allowed_post_types,
                 )
             );
 
             return false;
         }
 
-        // check, if the current post is purchasable
+        // don't collect statistics data, if the current post is not purchasable
         if ( ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
             $this->logger->warning(
-                __METHOD__. ' - post is not purchasable',
+                __METHOD__ . ' - post is not purchasable',
                 array(
                     'post' => $post,
                 )
