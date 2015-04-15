@@ -53,6 +53,8 @@ abstract class LaterPay_Form_Abstract
         'to_int'     => 'absint',
         // convert to string
         'to_string'  => 'strval',
+        // delocalize
+        'delocalize' => array( 'LaterPay_Helper_View', 'normalize' ),
         // convert to float
         'to_float'   => 'floatval',
         // replace part of value with other
