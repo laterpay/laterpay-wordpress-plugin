@@ -412,7 +412,7 @@
                     </div>
                 <?php endforeach; ?>
 
-                <a href="#" id="lp_js_addTimePass" class="lp_block lp_pd lp_ml+" data-icon="c"><?php _e( 'New Time Pass', 'laterpay' ); ?></a>
+                <a href="#" id="lp_js_addTimePass" class="lp_block lp_pd" data-icon="c"><?php _e( 'New Time Pass', 'laterpay' ); ?></a>
 
                 <div id="lp_js_timePassTemplate"
                     class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_time-passes__item lp_clearfix lp_hidden"
