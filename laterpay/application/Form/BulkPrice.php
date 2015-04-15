@@ -158,11 +158,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                     'is_float',
                 ),
                 'filters' => array(
-                    'replace' => array(
-                        'type'    => 'str_replace',
-                        'search'  => ',',
-                        'replace' => '.',
-                    ),
+                    'delocalize',
                     'format_num' => 2,
                     'to_float',
                 ),

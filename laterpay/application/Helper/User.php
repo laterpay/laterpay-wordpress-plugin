@@ -32,10 +32,6 @@ class LaterPay_Helper_User
     public static function can( $capability, $post = null, $strict = true ) {
         $allowed = false;
 
-        if ( empty( $post ) ) {
-            return $allowed;
-        }
-
         // try to get WP_Post object, if post id was passed instead of post object
         if ( ! $post instanceof WP_Post ) {
             $post = get_post( $post );
@@ -108,6 +104,10 @@ class LaterPay_Helper_User
         // check, if user has a role that has the given capability
         $user = wp_get_current_user();
         if ( ! $user instanceof WP_User || ! $user->roles ) {
+            return false;
+        }
+
+        if ( ! $post ) {
             return false;
         }
 

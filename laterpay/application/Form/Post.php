@@ -74,11 +74,7 @@ class LaterPay_Form_Post extends LaterPay_Form_Abstract
                     ),
                 ),
                 'filters' => array(
-                    'replace' => array(
-                        'type'    => 'str_replace',
-                        'search'  => ',',
-                        'replace' => '.',
-                    ),
+                    'delocalize',
                     'format_num' => 2,
                     'to_float',
                 ),
