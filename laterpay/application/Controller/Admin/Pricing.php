@@ -1007,6 +1007,9 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     )
                 );
             }
+
+            // enable "show time passes on free posts" option
+            update_option( 'laterpay_show_time_passes_widget_on_free_posts', 1 );
         }
 
         update_option( 'laterpay_only_time_pass_purchases_allowed', $only_time_pass );
