@@ -71,6 +71,11 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
             return false;
         }
 
+        // check, if the current post is published
+        if ( $post->post_status !== LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) {
+            return false;
+        }
+
         return true;
     }
 
