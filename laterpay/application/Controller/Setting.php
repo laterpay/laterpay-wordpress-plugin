@@ -12,6 +12,121 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     private $has_custom_roles = false;
 
     /**
+     * @see LaterPay_Controller_Abstract::load_assets
+     */
+    public function load_assets() {
+        parent::load_assets();
+        // register and enqueue stylesheet
+        wp_register_style(
+            'laterpay-options',
+            $this->config->css_url . 'laterpay-options.css',
+            array(),
+            $this->config->version
+        );
+        wp_enqueue_style( 'laterpay-options' );
+
+        // load page-specific JS
+        wp_register_script(
+            'laterpay-backend',
+            $this->config->js_url . 'laterpay-backend.js',
+            array( 'jquery' ),
+            $this->config->version,
+            true
+        );
+        wp_register_script(
+            'laterpay-backend-options',
+            $this->config->js_url . 'laterpay-backend-options.js',
+            array( 'jquery', 'laterpay-backend' ),
+            $this->config->version,
+            true
+        );
+
+        // pass localized strings and variables to script
+        wp_localize_script(
+            'laterpay-backend-options',
+            'lpVars',
+            array(
+                'i18nFetchingUpdate'    => __( 'Fetching data from browscap.org', 'laterpay' ),
+                'i18nUpdateFailed'      => __( 'Browscap cache update has failed', 'laterpay' ),
+                'i18nUpToDate'          => __( 'Your database is up to date :-)', 'laterpay' ),
+            )
+        );
+
+        wp_enqueue_script( 'laterpay-backend-options' );
+    }
+
+    /**
+     * Process Ajax requests from appearance tab.
+     *
+     * @return void
+     */
+    public static function process_ajax_requests() {
+        // check for required capabilities to perform action
+        if ( ! current_user_can( 'activate_plugins' ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' )
+                )
+            );
+        }
+        $from = isset( $_POST['form'] ) ? sanitize_text_field( $_POST['form'] ) : '';
+        switch ( $from ) {
+            // update presentation mode for paid content
+            case 'update_browscap_cache':
+
+                $browscap = LaterPay_Helper_Browser::php_browscap();
+                // to check current cache version we need to load it first
+                $browscap->getBrowser();
+                $remote_version = $browscap->getRemoteVersionNumber();
+                $current_version = $browscap->getSourceVersion();
+                if ( $current_version == $remote_version ) {
+                    wp_send_json(
+                        array(
+                            'success' => true,
+                            'message' => __( 'Your database is already up to date', 'laterpay' ),
+                        )
+                    );
+                }
+                try {
+                    $result = $browscap->updateCache();
+                    if ( ! $result ) {
+                        wp_send_json(
+                            array(
+                                'success' => false,
+                                'message' => __( 'Browscap cache update has failed', 'laterpay' ),
+                            )
+                        );
+                    }
+                } catch(Exception $e) {
+                    wp_send_json(
+                        array(
+                            'success' => false,
+                            'message' => __( 'Browscap cache update has failed', 'laterpay' ),
+                        )
+                    );
+                }
+
+                wp_send_json(
+                    array(
+                        'success' => true,
+                        'message' => __( 'Browscap cache has been updated', 'laterpay' ),
+                    )
+                );
+                break;
+            default:
+                break;
+        }
+
+        wp_send_json(
+            array(
+                'success' => false,
+                'message' => __( 'An error occurred when trying to save your settings. Please try again.', 'laterpay' ),
+            )
+        );
+    }
+
+    /**
      * Add LaterPay advanced settings to the settings menu.
      *
      * @return void
@@ -32,21 +147,13 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
      * @return string
      */
     public function render_advanced_settings_page() {
+        $this->load_assets();
         // pass variables to template
         $view_args = array(
-            'settings_title' => __( 'LaterPay Advanced Settings', 'laterpay'),
+            'settings_title' => __( 'LaterPay Advanced Settings', 'laterpay' ),
         );
 
         $this->assign( 'laterpay', $view_args );
-
-        // register and enqueue stylesheet
-        wp_register_style(
-            'laterpay-options',
-            $this->config->css_url . 'laterpay-options.css',
-            array(),
-            $this->config->version
-        );
-        wp_enqueue_style( 'laterpay-options' );
 
         // render view template for options page
         echo $this->get_text_view( 'backend/options' );
@@ -67,6 +174,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         $this->add_preview_excerpt_settings();
         $this->add_unlimited_access_settings();
         $this->add_logger_settings();
+        $this->add_browscap_settings();
     }
 
     /**
@@ -85,12 +193,13 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_caching_compatibility',
             __( 'Caching Compatibility', 'laterpay' ),
-            array( $this, 'get_checkbox_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_caching',
             array(
                 'name'  => 'laterpay_caching_compatibility',
                 'value' => 1,
+                'type' => 'checkbox',
                 'label' => __( 'I am using a caching plugin (e.g. WP Super Cache or Cachify)', 'laterpay' ),
             )
         );
@@ -167,12 +276,13 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_show_time_passes_widget_on_free_posts',
             __( 'Time Passes Widget', 'laterpay' ),
-            array( $this, 'get_checkbox_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_time_passes',
             array(
                 'name'  => 'laterpay_show_time_passes_widget_on_free_posts',
                 'value' => 1,
+                'type'  => 'checkbox',
                 'label' => __( 'I want to display the time passes widget on free and paid posts', 'laterpay' ),
             )
         );
@@ -208,7 +318,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_maximum_redemptions_per_gift_code',
             __( 'Times Redeemable', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_gift_codes',
             array(
@@ -275,7 +385,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_teaser_content_word_count',
             __( 'Teaser Content Word Count', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_teaser_content',
             array(
@@ -319,7 +429,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_preview_excerpt_percentage_of_content',
             __( 'Percentage of Post Content', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_preview_excerpt',
             array(
@@ -333,7 +443,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_preview_excerpt_word_count_min',
             __( 'Minimum Number of Words', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_preview_excerpt',
             array(
@@ -347,7 +457,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_preview_excerpt_word_count_max',
             __( 'Maximum Number of Words', 'laterpay' ),
-            array( $this, 'get_text_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_preview_excerpt',
             array(
@@ -414,7 +524,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
 
         // get categories and add them to the array
         $wp_categories = get_categories( $args );
-        foreach( $wp_categories as $category ) {
+        foreach ( $wp_categories as $category ) {
             $categories[$category->term_id] = $category->name;
         }
 
@@ -487,12 +597,13 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         add_settings_field(
             'laterpay_access_logging_enabled',
             __( 'Access Logging', 'laterpay' ),
-            array( $this, 'get_checkbox_field_markup' ),
+            array( $this, 'get_input_field_markup' ),
             'laterpay',
             'laterpay_logger',
             array(
                 'name'  => 'laterpay_access_logging_enabled',
                 'value' => 1,
+                'type'  => 'checkbox',
                 'label' => __( 'I want to record access to my site to generate sales statistics', 'laterpay' ),
             )
         );
@@ -517,28 +628,62 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     }
 
     /**
-     * Generic method to render text inputs (text, url, email, number).
+     * Add Browscap cache file section and fields.
      *
-     * @param array $field array of field params
-     *
-     * @return string text markup
+     * @return void
      */
-    public function get_text_field_markup( $field = null ) {
-        $inputs_markup = '';
+    public function add_browscap_settings() {
+        $browscap = LaterPay_Helper_Browser::php_browscap();
+        // to check current cache version we need to load it first
+        $browscap->getBrowser();
+        $remote_version = $browscap->getRemoteVersionNumber();
+        $current_version = $browscap->getSourceVersion();
+        $update_required = $remote_version > $current_version;
 
-        if ( $field && isset( $field['name'] ) ) {
-            $option_value = get_option( $field['name'] );
-            $type         = isset( $field['type'] ) ? $field['type']  : 'text';
-            $class        = isset( $field['class'] ) ? $field['class'] : '';
+        add_settings_section(
+            'browscap',
+            __( 'Detection of Crawlers', 'laterpay' ),
+            array( $this, 'get_browscap_description' ),
+            'laterpay'
+        );
 
-            $inputs_markup = '<input type="' . $type .'" name="' . $field['name'] . '" ' .
-                            'class="regular-text ' . $class . '" value="' . $option_value . '">';
-            if ( isset( $field['appended_text'] ) ) {
-                $inputs_markup .= '<dfn class="lp_appended-text">' . $field['appended_text'] . '<dfn>';
-            }
-        }
+        add_settings_field(
+            'laterpay_browscap_cache_version',
+            __( 'Crawler Database', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'browscap',
+            array(
+                'type'          => 'submit',
+                'name'          => 'laterpay_browscap_cache_version',
+                'value'         => __( 'Update Database', 'laterpay' ),
+                'class'         => 'button button-primary',
+                'disabled'      => ! $update_required,
+                'appended_text' => $update_required ? __( 'Update required', 'laterpay' ) : __( 'Your database is up to date :-)', 'laterpay' ),
+                'id'            => 'lp_js_updateBrowscapCache',
+            )
+        );
 
-        echo $inputs_markup;
+        register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
+    }
+
+    /**
+     * Render the hint text for the Browscap section.
+     *
+     * @return string description
+     */
+    public function get_browscap_description() {
+        echo '<p>' .
+                __( 'The LaterPay WordPress plugin uses the <a href="http://browscap.org/" target="_blank">Browscap</a>
+                   library to detect when a crawler visits your site.<br>
+                   Crawlers are not compatible with LaterPay, because they don\'t support the forwarding that LaterPay
+                   performs to identify a visitor.<br>
+                   When a crawler is detected, it is simply served the teaser content. This ensures your site is not
+                   reported as broken e.g. by search engines.<br>
+                   Because new browsers and crawlers are released frequently, the Browscap database needs to be updated
+                   occasionally, which is usually done with the plugin releases.<br>
+                   If you encounter problems, you can trigger a manual update with the "Update Database" button.', 'laterpay' ) .
+            '</p>';
     }
 
     /**
@@ -548,20 +693,47 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
      *
      * @return string checkbox markup
      */
-    public function get_checkbox_field_markup( $field = null ) {
+    public function get_input_field_markup( $field = null ) {
         $inputs_markup = '';
 
-        if ( $field && isset( $field['name'] ) && isset( $field['value'] ) ) {
+        if ( $field && isset( $field['name'] ) ) {
             $option_value = get_option( $field['name'] );
-            $field_value  = $field['value'];
+            $field_value  = isset( $field['value'] ) ? $field['value'] : get_option( $field['name'], '' );
+            $type         = isset( $field['type'] ) ? $field['type'] : 'text';
+            $classes      = isset( $field['class'] ) ? $field['class'] : array();
+            if ( ! is_array( $classes ) ) {
+                $classes = array($classes);
+            }
+            if ( $type == 'text' ) {
+                $classes[] = 'regular-text';
+            }
 
             $inputs_markup = '';
             if ( isset( $field['label'] ) ) {
                 $inputs_markup .= '<label>';
             }
-            $inputs_markup .= '<input type="checkbox" name="' . $field['name'] . '" value="' . $field_value . '"';
-            $inputs_markup .= $option_value ? ' checked' : '';
+            // remove duplicated classes
+            $classes = array_unique( $classes );
+
+            $inputs_markup .= '<input type="' . $type . '" name="' . $field['name'] . '" value="' . $field_value . '"';
+
+            if ( 'checkbox' == $type ) {
+                $inputs_markup .= $option_value ? ' checked' : '';
+            }
+
+            if ( isset( $field['id'] ) ) {
+                $inputs_markup .= ' id="' . $field['id'] . '"';
+            }
+
+            if ( isset( $field['disabled'] ) && $field['disabled'] ) {
+                $inputs_markup .= ' disabled';
+            }
+            $inputs_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
+
             $inputs_markup .= '>';
+            if ( isset( $field['appended_text'] ) ) {
+                $inputs_markup .= '<dfn class="lp_appended-text">' . $field['appended_text'] . '</dfn>';
+            }
             if ( isset( $field['label'] ) ) {
                 $inputs_markup .= $field['label'];
                 $inputs_markup .= '</label>';
@@ -618,7 +790,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
      *
      * @param $input
      *
-     * return $valid array of valid values
+     * @return array $valid array of valid values
      */
     public function validate_unlimited_access( $input ) {
         $valid      = array();

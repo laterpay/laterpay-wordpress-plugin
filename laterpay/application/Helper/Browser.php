@@ -23,7 +23,7 @@ class LaterPay_Helper_Browser
     /**
      * Return object of entire browscap library.
      *
-     * @return object
+     * @return Browscap
      */
     public static function php_browscap() {
         $config = laterpay_get_plugin_config();
