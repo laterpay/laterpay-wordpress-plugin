@@ -37,7 +37,7 @@ function showLoadingIndicator($target) {
         if ($target.hasClass('lp_is-delayed')) {
             // inject the loading indicator after a delay, if the element still has that state class
             $target.removeClass('lp_is-delayed');
-            $target.html('<div class="lp_loading-indicator"></div>');
+            $target.html('<div class="lp_js_loadingIndicator lp_loading-indicator"></div>');
         }
     }, 600);
 }
@@ -48,7 +48,7 @@ function removeLoadingIndicator ($target) {
         $target.removeClass('lp_is-delayed');
     } else {
         // remove the loading indicator
-        $target.find('.lp_loading-indicator').remove();
+        $target.find('.lp_js_loadingIndicator').remove();
     }
 }
 

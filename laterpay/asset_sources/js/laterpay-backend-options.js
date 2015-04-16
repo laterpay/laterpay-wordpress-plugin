@@ -1,10 +1,9 @@
 (function($) {$(function() {
 
-    // encapsulate all LaterPay Javascript in function laterPayBackendAccount
+    // encapsulate scripts for LaterPay plugin settings page in function laterPayBackendOptions
     function laterPayBackendOptions() {
         var $o = {
-                // API credentials
-                browscapCacheUpdateButton       : $('.lp_js_BrowscapCacheUpdate'),
+                browscapCacheUpdateButton       : $('#lp_js_BrowscapCacheUpdate'),
                 flashMessageTimeout             : 800,
                 requestSent                     : false
             },
@@ -13,7 +12,7 @@
                 // prevent duplicate Ajax requests
                 if (!$o.requestSent) {
                     $o.requestSent = true;
-                    var $spinnerContainer   = $('<span class="lp_loading-container">'),
+                    var $spinnerContainer   = $('<span class="lp_js_loadingContainer">'),
                         $optionContainer    = $o.browscapCacheUpdateButton.parents('.form-table'),
                         $buttonContainer    = $o.browscapCacheUpdateButton.parent(),
                         $buttonDescription  = $o.browscapCacheUpdateButton.parent().find('dfn');
@@ -43,7 +42,6 @@
             },
 
             bindEvents = function() {
-                // show LaterPay merchant contracts for requesting LIVE API credentials
                 $o.browscapCacheUpdateButton
                     .mousedown(function() {
                         updateBrowscapCache();

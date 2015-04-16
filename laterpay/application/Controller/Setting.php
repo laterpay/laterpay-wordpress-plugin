@@ -660,6 +660,11 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             if ( 'checkbox' == $type ) {
                 $inputs_markup .= $option_value ? ' checked' : '';
             }
+
+            if ( isset( $field['id'] ) ) {
+                $inputs_markup .= ' id="' . $field['id'] . '"';
+            }
+
             if ( isset( $field['disabled'] ) && $field['disabled'] ) {
                 $inputs_markup .= ' disabled';
             }
@@ -842,7 +847,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                 'type'          => 'submit',
                 'disabled'      => ! $update_required,
                 'appended_text' => $update_required ? __( 'Update is required!', 'laterpay' ) : __( 'Already up to date.', 'laterpay' ),
-                'class'         => 'lp_js_BrowscapCacheUpdate',
+                'id'            => 'lp_js_BrowscapCacheUpdate',
             )
         );
 
