@@ -232,10 +232,10 @@
 
                     <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['categories_with_defined_price'] ) ) { echo ' style="display:none;"'; } ?>>
                         <h2>
-                            <?php _e( 'No category default price defined', 'laterpay' ); ?>
+                            <?php _e( 'Set prices by category', 'laterpay' ); ?>
                         </h2>
                         <p>
-                            <?php _e( 'Category default prices supersede the global default price for all posts in the given category. The highest priority have individual prices for posts, which you can set on the add / edit post page.', 'laterpay' ); ?>
+                            <?php _e( 'Category default prices are convenient for selling different categories of content at different standard prices.<br>Individual prices can be set when editing a post.', 'laterpay' ); ?>
                         </p>
                         <p>
                             <?php _e( 'Click the "Create" button to set a default price for a category.', 'laterpay' ); ?>
@@ -419,10 +419,10 @@
 
                 <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
                     <h2>
-                        <?php _e( 'No Time Pass defined', 'laterpay' ); ?>
+                        <?php _e( 'Sell bundles of content', 'laterpay' ); ?>
                     </h2>
                     <p>
-                        <?php _e( 'Time Passes allow users to buy access to your entire site or specific categories for a limited time.', 'laterpay' ); ?>
+                        <?php _e( 'With Time Passes you can sell time-limited access to a category or your entire site. Time Passes do not renew automatically.', 'laterpay' ); ?>
                     </p>
                     <p>
                         <?php _e( 'Click the "Create" button to add a Time Pass.', 'laterpay' ); ?>
