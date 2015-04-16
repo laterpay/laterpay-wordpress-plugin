@@ -155,14 +155,18 @@ class LaterPay_Helper_Statistic
             );
         }
 
-        $model = new LaterPay_Model_Post_View();
+        // no access by default
+        $has_access = 0;
+
+        $model      = new LaterPay_Model_Post_View();
+        $has_access = apply_filters( 'laterpay_check_user_access', $has_access, $post_id );
 
         $data = array(
-            'post_id'    => $post_id,
-            'user_id'    => $uniqueId,
-            'date'       => time(),
-            'ip'         => 0,
-            'has_access' => 0,
+            'post_id' => $post_id,
+            'user_id' => $uniqueId,
+            'date'    => time(),
+            'ip'      => 0,
+            'access'  => $has_access,
         );
         list( $data['ip'], $longOtherIp ) = self::get_ip_2_long_remote_ip();
 
