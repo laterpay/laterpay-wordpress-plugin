@@ -641,21 +641,21 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
 
         add_settings_section(
             'browscap',
-            __( 'Update Crawler Detection Database', 'laterpay' ),
+            __( 'Detection of Crawlers', 'laterpay' ),
             array( $this, 'get_browscap_description' ),
             'laterpay'
         );
 
         add_settings_field(
             'laterpay_browscap_cache_version',
-            __( 'Update crawler database', 'laterpay' ),
+            __( 'Crawler Database', 'laterpay' ),
             array( $this, 'get_input_field_markup' ),
             'laterpay',
             'browscap',
             array(
                 'type'          => 'submit',
                 'name'          => 'laterpay_browscap_cache_version',
-                'value'         => __( 'Update Browscap Database', 'laterpay' ),
+                'value'         => __( 'Update Database', 'laterpay' ),
                 'class'         => 'button button-primary',
                 'disabled'      => ! $update_required,
                 'appended_text' => $update_required ? __( 'Update required!', 'laterpay' ) : __( 'Everything is up to date :-)', 'laterpay' ),
@@ -677,11 +677,11 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                    library to detect when a crawler visits your site.<br>
                    Crawlers are not compatible with LaterPay, because they don\'t support the forwarding that LaterPay
                    performs to identify a visitor.<br>
-                   When a crawler is detected, it is simply served the teaser content. This ensures, your site is not
+                   When a crawler is detected, it is simply served the teaser content. This ensures your site is not
                    reported as broken e.g. by search engines.<br>
                    Because new browsers and crawlers are released frequently, the Browscap database needs to be updated
                    occasionally, which is usually done with the plugin releases.<br>
-                   If you encounter problems, you can trigger a manual update with the "Update" button.', 'laterpay' ) .
+                   If you encounter problems, you can trigger a manual update with the "Update Database" button.', 'laterpay' ) .
             '</p>';
     }
 
