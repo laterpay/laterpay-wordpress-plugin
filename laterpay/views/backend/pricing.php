@@ -135,15 +135,6 @@
                 </h2>
 
                 <div id="lp_js_categoryDefaultPriceList">
-                    <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['categories_with_defined_price'] ) ) { echo ' style="display:none;"'; } ?>>
-                        <p>
-                            <?php _e( 'Category default prices supersede the global default price for all posts in the given category. The highest priority have individual prices for posts, which you can set on the add / edit post page.', 'laterpay' ); ?>
-                        </p>
-                        <p>
-                            <?php _e( 'Click the "Create" button to set a default price for a category.', 'laterpay' ); ?>
-                        </p>
-                    </div>
-
                     <?php foreach ( $laterpay['categories_with_defined_price'] as $category ): ?>
                         <form method="post" class="lp_js_categoryDefaultPriceForm lp_category-price-form">
                             <input type="hidden" name="form"        value="price_category_form">
@@ -238,6 +229,18 @@
                             </div>
                         </form>
                     <?php endforeach; ?>
+
+                    <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['categories_with_defined_price'] ) ) { echo ' style="display:none;"'; } ?>>
+                        <h2>
+                            <?php _e( 'No category default price defined', 'laterpay' ); ?>
+                        </h2>
+                        <p>
+                            <?php _e( 'Category default prices supersede the global default price for all posts in the given category. The highest priority have individual prices for posts, which you can set on the add / edit post page.', 'laterpay' ); ?>
+                        </p>
+                        <p>
+                            <?php _e( 'Click the "Create" button to set a default price for a category.', 'laterpay' ); ?>
+                        </p>
+                    </div>
                 </div>
 
                 <form method="post" id="lp_js_categoryDefaultPriceTemplate" class="lp_js_categoryDefaultPriceForm lp_category-price-form lp_is-unsaved" style="display:none;">
@@ -372,15 +375,6 @@
             </div>
 -->
             <div id="lp_js_timePassEditor" class="lp_time-passes__list lp_layout">
-                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
-                    <p>
-                        <?php _e( 'Time passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?>
-                    </p>
-                    <p>
-                        <?php _e( 'Click the "Create" button to add a Time Pass.', 'laterpay' ); ?>
-                    </p>
-                </div>
-
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
                         <div class="lp_time-pass__id-wrapper">
@@ -422,6 +416,18 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
+
+                <div class="lp_js_emptyState lp_empty-state"<?php if ( ! empty( $laterpay['passes_list'] ) ) { echo ' style="display:none;"'; } ?>>
+                    <h2>
+                        <?php _e( 'No Time Pass defined', 'laterpay' ); ?>
+                    </h2>
+                    <p>
+                        <?php _e( 'Time Passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?>
+                    </p>
+                    <p>
+                        <?php _e( 'Click the "Create" button to add a Time Pass.', 'laterpay' ); ?>
+                    </p>
+                </div>
 
                 <div id="lp_js_timePassTemplate"
                     class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_layout__item lp_time-passes__item lp_clearfix lp_hidden"

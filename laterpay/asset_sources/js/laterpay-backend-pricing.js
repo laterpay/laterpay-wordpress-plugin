@@ -526,7 +526,7 @@
 
                 // hide empty state hint, if it is visible
                 if ($($o.emptyState, $o.categoryDefaultPrices).is(':visible')) {
-                    $($o.emptyState, $o.categoryDefaultPrices).fadeOut(250);
+                    $($o.emptyState, $o.categoryDefaultPrices).fadeOut(400);
                 }
 
                 // clone category default price template
@@ -598,7 +598,7 @@
 
                         // show empty state hint, if there are no category default prices
                         if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
-                            $($o.emptyState, $o.categoryDefaultPrices).fadeIn(250);
+                            $($o.emptyState, $o.categoryDefaultPrices).fadeIn(400);
                         }
                     });
                 } else {
@@ -638,7 +638,7 @@
 
                                 // show empty state hint, if there are no category default prices
                                 if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
-                                    $($o.emptyState, $o.categoryDefaultPrices).fadeIn(250);
+                                    $($o.emptyState, $o.categoryDefaultPrices).fadeIn(400);
                                 }
                             });
                         }
@@ -729,7 +729,7 @@
 
                 // hide empty state hint, if it is visible
                 if ($($o.emptyState, $o.timePassEditor).is(':visible')) {
-                    $($o.emptyState, $o.timePassEditor).fadeOut(250);
+                    $($o.emptyState, $o.timePassEditor).fadeOut(400);
                 }
 
                 // prepend cloned time pass template to time pass editor
@@ -867,7 +867,7 @@
 
                         // show empty state hint, if there are no time passes
                         if ($($o.timePassWrapper + ':visible').length === 0) {
-                            $($o.emptyState, $o.timePassEditor).fadeIn(250);
+                            $($o.emptyState, $o.timePassEditor).fadeIn(400);
                         }
                     });
                 } else {
@@ -1018,7 +1018,7 @@
 
                                         // show empty state hint, if there are no time passes
                                         if ($($o.timePassWrapper + ':visible').length === 0) {
-                                            $($o.emptyState, $o.timePassEditor).fadeIn(250);
+                                            $($o.emptyState, $o.timePassEditor).fadeIn(400);
                                         }
                                     } else {
                                         $(this).stop().show();
