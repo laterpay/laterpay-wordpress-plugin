@@ -1019,6 +1019,13 @@
                                         // show empty state hint, if there are no time passes
                                         if ($($o.timePassWrapper + ':visible').length === 0) {
                                             $($o.emptyState, $o.timePassEditor).fadeIn(400);
+
+                                            // switch the purchase mode button back to also allow individual purchases
+                                            if ($o.purchaseModeInput.prop('checked')) {
+                                                $o.purchaseModeInput
+                                                .prop('checked', false)
+                                                .change();
+                                            }
                                         }
                                     } else {
                                         $(this).stop().show();
