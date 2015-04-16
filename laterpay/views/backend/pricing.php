@@ -25,7 +25,7 @@
 
     <div class="lp_pagewrap">
         <div class="lp_greybox lp_mt lp_mb lp_mr">
-            <?php _e( 'Allow <strong>individual and time pass purchases</strong>', 'laterpay' ); ?>
+            <?php _e( 'Posts <strong>can</strong>', 'laterpay' ); ?>
             <div class="lp_toggle">
                 <form id="lp_js_changePurchaseModeForm" method="post" action="">
                     <input type="hidden" name="form"    value="change_purchase_mode_form">
@@ -42,10 +42,10 @@
                     </label>
                 </form>
             </div>
-            <?php _e( '<strong>only time pass purchases.</strong>', 'laterpay' ); ?>
+            <?php _e( '<strong>cannot</strong> be purchased individually.', 'laterpay' ); ?>
         </div>
 
-        <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++"<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { ' style="display:none;"'; } ?>>
+        <div class="lp_js_hideInTimePassOnlyMode lp_layout lp_mb++"<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo ' style="display:none;"'; } ?>>
             <div class="lp_price-section lp_layout__item lp_1/2 lp_pdr">
                 <h2><?php _e( 'Global Default Price', 'laterpay' ); ?></h2>
 
