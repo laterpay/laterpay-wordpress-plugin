@@ -28,7 +28,7 @@
 
     <div class="lp_pagewrap">
 
-        <div class="lp_greybox lp_mt lp_mb">
+        <div class="lp_greybox lp_mt lp_mr lp_mb">
             <?php _e( 'The LaterPay plugin is in', 'laterpay' ); ?><div class="lp_toggle">
                 <form id="laterpay_plugin_mode" method="post">
                     <input type="hidden" name="form"    value="laterpay_plugin_mode">
