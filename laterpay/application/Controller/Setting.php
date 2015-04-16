@@ -75,7 +75,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             case 'update_browscap_cache':
 
                 $browscap = LaterPay_Helper_Browser::php_browscap();
-                // to check current cache bersion we need to load it first
+                // to check current cache version we need to load it first
                 $browscap->getBrowser();
                 $remote_version = $browscap->getRemoteVersionNumber();
                 $current_version = $browscap->getSourceVersion();
