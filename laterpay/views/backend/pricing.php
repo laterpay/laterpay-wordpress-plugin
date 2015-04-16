@@ -422,7 +422,7 @@
                         <?php _e( 'No Time Pass defined', 'laterpay' ); ?>
                     </h2>
                     <p>
-                        <?php _e( 'Time Passes provide access to your entire site or specific categories for a limited time.', 'laterpay' ); ?>
+                        <?php _e( 'Time Passes allow users to buy access to your entire site or specific categories for a limited time.', 'laterpay' ); ?>
                     </p>
                     <p>
                         <?php _e( 'Click the "Create" button to add a Time Pass.', 'laterpay' ); ?>
