@@ -46,8 +46,9 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay-backend-options',
             'lpVars',
             array(
-                'i18nUpdateFailed'  => __( 'Browscap cache update has failed', 'laterpay' ),
-                'i18nUpToDate'      => __( 'Everything is up to date :-)', 'laterpay' ),
+                'i18nFetchingUpdate'    => __( 'Fetching data from browscap.org', 'laterpay' ),
+                'i18nUpdateFailed'      => __( 'Browscap cache update has failed', 'laterpay' ),
+                'i18nUpToDate'          => __( 'Your database is up to date :-)', 'laterpay' ),
             )
         );
 
@@ -83,7 +84,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                     wp_send_json(
                         array(
                             'success' => true,
-                            'message' => __( 'Browscap cache is already up to date.', 'laterpay' ),
+                            'message' => __( 'Your database is already up to date', 'laterpay' ),
                         )
                     );
                 }
@@ -93,7 +94,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                         wp_send_json(
                             array(
                                 'success' => false,
-                                'message' => __( 'Browscap cache update has failed.', 'laterpay' ),
+                                'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                             )
                         );
                     }
@@ -101,7 +102,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                     wp_send_json(
                         array(
                             'success' => false,
-                            'message' => __( 'Browscap cache update has failed.', 'laterpay' ),
+                            'message' => __( 'Browscap cache update has failed', 'laterpay' ),
                         )
                     );
                 }
@@ -109,7 +110,7 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                 wp_send_json(
                     array(
                         'success' => true,
-                        'message' => __( 'Browscap cache has been updated successfully.', 'laterpay' ),
+                        'message' => __( 'Browscap cache has been updated', 'laterpay' ),
                     )
                 );
                 break;
@@ -658,8 +659,8 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
                 'value'         => __( 'Update Database', 'laterpay' ),
                 'class'         => 'button button-primary',
                 'disabled'      => ! $update_required,
-                'appended_text' => $update_required ? __( 'Update required!', 'laterpay' ) : __( 'Everything is up to date :-)', 'laterpay' ),
-                'id'            => 'lp_js_BrowscapCacheUpdate',
+                'appended_text' => $update_required ? __( 'Update required', 'laterpay' ) : __( 'Your database is up to date :-)', 'laterpay' ),
+                'id'            => 'lp_js_updateBrowscapCache',
             )
         );
 

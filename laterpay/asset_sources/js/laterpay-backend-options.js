@@ -3,40 +3,55 @@
     // encapsulate scripts for LaterPay plugin settings page in function laterPayBackendOptions
     function laterPayBackendOptions() {
         var $o = {
-                browscapCacheUpdateButton       : $('#lp_js_BrowscapCacheUpdate'),
-                flashMessageTimeout             : 800,
-                requestSent                     : false
+                browscapCacheUpdateButton   : $('#lp_js_updateBrowscapCache'),
+                statusHintText              : $('#lp_js_updateBrowscapCache').next('.lp_appended-text'),
+                spinnerWrapper              : $('<span id="lp_js_spinnerWrapper">'),
+                spinnerWrapperSelector      : '#lp_js_spinnerWrapper',
+
+                flashMessageTimeout         : 800,
+                requestSent                 : false
             },
 
             updateBrowscapCache = function() {
                 // prevent duplicate Ajax requests
                 if (!$o.requestSent) {
                     $o.requestSent = true;
-                    var $spinnerContainer   = $('<span class="lp_js_loadingContainer">'),
-                        $optionContainer    = $o.browscapCacheUpdateButton.parents('.form-table'),
-                        $buttonContainer    = $o.browscapCacheUpdateButton.parent(),
-                        $buttonDescription  = $o.browscapCacheUpdateButton.parent().find('dfn');
 
-                    $buttonContainer.append($spinnerContainer);
-                    showLoadingIndicator($spinnerContainer);
+                    // show loading message and indicator
+                    $o.statusHintText.text(lpVars.i18nFetchingUpdate);
+                    $o.statusHintText.before($o.spinnerWrapper);
+                    showLoadingIndicator($($o.spinnerWrapperSelector));
+
                     $.post(
                         ajaxurl,
-                        {action:'laterpay_backend_options', 'form': 'update_browscap_cache'},
+                        {
+                            action  : 'laterpay_backend_options',
+                            form    : 'update_browscap_cache'
+                        },
                         function(data) {
-                            $optionContainer.showMessage(data);
-                            if(data.success) {
-                                $o.browscapCacheUpdateButton.attr('disabled', true);
-                                $buttonDescription.text(lpVars.i18nUpToDate);
+                            if (data.success) {
+                                // disable update button
+                                $o.browscapCacheUpdateButton.prop('disabled', true);
+
+                                // update status hint
+                                $o.statusHintText.text(lpVars.i18nUpToDate);
+                            } else {
+                                // update status hint
+                                $o.statusHintText.text(data.message);
                             }
                         },
                         'json'
                     )
                     .fail(function() {
-                        $optionContainer.showMessage({message: lpVars.i18nUpdateFailed, success: false});
+                        // re-enable update button
+                        $o.browscapCacheUpdateButton.prop('disabled', false);
+
+                        // update status hint
+                        $o.statusHintText.text(lpVars.i18nUpdateFailed);
                     })
                     .always(function() {
-                        $spinnerContainer.remove();
                         $o.requestSent = false;
+                        $($o.spinnerWrapperSelector).remove();
                     });
                 }
             },

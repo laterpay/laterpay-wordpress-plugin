@@ -53,9 +53,23 @@ p.submit {
     margin-right: $fs;
 }
 
-// overwrite some alignment properties of the loading indicator (spinner)
+// render spinner inline
 .lp_loading-indicator {
-  display: inline-block;
-  margin: 0;
+    display: inline-block;
+    margin: 0 0 0 $fs--05;
+    vertical-align: middle;
 }
 
+/*
+ * Browscap update cache button
+ *
+ * 1. Make sure the lp_appended-text after the button is vertically centered
+ * 2. Don't display the button at all, if it is disabled
+ */
+.button.button-primary {
+    vertical-align: middle;
+
+    &:disabled {
+        display: none;
+    }
+}
