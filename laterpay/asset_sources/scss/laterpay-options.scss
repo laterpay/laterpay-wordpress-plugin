@@ -53,6 +53,7 @@ p.submit {
     margin-right: $fs;
 }
 
+// overwrite some alignment properties of the loading indicator (spinner)
 .lp_loading-indicator {
   display: inline-block;
   margin: 0;

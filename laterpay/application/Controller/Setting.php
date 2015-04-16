@@ -46,8 +46,8 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
             'laterpay-backend-options',
             'lpVars',
             array(
-                'i18nUpdateFailed'  => __( 'Browscap cache update has failed.', 'laterpay' ),
-                'i18nUpToDate'      => __( 'Already up to date.', 'laterpay' ),
+                'i18nUpdateFailed'  => __( 'Browscap cache update has failed', 'laterpay' ),
+                'i18nUpToDate'      => __( 'Everything is up to date :-)', 'laterpay' ),
             )
         );
 
@@ -627,6 +627,65 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Add Browscap cache file section and fields.
+     *
+     * @return void
+     */
+    public function add_browscap_settings() {
+        $browscap = LaterPay_Helper_Browser::php_browscap();
+        // to check current cache version we need to load it first
+        $browscap->getBrowser();
+        $remote_version = $browscap->getRemoteVersionNumber();
+        $current_version = $browscap->getSourceVersion();
+        $update_required = $remote_version > $current_version;
+
+        add_settings_section(
+            'browscap',
+            __( 'Update Crawler Detection Database', 'laterpay' ),
+            array( $this, 'get_browscap_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_browscap_cache_version',
+            __( 'Update crawler database', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'browscap',
+            array(
+                'type'          => 'submit',
+                'name'          => 'laterpay_browscap_cache_version',
+                'value'         => __( 'Update Browscap Database', 'laterpay' ),
+                'class'         => 'button button-primary',
+                'disabled'      => ! $update_required,
+                'appended_text' => $update_required ? __( 'Update required!', 'laterpay' ) : __( 'Everything is up to date :-)', 'laterpay' ),
+                'id'            => 'lp_js_BrowscapCacheUpdate',
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
+    }
+
+    /**
+     * Render the hint text for the Browscap section.
+     *
+     * @return string description
+     */
+    public function get_browscap_description() {
+        echo '<p>' .
+                __( 'The LaterPay WordPress plugin uses the <a href="http://browscap.org/" target="_blank">Browscap</a>
+                   library to detect when a crawler visits your site.<br>
+                   Crawlers are not compatible with LaterPay, because they don\'t support the forwarding that LaterPay
+                   performs to identify a visitor.<br>
+                   When a crawler is detected, it is simply served the teaser content. This ensures, your site is not
+                   reported as broken e.g. by search engines.<br>
+                   Because new browsers and crawlers are released frequently, the Browscap database needs to be updated
+                   occasionally, which is usually done with the plugin releases.<br>
+                   If you encounter problems, you can trigger a manual update with the "Update" button.', 'laterpay' ) .
+            '</p>';
+    }
+
+    /**
      * Generic method to render checkboxes.
      *
      * @param array $field array of field params
@@ -813,55 +872,5 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         }
 
         echo $inputs_markup;
-    }
-
-    /**
-     * Add logger section and fields.
-     *
-     * @return void
-     */
-    public function add_browscap_settings() {
-        $browscap = LaterPay_Helper_Browser::php_browscap();
-        // to check current cache version we need to load it first
-        $browscap->getBrowser();
-        $remote_version = $browscap->getRemoteVersionNumber();
-        $current_version = $browscap->getSourceVersion();
-        $update_required = $remote_version > $current_version;
-
-        add_settings_section(
-            'browscap',
-            __( 'Update Browscap settings', 'laterpay' ),
-            array( $this, 'get_browscap_description' ),
-            'laterpay'
-        );
-
-        add_settings_field(
-            'laterpay_browscap_cache_version',
-            __( 'Update Browscap cache', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'browscap',
-            array(
-                'name'          => 'laterpay_browscap_cache_version',
-                'value'         => __( 'Update', 'laterpay' ),
-                'type'          => 'submit',
-                'disabled'      => ! $update_required,
-                'appended_text' => $update_required ? __( 'Update is required!', 'laterpay' ) : __( 'Already up to date.', 'laterpay' ),
-                'id'            => 'lp_js_BrowscapCacheUpdate',
-            )
-        );
-
-        register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
-    }
-
-    /**
-     * Render the hint text for the browscap section.
-     *
-     * @return string description
-     */
-    public function get_browscap_description() {
-        echo '<p>' .
-             __( 'You can update browscap settings here - clear browscap cache', 'laterpay' ) .
-             '</p>';
     }
 }
