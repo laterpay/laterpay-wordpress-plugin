@@ -468,6 +468,40 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Check if user has access to the post
+     *
+     * @wp-hook laterpay_check_user_access
+     *
+     * @return bool $has_access
+     */
+    public function check_user_access( $has_access, $post_id = null ) {
+        // get post
+        if ( ! isset( $post_id ) ) {
+            $post = get_post();
+        } else {
+            $post = get_post( $has_access );
+        }
+
+        if ( $post === null ) {
+            return (bool) $has_access;
+        }
+
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+
+        // user has unlimited access
+        if ( $user_has_unlimited_access ) {
+            return true;
+        }
+
+        // user has access to the post
+        if ( $this->has_access_to_post( $post ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Prefetch the post access for posts in the loop.
      *
      * In archives or by using the WP_Query-Class, we can prefetch the access
