@@ -158,10 +158,11 @@ class LaterPay_Helper_Statistic
         $model = new LaterPay_Model_Post_View();
 
         $data = array(
-            'post_id'   => $post_id,
-            'user_id'   => $uniqueId,
-            'date'      => time(),
-            'ip'        => 0,
+            'post_id'    => $post_id,
+            'user_id'    => $uniqueId,
+            'date'       => time(),
+            'ip'         => 0,
+            'has_access' => 0,
         );
         list( $data['ip'], $longOtherIp ) = self::get_ip_2_long_remote_ip();
 

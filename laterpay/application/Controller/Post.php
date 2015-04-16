@@ -266,6 +266,12 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $url_data['pass_id'] );
         $voucher = $url_data['voucher'];
 
+        $post_id = 0;
+        $post    = get_post();
+        if ( $post !== null ) {
+            $post_id = $post->ID;
+        }
+
         if ( $hash === $_GET['hash'] ) {
             // process vouchers
             if ( ! LaterPay_Helper_Voucher::check_voucher_code( $voucher ) ) {
@@ -293,6 +299,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             // save payment history
             $data = array(
                 'id_currency'   => $_GET['id_currency'],
+                'post_id'       => $post_id,
                 'price'         => $_GET['price'],
                 'date'          => $_GET['date'],
                 'ip'            => $_GET['ip'],

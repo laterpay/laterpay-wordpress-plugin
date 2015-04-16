@@ -612,7 +612,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 user_id           VARCHAR(32)          NOT NULL,
                 count             BIGINT UNSIGNED      NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)        NOT NULL,
-                UNIQUE KEY  (post_id, user_id, mode)
+                has_access        INT(1)               NOT NULL DEFAULT 0,
+                UNIQUE KEY idx_post_views (post_id, user_id, mode, has_access)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
@@ -627,7 +628,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
                 title             VARCHAR(255)  NULL DEFAULT NULL,
                 description       VARCHAR(255)  NULL DEFAULT NULL,
-                PRIMARY KEY (pass_id),
+                PRIMARY KEY  (pass_id),
                 INDEX access_to (access_to),
                 INDEX period (period),
                 INDEX duration (duration)

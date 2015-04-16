@@ -31,11 +31,13 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
      * {@inheritdoc}
      */
     protected $field_types = array(
-        'post_id'   => '%d',
-        'date'      => 'date',
-        'user_id'   => '%d',
-        'count'     => '%d',
-        'ip'        => '%s',
+        'post_id'    => '%d',
+        'mode'       => '%s',
+        'date'       => '%s',
+        'user_id'    => '%s',
+        'count'      => '%d',
+        'ip'         => '%s',
+        'has_access' => '%d',
     );
 
     /**
@@ -104,9 +106,9 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         $mode = LaterPay_Helper_View::get_plugin_mode();
         $sql  = "
             INSERT INTO
-                {$this->table} (post_id, mode, user_id, date, ip)
+                {$this->table} (post_id, mode, user_id, date, ip, has_access)
             VALUES
-                ('%d', '%s', '%s', '%s', '%s')
+                ('%d', '%s', '%s', '%s', '%s', '%d')
             ON DUPLICATE KEY UPDATE
                 count = count + 1
             ;
@@ -117,7 +119,8 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             $mode,
             $data['user_id'],
             date( 'Y-m-d H:i:s', $data['date'] ),
-            $data['ip']
+            $data['ip'],
+            $data['access']
         );
 
         return $wpdb->get_results( $sql );
