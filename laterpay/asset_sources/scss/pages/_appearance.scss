@@ -2,13 +2,12 @@
 
 // content preview mode ------------------------------------------------------------------------------------------------
 .lp_preview-mode__item {
-    border-radius: 6px 0 0 6px;
-    // border-radius: 0; // FIXME: should be this line here, but :first-child selector does not match
+    border-radius: 6px;
     border: 2px solid $border;
     color: $text--lighter;
-    margin-right: -2px;
+    filter: grayscale(100%);
+    margin-right: $fs;
     padding: $fs;
-    position: relative;
     font-weight: bold;
     text-align: center;
 
@@ -16,25 +15,17 @@
         display: none;
     }
 
-    &:first-child {
-        border-radius: 6px 0 0 6px; // FIXME: selector does not match
-    }
-
-    &:last-child {
-        border-radius: 0 6px 6px 0;
-    }
-
     &:hover {
         border-color: $clickable--highlight;
         color: $clickable--highlight;
-        z-index: $zindex--elevated-2;
+        filter: none;
     }
 
     &.lp_is-selected {
-        background: $laterpay-brand--darker;
         border-color: $laterpay-brand--darker;
-        color: $text--inverse;
-        z-index: $zindex--elevated-1;
+        color: $laterpay-brand--darker;
+        cursor: default;
+        filter: none;
     }
 }
 
