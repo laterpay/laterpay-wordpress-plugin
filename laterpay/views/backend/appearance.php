@@ -25,35 +25,112 @@
 
     <div class="lp_pagewrap lp_appearence">
 
-        <div class="lp_clearfix lp_appearence__item">
+        <div class="lp_clearfix lp_appearence__item lp_mb++">
             <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
             <form id="lp_js_previewModeForm" method="post" class="lp_preview-mode">
                 <input type="hidden" name="form"    value="paid_content_preview">
                 <input type="hidden" name="action"  value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+
                 <label class="lp_left lp_preview-mode__item">
                     <input type="radio"
                             name="paid_content_preview"
                             value="1"
-                            class="lp_js_togglePreviewMode lp_js_styleInput"
+                            class="lp_js_togglePreviewMode"
                             <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <?php _e( 'Teaser content only', 'laterpay' ); ?>
                     <div class="lp_preview-mode__image lp_preview-mode__image--teaser-only"></div>
+                    <?php _e( 'Teaser content only', 'laterpay' ); ?>
                 </label>
                 <label class="lp_left lp_preview-mode__item">
                     <input type="radio"
                             name="paid_content_preview"
                             value="0"
-                            class="lp_js_togglePreviewMode lp_js_styleInput"
+                            class="lp_js_togglePreviewMode"
                             <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
                     <div class="lp_preview-mode__image lp_preview-mode__image--teaser-and-content"></div>
+                    <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
                 </label>
             </form>
         </div>
-        <hr class="lp_form-group-separator">
 
 
+<!-- THIS IS JUST MOCKUP STUFF!!! ################################################################################## -->
+
+        <div class="lp_clearfix lp_appearence__item lp_mb++">
+            <h2><?php _e( 'Position of LaterPay Purchase Button', 'laterpay' ); ?></h2>
+            <form id="lp_js_previewModeForm" method="post" class="lp_preview-mode">
+                <input type="hidden" name="form"    value="paid_content_preview">
+                <input type="hidden" name="action"  value="laterpay_appearance">
+                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+
+                <label class="lp_left lp_preview-mode__item">
+                    <input type="radio"
+                            name="paid_content_preview"
+                            value="1"
+                            class="lp_js_togglePreviewMode"
+                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-only"></div>
+                    <?php _e( 'Standard (between heading and teaser)', 'laterpay' ); ?>
+                </label>
+                <label class="lp_left lp_preview-mode__item">
+                    <input type="radio"
+                            name="paid_content_preview"
+                            value="0"
+                            class="lp_js_togglePreviewMode"
+                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-and-content"></div>
+                    <?php _e( 'Custom position', 'laterpay' ); ?>
+                </label>
+            </form>
+        </div>
+
+        <div class="lp_clearfix lp_appearence__item lp_mb++">
+            <h2><?php _e( 'Display of Time Passes', 'laterpay' ); ?></h2>
+            <form id="lp_js_previewModeForm" method="post" class="lp_preview-mode">
+                <input type="hidden" name="form"    value="paid_content_preview">
+                <input type="hidden" name="action"  value="laterpay_appearance">
+                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+
+                <label class="lp_left lp_preview-mode__item">
+                    <input type="radio"
+                            name="paid_content_preview"
+                            value="1"
+                            class="lp_js_togglePreviewMode"
+                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-only"></div>
+                    <?php _e( 'Standard (after teaser)', 'laterpay' ); ?>
+                </label>
+                <label class="lp_left lp_preview-mode__item">
+                    <input type="radio"
+                            name="paid_content_preview"
+                            value="0"
+                            class="lp_js_togglePreviewMode"
+                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-and-content"></div>
+                    <?php _e( 'Custom position', 'laterpay' ); ?>
+                </label>
+            </form>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
         <div class="lp_clearfix lp_appearence__item">
             <h2 id="lp_gift-cards-appearance"><?php _e( 'Offering of Gift Cards for Time Passes', 'laterpay' ); ?></h2>
             <dfn>
@@ -122,7 +199,6 @@
             </dfn>
         </div>
         <hr class="lp_form-group-separator">
-
 
         <div class="lp_clearfix lp_appearence__item">
             <div>
@@ -214,12 +290,10 @@
          </div>
         <hr class="lp_form-group-separator">
 
-
         <div class="lp_appearence__item">
             <div>
                 <h2><?php _e( 'Integration Into Theme', 'laterpay' ); ?></h2>
             </div>
-
 
             <div class="lp_clearfix lp_mb+">
                 <form id="lp_js_purchaseButtonPositionForm" method="post">
@@ -227,8 +301,8 @@
                     <input type="hidden" name="action" value="laterpay_appearance">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                     <h3><?php _e( 'Position of LaterPay Purchase Button', 'laterpay' ); ?></h3>
-                    <?php _e( 'Purchase buttons are rendered at their <strong>default position</strong>', 'laterpay' ); ?><!--
-                 --><div class="lp_toggle">
+                    <?php _e( 'Purchase buttons are rendered at their <strong>default position</strong>', 'laterpay' ); ?>
+                    <div class="lp_toggle">
                         <label class="lp_toggle__label lp_toggle_label_pass">
                             <input type="checkbox"
                                     id="lp_js_togglePurchaseButtonPosition"
@@ -238,8 +312,8 @@
                             <span class="lp_toggle__text" data-on="" data-off=""></span>
                             <span class="lp_toggle__handle"></span>
                         </label>
-                    </div><!--
-                 --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
+                    </div>
+                    <?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
                     <div id="lp_js_purchaseButtonPositionExplanation"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                         <dfn class="lp_clearfix">
                             <?php _e( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button in the location of your choice.', 'laterpay' ); ?><br>
@@ -254,15 +328,14 @@
                 </form>
             </div>
 
-
             <div class="lp_clearfix lp_mb+">
                 <form id="lp_js_timePassesPositionForm" method="post">
                     <input type="hidden" name="form" value="time_passes_position">
                     <input type="hidden" name="action" value="laterpay_appearance">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
                     <h3 id="lp_timePassAppearance"><?php _e( 'Display of Time Passes', 'laterpay' ); ?></h3>
-                    <?php _e( 'Time passes are rendered at their <strong>default position</strong>', 'laterpay' ); ?><!--
-                 --><div class="lp_toggle">
+                    <?php _e( 'Time passes are rendered at their <strong>default position</strong>', 'laterpay' ); ?>
+                    <div class="lp_toggle">
                         <label class="lp_toggle__label lp_toggle__label-pass">
                             <input type="checkbox"
                                     id="lp_js_toggleTimePassesPosition"
@@ -272,8 +345,8 @@
                             <span class="lp_toggle__text" data-on="" data-off=""></span>
                             <span class="lp_toggle__handle"></span>
                         </label>
-                    </div><!--
-                 --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
+                    </div>
+                    <?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
                     <div id="lp_js_timePassesPositionExplanation"<?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                         <dfn class="lp_clearfix">
                             <?php _e( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ); ?><br>
@@ -291,7 +364,6 @@
                     </div>
                 </form>
             </div>
-
 
             <div class="lp_clearfix lp_mb+">
                 <h3><?php _e( 'Display of LaterPay Invoice Balance', 'laterpay' ); ?></h3>
@@ -328,5 +400,6 @@
             </div>
         </div>
     </div>
+-->
 
 </div>
