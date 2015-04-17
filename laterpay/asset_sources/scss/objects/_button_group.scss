@@ -1,0 +1,86 @@
+.lp_button-group,
+.lp_button-group--large {
+    background: $background--darker;
+    border: 2px solid $border;
+    border-radius: $border-radius;
+
+    .lp_button-group__button {
+        box-shadow: inset 1px 0 0 $border, inset 0 1px 0 hsla(0, 0%, 100%, 0.55);
+        color: $clickable;
+        display: inline-block;
+        line-height: 1.25;
+        margin: 0;
+        padding: 0.5em 0;
+        text-align: center;
+
+        input[type=radio] {
+            display: none;
+        }
+
+        &:hover {
+            background-color: $clickable--highlight;
+            color: $text--inverse;
+        }
+
+        &:first-child {
+            border-radius: 2px 0 0 2px;
+            box-shadow: inset 1px 0 0 hsla(0, 0%, 100%, 0.55);
+        }
+
+        &:last-child {
+            border-radius: 0 2px 2px 0;
+            box-shadow: inset 1px 0 0 $border, inset -1px 0 0 hsla(0, 0%, 100%, 0.55);
+        }
+
+        &.lp_is-disabled,
+        &.lp_is-disabled:hover {
+            background: transparent;
+            color: $text--lighter;
+            cursor: default;
+        }
+
+        &.lp_is-selected,
+        &.lp_is-selected:hover {
+            background: $laterpay-brand;
+            color: $text--inverse;
+            cursor: default;
+        }
+    }
+}
+
+.lp_button-group--large {
+    border-radius: 6px;
+    display: inline-block;
+
+    .lp_button-group__button {
+        box-shadow: inset 2px 0 0 $border;
+        padding: $fs;
+
+        &:first-child {
+            border-radius: 6px 0 0 6px;
+            box-shadow: none;
+        }
+
+        &:last-child {
+            border-radius: 0 6px 6px 0;
+            box-shadow: inset 2px 0 0 $border;
+        }
+    }
+
+    .lp_button-group__button-image {
+        background-repeat: no-repeat;
+        height: 208px;
+        margin: 0 0 $fs;
+        width: 300px;
+
+        &.lp_button-group__button-image--teaser-only {
+            background-image: url('../img/preview-mode-1.png');
+            background-size: 100%;
+        }
+
+        &.lp_button-group__button-image--teaser-and-content {
+            background-image: url('../img/preview-mode-2.png');
+            background-size: 100%;
+        }
+    }
+}
