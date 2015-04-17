@@ -36,9 +36,9 @@
                ?>
             </h1>
 
-            <div class="lp_clearfix">
-                <div class="lp_1/3">
-                    <h2><?php _e( 'Conversion', 'laterpay' ); ?></h2>
+            <div class="lp_layout">
+                <div class="lp_layout__item lp_1/3">
+                    <h2 class="lp_text-align--center"><?php _e( 'Conversion', 'laterpay' ); ?></h2>
                     <div id="lp_js_conversionDiagram" class="lp_dashboard-graph"></div>
                     <div class="lp_statistics-row lp_clearfix">
                         <ul class="lp_statistics-row__list">
@@ -59,10 +59,10 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div><!--
 
-                <div class="lp_1/3">
-                    <h2><?php _e( 'Items Sold', 'laterpay' ); ?></h2>
+             --><div class="lp_layout__item lp_1/3">
+                    <h2 class="lp_text-align--center"><?php _e( 'Items Sold', 'laterpay' ); ?></h2>
                     <div id="lp_js_salesDiagram" class="lp_dashboard-graph"></div>
                     <div class="lp_statistics-row lp_clearfix">
                         <ul class="lp_statistics-row__list">
@@ -78,10 +78,10 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div><!--
 
-                <div class="lp_1/3">
-                    <h2><?php _e( 'Committed Revenue', 'laterpay' ); ?></h2>
+             --><div class="lp_layout__item lp_1/3">
+                    <h2 class="lp_text-align--center"><?php _e( 'Committed Revenue', 'laterpay' ); ?></h2>
                     <div id="lp_js_revenueDiagram" class="lp_dashboard-graph"></div>
                     <div class="lp_statistics-row lp_clearfix">
                         <ul class="lp_statistics-row__list">
@@ -100,8 +100,8 @@
                 </div>
             </div>
 
-            <div class="lp_clearfix">
-                <div class="lp_1/3">
+            <div class="lp_layout">
+                <div class="lp_layout__item lp_1/3">
                     <div class="lp_greybox--outline lp_mr lp_mb">
                         <h3><?php _e( 'Best-converting Items', 'laterpay' ); ?></h3>
                         <ol id="lp_js_bestConvertingList" class="lp_dashboard-data">
@@ -115,9 +115,9 @@
                             <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                         </ol>
                     </div>
-                </div>
+                </div><!--
 
-                <div class="lp_1/3">
+             --><div class="lp_layout__item lp_1/3">
                     <div class="lp_greybox--outline lp_mr lp_mb">
                         <h3><?php _e( 'Most-selling Items', 'laterpay' ); ?></h3>
                         <ol id="lp_js_bestSellingList" class="lp_dashboard-data">
@@ -131,9 +131,9 @@
                             <dfn><?php _e( 'No data available', 'laterpay' ); ?></dfn>
                         </ol>
                     </div>
-                </div>
+                </div><!--
 
-                <div class="lp_1/3">
+             --><div class="lp_layout__item lp_1/3">
                     <div class="lp_greybox--outline lp_mr lp_mb">
                         <h3><?php _e( 'Most Revenue-generating Items', 'laterpay' ); ?></h3>
                         <ol id="lp_js_bestGrossingList" class="lp_dashboard-data">

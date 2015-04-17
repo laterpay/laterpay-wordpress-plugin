@@ -251,6 +251,40 @@ label:hover .ez-mark {
 .lp_edit-link {
     margin-left: $fs;
     padding: $fs--05 0;
+
+    &--bold {
+        background: darken($background--darker, 2%);
+        margin: (-$fs) (-$fs) $fs $fs;
+        padding: $fs;
+        font-size: $fs--125;
+        float: right;
+
+        &:hover {
+            background: $clickable--highlight;
+            color: $text--inverse;
+        }
+
+        &[data-icon]:before {
+            padding-right: 0;
+            top: 0;
+        }
+    }
+}
+
+/*
+ * 1. Pull up the button to better align with the text
+ * 2. Compensate for additional height of button
+ */
+.lp_heading-button {
+    margin-top: -5px !important; /* 1 */
+    margin-bottom: -($fs--05) !important; /* 2 */
+    margin-left: $fs--05 !important;
+
+    // align icon with button text
+    &:before {
+        padding-right: 0.5em !important;
+        top: 0.15em !important;
+    }
 }
 
 

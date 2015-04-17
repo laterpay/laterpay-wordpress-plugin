@@ -157,7 +157,7 @@
     border: none !important;
     border-radius: 999em; // creates a pill shape
     color: $text--inverse !important;
-    left: -($fs--05);
+    left: -($fs--15);
     line-height: 1.3 !important;
     padding: $fs--05 $fs;
     position: absolute;
@@ -168,7 +168,7 @@
     &:hover {
         background: $clickable--highlight;
         color: $text--inverse;
-        left: -($fs);
+        left: -($fs--2);
     }
 }
 
@@ -263,7 +263,7 @@
     display: inline-block;
     font-family: monospace;
     font-size: $fs--15;
-    margin-right: $fs--025;
+    margin-right: $fs--05;
     padding: $fs--05;
 }
 
