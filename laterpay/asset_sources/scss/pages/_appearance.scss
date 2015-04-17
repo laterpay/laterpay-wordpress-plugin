@@ -4,6 +4,7 @@
 .lp_preview-mode__item {
     border-radius: 6px;
     border: 2px solid $border;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.08);
     color: $text--lighter;
     filter: grayscale(100%);
     margin-right: $fs;
