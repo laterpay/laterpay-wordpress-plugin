@@ -1,11 +1,22 @@
 // 'Appearance' tab in plugin backend
 
+// preview options -----------------------------------------------------------------------------------------------------
+&.lp_button-group__button-image--teaser-only {
+    background-image: url('../img/preview-mode-1.png');
+    background-size: 100%;
+}
+
+&.lp_button-group__button-image--teaser-and-content {
+    background-image: url('../img/preview-mode-2.png');
+    background-size: 100%;
+}
+
 
 // code snippets -------------------------------------------------------------------------------------------------------
 .lp_ui-element-preview {
     width: 110px;
 
-    &.lp_ui-element-preview--large {
+    &--large {
         width: 300px;
     }
 }
@@ -60,7 +71,7 @@ table {
     td {
         padding: $fs--05;
         vertical-align: top;
-   }
+    }
 
     pre {
         margin: 0;

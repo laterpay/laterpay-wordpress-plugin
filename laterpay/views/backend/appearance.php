@@ -41,7 +41,7 @@
                                 <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--teaser-only"></div>
                         <?php _e( 'Teaser content only', 'laterpay' ); ?>
-                    </label><!--
+                    </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                  --><label class="lp_button-group__button">
                         <input type="radio"
                                 name="paid_content_preview"
@@ -56,63 +56,6 @@
         </div>
 
 
-<!-- THIS IS JUST MOCKUP STUFF!!! ################################################################################## -->
-
-        <div class="lp_clearfix lp_appearence__item lp_mb++">
-            <h2><?php _e( 'Position of LaterPay Purchase Button', 'laterpay' ); ?></h2>
-            <form id="lp_js_previewModeForm" method="post" class="lp_preview-mode">
-                <input type="hidden" name="form"    value="paid_content_preview">
-                <input type="hidden" name="action"  value="laterpay_appearance">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-
-                <label class="lp_left lp_preview-mode__item">
-                    <input type="radio"
-                            name="paid_content_preview"
-                            value="1"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-only"></div>
-                    <?php _e( 'Standard (between heading and teaser)', 'laterpay' ); ?>
-                </label>
-                <label class="lp_left lp_preview-mode__item">
-                    <input type="radio"
-                            name="paid_content_preview"
-                            value="0"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-and-content"></div>
-                    <?php _e( 'Custom position', 'laterpay' ); ?>
-                </label>
-            </form>
-        </div>
-
-        <div class="lp_clearfix lp_appearence__item lp_mb++">
-            <h2><?php _e( 'Display of Time Passes', 'laterpay' ); ?></h2>
-            <form id="lp_js_previewModeForm" method="post" class="lp_preview-mode">
-                <input type="hidden" name="form"    value="paid_content_preview">
-                <input type="hidden" name="action"  value="laterpay_appearance">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-
-                <label class="lp_left lp_preview-mode__item">
-                    <input type="radio"
-                            name="paid_content_preview"
-                            value="1"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-only"></div>
-                    <?php _e( 'Standard (after teaser)', 'laterpay' ); ?>
-                </label>
-                <label class="lp_left lp_preview-mode__item">
-                    <input type="radio"
-                            name="paid_content_preview"
-                            value="0"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_preview-mode__image lp_preview-mode__image--teaser-and-content"></div>
-                    <?php _e( 'Custom position', 'laterpay' ); ?>
-                </label>
-            </form>
-        </div>
 
 
 
@@ -132,7 +75,11 @@
 
 
 
-<!--
+
+
+
+
+
         <div class="lp_clearfix lp_appearence__item">
             <h2 id="lp_gift-cards-appearance"><?php _e( 'Offering of Gift Cards for Time Passes', 'laterpay' ); ?></h2>
             <dfn>
@@ -402,6 +349,5 @@
             </div>
         </div>
     </div>
--->
 
 </div>

@@ -72,15 +72,5 @@
         height: 208px;
         margin: 0 0 $fs;
         width: 300px;
-
-        &.lp_button-group__button-image--teaser-only {
-            background-image: url('../img/preview-mode-1.png');
-            background-size: 100%;
-        }
-
-        &.lp_button-group__button-image--teaser-and-content {
-            background-image: url('../img/preview-mode-2.png');
-            background-size: 100%;
-        }
     }
 }
