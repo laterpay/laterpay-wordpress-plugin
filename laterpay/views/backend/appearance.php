@@ -23,37 +23,35 @@
         <?php echo $laterpay['top_nav']; ?>
     </div>
 
-    <div class="lp_pagewrap lp_appearence">
+    <div class="lp_pagewrap">
 
-        <div class="lp_clearfix lp_appearence__item lp_mb++">
-            <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
-            <form id="lp_js_previewModeForm" method="post" class="lp_preview-mode">
-                <input type="hidden" name="form"    value="paid_content_preview">
-                <input type="hidden" name="action"  value="laterpay_appearance">
-                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+        <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
+        <form id="lp_js_previewModeForm" method="post" class="lp_mb++">
+            <input type="hidden" name="form"    value="paid_content_preview">
+            <input type="hidden" name="action"  value="laterpay_appearance">
+            <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
 
-                <div class="lp_button-group--large">
-                    <label class="lp_button-group__button">
-                        <input type="radio"
-                                name="paid_content_preview"
-                                value="1"
-                                class="lp_js_togglePreviewMode"
-                                <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                        <div class="lp_button-group__button-image lp_button-group__button-image--teaser-only"></div>
-                        <?php _e( 'Teaser content only', 'laterpay' ); ?>
-                    </label><!-- comment required to prevent spaces, because layout uses display:inline-block
-                 --><label class="lp_button-group__button">
-                        <input type="radio"
-                                name="paid_content_preview"
-                                value="0"
-                                class="lp_js_togglePreviewMode"
-                                <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                        <div class="lp_button-group__button-image lp_button-group__button-image--teaser-and-content"></div>
-                        <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
-                    </label>
-                </div>
-            </form>
-        </div>
+            <div class="lp_button-group--large">
+                <label class="lp_button-group__button<?php if ( $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
+                    <input type="radio"
+                            name="paid_content_preview"
+                            value="1"
+                            class="lp_js_togglePreviewMode"
+                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                    <div class="lp_button-group__button-image lp_button-group__button-image--teaser-only"></div>
+                    <?php _e( 'Teaser content only', 'laterpay' ); ?>
+                </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+             --><label class="lp_button-group__button<?php if ( ! $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
+                    <input type="radio"
+                            name="paid_content_preview"
+                            value="0"
+                            class="lp_js_togglePreviewMode"
+                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                    <div class="lp_button-group__button-image lp_button-group__button-image--teaser-and-content"></div>
+                    <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
+                </label>
+            </div>
+        </form>
 
 
 
