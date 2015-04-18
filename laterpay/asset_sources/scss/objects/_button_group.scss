@@ -69,8 +69,9 @@
 
     .lp_button-group__button-image {
         background-repeat: no-repeat;
-        height: 208px;
+        background-size: 100%;
+        height: round($fs * 10.5);
         margin: 0 0 $fs;
-        width: 300px;
+        width: ($fs * 15);
     }
 }
