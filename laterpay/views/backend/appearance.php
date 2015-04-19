@@ -25,63 +25,67 @@
 
     <div class="lp_pagewrap">
 
-        <h2><?php _e( 'Preview of Paid Content', 'laterpay' ); ?></h2>
-        <form id="lp_js_previewModeForm" method="post" class="lp_mb++">
-            <input type="hidden" name="form"    value="paid_content_preview">
-            <input type="hidden" name="action"  value="laterpay_appearance">
-            <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+    <div class="lp_layout">
+        <div class="lp_layout__item lp_1/2">
+            <h2><?php _e( 'Content Preview of Paid Posts', 'laterpay' ); ?></h2>
+            <form method="post" class="lp_mb++">
+                <input type="hidden" name="form"    value="paid_content_preview">
+                <input type="hidden" name="action"  value="laterpay_appearance">
+                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
 
-            <div class="lp_button-group--large">
-                <label class="lp_button-group__button<?php if ( $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
-                    <input type="radio"
-                            name="paid_content_preview"
-                            value="1"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-1"></div>
-                    <?php _e( 'Teaser content only', 'laterpay' ); ?>
-                </label><!-- comment required to prevent spaces, because layout uses display:inline-block
-             --><label class="lp_button-group__button<?php if ( ! $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
-                    <input type="radio"
-                            name="paid_content_preview"
-                            value="0"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-2"></div>
-                    <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
-                </label>
-            </div>
-        </form>
+                <div class="lp_button-group--large">
+                    <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
+                        <input type="radio"
+                                name="paid_content_preview"
+                                value="1"
+                                class="lp_js_switchButtonGroup"
+                                <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                        <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-1"></div>
+                        <?php _e( 'Teaser content only', 'laterpay' ); ?>
+                    </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+                 --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
+                        <input type="radio"
+                                name="paid_content_preview"
+                                value="0"
+                                class="lp_js_switchButtonGroup"
+                                <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                        <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-2"></div>
+                        <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
+                    </label>
+                </div>
+            </form>
+        </div><!-- comment required to prevent spaces, because layout uses display:inline-block
+     --><div class="lp_layout__item lp_1/2">
+            <h2><?php _e( 'Position of the LaterPay Purchase Button', 'laterpay' ); ?></h2>
+            <form method="post" class="lp_mb++">
+                <input type="hidden" name="form"    value="purchase_button_position">
+                <input type="hidden" name="action"  value="laterpay_appearance">
+                <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
 
-
-        <h2><?php _e( 'Position of the LaterPay Purchase Button', 'laterpay' ); ?></h2>
-        <form id="lp_js_purchaseButtonPositionForm" method="post" class="lp_mb++">
-            <input type="hidden" name="form"    value="purchase_button_position">
-            <input type="hidden" name="action"  value="laterpay_appearance">
-            <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-
-<!-- TODO: adjust js classes of radio buttons -->
-            <div class="lp_button-group--large">
-                <label class="lp_button-group__button<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                    <input type="radio"
-                            name="purchase_button_positioned_manually"
-                            value="0"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_button-group__button-image lp_button-group__button-image--button-position-1"></div>
-                    <?php _e( 'Default position', 'laterpay' ); ?>
-                </label><!-- comment required to prevent spaces, because layout uses display:inline-block
-             --><label class="lp_button-group__button<?php if ( $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
-                    <input type="radio"
-                            name="purchase_button_positioned_manually"
-                            value="1"
-                            class="lp_js_togglePreviewMode"
-                            <?php if ( $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>/>
-                    <div class="lp_button-group__button-image lp_button-group__button-image--button-position-2"></div>
-                    <?php _e( 'Custom position', 'laterpay' ); ?>
-                </label>
-            </div>
-        </form>
+    <!-- TODO: adjust js classes of radio buttons -->
+                <div class="lp_button-group--large">
+                    <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
+                        <input type="radio"
+                                name="purchase_button_positioned_manually"
+                                value="0"
+                                class="lp_js_switchButtonGroup"
+                                <?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>/>
+                        <div class="lp_button-group__button-image lp_button-group__button-image--button-position-1"></div>
+                        <?php _e( 'Default position', 'laterpay' ); ?>
+                    </label><!-- comment required to prevent spaces, because layout uses display:inline-block
+                 --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
+                        <input type="radio"
+                                name="purchase_button_positioned_manually"
+                                value="1"
+                                class="lp_js_switchButtonGroup"
+                                <?php if ( $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>/>
+                        <div class="lp_button-group__button-image lp_button-group__button-image--button-position-2"></div>
+                        <?php _e( 'Custom position', 'laterpay' ); ?>
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
 
 <!--
             <div id="lp_js_purchaseButtonPositionExplanation"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>
@@ -99,27 +103,27 @@
 
 
         <h2><?php _e( 'Display of LaterPay Time Passes', 'laterpay' ); ?></h2>
-        <form id="lp_js_timePassesPositionForm" method="post" class="lp_mb++">
+        <form method="post" class="lp_mb++">
             <input type="hidden" name="form"    value="time_passes_position">
             <input type="hidden" name="action"  value="laterpay_appearance">
             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
 
 <!-- TODO: adjust js classes of radio buttons -->
             <div class="lp_button-group--large">
-                <label class="lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
+                <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                     <input type="radio"
                             name="time_passes_positioned_manually"
                             value="0"
-                            class="lp_js_togglePreviewMode"
+                            class="lp_js_switchButtonGroup"
                             <?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?>checked<?php endif; ?>/>
                     <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-1"></div>
                     <?php _e( 'Default position', 'laterpay' ); ?>
                 </label><!-- comment required to prevent spaces, because layout uses display:inline-block
-             --><label class="lp_button-group__button<?php if ( $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
+             --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                     <input type="radio"
                             name="time_passes_positioned_manually"
                             value="1"
-                            class="lp_js_togglePreviewMode"
+                            class="lp_js_switchButtonGroup"
                             <?php if ( $laterpay['time_passes_positioned_manually'] ): ?>checked<?php endif; ?>/>
                     <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-2"></div>
                     <?php _e( 'Custom position', 'laterpay' ); ?>

@@ -1,5 +1,4 @@
-.lp_button-group,
-.lp_button-group--large {
+.lp_button-group {
     background: $background--darker;
     border: 2px solid $border;
     border-radius: $border-radius;
@@ -49,21 +48,50 @@
 }
 
 .lp_button-group--large {
-    border-radius: 6px;
+    border-radius: ($border-radius * 2);
+    box-shadow: 1px 1px 0 $background--lightest;
     display: inline-block;
+    white-space: nowrap;
 
     .lp_button-group__button {
-        box-shadow: inset 2px 0 0 $border;
+        border: 1px solid $border;
+        color: $clickable;
+        display: inline-block;
+        line-height: 1.25;
         padding: $fs;
+        position: relative;
+        text-align: center;
+
+        input[type=radio] {
+            display: none;
+        }
+
+        &:hover {
+            border-color: $clickable--highlight;
+            color: $clickable--highlight;
+            z-index: $zindex--elevated-1;
+        }
+
+        &:not(:last-child) {
+            margin-right: -1px;
+        }
 
         &:first-child {
-            border-radius: 6px 0 0 6px;
-            box-shadow: none;
+            border-radius: ($border-radius * 2) 0 0 ($border-radius * 2);
         }
 
         &:last-child {
-            border-radius: 0 6px 6px 0;
-            box-shadow: inset 2px 0 0 $border;
+            border-radius: 0 ($border-radius * 2) ($border-radius * 2) 0;
+        }
+
+        &.lp_is-selected,
+        &.lp_is-selected:hover {
+            background: $background--darker;
+            border-color: $border;
+            box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2);
+            color: $text--lighter;
+            cursor: default;
+            z-index: $zindex;
         }
     }
 
