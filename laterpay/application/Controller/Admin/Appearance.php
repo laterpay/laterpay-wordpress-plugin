@@ -18,20 +18,12 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Abstract
 
         // load page-specific JS
         wp_register_script(
-            'laterpay-ezmark',
-            $this->config->js_url . 'vendor/jquery.ezmark.min.js',
+            'laterpay-backend-appearance',
+            $this->config->js_url . '/laterpay-backend-appearance.js',
             array( 'jquery' ),
             $this->config->version,
             true
         );
-        wp_register_script(
-            'laterpay-backend-appearance',
-            $this->config->js_url . '/laterpay-backend-appearance.js',
-            array( 'jquery', 'laterpay-ezmark' ),
-            $this->config->version,
-            true
-        );
-        wp_enqueue_script( 'laterpay-ezmark' );
         wp_enqueue_script( 'laterpay-backend-appearance' );
     }
 
