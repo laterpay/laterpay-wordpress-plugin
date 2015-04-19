@@ -62,7 +62,6 @@
                 <input type="hidden" name="action"  value="laterpay_appearance">
                 <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
 
-    <!-- TODO: adjust js classes of radio buttons -->
                 <div class="lp_button-group--large">
                     <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                         <input type="radio"
@@ -71,7 +70,7 @@
                                 class="lp_js_switchButtonGroup"
                                 <?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--button-position-1"></div>
-                        <?php _e( 'Default position', 'laterpay' ); ?>
+                        <?php _e( 'Standard position', 'laterpay' ); ?>
                     </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                  --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                         <input type="radio"
@@ -108,7 +107,6 @@
             <input type="hidden" name="action"  value="laterpay_appearance">
             <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
 
-<!-- TODO: adjust js classes of radio buttons -->
             <div class="lp_button-group--large">
                 <label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                     <input type="radio"
@@ -117,7 +115,7 @@
                             class="lp_js_switchButtonGroup"
                             <?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?>checked<?php endif; ?>/>
                     <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-1"></div>
-                    <?php _e( 'Default position', 'laterpay' ); ?>
+                    <?php _e( 'Standard position', 'laterpay' ); ?>
                 </label><!-- comment required to prevent spaces, because layout uses display:inline-block
              --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                     <input type="radio"
@@ -149,7 +147,7 @@
         </div>
 -->
 
-
+<!--
     <div class="lp_clearfix lp_mb+">
         <h3><?php _e( 'Display of LaterPay Invoice Balance', 'laterpay' ); ?></h3>
         <dfn>
@@ -183,16 +181,7 @@ iVBORw0KGgoAAAANSUhEUgAAANwAAAA6CAYAAADbRzceAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
         <strong>Action:</strong> <?php echo htmlspecialchars( "<?php do_action( 'laterpay_account_links', 'https://yourpage.com/style.css' ); ?>" ); ?>
         </code>
     </div>
-
-
-
-
-
-
-
-
-
-
+-->
 
 
 
@@ -266,7 +255,6 @@ iVBORw0KGgoAAAANSUhEUgAAANwAAAA6CAYAAADbRzceAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
             </dfn>
         </div>
         <hr class="lp_form-group-separator">
--->
 
         <div class="lp_appearence__item">
             <div>
@@ -356,6 +344,6 @@ iVBORw0KGgoAAAANSUhEUgAAANwAAAA6CAYAAADbRzceAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
                 </code>
             </div>
          </div>
-
+-->
     </div>
 </div>

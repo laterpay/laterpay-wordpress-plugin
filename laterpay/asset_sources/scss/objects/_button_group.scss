@@ -57,6 +57,7 @@
         border: 1px solid $border;
         color: $clickable;
         display: inline-block;
+        font-weight: bold;
         line-height: 1.25;
         padding: $fs;
         position: relative;
@@ -93,13 +94,21 @@
             cursor: default;
             z-index: $zindex;
         }
+
+        &:hover .lp_button-group__button-image,
+        &.lp_is-selected .lp_button-group__button-image,
+        &.lp_is-selected:hover .lp_button-group__button-image {
+            filter: grayscale(0);
+        }
     }
 
     .lp_button-group__button-image {
         background-repeat: no-repeat;
         background-size: 100%;
+        filter: grayscale(100%);
         height: round($fs * 10.5);
         margin: 0 0 $fs;
         width: ($fs * 15);
     }
+
 }
