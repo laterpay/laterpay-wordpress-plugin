@@ -5,7 +5,7 @@
     }
 ?>
 
-<div class="lp_time-pass-widget <?php echo $laterpay_widget['time_pass_widget_class']; ?>">
+<div class="lp_time-pass-widget">
     <?php if ( $laterpay_widget['time_pass_introductory_text'] ): ?>
         <p class="lp_time-pass__introductory-text"><?php echo $laterpay_widget['time_pass_introductory_text']; ?></p>
     <?php endif; ?>

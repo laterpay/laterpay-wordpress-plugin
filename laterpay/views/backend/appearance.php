@@ -126,14 +126,10 @@
                 <code class="lp_code-snippet lp_block">
                     <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
                     <?php _e( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ); ?><br>
-                    <?php _e( 'The default width for time passes is 308px. By adding the parameter \'small\', they will be displayed with a width of 224px.', 'laterpay' ); ?>
                     <br>
                     <br>
                     <strong>Shortcode:</strong> [laterpay_time_passes]<br>
                     <strong>Action:</strong><?php echo htmlspecialchars( " <?php do_action( 'laterpay_time_passes' ); ?>" ); ?>
-                    <div class="lp_text-align--center lp_m"><?php _e( 'or', 'laterpay' ); ?></div>
-                    <strong>Shortcode:</strong> [laterpay_time_passes variant="small"]<br>
-                    <strong>Action:</strong><?php echo htmlspecialchars( " <?php do_action( 'laterpay_time_passes', 'small' ); ?>" ); ?>
                 </code>
             </div>
         </form>
