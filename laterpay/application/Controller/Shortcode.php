@@ -443,7 +443,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        return $this->get_text_view( 'frontend/partials/post/pass/passes' );
+        return $this->get_text_view( 'frontend/partials/post/time_pass/time_pass' );
     }
 
     /**
