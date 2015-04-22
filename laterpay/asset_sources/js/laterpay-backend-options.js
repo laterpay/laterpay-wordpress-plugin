@@ -12,56 +12,59 @@
                 requestSent                 : false
             },
 
-            updateBrowscapCache = function() {
-                // prevent duplicate Ajax requests
-                if (!$o.requestSent) {
-                    $o.requestSent = true;
-
-                    // show loading message and indicator
-                    $o.statusHintText.text(lpVars.i18nFetchingUpdate);
-                    $o.statusHintText.before($o.spinnerWrapper);
-                    showLoadingIndicator($($o.spinnerWrapperSelector));
-
-                    $.post(
-                        ajaxurl,
-                        {
-                            action  : 'laterpay_backend_options',
-                            form    : 'update_browscap_cache'
-                        },
-                        function(data) {
-                            if (data.success) {
-                                // disable update button
-                                $o.browscapCacheUpdateButton.prop('disabled', true);
-
-                                // update status hint
-                                $o.statusHintText.text(lpVars.i18nUpToDate);
-                            } else {
-                                // update status hint
-                                $o.statusHintText.text(data.message);
-                            }
-                        },
-                        'json'
-                    )
-                    .fail(function() {
-                        // re-enable update button
-                        $o.browscapCacheUpdateButton.prop('disabled', false);
-
-                        // update status hint
-                        $o.statusHintText.text(lpVars.i18nUpdateFailed);
-                    })
-                    .always(function() {
-                        $o.requestSent = false;
-                        $($o.spinnerWrapperSelector).remove();
-                    });
-                }
-            },
-
             bindEvents = function() {
                 $o.browscapCacheUpdateButton
                     .mousedown(function() {
                         updateBrowscapCache();
                     })
                     .click(function(e) {e.preventDefault();});
+            },
+
+            updateBrowscapCache = function() {
+                // require confirmation that technical requirements are fulfilled
+                if (confirm(lpVars.i18n.confirmTechnicalRequirementsForBrowscapUpdate)) {
+                    // prevent duplicate Ajax requests
+                    if (!$o.requestSent) {
+                        $o.requestSent = true;
+
+                        // show loading message and indicator
+                        $o.statusHintText.text(lpVars.i18nFetchingUpdate);
+                        $o.statusHintText.before($o.spinnerWrapper);
+                        showLoadingIndicator($($o.spinnerWrapperSelector));
+
+                        $.post(
+                            ajaxurl,
+                            {
+                                action  : 'laterpay_backend_options',
+                                form    : 'update_browscap_cache'
+                            },
+                            function(data) {
+                                if (data.success) {
+                                    // disable update button
+                                    $o.browscapCacheUpdateButton.prop('disabled', true);
+
+                                    // update status hint
+                                    $o.statusHintText.text(lpVars.i18nUpToDate);
+                                } else {
+                                    // update status hint
+                                    $o.statusHintText.text(data.message);
+                                }
+                            },
+                            'json'
+                        )
+                        .fail(function() {
+                            // re-enable update button
+                            $o.browscapCacheUpdateButton.prop('disabled', false);
+
+                            // update status hint
+                            $o.statusHintText.text(lpVars.i18nUpdateFailed);
+                        })
+                        .always(function() {
+                            $o.requestSent = false;
+                            $($o.spinnerWrapperSelector).remove();
+                        });
+                    }
+                }
             },
 
             initializePage = function() {
