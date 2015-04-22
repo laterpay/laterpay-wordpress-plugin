@@ -397,10 +397,8 @@
 
 .lp_redeem-code__button {
     background: $clickable !important;
-    border-radius: 4px !important;
+    border: 0 none !important;
     bottom: $fs--05 !important;
-    color: $text--inverse !important;
-    cursor: pointer !important;
     display: inline-block;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
     font-size: $fs--125 !important;
