@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 language: php
 sudo: false
 php:
@@ -12,3 +13,5 @@ install:
 script:
     - wpcs/vendor/bin/phpcs -s -p --standard=ruleset.xml laterpay
     - jshint laterpay/asset_sources/js
+notifications:
+    slack: laterpay:KtlgyYUZft7naQWn3yjM6yCu

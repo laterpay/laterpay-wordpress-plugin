@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay dashboard helper.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Dashboard
 {
 
@@ -11,7 +18,7 @@ class LaterPay_Helper_Dashboard
      * @return array $cache_data array with cached data or empty array on failure
      */
     public static function get_cache_data( $options ) {
-        $file_path = $options[ 'cache_file_path' ];
+        $file_path = $options['cache_file_path'];
 
         if ( ! file_exists( $file_path ) ) {
             laterpay_get_logger()->error(
@@ -50,7 +57,7 @@ class LaterPay_Helper_Dashboard
 
     /**
      * Callback for wp-ajax and wp-cron to refresh today's dashboard data.
-     * The Cron job provides two params for {x} days back and {n} count of items to
+     * The cron job provides two params for {x} days back and {n} count of items to
      * register your own cron with custom params to cache data.
      *
      * @wp-hook laterpay_refresh_dashboard_data
@@ -62,19 +69,19 @@ class LaterPay_Helper_Dashboard
      */
     public static function refresh_cache_data( $options, $data ) {
         $timestamp = strtotime( 'now GMT' );
-        $data[ 'last_update' ] = array(
+        $data['last_update'] = array(
             'date'      => date( 'd.m.Y H.i:s', $timestamp ),
             'timestamp' => $timestamp,
         );
 
-        $cache_dir      = $options[ 'cache_dir' ];
-        $cache_filename = $options[ 'cache_filename' ];
+        $cache_dir      = $options['cache_dir'];
+        $cache_filename = $options['cache_filename'];
 
         // create the cache dir, if it doesn't exist
         wp_mkdir_p( $cache_dir );
 
         $context = $options;
-        $context[ 'data' ] = $data;
+        $context['data'] = $data;
         laterpay_get_logger()->info(
             __METHOD__,
             $context
@@ -119,7 +126,7 @@ class LaterPay_Helper_Dashboard
      * @return string $cache_filename
      */
     public static function get_cache_filename( $options ) {
-        unset( $options[ 'start_timestamp' ] );
+        unset( $options['start_timestamp'] );
         $array_values   = array_values( $options );
         $cache_filename = implode( '-', $array_values ) . '.cache';
 
@@ -176,7 +183,7 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper function to format the amount in most-/least-items.
+     * Helper function to format the amount in most- / least-items.
      *
      * @param array     $items
      * @param int       $decimal
@@ -186,7 +193,7 @@ class LaterPay_Helper_Dashboard
     public static function format_amount_value_most_least_data( $items, $decimal = 2 ) {
         foreach ( $items as $key => $item ) {
             $item->amount = number_format_i18n( $item->amount, $decimal );
-            $items[ $key ] = $item;
+            $items[$key] = $item;
         }
 
         return $items;
@@ -255,12 +262,11 @@ class LaterPay_Helper_Dashboard
     }
 
     /**
-     * Helper Function to convert a wpdb-result to diagram data.
+     * Helper Function to convert a wpdb result to diagram data.
      *
      * @param array     $items array(
      *                      stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Mon
      *                          [day]       => 27
      *                      ),
      *                      ..
@@ -291,20 +297,20 @@ class LaterPay_Helper_Dashboard
         $key = 1;
         foreach ( $items as $item ) {
             if ( $interval === 'day' ) {
-                $data[ 'x' ][] = array(
+                $data['x'][] = array(
                     $key,
                     $item->hour,
                 );
-                $data[ 'y' ][] = array(
+                $data['y'][] = array(
                     $key,
                     $item->quantity,
                 );
             } else {
-                $data[ 'x' ][] = array(
+                $data['x'][] = array(
                     $key,
-                    $item->day_name,
+                    date_i18n( 'D', strtotime( $item->date ) ),
                 );
-                $data[ 'y' ][] = array(
+                $data['y'][] = array(
                     $key,
                     $item->quantity,
                 );
@@ -329,7 +335,6 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Monday
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -341,7 +346,8 @@ class LaterPay_Helper_Dashboard
      */
     public static function sort_items_by_date( $items ) {
         if ( empty( $items ) ) {
-            laterpay_get_logger()->warning( __METHOD__ . ' - empty items-array' );
+            laterpay_get_logger()->warning( __METHOD__ . ' - empty items array' );
+
             return array();
         }
 
@@ -368,7 +374,6 @@ class LaterPay_Helper_Dashboard
      * @param array $items array(
      *                       stdClass Object (
      *                          [quantity]  => 3
-     *                          [day_name]  => Monday
      *                          [day]       => 27
      *                          [date]      => 2014-10-27
      *                          [hour]      => 1
@@ -380,13 +385,16 @@ class LaterPay_Helper_Dashboard
      */
     public static function sort_items_by_hour( $items ) {
         if ( empty( $items ) ) {
-            laterpay_get_logger()->warning( __METHOD__ . ' - empty items-array' );
+            laterpay_get_logger()->warning( __METHOD__ . ' - empty items array' );
+
             return array();
         }
+
         $items_by_hour = array();
         foreach ( $items as $item ) {
             $items_by_hour[ $item->hour ] = $item;
         }
+
         laterpay_get_logger()->info(
             __METHOD__,
             array(
@@ -394,6 +402,7 @@ class LaterPay_Helper_Dashboard
                 'output'    => $items_by_hour,
             )
         );
+
         return $items_by_hour;
     }
 
@@ -417,11 +426,10 @@ class LaterPay_Helper_Dashboard
         }
 
         for ( $i = 0; $i < $days; $i++ ) {
-            $time_stamp     = strtotime( '-' . $i . ' days', $start_timestamp );
-
+            $timestamp      = strtotime( '-' . $i . ' days', $start_timestamp );
             $item           = new stdClass();
-            $item->date     = gmdate( 'Y-m-d', $time_stamp );
-            $item->day_name = gmdate( 'D', $time_stamp );
+            $item->date     = date( 'Y-m-d', $timestamp );
+            $item->day_name = date_i18n( 'D', $timestamp );
 
             $last_days[]    = $item;
         }
@@ -449,15 +457,13 @@ class LaterPay_Helper_Dashboard
      */
     public static function fill_empty_days( $items, $last_days ) {
         foreach ( $last_days as $day_item ) {
-            $date       = $day_item->date;
-            $day_name   = $day_item->day_name;
+            $date     = $day_item->date;
+
             if ( ! array_key_exists( $date, $items ) ) {
                 $item           = new stdClass();
-                $item->day_name = $day_name;
                 $item->quantity = 0;
                 $item->date     = $date;
-
-                $items[ $date ] = $item;
+                $items[$date]   = $item;
             }
         }
 
@@ -485,20 +491,18 @@ class LaterPay_Helper_Dashboard
     public static function fill_empty_hours( $items, $start_timestamp ) {
         $filled_items = array();
 
-        $day = gmdate( 'd', $start_timestamp );
-        $date= gmdate( 'Y-m-d', $start_timestamp );
-
         for ( $hour = 0; $hour < 24; $hour++ ) {
             if ( ! array_key_exists( $hour, $items ) ) {
                 $item           = new stdClass();
                 $item->hour     = $hour;
-                $item->day      = $day;
-                $item->date     = $date;
+                $item->day      = date( 'd', $start_timestamp );
+                $item->date     = date( 'Y-m-d', $start_timestamp );
                 $item->quantity = 0;
             } else {
-                $item = $items[ $hour ];
+                $item = $items[$hour];
             }
-            $filled_items[ $hour ] = $item;
+
+            $filled_items[$hour] = $item;
         }
 
         laterpay_get_logger()->info(
@@ -511,4 +515,5 @@ class LaterPay_Helper_Dashboard
 
         return $filled_items;
     }
+
 }

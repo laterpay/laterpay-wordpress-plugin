@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay logger HTML formatter.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter_Normalizer
 {
 
@@ -27,15 +34,15 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
      * @return mixed The formatted record
      */
     public function format( array $record ) {
-        $output  = '<li>';
-        $output .= '<table class="lp_debugger_logEntryTable">';
+        $output  = '<li class="lp_debugger-content-list__item">';
+        $output .= '<table class="lp_js_debuggerContentTable lp_debugger-content__table lp_is-hidden">';
 
         // generate thead of log record
         $output .= $this->add_head_row( (string) $record['message'], $record['level'] );
 
         // generate tbody of log record with details
-        $output .= '<tbody class="lp_js_logEntryDetails" style="display:none;">';
-        $output .= '<tr><td colspan="2"><table>';
+        $output .= '<tbody class="lp_js_logEntryDetails lp_debugger-content__table-body" style="display:none;">';
+        $output .= '<tr><td class="lp_debugger-content__table-td" colspan="2"><table class="lp_debugger-content__table">';
 
         if ( $record['context'] ) {
             foreach ( $record['context'] as $key => $value ) {
@@ -68,12 +75,12 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
     private function add_head_row( $message = '', $level ) {
         $show_details_link = '<a href="#" class="lp_js_toggleLogDetails" data-icon="l">' . __( 'Details', 'laterpay' ) . '</a>';
 
-        $html = "<thead>
-                    <tr>
-                        <td><span class=\"lp_debugger_logLevel lp_debugger_logLevel-$level lp_vectorIcon\"></span>$message</td>
-                        <td>$show_details_link</td>
-                    </tr>
-                </thead>";
+        $html = '<thead class="lp_js_debuggerContentTableTitle lp_debugger-content__table-title">
+            <tr>
+                <td class="lp_debugger-content__table-td"><span class="lp_debugger__log-level lp_debugger__log-level--' . $level . ' lp_vectorIcon"></span>' . $message . '</td>
+                <td class="lp_debugger-content__table-td">' . $show_details_link . '</td>
+            </tr>
+        </thead>';
 
         return $html;
     }
@@ -95,13 +102,20 @@ class LaterPay_Core_Logger_Formatter_Html extends LaterPay_Core_Logger_Formatter
         }
 
         $html = "<tr>
-                    <th title=\"$th\">$th</th>
-                    <td>$td</td>
+                    <th class='lp_debugger-content__table-th' title=\"$th\">$th</th>
+                    <td class='lp_debugger-content__table-td'>$td</td>
                 </tr>";
 
         return $html;
     }
 
+    /**
+     * Convert data into string
+     *
+     * @param mixed $data
+     *
+     * @return sting
+     */
     protected function convert_to_string( $data ) {
         if ( null === $data || is_scalar( $data ) ) {
             return (string) $data;

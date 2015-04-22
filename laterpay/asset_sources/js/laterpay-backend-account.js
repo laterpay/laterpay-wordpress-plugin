@@ -4,23 +4,27 @@
     function laterPayBackendAccount() {
         var $o = {
                 // API credentials
-                apiKeyInput                 : $('.lp_js_validateApiKey'),
-                merchantIdInput             : $('.lp_js_validateMerchantId'),
-                testMerchantId              : $('#lp_js_sandboxMerchantId'),
-                testApiKey                  : $('#lp_js_sandboxApiKey'),
-                liveMerchantId              : $('#lp_js_liveMerchantId'),
-                liveApiKey                  : $('#lp_js_liveApiKey'),
-                isLive                      : 'lp_is-live',
+                apiKeyInput                     : $('.lp_js_validateApiKey'),
+                merchantIdInput                 : $('.lp_js_validateMerchantId'),
+                apiCredentialsInputs            : $('.lp_js_validateApiKey, .lp_js_validateMerchantId'),
+                testMerchantId                  : $('#lp_js_sandboxMerchantId'),
+                testApiKey                      : $('#lp_js_sandboxApiKey'),
+                liveMerchantId                  : $('#lp_js_liveMerchantId'),
+                liveApiKey                      : $('#lp_js_liveApiKey'),
 
                 // plugin mode
-                pluginModeToggle            : $('#lp_js_togglePluginMode'),
+                pluginModeIndicator             : $('#lp_js_pluginModeIndicator'),
+                pluginModeToggle                : $('#lp_js_togglePluginMode'),
+                pluginVisibilitySetting         : $('#lp_js_pluginVisibilitySetting'),
+                pluginVisibilityToggle          : $('#lp_js_toggleVisibilityInTestMode'),
+                hasInvalidSandboxCredentials    : $('#lp_js_hasInvalidSandboxCredentials'),
+                isLive                          : 'lp_is-live',
 
-                showMerchantContractsButton : $('#lp_js_showMerchantContracts'),
+                showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
 
-                throttledFlashMessage       : undefined,
-                flashMessageTimeout         : 800,
-                requestSent                 : false,
-                // TODO: extract common HTML elements
+                throttledFlashMessage           : undefined,
+                flashMessageTimeout             : 800,
+                requestSent                     : false,
             },
 
             bindEvents = function() {
@@ -48,6 +52,12 @@
                     togglePluginMode();
                 });
 
+                // switch plugin visibility in TEST mode
+                $o.pluginVisibilityToggle
+                .change(function() {
+                    toggleVisibilityInTestMode();
+                });
+
                 // ask user for confirmation, if he tries to leave the page without a set of valid API credentials
                 window.onbeforeunload = function() {
                     preventLeavingWithoutValidCredentials();
@@ -62,48 +72,76 @@
             },
 
             autofocusEmptyInput = function() {
-                var $inputs = $('.lp_js_validateApiKey, .lp_js_validateMerchantId');
-                for (var i = 0, l = $inputs.length; i < l; i++) {
-                    if ($inputs.eq(i).val() === '') {
-                        $inputs.eq(i).focus();
+                var i = 0,
+                    l = $o.apiCredentialsInputs.length;
+
+                for (; i < l; i++) {
+                    if ($o.apiCredentialsInputs.eq(i).val() === '') {
+                        $o.apiCredentialsInputs.eq(i).focus();
                         return;
                     }
                 }
             },
 
+            toggleVisibilityInTestMode = function() {
+                if (hasNoValidCredentials()) {
+                    // save information in form that credentials are invalid
+                    $o.hasInvalidSandboxCredentials.val(1);
+
+                    // switch to invisible test mode to make sure visitors don't see a broken site
+                    $o.pluginVisibilityToggle.prop('checked', false);
+
+                    // focus Merchant ID input in case the user just forgot to enter his credentials
+                    $o.testMerchantId.focus();
+
+                    // show button for loading the contracts, as the user probably has no valid live credentials yet
+                    $o.showMerchantContractsButton.fadeIn(250);
+
+                    // make sure Ajax request gets sent
+                    $o.requestSent = false;
+                } else {
+                    $o.hasInvalidSandboxCredentials.val(0);
+                }
+
+                // save visibility in test mode
+                makeAjaxRequest('laterpay_test_mode');
+            },
+
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
-                    $('#lp_js_pluginMode_testText').hide();
-                    $('#lp_js_pluginMode_liveText').show();
                     $('#lp_js_pluginModeIndicator').fadeOut();
-                    $('.lp_liveCredentials').addClass($o.isLive);
+                    $('#lp_js_liveCredentials').addClass($o.isLive);
                 } else {
-                    $('#lp_js_pluginMode_liveText').hide();
-                    $('#lp_js_pluginMode_testText').show();
                     $('#lp_js_pluginModeIndicator').fadeIn();
-                    $('.lp_liveCredentials').removeClass($o.isLive);
+                    $('#lp_js_liveCredentials').removeClass($o.isLive);
                 }
             },
 
             togglePluginMode = function() {
                 var $toggle                 = $o.pluginModeToggle,
-                    $input                  = $('#lp_js_pluginMode_hiddenInput'),
-                    testMode                = 0,
-                    liveMode                = 1,
                     hasSwitchedToLiveMode   = $toggle.prop('checked');
 
                 if (hasNoValidCredentials()) {
                     // restore test mode
-                    $input.val(testMode);
                     $toggle.prop('checked', false);
+
                     // focus Merchant ID input in case the user just forgot to enter his credentials
                     $o.liveMerchantId.focus();
+
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
+
+                    // show additional toggle for switching between visible and invisible test mode
+                    $o.pluginVisibilitySetting.fadeIn(250);
                 } else if (hasSwitchedToLiveMode) {
-                    $input.val(liveMode);
+                    // hide toggle for switching between visible and invisible test mode
+                    $o.pluginVisibilitySetting.fadeOut(250);
+
+                    // hide button for loading the contracts, as the user obviously has valid live credentials already
+                    $o.showMerchantContractsButton.fadeOut(250);
                 } else {
-                    $input.val(testMode);
+                    // hide toggle for switching between visible and invisible test mode
+                    $o.pluginVisibilitySetting.fadeIn(250);
                 }
 
                 // save plugin mode
@@ -152,6 +190,15 @@
                     $o.throttledFlashMessage = window.setTimeout(function() {
                         setMessage(lpVars.i18nApiKeyInvalid, false);
                     }, $o.flashMessageTimeout);
+
+                    // switch to invisible test mode to make sure visitors don't see a broken site,
+                    // if we are in test mode;
+                    // no action is required here, if we are in live mode, because there is another check below,
+                    // if we need to switch from live to test mode
+                    var currentFormId = $o.testApiKey.parents('form').attr('id');
+                    if ($form.attr('id') === currentFormId) {
+                        toggleVisibilityInTestMode();
+                    }
                 }
 
                 // switch from live mode to test mode, if there are no valid live credentials
@@ -182,6 +229,15 @@
                     $o.throttledFlashMessage = window.setTimeout(function() {
                         setMessage(lpVars.i18nMerchantIdInvalid, false);
                     }, $o.flashMessageTimeout);
+
+                    // switch to invisible test mode to make sure visitors don't see a broken site,
+                    // if we are in test mode;
+                    // no action is required here, if we are in live mode, because there is another check below,
+                    // if we need to switch from live to test mode
+                    var currentFormId = $o.testMerchantId.parents('form').attr('id');
+                    if ($form.attr('id') === currentFormId) {
+                        toggleVisibilityInTestMode();
+                    }
                 }
 
                 // switch from live mode to test mode, if there are no valid live credentials
@@ -196,15 +252,15 @@
                         // plugin is in test mode, but there are no valid Sandbox API credentials
                         !$o.pluginModeToggle.prop('checked') &&
                         (
-                            $('#lp_js_sandboxApiKey').val().length     !== 32 ||
-                            $('#lp_js_sandboxMerchantId').val().length !== 22
+                            $o.testApiKey.val().length     !== 32 ||
+                            $o.testMerchantId.val().length !== 22
                         )
                     ) || (
                         // plugin is in live mode, but there are no valid Live API credentials
                         $o.pluginModeToggle.prop('checked') &&
                         (
-                            $('#lp_js_liveApiKey').val().length        !== 32 ||
-                            $('#lp_js_liveMerchantId').val().length    !== 22
+                            $o.liveApiKey.val().length        !== 32 ||
+                            $o.liveMerchantId.val().length    !== 22
                         )
                     )
                 ) {
@@ -219,10 +275,10 @@
                     viewportHeight          = parseInt($(window).height(), 10),
                     topMargin               = parseInt($('#wpadminbar').height(), 10) + 26,
                     iframeHeight            = viewportHeight - topMargin,
-                    $iframeWrapperObject    = $('<div id="lp_legalDocs_iframe" style="height:' +
-                                                iframeHeight +
-                                              'px;"></div>'),
-                    $iframeWrapper          = $('#lp_legalDocs_iframe'),
+                    $iframeWrapperObject    = $('<div id="lp_js_legalDocsIframe" class="lp_legal-docs-iframe" ' +
+                                                    'style="height:' + iframeHeight + 'px;">' +
+                                                '</div>'),
+                    $iframeWrapper          = $('#lp_js_legalDocsIframe'),
                     iframeOffset,
                     scrollPosition;
 
@@ -233,9 +289,9 @@
                     $('iframe', $iframeWrapper).remove();
                 }
                 if ($iframeWrapper.length === 0) {
-                    $('#lp_js_credentialsHint').after($iframeWrapperObject.slideDown(400, function() {
+                    $('#lp_js_apiCredentialsSection').after($iframeWrapperObject.slideDown(400, function() {
                         // scroll document so that iframe fills viewport
-                        iframeOffset = $('#lp_legalDocs_iframe').offset();
+                        iframeOffset = $('#lp_js_legalDocsIframe').offset();
                         scrollPosition = iframeOffset.top - topMargin;
                         $('BODY, HTML').animate({
                             scrollTop: scrollPosition
@@ -244,12 +300,12 @@
                 }
 
                 // re-cache object after replacing it
-                $iframeWrapper = $('#lp_legalDocs_iframe');
+                $iframeWrapper = $('#lp_js_legalDocsIframe');
 
                 // inject a new iframe into the wrapper with the requested src parameter
                 $iframeWrapper
                 .html(
-                    '<a href="#" id="lp_js_hideMerchantContracts" class="lp_legalDocs_closeLink">x</a>' +
+                    '<a href="#" id="lp_js_hideMerchantContracts" class="lp_legal-docs-iframe__close-link">x</a>' +
                     '<iframe ' +
                         'src="' + src + '" ' +
                         'frameborder="0" ' +
@@ -261,7 +317,7 @@
                 // close merchant contracts
                 $('#lp_js_hideMerchantContracts', $iframeWrapper).bind('click', function(e) {
                     $(this).fadeOut()
-                        .parent('#lp_legalDocs_iframe').slideUp(400, function() {
+                        .parent('#lp_js_legalDocsIframe').slideUp(400, function() {
                             $(this).remove();
                         });
                     $o.showMerchantContractsButton.fadeIn();

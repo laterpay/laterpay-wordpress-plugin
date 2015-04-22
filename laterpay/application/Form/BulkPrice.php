@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay plugin mode form class
+ * LaterPay bulk price form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
 {
@@ -154,11 +158,7 @@ class LaterPay_Form_BulkPrice extends LaterPay_Form_Abstract
                     'is_float',
                 ),
                 'filters' => array(
-                    'replace' => array(
-                        'type'    => 'str_replace',
-                        'search'  => ',',
-                        'replace' => '.',
-                    ),
+                    'delocalize',
                     'format_num' => 2,
                     'to_float',
                 ),

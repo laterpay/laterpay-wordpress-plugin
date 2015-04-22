@@ -7,14 +7,14 @@
                 postStatisticsPane              : $('#lp_js_postStatistics'),
 
                 // post preview mode
-                postPreviewModeForm             : $('#lp_js_postStatistics_pluginPreviewModeForm'),
+                postPreviewModeForm             : $('#lp_js_postStatisticsPluginPreviewModeForm'),
                 postPreviewModeToggle           : $('#lp_js_togglePostPreviewMode'),
                 postPreviewModeInput            : $('#lp_js_postPreviewModeInput'),
 
                 // post statistics pane visibility
-                postStatisticsVisibilityForm    : $('#lp_js_postStatistics_visibilityForm'),
+                postStatisticsVisibilityForm    : $('#lp_js_postStatisticsVisibilityForm'),
                 postStatisticsVisibilityToggle  : $('#lp_js_togglePostStatisticsVisibility'),
-                postStatisticsVisibilityInput   : $('#lp_js_postStatistics_visibilityInput'),
+                postStatisticsVisibilityInput   : $('#lp_js_postStatisticsVisibilityInput'),
 
                 // time passes
                 timePass                        : '.lp_js_timePass',
@@ -44,16 +44,19 @@
                 // strings cached for better compression
                 hidden                          : 'lp_is-hidden',
                 fadingOut                       : 'lp_is-fading-out',
+
+                // premium content
+                premiumBox                      : '.lp_js_premium-file-box',
             },
 
             recachePostStatisticsPane = function() {
                 $o.postStatisticsPane              = $('#lp_js_postStatistics');
-                $o.postPreviewModeForm             = $('#lp_js_postStatistics_pluginPreviewModeForm');
+                $o.postPreviewModeForm             = $('#lp_js_postStatisticsPluginPreviewModeForm');
                 $o.postPreviewModeToggle           = $('#lp_js_togglePostPreviewMode');
                 $o.postPreviewModeInput            = $('#lp_js_postPreviewModeInput');
-                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatistics_visibilityForm');
+                $o.postStatisticsVisibilityForm    = $('#lp_js_postStatisticsVisibilityForm');
                 $o.postStatisticsVisibilityToggle  = $('#lp_js_togglePostStatisticsVisibility');
-                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatistics_visibilityInput');
+                $o.postStatisticsVisibilityInput   = $('#lp_js_postStatisticsVisibilityInput');
             },
 
             recacheRatingForm = function() {
@@ -125,8 +128,7 @@
                             action  : 'laterpay_redeem_voucher_code',
                             code    : code,
                             nonce   : lpVars.nonces.voucher,
-                            link    : window.location.href,
-                            is_gift : is_gift ? 1 : 0
+                            link    : window.location.href
                         },
                         function(r) {
                             if (r.success) {
@@ -142,7 +144,9 @@
                                         if (passId === r.pass_id) {
                                             // update purchase button price and url
                                             var priceWithVoucher = r.price +
-                                                '<small>' + lpVars.default_currency + '</small>';
+                                                '<small class="lp_purchase-link__currency">' +
+                                                    lpVars.default_currency +
+                                                '</small>';
 
                                             // update purchase button on time pass
                                             $(this)
@@ -170,10 +174,10 @@
                                     }
                                 } else {
                                     $('#fakebtn').attr('data-laterpay', r.url);
-// fire purchase event on hidden fake button
-YUI().use('node', 'node-event-simulate', function(Y) {
-    Y.one('#fakebtn').simulate('click');
-});
+                                    // fire purchase event on hidden fake button
+                                    YUI().use('node', 'node-event-simulate', function(Y) {
+                                        Y.one('#fakebtn').simulate('click');
+                                    });
                                 }
                             } else {
                                 // clear input
@@ -192,13 +196,16 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             showVoucherCodeFeedbackMessage = function(message, $wrapper) {
-                var $feedbackMessage =  $('<div class="lp_voucherCodeFeedbackMessage" style="display:none;">' +
-                                            message +
-                                        '</div>');
+                var $feedbackMessage = $(
+                                            '<div id="lp_js_voucherCodeFeedbackMessage" ' +
+                                                'class="lp_voucher__feedback-message" style="display:none;">' +
+                                                message +
+                                            '</div>'
+                                        );
 
                 $wrapper.prepend($feedbackMessage);
 
-                $feedbackMessage = $('.lp_voucherCodeFeedbackMessage', $wrapper);
+                $feedbackMessage = $('#lp_js_voucherCodeFeedbackMessage', $wrapper);
                 $feedbackMessage
                 .fadeIn(250)
                 .click(function() {
@@ -295,6 +302,46 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                 );
             },
 
+            loadPremiumUrls = function() {
+                var ids   = [],
+                    types = [],
+                    urls  = [],
+                    boxes = $($o.premiumBox);
+
+                // get all pass ids from wrappers
+                $.each(boxes, function(i) {
+                    ids.push($(boxes[i]).data('post-id'));
+                    types.push($(boxes[i]).data('content-type'));
+                    urls.push($(boxes[i]).data('page-url'));
+                });
+
+                $.get(
+                    lpVars.ajaxUrl,
+                    {
+                        action  : 'laterpay_get_premium_shortcode_link',
+                        nonce   : lpVars.nonces.premium,
+                        ids     : ids,
+                        types   : types,
+                        urls    : urls,
+                        post_id : lpVars.post_id,
+                    },
+                    function(r) {
+                        if (r.data) {
+                            var url = null;
+                            $.each(r.data, function(i) {
+                                url = r.data[i];
+                                $.each(boxes, function(j) {
+                                    if ($(boxes[j]).data('post-id').toString() === i) {
+                                        $(boxes[j]).prepend(url);
+                                    }
+                                });
+                            });
+                        }
+                        initiateAttachmentDownload();
+                    }
+                );
+            },
+
             loadPostStatistics = function() {
                 $.get(
                     lpVars.ajaxUrl,
@@ -320,7 +367,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                 bindPostStatisticsEvents();
 
                 // render sparklines within post statistics pane
-                $('.lp_sparklineBar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_js_sparklineBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,
@@ -342,7 +389,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                                 }
                 });
 
-                $('.lp_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
+                $('.lp_js_sparklineBackgroundBar', $o.postStatisticsPane).peity('bar', {
                     delimiter   : ';',
                     width       : 182,
                     height      : 42,
@@ -386,9 +433,10 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                 $.get(
                     lpVars.ajaxUrl,
                     {
-                        action  : 'laterpay_post_load_purchased_content',
-                        post_id : lpVars.post_id,
-                        nonce   : lpVars.nonces.content
+                        action   : 'laterpay_post_load_purchased_content',
+                        post_id  : lpVars.post_id,
+                        is_front : true,
+                        nonce    : lpVars.nonces.content
                     },
                     function(postContent) {
                         if (postContent) {
@@ -397,6 +445,7 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                             recacheRatingForm();
                             bindRatingEvents();
                         }
+                        loadPremiumUrls();
                     }
                 );
             },
@@ -413,28 +462,37 @@ YUI().use('node', 'node-event-simulate', function(Y) {
             },
 
             handlePurchaseInTestMode = function(trigger) {
-                if ($(trigger).data('preview-as-visitor')) {
+                if ($(trigger).data('preview-as-visitor') && !$(trigger).data('is-in-visible-test-mode')) {
                     // show alert instead of loading LaterPay purchase dialogs
                     alert(lpVars.i18n.alert);
                 }
             },
 
             initiateAttachmentDownload = function() {
+                var url = get_cookie('laterpay_download_attached');
                 // start attachment download, if requested
-                if (lpVars.download_attachment) {
-                    window.location.href = lpVars.download_attachment;
+                if ( url ) {
+                    delete_cookie('laterpay_download_attached');
+                    window.location.href = url;
                 }
             },
 
             flipTimePass = function(trigger) {
-                $(trigger).parents('.lp_timePass').toggleClass('lp_is-flipped');
+                $(trigger).parents('.lp_time-pass').toggleClass('lp_is-flipped');
             },
 
             delete_cookie = function( name ) {
                 document.cookie = name + '=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';
             },
 
-            initializePage = function() {
+            get_cookie = function(name) {
+                var matches = document.cookie.match(
+                    new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+                return matches ? decodeURIComponent(matches[1]) : undefined;
+            },
+
+
+        initializePage = function() {
                 // load post content via Ajax, if plugin is in caching compatible mode
                 // (recognizable by the presence of lp_js_postContentPlaceholder
                 if ($o.postContentPlaceholder.length === 1) {
@@ -455,11 +513,13 @@ YUI().use('node', 'node-event-simulate', function(Y) {
                     loadGiftCards();
                 }
 
+                if ($($o.premiumBox).length >=1 && !$o.postContentPlaceholder.length) {
+                    loadPremiumUrls();
+                }
+
                 bindPurchaseEvents();
                 bindRatingEvents();
                 bindTimePassesEvents();
-
-                initiateAttachmentDownload();
             };
 
         initializePage();
@@ -473,29 +533,27 @@ laterPayPostView();
 
 // render LaterPay purchase dialogs using the LaterPay YUI dialog manager library
 YUI().use('node', 'laterpay-dialog', 'laterpay-iframe', 'laterpay-easyxdm', function(Y) {
+    var dm = new Y.LaterPay.DialogManager();
 
-    var ppuContext      = {
-                            showCloseBtn        : true,
-                            canSkipAddToInvoice : false,
-                          },
-        dm              = new Y.LaterPay.DialogManager();
-
-    // bind event to purchase link and if 'preview as visitor' is activated for admins handle it accordingly
+    // bind event to purchase link and if 'preview as visitor' is activated for admins, handle it accordingly
     Y.one(Y.config.doc).delegate(
         'click',
         function(event) {
             event.preventDefault();
-            if (event.currentTarget.getData('preview-as-visitor')) {
-                alert(lpVars.i18n.alert);
+            if (
+                event.currentTarget.getData('preview-as-visitor') &&
+                !event.currentTarget.getData('is-in-visible-test-mode')
+            ) {
+                alert(lpVars.i18n.alert); // only show an alert instead of opening the dialog
             } else {
                 var url = event.currentTarget.getAttribute('href');
                 if (event.currentTarget.hasAttribute('data-laterpay')) {
                     url = event.currentTarget.getAttribute('data-laterpay');
                 }
-                dm.openDialog(url, ppuContext.showCloseBtn);
+
+                dm.openDialog(url, true); // show the dialog
             }
         },
         '.lp_js_doPurchase'
     );
 });
-

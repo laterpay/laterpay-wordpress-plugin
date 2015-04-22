@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay view helper.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_View
 {
 
@@ -9,17 +16,83 @@ class LaterPay_Helper_View
     public static $pluginPage = 'laterpay-plugin';
 
     /**
-     * Get admin menu data.
+     * Helper function to render a plugin backend navigation tab link.
      *
-     * @var array
+     * @param array $page array(
+     *                      'url'   => String
+     *                      'title' => String
+     *                      'cap'   => String
+     *                      'data'  => Array|String     // optional
+     *                    )
+     *
+     * @return string $link
+     */
+    public static function get_admin_menu_link( $page ) {
+        $query_args = array(
+            'page' => $page[ 'url' ]
+        );
+        $href = admin_url('admin.php');
+        $href = add_query_arg( $query_args, $href );
+
+        $data = '';
+        if ( isset( $page[ 'data' ] ) ){
+            $data = json_encode( $page[ 'data' ] );
+            $data = 'data="' . esc_attr( $data ) . '"';
+        }
+
+        return '<a href="' . $href . '" ' . $data . ' class="lp_navigation-tabs__link">' . $page[ 'title' ] . '</a>';
+    }
+
+    /**
+     * Get links to be rendered in the plugin backend navigation.
+     *
+     * @return array
      */
     public static function get_admin_menu() {
-        return array(
-            'dashboard'     => array( 'url' => 'laterpay-dashboard-tab',    'title' => __( 'Dashboard <sup class="lp_is-beta">beta</sup>', 'laterpay' ) ),
-            'pricing'       => array( 'url' => 'laterpay-pricing-tab',      'title' => __( 'Pricing', 'laterpay' ) ),
-            'appearance'    => array( 'url' => 'laterpay-appearance-tab',   'title' => __( 'Appearance', 'laterpay' ) ),
-            'account'       => array( 'url' => 'laterpay-account-tab',      'title' => __( 'Account', 'laterpay' ) ),
+        $menu = array();
+
+        // @link http://codex.wordpress.org/Roles_and_Capabilities#Capability_vs._Role_Table
+        // cap "activate_plugins"   => Super Admin, Admin
+        // cap "moderate_comments"  => Super Admin, Admin, Editor
+
+        $menu[ 'dashboard' ] = array(
+            'url'       => 'laterpay-plugin',
+            'title'     => __( 'Dashboard', 'laterpay' ),
+            'cap'       => 'moderate_comments',
+            'submenu'   => array(
+                'name'      => 'time_passes',
+                'url'       => 'laterpay-timepass-dashboard-tab',
+                'cap'       => 'moderate_comments',
+                'title'     => __( 'Time Passes', 'laterpay' ),
+                'data'      => array(
+                    'view'      => 'time-passes',
+                    'label'     => __( 'Standard KPIs', 'laterpay' ),
+                ),
+            ),
         );
+
+        $menu[ 'pricing' ] = array(
+            'url'   => 'laterpay-pricing-tab',
+            'title' => __( 'Pricing', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
+        $menu[ 'appearance' ] = array(
+            'url'   => 'laterpay-appearance-tab',
+            'title' => __( 'Appearance', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
+        $menu[ 'account' ] = array(
+            'url'   => 'laterpay-account-tab',
+            'title' => __( 'Account', 'laterpay' ),
+            'cap'   => 'activate_plugins',
+        );
+
+        // modify laterpay menu
+        $menu = apply_filters( 'modify_menu', $menu );
+
+        return $menu;
     }
 
     /**
@@ -99,29 +172,50 @@ class LaterPay_Helper_View
      * @return bool
      */
     public static function plugin_is_working() {
-        $modeIsLive = get_option( 'laterpay_plugin_is_in_live_mode' );
-        $sandboxKey = get_option( 'laterpay_sandbox_api_key' );
-        $liveKey    = get_option( 'laterpay_live_api_key' );
+        $is_in_live_mode            = get_option( 'laterpay_plugin_is_in_live_mode' );
+        $sandbox_api_key            = get_option( 'laterpay_sandbox_api_key' );
+        $live_api_key               = get_option( 'laterpay_live_api_key' );
+        $is_in_visible_test_mode    = get_option( 'laterpay_is_in_visible_test_mode' );
         if ( ! function_exists( 'wp_get_current_user' ) ) {
             include_once( ABSPATH . 'wp-includes/pluggable.php' );
         }
 
-        // check, if plugin works in live mode and API key exists
-        if ( $modeIsLive && empty( $liveKey ) ) {
+        // check, if plugin operates in live mode and Live API key exists
+        if ( $is_in_live_mode && empty( $live_api_key ) ) {
             return false;
         }
 
         // check, if plugin is not in live mode and Sandbox API key exists
-        if ( ! $modeIsLive && empty( $sandboxKey ) ) {
+        if ( ! $is_in_live_mode && empty( $sandbox_api_key ) ) {
             return false;
         }
 
+        // check, if plugin is not in live mode and is in visible test mode
+        if ( ! $is_in_live_mode && $is_in_visible_test_mode ) {
+            return true;
+        }
+
         // check, if plugin is not in live mode and current user has sufficient capabilities
-        if ( ! $modeIsLive && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
+        if ( ! $is_in_live_mode && ! LaterPay_Helper_User::can( 'laterpay_read_post_statistics', null, false ) ) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Get current plugin mode.
+     *
+     * @return string $mode
+     */
+    public static function get_plugin_mode() {
+        if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
+            $mode = 'live';
+        } else {
+            $mode = 'test';
+        }
+
+        return $mode;
     }
 
     /**
@@ -134,6 +228,7 @@ class LaterPay_Helper_View
     public static function remove_extra_spaces( $string ) {
         $string = trim( preg_replace( '/>\s+</', '><', $string ) );
         $string = preg_replace( '/\n\s*\n/', '', $string );
+
         return $string;
     }
 
@@ -146,9 +241,6 @@ class LaterPay_Helper_View
      * @return string $formatted
      */
     public static function format_number( $number, $is_monetary = true ) {
-        // delocalize number
-        $number = (float) str_replace( ',', '.', $number );
-
         if ( $is_monetary ) {
             // format monetary values
             if ( $number < 200 ) {
@@ -173,5 +265,43 @@ class LaterPay_Helper_View
         }
 
         return $formatted;
+    }
+
+    /**
+     * Number normalization
+     *
+     * @param $number
+     *
+     * @return float
+     */
+    public static function normalize( $number ) {
+        global $wp_locale;
+
+        $number = str_replace( $wp_locale->number_format['thousands_sep'], "", (string) $number );
+        $number = str_replace( $wp_locale->number_format['decimal_point'], ".", $number );
+
+        return (float) $number;
+    }
+
+    /**
+     * Check, if purchase link should be hidden.
+     *
+     * @return bool
+     */
+    public static function purchase_link_is_hidden() {
+        $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' ) && get_option( 'laterpay_teaser_content_only' );
+
+        return $is_hidden;
+    }
+
+    /**
+     * Check, if purchase button should be hidden.
+     *
+     * @return bool
+     */
+    public static function purchase_button_is_hidden() {
+        $is_hidden = get_option( 'laterpay_only_time_pass_purchases_allowed' );
+
+        return $is_hidden;
     }
 }

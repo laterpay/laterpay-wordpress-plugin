@@ -1,0 +1,86 @@
+// 'Appearance' tab in plugin backend
+
+// content preview mode ------------------------------------------------------------------------------------------------
+.lp_preview-mode__image {
+    background-repeat: no-repeat;
+    height: 208px;
+    margin: 0.5em 4em 0.25em 1.75em;
+    width: 300px;
+
+    &.lp_preview-mode__image--teaser-only {
+        background-image: url('../img/preview-mode-1.png');
+        background-size: 100%;
+    }
+
+    &.lp_preview-mode__image--teaser-and-content {
+        background-image: url('../img/preview-mode-2.png');
+        background-size: 100%;
+    }
+}
+
+
+// code snippets -------------------------------------------------------------------------------------------------------
+.lp_ui-element-preview {
+    width: 110px;
+
+    &.lp_ui-element-preview--large {
+        width: 300px;
+    }
+}
+
+.lp_code-snippet {
+    background: $background--lightest;
+    border: 1px solid $border--darker;
+    border-radius: $border-radius;
+    margin: $fs--075 0 0 125px;
+    max-width: 700px;
+    padding: $fs--075 $fs $fs--05;
+    position: relative;
+
+    &.lp_code-snippet--large {
+        margin-left: 325px;
+    }
+
+    &.lp_code-snippet--shown-above {
+        margin: $fs--075 0 $fs--05;
+        max-width: 540px;
+
+        .lp_triangle {
+            @include triangle(9px, bottom, $background--lightest);
+            bottom: 2px;
+            left: -9px;
+            top: auto;
+        }
+
+        .lp_triangle--outer-triangle {
+            @include triangle(9px, bottom, lighten($text--lighter, 10%));
+            bottom: -10px;
+            left: 70px;
+            top: auto;
+        }
+    }
+}
+
+.lp_triangle {
+    @include triangle(10px, left, $background--lightest);
+    left: 2px;
+    top: -10px;
+}
+
+.lp_triangle--outer-triangle {
+    @include triangle(10px, left, lighten($text--lighter, 10%));
+    left: -10px;
+    top: 7px;
+}
+
+table {
+
+    td {
+        padding: $fs--05;
+        vertical-align: top;
+   }
+
+    pre {
+        margin: 0;
+    }
+}

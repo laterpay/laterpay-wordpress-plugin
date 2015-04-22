@@ -4,15 +4,15 @@
     function laterPayPostEdit() {
         var $o = {
                 // post price inputs
-                priceInput              : $('#lp_js_postPrice_priceInput'),
-                priceTypeInput          : $('#lp_js_postPrice_priceTypeInput'),
-                revenueModel            : $('#lp_js_postPrice_revenueModel'),
+                priceInput              : $('#lp_js_postPriceInput'),
+                priceTypeInput          : $('#lp_js_postPriceTypeInput'),
+                revenueModel            : $('#lp_js_postPriceRevenueModel'),
                 categoryInput           : $('#lp_js_postDefaultCategoryInput'),
 
                 // button group for choosing pricing type
                 priceSection            : $('#lp_js_priceType'),
-                pricingTypeButtonGroup  : $('#lp_js_priceType_buttonGroup'),
-                pricingTypeButtons      : $('.lp_js_priceType_button'),
+                pricingTypeButtonGroup  : $('#lp_js_priceTypeButtonGroup'),
+                pricingTypeButtons      : $('.lp_js_priceTypeButton'),
                 individualPriceButton   : $('#lp_js_useIndividualPrice').parent(),
                 categoryPriceSelector   : '#lp_js_useCategoryDefaultPrice',
                 categoryPriceButton     : $('#lp_js_useCategoryDefaultPrice').parent(),
@@ -20,13 +20,13 @@
 
                 // details sections for chosen pricing type
                 details                 : $('#lp_js_priceTypeDetails'),
-                detailsSections         : $('.lp_js_priceTypeDetails_section'),
-                individualPriceDetails  : $('#lp_js_priceTypeDetails_individualPrice'),
-                categoryPriceDetails    : $('#lp_js_priceTypeDetails_categoryDefaultPrice'),
-                categoriesList          : $('#lp_js_priceTypeDetails_categoryDefaultPrice ul'),
-                categories              : $('#lp_js_priceTypeDetails_categoryDefaultPrice li'),
+                detailsSections         : $('.lp_js_priceTypeDetailsSection'),
+                individualPriceDetails  : $('#lp_js_priceTypeDetailsIndividualPrice'),
+                categoryPriceDetails    : $('#lp_js_priceTypeDetailsCategoryDefaultPrice'),
+                categoriesList          : $('.lp_js_priceTypeDetailsCategoryDefaultPriceList'),
+                categories              : $('.lp_js_priceTypeDetailsCategoryDefaultPriceItem'),
                 dynamicPricingToggle    : $('#lp_js_toggleDynamicPricing'),
-                dynamicPricingContainer : '#lp_js_dynamicPricing_widgetContainer',
+                dynamicPricingContainer : '#lp_js_dynamicPricingWidgetContainer',
                 dynamicPricingResetDate : $('#lp_js_resetDynamicPricingStartDate'),
 
                 // strings cached for better compression
@@ -331,7 +331,8 @@
                         if (data) {
                             data.forEach(function(category) {
                                 var price = parseFloat(category.category_price).toFixed(2) + ' ' + lpVars.currency;
-                                categoriesList +=   '<li data-category="' + category.category_id + '">' +
+                                categoriesList +=   '<li data-category="' + category.category_id + '" ' +
+                                                        'class="lp_price-type-categorized__item">' +
                                                         '<a href="#" ' +
                                                                 'data-price="' + category.category_price + '" ' +
                                                                 'data-revenue-model="' + category.revenue_model + '">' +
@@ -345,7 +346,7 @@
                             if (data.length) {
                                 $o.categoryPriceButton.removeClass($o.disabled).removeClass($o.selected);
                                 // update cached selector
-                                $o.categories = $('#lp_js_priceTypeDetails_categoryDefaultPrice li');
+                                $o.categories = $('#lp_js_priceTypeDetailsCategoryDefaultPrice li');
                                 switchPricingType($o.categoryPriceSelector);
                                 $o.globalPriceButton.addClass($o.disabled);
                             } else {
@@ -477,12 +478,12 @@
                     },
                     function(data) {
                         if (data) {
-                            var lpc                = new LPCurve($o.dynamicPricingContainer),
-                                startPrice         = data.values[0].y,
-                                endPrice           = data.values[3].y,
-                                minPrice           = 0,
-                                maxPrice           = 5;
-                            window.lpc = lpc;
+                            var dynamicPricingWidget    = new DynamicPricingWidget($o.dynamicPricingContainer),
+                                startPrice              = data.values[0].y,
+                                endPrice                = data.values[3].y,
+                                minPrice                = 0,
+                                maxPrice                = 5;
+                            window.dynamicPricingWidget = dynamicPricingWidget;
 
                             $o.priceInput.attr('disabled', 'disabled');
 
@@ -500,17 +501,17 @@
                                 minPrice = lpVars.limits.ppu_min;
                             }
 
-                            if ( data.price.pubDays > 0 && data.price.pubDays <= 30 ) {
-                                lpc.set_today(data.price.pubDays, data.price.todayPrice);
+                            if (data.price.pubDays > 0 && data.price.pubDays <= 30) {
+                                dynamicPricingWidget.set_today(data.price.pubDays, data.price.todayPrice);
                             }
 
                             if (data.values.length === 4) {
-                                lpc
+                                dynamicPricingWidget
                                 .set_data(data.values)
                                 .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
                                 .plot();
                             } else {
-                                lpc
+                                dynamicPricingWidget
                                 .set_data(data.values)
                                 .setPrice(minPrice, maxPrice, lpVars.globalDefaultPrice)
                                 .interpolate('step-before')
@@ -529,14 +530,14 @@
                 }
 
                 // save dynamic pricing data
-                var data = window.lpc.get_data();
-                if (window.lpc.get_data().length === 4) {
+                var data = window.dynamicPricingWidget.get_data();
+                if (window.dynamicPricingWidget.get_data().length === 4) {
                     $('input[name=start_price]').val(data[0].y);
                     $('input[name=end_price]').val(data[3].y);
                     $('input[name=change_start_price_after_days]').val(data[1].x);
                     $('input[name=transitional_period_end_after_days]').val(data[2].x);
                     $('input[name=reach_end_price_after_days]').val(data[3].x);
-                } else if (window.lpc.get_data().length === 3) {
+                } else if (window.dynamicPricingWidget.get_data().length === 3) {
                     $('input[name=start_price]').val(data[0].y);
                     $('input[name=end_price]').val(data[2].y);
                     $('input[name=change_start_price_after_days]').val(data[1].x);

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay core request.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Request extends LaterPay_Core_Entity
 {
 
@@ -60,8 +67,8 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
      * Retrieve a parameter.
      *
      * Retrieves a parameter from the instance. Priority is in the order of
-     * userland parameters $_GET, $_POST. If a
-     * parameter matching the $key is not found, null is returned.
+     * userland parameters $_GET, $_POST.
+     * If a parameter matching the $key is not found, null is returned.
      *
      * @param mixed $key
      * @param mixed $default Default value to use if key not found
@@ -79,5 +86,4 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
 
         return $default;
     }
-
 }

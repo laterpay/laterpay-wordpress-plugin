@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay cache helper.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Helper_Cache
 {
 
@@ -55,6 +62,7 @@ class LaterPay_Helper_Cache
             'hyper-cache/plugin.php',               // Hyper Cache
             'hyper-cache-extended/plugin.php',      // Hyper Cache Extended
             'really-static/main.php',               // Really Static
+            'wp-ffpc/wp-ffpc.php',                  // WP-FFPC
         );
 
         foreach ( $caching_plugins as $plugin ) {

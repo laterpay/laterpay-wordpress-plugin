@@ -1,10 +1,24 @@
 <?php
 
+/**
+ * LaterPay core logger processor introspection.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logger_Processor_Interface
 {
 
+    /**
+     *
+     * @var int level of records to log
+     */
     private $level;
 
+    /**
+     * @var array
+     */
     private $skip_classes_partials;
 
     public function __construct( $level = LaterPay_Core_Logger::DEBUG, array $skip_classes_partials = array() ) {
@@ -13,7 +27,11 @@ class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logg
     }
 
     /**
-     * {@inheritdoc}
+     * Process record data
+     *
+     * @param array Record data
+     *
+     * @return array processed record
      */
     public function process( array $record ) {
 

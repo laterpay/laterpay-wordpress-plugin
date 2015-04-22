@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay abstract form class
+ * LaterPay abstract form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 abstract class LaterPay_Form_Abstract
 {
@@ -12,7 +16,7 @@ abstract class LaterPay_Form_Abstract
      * @var array
      */
     protected $fields;
-    
+
     /**
      * Validation errors
      *
@@ -49,6 +53,8 @@ abstract class LaterPay_Form_Abstract
         'to_int'     => 'absint',
         // convert to string
         'to_string'  => 'strval',
+        // delocalize
+        'delocalize' => array( 'LaterPay_Helper_View', 'normalize' ),
         // convert to float
         'to_float'   => 'floatval',
         // replace part of value with other
@@ -224,7 +230,7 @@ abstract class LaterPay_Form_Abstract
     public function add_validation( $field, $condition = array() ) {
         $fields = $this->get_fields();
 
-        if( isset( $fields[$field] ) ) {
+        if ( isset( $fields[$field] ) ) {
             if ( is_array( $condition ) && ! empty( $condition ) ) {
                 // condition should be correct
                 array_push( $fields[$field]['validators'], $condition );
@@ -272,7 +278,7 @@ abstract class LaterPay_Form_Abstract
 
         return empty($this->errors);
     }
-    
+
     public function get_errors() {
         $aux = $this->errors;
         $this->errors = array();
@@ -406,6 +412,29 @@ abstract class LaterPay_Form_Abstract
                         // recursively call extra validator
                         $is_valid = $this->validate_value( strlen( $value ), $extra_validator, $validator_data );
                         // break loop if something not valid
+                        if ( ! $is_valid ) {
+                            break;
+                        }
+                    }
+                }
+                break;
+
+            // check array values
+            case 'array_check':
+                if ( $validator_params && is_array( $validator_params ) ) {
+                    foreach ( $validator_params as $extra_validator => $validator_data ) {
+                        if ( is_array( $value ) ) {
+                            foreach ( $value as $v ) {
+                                // recursively call extra validator
+                                $is_valid = $this->validate_value( $v, $extra_validator, $validator_data );
+                                if ( ! $is_valid ) {
+                                    break;
+                                }
+                            }
+                        } else {
+                            $is_valid = false;
+                        }
+
                         if ( ! $is_valid ) {
                             break;
                         }

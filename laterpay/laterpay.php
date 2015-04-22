@@ -1,10 +1,10 @@
 <?php
 /*
  * Plugin Name: LaterPay
- * Plugin URI: https://laterpay.net/developers/plugins-and-libraries
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Description: Sell digital content with LaterPay. It allows super easy and fast payments from as little as 5 cent up to 149.99 Euro at a 15% fee and no fixed costs.
  * Author: LaterPay GmbH and Mihail Turalenka
- * Version: 0.9.10
+ * Version: 0.9.11.3
  * Author URI: https://laterpay.net/
  * Textdomain: laterpay
  * Domain Path: /languages
@@ -84,13 +84,13 @@ function laterpay_get_plugin_config() {
     $config->set( 'cache_dir',          plugin_dir_path( __FILE__ ) . 'cache/' );
 
     $upload_dir = wp_upload_dir();
-    $config->set( 'log_dir',            $upload_dir[ 'basedir' ] . '/laterpay_log/' );
-    $config->set( 'log_url',            $upload_dir[ 'baseurl' ] . '/laterpay_log/' );
+    $config->set( 'log_dir',            $upload_dir['basedir'] . '/laterpay_log/' );
+    $config->set( 'log_url',            $upload_dir['baseurl'] . '/laterpay_log/' );
 
     $plugin_url = $config->get( 'plugin_url' );
-    $config->set( 'css_url',    $plugin_url . 'built_assets/css/' );
-    $config->set( 'js_url',     $plugin_url . 'built_assets/js/' );
-    $config->set( 'image_url',  $plugin_url . 'built_assets/img/' );
+    $config->set( 'css_url',            $plugin_url . 'built_assets/css/' );
+    $config->set( 'js_url',             $plugin_url . 'built_assets/js/' );
+    $config->set( 'image_url',          $plugin_url . 'built_assets/img/' );
 
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
@@ -99,13 +99,13 @@ function laterpay_get_plugin_config() {
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {
-        $laterpay_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
+        $laterpay_dialog_library_src = 'https://lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config.js';
     } elseif ( $config->get( 'script_debug_mode' ) ) {
-        $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
+        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui.js&client/1.0.0/config-sandbox.js';
     } else {
-        $laterpay_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
+        $laterpay_dialog_library_src = 'https://sandbox.lpstatic.net/combo?yui/3.17.2/build/yui/yui-min.js&client/1.0.0/config-sandbox.js';
     }
-    $config->set( 'laterpay_yui_js', $laterpay_src );
+    $config->set( 'laterpay_yui_js', $laterpay_dialog_library_src );
 
     // plugin headers
     $plugin_headers = get_file_data(
@@ -123,34 +123,40 @@ function laterpay_get_plugin_config() {
     );
     $config->import( $plugin_headers );
 
+    // make sure all API variables are set
+    if ( ! get_option( 'laterpay_sandbox_backend_api_url' ) ) {
+        update_option( 'laterpay_sandbox_backend_api_url', 'https://api.sandbox.laterpaytest.net' );
+    }
+    if ( ! get_option( 'laterpay_sandbox_dialog_api_url' ) ) {
+        update_option( 'laterpay_sandbox_dialog_api_url', 'https://web.sandbox.laterpaytest.net' );
+    }
+    if ( ! get_option( 'laterpay_live_backend_api_url' ) ) {
+        update_option( 'laterpay_live_backend_api_url', 'https://api.laterpay.net' );
+    }
+    if ( ! get_option( 'laterpay_live_dialog_api_url' ) ) {
+        update_option( 'laterpay_live_dialog_api_url', 'https://web.laterpay.net' );
+    }
+    if ( ! get_option( 'laterpay_api_merchant_backend_url' ) ) {
+        update_option( 'laterpay_api_merchant_backend_url', 'https://merchant.laterpay.net/' );
+    }
+
     /**
      * LaterPay API endpoints and API default settings.
      *
      * @var array
      */
-    $default_api_settings = array(
-        'api.sandbox_url'           => get_option( 'laterpay_api_sandbox_url' ),
-        'api.sandbox_web_url'       => get_option( 'laterpay_api_sandbox_web_url' ),
-        'api.live_url'              => get_option( 'laterpay_api_live_url' ),
-        'api.live_web_url'          => get_option( 'laterpay_api_live_web_url' ),
-        'api.merchant_backend_url'  => get_option( 'laterpay_api_merchant_backend_url' ),
+    $api_settings = array(
+        'api.sandbox_backend_api_url'   => get_option( 'laterpay_sandbox_backend_api_url' ),
+        'api.sandbox_dialog_api_url'    => get_option( 'laterpay_sandbox_dialog_api_url' ),
+        'api.live_backend_api_url'      => get_option( 'laterpay_live_backend_api_url' ),
+        'api.live_dialog_api_url'       => get_option( 'laterpay_live_dialog_api_url' ),
+        'api.merchant_backend_url'      => get_option( 'laterpay_api_merchant_backend_url' ),
     );
 
-    /**
-     * Plugin filter for manipulating the API endpoint URLs.
-     *
-     * @param array $api_settings
-     *
-     * @return array $api_settings
-     */
-    $api_settings = apply_filters( 'laterpay_get_api_settings', $default_api_settings );
-    if ( ! is_array( $api_settings ) ) {
-        $api_settings = $default_api_settings;
-    }
     // non-editable settings for the LaterPay API
-    $api_settings[ 'api.token_name' ]           = 'token';
-    $api_settings[ 'api.sandbox_merchant_id' ]  = 'LaterPay-WordPressDemo';
-    $api_settings[ 'api.sandbox_api_key' ]      = 'decafbaddecafbaddecafbaddecafbad';
+    $api_settings['api.token_name']           = 'token';
+    $api_settings['api.sandbox_merchant_id']  = 'LaterPay-WordPressDemo';
+    $api_settings['api.sandbox_api_key']      = 'decafbaddecafbaddecafbaddecafbad';
 
     $config->import( $api_settings );
 
@@ -158,7 +164,6 @@ function laterpay_get_plugin_config() {
     $currency_settings = array(
         'currency.default'          => 'EUR',
         'currency.default_price'    => 0.29,
-        'currency.default_vat'      => 'DE19',
     );
     $config->import( $currency_settings );
 
@@ -170,11 +175,12 @@ function laterpay_get_plugin_config() {
      * files and then uses an Ajax request to load either the preview content or the full content,
      * depending on the current visitor
      *
-     * @var boolean$caching_compatible_mode
+     * @var boolean $caching_compatible_mode
      *
-     * @return boolean$caching_compatible_mode
+     * @return boolean $caching_compatible_mode
      */
     $config->set( 'caching.compatible_mode', get_option( 'laterpay_caching_compatibility' ) );
+
     $enabled_post_types = get_option( 'laterpay_enabled_post_types' );
 
     // content preview settings
@@ -183,25 +189,8 @@ function laterpay_get_plugin_config() {
         'content.preview_percentage_of_content'             => get_option( 'laterpay_preview_excerpt_percentage_of_content' ),
         'content.preview_word_count_min'                    => get_option( 'laterpay_preview_excerpt_word_count_min' ),
         'content.preview_word_count_max'                    => get_option( 'laterpay_preview_excerpt_word_count_max' ),
-        'content.show_purchase_button'                      => get_option( 'laterpay_show_purchase_button' ),
         'content.enabled_post_types'                        => $enabled_post_types ? $enabled_post_types : array(),
     );
-
-    /**
-     * Content filter to change the settings for preview output.
-     *
-     * @var array $content_settings
-     *
-     * @return array $content_settings array(
-     *                                     'content.auto_generated_teaser_content_word_count'   => Integer - Number of words used for automatically extracting teaser content for paid posts,
-     *                                     'content.preview_percentage_of_content'              => Integer - percentage of content to be extracted (values: 1-100); 20 means "extract 20% of the total number of words of the post",
-     *                                     'content.preview_word_count_min'                     => Integer - MINimum number of words; applied if number of words as percentage of the total number of words is less than this value,
-     *                                     'content.preview_word_count_max'                     => Integer - MAXimum number of words; applied if number of words as percentage of the total number of words exceeds this value,'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
-     *                                     'content.show_purchase_button'                       => Boolean - show / hide the purchase button before the teaser content
-     *                                     'content.enabled_post_types'                         => Array - allowed post_types that support LaterPay purchases
-     *                                  );
-     */
-    $content_settings = apply_filters( 'laterpay_get_content_settings', $content_settings );
     $config->import( $content_settings );
 
     /**
@@ -219,19 +208,12 @@ function laterpay_get_plugin_config() {
         // Auto-update browscap library
         // The plugin requires browscap to ensure search engine bots, social media sites, etc. don't crash when visiting a paid post
         // When set to true, the plugin will automatically fetch updates of this library from browscap.org
-        'browscap.autoupdate' => false,
-        'browscap.silent' => true,
+        'browscap.autoupdate'               => false,
+        'browscap.silent'                   => true,
         // If you can't or don't want to enable automatic updates, you can provide the full path to a browscap.ini file
         // on your server that you update manually from http://browscap.org/stream?q=PHP_BrowsCapINI
-        'browscap.manually_updated_copy' => null,
+        'browscap.manually_updated_copy'    => null,
     );
-
-    /**
-     * @var array $browscap_settings
-     *
-     * @return array $browscap_settings
-     */
-    $browscap_settings = apply_filters( 'laterpay_get_browscap_settings', $browscap_settings );
     $config->import( $browscap_settings );
 
     // cache the config
@@ -267,7 +249,7 @@ function laterpay_before_start() {
  * @return LaterPay_Core_Logger
  */
 function laterpay_get_logger() {
-    // check, if the config is in cache -> don't load it again.
+    // check, if the config is cached -> don't load it again
     $logger = wp_cache_get( 'logger', 'laterpay' );
     if ( is_a( $logger, 'LaterPay_Core_Logger' ) ) {
         return $logger;

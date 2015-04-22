@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * LaterPay core logger handler WordPress.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handler_Abstract
 {
 
@@ -29,6 +36,13 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         add_action( 'admin_bar_menu',        array( &$this, 'admin_bar_menu' ), 1000 );
     }
 
+    /**
+     * Added element into wp menu
+     *
+     * @global type $wp_admin_bar
+     *
+     * @return void
+     */
     public function admin_bar_menu() {
         global $wp_admin_bar;
 
@@ -42,7 +56,11 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
     }
 
     /**
-     * {@inheritdoc}
+     * To handle or not to handle
+     *
+     * @param array Record data
+     *
+     * @return bool
      */
     public function handle( array $record ) {
         if ( $record['level'] < $this->level ) {
@@ -92,47 +110,47 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
      */
     public function render_records() {
         ?>
-            <div class="lp_debugger lp_is-hidden">
-                <header>
-                    <a href="#" class="lp_js_closeDebugger lp_closeLink lp_u_right" data-icon="l"></a>
-                    <div class="lp_u_right"><?php echo sprintf( __( '%s Memory Usage', 'laterpay' ), number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB' ); ?></div>
-                    <h2 data-icon="a"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
+            <div id="lp_js_debugger" class="lp_debugger lp_is-hidden">
+                <header id="lp_js_toggleDebuggerVisibility" class="lp_debugger-header">
+                    <a href="#" class="lp_debugger__close-link lp_right" data-icon="l"></a>
+                    <div class="lp_debugger-header__text lp_right"><?php echo sprintf( __( '%s Memory Usage', 'laterpay' ), number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB' ); ?></div>
+                    <h2 data-icon="a" class="lp_debugger-header__title"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
                 </header>
 
-                <ul class="lp_debugger_tabs lp_u_clearfix">
-                    <li class="lp_is-selected">
-                        <a href="#"><?php echo sprintf( __( 'Messages<span>%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
+                <ul id="lp_js_debuggerTabs" class="lp_debugger-tabs lp_clearfix">
+                    <li class="lp_js_debuggerTabItem lp_is-selected lp_debugger-tabs__item">
+                        <a href="#" class="lp_debugger-tabs__link"><?php echo sprintf( __( 'Messages<span class="lp_badge">%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
                     </li>
                     <?php
                         foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab[ 'content' ] ) ) {
+                            if ( empty( $tab['content'] ) ) {
                                 continue;
                             }
                     ?>
-                        <li>
-                            <a href="#"><?php _e( $tab[ 'name' ], 'laterpay' ); ?></a>
+                        <li class="lp_js_debuggerTabItem lp_debugger-tabs__item">
+                            <a href="#" class="lp_debugger-tabs__link"><?php _e( $tab['name'], 'laterpay' ); ?></a>
                         </li>
                     <?php } ?>
                 </ul>
 
-                <ul class="lp_debugger_contentList">
-                    <li class="lp_debugger_content">
-                        <ul>
+                <ul class="lp_debugger-content-list">
+                    <li class="lp_js_debuggerContent lp_debugger-content-list__item">
+                        <ul class="lp_debugger-content-list">
                             <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
                         </ul>
                     </li>
                     <?php
                         foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab[ 'content' ] ) ) {
+                            if ( empty( $tab['content'] ) ) {
                                 continue;
                             }
                     ?>
-                        <li class="lp_debugger_content lp_is-hidden">
-                            <table>
-                                <?php foreach ( $tab[ 'content' ] as $key => $value  ): ?>
+                        <li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
+                            <table class="lp_debugger-content__table">
+                                <?php foreach ( $tab['content'] as $key => $value  ): ?>
                                     <tr>
-                                        <th><?php echo $key; ?></th>
-                                        <td><?php print_r( $value ); ?></td>
+                                        <th class="lp_debugger-content__table-th"><?php echo $key; ?></th>
+                                        <td class="lp_debugger-content__table-td"><?php print_r( $value ); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </table>
@@ -157,7 +175,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                 'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
-                'name'      => sprintf( __( 'Cookies<span>%s</span>', 'laterpay' ), count( $_COOKIE ) ),
+                'name'      => sprintf( __( 'Cookies<span class="lp_badge">%s</span>', 'laterpay' ), count( $_COOKIE ) ),
                 'content'   => $_COOKIE,
             ),
             array(
@@ -171,6 +189,11 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
         );
     }
 
+    /**
+     * Get system info
+     *
+     * @return array
+     */
     public function get_system_info() {
         // get theme data
         $theme_data = wp_get_theme();

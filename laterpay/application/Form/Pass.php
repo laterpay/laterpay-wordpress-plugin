@@ -1,7 +1,11 @@
 <?php
 
 /**
- * LaterPay plugin mode form class
+ * LaterPay time pass form class.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
  */
 class LaterPay_Form_Pass extends LaterPay_Form_Abstract
 {
@@ -57,7 +61,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array_keys( LaterPay_Helper_Passes::get_period_options() ),
+                    'in_array' => array_keys( LaterPay_Helper_TimePass::get_period_options() ),
                 ),
                 'filters'    => array(
                     'to_int',
@@ -72,7 +76,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array_keys( LaterPay_Helper_Passes::get_access_options() ),
+                    'in_array' => array_keys( LaterPay_Helper_TimePass::get_access_options() ),
                 ),
                 'filters'    => array(
                     'to_int',
@@ -102,11 +106,7 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
                     'is_float',
                 ),
                 'filters' => array(
-                    'replace' => array(
-                        'type'    => 'str_replace',
-                        'search'  => ',',
-                        'replace' => '.',
-                    ),
+                    'delocalize',
                     'format_num' => 2,
                     'to_float',
                 ),

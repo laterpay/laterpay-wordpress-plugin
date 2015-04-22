@@ -1,4 +1,11 @@
 <?php
+/**
+ * LaterPay post column controller.
+ *
+ * Plugin Name: LaterPay
+ * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
+ * Author URI: https://laterpay.net/
+ */
 
 class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 {
@@ -42,6 +49,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
                 $localized_price    = LaterPay_Helper_View::format_number( $price );
                 $currency           = get_option( 'laterpay_currency' );
 
+                // render the price of the post, if it exists
                 if ( $price > 0 ) {
                     echo "<strong>$localized_price</strong> <span>$currency</span>";
                 } else {
@@ -56,7 +64,8 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
                 }
 
                 if ( array_key_exists( 'type', $post_prices ) ) {
-                    switch ( $post_prices[ 'type' ] ) {
+                    // render the price type of the post, if it exists
+                    switch ( $post_prices['type'] ) {
                         case LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE:
                             $revenue_model      = ( LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ) == 'sis' )
                                                     ? __( 'Single Sale', 'laterpay' )
@@ -82,6 +91,8 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 
                     echo $post_price_type;
                 } else {
+                    // label the post to use the global default price, if a positive  global default price is defined,
+                    // but the post does not have a price type defined
                     $global_default_price = (float) get_option( 'laterpay_global_price' );
                     if ( $global_default_price > 0 ) {
                         echo __( 'global default price', 'laterpay' );
@@ -92,5 +103,4 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
                 break;
         }
     }
-
 }

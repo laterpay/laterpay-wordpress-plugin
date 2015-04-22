@@ -2,3 +2,9 @@
 	path = laterpay/library/laterpay
 	url = git://github.com/laterpay/laterpay-client-php.git
 	branch = develop
+[submodule "laterpay/library/browscap"]
+	path = laterpay/library/browscap
+	url = git://github.com/laterpay/laterpay-php-browscap-library.git
+	fetchRecurseSubmodules = true
+	ignore = all
+	update = checkout
