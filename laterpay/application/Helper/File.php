@@ -46,6 +46,14 @@ class LaterPay_Helper_File
      * @return boolean
      */
     public static function check_url_encrypt( $resource_url_parts ) {
+        $need_encrypt = true;
+        $need_encrypt = apply_filters( 'laterpay_check_url_encrypt', $need_encrypt );
+
+        // no need to encrypt value
+        if ( ! $need_encrypt ) {
+            return false;
+        }
+
         // get path of resource
         $blog_url_parts = parse_url( get_bloginfo( 'wpurl' ) );
         if ( ! $blog_url_parts ) {
