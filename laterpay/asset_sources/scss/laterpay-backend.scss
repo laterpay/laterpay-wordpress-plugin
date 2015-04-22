@@ -28,3 +28,9 @@
 @import 'pages/_dashboard';
 @import 'pages/_pricing';
 @import 'pages/_appearance';
+
+
+// TODO: remove with release 1.0
+.lp_js_deprecated-feature {
+    display: none !important;
+}

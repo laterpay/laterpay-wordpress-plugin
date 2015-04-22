@@ -331,29 +331,6 @@
             </div>
         </div>
 
-<!--
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ): ?>
-            <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
-        <?php else: ?>
-            <div class="lp_js_hideInTimePassOnlyMode">
-        <?php endif; ?>
-                <p>
-                    <span class="lp_badge lp_mr-">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
-                    <dfn>
-                        <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?><br>
-                        <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
-                    </dfn>
-                </p>
-                <p>
-                    <span class="lp_badge lp_mr-">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
-                    <dfn>
-                        <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
-                        <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
-                    </dfn>
-                </p>
-            </div>
--->
-
         <div id="lp_time-passes" class="lp_mt+ lp_mb++">
             <h2>
                 <?php _e( 'Time Passes', 'laterpay' ); ?>
@@ -362,18 +339,6 @@
                 </a>
             </h2>
 
-<!--
-            <div class="lp_mb">
-                <form id="lp_js_landingPageForm" method="post">
-                    <input type="hidden" name="form" value="save_landing_page">
-                    <input type="hidden" name="action" value="laterpay_pricing">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
-                    <label><?php _e( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ); ?></label>
-                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
-                    <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
-                </form>
-            </div>
--->
             <div id="lp_js_timePassEditor" class="lp_time-passes__list lp_layout">
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
@@ -562,18 +527,39 @@
                 </div>
             </div>
         </div>
-<!--
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator" style="display:none;">
-        <?php else: ?>
-            <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator">
-        <?php endif; ?>
 
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
-            <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
-        <?php else: ?>
-            <div class="lp_js_hideInTimePassOnlyMode lp_bulk-price">
-        <?php endif; ?>
+
+        <?php # TODO: remove this in release 0.9.12 ?>
+        <a href="" id="lp_js_showDeprecatedFeatures"><?php _e( 'Show deprecated features', 'laterpay' ); ?></a>
+
+        <div class="lp_js_deprecated-feature">
+            <p>
+                <span class="lp_badge lp_mr-">PPU</span><strong><dfn>Pay-per-Use</dfn></strong><br>
+                <dfn>
+                    <?php _e( sprintf( 'The user pays later once his LaterPay invoice reaches 5 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?><br>
+                    <?php _e( sprintf( 'You can choose PPU for prices from 0.05 - 5.00 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                </dfn>
+            </p>
+            <p>
+                <span class="lp_badge lp_mr-">SIS</span><strong><dfn>Single Sale</dfn></strong><br>
+                <dfn>
+                    <?php _e( 'The user has to log in to LaterPay and pay immediately.', 'laterpay' ); ?><br>
+                    <?php _e( sprintf( 'You can choose SIS for prices from 1.49 - 149.99 %s.', $laterpay['standard_currency'] ), 'laterpay' ); ?>
+                </dfn>
+            </p>
+
+            <div class="lp_mb">
+                <form id="lp_js_landingPageForm" method="post">
+                    <input type="hidden" name="form" value="save_landing_page">
+                    <input type="hidden" name="action" value="laterpay_pricing">
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                    <label><?php _e( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ); ?></label>
+                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
+                    <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
+                </form>
+            </div>
+
+            <div class="lp_bulk-price">
                 <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>
                 <form id="lp_js_bulkPriceEditorForm" method="post" class="lp_bulk-price__form">
                     <input type="hidden" name="form" value="bulk_price_form" id="lp_js_bulkPriceEditorHiddenFormInput">
@@ -655,6 +641,7 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
--->
+        </div>
+
     </div>
 </div>
