@@ -944,7 +944,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'time_passes_positioned_manually'       => $timepasses_positioned_manually,
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'only_time_pass_purchases_allowed'      => $only_time_passes_allowed,
-            'is_in_visible_test_mode'              => $is_in_visible_test_mode,
+            'is_in_visible_test_mode'               => $is_in_visible_test_mode,
         );
         $this->assign( 'laterpay', $view_args );
 
