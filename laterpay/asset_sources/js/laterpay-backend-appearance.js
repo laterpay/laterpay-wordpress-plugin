@@ -4,17 +4,15 @@
     function laterPayBackendAppearance() {
         var $o = {
                 // appearance option
-                switchButtonGroup               : $('.lp_js_switchButtonGroup'),
-                buttonGroupButtons              : '.lp_js_buttonGroupButton',
-                selected                        : 'lp_is-selected',
-
-                // // position of LaterPay elements
-                // purchaseButtonExplanation       : $('#lp_js_purchaseButtonPositionExplanation'),
-                // timePassesExplanation           : $('#lp_js_timePassesPositionExplanation'),
+                switchButtonGroup   : $('.lp_js_switchButtonGroup'),
+                buttonGroupButtons  : '.lp_js_buttonGroupButton',
+                buttonGroupHint     : '.lp_js_buttonGroupHint',
+                selected            : 'lp_is-selected',
+                showHintOnTrue      : 'lp_js_showHintOnTrue',
 
                 // ratings
-                ratingsToggle                   : $('#lp_js_enableRatingsToggle'),
-                ratingsForm                     : $('#lp_js_laterpayRatingsForm'),
+                ratingsToggle       : $('#lp_js_enableRatingsToggle'),
+                ratingsForm         : $('#lp_js_laterpayRatingsForm'),
             },
 
             bindEvents = function() {
@@ -32,18 +30,23 @@
             },
 
             switchButtonGroup = function($trigger) {
-                var $form = $trigger.parents('form');
+                var $form                   = $trigger.parents('form'),
+                    formValueIsTrue         = $form.find('input:checked').val() === 1,
+                    shouldShowHintOnTrue    = $form.hasClass($o.showHintOnTrue),
+                    $hint                   = $form.find($o.buttonGroupHint),
+                    shouldShowHint          = shouldShowHintOnTrue && formValueIsTrue,
+                    shouldHideHint          = shouldShowHintOnTrue && !formValueIsTrue;
 
                 // mark clicked button as selected
                 $($o.buttonGroupButtons, $form).removeClass($o.selected);
                 $trigger.parent($o.buttonGroupButtons).addClass($o.selected);
 
-                // // show / hide explanations
-                // if ($o.purchaseButtonExplanation.is(':visible')) {
-                //     $o.purchaseButtonExplanation.slideUp(250);
-                // } else {
-                //     $o.purchaseButtonExplanation.slideDown(250);
-                // }
+                // show / hide hints
+                if (shouldShowHint) {
+                    $hint.slideDown(250);
+                } else if (shouldHideHint) {
+                    $hint.slideUp(250);
+                }
 
                 saveData($form);
             },
