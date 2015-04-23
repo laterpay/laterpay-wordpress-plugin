@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 
     <div class="lp_navigation">
-        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
+        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ) : ?>
             <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
                 class="lp_plugin-mode-indicator"
                 data-icon="h">
@@ -135,7 +135,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </h2>
 
                 <div id="lp_js_categoryDefaultPriceList">
-                    <?php foreach ( $laterpay['categories_with_defined_price'] as $category ): ?>
+                    <?php foreach ( $laterpay['categories_with_defined_price'] as $category ) : ?>
                         <form method="post" class="lp_js_categoryDefaultPriceForm lp_category-price-form">
                             <input type="hidden" name="form"        value="price_category_form">
                             <input type="hidden" name="action"      value="laterpay_pricing">
@@ -332,7 +332,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
 <!--
-        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ): ?>
+        <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
         <?php else : ?>
             <div class="lp_js_hideInTimePassOnlyMode">
@@ -375,7 +375,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 -->
             <div id="lp_js_timePassEditor" class="lp_time-passes__list lp_layout">
-                <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
+                <?php foreach ( $laterpay['passes_list'] as $pass ) : ?>
                     <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
                         <div class="lp_time-pass__id-wrapper">
                             <?php _e( 'Pass', 'laterpay' ); ?>
@@ -394,8 +394,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <a href="#" class="lp_js_deleteTimePass lp_edit-link--bold lp_inline-block" data-icon="g"></a>
 
                         <div class="lp_js_voucherList lp_vouchers">
-                            <?php if ( isset( $laterpay['vouchers_list'][ $pass->pass_id ] ) ): ?>
-                                <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ): ?>
+                            <?php if ( isset( $laterpay['vouchers_list'][ $pass->pass_id ] ) ) : ?>
+                                <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ) : ?>
                                     <div class="lp_js_voucher lp_voucher">
                                         <span class="lp_voucher__code"><?php echo $voucher_code; ?></span>
                                         <span class="lp_voucher__code-infos">
@@ -584,23 +584,23 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <div>
                         <p>
                             <select name="bulk_action" id="lp_js_selectBulkAction" class="lp_input">
-                                <?php foreach ( $laterpay['bulk_actions'] as $action_value => $action_name ): ?>
+                                <?php foreach ( $laterpay['bulk_actions'] as $action_value => $action_name ) : ?>
                                     <option value="<?php echo $action_value; ?>">
                                         <?php echo $action_name; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                             <select name="bulk_selector" id="lp_js_selectBulkObjects" class="lp_input lp_is-disabled">
-                                <?php foreach ( $laterpay['bulk_selectors'] as $selector_value => $selector_name ): ?>
+                                <?php foreach ( $laterpay['bulk_selectors'] as $selector_value => $selector_name ) : ?>
                                     <option value="<?php echo $selector_value; ?>">
                                         <?php echo $selector_name; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
 
-                            <?php if ( $laterpay['bulk_categories'] ): ?>
+                            <?php if ( $laterpay['bulk_categories'] ) : ?>
                             <select name="bulk_category" id="lp_js_selectBulkObjectsCategory" class="lp_input">
-                                <?php foreach ( $laterpay['bulk_categories'] as $category ): ?>
+                                <?php foreach ( $laterpay['bulk_categories'] as $category ) : ?>
                                     <option value="<?php echo $category->term_id; ?>">
                                         <?php echo $category->name; ?>
                                     </option>
@@ -608,13 +608,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </select>
                             <?php endif; ?>
 
-                            <?php if ( $laterpay['bulk_categories_with_price'] ): ?>
+                            <?php if ( $laterpay['bulk_categories_with_price'] ) : ?>
                             <select
                                 id="lp_js_selectBulkObjectsCategoryWithPrice"
                                 class="lp_input"
                                 name="bulk_category_with_price"
                                 style="display:none;">
-                                <?php foreach ( $laterpay['bulk_categories_with_price'] as $category_with_price ): ?>
+                                <?php foreach ( $laterpay['bulk_categories_with_price'] as $category_with_price ) : ?>
                                     <option value="<?php echo $category_with_price->category_id; ?>"
                                             data-price="<?php echo LaterPay_Helper_View::format_number( $category_with_price->category_price ); ?>">
                                         <?php echo $category_with_price->category_name; ?>
@@ -645,8 +645,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </p>
                     </div>
                 </form>
-                <?php if ( $laterpay['bulk_saved_operations'] ): ?>
-                    <?php foreach ( $laterpay['bulk_saved_operations'] as $bulk_operation_id => $bulk_operation_data ): ?>
+                <?php if ( $laterpay['bulk_saved_operations'] ) : ?>
+                    <?php foreach ( $laterpay['bulk_saved_operations'] as $bulk_operation_id => $bulk_operation_data ) : ?>
                         <p class="lp_saved-bulk-operation" data-value="<?php echo $bulk_operation_id; ?>">
                             <a href="#" class="lp_js_deleteSavedBulkOperation lp_edit-link lp_delete-link" data-icon="g"><?php _e( 'Delete', 'laterpay' ); ?></a>
                             <a href="#" class="lp_js_applySavedBulkOperation button button-primary lp_ml+"><?php _e( 'Update Prices', 'laterpay' ); ?></a>

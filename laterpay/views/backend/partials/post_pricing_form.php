@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div id="lp_js_postPriceRevenueModel" class="lp_layout__item lp_1/6">
             <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt-
                     <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'lp_is-selected'; } ?>
-                    <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ): ?>
+                    <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo 'lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'sis' || $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo 'lp_is-disabled'; } ?>
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </label>
             <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
-                    <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ): ?>
+                    <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
                         <?php if ( $laterpay['price'] < LaterPay_Helper_Pricing::sis_min ) { echo 'lp_is-disabled'; } ?>
                     <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'lp_is-disabled'; } ?>
@@ -95,9 +95,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             class="lp_price-type__details-item lp_useCategoryDefaultPrice lp_js_priceTypeDetailsSection"<?php if ( $laterpay['post_price_type'] !== LaterPay_Helper_Pricing::TYPE_CATEGORY_DEFAULT_PRICE ) { echo ' style="display:none;"'; } ?>>
              <input type="hidden" name="post_default_category" id="lp_js_postDefaultCategoryInput" value="<?php echo $laterpay['post_default_category']; ?>">
              <ul class="lp_js_priceTypeDetailsCategoryDefaultPriceList lp_price-type-categorized__list">
-                <?php if ( is_array( $laterpay['category_prices'] ) ): ?>
-                    <?php foreach ( $laterpay['category_prices'] as $category ): ?>
-                        <li data-category="<?php echo $category['category_id']; ?>" class="lp_js_priceTypeDetailsCategoryDefaultPriceItem lp_price-type-categorized__item<?php if ( $category['category_id'] == $laterpay['post_default_category'] ): echo ' lp_is-selectedCategory'; endif; ?>">
+                <?php if ( is_array( $laterpay['category_prices'] ) ) : ?>
+                    <?php foreach ( $laterpay['category_prices'] as $category ) : ?>
+                        <li data-category="<?php echo $category['category_id']; ?>" class="lp_js_priceTypeDetailsCategoryDefaultPriceItem lp_price-type-categorized__item<?php if ( $category['category_id'] == $laterpay['post_default_category'] ) : echo ' lp_is-selectedCategory'; endif; ?>">
                             <a href="#"
                                 data-price="<?php echo LaterPay_Helper_View::format_number( $category['category_price'] ); ?>"
                                 data-revenue-model="<?php echo $category['revenue_model']; ?>">
@@ -112,8 +112,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 </div>
 
-<?php if ( $laterpay['post_price_type'] == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ): ?>
-    <?php if ( $laterpay['post_status'] != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ): ?>
+<?php if ( $laterpay['post_price_type'] == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) : ?>
+    <?php if ( $laterpay['post_status'] != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ) : ?>
         <dfn><?php _e( 'The dynamic pricing will <strong>start</strong>, once you have <strong>published</strong> this post.', 'laterpay' ); ?></dfn>
     <?php else : ?>
         <a href="#"

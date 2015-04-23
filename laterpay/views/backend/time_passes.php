@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 
     <div class="lp_navigation">
-        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
+        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ) : ?>
             <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
                 class="lp_plugin-mode-indicator"
                 data-icon="h">
@@ -47,7 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <big class="lp_statistics-row__value"><?php echo $laterpay['passes']['summary']['active']; ?></big>
                                 <?php _e( 'Active', 'laterpay' ); ?>
                             </li>
-                            <?php if ( isset( $laterpay['passes']['summary']['unredeemed'] ) ): ?>
+                            <?php if ( isset( $laterpay['passes']['summary']['unredeemed'] ) ) : ?>
                                 <li class="lp_tooltip lp_statistics-row__item"
                                     data-tooltip="<?php _e( 'Total number of unredeemed time pass vouchers', 'laterpay' ); ?>">
                                     <big class="lp_statistics-row__value"><?php echo $laterpay['passes']['summary']['unredeemed']; ?></big>
@@ -73,8 +73,8 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
 
 
-            <?php if ( isset( $laterpay['passes']['individual'] ) ): ?>
-                <?php foreach ( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
+            <?php if ( isset( $laterpay['passes']['individual'] ) ) : ?>
+                <?php foreach ( $laterpay['passes']['individual'] as $pass_id => $pass ) : ?>
 
                     <div class="lp_time-pass-lifecycle lp_clearfix">
                         <div class="lp_time-pass-lifecycle__kpi lp_1/4 lp_left">
@@ -93,7 +93,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <big class="lp_statistics-row__value"><?php echo $pass['active']; ?></big>
                                         <?php _e( 'Active', 'laterpay' ); ?>
                                     </li>
-                                    <?php if ( isset( $pass['unredeemed'] ) ): ?>
+                                    <?php if ( isset( $pass['unredeemed'] ) ) : ?>
                                         <li class="lp_tooltip lp_statistics-row__item"
                                             data-tooltip="<?php _e( 'Number of unredeemed time pass vouchers', 'laterpay' ); ?>">
                                             <big class="lp_statistics-row__value"><?php echo $pass['unredeemed']; ?></big>

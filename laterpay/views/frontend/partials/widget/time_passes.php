@@ -6,16 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div class="lp_time-pass-widget <?php echo $laterpay_widget['time_pass_widget_class']; ?>">
-    <?php if ( $laterpay_widget['time_pass_introductory_text'] ): ?>
+    <?php if ( $laterpay_widget['time_pass_introductory_text'] ) : ?>
         <p class="lp_time-pass__introductory-text"><?php echo $laterpay_widget['time_pass_introductory_text']; ?></p>
     <?php endif; ?>
 
-    <?php foreach ( $laterpay_widget['passes_list'] as $pass ): ?>
+    <?php foreach ( $laterpay_widget['passes_list'] as $pass ) : ?>
         <?php echo $this->render_time_pass( (array) $pass ); ?>
     <?php endforeach; ?>
 
-    <?php if ( $laterpay_widget['has_vouchers'] ): ?>
-        <?php if ( $laterpay_widget['time_pass_call_to_action_text'] ): ?>
+    <?php if ( $laterpay_widget['has_vouchers'] ) : ?>
+        <?php if ( $laterpay_widget['time_pass_call_to_action_text'] ) : ?>
              <p class="lp_time-pass__call-to-action-text"><?php echo $laterpay_widget['time_pass_call_to_action_text']; ?></p>
 			<?php endif; ?>
 

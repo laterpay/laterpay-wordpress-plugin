@@ -26,7 +26,7 @@ foreach ( $args as $key => $value ) {
     $arg_str .= ' ' . $key . '="' . esc_attr( $value ) . '" ';
 }
 
-if ( $laterpay['revenue_model'] == 'sis' ):
+if ( $laterpay['revenue_model'] == 'sis' ) :
     $title = sprintf(
         __( 'Buy now for %s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ),
         LaterPay_Helper_View::format_number( $laterpay['price'] ),

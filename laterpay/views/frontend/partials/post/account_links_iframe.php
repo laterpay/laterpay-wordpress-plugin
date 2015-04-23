@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div>
-    <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ): ?>
+    <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) : ?>
         <?php
             ob_start();
             do_action( 'laterpay_account_links', $laterpay['css'], $laterpay['forcelang'], $laterpay['show'], $laterpay['next'] );

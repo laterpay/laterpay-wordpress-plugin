@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     );
 ?>
 <div class="lp_gift-card__actions">
-    <?php if ( $laterpay['has_access'] ): ?>
+    <?php if ( $laterpay['has_access'] ) : ?>
         <?php _e( 'Gift Code', 'laterpay' ); ?>
         <span class="lp_voucher__code"><?php echo $laterpay['gift_code']; ?></span><br>
         <!--

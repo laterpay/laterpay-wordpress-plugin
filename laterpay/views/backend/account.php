@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <a  href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
             id="lp_js_pluginModeIndicator"
             class="lp_plugin-mode-indicator"
-            <?php if ( $laterpay['plugin_is_in_live_mode'] ): ?>style="display:none;"<?php endif; ?>
+            <?php if ( $laterpay['plugin_is_in_live_mode'] ) : ?>style="display:none;"<?php endif; ?>
             data-icon="h">
             <h2 class="lp_plugin-mode-indicator__title"><?php _e( 'Test mode', 'laterpay' ); ?></h2>
             <span class="lp_plugin-mode-indicator__text"><?php _e( 'Earn money in <i>live mode</i>', 'laterpay' ); ?></span>

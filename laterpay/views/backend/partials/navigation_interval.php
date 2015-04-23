@@ -16,7 +16,7 @@ if ( $laterpay[ 'end_timestamp' ] > $laterpay[ 'interval_end' ] ) {
 </a>
 
 <span id="lp_js_displayedInterval" data-interval-end-timestamp="<?php echo $laterpay[ 'end_timestamp' ]; ?>" data-start-timestamp="<?php echo $laterpay[ 'interval_start' ]; ?>">
-    <?php if ( get_locale() == 'de_DE' ): ?>
+    <?php if ( get_locale() == 'de_DE' ) : ?>
         <?php echo date_i18n( 'j.n.Y', $laterpay['interval_end'] ) . ' &ndash; ' . date_i18n( 'j.n.Y', $laterpay['interval_start'] ); ?>
     <?php else : ?>
         <?php echo date_i18n( 'Y-m-d', $laterpay['interval_end'] ) . ' &ndash; ' . date_i18n( 'Y-m-d', $laterpay['interval_start'] ); ?>

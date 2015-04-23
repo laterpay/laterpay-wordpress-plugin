@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php $gift_pass = $laterpay['pass_data']; ?>
 
 <div>
-    <?php if ( $gift_pass ): ?>
+    <?php if ( $gift_pass ) : ?>
         <?php echo $this->render_gift_pass( $gift_pass, true ); ?>
     <?php else : ?>
         <?php echo $this->render_redeem_form(); ?>

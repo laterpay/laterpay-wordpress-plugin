@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
 
     <div class="lp_navigation">
-        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ): ?>
+        <?php if ( ! $laterpay['plugin_is_in_live_mode'] ) : ?>
             <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
                 class="lp_plugin-mode-indicator"
                 data-icon="h">
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             name="paid_content_preview"
                             value="1"
                             class="lp_js_togglePreviewMode lp_js_styleInput"
-                            <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                            <?php if ( $laterpay['show_teaser_content_only'] ) : ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content only', 'laterpay' ); ?>
                     <div class="lp_preview-mode__image lp_preview-mode__image--teaser-only"></div>
                 </label>
@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             name="paid_content_preview"
                             value="0"
                             class="lp_js_togglePreviewMode lp_js_styleInput"
-                            <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
+                            <?php if ( ! $laterpay['show_teaser_content_only'] ) : ?>checked<?php endif; ?>/>
                     <?php _e( 'Teaser content + full content, covered by overlay', 'laterpay' ); ?>
                     <div class="lp_preview-mode__image lp_preview-mode__image--teaser-and-content"></div>
                 </label>
@@ -108,7 +108,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                    name="enable_ratings"
                                    id="lp_js_enableRatingsToggle"
                                    class="lp_toggle__input"
-									<?php if ( $laterpay['is_rating_enabled'] ): ?>checked<?php endif; ?>>
+									<?php if ( $laterpay['is_rating_enabled'] ) : ?>checked<?php endif; ?>>
                             <span class="lp_toggle__text" data-on="<?php _e( 'on', 'laterpay' ); ?>" data-off="<?php _e( 'off', 'laterpay' ); ?>"></span>
                             <span class="lp_toggle__handle"></span>
                         </label>
@@ -234,13 +234,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     id="lp_js_togglePurchaseButtonPosition"
                                     class="lp_toggle__input"
                                     name="purchase_button_positioned_manually"
-                                    value="1" <?php if ( $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>>
+                                    value="1" <?php if ( $laterpay['purchase_button_positioned_manually'] ) : ?>checked<?php endif; ?>>
                             <span class="lp_toggle__text" data-on="" data-off=""></span>
                             <span class="lp_toggle__handle"></span>
                         </label>
                     </div><!--
                  --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
-                    <div id="lp_js_purchaseButtonPositionExplanation"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
+                    <div id="lp_js_purchaseButtonPositionExplanation"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
                         <dfn class="lp_clearfix">
                             <?php _e( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button in the location of your choice.', 'laterpay' ); ?><br>
                             <?php _e( 'When not using this action, the purchase button is rendered in its default location between post title and post content.', 'laterpay' ); ?>
@@ -268,13 +268,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     id="lp_js_toggleTimePassesPosition"
                                     class="lp_toggle__input"
                                     name="time_passes_positioned_manually"
-                                    value="1" <?php if ( $laterpay['time_passes_positioned_manually'] ): ?>checked<?php endif; ?>>
+                                    value="1" <?php if ( $laterpay['time_passes_positioned_manually'] ) : ?>checked<?php endif; ?>>
                             <span class="lp_toggle__text" data-on="" data-off=""></span>
                             <span class="lp_toggle__handle"></span>
                         </label>
                     </div><!--
                  --><?php _e( 'at a <strong>custom position</strong>.', 'laterpay' )?>
-                    <div id="lp_js_timePassesPositionExplanation"<?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
+                    <div id="lp_js_timePassesPositionExplanation"<?php if ( ! $laterpay['time_passes_positioned_manually'] ) : ?> style="display:none;"<?php endif; ?>>
                         <dfn class="lp_clearfix">
                             <?php _e( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ); ?><br>
                             <?php _e( 'The default width for time passes is 308px. By adding the parameter \'small\', they will be displayed with a width of 224px.', 'laterpay' ); ?>

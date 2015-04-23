@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             name="preview_post_checkbox"
                             id="lp_js_togglePostPreviewMode"
                             class="lp_toggle__input"
-                            <?php if ( $laterpay['preview_post_as_visitor'] == 1 ): ?>checked<?php endif; ?>>
+                            <?php if ( $laterpay['preview_post_as_visitor'] == 1 ) : ?>checked<?php endif; ?>>
                     <input type="hidden"
                             name="preview_post"
                             id="lp_js_postPreviewModeInput"

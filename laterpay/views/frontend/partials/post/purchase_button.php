@@ -5,9 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?>
+<?php if ( ! $laterpay['purchase_button_positioned_manually'] ) : ?>
     <div>
-        <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ): ?>
+        <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) : ?>
             <?php
                 ob_start();
                 do_action( 'laterpay_purchase_button' );
