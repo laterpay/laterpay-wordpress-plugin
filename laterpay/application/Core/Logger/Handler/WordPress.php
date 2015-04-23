@@ -147,7 +147,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                     ?>
 					<li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
 						<table class="lp_debugger-content__table">
-							<?php foreach ( $tab['content'] as $key => $value  ): ?>
+							<?php foreach ( $tab['content'] as $key => $value  ) : ?>
                                     <tr>
                                         <th class="lp_debugger-content__table-th"><?php echo $key; ?></th>
                                         <td class="lp_debugger-content__table-td"><?php print_r( $value ); ?></td>
@@ -245,7 +245,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             'PHP version'               => PHP_VERSION,
             'PHP memory limit'          => ini_get( 'memory_limit' ),
             'PHP modules'               => implode( ', ', get_loaded_extensions() ),
-            'Web server info'           => $_SERVER['SERVER_SOFTWARE'],
+            'Web server info'           => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '',
         );
 
         return $system_info;

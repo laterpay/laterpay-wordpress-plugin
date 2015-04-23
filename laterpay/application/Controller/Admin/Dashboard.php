@@ -666,9 +666,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             wp_send_json_error( $error );
         }
 
-        if ( ! in_array( $_POST['section'], $this->ajax_sections ) ) {
+        $section = sanitize_text_field( $_POST['section'] );
+        if ( ! in_array( $section, $this->ajax_sections ) ) {
             $error = array(
-                'message'   => sprintf( __( 'Section is not allowed <code>%s</code>', 'laterpay' ), $_POST['section'] ),
+                'message'   => sprintf( __( 'Section is not allowed <code>%s</code>', 'laterpay' ), $section ),
                 'step'      => 4,
             );
             wp_send_json_error( $error );
@@ -676,7 +677,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         if ( ! method_exists( $this, $_POST['section'] ) ) {
             $error = array(
-                'message'   => sprintf( __( 'Invalid section <code>%s</code>', 'laterpay' ), $_POST['section'] ),
+                'message'   => sprintf( __( 'Invalid section <code>%s</code>', 'laterpay' ), $section ),
                 'step'      => 4,
             );
             wp_send_json_error( $error );
@@ -697,7 +698,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             wp_send_json_error( $error );
         }
 
-        $nonce = $_POST['_wpnonce'];
+        $nonce = sanitize_text_field( $_POST['_wpnonce'] );
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
                 'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),

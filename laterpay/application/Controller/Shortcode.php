@@ -294,12 +294,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return string
      */
     public function ajax_get_premium_shortcode_link() {
-        if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_get_premium_shortcode_link' ) {
+        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_premium_shortcode_link' ) {
             // exit Ajax request, if action is not set or has incorrect value
             wp_die();
         }
 
-        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) ) {
+        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
             // exit Ajax request, if nonce is not set or not correct
             wp_die();
         }
@@ -309,14 +309,14 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             wp_die();
         }
 
-        $current_post_id = $_GET['post_id'];
+        $current_post_id = absint( $_GET['post_id'] );
         if ( ! get_post( $current_post_id ) ) {
             wp_die();
         }
 
-        $ids    = $_GET['ids'];
-        $types  = $_GET['types'];
-        $urls   = $_GET['urls'];
+        $ids    = array_map( 'sanitize_text_field', $_GET['ids'] );
+        $types  = array_map( 'sanitize_text_field', $_GET['types'] );
+        $urls   = array_map( 'esc_url_raw', $_GET['urls'] );
         $result = array();
 
         foreach ( $ids as $key => $id ) {
@@ -325,8 +325,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 continue;
             }
 
-            $content_type = $types[$key];
-            $page_url     = $urls[$key];
+            $content_type = $types[ $key ];
+            $page_url     = $urls[ $key ];
 
             $html_button   = '';
             $is_attachment = $post->post_type == 'attachment';
@@ -391,7 +391,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 }
             }
 
-            $result[$id] = $html_button;
+            $result[ $id ] = $html_button;
         }
 
         wp_send_json(
@@ -596,7 +596,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                 );
 
                 $time_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $time_pass_id, $data );
-                $time_passes[$id] = $time_pass;
+                $time_passes[ $id ] = $time_pass;
             }
         }
 
@@ -611,12 +611,12 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
      * @return void
      */
     public function ajax_load_gift_action() {
-        if ( ! isset( $_GET['action'] ) || $_GET['action'] !== 'laterpay_get_gift_card_actions' ) {
+        if ( ! isset( $_GET['action'] ) || sanitize_text_field( $_GET['action'] ) !== 'laterpay_get_gift_card_actions' ) {
             // exit Ajax request, if action is not set or has incorrect value
             wp_die();
         }
 
-        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( $_GET['nonce'], $_GET['action'] ) ) {
+        if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_GET['nonce'] ), sanitize_text_field( $_GET['action'] ) ) ) {
             // exit Ajax request, if nonce is not set or not correct
             wp_die();
         }
@@ -627,7 +627,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         }
 
         $data           = array();
-        $time_pass_ids  = $_GET['pass_id'];
+        $time_pass_ids  = sanitize_text_field( $_GET['pass_id'] );
 
         foreach ( $time_pass_ids as $time_pass_id ) {
             $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) ) : LaterPay_Helper_TimePass::get_all_time_passes();
@@ -635,7 +635,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             $landing_page = get_option( 'laterpay_landing_page' );
 
             // add gift codes with URLs to time passes
-            $time_passes  = $this->add_free_codes_to_passes( $time_passes, $_GET['link'] );
+            $time_passes  = $this->add_free_codes_to_passes( $time_passes, esc_url_raw( $_GET['link'] ) );
             $view_args = array(
                 'gift_code'               => is_array( $access ) ? $access['code'] : null,
                 'landing_page'            => $landing_page ? $landing_page : home_url(),
@@ -664,8 +664,8 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     $info['buy_more'] = $html;
                 }
 
-                if ( ! isset( $data[$time_pass['pass_id']] ) ) {
-                    $data[$time_pass['pass_id']] = $info;
+                if ( ! isset( $data[ $time_pass['pass_id'] ] ) ) {
+                    $data[ $time_pass['pass_id'] ] = $info;
                 }
             }
         }

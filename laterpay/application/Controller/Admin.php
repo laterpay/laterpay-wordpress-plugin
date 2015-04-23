@@ -139,7 +139,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         $this->load_assets();
 
         if ( isset( $_GET['tab'] ) ) {
-            $tab = $_GET['tab'];
+            $tab = sanitize_text_field( $_GET['tab'] );
         }
 
         // return default tab, if no specific tab is requested

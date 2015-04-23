@@ -80,7 +80,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
                 check_admin_referer( 'laterpay_form' );
             }
 
-            switch ( $_POST['form'] ) {
+            switch ( sanitize_text_field( $_POST['form'] ) ) {
                 case 'laterpay_sandbox_merchant_id':
                     self::update_merchant_id();
                     break;

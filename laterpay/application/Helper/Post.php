@@ -36,7 +36,7 @@ class LaterPay_Helper_Post
 
         if ( array_key_exists( $post_id, self::$access ) ) {
             // access was already checked
-            return (bool) self::$access[$post_id];
+            return (bool) self::$access[ $post_id ];
         }
 
         // check, if parent post has access with time passes
@@ -44,7 +44,7 @@ class LaterPay_Helper_Post
         $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $parent_post );
         $time_passes        = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
         foreach ( $time_passes as $time_pass ) {
-            if ( array_key_exists( $time_pass, self::$access ) && self::$access[$time_pass] ) {
+            if ( array_key_exists( $time_pass, self::$access ) && self::$access[ $time_pass ] ) {
                 return true;
             }
         }
@@ -75,7 +75,7 @@ class LaterPay_Helper_Post
 
             foreach ( $result['articles'] as $article_key => $article_access ) {
                 $access = (bool) $article_access['access'];
-                self::$access[$article_key] = $access;
+                self::$access[ $article_key ] = $access;
                 if ( $access ) {
                     $has_access = true;
                 }
@@ -102,7 +102,8 @@ class LaterPay_Helper_Post
     public static function has_purchased_gift_card() {
         if ( isset( $_COOKIE['laterpay_purchased_gift_card'] ) ) {
             // get gift code and unset session variable
-            list( $code, $time_pass_id ) = explode( '|', $_COOKIE['laterpay_purchased_gift_card'] );
+            $cookies = isset( $_COOKIE['laterpay_purchased_gift_card'] ) ? sanitize_text_field( $_COOKIE['laterpay_purchased_gift_card'] ) : '';
+            list( $code, $time_pass_id ) = explode( '|', $cookies );
             // create gift code token
             $code_key = '[#' . $code . ']';
 
@@ -128,8 +129,8 @@ class LaterPay_Helper_Post
 
             // return access data, if all is ok
             if ( array_key_exists( $code_key, $result['articles'] ) ) {
-                $access = (bool) $result['articles'][$code_key]['access'];
-                self::$access[$code_key] = $access;
+                $access = (bool) $result['articles'][ $code_key ]['access'];
+                self::$access[ $code_key ] = $access;
 
                 laterpay_get_logger()->info(
                     __METHOD__ . ' - post has access.',
@@ -179,13 +180,14 @@ class LaterPay_Helper_Post
         );
 
         // data to register purchase after redirect from LaterPay
+        $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
         $url_params = array(
             'post_id'       => $post_id,
             'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
             'price'         => $price,
             'date'          => time(),
             'buy'           => 'true',
-            'ip'            => ip2long( $_SERVER['REMOTE_ADDR'] ),
+            'ip'            => ip2long( $remote_addr ),
             'revenue_model' => LaterPay_Helper_Pricing::get_post_revenue_model( $post_id ),
         );
 
@@ -316,7 +318,7 @@ class LaterPay_Helper_Post
             $new_meta_value = LaterPay_Helper_String::truncate(
                 preg_replace( '/\s+/', ' ', strip_shortcodes( $post->post_content ) ),
                 get_option( 'laterpay_teaser_content_word_count' ),
-                array (
+                array(
                     'html'  => true,
                     'words' => true,
                 )

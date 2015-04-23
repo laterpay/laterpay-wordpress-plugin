@@ -487,7 +487,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      */
     public function reset_post_publication_date() {
         if ( ! empty( $_POST['post_id'] ) ) {
-            $post = get_post( $_POST['post_id'] );
+            $post = get_post( sanitize_text_field( $_POST['post_id'] ) );
             if ( $post !== null ) {
                 LaterPay_Helper_Pricing::reset_post_publication_date( $post );
                 wp_send_json(
@@ -539,7 +539,15 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      * @return void
      */
     public function remove_dynamic_pricing_data() {
-        $post_id = $_POST['post_id'];
+        if ( ! isset( $_POST['post_id'] ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                )
+            );
+        }
+        $post_id = sanitize_text_field( $_POST['post_id'] );
+
         if ( ! empty( $post_id ) ) {
             $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
             unset( $post_price['price_range_type'] );

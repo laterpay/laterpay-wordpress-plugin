@@ -126,7 +126,7 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
             wp_send_json( $error );
         }
 
-        $nonce = $_POST['_wpnonce'];
+        $nonce = sanitize_text_field( $_POST['_wpnonce'] );
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
                 'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),

@@ -151,7 +151,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     )
                 );
             }
-            switch ( $_POST['form'] ) {
+            switch ( sanitize_text_field( $_POST['form'] ) ) {
                 case 'global_price_form':
                     $this->update_global_default_price();
                     break;
@@ -165,10 +165,11 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     break;
 
                 case 'laterpay_get_category_prices':
-                    if ( ! array_key_exists( 'category_ids', $_POST ) ) {
+                    if ( ! isset( $_POST['category_ids'] ) || ! is_array( $_POST['category_ids'] ) ) {
                         $_POST['category_ids'] = array();
                     }
-                    $this->get_category_prices( $_POST['category_ids'] );
+                    $categories = array_map( 'sanitize_text_field', $_POST['category_ids'] );
+                    $this->get_category_prices( $categories );
                     break;
 
                 case 'bulk_price_form':
@@ -185,7 +186,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
 
                 case 'reset_post_publication_date':
                     if ( ! empty( $_POST['post_id'] ) ) {
-                        $post = get_post( $_POST['post_id'] );
+                        $post = get_post( sanitize_text_field( $_POST['post_id'] ) );
                         if ( $post !== null ) {
                             LaterPay_Helper_Pricing::reset_post_publication_date( $post );
                             wp_send_json(
@@ -222,7 +223,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                         $args = array();
 
                         if ( ! empty( $_POST['term'] ) ) {
-                            $args['name__like'] = $_POST['term'];
+                            $args['name__like'] = sanitize_text_field( $_POST['term'] );
                         }
 
                         wp_send_json(
@@ -238,7 +239,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
                     );
 
                     if ( isset( $_POST['term'] ) && ! empty( $_POST['term'] ) ) {
-                        $args['name__like'] = $_POST['term'];
+                        $args['name__like'] = sanitize_text_field( $_POST['term'] );
                     }
 
                     $categories = get_categories( $args );
@@ -881,7 +882,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      */
     protected function time_pass_delete() {
         if ( isset( $_POST['pass_id'] ) ) {
-            $time_pass_id    = $_POST['pass_id'];
+            $time_pass_id    = sanitize_text_field( $_POST['pass_id'] );
             $time_pass_model = new LaterPay_Model_TimePass();
 
             // remove time pass
@@ -933,9 +934,17 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
      * @return void
      */
     private function generate_voucher_code() {
-        if ( ! isset( $_POST['price'] ) ||
-             ! ( $_POST['price'] >= 0 && $_POST['price'] <= 149.99 ) ||
-             ( $_POST['price'] > 0 && $_POST['price'] < 0.05 )
+        if ( ! isset( $_POST['price'] ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                    'message' => __( 'Incorrect voucher price.', 'laterpay' ),
+                )
+            );
+        }
+        $price = sanitize_text_field( $_POST['price'] );
+        if ( ! ( $price >= 0 && $price <= 149.99 ) ||
+             ( $price > 0 && $price < 0.05 )
         ) {
             wp_send_json(
                 array(

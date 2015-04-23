@@ -223,7 +223,8 @@ class LaterPay_Helper_File
         }
 
         if ( ! empty( $hmac ) && ! empty( $ts ) ) {
-            if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $_SERVER['REQUEST_METHOD'] ) ) {
+            $request_method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+            if ( ! LaterPay_Client_Signing::verify( $hmac, $client->get_api_key(), $request->get_data( 'get' ), admin_url( LaterPay_Helper_File::SCRIPT_PATH ), $request_method ) ) {
                 laterpay_get_logger()->error( 'RESOURCE:: invalid $hmac or $ts has expired' );
                 $response->set_http_response_code( 401 );
                 $response->send_response();
@@ -283,8 +284,8 @@ class LaterPay_Helper_File
         if ( ! empty( $aid ) ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Checking access in API ...' );
             $result = $client->get_access( $aid );
-            if ( ! empty( $result ) && isset( $result['articles'][$aid] ) ) {
-                $access = $result['articles'][$aid]['access'];
+            if ( ! empty( $result ) && isset( $result['articles'][ $aid ] ) ) {
+                $access = $result['articles'][ $aid ]['access'];
             }
             laterpay_get_logger()->debug( 'RESOURCE:: Checked access', array( 'access' => $access ) );
         }

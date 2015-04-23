@@ -166,7 +166,7 @@ class LaterPay_Controller_Abstract
             $file = 'backend/partials/navigation';
         }
 
-        $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;
+        $current_page   = isset( $_GET['page'] ) ? sanitize_text_field( $_GET['page'] ) : LaterPay_Helper_View::$pluginPage;
         $menu           = LaterPay_Helper_View::get_admin_menu();
         $plugin_page    = LaterPay_Helper_View::$pluginPage;
 
