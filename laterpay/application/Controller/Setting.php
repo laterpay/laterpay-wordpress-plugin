@@ -53,6 +53,19 @@ class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
         );
 
         wp_enqueue_script( 'laterpay-backend-options' );
+
+        // translations
+        $i18n = array(
+            'confirmTechnicalRequirementsForBrowscapUpdate' => __( 'Your server must have > 100 MB of RAM and the /cache folder within the LaterPay plugin must be writable for an update. Start database update?', 'laterpay' ),
+        );
+
+        wp_localize_script(
+            'laterpay-backend-options',
+            'lpVars',
+            array(
+                'i18n' => $i18n,
+            )
+        );
     }
 
     /**
