@@ -12,7 +12,6 @@
 
     <rule ref="WordPress">
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
-        <exclude name="WordPress.XSS.EscapeOutput" />
         <exclude name="WordPress.PHP.YodaConditions" />
     </rule>
 </ruleset>
