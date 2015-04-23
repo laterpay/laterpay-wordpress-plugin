@@ -46,7 +46,7 @@
                             <?php _e( 'Immediately access your content. <br>A time pass is not a subscription, it expires automatically.', 'laterpay' ); ?>
                         </p>
                     </li>
-                <?php else if ( ! $laterpay['only_time_pass_purchases_allowed'] && $laterpay['revenue_model'] == 'sis' ): ?>
+                <?php elseif ( ! $laterpay['only_time_pass_purchases_allowed'] && $laterpay['revenue_model'] == 'sis' ): ?>
                     <li class="lp_benefits__list-item lp_benefit--buy-now">
                         <h3 class="lp_benefit__title"><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
                         <p class="lp_benefit__text">
@@ -87,17 +87,7 @@
                         title="<?php echo __( 'View available LaterPay Time Passes', 'laterpay' ); ?>"
                         data-icon="b"><?php _e( 'Get a Time Pass', 'laterpay' ); ?></a>
                 <?php else: ?>
-                    <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ): ?>
-                        <?php
-                            ob_start();
-                            do_action( 'laterpay_purchase_button' );
-                            $html = ob_get_contents();
-                            ob_end_clean();
-                            echo $html;
-                        ?>
-                    <?php else: ?>
-                        <?php do_action( 'laterpay_purchase_button' ); ?>
-                    <?php endif; ?>
+                    <?php do_action( 'laterpay_purchase_button' ); ?>
                 <?php endif; ?>
             </div>
             <div class="lp_powered-by">
