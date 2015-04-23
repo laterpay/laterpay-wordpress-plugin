@@ -606,14 +606,14 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         $sql = "
             CREATE TABLE $table_post_views (
+                id                INT(11)              NOT NULL AUTO_INCREMENT,
                 post_id           INT(11)              NOT NULL,
                 mode              ENUM('test', 'live') NOT NULL DEFAULT 'test',
                 date              DATETIME             NOT NULL,
                 user_id           VARCHAR(32)          NOT NULL,
-                count             BIGINT UNSIGNED      NOT NULL DEFAULT 1,
                 ip                VARBINARY(16)        NOT NULL,
                 has_access        INT(1)               NOT NULL DEFAULT 0,
-                UNIQUE KEY idx_post_views (post_id, user_id, mode, has_access)
+                PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 

@@ -31,11 +31,11 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
      * {@inheritdoc}
      */
     protected $field_types = array(
+        'id'         => '%d',
         'post_id'    => '%d',
         'mode'       => '%s',
         'date'       => '%s',
         'user_id'    => '%s',
-        'count'      => '%d',
         'ip'         => '%s',
         'has_access' => '%d',
     );
@@ -109,8 +109,6 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                 {$this->table} (post_id, mode, user_id, date, ip, has_access)
             VALUES
                 ('%d', '%s', '%s', '%s', '%s', '%d')
-            ON DUPLICATE KEY UPDATE
-                count = count + 1
             ;
         ";
         $sql = $wpdb->prepare(
@@ -137,7 +135,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         $default_args = array(
             'order'     => 'ASC',
             'fields'    => array(
-                'SUM(count)     AS quantity',
+                'COUNT(*)       AS quantity',
                 'DATE(date)     AS date',
                 'DAY(date)      AS day',
                 'MONTH(date)    AS month',
@@ -192,7 +190,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
      * @return array $result
      */
     public function get_total_post_impression( $args = array() ) {
-        $default_args = array( 'fields' => array( 'SUM(count) AS quantity' ) );
+        $default_args = array( 'fields' => array( 'COUNT(*) AS quantity' ) );
         $args = wp_parse_args( $args, $default_args );
 
         return $this->get_row( $args );
@@ -213,7 +211,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             'fields'    => array(
                                  'post_id',
                                  'post_title',
-                                 'SUM(count) AS quantity',
+                                 'COUNT(*) AS quantity',
                             ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
@@ -264,7 +262,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             'fields'    => array(
                                 'post_id',
                                 'post_title',
-                                'SUM(count) AS quantity',
+                                'COUNT(*) AS quantity',
                             ),
             'group_by'  => 'post_id',
             'order_by'  => 'quantity',
@@ -311,7 +309,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         $today  = strtotime( 'today GMT' );
         $mode   = LaterPay_Helper_View::get_plugin_mode();
         $args   = array(
-            'fields'=> array( 'SUM(count) AS quantity' ),
+            'fields'=> array( 'COUNT(*) AS quantity' ),
             'where' => array(
                 'post_id'   => (int) $post_id,
                 'mode'      => $mode,
@@ -347,7 +345,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                 'MONTH(date)    AS month',
                 'DATE(date)     AS date',
                 'HOUR(date)     AS hour',
-                'SUM(count)     AS quantity',
+                'COUNT(*)       AS quantity',
             ),
             'where' => array(
                 'date' => array(
