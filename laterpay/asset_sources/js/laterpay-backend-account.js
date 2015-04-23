@@ -94,6 +94,9 @@
                     // focus Merchant ID input in case the user just forgot to enter his credentials
                     $o.testMerchantId.focus();
 
+                    // show button for loading the contracts, as the user probably has no valid live credentials yet
+                    $o.showMerchantContractsButton.fadeIn(250);
+
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
                 } else {
@@ -133,6 +136,9 @@
                 } else if (hasSwitchedToLiveMode) {
                     // hide toggle for switching between visible and invisible test mode
                     $o.pluginVisibilitySetting.fadeOut(250);
+
+                    // hide button for loading the contracts, as the user obviously has valid live credentials already
+                    $o.showMerchantContractsButton.fadeOut(250);
                 } else {
                     // hide toggle for switching between visible and invisible test mode
                     $o.pluginVisibilitySetting.fadeIn(250);

@@ -98,7 +98,7 @@ class LaterPay_Core_Bootstrap
         $this->register_global_actions();
 
         // late load event
-        add_action( 'wp_loaded', array ( $this, 'late_load' ), 0 );
+        add_action( 'wp_loaded', array( $this, 'late_load' ), 0 );
     }
 
     /**
@@ -336,6 +336,10 @@ class LaterPay_Core_Bootstrap
 
         $controller = $this->get_controller( 'Admin_Dashboard' );
         add_action( 'wp_ajax_laterpay_get_dashboard_data',                  array( $controller, 'ajax_get_dashboard_data' ) );
+
+        // settings page
+        $controller = $this->get_controller( 'Setting' );
+        add_action( 'wp_ajax_laterpay_backend_options',                     array( $controller, 'process_ajax_requests' ) );
 
         // edit post
         $controller = $this->get_controller( 'Admin_Post_Metabox' );

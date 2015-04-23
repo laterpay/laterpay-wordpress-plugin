@@ -9,6 +9,8 @@
                 revenueModelInput                       : '.lp_js_revenueModelInput',
                 priceInput                              : '.lp_js_priceInput',
 
+                emptyState                              : '.lp_js_emptyState',
+
                 // enabled revenue models
                 purchaseModeForm                        : $('#lp_js_changePurchaseModeForm'),
                 purchaseModeInput                       : $('.lp_js_onlyTimePassPurchaseModeInput'),
@@ -47,7 +49,7 @@
 
                 // time passes
                 addTimePass                             : $('#lp_js_addTimePass'),
-                timePassEditor                          : $('.lp_js_timePassEditor'),
+                timePassEditor                          : $('#lp_js_timePassEditor'),
                 timePassTemplate                        : $('#lp_js_timePassTemplate'),
                 timePassWrapper                         : '.lp_js_timePassWrapper',
                 timePassFormTemplate                    : $('#lp_js_timePassFormTemplate'),
@@ -80,6 +82,8 @@
                 landingPageInput                        : '.lp_js_landingPageInput',
                 landingPageSave                         : '#lp_js_landingPageSave',
                 landingPageForm                         : $('#lp_js_landingPageForm'),
+                timePassShowElements                    : '.lp_js_saveTimePass, .lp_js_cancelEditingTimePass',
+                timePassEditElements                    : '.lp_js_editTimePass, .lp_js_deleteTimePass',
 
                 // vouchers
                 voucherPriceInput                       : '.lp_js_voucherPriceInput',
@@ -519,6 +523,12 @@
 
             addCategoryDefaultPrice = function() {
                 $o.addCategory.fadeOut(250);
+
+                // hide empty state hint, if it is visible
+                if ($($o.emptyState, $o.categoryDefaultPrices).is(':visible')) {
+                    $($o.emptyState, $o.categoryDefaultPrices).fadeOut(400);
+                }
+
                 // clone category default price template
                 var $form = $o.categoryDefaultPriceTemplate
                             .clone()
@@ -538,7 +548,7 @@
                 // initialize edit mode
                 $form.addClass($o.editing);
                 $($o.categoryDefaultPriceShowElements, $form).slideUp(250);
-                $o.addCategory.slideUp(250);
+                $o.addCategory.fadeOut(250);
                 $($o.categoryDefaultPriceEditElements, $form).slideDown(250, function() {
                     $($o.categoryDefaultPriceInput, $form).focus();
                 });
@@ -585,6 +595,11 @@
                     // remove form, if creating a new category default price has been canceled
                     $form.slideUp(250, function() {
                         $(this).remove();
+
+                        // show empty state hint, if there are no category default prices
+                        if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
+                            $($o.emptyState, $o.categoryDefaultPrices).fadeIn(400);
+                        }
                     });
                 } else {
                     // hide form, if a new category default price has been saved
@@ -606,7 +621,7 @@
 
                 // show 'Add' button again
                 if (!editAnotherCategory) {
-                    $o.addCategory.slideDown(250);
+                    $o.addCategory.fadeIn(250);
                 }
             },
 
@@ -620,6 +635,11 @@
                         if (r.success) {
                             $form.slideUp(250, function() {
                                 $(this).remove();
+
+                                // show empty state hint, if there are no category default prices
+                                if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
+                                    $($o.emptyState, $o.categoryDefaultPrices).fadeIn(400);
+                                }
                             });
                         }
                         setMessage(r.message, r.success);
@@ -707,8 +727,14 @@
                 // hide "add time pass" button
                 $o.addTimePass.fadeOut(250);
 
+                // hide empty state hint, if it is visible
+                if ($($o.emptyState, $o.timePassEditor).is(':visible')) {
+                    $($o.emptyState, $o.timePassEditor).fadeOut(400);
+                }
+
                 // prepend cloned time pass template to time pass editor
                 $o.timePassEditor.prepend($o.timePassTemplate.clone().removeAttr('id'));
+                // we added the template as first thing in the list, so let's select the first time pass
                 var $timePass = $('.lp_js_timePassWrapper', $o.timePassEditor).first();
                 $($o.timePassForm, $timePass).attr('id', $o.timePassFormId).addClass($o.unsaved);
 
@@ -733,10 +759,10 @@
                 populateTimePassForm($timePass);
 
                 // hide action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).addClass($o.hidden);
+                $($o.timePassEditElements, $timePass).addClass($o.hidden);
 
                 // show action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).removeClass($o.hidden);
+                $($o.timePassShowElements, $timePass).removeClass($o.hidden);
 
                 $timePassForm.removeClass($o.hidden);
             },
@@ -838,6 +864,11 @@
                     // remove entire time pass, if it is a new, unsaved pass
                     $timePass.fadeOut(250, function() {
                         $(this).remove();
+
+                        // show empty state hint, if there are no time passes
+                        if ($($o.timePassWrapper + ':visible').length === 0) {
+                            $($o.emptyState, $o.timePassEditor).fadeIn(400);
+                        }
                     });
                 } else {
                     // remove cloned time pass form
@@ -849,10 +880,10 @@
                 // #656: unbind events
 
                 // show action links required when displaying time pass
-                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass($o.hidden);
+                $($o.timePassEditElements, $timePass).removeClass($o.hidden);
 
                 // hide action links required when editing time pass
-                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass($o.hidden);
+                $($o.timePassShowElements, $timePass).addClass($o.hidden);
 
                 // re-generate vouchers list
                 clearVouchersList($timePass);
@@ -890,10 +921,10 @@
                                 $('.lp_js_timePassPreview', $timePass).html(r.html);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $timePass).addClass($o.hidden);
+                                $($o.timePassShowElements, $timePass).addClass($o.hidden);
 
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $timePass).removeClass($o.hidden);
+                                $($o.timePassEditElements, $timePass).removeClass($o.hidden);
 
                                 $($o.timePassForm, $timePass).fadeOut(250, function() {
                                     $(this).remove();
@@ -923,16 +954,16 @@
                                 $('.lp_js_timePassPreview', $newTimePass).html(r.html);
                                 $($o.timePassForm, $timePass).remove();
 
-                                $o.addTimePass.after($newTimePass);
+                                $o.timePassEditor.prepend($newTimePass);
 
                                 populateTimePassForm($newTimePass);
 
                                 // hide action links required when editing time pass
-                                $('.lp_js_saveTimePass, .lp_js_cancelEditingTimePass', $newTimePass)
+                                $($o.timePassShowElements, $newTimePass)
                                 .addClass($o.hidden);
 
                                 // show action links required when displaying time pass
-                                $('.lp_js_editTimePass, .lp_js_deleteTimePass', $newTimePass)
+                                $($o.timePassEditElements, $newTimePass)
                                 .removeClass($o.hidden);
 
                                 $timePass.fadeOut(250, function() {
@@ -982,10 +1013,24 @@
                                 function(r) {
                                     if (r.success) {
                                         $(this).remove();
+
                                         // #656: unbind events
+
+                                        // show empty state hint, if there are no time passes
+                                        if ($($o.timePassWrapper + ':visible').length === 0) {
+                                            $($o.emptyState, $o.timePassEditor).fadeIn(400);
+
+                                            // switch the purchase mode button back to also allow individual purchases
+                                            if ($o.purchaseModeInput.prop('checked')) {
+                                                $o.purchaseModeInput
+                                                .prop('checked', false)
+                                                .change();
+                                            }
+                                        }
                                     } else {
                                         $(this).stop().show();
                                     }
+
                                     setMessage(r.message, r.success);
                                 },
                                 'json'
@@ -1041,9 +1086,7 @@
                                 '<span class="lp_voucher__code-infos">' +
                                     lpVars.i18n.voucherText + ' ' + price +
                                 '</span>' +
-                                '<a href="#" class="lp_js_deleteVoucher lp_edit-link lp_delete-link" data-icon="g">' +
-                                    lpVars.i18n.delete +
-                                '</a>' +
+                                '<a href="#" class="lp_js_deleteVoucher lp_edit-link--bold" data-icon="g"></a>' +
                             '</div>';
 
                 $timePass.find($o.voucherPlaceholder).prepend(voucher).find('div').first().slideDown(250);
