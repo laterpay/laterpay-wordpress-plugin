@@ -63,7 +63,7 @@ class LaterPay_Form_TimePassPosition extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_int',
-                    'in_array' => array( 1 ),
+                    'in_array' => array( 0, 1 ),
                 ),
                 'filters' => array(
                     'to_int',
