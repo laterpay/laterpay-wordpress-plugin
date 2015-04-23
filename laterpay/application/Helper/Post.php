@@ -331,14 +331,14 @@ class LaterPay_Helper_Post
     }
 
     /**
-     * Compile content of benefits overlay.
+     * Collect content of benefits overlay.
      *
      * @param  string  $revenue_model       LaterPay revenue model applied to content
      * @param  boolean $time_passes_only    can posts be purchased individually, or only by time passes?
      *
      * @return array $overlay_content
      */
-    public static function overlay_content( $revenue_model, $time_passes_only = false ) {
+    public static function collect_overlay_content( $revenue_model, $time_passes_only = false ) {
         // determine overlay title to show
         if ( $revenue_model == 'sis' || $time_passes_only ) {
             $overlay_title = __( 'Read Now', 'laterpay' );

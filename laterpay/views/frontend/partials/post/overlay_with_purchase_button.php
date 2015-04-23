@@ -20,7 +20,7 @@
         <?php _e( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ); ?>
     </div>
 
-    <?php $overlay_content = LaterPay_Helper_Post::overlay_content(
+    <?php $overlay_content = LaterPay_Helper_Post::collect_overlay_content(
                                                         $laterpay['revenue_model'],
                                                         $laterpay['only_time_pass_purchases_allowed']
                                                     );
