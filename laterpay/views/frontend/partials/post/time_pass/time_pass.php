@@ -6,19 +6,5 @@
 ?>
 
 <div>
-<<<<<<< HEAD:laterpay/views/frontend/partials/post/time_pass/time_pass.php
-    <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ): ?>
-        <?php
-            ob_start();
-            do_action( 'laterpay_time_passes', $laterpay['variant'], $laterpay['introductory_text'], $laterpay['call_to_action_text'], $laterpay['id'] );
-            $html = ob_get_contents();
-            ob_end_clean();
-            echo $html;
-        ?>
-    <?php else: ?>
-        <?php do_action( 'laterpay_time_passes', $laterpay['introductory_text'], $laterpay['call_to_action_text'], $laterpay['id'] ); ?>
-    <?php endif; ?>
-=======
-    <?php do_action( 'laterpay_time_passes', $laterpay['variant'], $laterpay['introductory_text'], $laterpay['call_to_action_text'], $laterpay['id'] ); ?>
->>>>>>> master:laterpay/views/frontend/partials/post/pass/passes.php
+    <?php do_action( 'laterpay_time_passes', $laterpay['introductory_text'], $laterpay['call_to_action_text'], $laterpay['id'] ); ?>
 </div>
