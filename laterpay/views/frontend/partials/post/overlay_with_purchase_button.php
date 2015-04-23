@@ -20,68 +20,41 @@
         <?php _e( 'Thanks for reading this short excerpt from the paid post! Fancy buying it to read all of it?', 'laterpay' ); ?>
     </div>
 
-    <?php if ( ! $laterpay['only_time_pass_purchases_allowed'] ) : ?>
-        <div class="lp_overlay-text">
-            <div class="lp_benefits">
-                <header class="lp_benefits__header">
-                    <h2 class="lp_benefits__title">
-                        <span data-icon="a"></span>
-                        <?php _e( 'Read Now, Pay Later', 'laterpay' ); ?>
-                    </h2>
-                </header>
-                <ul class="lp_benefits__list">
-                    <?php if ( $laterpay['revenue_model'] == 'sis' ): ?>
-                        <li class="lp_benefits__list-item lp_benefit--buy-now">
-                            <h3 class="lp_benefit__title"><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
-                            <p class="lp_benefit__text">
-                                <?php _e( 'Buy this post now with LaterPay and <br>pay with a payment method you trust.', 'laterpay' ); ?>
-                            </p>
-                        </li>
-                        <li class="lp_benefits__list-item lp_benefit--use-immediately">
-                            <h3 class="lp_benefit__title"><?php _e( 'Read Immediately', 'laterpay' ); ?></h3>
-                            <p class="lp_benefit__text">
-                                <?php _e( 'Immediately access your purchase. <br>You only buy this post. No subscription, no fees.', 'laterpay' ); ?>
-                            </p>
-                        </li>
-                    <?php else: ?>
-                        <li class="lp_benefits__list-item lp_benefit--buy-now">
-                            <h3 class="lp_benefit__title"><?php _e( 'Buy Now', 'laterpay' ); ?></h3>
-                            <p class="lp_benefit__text">
-                                <?php _e( 'Just agree to pay later.<br> No upfront registration and payment.', 'laterpay' ); ?>
-                            </p>
-                        </li>
-                        <li class="lp_benefits__list-item lp_benefit--use-immediately">
-                            <h3 class="lp_benefit__title"><?php _e( 'Read Immediately', 'laterpay' ); ?></h3>
-                            <p class="lp_benefit__text">
-                                <?php _e( 'Get immediate access to your purchase.<br> You are only buying this article, not a subscription.', 'laterpay' ); ?>
-                            </p>
-                        </li>
-                        <li class="lp_benefits__list-item lp_benefit--pay-later">
-                            <h3 class="lp_benefit__title"><?php _e( 'Pay Later', 'laterpay' ); ?></h3>
-                            <p class="lp_benefit__text">
-                                <?php _e( 'Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay' ); ?>
-                            </p>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-                <div>
-                    <?php if ( defined( 'DOING_AJAX' ) && DOING_AJAX ): ?>
-                        <?php
-                            ob_start();
-                            do_action( 'laterpay_purchase_button' );
-                            $html = ob_get_contents();
-                            ob_end_clean();
-                            echo $html;
-                        ?>
-                    <?php else: ?>
-                        <?php do_action( 'laterpay_purchase_button' ); ?>
-                    <?php endif; ?>
-                </div>
-                <div class="lp_powered-by">
-                    powered by<span data-icon="a"></span>beta
-                </div>
+    <?php $overlay_content = LaterPay_Helper_Post::collect_overlay_content(
+                                                        $laterpay['revenue_model'],
+                                                        $laterpay['only_time_pass_purchases_allowed']
+                                                    );
+    ?>
+    <div class="lp_overlay-text">
+        <div class="lp_benefits">
+            <header class="lp_benefits__header">
+                <h2 class="lp_benefits__title">
+                    <span data-icon="a"></span><?php echo $overlay_content['title']; ?>
+                </h2>
+            </header>
+            <ul class="lp_benefits__list">
+                <?php foreach ( $overlay_content['benefits'] as $benefit ): ?>
+                    <li class="lp_benefits__list-item <?php echo $benefit['class']; ?>">
+                        <h3 class="lp_benefit__title">
+                            <?php echo $benefit['title']; ?>
+                        </h3>
+                        <p class="lp_benefit__text">
+                            <?php echo $benefit['text']; ?>
+                        </p>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <div class="lp_benefits__action">
+                <?php if ( $laterpay['only_time_pass_purchases_allowed'] ): ?>
+                    <a href="#lp_js_timePassWidget" class="lp_button" title="<?php _e( 'View available LaterPay Time Passes', 'laterpay' ); ?>"><?php _e( 'Get a Time Pass', 'laterpay' ); ?></a>
+                <?php else: ?>
+                    <?php do_action( 'laterpay_purchase_button' ); ?>
+                <?php endif; ?>
+            </div>
+            <div class="lp_powered-by">
+                powered by<span data-icon="a"></span>beta
             </div>
         </div>
-    <?php endif; ?>
+    </div>
 
 </div>
