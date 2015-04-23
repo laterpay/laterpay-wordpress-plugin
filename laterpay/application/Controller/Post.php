@@ -835,7 +835,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $post_id = $post->ID;
 
-        // return the content, if post is not in the enabled post types
+        // return the full content, if post is not in the enabled post types
         if ( ! $this->is_enabled_post_type( $post->post_type ) ) {
             $context = array(
                 'post'                  => $post,
@@ -874,6 +874,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
                 $context
             );
 
+            // append time passes to content
             $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
             return $content;
@@ -885,7 +886,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         if ( ! $teaser_content ) {
             $teaser_content = LaterPay_Helper_Post::add_teaser_to_the_post( $post );
         }
-        // process teaser content through wpautop
+        // add paragraphs to teaser content through wpautop
         $teaser_content = wpautop( $teaser_content );
 
         // check, if user has admin rights
@@ -944,7 +945,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             'time_passes_positioned_manually'       => $timepasses_positioned_manually,
             'purchase_button_positioned_manually'   => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'only_time_pass_purchases_allowed'      => $only_time_passes_allowed,
-            'is_in_visible_test_mode'              => $is_in_visible_test_mode,
+            'is_in_visible_test_mode'               => $is_in_visible_test_mode,
         );
         $this->assign( 'laterpay', $view_args );
 
@@ -1029,6 +1030,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             return $html;
         }
 
+        // append time passes to content
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
 
         return $html;
