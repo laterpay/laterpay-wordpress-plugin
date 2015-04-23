@@ -44,9 +44,9 @@
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <div>
+            <div class="lp_benefits__action">
                 <?php if ( $laterpay['only_time_pass_purchases_allowed'] ): ?>
-                    <a href="#lp_js_timePassWidget" class="lp_purchase-button" title="<?php _e( 'View available LaterPay Time Passes', 'laterpay' ); ?>"><?php _e( 'Get a Time Pass', 'laterpay' ); ?></a>
+                    <a href="#lp_js_timePassWidget" class="lp_button" title="<?php _e( 'View available LaterPay Time Passes', 'laterpay' ); ?>"><?php _e( 'Get a Time Pass', 'laterpay' ); ?></a>
                 <?php else: ?>
                     <?php do_action( 'laterpay_purchase_button' ); ?>
                 <?php endif; ?>

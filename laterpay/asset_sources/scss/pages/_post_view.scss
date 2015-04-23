@@ -169,12 +169,20 @@
                 fill: $laterpay-brand--darker !important;
             }
 
-            .lp_purchase-button {
+            .lp_benefits__action {
+                text-align: center !important;
+            }
+
+            .lp_purchase-button,
+            .lp_button {
                 display: inline-block !important;
                 float: none !important;
                 margin-top: $fs--2 !important;
                 margin-bottom: $fs !important;
-                margin-left: ($fs * 11) !important;
+            }
+
+            .lp_button {
+                padding: 0.25em 0.5em !important;
             }
 
             .lp_powered-by {
