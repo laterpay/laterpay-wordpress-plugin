@@ -329,4 +329,75 @@ class LaterPay_Helper_Post
 
         return $new_meta_value;
     }
+
+    /**
+     * Compile content of benefits overlay.
+     *
+     * @param  string  $revenue_model       LaterPay revenue model applied to content
+     * @param  boolean $time_passes_only    can posts be purchased individually, or only by time passes?
+     *
+     * @return array $overlay_content
+     */
+    public static function overlay_content( $revenue_model, $time_passes_only = false ) {
+        // determine overlay title to show
+        if ( $revenue_model == 'sis' || $time_passes_only ) {
+            $overlay_title = __( 'Read Now', 'laterpay' );
+        } else {
+            $overlay_title = __( 'Read Now, Pay Later', 'laterpay' );
+        }
+
+        // determine benefits to show
+        if ( $time_passes_only ) {
+            $overlay_benefits = array(
+                                    array(
+                                        'title' => __( 'Buy Time Pass', 'laterpay' ),
+                                        'text'  => __( 'Buy a LaterPay time pass and pay with a payment method you trust.', 'laterpay' ),
+                                        'class' => 'lp_benefit--buy-now',
+                                    ),
+                                    array(
+                                        'title' => __( 'Read Immediately', 'laterpay' ),
+                                        'text'  => __( 'Immediately access your content. <br>A time pass is not a subscription, it expires automatically.', 'laterpay' ),
+                                        'class' => 'lp_benefit--use-immediately',
+                                    ),
+                                );
+        } else if ( ! $time_passes_only && $revenue_model == 'sis' ) {
+            $overlay_benefits = array(
+                                    array(
+                                        'title' => __( 'Buy Now', 'laterpay' ),
+                                        'text'  => __( 'Buy this post now with LaterPay and <br>pay with a payment method you trust.', 'laterpay' ),
+                                        'class' => 'lp_benefit--buy-now',
+                                    ),
+                                    array(
+                                        'title' => __( 'Read Immediately', 'laterpay' ),
+                                        'text'  => __( 'Immediately access your purchase. <br>You only buy this post. No subscription, no fees.', 'laterpay' ),
+                                        'class' => 'lp_benefit--use-immediately',
+                                    ),
+                                );
+        } else {
+            $overlay_benefits = array(
+                                    array(
+                                        'title' => __( 'Buy Now', 'laterpay' ),
+                                        'text'  => __( 'Just agree to pay later.<br> No upfront registration and payment.', 'laterpay' ),
+                                        'class' => 'lp_benefit--buy-now',
+                                    ),
+                                    array(
+                                        'title' => __( 'Read Immediately', 'laterpay' ),
+                                        'text'  => __( 'Access your purchase immediately.<br> You are only buying this article, not a subscription.', 'laterpay' ),
+                                        'class' => 'lp_benefit--use-immediately',
+                                    ),
+                                    array(
+                                        'title' => __( 'Pay Later', 'laterpay' ),
+                                        'text'  => __( 'Buy with LaterPay until you reach a total of 5 Euro.<br> Only then do you have to register and pay.', 'laterpay' ),
+                                        'class' => 'lp_benefit--pay-later',
+                                    ),
+                                );
+        }
+
+        $overlay_content = array(
+                               'title'      => $overlay_title,
+                               'benefits'   => $overlay_benefits,
+                            );
+
+        return $overlay_content;
+    }
 }
