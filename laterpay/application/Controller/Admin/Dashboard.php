@@ -263,10 +263,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         }
 
         $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
-                                    $diagram_data,
-                                    $options['start_timestamp'],
-                                    $options['interval']
-                                );
+            $diagram_data,
+            $options['start_timestamp'],
+            $options['interval']
+        );
 
         $context = array(
             'options'                   => $options,
@@ -278,7 +278,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $this->logger->info(
             __METHOD__,
-           $context
+            $context
         );
 
         return $converted_diagram_data;
@@ -300,10 +300,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $selling_items  = $history_model->get_history( $options['query_args'] );
         $data           = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
-                            $selling_items,
-                            $options['start_timestamp'],
-                            $options['interval']
-                        );
+            $selling_items,
+            $options['start_timestamp'],
+            $options['interval']
+        );
 
         $this->logger->info(
             __METHOD__,
@@ -332,10 +332,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $revenue_item   = $history_model->get_revenue_history( $options['query_args'] );
         $data           = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
-                            $revenue_item,
-                            $options['start_timestamp'],
-                            $options['interval']
-                        );
+            $revenue_item,
+            $options['start_timestamp'],
+            $options['interval']
+        );
 
         $this->logger->info(
             __METHOD__,
@@ -565,7 +565,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $where = array(
             'date' => array(
                 array(
-                    'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( $options['start_timestamp'] ),
+                    'before' => LaterPay_Helper_Date::get_date_query_before_end_of_day( $options['start_timestamp'] ),
                     'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $end_timestamp ),
                 ),
             ),
@@ -574,8 +574,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         // add the query options to the options array
         $options['query_args'] = array(
-            'order_by'  => LaterPay_Helper_Dashboard::get_order_by( $options['interval']  ),
-            'group_by'  => LaterPay_Helper_Dashboard::get_group_by( $options['interval']  ),
+            'order_by'  => LaterPay_Helper_Dashboard::get_order_by( $options['interval'] ),
+            'group_by'  => LaterPay_Helper_Dashboard::get_group_by( $options['interval'] ),
             'where'     => $where,
         );
 
@@ -691,7 +691,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     private function validate_ajax_nonce() {
         if ( ! isset( $_POST['_wpnonce'] ) || empty( $_POST['_wpnonce'] ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 1,
             );
             wp_send_json_error( $error );
@@ -700,7 +700,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $nonce = $_POST['_wpnonce'];
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 2,
             );
             wp_send_json_error( $error );

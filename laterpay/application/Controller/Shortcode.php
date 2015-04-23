@@ -118,9 +118,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         // target_post_id was provided, but didn't work
         if ( $page === null && $a['target_post_id'] !== '' ) {
             $error_reason = sprintf(
-                                    __( 'We couldn\'t find a page for target_post_id="%s" on this site.', 'laterpay' ),
-                                    absint( $a['target_post_id'] )
-                                    );
+                __( 'We couldn\'t find a page for target_post_id="%s" on this site.', 'laterpay' ),
+                absint( $a['target_post_id'] )
+            );
         }
         if ( $page === null && $a['target_post_title'] !== '' ) {
             $page = get_page_by_title( $a['target_post_title'], OBJECT, $this->config->get( 'content.enabled_post_types' ) );
@@ -128,9 +128,9 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         // target_post_title was provided, but didn't work (no invalid target_post_id was provided)
         if ( $page === null && $error_reason == '' ) {
             $error_reason = sprintf(
-                                    __( 'We couldn\'t find a page for target_post_title="%s" on this site.', 'laterpay' ),
-                                    esc_html( $a['target_post_title'] )
-                                    );
+                __( 'We couldn\'t find a page for target_post_title="%s" on this site.', 'laterpay' ),
+                esc_html( $a['target_post_title'] )
+            );
         }
         if ( $page === null ) {
             $error_message  = '<div class="lp_shortcode-error">';
@@ -367,7 +367,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     // render link to purchased post
                     $button_page_url = $page_url;
                 }
-                $html_button =  '<a href="' . $button_page_url . '" ' .
+                $html_button = '<a href="' . $button_page_url . '" ' .
                     'class="lp_js_purchaseLink lp_purchase-button lp_purchase-button--shortcode" ' .
                     'rel="prefetch" ' .
                     'data-icon="b">' .
@@ -379,7 +379,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
                     $view_args = array(
                         'url' => get_permalink( $post->ID ),
                     );
-                    $this->assign('laterpay', $view_args);
+                    $this->assign( 'laterpay', $view_args );
 
                     $html_button = $this->get_text_view( 'frontend/partials/post/shortcode_purchase_link' );
                 } else {
@@ -632,7 +632,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
         foreach ( $time_pass_ids as $time_pass_id ) {
             $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) ) : LaterPay_Helper_TimePass::get_all_time_passes();
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
-            $landing_page = get_option( 'laterpay_landing_page');
+            $landing_page = get_option( 'laterpay_landing_page' );
 
             // add gift codes with URLs to time passes
             $time_passes  = $this->add_free_codes_to_passes( $time_passes, $_GET['link'] );

@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <?php if ( ! $laterpay['user_has_already_voted'] ) : ?>

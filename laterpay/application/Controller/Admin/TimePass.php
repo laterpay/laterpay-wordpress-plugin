@@ -119,7 +119,7 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
     private function validate_ajax_nonce() {
         if ( ! isset( $_POST['_wpnonce'] ) || empty( $_POST['_wpnonce'] ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 1,
                 'success'   => false,
             );
@@ -129,7 +129,7 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
         $nonce = $_POST['_wpnonce'];
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 2,
                 'success'   => false,
             );

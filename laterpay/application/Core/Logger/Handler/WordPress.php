@@ -122,14 +122,14 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                         <a href="#" class="lp_debugger-tabs__link"><?php echo sprintf( __( 'Messages<span class="lp_badge">%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
                     </li>
                     <?php
-                        foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab['content'] ) ) {
-                                continue;
-                            }
+                    foreach ( $this->get_tabs() as $key => $tab ) {
+                        if ( empty( $tab['content'] ) ) {
+                            continue;
+                        }
                     ?>
-                        <li class="lp_js_debuggerTabItem lp_debugger-tabs__item">
-                            <a href="#" class="lp_debugger-tabs__link"><?php _e( $tab['name'], 'laterpay' ); ?></a>
-                        </li>
+					<li class="lp_js_debuggerTabItem lp_debugger-tabs__item">
+						<a href="#" class="lp_debugger-tabs__link"><?php _e( $tab['name'], 'laterpay' ); ?></a>
+					</li>
                     <?php } ?>
                 </ul>
 
@@ -140,21 +140,21 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                         </ul>
                     </li>
                     <?php
-                        foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab['content'] ) ) {
-                                continue;
-                            }
+                    foreach ( $this->get_tabs() as $key => $tab ) {
+                        if ( empty( $tab['content'] ) ) {
+                            continue;
+                        }
                     ?>
-                        <li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
-                            <table class="lp_debugger-content__table">
-                                <?php foreach ( $tab['content'] as $key => $value  ): ?>
+					<li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
+						<table class="lp_debugger-content__table">
+							<?php foreach ( $tab['content'] as $key => $value  ): ?>
                                     <tr>
                                         <th class="lp_debugger-content__table-th"><?php echo $key; ?></th>
                                         <td class="lp_debugger-content__table-td"><?php print_r( $value ); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
-                            </table>
-                        </li>
+						</table>
+					</li>
                     <?php } ?>
                 </ul>
             </div>

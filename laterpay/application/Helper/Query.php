@@ -92,7 +92,7 @@ class LaterPay_Helper_Query
 
         foreach ( $joins as $index => $join ) {
             if ( ! is_array( $join ) ) {
-               continue;
+                continue;
             }
 
             $table = $join['table'] . '_' . $index;
@@ -122,7 +122,7 @@ class LaterPay_Helper_Query
         $field_1 = $table . '.' . $join['on']['field'];
         $compare = $join['on']['compare'];
         $field_2 = ( $this->table_short !== '' ) ? $this->table_short : $this->table;
-        $field_2 .=  '.' . $join['on']['join_field'];
+        $field_2 .= '.' . $join['on']['join_field'];
 
         return ' ON ' . $field_1 . ' ' . $compare . ' ' . $field_2;
     }

@@ -1,11 +1,11 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
-<div id="lp_js_postStatistics" class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) echo ' lp_is-hidden'; ?>">
+<div id="lp_js_postStatistics" class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) { echo ' lp_is-hidden'; } ?>">
     <form id="lp_js_postStatisticsVisibilityForm" method="post">
         <input type="hidden" name="action" value="laterpay_post_statistic_visibility">
         <input type="hidden" id="lp_js_postStatisticsVisibilityInput" name="hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">

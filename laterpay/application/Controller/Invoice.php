@@ -45,7 +45,7 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract
         wp_register_script(
             'laterpay-invoice-indicator',
             $this->config->get( 'js_url' ) . 'laterpay-invoice-indicator.js',
-            NULL,
+            null,
             $this->config->get( 'version' ),
             true
         );

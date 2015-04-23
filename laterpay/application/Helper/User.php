@@ -121,7 +121,7 @@ class LaterPay_Helper_User
             $categories       = array( 'all' );
             // get post categories and their parents
             $post_categories  = wp_get_post_categories( $post->ID );
-            foreach( $post_categories as $post_category_id ) {
+            foreach ( $post_categories as $post_category_id ) {
                 $categories[] = $post_category_id;
                 $parents      = LaterPay_Helper_Pricing::get_category_parents( $post_category_id );
                 $categories   = array_merge( $categories, $parents );
@@ -202,7 +202,7 @@ class LaterPay_Helper_User
             if ( $current_user instanceof WP_User ) {
                 $preview_post_as_visitor = get_user_meta( $current_user->ID, 'laterpay_preview_post_as_visitor' );
                 if ( ! empty( $preview_post_as_visitor ) ) {
-                   $preview_post_as_visitor = $preview_post_as_visitor[0];
+                    $preview_post_as_visitor = $preview_post_as_visitor[0];
                 }
             }
             LaterPay_Helper_User::$_preview_post_as_visitor = $preview_post_as_visitor && LaterPay_Helper_User::can( 'laterpay_read_post_statistics', $post );

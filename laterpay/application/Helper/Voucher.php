@@ -171,7 +171,7 @@ class LaterPay_Helper_Voucher
         // search code
         foreach ( $vouchers as $pass_id => $pass_vouchers ) {
             foreach ( $pass_vouchers as $voucher_code => $voucher_price ) {
-                if ( $code === $voucher_code) {
+                if ( $code === $voucher_code ) {
                     $voucher_data = array(
                         'pass_id' => $pass_id,
                         'code'    => $voucher_code,

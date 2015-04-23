@@ -54,12 +54,12 @@ class LaterPay_Helper_Post
         if ( $price > 0 ) {
             $client_options  = LaterPay_Helper_Config::get_php_client_options();
             $laterpay_client = new LaterPay_Client(
-                                    $client_options['cp_key'],
-                                    $client_options['api_key'],
-                                    $client_options['api_root'],
-                                    $client_options['web_root'],
-                                    $client_options['token_name']
-                                );
+                $client_options['cp_key'],
+                $client_options['api_key'],
+                $client_options['api_root'],
+                $client_options['web_root'],
+                $client_options['token_name']
+            );
             $result          = $laterpay_client->get_access( array_merge( array( $post_id ), $time_passes ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
@@ -171,12 +171,12 @@ class LaterPay_Helper_Post
         $currency_model = new LaterPay_Model_Currency();
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $client         = new LaterPay_Client(
-                                $client_options['cp_key'],
-                                $client_options['api_key'],
-                                $client_options['api_root'],
-                                $client_options['web_root'],
-                                $client_options['token_name']
-                            );
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
 
         // data to register purchase after redirect from LaterPay
         $url_params = array(

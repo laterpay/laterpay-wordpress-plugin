@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <script>
@@ -18,7 +18,7 @@
                     <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'lp_is-selected'; } ?>
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ): ?>
                         <?php if ( $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo 'lp_is-disabled'; } ?>
-                    <?php else: ?>
+                    <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'sis' || $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
                     data-tooltip="<?php _e( 'Pay-per-Use: users pay purchased content later', 'laterpay' ); ?>">
@@ -31,7 +31,7 @@
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ): ?>
                         <?php if ( $laterpay['price'] < LaterPay_Helper_Pricing::sis_min ) { echo 'lp_is-disabled'; } ?>
-                    <?php else: ?>
+                    <?php else : ?>
                         <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'lp_is-disabled'; } ?>
                     <?php endif; ?>"
                     data-tooltip="<?php _e( 'Single Sale: users pay purchased content immediately', 'laterpay' ); ?>">
@@ -115,7 +115,7 @@
 <?php if ( $laterpay['post_price_type'] == LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ): ?>
     <?php if ( $laterpay['post_status'] != LaterPay_Helper_Pricing::STATUS_POST_PUBLISHED ): ?>
         <dfn><?php _e( 'The dynamic pricing will <strong>start</strong>, once you have <strong>published</strong> this post.', 'laterpay' ); ?></dfn>
-    <?php else: ?>
+    <?php else : ?>
         <a href="#"
             id="lp_js_resetDynamicPricingStartDate"
             class="lp_dynamic-pricing-reset"
@@ -127,7 +127,7 @@
         class="lp_dynamic-pricing-toggle lp_is-withDynamicPricing"
         data-icon="e"><?php _e( 'Remove dynamic pricing', 'laterpay' ); ?>
     </a>
-<?php else: ?>
+<?php else : ?>
     <a href="#"
         id="lp_js_toggleDynamicPricing"
         class="lp_dynamic-pricing-toggle"

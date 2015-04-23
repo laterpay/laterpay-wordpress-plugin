@@ -96,7 +96,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         wp_register_script(
             'laterpay-account-links',
             $this->config->get( 'js_url' ) . 'laterpay-account-links.js',
-            NULL,
+            null,
             $this->config->get( 'version' ),
             true
         );

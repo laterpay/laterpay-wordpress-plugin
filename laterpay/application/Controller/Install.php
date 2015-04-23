@@ -129,25 +129,25 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         // if the table needs an update, add the 'revenue_model' column and set the current values to 'ppu'
         if ( ! $is_up_to_date ) {
             // add the missing column to our table
-            $wpdb->query( "ALTER TABLE " . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT 'ppu';" );
+            $wpdb->query( 'ALTER TABLE ' . $table . " ADD revenue_model CHAR( 3 ) NOT NULL DEFAULT 'ppu';" );
             // update the existing data
-            $wpdb->query( "UPDATE " . $table . " SET revenue_model = IF( " . $table . ".price < 5, 'ppu', 'sis' )" );
+            $wpdb->query( 'UPDATE ' . $table . ' SET revenue_model = IF( ' . $table . ".price < 5, 'ppu', 'sis' )" );
         }
 
         // modify revenue model column
         if ( ! $modified ) {
-            $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
+            $wpdb->query( 'ALTER TABLE ' . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
         }
 
         // add pass id column for version >= 0.9.10
         if ( ! $passes_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
-            $wpdb->query( "ALTER TABLE " . $table . " ADD pass_id INT( 11 ) NOT NULL DEFAULT 0;" );
-            $wpdb->query( "ALTER TABLE " . $table . " MODIFY post_id INT( 11 ) NOT NULL DEFAULT 0;" );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD pass_id INT( 11 ) NOT NULL DEFAULT 0;' );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' MODIFY post_id INT( 11 ) NOT NULL DEFAULT 0;' );
         }
 
         // add voucher code column for version >= 0.9.10
         if ( ! $code_added && version_compare( $current_version, '0.9.10', '>=' ) ) {
-            $wpdb->query( "ALTER TABLE " . $table . " ADD code VARCHAR(6) NULL DEFAULT NULL;" );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD code VARCHAR(6) NULL DEFAULT NULL;' );
         }
     }
 
@@ -193,7 +193,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
 
         // change revenue model column data type to ENUM
         if ( ! $modified ) {
-            $wpdb->query( "ALTER TABLE " . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
+            $wpdb->query( 'ALTER TABLE ' . $table . " MODIFY revenue_model ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu';" );
         }
     }
 
@@ -529,11 +529,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         }
 
         if ( ! $is_up_to_date ) {
-            $wpdb->query( "ALTER TABLE " . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
+            $wpdb->query( 'ALTER TABLE ' . $table . " ADD mode ENUM('test', 'live') NOT NULL DEFAULT 'test';" );
             // count all existing data as 'live' data to ensure continuity of statistics after migration
-            $wpdb->query( "UPDATE " . $table . " SET mode = 'live';" );
-            $wpdb->query( "ALTER TABLE " . $table . " DROP INDEX post_id;" );
-            $wpdb->query( "ALTER TABLE " . $table . " ADD UNIQUE INDEX (post_id, user_id, mode);" );
+            $wpdb->query( 'UPDATE ' . $table . " SET mode = 'live';" );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' DROP INDEX post_id;' );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD UNIQUE INDEX (post_id, user_id, mode);' );
         }
     }
 
@@ -653,8 +653,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         add_option( 'laterpay_purchase_button_positioned_manually',     '' );
         add_option( 'laterpay_time_passes_positioned_manually',         '' );
         add_option( 'laterpay_landing_page',                            '' );
-        add_option( 'laterpay_only_time_pass_purchases_allowed',        0  );
-        add_option( 'laterpay_is_in_visible_test_mode',                 0  );
+        add_option( 'laterpay_only_time_pass_purchases_allowed',        0 );
+        add_option( 'laterpay_is_in_visible_test_mode',                 0 );
 
         // advanced settings
         add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );
@@ -682,7 +682,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         LaterPay_Helper_Cache::reset_opcode_cache();
 
         // update capabilities
-        $laterpay_capabilities = new LaterPay_Core_Capability ();
+        $laterpay_capabilities = new LaterPay_Core_Capability();
         $laterpay_capabilities->populate_roles();
     }
 }

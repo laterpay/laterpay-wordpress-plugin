@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <div class="lp_page wp-core-ui">
@@ -28,12 +28,12 @@
 
             <h1 class="lp_dashboard-title"><?php
                 echo sprintf(
-                     __( '%s Dashboard of %s Sales from%s', 'laterpay' ),
+                    __( '%s Dashboard of %s Sales from%s', 'laterpay' ),
                     $this->get_text_view( 'backend/partials/dropdown_interval' ),
                     $this->get_text_view( 'backend/partials/dropdown_sales' ),
                     $this->get_text_view( 'backend/partials/navigation_interval' )
                 );
-               ?>
+                ?>
             </h1>
 
             <div class="lp_layout">

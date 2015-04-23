@@ -93,8 +93,8 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
         $payment = $this->get_payment_by_hash( $mode, $data['hash'] );
         if ( empty( $payment ) ) {
             $wpdb->insert(
-                    $this->table,
-                    array(
+                $this->table,
+                array(
                         'mode'          => $mode,
                         'post_id'       => $data['post_id'],
                         'currency_id'   => $data['id_currency'],
@@ -106,7 +106,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                         'pass_id'       => $data['pass_id'],
                         'code'          => $data['code'],
                     ),
-                    array(
+                array(
                         '%s',
                         '%d',
                         '%d',
@@ -237,7 +237,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                                 'mode'      => $mode,
                                 'date'      => array(
                                     array(
-                                        'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
+                                        'before' => LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
                                         'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ), // start of today
                                     )
                                 ),
@@ -574,15 +574,15 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 AND pass_id = $pass_id
             ";
         } else {
-            $sql .= "
+            $sql .= '
                 AND pass_id <> 0
-            ";
+            ';
         }
 
-        $sql .= "
+        $sql .= '
             ORDER BY
                 date ASC
-        ";
+        ';
 
         return $wpdb->get_results( $sql );
     }

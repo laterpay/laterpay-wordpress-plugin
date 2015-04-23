@@ -58,9 +58,9 @@ class LaterPay_Helper_Request {
         }
         $serverPort = $_SERVER['SERVER_PORT'];
         $serverName = $_SERVER['SERVER_NAME'];
-        if ( $serverName == 'localhost' and function_exists('site_url')) {
-            $serverName = (str_replace(array('http://', 'https://'), '', site_url())) ; // WP function 
-            // overwrite port on Heroku 
+        if ( $serverName == 'localhost' and function_exists( 'site_url' ) ) {
+            $serverName = (str_replace( array('http://', 'https://'), '', site_url() )) ; // WP function
+            // overwrite port on Heroku
             if ( isset( $_SERVER['HTTP_CF_VISITOR'] ) && strpos( $_SERVER['HTTP_CF_VISITOR'], 'https' ) !== false ) {
                 $serverPort = 443;
             } else {

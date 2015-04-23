@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?>
@@ -15,7 +15,7 @@
                 ob_end_clean();
                 echo $html;
             ?>
-        <?php else: ?>
+        <?php else : ?>
             <?php do_action( 'laterpay_purchase_button' ); ?>
         <?php endif; ?>
     </div>

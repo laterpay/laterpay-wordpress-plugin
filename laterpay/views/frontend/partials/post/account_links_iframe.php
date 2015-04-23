@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <div>
@@ -14,7 +14,7 @@
             ob_end_clean();
             echo $html;
         ?>
-    <?php else: ?>
+    <?php else : ?>
         <?php do_action( 'laterpay_account_links', $laterpay['css'], $laterpay['forcelang'], $laterpay['show'], $laterpay['next'] ); ?>
     <?php endif; ?>
 </div>

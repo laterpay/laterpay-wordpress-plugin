@@ -13,11 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     endif;
     $is_current_page    = false;
     $current_page_class = '';
-    if ( $laterpay[ 'current_page' ] === $page[ 'url' ]
+if ( $laterpay[ 'current_page' ] === $page[ 'url' ]
          || ( ! $num && $laterpay[ 'current_page' ] === $laterpay[ 'plugin_page' ] )
     ) :
-        $is_current_page    = true;
-        $current_page_class = 'lp_is-current';
+    $is_current_page    = true;
+    $current_page_class = 'lp_is-current';
     endif;
     ?>
     <li class="lp_navigation-tabs__item <?php echo $current_page_class; ?>">

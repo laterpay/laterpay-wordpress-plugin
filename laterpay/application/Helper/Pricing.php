@@ -115,7 +115,7 @@ class LaterPay_Helper_Pricing
             'child_of' => $category_id,
         ) );
 
-        foreach( $category_children as $category ) {
+        foreach ( $category_children as $category ) {
             // filter ids with category prices
             if ( ! $laterpay_category_model->get_category_price_data_by_category_ids( $category->term_id ) ) {
                 $ids[] = (int) $category->term_id;
@@ -391,7 +391,7 @@ class LaterPay_Helper_Pricing
                 break;
             default:
                 break;
-         }
+        }
 
         return number_format( $rounded_price, 2 );
     }
@@ -904,7 +904,7 @@ class LaterPay_Helper_Pricing
         $parents              = array();
 
         // add parents
-        foreach( $post_categories as $category_id ) {
+        foreach ( $post_categories as $category_id ) {
             $parent_id = get_category( $category_id )->parent;
             while ( $parent_id ) {
                 $parents[] = $parent_id;

@@ -153,7 +153,7 @@ class LaterPay_Helper_Dashboard
         $interval           = sanitize_text_field( (string) $interval );
 
         if ( ! in_array( $interval, $allowed_intervals ) ) {
-           $interval = 'week';
+            $interval = 'week';
         }
 
         return $interval;

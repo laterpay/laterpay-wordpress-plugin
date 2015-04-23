@@ -51,7 +51,7 @@ class LaterPay_Helper_Browser
      */
     public static function php_browser_info() {
         if ( is_null( self::$browser ) ) {
-            self::$browser = self::php_browscap()->getBrowser( NULL, true );
+            self::$browser = self::php_browscap()->getBrowser( null, true );
         }
 
         return (array) self::$browser;

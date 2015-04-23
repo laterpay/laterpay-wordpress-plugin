@@ -32,7 +32,7 @@ if ( $laterpay['revenue_model'] == 'sis' ):
         LaterPay_Helper_View::format_number( $laterpay['price'] ),
         $laterpay['currency']
     );
-else:
+else :
     $title = sprintf(
         __( 'Buy now for %s<small class="lp_purchase-link__currency">%s</small> and pay later', 'laterpay' ),
         LaterPay_Helper_View::format_number( $laterpay['price'] ),

@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <div class="lp_page wp-core-ui">
@@ -35,7 +35,7 @@
                                name="only_time_pass_purchase_mode"
                                class="lp_js_onlyTimePassPurchaseModeInput lp_toggle__input"
                                value="1"
-                               <?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
+								<?php if ( $laterpay['only_time_pass_purchases_allowed'] ) { echo 'checked'; } ?>
                         >
                         <span class="lp_toggle__text"></span>
                         <span class="lp_toggle__handle"></span>
@@ -106,7 +106,7 @@
                                             </label><!--
                                          --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
                                                     <?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
-                                                    <?php if ( $laterpay['global_default_price'] < 1.49) { echo 'lp_is-disabled'; } ?>">
+                                                    <?php if ( $laterpay['global_default_price'] < 1.49 ) { echo 'lp_is-disabled'; } ?>">
                                                 <input type="radio" name="laterpay_global_price_revenue_model" class="lp_js_revenueModelInput" value="sis"<?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo ' checked'; } ?>>SIS
                                             </label>
                                         </div>
@@ -309,7 +309,7 @@
                                             </label><!--
                                          --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
                                                     <?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
-                                                    <?php if ( $laterpay['global_default_price'] < 1.49) { echo 'lp_is-disabled'; } ?>">
+                                                    <?php if ( $laterpay['global_default_price'] < 1.49 ) { echo 'lp_is-disabled'; } ?>">
                                                 <input type="radio" name="laterpay_category_price_revenue_model" class="lp_js_revenueModelInput" value="sis"<?php if ( $laterpay['global_default_price_revenue_model'] == 'sis' ) { echo ' checked'; } ?>>SIS
                                             </label>
                                         </div>
@@ -334,7 +334,7 @@
 <!--
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ): ?>
             <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
-        <?php else: ?>
+        <?php else : ?>
             <div class="lp_js_hideInTimePassOnlyMode">
         <?php endif; ?>
                 <p>
@@ -367,7 +367,7 @@
                 <form id="lp_js_landingPageForm" method="post">
                     <input type="hidden" name="form" value="save_landing_page">
                     <input type="hidden" name="action" value="laterpay_pricing">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                     <label><?php _e( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ); ?></label>
                     <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
                     <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php _e( 'Save', 'laterpay' ); ?></a>
@@ -378,7 +378,7 @@
                 <?php foreach ( $laterpay['passes_list'] as $pass ): ?>
                     <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo $pass->pass_id; ?>">
                         <div class="lp_time-pass__id-wrapper">
-                            <?php _e( 'Pass', 'laterpay'); ?>
+                            <?php _e( 'Pass', 'laterpay' ); ?>
                             <span class="lp_js_timePassId lp_time-pass__id"><?php echo $pass->pass_id; ?></span>
                         </div>
                         <div class="lp_js_timePassPreview lp_left">
@@ -433,7 +433,7 @@
                     class="lp_js_timePassWrapper lp_js_addTimePassWrapper lp_layout__item lp_time-passes__item lp_clearfix lp_hidden"
                     data-pass-id="0">
                     <div class="lp_time-pass__id-wrapper" style="display:none;">
-                        <?php _e( 'Pass', 'laterpay'); ?>
+                        <?php _e( 'Pass', 'laterpay' ); ?>
                         <span class="lp_js_timePassId lp_time-pass__id">x</span>
                     </div>
 
@@ -494,7 +494,7 @@
                                                    name="revenue_model"
                                                    class="lp_js_timePassRevenueModelInput lp_toggle__input"
                                                    value="sis"
-                                                   <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo 'checked'; } ?>>
+													<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo 'checked'; } ?>>
                                                 <span class="lp_toggle__text"></span>
                                                 <span class="lp_toggle__handle"></span>
                                             </label>
@@ -565,13 +565,13 @@
 <!--
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator" style="display:none;">
-        <?php else: ?>
+        <?php else : ?>
             <hr class="lp_js_hideInTimePassOnlyMode lp_form-group-separator">
         <?php endif; ?>
 
         <?php if ( $laterpay['only_time_pass_purchases_allowed'] === true ) : ?>
             <div class="lp_js_hideInTimePassOnlyMode" style="display:none;">
-        <?php else: ?>
+        <?php else : ?>
             <div class="lp_js_hideInTimePassOnlyMode lp_bulk-price">
         <?php endif; ?>
                 <h2><?php _e( 'Bulk Price Editor', 'laterpay' ); ?></h2>

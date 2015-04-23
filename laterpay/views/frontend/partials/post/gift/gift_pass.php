@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <?php
@@ -54,7 +54,7 @@
     </table>
     <?php if ( $laterpay_gift['show_redeem'] ) : ?>
         <?php echo $this->render_redeem_form(); ?>
-    <?php else: ?>
+    <?php else : ?>
         <div class="lp_js_giftCardActionsPlaceholder_<?php echo $gift_pass['pass_id']; ?>"></div>
     <?php endif; ?>
 </div>

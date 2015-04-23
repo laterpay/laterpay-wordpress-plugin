@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <div class="lp_page wp-core-ui">
@@ -74,7 +74,7 @@
 
 
             <?php if ( isset( $laterpay['passes']['individual'] ) ): ?>
-                <?php foreach( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
+                <?php foreach ( $laterpay['passes']['individual'] as $pass_id => $pass ): ?>
 
                     <div class="lp_time-pass-lifecycle lp_clearfix">
                         <div class="lp_time-pass-lifecycle__kpi lp_1/4 lp_left">

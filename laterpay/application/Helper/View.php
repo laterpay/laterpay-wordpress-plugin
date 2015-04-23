@@ -31,7 +31,7 @@ class LaterPay_Helper_View
         $query_args = array(
             'page' => $page[ 'url' ]
         );
-        $href = admin_url('admin.php');
+        $href = admin_url( 'admin.php' );
         $href = add_query_arg( $query_args, $href );
 
         $data = '';
@@ -104,13 +104,13 @@ class LaterPay_Helper_View
      */
     protected static function get_next_day( $date ) {
         $next_day = date( 'Y-m-d', mktime(
-                date( 'H', strtotime( $date ) ),
-                date( 'i', strtotime( $date ) ),
-                date( 's', strtotime( $date ) ),
-                date( 'm', strtotime( $date ) ),
-                date( 'd', strtotime( $date ) ) + 1,
-                date( 'Y', strtotime( $date ) )
-            ) );
+            date( 'H', strtotime( $date ) ),
+            date( 'i', strtotime( $date ) ),
+            date( 's', strtotime( $date ) ),
+            date( 'm', strtotime( $date ) ),
+            date( 'd', strtotime( $date ) ) + 1,
+            date( 'Y', strtotime( $date ) )
+        ) );
 
         return $next_day;
     }
@@ -126,13 +126,13 @@ class LaterPay_Helper_View
     protected static function get_date_days_ago( $date, $ago = 30 ) {
         $ago = absint( $ago );
         $prior_date = date( 'Y-m-d', mktime(
-                date( 'H', strtotime( $date ) ),
-                date( 'i', strtotime( $date ) ),
-                date( 's', strtotime( $date ) ),
-                date( 'm', strtotime( $date ) ),
-                date( 'd', strtotime( $date ) ) - $ago,
-                date( 'Y', strtotime( $date ) )
-            ) );
+            date( 'H', strtotime( $date ) ),
+            date( 'i', strtotime( $date ) ),
+            date( 's', strtotime( $date ) ),
+            date( 'm', strtotime( $date ) ),
+            date( 'd', strtotime( $date ) ) - $ago,
+            date( 'Y', strtotime( $date ) )
+        ) );
 
         return $prior_date;
     }
@@ -252,7 +252,7 @@ class LaterPay_Helper_View
                 $formatted = number_format_i18n( $number, 0 );
             } else {
                 // reduce values above 10,000 to thousands and format them with one digit
-                $formatted = number_format_i18n( $number / 1000, 1 ) . __( 'k', 'laterpay'); // k -> short for kilo (thousands)
+                $formatted = number_format_i18n( $number / 1000, 1 ) . __( 'k', 'laterpay' ); // k -> short for kilo (thousands)
             }
         } else {
             // format count values
@@ -260,7 +260,7 @@ class LaterPay_Helper_View
                 $formatted = number_format( $number );
             } else {
                 // reduce values above 10,000 to thousands and format them with one digit
-                $formatted = number_format( $number / 1000, 1 ) . __( 'k', 'laterpay'); // k -> short for kilo (thousands)
+                $formatted = number_format( $number / 1000, 1 ) . __( 'k', 'laterpay' ); // k -> short for kilo (thousands)
             }
         }
 
@@ -277,8 +277,8 @@ class LaterPay_Helper_View
     public static function normalize( $number ) {
         global $wp_locale;
 
-        $number = str_replace( $wp_locale->number_format['thousands_sep'], "", (string) $number );
-        $number = str_replace( $wp_locale->number_format['decimal_point'], ".", $number );
+        $number = str_replace( $wp_locale->number_format['thousands_sep'], '', (string) $number );
+        $number = str_replace( $wp_locale->number_format['decimal_point'], '.', $number );
 
         return (float) $number;
     }

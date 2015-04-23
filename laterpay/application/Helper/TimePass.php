@@ -175,12 +175,11 @@ class LaterPay_Helper_TimePass
         $details['access']   = __( 'access to', 'laterpay' ) . ' ' .
                                 LaterPay_Helper_TimePass::get_access_options( $time_pass['access_to'] );
 
-
         // also display category, price, and revenue model, if full_info flag is used
         if ( $full_info ) {
             if ( $time_pass['access_to'] > 0 ) {
                 $category_id = $time_pass['access_category'];
-                $details['category'] = '"' . get_the_category_by_ID( $category_id) . '"';
+                $details['category'] = '"' . get_the_category_by_ID( $category_id ) . '"';
             }
 
             $details['price']    = __( 'for', 'laterpay' ) . ' ' .
@@ -646,7 +645,7 @@ class LaterPay_Helper_TimePass
                 if ( ! $duration ) {
                     $time_pass_id = $hist->pass_id;
                     $time_pass    = self::get_time_pass_by_id( $time_pass_id );
-                    if ( ! $time_pass ) continue;
+                    if ( ! $time_pass ) { continue; }
                     $expiry_date  = $start_date + self::get_time_pass_expiry_time( $time_pass );
                 } else {
                     $expiry_date  = $start_date + $duration;
@@ -656,7 +655,7 @@ class LaterPay_Helper_TimePass
                 if ( $expiry_date > $current_date ) {
                     $week_number = 1;
 
-                    while( ( $start_date + $week_number * $week_duration ) < $expiry_date ) {
+                    while ( ( $start_date + $week_number * $week_duration ) < $expiry_date ) {
                         $week_number++;
                         $key++;
                     }

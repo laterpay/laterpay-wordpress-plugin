@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <div class="lp_page wp-core-ui">
@@ -33,7 +33,7 @@
                 <form id="laterpay_plugin_mode" method="post">
                     <input type="hidden" name="form"    value="laterpay_plugin_mode">
                     <input type="hidden" name="action"  value="laterpay_account">
-                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field('laterpay_form'); } ?>
+                    <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                     <label class="lp_toggle__label">
                         <input type="checkbox"
                                 id="lp_js_togglePluginMode"
@@ -61,7 +61,7 @@
                                    class="lp_toggle__input"
                                    name="plugin_is_in_visible_test_mode"
                                    value="1"
-                                   <?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
+									<?php if ( $laterpay['plugin_is_in_visible_test_mode'] ) { echo 'checked'; } ?>>
                             <span class="lp_toggle__text" data-on="" data-off=""></span>
                             <span class="lp_toggle__handle"></span>
                         </label>

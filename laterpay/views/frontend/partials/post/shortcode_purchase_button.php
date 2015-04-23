@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <a href="#"
@@ -15,6 +15,6 @@
    data-is-in-visible-test-mode="<?php echo $laterpay['is_in_visible_test_mode']; ?>"
    ><?php
        echo sprintf(
-               __( '%s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ), LaterPay_Helper_View::format_number( $laterpay['price'] ), $laterpay['currency']
+           __( '%s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ), LaterPay_Helper_View::format_number( $laterpay['price'] ), $laterpay['currency']
        );
-       ?></a>
+        ?></a>

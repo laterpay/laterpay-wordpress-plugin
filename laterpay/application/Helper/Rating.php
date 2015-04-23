@@ -101,7 +101,7 @@ class LaterPay_Helper_Rating
      */
     public static function set_user_voted( $post_id ) {
         $user_id          = LaterPay_Helper_Statistic::get_user_unique_id();
-        $users_voted_data = get_post_meta( $post_id, 'laterpay_users_voted');
+        $users_voted_data = get_post_meta( $post_id, 'laterpay_users_voted' );
         $users_voted      = $users_voted_data ? $users_voted_data[0] : array();
         $users_voted[]    = $user_id;
 

@@ -267,7 +267,7 @@ abstract class LaterPay_Form_Abstract
                         continue;
                     }
 
-                    $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params);
+                    $is_valid = $this->validate_value( $field['value'], $validator_option, $validator_params );
                     if ( ! $is_valid ) {
                         // data not valid
                         $this->errors[] = array('name' => $name, 'value' => $field['value'], 'validator' => $validator_option, 'options' => $validator_params);
@@ -373,8 +373,8 @@ abstract class LaterPay_Form_Abstract
                 if ( $validator_params && is_array( $validator_params ) ) {
                     // OR realization, all validators inside validators set used like AND
                     // if at least one set correct then validation passed
-                    foreach ( $validator_params as $validators_set) {
-                        foreach ($validators_set as $operator => $param ) {
+                    foreach ( $validator_params as $validators_set ) {
+                        foreach ( $validators_set as $operator => $param ) {
                             $is_valid = $this->compare_values( $operator, $value, $param );
                             // if comparison not valid break the loop and go to the next validation set
                             if ( ! $is_valid ) {
@@ -472,8 +472,8 @@ abstract class LaterPay_Form_Abstract
                         if ( ! isset( $dependency['value'] ) || $value === $dependency['value'] ) {
                             // loop for dependencies conditions and check if all of them is valid
                             foreach ( $dependency['conditions'] as $vkey => $vparams ) {
-                                $extra_validator = is_int($vkey) ? $vparams : $vkey;
-                                $validator_data = is_int($vkey) ? null : $vparams;
+                                $extra_validator = is_int( $vkey ) ? $vparams : $vkey;
+                                $validator_data = is_int( $vkey ) ? null : $vparams;
                                 // recursively call extra validator
                                 $is_valid = $this->validate_value( $this->get_field_value( $dependency['field'] ), $extra_validator, $validator_data );
                                 // break loop if something not valid
