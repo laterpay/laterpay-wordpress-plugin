@@ -34,7 +34,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         'id'         => '%d',
         'post_id'    => '%d',
         'mode'       => '%s',
-        'date'       => '%s',
+        'date'       => 'date',
         'user_id'    => '%s',
         'ip'         => '%s',
         'has_access' => '%d',
@@ -197,16 +197,13 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
     }
 
     /**
-     * Get most viewed posts x days back. By default top 10 posts.
-     * Leave end- and start-timestamp empty to fetch the results without sparkline.
+     * Get post views data.
      *
      * @param array     $args
-     * @param int       $start_timestamp
-     * @param string    $interval
      *
      * @return array $results
      */
-    public function get_most_viewed_posts( $args = array(), $start_timestamp = null, $interval = 'week' ) {
+    public function get_posts_views_data( $args = array() ) {
         $default_args = array(
             'fields'    => array(
                                  'post_id',
@@ -214,88 +211,12 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                                  'COUNT(*) AS quantity',
                             ),
             'group_by'  => 'post_id',
-            'order_by'  => 'quantity',
-            'order'     => 'DESC',
-            'limit'     => 10,
-            'join'      => $this->post_join,
-        );
-        $args = wp_parse_args( $args, $default_args );
-
-        $results = $this->get_results( $args );
-
-        if ( $start_timestamp === null ) {
-            return $results;
-        }
-
-        // fetch the total count of post views
-        $total_quantity = $this->get_total_post_impression( array( 'where' => $args['where'] ) );
-        $total_quantity = $total_quantity->quantity;
-
-        laterpay_get_logger()->info( __METHOD__, array( 'total_quantity' => $total_quantity ) );
-
-        foreach ( $results as $key => $data ) {
-            // the sparkline for the last x days
-            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
-            $data->sparkline    = implode( ',', $sparkline );
-
-            // % amount
-            $data->amount       = $data->quantity / $total_quantity * 100;
-
-            $results[$key]      = $data;
-        }
-
-        return $results;
-    }
-
-    /**
-     * Get least viewed posts x days back. By default a maximum of 10 posts.
-     * Leave end and start timestamp empty to fetch the results without sparkline.
-     *
-     * @param array     $args
-     * @param int       $start_timestamp
-     * @param string    $interval
-     *
-     * @return array $results
-     */
-    public function get_least_viewed_posts( $args = array(), $start_timestamp = null, $interval = 'week' ) {
-        $default_args = array(
-            'fields'    => array(
-                                'post_id',
-                                'post_title',
-                                'COUNT(*) AS quantity',
-                            ),
-            'group_by'  => 'post_id',
-            'order_by'  => 'quantity',
-            'order'     => 'ASC',
-            'limit'     => 10,
             'join'      => $this->post_join,
         );
 
         $args = wp_parse_args( $args, $default_args );
 
-        $results = $this->get_results( $args );
-
-        if ( $start_timestamp === null ) {
-            return $results;
-        }
-
-        $total_quantity = $this->get_total_post_impression( array( 'where' => $args['where'] ) );
-        $total_quantity = $total_quantity->quantity;
-
-        laterpay_get_logger()->info( __METHOD__, array( 'total_quantity' => $total_quantity ) );
-
-        foreach ( $results as $key => $data ) {
-            // the sparkline for the last x days
-            $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
-            $data->sparkline    = implode( ',', $sparkline );
-
-            // % amount
-            $data->amount       = $data->quantity / $total_quantity * 100;
-
-            $results[$key]      = $data;
-        }
-
-        return $results;
+        return $this->get_results( $args );
     }
 
     /**
@@ -332,10 +253,11 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
      * @param int       $post_id
      * @param int       $start_timestamp
      * @param string    $interval
+     * @param bool|int  $has_access
      *
      * @return array $sparkline
      */
-    public function get_sparkline( $post_id, $start_timestamp, $interval = 'week' ) {
+    public function get_sparkline( $post_id, $start_timestamp, $interval = 'week', $has_access = null ) {
         $end_timestamp = LaterPay_Helper_Dashboard::get_end_timestamp( $start_timestamp, $interval );
         $mode          = LaterPay_Helper_View::get_plugin_mode();
 
@@ -360,6 +282,10 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             'group_by' => 'DAY(date)',
             'order_by' => 'DATE(date)',
         );
+
+        if ( $has_access !== null ) {
+            $args['where']['has_access'] = $has_access;
+        }
 
         if ( $interval === 'day' ) {
             $args['group_by'] = 'HOUR(date)';

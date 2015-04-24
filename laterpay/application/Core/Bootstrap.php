@@ -315,6 +315,7 @@ class LaterPay_Core_Bootstrap
         add_action( 'admin_notices', array( $install_controller, 'maybe_update_unlimited_access' ) );
         add_action( 'admin_notices', array( $install_controller, 'maybe_update_post_views' ) );
         add_action( 'admin_notices', array( $install_controller, 'maybe_clear_dashboard_cache' ) );
+        add_action( 'admin_notices', array( $install_controller, 'update_post_view_table_structure' ) );
     }
 
     /**

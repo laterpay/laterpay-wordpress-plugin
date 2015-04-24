@@ -538,6 +538,54 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
     }
 
     /**
+     * Update post view table structure.
+     *
+     * @since 0.9.11.4
+     * @wp-hook admin_notices
+     *
+     * @return void
+     */
+    public function update_post_view_table_structure() {
+        global $wpdb;
+
+        $current_version = get_option( 'laterpay_version' );
+        if ( version_compare( $current_version, '0.9.11.4', '<' ) ) {
+            return;
+        }
+
+        $table   = $wpdb->prefix . 'laterpay_post_views';
+        $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table . ';' );
+        $indexes = $wpdb->get_results( 'SHOW INDEX FROM ' . $table . ';');
+
+        $is_up_to_date = false;
+
+        foreach ( $columns as $column ) {
+            if ( $column->Field === 'id' ) {
+                // check indexes
+                foreach ( $indexes as $index ) {
+                    if ( $index->Key_name === 'PRIMARY' && $index->Column_name === "id" ) {
+                        $is_up_to_date = true;
+                    }
+                }
+            }
+        }
+
+        if ( ! $is_up_to_date ) {
+            // clear all unnecessary indexes (were created due bug)
+            foreach ( $indexes as $index ) {
+                if ( $index->Key_name !== 'PRIMARY' ) {
+                    $wpdb->query( "ALTER TABLE {$table} DROP INDEX {$index->Key_name};" );
+                }
+            }
+
+            $wpdb->query( "ALTER TABLE " . $table . " ADD `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;" );
+            $wpdb->query( "ALTER TABLE " . $table . " ADD INDEX idx_post_views_date_mode (date, mode);" );
+            $wpdb->query( "ALTER TABLE " . $table . " ADD INDEX idx_post_views_post_id_date_mode (post_id, date, mode);" );
+            $wpdb->query( "ALTER TABLE " . $table . " DROP COLUMN `count`;" );
+        }
+    }
+
+    /**
      * Clear dashboard cache.
      *
      * @since 0.9.11
@@ -613,7 +661,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
                 user_id           VARCHAR(32)          NOT NULL,
                 ip                VARBINARY(16)        NOT NULL,
                 has_access        INT(1)               NOT NULL DEFAULT 0,
-                PRIMARY KEY  (id)
+                PRIMARY KEY  (id),
+                INDEX idx_post_views_date_mode (date, mode),
+                INDEX idx_post_views_post_id_date_mode (post_id, date, mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
