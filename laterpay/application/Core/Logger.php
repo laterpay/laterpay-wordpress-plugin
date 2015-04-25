@@ -218,8 +218,8 @@ class LaterPay_Core_Logger
             $record = $processor->process( $record );
         }
         while (
-           isset( $this->handlers[$handler_key] ) &&
-           $this->handlers[ $handler_key]->handle( $record ) === false
+           isset( $this->handlers[ $handler_key ] ) &&
+           $this->handlers[ $handler_key ]->handle( $record ) === false
         ) {
             $handler_key++;
         }
@@ -321,6 +321,6 @@ class LaterPay_Core_Logger
      * @return string $level_name
      */
     public function get_level_name( $level ) {
-        return $this->levels[$level];
+        return $this->levels[ $level ];
     }
 }

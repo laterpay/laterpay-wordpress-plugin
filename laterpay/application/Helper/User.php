@@ -114,7 +114,7 @@ class LaterPay_Helper_User
         $has_cap = false;
 
         foreach ( $user->roles as $role ) {
-            if ( ! isset( $unlimited_access[$role] ) || false !== array_search( 'none', $unlimited_access[$role] ) ) {
+            if ( ! isset( $unlimited_access[ $role ] ) || false !== array_search( 'none', $unlimited_access[ $role ] ) ) {
                 continue;
             }
 
@@ -127,7 +127,7 @@ class LaterPay_Helper_User
                 $categories   = array_merge( $categories, $parents );
             }
 
-            if ( array_intersect( $categories, $unlimited_access[$role] ) ) {
+            if ( array_intersect( $categories, $unlimited_access[ $role ] ) ) {
                 $has_cap = true;
                 break;
             }
@@ -245,7 +245,7 @@ class LaterPay_Helper_User
      * @return void
      */
     public static function remove_cookie_by_name( $name ) {
-        unset( $_COOKIE[$name] );
+        unset( $_COOKIE[ $name ] );
         setcookie(
             $name,
             null,

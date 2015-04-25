@@ -53,9 +53,9 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                 'on'        => array(
                     'field'         => 'ID',
                     'join_field'    => 'post_id',
-                    'compare'       => '='
+                    'compare'       => '=',
                 )
-            )
+            ),
         );
 
         add_filter( 'date_query_valid_columns', array( $this, 'add_date_query_column' ) );
@@ -240,7 +240,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             // % amount
             $data->amount       = $data->quantity / $total_quantity * 100;
 
-            $results[$key]      = $data;
+            $results[ $key ]      = $data;
         }
 
         return $results;
@@ -291,7 +291,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
             // % amount
             $data->amount       = $data->quantity / $total_quantity * 100;
 
-            $results[$key]      = $data;
+            $results[ $key ]      = $data;
         }
 
         return $results;
@@ -316,8 +316,8 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                     array(
                         'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
                         'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ), // start of today
-                    )
-                )
+                    ),
+                ),
             ),
             'join'  => $this->post_join,
         );
@@ -351,7 +351,7 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
                     array(
                         'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $end_timestamp ),
                         'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $start_timestamp ),
-                    )
+                    ),
                 ),
                 'post_id' => (int) $post_id,
                 'mode'    => $mode,

@@ -225,7 +225,7 @@ class LaterPay_Helper_Query
         $sql = ' WHERE 1=1 ';
 
         foreach ( $where as $key => $value ) {
-            $type = ( array_key_exists( $key, $this->field_types ) ) ? $this->field_types[$key] : '%s';
+            $type = ( array_key_exists( $key, $this->field_types ) ) ? $this->field_types[ $key ] : '%s';
             if ( $type === 'date' ) {
                 $date_query = new WP_Date_Query( $value, $this->get_row_suffix() . $key );
                 $sql .= $date_query->get_sql();
@@ -257,7 +257,7 @@ class LaterPay_Helper_Query
             array(
                 'args'      => $this->query_args,
                 'query'     => $query,
-                'results'   => $results
+                'results'   => $results,
             )
         );
 

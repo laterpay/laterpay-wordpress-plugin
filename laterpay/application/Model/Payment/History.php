@@ -55,9 +55,9 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'on'        => array(
                     'field'         => 'ID',
                     'join_field'    => 'post_id',
-                    'compare'       => '='
-                )
-            )
+                    'compare'       => '=',
+                ),
+            ),
         );
 
         add_filter( 'date_query_valid_columns', array( $this, 'add_date_query_column' ) );
@@ -214,7 +214,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'mode'      => $mode,
                 'post_id'   => (int) $post_id,
             ),
-            'group_by' => 'currency_id'
+            'group_by' => 'currency_id',
         );
 
         return $this->get_results( $args );
@@ -239,7 +239,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                                     array(
                                         'before' => LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ), // end of today
                                         'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $today ), // start of today
-                                    )
+                                    ),
                                 ),
                             ),
             'group_by'  => 'currency_id',
@@ -248,7 +248,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                 'SUM(' . $this->table . '.price) AS sum',
                 'COUNT(' . $this->table . '.id)  AS quantity',
             ),
-            'join'  => $this->post_join
+            'join'  => $this->post_join,
         );
 
         return $this->get_results( $args );
@@ -289,7 +289,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
-            $results[$key]      = $data;
+            $results[ $key ]      = $data;
         }
 
         return $results;
@@ -332,7 +332,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
             $data->amount       = round( $data->amount, 2 );
-            $results[$key]      = $data;
+            $results[ $key ]      = $data;
         }
 
         return $results;
@@ -364,8 +364,8 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                     array(
                         'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $today ),
                         'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $month_ago ),
-                    )
-                )
+                    ),
+                ),
             ),
             'group_by'  => 'currency_id, DATE(date)',
             'order_by'  => 'currency_id, DATE(date)',
@@ -462,7 +462,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             // the sparkline for the last x days
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
-            $results[$key]    = $data;
+            $results[ $key ]    = $data;
         }
 
         return $results;
@@ -503,7 +503,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
             // the sparkline for the last x days
             $sparkline          = $this->get_sparkline( $data->post_id, $start_timestamp, $interval );
             $data->sparkline    = implode( ',', $sparkline );
-            $results[$key]    = $data;
+            $results[ $key ]    = $data;
         }
 
         return $results;
@@ -535,7 +535,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
                     array(
                         'after'     => LaterPay_Helper_Date::get_date_query_after_start_of_day( $end_timestamp ),
                         'before'    => LaterPay_Helper_Date::get_date_query_before_end_of_day( $start_timestamp ),
-                    )
+                    ),
                 ),
                 'post_id' => (int) $post_id,
                 'mode'    => $mode,

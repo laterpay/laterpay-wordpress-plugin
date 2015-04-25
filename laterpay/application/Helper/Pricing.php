@@ -774,8 +774,8 @@ class LaterPay_Helper_Pricing
         $operations = LaterPay_Helper_Pricing::get_bulk_operations();
         $data       = null;
 
-        if ( $operations && isset( $operations[$id] ) ) {
-            $data = $operations[$id]['data'];
+        if ( $operations && isset( $operations[ $id ] ) ) {
+            $data = $operations[ $id ]['data'];
         }
 
         return $data;
@@ -817,8 +817,8 @@ class LaterPay_Helper_Pricing
         $operations = LaterPay_Helper_Pricing::get_bulk_operations();
 
         if ( $operations ) {
-            if ( isset( $operations[$id] ) ) {
-                unset( $operations[$id] );
+            if ( isset( $operations[ $id ] ) ) {
+                unset( $operations[ $id ] );
                 $was_deleted = true;
                 $operations  = $operations ? $operations : '';
                 update_option( 'laterpay_bulk_operations', serialize( $operations ) );
@@ -884,7 +884,7 @@ class LaterPay_Helper_Pricing
             }
 
             if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] || in_array( $meta['category_id'], $parents ) ) ) {
-                $ids[$post->ID] = $meta;
+                $ids[ $post->ID ] = $meta;
             }
         }
 

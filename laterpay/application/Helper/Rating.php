@@ -27,7 +27,7 @@ class LaterPay_Helper_Rating
         $rating_array = array();
         // initialize rating array
         foreach ( self::$rating_indexes as $index ) {
-            $rating_array[$index] = 0;
+            $rating_array[ $index ] = 0;
         }
 
         // save rating data in post_meta

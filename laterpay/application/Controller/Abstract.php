@@ -106,7 +106,7 @@ class LaterPay_Controller_Abstract
      * @return void
      */
     public function assign( $variable, $value ) {
-        $this->variables[$variable] = $value;
+        $this->variables[ $variable ] = $value;
     }
 
     /**

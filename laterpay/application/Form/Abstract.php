@@ -105,7 +105,7 @@ abstract class LaterPay_Form_Abstract
         $fields = $this->get_fields();
 
         // check, if field already exists
-        if ( isset( $fields[$name] ) ) {
+        if ( isset( $fields[ $name ] ) ) {
             return false;
         } else {
             // field name
@@ -139,7 +139,7 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     protected function save_field_data( $name, $data ) {
-        $this->fields[$name] = $data;
+        $this->fields[ $name ] = $data;
     }
 
     /**
@@ -170,8 +170,8 @@ abstract class LaterPay_Form_Abstract
     public function get_field_value( $field_name ) {
         $fields = $this->get_fields();
 
-        if ( isset( $fields[$field_name] ) ) {
-            return $fields[$field_name]['value'];
+        if ( isset( $fields[ $field_name ] ) ) {
+            return $fields[ $field_name ]['value'];
         }
 
         return null;
@@ -186,7 +186,7 @@ abstract class LaterPay_Form_Abstract
      * @return void
      */
     protected function set_field_value( $field_name, $value ) {
-        $this->fields[$field_name]['value'] = $value;
+        $this->fields[ $field_name ]['value'] = $value;
     }
 
     /**
@@ -213,7 +213,7 @@ abstract class LaterPay_Form_Abstract
     protected function check_if_field_can_be_null( $field ) {
         $fields = $this->get_fields();
 
-        if ( $fields[$field]['can_be_null'] ) {
+        if ( $fields[ $field ]['can_be_null'] ) {
             return true;
         }
 
@@ -230,10 +230,10 @@ abstract class LaterPay_Form_Abstract
     public function add_validation( $field, $condition = array() ) {
         $fields = $this->get_fields();
 
-        if ( isset( $fields[$field] ) ) {
+        if ( isset( $fields[ $field ] ) ) {
             if ( is_array( $condition ) && ! empty( $condition ) ) {
                 // condition should be correct
-                array_push( $fields[$field]['validators'], $condition );
+                array_push( $fields[ $field ]['validators'], $condition );
             }
         }
     }
@@ -326,7 +326,7 @@ abstract class LaterPay_Form_Abstract
         $filters = $this->get_filters();
 
         // sanitize value according to selected filter
-        $sanitizer = isset( $filters[$filter] ) ? $filters[$filter] : '';
+        $sanitizer = isset( $filters[ $filter ] ) ? $filters[ $filter ] : '';
 
         if ( $sanitizer && is_callable( $sanitizer ) ) {
             if ( $filter_params ) {
@@ -583,7 +583,7 @@ abstract class LaterPay_Form_Abstract
         if ( is_array( $data ) ) {
             foreach ( $data as $name => $value ) {
                 // set only, if name field was created
-                if ( isset( $fields[$name] ) ) {
+                if ( isset( $fields[ $name ] ) ) {
                     $this->set_field_value( $name, $value );
                     continue;
                 } elseif ( isset( $this->nostrict ) && is_array( $this->nostrict ) ) {
@@ -627,7 +627,7 @@ abstract class LaterPay_Form_Abstract
             if ( is_array( $exclude ) && in_array( $name, $exclude ) ) {
                 continue;
             }
-            $data[$name] = $field_data['value'];
+            $data[ $name ] = $field_data['value'];
         }
 
         return $data;
