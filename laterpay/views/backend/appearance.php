@@ -16,8 +16,8 @@
             <a href="<?php echo add_query_arg( array( 'page' => $laterpay['admin_menu']['account']['url'] ), admin_url( 'admin.php' ) ); ?>"
                 class="lp_plugin-mode-indicator"
                 data-icon="h">
-                <h2 class="lp_plugin-mode-indicator__title"><?php laterpay_sanitize_output( __( 'Test mode', 'laterpay' ) ); ?></h2>
-                <span class="lp_plugin-mode-indicator__text"><?php laterpay_sanitize_output( __( 'Earn money in <i>live mode</i>', 'laterpay' ) ); ?></span>
+                <h2 class="lp_plugin-mode-indicator__title"><?php echo laterpay_sanitize_output( __( 'Test mode', 'laterpay' ) ); ?></h2>
+                <span class="lp_plugin-mode-indicator__text"><?php echo laterpay_sanitize_output( __( 'Earn money in <i>live mode</i>', 'laterpay' ) ); ?></span>
             </a>
         <?php endif; ?>
         <?php echo $laterpay['top_nav']; ?>
@@ -41,7 +41,7 @@
                                 class="lp_js_switchButtonGroup"
                                 <?php if ( $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-1"></div>
-                        <?php laterpay_sanitize_output( __( 'Teaser content only', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Teaser content only', 'laterpay' ) ); ?>
                     </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                  --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
                         <input type="radio"
@@ -50,7 +50,7 @@
                                 class="lp_js_switchButtonGroup"
                                 <?php if ( ! $laterpay['show_teaser_content_only'] ): ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-2"></div>
-                        <?php laterpay_sanitize_output( __( 'Teaser content + full content, covered by overlay', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Teaser content + full content, covered by overlay', 'laterpay' ) ); ?>
                     </label>
                 </div>
             </form>
@@ -70,7 +70,7 @@
                                 class="lp_js_switchButtonGroup"
                                 <?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--button-position-1"></div>
-                        <?php laterpay_sanitize_output( __( 'Standard position', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Standard position', 'laterpay' ) ); ?>
                     </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                  --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['purchase_button_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                         <input type="radio"
@@ -79,14 +79,14 @@
                                 class="lp_js_switchButtonGroup"
                                 <?php if ( $laterpay['purchase_button_positioned_manually'] ): ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--button-position-2"></div>
-                        <?php laterpay_sanitize_output( __( 'Custom position', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Custom position', 'laterpay' ) ); ?>
                     </label>
                 </div>
                 <div class="lp_js_buttonGroupHint"<?php if ( ! $laterpay['purchase_button_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                     <code class="lp_code-snippet lp_block">
                         <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
-                        <?php laterpay_sanitize_output( __( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button in the location of your choice.', 'laterpay' ) ); ?><br>
-                        <?php laterpay_sanitize_output( __( 'When not using this action, the purchase button is rendered in its default location between post title and post content.', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Call action \'laterpay_purchase_button\' in your theme to render the LaterPay purchase button in the location of your choice.', 'laterpay' ) ); ?><br>
+                        <?php echo laterpay_sanitize_output( __( 'When not using this action, the purchase button is rendered in its default location between post title and post content.', 'laterpay' ) ); ?>
                         <br>
                         <br>
                         <?php echo htmlspecialchars( "<?php do_action( 'laterpay_purchase_button' ); ?>" ); ?>
@@ -110,7 +110,7 @@
                             class="lp_js_switchButtonGroup"
                             <?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?>checked<?php endif; ?>/>
                     <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-1"></div>
-                    <?php laterpay_sanitize_output( __( 'Standard position', 'laterpay' ) ); ?>
+                    <?php echo laterpay_sanitize_output( __( 'Standard position', 'laterpay' ) ); ?>
                 </label><!-- comment required to prevent spaces, because layout uses display:inline-block
              --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( $laterpay['time_passes_positioned_manually'] ) { echo ' lp_is-selected'; } ?>">
                     <input type="radio"
@@ -119,13 +119,13 @@
                             class="lp_js_switchButtonGroup"
                             <?php if ( $laterpay['time_passes_positioned_manually'] ): ?>checked<?php endif; ?>/>
                     <div class="lp_button-group__button-image lp_button-group__button-image--time-passes-position-2"></div>
-                    <?php laterpay_sanitize_output( __( 'Custom position', 'laterpay' ) ); ?>
+                    <?php echo laterpay_sanitize_output( __( 'Custom position', 'laterpay' ) ); ?>
                 </label>
             </div>
             <div class="lp_js_buttonGroupHint"<?php if ( ! $laterpay['time_passes_positioned_manually'] ): ?> style="display:none;"<?php endif; ?>>
                 <code class="lp_code-snippet lp_block">
                     <div class="lp_triangle lp_triangle--outer-triangle"><div class="lp_triangle"></div></div>
-                    <?php laterpay_sanitize_output( __( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ) ); ?><br>
+                    <?php echo laterpay_sanitize_output( __( 'Call action \'laterpay_time_passes\' in your theme or use the shortcode \'[laterpay_time_passes]\' to show your users the available time passes.', 'laterpay' ) ); ?><br>
                     <br>
                     <br>
                     <strong>Shortcode:</strong> [laterpay_time_passes]<br>
@@ -136,7 +136,7 @@
 
 
         <?php # TODO: remove this in release 0.9.12 ?>
-        <a href="" id="lp_js_showDeprecatedFeatures"><?php laterpay_sanitize_output( __( 'Show deprecated features', 'laterpay' ) ); ?></a>
+        <a href="" id="lp_js_showDeprecatedFeatures"><?php echo laterpay_sanitize_output( __( 'Show deprecated features', 'laterpay' ) ); ?></a>
 
         <div class="lp_js_deprecated-feature">
             <div class="lp_clearfix lp_mb+">
