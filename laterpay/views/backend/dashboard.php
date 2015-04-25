@@ -29,9 +29,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             <h1 class="lp_dashboard-title"><?php
                 echo sprintf(
                     laterpay_sanitize_output( __( '%s Dashboard of %s Sales from%s', 'laterpay' ) ),
-                    laterpay_sanitized( $this->get_text_view( 'backend/partials/dropdown_interval' ) ),
-                    laterpay_sanitized( $this->get_text_view( 'backend/partials/dropdown_sales' ) ),
-                    laterpay_sanitized( $this->get_text_view( 'backend/partials/navigation_interval' ) )
+                    laterpay_sanitized( $this->get_text_view( 'backend/partials/dropdown-interval' ) ),
+                    laterpay_sanitized( $this->get_text_view( 'backend/partials/dropdown-sales' ) ),
+                    laterpay_sanitized( $this->get_text_view( 'backend/partials/navigation-interval' ) )
                 );
                 ?>
             </h1>

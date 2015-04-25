@@ -707,7 +707,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer_scripts' ) );
+        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) );
     }
 
     /**

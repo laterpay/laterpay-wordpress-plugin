@@ -282,7 +282,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         $this->assign( 'laterpay', $view_args );
 
-        $this->render( 'backend/partials/post_pricing_form' );
+        $this->render( 'backend/partials/post-pricing-form' );
     }
 
     /**

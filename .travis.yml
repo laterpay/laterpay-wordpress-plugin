@@ -10,7 +10,7 @@ install:
     - composer create-project wp-coding-standards/wpcs:dev-develop
     - npm install jshint
 script:
-    - wpcs/vendor/bin/phpcs -s -n -p --standard=ruleset.xml --extensions=php --ignore='laterpay/library/*,laterpay/cache/*' laterpay
+    - wpcs/vendor/bin/phpcs -s -n -p --standard=ruleset.xml --extensions=php --ignore='laterpay/library/*,laterpay/cache/*,laterpay/languages/*' laterpay
     - jshint laterpay/asset_sources/js
 notifications:
     slack: laterpay:KtlgyYUZft7naQWn3yjM6yCu

@@ -156,7 +156,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        echo laterpay_sanitized( LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_summary' ) ) );
+        echo laterpay_sanitized( LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating-summary' ) ) );
         // return Ajax content
         exit;
     }
@@ -730,7 +730,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay_widget', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/purchase_button' ) );
+        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/purchase-button' ) );
     }
 
     /**
@@ -822,7 +822,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay_widget', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/time_passes' ) );
+        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/time-passes' ) );
     }
 
     /**
@@ -892,7 +892,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             );
 
             // append time passes to content
-            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time-passes' ) );
 
             return $content;
         }
@@ -912,7 +912,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         if ( $user_has_unlimited_access && ! $preview_post_as_visitor ) {
             // append time passes to content
-            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time-passes' ) );
 
             return $content;
         }
@@ -981,7 +981,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
             }
 
             $html .= $this->get_text_view( 'frontend/partials/post/teaser' );
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time-passes' ) );
 
             return $html;
         }
@@ -1009,10 +1009,10 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
             // append rating form to content, if content rating is enabled
             if ( $show_post_ratings ) {
-                $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_form' ) );
+                $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating-form' ) );
             }
 
-            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+            $content .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time-passes' ) );
 
             return $content;
         }
@@ -1020,7 +1020,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         // add the purchase button as very first element of the content, if it is not positioned manually
         if ( (bool) get_option( 'laterpay_purchase_button_positioned_manually' ) == false ) {
             $html .= '<div class="lp_purchase-button-wrapper">';
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase_button' ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase-button' ) );
             $html .= '</div>';
         }
 
@@ -1028,27 +1028,27 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/teaser' ) );
 
         if ( $only_time_passes_allowed ) {
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/after_teaser' ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/after-teaser' ) );
         }
 
         if ( $teaser_content_only ) {
             // add teaser content plus a purchase link after the teaser content
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase_link' ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/purchase-link' ) );
         } else {
             // add excerpt of full content, covered by an overlay with a purchase button
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/overlay_with_purchase_button' ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/overlay-with-purchase-button' ) );
         }
 
         if ( $caching_is_active ) {
             // if caching is enabled, wrap the teaser in a div, so it can be replaced with the full content,
             // if the post is / has already been purchased
             $html = '<div id="lp_js_postContentPlaceholder">' . $html . '</div>';
-            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+            $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time-passes' ) );
             return $html;
         }
 
         // append time passes to content
-        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time_passes' ) );
+        $html .= LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/time-passes' ) );
 
         return $html;
     }
@@ -1086,7 +1086,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/identify_iframe' ) );
+        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/identify-iframe' ) );
     }
 
     /**
@@ -1144,7 +1144,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );
 
-        $string = $this->get_text_view( 'backend/partials/time_pass' );
+        $string = $this->get_text_view( 'backend/partials/time-pass' );
 
         return $string;
     }

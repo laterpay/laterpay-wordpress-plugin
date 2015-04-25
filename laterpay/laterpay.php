@@ -231,7 +231,7 @@ function laterpay_before_start() {
     $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
     if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
-        require_once( $dir . 'laterpay_load.php' );
+        require_once( $dir . 'laterpay-load.php' );
     }
 
     LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );

@@ -302,7 +302,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/post-statistics' ) );
     }
 
     /**
@@ -339,7 +339,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        wp_send_json( $this->get_text_view( 'frontend/partials/post/select_preview_mode_tab' ) );
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
     }
 
     /**

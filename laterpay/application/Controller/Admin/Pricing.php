@@ -823,7 +823,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Abstract
             'standard_currency'       => get_option( 'laterpay_currency' ),
         ));
 
-        $string = $this->get_text_view( 'backend/partials/time_pass' );
+        $string = $this->get_text_view( 'backend/partials/time-pass' );
 
         return $string;
     }

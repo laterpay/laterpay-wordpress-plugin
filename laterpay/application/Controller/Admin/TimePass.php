@@ -85,7 +85,7 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay', $view_args );
 
-        $this->render( 'backend/time_passes' );
+        $this->render( 'backend/time-passes' );
     }
 
     /**
