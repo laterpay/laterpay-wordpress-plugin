@@ -1,14 +1,20 @@
 <?php
 
 /**
- * LaterPay abstract controller.
+ * LaterPay core view.
  *
  * Plugin Name: LaterPay
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Abstract
+class LaterPay_Core_View
 {
+    /**
+     * Contains all settings for the plugin.
+     *
+     * @var LaterPay_Model_Config
+     */
+    protected $config;
 
     /**
      * Variables for substitution in templates.
@@ -18,32 +24,16 @@ class LaterPay_Controller_Abstract
     public $variables = array();
 
     /**
-     * Contains all settings for the plugin.
-     *
-     * @var LaterPay_Model_Config
-     */
-    protected $config;
-
-    /**
-     * Contains the logger instance.
-     *
-     * @var LaterPay_Core_Logger
-     */
-    protected $logger;
-    /**
      * @param LaterPay_Model_Config $config
      *
-     * @return LaterPay_Controller_Abstract
+     * @return LaterPay_Core_View
      */
-    public function __construct( LaterPay_Model_Config $config ) {
-        $this->config = $config;
-        $this->logger = laterpay_get_logger();
-
+    public function __construct( $config = null ) {
+        $this->config = ( $config && $config instanceof LaterPay_Model_Config ) ? $config : laterpay_get_plugin_config();
         // assign the config to the views
         $this->assign( 'config', $this->config );
 
         $this->initialize();
-
     }
 
     /**
@@ -81,18 +71,8 @@ class LaterPay_Controller_Abstract
                 __FILE__
             );
 
-            $this->logger->error(
-                __METHOD__ . ' - ' . $msg,
-                array( 'view_file' => $view_file )
-            );
-
             return;
         }
-
-        $this->logger->info(
-            __METHOD__ . ' - ' . $file,
-            $this->variables
-        );
 
         include_once( $view_file );
     }
@@ -131,18 +111,8 @@ class LaterPay_Controller_Abstract
                 $file
             );
 
-            $this->logger->error(
-                __METHOD__ . ' - ' . $msg,
-                array( 'view_file' => $view_file )
-            );
-
             return '';
         }
-
-        $this->logger->info(
-            __METHOD__ . ' - ' . $file,
-            $this->variables
-        );
 
         ob_start();
         include( $view_file );
@@ -151,38 +121,5 @@ class LaterPay_Controller_Abstract
         $html = $thread;
 
         return $html;
-    }
-
-    /**
-     * Render the navigation for the plugin backend.
-     *
-     * @param string $file
-     * @param string $view_dir view directory
-     *
-     * @return string $html
-     */
-    public function get_menu( $file = null, $view_dir = null ) {
-        if ( empty( $file ) ) {
-            $file = 'backend/partials/navigation';
-        }
-
-        $current_page   = isset( $_GET['page'] ) ? $_GET['page'] : LaterPay_Helper_View::$pluginPage;
-        $menu           = LaterPay_Helper_View::get_admin_menu();
-        $plugin_page    = LaterPay_Helper_View::$pluginPage;
-
-        $view_args      = array(
-            'menu'         => $menu,
-            'current_page' => $current_page,
-            'plugin_page'  => $plugin_page,
-        );
-
-        $this->assign( 'laterpay', $view_args );
-
-        $this->logger->info(
-            __METHOD__ . ' - ' . $file,
-            $view_args
-        );
-
-        return $this->get_text_view( $file, $view_dir );
     }
 }

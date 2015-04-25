@@ -7,7 +7,7 @@
  * Author URI: https://laterpay.net/
  */
 
-class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 {
 
     /**

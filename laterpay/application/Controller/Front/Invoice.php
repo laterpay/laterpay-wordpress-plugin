@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Front_Invoice extends LaterPay_Controller_Base
 {
 
     /**

@@ -7,11 +7,11 @@
  * Author URI: https://laterpay.net/
  */
 
-class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
 {
 
     /**
-     * @see LaterPay_Controller_Abstract::load_assets()
+     * @see LaterPay_Core_View::load_assets()
      */
     public function load_assets() {
         parent::load_assets();
