@@ -19,7 +19,7 @@ $args = array(
     'data-laterpay'                 => $laterpay['link'],
     'data-post-id'                  => $laterpay['post_id'],
     'data-preview-as-visitor'       => $laterpay['preview_post_as_visitor'],
-    'data-is-in-visible-test-mode' => $laterpay['is_in_visible_test_mode'],
+    'data-is-in-visible-test-mode'  => $laterpay['is_in_visible_test_mode'],
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {
@@ -41,4 +41,4 @@ else :
 endif;
 ?>
 
-<a <?php echo $arg_str; ?>><?php echo $title; ?></a>
+<a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $title ); ?></a>

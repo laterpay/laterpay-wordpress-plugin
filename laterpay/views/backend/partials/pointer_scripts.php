@@ -16,14 +16,14 @@ if ( in_array( LaterPay_Controller_Admin::ADMIN_MENU_POINTER, $laterpay['pointer
 		if (typeof(jQuery().pointer) !== 'undefined') {
 			jQuery('#toplevel_page_laterpay-plugin')
 			.pointer({
-				content : '<?php echo $pointer_content; ?>',
+				content : '<?php echo laterpay_sanitize_output( $pointer_content ); ?>',
 				position: {
 					edge: 'left',
 					align: 'middle'
 				},
 				close: function() {
 					jQuery.post( ajaxurl, {
-						pointer: '<?php echo LaterPay_Controller_Admin::ADMIN_MENU_POINTER; ?>',
+						pointer: '<?php echo laterpay_sanitized( LaterPay_Controller_Admin::ADMIN_MENU_POINTER ); ?>',
 						action: 'dismiss-wp-pointer'
 					});
 				}
@@ -44,14 +44,14 @@ if ( in_array( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER, $laterpay['poi
 		if (typeof(jQuery().pointer) !== 'undefined') {
 			jQuery('#lp_post-pricing')
 			.pointer({
-				content: '<?php echo $pointer_content; ?>',
+				content: '<?php echo laterpay_sanitize_output( $pointer_content ); ?>',
 				position: {
 					edge: 'top',
 					align: 'middle'
 				},
 				close: function() {
 					jQuery.post( ajaxurl, {
-						pointer: '<?php echo LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER; ?>',
+						pointer: '<?php echo laterpay_sanitized( LaterPay_Controller_Admin::POST_PRICE_BOX_POINTER ); ?>',
 						action: 'dismiss-wp-pointer'
 					});
 				}
@@ -72,14 +72,14 @@ if ( in_array( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER, $laterpay
 		if (typeof(jQuery().pointer) !== 'undefined') {
 			jQuery('#lp_post-teaser')
 			.pointer({
-				content: '<?php echo $pointer_content; ?>',
+				content: '<?php echo laterpay_sanitize_output( $pointer_content ); ?>',
 				position: {
 					edge: 'bottom',
 					align: 'left'
 				},
 				close: function() {
 					jQuery.post( ajaxurl, {
-						pointer: '<?php echo LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER; ?>',
+						pointer: '<?php echo laterpay_sanitized( LaterPay_Controller_Admin::POST_TEASER_CONTENT_POINTER ); ?>',
 						action: 'dismiss-wp-pointer'
 					});
 				}

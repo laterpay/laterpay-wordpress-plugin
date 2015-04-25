@@ -21,7 +21,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Abstract
         $notices = $this->check_requirements();
         if ( count( $notices ) > 0 ) {
             $out = join( "\n", $notices );
-            echo '<div class="error">' . $out . '</div>';
+            echo laterpay_sanitize_output( '<div class="error">' . $out . '</div>' );
         }
     }
 

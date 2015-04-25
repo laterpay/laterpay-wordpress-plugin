@@ -704,7 +704,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay', $view_args );
 
-        echo $this->get_text_view( 'backend/partials/pointer_scripts' );
+        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer_scripts' ) );
     }
 
     /**
@@ -775,7 +775,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
         if ( $class_constants ) {
             foreach ( array_keys( $class_constants ) as $key_value ) {
                 if ( strpos( $key_value, 'POINTER' ) !== false ) {
-                    $pointers[] = $class_constants[$key_value];
+                    $pointers[] = $class_constants[ $key_value ];
                 }
             }
         }

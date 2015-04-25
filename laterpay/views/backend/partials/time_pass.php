@@ -27,42 +27,42 @@ if ( ! defined( 'ABSPATH' ) ) {
     }
 ?>
 
-<div class="lp_js_timePass lp_time-pass lp_time-pass-<?php echo $laterpay_pass['pass_id']; ?>" data-pass-id="<?php echo $laterpay_pass['pass_id']; ?>">
+<div class="lp_js_timePass lp_time-pass lp_time-pass-<?php echo esc_attr( $laterpay_pass['pass_id'] ); ?>" data-pass-id="<?php echo esc_attr( $laterpay_pass['pass_id'] ); ?>">
 
     <section class="lp_time-pass__front">
-        <h4 class="lp_js_timePassPreviewTitle lp_time-pass__title"><?php echo $laterpay_pass['title']; ?></h4>
-        <p class="lp_js_timePassPreviewDescription lp_time-pass__description"><?php echo $laterpay_pass['description']; ?></p>
+        <h4 class="lp_js_timePassPreviewTitle lp_time-pass__title"><?php echo laterpay_sanitize_output( $laterpay_pass['title'] ); ?></h4>
+        <p class="lp_js_timePassPreviewDescription lp_time-pass__description"><?php echo laterpay_sanitize_output( $laterpay_pass['description'] ); ?></p>
         <div class="lp_time-pass__actions">
-            <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="<?php echo __( 'Buy now with LaterPay', 'laterpay' ); ?>" data-icon="b" data-laterpay="<?php echo isset( $laterpay_pass['url'] ) ? $laterpay_pass['url'] : ''; ?>" data-preview-as-visitor="<?php echo isset( $laterpay_pass['preview_post_as_visitor'] ) ? $laterpay_pass['preview_post_as_visitor'] : ''; ?>" data-is-in-visible-test-mode="<?php echo isset( $laterpay_pass['is_in_visible_test_mode'] ) ? $laterpay_pass['is_in_visible_test_mode'] : ''; ?>"><?php echo $title ?></a>
-            <a href="#" class="lp_js_flipTimePass lp_time-pass__terms"><?php _e( 'Terms', 'laterpay' ); ?></a>
+            <a href="#" class="lp_js_doPurchase lp_js_purchaseLink lp_purchase-button" title="<?php echo esc_attr( __( 'Buy now with LaterPay', 'laterpay' ) ); ?>" data-icon="b" data-laterpay="<?php echo esc_attr( isset( $laterpay_pass['url'] ) ? $laterpay_pass['url'] : '' ); ?>" data-preview-as-visitor="<?php echo esc_attr( isset( $laterpay_pass['preview_post_as_visitor'] ) ? $laterpay_pass['preview_post_as_visitor'] : '' ); ?>" data-is-in-visible-test-mode="<?php echo esc_attr( isset( $laterpay_pass['is_in_visible_test_mode'] ) ? $laterpay_pass['is_in_visible_test_mode'] : '' ); ?>"><?php echo laterpay_sanitize_output( $title ); ?></a>
+            <a href="#" class="lp_js_flipTimePass lp_time-pass__terms"><?php echo laterpay_sanitize_output( __( 'Terms', 'laterpay' ) ); ?></a>
         </div>
     </section>
 
     <section class="lp_time-pass__back">
-        <a href="#" class="lp_js_flipTimePass lp_time-pass__front-side-link"><?php _e( 'Back', 'laterpay' ); ?></a>
+        <a href="#" class="lp_js_flipTimePass lp_time-pass__front-side-link"><?php echo laterpay_sanitize_output( __( 'Back', 'laterpay' ) ); ?></a>
         <table class="lp_time-pass__conditions">
             <tr>
-                <th class="lp_time-pass__condition-title"><?php _e( 'Validity', 'laterpay' ) ?></th>
+                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Validity', 'laterpay' ) ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_timePassPreviewValidity"><?php echo $laterpay_pass['duration'] . ' ' . $period; ?></span>
+                    <span class="lp_js_timePassPreviewValidity"><?php echo laterpay_sanitize_output( $laterpay_pass['duration'] . ' ' . $period ); ?></span>
                 </td>
             </tr>
             <tr>
-                <th class="lp_time-pass__condition-title"><?php _e( 'Access to', 'laterpay' ); ?></th>
+                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Access to', 'laterpay' ) ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_timePassPreviewAccess"><?php echo $access_type . ' ' . $access_dest; ?></span>
+                    <span class="lp_js_timePassPreviewAccess"><?php echo laterpay_sanitize_output( $access_type . ' ' . $access_dest ); ?></span>
                 </td>
             </tr>
             <tr>
-                <th class="lp_time-pass__condition-title"><?php _e( 'Renewal', 'laterpay' ) ?></th>
+                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Renewal', 'laterpay' ) ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <?php _e( 'No automatic renewal', 'laterpay' ); ?>
+                    <?php echo laterpay_sanitize_output( __( 'No automatic renewal', 'laterpay' ) ); ?>
                 </td>
             </tr>
             <tr>
-                <th class="lp_time-pass__condition-title"><?php _e( 'Price', 'laterpay' ) ?></th>
+                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Price', 'laterpay' ) ); ?></th>
                 <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_timePassPreviewPrice"><?php echo $price . ' ' . $laterpay['standard_currency']; ?></span>
+                    <span class="lp_js_timePassPreviewPrice"><?php echo laterpay_sanitize_output( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
                 </td>
             </tr>
         </table>

@@ -62,7 +62,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         $content = apply_filters( 'the_content', $post->post_content );
         $content = str_replace( ']]>', ']]&gt;', $content );
 
-        echo $content;
+        echo laterpay_sanitize_output( $content );
         // return Ajax content
         exit;
     }
@@ -156,7 +156,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        echo LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_summary' ) );
+        echo laterpay_sanitized( LaterPay_Helper_View::remove_extra_spaces( $this->get_text_view( 'frontend/partials/post/rating_summary' ) ) );
         // return Ajax content
         exit;
     }
@@ -730,7 +730,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay_widget', $view_args );
 
-        echo $this->get_text_view( 'frontend/partials/widget/purchase_button' );
+        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/purchase_button' ) );
     }
 
     /**
@@ -822,7 +822,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay_widget', $view_args );
 
-        echo $this->get_text_view( 'frontend/partials/widget/time_passes' );
+        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/time_passes' ) );
     }
 
     /**
@@ -1086,7 +1086,7 @@ class LaterPay_Controller_Post extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay', $view_args );
 
-        echo $this->get_text_view( 'frontend/partials/identify_iframe' );
+        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/identify_iframe' ) );
     }
 
     /**

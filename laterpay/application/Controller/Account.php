@@ -63,13 +63,13 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         ?>
         <script>
             if (lpAccountLinksUrl === undefined) {
-                var lpAccountLinksUrl = "<?php echo $links_url; ?>";
+                var lpAccountLinksUrl = "<?php echo laterpay_sanitize_output( $links_url ); ?>";
             }
             if (lpAccountNextUrl === undefined) {
                 var lpAccountNextUrl = "<?php echo urlencode( $next ); ?>";
             }
             if (lpMerchantId === undefined) {
-                var lpMerchantId = "<?php echo $merchant_id; ?>";
+                var lpMerchantId = "<?php echo laterpay_sanitize_output( $merchant_id ); ?>";
             }
         </script>
         <?php

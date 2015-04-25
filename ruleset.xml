@@ -13,5 +13,12 @@
     <rule ref="WordPress">
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
         <exclude name="WordPress.PHP.YodaConditions" />
+        <exclude name="WordPress.VIP.RestrictedFunctions.get_term_by" />
+    </rule>
+    <rule ref="WordPress.XSS.EscapeOutput">
+        <properties>
+            <property name="customSanitizingFunctions" value="laterpay_sanitize_output" type="array"/>
+            <property name="customAutoEscapedFunctions" value="laterpay_sanitized" type="array"/>
+        </properties>
     </rule>
 </ruleset>

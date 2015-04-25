@@ -8,13 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="lp_js_postStatistics" class="lp_post-statistics<?php if ( $laterpay['hide_statistics_pane'] ) { echo ' lp_is-hidden'; } ?>">
     <form id="lp_js_postStatisticsVisibilityForm" method="post">
         <input type="hidden" name="action" value="laterpay_post_statistic_visibility">
-        <input type="hidden" id="lp_js_postStatisticsVisibilityInput" name="hide_statistics_pane" value="<?php echo $laterpay['hide_statistics_pane'];?>">
+        <input type="hidden" id="lp_js_postStatisticsVisibilityInput" name="hide_statistics_pane" value="<?php echo esc_attr( $laterpay['hide_statistics_pane'] );?>">
         <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
     </form>
     <a href="#" id="lp_js_togglePostStatisticsVisibility" class="lp_post-statistics__visibility-toggle" data-icon="l"></a>
-    <h2 class="lp_post-statistics__title" data-icon="a"><?php _e( 'Post Preview Mode', 'laterpay' ); ?></h2>
+    <h2 class="lp_post-statistics__title" data-icon="a"><?php echo laterpay_sanitize_output( __( 'Post Preview Mode', 'laterpay' ) ); ?></h2>
     <div class="lp_post-statistics__plugin-preview-mode">
-        <?php _e( 'Preview post as', 'laterpay' ); ?> <strong><?php _e( 'Admin', 'laterpay' ); ?></strong>
+        <?php echo laterpay_sanitize_output( __( 'Preview post as', 'laterpay' ) ); ?> <strong><?php echo laterpay_sanitize_output( __( 'Admin', 'laterpay' ) ); ?></strong>
         <div class="lp_toggle">
             <form id="lp_js_postStatisticsPluginPreviewModeForm" method="post">
                 <input type="hidden" name="action" value="laterpay_post_statistic_toggle_preview">
@@ -34,6 +34,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </label>
             </form>
         </div>
-        <strong><?php _e( 'Visitor', 'laterpay' ); ?></strong>
+        <strong><?php echo laterpay_sanitize_output( __( 'Visitor', 'laterpay' ) ); ?></strong>
     </div>
 </div>

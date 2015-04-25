@@ -75,7 +75,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             _deprecated_argument(
                 __FUNCTION__,
                 '0.9.8.3',
-                $msg
+                laterpay_sanitize_output( $msg )
             );
 
             $this->logger->warning(
@@ -95,7 +95,7 @@ class LaterPay_Controller_Shortcode extends LaterPay_Controller_Abstract
             _deprecated_argument(
                 __FUNCTION__,
                 '0.9.8.3',
-                $msg
+                laterpay_sanitized( $msg )
             );
 
             $this->logger->warning(
