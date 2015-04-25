@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <div id="lp_js_debugger" class="lp_debugger lp_is-hidden">
@@ -42,7 +42,7 @@
             ?>
             <li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
                 <table class="lp_debugger-content__table">
-                    <?php foreach ( $tab['content'] as $key => $value  ): ?>
+                    <?php foreach ( $tab['content'] as $key => $value  ) : ?>
                         <tr>
                             <th class="lp_debugger-content__table-th"><?php echo laterpay_sanitize_output( $key ); ?></th>
                             <td class="lp_debugger-content__table-td"><?php print_r( $value ); ?></td>

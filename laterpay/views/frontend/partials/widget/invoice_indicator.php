@@ -5,4 +5,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div id="laterpay-invoice-indicator"></div>
+<div id='laterpay-invoice-indicator'></div>

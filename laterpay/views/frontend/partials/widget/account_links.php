@@ -1,20 +1,20 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
-<div class="lp_account-links"></div>
+<div class='lp_account-links'></div>
 
 <script>
     if (lpAccountLinksUrl === undefined) {
-        var lpAccountLinksUrl = "<?php echo $laterpay_account['links_url']; ?>";
+        var lpAccountLinksUrl = "<?php echo laterpay_sanitize_output( $laterpay_account['links_url'] ); ?>";
     }
     if (lpAccountNextUrl === undefined) {
         var lpAccountNextUrl = "<?php echo urlencode( $laterpay_account['next'] ); ?>";
     }
     if (lpMerchantId === undefined) {
-        var lpMerchantId = "<?php echo $laterpay_account['merchant_id']; ?>";
+        var lpMerchantId = "<?php echo laterpay_sanitize_output( $laterpay_account['merchant_id'] ); ?>";
     }
 </script>
