@@ -1,6 +1,6 @@
 <?php
 
-abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Logger_Handler_Interface
+abstract class LaterPay_Core_Logger_Handler_Abstract extends LaterPay_Core_View implements LaterPay_Core_Logger_Handler_Interface
 {
 
     /**
@@ -24,6 +24,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
     */
     public function __construct( $level = LaterPay_Core_Logger::DEBUG ) {
         $this->level = $level;
+        parent::__construct();
     }
 
     /**

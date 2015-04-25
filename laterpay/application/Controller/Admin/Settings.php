@@ -7,12 +7,12 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Setting extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 {
     private $has_custom_roles = false;
 
     /**
-     * @see LaterPay_Controller_Abstract::load_assets
+     * @see LaterPay_Core_View::load_assets
      */
     public function load_assets() {
         parent::load_assets();

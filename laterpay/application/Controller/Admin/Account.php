@@ -7,11 +7,11 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Menu
 {
 
     /**
-     * @see LaterPay_Controller_Abstract::load_assets
+     * @see LaterPay_Core_View::load_assets
      */
     public function load_assets() {
         parent::load_assets();
@@ -39,7 +39,7 @@ class LaterPay_Controller_Admin_Account extends LaterPay_Controller_Abstract
     }
 
     /**
-     * @see LaterPay_Controller_Abstract::render_page
+     * @see LaterPay_Core_View::render_page
      */
     public function render_page() {
         $this->load_assets();
