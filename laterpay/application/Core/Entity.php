@@ -463,7 +463,7 @@ class LaterPay_Core_Entity
      *
      * @return array
      */
-    public function __to_array( array $arrAttributes = array() ) {
+    public function to_array( array $arrAttributes = array() ) {
         if ( empty( $arrAttributes ) ) {
             return $this->_data;
         }
@@ -478,17 +478,6 @@ class LaterPay_Core_Entity
         }
 
         return $arrRes;
-    }
-
-    /**
-     * Public wrapper for __to_array.
-     *
-     * @param array $arrAttributes
-     *
-     * @return array
-     */
-    public function to_array( array $arrAttributes = array() ) {
-        return $this->__to_array( $arrAttributes );
     }
 
     /**
@@ -514,10 +503,12 @@ class LaterPay_Core_Entity
      *
      * @param array  $arrAttributes array of required attributes
      * @param string $rootName      name of the root element
+     * @param boolean $addOpenTag
+     * @param boolean $addCdata
      *
      * @return string
      */
-    protected function __to_xml( array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
+    public function to_xml( array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
         $xml = '';
 
         if ( $addOpenTag ) {
@@ -549,40 +540,17 @@ class LaterPay_Core_Entity
     }
 
     /**
-     * Public wrapper for __to_xml.
-     *
-     * @param array  $arrAttributes
-     * @param string $rootName
-     *
-     * @return string
-     */
-    public function to_xml( array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true ) {
-        return $this->__to_xml( $arrAttributes, $rootName, $addOpenTag, $addCdata );
-    }
-
-    /**
      * Convert object attributes to JSON.
      *
      * @param array $arrAttributes array of required attributes
      *
      * @return string
      */
-    protected function __to_json( array $arrAttributes = array() ) {
+    public function to_json( array $arrAttributes = array() ) {
         $arrData    = $this->to_array( $arrAttributes );
         $json       = json_encode( $arrData );
 
         return $json;
-    }
-
-    /**
-     * Public wrapper for __to_json.
-     *
-     * @param array $arrAttributes
-     *
-     * @return string
-     */
-    public function to_json( array $arrAttributes = array() ) {
-        return $this->__to_json( $arrAttributes );
     }
 
     /**
