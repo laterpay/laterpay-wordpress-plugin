@@ -171,10 +171,6 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
                 'content'   => array_merge( $_GET, $_POST ),
             ),
             array(
-                'name'      => __( 'Session', 'laterpay' ),
-                'content'   => isset( $_SESSION ) ? $_SESSION : array(),
-            ),
-            array(
                 'name'      => sprintf( __( 'Cookies<span class="lp_badge">%s</span>', 'laterpay' ), count( $_COOKIE ) ),
                 'content'   => $_COOKIE,
             ),
