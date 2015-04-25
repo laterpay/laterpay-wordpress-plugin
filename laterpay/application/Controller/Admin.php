@@ -121,11 +121,14 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Abstract
      * @return void
      */
     public function add_html5shiv_to_admin_head() {
-        ?>
-        <!--[if lt IE 9]>
-        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <?php
+        $view_args = array(
+            'scripts' => array(
+                '//html5shim.googlecode.com/svn/trunk/html5.js',
+            ),
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/html5shiv' ) );
     }
 
     /**
