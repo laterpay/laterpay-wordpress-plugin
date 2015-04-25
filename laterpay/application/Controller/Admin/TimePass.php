@@ -49,10 +49,12 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
         $localization = array(
             'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
             'nonces'    => array( 'time_passes' => wp_create_nonce( $this->ajax_nonce ) ),
-            'submenu'   => array( 'view' => array(
+            'submenu'   => array(
+                'view' => array(
                 'standard' => 'standard-kpis',
                 'passes'   => 'time-passes',
-            ) ),
+                )
+            ),
             'locale'    => get_locale(),
             'i18n'      => $i18n,
             'maxYValue' => $max_y_value,
