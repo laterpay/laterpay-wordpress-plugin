@@ -34,4 +34,7 @@
             <property name="customAutoEscapedFunctions" value="laterpay_sanitized" type="array"/>
         </properties>
     </rule>
+    <rule ref="WordPress.Variables.GlobalVariables">
+        <severity>0</severity>
+    </rule>
 </ruleset>
