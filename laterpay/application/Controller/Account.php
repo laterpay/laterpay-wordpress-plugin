@@ -23,10 +23,6 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
      * @return void
      */
     public function render_account_links( $css = null, $forcelang = null, $show = null, $next = null ) {
-        ?>
-        <div class="lp_account-links"></div>
-        <?php
-
         if ( empty( $css ) ) {
             // use laterpay-account-links CSS file to style the login / logout links by default
             $css = $this->config->get( 'css_url' ) . 'laterpay-account-links.css';
@@ -60,22 +56,16 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
         // get Merchant ID
         $is_live = get_option( 'laterpay_plugin_is_in_live_mode' );
         $merchant_id = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
-        ?>
-        <script>
-            if (lpAccountLinksUrl === undefined) {
-                var lpAccountLinksUrl = "<?php echo $links_url; ?>";
-            }
-            if (lpAccountNextUrl === undefined) {
-                var lpAccountNextUrl = "<?php echo urlencode( $next ); ?>";
-            }
-            if (lpMerchantId === undefined) {
-                var lpMerchantId = "<?php echo $merchant_id; ?>";
-            }
-        </script>
-        <?php
 
-        wp_enqueue_script( 'laterpay-yui' );
-        wp_enqueue_script( 'laterpay-account-links' );
+        $view_args = array(
+            'links_url'   => $links_url,
+            'next'        => $next,
+            'merchant_id' => $merchant_id,
+        );
+
+        $this->assign( 'laterpay_account', $view_args );
+
+        echo $this->get_text_view( 'frontend/partials/widget/account_links' );
     }
 
     /**
@@ -100,5 +90,7 @@ class LaterPay_Controller_Account extends LaterPay_Controller_Abstract
             $this->config->get( 'version' ),
             true
         );
+        wp_enqueue_script( 'laterpay-yui' );
+        wp_enqueue_script( 'laterpay-account-links' );
     }
 }
