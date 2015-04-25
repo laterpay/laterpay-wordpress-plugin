@@ -19,12 +19,7 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract
      * @return void
      */
     public function the_invoice_indicator() {
-        ?>
-        <div id="laterpay-invoice-indicator"></div>
-        <?php
-
-        wp_enqueue_script( 'laterpay-yui' );
-        wp_enqueue_script( 'laterpay-invoice-indicator' );
+        echo $this->get_text_view( 'frontend/partials/widget/invoice_indicator' );
     }
 
     /**
@@ -49,6 +44,8 @@ class LaterPay_Controller_Invoice extends LaterPay_Controller_Abstract
             $this->config->get( 'version' ),
             true
         );
+        wp_enqueue_script( 'laterpay-yui' );
+        wp_enqueue_script( 'laterpay-invoice-indicator' );
 
         // pass localized strings and variables to script
         $client_options = LaterPay_Helper_Config::get_php_client_options();
