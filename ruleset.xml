@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset name="LaterPay">
+    <description>A custom set of rules to check for a LaterPay WordPress plugin</description>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="indent" value="4"/>
+            <property name="ignoreIndentationTokens" type="array" value="T_COMMENT,T_DOC_COMMENT"/>
+            <property name="tabIndent" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="WordPress">
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
+        <exclude name="WordPress.PHP.YodaConditions" />
+        <!-- WP VIP rules which are very restrictive and not all that applicable -->
+        <exclude name="WordPress.VIP.DirectDatabaseQuery" />
+        <exclude name="WordPress.VIP.FileSystemWritesDisallow"/>
+        <exclude name="WordPress.VIP.RestrictedFunctions.user_meta" />
+        <exclude name="WordPress.VIP.RestrictedFunctions.switch_to_blog"/>
+        <exclude name="WordPress.VIP.RestrictedFunctions.wp_remote_get"/>
+        <exclude name="WordPress.VIP.RestrictedFunctions.file_get_contents"/>
+        <exclude name="WordPress.VIP.RestrictedFunctions.curl"/>
+        <exclude name="WordPress.VIP.RestrictedFunctions.get_term_link"/>
+        <exclude name="WordPress.VIP.RestrictedFunctions.get_term_by"/>
+        <exclude name="WordPress.VIP.RestrictedFunctions.get_page_by_title"/>
+        <exclude name="WordPress.VIP.RestrictedVariables.cache_constraints"/>
+        <exclude name="WordPress.VIP.RestrictedVariables.user_meta"/>
+        <exclude name="WordPress.VIP.PostsPerPage.posts_per_page"/>
+    </rule>
+    <rule ref="WordPress.XSS.EscapeOutput">
+        <properties>
+            <property name="customSanitizingFunctions" value="laterpay_sanitize_output" type="array"/>
+            <property name="customAutoEscapedFunctions" value="laterpay_sanitized" type="array"/>
+        </properties>
+    </rule>
+    <rule ref="WordPress.Variables.GlobalVariables">
+        <severity>0</severity>
+    </rule>
+</ruleset>

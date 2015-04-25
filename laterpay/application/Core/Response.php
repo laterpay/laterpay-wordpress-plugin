@@ -57,7 +57,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
         if ( $replace ) {
             foreach ( $headers as $key => $header ) {
                 if ( $name == $header['name'] ) {
-                    unset( $headers[$key] );
+                    unset( $headers[ $key ] );
                 }
             }
         }
@@ -132,7 +132,7 @@ class LaterPay_Core_Response extends LaterPay_Core_Entity
             $body = implode( '', $body );
         }
 
-        echo $body;
+        echo laterpay_sanitized( $body );
     }
 
     /**

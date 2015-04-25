@@ -121,11 +121,14 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
      * @return void
      */
     public function add_html5shiv_to_admin_head() {
-        ?>
-        <!--[if lt IE 9]>
-        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <?php
+        $view_args = array(
+            'scripts' => array(
+                '//html5shim.googlecode.com/svn/trunk/html5.js',
+            ),
+        );
+        $this->assign( 'laterpay', $view_args );
+
+        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/html5shiv' ) );
     }
 
     /**
@@ -139,7 +142,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
         $this->load_assets();
 
         if ( isset( $_GET['tab'] ) ) {
-            $tab = $_GET['tab'];
+            $tab = sanitize_text_field( $_GET['tab'] );
         }
 
         // return default tab, if no specific tab is requested
@@ -262,7 +265,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                             Single Sales are especially suitable for higher-value content and / or content that immediately occasions costs (e. g. license fees for a video stream).<br>
                                             A Single Sales is possible between (including) <strong>1.49 EUR</strong> and (including) <strong>149.99 EUR</strong>.
                                         </p>',
-                                    'laterpay'
+                                       'laterpay'
                                    ),
                                ) );
     }
@@ -287,8 +290,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         The metric <strong>New Customers</strong> indicates the share of your customers who bought with LaterPay for the first time in the reporting period.<br>
                                                         Please note that this is only an approximate value.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_dashboard_tab_help_items_sold',
@@ -300,8 +303,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                     <p>
                                                         <strong>AVG Items Sold</strong> (short for Average Items Sold) indicates how many posts you sold on average per day in the reporting period.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_dashboard_tab_help_gross_revenue',
@@ -316,8 +319,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                     <p>
                                                         Please note that this <strong>is not the amount of money you will receive with your next LaterPay payout</strong>, as a user will have to pay his invoice only once it reaches 5.00 € and LaterPay will deduct a fee of 15% for each purchase that was actually paid.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
     }
 
@@ -339,8 +342,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         all articles free, for which no category default price or
                                                         individual price has been set.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_category_default_price',
@@ -357,8 +360,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         but a post belongs to a category with a category default price
                                                         of 0.30 Euro, that post will sell for 0.30 Euro.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_currency',
@@ -374,8 +377,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         change the default currency to U.S. dollar, the global default
                                                         price will be 0.10 U.S. dollar.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_time_passes',
@@ -417,8 +420,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         A voucher code can be used <strong>any number of times</strong> and is <strong>not linked</strong> to a specific user.<br>
                                                         If you <strong>delete</strong> a voucher code, this will <strong>not affect</strong> the validity of time passes which have already been purchased using this voucher code.
                                                      </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_bulk_price_editor',
@@ -482,8 +485,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                             </li>
                                                         </ul>
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_pricing_tab_help_time_passes',
@@ -527,8 +530,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         A voucher code can be used <strong>any number of times</strong> and is <strong>not linked</strong> to a specific user.<br>
                                                         If you <strong>delete</strong> a voucher code, this will <strong>not affect</strong> the validity of time passes which have already been purchased using this voucher code.
                                                      </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
     }
 
@@ -561,8 +564,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                             purchased it.
                                                         </li>
                                                     </ul>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_appearance_tab_help_invoice_indicator',
@@ -575,8 +578,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         You <em>don\'t have to</em> integrate this snippet, but we
                                                         recommend it for transparency reasons.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_appearance_tab_help_content_rating',
@@ -591,8 +594,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         As the <strong>opinion of buyers</strong> might have a <strong>strong influence</strong> on the buying decisions of your users,
                                                         enabling the rating of purchased content could <strong>boost your sales</strong>.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
     }
 
@@ -649,8 +652,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         including <strong>all necessary identification documents</strong>
                                                         by ground mail.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
         $screen->add_help_tab( array(
                                    'id'      => 'laterpay_account_tab_help_plugin_mode',
@@ -679,8 +682,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
                                                         the LaterPay plugin on a test system before activating it on
                                                         your production system.
                                                     </p>',
-                                                    'laterpay'
-                                                ),
+                                       'laterpay'
+                                   ),
                                ) );
     }
 
@@ -704,7 +707,7 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
         $this->assign( 'laterpay', $view_args );
 
-        echo $this->get_text_view( 'backend/partials/pointer_scripts' );
+        echo laterpay_sanitized( $this->get_text_view( 'backend/partials/pointer-scripts' ) );
     }
 
     /**
@@ -774,8 +777,8 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
         if ( $class_constants ) {
             foreach ( array_keys( $class_constants ) as $key_value ) {
-                if ( strpos( $key_value, 'POINTER') !== FALSE ) {
-                    $pointers[] = $class_constants[$key_value];
+                if ( strpos( $key_value, 'POINTER' ) !== false ) {
+                    $pointers[] = $class_constants[ $key_value ];
                 }
             }
         }

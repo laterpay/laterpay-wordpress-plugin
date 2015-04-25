@@ -49,9 +49,9 @@ class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logg
 
         $i = 0;
 
-        while ( isset( $trace[$i]['class'] ) ) {
+        while ( isset( $trace[ $i ]['class'] ) ) {
             foreach ( $this->skip_classes_partials as $part ) {
-                if ( strpos( $trace[$i]['class'], $part ) !== false ) {
+                if ( strpos( $trace[ $i ]['class'], $part ) !== false ) {
                     $i++;
                     continue 2;
                 }
@@ -63,10 +63,10 @@ class LaterPay_Core_Logger_Processor_Introspection implements LaterPay_Core_Logg
         $record['extra'] = array_merge(
             $record['extra'],
             array(
-                'file'      => isset( $trace[$i - 1]['file'] )  ? $trace[$i - 1]['file']    : null,
-                'line'      => isset( $trace[$i - 1]['line'] )  ? $trace[$i - 1]['line']    : null,
-                'class'     => isset( $trace[$i]['class'] )     ? $trace[$i]['class']       : null,
-                'function'  => isset( $trace[$i]['function'] )  ? $trace[$i]['function']    : null,
+                'file'      => isset( $trace[ $i - 1 ]['file'] )  ? $trace[ $i - 1 ]['file']    : null,
+                'line'      => isset( $trace[ $i - 1 ]['line'] )  ? $trace[ $i - 1 ]['line']    : null,
+                'class'     => isset( $trace[ $i ]['class'] )     ? $trace[ $i ]['class']       : null,
+                'function'  => isset( $trace[ $i ]['function'] )  ? $trace[ $i ]['function']    : null,
             )
         );
 

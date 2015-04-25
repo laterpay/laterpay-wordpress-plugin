@@ -169,7 +169,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->assign( 'laterpay', $view_args );
 
         // render view template for options page
-        echo $this->get_text_view( 'backend/options' );
+        echo laterpay_sanitized( $this->get_text_view( 'backend/options' ) );
     }
 
     /**
@@ -226,7 +226,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_caching_section_description() {
-        echo '<p>' .
+        echo laterpay_sanitize_output( '<p>' .
             __( 'You MUST enable caching compatiblity mode, if you are using a caching solution that caches
                 entire HTML pages.<br>
                 In caching compatibility mode the plugin works like this:<br>
@@ -234,7 +234,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 risking to leak the paid content.<br>
                 When someone visits the page, it makes an Ajax request to determine, if the visitor has already bought
                 the post and replaces the teaser with the full content, if required.', 'laterpay') .
-            '</p>';
+        '</p>' );
     }
 
     /**
@@ -267,10 +267,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_enabled_post_types_section_description() {
-        echo '<p>' .
-                __( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
-                'laterpay') .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
+            'laterpay') .
+        '</p>' );
     }
 
     /**
@@ -309,10 +309,10 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_time_passes_section_description() {
-        echo '<p>' .
-                __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
-                'laterpay') .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
+            'laterpay') .
+        '</p>' );
     }
 
     /**
@@ -349,9 +349,9 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_gift_codes_section_description() {
-        echo '<p>' .
-                __( 'Specify, how many times a gift code can be redeemed for the associated time pass.', 'laterpay' ) .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'Specify, how many times a gift code can be redeemed for the associated time pass.', 'laterpay' ) .
+        '</p>' );
     }
 
     /**
@@ -417,13 +417,13 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_teaser_content_section_description() {
-        echo '<p>' .
-                __( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
-                    without teaser content.<br>
-                    While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED.<br>
-                    If you really, really want to have NO teaser content for a post, enter one space
-                    into the teaser content editor for that post.', 'laterpay') .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'The LaterPay WordPress plugin automatically generates teaser content for every paid post
+                without teaser content.<br>
+                While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED.<br>
+                If you really, really want to have NO teaser content for a post, enter one space
+                into the teaser content editor for that post.', 'laterpay') .
+        '</p>' );
     }
 
     /**
@@ -492,12 +492,12 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_preview_excerpt_section_description() {
-        echo '<p>' .
-                __( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
-                    an excerpt of the full content, covered by a semi-transparent overlay.<br>
-                    The following three parameters give you fine-grained control over the length of this excerpt.<br>
-                    These settings do not affect the teaser content in any way.', 'laterpay') .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
+                an excerpt of the full content, covered by a semi-transparent overlay.<br>
+                The following three parameters give you fine-grained control over the length of this excerpt.<br>
+                These settings do not affect the teaser content in any way.', 'laterpay') .
+        '</p>' );
     }
 
     /**
@@ -531,14 +531,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         foreach ( $wp_roles->roles as $role => $role_data ) {
             if ( ! in_array( $role, $default_roles ) ) {
                 $this->has_custom_roles = true;
-                $custom_roles[$role] = $role_data['name'];
+                $custom_roles[ $role ] = $role_data['name'];
             }
         }
 
         // get categories and add them to the array
         $wp_categories = get_categories( $args );
         foreach ( $wp_categories as $category ) {
-            $categories[$category->term_id] = $category->name;
+            $categories[ $category->term_id ] = $category->name;
         }
 
         add_settings_section(
@@ -573,24 +573,24 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_unlimited_access_section_description() {
-        echo '<p>' .
-                __( "You can give logged-in users unlimited access to specific categories depending on their user
-                    role.<br>
-                    This feature can be useful e.g. for giving free access to existing subscribers.<br>
-                    We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay') .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( "You can give logged-in users unlimited access to specific categories depending on their user
+                role.<br>
+                This feature can be useful e.g. for giving free access to existing subscribers.<br>
+                We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay') .
+        '</p>' );
 
         if ( $this->has_custom_roles ) {
             // show header
-            echo '<table class="form-table">
+            echo laterpay_sanitize_output( '<table class="form-table">
                         <tr>
                             <th>' . __( 'User Role', 'laterpay' ) . '</th>
                             <td>' . __( 'Unlimited Access to Categories', 'laterpay' ) . '</td>
                         </tr>
-                  </table>';
+                  </table>' );
         } else {
             // tell the user that he needs to have at least one custom role defined
-            echo '<h4>' . __( 'Please add a custom role first.', 'laterpay' ) . '</h4>';
+            echo laterpay_sanitize_output( '<h4>' . __( 'Please add a custom role first.', 'laterpay' ) . '</h4>' );
         }
     }
 
@@ -630,14 +630,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_logger_section_description() {
-        echo '<p>' .
-                __( 'The LaterPay WordPress plugin generates sales statistics for you on the dashboard and on the posts
-                    pages.<br>
-                    For collecting the required data it sets a cookie and stores all requests from visitors of your
-                    blog.<br>
-                    This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
-                    It will automatically be deleted after three months.', 'laterpay') .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'The LaterPay WordPress plugin generates sales statistics for you on the dashboard and on the posts
+                pages.<br>
+                For collecting the required data it sets a cookie and stores all requests from visitors of your
+                blog.<br>
+                This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
+                It will automatically be deleted after three months.', 'laterpay') .
+        '</p>' );
     }
 
     /**
@@ -686,17 +686,17 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      * @return string description
      */
     public function get_browscap_description() {
-        echo '<p>' .
-                __( 'The LaterPay WordPress plugin uses the <a href="http://browscap.org/" target="_blank">Browscap</a>
-                   library to detect when a crawler visits your site.<br>
-                   Crawlers are not compatible with LaterPay, because they don\'t support the forwarding that LaterPay
-                   performs to identify a visitor.<br>
-                   When a crawler is detected, it is simply served the teaser content. This ensures your site is not
-                   reported as broken e.g. by search engines.<br>
-                   Because new browsers and crawlers are released frequently, the Browscap database needs to be updated
-                   occasionally, which is usually done with the plugin releases.<br>
-                   If you encounter problems, you can trigger a manual update with the "Update Database" button.', 'laterpay' ) .
-            '</p>';
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'The LaterPay WordPress plugin uses the <a href="http://browscap.org/" target="_blank">Browscap</a>
+               library to detect when a crawler visits your site.<br>
+               Crawlers are not compatible with LaterPay, because they don\'t support the forwarding that LaterPay
+               performs to identify a visitor.<br>
+               When a crawler is detected, it is simply served the teaser content. This ensures your site is not
+               reported as broken e.g. by search engines.<br>
+               Because new browsers and crawlers are released frequently, the Browscap database needs to be updated
+               occasionally, which is usually done with the plugin releases.<br>
+               If you encounter problems, you can trigger a manual update with the "Update Database" button.', 'laterpay' ) .
+        '</p>' );
     }
 
     /**
@@ -728,7 +728,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             // remove duplicated classes
             $classes = array_unique( $classes );
 
-            $inputs_markup .= '<input type="' . $type . '" name="' . $field['name'] . '" value="' . $field_value . '"';
+            $inputs_markup .= '<input type="' . $type . '" name="' . $field['name'] . '" value="' . sanitize_text_field( $field_value ) . '"';
 
             if ( 'checkbox' == $type ) {
                 $inputs_markup .= $option_value ? ' checked' : '';
@@ -753,7 +753,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             }
         }
 
-        echo $inputs_markup;
+        echo laterpay_sanitized( $inputs_markup );
     }
 
     /**
@@ -773,9 +773,9 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
         if ( $role ) {
             foreach ( $categories as $id => $name ) {
-                $need_default   = ! isset( $unlimited[$role] ) || ! $unlimited[$role];
+                $need_default   = ! isset( $unlimited[ $role ] ) || ! $unlimited[ $role ];
                 $is_none_or_all = in_array( $id, array( 'none', 'all' ), true );
-                $is_selected    = ! $need_default ? in_array( $id, $unlimited[$role] ) : false;
+                $is_selected    = ! $need_default ? in_array( $id, $unlimited[ $role ] ) : false;
 
                 $inputs_markup .= '<input type="checkbox" ';
                 $inputs_markup .= 'id="lp_category--' . $role . $count . '"';
@@ -795,7 +795,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             }
         }
 
-        echo $inputs_markup;
+        echo laterpay_sanitized( $inputs_markup );
     }
 
     /**
@@ -829,20 +829,20 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
 
                 // set option 'all' for this role, if entire blog is covered
                 if ( $covered ) {
-                    $valid[$role] = array( 'all' );
+                    $valid[ $role ] = array( 'all' );
                     continue;
                 }
 
                 // filter values, if entire blog is not covered
                 if ( in_array( 'all', $data ) && in_array( 'none', $data ) && count( $data ) == 2 ) {
                     // unset option 'all', if option 'all' and option 'none' are selected at the same time
-                    unset( $data[array_search( 'all', $data )] );
+                    unset( $data[ array_search( 'all', $data ) ] );
                 } elseif ( count( $data ) > 1 ) {
                     // unset option 'all', if at least one category is selected
                     if ( array_search( 'all', $data ) !== false ) {
                         foreach ( $data as $key => $option ) {
                             if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
-                                unset( $data[$key] );
+                                unset( $data[ $key ] );
                             }
                         }
                     }
@@ -851,13 +851,13 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                     if ( array_search( 'none', $data ) !== false ) {
                         foreach ( $data as $key => $option ) {
                             if ( ! in_array( $option, array( 'none', 'all' ) ) ) {
-                                unset( $data[$key] );
+                                unset( $data[ $key ] );
                             }
                         }
                     }
                 }
 
-                $valid[$role] = array_values( $data );
+                $valid[ $role ] = array_values( $data );
             }
         }
 
@@ -885,6 +885,6 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             $inputs_markup .= '</label><br>';
         }
 
-        echo $inputs_markup;
+        echo laterpay_sanitized( $inputs_markup );
     }
 }

@@ -115,7 +115,7 @@ class LaterPay_Helper_Pricing
             'child_of' => $category_id,
         ) );
 
-        foreach( $category_children as $category ) {
+        foreach ( $category_children as $category ) {
             // filter ids with category prices
             if ( ! $laterpay_category_model->get_category_price_data_by_category_ids( $category->term_id ) ) {
                 $ids[] = (int) $category->term_id;
@@ -391,7 +391,7 @@ class LaterPay_Helper_Pricing
                 break;
             default:
                 break;
-         }
+        }
 
         return number_format( $rounded_price, 2 );
     }
@@ -774,8 +774,8 @@ class LaterPay_Helper_Pricing
         $operations = LaterPay_Helper_Pricing::get_bulk_operations();
         $data       = null;
 
-        if ( $operations && isset( $operations[$id] ) ) {
-            $data = $operations[$id]['data'];
+        if ( $operations && isset( $operations[ $id ] ) ) {
+            $data = $operations[ $id ]['data'];
         }
 
         return $data;
@@ -817,8 +817,8 @@ class LaterPay_Helper_Pricing
         $operations = LaterPay_Helper_Pricing::get_bulk_operations();
 
         if ( $operations ) {
-            if ( isset( $operations[$id] ) ) {
-                unset( $operations[$id] );
+            if ( isset( $operations[ $id ] ) ) {
+                unset( $operations[ $id ] );
                 $was_deleted = true;
                 $operations  = $operations ? $operations : '';
                 update_option( 'laterpay_bulk_operations', serialize( $operations ) );
@@ -884,7 +884,7 @@ class LaterPay_Helper_Pricing
             }
 
             if ( array_key_exists( 'category_id', $meta ) && ( $category_id == $meta['category_id'] || in_array( $meta['category_id'], $parents ) ) ) {
-                $ids[$post->ID] = $meta;
+                $ids[ $post->ID ] = $meta;
             }
         }
 
@@ -904,7 +904,7 @@ class LaterPay_Helper_Pricing
         $parents              = array();
 
         // add parents
-        foreach( $post_categories as $category_id ) {
+        foreach ( $post_categories as $category_id ) {
             $parent_id = get_category( $category_id )->parent;
             while ( $parent_id ) {
                 $parents[] = $parent_id;

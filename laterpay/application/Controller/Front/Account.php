@@ -58,9 +58,9 @@ class LaterPay_Controller_Front_Account extends LaterPay_Controller_Base
         $merchant_id = $is_live ? get_option( 'laterpay_live_merchant_id' ) : get_option( 'laterpay_sandbox_merchant_id' );
 
         $view_args = array(
-            'links_url'   => $links_url,
-            'next'        => $next,
-            'merchant_id' => $merchant_id,
+            'links_url'   => laterpay_sanitize_output( $links_url ),
+            'next'        => urlencode( $next ),
+            'merchant_id' => laterpay_sanitize_output( $merchant_id ),
         );
 
         $this->assign( 'laterpay_account', $view_args );
@@ -86,7 +86,7 @@ class LaterPay_Controller_Front_Account extends LaterPay_Controller_Base
         wp_register_script(
             'laterpay-account-links',
             $this->config->get( 'js_url' ) . 'laterpay-account-links.js',
-            NULL,
+            null,
             $this->config->get( 'version' ),
             true
         );

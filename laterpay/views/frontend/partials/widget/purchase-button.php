@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * We can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute
  */
 
-if ( $laterpay_widget['purchase_button_is_hidden'] ): ?>
+if ( $laterpay_widget['purchase_button_is_hidden'] ) : ?>
     <div>&nbsp;</div>
 <?php
     return;
@@ -40,8 +40,8 @@ $title = sprintf(
 );
 ?>
 
-<a <?php echo $arg_str; ?>><?php echo $title; ?></a>
+<a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $title ); ?></a>
 
-<?php if ( isset( $laterpay['show_post_ratings'] ) && $laterpay['show_post_ratings'] ): ?>
+<?php if ( isset( $laterpay['show_post_ratings'] ) && $laterpay['show_post_ratings'] ) : ?>
     <div id="lp_js_postRatingPlaceholder"></div>
 <?php endif; ?>

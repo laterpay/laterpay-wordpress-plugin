@@ -32,7 +32,7 @@ class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Process
      */
     public function __construct( $server_data = null, array $extra_fields = null ) {
         if ( $server_data === null ) {
-            $this->server_data =& $_SERVER;
+            $this->server_data = array_map( 'sanitize_text_field', $_SERVER );
         } elseif ( is_array( $server_data ) || $server_data instanceof \ArrayAccess ) {
             $this->server_data = $server_data;
         } else {
@@ -42,7 +42,7 @@ class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Process
         if ( $extra_fields !== null ) {
             foreach ( array_keys( $this->extra_fields ) as $fieldName ) {
                 if ( ! in_array( $fieldName, $extra_fields ) ) {
-                    unset( $this->extra_fields[$fieldName] );
+                    unset( $this->extra_fields[ $fieldName ] );
                 }
             }
         }
@@ -73,7 +73,7 @@ class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Process
      * @return $this
      */
     public function add_extra_field( $extraName, $serverName ) {
-        $this->extra_fields[$extraName] = $serverName;
+        $this->extra_fields[ $extraName ] = $serverName;
 
         return $this;
     }
@@ -85,7 +85,7 @@ class LaterPay_Core_Logger_Processor_Web implements LaterPay_Core_Logger_Process
      */
     private function append_extra_fields( array $extra ) {
         foreach ( $this->extra_fields as $extraName => $serverName ) {
-            $extra[$extraName] = isset( $this->server_data[$serverName] ) ? $this->server_data[$serverName] : null;
+            $extra[ $extraName ] = isset( $this->server_data[ $serverName ] ) ? $this->server_data[ $serverName ] : null;
         }
 
         if ( isset( $this->server_data['UNIQUE_ID'] ) ) {

@@ -123,7 +123,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Menu
                     );
                 }
 
-                $result = update_option( 'laterpay_ratings', !! $ratings_form->get_field_value( 'enable_ratings' ) );
+                $result = update_option( 'laterpay_ratings', ! ! $ratings_form->get_field_value( 'enable_ratings' ) );
 
                 if ( $result ) {
                     if ( get_option( 'laterpay_ratings' ) ) {
@@ -156,7 +156,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Menu
                     );
                 }
 
-                $result = update_option( 'laterpay_purchase_button_positioned_manually', !! $purchase_button_pos_form->get_field_value( 'purchase_button_positioned_manually' ) );
+                $result = update_option( 'laterpay_purchase_button_positioned_manually', ! ! $purchase_button_pos_form->get_field_value( 'purchase_button_positioned_manually' ) );
 
                 if ( $result ) {
                     if ( get_option( 'laterpay_purchase_button_positioned_manually' ) ) {
@@ -189,7 +189,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Menu
                     );
                 }
 
-                $result = update_option( 'laterpay_time_passes_positioned_manually', !! $time_passes_pos_form->get_field_value( 'time_passes_positioned_manually' ) );
+                $result = update_option( 'laterpay_time_passes_positioned_manually', ! ! $time_passes_pos_form->get_field_value( 'time_passes_positioned_manually' ) );
 
                 if ( $result ) {
                     if ( get_option( 'laterpay_time_passes_positioned_manually' ) ) {

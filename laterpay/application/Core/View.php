@@ -86,7 +86,7 @@ class LaterPay_Core_View
      * @return void
      */
     public function assign( $variable, $value ) {
-        $this->variables[$variable] = $value;
+        $this->variables[ $variable ] = $value;
     }
 
     /**

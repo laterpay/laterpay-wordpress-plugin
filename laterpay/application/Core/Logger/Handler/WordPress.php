@@ -118,7 +118,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         $this->assign( 'laterpay_records', $view_args );
 
-        echo $this->get_text_view( 'backend/logger/wordpress_handler_records' );
+        echo laterpay_sanitized( $this->get_text_view( 'backend/logger/wordpress_handler_records' ) );
     }
 
     /**
@@ -129,10 +129,6 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             array(
                 'name'      => __( 'Requests', 'laterpay' ),
                 'content'   => array_merge( $_GET, $_POST ),
-            ),
-            array(
-                'name'      => __( 'Session', 'laterpay' ),
-                'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
                 'name'      => sprintf( __( 'Cookies<span class="lp_badge">%s</span>', 'laterpay' ), count( $_COOKIE ) ),
@@ -205,7 +201,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             'PHP version'               => PHP_VERSION,
             'PHP memory limit'          => ini_get( 'memory_limit' ),
             'PHP modules'               => implode( ', ', get_loaded_extensions() ),
-            'Web server info'           => $_SERVER['SERVER_SOFTWARE'],
+            'Web server info'           => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '',
         );
 
         return $system_info;
