@@ -118,7 +118,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
 
         $this->assign( 'laterpay_records', $view_args );
 
-        echo laterpay_sanitized( $this->get_text_view( 'backend/logger/wordpress_handler_records' ) );
+        echo laterpay_sanitized( $this->get_text_view( 'backend/logger/wordpress-handler-records' ) );
     }
 
     /**

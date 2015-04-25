@@ -19,7 +19,7 @@ class LaterPay_Controller_Frontend_Invoice extends LaterPay_Controller_Base
      * @return void
      */
     public function the_invoice_indicator() {
-        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/invoice_indicator' ) );
+        echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/invoice-indicator' ) );
     }
 
     /**

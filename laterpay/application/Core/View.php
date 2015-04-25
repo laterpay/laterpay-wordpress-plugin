@@ -123,3 +123,4 @@ class LaterPay_Core_View
         return $html;
     }
 }
+
