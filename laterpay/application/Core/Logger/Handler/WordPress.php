@@ -113,48 +113,48 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             <div id="lp_js_debugger" class="lp_debugger lp_is-hidden">
                 <header id="lp_js_toggleDebuggerVisibility" class="lp_debugger-header">
                     <a href="#" class="lp_debugger__close-link lp_right" data-icon="l"></a>
-                    <div class="lp_debugger-header__text lp_right"><?php echo sprintf( __( '%s Memory Usage', 'laterpay' ), number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB' ); ?></div>
-                    <h2 data-icon="a" class="lp_debugger-header__title"><?php _e( 'Debugger', 'laterpay' ); ?></h2>
+                    <div class="lp_debugger-header__text lp_right"><?php echo laterpay_sanitize_output( sprintf( __( '%s Memory Usage', 'laterpay' ), number_format( memory_get_peak_usage() / pow( 1024, 2 ), 1 ) . ' MB' ) ); ?></div>
+                    <h2 data-icon="a" class="lp_debugger-header__title"><?php echo laterpay_sanitize_output( __( 'Debugger', 'laterpay' ) ); ?></h2>
                 </header>
 
                 <ul id="lp_js_debuggerTabs" class="lp_debugger-tabs lp_clearfix">
                     <li class="lp_js_debuggerTabItem lp_is-selected lp_debugger-tabs__item">
-                        <a href="#" class="lp_debugger-tabs__link"><?php echo sprintf( __( 'Messages<span class="lp_badge">%s</span>', 'laterpay' ), count( $this->records ) ); ?></a>
+                        <a href="#" class="lp_debugger-tabs__link"><?php echo laterpay_sanitize_output( sprintf( __( 'Messages<span class="lp_badge">%s</span>', 'laterpay' ), count( $this->records ) ) ); ?></a>
                     </li>
                     <?php
-                        foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab['content'] ) ) {
-                                continue;
-                            }
+                    foreach ( $this->get_tabs() as $key => $tab ) {
+                        if ( empty( $tab['content'] ) ) {
+                            continue;
+                        }
                     ?>
-                        <li class="lp_js_debuggerTabItem lp_debugger-tabs__item">
-                            <a href="#" class="lp_debugger-tabs__link"><?php _e( $tab['name'], 'laterpay' ); ?></a>
-                        </li>
+                    <li class="lp_js_debuggerTabItem lp_debugger-tabs__item">
+                        <a href="#" class="lp_debugger-tabs__link"><?php echo laterpay_sanitize_output( __( $tab['name'], 'laterpay' ) ); ?></a>
+                    </li>
                     <?php } ?>
                 </ul>
 
                 <ul class="lp_debugger-content-list">
                     <li class="lp_js_debuggerContent lp_debugger-content-list__item">
                         <ul class="lp_debugger-content-list">
-                            <?php echo $this->get_formatter()->format_batch( $this->records ); ?>
+                            <?php echo laterpay_sanitize_output( $this->get_formatter()->format_batch( $this->records ) ); ?>
                         </ul>
                     </li>
                     <?php
-                        foreach ( $this->get_tabs() as $key => $tab ) {
-                            if ( empty( $tab['content'] ) ) {
-                                continue;
-                            }
+                    foreach ( $this->get_tabs() as $key => $tab ) {
+                        if ( empty( $tab['content'] ) ) {
+                            continue;
+                        }
                     ?>
-                        <li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
-                            <table class="lp_debugger-content__table">
-                                <?php foreach ( $tab['content'] as $key => $value  ): ?>
+                    <li class="lp_js_debuggerContent lp_debugger-content-list__item lp_is-hidden">
+                        <table class="lp_debugger-content__table">
+                        <?php foreach ( $tab['content'] as $key => $value  ) : ?>
                                     <tr>
-                                        <th class="lp_debugger-content__table-th"><?php echo $key; ?></th>
+                                        <th class="lp_debugger-content__table-th"><?php echo laterpay_sanitize_output( $key ); ?></th>
                                         <td class="lp_debugger-content__table-td"><?php print_r( $value ); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
-                            </table>
-                        </li>
+                        </table>
+                    </li>
                     <?php } ?>
                 </ul>
             </div>
@@ -169,10 +169,6 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             array(
                 'name'      => __( 'Requests', 'laterpay' ),
                 'content'   => array_merge( $_GET, $_POST ),
-            ),
-            array(
-                'name'      => __( 'Session', 'laterpay' ),
-                'content'   => isset( $_SESSION ) ? $_SESSION : array(),
             ),
             array(
                 'name'      => sprintf( __( 'Cookies<span class="lp_badge">%s</span>', 'laterpay' ), count( $_COOKIE ) ),
@@ -245,7 +241,7 @@ class LaterPay_Core_Logger_Handler_WordPress extends LaterPay_Core_Logger_Handle
             'PHP version'               => PHP_VERSION,
             'PHP memory limit'          => ini_get( 'memory_limit' ),
             'PHP modules'               => implode( ', ', get_loaded_extensions() ),
-            'Web server info'           => $_SERVER['SERVER_SOFTWARE'],
+            'Web server info'           => isset( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( $_SERVER['SERVER_SOFTWARE'] ) : '',
         );
 
         return $system_info;

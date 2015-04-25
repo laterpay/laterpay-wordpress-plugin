@@ -24,7 +24,7 @@ class LaterPay_Core_Capability
     *
     * @return void
     */
-   protected function populate_roles_0951() {
+    protected function populate_roles_0951() {
         $roles = array( 'administrator', 'editor' );
         foreach ( $roles as $role ) {
             $role = get_role( $role );

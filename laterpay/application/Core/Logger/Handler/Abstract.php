@@ -102,7 +102,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
             $normalized = array();
 
             foreach ( $data as $key => $value ) {
-                $normalized[$key] = $this->normalize( $value );
+                $normalized[ $key ] = $this->normalize( $value );
             }
 
             return $normalized;
@@ -131,7 +131,7 @@ abstract class LaterPay_Core_Logger_Handler_Abstract implements LaterPay_Core_Lo
      * @return bool
      */
     public function is_handling( array $record ) {
-        return $record[ 'level' ] >= $this->level;
+        return $record['level'] >= $this->level;
     }
 
 

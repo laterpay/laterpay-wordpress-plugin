@@ -36,8 +36,8 @@ class LaterPay_Helper_TimePass
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $defaults[$key] ) ) {
-                return $defaults[$key];
+            if ( isset( $defaults[ $key ] ) ) {
+                return $defaults[ $key ];
             }
         }
 
@@ -60,8 +60,8 @@ class LaterPay_Helper_TimePass
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $durations[$key] ) ) {
-                return $durations[$key];
+            if ( isset( $durations[ $key ] ) ) {
+                return $durations[ $key ];
             }
         }
 
@@ -98,8 +98,8 @@ class LaterPay_Helper_TimePass
         $selected_array = $pluralized ? $periods_pluralized : $periods;
 
         if ( isset ( $key ) ) {
-            if ( isset( $selected_array[$key] ) ) {
-                return $selected_array[$key];
+            if ( isset( $selected_array[ $key ] ) ) {
+                return $selected_array[ $key ];
             }
         }
 
@@ -120,8 +120,8 @@ class LaterPay_Helper_TimePass
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $revenues[$key] ) ) {
-                return $revenues[$key];
+            if ( isset( $revenues[ $key ] ) ) {
+                return $revenues[ $key ];
             }
         }
 
@@ -143,8 +143,8 @@ class LaterPay_Helper_TimePass
         );
 
         if ( isset ( $key ) ) {
-            if ( isset( $access_to[$key] ) ) {
-                return $access_to[$key];
+            if ( isset( $access_to[ $key ] ) ) {
+                return $access_to[ $key ];
             }
         }
 
@@ -175,12 +175,11 @@ class LaterPay_Helper_TimePass
         $details['access']   = __( 'access to', 'laterpay' ) . ' ' .
                                 LaterPay_Helper_TimePass::get_access_options( $time_pass['access_to'] );
 
-
         // also display category, price, and revenue model, if full_info flag is used
         if ( $full_info ) {
             if ( $time_pass['access_to'] > 0 ) {
                 $category_id = $time_pass['access_category'];
-                $details['category'] = '"' . get_the_category_by_ID( $category_id) . '"';
+                $details['category'] = '"' . get_the_category_by_ID( $category_id ) . '"';
             }
 
             $details['price']    = __( 'for', 'laterpay' ) . ' ' .
@@ -446,12 +445,13 @@ class LaterPay_Helper_TimePass
         $link = isset( $data['link'] ) ? $data['link'] : get_permalink();
 
         // prepare URL
+        $remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
         $url_params = array(
             'pass_id'       => self::get_tokenized_time_pass_id( $time_pass_id ),
             'id_currency'   => $currency_model->get_currency_id_by_iso4217_code( $currency ),
             'price'         => $price,
             'date'          => time(),
-            'ip'            => ip2long( $_SERVER['REMOTE_ADDR'] ),
+            'ip'            => ip2long( $remote_addr ),
             'revenue_model' => $revenue_model,
             'link'          => $link,
         );
@@ -585,7 +585,7 @@ class LaterPay_Helper_TimePass
                     'committed_revenue' => number_format_i18n( $committed_revenue, 2 ),
                 );
 
-                $statistic['individual'][$time_pass['pass_id']] = $time_pass_statistics;
+                $statistic['individual'][ $time_pass['pass_id'] ] = $time_pass_statistics;
             }
         }
 
@@ -646,7 +646,7 @@ class LaterPay_Helper_TimePass
                 if ( ! $duration ) {
                     $time_pass_id = $hist->pass_id;
                     $time_pass    = self::get_time_pass_by_id( $time_pass_id );
-                    if ( ! $time_pass ) continue;
+                    if ( ! $time_pass ) { continue; }
                     $expiry_date  = $start_date + self::get_time_pass_expiry_time( $time_pass );
                 } else {
                     $expiry_date  = $start_date + $duration;
@@ -656,13 +656,13 @@ class LaterPay_Helper_TimePass
                 if ( $expiry_date > $current_date ) {
                     $week_number = 1;
 
-                    while( ( $start_date + $week_number * $week_duration ) < $expiry_date ) {
+                    while ( ( $start_date + $week_number * $week_duration ) < $expiry_date ) {
                         $week_number++;
                         $key++;
                     }
 
                     if ( ! $hist->code ) {
-                        $data[$key]++;
+                        $data[ $key ]++;
                     }
                 }
             }
@@ -703,11 +703,11 @@ class LaterPay_Helper_TimePass
         while ( $key <= self::TIME_PASSES_WEEKS ) {
             $data['x'][] = array(
                 $key,
-                (string) $key
+                (string) $key,
             );
             $data['y'][] = array(
                 $key,
-                $expiry[$key]
+                $expiry[ $key ],
             );
 
             $key++;

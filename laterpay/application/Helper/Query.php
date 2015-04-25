@@ -92,7 +92,7 @@ class LaterPay_Helper_Query
 
         foreach ( $joins as $index => $join ) {
             if ( ! is_array( $join ) ) {
-               continue;
+                continue;
             }
 
             $table = $join['table'] . '_' . $index;
@@ -122,7 +122,7 @@ class LaterPay_Helper_Query
         $field_1 = $table . '.' . $join['on']['field'];
         $compare = $join['on']['compare'];
         $field_2 = ( $this->table_short !== '' ) ? $this->table_short : $this->table;
-        $field_2 .=  '.' . $join['on']['join_field'];
+        $field_2 .= '.' . $join['on']['join_field'];
 
         return ' ON ' . $field_1 . ' ' . $compare . ' ' . $field_2;
     }
@@ -225,7 +225,7 @@ class LaterPay_Helper_Query
         $sql = ' WHERE 1=1 ';
 
         foreach ( $where as $key => $value ) {
-            $type = ( array_key_exists( $key, $this->field_types ) ) ? $this->field_types[$key] : '%s';
+            $type = ( array_key_exists( $key, $this->field_types ) ) ? $this->field_types[ $key ] : '%s';
             if ( $type === 'date' ) {
                 $date_query = new WP_Date_Query( $value, $this->get_row_suffix() . $key );
                 $sql .= $date_query->get_sql();
@@ -257,7 +257,7 @@ class LaterPay_Helper_Query
             array(
                 'args'      => $this->query_args,
                 'query'     => $query,
-                'results'   => $results
+                'results'   => $results,
             )
         );
 

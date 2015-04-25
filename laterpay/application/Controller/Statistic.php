@@ -302,7 +302,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        wp_send_json( $this->get_text_view( 'frontend/partials/post/post_statistics' ) );
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/post-statistics' ) );
     }
 
     /**
@@ -339,7 +339,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         );
         $this->assign( 'laterpay', $view_args );
 
-        wp_send_json( $this->get_text_view( 'frontend/partials/post/select_preview_mode_tab' ) );
+        wp_send_json( $this->get_text_view( 'frontend/partials/post/select-preview-mode-tab' ) );
     }
 
     /**
@@ -363,8 +363,8 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $history_total = (array) $payments_history_model->get_total_history_by_post_id( $post->ID );
         foreach ( $history_total as $item ) {
             $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
-            $total[$currency_short_name]['sum']      = round( $item->sum, 2 );
-            $total[$currency_short_name]['quantity'] = $item->quantity;
+            $total[ $currency_short_name ]['sum']      = round( $item->sum, 2 );
+            $total[ $currency_short_name ]['quantity'] = $item->quantity;
         }
 
         // get revenue
@@ -372,7 +372,7 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $history_last30DaysRevenue = (array) $payments_history_model->get_last_30_days_history_by_post_id( $post->ID );
         foreach ( $history_last30DaysRevenue as $item ) {
             $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
-            $last30DaysRevenue[$currency_short_name][$item->date] = array(
+            $last30DaysRevenue[ $currency_short_name ][ $item->date ] = array(
                 'sum'       => round( $item->sum, 2 ),
                 'quantity'  => $item->quantity,
             );
@@ -382,15 +382,15 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
         $history_todayRevenue = (array) $payments_history_model->get_todays_history_by_post_id( $post->ID );
         foreach ( $history_todayRevenue as $item ) {
             $currency_short_name = $currency_model->get_short_name_by_currency_id( $item->currency_id );
-            $todayRevenue[$currency_short_name]['sum']       = round( $item->sum, 2 );
-            $todayRevenue[$currency_short_name]['quantity']  = $item->quantity;
+            $todayRevenue[ $currency_short_name ]['sum']       = round( $item->sum, 2 );
+            $todayRevenue[ $currency_short_name ]['quantity']  = $item->quantity;
         }
 
         // get visitors
         $last30DaysVisitors = array();
         $history_last30DaysVisitors = (array) $post_views_model->get_last_30_days_history( $post->ID );
         foreach ( $history_last30DaysVisitors as $item ) {
-            $last30DaysVisitors[$item->date] = array(
+            $last30DaysVisitors[ $item->date ] = array(
                 'quantity' => $item->quantity,
             );
         }
@@ -400,23 +400,23 @@ class LaterPay_Controller_Statistic extends LaterPay_Controller_Abstract
 
         // get buyers (= conversion rate)
         $last30DaysBuyers = array();
-        if ( isset( $last30DaysRevenue[$currency] ) ) {
-            $revenues = $last30DaysRevenue[$currency];
+        if ( isset( $last30DaysRevenue[ $currency ] ) ) {
+            $revenues = $last30DaysRevenue[ $currency ];
         } else {
             $revenues = array();
         }
         foreach ( $revenues as $date => $item ) {
             $percentage = 0;
-            if ( isset( $last30DaysVisitors[$date] ) && ! empty( $last30DaysVisitors[$date]['quantity'] ) ) {
-                $percentage = round( 100 * $item['quantity'] / $last30DaysVisitors[$date]['quantity'] );
+            if ( isset( $last30DaysVisitors[ $date ] ) && ! empty( $last30DaysVisitors[ $date ]['quantity'] ) ) {
+                $percentage = round( 100 * $item['quantity'] / $last30DaysVisitors[ $date ]['quantity'] );
             }
-            $last30DaysBuyers[$date] = array( 'percentage' => $percentage );
+            $last30DaysBuyers[ $date ] = array( 'percentage' => $percentage );
         }
 
         $todayBuyers = 0;
-        if ( ! empty( $todayVisitors ) && isset( $todayRevenue[$currency] ) ) {
+        if ( ! empty( $todayVisitors ) && isset( $todayRevenue[ $currency ] ) ) {
             // percentage of buyers (sales divided by visitors)
-            $todayBuyers = round( 100 * $todayRevenue[$currency]['quantity'] / $todayVisitors );
+            $todayBuyers = round( 100 * $todayRevenue[ $currency ]['quantity'] / $todayVisitors );
         }
 
         // assign variables

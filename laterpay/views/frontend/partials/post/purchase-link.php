@@ -19,20 +19,20 @@ $args = array(
     'data-laterpay'                 => $laterpay['link'],
     'data-post-id'                  => $laterpay['post_id'],
     'data-preview-as-visitor'       => $laterpay['preview_post_as_visitor'],
-    'data-is-in-visible-test-mode' => $laterpay['is_in_visible_test_mode'],
+    'data-is-in-visible-test-mode'  => $laterpay['is_in_visible_test_mode'],
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {
     $arg_str .= ' ' . $key . '="' . esc_attr( $value ) . '" ';
 }
 
-if ( $laterpay['revenue_model'] == 'sis' ):
+if ( $laterpay['revenue_model'] == 'sis' ) :
     $title = sprintf(
         __( 'Buy now for %s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ),
         LaterPay_Helper_View::format_number( $laterpay['price'] ),
         $laterpay['currency']
     );
-else:
+else :
     $title = sprintf(
         __( 'Buy now for %s<small class="lp_purchase-link__currency">%s</small> and pay later', 'laterpay' ),
         LaterPay_Helper_View::format_number( $laterpay['price'] ),
@@ -41,4 +41,4 @@ else:
 endif;
 ?>
 
-<a <?php echo $arg_str; ?>><?php echo $title; ?></a>
+<a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $title ); ?></a>
