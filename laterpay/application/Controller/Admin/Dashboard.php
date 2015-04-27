@@ -391,20 +391,20 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Menu
                 $post_data->amount    = ( $purchases->quantity / $post_data->quantity ) * 100;
                 $post_data->sparkline = implode( ',', $sparkline );
 
-                $result[$post_data->post_id] = $post_data;
-                $item_conversions[$post_data->post_id] = $post_data->amount;
+                $result[ $post_data->post_id ] = $post_data;
+                $item_conversions[ $post_data->post_id ] = $post_data->amount;
             }
 
             arsort( $item_conversions );
             $most_temp = array_slice( $item_conversions, 0, 10, true );
             foreach ( $most_temp as $key => $value ) {
-                $most[] = $result[$key];
+                $most[] = $result[ $key ];
             }
 
             asort( $item_conversions );
             $least_temp = array_slice( $item_conversions, 0, 10, true );
             foreach ( $least_temp as $key => $value ) {
-                $least[] = $result[$key];
+                $least[] = $result[ $key ];
             }
         }
 

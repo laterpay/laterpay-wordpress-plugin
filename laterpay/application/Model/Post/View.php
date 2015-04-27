@@ -230,8 +230,8 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
         $today  = strtotime( 'today GMT' );
         $mode   = LaterPay_Helper_View::get_plugin_mode();
         $args   = array(
-            'fields'=> array( 'COUNT(*) AS quantity' ),
-            'where' => array(
+            'fields' => array( 'COUNT(*) AS quantity' ),
+            'where'  => array(
                 'post_id'   => (int) $post_id,
                 'mode'      => $mode,
                 'date'      => array(

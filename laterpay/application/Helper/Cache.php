@@ -90,15 +90,18 @@ class LaterPay_Helper_Cache
         if ( function_exists( 'w3tc_pgcache_flush' ) ) {
             w3tc_pgcache_flush();
         }
+
         // WP Super Cache
         else if ( function_exists( 'wp_cache_clean_cache' ) ) {
             global $file_prefix;
             wp_cache_clean_cache( $file_prefix );
         }
+
         // Quick Cache
         else if ( class_exists( 'quick_cache' ) && method_exists( 'quick_cache', 'clear' ) ) {
             quick_cache::clear();
         }
+
         // Cachify
         else if ( class_exists( 'Cachify' ) && method_exists( 'Cachify', 'flush_total_cache' ) ) {
             Cachify::flush_total_cache();

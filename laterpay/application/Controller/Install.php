@@ -555,7 +555,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $table   = $wpdb->prefix . 'laterpay_post_views';
         $columns = $wpdb->get_results( 'SHOW COLUMNS FROM ' . $table . ';' );
-        $indexes = $wpdb->get_results( 'SHOW INDEX FROM ' . $table . ';');
+        $indexes = $wpdb->get_results( 'SHOW INDEX FROM ' . $table . ';' );
 
         $is_up_to_date = false;
 
@@ -563,7 +563,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             if ( $column->Field === 'id' ) {
                 // check indexes
                 foreach ( $indexes as $index ) {
-                    if ( $index->Key_name === 'PRIMARY' && $index->Column_name === "id" ) {
+                    if ( $index->Key_name === 'PRIMARY' && $index->Column_name === 'id' ) {
                         $is_up_to_date = true;
                     }
                 }
@@ -578,10 +578,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 }
             }
 
-            $wpdb->query( "ALTER TABLE " . $table . " ADD `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;" );
-            $wpdb->query( "ALTER TABLE " . $table . " ADD INDEX idx_post_views_date_mode (date, mode);" );
-            $wpdb->query( "ALTER TABLE " . $table . " ADD INDEX idx_post_views_post_id_date_mode (post_id, date, mode);" );
-            $wpdb->query( "ALTER TABLE " . $table . " DROP COLUMN `count`;" );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;' );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD INDEX idx_post_views_date_mode (date, mode);' );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD INDEX idx_post_views_post_id_date_mode (post_id, date, mode);' );
+            $wpdb->query( 'ALTER TABLE ' . $table . ' DROP COLUMN `count`;' );
         }
     }
 

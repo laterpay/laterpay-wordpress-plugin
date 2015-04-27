@@ -544,7 +544,7 @@ class LaterPay_Helper_TimePass
                 $active             = 0; // number of active time passes
                 $sold               = 0; // number of sold time passes
 
-                if  ( $time_pass_history && is_array( $time_pass_history ) ) {
+                if ( $time_pass_history && is_array( $time_pass_history ) ) {
                     foreach ( $time_pass_history as $hist ) {
                         $has_unredeemed     = false;
                         $committed_revenue += $hist->price;

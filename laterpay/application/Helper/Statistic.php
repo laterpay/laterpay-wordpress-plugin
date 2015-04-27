@@ -58,6 +58,7 @@ class LaterPay_Helper_Statistic
                 $ip = pack( 'N', ip2long( $ip[ count( $ip ) - 1 ] ) );
             }
         }
+
         // IPv6
         elseif ( strpos( $ip, ':' ) !== false ) {
             $ip         = explode( ':', $ip );
