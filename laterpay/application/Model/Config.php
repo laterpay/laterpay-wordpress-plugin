@@ -44,7 +44,7 @@ class LaterPay_Model_Config
      *
      * @type LaterPay_Model_Config
      */
-    protected $parent = NULL;
+    protected $parent = null;
 
     /**
      * Record of deleted properties.
@@ -63,7 +63,7 @@ class LaterPay_Model_Config
      * @see  is_frozen()
      * @type bool
      */
-    protected $frozen = FALSE;
+    protected $frozen = false;
 
     /**
      * Set new value.
@@ -78,8 +78,8 @@ class LaterPay_Model_Config
             return $this->stop( 'This object has been frozen. You cannot change the parent anymore.' );
         }
 
-        $this->properties[$name] = $value;
-        unset ( $this->deleted[$name] );
+        $this->properties[ $name ] = $value;
+        unset ( $this->deleted[ $name ] );
 
         return $this;
     }
@@ -103,7 +103,7 @@ class LaterPay_Model_Config
         }
 
         foreach ( $var as $name => $value ) {
-            $this->properties[$name] = $value;
+            $this->properties[ $name ] = $value;
         }
 
         return $this;
@@ -119,16 +119,16 @@ class LaterPay_Model_Config
      * @return mixed
      */
     public function get( $name ) {
-        if ( isset ( $this->properties[$name] ) ) {
-            return $this->properties[$name];
+        if ( isset ( $this->properties[ $name ] ) ) {
+            return $this->properties[ $name ];
         }
 
-        if ( isset ( $this->deleted[$name] ) ) {
-            return NULL;
+        if ( isset ( $this->deleted[ $name ] ) ) {
+            return null;
         }
 
-        if ( NULL === $this->parent ) {
-            return NULL;
+        if ( null === $this->parent ) {
+            return null;
         }
 
         return $this->parent->get( $name );
@@ -141,12 +141,12 @@ class LaterPay_Model_Config
      *
      * @return array
      */
-    public function get_all( $use_parent = FALSE ) {
+    public function get_all( $use_parent = false ) {
         if ( ! $use_parent ) {
             return $this->properties;
         }
 
-        $parent_properties = $this->parent->get_all( TRUE );
+        $parent_properties = $this->parent->get_all( true );
         $all               = array_merge( $parent_properties, $this->properties );
 
         // strip out properties existing in the parent but deleted in this instance.
@@ -163,16 +163,16 @@ class LaterPay_Model_Config
      * @return boolean
      */
     public function has( $name ) {
-        if ( isset ( $this->properties[$name] ) ) {
-            return TRUE;
+        if ( isset ( $this->properties[ $name ] ) ) {
+            return true;
         }
 
-        if ( isset ( $this->deleted[$name] ) ) {
-            return FALSE;
+        if ( isset ( $this->deleted[ $name ] ) ) {
+            return false;
         }
 
-        if ( NULL === $this->parent ) {
-            return FALSE;
+        if ( null === $this->parent ) {
+            return false;
         }
 
         return $this->parent->has( $name );
@@ -192,8 +192,8 @@ class LaterPay_Model_Config
             return $this->stop( 'This object has been frozen. You cannot change the parent anymore.' );
         }
 
-        $this->deleted[$name] = TRUE;
-        unset ( $this->properties[$name] );
+        $this->deleted[ $name ] = true;
+        unset ( $this->properties[ $name ] );
 
         return $this;
     }
@@ -221,7 +221,7 @@ class LaterPay_Model_Config
      * @return boolean
      */
     public function has_parent() {
-        return NULL === $this->parent;
+        return null === $this->parent;
     }
 
     /**
@@ -230,7 +230,7 @@ class LaterPay_Model_Config
      * @return LaterPay_Model_Config
      */
     public function freeze() {
-        $this->frozen = TRUE;
+        $this->frozen = true;
 
         return $this;
     }

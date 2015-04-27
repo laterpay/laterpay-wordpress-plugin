@@ -383,7 +383,7 @@ class LaterPay_Model_CategoryPrice
     public function delete_all_category_prices() {
         global $wpdb;
 
-        $success = $wpdb->query( "TRUNCATE TABLE " . $this->term_table_prices );
+        $success = $wpdb->query( 'TRUNCATE TABLE ' . $this->term_table_prices );
 
         return $success;
     }

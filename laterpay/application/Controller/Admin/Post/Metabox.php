@@ -7,11 +7,11 @@
  * Author URI: https://laterpay.net/
  */
 
-class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
 {
 
     /**
-     * @see LaterPay_Controller_Abstract::load_assets()
+     * @see LaterPay_Core_View::load_assets()
      */
     public function load_assets() {
         parent::load_assets();
@@ -169,13 +169,13 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         $editor_id = 'postcueeditor';
 
-        echo '<dfn>' .
-                __( 'Visitors will see the teaser content <strong>instead of the full content</strong> before purchase.', 'laterpay' ) . '<br>' .
-                __( 'If you do not enter any teaser content, the plugin will use an excerpt of the full content as teaser content.', 'laterpay' ) . '<br>' .
-                __( 'We do recommend to write dedicated teaser content to increase your sales though.', 'laterpay' ) .
-            '</dfn>';
+        echo laterpay_sanitize_output( '<dfn>' .
+            __( 'Visitors will see the teaser content <strong>instead of the full content</strong> before purchase.', 'laterpay' ) . '<br>' .
+            __( 'If you do not enter any teaser content, the plugin will use an excerpt of the full content as teaser content.', 'laterpay' ) . '<br>' .
+            __( 'We do recommend to write dedicated teaser content to increase your sales though.', 'laterpay' ) .
+        '</dfn>' );
         wp_editor( $content, $editor_id, $settings );
-        echo '<input type="hidden" name="laterpay_teaser_content_box_nonce" value="' . wp_create_nonce( $this->config->get( 'plugin_base_name' ) ) . '" />';
+        echo laterpay_sanitized( '<input type="hidden" name="laterpay_teaser_content_box_nonce" value="' . wp_create_nonce( $this->config->get( 'plugin_base_name' ) ) . '" />' );
     }
 
     /**
@@ -263,7 +263,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
         // get valid price ranges
         $price_ranges = LaterPay_Helper_Pricing::get_price_ranges_by_revenue_model();
 
-        echo '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />';
+        echo laterpay_sanitized( '<input type="hidden" name="laterpay_pricing_post_content_box_nonce" value="' . wp_create_nonce( $this->config->plugin_base_name ) . '" />' );
 
         $view_args = array(
             'post_id'                              => $post->ID,
@@ -282,7 +282,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
 
         $this->assign( 'laterpay', $view_args );
 
-        $this->render( 'backend/partials/post_pricing_form' );
+        $this->render( 'backend/partials/post-pricing-form' );
     }
 
     /**
@@ -487,7 +487,7 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      */
     public function reset_post_publication_date() {
         if ( ! empty( $_POST['post_id'] ) ) {
-            $post = get_post( $_POST['post_id'] );
+            $post = get_post( sanitize_text_field( $_POST['post_id'] ) );
             if ( $post !== null ) {
                 LaterPay_Helper_Pricing::reset_post_publication_date( $post );
                 wp_send_json(
@@ -539,7 +539,15 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Abstrac
      * @return void
      */
     public function remove_dynamic_pricing_data() {
-        $post_id = $_POST['post_id'];
+        if ( ! isset( $_POST['post_id'] ) ) {
+            wp_send_json(
+                array(
+                    'success' => false,
+                )
+            );
+        }
+        $post_id = sanitize_text_field( $_POST['post_id'] );
+
         if ( ! empty( $post_id ) ) {
             $post_price = get_post_meta( $post_id, LaterPay_Helper_Pricing::META_KEY, true );
             unset( $post_price['price_range_type'] );

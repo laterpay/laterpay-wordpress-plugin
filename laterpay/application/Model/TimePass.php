@@ -93,11 +93,11 @@ class LaterPay_Model_TimePass
             $data['pass_id'] = $wpdb->insert_id;
         } else {
             $wpdb->update(
-                    $this->passes_table,
-                    $data,
-                    array( 'pass_id' => $time_pass_id ),
-                    $format,
-                    array( '%d' ) // pass_id
+                $this->passes_table,
+                $data,
+                array( 'pass_id' => $time_pass_id ),
+                $format,
+                array( '%d' ) // pass_id
             );
             $data['pass_id'] = $time_pass_id;
         }
@@ -154,16 +154,16 @@ class LaterPay_Model_TimePass
             } else {
                 $sql .= " pt.access_category IN ( {$prepared_ids} ) AND pt.access_to <> 1";
             }
-            $sql .= " OR ";
+            $sql .= ' OR ';
         }
 
-        $sql .= "
+        $sql .= '
                 pt.access_to = 0
             ORDER BY
                 pt.access_to DESC,
                 pt.price ASC
             ;
-        ";
+        ';
 
         $time_passes = $wpdb->get_results( $sql );
 

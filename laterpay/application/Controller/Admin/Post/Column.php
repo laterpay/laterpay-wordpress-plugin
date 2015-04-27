@@ -7,7 +7,7 @@
  * Author URI: https://laterpay.net/
  */
 
-class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Base
 {
 
     /**
@@ -22,7 +22,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
         $insert_after       = 'title';
 
         foreach ( $columns as $key => $val ) {
-            $extended_columns[$key] = $val;
+            $extended_columns[ $key ] = $val;
             if ( $key == $insert_after ) {
                 $extended_columns['post_price']         = __( 'Price', 'laterpay' );
                 $extended_columns['post_price_type']    = __( 'Price Type', 'laterpay' );
@@ -51,7 +51,7 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
 
                 // render the price of the post, if it exists
                 if ( $price > 0 ) {
-                    echo "<strong>$localized_price</strong> <span>$currency</span>";
+                    echo laterpay_sanitize_output( "<strong>$localized_price</strong> <span>$currency</span>" );
                 } else {
                     echo '&mdash;';
                 }
@@ -89,13 +89,13 @@ class LaterPay_Controller_Admin_Post_Column extends LaterPay_Controller_Abstract
                             $post_price_type = '&mdash;';
                     }
 
-                    echo $post_price_type;
+                    echo laterpay_sanitize_output( $post_price_type );
                 } else {
                     // label the post to use the global default price, if a positive  global default price is defined,
                     // but the post does not have a price type defined
                     $global_default_price = (float) get_option( 'laterpay_global_price' );
                     if ( $global_default_price > 0 ) {
-                        echo __( 'global default price', 'laterpay' );
+                        echo laterpay_sanitize_output( __( 'global default price', 'laterpay' ) );
                     } else {
                         echo '&mdash;';
                     }
