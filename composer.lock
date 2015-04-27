@@ -1,0 +1,84 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "4da6d75ea657560dc43dc448c606d09a",
+    "packages": [
+        {
+            "name": "laterpay/laterpay-client-php",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laterpay/laterpay-client-php.git",
+                "reference": "2ade766ddf38c9c15f80b532bb0cebf6c36904eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laterpay/laterpay-client-php/zipball/2ade766ddf38c9c15f80b532bb0cebf6c36904eb",
+                "reference": "2ade766ddf38c9c15f80b532bb0cebf6c36904eb",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LaterPay_": "",
+                    "Crypt_": "",
+                    "Math_": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "LaterPay PHP Client",
+            "support": {
+                "source": "https://github.com/laterpay/laterpay-client-php/tree/develop",
+                "issues": "https://github.com/laterpay/laterpay-client-php/issues"
+            },
+            "time": "2015-04-06 08:56:19"
+        },
+        {
+            "name": "laterpay/laterpay-php-browscap-library",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laterpay/laterpay-php-browscap-library.git",
+                "reference": "ad55130eb44c8b91e70caabfaaa6276592f17865"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laterpay/laterpay-php-browscap-library/zipball/ad55130eb44c8b91e70caabfaaa6276592f17865",
+                "reference": "ad55130eb44c8b91e70caabfaaa6276592f17865",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    ""
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Fork of the Browscap library used for detecting crawlers.",
+            "support": {
+                "source": "https://github.com/laterpay/laterpay-php-browscap-library/tree/develop",
+                "issues": "https://github.com/laterpay/laterpay-php-browscap-library/issues"
+            },
+            "time": "2015-04-22 13:09:54"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "laterpay/laterpay-php-browscap-library": 20,
+        "laterpay/laterpay-client-php": 20,
+        "wp-coding-standards/wpcs": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

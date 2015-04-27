@@ -5,3 +5,5 @@ laterpay/sftp-config.json
 nbproject/
 node_modules/
 .gulp
+# composer generated files and folders
+laterpay/vendor
