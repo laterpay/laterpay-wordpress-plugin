@@ -356,10 +356,59 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Menu
      * @return array $data
      */
     private function most_least_converting_items( $options ) {
+        $post_args = array(
+            'where' => $options['query_where'],
+        );
+
+        $history_args = $post_args;
+        if ( $options['revenue_model'] !== 'all' ) {
+            $history_args['where']['revenue_model'] = $options['revenue_model'];
+        }
+
+        $post_args['where']['has_access'] = 0;
+
         $post_views_model = new LaterPay_Model_Post_View();
-        $most   = $post_views_model->get_most_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
-        $least  = $post_views_model->get_least_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
-        $data   = array(
+        $history_model    = new LaterPay_Model_Payment_History();
+
+        $post_views       = $post_views_model->get_posts_views_data( $post_args );
+        $result           = array();
+        $item_conversions = array();
+
+        $most  = array();
+        $least = array();
+
+        if ( count( $post_views ) ) {
+            foreach ( $post_views as $post_data ) {
+                $history_args['where']['post_id'] = $post_data->post_id;
+                $purchases = $history_model->get_total_items_sold( $history_args );
+                $sparkline = $post_views_model->get_sparkline( $post_data->post_id, $options['start_timestamp'], $options['interval'], 0 );
+
+                if ( ! $purchases ) {
+                    $purchases = new stdClass();
+                    $purchases->quantity = 0;
+                }
+
+                $post_data->amount    = ( $purchases->quantity / $post_data->quantity ) * 100;
+                $post_data->sparkline = implode( ',', $sparkline );
+
+                $result[ $post_data->post_id ] = $post_data;
+                $item_conversions[ $post_data->post_id ] = $post_data->amount;
+            }
+
+            arsort( $item_conversions );
+            $most_temp = array_slice( $item_conversions, 0, 10, true );
+            foreach ( $most_temp as $key => $value ) {
+                $most[] = $result[ $key ];
+            }
+
+            asort( $item_conversions );
+            $least_temp = array_slice( $item_conversions, 0, 10, true );
+            foreach ( $least_temp as $key => $value ) {
+                $least[] = $result[ $key ];
+            }
+        }
+
+        $data = array(
             'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 1 ),
             'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 1 ),
             'unit'  => '%',
@@ -476,6 +525,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Menu
         if ( $options['revenue_model'] !== 'all' ) {
             $history_args['where']['revenue_model'] = $options['revenue_model'];
         }
+
+        $post_args['where']['has_access'] = 0;
 
         $history_model      = new LaterPay_Model_Payment_History();
         $post_views_model   = new LaterPay_Model_Post_View();

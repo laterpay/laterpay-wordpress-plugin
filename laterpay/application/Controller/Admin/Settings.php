@@ -111,7 +111,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                             )
                         );
                     }
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     wp_send_json(
                         array(
                             'success' => false,

@@ -57,9 +57,7 @@ class LaterPay_Helper_Statistic
                 $ip = explode( ':', $ip );
                 $ip = pack( 'N', ip2long( $ip[ count( $ip ) - 1 ] ) );
             }
-        }
-        // IPv6
-        elseif ( strpos( $ip, ':' ) !== false ) {
+        } elseif ( strpos( $ip, ':' ) !== false ) { // IPv6
             $ip         = explode( ':', $ip );
             $parts      = 8 - count( $ip );
             $res        = '';
@@ -155,13 +153,18 @@ class LaterPay_Helper_Statistic
             );
         }
 
-        $model = new LaterPay_Model_Post_View();
+        // no access by default
+        $has_access = 0;
+
+        $model      = new LaterPay_Model_Post_View();
+        $has_access = apply_filters( 'laterpay_check_user_access', $has_access, $post_id );
 
         $data = array(
-            'post_id'   => $post_id,
-            'user_id'   => $uniqueId,
-            'date'      => time(),
-            'ip'        => 0,
+            'post_id' => $post_id,
+            'user_id' => $uniqueId,
+            'date'    => time(),
+            'ip'      => 0,
+            'access'  => $has_access,
         );
         list( $data['ip'], $longOtherIp ) = self::get_ip_2_long_remote_ip();
 

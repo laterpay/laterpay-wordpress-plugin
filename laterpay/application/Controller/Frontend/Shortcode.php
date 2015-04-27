@@ -148,7 +148,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $page_id = $page->ID;
 
         // don't render the shortcode, if the target page has a post type for which LaterPay is disabled
-        if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ) ) )  {
+        if ( ! in_array( $page->post_type, $this->config->get( 'content.enabled_post_types' ) ) ) {
 
             $error_reason = __( 'LaterPay has been disabled for the post type of the target page.', 'laterpay' );
 

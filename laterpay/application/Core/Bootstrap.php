@@ -249,6 +249,9 @@ class LaterPay_Core_Bootstrap
         // add custom action to echo the LaterPay purchase button
         add_action( 'laterpay_purchase_button',         array( $post_controller, 'the_purchase_button' ) );
 
+        // add custom filter to check if current user has access to the post content
+        add_filter( 'laterpay_check_user_access',       array( $post_controller, 'check_user_access' ), 10, 2 );
+
         // add custom action to echo the LaterPay time passes
         add_action( 'laterpay_time_passes',             array( $post_controller, 'the_time_passes_widget'), 10, 4 );
 
@@ -312,6 +315,7 @@ class LaterPay_Core_Bootstrap
         add_action( 'admin_notices', array( $install_controller, 'maybe_update_unlimited_access' ) );
         add_action( 'admin_notices', array( $install_controller, 'maybe_update_post_views' ) );
         add_action( 'admin_notices', array( $install_controller, 'maybe_clear_dashboard_cache' ) );
+        add_action( 'admin_notices', array( $install_controller, 'update_post_view_table_structure' ) );
     }
 
     /**

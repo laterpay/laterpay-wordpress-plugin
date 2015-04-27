@@ -249,6 +249,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $get_ip             = isset( $_GET['ip'] ) ? sanitize_text_field( $_GET['ip'] ) : null;
         $get_revenue_model  = isset( $_GET['revenue_model'] ) ? sanitize_text_field( $_GET['revenue_model'] ) : null;
         $get_voucher        = isset( $_GET['voucher'] ) ? sanitize_text_field( $_GET['voucher'] ) : null;
+        $get_hash           = isset( $_GET['hash'] ) ? sanitize_text_field( $_GET['hash'] ) : null;
         $get_link           = esc_url_raw( $_GET['link'] );
 
         $url_data = array(
@@ -274,6 +275,12 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $hash    = LaterPay_Helper_Pricing::get_hash_by_url( $url );
 
         $pass_id = LaterPay_Helper_TimePass::get_untokenized_time_pass_id( $get_pass_id );
+
+        $post_id = 0;
+        $post    = get_post();
+        if ( $post !== null ) {
+            $post_id = $post->ID;
+        }
 
         if ( $hash === $_GET['hash'] ) {
             // process vouchers
@@ -302,9 +309,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             // save payment history
             $data = array(
                 'id_currency'   => $get_id_currency,
+                'post_id'       => $post_id,
                 'price'         => $get_price,
                 'date'          => $get_date,
                 'ip'            => $get_ip,
+                'hash'          => $get_hash,
                 'revenue_model' => $get_revenue_model,
                 'pass_id'       => $pass_id,
                 'code'          => $get_voucher,
@@ -475,6 +484,40 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( ! $laterpay_client->has_token() ) {
             $laterpay_client->acquire_token();
         }
+    }
+
+    /**
+     * Check if user has access to the post
+     *
+     * @wp-hook laterpay_check_user_access
+     *
+     * @return bool $has_access
+     */
+    public function check_user_access( $has_access, $post_id = null ) {
+        // get post
+        if ( ! isset( $post_id ) ) {
+            $post = get_post();
+        } else {
+            $post = get_post( $has_access );
+        }
+
+        if ( $post === null ) {
+            return (bool) $has_access;
+        }
+
+        $user_has_unlimited_access = LaterPay_Helper_User::can( 'laterpay_has_full_access_to_content', $post );
+
+        // user has unlimited access
+        if ( $user_has_unlimited_access ) {
+            return true;
+        }
+
+        // user has access to the post
+        if ( $this->has_access_to_post( $post ) ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
