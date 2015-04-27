@@ -95,7 +95,7 @@ function laterpay_get_plugin_config() {
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
     $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
-    $config->set( 'debug_mode',         defined( 'WP_DEBUG' ) && WP_DEBUG );
+    $config->set( 'debug_mode',         (bool) get_option( 'laterpay_debugger_enabled', false ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {

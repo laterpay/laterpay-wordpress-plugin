@@ -87,6 +87,7 @@ delete_option( 'laterpay_gift_codes' );
 delete_option( 'laterpay_voucher_statistic' );
 delete_option( 'laterpay_gift_statistic' );
 delete_option( 'laterpay_gift_codes_usages' );
+delete_option( 'laterpay_debugger_enabled' );
 
 delete_option( 'laterpay_purchase_button_positioned_manually' );
 delete_option( 'laterpay_time_passes_positioned_manually' );

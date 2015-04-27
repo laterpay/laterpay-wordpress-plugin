@@ -602,7 +602,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function add_logger_settings() {
         add_settings_section(
             'laterpay_logger',
-            __( 'Access Logging for Generating Sales Statistics', 'laterpay' ),
+            __( 'Logger Settings', 'laterpay' ),
             array( $this, 'get_logger_section_description' ),
             'laterpay'
         );
@@ -621,7 +621,22 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             )
         );
 
+        add_settings_field(
+            'laterpay_debugger_enabled',
+            __( 'Enable Debugger', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_logger',
+            array(
+                'name'  => 'laterpay_debugger_enabled',
+                'value' => 1,
+                'type'  => 'checkbox',
+                'label' => __( 'I want to enable logger', 'laterpay' ),
+            )
+        );
+
         register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
+        register_setting( 'laterpay', 'laterpay_debugger_enabled' );
     }
 
     /**
