@@ -21,5 +21,9 @@
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "dev-master#9c4de8175ce1f82813f8c9c8f11809ee6c794efc"
+    },
+    "scripts": {
+        "phpcs": "\"laterpay/vendor/bin/phpcs\" -s -n -p --standard=ruleset.xml --extensions=php --ignore=laterpay/vendor/*,laterpay/cache/*,laterpay/languages/* laterpay",
+        "wpcs": "\"laterpay/vendor/bin/phpcs\" --config-set installed_paths laterpay/vendor/wp-coding-standards/wpcs"
     }
 }

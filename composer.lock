@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4da6d75ea657560dc43dc448c606d09a",
+    "hash": "b076f0759192056b4780969dcd59f145",
     "packages": [
         {
             "name": "laterpay/laterpay-client-php",
