@@ -8,9 +8,9 @@ env:
   - secure: m6KO5Y9+1kOks4u8Ko0isBMGYQDOYdqbWE+qfrz4/NDx17x8wqeGMN5/QiQCHgdSMRaRJuB0FDTzzQwkSg7Ea5f4UbJZgEy2224870A6jB+X7kW1CopwmdE0b4rD1nDj6BKvMr6bO7iBxmahUlego7SStJoEPlj452TQUN6KZ3Y=
 install:
     - composer update --no-autoloader
+    - composer run-script wpcs
     - npm install jshint
 script:
-    - composer run-script wpcs
     - composer run-script phpcs
     - jshint laterpay/asset_sources/js
 notifications:
