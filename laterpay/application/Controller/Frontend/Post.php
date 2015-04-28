@@ -1179,10 +1179,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             $laterpay_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $laterpay_pass['pass_id'] );
         }
 
+        $laterpay_pass['preview_post_as_visitor'] = LaterPay_Helper_User::preview_post_as_visitor( get_post() );
+        $laterpay_pass['is_in_visible_test_mode'] = $is_in_visible_test_mode;
+
         $args = array(
-            'standard_currency'        => get_option( 'laterpay_currency' ),
-            'preview_post_as_visitor'  => LaterPay_Helper_User::preview_post_as_visitor( get_post() ),
-            'is_in_visible_test_mode'  => $is_in_visible_test_mode,
+            'standard_currency' => get_option( 'laterpay_currency' ),
         );
         $this->assign( 'laterpay',      $args );
         $this->assign( 'laterpay_pass', $laterpay_pass );
