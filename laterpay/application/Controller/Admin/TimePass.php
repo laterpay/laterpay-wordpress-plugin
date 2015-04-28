@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Menu
+class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base
 {
 
     private $ajax_nonce = 'laterpay_time_passes';
