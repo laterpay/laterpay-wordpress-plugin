@@ -7,3 +7,4 @@ node_modules/
 .gulp
 # composer generated files and folders
 laterpay/vendor
+
