@@ -179,6 +179,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function init_laterpay_advanced_settings() {
         // add sections with fields
+        $this->add_debugger_settings();
         $this->add_caching_settings();
         $this->add_enabled_post_types_settings();
         $this->add_time_passes_settings();
@@ -188,6 +189,51 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         $this->add_unlimited_access_settings();
         $this->add_logger_settings();
         $this->add_browscap_settings();
+    }
+
+    /**
+     * Add debugger section and fields.
+     *
+     * @return void
+     */
+    public function add_debugger_settings() {
+        add_settings_section(
+            'laterpay_debugger',
+            __( 'Debugger Pane', 'laterpay' ),
+            array( $this, 'get_debugger_section_description' ),
+            'laterpay'
+        );
+
+        add_settings_field(
+            'laterpay_debugger_enabled',
+            __( 'LaterPay Debugger', 'laterpay' ),
+            array( $this, 'get_input_field_markup' ),
+            'laterpay',
+            'laterpay_debugger',
+            array(
+                'name'  => 'laterpay_debugger_enabled',
+                'value' => 1,
+                'type'  => 'checkbox',
+                'label' => __( 'I want to view the LaterPay debugger pane', 'laterpay' ),
+            )
+        );
+
+        register_setting( 'laterpay', 'laterpay_debugger_enabled' );
+    }
+
+    /**
+     * Render the hint text for the logger section.
+     *
+     * @return string description
+     */
+    public function get_debugger_section_description() {
+        echo laterpay_sanitize_output( '<p>' .
+            __( 'The LaterPay debugger pane contains a lot of helpful plugin- and system-related information
+               for debugging the LaterPay plugin and fixing configuration problems.<br>
+               When activated, the debugger pane is rendered at the bottom of the screen.<br>
+               It is visible both for logged in not logged in users!<br>
+               On a production installation you should switch it off again as soon as you don\'t need it anymore.', 'laterpay' ) .
+        '</p>' );
     }
 
     /**
@@ -233,7 +279,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 It renders paid posts only with the teaser content. This allows to cache them as static files without
                 risking to leak the paid content.<br>
                 When someone visits the page, it makes an Ajax request to determine, if the visitor has already bought
-                the post and replaces the teaser with the full content, if required.', 'laterpay') .
+                the post and replaces the teaser with the full content, if required.', 'laterpay' ) .
         '</p>' );
     }
 
@@ -269,7 +315,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function get_enabled_post_types_section_description() {
         echo laterpay_sanitize_output( '<p>' .
             __( 'Please choose, which standard and custom post types should be sellable with LaterPay.',
-            'laterpay') .
+            'laterpay' ) .
         '</p>' );
     }
 
@@ -311,7 +357,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function get_time_passes_section_description() {
         echo laterpay_sanitize_output( '<p>' .
             __( 'Please choose, if you want to show the time passes widget on free posts, or only on paid posts.',
-            'laterpay') .
+            'laterpay' ) .
         '</p>' );
     }
 
@@ -422,7 +468,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 without teaser content.<br>
                 While technically possible, setting this parameter to zero is HIGHLY DISCOURAGED.<br>
                 If you really, really want to have NO teaser content for a post, enter one space
-                into the teaser content editor for that post.', 'laterpay') .
+                into the teaser content editor for that post.', 'laterpay' ) .
         '</p>' );
     }
 
@@ -496,7 +542,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             __( 'In the appearance tab, you can choose to preview your paid posts with the teaser content plus
                 an excerpt of the full content, covered by a semi-transparent overlay.<br>
                 The following three parameters give you fine-grained control over the length of this excerpt.<br>
-                These settings do not affect the teaser content in any way.', 'laterpay') .
+                These settings do not affect the teaser content in any way.', 'laterpay' ) .
         '</p>' );
     }
 
@@ -577,7 +623,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             __( "You can give logged-in users unlimited access to specific categories depending on their user
                 role.<br>
                 This feature can be useful e.g. for giving free access to existing subscribers.<br>
-                We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay') .
+                We recommend the plugin 'User Role Editor' for adding custom roles to WordPress.", 'laterpay' ) .
         '</p>' );
 
         if ( $this->has_custom_roles ) {
@@ -602,7 +648,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function add_logger_settings() {
         add_settings_section(
             'laterpay_logger',
-            __( 'Logger Settings', 'laterpay' ),
+            __( 'Access Logging for Generating Sales Statistics', 'laterpay' ),
             array( $this, 'get_logger_section_description' ),
             'laterpay'
         );
@@ -621,22 +667,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             )
         );
 
-        add_settings_field(
-            'laterpay_debugger_enabled',
-            __( 'Enable Debugger', 'laterpay' ),
-            array( $this, 'get_input_field_markup' ),
-            'laterpay',
-            'laterpay_logger',
-            array(
-                'name'  => 'laterpay_debugger_enabled',
-                'value' => 1,
-                'type'  => 'checkbox',
-                'label' => __( 'I want to enable logger', 'laterpay' ),
-            )
-        );
-
         register_setting( 'laterpay', 'laterpay_access_logging_enabled' );
-        register_setting( 'laterpay', 'laterpay_debugger_enabled' );
     }
 
     /**
@@ -651,7 +682,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 For collecting the required data it sets a cookie and stores all requests from visitors of your
                 blog.<br>
                 This data is stored anonymously on your server and not shared with LaterPay or anyone else.<br>
-                It will automatically be deleted after three months.', 'laterpay') .
+                It will automatically be deleted after three months.', 'laterpay' ) .
         '</p>' );
     }
 
