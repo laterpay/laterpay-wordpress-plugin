@@ -46,7 +46,7 @@ class LaterPay_Core_Bootstrap
      *
      * @param string $name name of the controller without prefix.
      *
-     * @return bool|$controller instance of the given controller name
+     * @return bool|LaterPay_Controller_Base $controller instance of the given controller name
      */
     protected function get_controller( $name ) {
         $class = 'LaterPay_Controller_' . (string) $name;
