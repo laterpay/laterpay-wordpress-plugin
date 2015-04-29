@@ -211,7 +211,7 @@ class LaterPay_Helper_Post
             __METHOD__, $params
         );
 
-        if ( $revenue_model == 'sis' ) {
+        if ( $revenue_model === 'sis' || $revenue_model === 'ppul' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {

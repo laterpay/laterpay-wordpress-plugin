@@ -627,10 +627,10 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
 
         $sql = "
             CREATE TABLE $table_terms_price (
-                id                INT(11)            NOT NULL AUTO_INCREMENT,
-                term_id           INT(11)            NOT NULL,
-                price             DOUBLE             NOT NULL DEFAULT '0',
-                revenue_model     ENUM('ppu', 'sis') NOT NULL DEFAULT 'ppu',
+                id                INT(11)                    NOT NULL AUTO_INCREMENT,
+                term_id           INT(11)                    NOT NULL,
+                price             DOUBLE                     NOT NULL DEFAULT '0',
+                revenue_model     ENUM('ppu', 'sis', 'ppul') NOT NULL DEFAULT 'ppu',
                 PRIMARY KEY  (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         dbDelta( $sql );

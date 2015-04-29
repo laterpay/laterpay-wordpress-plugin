@@ -104,6 +104,15 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_float',
+                    'cmp' => array(
+                        array(
+                            'lte' => 149.99,
+                            'gte' => 0.05,
+                        ),
+                        array(
+                            'eq' => 0.00,
+                        ),
+                    ),
                 ),
                 'filters' => array(
                     'delocalize',
@@ -118,7 +127,51 @@ class LaterPay_Form_Pass extends LaterPay_Form_Abstract
             array(
                 'validators' => array(
                     'is_string',
-                    'in_array'  => array( 'sis' ),
+                    'in_array' => array( 'ppu', 'ppul', 'sis' ),
+                    'depends' => array(
+                        array(
+                            'field' => 'price',
+                            'value' => 'sis',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 149.99,
+                                        'gte' => 1.49,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
+                            'field' => 'price',
+                            'value' => 'ppu',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 5.00,
+                                        'gte' => 0.05,
+                                    ),
+                                    array(
+                                        'eq' => 0.00,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        array(
+                            'field' => 'price',
+                            'value' => 'ppul',
+                            'conditions' => array(
+                                'cmp' => array(
+                                    array(
+                                        'lte' => 5.00,
+                                        'gte' => 0.05,
+                                    ),
+                                    array(
+                                        'eq' => 0.00,
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
                 'filters' => array(
                     'to_string',

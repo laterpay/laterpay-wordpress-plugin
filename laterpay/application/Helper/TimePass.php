@@ -469,7 +469,7 @@ class LaterPay_Helper_TimePass
             'title'         => isset( $data['voucher'] ) ? $time_pass['title'] . ', Code: ' . $data['voucher'] : $time_pass['title'],
         );
 
-        if ( $revenue_model == 'sis' ) {
+        if ( $revenue_model === 'sis' || $revenue_model === 'ppul' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {
