@@ -487,7 +487,7 @@ class LaterPay_Helper_Pricing
         }
 
         // fallback in case the revenue_model is not correct
-        if ( ! in_array( $revenue_model, array( 'ppu', 'sis' ) ) ) {
+        if ( ! in_array( $revenue_model, array( 'ppu', 'sis', 'ppul' ) ) ) {
 
             $price = array_key_exists( 'price', $post_price ) ? $post_price['price'] : get_option( 'laterpay_global_price' );
 

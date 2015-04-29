@@ -27,6 +27,19 @@ if ( ! defined( 'ABSPATH' ) ) {
                     value="ppu"
                     <?php if ( $laterpay['post_revenue_model'] == 'ppu' ) { echo 'checked'; } ?>>PPU
             </label>
+            <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt-
+                    <?php if ( $laterpay['post_revenue_model'] === 'ppul' ) { echo 'lp_is-selected'; } ?>
+                    <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
+                        <?php if ( $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo 'lp_is-disabled'; } ?>
+                    <?php else : ?>
+                        <?php if ( $laterpay['post_revenue_model'] === 'sis' || $laterpay['price'] > LaterPay_Helper_Pricing::ppusis_max ) { echo 'lp_is-disabled'; } ?>
+                    <?php endif; ?>"
+                   data-tooltip="<?php echo esc_attr( __( 'Pay-per-Use (L): users pay purchased content later (need to login)', 'laterpay' ) ); ?>">
+                <input type="radio"
+                       name="post_revenue_model"
+                       value="ppul"
+                    <?php if ( $laterpay['post_revenue_model'] == 'ppul' ) { echo 'checked'; } ?>>PPUL
+            </label>
             <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>
                     <?php if ( in_array( $laterpay['post_price_type'], array( LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_PRICE, LaterPay_Helper_Pricing::TYPE_INDIVIDUAL_DYNAMIC_PRICE ) ) ) : ?>
