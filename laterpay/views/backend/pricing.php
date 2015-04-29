@@ -512,18 +512,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                                         <?php echo laterpay_sanitize_output( __( 'is sold as', 'laterpay' ) ); ?>
                                         <div class="lp_js_revenueModel lp_button-group">
                                             <label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                            <?php if ( $category_revenue_model === 'ppu' || ( ! $category_revenue_model && $category_price <= 5 ) ) { echo 'lp_is-selected'; } ?>
-                                                            <?php if ( $category_price > 5 ) { echo 'lp_is-disabled'; } ?>">
+                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppu' ) { echo 'lp_is-selected'; } ?>
+                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'price' ) > 5 ) { echo 'lp_is-disabled'; } ?>">
                                                 <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="ppu"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppu' ) { echo ' checked'; } ?>>PPU
                                             </label><!--
                                                  --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                            <?php if ( $category_revenue_model === 'ppul' ) { echo 'lp_is-selected'; } ?>
-                                                            <?php if ( $category_price > 5 ) { echo 'lp_is-disabled'; } ?>">
+                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppul' ) { echo 'lp_is-selected'; } ?>
+                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'price' ) > 5 ) { echo 'lp_is-disabled'; } ?>">
                                                 <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="ppul"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'ppul' ) { echo ' checked'; } ?>>PPUL
                                             </label><!--
                                                  --><label class="lp_js_revenueModelLabel lp_button-group__button lp_1/3
-                                                            <?php if ( $category_revenue_model === 'sis' || ( ! $category_revenue_model && $category_price > 5 ) ) { echo 'lp_is-selected'; } ?>
-                                                            <?php if ( $category_price < 1.49 ) { echo 'lp_is-disabled'; } ?>">
+                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo 'lp_is-selected'; } ?>
+                                                            <?php if ( LaterPay_Helper_TimePass::get_default_options( 'price' ) < 1.49 ) { echo 'lp_is-disabled'; } ?>">
                                                 <input type="radio" name="revenue_model" class="lp_js_timePassRevenueModelInput" value="sis"<?php if ( LaterPay_Helper_TimePass::get_default_options( 'revenue_model' ) === 'sis' ) { echo ' checked'; } ?>>SIS
                                             </label>
                                         </div>

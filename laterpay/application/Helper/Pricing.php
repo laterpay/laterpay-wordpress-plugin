@@ -513,7 +513,7 @@ class LaterPay_Helper_Pricing
     public static function ensure_valid_revenue_model( $revenue_model, $price ) {
         if ( $revenue_model === 'ppu' || $revenue_model === 'ppul' ) {
             if ( $price == 0.00 || ( $price >= self::ppu_min && $price <= self::ppusis_max ) ) {
-                return 'ppu';
+                return $revenue_model;
             } else {
                 return 'sis';
             }
