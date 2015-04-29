@@ -314,7 +314,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 'date'          => $get_date,
                 'ip'            => $get_ip,
                 'hash'          => $get_hash,
-                'revenue_model' => $get_revenue_model,
+                'revenue_model' => ( $get_revenue_model === 'ppul' ) ? 'ppu' : $get_revenue_model,
                 'pass_id'       => $pass_id,
                 'code'          => $get_voucher,
             );
@@ -397,7 +397,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
                 'date'          => $get_date,
                 'ip'            => $get_ip,
                 'hash'          => $get_hash,
-                'revenue_model' => $get_revenue_model,
+                'revenue_model' => ( $get_revenue_model === 'ppul' ) ? 'ppu' : $get_revenue_model,
             );
 
             $this->logger->info(

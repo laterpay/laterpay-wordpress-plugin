@@ -201,17 +201,18 @@ class LaterPay_Helper_Post
 
         // parameters for LaterPay purchase form
         $params = array(
-            'article_id' => $post_id,
-            'pricing'    => $currency . ( $price * 100 ),
-            'url'        => $url . '&hash=' . $hash,
-            'title'      => $post->post_title,
+            'article_id'    => $post_id,
+            'pricing'       => $currency . ( $price * 100 ),
+            'url'           => $url . '&hash=' . $hash,
+            'title'         => $post->post_title,
+            'require_login' => ( $revenue_model === 'ppul' ) ? 1 : 0,
         );
 
         laterpay_get_logger()->info(
             __METHOD__, $params
         );
 
-        if ( $revenue_model === 'sis' || $revenue_model === 'ppul' ) {
+        if ( $revenue_model === 'sis' ) {
             // Single Sale purchase
             return $client->get_buy_url( $params );
         } else {
