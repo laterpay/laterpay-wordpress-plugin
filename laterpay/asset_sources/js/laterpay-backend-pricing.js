@@ -764,7 +764,7 @@
                 var passId        = $timePass.data('pass-id'),
                     passData      = lpVars.time_passes_list[passId],
                     vouchers      = lpVars.vouchers_list[passId],
-                    $revenueInput = $($o.timePassRevenueModel, $timePass),
+                    $revenueInput = $($o.revenueModel, $timePass),
                     name          = '';
 
                 if (!passData) {
@@ -787,7 +787,9 @@
 
                 // highlight current revenue model
                 $('label', $revenueInput).removeClass($o.selected);
-                $($o.timePassRevenueModel + ':checked', $revenueInput).parent('label').addClass($o.selected);
+                var $revenue = $($o.timePassRevenueModel + '[value=' + passData['revenue_model'] + ']', $timePass);
+                $revenue.prop('checked', 'checked');
+                $revenue.parent('label').addClass($o.selected);
 
                 $($o.timePassCategoryWrapper, $timePass).hide();
                 // render category select
