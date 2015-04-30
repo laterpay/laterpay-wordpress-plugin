@@ -225,9 +225,9 @@ class LaterPay_Helper_TimePass
         if ( $elements && is_array( $elements ) ) {
             foreach ( $elements as $id => $name ) {
                 if ( $id == $default_value ) {
-                    $options_html .= '<option selected="selected" value="' . $id . '">' . $name. '</option>';
+                    $options_html .= '<option selected="selected" value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
                 } else {
-                    $options_html .= '<option value="' . $id . '">' . $name . '</option>';
+                    $options_html .= '<option value="' . esc_attr( $id ) . '">' . laterpay_sanitize_output( $name ) . '</option>';
                 }
             }
         }
