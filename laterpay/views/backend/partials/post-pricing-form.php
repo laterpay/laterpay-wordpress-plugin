@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <input type="radio"
                        name="post_revenue_model"
                        value="ppul"
-                    <?php if ( $laterpay['post_revenue_model'] == 'ppul' ) { echo 'checked'; } ?>>PPUL
+                    <?php if ( $laterpay['post_revenue_model'] == 'ppul' ) { echo 'checked'; } ?>>PPU(L)
             </label>
             <label class="lp_badge lp_badge--revenue-model lp_tooltip lp_mt
                     <?php if ( $laterpay['post_revenue_model'] == 'sis' ) { echo 'lp_is-selected'; } ?>

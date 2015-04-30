@@ -117,6 +117,7 @@
                 editing                                 : 'lp_is-editing',
                 unsaved                                 : 'lp_is-unsaved',
                 payPerUse                               : 'ppu',
+                payPerUseWithLogin                      : 'ppul',
                 singleSale                              : 'sis',
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
@@ -441,6 +442,9 @@
                 } else {
                     // disable Pay-per-Use
                     $payPerUse.prop('disabled', 'disabled')
+                        .parent('label').addClass($o.disabled);
+                    // PPU with login
+                    $payPerUseWithLogin.prop('disabled', 'disabled')
                         .parent('label').addClass($o.disabled);
                 }
 
