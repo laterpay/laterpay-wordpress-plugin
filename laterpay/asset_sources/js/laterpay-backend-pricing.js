@@ -787,7 +787,7 @@
 
                 // highlight current revenue model
                 $('label', $revenueInput).removeClass($o.selected);
-                var $revenue = $($o.timePassRevenueModel + '[value=' + passData['revenue_model'] + ']', $timePass);
+                var $revenue = $($o.timePassRevenueModel + '[value=' + passData.revenue_model + ']', $timePass);
                 $revenue.prop('checked', 'checked');
                 $revenue.parent('label').addClass($o.selected);
 
