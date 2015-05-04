@@ -498,7 +498,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( ! isset( $post_id ) ) {
             $post = get_post();
         } else {
-            $post = get_post( $has_access );
+            $post = get_post( $post_id );
         }
 
         if ( $post === null ) {
