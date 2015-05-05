@@ -215,6 +215,21 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
     }
 
     /**
+     * Callback for WP cron to delete old post views from table.
+     *
+     * @wp-hook laterpay_delete_old_post_views
+     *
+     * @param string $modifier
+     *
+     * @return void
+     */
+    public function delete_old_post_views( $modifier = '3 month' ) {
+        // delete old post views
+        $post_views_model = new LaterPay_Model_Post_View();
+        $post_views_model->delete_old_data( $modifier );
+    }
+
+    /**
      * Internal function to load the conversion data as diagram.
      *
      * @param array $options
