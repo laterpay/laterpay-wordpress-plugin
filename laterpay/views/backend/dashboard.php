@@ -1,8 +1,8 @@
 <?php
-    if ( ! defined( 'ABSPATH' ) ) {
-        // prevent direct access to this file
-        exit;
-    }
+if ( ! defined( 'ABSPATH' ) ) {
+    // prevent direct access to this file
+    exit;
+}
 ?>
 
 <div class="lp_page wp-core-ui">
@@ -33,7 +33,7 @@
                     laterpay_sanitized( $this->get_text_view( 'backend/partials/dropdown-sales' ) ),
                     laterpay_sanitized( $this->get_text_view( 'backend/partials/navigation-interval' ) )
                 );
-               ?>
+                ?>
             </h1>
 
             <div class="lp_layout">
