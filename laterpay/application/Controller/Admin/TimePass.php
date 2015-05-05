@@ -7,13 +7,13 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Admin_Base
 {
 
     private $ajax_nonce = 'laterpay_time_passes';
 
     /**
-     * @see LaterPay_Controller_Abstract::load_assets
+     * @see LaterPay_Core_View::load_assets
      */
     public function load_assets() {
         parent::load_assets();
@@ -49,10 +49,12 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
         $localization = array(
             'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
             'nonces'    => array( 'time_passes' => wp_create_nonce( $this->ajax_nonce ) ),
-            'submenu'   => array( 'view' => array(
+            'submenu'   => array(
+                'view' => array(
                 'standard' => 'standard-kpis',
                 'passes'   => 'time-passes',
-            ) ),
+                )
+            ),
             'locale'    => get_locale(),
             'i18n'      => $i18n,
             'maxYValue' => $max_y_value,
@@ -68,7 +70,7 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
     }
 
     /**
-     * @see LaterPay_Controller_Abstract::render_page
+     * @see LaterPay_Core_View::render_page
      */
     public function render_page() {
         $this->load_assets();
@@ -83,7 +85,7 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
 
         $this->assign( 'laterpay', $view_args );
 
-        $this->render( 'backend/time_passes' );
+        $this->render( 'backend/time-passes' );
     }
 
     /**
@@ -119,17 +121,17 @@ class LaterPay_Controller_Admin_TimePass extends LaterPay_Controller_Abstract
     private function validate_ajax_nonce() {
         if ( ! isset( $_POST['_wpnonce'] ) || empty( $_POST['_wpnonce'] ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 1,
                 'success'   => false,
             );
             wp_send_json( $error );
         }
 
-        $nonce = $_POST['_wpnonce'];
+        $nonce = sanitize_text_field( $_POST['_wpnonce'] );
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 2,
                 'success'   => false,
             );

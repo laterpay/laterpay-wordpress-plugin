@@ -45,7 +45,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
      */
     public function format_batch( array $records ) {
         foreach ( $records as $key => $record ) {
-            $records[$key] = $this->format( $record );
+            $records[ $key ] = $this->format( $record );
         }
 
         return $records;
@@ -72,7 +72,7 @@ class LaterPay_Core_Logger_Formatter_Normalizer implements LaterPay_Core_Logger_
                     $normalized['...'] = 'Over 1000 items, aborting normalization';
                     break;
                 }
-                $normalized[$key] = $this->normalize( $value );
+                $normalized[ $key ] = $this->normalize( $value );
             }
 
             return $normalized;

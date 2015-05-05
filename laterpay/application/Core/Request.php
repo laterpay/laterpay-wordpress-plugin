@@ -76,12 +76,12 @@ class LaterPay_Core_Request extends LaterPay_Core_Entity
      * @return mixed
      */
     public function get_param( $key, $default = null ) {
-        if ( isset( $this->_data[$key] ) ) {
-            return $this->_data[$key];
-        } elseif ( isset( $this->_data['get'] ) && isset( $this->_data['get'][$key] ) ) {
-            return $this->_data['get'][$key];
-        } elseif ( isset( $this->_data['post'] ) &&  isset( $this->_data['post'][$key] ) ) {
-            return $this->_data['get'][$key];
+        if ( isset( $this->_data[ $key ] ) ) {
+            return $this->_data[ $key ];
+        } elseif ( isset( $this->_data['get'] ) && isset( $this->_data['get'][ $key ] ) ) {
+            return $this->_data['get'][ $key ];
+        } elseif ( isset( $this->_data['post'] ) &&  isset( $this->_data['post'][ $key ] ) ) {
+            return $this->_data['get'][ $key ];
         }
 
         return $default;

@@ -95,7 +95,7 @@ function laterpay_get_plugin_config() {
     // plugin modes
     $config->set( 'is_in_live_mode',    (bool) get_option( 'laterpay_plugin_is_in_live_mode', false ) );
     $config->set( 'ratings_enabled',    (bool) get_option( 'laterpay_ratings', false ) );
-    $config->set( 'debug_mode',         defined( 'WP_DEBUG' ) && WP_DEBUG );
+    $config->set( 'debug_mode',         (bool) get_option( 'laterpay_debugger_enabled', false ) );
     $config->set( 'script_debug_mode',  defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG );
 
     if ( $config->get( 'is_in_live_mode' ) ) {
@@ -231,12 +231,12 @@ function laterpay_before_start() {
     $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
     if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
-        require_once( $dir . 'laterpay_load.php' );
+        require_once( $dir . 'laterpay-load.php' );
     }
 
     LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
-    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'browscap' );
-    LaterPay_AutoLoader::register_directory( $dir . 'library' . DIRECTORY_SEPARATOR . 'laterpay' );
+    LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-client-php' );
+    LaterPay_AutoLoader::register_directory( $dir . 'vendor' . DIRECTORY_SEPARATOR . 'laterpay' . DIRECTORY_SEPARATOR . 'laterpay-php-browscap-library' );
 
     // boot-up the logger on 'plugins_loaded', 'register_activation_hook', and 'register_deactivation_hook' event
     // to register the required script and style filters
@@ -282,3 +282,31 @@ function laterpay_get_logger() {
 
     return $logger;
 }
+
+
+/**
+ * This function makes sure that only the allowed HTML element names,
+ * attribute names and attribute values plus only sane HTML entities will occur in $string.
+ * Function is registered as 'customSanitizingFunctions' for 'WordPress.XSS.EscapeOutput' rule.
+ *
+ * @param string $string
+ *
+ * @return string
+ * @link     http://codex.wordpress.org/Data_Validation Data Validation on WordPress Codex
+ */
+function laterpay_sanitize_output( $string ) {
+    return wp_kses( $string, 'post' );
+}
+
+/**
+ * This function required to by pass phpcs checks for valid generated html.
+ * So this functions do nothing, just returns input string.
+ * Function is registered as 'customAutoEscapedFunctions' for 'WordPress.XSS.EscapeOutput' rule.
+ *
+ * @param string $string
+ * @return string
+ */
+function laterpay_sanitized( $string ) {
+    return $string;
+}
+

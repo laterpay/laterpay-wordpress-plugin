@@ -55,11 +55,9 @@ class LaterPay_Helper_Statistic
                 $ip = pack( 'N', ip2long( $ip ) );
             } else {
                 $ip = explode( ':', $ip );
-                $ip = pack( 'N', ip2long( $ip[count( $ip ) - 1] ) );
+                $ip = pack( 'N', ip2long( $ip[ count( $ip ) - 1 ] ) );
             }
-        }
-        // IPv6
-        elseif ( strpos( $ip, ':' ) !== false ) {
+        } elseif ( strpos( $ip, ':' ) !== false ) { // IPv6
             $ip         = explode( ':', $ip );
             $parts      = 8 - count( $ip );
             $res        = '';
@@ -91,15 +89,15 @@ class LaterPay_Helper_Statistic
         $long_ip = array( 0, 0 );
 
         if ( isset( $_SERVER['REMOTE_ADDR'] ) && filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP ) !== false ) {
-            $long_ip[0] = self::inet_pton( $_SERVER['REMOTE_ADDR'] );
+            $long_ip[0] = self::inet_pton( sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) );
         }
 
         if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) && filter_var( $_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP ) !== false ) {
-            $long_ip[1] = self::inet_pton( $_SERVER['HTTP_CLIENT_IP'] );
+            $long_ip[1] = self::inet_pton( sanitize_text_field( $_SERVER['HTTP_CLIENT_IP'] ) );
         }
 
         if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-            foreach ( explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) as $a_ip ) {
+            foreach ( explode( ',', sanitize_text_field( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) as $a_ip ) {
                 if ( filter_var( $a_ip, FILTER_VALIDATE_IP ) !== false ) {
                     $long_ip[1] = self::inet_pton( $a_ip );
                     return $long_ip;
@@ -108,11 +106,11 @@ class LaterPay_Helper_Statistic
         }
 
         if ( isset( $_SERVER['HTTP_FORWARDED'] ) && filter_var( $_SERVER['HTTP_FORWARDED'], FILTER_VALIDATE_IP ) !== false ) {
-            $long_ip[1] = self::inet_pton( $_SERVER['HTTP_FORWARDED'] );
+            $long_ip[1] = self::inet_pton( sanitize_text_field( $_SERVER['HTTP_FORWARDED'] ) );
         }
 
         if ( isset( $_SERVER['HTTP_X_FORWARDED'] ) && filter_var( $_SERVER['HTTP_X_FORWARDED'], FILTER_VALIDATE_IP ) !== false ) {
-            $long_ip[1] = self::inet_pton( $_SERVER['HTTP_X_FORWARDED'] );
+            $long_ip[1] = self::inet_pton( sanitize_text_field( $_SERVER['HTTP_X_FORWARDED'] ) );
         }
 
         return $long_ip;
@@ -131,15 +129,15 @@ class LaterPay_Helper_Statistic
         }
 
         // ignore Firefox / Safari prefetching requests (X-Moz: Prefetch and X-purpose: Preview)
-        if ( (isset( $_SERVER['HTTP_X_MOZ'] ) && strtolower( $_SERVER['HTTP_X_MOZ'] ) == 'prefetch' ) ||
-            (isset( $_SERVER['HTTP_X_PURPOSE'] ) && strtolower( $_SERVER['HTTP_X_PURPOSE'] ) == 'preview' ) ) {
+        if ( (isset( $_SERVER['HTTP_X_MOZ'] ) && strtolower( sanitize_text_field( $_SERVER['HTTP_X_MOZ'] ) ) == 'prefetch' ) ||
+            (isset( $_SERVER['HTTP_X_PURPOSE'] ) && strtolower( sanitize_text_field( $_SERVER['HTTP_X_PURPOSE'] ) ) == 'preview' ) ) {
             return;
         }
         if ( LaterPay_Helper_Browser::is_crawler() ) {
             return;
         }
         if ( isset( $_COOKIE['laterpay_tracking_code'] ) ) {
-            list( $uniqueId, $control_code ) = explode( '.', $_COOKIE['laterpay_tracking_code'] );
+            list( $uniqueId, $control_code ) = explode( '.', sanitize_text_field( $_COOKIE['laterpay_tracking_code'] ) );
 
             // make sure only authorized information is recorded
             if ( $control_code != md5( $uniqueId . self::$options['secret'] ) ) {
@@ -155,13 +153,18 @@ class LaterPay_Helper_Statistic
             );
         }
 
-        $model = new LaterPay_Model_Post_View();
+        // no access by default
+        $has_access = 0;
+
+        $model      = new LaterPay_Model_Post_View();
+        $has_access = apply_filters( 'laterpay_check_user_access', $has_access, $post_id );
 
         $data = array(
-            'post_id'   => $post_id,
-            'user_id'   => $uniqueId,
-            'date'      => time(),
-            'ip'        => 0,
+            'post_id' => $post_id,
+            'user_id' => $uniqueId,
+            'date'    => time(),
+            'ip'      => 0,
+            'access'  => $has_access,
         );
         list( $data['ip'], $longOtherIp ) = self::get_ip_2_long_remote_ip();
 
@@ -214,7 +217,7 @@ class LaterPay_Helper_Statistic
      */
     public static function get_user_unique_id( ) {
         if ( isset( $_COOKIE['laterpay_tracking_code'] ) ) {
-            list( $uniqueId, $control_code ) = explode( '.', $_COOKIE['laterpay_tracking_code'] );
+            list( $uniqueId, $control_code ) = explode( '.', sanitize_text_field( $_COOKIE['laterpay_tracking_code'] ) );
 
             // make sure only authorized information is recorded
             if ( $control_code != md5( $uniqueId . self::$options['secret'] ) ) {

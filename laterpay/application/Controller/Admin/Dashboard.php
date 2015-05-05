@@ -7,7 +7,7 @@
  * Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
  * Author URI: https://laterpay.net/
  */
-class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
+class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
 {
 
     /**
@@ -32,7 +32,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     private $ajax_nonce = 'laterpay_dashboard';
 
     /**
-     * @see LaterPay_Controller_Abstract::load_assets
+     * @see LaterPay_Core_View::load_assets
      */
     public function load_assets() {
         parent::load_assets();
@@ -100,7 +100,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     }
 
     /**
-     * @see LaterPay_Controller_Abstract::render_page
+     * @see LaterPay_Core_View::render_page
      */
     public function render_page() {
         $this->load_assets();
@@ -251,7 +251,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $diagram_data = array();
         foreach ( $converting_items as $date => $converting_item ) {
-            $selling_item   = $selling_items[$date];
+            $selling_item   = $selling_items[ $date ];
             $data           = $converting_item;
             if ( $converting_item->quantity == 0 ) {
                 $data->quantity = 0;
@@ -259,14 +259,14 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
                 // purchases on {date|hour} / views on {date|hour} * 100
                 $data->quantity = $selling_item->quantity / $converting_item->quantity * 100;
             }
-            $diagram_data[$date] = $data;
+            $diagram_data[ $date ] = $data;
         }
 
         $converted_diagram_data = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
-                                    $diagram_data,
-                                    $options['start_timestamp'],
-                                    $options['interval']
-                                );
+            $diagram_data,
+            $options['start_timestamp'],
+            $options['interval']
+        );
 
         $context = array(
             'options'                   => $options,
@@ -278,7 +278,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $this->logger->info(
             __METHOD__,
-           $context
+            $context
         );
 
         return $converted_diagram_data;
@@ -300,10 +300,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $selling_items  = $history_model->get_history( $options['query_args'] );
         $data           = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
-                            $selling_items,
-                            $options['start_timestamp'],
-                            $options['interval']
-                        );
+            $selling_items,
+            $options['start_timestamp'],
+            $options['interval']
+        );
 
         $this->logger->info(
             __METHOD__,
@@ -332,10 +332,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         $revenue_item   = $history_model->get_revenue_history( $options['query_args'] );
         $data           = LaterPay_Helper_Dashboard::convert_history_result_to_diagram_data(
-                            $revenue_item,
-                            $options['start_timestamp'],
-                            $options['interval']
-                        );
+            $revenue_item,
+            $options['start_timestamp'],
+            $options['interval']
+        );
 
         $this->logger->info(
             __METHOD__,
@@ -356,10 +356,59 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
      * @return array $data
      */
     private function most_least_converting_items( $options ) {
+        $post_args = array(
+            'where' => $options['query_where'],
+        );
+
+        $history_args = $post_args;
+        if ( $options['revenue_model'] !== 'all' ) {
+            $history_args['where']['revenue_model'] = $options['revenue_model'];
+        }
+
+        $post_args['where']['has_access'] = 0;
+
         $post_views_model = new LaterPay_Model_Post_View();
-        $most   = $post_views_model->get_most_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
-        $least  = $post_views_model->get_least_viewed_posts( $options['most_least_query'], $options['start_timestamp'], $options['interval'] );
-        $data   = array(
+        $history_model    = new LaterPay_Model_Payment_History();
+
+        $post_views       = $post_views_model->get_posts_views_data( $post_args );
+        $result           = array();
+        $item_conversions = array();
+
+        $most  = array();
+        $least = array();
+
+        if ( count( $post_views ) ) {
+            foreach ( $post_views as $post_data ) {
+                $history_args['where']['post_id'] = $post_data->post_id;
+                $purchases = $history_model->get_total_items_sold( $history_args );
+                $sparkline = $post_views_model->get_sparkline( $post_data->post_id, $options['start_timestamp'], $options['interval'], 0 );
+
+                if ( ! $purchases ) {
+                    $purchases = new stdClass();
+                    $purchases->quantity = 0;
+                }
+
+                $post_data->amount    = ( $purchases->quantity / $post_data->quantity ) * 100;
+                $post_data->sparkline = implode( ',', $sparkline );
+
+                $result[ $post_data->post_id ] = $post_data;
+                $item_conversions[ $post_data->post_id ] = $post_data->amount;
+            }
+
+            arsort( $item_conversions );
+            $most_temp = array_slice( $item_conversions, 0, 10, true );
+            foreach ( $most_temp as $key => $value ) {
+                $most[] = $result[ $key ];
+            }
+
+            asort( $item_conversions );
+            $least_temp = array_slice( $item_conversions, 0, 10, true );
+            foreach ( $least_temp as $key => $value ) {
+                $least[] = $result[ $key ];
+            }
+        }
+
+        $data = array(
             'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 1 ),
             'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 1 ),
             'unit'  => '%',
@@ -477,6 +526,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             $history_args['where']['revenue_model'] = $options['revenue_model'];
         }
 
+        $post_args['where']['has_access'] = 0;
+
         $history_model      = new LaterPay_Model_Payment_History();
         $post_views_model   = new LaterPay_Model_Post_View();
 
@@ -565,7 +616,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
         $where = array(
             'date' => array(
                 array(
-                    'before'=> LaterPay_Helper_Date::get_date_query_before_end_of_day( $options['start_timestamp'] ),
+                    'before' => LaterPay_Helper_Date::get_date_query_before_end_of_day( $options['start_timestamp'] ),
                     'after' => LaterPay_Helper_Date::get_date_query_after_start_of_day( $end_timestamp ),
                 ),
             ),
@@ -574,8 +625,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         // add the query options to the options array
         $options['query_args'] = array(
-            'order_by'  => LaterPay_Helper_Dashboard::get_order_by( $options['interval']  ),
-            'group_by'  => LaterPay_Helper_Dashboard::get_group_by( $options['interval']  ),
+            'order_by'  => LaterPay_Helper_Dashboard::get_order_by( $options['interval'] ),
+            'group_by'  => LaterPay_Helper_Dashboard::get_group_by( $options['interval'] ),
             'where'     => $where,
         );
 
@@ -666,9 +717,10 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
             wp_send_json_error( $error );
         }
 
-        if ( ! in_array( $_POST['section'], $this->ajax_sections ) ) {
+        $section = sanitize_text_field( $_POST['section'] );
+        if ( ! in_array( $section, $this->ajax_sections ) ) {
             $error = array(
-                'message'   => sprintf( __( 'Section is not allowed <code>%s</code>', 'laterpay' ), $_POST['section'] ),
+                'message'   => sprintf( __( 'Section is not allowed <code>%s</code>', 'laterpay' ), $section ),
                 'step'      => 4,
             );
             wp_send_json_error( $error );
@@ -676,7 +728,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
 
         if ( ! method_exists( $this, $_POST['section'] ) ) {
             $error = array(
-                'message'   => sprintf( __( 'Invalid section <code>%s</code>', 'laterpay' ), $_POST['section'] ),
+                'message'   => sprintf( __( 'Invalid section <code>%s</code>', 'laterpay' ), $section ),
                 'step'      => 4,
             );
             wp_send_json_error( $error );
@@ -691,16 +743,16 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Abstract
     private function validate_ajax_nonce() {
         if ( ! isset( $_POST['_wpnonce'] ) || empty( $_POST['_wpnonce'] ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 1,
             );
             wp_send_json_error( $error );
         }
 
-        $nonce = $_POST['_wpnonce'];
+        $nonce = sanitize_text_field( $_POST['_wpnonce'] );
         if ( ! wp_verify_nonce( $nonce, $this->ajax_nonce ) ) {
             $error = array(
-                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay'),
+                'message'   => __( 'You don\'t have sufficient user capabilities to do this.', 'laterpay' ),
                 'step'      => 2,
             );
             wp_send_json_error( $error );

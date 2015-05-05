@@ -87,6 +87,7 @@ delete_option( 'laterpay_gift_codes' );
 delete_option( 'laterpay_voucher_statistic' );
 delete_option( 'laterpay_gift_statistic' );
 delete_option( 'laterpay_gift_codes_usages' );
+delete_option( 'laterpay_debugger_enabled' );
 
 delete_option( 'laterpay_purchase_button_positioned_manually' );
 delete_option( 'laterpay_time_passes_positioned_manually' );
@@ -102,7 +103,7 @@ delete_option( 'laterpay_maximum_redemptions_per_gift_code' );
 $dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 
 if ( ! class_exists( 'LaterPay_Autoloader' ) ) {
-    require_once( $dir . 'laterpay_load.php' );
+    require_once( $dir . 'laterpay-load.php' );
 }
 
 LaterPay_AutoLoader::register_namespace( $dir . 'application', 'LaterPay' );
