@@ -299,4 +299,24 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
 
         return LaterPay_Helper_Dashboard::build_sparkline( $results, $start_timestamp, $interval );
     }
+
+    /**
+     * Delete old data from table.
+     *
+     * @param string $modifier
+     *
+     * @return bool  $success
+     */
+    public function delete_old_data( $modifier ) {
+        global $wpdb;
+
+        $sql = "
+            DELETE FROM
+                {$this->table}
+            WHERE
+                date < DATE_SUB( CURDATE(), INTERVAL {$modifier} );";
+
+        $success = $wpdb->get_results( $sql );
+        return (bool) $success;
+    }
 }

@@ -662,8 +662,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 ip                VARBINARY(16)        NOT NULL,
                 has_access        INT(1)               NOT NULL DEFAULT 0,
                 PRIMARY KEY  (id),
-                INDEX idx_post_views_date_mode (date, mode),
-                INDEX idx_post_views_post_id_date_mode (post_id, date, mode)
+                KEY idx_post_views_date_mode (date,mode),
+                KEY idx_post_views_post_id_date_mode (post_id,date,mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
@@ -679,9 +679,9 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 title             VARCHAR(255)  NULL DEFAULT NULL,
                 description       VARCHAR(255)  NULL DEFAULT NULL,
                 PRIMARY KEY  (pass_id),
-                INDEX access_to (access_to),
-                INDEX period (period),
-                INDEX duration (duration)
+                KEY access_to (access_to),
+                KEY period (period),
+                KEY duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
