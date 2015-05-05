@@ -246,7 +246,7 @@ class LaterPay_Core_Bootstrap
         add_action( 'laterpay_refresh_dashboard_data',  array( $dashboard_controller, 'refresh_dashboard_data' ), 10, 3 );
 
         // add action to delete old post views from table
-        add_action( 'laterpay_delete_old_post_views',   array( $dashboard_controller, 'delete_old_post_views' ) );
+        add_action( 'laterpay_delete_old_post_views',   array( $dashboard_controller, 'delete_old_post_views' ), 10, 1 );
 
         $post_controller = $this->get_controller( 'Frontend_Post' );
         // add custom action to echo the LaterPay purchase button
@@ -426,7 +426,8 @@ class LaterPay_Core_Bootstrap
 
         // register the 'refresh dashboard' cron job
         wp_schedule_event( time(), 'hourly', 'laterpay_refresh_dashboard_data' );
-        wp_schedule_event( time(), 'daily', 'laterpay_delete_old_post_views' );
+        // register the 'delete old post views' cron job
+        wp_schedule_event( time(), 'daily', 'laterpay_delete_old_post_views', array( '3 month' ) );
     }
 
     /**
@@ -439,6 +440,7 @@ class LaterPay_Core_Bootstrap
     public function deactivate() {
         // de-register the 'refresh dashboard' cron job
         wp_clear_scheduled_hook( 'laterpay_refresh_dashboard_data' );
-        wp_clear_scheduled_hook( 'laterpay_delete_old_post_views' );
+        // de-register the 'delete old post views' cron job
+        wp_clear_scheduled_hook( 'laterpay_delete_old_post_views', array( '3 month' ) );
     }
 }

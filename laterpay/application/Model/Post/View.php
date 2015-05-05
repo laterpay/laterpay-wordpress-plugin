@@ -303,16 +303,18 @@ class LaterPay_Model_Post_View extends LaterPay_Helper_Query
     /**
      * Delete old data from table.
      *
+     * @param string $modifier
+     *
      * @return bool  $success
      */
-    public function delete_old_data() {
+    public function delete_old_data( $modifier ) {
         global $wpdb;
 
         $sql = "
             DELETE FROM
                 {$this->table}
             WHERE
-                date < DATE_SUB( CURDATE(), INTERVAL 3 MONTH );";
+                date < DATE_SUB( CURDATE(), INTERVAL {$modifier} );";
 
         $success = $wpdb->get_results( $sql );
         return (bool) $success;
