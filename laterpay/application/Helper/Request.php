@@ -79,4 +79,45 @@ class LaterPay_Helper_Request {
         return $pageURL;
     }
 
+    /**
+     * Check if the API is available
+     * @return bool
+     */
+    public static function check_laterpay_api_availability() {
+        $client_options = LaterPay_Helper_Config::get_php_client_options();
+        $action         = (int) get_option( 'laterpay_api_fallback_behaviour', 0 );
+        $behavior       = LaterPay_Controller_Admin_Settings::get_laterpay_api_options();
+        $client         = new LaterPay_Client(
+            $client_options['cp_key'],
+            $client_options['api_key'],
+            $client_options['api_root'],
+            $client_options['web_root'],
+            $client_options['token_name']
+        );
+
+        $api_available = $client->check_health( $client_options['api_root'] );
+        laterpay_get_logger()->info(
+            __METHOD__, array( 'api_available' => $api_available, 'laterpay_api_fallback_behaviour' => $behavior[ $action ] )
+        );
+
+        if ( ! $api_available ) {
+            switch ( $action ) {
+                case 0:
+                    // Do Something
+                    break;
+                case 1:
+                    // Do Something
+                    break;
+                case 2:
+                    // Do Something
+                    break;
+                default:
+                    // Do Something
+            }
+        } else {
+            // Do Something
+        }
+
+        return $api_available;
+    }
 }

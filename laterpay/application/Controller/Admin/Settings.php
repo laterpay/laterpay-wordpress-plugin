@@ -50,7 +50,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 'i18nUpdateFailed'                              => __( 'Browscap cache update has failed', 'laterpay' ),
                 'i18nUpToDate'                                  => __( 'Your database is up to date :-)', 'laterpay' ),
                 'confirmTechnicalRequirementsForBrowscapUpdate' => __( 'Your server must have > 100 MB of RAM and the /cache folder within the LaterPay plugin must be writable for an update. Start database update?', 'laterpay' ),
-                'laterPayApiOptions'                            => $this->get_laterpay_api_options(),
+                'laterPayApiOptions'                            => self::get_laterpay_api_options(),
             )
         );
 
@@ -1003,7 +1003,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
         );
 
         $value      = absint( get_option( 'laterpay_api_fallback_behaviour' ) );
-        $options    = $this->get_laterpay_api_options();
+        $options    = self::get_laterpay_api_options();
         add_settings_field(
             'laterpay_api_fallback_behaviour',
             __( 'Fallback Behaviour', 'laterpay' ),
@@ -1038,7 +1038,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      *
      * @return string description
      */
-    protected function get_laterpay_api_options() {
+    public static function get_laterpay_api_options() {
         return array(
             array( 'value' => '0', 'text' => __( 'Do nothing', 'laterpay' ), 'description' => __( 'Please make sure that premium content is not accessible for free', 'laterpay' ) ),
             array( 'value' => '1', 'text' => __( 'Give full access', 'laterpay' ), 'description' => __( 'Give full access to premium content in order to not disappoint the users', 'laterpay' ) ),

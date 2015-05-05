@@ -449,6 +449,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $browser_supports_cookies   = LaterPay_Helper_Browser::browser_supports_cookies();
         $browser_is_crawler         = LaterPay_Helper_Browser::is_crawler();
 
+        // don't assign tokens to crawlers and other user agents that can't handle cookies
+        if ( ! $browser_supports_cookies || $browser_is_crawler ) {
+            return;
+        }
+
         // don't check or create the 'lptoken' on single pages with non-purchasable posts
         if ( is_single() && ! LaterPay_Helper_Pricing::is_purchasable( ) ) {
             return;
@@ -464,11 +469,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             $context
         );
 
-        // don't assign tokens to crawlers and other user agents that can't handle cookies
-        if ( ! $browser_supports_cookies || $browser_is_crawler ) {
-            return;
-        }
-
         $client_options = LaterPay_Helper_Config::get_php_client_options();
         $laterpay_client = new LaterPay_Client(
             $client_options['cp_key'],
@@ -482,7 +482,9 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
 
         if ( ! $laterpay_client->has_token() ) {
-            $laterpay_client->acquire_token();
+            if ( LaterPay_Helper_Request::check_laterpay_api_availability() ) {
+                $laterpay_client->acquire_token();
+            }
         }
     }
 

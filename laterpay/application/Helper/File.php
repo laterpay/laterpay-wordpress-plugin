@@ -127,7 +127,6 @@ class LaterPay_Helper_File
         $file       = base64_encode( $cipher->encrypt( $uri ) );
         $file       = strtr( $file, '+/', '-_' );
 
-        $request    = new LaterPay_Core_Request();
         $path       = ABSPATH . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
 
@@ -148,14 +147,6 @@ class LaterPay_Helper_File
             $params['file_disposition'] = $set_file_disposition;
         }
         if ( $use_auth ) {
-            $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
             $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
         }
@@ -273,7 +264,9 @@ class LaterPay_Helper_File
 
         if ( ! $client->has_token() ) {
             laterpay_get_logger()->debug( 'RESOURCE:: No token found. Acquiring token' );
-            $client->acquire_token();
+            if ( LaterPay_Helper_Request::check_laterpay_api_availability() ) {
+                $client->acquire_token();
+            }
         }
 
         if ( ! empty( $auth ) ) {
