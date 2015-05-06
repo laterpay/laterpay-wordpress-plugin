@@ -271,7 +271,8 @@ class LaterPay_Helper_TimePass
      */
     public static function get_tokenized_time_pass_ids( $time_passes = null ) {
         if ( ! isset( $time_passes ) ) {
-            $time_passes = self::get_all_time_passes();
+            $model       = new LaterPay_Model_TimePass();
+            $time_passes = $model->get_all_time_passes();
         }
 
         $result = array();
@@ -387,20 +388,8 @@ class LaterPay_Helper_TimePass
      * @return array of time passes
      */
     public static function get_active_time_passes() {
-        return self::get_all_time_passes( true );
-    }
-
-    /**
-     * Get all time passes.
-     *
-     * @param bool $ignore_deleted ignore deleted time passes
-     *
-     * @return array of time passes
-     */
-    public static function get_all_time_passes( $ignore_deleted = false ) {
         $model = new LaterPay_Model_TimePass();
-
-        return $model->get_all_time_passes( $ignore_deleted );
+        return $model->get_active_time_passes();
     }
 
     /**
