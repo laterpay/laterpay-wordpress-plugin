@@ -477,7 +477,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         if ( $data['id'] ) {
             $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] ) );
         } else {
-            $time_passes_list = LaterPay_Helper_TimePass::get_all_time_passes( true );
+            $time_passes_list = LaterPay_Helper_TimePass::get_active_time_passes();
         }
 
         // don't render any gift cards, if there are no time passes
@@ -621,7 +621,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $time_pass_ids  = sanitize_text_field( $_GET['pass_id'] );
 
         foreach ( $time_pass_ids as $time_pass_id ) {
-            $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) ) : LaterPay_Helper_TimePass::get_all_time_passes( true );
+            $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) ) : LaterPay_Helper_TimePass::get_active_time_passes();
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page' );
 

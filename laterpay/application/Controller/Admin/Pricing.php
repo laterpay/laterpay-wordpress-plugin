@@ -54,7 +54,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // pass localized strings and variables to script
         $time_passes_model  = new LaterPay_Model_TimePass();
 
-        $time_passes_list   = $time_passes_model->get_all_time_passes( true );
+        $time_passes_list   = $time_passes_model->get_active_time_passes();
         $vouchers_list      = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
@@ -88,7 +88,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         // time passes and vouchers data
         $time_passes_model              = new LaterPay_Model_TimePass();
-        $time_passes_list               = $time_passes_model->get_all_time_passes( true );
+        $time_passes_list               = $time_passes_model->get_active_time_passes();
         $vouchers_list                  = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic             = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 

@@ -113,6 +113,15 @@ class LaterPay_Model_TimePass
     }
 
     /**
+     * Get all active time passes.
+     *
+     * @return array of time passes
+     */
+    public function get_active_time_passes() {
+        return $this->get_all_time_passes( true );
+    }
+
+    /**
      * Get all time passes.
      *
      * @param bool $ignore_deleted ignore deleted time passes

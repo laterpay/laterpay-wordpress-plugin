@@ -382,6 +382,15 @@ class LaterPay_Helper_TimePass
     }
 
     /**
+     * Get all active time passes.
+     *
+     * @return array of time passes
+     */
+    public static function get_active_time_passes() {
+        return self::get_all_time_passes( true );
+    }
+
+    /**
      * Get all time passes.
      *
      * @param bool $ignore_deleted ignore deleted time passes
@@ -530,7 +539,7 @@ class LaterPay_Helper_TimePass
      */
     public static function get_time_passes_statistic() {
         $history_model      = new LaterPay_Model_Payment_History();
-        $time_passes        = LaterPay_Helper_TimePass::get_all_time_passes( true );
+        $time_passes        = LaterPay_Helper_TimePass::get_active_time_passes();
         $summary_active     = 0;
         $summary_unredeemed = 0;
         $summary_revenue    = 0;
