@@ -782,14 +782,13 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @wp-hook laterpay_time_passes
      *
-     * @param string $variant               variant of the time pass widget (currently only 'small' is supported)
      * @param string $introductory_text     additional text rendered at the top of the widget
      * @param string $call_to_action_text   additional text rendered after the time passes and before the voucher code input
      * @param int    $time_pass_id          id of one time pass to be rendered instead of all time passes
      *
      * @return void
      */
-    public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '', $time_pass_id = null ) {
+    public function the_time_passes_widget( $introductory_text = '', $call_to_action_text = '', $time_pass_id = null ) {
         $is_homepage                     = is_front_page() && is_home();
         $show_widget_on_free_posts       = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
         $time_passes_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
@@ -840,19 +839,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // check, if the time passes to be rendered have vouchers
         $has_vouchers = LaterPay_Helper_Voucher::passes_have_vouchers( $time_passes_list );
 
-        // get the associated CSS class to be applied for the specified variant
-        switch ( $variant ) {
-            case 'small':
-                $class = 'lp_time-pass-widget--small';
-                break;
-
-            default:
-                $class = '';
-        }
-
         $view_args = array(
            'passes_list'                    => $time_passes_list,
-           'time_pass_widget_class'         => $class,
            'has_vouchers'                   => $has_vouchers,
            'time_pass_introductory_text'    => $introductory_text,
            'time_pass_call_to_action_text'  => $call_to_action_text,

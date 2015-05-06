@@ -18,20 +18,12 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
 
         // load page-specific JS
         wp_register_script(
-            'laterpay-ezmark',
-            $this->config->js_url . 'vendor/jquery.ezmark.min.js',
+            'laterpay-backend-appearance',
+            $this->config->js_url . '/laterpay-backend-appearance.js',
             array( 'jquery' ),
             $this->config->version,
             true
         );
-        wp_register_script(
-            'laterpay-backend-appearance',
-            $this->config->js_url . '/laterpay-backend-appearance.js',
-            array( 'jquery', 'laterpay-ezmark' ),
-            $this->config->version,
-            true
-        );
-        wp_enqueue_script( 'laterpay-ezmark' );
         wp_enqueue_script( 'laterpay-backend-appearance' );
     }
 
@@ -41,11 +33,13 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
     public function render_page() {
         $this->load_assets();
 
+        $menu = LaterPay_Helper_View::get_admin_menu();
+
         $view_args = array(
             'plugin_is_in_live_mode'              => $this->config->get( 'is_in_live_mode' ),
             'show_teaser_content_only'            => get_option( 'laterpay_teaser_content_only' ) == 1,
             'top_nav'                             => $this->get_menu(),
-            'admin_menu'                          => LaterPay_Helper_View::get_admin_menu(),
+            'admin_menu'                          => add_query_arg( array( 'page' => $menu['account']['url'] ), admin_url( 'admin.php' ) ),
             'is_rating_enabled'                   => $this->config->get( 'ratings_enabled' ),
             'purchase_button_positioned_manually' => get_option( 'laterpay_purchase_button_positioned_manually' ),
             'time_passes_positioned_manually'     => get_option( 'laterpay_time_passes_positioned_manually' ),

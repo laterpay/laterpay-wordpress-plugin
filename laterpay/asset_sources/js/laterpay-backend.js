@@ -83,3 +83,13 @@ jQuery.fn.clearMessage = function() {
 };
 
 jQuery.noConflict();
+
+
+// TODO: remove with release 1.0
+// show deprecated features
+jQuery('#lp_js_showDeprecatedFeatures')
+.click(function(e) {
+    jQuery('.lp_js_deprecated-feature').removeClass('lp_js_deprecated-feature');
+    jQuery(this).remove();
+    e.preventDefault();
+});
