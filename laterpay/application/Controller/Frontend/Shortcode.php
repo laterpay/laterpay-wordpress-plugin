@@ -475,7 +475,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] ) );
+            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true ) );
         } else {
             $time_passes_list = LaterPay_Helper_TimePass::get_active_time_passes();
         }
@@ -518,7 +518,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
 
         // get a specific time pass, if an ID was provided; otherwise get all time passes
         if ( $data['id'] ) {
-            $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] );
+            $time_pass = LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true );
             if ( ! $time_pass ) {
                 $error_message = $this->get_error_message( __( 'Wrong time pass id.', 'laterpay' ), $atts );
                 return $error_message;
@@ -618,7 +618,10 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         }
 
         $data           = array();
-        $time_pass_ids  = sanitize_text_field( $_GET['pass_id'] );
+        $time_pass_ids  = array();
+        if ( is_array( $_GET['pass_id'] ) ) {
+            $time_pass_ids = array_map( 'sanitize_text_field', $_GET['pass_id'] );
+        }
 
         foreach ( $time_pass_ids as $time_pass_id ) {
             $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) ) : LaterPay_Helper_TimePass::get_active_time_passes();
