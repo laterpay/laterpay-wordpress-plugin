@@ -790,9 +790,6 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
         // get all purchases data before reporting period
         $user_stats_old = $history_model->get_user_stats( $customer_args, true );
 
-
-        //Number of users, who purchased something in the reporting period and who had never (ever) before purchased anything." divided by "Number of users, who purchased in the reporting period
-
         // get the user stats in reportion period
         $customer_args['where']         = $options['query_where'];
         $user_stats_in_reporting_period = $history_model->get_user_stats( $customer_args );
@@ -804,7 +801,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
                 $is_new = true;
                 foreach ( $user_stats_old as $key => $old_stat ) {
                     if ( $old_stat['ip'] === $stat->ip ) {
-                        unset( $user_stats_old[$key] );
+                        unset( $user_stats_old[ $key ] );
                         $is_new = false;
                         break;
                     }
