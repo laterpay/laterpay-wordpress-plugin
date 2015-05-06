@@ -54,7 +54,6 @@
     fill: darken($text, 20%);
     stroke: $background;
     stroke-width: 2px;
-    transition: all 0.5s;
 
     &.lp_is-hidden {
         display: none;
