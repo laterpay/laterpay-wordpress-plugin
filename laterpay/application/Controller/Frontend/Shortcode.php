@@ -480,7 +480,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         if ( $data['id'] ) {
             $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] ) );
         } else {
-            $time_passes_list = LaterPay_Helper_TimePass::get_all_time_passes();
+            $time_passes_list = LaterPay_Helper_TimePass::get_all_time_passes( true );
         }
 
         // don't render any gift cards, if there are no time passes
@@ -582,20 +582,14 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
     public function add_free_codes_to_passes( $time_passes, $link = null ) {
         if ( is_array( $time_passes ) ) {
             foreach ( $time_passes as $id => $time_pass ) {
-                $time_pass = (array) $time_pass;
-
-                // generate voucher code
-                $code = LaterPay_Helper_Voucher::generate_voucher_code();
-
                 // create URL with the generated voucher code
-                $time_pass_id = $time_pass['pass_id'];;
                 $data = array(
-                    'voucher'           => $code,
-                    'is_gift'           => true,
-                    'link'              => $link ? $link : get_permalink(),
+                    'voucher' => LaterPay_Helper_Voucher::generate_voucher_code(),
+                    'is_gift' => true,
+                    'link'    => $link ? $link : get_permalink(),
                 );
 
-                $time_pass['url'] = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $time_pass_id, $data );
+                $time_pass['url']   = LaterPay_Helper_TimePass::get_laterpay_purchase_link( $time_pass['pass_id'], $data );
                 $time_passes[ $id ] = $time_pass;
             }
         }
@@ -630,7 +624,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
         $time_pass_ids  = sanitize_text_field( $_GET['pass_id'] );
 
         foreach ( $time_pass_ids as $time_pass_id ) {
-            $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) ) : LaterPay_Helper_TimePass::get_all_time_passes();
+            $time_passes  = $time_pass_id ? array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) ) : LaterPay_Helper_TimePass::get_all_time_passes( true );
             $access       = LaterPay_Helper_Post::has_purchased_gift_card();
             $landing_page = get_option( 'laterpay_landing_page' );
 

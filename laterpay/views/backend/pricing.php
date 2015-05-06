@@ -376,13 +376,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 -->
             <div id="lp_js_timePassEditor" class="lp_time-passes__list lp_layout">
                 <?php foreach ( $laterpay['passes_list'] as $pass ) : ?>
-                    <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo esc_attr( $pass->pass_id ); ?>">
+                    <div class="lp_js_timePassWrapper lp_time-passes__item lp_layout__item lp_clearfix" data-pass-id="<?php echo esc_attr( $pass['pass_id'] ); ?>">
                         <div class="lp_time-pass__id-wrapper">
                             <?php echo laterpay_sanitize_output( __( 'Pass', 'laterpay' ) ); ?>
-                            <span class="lp_js_timePassId lp_time-pass__id"><?php echo laterpay_sanitize_output( $pass->pass_id ); ?></span>
+                            <span class="lp_js_timePassId lp_time-pass__id"><?php echo laterpay_sanitize_output( $pass['pass_id'] ); ?></span>
                         </div>
                         <div class="lp_js_timePassPreview lp_left">
-                            <?php echo laterpay_sanitized( $this->render_time_pass( (array) $pass ) ); ?>
+                            <?php echo laterpay_sanitized( $this->render_time_pass( $pass ) ); ?>
                         </div>
 
                         <div class="lp_js_timePassEditorContainer lp_time-pass-editor"></div>
@@ -394,8 +394,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <a href="#" class="lp_js_deleteTimePass lp_edit-link--bold lp_inline-block" data-icon="g"></a>
 
                         <div class="lp_js_voucherList lp_vouchers">
-                            <?php if ( isset( $laterpay['vouchers_list'][ $pass->pass_id ] ) ) : ?>
-                                <?php foreach ( $laterpay['vouchers_list'][ $pass->pass_id ] as $voucher_code => $voucher_price ) : ?>
+                            <?php if ( isset( $laterpay['vouchers_list'][ $pass['pass_id'] ] ) ) : ?>
+                                <?php foreach ( $laterpay['vouchers_list'][ $pass['pass_id'] ] as $voucher_code => $voucher_price ) : ?>
                                     <div class="lp_js_voucher lp_voucher">
                                         <span class="lp_voucher__code"><?php echo laterpay_sanitize_output( $voucher_code ); ?></span>
                                         <span class="lp_voucher__code-infos">
@@ -403,9 +403,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                                             <?php echo laterpay_sanitize_output( $voucher_price . ' ' . $laterpay['standard_currency'] ); ?>.<br>
                                             <span class="lp_js_voucherTimesRedeemed">
                                                 <?php
-                                                    echo laterpay_sanitize_output( ( ! isset( $laterpay['vouchers_statistic'][ $pass->pass_id ][ $voucher_code ] ) ) ?
+                                                    echo laterpay_sanitize_output( ( ! isset( $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ] ) ) ?
                                                         0 :
-                                                        $laterpay['vouchers_statistic'][ $pass->pass_id ][ $voucher_code ]
+                                                        $laterpay['vouchers_statistic'][ $pass['pass_id'] ][ $voucher_code ]
                                                     );
                                                 ?>
                                             </span>

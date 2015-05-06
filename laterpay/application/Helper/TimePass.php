@@ -383,26 +383,29 @@ class LaterPay_Helper_TimePass
     /**
      * Get all time passes.
      *
+     * @param bool $ignore_deleted ignore deleted time passes
+     *
      * @return array of time passes
      */
-    public static function get_all_time_passes() {
+    public static function get_all_time_passes( $ignore_deleted = false ) {
         $model = new LaterPay_Model_TimePass();
 
-        return $model->get_all_time_passes();
+        return $model->get_all_time_passes( $ignore_deleted );
     }
 
     /**
      * Get time pass data by id.
      *
-     * @param $time_pass_id
+     * @param  int  $time_pass_id
+     * @param  bool $ignore_deleted ignore deleted time passes
      *
      * @return array
      */
-    public static function get_time_pass_by_id( $time_pass_id = null ) {
+    public static function get_time_pass_by_id( $time_pass_id = null, $ignore_deleted = false ) {
         $model = new LaterPay_Model_TimePass();
 
         if ( $time_pass_id ) {
-            return (array) $model->get_pass_data( (int) $time_pass_id );
+            return $model->get_pass_data( (int) $time_pass_id, $ignore_deleted );
         }
 
         return array();
@@ -419,7 +422,7 @@ class LaterPay_Helper_TimePass
     public static function get_laterpay_purchase_link( $time_pass_id, $data = null ) {
         $time_pass_model = new LaterPay_Model_TimePass();
 
-        $time_pass = (array) $time_pass_model->get_pass_data( $time_pass_id );
+        $time_pass = $time_pass_model->get_pass_data( $time_pass_id );
         if ( empty( $time_pass ) ) {
             return '';
         }
@@ -526,7 +529,7 @@ class LaterPay_Helper_TimePass
      */
     public static function get_time_passes_statistic() {
         $history_model      = new LaterPay_Model_Payment_History();
-        $time_passes        = LaterPay_Helper_TimePass::get_all_time_passes();
+        $time_passes        = LaterPay_Helper_TimePass::get_all_time_passes( true );
         $summary_active     = 0;
         $summary_unredeemed = 0;
         $summary_revenue    = 0;

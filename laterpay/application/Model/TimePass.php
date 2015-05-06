@@ -31,11 +31,12 @@ class LaterPay_Model_TimePass
     /**
      * Get time pass data.
      *
-     * @param int $time_pass_id time pass id
+     * @param int  $time_pass_id time pass id
+     * @param bool $ignore_deleted ignore deleted time passes
      *
      * @return array $time_pass array of time pass data
      */
-    public function get_pass_data( $time_pass_id ) {
+    public function get_pass_data( $time_pass_id, $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
@@ -45,11 +46,17 @@ class LaterPay_Model_TimePass
                 {$this->passes_table}
             WHERE
                 pass_id = %d
-            ;
         ";
-        $time_pass = $wpdb->get_row( $wpdb->prepare( $sql, (int) $time_pass_id ) );
 
-        return $time_pass;
+        if ( $ignore_deleted ) {
+            $sql .= "
+                AND is_deleted = 0
+            ";
+        }
+
+        $sql .= ";";
+
+        return $wpdb->get_row( $wpdb->prepare( $sql, (int) $time_pass_id ), ARRAY_A );
     }
 
     /**
@@ -108,24 +115,33 @@ class LaterPay_Model_TimePass
     /**
      * Get all time passes.
      *
+     * @param bool $ignore_deleted ignore deleted time passes
+     *
      * @return array $time_passes list of time passes
      */
-    public function get_all_time_passes() {
+    public function get_all_time_passes( $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
             SELECT
                 *
             FROM
-                {$this->passes_table}
+                {$this->passes_table}";
+
+        if ( $ignore_deleted ) {
+            $sql .= "
+            WHERE
+                is_deleted = 0
+            ";
+        }
+
+        $sql .= "
             ORDER
                 BY title
             ;
         ";
 
-        $time_passes = $wpdb->get_results( $sql );
-
-        return $time_passes;
+        return $wpdb->get_results( $sql, ARRAY_A );
     }
 
     /**
@@ -184,9 +200,7 @@ class LaterPay_Model_TimePass
             'pass_id' => (int) $time_pass_id,
         );
 
-        $success = $wpdb->delete( $this->passes_table, $where, '%d' );
-
-        return $success;
+        return $wpdb->update( $this->passes_table, array( 'is_deleted' => 1 ), $where, array( '%d' ), array( '%d' ) );
     }
 
     /**
@@ -202,6 +216,8 @@ class LaterPay_Model_TimePass
                 count(*) AS c_passes
             FROM
                 {$this->passes_table}
+            WHERE
+                is_deleted = 0
             ;
         ";
 
