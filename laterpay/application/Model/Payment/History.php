@@ -126,10 +126,11 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
      * Get the user statistics.
      *
      * @param array $args
+     * @param bool  $array_output
      *
      * @return array $results
      */
-    public function get_user_stats( $args = array() ) {
+    public function get_user_stats( $args = array(), $array_output = false ) {
         $default_args = array(
             'order_by'  => 'quantity',
             'order'     => 'DESC',
@@ -143,7 +144,7 @@ class LaterPay_Model_Payment_History extends LaterPay_Helper_Query
         );
         $args = wp_parse_args( $args, $default_args );
 
-        return $this->get_results( $args );
+        return $this->get_results( $args, $array_output );
     }
 
     /**

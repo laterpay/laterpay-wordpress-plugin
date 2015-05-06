@@ -241,15 +241,16 @@ class LaterPay_Helper_Query
      * Get the results of a query.
      *
      * @param array $args
+     * @param bool  $array_output
      *
      * @return array $results
      */
-    public function get_results( $args = array() ) {
+    public function get_results( $args = array(), $array_output = false ) {
         global $wpdb;
 
         $query              = $this->create_query( $args );
         $this->last_query   = $query;
-        $results            = $wpdb->get_results( $query );
+        $results            = $wpdb->get_results( $query, $array_output ? ARRAY_A : OBJECT );
 
         $logger = laterpay_get_logger();
         $logger->info(
