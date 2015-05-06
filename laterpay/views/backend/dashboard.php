@@ -103,14 +103,14 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="lp_layout">
                 <div class="lp_layout__item lp_1/3">
                     <div class="lp_greybox--outline lp_mr lp_mb">
-                        <h3><?php echo laterpay_sanitize_output( __( 'Best-converting Items', 'laterpay' ) ); ?></h3>
+                        <h3 class="lp_text-align--center"><?php echo laterpay_sanitize_output( __( 'Best-converting Items', 'laterpay' ) ); ?></h3>
                         <ol id="lp_js_bestConvertingList" class="lp_dashboard-data">
                             <dfn><?php echo laterpay_sanitize_output( __( 'No data available', 'laterpay' ) ); ?></dfn>
                         </ol>
                     </div>
 
                     <div class="lp_greybox--outline lp_mr lp_mb">
-                        <h3><?php echo laterpay_sanitize_output( __( 'Least-converting Items', 'laterpay' ) ); ?></h3>
+                        <h3 class="lp_text-align--center"><?php echo laterpay_sanitize_output( __( 'Least-converting Items', 'laterpay' ) ); ?></h3>
                         <ol id="lp_js_leastConvertingList" class="lp_dashboard-data">
                             <dfn><?php echo laterpay_sanitize_output( __( 'No data available', 'laterpay' ) ); ?></dfn>
                         </ol>
@@ -119,14 +119,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
              --><div class="lp_layout__item lp_1/3">
                     <div class="lp_greybox--outline lp_mr lp_mb">
-                        <h3><?php echo laterpay_sanitize_output( __( 'Most-selling Items', 'laterpay' ) ); ?></h3>
+                        <h3 class="lp_text-align--center"><?php echo laterpay_sanitize_output( __( 'Most-selling Items', 'laterpay' ) ); ?></h3>
                         <ol id="lp_js_bestSellingList" class="lp_dashboard-data">
                             <dfn><?php echo laterpay_sanitize_output( __( 'No data available', 'laterpay' ) ); ?></dfn>
                         </ol>
                     </div>
 
                     <div class="lp_greybox--outline lp_mr lp_mb">
-                        <h3><?php echo laterpay_sanitize_output( __( 'Least-selling Items', 'laterpay' ) ); ?></h3>
+                        <h3 class="lp_text-align--center"><?php echo laterpay_sanitize_output( __( 'Least-selling Items', 'laterpay' ) ); ?></h3>
                         <ol id="lp_js_leastSellingList" class="lp_dashboard-data">
                             <dfn><?php echo laterpay_sanitize_output( __( 'No data available', 'laterpay' ) ); ?></dfn>
                         </ol>
@@ -135,14 +135,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
              --><div class="lp_layout__item lp_1/3">
                     <div class="lp_greybox--outline lp_mr lp_mb">
-                        <h3><?php echo laterpay_sanitize_output( __( 'Most Revenue-generating Items', 'laterpay' ) ); ?></h3>
+                        <h3 class="lp_text-align--center"><?php echo laterpay_sanitize_output( __( 'Most Revenue-generating Items', 'laterpay' ) ); ?></h3>
                         <ol id="lp_js_bestGrossingList" class="lp_dashboard-data">
                             <dfn><?php echo laterpay_sanitize_output( __( 'No data available', 'laterpay' ) ); ?></dfn>
                         </ol>
                     </div>
 
                     <div class="lp_greybox--outline lp_mr lp_mb">
-                        <h3><?php echo laterpay_sanitize_output( __( 'Least Revenue-generating Items', 'laterpay' ) ); ?></h3>
+                        <h3 class="lp_text-align--center"><?php echo laterpay_sanitize_output( __( 'Least Revenue-generating Items', 'laterpay' ) ); ?></h3>
                         <ol id="lp_js_leastGrossingList" class="lp_dashboard-data">
                             <dfn><?php echo laterpay_sanitize_output( __( 'No data available', 'laterpay' ) ); ?></dfn>
                         </ol>

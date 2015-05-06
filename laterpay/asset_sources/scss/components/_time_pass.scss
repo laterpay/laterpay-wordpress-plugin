@@ -280,9 +280,17 @@
 // sidebar widget ------------------------------------------------------------------------------------------------------
 /**
  * time pass widget
-*/
+ */
 .lp_time-pass-widget {
-    // unstyled, to simplify integration into theme
+    margin-bottom: $fs--05 !important;
+    margin-right: $fs--05 !important;
+
+    .lp_time-pass,
+    .lp_time-pass__front,
+    .lp_time-pass__back {
+        height: 112px !important;
+        width: 224px !important;
+    }
 
     .lp_time-pass {
         display: block !important;
@@ -291,6 +299,65 @@
         &:last-child {
             margin-bottom: 0 !important;
         }
+    }
+
+    .lp_time-pass__front {
+        background: url(../img/time-pass-background-small.png) 0 0 / 100% no-repeat !important;
+        padding: $fs--05 (6 * $fs--05) $fs--05 $fs--05 !important;
+    }
+
+    .lp_time-pass__back {
+        background: url(../img/time-pass-background-flip-small.png) 0 0 / 100% no-repeat !important;
+        padding: $fs--05 $fs--05 $fs--05 (6 * $fs--05) !important;
+    }
+
+    .lp_time-pass__title {
+        font-size: $fs !important;
+        margin-left: $fs--025 !important;
+        margin-top: $fs--05 !important;
+    }
+
+    .lp_time-pass__description {
+        font-size: $fs--075 !important;
+        height: 2.9em !important;
+        margin-left: $fs--025 !important;
+    }
+
+    .lp_time-pass__actions {
+        bottom: 0.5em !important;
+        width: 80% !important; /* 1 - fallback for browsers that don't support calc */
+        width: calc(100% - 2em) !important; /* 1 */
+
+        .lp_purchase-button {
+            font-size: $fs--15 !important;
+
+            &:before {
+                font-size: 36px !important
+            }
+        }
+
+        .lp_time-pass__terms {
+            padding: $fs--025 $fs--05 !important;
+        }
+    }
+
+    .lp_time-pass__conditions {
+        margin: 0 !important;
+
+        .lp_time-pass__condition-title,
+        .lp_time-pass__condition-value {
+            font-size: $fs--075 !important;
+            padding-bottom: 0 !important;
+        }
+
+        .lp_time-pass__condition-title {
+            padding-right: $fs--05 !important;
+        }
+    }
+
+    .lp_time-pass__front-side-link {
+        font-size: $fs--075 !important;
+        padding: $fs--025 $fs--05 !important;
     }
 }
 
@@ -493,79 +560,4 @@
     margin: 0 !important;
     text-decoration: none !important;
     visibility: visible !important; /* 1 */
-}
-
-/**
- * time pass widget variant 'small'
- * reduced height, width, font-size, margins, and paddings
- */
-.lp_time-pass-widget--small {
-    margin-bottom: $fs--05 !important;
-    margin-right: $fs--05 !important;
-
-    .lp_time-pass,
-    .lp_time-pass__front,
-    .lp_time-pass__back {
-        height: 112px !important;
-        width: 224px !important;
-    }
-
-    .lp_time-pass__front {
-        background: url(../img/time-pass-background-small.png) 0 0 / 100% no-repeat !important;
-        padding: $fs--05 (6 * $fs--05) $fs--05 $fs--05 !important;
-    }
-
-    .lp_time-pass__back {
-        background: url(../img/time-pass-background-flip-small.png) 0 0 / 100% no-repeat !important;
-        padding: $fs--05 $fs--05 $fs--05 (6 * $fs--05) !important;
-    }
-
-    .lp_time-pass__title {
-        font-size: $fs !important;
-        margin-left: $fs--025 !important;
-        margin-top: $fs--05 !important;
-    }
-
-    .lp_time-pass__description {
-        font-size: $fs--075 !important;
-        height: 2.9em !important;
-        margin-left: $fs--025 !important;
-    }
-
-    .lp_time-pass__actions {
-        bottom: 0.5em !important;
-        width: 80% !important; /* 1 - fallback for browsers that don't support calc */
-        width: calc(100% - 2em) !important; /* 1 */
-
-        .lp_purchase-button {
-            font-size: $fs--15 !important;
-
-            &:before {
-                font-size: 36px !important
-            }
-        }
-
-        .lp_time-pass__terms {
-            padding: $fs--025 $fs--05 !important;
-        }
-    }
-
-    .lp_time-pass__conditions {
-        margin: 0 !important;
-
-        .lp_time-pass__condition-title,
-        .lp_time-pass__condition-value {
-            font-size: $fs--075 !important;
-            padding-bottom: 0 !important;
-        }
-
-        .lp_time-pass__condition-title {
-            padding-right: $fs--05 !important;
-        }
-    }
-
-    .lp_time-pass__front-side-link {
-        font-size: $fs--075 !important;
-        padding: $fs--025 $fs--05 !important;
-    }
 }
