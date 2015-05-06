@@ -419,10 +419,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <td colspan="2">
                                         <?php echo laterpay_sanitize_output( __( 'The pass is valid for ', 'laterpay' ) ); ?>
                                         <select name="duration" class="lp_js_switchTimePassDuration lp_input">
-                                            <?php echo laterpay_sanitize_output( LaterPay_Helper_TimePass::get_select_options( 'duration' ) ); ?>
+                                            <?php echo laterpay_sanitized( LaterPay_Helper_TimePass::get_select_options( 'duration' ) ); ?>
                                         </select>
                                         <select name="period" class="lp_js_switchTimePassPeriod lp_input">
-                                            <?php echo laterpay_sanitize_output( LaterPay_Helper_TimePass::get_select_options( 'period' ) ); ?>
+                                            <?php echo laterpay_sanitized( LaterPay_Helper_TimePass::get_select_options( 'period' ) ); ?>
                                         </select>
                                         <?php echo laterpay_sanitize_output( __( 'and grants', 'laterpay' ) ); ?>
                                     </td>
@@ -433,7 +433,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     </td>
                                     <td>
                                         <select name="access_to" class="lp_js_switchTimePassScope lp_input lp_1">
-                                            <?php echo laterpay_sanitize_output( LaterPay_Helper_TimePass::get_select_options( 'access' ) ); ?>
+                                            <?php echo laterpay_sanitized( LaterPay_Helper_TimePass::get_select_options( 'access' ) ); ?>
                                         </select>
                                     </td>
                                 </tr>
