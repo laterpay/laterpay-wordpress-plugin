@@ -764,9 +764,11 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
     }
 
     /**
-     * Internal function to calculate new users
+     * Internal function to calculate new users.
      *
-     * @return array
+     * @param  array $options
+     *
+     * @return float $new_customers
      */
     private function calculate_new_customers( $options ) {
         $history_model = new LaterPay_Model_Payment_History();
@@ -790,7 +792,7 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
         // get all purchases data before reporting period
         $user_stats_old = $history_model->get_user_stats( $customer_args, true );
 
-        // get the user stats in reportion period
+        // get the user stats in reporting period
         $customer_args['where']         = $options['query_where'];
         $user_stats_in_reporting_period = $history_model->get_user_stats( $customer_args );
         $total_customers_in_period      = count( $user_stats_in_reporting_period );
