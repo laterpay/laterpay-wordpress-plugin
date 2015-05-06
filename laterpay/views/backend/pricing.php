@@ -555,7 +555,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <input type="hidden" name="action" value="laterpay_pricing">
                     <?php if ( function_exists( 'wp_nonce_field' ) ) { wp_nonce_field( 'laterpay_form' ); } ?>
                     <label><?php echo laterpay_sanitize_output( __( 'Forward users to this URL after they have redeemed a gift card:', 'laterpay' ) ); ?></label>
-                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo $laterpay['landing_page']; ?>">
+                    <input type="text" name="landing_url" class="lp_input lp_js_landingPageInput" value="<?php echo esc_attr( $laterpay['landing_page'] ); ?>">
                     <a href="#" id="lp_js_landingPageSave" class="lp_edit-link lp_save-link lp_inline-block lp_ml lp_pd--0-05" data-icon="f"><?php echo laterpay_sanitize_output( __( 'Save', 'laterpay' ) ); ?></a>
                 </form>
             </div>

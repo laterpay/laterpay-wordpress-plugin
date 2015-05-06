@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <?php if ( $laterpay_widget['has_vouchers'] ) : ?>
         <?php if ( $laterpay_widget['time_pass_call_to_action_text'] ) : ?>
              <p class="lp_time-pass__call-to-action-text"><?php echo laterpay_sanitize_output( $laterpay_widget['time_pass_call_to_action_text'] ); ?></p>
-         <?php endif; ?>
+        <?php endif; ?>
 
         <div id="lp_js_voucherCodeWrapper" class="lp_redeem-code__wrapper lp_clearfix">
             <input type="text" name="time_pass_voucher_code" class="lp_js_voucherCodeInput lp_redeem-code__value lp_is-hidden" maxlength="6">
