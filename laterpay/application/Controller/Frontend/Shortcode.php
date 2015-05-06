@@ -431,7 +431,7 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
             'call_to_action_text' => '',
         ), $atts );
 
-        if ( isset( $data['id'] ) && ! LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'] ) ) {
+        if ( isset( $data['id'] ) && ! LaterPay_Helper_TimePass::get_time_pass_by_id( $data['id'], true ) ) {
             $error_message = $this->get_error_message( __( 'Wrong time pass id or no time passes specified.', 'laterpay' ), $atts );
             return $error_message;
         }
