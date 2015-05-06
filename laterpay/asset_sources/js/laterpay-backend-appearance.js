@@ -31,7 +31,7 @@
 
             switchButtonGroup = function($trigger) {
                 var $form                   = $trigger.parents('form'),
-                    formValueIsTrue         = $form.find('input:checked').val() === 1,
+                    formValueIsTrue         = parseInt($('input:checked', $form).val(), 10) === 1,
                     shouldShowHintOnTrue    = $form.hasClass($o.showHintOnTrue),
                     $hint                   = $form.find($o.buttonGroupHint),
                     shouldShowHint          = shouldShowHintOnTrue && formValueIsTrue,

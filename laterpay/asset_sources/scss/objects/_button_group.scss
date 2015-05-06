@@ -47,6 +47,38 @@
     }
 }
 
+.lp_button-group__hint {
+    color: $text--lighter;
+    margin: $fs;
+    max-width: ($fs * 32);
+
+    p {
+        margin: 0 0 $fs--05;
+    }
+
+    table {
+        margin: 0;
+    }
+
+    td,
+    th {
+        padding: 0;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        font-weight: bold;
+        padding-right: $fs--05;
+    }
+
+    code {
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
 .lp_button-group--large {
     border-radius: ($border-radius * 2);
     box-shadow: 1px 1px 0 $background--lightest;

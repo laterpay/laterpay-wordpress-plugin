@@ -30,7 +30,7 @@
 @import 'pages/_appearance';
 
 
+
+
 // TODO: remove with release 1.0
-.lp_js_deprecated-feature {
-    display: none !important;
-}
+@import 'objects/_deprecated';
