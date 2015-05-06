@@ -20,7 +20,7 @@ if ( $laterpay['current_page'] === $page['url']
     $current_page_class = 'lp_is-current';
     endif;
     ?>
-    <li class="lp_navigation-tabs__item <?php esc_attr( $current_page_class ); ?>">
+    <li class="lp_navigation-tabs__item <?php echo esc_attr( $current_page_class ); ?>">
         <?php echo laterpay_sanitized( LaterPay_Helper_View::get_admin_menu_link( $page ) ); ?>
         <?php if ( isset( $page['submenu'] ) ) : ?>
             <ul class="lp_navigation-tabs__submenu">
