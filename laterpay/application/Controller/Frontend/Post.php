@@ -601,8 +601,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         );
 
         // check access with time passes
-        $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post_id );
-        $time_passes        = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
+        $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post_id );
+        $time_passes      = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
 
         foreach ( $time_passes as $time_pass ) {
             if ( array_key_exists( $time_pass, $this->access ) && $this->access[ $time_pass ] ) {
@@ -815,12 +815,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( $is_homepage ) {
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
                 null,
-                $time_passes_with_access
+                $time_passes_with_access,
+                true
             );
         } else {
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
                 get_the_ID(),
-                $time_passes_with_access
+                $time_passes_with_access,
+                true
             );
         }
 
@@ -828,11 +830,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             if ( in_array( $time_pass_id, $time_passes_with_access ) ) {
                 return;
             }
-            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) );
+            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) );
         }
 
         // don't render the widget, if there are no time passes
-        if ( count( $time_passes_list ) == 0 ) {
+        if ( count( $time_passes_list ) === 0 ) {
             return;
         }
 

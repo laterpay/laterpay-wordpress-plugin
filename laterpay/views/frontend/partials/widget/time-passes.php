@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         <p class="lp_time-pass__introductory-text"><?php echo laterpay_sanitize_output( $laterpay_widget['time_pass_introductory_text'] ); ?></p>
     <?php endif; ?>
 
-    <?php foreach ( $laterpay_widget['passes_list'] as $pass ) : ?>
-        <?php echo laterpay_sanitized( $this->render_time_pass( (array) $pass ) ); ?>
+    <?php foreach ( $laterpay_widget['passes_list'] as $time_pass ) : ?>
+        <?php echo laterpay_sanitized( $this->render_time_pass( $time_pass ) ); ?>
     <?php endforeach; ?>
 
     <?php if ( $laterpay_widget['has_vouchers'] ) : ?>

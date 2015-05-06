@@ -916,7 +916,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $time_passes_array = array( 0 => LaterPay_Helper_TimePass::get_default_options() );
 
         foreach ( $time_passes_list as $time_pass ) {
-            $time_pass = (array) $time_pass;
             if ( isset( $time_pass['access_category'] ) && $time_pass['access_category'] ) {
                 $time_pass['category_name'] = get_the_category_by_ID( $time_pass['access_category'] );
             }

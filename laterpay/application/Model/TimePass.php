@@ -49,12 +49,12 @@ class LaterPay_Model_TimePass
         ";
 
         if ( $ignore_deleted ) {
-            $sql .= "
+            $sql .= '
                 AND is_deleted = 0
-            ";
+            ';
         }
 
-        $sql .= ";";
+        $sql .= ';';
 
         return $wpdb->get_row( $wpdb->prepare( $sql, (int) $time_pass_id ), ARRAY_A );
     }
@@ -129,17 +129,17 @@ class LaterPay_Model_TimePass
                 {$this->passes_table}";
 
         if ( $ignore_deleted ) {
-            $sql .= "
+            $sql .= '
             WHERE
                 is_deleted = 0
-            ";
+            ';
         }
 
-        $sql .= "
+        $sql .= '
             ORDER
                 BY title
             ;
-        ";
+        ';
 
         return $wpdb->get_results( $sql, ARRAY_A );
     }
@@ -149,10 +149,11 @@ class LaterPay_Model_TimePass
      *
      * @param null $term_ids array of category ids
      * @param bool $exclude  categories to be excluded from the list
+     * @param bool $ignore_deleted ignore deleted time passes
      *
      * @return array $time_passes list of time passes
      */
-    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = null ) {
+    public function get_time_passes_by_category_ids( $term_ids = null, $exclude = null, $ignore_deleted = false ) {
         global $wpdb;
 
         $sql = "
@@ -162,6 +163,12 @@ class LaterPay_Model_TimePass
                 {$this->passes_table} AS pt
             WHERE
         ";
+
+        if ( $ignore_deleted ) {
+            $sql .= '
+                is_deleted = 0 AND (
+            ';
+        }
 
         if ( $term_ids ) {
             $prepared_ids = implode( ',', $term_ids );
@@ -175,13 +182,20 @@ class LaterPay_Model_TimePass
 
         $sql .= '
                 pt.access_to = 0
+            ';
+
+        if ( $ignore_deleted ) {
+            $sql .= ' ) ';
+        }
+
+        $sql .= '
             ORDER BY
                 pt.access_to DESC,
                 pt.price ASC
             ;
         ';
 
-        $time_passes = $wpdb->get_results( $sql );
+        $time_passes = $wpdb->get_results( $sql, ARRAY_A );
 
         return $time_passes;
     }
