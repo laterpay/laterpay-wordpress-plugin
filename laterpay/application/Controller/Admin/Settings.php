@@ -716,7 +716,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
                 'type'          => 'submit',
                 'name'          => 'laterpay_browscap_cache_version',
                 'value'         => __( 'Update Database', 'laterpay' ),
-                'class'         => 'button button-primary',
+                'classes'       => 'button button-primary',
                 'disabled'      => ! $update_required,
                 'appended_text' => $update_required ? __( 'Update required', 'laterpay' ) : __( 'Your database is up to date :-)', 'laterpay' ),
                 'id'            => 'lp_js_updateBrowscapCache',
@@ -759,10 +759,14 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             $option_value = get_option( $field['name'] );
             $field_value  = isset( $field['value'] ) ? $field['value'] : get_option( $field['name'], '' );
             $type         = isset( $field['type'] ) ? $field['type'] : 'text';
-            $classes      = isset( $field['class'] ) ? $field['class'] : array();
+            $classes      = isset( $field['classes'] ) ? $field['classes'] : array();
+
+            // clean 'class' data
             if ( ! is_array( $classes ) ) {
                 $classes = array($classes);
             }
+            $classes = array_unique( $classes );
+
             if ( $type == 'text' ) {
                 $classes[] = 'regular-text';
             }
@@ -771,25 +775,29 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             if ( isset( $field['label'] ) ) {
                 $inputs_markup .= '<label>';
             }
-            // remove duplicated classes
-            $classes = array_unique( $classes );
 
             $inputs_markup .= '<input type="' . $type . '" name="' . $field['name'] . '" value="' . sanitize_text_field( $field_value ) . '"';
 
-            if ( 'checkbox' == $type ) {
-                $inputs_markup .= $option_value ? ' checked' : '';
-            }
-
+            // add id, if set
             if ( isset( $field['id'] ) ) {
                 $inputs_markup .= ' id="' . $field['id'] . '"';
             }
 
+            // add classes, if set
+            $inputs_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
+
+            // add checked property, if set
+            if ( 'checkbox' == $type ) {
+                $inputs_markup .= $option_value ? ' checked' : '';
+            }
+
+            // add disabled property, if set
             if ( isset( $field['disabled'] ) && $field['disabled'] ) {
                 $inputs_markup .= ' disabled';
             }
-            $inputs_markup .= ! empty( $classes ) ? ' class="' . implode( ' ', $classes ) . '"' : '';
 
             $inputs_markup .= '>';
+
             if ( isset( $field['appended_text'] ) ) {
                 $inputs_markup .= '<dfn class="lp_appended-text">' . $field['appended_text'] . '</dfn>';
             }
