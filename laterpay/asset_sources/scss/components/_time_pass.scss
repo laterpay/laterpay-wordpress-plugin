@@ -101,11 +101,6 @@
         display: inline-block !important;
         float: none !important;
         vertical-align: middle !important;
-
-        &:before {
-            left: -1px !important;
-            top: 10px !important;
-        }
     }
 
     .lp_time-pass__terms {
@@ -289,7 +284,7 @@
 }
 
 
-// sidebar widget ------------------------------------------------------------------------------------------------------
+// time pass widget rendered inside of posts ---------------------------------------------------------------------------
 /**
  * time pass widget
  */
@@ -344,7 +339,9 @@
             font-size: $fs--15 !important;
 
             &:before {
-                font-size: 36px !important
+                font-size: 36px !important;
+                left: -1px !important;
+                top: 10px !important;
             }
         }
 
