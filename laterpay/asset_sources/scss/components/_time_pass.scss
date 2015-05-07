@@ -101,6 +101,11 @@
         display: inline-block !important;
         float: none !important;
         vertical-align: middle !important;
+
+        &:before {
+            left: -1px !important;
+            top: 10px !important;
+        }
     }
 
     .lp_time-pass__terms {
@@ -170,6 +175,13 @@
         color: $text--inverse;
         left: -($fs--2);
     }
+}
+
+// some straight-up WordPress weirdo shit:
+// WordPress inserts a <br> tag before the table which breaks the layout.
+// I haven't found a better way than hiding it with CSS :-(
+.lp_time-pass__front-side-link + br {
+    display: none !important;
 }
 
 
@@ -347,7 +359,7 @@
         .lp_time-pass__condition-title,
         .lp_time-pass__condition-value {
             font-size: $fs--075 !important;
-            padding-bottom: 0 !important;
+            padding-bottom: 2px !important;
         }
 
         .lp_time-pass__condition-title {

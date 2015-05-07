@@ -39,32 +39,35 @@ if ( ! defined( 'ABSPATH' ) ) {
     </section>
 
     <section class="lp_time-pass__back">
-        <a href="#" class="lp_js_flipTimePass lp_time-pass__front-side-link"><?php echo laterpay_sanitize_output( __( 'Back', 'laterpay' ) ); ?></a>
+        <a href="#" class="lp_js_flipTimePass lp_time-pass__front-side-link">
+        <?php echo laterpay_sanitize_output( __( 'Back', 'laterpay' ) ); ?></a>
         <table class="lp_time-pass__conditions">
-            <tr>
-                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Validity', 'laterpay' ) ); ?></th>
-                <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_timePassPreviewValidity"><?php echo laterpay_sanitize_output( $laterpay_pass['duration'] . ' ' . $period ); ?></span>
-                </td>
-            </tr>
-            <tr>
-                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Access to', 'laterpay' ) ); ?></th>
-                <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_timePassPreviewAccess"><?php echo laterpay_sanitize_output( $access_type . ' ' . $access_dest ); ?></span>
-                </td>
-            </tr>
-            <tr>
-                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Renewal', 'laterpay' ) ); ?></th>
-                <td class="lp_time-pass__condition-value">
-                    <?php echo laterpay_sanitize_output( __( 'No automatic renewal', 'laterpay' ) ); ?>
-                </td>
-            </tr>
-            <tr>
-                <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Price', 'laterpay' ) ); ?></th>
-                <td class="lp_time-pass__condition-value">
-                    <span class="lp_js_timePassPreviewPrice"><?php echo laterpay_sanitize_output( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
-                </td>
-            </tr>
+            <tbody>
+                <tr>
+                    <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Validity', 'laterpay' ) ); ?></th>
+                    <td class="lp_time-pass__condition-value">
+                        <span class="lp_js_timePassPreviewValidity"><?php echo laterpay_sanitize_output( $laterpay_pass['duration'] . ' ' . $period ); ?></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Access to', 'laterpay' ) ); ?></th>
+                    <td class="lp_time-pass__condition-value">
+                        <span class="lp_js_timePassPreviewAccess"><?php echo laterpay_sanitize_output( $access_type . ' ' . $access_dest ); ?></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Renewal', 'laterpay' ) ); ?></th>
+                    <td class="lp_time-pass__condition-value">
+                        <?php echo laterpay_sanitize_output( __( 'No automatic renewal', 'laterpay' ) ); ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="lp_time-pass__condition-title"><?php echo laterpay_sanitize_output( __( 'Price', 'laterpay' ) ); ?></th>
+                    <td class="lp_time-pass__condition-value">
+                        <span class="lp_js_timePassPreviewPrice"><?php echo laterpay_sanitize_output( $price . ' ' . $laterpay['standard_currency'] ); ?></span>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </section>
 
