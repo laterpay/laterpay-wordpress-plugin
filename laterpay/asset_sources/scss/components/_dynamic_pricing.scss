@@ -54,7 +54,6 @@
     fill: darken($text, 20%);
     stroke: $background;
     stroke-width: 2px;
-    transition: all 0.5s;
 
     &.lp_is-hidden {
         display: none;
@@ -140,9 +139,10 @@
     font-weight: normal;
 }
 
-
 /*
  * !important is used to make sure our input renders as intended, regardless of crappy theme or browser styles
+ *
+ * 1. Make sure the input renders on top of the price curve points
  */
 .lp_dynamic-pricing__start-price-input,
 .lp_dynamic-pricing__end-price-input {
@@ -155,7 +155,9 @@
     height: 29px !important;
     margin: 0 !important;
     padding: 4px !important;
+    position: relative !important; /* 1 */
     width: 100% !important;
+    z-index: $zindex--overlayed-1 !important; /* 1 */
 
     &:focus {
         -moz-appearance: none;
@@ -164,6 +166,17 @@
     }
 }
 
+/**
+ * 1. Adjust position of inputs. No idea, why those specific numbers are required!
+ */
+.lp_dynamic-pricing__start-price-input {
+    left: 39px; /* 1 */
+    top: 37px; /* 1 */
+}
+.lp_dynamic-pricing__end-price-input {
+    right: -39px; /* 1 */
+    top: 36px; /* 1 */
+}
 
 /*
  * 1. show horizontal resize cursor over price change days handles
