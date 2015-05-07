@@ -3,7 +3,7 @@
 Contributors: laterpay, dominik-rodler, mihail-turalenka
 Tags: laterpay, accept micropayments, accept payments, access control, billing, buy now pay later, content monetization, creditcard, debitcard, free to read, laterpay for wordpress, laterpay payment, laterpay plugin, micropayments, monetize, paid content, pay button, pay per use, payments, paywall, PPU, sell digital content, sell digital goods, single sale, wordpress laterpay
 Requires at least: 3.5.2
-Tested up to: 4.2.1
+Tested up to: 4.2.2
 Stable tag: trunk
 Author URI: https://laterpay.net
 Plugin URI: https://github.com/laterpay/laterpay-wordpress-plugin
@@ -256,6 +256,18 @@ your theme after installing the LaterPay WordPress plugin.
 9. The statistics pane provides useful sales statistics for each post.
 
 == Changelog ==
+
+= 0.9.11.4 (May 7, 2015): Bugfix Release (v1.0 RC4) =
+* Completely revised plugin backend user interface
+* Added functionality to automatically remove logged page view data after three months
+* Improved fallback behavior of plugin when the LaterPay API is unavailable
+* Added possibility to manually update the Browscap database from the advanced settings page
+* Improved behavior of deleting time passes (only mark as deleted instead of actually removing from database)
+* Changed mechanism for excluding vendor libraries from git submodules to Composer
+* Fixed several internals regarding the calculation of sales statistics
+* Adjusted copy in teaser content overlay for Time Passes and Single Sale purchases
+* Fixed various visual bugs
+* Lots of internal structural improvements
 
 = 0.9.11.3 (April 7, 2015): Bugfix Release (v1.0 RC3) =
 * Added parameter 'id' to the shortcode [laterpay_time_passes] to display only one specific time pass
