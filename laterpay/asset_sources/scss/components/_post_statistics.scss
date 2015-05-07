@@ -216,10 +216,14 @@
         z-index: $zindex--elevated-2;
     }
 
-    // light grey background bars behind sparkline with percentage data
+    /* light grey background bars behind sparkline with percentage data
+     *
+     * 1. Hack to position bar properly
+     */
     .lp_sparkline-bar__background + svg.peity {
         border: 0 none;
-        left: 9px;
+        left: 27px; /* 1 */
+        margin-top: -49px; /* 1 */
         position: absolute;
         z-index: $zindex--elevated-1;
     }
