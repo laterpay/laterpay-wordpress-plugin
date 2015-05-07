@@ -1011,7 +1011,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 wp_send_json(
                     array(
                         'success' => false,
-                        'message' => __( 'You have to create a time pass, before you can disable individual purchases.' ),
+                        'message' => __( 'You have to create a time pass, before you can disable individual purchases.', 'laterpay' ),
                     )
                 );
             }
