@@ -87,7 +87,7 @@ class LaterPay_Helper_Request {
     public static function laterpay_api_check_availability() {
         if ( ! isset( self::$lp_api_availability ) ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $action         = (int) get_option( 'laterpay_api_fallback_behaviour', 0 );
+            $action         = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
             $behavior       = LaterPay_Controller_Admin_Settings::get_laterpay_api_options();
             $client         = new LaterPay_Client(
                 $client_options['cp_key'],
@@ -101,7 +101,7 @@ class LaterPay_Helper_Request {
             laterpay_get_logger()->info(
                 __METHOD__, array(
                     'api_available'                   => self::$lp_api_availability,
-                    'laterpay_api_fallback_behaviour' => $behavior[ $action ],
+                    'laterpay_api_fallback_behavior' => $behavior[ $action ],
                 )
             );
         }
@@ -149,7 +149,7 @@ class LaterPay_Helper_Request {
             );
             $result = $client->get_access( $article_ids, $product_key );
         } else {
-            $action             = (int) get_option( 'laterpay_api_fallback_behaviour', 0 );
+            $action             = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
             $result['articles'] = array();
             switch ( $action ) {
                 case 0:

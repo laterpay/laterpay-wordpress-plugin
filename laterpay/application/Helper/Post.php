@@ -420,7 +420,7 @@ class LaterPay_Helper_Post
      */
     public static function hide_paid_posts( $posts ) {
         $api_available  = LaterPay_Helper_Request::laterpay_api_check_availability();
-        $behavior       = (int) get_option( 'laterpay_api_fallback_behaviour', 0 );
+        $behavior       = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
 
         if ( ! $api_available && $behavior == 2 ) {
             $result = array();

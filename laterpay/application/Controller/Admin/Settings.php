@@ -1010,16 +1010,16 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'laterpay'
         );
 
-        $value      = absint( get_option( 'laterpay_api_fallback_behaviour' ) );
+        $value      = absint( get_option( 'laterpay_api_fallback_behavior' ) );
         $options    = self::get_laterpay_api_options();
         add_settings_field(
-            'laterpay_api_fallback_behaviour',
-            __( 'Fallback Behaviour', 'laterpay' ),
+            'laterpay_api_fallback_behavior',
+            __( 'Fallback Behavior', 'laterpay' ),
             array( $this, 'get_select_field_markup' ),
             'laterpay',
             'laterpay_api_settings',
             array(
-                'name'          => 'laterpay_api_fallback_behaviour',
+                'name'          => 'laterpay_api_fallback_behavior',
                 'value'         => $value,
                 'options'       => $options,
                 'id'            => 'lp_js_laterpayApiFallbackSelect',
@@ -1027,7 +1027,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             )
         );
 
-        register_setting( 'laterpay', 'laterpay_api_fallback_behaviour' );
+        register_setting( 'laterpay', 'laterpay_api_fallback_behavior' );
     }
 
     /**
@@ -1037,7 +1037,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      */
     public function get_laterpay_api_description() {
         echo laterpay_sanitize_output( '<p>' .
-            __( 'Define fallback behaviour in case LaterPay API is not responding', 'laterpay' ) .
+            __( 'Define fallback behavior in case LaterPay API is not responding', 'laterpay' ) .
         '</p>' );
     }
 
