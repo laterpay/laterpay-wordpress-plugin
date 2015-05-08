@@ -176,28 +176,28 @@
                 .click(function(e) {e.preventDefault();});
 
                 // edit
-                $o.categoryDefaultPrices
+                $('body')
                 .on('click', $o.editCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     editCategoryDefaultPrice($form);
                 });
 
                 // cancel
-                $o.categoryDefaultPrices
+                $('body')
                 .on('click', $o.cancelEditingCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     exitEditModeCategoryDefaultPrice($form);
                 });
 
                 // save
-                $o.categoryDefaultPrices
+                $('body')
                 .on('click', $o.saveCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     saveCategoryDefaultPrice($form);
                 });
 
                 // delete
-                $o.categoryDefaultPrices
+                $('body')
                 .on('click', $o.deleteCategoryDefaultPrice, function() {
                     var $form = $(this).parents($o.categoryDefaultPriceForm);
                     deleteCategoryDefaultPrice($form);
@@ -478,10 +478,13 @@
 
             enterEditModeGlobalDefaultPrice = function() {
                 $o.globalDefaultPriceShowElements.velocity('slideUp', { duration: 250 });
-                $o.globalDefaultPriceEditElements.slideDown(250, function() {
-                    setTimeout(function() {
-                        $o.globalDefaultPriceInput.val($.trim($o.globalDefaultPriceDisplay.text())).focus();
-                    }, 50);
+                $o.globalDefaultPriceEditElements.velocity('slideDown', {
+                    duration: 250,
+                    complete: function() {
+                        setTimeout(function() {
+                            $o.globalDefaultPriceInput.val($.trim($o.globalDefaultPriceDisplay.text())).focus();
+                        }, 50);
+                    }
                 });
                 $o.globalDefaultPriceForm.addClass($o.editing);
             },
@@ -533,7 +536,7 @@
                 var $form = $o.categoryDefaultPriceTemplate
                             .clone()
                             .removeAttr('id')
-                            .appendTo('#lp_js_categoryDefaultPriceList')
+                            .insertBefore('#lp_js_categoryDefaultPriceList')
                             .velocity('slideDown', { duration: 250 });
 
                 editCategoryDefaultPrice($form);
@@ -549,8 +552,11 @@
                 $form.addClass($o.editing);
                 $($o.categoryDefaultPriceShowElements, $form).velocity('slideUp', { duration: 250 });
                 $o.addCategory.velocity('fadeOut', { duration: 250 });
-                $($o.categoryDefaultPriceEditElements, $form).slideDown(250, function() {
-                    $($o.categoryDefaultPriceInput, $form).focus();
+                $($o.categoryDefaultPriceEditElements, $form).velocity('slideDown', {
+                    duration: 250,
+                    complete: function() {
+                        $($o.categoryDefaultPriceInput, $form).focus();
+                    }
                 });
                 renderCategorySelect(
                     $form,
@@ -593,12 +599,15 @@
 
                 if ($form.hasClass($o.unsaved)) {
                     // remove form, if creating a new category default price has been canceled
-                    $form.slideUp(250, function() {
-                        $(this).remove();
+                    $form.velocity('slideUp', {
+                        duration: 250,
+                        complete: function() {
+                            $(this).remove();
 
-                        // show empty state hint, if there are no category default prices
-                        if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
-                            $($o.emptyState, $o.categoryDefaultPrices).velocity('fadeIn', { duration: 400 });
+                            // show empty state hint, if there are no category default prices
+                            if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
+                                $($o.emptyState, $o.categoryDefaultPrices).velocity('fadeIn', { duration: 400 });
+                            }
                         }
                     });
                 } else {
@@ -633,12 +642,16 @@
                     $form.serializeArray(),
                     function(r) {
                         if (r.success) {
-                            $form.slideUp(250, function() {
-                                $(this).remove();
+                            $form.velocity('slideUp', {
+                                duration: 250,
+                                complete: function() {
+                                    $(this).remove();
 
-                                // show empty state hint, if there are no category default prices
-                                if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
-                                    $($o.emptyState, $o.categoryDefaultPrices).velocity('fadeIn', { duration: 400 });
+                                    // show empty state hint, if there are no category default prices
+                                    if ($($o.categoryDefaultPriceForm + ':visible').length === 0) {
+                                        $($o.emptyState, $o.categoryDefaultPrices)
+                                        .velocity('fadeIn', { duration: 400 });
+                                    }
                                 }
                             });
                         }
@@ -742,13 +755,19 @@
 
                 // show time pass
                 $timePass
-                .slideDown(250, function() {
-                    $(this).removeClass($o.hidden);
+                .velocity('slideDown', {
+                    duration: 250,
+                    complete: function() {
+                        $(this).removeClass($o.hidden);
+                    }
                 })
-                .find($o.timePassForm)
-                .slideDown(250, function() {
-                    $(this).removeClass($o.hidden);
-                });
+                    .find($o.timePassForm)
+                    .velocity('slideDown', {
+                        duration: 250,
+                        complete: function() {
+                            $(this).removeClass($o.hidden);
+                        }
+                    });
             },
 
             editTimePass = function($timePass) {
@@ -862,18 +881,26 @@
 
                 if ($($o.timePassForm, $timePass).hasClass($o.unsaved)) {
                     // remove entire time pass, if it is a new, unsaved pass
-                    $timePass.fadeOut(250, function() {
-                        $(this).remove();
+                    $timePass
+                    .velocity('fadeOut', {
+                        duration: 250,
+                        complete: function() {
+                            $(this).remove();
 
-                        // show empty state hint, if there are no time passes
-                        if ($($o.timePassWrapper + ':visible').length === 0) {
-                            $($o.emptyState, $o.timePassEditor).velocity('fadeIn', { duration: 400 });
+                            // show empty state hint, if there are no time passes
+                            if ($($o.timePassWrapper + ':visible').length === 0) {
+                                $($o.emptyState, $o.timePassEditor).velocity('fadeIn', { duration: 400 });
+                            }
                         }
                     });
                 } else {
                     // remove cloned time pass form
-                    $($o.timePassForm, $timePass).fadeOut(250, function() {
-                        $(this).remove();
+                    $($o.timePassForm, $timePass)
+                    .velocity('fadeOut', {
+                        duration: 250,
+                        complete: function() {
+                            $(this).remove();
+                        }
                     });
                 }
 
@@ -926,18 +953,22 @@
                                 // show action links required when displaying time pass
                                 $($o.timePassEditElements, $timePass).removeClass($o.hidden);
 
-                                $($o.timePassForm, $timePass).fadeOut(250, function() {
-                                    $(this).remove();
+                                $($o.timePassForm, $timePass)
+                                .velocity('fadeOut', {
+                                    duration: 250,
+                                    complete: function() {
+                                        $(this).remove();
 
-                                    // re-generate vouchers list
-                                    clearVouchersList($timePass);
-                                    if (lpVars.vouchers_list[passId] instanceof Object) {
-                                        $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                                            addVoucherToList(code, priceValue, $timePass);
-                                        });
+                                        // re-generate vouchers list
+                                        clearVouchersList($timePass);
+                                        if (lpVars.vouchers_list[passId] instanceof Object) {
+                                            $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                                addVoucherToList(code, priceValue, $timePass);
+                                            });
 
-                                        // show vouchers
-                                        $timePass.find($o.voucherList).show();
+                                            // show vouchers
+                                            $timePass.find($o.voucherList).show();
+                                        }
                                     }
                                 });
                             } else {
@@ -966,21 +997,25 @@
                                 $($o.timePassEditElements, $newTimePass)
                                 .removeClass($o.hidden);
 
-                                $timePass.fadeOut(250, function() {
-                                    $(this).remove();
+                                $timePass
+                                .velocity('fadeOut', {
+                                    duration: 250,
+                                    complete: function() {
+                                        $(this).remove();
 
-                                    // re-generate vouchers list
-                                    clearVouchersList($newTimePass);
-                                    if (lpVars.vouchers_list[passId] instanceof Object) {
-                                        $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
-                                            addVoucherToList(code, priceValue, $newTimePass);
-                                        });
+                                        // re-generate vouchers list
+                                        clearVouchersList($newTimePass);
+                                        if (lpVars.vouchers_list[passId] instanceof Object) {
+                                            $.each(lpVars.vouchers_list[passId], function(code, priceValue) {
+                                                addVoucherToList(code, priceValue, $newTimePass);
+                                            });
 
-                                        // show vouchers
-                                        $newTimePass.find($o.voucherList).show();
+                                            // show vouchers
+                                            $newTimePass.find($o.voucherList).show();
+                                        }
+
+                                        $newTimePass.removeClass($o.hidden);
                                     }
-
-                                    $newTimePass.removeClass($o.hidden);
                                 });
                             }
                         }
@@ -1000,9 +1035,9 @@
                 if (confirm(lpVars.i18n.confirmDeleteTimePass)) {
                     // fade out and remove time pass
                     $timePass
-                    .slideUp({
+                    .velocity('slideUp', {
                         duration: 250,
-                        start: function() {
+                        begin: function() {
                             $.post(
                                 ajaxurl,
                                 {
@@ -1121,8 +1156,11 @@
             deleteVoucher = function($voucher) {
                 // slide up and remove voucher
                 $voucher
-                .slideUp(250, function() {
-                    $(this).remove();
+                .velocity('slideUp', {
+                    duration: 250,
+                    complete: function() {
+                        $(this).remove();
+                    }
                 });
             },
 
