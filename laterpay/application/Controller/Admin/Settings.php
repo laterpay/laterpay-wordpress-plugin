@@ -740,7 +740,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
      *
      * @param array $field array of field params
      *
-     * @return string checkbox markup
+     * @return string input markup
      */
     public function get_input_field_markup( $field = null ) {
         $inputs_markup = '';
@@ -1005,7 +1005,7 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     public function add_laterpay_api_settings() {
         add_settings_section(
             'laterpay_api_settings',
-            __( 'LaterPay API settings', 'laterpay' ),
+            __( 'LaterPay API Settings', 'laterpay' ),
             array( $this, 'get_laterpay_api_description' ),
             'laterpay'
         );
