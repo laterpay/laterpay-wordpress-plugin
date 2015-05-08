@@ -97,10 +97,9 @@ class LaterPay_Helper_Request {
                 $client_options['token_name']
             );
 
-            self::$lp_api_availability = $client->check_health( $client_options['api_root'] . '/health' );
+            self::$lp_api_availability = $client->check_health();
             laterpay_get_logger()->info(
                 __METHOD__, array(
-                    'api_root'                        => $client_options['api_root'] . '/health',
                     'api_available'                   => self::$lp_api_availability,
                     'laterpay_api_fallback_behaviour' => $behavior[ $action ],
                 )
