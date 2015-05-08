@@ -46,7 +46,7 @@ class LaterPay_Core_Bootstrap
      *
      * @param string $name name of the controller without prefix.
      *
-     * @return bool|$controller instance of the given controller name
+     * @return bool|LaterPay_Controller_Base $controller instance of the given controller name
      */
     protected function get_controller( $name ) {
         $class = 'LaterPay_Controller_' . (string) $name;
@@ -126,6 +126,7 @@ class LaterPay_Core_Bootstrap
 
         // prefetch the post_access for loops
         add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
+        add_filter( 'the_posts',                    'LaterPay_Helper_Post::hide_paid_posts', 1 );
 
         // enqueue the frontend assets
         add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_stylesheets' ) );

@@ -127,7 +127,6 @@ class LaterPay_Helper_File
         $file       = base64_encode( $cipher->encrypt( $uri ) );
         $file       = strtr( $file, '+/', '-_' );
 
-        $request    = new LaterPay_Core_Request();
         $path       = ABSPATH . $uri;
         $ext        = pathinfo( $path, PATHINFO_EXTENSION );
 
@@ -148,14 +147,6 @@ class LaterPay_Helper_File
             $params['file_disposition'] = $set_file_disposition;
         }
         if ( $use_auth ) {
-            $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
             $tokenInstance  = new LaterPay_Core_Auth_Hmac( $client->get_api_key() );
             $params['auth'] = $tokenInstance->sign( $client->get_laterpay_token() );
         }
@@ -207,7 +198,6 @@ class LaterPay_Helper_File
 
         // variables
         $access     = false;
-        $upload_dir = wp_upload_dir();
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $api_key = get_option( 'laterpay_live_api_key' );
         } else {
@@ -252,7 +242,7 @@ class LaterPay_Helper_File
         if ( ! empty( $lptoken ) ) {
             laterpay_get_logger()->debug( 'RESOURCE:: set token and make redirect' );
             // change URL
-            $client->set_token( $lptoken );
+            LaterPay_Helper_Request::laterpay_api_set_token( $lptoken );
             $params = array(
                     'aid'   => $aid,
                     'file'  => $file,
@@ -271,10 +261,7 @@ class LaterPay_Helper_File
             exit();
         }
 
-        if ( ! $client->has_token() ) {
-            laterpay_get_logger()->debug( 'RESOURCE:: No token found. Acquiring token' );
-            $client->acquire_token();
-        }
+        LaterPay_Helper_Request::laterpay_api_acquire_token();
 
         if ( ! empty( $auth ) ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Auth param exists. Checking ...' );

@@ -18,6 +18,25 @@ class LaterPay_Helper_Post
     private static $access = array();
 
     /**
+     * Set state for the particular post $id.
+     *
+     * @param string    $id
+     * @param bool      $state
+     */
+    public static function set_access_state( $id, $state ) {
+        self::$access[ $id ] = $state;
+    }
+
+    /**
+     * Return the access state for all loaded posts.
+     *
+     * @return array
+     */
+    public static function get_access_state() {
+        return self::$access;
+    }
+
+    /**
      * Check, if user has access to a post.
      *
      * @param WP_Post $post
@@ -31,7 +50,7 @@ class LaterPay_Helper_Post
 
         laterpay_get_logger()->info(
             __METHOD__,
-            array( 'post' => $post )
+            array( 'post' => $post, 'access_list' => self::$access )
         );
 
         if ( array_key_exists( $post_id, self::$access ) ) {
@@ -52,15 +71,7 @@ class LaterPay_Helper_Post
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
         if ( $price > 0 ) {
-            $client_options  = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            $result          = $laterpay_client->get_access( array_merge( array( $post_id ), $time_passes ) );
+            $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post_id ), $time_passes ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
@@ -108,15 +119,7 @@ class LaterPay_Helper_Post
             $code_key = '[#' . $code . ']';
 
             // check, if gift code was purchased successfully and user has access
-            $client_options  = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            $result = $laterpay_client->get_access( array( $code_key ) );
+            $result = LaterPay_Helper_Request::laterpay_api_get_access( array( $code_key ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
@@ -401,5 +404,46 @@ class LaterPay_Helper_Post
                             );
 
         return $overlay_content;
+    }
+
+    /**
+     * Hide paid posts from access in the loop.
+     *
+     * In archives or by using the WP_Query-Class, we can prefetch the access
+     * for all posts in a single request instead of requesting every single post.
+     *
+     * @wp-hook the_posts
+     *
+     * @param array $posts
+     *
+     * @return array $posts
+     */
+    public static function hide_paid_posts( $posts ) {
+        $api_available  = LaterPay_Helper_Request::laterpay_api_check_availability();
+        $behavior       = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
+
+        if ( ! $api_available && $behavior == 2 ) {
+            $result = array();
+            $count = 0;
+
+            foreach ( $posts as $post ) {
+                $paid = LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0;
+                if ( ! $paid ) {
+                    $result[] = $post;
+                } else {
+                    $count++;
+                }
+            }
+
+            $context = array(
+                'hidden' => $count,
+            );
+
+            laterpay_get_logger()->info( __METHOD__, $context );
+
+            return $result;
+        }
+
+        return $posts;
     }
 }

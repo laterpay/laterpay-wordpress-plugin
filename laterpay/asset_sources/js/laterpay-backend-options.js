@@ -5,6 +5,7 @@
         var $o = {
                 browscapCacheUpdateButton   : $('#lp_js_updateBrowscapCache'),
                 statusHintText              : $('#lp_js_updateBrowscapCache').next('.lp_appended-text'),
+                laterpayApiFallbackSelect   : $('#lp_js_laterpayApiFallbackSelect'),
                 spinnerWrapper              : $('<span id="lp_js_spinnerWrapper">'),
                 spinnerWrapperSelector      : '#lp_js_spinnerWrapper',
 
@@ -14,15 +15,20 @@
 
             bindEvents = function() {
                 $o.browscapCacheUpdateButton
-                    .mousedown(function() {
-                        updateBrowscapCache();
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    updateBrowscapCache();
+                })
+                .click(function(e) {e.preventDefault();});
+
+                $o.laterpayApiFallbackSelect
+                .change(function() {
+                    updateLaterPayApiDescription($(this));
+                });
             },
 
             updateBrowscapCache = function() {
                 // require confirmation that technical requirements are fulfilled
-                if (confirm(lpVars.i18n.confirmTechnicalRequirementsForBrowscapUpdate)) {
+                if (confirm(lpVars.i18nconfirmTechnicalRequirementsForBrowscapUpdate)) {
                     // prevent duplicate Ajax requests
                     if (!$o.requestSent) {
                         $o.requestSent = true;
@@ -65,6 +71,16 @@
                         });
                     }
                 }
+            },
+            updateLaterPayApiDescription = function($select) {
+                var $dfn = $o.laterpayApiFallbackSelect.next('dfn'),
+                    selected_value = $select.val(),
+                    description = '';
+                if( lpVars.laterpayApiOptions[selected_value] !== undefined ) {
+                    description = lpVars.laterpayApiOptions[selected_value].description;
+                }
+                $dfn.html(description);
+
             },
 
             initializePage = function() {
