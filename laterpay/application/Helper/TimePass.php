@@ -312,9 +312,9 @@ class LaterPay_Helper_TimePass
             }
 
             // get list of time passes that cover this post
-            $time_passes = $model->get_time_passes_by_category_ids( $post_category_ids, null, $ignore_deleted );
+            $time_passes = $model->get_time_passes_by_category_ids( $post_category_ids );
         } else {
-            $time_passes = $model->get_time_passes_by_category_ids( null, null, $ignore_deleted );
+            $time_passes = $model->get_time_passes_by_category_ids();
         }
 
         // correct result, if we have purchased time passes
@@ -372,9 +372,18 @@ class LaterPay_Helper_TimePass
 
                 // get data without covered categories or only excluded
                 if ( isset( $covered_categories['excluded'] ) ) {
-                    $time_passes = $model->get_time_passes_by_category_ids( array( $covered_categories['excluded'] ), null, $ignore_deleted );
+                    $time_passes = $model->get_time_passes_by_category_ids( array( $covered_categories['excluded'] ) );
                 } else {
-                    $time_passes = $model->get_time_passes_by_category_ids( $covered_categories['included'], true, $ignore_deleted );
+                    $time_passes = $model->get_time_passes_by_category_ids( $covered_categories['included'], true );
+                }
+            }
+        }
+
+        if ( $ignore_deleted ) {
+            // filter deleted time passes
+            foreach ( $time_passes as $key => $time_pass ) {
+                if ( $time_pass['is_deleted'] ) {
+                    unset( $time_passes[ $key ] );
                 }
             }
         }

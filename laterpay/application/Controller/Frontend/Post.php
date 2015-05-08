@@ -62,7 +62,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $content = apply_filters( 'the_content', $post->post_content );
         $content = str_replace( ']]>', ']]&gt;', $content );
 
-        echo laterpay_sanitize_output( $content );
+        echo laterpay_sanitized( $content );
         // return Ajax content
         exit;
     }
