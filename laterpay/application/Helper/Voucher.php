@@ -132,6 +132,13 @@ class LaterPay_Helper_Voucher
             return array();
         }
 
+        // format prices
+        foreach ( $vouchers as $time_pass_id => $time_pass_voucher ) {
+            foreach ( $time_pass_voucher as $code => $price ) {
+                $vouchers[ $time_pass_id ][ $code ] = LaterPay_Helper_View::format_number( $price );
+            }
+        }
+
         return $vouchers;
     }
 
