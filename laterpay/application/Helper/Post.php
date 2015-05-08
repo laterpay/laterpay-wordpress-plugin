@@ -18,6 +18,25 @@ class LaterPay_Helper_Post
     private static $access = array();
 
     /**
+     * Set state for the particular post $id
+     *
+     * @param string    $id
+     * @param bool      $state
+     */
+    public static function set_access_state( $id, $state ) {
+        self::$access[ $id ] = $state;
+    }
+
+    /**
+     * Returns the access state for all loaded posts
+     *
+     * @return array
+     */
+    public static function get_access_state() {
+        return self::$access;
+    }
+
+    /**
      * Check, if user has access to a post.
      *
      * @param WP_Post $post
@@ -52,15 +71,7 @@ class LaterPay_Helper_Post
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
 
         if ( $price > 0 ) {
-            $client_options  = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            $result          = $laterpay_client->get_access( array_merge( array( $post_id ), $time_passes ) );
+            $result = LaterPay_Helper_Request::laterpay_api_get_access( array_merge( array( $post_id ), $time_passes ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(
@@ -108,15 +119,7 @@ class LaterPay_Helper_Post
             $code_key = '[#' . $code . ']';
 
             // check, if gift code was purchased successfully and user has access
-            $client_options  = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            $result = $laterpay_client->get_access( array( $code_key ) );
+            $result = LaterPay_Helper_Request::laterpay_api_get_access( array( $code_key ) );
 
             if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
                 laterpay_get_logger()->warning(

@@ -198,7 +198,6 @@ class LaterPay_Helper_File
 
         // variables
         $access     = false;
-        $upload_dir = wp_upload_dir();
         if ( get_option( 'laterpay_plugin_is_in_live_mode' ) ) {
             $api_key = get_option( 'laterpay_live_api_key' );
         } else {
@@ -243,7 +242,7 @@ class LaterPay_Helper_File
         if ( ! empty( $lptoken ) ) {
             laterpay_get_logger()->debug( 'RESOURCE:: set token and make redirect' );
             // change URL
-            $client->set_token( $lptoken );
+            LaterPay_Helper_Request::laterpay_api_set_token( $lptoken );
             $params = array(
                     'aid'   => $aid,
                     'file'  => $file,
@@ -262,12 +261,7 @@ class LaterPay_Helper_File
             exit();
         }
 
-        if ( ! $client->has_token() ) {
-            laterpay_get_logger()->debug( 'RESOURCE:: No token found. Acquiring token' );
-            if ( LaterPay_Helper_Request::check_laterpay_api_availability() ) {
-                $client->acquire_token();
-            }
-        }
+        LaterPay_Helper_Request::laterpay_api_acquire_token();
 
         if ( ! empty( $auth ) ) {
             laterpay_get_logger()->debug( 'RESOURCE:: Auth param exists. Checking ...' );

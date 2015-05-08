@@ -11,13 +11,6 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 {
 
     /**
-     * Contains the access state for all loaded posts.
-     *
-     * @var array
-     */
-    protected $access = array();
-
-    /**
      * Ajax method to get the cached article.
      * Required, because there could be a price change in LaterPay and we always need the current article price.
      *
@@ -48,7 +41,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             wp_die();
         }
 
-        if ( ! is_user_logged_in() && ! $this->has_access_to_post( $post ) ) {
+        if ( ! is_user_logged_in() && ! LaterPay_Helper_Post::has_access_to_post( $post ) ) {
             // check access to paid post for not logged in users only and prevent
             wp_die();
         } else if ( is_user_logged_in() && LaterPay_Helper_User::preview_post_as_visitor( $post ) ) {
@@ -372,15 +365,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $hash = LaterPay_Helper_Pricing::get_hash_by_url( $url );
         // update lptoken, if we got it
         if ( isset( $_GET['lptoken'] ) ) {
-            $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            $client->set_token( sanitize_text_field( $_GET['lptoken'] ) );
+            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ) );
         }
 
         $post_id = absint( $_GET['post_id'] );
@@ -469,23 +454,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             $context
         );
 
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
         if ( isset( $_GET['lptoken'] ) ) {
-            $laterpay_client->set_token( sanitize_text_field( $_GET['lptoken'] ), true );
+            LaterPay_Helper_Request::laterpay_api_set_token( sanitize_text_field( $_GET['lptoken'] ), true );
         }
 
-        if ( ! $laterpay_client->has_token() ) {
-            if ( LaterPay_Helper_Request::check_laterpay_api_availability() ) {
-                $laterpay_client->acquire_token();
-            }
-        }
+        LaterPay_Helper_Request::laterpay_api_acquire_token();
     }
 
     /**
@@ -515,7 +488,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
 
         // user has access to the post
-        if ( $this->has_access_to_post( $post ) ) {
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) ) {
             return true;
         }
 
@@ -540,7 +513,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         // and bundle them in one API request to LaterPay, to avoid the overhead of multiple API requests
         foreach ( $posts as $post ) {
             // add a post_ID to the array of posts to be queried for access, if it's purchasable and not loaded already
-            if ( ! array_key_exists( $post->ID, $this->access ) && LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0 ) {
+            if ( ! array_key_exists( $post->ID, LaterPay_Helper_Post::get_access_state() ) && LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0 ) {
                 $post_ids[] = $post->ID;
             }
         }
@@ -550,7 +523,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
 
         foreach ( $time_passes as $time_pass ) {
             // add a tokenized time pass id to the array of posts to be queried for access, if it's not loaded already
-            if ( ! array_key_exists( $time_pass, $this->access ) ) {
+            if ( ! array_key_exists( $time_pass, LaterPay_Helper_Post::get_access_state() ) ) {
                 $post_ids[] = $time_pass;
             }
         }
@@ -564,108 +537,17 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             array( 'post_ids' => $post_ids )
         );
 
-        $client_options = LaterPay_Helper_Config::get_php_client_options();
-        $laterpay_client = new LaterPay_Client(
-            $client_options['cp_key'],
-            $client_options['api_key'],
-            $client_options['api_root'],
-            $client_options['web_root'],
-            $client_options['token_name']
-        );
-        $access_result = $laterpay_client->get_access( $post_ids );
+        $access_result = LaterPay_Helper_Request::laterpay_api_get_access( $post_ids );
 
         if ( empty( $access_result ) || ! array_key_exists( 'articles', $access_result ) ) {
             return $posts;
         }
 
         foreach ( $access_result['articles'] as $post_id => $state ) {
-            $this->access[ $post_id ] = (bool) $state['access'];
+            LaterPay_Helper_Post::set_access_state( $post_id, (bool) $state['access'] );
         }
 
         return $posts;
-    }
-
-    /**
-     * Check, if user has access to a post.
-     *
-     * @param WP_Post $post
-     *
-     * @return boolean success
-     */
-    public function has_access_to_post( WP_Post $post ) {
-        $post_id = $post->ID;
-
-        $this->logger->info(
-            __METHOD__,
-            array(
-                'post' => $post,
-            )
-        );
-
-        // check access with time passes
-        $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post_id );
-        $time_passes      = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
-
-        foreach ( $time_passes as $time_pass ) {
-            if ( array_key_exists( $time_pass, $this->access ) && $this->access[ $time_pass ] ) {
-                return true;
-            }
-        }
-
-        // check access for the particular post
-        if ( array_key_exists( $post_id, $this->access ) ) {
-            return (bool) $this->access[ $post_id ];
-        }
-
-        $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
-
-        // only check access for paid posts (i.e. posts with a price > 0)
-        if ( $price > 0 ) {
-            $client_options = LaterPay_Helper_Config::get_php_client_options();
-            $laterpay_client = new LaterPay_Client(
-                $client_options['cp_key'],
-                $client_options['api_key'],
-                $client_options['api_root'],
-                $client_options['web_root'],
-                $client_options['token_name']
-            );
-            // merge time passes and post id arrays before check
-            $result = $laterpay_client->get_access( array_merge( array( $post_id ), $time_passes ) );
-
-            if ( empty( $result ) || ! array_key_exists( 'articles', $result ) ) {
-                $this->logger->warning(
-                    __METHOD__ . ' - post not found ',
-                    array(
-                        'result' => $result,
-                    )
-                );
-
-                return false;
-            }
-
-            $has_access = false;
-
-            foreach ( $result['articles'] as $article_key => $article_access ) {
-                $access = (bool) $article_access['access'];
-                $this->access[ $article_key ] = $access;
-                if ( $access ) {
-                    $has_access = true;
-                }
-            }
-
-            if ( $has_access ) {
-                $this->logger->info(
-                    __METHOD__ . ' - post has access',
-                    array(
-                        'result' => $result,
-                    )
-                );
-
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -750,7 +632,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         }
 
         // check, if the current post was already purchased and current user is not an admin
-        if ( $this->has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
+        if ( LaterPay_Helper_Post::has_access_to_post( $post ) && ! $preview_post_as_visitor ) {
             return;
         }
 
@@ -969,7 +851,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $is_ajax_and_caching_is_active  = defined( 'DOING_AJAX' ) && DOING_AJAX && $caching_is_active;
 
         // check, if user has access to content (because he already bought it)
-        $access = $this->has_access_to_post( $post );
+        $access = LaterPay_Helper_Post::has_access_to_post( $post );
 
         // switch to 'admin' mode and load the correct content, if user can read post statistics
         if ( $user_can_read_statistics ) {
@@ -1130,7 +1012,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      * @return array of time pass ids with access
      */
     protected function get_time_passes_with_access() {
-        $access                     = $this->access;
+        $access                     = LaterPay_Helper_Post::get_access_state();
         $time_passes_with_access    = array();
 
         // get time passes with access
