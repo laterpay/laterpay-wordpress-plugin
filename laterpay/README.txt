@@ -260,7 +260,6 @@ your theme after installing the LaterPay WordPress plugin.
 = 0.9.11.4 (May 7, 2015): Bugfix Release (v1.0 RC4) =
 * Completely revised plugin backend user interface
 * Added functionality to automatically remove logged page view data after three months
-* Improved fallback behavior of plugin when the LaterPay API is unavailable
 * Added possibility to manually update the Browscap database from the advanced settings page
 * Improved behavior of deleting time passes (only mark as deleted instead of actually removing from database)
 * Changed mechanism for excluding vendor libraries from git submodules to Composer
