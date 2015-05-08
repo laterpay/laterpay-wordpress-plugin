@@ -1042,15 +1042,27 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
     }
 
     /**
-     * Get LaterPay API options array
+     * Get LaterPay API options array.
      *
      * @return string description
      */
     public static function get_laterpay_api_options() {
         return array(
-            array( 'value' => '0', 'text' => __( 'Do nothing', 'laterpay' ), 'description' => __( 'Please make sure that premium content is not accessible for free', 'laterpay' ) ),
-            array( 'value' => '1', 'text' => __( 'Give full access', 'laterpay' ), 'description' => __( 'Give full access to premium content in order to not disappoint the users', 'laterpay' ) ),
-            array( 'value' => '2', 'text' => __( 'Hide premium content', 'laterpay' ), 'description' => __( 'Hide premium content, so it is not visible. Direct access would be blocked', 'laterpay' ) ),
+            array(
+                'value'         => '0',
+                'text'          => __( 'Do nothing', 'laterpay' ),
+                'description'   => __( 'No user can access premium content while the LaterPay API is not responding.', 'laterpay' ),
+            ),
+            array(
+                'value'         => '1',
+                'text'          => __( 'Give full access', 'laterpay' ),
+                'description'   => __( 'All users have full access to premium content in order to not disappoint paying users.', 'laterpay' ),
+            ),
+            array(
+                'value'         => '2',
+                'text'          => __( 'Hide premium content', 'laterpay' ),
+                'description'   => __( 'Premium content is hidden from users. Direct access would be blocked.', 'laterpay' ),
+            ),
         );
     }
 }
