@@ -46,11 +46,11 @@ class LaterPay_Controller_Admin_Settings extends LaterPay_Controller_Base
             'laterpay-backend-options',
             'lpVars',
             array(
-                'i18nFetchingUpdate'                            => __( 'Fetching data from browscap.org', 'laterpay' ),
-                'i18nUpdateFailed'                              => __( 'Browscap cache update has failed', 'laterpay' ),
-                'i18nUpToDate'                                  => __( 'Your database is up to date :-)', 'laterpay' ),
-                'confirmTechnicalRequirementsForBrowscapUpdate' => __( 'Your server must have > 100 MB of RAM and the /cache folder within the LaterPay plugin must be writable for an update. Start database update?', 'laterpay' ),
-                'laterPayApiOptions'                            => self::get_laterpay_api_options(),
+                'i18nFetchingUpdate'                                => __( 'Fetching data from browscap.org', 'laterpay' ),
+                'i18nUpdateFailed'                                  => __( 'Browscap cache update has failed', 'laterpay' ),
+                'i18nUpToDate'                                      => __( 'Your database is up to date :-)', 'laterpay' ),
+                'i18nconfirmTechnicalRequirementsForBrowscapUpdate' => __( 'Your server must have > 100 MB of RAM and the /cache folder within the LaterPay plugin must be writable for an update. Start database update?', 'laterpay' ),
+                'laterpayApiOptions'                                => self::get_laterpay_api_options(),
             )
         );
 

@@ -28,7 +28,7 @@
 
             updateBrowscapCache = function() {
                 // require confirmation that technical requirements are fulfilled
-                if (confirm(lpVars.confirmTechnicalRequirementsForBrowscapUpdate)) {
+                if (confirm(lpVars.i18nconfirmTechnicalRequirementsForBrowscapUpdate)) {
                     // prevent duplicate Ajax requests
                     if (!$o.requestSent) {
                         $o.requestSent = true;
@@ -76,8 +76,8 @@
                 var $dfn = $o.laterpayApiFallbackSelect.next('dfn'),
                     selected_value = $select.val(),
                     description = '';
-                if( lpVars.laterPayApiOptions[selected_value] !== undefined ) {
-                    description = lpVars.laterPayApiOptions[selected_value].description;
+                if( lpVars.laterpayApiOptions[selected_value] !== undefined ) {
+                    description = lpVars.laterpayApiOptions[selected_value].description;
                 }
                 $dfn.html(description);
 
