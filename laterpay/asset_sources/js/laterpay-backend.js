@@ -20,13 +20,13 @@ function setMessage(message, success) {
 
     $message.addClass(messageClass).find('p').html(message);
     if (jQuery('p:hidden', $message)) {
-        $message.slideDown(250);
+        $message.velocity('slideDown', { duration: 250 });
     }
     flashVisible = setTimeout(function() { clearMessage(); }, 3000);
 }
 
 function clearMessage() {
-    jQuery('#lp_js_flashMessage').slideUp(250);
+    jQuery('#lp_js_flashMessage').velocity('slideUp', { duration: 250 });
 }
 
 function showLoadingIndicator($target) {
@@ -73,13 +73,13 @@ jQuery.fn.showMessage = function(message) {
     $container.prepend($message);
     $message.addClass(messageClass).find('p').html(message);
     if (jQuery('p:hidden', $message)) {
-        $message.slideDown(250);
+        $message.velocity('slideDown', { duration: 250 });
     }
     setTimeout(function() { $message.clearMessage(); }, 3000);
 };
 
 jQuery.fn.clearMessage = function() {
-    jQuery(this).slideUp(250, function(){ jQuery(this).remove(); });
+    jQuery(this).velocity('slideUp', { duration: 250 });
 };
 
 jQuery.noConflict();
