@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 class="lp_js_switchButtonGroup"
                                 <?php if ( $laterpay['show_teaser_content_only'] ) : ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-1"></div>
-                        <?php echo laterpay_sanitize_output( __( 'Teaser content only', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Teaser only', 'laterpay' ) ); ?>
                     </label><!-- comment required to prevent spaces, because layout uses display:inline-block
                  --><label class="lp_js_buttonGroupButton lp_button-group__button<?php if ( ! $laterpay['show_teaser_content_only'] ) { echo ' lp_is-selected'; } ?>">
                         <input type="radio"
@@ -50,7 +50,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 class="lp_js_switchButtonGroup"
                                 <?php if ( ! $laterpay['show_teaser_content_only'] ) : ?>checked<?php endif; ?>/>
                         <div class="lp_button-group__button-image lp_button-group__button-image--preview-mode-2"></div>
-                        <?php echo laterpay_sanitize_output( __( 'Teaser content + full content, covered by overlay', 'laterpay' ) ); ?>
+                        <?php echo laterpay_sanitize_output( __( 'Teaser + excerpt under overlay', 'laterpay' ) ); ?>
                     </label>
                 </div>
             </form>
