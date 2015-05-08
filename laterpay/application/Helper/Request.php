@@ -150,13 +150,22 @@ class LaterPay_Helper_Request {
             );
             $result = $client->get_access( $article_ids, $product_key );
         } else {
-            $action     = (int) get_option( 'laterpay_api_fallback_behaviour', 0 );
+            $action             = (int) get_option( 'laterpay_api_fallback_behaviour', 0 );
             $result['articles'] = array();
+            switch ( $action ) {
+                case 0:
+                case 1:
+                    $access = (bool) $action;
+                    break;
+                default:
+                    $access = false;
+                    break;
+            }
             foreach ( $article_ids as $id ) {
-                $result['articles'][ $id ] = (bool) $action;
+                $result['articles'][ $id ] = array( 'access' => $access );
             }
         }
-        $context        = array(
+        $context = array(
             'article_ids'   => $article_ids,
             'product_key'   => $product_key,
             'result'        => $result,

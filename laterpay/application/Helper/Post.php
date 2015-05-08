@@ -50,7 +50,7 @@ class LaterPay_Helper_Post
 
         laterpay_get_logger()->info(
             __METHOD__,
-            array( 'post' => $post )
+            array( 'post' => $post, 'access_list' => self::$access )
         );
 
         if ( array_key_exists( $post_id, self::$access ) ) {
@@ -404,5 +404,41 @@ class LaterPay_Helper_Post
                             );
 
         return $overlay_content;
+    }
+
+    /**
+     * Hide paid posts from access in the loop.
+     *
+     * In archives or by using the WP_Query-Class, we can prefetch the access
+     * for all posts in a single request instead of requesting every single post.
+     *
+     * @wp-hook the_posts
+     *
+     * @param array $posts
+     *
+     * @return array $posts
+     */
+    public static function hide_paid_posts( $posts ) {
+        $api_available  = LaterPay_Helper_Request::laterpay_api_check_availability();
+        $behavior       = (int) get_option( 'laterpay_api_fallback_behaviour', 0 );
+
+        if ( ! $api_available && $behavior == 2 ) {
+            $result = array();
+            $count = 0;
+            foreach ( $posts as $post ) {
+                $paid = LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0;
+                if ( ! $paid ) {
+                    $result[] = $post;
+                } else {
+                    $count++;
+                }
+            }
+            $context = array(
+                'hidden' => $count,
+            );
+            laterpay_get_logger()->info( __METHOD__, $context );
+            return $result;
+        }
+        return $posts;
     }
 }

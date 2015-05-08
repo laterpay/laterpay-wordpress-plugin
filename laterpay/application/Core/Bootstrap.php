@@ -126,6 +126,7 @@ class LaterPay_Core_Bootstrap
 
         // prefetch the post_access for loops
         add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
+        add_filter( 'the_posts',                    'LaterPay_Helper_Post::hide_paid_posts', 1 );
 
         // enqueue the frontend assets
         add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_stylesheets' ) );

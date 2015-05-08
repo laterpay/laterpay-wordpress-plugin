@@ -1119,13 +1119,13 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             $this->config->get( 'version' ),
             true
         );
-
+        $post = get_post();
         wp_localize_script(
             'laterpay-post-view',
             'lpVars',
             array(
                 'ajaxUrl'               => admin_url( 'admin-ajax.php' ),
-                'post_id'               => get_the_ID(),
+                'post_id'               => ! empty( $post ) ? $post->ID : false,
                 'debug'                 => (bool) $this->config->get( 'debug_mode' ),
                 'caching'               => (bool) $this->config->get( 'caching.compatible_mode' ),
                 'nonces'                => array(
