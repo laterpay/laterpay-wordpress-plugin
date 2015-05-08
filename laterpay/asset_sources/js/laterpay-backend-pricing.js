@@ -1362,21 +1362,31 @@
             },
 
             changePurchaseMode = function($form) {
+                // toggle visibility of form elements
                 var onlyTimePassModeChecked = $o.purchaseModeInput.is(':checked');
+                if (onlyTimePassModeChecked) {
+                    $o.timePassOnlyHideElements.velocity('slideUp', { duration: 250 });
+                } else {
+                    $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250 });
+                }
+
+                // disable button during Ajax request
+                $o.purchaseModeInput.prop('disabled', true);
+
                 $.post(
                     ajaxurl,
                     $form.serialize(),
                     function(data) {
-                        if (data.success) {
-                            if (onlyTimePassModeChecked) {
-                                $o.timePassOnlyHideElements.velocity('slideUp', { duration: 250 });
-                            } else {
-                                $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250 });
-                            }
-                        } else {
+                        if (!data.success) {
                             setMessage(data.message, data.success);
+
+                            // restore standard mode (individual and time pass purchases)
                             $o.purchaseModeInput.attr('checked', false);
+                            $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250 });
                         }
+
+                        // re-enable button after Ajax request
+                        $o.purchaseModeInput.prop('disabled', false);
                     },
                     'json'
                 );
