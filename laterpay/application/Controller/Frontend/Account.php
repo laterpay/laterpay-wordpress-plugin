@@ -66,6 +66,9 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
         $this->assign( 'laterpay_account', $view_args );
 
         echo laterpay_sanitized( $this->get_text_view( 'frontend/partials/widget/account-links' ) );
+
+        wp_enqueue_script( 'laterpay-yui' );
+        wp_enqueue_script( 'laterpay-account-links' );
     }
 
     /**
@@ -90,7 +93,5 @@ class LaterPay_Controller_Frontend_Account extends LaterPay_Controller_Base
             $this->config->get( 'version' ),
             true
         );
-        wp_enqueue_script( 'laterpay-yui' );
-        wp_enqueue_script( 'laterpay-account-links' );
     }
 }

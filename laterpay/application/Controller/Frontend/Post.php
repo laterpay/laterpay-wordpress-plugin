@@ -603,8 +603,8 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         );
 
         // check access with time passes
-        $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post_id );
-        $time_passes        = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
+        $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $post_id );
+        $time_passes      = LaterPay_Helper_TimePass::get_tokenized_time_pass_ids( $time_passes_list );
 
         foreach ( $time_passes as $time_pass ) {
             if ( array_key_exists( $time_pass, $this->access ) && $this->access[ $time_pass ] ) {
@@ -784,14 +784,13 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
      *
      * @wp-hook laterpay_time_passes
      *
-     * @param string $variant               variant of the time pass widget (currently only 'small' is supported)
      * @param string $introductory_text     additional text rendered at the top of the widget
      * @param string $call_to_action_text   additional text rendered after the time passes and before the voucher code input
      * @param int    $time_pass_id          id of one time pass to be rendered instead of all time passes
      *
      * @return void
      */
-    public function the_time_passes_widget( $variant = '', $introductory_text = '', $call_to_action_text = '', $time_pass_id = null ) {
+    public function the_time_passes_widget( $introductory_text = '', $call_to_action_text = '', $time_pass_id = null ) {
         $is_homepage                     = is_front_page() && is_home();
         $show_widget_on_free_posts       = get_option( 'laterpay_show_time_passes_widget_on_free_posts' );
         $time_passes_positioned_manually = get_option( 'laterpay_time_passes_positioned_manually' );
@@ -818,12 +817,14 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( $is_homepage ) {
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
                 null,
-                $time_passes_with_access
+                $time_passes_with_access,
+                true
             );
         } else {
             $time_passes_list = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id(
                 get_the_ID(),
-                $time_passes_with_access
+                $time_passes_with_access,
+                true
             );
         }
 
@@ -831,30 +832,19 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
             if ( in_array( $time_pass_id, $time_passes_with_access ) ) {
                 return;
             }
-            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id ) );
+            $time_passes_list = array( LaterPay_Helper_TimePass::get_time_pass_by_id( $time_pass_id, true ) );
         }
 
         // don't render the widget, if there are no time passes
-        if ( count( $time_passes_list ) == 0 ) {
+        if ( count( $time_passes_list ) === 0 ) {
             return;
         }
 
         // check, if the time passes to be rendered have vouchers
         $has_vouchers = LaterPay_Helper_Voucher::passes_have_vouchers( $time_passes_list );
 
-        // get the associated CSS class to be applied for the specified variant
-        switch ( $variant ) {
-            case 'small':
-                $class = 'lp_time-pass-widget--small';
-                break;
-
-            default:
-                $class = '';
-        }
-
         $view_args = array(
            'passes_list'                    => $time_passes_list,
-           'time_pass_widget_class'         => $class,
            'has_vouchers'                   => $has_vouchers,
            'time_pass_introductory_text'    => $introductory_text,
            'time_pass_call_to_action_text'  => $call_to_action_text,

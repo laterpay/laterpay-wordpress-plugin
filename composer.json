@@ -24,6 +24,7 @@
     },
     "scripts": {
         "phpcs": "\"laterpay/vendor/bin/phpcs\" -s -n -p --standard=ruleset.xml --extensions=php --ignore=laterpay/vendor/*,laterpay/cache/*,laterpay/languages/* laterpay",
+        "phpcbf": "\"laterpay/vendor/bin/phpcbf\" --no-patch --standard=ruleset.xml --extensions=php --ignore=laterpay/vendor/*,laterpay/cache/*,laterpay/languages/* laterpay",
         "wpcs": "\"laterpay/vendor/bin/phpcs\" --config-set installed_paths laterpay/vendor/wp-coding-standards/wpcs"
     }
 }

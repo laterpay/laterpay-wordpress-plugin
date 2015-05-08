@@ -278,7 +278,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         global $wpdb;
 
         $current_version = get_option( 'laterpay_version' );
-        if ( version_compare( $current_version, '0.9.10', '<' ) ) {
+        if ( version_compare( $current_version, '0.9.11.4', '<' ) ) {
             return;
         }
 
@@ -295,23 +295,34 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
             'background_path',
         );
 
+        $is_deleted_flag_present = false;
+
         foreach ( $columns as $column ) {
             if ( in_array( $column->Field, $removed_columns ) ) {
                 $is_up_to_date = false;
+            }
+            if ( $column->Field === 'is_deleted' ) {
+                $is_deleted_flag_present = true;
             }
         }
 
         $this->logger->info(
             __METHOD__,
             array(
-                'current_version'   => $current_version,
-                'is_up_to_date'     => $is_up_to_date,
+                'current_version'         => $current_version,
+                'is_up_to_date'           => $is_up_to_date,
+                'is_deleted_flag_present' => $is_deleted_flag_present,
             )
         );
 
         // if the table needs an update
         if ( ! $is_up_to_date ) {
             $wpdb->query( 'ALTER TABLE ' . $table . ' DROP title_color, DROP description_color, DROP background_color, DROP background_path;' );
+        }
+
+        // if need to add is_deleted field
+        if ( ! $is_deleted_flag_present ) {
+            $wpdb->query( 'ALTER TABLE ' . $table . ' ADD `is_deleted` int(1) NOT NULL DEFAULT 0;' );
         }
     }
 
@@ -662,8 +673,8 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 ip                VARBINARY(16)        NOT NULL,
                 has_access        INT(1)               NOT NULL DEFAULT 0,
                 PRIMARY KEY  (id),
-                INDEX idx_post_views_date_mode (date, mode),
-                INDEX idx_post_views_post_id_date_mode (post_id, date, mode)
+                KEY idx_post_views_date_mode (date,mode),
+                KEY idx_post_views_post_id_date_mode (post_id,date,mode)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 
@@ -678,10 +689,11 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
                 revenue_model     VARCHAR(12)   NULL DEFAULT NULL,
                 title             VARCHAR(255)  NULL DEFAULT NULL,
                 description       VARCHAR(255)  NULL DEFAULT NULL,
+                is_deleted        INT(1)        NOT NULL DEFAULT 0,
                 PRIMARY KEY  (pass_id),
-                INDEX access_to (access_to),
-                INDEX period (period),
-                INDEX duration (duration)
+                KEY access_to (access_to),
+                KEY period (period),
+                KEY duration (duration)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
         dbDelta( $sql );
 

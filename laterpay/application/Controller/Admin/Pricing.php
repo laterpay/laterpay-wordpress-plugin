@@ -46,7 +46,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             'updatePrices'              => __( 'Update Prices', 'laterpay' ),
             'delete'                    => __( 'Delete', 'laterpay' ),
             // time pass editor
-            'confirmDeleteTimePass'     => __( 'Every user, who owns this pass, will lose his access.', 'laterpay' ),
+            'confirmDeleteTimePass'     => __( 'Are you sure?', 'laterpay' ),
             'voucherText'               => __( 'reduces the price to', 'laterpay' ),
             'timesRedeemed'             => __( 'times redeemed.', 'laterpay' ),
         );
@@ -54,7 +54,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         // pass localized strings and variables to script
         $time_passes_model  = new LaterPay_Model_TimePass();
 
-        $time_passes_list   = (array) $time_passes_model->get_all_time_passes();
+        $time_passes_list   = $time_passes_model->get_active_time_passes();
         $vouchers_list      = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
@@ -88,7 +88,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
 
         // time passes and vouchers data
         $time_passes_model              = new LaterPay_Model_TimePass();
-        $time_passes_list               = (array) $time_passes_model->get_all_time_passes();
+        $time_passes_list               = $time_passes_model->get_active_time_passes();
         $vouchers_list                  = LaterPay_Helper_Voucher::get_all_vouchers();
         $vouchers_statistic             = LaterPay_Helper_Voucher::get_all_vouchers_statistic();
 
@@ -916,7 +916,6 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
         $time_passes_array = array( 0 => LaterPay_Helper_TimePass::get_default_options() );
 
         foreach ( $time_passes_list as $time_pass ) {
-            $time_pass = (array) $time_pass;
             if ( isset( $time_pass['access_category'] ) && $time_pass['access_category'] ) {
                 $time_pass['category_name'] = get_the_category_by_ID( $time_pass['access_category'] );
             }
@@ -1012,7 +1011,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
                 wp_send_json(
                     array(
                         'success' => false,
-                        'message' => __( 'You have to create a time pass, before you can disable individual purchases.' ),
+                        'message' => __( 'You have to create a time pass, before you can disable individual purchases.', 'laterpay' ),
                     )
                 );
             }

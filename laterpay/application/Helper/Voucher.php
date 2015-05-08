@@ -189,18 +189,17 @@ class LaterPay_Helper_Voucher
     /**
      * Check, if given time passes have vouchers.
      *
-     * @param array $passes array of time passes
+     * @param array $time_passes array of time passes
      * @param bool  $is_gift
      *
      * @return bool $has_vouchers
      */
-    public static function passes_have_vouchers( $passes, $is_gift = false ) {
+    public static function passes_have_vouchers( $time_passes, $is_gift = false ) {
         $has_vouchers = false;
 
-        if ( $passes && is_array( $passes ) ) {
-            foreach ( $passes as $pass ) {
-                $pass = (array) $pass;
-                if ( self::get_time_pass_vouchers( $pass['pass_id'], $is_gift ) ) {
+        if ( $time_passes && is_array( $time_passes ) ) {
+            foreach ( $time_passes as $time_pass ) {
+                if ( self::get_time_pass_vouchers( $time_pass['pass_id'], $is_gift ) ) {
                     $has_vouchers = true;
                     break;
                 }

@@ -245,6 +245,9 @@ class LaterPay_Core_Bootstrap
         $dashboard_controller = $this->get_controller( 'Admin_Dashboard' );
         add_action( 'laterpay_refresh_dashboard_data',  array( $dashboard_controller, 'refresh_dashboard_data' ), 10, 3 );
 
+        // add action to delete old post views from table
+        add_action( 'laterpay_delete_old_post_views',   array( $dashboard_controller, 'delete_old_post_views' ), 10, 1 );
+
         $post_controller = $this->get_controller( 'Frontend_Post' );
         // add custom action to echo the LaterPay purchase button
         add_action( 'laterpay_purchase_button',         array( $post_controller, 'the_purchase_button' ) );
@@ -253,7 +256,7 @@ class LaterPay_Core_Bootstrap
         add_filter( 'laterpay_check_user_access',       array( $post_controller, 'check_user_access' ), 10, 2 );
 
         // add custom action to echo the LaterPay time passes
-        add_action( 'laterpay_time_passes',             array( $post_controller, 'the_time_passes_widget'), 10, 4 );
+        add_action( 'laterpay_time_passes',             array( $post_controller, 'the_time_passes_widget' ), 10, 4 );
 
         // add custom action to echo the LaterPay invoice indicator
         $invoice_controller = $this->get_controller( 'Frontend_Invoice' );
@@ -423,6 +426,8 @@ class LaterPay_Core_Bootstrap
 
         // register the 'refresh dashboard' cron job
         wp_schedule_event( time(), 'hourly', 'laterpay_refresh_dashboard_data' );
+        // register the 'delete old post views' cron job
+        wp_schedule_event( time(), 'daily', 'laterpay_delete_old_post_views', array( '3 month' ) );
     }
 
     /**
@@ -435,5 +440,7 @@ class LaterPay_Core_Bootstrap
     public function deactivate() {
         // de-register the 'refresh dashboard' cron job
         wp_clear_scheduled_hook( 'laterpay_refresh_dashboard_data' );
+        // de-register the 'delete old post views' cron job
+        wp_clear_scheduled_hook( 'laterpay_delete_old_post_views', array( '3 month' ) );
     }
 }

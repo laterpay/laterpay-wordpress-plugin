@@ -215,6 +215,21 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
     }
 
     /**
+     * Callback for WP cron to delete old post views from table.
+     *
+     * @wp-hook laterpay_delete_old_post_views
+     *
+     * @param string $modifier
+     *
+     * @return void
+     */
+    public function delete_old_post_views( $modifier = '3 month' ) {
+        // delete old post views
+        $post_views_model = new LaterPay_Model_Post_View();
+        $post_views_model->delete_old_data( $modifier );
+    }
+
+    /**
      * Internal function to load the conversion data as diagram.
      *
      * @param array $options
@@ -493,8 +508,8 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
         );
 
         $data = array(
-            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most, 0 ),
-            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least, 0 ),
+            'most'  => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $most ),
+            'least' => LaterPay_Helper_Dashboard::format_amount_value_most_least_data( $least ),
             'unit'  => get_option( 'laterpay_currency' ),
         );
 
@@ -528,39 +543,28 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
 
         $post_args['where']['has_access'] = 0;
 
-        $history_model      = new LaterPay_Model_Payment_History();
-        $post_views_model   = new LaterPay_Model_Post_View();
+        $history_model       = new LaterPay_Model_Payment_History();
+        $post_views_model    = new LaterPay_Model_Post_View();
 
-        // get the user stats for the given parameters
-        $user_stats             = $history_model->get_user_stats( $history_args );
-        $total_customers        = count( $user_stats );
-        $new_customers          = 0;
-        foreach ( $user_stats as $stat ) {
-            if ( (int) $stat->quantity === 1 ) {
-                $new_customers += 1;
-            }
-        }
+        $new_customers       = $this->calculate_new_customers( $options );
 
-        if ( $total_customers > 0 ) {
-            $new_customers          = $new_customers * 100 / $total_customers;
-        }
+        $total_items_sold    = $history_model->get_total_items_sold( $history_args );
+        $total_items_sold    = $total_items_sold->quantity;
 
-        $total_items_sold           = $history_model->get_total_items_sold( $history_args );
-        $total_items_sold           = $total_items_sold->quantity;
+        $impressions         = $post_views_model->get_total_post_impression( $post_args );
+        $impressions         = $impressions->quantity;
 
-        $impressions                = $post_views_model->get_total_post_impression( $post_args );
-        $impressions                = $impressions->quantity;
+        $total_revenue_items = $history_model->get_total_revenue_items( $history_args );
+        $total_revenue_items = $total_revenue_items->amount;
 
-        $total_revenue_items        = $history_model->get_total_revenue_items( $history_args );
-        $total_revenue_items        = $total_revenue_items->amount;
-        $avg_purchase               = 0;
+        $avg_purchase        = 0;
         if ( $total_items_sold > 0 ) {
-            $avg_purchase           = $total_revenue_items / $total_items_sold;
+            $avg_purchase    = $total_revenue_items / $total_items_sold;
         }
 
         $conversion = 0;
         if ( $impressions > 0 ) {
-            $conversion = ( $total_items_sold / $impressions ) * 100;
+            $conversion      = ( $total_items_sold / $impressions ) * 100;
         }
 
         $avg_items_sold = 0;
@@ -757,5 +761,61 @@ class LaterPay_Controller_Admin_Dashboard extends LaterPay_Controller_Admin_Base
             );
             wp_send_json_error( $error );
         }
+    }
+
+    /**
+     * Internal function to calculate new users.
+     *
+     * @param  array $options
+     *
+     * @return float $new_customers
+     */
+    private function calculate_new_customers( $options ) {
+        $history_model = new LaterPay_Model_Payment_History();
+        $end_timestamp = LaterPay_Helper_Dashboard::get_end_timestamp( $options['start_timestamp'], $options['interval'] );
+        $mode          = LaterPay_Helper_View::get_plugin_mode();
+        $new_customers = 0;
+
+        $where = array(
+            'date' => array(
+                array(
+                    'before' => LaterPay_Helper_Date::get_date_query_before_end_of_day( $end_timestamp ),
+                ),
+            ),
+            'mode' => $mode,
+        );
+
+        $customer_args = array(
+            'where' => $where,
+        );
+
+        // get all purchases data before reporting period
+        $user_stats_old = $history_model->get_user_stats( $customer_args, true );
+
+        // get the user stats in reporting period
+        $customer_args['where']         = $options['query_where'];
+        $user_stats_in_reporting_period = $history_model->get_user_stats( $customer_args );
+        $total_customers_in_period      = count( $user_stats_in_reporting_period );
+
+        // check if user purchased items before
+        if ( $total_customers_in_period > 0 ) {
+            foreach ( $user_stats_in_reporting_period as $stat ) {
+                $is_new = true;
+                foreach ( $user_stats_old as $key => $old_stat ) {
+                    if ( $old_stat['ip'] === $stat->ip ) {
+                        unset( $user_stats_old[ $key ] );
+                        $is_new = false;
+                        break;
+                    }
+                }
+                if ( $is_new ) {
+                    $new_customers += 1;
+                }
+            }
+
+            $new_customers = ( $new_customers / $total_customers_in_period ) * 100 ;
+        }
+
+        return $new_customers;
     }
 }
