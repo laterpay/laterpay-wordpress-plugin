@@ -18,7 +18,7 @@ class LaterPay_Helper_Post
     private static $access = array();
 
     /**
-     * Set state for the particular post $id
+     * Set state for the particular post $id.
      *
      * @param string    $id
      * @param bool      $state
@@ -28,7 +28,7 @@ class LaterPay_Helper_Post
     }
 
     /**
-     * Returns the access state for all loaded posts
+     * Return the access state for all loaded posts.
      *
      * @return array
      */
@@ -425,6 +425,7 @@ class LaterPay_Helper_Post
         if ( ! $api_available && $behavior == 2 ) {
             $result = array();
             $count = 0;
+
             foreach ( $posts as $post ) {
                 $paid = LaterPay_Helper_Pricing::get_post_price( $post->ID ) != 0;
                 if ( ! $paid ) {
@@ -433,12 +434,16 @@ class LaterPay_Helper_Post
                     $count++;
                 }
             }
+
             $context = array(
                 'hidden' => $count,
             );
+
             laterpay_get_logger()->info( __METHOD__, $context );
+
             return $result;
         }
+
         return $posts;
     }
 }

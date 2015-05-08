@@ -11,7 +11,7 @@ class LaterPay_Helper_Request {
     protected static $lp_api_availability = null;
 
     /**
-     * Check if the current request is an Ajax request.
+     * Check, if the current request is an Ajax request.
      *
      * @return bool
      */
@@ -81,7 +81,8 @@ class LaterPay_Helper_Request {
     }
 
     /**
-     * Check if the API is available
+     * Check, if the API is available.
+     *
      * @return bool
      */
     public static function laterpay_api_check_availability() {
@@ -98,6 +99,7 @@ class LaterPay_Helper_Request {
             );
 
             self::$lp_api_availability = $client->check_health();
+
             laterpay_get_logger()->info(
                 __METHOD__, array(
                     'api_available'                   => self::$lp_api_availability,
@@ -123,21 +125,25 @@ class LaterPay_Helper_Request {
             $client_options['web_root'],
             $client_options['token_name']
         );
+
         $context        = array(
             'token'    => $token,
             'redirect' => $redirect,
         );
+
         laterpay_get_logger()->info( __METHOD__, $context );
+
         $client->set_token( $token, $redirect );
     }
 
     /**
-     * Check if user has access to a given item / given array of items.
+     * Check, if user has access to a given item / given array of items.
      *
      * @see LaterPay_Client::get_access()
      */
     public static function laterpay_api_get_access( $article_ids, $product_key = null ) {
         $result = array();
+
         if ( self::laterpay_api_check_availability() ) {
             $client_options = LaterPay_Helper_Config::get_php_client_options();
             $client         = new LaterPay_Client(
@@ -147,10 +153,12 @@ class LaterPay_Helper_Request {
                 $client_options['web_root'],
                 $client_options['token_name']
             );
+
             $result = $client->get_access( $article_ids, $product_key );
         } else {
             $action             = (int) get_option( 'laterpay_api_fallback_behavior', 0 );
             $result['articles'] = array();
+
             switch ( $action ) {
                 case 0:
                 case 1:
@@ -160,16 +168,20 @@ class LaterPay_Helper_Request {
                     $access = false;
                     break;
             }
+
             foreach ( $article_ids as $id ) {
                 $result['articles'][ $id ] = array( 'access' => $access );
             }
         }
+
         $context = array(
             'article_ids'   => $article_ids,
             'product_key'   => $product_key,
             'result'        => $result,
         );
+
         laterpay_get_logger()->info( __METHOD__, $context );
+
         return $result;
     }
 
@@ -188,8 +200,10 @@ class LaterPay_Helper_Request {
                 $client_options['web_root'],
                 $client_options['token_name']
             );
+
             if ( ! $client->has_token() ) {
                 laterpay_get_logger()->debug( 'RESOURCE:: No token found. Acquiring token' );
+
                 $client->acquire_token();
             }
         } else {

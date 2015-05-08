@@ -15,14 +15,15 @@
 
             bindEvents = function() {
                 $o.browscapCacheUpdateButton
-                    .mousedown(function() {
-                        updateBrowscapCache();
-                    })
-                    .click(function(e) {e.preventDefault();});
+                .mousedown(function() {
+                    updateBrowscapCache();
+                })
+                .click(function(e) {e.preventDefault();});
+
                 $o.laterpayApiFallbackSelect
-                    .change(function() {
-                        updateLaterPayApiDescription($(this));
-                    });
+                .change(function() {
+                    updateLaterPayApiDescription($(this));
+                });
             },
 
             updateBrowscapCache = function() {
