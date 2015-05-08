@@ -95,7 +95,7 @@
                     $o.testMerchantId.focus();
 
                     // show button for loading the contracts, as the user probably has no valid live credentials yet
-                    $o.showMerchantContractsButton.fadeIn(250);
+                    $o.showMerchantContractsButton.velocity('fadeIn', { duration: 250 });
 
                     // make sure Ajax request gets sent
                     $o.requestSent = false;
@@ -109,10 +109,10 @@
 
             togglePluginModeIndicators = function(mode) {
                 if (mode === 'live') {
-                    $('#lp_js_pluginModeIndicator').fadeOut();
+                    $('#lp_js_pluginModeIndicator').velocity('fadeOut', { duration: 250 });
                     $('#lp_js_liveCredentials').addClass($o.isLive);
                 } else {
-                    $('#lp_js_pluginModeIndicator').fadeIn();
+                    $('#lp_js_pluginModeIndicator').velocity('fadeIn', { duration: 250 });
                     $('#lp_js_liveCredentials').removeClass($o.isLive);
                 }
             },
@@ -132,16 +132,16 @@
                     $o.requestSent = false;
 
                     // show additional toggle for switching between visible and invisible test mode
-                    $o.pluginVisibilitySetting.fadeIn(250);
+                    $o.pluginVisibilitySetting.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 } else if (hasSwitchedToLiveMode) {
                     // hide toggle for switching between visible and invisible test mode
-                    $o.pluginVisibilitySetting.fadeOut(250);
+                    $o.pluginVisibilitySetting.velocity('fadeOut', { duration: 250 });
 
                     // hide button for loading the contracts, as the user obviously has valid live credentials already
-                    $o.showMerchantContractsButton.fadeOut(250);
+                    $o.showMerchantContractsButton.velocity('fadeOut', { duration: 250 });
                 } else {
                     // hide toggle for switching between visible and invisible test mode
-                    $o.pluginVisibilitySetting.fadeIn(250);
+                    $o.pluginVisibilitySetting.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 }
 
                 // save plugin mode
@@ -282,21 +282,30 @@
                     iframeOffset,
                     scrollPosition;
 
-                $o.showMerchantContractsButton.fadeOut();
+                $o.showMerchantContractsButton.velocity('fadeOut', { duration: 250 });
 
                 // remove possibly existing iframe and insert a wrapper to display the iframe in
                 if ($('iframe', $iframeWrapper).length !== 0) {
                     $('iframe', $iframeWrapper).remove();
                 }
                 if ($iframeWrapper.length === 0) {
-                    $('#lp_js_apiCredentialsSection').after($iframeWrapperObject.slideDown(400, function() {
-                        // scroll document so that iframe fills viewport
-                        iframeOffset = $('#lp_js_legalDocsIframe').offset();
-                        scrollPosition = iframeOffset.top - topMargin;
-                        $('BODY, HTML').animate({
-                            scrollTop: scrollPosition
-                        }, 400);
-                    }));
+                    $('#lp_js_apiCredentialsSection')
+                    .after(
+                        $iframeWrapperObject
+                        .velocity('slideDown', {
+                            duration: 400,
+                            complete: function() {
+                                // scroll document so that iframe fills viewport
+                                iframeOffset = $('#lp_js_legalDocsIframe').offset();
+                                scrollPosition = iframeOffset.top - topMargin;
+
+
+
+                                $('BODY, HTML')
+                                .velocity('scroll', { duration: 400, offset: scrollPosition });
+                             }
+                        })
+                    );
                 }
 
                 // re-cache object after replacing it
@@ -315,12 +324,24 @@
                 );
 
                 // close merchant contracts
-                $('#lp_js_hideMerchantContracts', $iframeWrapper).bind('click', function(e) {
-                    $(this).fadeOut()
-                        .parent('#lp_js_legalDocsIframe').slideUp(400, function() {
-                            $(this).remove();
+                $('#lp_js_hideMerchantContracts', $iframeWrapper).bind('mousedown', function(e) {
+                    $(this)
+                    .velocity('fadeOut', { duration: 200 })
+                        .parent('#lp_js_legalDocsIframe')
+                        .velocity('slideUp', {
+                            duration: 400,
+                            complete: function() {
+                                $(this).remove();
+                            }
                         });
-                    $o.showMerchantContractsButton.fadeIn();
+
+                    $o.showMerchantContractsButton
+                    .velocity('fadeIn', {
+                        duration    : 250,
+                        delay       : 250,
+                        display     : 'inline-block'
+                    });
+
                     e.preventDefault();
                 });
             },

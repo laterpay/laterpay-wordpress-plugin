@@ -384,7 +384,7 @@
 
                 // prevent non-number prices
                 if (isNaN(price)) {
-                    price       = 0;
+                    price = 0;
                 }
 
                 // prevent negative prices
@@ -392,9 +392,9 @@
 
                 // correct prices outside the allowed range of 0.05 - 149.99
                 if (price > 149.99) {
-                    price       = 149.99;
+                    price = 149.99;
                 } else if (price > 0 && price < 0.05) {
-                    price       = 0.05;
+                    price = 0.05;
                 }
 
                 if ( ! dontValidateRevenueModel ) {
@@ -630,7 +630,7 @@
 
                 // show 'Add' button again
                 if (!editAnotherCategory) {
-                    $o.addCategory.velocity('fadeIn', { duration: 250 });
+                    $o.addCategory.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 }
             },
 
@@ -737,7 +737,7 @@
             },
 
             addTimePass = function() {
-                // hide "add time pass" button
+                // hide 'add time pass' button
                 $o.addTimePass.velocity('fadeOut', { duration: 250 });
 
                 // hide empty state hint, if it is visible
@@ -925,7 +925,7 @@
 
                 // show 'add time pass' button, if it is hidden
                 if ($o.addTimePass.is(':hidden')) {
-                    $o.addTimePass.velocity('fadeIn', { duration: 250 });
+                    $o.addTimePass.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 }
             },
 
@@ -1021,7 +1021,7 @@
                         }
 
                         if ($o.addTimePass.is(':hidden')) {
-                            $o.addTimePass.velocity('fadeIn', { duration: 250 });
+                            $o.addTimePass.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                         }
 
                         setMessage(r.message, r.success);
