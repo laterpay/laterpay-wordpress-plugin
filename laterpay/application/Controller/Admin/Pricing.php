@@ -816,7 +816,7 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
      */
     public function render_time_pass( $args = array() ) {
         $defaults = LaterPay_Helper_TimePass::get_default_options();
-        $args = array_merge( $defaults, $args );
+        $args     = array_merge( $defaults, $args );
 
         $this->assign( 'laterpay_pass', $args );
         $this->assign( 'laterpay',      array(
@@ -853,14 +853,15 @@ class LaterPay_Controller_Admin_Pricing extends LaterPay_Controller_Admin_Base
             LaterPay_Helper_Voucher::save_pass_vouchers( $data['pass_id'], $voucher );
 
             $data['category_name'] = get_the_category_by_ID( $data['access_category'] );
-            $data['price'] = LaterPay_Helper_View::format_number( $data['price'] );
+            $hmtl_data             = $data;
+            $data['price']         = LaterPay_Helper_View::format_number( $data['price'] );
 
             wp_send_json(
                 array(
                     'success'  => true,
                     'data'     => $data,
                     'vouchers' => LaterPay_Helper_Voucher::get_time_pass_vouchers( $data['pass_id'] ),
-                    'html'     => $this->render_time_pass( $data ),
+                    'html'     => $this->render_time_pass( $hmtl_data ),
                     'message'  => __( 'Pass saved.', 'laterpay' ),
                 )
             );

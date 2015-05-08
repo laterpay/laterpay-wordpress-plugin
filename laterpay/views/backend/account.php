@@ -130,7 +130,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 class="lp_api-credentials lp_api-credentials--live<?php if ( $laterpay['plugin_is_in_live_mode'] ) { echo ' lp_is-live'; } ?>"
                 data-icon="k">
                 <fieldset class="lp_api-credentials__fieldset">
-                    <legend class="lp_api-credentials__legend"><?php laterpay_sanitize_output( __( 'Live Environment', 'laterpay' ) ); ?></legend>
+                    <legend class="lp_api-credentials__legend"><?php echo laterpay_sanitize_output( __( 'Live Environment', 'laterpay' ) ); ?></legend>
 
                     <dfn class="lp_api-credentials__hint">
                         <?php echo laterpay_sanitize_output( __( 'for processing real financial transactions', 'laterpay' ) ); ?>

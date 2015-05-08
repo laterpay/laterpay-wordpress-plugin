@@ -113,12 +113,12 @@
                 $o.priceSection.removeClass($o.expanded);
 
                 // hide details sections
-                $o.detailsSections.hide();
+                $o.detailsSections.velocity('slideUp', { duration: 250 });
 
                 // case: individual price
                 if (priceType === 'lp_js_useIndividualPrice') {
                     $o.priceSection.addClass($o.expanded);
-                    $o.dynamicPricingToggle.show();
+                    $o.dynamicPricingToggle.velocity('fadeIn', { duration: 250, display: 'block' });
                     $o.priceTypeInput.val('individual price');
 
                     // validate price to enable all applicable revenue models
@@ -127,7 +127,7 @@
                     // show / hide stuff
                     if ($o.dynamicPricingToggle.text() === lpVars.i18nRemoveDynamicPricing) {
                         renderDynamicPricingWidget();
-                        $o.individualPriceDetails.show();
+                        $o.individualPriceDetails.velocity('slideDown', { duration: 250 });
                     }
                 }
                 // case: category default price
@@ -143,9 +143,9 @@
 
                     // show / hide stuff
                     $o.priceSection.addClass($o.expanded);
-                    $o.categoryPriceDetails.show();
-                    $o.categories.slideDown(250);
-                    $o.dynamicPricingToggle.hide();
+                    $o.categoryPriceDetails.velocity('slideDown', { duration: 250 });
+                    $o.categories.velocity('slideDown', { duration: 250 });
+                    $o.dynamicPricingToggle.velocity('fadeOut', { duration: 250 });
                     $o.priceTypeInput.val('category default price');
                 }
                 // case: global default price
@@ -157,7 +157,7 @@
                     setRevenueModel(revenueModel, true);
 
                     // show / hide stuff
-                    $o.dynamicPricingToggle.hide();
+                    $o.dynamicPricingToggle.velocity('fadeOut', { duration: 250 });
                     $o.priceTypeInput.val('global default price');
                 }
 
@@ -167,7 +167,9 @@
                     !$o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)
                 ) {
                     $o.priceInput.removeAttr('disabled');
-                    setTimeout(function() {$o.priceInput.focus();}, 50);
+                    setTimeout(function() {
+                        $o.priceInput.focus();
+                    }, 50);
                 } else {
                     if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                         disableDynamicPricing();
@@ -356,7 +358,7 @@
                                 $o.globalPriceButton.removeClass($o.disabled);
 
                                 // hide details sections
-                                $o.detailsSections.hide();
+                                $o.detailsSections.velocity('fadeOut', { duration: 250 });
 
                                 // if current pricing type is 'category default price'
                                 // fall back to global default price or an individual price of 0
@@ -368,7 +370,7 @@
                                         // case: fall back to individual price
                                         $o.individualPriceButton.addClass($o.selected);
                                         $o.priceTypeInput.val('individual price');
-                                        $o.dynamicPricingToggle.show();
+                                        $o.dynamicPricingToggle.velocity('fadeIn', { duration: 250, display: 'block' });
                                         $o.priceInput.removeAttr('disabled');
                                         setPrice(0);
                                         setRevenueModel($o.payPerUse, false);
@@ -405,7 +407,7 @@
             toggleDynamicPricing = function() {
                 if ($o.dynamicPricingToggle.hasClass($o.dynamicPricingApplied)) {
                     disableDynamicPricing();
-                    $o.revenueModel.show();
+                    $o.revenueModel.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                 } else {
                     enableDynamicPricing();
                 }
@@ -433,7 +435,7 @@
                 renderDynamicPricingWidget();
                 $o.dynamicPricingToggle.addClass($o.dynamicPricingApplied);
                 $o.priceInput.attr('disabled', 'disabled');
-                $o.individualPriceDetails.slideDown(250);
+                $o.individualPriceDetails.velocity('slideDown', { duration: 250 });
                 $o.priceTypeInput.val('individual price, dynamic');
                 $o.dynamicPricingToggle.text(lpVars.i18nRemoveDynamicPricing).attr('data-icon', 'e');
             },
@@ -441,10 +443,13 @@
             disableDynamicPricing = function() {
                 removeDynamicPricing();
                 $o.dynamicPricingToggle.removeClass($o.dynamicPricingApplied);
-                $o.individualPriceDetails.slideUp(250, function() {
-                    $($o.dynamicPricingContainer).empty();
+                $o.individualPriceDetails.velocity('slideUp', {
+                    duration: 250,
+                    complete: function() {
+                        $($o.dynamicPricingContainer).empty();
+                    }
                 });
-                $o.dynamicPricingResetDate.fadeOut(250);
+                $o.dynamicPricingResetDate.velocity('fadeOut', { duration: 250 });
                 $o.dynamicPricingToggle.text(lpVars.i18nAddDynamicPricing).attr('data-icon', 'c');
                 if ($o.priceTypeInput.val() === 'individual price, dynamic') {
                     $o.priceTypeInput.val('individual price');

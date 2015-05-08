@@ -200,6 +200,10 @@
 .lp_dynamic-pricing-reset {
     display: block;
     padding: $fs--075 $fs--025 0;
+
+    &:focus {
+        color: $clickable--highlight;
+    }
 }
 
 
