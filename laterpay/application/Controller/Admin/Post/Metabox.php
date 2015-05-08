@@ -55,14 +55,22 @@ class LaterPay_Controller_Admin_Post_Metabox extends LaterPay_Controller_Base
             true
         );
         wp_register_script(
+            'laterpay-velocity',
+            $this->config->get( 'js_url' ) . 'vendor/velocity.min.js',
+            array(),
+            $this->config->get( 'version' ),
+            true
+        );
+        wp_register_script(
             'laterpay-post-edit',
             $this->config->get( 'js_url' ) . '/laterpay-post-edit.js',
-            array( 'laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'jquery' ),
+            array( 'laterpay-d3', 'laterpay-d3-dynamic-pricing-widget', 'laterpay-velocity', 'jquery' ),
             $this->config->get( 'version' ),
             true
         );
         wp_enqueue_script( 'laterpay-d3' );
         wp_enqueue_script( 'laterpay-d3-dynamic-pricing-widget' );
+        wp_enqueue_script( 'laterpay-velocity' );
         wp_enqueue_script( 'laterpay-post-edit' );
 
         // pass localized strings and variables to scripts
