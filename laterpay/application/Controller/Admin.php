@@ -103,12 +103,20 @@ class LaterPay_Controller_Admin extends LaterPay_Controller_Base
 
         // load LaterPay-specific JS
         wp_register_script(
-            'laterpay-backend',
-            $this->config->get( 'js_url' ) . 'laterpay-backend.js',
-            array( 'jquery' ),
+            'laterpay-velocity',
+            $this->config->get( 'js_url' ) . 'vendor/velocity.min.js',
+            array(),
             $this->config->get( 'version' ),
             true
         );
+        wp_register_script(
+            'laterpay-backend',
+            $this->config->get( 'js_url' ) . 'laterpay-backend.js',
+            array( 'jquery', 'laterpay-velocity' ),
+            $this->config->get( 'version' ),
+            true
+        );
+        wp_enqueue_script( 'laterpay-velocity' );
         wp_enqueue_script( 'laterpay-backend' );
 
     }
