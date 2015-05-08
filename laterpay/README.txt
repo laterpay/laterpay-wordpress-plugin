@@ -261,7 +261,7 @@ your theme after installing the LaterPay WordPress plugin.
 * Added advanced option to manually update the Browscap database from the advanced settings page
 * Added advanced option to define the plugin behavior in case the LaterPay API is not responding
 * Improved behavior of deleting time passes (only mark as deleted instead of actually removing from database)
-* Changed mechanism for excluding vendor libraries from git submodules to Composer
+* Changed mechanism for including vendor libraries from git submodules to Composer
 * Fixed several internals regarding the calculation of sales statistics
 * Adjusted copy in teaser content overlay for Time Passes and Single Sale purchases
 * Fixed various visual bugs
