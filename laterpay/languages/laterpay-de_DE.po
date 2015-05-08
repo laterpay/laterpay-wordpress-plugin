@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: LaterPay 0.9.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/laterpay\n"
 "POT-Creation-Date: 2014-07-18 10:22:24+00:00\n"
-"PO-Revision-Date: Thu May 07 2015 16:38:29 GMT+0200 (CEST)\n"
+"PO-Revision-Date: Fri May 08 2015 14:01:41 GMT+0200 (CEST)\n"
 "Last-Translator: Tobias Woldrich <twoldrich@laterpay.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: German\n"
@@ -176,22 +176,22 @@ msgid "on this website"
 msgstr "dieser Website"
 
 #: ../views/frontend/partials/post/gift/gift-pass.php:37 ..
-#: views/backend/partials/time-pass.php:45
+#: views/backend/partials/time-pass.php:47
 msgid "Validity"
 msgstr "Gültigkeit"
 
 #: ../views/frontend/partials/post/gift/gift-pass.php:43 ..
-#: views/backend/partials/time-pass.php:51
+#: views/backend/partials/time-pass.php:53
 msgid "Access to"
 msgstr "Zugriff auf"
 
 #: ../views/frontend/partials/post/gift/gift-pass.php:49 ..
-#: views/backend/partials/time-pass.php:57
+#: views/backend/partials/time-pass.php:59
 msgid "Renewal"
 msgstr "Verlängerung"
 
 #: ../views/frontend/partials/post/gift/gift-pass.php:51 ..
-#: views/backend/partials/time-pass.php:59
+#: views/backend/partials/time-pass.php:61
 msgid "No automatic renewal"
 msgstr "Keine automatische Verlängerung"
 
@@ -366,11 +366,11 @@ msgid "Content Preview of Paid Posts"
 msgstr "Vorschau für Bezahlinhalte"
 
 #: ../views/backend/appearance.php:44
-msgid "Teaser content only"
+msgid "Teaser only"
 msgstr "Nur Teaser"
 
 #: ../views/backend/appearance.php:53
-msgid "Teaser content + full content, covered by overlay"
+msgid "Teaser + excerpt under overlay"
 msgstr "Teaser + Auszug unter Overlay"
 
 #: ../views/backend/appearance.php:59
@@ -757,7 +757,7 @@ msgid "Edit Global Default Price"
 msgstr "Allgemeinen Standardpreis bearbeiten"
 
 #: ../views/backend/pricing.php:84 ../views/backend/pricing.php:188 ..
-#: views/backend/pricing.php:289 ../views/backend/partials/time-pass.php:63 ..
+#: views/backend/pricing.php:289 ../views/backend/partials/time-pass.php:65 ..
 #: application/Controller/Admin/Post/Column.php:27
 msgid "Price"
 msgstr "Preis"
@@ -1052,7 +1052,7 @@ msgstr "Dynamische Preissetzung hinzufügen"
 msgid "Terms"
 msgstr "Details"
 
-#: ../views/backend/partials/time-pass.php:42
+#: ../views/backend/partials/time-pass.php:43
 msgid "Back"
 msgstr "Zurück"
 
