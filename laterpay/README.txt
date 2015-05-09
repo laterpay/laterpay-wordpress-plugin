@@ -232,13 +232,8 @@ support.laterpay.net
 
 = How do I get my LaterPay Live API credentials? =
 To get your LaterPay Live API credentials, please send us the signed merchant contract and all necessary identification
-documents that are listed in the merchant contract. After we've checked your documents, we will send you an e-mail with
-your LaterPay Live API credentials.
-
-= My theme looks broken after activating the LaterPay plugin =
-The LaterPay WordPress plugin has been tested to work fine with most WordPress standard themes.
-Given the sheer mass of available WordPress themes, it is still likely that you will have to make some adjustments to
-your theme after installing the LaterPay WordPress plugin.
+documents that are listed in the merchant contract. You can find the merchant contract on the ’Account’ tab of the
+plugin backend. After we've checked your documents, we will send you an e-mail with your LaterPay Live API credentials.
 
 
 == Screenshots ==
