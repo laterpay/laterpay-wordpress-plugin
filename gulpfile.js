@@ -115,11 +115,6 @@ gulp.task('sniffphp', function() {
             .pipe(plugins.phpcs.reporter('log'));
 });
 
-// update git submodules
-gulp.task('updateSubmodules', function() {
-    plugins.git.updateSubmodule({args: '--init'});
-});
-
 
 // COMMANDS ------------------------------------------------------------------------------------------------------------
 gulp.task('default', ['clean', 'img-build', 'css-watch', 'js-watch'], function() {
@@ -141,7 +136,7 @@ gulp.task('precommit', ['sniffphp', 'js-format'], function() {
 });
 
 // build project for release
-gulp.task('build', ['clean', 'updateSubmodules'], function() {
+gulp.task('build', ['clean'], function() {
     gulp.start('img-build');
     gulp.start('css-build');
     gulp.start('js-build');
