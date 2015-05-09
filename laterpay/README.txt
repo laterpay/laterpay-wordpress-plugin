@@ -247,7 +247,7 @@ your theme after installing the LaterPay WordPress plugin.
 2. ... up to 149.99 EUR. Or you may set a dynamic price curve, use a category default price, or the global default price.
 3. The statistics dashboard gives you detailed insights about your sales performance.
 4. In the Pricing tab, you can set the default prices for the entire plugin or specific categories. And you can create time passes, which enable you to sell time-limited access to all the content on your website or in a specific category.
-5. The appearance tab allows you to adjust the positioning of the purchase button and time passes. Furthermore, you can choose between two preview modes for your paid content.
+5. The appearance tab allows you to adjust the position of the purchase button and time passes. Furthermore, you can choose between two preview modes for your paid content.
 6. Option 1 shows only a post's teaser content and a LaterPay purchase link.
 7. Option 2 additionally shows an excerpt of the full content under an overlay and a short explanation of LaterPay.
 8. The Account tab lets you enter, update, or delete your API credentials and switch between test and live mode. In test mode, you can choose, if LaterPay should be visible for regular visitors or not.
