@@ -133,7 +133,7 @@
 
                 // validate price and revenue model when entering a price
                 // (function is only triggered 800ms after the keyup)
-                $('body').on('keyup', $o.priceInput, debounce(function() {
+                $('body').on('keyup', $o.priceInput, (function() {
                         validatePrice($(this).parents('form'));
                     }, 800)
                 );
@@ -477,9 +477,10 @@
             },
 
             enterEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceShowElements.velocity('slideUp', { duration: 250 });
+                $o.globalDefaultPriceShowElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
                 $o.globalDefaultPriceEditElements.velocity('slideDown', {
                     duration: 250,
+                    easing: 'ease-out',
                     complete: function() {
                         setTimeout(function() {
                             $o.globalDefaultPriceInput.val($.trim($o.globalDefaultPriceDisplay.text())).focus();
@@ -490,8 +491,8 @@
             },
 
             exitEditModeGlobalDefaultPrice = function() {
-                $o.globalDefaultPriceShowElements.velocity('slideDown', { duration: 250 });
-                $o.globalDefaultPriceEditElements.velocity('slideUp', { duration: 250 });
+                $o.globalDefaultPriceShowElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
+                $o.globalDefaultPriceEditElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
                 $o.globalDefaultPriceForm.removeClass($o.editing);
                 // reset value of price input to current global default price
                 $o.globalDefaultPriceInput.val($o.globalDefaultPriceDisplay.text());
@@ -537,7 +538,7 @@
                             .clone()
                             .removeAttr('id')
                             .insertBefore('#lp_js_categoryDefaultPriceList')
-                            .velocity('slideDown', { duration: 250 });
+                            .velocity('slideDown', { duration: 250, easing: 'ease-out' });
 
                 editCategoryDefaultPrice($form);
             },
@@ -550,10 +551,12 @@
 
                 // initialize edit mode
                 $form.addClass($o.editing);
-                $($o.categoryDefaultPriceShowElements, $form).velocity('slideUp', { duration: 250 });
+                $($o.categoryDefaultPriceShowElements, $form)
+                .velocity('slideUp', { duration: 250, easing: 'ease-out' });
                 $o.addCategory.velocity('fadeOut', { duration: 250 });
                 $($o.categoryDefaultPriceEditElements, $form).velocity('slideDown', {
                     duration: 250,
+                    easing: 'ease-out',
                     complete: function() {
                         $($o.categoryDefaultPriceInput, $form).focus();
                     }
@@ -601,6 +604,7 @@
                     // remove form, if creating a new category default price has been canceled
                     $form.velocity('slideUp', {
                         duration: 250,
+                        easing: 'ease-out',
                         complete: function() {
                             $(this).remove();
 
@@ -613,7 +617,8 @@
                 } else {
                     // hide form, if a new category default price has been saved
                     // or editing an existing category default price has been canceled
-                    $($o.categoryDefaultPriceEditElements, $form).velocity('slideUp', { duration: 250 });
+                    $($o.categoryDefaultPriceEditElements, $form)
+                    .velocity('slideUp', { duration: 250, easing: 'ease-out' });
                     $($o.selectCategory, $form).select2('destroy');
                     // reset value of price input to current category default price
                     $($o.categoryDefaultPriceInput, $form).val($($o.categoryDefaultPriceDisplay, $form).text().trim());
@@ -625,7 +630,8 @@
                         .parent('label')
                         .addClass($o.selected);
                     // show elements for displaying defined price again
-                    $($o.categoryDefaultPriceShowElements, $form).velocity('slideDown', { duration: 250 });
+                    $($o.categoryDefaultPriceShowElements, $form)
+                    .velocity('slideDown', { duration: 250, easing: 'ease-out' });
                 }
 
                 // show 'Add' button again
@@ -644,6 +650,7 @@
                         if (r.success) {
                             $form.velocity('slideUp', {
                                 duration: 250,
+                                easing: 'ease-out',
                                 complete: function() {
                                     $(this).remove();
 
@@ -757,6 +764,7 @@
                 $timePass
                 .velocity('slideDown', {
                     duration: 250,
+                    easing: 'ease-out',
                     complete: function() {
                         $(this).removeClass($o.hidden);
                     }
@@ -764,6 +772,7 @@
                     .find($o.timePassForm)
                     .velocity('slideDown', {
                         duration: 250,
+                        easing: 'ease-out',
                         complete: function() {
                             $(this).removeClass($o.hidden);
                         }
@@ -1037,6 +1046,7 @@
                     $timePass
                     .velocity('slideUp', {
                         duration: 250,
+                        easing: 'ease-out',
                         begin: function() {
                             $.post(
                                 ajaxurl,
@@ -1129,7 +1139,7 @@
                     .prepend(voucher)
                         .find('div')
                             .first()
-                            .velocity('slideDown', { duration: 250 });
+                            .velocity('slideDown', { duration: 250, easing: 'ease-out' });
             },
 
             addVoucherToList = function(code, priceValue, $timePass) {
@@ -1158,6 +1168,7 @@
                 $voucher
                 .velocity('slideUp', {
                     duration: 250,
+                    easing: 'ease-out',
                     complete: function() {
                         $(this).remove();
                     }
@@ -1365,9 +1376,9 @@
                 // toggle visibility of form elements
                 var onlyTimePassModeChecked = $o.purchaseModeInput.is(':checked');
                 if (onlyTimePassModeChecked) {
-                    $o.timePassOnlyHideElements.velocity('slideUp', { duration: 250 });
+                    $o.timePassOnlyHideElements.velocity('slideUp', { duration: 250, easing: 'ease-out' });
                 } else {
-                    $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250 });
+                    $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
                 }
 
                 // disable button during Ajax request
@@ -1382,7 +1393,7 @@
 
                             // restore standard mode (individual and time pass purchases)
                             $o.purchaseModeInput.attr('checked', false);
-                            $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250 });
+                            $o.timePassOnlyHideElements.velocity('slideDown', { duration: 250, easing: 'ease-out' });
                         }
 
                         // re-enable button after Ajax request
