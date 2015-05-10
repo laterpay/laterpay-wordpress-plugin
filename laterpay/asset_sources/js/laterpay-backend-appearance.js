@@ -43,9 +43,9 @@
 
                 // show / hide hints
                 if (shouldShowHint) {
-                    $hint.velocity('slideDown', { duration: 250 });
+                    $hint.velocity('slideDown', { duration: 250, easing: 'ease-out' });
                 } else if (shouldHideHint) {
-                    $hint.velocity('slideUp', { duration: 250 });
+                    $hint.velocity('slideUp', { duration: 250, easing: 'ease-out' });
                 }
 
                 saveData($form);

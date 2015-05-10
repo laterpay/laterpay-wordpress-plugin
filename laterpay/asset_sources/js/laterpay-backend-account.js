@@ -21,6 +21,7 @@
                 isLive                          : 'lp_is-live',
 
                 showMerchantContractsButton     : $('#lp_js_showMerchantContracts'),
+                apiCredentials                  : $('#lp_js_apiCredentialsSection'),
 
                 throttledFlashMessage           : undefined,
                 flashMessageTimeout             : 800,
@@ -289,20 +290,19 @@
                     $('iframe', $iframeWrapper).remove();
                 }
                 if ($iframeWrapper.length === 0) {
-                    $('#lp_js_apiCredentialsSection')
+                    $o.apiCredentials
                     .after(
                         $iframeWrapperObject
                         .velocity('slideDown', {
                             duration: 400,
+                            easing: 'ease-out',
                             complete: function() {
                                 // scroll document so that iframe fills viewport
                                 iframeOffset = $('#lp_js_legalDocsIframe').offset();
                                 scrollPosition = iframeOffset.top - topMargin;
 
-
-
                                 $('BODY, HTML')
-                                .velocity('scroll', { duration: 400, offset: scrollPosition });
+                                .velocity('scroll', { duration: 400, easing: 'ease-out', offset: scrollPosition });
                              }
                         })
                     );
@@ -324,12 +324,14 @@
                 );
 
                 // close merchant contracts
-                $('#lp_js_hideMerchantContracts', $iframeWrapper).bind('mousedown', function(e) {
+                $('#lp_js_hideMerchantContracts', $iframeWrapper)
+                .bind('mousedown', function() {
                     $(this)
                     .velocity('fadeOut', { duration: 200 })
                         .parent('#lp_js_legalDocsIframe')
                         .velocity('slideUp', {
                             duration: 400,
+                            easing: 'ease-out',
                             complete: function() {
                                 $(this).remove();
                             }
@@ -341,9 +343,8 @@
                         delay       : 250,
                         display     : 'inline-block'
                     });
-
-                    e.preventDefault();
-                });
+                })
+                .bind('click', function(e) {e.preventDefault();});
             },
 
             preventLeavingWithoutValidCredentials = function() {
