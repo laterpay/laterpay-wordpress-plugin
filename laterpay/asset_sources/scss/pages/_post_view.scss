@@ -227,8 +227,8 @@
         font-size: $fs--15 !important;
         margin: 0 !important;
         position: relative !important;
-        right: 0.45em !important;
-        top: $fs--05 !important;
+        right: $fs--05 !important;
+        top: $fs--075 !important;
 
         &:before {
             font-size: round($fs * 2.5) !important;
