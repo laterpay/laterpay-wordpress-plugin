@@ -53,11 +53,6 @@ class LaterPay_Helper_Post
             array( 'post' => $post, 'access_list' => self::$access )
         );
 
-        // check access for the particular post
-        if ( array_key_exists( $post_id, self::$access ) && self::$access[ $post_id ] ) {
-            return true;
-        }
-
         // check, if parent post has access with time passes
         $parent_post        = $is_attachment ? $main_post_id : $post_id;
         $time_passes_list   = LaterPay_Helper_TimePass::get_time_passes_list_by_post_id( $parent_post );
@@ -66,6 +61,11 @@ class LaterPay_Helper_Post
             if ( array_key_exists( $time_pass, self::$access ) && self::$access[ $time_pass ] ) {
                 return true;
             }
+        }
+
+        // check access for the particular post
+        if ( array_key_exists( $post_id, self::$access ) ) {
+            return (bool) self::$access[ $post_id ];
         }
 
         $price = LaterPay_Helper_Pricing::get_post_price( $post->ID );
