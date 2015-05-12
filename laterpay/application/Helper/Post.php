@@ -53,9 +53,9 @@ class LaterPay_Helper_Post
             array( 'post' => $post, 'access_list' => self::$access )
         );
 
-        if ( array_key_exists( $post_id, self::$access ) ) {
-            // access was already checked
-            return (bool) self::$access[ $post_id ];
+        // check access for the particular post
+        if ( array_key_exists( $post_id, self::$access ) && self::$access[ $post_id ] ) {
+            return true;
         }
 
         // check, if parent post has access with time passes
