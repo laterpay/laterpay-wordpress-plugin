@@ -56,7 +56,7 @@
                     ajaxurl,
                     $form.serializeArray(),
                     function(data) {
-                        setMessage(data);
+                        $('.lp_navigation').showMessage(data);
                     }
                 );
             },

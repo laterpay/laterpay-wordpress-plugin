@@ -1,34 +1,3 @@
-var flashVisible;
-
-/*jshint unused: false */
-function setMessage(message, success) {
-    window.clearTimeout(flashVisible);
-
-    try {
-        var m = JSON.parse(message);
-        success = m.success;
-        message = m.message;
-    } catch(e) {
-        if (typeof message !== 'string') {
-            success = message.success;
-            message = message.message;
-        }
-    }
-
-    var $message        = jQuery('#lp_js_flashMessage'),
-        messageClass    = success ? 'updated' : 'error';
-
-    $message.addClass(messageClass).find('p').html(message);
-    if (jQuery('p:hidden', $message)) {
-        $message.velocity('slideDown', { duration: 250 });
-    }
-    flashVisible = setTimeout(function() { clearMessage(); }, 3000);
-}
-
-function clearMessage() {
-    jQuery('#lp_js_flashMessage').velocity('slideUp', { duration: 250 });
-}
-
 function showLoadingIndicator($target) {
     // add a state class, indicating that the element will be showing a loading indicator after a delay
     $target.addClass('lp_is-delayed');
@@ -52,9 +21,8 @@ function removeLoadingIndicator ($target) {
     }
 }
 
-jQuery.fn.showMessage = function(message) {
-    var $container  = jQuery(this),
-        success     = false;
+jQuery.fn.showMessage = function(message, success) {
+    var $container  = jQuery(this);
 
     try {
         var m = JSON.parse(message);
@@ -67,8 +35,8 @@ jQuery.fn.showMessage = function(message) {
         }
     }
 
-    var $message        = jQuery('<div class="lp_flash-message" style="display:none;"><p></p></div>'),
-        messageClass    = success ? 'updated' : 'error';
+    var $message     = jQuery('<div class="lp_flash-message" style="display:none;"><p></p></div>'),
+        messageClass = success ? 'updated' : 'error';
 
     $container.prepend($message);
     $message.addClass(messageClass).find('p').html(message);

@@ -68,7 +68,7 @@
                     if (!data || data.success) {
                         return;
                     }
-                    setMessage(data.message, data.success);
+                    $('.lp_navigation').showMessage(data);
                 });
 
                 return jqxhr;
