@@ -1,25 +1,25 @@
-function showLoadingIndicator($target) {
+jQuery.fn.showLoadingIndicator = function() {
     // add a state class, indicating that the element will be showing a loading indicator after a delay
-    $target.addClass('lp_is-delayed');
+    jQuery(this).addClass('lp_is-delayed');
 
     setTimeout(function() {
-        if ($target.hasClass('lp_is-delayed')) {
+        if (jQuery(this).hasClass('lp_is-delayed')) {
             // inject the loading indicator after a delay, if the element still has that state class
-            $target.removeClass('lp_is-delayed');
-            $target.html('<div class="lp_js_loadingIndicator lp_loading-indicator"></div>');
+            jQuery(this).removeClass('lp_is-delayed');
+            jQuery(this).html('<div class="lp_js_loadingIndicator lp_loading-indicator"></div>');
         }
     }, 600);
-}
+};
 
-function removeLoadingIndicator ($target) {
-    if ($target.hasClass('lp_is-delayed')) {
+jQuery.fn.removeLoadingIndicator = function() {
+    if (jQuery(this).hasClass('lp_is-delayed')) {
         // remove the state class, thus canceling adding the loading indicator
-        $target.removeClass('lp_is-delayed');
+        jQuery(this).removeClass('lp_is-delayed');
     } else {
         // remove the loading indicator
-        $target.find('.lp_js_loadingIndicator').remove();
+        jQuery(this).find('.lp_js_loadingIndicator').remove();
     }
-}
+};
 
 jQuery.fn.showMessage = function(message, success) {
     var $container  = jQuery(this);
