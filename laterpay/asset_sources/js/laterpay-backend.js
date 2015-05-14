@@ -10,7 +10,7 @@ jQuery.fn.showLoadingIndicator = function() {
             $container.removeClass('lp_is-delayed');
             $container.empty().append('<div class="lp_js_loadingIndicator lp_loading-indicator"></div>');
         }
-    }, 50);
+    }, 600);
 };
 
 jQuery.fn.removeLoadingIndicator = function() {
