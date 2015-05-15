@@ -702,6 +702,7 @@ class LaterPay_Controller_Install extends LaterPay_Controller_Base
         add_option( 'laterpay_landing_page',                            '' );
         add_option( 'laterpay_only_time_pass_purchases_allowed',        0 );
         add_option( 'laterpay_is_in_visible_test_mode',                 0 );
+        add_option( 'laterpay_hide_free_posts',                         0 );
 
         // advanced settings
         add_option( 'laterpay_sandbox_backend_api_url',                 'https://api.sandbox.laterpaytest.net' );

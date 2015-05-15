@@ -13,6 +13,10 @@
                 // ratings
                 ratingsToggle       : $('#lp_js_enableRatingsToggle'),
                 ratingsForm         : $('#lp_js_laterpayRatingsForm'),
+
+                // hide free posts
+                hideFreePostsToggle : $('#lp_js_hideFreePostsToggle'),
+                hideFreePostsForm   : $('#lp_js_laterpayHideFreePostsForm'),
             },
 
             bindEvents = function() {
@@ -26,6 +30,12 @@
                 $o.ratingsToggle
                 .change(function() {
                     saveData($o.ratingsForm);
+                });
+
+                // toggle activation status of hide free posts
+                $o.hideFreePostsToggle
+                .change(function() {
+                    saveData($o.hideFreePostsForm);
                 });
             },
 
