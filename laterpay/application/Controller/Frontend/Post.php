@@ -496,6 +496,43 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
+     * Prefetch get posts and exclude free posts with premium content from it
+     *
+     * @wp-hook pre_get_posts
+     *
+     * @param WP_Query  $query
+     *
+     * @return WP_Query $query
+     */
+    public function prefetch_get_posts( $query ) {
+        // is homepage
+        $is_homepage = $query->is_home() && $query->is_main_query();
+
+        if ( ! get_option( 'laterpay_hide_free_posts' ) || ! $is_homepage ) {
+            return $query;
+        }
+
+        // free posts with premium content ids
+        $post_ids = array();
+
+        // loop through query and find free posts with premium content
+        while ( $query->have_posts() ) {
+            $query->the_post();
+            $post = get_post();
+            if ( has_shortcode( $post->content, 'laterpay_premium_download' ) ) {
+                $post_ids[] = $post->ID;
+            }
+        }
+
+        rewind_posts();
+
+        // exclude free posts with premium content from query
+        $query->set( 'post__not_in', $post_ids );
+
+        return $query;
+    }
+
+    /**
      * Prefetch the post access for posts in the loop.
      *
      * In archives or by using the WP_Query-Class, we can prefetch the access
