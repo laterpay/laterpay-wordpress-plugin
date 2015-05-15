@@ -226,7 +226,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                        name="hide_free_posts"
                                        id="lp_js_hideFreePostsToggle"
                                        class="lp_toggle__input"
-                                       <?php if ( $laterpay['hide_free_posts'] ) : ?>checked<?php endif; ?>>
+                                        <?php if ( $laterpay['hide_free_posts'] ) : ?>checked<?php endif; ?>>
                                 <span class="lp_toggle__text" data-on="<?php echo laterpay_sanitize_output( __( 'on', 'laterpay' ) ); ?>" data-off="<?php echo laterpay_sanitize_output( __( 'off', 'laterpay' ) ); ?>"></span>
                                 <span class="lp_toggle__handle"></span>
                             </label>
