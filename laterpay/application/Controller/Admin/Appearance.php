@@ -206,7 +206,7 @@ class LaterPay_Controller_Admin_Appearance extends LaterPay_Controller_Admin_Bas
                 break;
 
             case 'free_posts_visibility':
-                $hide_free_posts_form = new LaterPay_Form_FreePostsVisibility( $_POST );
+                $hide_free_posts_form = new LaterPay_Form_HideFreePosts( $_POST );
 
                 if ( ! $hide_free_posts_form->is_valid() ) {
                     wp_send_json(

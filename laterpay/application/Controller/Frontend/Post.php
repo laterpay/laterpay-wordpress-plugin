@@ -498,38 +498,39 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     /**
      * Prefetch get posts and exclude free posts with premium content from it
      *
-     * @wp-hook pre_get_posts
+     * @wp-hook template_redirect
      *
-     * @param WP_Query  $query
-     *
-     * @return WP_Query $query
+     * @return void
      */
-    public function prefetch_get_posts( $query ) {
+    public function prefetch_get_posts() {
+        global $wp_query;
+
         // is homepage
-        $is_homepage = $query->is_home() && $query->is_main_query();
+        $is_homepage = $wp_query->is_home() && $wp_query->is_main_query();
 
         if ( ! get_option( 'laterpay_hide_free_posts' ) || ! $is_homepage ) {
-            return $query;
+            return;
         }
 
         // free posts with premium content ids
         $post_ids = array();
 
         // loop through query and find free posts with premium content
-        while ( $query->have_posts() ) {
-            $query->the_post();
+        while ( $wp_query->have_posts() ) {
+            $wp_query->the_post();
             $post = get_post();
-            if ( has_shortcode( $post->content, 'laterpay_premium_download' ) ) {
+            if ( has_shortcode( $post->post_content, 'laterpay_premium_download' ) && ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
                 $post_ids[] = $post->ID;
             }
         }
 
-        rewind_posts();
-
         // exclude free posts with premium content from query
-        $query->set( 'post__not_in', $post_ids );
+        $args = array(
+            'post__not_in' => $post_ids,
+        );
+        query_posts( $args );
 
-        return $query;
+        return;
     }
 
     /**
