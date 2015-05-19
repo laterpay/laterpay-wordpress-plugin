@@ -361,9 +361,15 @@ class LaterPay_Controller_Frontend_Shortcode extends LaterPay_Controller_Base
                         'attachment'
                     );
                 } else {
-                    // render link to purchased post
-                    $button_page_url = wp_get_attachment_url( $post->ID );
+                    if ( $is_attachment ) {
+                        // render link to attachment
+                        $button_page_url = wp_get_attachment_url( $post->ID );
+                    } else {
+                        // render link to purchased post
+                        $button_page_url = get_permalink( $post );
+                    }
                 }
+
                 $html_button = '<a href="' . $button_page_url . '" ' .
                     'class="lp_js_purchaseLink lp_purchase-button lp_purchase-button--shortcode" ' .
                     'rel="prefetch" ' .

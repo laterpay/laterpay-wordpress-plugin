@@ -541,6 +541,12 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         $is_purchasable = LaterPay_Helper_Pricing::is_purchasable( $current_post->ID );
         if ( $is_purchasable && $current_post->ID === $post_id ) {
             $access = LaterPay_Helper_Post::has_access_to_post( $current_post );
+
+            // prevent from exec if attachment has image type and has no access
+            if ( ! $access && strpos( $current_post->post_mime_type, 'image' ) !== false ) {
+                return '';
+            }
+
             // encrypt attachment url
             $url = LaterPay_Helper_File::get_encrypted_resource_url(
                 $post_id,

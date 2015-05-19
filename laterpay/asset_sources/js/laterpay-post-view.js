@@ -320,7 +320,6 @@
                         nonce   : lpVars.nonces.premium,
                         ids     : ids,
                         types   : types,
-                        urls    : urls,
                         post_id : lpVars.post_id,
                     },
                     function(r) {
@@ -433,7 +432,6 @@
                     {
                         action   : 'laterpay_post_load_purchased_content',
                         post_id  : lpVars.post_id,
-                        is_front : true,
                         nonce    : lpVars.nonces.content
                     },
                     function(postContent) {
