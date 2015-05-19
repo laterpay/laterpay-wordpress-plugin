@@ -51,7 +51,7 @@ jQuery.fn.showMessage = function(message, success) {
 };
 
 jQuery.fn.clearMessage = function() {
-    jQuery(this).velocity('slideUp', { duration: 250 });
+    jQuery(this).velocity('slideUp', { duration: 250, complete: function(message) { jQuery(message).remove(); } });
 };
 
 jQuery.noConflict();
