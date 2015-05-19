@@ -78,6 +78,7 @@ class LaterPay_Core_Bootstrap
         $this->register_custom_actions();
         $this->register_cache_helper();
         $this->register_ajax_actions();
+        $this->register_event_subscribers();
 
         if ( is_admin() ) {
             $this->register_upgrade_checks();
@@ -251,7 +252,7 @@ class LaterPay_Core_Bootstrap
 
         $post_controller = $this->get_controller( 'Frontend_Post' );
         // add custom action to echo the LaterPay purchase button
-        add_action( 'laterpay_purchase_button',         array( $post_controller, 'the_purchase_button' ) );
+        //add_action( 'laterpay_purchase_button',         array( $post_controller, 'the_purchase_button' ) ); // TODO: #612 proof of concept
 
         // add custom filter to check if current user has access to the post content
         add_filter( 'laterpay_check_user_access',       array( $post_controller, 'check_user_access' ), 10, 2 );
@@ -443,5 +444,15 @@ class LaterPay_Core_Bootstrap
         wp_clear_scheduled_hook( 'laterpay_refresh_dashboard_data' );
         // de-register the 'delete old post views' cron job
         wp_clear_scheduled_hook( 'laterpay_delete_old_post_views', array( '3 month' ) );
+    }
+
+    /**
+     * Internal function to register event subscribers.
+     *
+     * @return void
+     */
+    private function register_event_subscribers() {
+        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Purchase() );
+        laterpay_event_dispatcher()->add_subscriber( new LaterPay_Module_Appearance() );
     }
 }

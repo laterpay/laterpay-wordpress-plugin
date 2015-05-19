@@ -10,8 +10,10 @@
  * Domain Path: /languages
  */
 
+
 // Kick-off
-add_action( 'plugins_loaded', 'laterpay_init', 0 );
+add_action( 'muplugins_loaded', 'laterpay_before_start' );
+add_action( 'plugins_loaded', 'laterpay_init' );
 
 register_activation_hook( __FILE__, 'laterpay_activate' );
 register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
@@ -24,11 +26,12 @@ register_deactivation_hook( __FILE__, 'laterpay_deactivate' );
  * @return void
  */
 function laterpay_init() {
-    laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_init_before' );
     $laterpay->run();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_init_after' );
 }
 
 /**
@@ -39,11 +42,12 @@ function laterpay_init() {
  * @return void
  */
 function laterpay_activate() {
-    laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_activate_before' );
     $laterpay->activate();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_activate_after' );
 }
 
 /**
@@ -54,11 +58,12 @@ function laterpay_activate() {
  * @return void
  */
 function laterpay_deactivate() {
-    laterpay_before_start();
-
     $config     = laterpay_get_plugin_config();
     $laterpay   = new LaterPay_Core_Bootstrap( $config );
+
+    laterpay_event_dispatcher()->dispatch( 'laterpay_deactivate_before' );
     $laterpay->deactivate();
+    laterpay_event_dispatcher()->dispatch( 'laterpay_deactivate_after' );
 }
 
 /**
@@ -308,5 +313,14 @@ function laterpay_sanitize_output( $string ) {
  */
 function laterpay_sanitized( $string ) {
     return $string;
+}
+
+/**
+ * Alias for the LaterPay Event Dispatcher
+ *
+ * @return LaterPay_Core_Event_Dispatcher
+ */
+function laterpay_event_dispatcher() {
+    return LaterPay_Core_Event_Dispatcher::get_dispatcher();
 }
 

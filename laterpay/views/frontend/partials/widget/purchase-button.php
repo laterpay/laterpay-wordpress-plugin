@@ -12,21 +12,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  * We can't use line-breaks in this template, otherwise wpautop() would add <br> before every attribute
  */
 
-if ( $laterpay_widget['purchase_button_is_hidden'] ) : ?>
+if ( $laterpay['purchase_button_is_hidden'] ) : ?>
     <div>&nbsp;</div>
 <?php
     return;
 endif;
 
-$args = array(
-    'href'                          => '#',
-    'class'                         => 'lp_js_doPurchase lp_purchase-button',
-    'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
-    'data-icon'                     => 'b',
-    'data-laterpay'                 => $laterpay_widget['link'],
-    'data-post-id'                  => $laterpay_widget['post_id'],
-    'data-preview-as-visitor'       => $laterpay_widget['preview_post_as_visitor'],
-    'data-is-in-visible-test-mode'  => $laterpay_widget['is_in_visible_test_mode'],
+$args = array_merge( array(
+        'href'                          => '#',
+        'class'                         => 'lp_js_doPurchase lp_purchase-button',
+        'title'                         => __( 'Buy now with LaterPay', 'laterpay' ),
+        'data-icon'                     => 'b',
+        'data-laterpay'                 => $laterpay['link'],
+        'data-post-id'                  => $laterpay['post_id'],
+    ),
+    $laterpay['attributes']
 );
 $arg_str = '';
 foreach ( $args as $key => $value ) {
@@ -35,13 +35,13 @@ foreach ( $args as $key => $value ) {
 
 $title = sprintf(
     __( '%s<small class="lp_purchase-link__currency">%s</small>', 'laterpay' ),
-    LaterPay_Helper_View::format_number( $laterpay_widget['price'] ),
-    $laterpay_widget['currency']
+    LaterPay_Helper_View::format_number( $laterpay['price'] ),
+    $laterpay['currency']
 );
 ?>
 
 <a <?php echo laterpay_sanitized( $arg_str ); ?>><?php echo laterpay_sanitize_output( $title ); ?></a>
 
-<?php if ( isset( $laterpay['show_post_ratings'] ) && $laterpay['show_post_ratings'] ) : ?>
+<?php if ( isset( $laterpay['show_post_ratings'] ) && $laterpay['show_post_ratings'] ) : //TODO: #612 move to another module?>
     <div id="lp_js_postRatingPlaceholder"></div>
 <?php endif; ?>
