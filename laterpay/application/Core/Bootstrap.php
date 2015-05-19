@@ -117,33 +117,38 @@ class LaterPay_Core_Bootstrap
          * ->   the priority has to be 1 (first filter triggered)
          *      to fetch and manipulate content first and before other filters are triggered (wp_embed, wpautop, external plugins / themes, ...)
          */
-        add_filter( 'the_content',                  array( $post_controller, 'modify_post_content' ), 1 );
-        add_filter( 'wp_footer',                    array( $post_controller, 'modify_footer' ) );
+        add_filter( 'the_content',                        array( $post_controller, 'modify_post_content' ), 1 );
+        add_filter( 'wp_footer',                          array( $post_controller, 'modify_footer' ) );
 
-        add_action( 'template_redirect',            array( $post_controller, 'buy_post' ) );
-        add_action( 'template_redirect',            array( $post_controller, 'buy_time_pass' ) );
-        add_action( 'template_redirect',            array( $post_controller, 'create_token' ) );
+        add_action( 'template_redirect',                  array( $post_controller, 'buy_post' ) );
+        add_action( 'template_redirect',                  array( $post_controller, 'buy_time_pass' ) );
+        add_action( 'template_redirect',                  array( $post_controller, 'create_token' ) );
 
         // prefetch the post_access for loops
-        add_filter( 'the_posts',                    array( $post_controller, 'prefetch_post_access' ) );
-        add_filter( 'the_posts',                    'LaterPay_Helper_Post::hide_paid_posts', 1 );
+        add_filter( 'the_posts',                          array( $post_controller, 'prefetch_post_access' ) );
+        add_filter( 'the_posts',                          'LaterPay_Helper_Post::hide_paid_posts', 1 );
+
+        // prevent direct access to the attachments
+        add_filter( 'wp_get_attachment_image_attributes', array( $post_controller, 'encrypt_image_source' ), 10, 3 );
+        add_filter( 'wp_get_attachment_url',              array( $post_controller, 'encrypt_attachment_url' ), 10, 2 );
+        add_filter( 'prepend_attachment',                 array( $post_controller, 'prepend_attachment' ) );
 
         // enqueue the frontend assets
-        add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_stylesheets' ) );
-        add_action( 'wp_enqueue_scripts',           array( $post_controller, 'add_frontend_scripts' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $post_controller, 'add_frontend_stylesheets' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $post_controller, 'add_frontend_scripts' ) );
 
         // add custom action to render the LaterPay invoice indicator
         $invoice_controller = $this->get_controller( 'Frontend_Invoice' );
-        add_action( 'wp_enqueue_scripts',           array( $invoice_controller, 'add_frontend_scripts' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $invoice_controller, 'add_frontend_scripts' ) );
 
         // add account links action
         $account_controller = $this->get_controller( 'Frontend_Account' );
-        add_action( 'wp_enqueue_scripts',           array( $account_controller, 'add_frontend_scripts' ) );
+        add_action( 'wp_enqueue_scripts',                 array( $account_controller, 'add_frontend_scripts' ) );
 
         // set up unique visitors tracking
         $statistics_controller = $this->get_controller( 'Frontend_Statistic' );
-        add_action( 'template_redirect',            array( $statistics_controller, 'add_unique_visitors_tracking' ) );
-        add_action( 'wp_footer',                    array( $statistics_controller, 'modify_footer' ) );
+        add_action( 'template_redirect',                  array( $statistics_controller, 'add_unique_visitors_tracking' ) );
+        add_action( 'wp_footer',                          array( $statistics_controller, 'modify_footer' ) );
     }
 
     /**
