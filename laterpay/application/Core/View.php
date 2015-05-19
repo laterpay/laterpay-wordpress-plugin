@@ -21,7 +21,7 @@ class LaterPay_Core_View
      *
      * @var array
      */
-    public $variables = array();
+    protected $variables = array();
 
     /**
      * @param LaterPay_Model_Config $config

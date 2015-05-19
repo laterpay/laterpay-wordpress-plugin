@@ -279,7 +279,7 @@ function laterpay_get_logger() {
         new LaterPay_Core_Logger_Processor_MemoryUsage(),
         new LaterPay_Core_Logger_Processor_MemoryPeakUsage(),
     );
-
+    laterpay_event_dispatcher()->set_debug_enabled( true );
     $logger = new LaterPay_Core_Logger( 'laterpay', $handlers, $processors );
 
     // cache the config

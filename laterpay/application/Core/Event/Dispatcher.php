@@ -17,6 +17,9 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
     public $wp_actions = array();
     private $wp_filters = array();
 
+    protected $debug_enabled = false;
+    protected $debug_data    = array();
+
     /**
      * Singleton to get only one event dispatcher
      *
@@ -92,7 +95,7 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
                 echo laterpay_sanitized( $event->get_result() );
             }
         }
-        laterpay_get_logger()->debug( $event_name, $event->get_debug() );
+        $this->set_debug_data( $event_name, $event->get_debug() );
         return $event;
     }
 
@@ -116,8 +119,8 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
 
     /**
      * @param callable|array|object $callback The event listener.
-     * @param LaterPay_Core_Event $event The event object.
-     * @param array $attributes The context to get attributes.
+     * @param LaterPay_Core_Event   $event The event object.
+     * @param array                 $attributes The context to get attributes.
      *
      * @return array
      */
@@ -262,5 +265,40 @@ class LaterPay_Core_Event_Dispatcher implements LaterPay_Core_Event_DispatcherIn
                 unset( $this->listeners[ $event_name ][ $priority ][ $key ], $this->sorted[ $event_name ] );
             }
         }
+    }
+
+    /**
+     * @param boolean $debug_enabled
+     * @return LaterPay_Core_Event_Dispatcher
+     */
+    public function set_debug_enabled( $debug_enabled ) {
+        $this->debug_enabled = $debug_enabled;
+        return $this;
+    }
+
+    /**
+     * Returns event's debug information
+     *
+     * @return array
+     */
+    public function get_debug_data() {
+        return $this->debug_data;
+    }
+
+    /**
+     * @param string    $event_name  The name of the event.
+     * @param array     $context Debug information.
+     * @return LaterPay_Core_Event_Dispatcher
+     */
+    public function set_debug_data( $event_name, $context ) {
+        if ( $this->debug_enabled ) {
+            $record = array(
+                'message'       => (string) $event_name,
+                'context'       => $context,
+                'extra'         => array( 'listeners' => $this->get_listeners( $event_name ) ),
+            );
+            $this->debug_data[] = $record;
+        }
+        return $this;
     }
 }
