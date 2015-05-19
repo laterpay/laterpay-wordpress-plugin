@@ -496,13 +496,13 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
-     * Encrypt image source to prevent direct access
+     * Encrypt image source to prevent direct access.
      *
      * @wp-hook wp_get_attachment_image_attributes
      *
-     * @param array        $attr Attributes for the image markup.
-     * @param WP_Post      $post Image attachment post.
-     * @param string|array $size Requested size.
+     * @param array        $attr Attributes for the image markup
+     * @param WP_Post      $post Image attachment post
+     * @param string|array $size Requested size
      *
      * @return mixed
      */
@@ -522,12 +522,12 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
-     * Encrypt attachment url to prevent direct access
+     * Encrypt attachment URL to prevent direct access.
      *
      * @wp-hook wp_get_attachment_url
      *
-     * @param string $url     URL for the given attachment.
-     * @param int    $post_id Attachment ID.
+     * @param string $url     URL for the given attachment
+     * @param int    $post_id Attachment ID
      *
      * @return string
      */
@@ -542,18 +542,19 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
         if ( $is_purchasable && $current_post->ID === $post_id ) {
             $access = LaterPay_Helper_Post::has_access_to_post( $current_post );
 
-            // prevent from exec if attachment has image type and has no access
+            // prevent from exec, if attachment is an image and user does not have access
             if ( ! $access && strpos( $current_post->post_mime_type, 'image' ) !== false ) {
                 return '';
             }
 
-            // encrypt attachment url
+            // encrypt attachment URL
             $url = LaterPay_Helper_File::get_encrypted_resource_url(
                 $post_id,
                 $url,
                 $access,
                 'attachment'
             );
+
             return $url;
         }
 
@@ -561,11 +562,11 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
-     * Prevent attachments from prepend paid content
+     * Prevent attachments from prepend paid content.
      *
      * @wp-hook prepend_attachment
      *
-     * @param string $attachment The attachment HTML output.
+     * @param string $attachment The attachment HTML output
      *
      * @return string
      */
@@ -593,7 +594,7 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
-     * Prefetch the post access for posts in the loop.
+     * Prefetch the access from LaterPay for posts in the loop.
      *
      * In archives or by using the WP_Query-Class, we can prefetch the access
      * for all posts in a single request instead of requesting every single post.
