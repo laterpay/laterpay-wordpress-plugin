@@ -121,6 +121,7 @@
                 selected                                : 'lp_is-selected',
                 disabled                                : 'lp_is-disabled',
                 hidden                                  : 'lp_hidden',
+                navigation                              : $('.lp_navigation'),
             },
 
             bindEvents = function() {
@@ -518,7 +519,7 @@
                             $o.globalDefaultPriceDisplay.text(r.price);
                             $o.globalDefaultPriceRevenueModelDisplay.text(r.revenue_model);
                         }
-                        setMessage(r.message, r.success);
+                        $o.navigation.showMessage(r);
                         exitEditModeGlobalDefaultPrice();
                     },
                     'json'
@@ -590,7 +591,7 @@
                             $form.removeClass($o.unsaved);
                         }
                         exitEditModeCategoryDefaultPrice($form);
-                        setMessage(r.message, r.success);
+                        $o.navigation.showMessage(r);
                     },
                     'json'
                 );
@@ -662,7 +663,7 @@
                                 }
                             });
                         }
-                        setMessage(r.message, r.success);
+                        $o.navigation.showMessage(r);
                     },
                     'json'
                 );
@@ -1033,7 +1034,7 @@
                             $o.addTimePass.velocity('fadeIn', { duration: 250, display: 'inline-block' });
                         }
 
-                        setMessage(r.message, r.success);
+                        $o.navigation.showMessage(r);
                     },
                     'json'
                 );
@@ -1076,7 +1077,7 @@
                                         $(this).stop().show();
                                     }
 
-                                    setMessage(r.message, r.success);
+                                    $o.navigation.showMessage(r);
                                 },
                                 'json'
                             );
@@ -1117,7 +1118,7 @@
                         if (r.success) {
                             addVoucher(r.code, $timePass.find($o.voucherPriceInput).val(), $timePass);
                         } else {
-                            setMessage(r.message, r.success);
+                            $o.navigation.showMessage(r);
                         }
                     }
                 );
@@ -1180,7 +1181,7 @@
                     ajaxurl,
                     $form.serializeArray(),
                     function(data) {
-                        setMessage(data);
+                        $o.navigation.showMessage(data);
                     }
                 );
             },
@@ -1190,7 +1191,7 @@
                     ajaxurl,
                     data || $o.bulkPriceForm.serializeArray(),
                     function(r) {
-                        setMessage(r.message, r.success);
+                        $o.navigation.showMessage(r);
                     },
                     'json'
                 );
@@ -1323,7 +1324,7 @@
                             // create new saved bulk operation
                             createSavedBulkOperation(r.data.id, r.data.message);
                         }
-                        setMessage(r.message, r.success);
+                        $o.navigation.showMessage(r);
                     },
                     'json'
                 );
@@ -1366,7 +1367,7 @@
                         } else {
                             $item.velocity('fadeIn', { duration: 250 });
                         }
-                        setMessage(r.message, r.success);
+                        $o.navigation.showMessage(r);
                     },
                     'json'
                 );
@@ -1389,7 +1390,7 @@
                     $form.serialize(),
                     function(data) {
                         if (!data.success) {
-                            setMessage(data.message, data.success);
+                            $o.navigation.showMessage(data);
 
                             // restore standard mode (individual and time pass purchases)
                             $o.purchaseModeInput.attr('checked', false);

@@ -98,9 +98,6 @@
         "lpAccountNextUrl"          : true,
         "lpMerchantId"              : true,
         "lpAccountLinksUrl"         : true,
-        "ajaxurl"                   : true,
-        "setMessage"                : true,
-        "showLoadingIndicator"      : true,
-        "removeLoadingIndicator"    : true
+        "ajaxurl"                   : true
     }
 }
