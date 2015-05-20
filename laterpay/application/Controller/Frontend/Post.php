@@ -496,41 +496,27 @@ class LaterPay_Controller_Frontend_Post extends LaterPay_Controller_Base
     }
 
     /**
-     * Prefetch get posts and exclude free posts with premium content from it
+     * Hide free posts with premium content from the homepage
      *
-     * @wp-hook template_redirect
+     * @wp-hook the_posts
      *
-     * @return void
+     * @return array $posts
      */
-    public function prefetch_get_posts() {
-        global $wp_query;
-
-        // is homepage
-        $is_homepage = $wp_query->is_home() && $wp_query->is_main_query();
-
+    public function hide_free_posts_with_premium_content($posts) {
+        // check if current page is a homepage and hide free posts option enabled
+        $is_homepage = is_front_page() && is_home();
         if ( ! get_option( 'laterpay_hide_free_posts' ) || ! $is_homepage ) {
-            return;
+            return $posts;
         }
 
-        // free posts with premium content ids
-        $post_ids = array();
-
         // loop through query and find free posts with premium content
-        while ( $wp_query->have_posts() ) {
-            $wp_query->the_post();
-            $post = get_post();
+        foreach ( $posts as $key => $post ) {
             if ( has_shortcode( $post->post_content, 'laterpay_premium_download' ) && ! LaterPay_Helper_Pricing::is_purchasable( $post->ID ) ) {
-                $post_ids[] = $post->ID;
+                unset( $posts[$key] );
             }
         }
 
-        // exclude free posts with premium content from query
-        $args = array(
-            'post__not_in' => $post_ids,
-        );
-        query_posts( $args );
-
-        return;
+        return array_values( $posts );
     }
 
     /**
