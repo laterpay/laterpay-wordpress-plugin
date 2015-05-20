@@ -81,6 +81,7 @@ delete_option( 'laterpay_unlimited_access' );
 delete_option( 'laterpay_bulk_operations' );
 
 delete_option( 'laterpay_ratings' );
+delete_option( 'laterpay_hide_free_posts' );
 
 delete_option( 'laterpay_voucher_codes' );
 delete_option( 'laterpay_gift_codes' );
